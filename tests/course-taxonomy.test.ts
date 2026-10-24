@@ -70,7 +70,7 @@ describe('published course taxonomy',()=>{
   const tiers={'javascript-pro':'pro','backend-pro':'pro','architecture-expert':'expert','ux-pro':'pro','business-pro':'pro'};
   const days:Record<string,number>={'javascript-pro':30,'backend-pro':30,'architecture-expert':30,'ux-pro':30,'business-pro':30};
   for(const [id,accessTier] of Object.entries(tiers))expect(COURSE_CATALOG.find(course=>course.id===id)).toMatchObject({accessTier,publishedDays:days[id]});
-  expect(COURSE_CATALOG.find(course=>course.id==='css')?.publishedDays).toBe(5);
+  expect(COURSE_CATALOG.find(course=>course.id==='css')?.publishedDays).toBe(30);
   expect(COURSE_CATALOG.find(course=>course.id==='nextjs')?.publishedDays).toBe(20);
   expect(COURSE_CATALOG.find(course=>course.id==='mongodb')?.editorLanguage).toBe('javascript');
  });
