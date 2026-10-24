@@ -6,7 +6,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { courseContentSchema } from '@/lib/courses/schema';
 
-const ids = ['csharp', 'go', 'rust', 'php', 'ruby', 'bash', 'mongodb', 'swift', 'kotlin'] as const;
+const ids = ['csharp', 'rust', 'php', 'ruby', 'bash', 'mongodb', 'swift', 'kotlin'] as const;
 const load = (id: string) => courseContentSchema.parse(JSON.parse(readFileSync(path.join(process.cwd(), 'src/content/courses', id + '.json'), 'utf8')));
 const root = mkdtempSync(path.join(tmpdir(), 'devatlas-trusted-examples-'));
 afterAll(() => rmSync(root, { recursive: true, force: true }));
@@ -111,14 +111,20 @@ describe('original two-day programming introductions', () => {
     }
     expect(verified).toBeGreaterThanOrEqual(26);
   }, 180000);
-  it.skipIf(!hasGo)('Go examples compile with the actual Go programming-language toolchain', () => {
+  it.skipIf(!hasGo)('Go course: every executable day compiles and runs with the real toolchain', () => {
     // A fresh CI runner must compile the standard library before these examples.
     // Retain bounded subprocesses and exact-output checks while allowing a cold cache.
+    let verified = 0;
     for (const lesson of load('go').lessons) {
+      if (lesson.practice!.kind !== 'code') continue;
+      const section = lesson.sections.find(item => item.output?.en !== undefined);
+      if (!section) continue;
       writeFileSync(path.join(root, 'main.go'), lesson.practice!.solution);
-      expect(runTrusted('go', ['run', 'main.go'], undefined, 40000)).toBe(lesson.sections[0].output!.en);
+      expect(runTrusted('go', ['run', 'main.go'], undefined, 40000).replace(/\r/g, ''), lesson.id).toBe(section.output!.en);
+      verified++;
     }
-  }, 90000);
+    expect(verified).toBeGreaterThanOrEqual(26);
+  }, 300000);
   // SDKs/database are not installed/configured in this cloud instance. Keep
   // unexecuted examples visible as skipped, not silently counted as passing.
   it.skip.each(['csharp', 'rust', 'php', 'ruby', 'mongodb', 'swift', 'kotlin'])('%s compiler/interpreter/database examples await an available local runtime', () => {});
