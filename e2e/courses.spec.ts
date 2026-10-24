@@ -76,9 +76,9 @@ test('returning learner opens only the current lesson, preserves manual practice
  const state=await page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);expect(state.courses.html.awards).toMatchObject({'lesson:html-day-15':5,'practice:html-day-15':4,'test:html-day-15-q':10});expect(state.awards).toEqual({});
  await page.goto('/courses/html/plan?day=15');await expect(page.locator('.day-card.is-done')).toHaveCount(15);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`/tmp/react-mentor-${testInfo.project.name}-plan.png`});expect(errors).toEqual([]);
 });
-test('legacy CSS lessons remain readable, but course navigation has no materials or Lab pages',async ({page})=>{
+test('CSS is a full standalone course and the Sass library lessons stay readable',async ({page})=>{
   await page.goto('/courses');
-  await expect(page.locator('[data-course=css]')).toHaveCount(0);
+  await expect(page.locator('[data-course=css]')).toHaveCount(1);
   await expect(page.getByRole('link',{name:/Материалы Telegram-канала/})).toHaveCount(0);
   const materials=await page.request.get('/courses/materials');
   expect(materials.status()).toBe(404);
@@ -88,14 +88,14 @@ test('legacy CSS lessons remain readable, but course navigation has no materials
   await expect(page.getByRole('heading',{name:'Sass: variable ва nesting',exact:true})).toBeVisible();
   await page.getByLabel('Найти тему или вопрос',{exact:true}).fill('$brand');
   await expect(page.locator('.course-lesson')).toHaveCount(1);
-  await expect(page.locator('.course-sources')).toHaveCount(0);
   const response=await page.request.post('/api/tutor',{data:{action:'ask',courseId:'css',userText:'Sass чист?',language:'tg'}});
   const tutor=await response.json();
   expect(tutor).toMatchObject({mode:'local',usage:{totalTokens:0}});
   expect(tutor.reply).toContain('preprocessor');
   await page.goto('/courses/css/tests');
-  const question=page.locator('.course-question').filter({has:page.getByRole('heading',{name:'Чӣ тавр variable менависем?',exact:true})}).first();
-  await question.getByRole('radio',{name:'Бо $',exact:true}).check();
+  await expect(page.getByRole('heading',{name:'CSS чист?',exact:true})).toBeVisible();
+  const question=page.locator('.course-question').first();
+  await question.getByRole('radio',{name:'Забони тавсифи намуди элементҳои саҳифа',exact:true}).check();
   await question.getByRole('button',{name:'Проверить',exact:true}).click();
   await expect(question.getByRole('status')).toHaveText('Верно');
 });

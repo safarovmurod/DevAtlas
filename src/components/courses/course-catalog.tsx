@@ -94,8 +94,6 @@ export function CourseCatalog() {
   const searchLabel=({ru:'Найти курс',en:'Find a course',tg:'Ҷустуҷӯи курс',uk:'Знайти курс',ja:'コースを検索',ko:'강좌 검색'})[language];
   const noResults=({ru:'Курс не найден. Попробуйте другое название.',en:'No courses found. Try another name.',tg:'Курс ёфт нашуд. Номи дигарро санҷед.',uk:'Курс не знайдено. Спробуйте іншу назву.',ja:'コースが見つかりません。別の名前で検索してください。',ko:'강좌를 찾을 수 없습니다. 다른 이름으로 검색해 보세요.'})[language];
   const labels=CATALOG_UI[language];
-  // Old CSS-only selections remain readable; the combined HTML + CSS card is the visible course.
-  const displaySelected = selected === 'css' ? 'html' : selected;
   useEffect(() => {
     const controller = new AbortController();
     fetch('/api/courses', {signal:AbortSignal.any([controller.signal,AbortSignal.timeout(15000)])}).then(async response => {
@@ -111,7 +109,9 @@ export function CourseCatalog() {
     useAppStore.setState({sidebarOpen:false,tutorDrawerOpen:false,tutorQuestion:null});
     router.push(id === 'react' ? '/courses/react' : `/courses/${id}/plan`);
   }
-  const catalogCourses=COURSE_CATALOG.filter(course=>course.id!=='javascript-2'&&course.id!=='css');
+  // JavaScript month 2 is reached through the month tabs on the JS1 card;
+  // CSS is a full standalone course again and keeps its own card.
+  const catalogCourses=COURSE_CATALOG.filter(course=>course.id!=='javascript-2');
   const categories=COURSE_CATEGORIES.map(entry=>entry.id as CategoryId);
   const tracks=PROGRAMMING_SUBTRACKS.map(entry=>entry.id as SubtrackId);
   const visibleCourses=catalogCourses.filter(course=>access==='all'||(course.accessTier??'starter')===access).filter(course=>category==='all'||course.category===category).filter(course=>subtrack==='all'||course.category!=='programming'||course.subtrack===subtrack).filter(course=>[course.name,courseDisplayName(course.id,language),course.ru,course.en,courseDescription(course.id,language),categoryLabel(course.category,language),course.subtrack?subtrackLabel(course.subtrack,language):''].join(' ').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
@@ -123,7 +123,7 @@ export function CourseCatalog() {
     const parts=counts?.filter(item=>javascript?item.id==='javascript-1'||item.id==='javascript-2':item.id===course.id);
     const count=parts?.length?{ready:parts.some(item=>item.ready),lessons:parts.reduce((sum,item)=>sum+item.lessons,0)}:undefined;
     const name=javascript?'JavaScript':courseDisplayName(course.id,language);
-    const isSelected=displaySelected===course.id||(javascript&&displaySelected==='javascript-2');
+    const isSelected=selected===course.id||(javascript&&selected==='javascript-2');
     return <article key={course.id} className={'panel course-card '+(isSelected?'course-selected':'')} data-course={course.id} data-category={course.category} data-access-tier={course.accessTier??'starter'}>
       <div className="between"><span className="course-symbol">{course.symbol}</span><div className="course-badges"><span className={'course-tier tier-'+(course.accessTier??'starter')}>{course.accessTier==='expert'?'Expert':course.accessTier==='pro'?'Pro':premium.starter}</span>{isSelected?<span className="badge"><CheckCircle2 size={14}/>{labels.selected}</span>:course.id==='html'?<span className="badge">{labels.recommended}</span>:course.introductoryDays?<span className="badge intro-badge">{browse.intro}</span>:null}</div></div>
       <h3>{name}</h3><p>{javascript?labels.jsDescription:courseDescription(course.id,language)}</p>
