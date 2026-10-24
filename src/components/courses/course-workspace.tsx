@@ -104,7 +104,8 @@ export function CourseWorkspace({courseId,section,initialContent,day:requestedDa
   const saveCourseDraft=state.saveCourseDraft;
   useEffect(()=>{const publishedDays=coursePublishedDays(courseId);if(day>=0&&day<=publishedDays&&progress.drafts[selectedDayKey]!==String(day))saveCourseDraft(courseId,selectedDayKey,String(day));},[courseId,day,progress.drafts,saveCourseDraft,selectedDayKey]);
   const availableLessons=new Set(statuses.days.filter(entry=>entry.status!=='upcoming').map(entry=>entry.lesson.id));
-  const library=(content?.lessons || []).filter(item=>availableLessons.has(item.id)).filter(item=>!deferredQuery||[text(item.title),text(item.summary),...item.questions.flatMap(q=>[text(q.question),text(q.answer)]),...item.sections.map(s=>text(s.body))].join(' ').toLowerCase().includes(deferredQuery));
+  // Unscheduled reference lessons (e.g. the Sass library after the CSS fundamentals) stay readable in the answers view.
+  const library=(content?.lessons || []).filter(item=>availableLessons.has(item.id)||item.day===undefined).filter(item=>!deferredQuery||[text(item.title),text(item.summary),...item.questions.flatMap(q=>[text(q.question),text(q.answer)]),...item.sections.map(s=>text(s.body))].join(' ').toLowerCase().includes(deferredQuery));
   const translationNotice=state.contentLanguage==='en'&&content&&hasEnglishFallback(content)?ui.contentFallback:lessonTranslationNotice(state.language);
   const titles:Record<string,string>={home:copy.home,plan:copy.plan,practice:copy.practice,tests:ui.testsInterview,interview:ui.testsInterview,answers:ui.answersInterview};
   async function confirmDay() {

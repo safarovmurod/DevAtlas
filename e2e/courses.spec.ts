@@ -21,7 +21,7 @@ async function replaceDocument(page:Page,code:string){await expect(page.locator(
 test('course choice has one persistent active card and preserves isolated course notes',async({page},testInfo)=>{
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto('/home');await expect(page.getByRole('heading',{name:'Навыки начинаются с практики.'})).toBeVisible();
- await expect(page.locator('.course-card')).toHaveCount(COURSE_CATALOG.filter(course=>course.id!=='css'&&course.id!=='javascript-2').length);
+ await expect(page.locator('.course-card')).toHaveCount(COURSE_CATALOG.filter(course=>course.id!=='javascript-2').length);
  await page.locator('[data-course=html]').getByRole('button').click();
  await expect(page).toHaveURL('/courses/html/plan');await page.locator('.day-card-grid .day-card').first().click();await expect(page).toHaveURL('/courses/html/home?day=1');await expect(page.locator('.course-lesson h2')).toContainText('саҳифаи аввал');
  await page.goto('/courses');await expect(page.locator('.course-selected')).toHaveCount(1);await expect(page.locator('[data-course=html] button')).toHaveAttribute('aria-pressed','true');
@@ -86,15 +86,15 @@ test('CSS is a full standalone course and the Sass library lessons stay readable
   expect(lab.status()).toBe(404);
   await page.goto('/courses/css/answers');
   await expect(page.getByRole('heading',{name:'Sass: variable ва nesting',exact:true})).toBeVisible();
-  await page.getByLabel('Найти тему или вопрос',{exact:true}).fill('$brand');
+  await page.getByLabel('Найти тему или вопрос',{exact:true}).fill('@mixin');
   await expect(page.locator('.course-lesson')).toHaveCount(1);
   const response=await page.request.post('/api/tutor',{data:{action:'ask',courseId:'css',userText:'Sass чист?',language:'tg'}});
   const tutor=await response.json();
   expect(tutor).toMatchObject({mode:'local',usage:{totalTokens:0}});
   expect(tutor.reply).toContain('preprocessor');
   await page.goto('/courses/css/tests');
-  await expect(page.getByRole('heading',{name:'CSS чист?',exact:true})).toBeVisible();
   const question=page.locator('.course-question').first();
+  await expect(question.getByRole('heading',{name:'CSS чист?',exact:true})).toBeVisible();
   await question.getByRole('radio',{name:'Забони тавсифи намуди элементҳои саҳифа',exact:true}).check();
   await question.getByRole('button',{name:'Проверить',exact:true}).click();
   await expect(question.getByRole('status')).toHaveText('Верно');

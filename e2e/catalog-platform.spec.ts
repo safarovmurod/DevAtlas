@@ -11,7 +11,8 @@ test.beforeEach(async({page})=>{
   });
 });
 
-const catalog=COURSE_CATALOG.filter(course=>course.id!=='css'&&course.id!=='javascript-2');
+// CSS is a full standalone course again and keeps its own catalog card.
+const catalog=COURSE_CATALOG.filter(course=>course.id!=='javascript-2');
 
 test('catalog groups all learning categories and separates frontend from backend with filters and search',async({page},testInfo)=>{
   await page.goto('/courses');
