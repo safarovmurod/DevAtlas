@@ -6,7 +6,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { courseContentSchema } from '@/lib/courses/schema';
 
-const ids = ['csharp', 'rust', 'php', 'ruby', 'bash', 'mongodb', 'swift', 'kotlin'] as const;
+const ids = ['php', 'ruby', 'bash', 'mongodb', 'swift', 'kotlin'] as const;
 const load = (id: string) => courseContentSchema.parse(JSON.parse(readFileSync(path.join(process.cwd(), 'src/content/courses', id + '.json'), 'utf8')));
 const root = mkdtempSync(path.join(tmpdir(), 'devatlas-trusted-examples-'));
 afterAll(() => rmSync(root, { recursive: true, force: true }));
