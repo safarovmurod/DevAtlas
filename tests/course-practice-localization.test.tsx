@@ -6,6 +6,9 @@ import type { CourseLesson } from '@/lib/courses/schema';
 import { useLearningStore } from '@/stores/learning-store';
 
 const auth = vi.hoisted(() => ({ getSession: vi.fn() }));
+// This suite covers the existing practice diagnostics; the independently
+// mounted assessment has its own account-aware component and browser tests.
+vi.mock('@/components/courses/lesson-assessment',()=>({LessonAssessment:()=>null}));
 vi.mock('@/lib/supabase/client', () => ({ getSupabaseBrowserClient: () => ({ auth }) }));
 vi.mock('@/components/learning/code-editor', () => ({
   CodeEditor: ({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) => <textarea aria-label={label} value={value} onChange={event => onChange(event.target.value)} />,

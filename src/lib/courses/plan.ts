@@ -1,4 +1,5 @@
 import type { CourseLesson } from './schema';
+import {learningStatus,type LearningEvidence} from '@/lib/practice/learning-evidence';
 
 export interface CoursePlanDay { day: number; lesson: CourseLesson; section: 'answers' | 'practice' | 'tests'; }
 
@@ -19,10 +20,16 @@ export interface CourseDayItem {
   status: CourseDayStatus;
 }
 
+/** Legacy study readiness permits continuation; it never certifies mastery. */
 export function courseDayReady(item: CoursePlanDay, completedTopics: readonly string[], completedPractice: readonly string[]): boolean {
   if (item.section === 'tests') return true;
   return (item.section === 'practice' || completedTopics.includes(item.lesson.id))
     && (!item.lesson.practice || completedPractice.includes(item.lesson.id));
+}
+
+export function courseDayReadiness(item:CoursePlanDay,completedTopics:readonly string[],completedPractice:readonly string[],evidence:LearningEvidence|undefined,currentVersion:number){
+  const status=learningStatus(evidence,currentVersion);
+  return {canContinue:courseDayReady(item,completedTopics,completedPractice),status,mastered:status==='Mastered'};
 }
 
 // День «answers» завершён, когда урок отмечен изученным; «practice» — когда сдана практика.
