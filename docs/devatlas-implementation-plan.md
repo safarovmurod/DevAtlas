@@ -1,5 +1,11 @@
 # Learning platform: implementation brief
 
+> Historical brief. The accepted strict continuation requirements and current
+> execution checkpoint are tracked in [delivery-state.json](delivery-state.json)
+> and the generated [114-stage matrix](coverage-matrix-20261024.md).
+> Older three-day premium scope and language lists below are historical, not
+> instructions to shrink completed courses or override the current six UI locales.
+
 ## English product prompt
 
 Build a reliable, accessible full-stack education platform based on the existing course project, preserving useful existing functionality. Organize the catalog into programming, design, marketing, analytics, business and management, soft skills, content creation, foreign languages, children, and lifestyle. Programming has six subtracks: frontend, backend, mobile, programming languages, databases, and tools. The target is `safarovmurod/react-mentor`, cloned and enhanced in `/workspace/react-mentor`. `safarovmurod/react-practice` remains a separate reference repository.

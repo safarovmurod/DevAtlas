@@ -6,6 +6,7 @@ import {reactMonthDays} from '@/lib/react-plan';
 import {questionsForTopic} from '@/content/course';
 import {exercisesForTopic} from '@/content/practice';
 import {tr} from '@/lib/translate';
+import {buildStageCoverage} from './stage-coverage';
 
 type Locale = 'ru'|'tg'|'en';
 export interface AuditLesson {
@@ -114,5 +115,5 @@ export async function loadAuditData() {
     if(summary.publishedDays!==entry.publishedDays)throw new Error(`${entry.id}: catalog declares ${entry.publishedDays} days, audited ${summary.publishedDays}.`);
     return {tier:entry.accessTier??'starter',...summary};
   }));
-  return {rows,tracks:LEARNING_TRACKS};
+  return {rows,tracks:LEARNING_TRACKS,matrix:buildStageCoverage(rows,LEARNING_TRACKS)};
 }
