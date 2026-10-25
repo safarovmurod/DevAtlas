@@ -17,6 +17,7 @@ import { useAppStore } from '@/stores/app-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { PROGRESSION_COPY } from '@/lib/progression-copy';
 import { CoursePractice } from './course-practice';
+import {LessonFlowIntro,LessonFlowActivities} from './lesson-flow';
 import { courseDayProgress, courseDayReady, courseMonthPlan } from '@/lib/courses/plan';
 import { coursePublishedDays, courseTrack, type LearningStage } from '@/content/courses/catalog';
 
@@ -28,8 +29,8 @@ const stageLabels: Record<LearningStage, Record<string, string>> = {
 const unpublishedLabels: Record<string, string> = { ru: 'уровень ещё не опубликован', tg: 'ин сатҳ ҳоло нашр нашудааст', en: 'stage not published yet', uk: 'рівень ще не опубліковано', ja: 'このレベルは未公開', ko: '아직 공개되지 않은 단계' };
 const trackLabel: Record<string, string> = { ru: 'Направление', tg: 'Самти омӯзиш', en: 'Learning track', uk: 'Напрям', ja: '学習トラック', ko: '학습 트랙' };
 const masteryLabels: Record<'done' | 'quiz' | 'retry', Record<string, string>> = {
-  done: { ru: 'Мастерство: тест дня пройден полностью', tg: 'Мастерство: тести рӯз пурра гузашта шуд', en: 'Mastery: day quiz fully passed', uk: 'Майстерність: тест дня пройдено повністю', ja: 'マスタリー：その日のクイズを完全にクリア', ko: '마스터리: 그날의 퀴즈를 모두 통과했습니다' },
-  quiz: { ru: 'Мастерство (тест):', tg: 'Мастерство (тест):', en: 'Mastery (quiz):', uk: 'Майстерність (тест):', ja: 'マスタリー（クイズ）:', ko: '마스터리 (퀴즈):' },
+  done: { ru: 'Результат теста: все вопросы дня пройдены', tg: 'Натиҷаи тест: ҳамаи саволҳои рӯз гузаштанд', en: 'Quiz result: all day questions passed', uk: 'Результат тесту: усі питання дня пройдено', ja: 'テスト結果：その日の全問題に正解', ko: '퀴즈 결과: 오늘의 모든 문제 통과' },
+  quiz: { ru: 'Результат теста:', tg: 'Натиҷаи тест:', en: 'Quiz result:', uk: 'Результат тесту:', ja: 'テスト結果:', ko: '퀴즈 결과:' },
   retry: { ru: 'пройти тест дня', tg: 'гузарондани тест', en: 'take the day quiz', uk: 'пройти тест дня', ja: 'クイズを受ける', ko: '퀴즈 응시하기' },
 };
 
@@ -109,15 +110,17 @@ export function CourseWorkspace({courseId,section,initialContent,day:requestedDa
   const translationNotice=state.contentLanguage==='en'&&content&&hasEnglishFallback(content)?ui.contentFallback:lessonTranslationNotice(state.language);
   const titles:Record<string,string>={home:copy.home,plan:copy.plan,practice:copy.practice,tests:ui.testsInterview,interview:ui.testsInterview,answers:ui.answersInterview};
   async function confirmDay() {
+    const studyScope=useLearningStore.persist.getOptions().name;
+    let sessionTimer:ReturnType<typeof setTimeout>|undefined;
     setConfirmationError('');
     setConfirming(true);
     try {
-      // Guest study progress is local. Signed-in HTML day 1 requires the separate
-      // server-attested ledger before this UI confirms its next step.
+      // Study continuation and protected server evidence are separate. Attempt
+      // the existing attestation without inventing it when the service is down.
       if(courseId==='html'&&day===1){
         const client=getSupabaseBrowserClient();
         if(client){
-          const {data,error}=await client.auth.getSession();
+          const {data,error}=await Promise.race([client.auth.getSession(),new Promise<never>((_,reject)=>{sessionTimer=setTimeout(()=>reject(new Error('Session timeout')),12000);})]);
           if(error)throw error;
           if(data.session){
             const response=await fetch('/api/practice/confirm',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+data.session.access_token},body:JSON.stringify({courseId:'html',day:1}),signal:AbortSignal.timeout(15000)});
@@ -125,11 +128,14 @@ export function CourseWorkspace({courseId,section,initialContent,day:requestedDa
           }
         }
       }
-      state.confirmCourseDay(courseId,day,plan);
     }catch{
-      const messages={ru:'Подтверждение сервера недоступно. Прогресс сохранён; повторите после настройки сервера.',tg:'Тасдиқи сервер дастрас нест. Пешрафт сабт шуд; баъди танзими сервер боз санҷед.',en:'Server confirmation is unavailable. Progress is saved; retry after server setup.',uk:'Підтвердження сервера недоступне. Прогрес збережено; повторіть після налаштування сервера.',ja:'サーバーで確認できません。学習記録は保存されています。サーバー設定後に再試行してください。',ko:'서버에서 확인할 수 없습니다. 학습 기록은 저장되었습니다. 서버 설정 후 다시 시도하세요.'};
-      setConfirmationError(messages[state.language]);
-    }finally{setConfirming(false);}
+      const messages={ru:'Серверная запись не подтверждена. Продолжение доступно как самостоятельное обучение; подтверждённое освоение не начислено.',tg:'Сабти сервер тасдиқ нашуд. Идомаи омӯзиши мустақил дастрас аст; азхудкунии тасдиқшуда дода нашуд.',en:'Server recording was not confirmed. You can continue self-study; verified mastery was not granted.',uk:'Серверний запис не підтверджено. Можна продовжити самостійне навчання; підтверджене опанування не надано.',ja:'サーバー記録は確認できません。自主学習は続けられますが、習得の認証は付与されていません。',ko:'서버 기록이 확인되지 않았습니다. 자체 학습은 계속할 수 있지만 숙달 인증은 부여되지 않았습니다.'};
+      if(useLearningStore.persist.getOptions().name===studyScope)setConfirmationError(messages[state.language]);
+    }finally{
+      clearTimeout(sessionTimer);
+      if(useLearningStore.persist.getOptions().name===studyScope)state.confirmCourseDay(courseId,day,plan);
+      setConfirming(false);
+    }
   }
   return <section className="course-workspace">
     <Link href="/courses" className="back-link"><Layers size={16}/>{ui.allCourses}</Link>
@@ -157,7 +163,7 @@ export function CourseWorkspace({courseId,section,initialContent,day:requestedDa
         <div className="between day-context"><span className="badge">{ui.day} {day}</span><Link className="text-link" href={href('plan')}>{ui.studyPlan} <ArrowRight size={15}/></Link></div>
         {locked?<article className="panel course-lesson" role="status"><h2>{gate.locked}</h2><Link className="button primary" href={href('home',statuses.current?.day ?? 1)}>{gate.open}</Link></article>:lesson?<article className="panel course-lesson" id={lesson.id} key={lesson.id}>
           <h2>{text(lesson.title)}</h2><p>{text(lesson.summary)}</p>
-          {section==='home'&&<>{lesson.sections.map((part,index)=><section className="day-explanation" id={`${lesson.id}-section-${index}`} key={index}><h3>{text(part.title)}</h3><p className="preserve-lines">{text(part.body)}</p>{part.code&&<pre><code>{part.code}</code></pre>}</section>)}{lesson.prerequisiteDays?.length?<aside className="lesson-connections"><h3>{ui.connections}</h3><p>{ui.connectionsIntro}</p>{lesson.prerequisiteDays.map(previous=>{const p=plan.find(d=>d.day===previous);return p?<Link key={previous} href={href('home',previous)}>{ui.day} {previous} — {text(p.lesson.title)}</Link>:null;})}</aside>:null}<div className="button-row"><button className="button subtle" disabled={progress.completedTopics.includes(lesson.id)} onClick={()=>state.completeCourseLesson(courseId,lesson.id)}>{progress.completedTopics.includes(lesson.id)?copy.completed:copy.markLearned}</button><Link className="button primary" href={href('practice')}>{ui.dayPractice} <ArrowRight size={16}/></Link><Link className="text-link" href={href('tests')}>{ui.testsInterview}</Link></div></>}
+          {section==='home'&&<>{lesson.learningFlow&&<LessonFlowIntro flow={lesson.learningFlow} lessonId={lesson.id} practiceHref={href('practice')}/>} {lesson.sections.map((part,index)=><section className="day-explanation" id={`${lesson.id}-section-${index}`} key={index}><h3>{text(part.title)}</h3><p className="preserve-lines">{text(part.body)}</p>{part.code&&<pre><code>{part.code}</code></pre>}</section>)}{lesson.learningFlow&&<LessonFlowActivities flow={lesson.learningFlow} lessonId={lesson.id} practiceHref={href('practice')} nextTitle={content.lessons.find(next=>next.id===lesson.learningFlow?.nextLessonId)?.title}/>} {lesson.prerequisiteDays?.length?<aside className="lesson-connections"><h3>{ui.connections}</h3><p>{ui.connectionsIntro}</p>{lesson.prerequisiteDays.map(previous=>{const p=plan.find(d=>d.day===previous);return p?<Link key={previous} href={href('home',previous)}>{ui.day} {previous} — {text(p.lesson.title)}</Link>:null;})}</aside>:null}<div className="button-row"><button className="button subtle" disabled={progress.completedTopics.includes(lesson.id)} onClick={()=>state.completeCourseLesson(courseId,lesson.id)}>{progress.completedTopics.includes(lesson.id)?copy.completed:copy.markLearned}</button><Link className="button primary" href={href('practice')}>{ui.dayPractice} <ArrowRight size={16}/></Link><Link className="text-link" href={href('tests')}>{ui.testsInterview}</Link></div></>}
           {section==='practice'&&lesson.practice&&<><Link className="text-link" href={href('home')}>{ui.backExplanation}</Link><CoursePractice courseId={courseId} lesson={lesson}/></>}
           {['tests','interview'].includes(section)&&<><section><h3>1. {ui.tests}</h3><p>{ui.testIntro}</p>{lesson.questions.map(question=><CourseQuestion key={'test'+question.id} courseId={courseId} lesson={lesson} question={question} mode="test"/>)}</section><section className="interview-block"><h3>2. {ui.interview}</h3><p>{ui.interviewIntro}</p>{lesson.questions.map(question=><CourseQuestion key={'interview'+question.id} courseId={courseId} lesson={lesson} question={question} mode="interview"/>)}</section></>}
           <section className="day-confirmation" aria-label={gate.confirm}><p role="status">{entry?.status==='done'?gate.confirmed:canConfirm?gate.ready:gate.missing}</p>
