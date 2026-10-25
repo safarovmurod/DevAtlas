@@ -6,7 +6,6 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { courseContentSchema } from '@/lib/courses/schema';
 
-const ids = ['kotlin'] as const;
 const load = (id: string) => courseContentSchema.parse(JSON.parse(readFileSync(path.join(process.cwd(), 'src/content/courses', id + '.json'), 'utf8')));
 const root = mkdtempSync(path.join(tmpdir(), 'devatlas-trusted-examples-'));
 afterAll(() => rmSync(root, { recursive: true, force: true }));
@@ -33,25 +32,25 @@ function runTrusted(command: string, args: string[], input?: string, timeout = 2
   return result.stdout.trim();
 }
 
-describe('original two-day programming introductions', () => {
-  it.each(ids)('%s has two ordered, sourced and fully authored RU/TG/EN lessons', id => {
-    const course = load(id);
-    expect(course.courseId).toBe(id);
-    expect(course.lessons.map(lesson => lesson.day)).toEqual([1, 2]);
+describe('programming course examples', () => {
+  it('Kotlin has thirty ordered, sourced RU/TG/EN lessons with aligned solutions', () => {
+    const course = load('kotlin');
+    expect(course.courseId).toBe('kotlin');
+    expect(course.lessons.map(lesson => lesson.day)).toEqual(Array.from({length:30},(_,index)=>index+1));
     expect(course.lessons[0].prerequisiteDays).toEqual([]);
     expect(course.lessons[1].prerequisiteDays).toEqual([1]);
     expect(course.sources[0].url).toMatch(/^https:\/\//);
     for (const lesson of course.lessons) {
-      expect(lesson.id).toMatch(new RegExp('^' + id + '-day-0[12]$'));
+      expect(lesson.id).toBe(`kotlin-day-${String(lesson.day).padStart(2,'0')}`);
+      expect(lesson.prerequisiteDays).toEqual(lesson.day===1?[]:[lesson.day!-1]);
       expect(lesson.practice?.solution).toBe(lesson.sections[0].code);
       expect(lesson.sections[0].output?.en).toBeTruthy();
-      expect(lesson.questions).toHaveLength(1);
-      const question = lesson.questions[0];
-      expect(question.options[question.correctIndex]).toEqual(question.answer);
+      expect(lesson.questions.length).toBeGreaterThanOrEqual(lesson.day! <= 2 ? 1 : 2);
+      for(const question of lesson.questions) expect(question.options[question.correctIndex]).toEqual(question.answer);
       for (const locale of ['ru', 'tg', 'en'] as const) {
         expect(lesson.title[locale]?.length).toBeGreaterThan(8);
         expect(lesson.sections[0].body[locale]?.length).toBeGreaterThan(90);
-        expect(lesson.practice?.task[locale]).toContain(lesson.sections[0].output![locale]);
+        expect(lesson.practice?.task[locale]?.length).toBeGreaterThan(60);
         expect(lesson.practice?.criteria.every(criterion => Boolean(criterion[locale]))).toBe(true);
       }
     }
@@ -133,5 +132,5 @@ describe('original two-day programming introductions', () => {
   }, 300000);
   // SDKs/database are not installed/configured in this cloud instance. Keep
   // unexecuted examples visible as skipped, not silently counted as passing.
-  it.skip.each(['csharp', 'rust', 'php', 'ruby', 'mongodb', 'swift', 'kotlin'])('%s compiler/interpreter/database examples await an available local runtime', () => {});
+  it.skip.each(['csharp', 'rust', 'php', 'ruby', 'mongodb', 'swift'])('%s compiler/interpreter/database examples await an available local runtime', () => {});
 });

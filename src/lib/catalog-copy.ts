@@ -207,12 +207,12 @@ const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     '変数、関数、アプリの基礎を学びます。サンプルはローカルのSwiftツールで実行します。',
     '변수, 함수와 앱 기초를 배웁니다. 로컬 Swift 도구로 예제를 실행하세요.'),
   kotlin: text(
-    'Типы, функции и основы приложений. Для запуска нужен локальный компилятор Kotlin.',
-    'Types, functions and application fundamentals. Running the examples requires a local Kotlin compiler.',
-    'Типҳо, функсияҳо ва асосҳои барномаҳо. Барои иҷро компилятори Kotlin дар компютер лозим аст.',
-    'Типи, функції та основи застосунків. Для запуску потрібен локальний компілятор Kotlin.',
-    '型、関数、アプリの基礎を学びます。実行にはローカルのKotlinコンパイラーが必要です。',
-    '타입, 함수와 앱 기초를 배웁니다. 예제를 실행하려면 로컬 Kotlin 컴파일러가 필요합니다.'),
+    '30 дней Kotlin/JVM с нуля: типы, безопасная работа с null, коллекции, классы и консольный список задач. Для запуска нужны Kotlin и JDK.',
+    '30 days of Kotlin/JVM from zero: types, null safety, collections, classes and a console task list. Running examples requires Kotlin and a JDK.',
+    '30 рӯзи Kotlin/JVM аз сифр: типҳо, кори бехатар бо null, коллексияҳо, классҳо ва рӯйхати консолии вазифаҳо. Барои иҷро Kotlin ва JDK лозиманд.',
+    '30 днів Kotlin/JVM з нуля: типи, безпечна робота з null, колекції, класи та консольний список завдань. Для запуску потрібні Kotlin і JDK.',
+    'Kotlin/JVMを基礎から学ぶ30日間。型、null安全、コレクション、クラスを学び、コンソールのタスク一覧を作ります。実行にはKotlinとJDKが必要です。',
+    'Kotlin/JVM을 처음부터 배우는 30일 과정입니다. 타입, null 안전성, 컬렉션, 클래스를 배우고 콘솔 할 일 목록을 만듭니다. 실행에는 Kotlin과 JDK가 필요합니다.'),
   'ux-design': text(
     'Потребности пользователя, сценарий и прототип интерфейса. Составьте собственное проектное решение.',
     'User needs, a user flow and an interface prototype. Create your own design proposal.',

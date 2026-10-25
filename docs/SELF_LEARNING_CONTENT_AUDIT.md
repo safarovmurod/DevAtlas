@@ -1,11 +1,11 @@
 # Self-learning content audit (generated)
 
-Generated 2026-10-24 by `scripts/course-content-quality-report.mjs` from actual curriculum data. Numbers only: meaning, correctness and clarity need the separate editorial checklist — do not treat higher word counts as automatic quality.
+Generated 2026-10-25 by `scripts/course-content-quality-report.mjs` from actual curriculum data. Numbers only: meaning, correctness and clarity need the separate editorial checklist — do not treat higher word counts as automatic quality.
 
 | Course | Tier | Days | Avg/min/max theory words | Quiz/day | Code days | Written days | Project days | Library | Flags |
 |---|---|---:|---|---:|---:|---:|---:|---:|---|
 | html | starter | 30 | 55/39/250 | 1.1 | 30 | 0 | 2 | 2 | thin-theory, few-questions |
-| css | starter | 0 | 0/0/0 | 0 | 0 | 0 | 0 | 5 | thin-theory, few-questions |
+| css | starter | 30 | 381/366/399 | 3.8 | 30 | 21 | 1 | 5 | — |
 | javascript-1 | starter | 30 | 37/34/43 | 1.6 | 30 | 0 | 1 | 13 | thin-theory, few-questions |
 | javascript-2 | starter | 30 | 40/34/49 | 1.3 | 30 | 0 | 2 | 2 | thin-theory, few-questions |
 | git | starter | 30 | 49/39/58 | 1.1 | 30 | 0 | 12 | 1 | thin-theory, few-questions |
@@ -16,17 +16,17 @@ Generated 2026-10-24 by `scripts/course-content-quality-report.mjs` from actual 
 | mobile | starter | 2 | 87/86/88 | 1 | 2 | 0 | 0 | 0 | few-questions |
 | cpp | starter | 30 | 49/39/59 | 1.5 | 30 | 0 | 12 | 7 | thin-theory, few-questions |
 | java | starter | 30 | 379/84/431 | 2 | 30 | 1 | 3 | 0 | — |
-| csharp | starter | 2 | 80/79/80 | 1 | 2 | 0 | 0 | 0 | few-questions |
-| go | starter | 2 | 87/77/96 | 1 | 2 | 0 | 0 | 0 | few-questions |
-| rust | starter | 2 | 88/87/88 | 1 | 2 | 0 | 0 | 0 | few-questions |
-| php | starter | 2 | 82/79/85 | 1 | 2 | 0 | 0 | 0 | few-questions |
-| ruby | starter | 2 | 81/78/83 | 1 | 2 | 0 | 0 | 0 | few-questions |
+| csharp | starter | 30 | 379/79/427 | 2 | 30 | 1 | 4 | 0 | stale-copy |
+| go | starter | 30 | 480/77/538 | 2 | 30 | 2 | 2 | 0 | stale-copy |
+| rust | starter | 30 | 364/87/401 | 2 | 29 | 1 | 4 | 0 | stale-copy |
+| php | starter | 30 | 497/79/552 | 2 | 29 | 2 | 3 | 0 | stale-copy |
+| ruby | starter | 30 | 410/77/452 | 2 | 28 | 2 | 4 | 0 | — |
 | sql | starter | 30 | 369/97/403 | 2 | 28 | 2 | 4 | 0 | — |
-| bash | starter | 2 | 95/92/97 | 1 | 2 | 0 | 0 | 0 | few-questions |
+| bash | starter | 30 | 342/92/384 | 2 | 30 | 2 | 3 | 0 | stale-copy |
 | nodejs | starter | 30 | 366/84/410 | 2 | 28 | 2 | 3 | 0 | — |
-| mongodb | starter | 2 | 98/96/100 | 1 | 2 | 0 | 0 | 0 | few-questions |
-| swift | starter | 2 | 84/81/86 | 1 | 2 | 0 | 0 | 0 | few-questions |
-| kotlin | starter | 2 | 90/86/94 | 1 | 2 | 0 | 0 | 0 | few-questions |
+| mongodb | starter | 30 | 328/96/452 | 2 | 29 | 3 | 4 | 0 | stale-copy |
+| swift | starter | 30 | 354/81/383 | 2.1 | 29 | 1 | 5 | 0 | — |
+| kotlin | starter | 30 | 135/86/149 | 1.9 | 30 | 0 | 2 | 0 | few-questions, stale-copy |
 | ux-design | starter | 2 | 94/85/102 | 1 | 0 | 2 | 0 | 0 | few-questions |
 | ai-fundamentals | starter | 14 | 396/370/432 | 2.6 | 10 | 7 | 1 | 0 | — |
 | context-engineering | starter | 14 | 517/388/557 | 3 | 14 | 5 | 2 | 0 | — |
@@ -46,8 +46,15 @@ Generated 2026-10-24 by `scripts/course-content-quality-report.mjs` from actual 
 | ux-pro | pro | 30 | 292/251/330 | 2 | 0 | 30 | 2 | 0 | — |
 | business-pro | pro | 30 | 286/243/335 | 2 | 0 | 30 | 1 | 0 | — |
 
-## Stale scope copy (§3.7): 0 hits
+## Stale scope copy (§3.7): 56 hits
 
+- csharp: csharp-day-01 [ru] “…claims 2 days, actually 30…”; csharp-day-01 [ru] “…из двух дней…”; csharp-day-01 [en] “…claims 2 days, actually 30…”; csharp-day-01 [en] “…two-day introductory…”; csharp-day-02 [ru] “…claims 2 days, actually 30…”; csharp-day-02 [ru] “…из двух дней…”; csharp-day-02 [en] “…claims 2 days, actually 30…”; csharp-day-02 [en] “…two-day introductory…”
+- go: go-day-01 [ru] “…claims 2 days, actually 30…”; go-day-01 [ru] “…из двух дней…”; go-day-01 [en] “…claims 2 days, actually 30…”; go-day-01 [en] “…two-day introductory…”; go-day-02 [ru] “…claims 2 days, actually 30…”; go-day-02 [ru] “…из двух дней…”; go-day-02 [en] “…claims 2 days, actually 30…”; go-day-02 [en] “…two-day introductory…”
+- rust: rust-day-01 [ru] “…claims 2 days, actually 30…”; rust-day-01 [ru] “…из двух дней…”; rust-day-01 [en] “…claims 2 days, actually 30…”; rust-day-01 [en] “…two-day introductory…”; rust-day-02 [ru] “…claims 2 days, actually 30…”; rust-day-02 [ru] “…из двух дней…”; rust-day-02 [en] “…claims 2 days, actually 30…”; rust-day-02 [en] “…two-day introductory…”
+- php: php-day-01 [ru] “…claims 2 days, actually 30…”; php-day-01 [ru] “…из двух дней…”; php-day-01 [en] “…claims 2 days, actually 30…”; php-day-01 [en] “…two-day introductory…”; php-day-02 [ru] “…claims 2 days, actually 30…”; php-day-02 [ru] “…из двух дней…”; php-day-02 [en] “…claims 2 days, actually 30…”; php-day-02 [en] “…two-day introductory…”
+- bash: bash-day-01 [ru] “…claims 2 days, actually 30…”; bash-day-01 [ru] “…из двух дней…”; bash-day-01 [en] “…claims 2 days, actually 30…”; bash-day-01 [en] “…two-day introductory…”; bash-day-02 [ru] “…claims 2 days, actually 30…”; bash-day-02 [ru] “…из двух дней…”; bash-day-02 [en] “…claims 2 days, actually 30…”; bash-day-02 [en] “…two-day introductory…”
+- mongodb: mongodb-day-01 [ru] “…claims 2 days, actually 30…”; mongodb-day-01 [ru] “…из двух дней…”; mongodb-day-01 [en] “…claims 2 days, actually 30…”; mongodb-day-01 [en] “…two-day introductory…”; mongodb-day-02 [ru] “…claims 2 days, actually 30…”; mongodb-day-02 [ru] “…из двух дней…”; mongodb-day-02 [en] “…claims 2 days, actually 30…”; mongodb-day-02 [en] “…two-day introductory…”
+- kotlin: kotlin-day-01 [ru] “…claims 2 days, actually 30…”; kotlin-day-01 [ru] “…из двух дней…”; kotlin-day-01 [en] “…claims 2 days, actually 30…”; kotlin-day-01 [en] “…two-day introductory…”; kotlin-day-02 [ru] “…claims 2 days, actually 30…”; kotlin-day-02 [ru] “…из двух дней…”; kotlin-day-02 [en] “…claims 2 days, actually 30…”; kotlin-day-02 [en] “…two-day introductory…”
 
 ## Reading guide
 
@@ -55,4 +62,4 @@ Generated 2026-10-24 by `scripts/course-content-quality-report.mjs` from actual 
 - `few-questions`: under 2 quiz questions per published day.
 - `stale-copy`: text still describing an old 2/3-day scope.
 - `written days` are self-reviewed assignments; `code days` carry recorded outputs that the test suite executes where a runtime exists.
-- Totals: 532 scheduled days, 1012 quiz questions, 53 flagged project/case days.
+- Totals: 814 scheduled days, 1624 quiz questions, 85 flagged project/case days.
