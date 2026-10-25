@@ -14,7 +14,9 @@ try {
     stdio: 'inherit',
     env: process.env,
   });
-  process.exit(result.status ?? 0);
+  if (result.error) throw result.error;
+  if (result.signal) console.error(`[react-scripts shim] Next.js terminated by ${result.signal}`);
+  process.exit(result.status ?? 1);
 } catch (err) {
   console.error('[react-scripts shim] Error running next:', err);
   process.exit(1);
