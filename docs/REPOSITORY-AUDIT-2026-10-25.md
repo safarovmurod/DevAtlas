@@ -35,6 +35,7 @@ created by the fixes; the 365 count describes the baseline, not the new tree.
 | Library questions inflated scheduled-day quiz density | The numerator included unscheduled reference questions. | Calculate quiz/day from scheduled assignments only; retain distinct question totals separately. |
 | Tajik scope claims could evade the old case-sensitive matcher | Capitalized `Рӯзи` was not recognized. | Recognize both cases, with a regression test. |
 | Existing Python tests omitted from CI | Vitest only discovers TS/TSX tests; the workflow never invoked the two Python test files. | Add Python unittest discovery to CI. All 10 tests pass locally, including PDF extraction. |
+| Compatibility CLI reported killed builds as successful | The react-scripts shim converted a null child exit status to zero, including signal termination and spawn errors. | Propagate spawn errors and return nonzero for terminated builds; four subprocess regression cases cover the exit statuses. |
 | Handoff instructions still requested rebuilding the completed Kotlin course | The continuation document still described Kotlin as two days and referenced the older checkpoint. | Update to the merged 30-day state, correct totals and retain Mobile as unfinished. |
 
 CI now also runs `npm audit --audit-level=high`, so known high/critical dependency
@@ -48,13 +49,15 @@ Executed in the prepared Linux cloud machine with Node 24:
 - `npm audit --audit-level=high`: **0 vulnerabilities** across production and
   development dependencies.
 - `npm run typecheck` and `npm run lint`: passed.
-- `KOTLINC=/workspace/tooling/bin/kotlinc npm run test`: **382 passed, 7 skipped**,
-  all 53 test files passed. This includes all 30 real Kotlin/JVM examples and the
+- `KOTLINC=/workspace/tooling/bin/kotlinc npm run test`: **386 passed, 7 skipped**,
+  all 54 test files passed. This includes all 30 real Kotlin/JVM examples and the
   new audit regression tests.
 - `python3 -m unittest discover -s tests -p '*_test.py' -v`: **10 passed**.
 - Production build: `npm run build` passed. The built server returned all 43
   courses ready, Kotlin with 30 lessons, Next.js with 20, and the home page with
   HTTP 200. Anonymous premium access returned 401 with `no-store`.
+- The compatibility entrypoint also completed a real production build with
+  `node bin/react-scripts.js build` and returned success only after Next.js exited.
 - Both documented reporting commands execute successfully and include every
   catalog course. The CLI regression test checks the totals and TypeScript sources.
 
