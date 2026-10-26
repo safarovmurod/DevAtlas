@@ -19,6 +19,7 @@ describe('complete source-backed course audits',()=>{
       expect(row.publishedDays).toBe(COURSE_CATALOG.find(course=>course.id===row.courseId)?.publishedDays);
       expect(row.practices,row.courseId).toBeGreaterThan(0);
       expect(row.totalQuestions,row.courseId).toBeGreaterThan(0);
+      expect(row.staleHits,row.courseId).toEqual([]);
     }
   },30000);
 
@@ -43,10 +44,12 @@ describe('complete source-backed course audits',()=>{
   });
 
   it('detects capitalized Tajik scope claims as well as Russian and English',()=>{
-    const fixture:AuditLesson={id:'one',day:1,sections:1,theoryWords:70,codeExamples:0,recordedOutputs:0,questionIds:['q'],practiceCount:1,practiceKind:'manual',practiceWords:30,hasReferenceAnswer:false,sources:1,capstone:false,texts:{tg:['Рӯзи 1 аз 2.']}};
+    const fixture:AuditLesson={id:'one',day:1,sections:1,theoryWords:70,codeExamples:0,recordedOutputs:0,questionIds:['q'],practiceCount:1,practiceKind:'manual',practiceWords:30,hasReferenceAnswer:false,sources:1,capstone:false,texts:{tg:['Рӯзи 1 аз 2.','Ин модули дурӯза аст.']}};
     const summary=summarizeCourse('fixture',[fixture,{...fixture,id:'two',day:2,texts:{}},{...fixture,id:'three',day:3,texts:{}}],1);
     expect(summary.staleHits).toContainEqual({id:'one',loc:'tg',sample:'claims 2 days, actually 3'});
     expect(summary.flags).toContain('stale-copy');
+    expect(summary.staleHits).toContainEqual({id:'one',loc:'tg',sample:'дурӯза'});
+    expect(summarizeCourse('short',[fixture,{...fixture,id:'two',day:2,texts:{}}],1).staleHits).toEqual([]);
   });
 
   it('matches the application schedule for legacy courses without explicit day numbers',()=>{
@@ -55,6 +58,14 @@ describe('complete source-backed course audits',()=>{
     expect(importedAuditLessons(course).map(lesson=>lesson.day)).toEqual([1]);
     const scheduled={...course,lessons:[{...course.lessons[0],id:'day',day:1},course.lessons[0]]};
     expect(importedAuditLessons(scheduled).map(lesson=>lesson.day)).toEqual([1,null]);
+  });
+
+  it('scans localized rubric and reference text rather than only summaries and theory',()=>{
+    const text={ru:'Example',tg:'Мисол',en:'Example'};
+    const course:CourseContent={courseId:'html',sources:[],files:[],lessons:[{id:'example',title:text,summary:text,level:'beginner',sourceIds:[],sections:[],questions:[],practice:{kind:'written',task:text,hint:text,solution:'Reference',referenceAnswer:{...text,tg:'Рӯзи 1 аз 2.'},criteria:[{...text,en:'Day 1 of 2.'}]}}]};
+    const row=importedAuditLessons(course)[0];
+    expect(row.texts.tg).toContain('Рӯзи 1 аз 2.');
+    expect(row.texts.en).toContain('Day 1 of 2.');
   });
 
   it('runs the documented CLI without silently skipping TypeScript-backed courses',()=>{
