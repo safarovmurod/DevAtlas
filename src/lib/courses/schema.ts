@@ -1,10 +1,18 @@
 import { z } from 'zod';
 import { COURSE_IDS } from './ids';
 import {learningFlowSchema} from './learning-flow';
+import {writtenRubricSchema} from '@/lib/practice/written-review';
 
 const text = z.object({ tg: z.string().min(1), ru: z.string().min(1), en: z.string().optional() });
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]{0,119}$/);
 const source = z.object({ id, title: z.string().min(1), url: z.string().url().refine(url => new URL(url).protocol === 'https:'), page: z.number().int().positive().optional() });
+function completeTranslations(value:unknown):boolean{
+  if(Array.isArray(value))return value.every(completeTranslations);
+  if(!value||typeof value!=='object')return true;
+  const fields=value as Record<string,unknown>;
+  if('ru' in fields&&'tg' in fields&&['ru','tg','en'].some(locale=>typeof fields[locale]!=='string'||!(fields[locale] as string).trim()))return false;
+  return Object.values(fields).every(completeTranslations);
+}
 export const courseContentSchema = z.object({
   courseId: z.enum(COURSE_IDS).exclude(['react']),
   sources: z.array(source),
@@ -13,7 +21,7 @@ export const courseContentSchema = z.object({
     id, day: z.number().int().min(0).max(120).optional(), prerequisiteDays: z.array(z.number().int().min(0).max(120)).optional(), title: text, summary: text, level: z.enum(['beginner', 'intermediate']), sourceIds: z.array(id).min(1),
     sections: z.array(z.object({ title: text, body: text, code: z.string().optional(), language: z.string().optional(), output: text.optional() })).min(1),
     questions: z.array(z.object({ id, question: text, answer: text, options: z.array(text).min(2).max(6), correctIndex: z.number().int().nonnegative() })),
-    practice: z.object({ kind: z.enum(['code','written']).optional(), referenceAnswer: text.optional(), task: text, hint: text, solution: z.string(), criteria: z.array(text).min(1) }).optional(),
+    practice: z.object({ kind: z.enum(['code','written']).optional(), referenceAnswer: text.optional(), task: text, hint: text, solution: z.string(), criteria: z.array(text).min(1),rubric:writtenRubricSchema.optional() }).optional(),
     learningFlow:learningFlowSchema.optional(),
   })),
 }).superRefine((course, ctx) => {
@@ -23,6 +31,8 @@ export const courseContentSchema = z.object({
   for (const lesson of course.lessons) {
     if (lessonIds.has(lesson.id)) ctx.addIssue({ code: 'custom', message: 'Duplicate lesson ID' });
     lessonIds.add(lesson.id);
+    if((lesson.learningFlow||lesson.practice?.rubric)&&!completeTranslations(lesson))ctx.addIssue({code:'custom',message:'Structured lesson requires complete RU/TG/EN translations: '+lesson.id});
+    if(lesson.practice?.rubric&&(lesson.practice.kind!=='written'||lesson.practice.rubric.criteria.length!==lesson.practice.criteria.length))ctx.addIssue({code:'custom',message:'Written rubric must match written practice criteria'});
     if(lesson.learningFlow){
       if(!lesson.practice)ctx.addIssue({code:'custom',message:'Learning flow needs independent practice'});
       if(lesson.learningFlow.walkthroughSections.some(index=>index>=lesson.sections.length))ctx.addIssue({code:'custom',message:'Missing walkthrough section'});

@@ -12,7 +12,7 @@ const missing=matrix.filter(row=>row.status==='Missing');
 const stageCount=stage=>missing.filter(row=>row.stage===stage).length;
 const stale=rows.reduce((sum,row)=>sum+row.staleHits.length,0);
 const fullyPublished=tracks.filter(track=>matrix.filter(row=>row.trackId===track.id).every(row=>row.courseIds.length>0)).length;
-const validation=state.activeWork?.sqlRuntime?.validation;
+const validation=state.validationCheckpoint??state.activeWork?.sqlRuntime?.validation;
 const delivery=[
  '# DevAtlas delivery status (generated)',
  '',
@@ -35,6 +35,7 @@ const delivery=[
  '- Mastered requires successful assessed practice, ≥80% and every critical question. Self review allows study continuation but cannot mint protected mastery. Late account results are isolated; legacy progress/XP is preserved. Readiness never grants or revokes paid content access.',
  '- The protected assessment ledger has server-derived grading, own-account/MFA reads and service-only idempotent writes. Its migration has PostgreSQL-compatible tests; live Supabase application is not verified. Missing configuration does not fabricate persistence.',
  '- The SQLite pilot checks day 1 in a disposable browser worker with real WASM SQLite, changed datasets, constraints, expected/actual output and execution/output limits. It is local assessment, not server attestation. Other SQL days remain local CLI exercises. See [SQLITE-PRACTICE.md](SQLITE-PRACTICE.md) and the recorded publication status in delivery-state.json.',
+ '- Communication day 1 has a versioned written rubric with three-language performance descriptors and required reflection. Reviews bind to the exact answer hash and existing account-scoped drafts. Self Reviewed remains separate from Auto Verified, AI Feedback and Human Reviewed; it never mints verified Mastered. Wider written-rubric rollout and authorized human review remain pending.',
  '- React function labs retain their existing isolated browser runner. Other native languages are not advertised as browser-compiled merely because an editor exists. Provision and test isolated trusted runners before enabling them.',
  '- Existing TutorDrawer and Floating Site Agent remain the two assistants. Persistent multi-chat, durable per-user quotas and cost caps are not delivered by these foundation slices. Do not represent local chat history as complete server history.',
  '- Beginner remains free. Pro/Expert bodies, solutions, tutor references and paid attachments retain server authorization and private/no-store caching. Billing remains billing_not_configured; a browser flag or fake redirect never grants membership.',
@@ -53,7 +54,7 @@ const delivery=[
  '',
  `Current source audit finds ${stale} stale duration claims. This measures wording, not overall teaching quality; thin-theory and quiz-density findings remain in [SELF_LEARNING_CONTENT_AUDIT.md](SELF_LEARNING_CONTENT_AUDIT.md).`,
  '',
- ...(validation?[`Recorded local validation checkpoint: ${validation.unitPassed} tests passed, ${validation.unitSkipped} skipped; ${validation.playwrightPassed} SQLite desktop/mobile cases passed; dependency audit ${validation.auditVulnerabilities} known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.`, '']:[]),
+ ...(validation?[`Recorded local validation checkpoint: ${validation.unitPassed} tests passed, ${validation.unitSkipped} skipped; ${validation.playwrightPassed} targeted desktop/mobile cases passed (${validation.browserScope??'SQLite'}); dependency audit ${validation.auditVulnerabilities} known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.`, '']:[]),
  'PRs, merge SHAs and pending work are recorded in delivery-state.json. Vercel success metadata is separate from live HTTP/browser proof. Direct deployment HTTP was blocked by this workspace CONNECT proxy (403); live database, payment and online-AI configuration are not inferred from successful builds.',
  '',
  '## Local setup and trust boundaries',
