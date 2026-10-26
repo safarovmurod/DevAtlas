@@ -29,6 +29,12 @@ const words=(value:string)=>value.trim().split(/\s+/).filter(Boolean).length;
 const project=(title:string)=>/проект|project|кейс|case|анализатор|TODO API|планировщик|scheduler/i.test(title);
 const locales=['ru','en','tg'] as const;
 
+function localizedTexts(value:unknown,locale:Locale):string[]{
+  if(Array.isArray(value))return value.flatMap(item=>localizedTexts(item,locale));
+  if(!value||typeof value!=='object')return [];
+  return Object.entries(value).flatMap(([key,item])=>key===locale&&typeof item==='string'?[item]:localizedTexts(item,locale));
+}
+
 function importedLesson(lesson:CourseLesson):AuditLesson {
   return {
     id:lesson.id,day:lesson.day??null,sections:lesson.sections.length,
@@ -39,7 +45,7 @@ function importedLesson(lesson:CourseLesson):AuditLesson {
     practiceKind:lesson.practice?.kind??'unspecified',
     practiceWords:words(lesson.practice?.task.ru??''),hasReferenceAnswer:Boolean(lesson.practice?.referenceAnswer),
     sources:lesson.sourceIds.length,capstone:project(lesson.title.ru),
-    texts:Object.fromEntries(locales.map(locale=>[locale,[lesson.summary[locale],...lesson.sections.map(section=>section.body[locale]),lesson.practice?.task[locale],lesson.practice?.hint[locale]].filter((text):text is string=>Boolean(text))])),
+    texts:Object.fromEntries(locales.map(locale=>[locale,localizedTexts(lesson,locale)])),
   };
 }
 
@@ -79,7 +85,7 @@ export function summarizeCourse(courseId:string, lessons:AuditLesson[], sourceCo
       for(const match of text.matchAll(/(?:День|Day|[Рр]ӯзи)\s+\d+\s+(?:из|of|аз)\s+(\d+)\b/g)){
         if(published.length>0&&Number(match[1])!==published.length)staleHits.push({id:lesson.id,loc:locale,sample:`claims ${match[1]} days, actually ${published.length}`});
       }
-      if(published.length>2) for(const match of text.matchAll(/двухдневн|two introductory days|two-day course|two-day introductory|аз ду рӯз|из двух дней|Two-day introduction/g))staleHits.push({id:lesson.id,loc:locale,sample:match[0]});
+      if(published.length>2) for(const match of text.matchAll(/двухдневн|two introductory days|two-day course|two-day introductory|аз ду рӯз|дурӯза|из двух дней|Two-day introduction/g))staleHits.push({id:lesson.id,loc:locale,sample:match[0]});
     }
   }
   const avgTheoryWords=published.length?Math.round(published.reduce((sum,lesson)=>sum+lesson.theoryWords,0)/published.length):0;

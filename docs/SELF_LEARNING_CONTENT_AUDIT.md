@@ -19,18 +19,18 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | backend | starter | 2 | 74/74/74 | 1 | 2 | 0 | 0 | 0 | few-questions |
 | mobile | starter | 2 | 87/86/88 | 1 | 2 | 0 | 0 | 0 | few-questions |
 | cpp | starter | 30 | 49/39/59 | 1 | 30 | 0 | 12 | 7 | thin-theory, few-questions |
-| java | starter | 30 | 379/84/431 | 2 | 30 | 1 | 3 | 0 | stale-copy |
-| csharp | starter | 30 | 379/79/427 | 2 | 30 | 1 | 4 | 0 | stale-copy |
-| go | starter | 30 | 480/77/538 | 2 | 30 | 2 | 2 | 0 | stale-copy |
-| rust | starter | 30 | 364/87/401 | 2 | 29 | 1 | 4 | 0 | stale-copy |
-| php | starter | 30 | 497/79/552 | 2 | 29 | 2 | 3 | 0 | stale-copy |
+| java | starter | 30 | 379/84/431 | 2 | 30 | 1 | 3 | 0 | — |
+| csharp | starter | 30 | 379/79/427 | 2 | 30 | 1 | 4 | 0 | — |
+| go | starter | 30 | 480/77/538 | 2 | 30 | 2 | 2 | 0 | — |
+| rust | starter | 30 | 364/87/401 | 2 | 29 | 1 | 4 | 0 | — |
+| php | starter | 30 | 497/79/552 | 2 | 29 | 2 | 3 | 0 | — |
 | ruby | starter | 30 | 410/77/452 | 2 | 28 | 2 | 4 | 0 | — |
-| sql | starter | 30 | 369/97/403 | 2 | 28 | 2 | 4 | 0 | stale-copy |
-| bash | starter | 30 | 342/92/384 | 2 | 30 | 2 | 3 | 0 | stale-copy |
-| nodejs | starter | 30 | 366/84/410 | 2 | 28 | 2 | 3 | 0 | stale-copy |
-| mongodb | starter | 30 | 328/96/452 | 2 | 29 | 3 | 4 | 0 | stale-copy |
-| swift | starter | 30 | 354/81/383 | 2.1 | 29 | 1 | 5 | 0 | stale-copy |
-| kotlin | starter | 30 | 135/86/149 | 1.9 | 30 | 0 | 2 | 0 | few-questions, stale-copy |
+| sql | starter | 30 | 369/97/403 | 2 | 28 | 2 | 4 | 0 | — |
+| bash | starter | 30 | 342/92/384 | 2 | 30 | 2 | 3 | 0 | — |
+| nodejs | starter | 30 | 366/84/410 | 2 | 28 | 2 | 3 | 0 | — |
+| mongodb | starter | 30 | 328/96/452 | 2 | 29 | 3 | 4 | 0 | — |
+| swift | starter | 30 | 354/81/383 | 2.1 | 29 | 1 | 5 | 0 | — |
+| kotlin | starter | 30 | 135/86/149 | 1.9 | 30 | 0 | 2 | 0 | few-questions |
 | ux-design | starter | 2 | 94/85/102 | 1 | 0 | 2 | 0 | 0 | few-questions |
 | ai-fundamentals | starter | 14 | 396/370/432 | 2.6 | 10 | 7 | 1 | 0 | — |
 | context-engineering | starter | 14 | 517/388/557 | 3 | 14 | 5 | 2 | 0 | — |
@@ -44,28 +44,14 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | digital-literacy | starter | 2 | 96/93/98 | 1 | 0 | 2 | 0 | 0 | few-questions |
 | personal-productivity | starter | 2 | 88/80/95 | 1 | 0 | 2 | 0 | 0 | few-questions |
 | management-foundations | starter | 2 | 91/89/93 | 1 | 0 | 2 | 0 | 0 | few-questions |
-| javascript-pro | pro | 30 | 399/114/592 | 2.5 | 30 | 4 | 2 | 0 | stale-copy |
-| backend-pro | pro | 30 | 256/126/312 | 2 | 30 | 0 | 1 | 0 | stale-copy |
-| architecture-expert | expert | 30 | 351/121/404 | 2 | 30 | 30 | 0 | 0 | stale-copy |
+| javascript-pro | pro | 30 | 399/114/592 | 2.5 | 30 | 4 | 2 | 0 | — |
+| backend-pro | pro | 30 | 256/126/312 | 2 | 30 | 0 | 1 | 0 | — |
+| architecture-expert | expert | 30 | 351/121/404 | 2 | 30 | 30 | 0 | 0 | — |
 | ux-pro | pro | 30 | 292/251/330 | 2 | 0 | 30 | 2 | 0 | — |
 | business-pro | pro | 30 | 286/243/335 | 2 | 0 | 30 | 1 | 0 | — |
 
-## Stale scope copy (§3.7): 98 hits
+## Stale scope copy (§3.7): 0 hits
 
-- java: java-day-01 [tg] “…claims 2 days, actually 30…”; java-day-02 [tg] “…claims 2 days, actually 30…”
-- csharp: csharp-day-01 [ru] “…claims 2 days, actually 30…”; csharp-day-01 [ru] “…из двух дней…”; csharp-day-01 [en] “…claims 2 days, actually 30…”; csharp-day-01 [en] “…two-day introductory…”; csharp-day-01 [tg] “…claims 2 days, actually 30…”; csharp-day-02 [ru] “…claims 2 days, actually 30…”; csharp-day-02 [ru] “…из двух дней…”; csharp-day-02 [en] “…claims 2 days, actually 30…”; csharp-day-02 [en] “…two-day introductory…”; csharp-day-02 [tg] “…claims 2 days, actually 30…”
-- go: go-day-01 [ru] “…claims 2 days, actually 30…”; go-day-01 [ru] “…из двух дней…”; go-day-01 [en] “…claims 2 days, actually 30…”; go-day-01 [en] “…two-day introductory…”; go-day-01 [tg] “…claims 2 days, actually 30…”; go-day-02 [ru] “…claims 2 days, actually 30…”; go-day-02 [ru] “…из двух дней…”; go-day-02 [en] “…claims 2 days, actually 30…”; go-day-02 [en] “…two-day introductory…”; go-day-02 [tg] “…claims 2 days, actually 30…”
-- rust: rust-day-01 [ru] “…claims 2 days, actually 30…”; rust-day-01 [ru] “…из двух дней…”; rust-day-01 [en] “…claims 2 days, actually 30…”; rust-day-01 [en] “…two-day introductory…”; rust-day-01 [tg] “…claims 2 days, actually 30…”; rust-day-02 [ru] “…claims 2 days, actually 30…”; rust-day-02 [ru] “…из двух дней…”; rust-day-02 [en] “…claims 2 days, actually 30…”; rust-day-02 [en] “…two-day introductory…”; rust-day-02 [tg] “…claims 2 days, actually 30…”
-- php: php-day-01 [ru] “…claims 2 days, actually 30…”; php-day-01 [ru] “…из двух дней…”; php-day-01 [en] “…claims 2 days, actually 30…”; php-day-01 [en] “…two-day introductory…”; php-day-01 [tg] “…claims 2 days, actually 30…”; php-day-02 [ru] “…claims 2 days, actually 30…”; php-day-02 [ru] “…из двух дней…”; php-day-02 [en] “…claims 2 days, actually 30…”; php-day-02 [en] “…two-day introductory…”; php-day-02 [tg] “…claims 2 days, actually 30…”
-- sql: sql-day-01 [tg] “…claims 2 days, actually 30…”; sql-day-02 [tg] “…claims 2 days, actually 30…”
-- bash: bash-day-01 [ru] “…claims 2 days, actually 30…”; bash-day-01 [ru] “…из двух дней…”; bash-day-01 [en] “…claims 2 days, actually 30…”; bash-day-01 [en] “…two-day introductory…”; bash-day-01 [tg] “…claims 2 days, actually 30…”; bash-day-02 [ru] “…claims 2 days, actually 30…”; bash-day-02 [ru] “…из двух дней…”; bash-day-02 [en] “…claims 2 days, actually 30…”; bash-day-02 [en] “…two-day introductory…”; bash-day-02 [tg] “…claims 2 days, actually 30…”
-- nodejs: nodejs-day-01 [tg] “…claims 2 days, actually 30…”; nodejs-day-02 [tg] “…claims 2 days, actually 30…”
-- mongodb: mongodb-day-01 [ru] “…claims 2 days, actually 30…”; mongodb-day-01 [ru] “…из двух дней…”; mongodb-day-01 [en] “…claims 2 days, actually 30…”; mongodb-day-01 [en] “…two-day introductory…”; mongodb-day-01 [tg] “…claims 2 days, actually 30…”; mongodb-day-02 [ru] “…claims 2 days, actually 30…”; mongodb-day-02 [ru] “…из двух дней…”; mongodb-day-02 [en] “…claims 2 days, actually 30…”; mongodb-day-02 [en] “…two-day introductory…”; mongodb-day-02 [tg] “…claims 2 days, actually 30…”
-- swift: swift-day-01 [tg] “…claims 2 days, actually 30…”; swift-day-02 [tg] “…claims 2 days, actually 30…”
-- kotlin: kotlin-day-01 [ru] “…claims 2 days, actually 30…”; kotlin-day-01 [ru] “…из двух дней…”; kotlin-day-01 [en] “…claims 2 days, actually 30…”; kotlin-day-01 [en] “…two-day introductory…”; kotlin-day-01 [tg] “…claims 2 days, actually 30…”; kotlin-day-02 [ru] “…claims 2 days, actually 30…”; kotlin-day-02 [ru] “…из двух дней…”; kotlin-day-02 [en] “…claims 2 days, actually 30…”; kotlin-day-02 [en] “…two-day introductory…”; kotlin-day-02 [tg] “…claims 2 days, actually 30…”
-- javascript-pro: javascript-pro-day-01 [tg] “…claims 3 days, actually 30…”; javascript-pro-day-02 [tg] “…claims 3 days, actually 30…”; javascript-pro-day-03 [tg] “…claims 3 days, actually 30…”; javascript-pro-day-04 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-05 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-06 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-07 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-08 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-09 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-10 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-11 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-12 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-13 [tg] “…claims 14 days, actually 30…”; javascript-pro-day-14 [tg] “…claims 14 days, actually 30…”
-- backend-pro: backend-pro-day-01 [tg] “…claims 3 days, actually 30…”; backend-pro-day-02 [tg] “…claims 3 days, actually 30…”; backend-pro-day-03 [tg] “…claims 3 days, actually 30…”
-- architecture-expert: architecture-expert-day-01 [tg] “…claims 3 days, actually 30…”; architecture-expert-day-02 [tg] “…claims 3 days, actually 30…”; architecture-expert-day-03 [tg] “…claims 3 days, actually 30…”
 
 ## Reading guide
 
