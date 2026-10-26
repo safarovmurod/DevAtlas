@@ -108,11 +108,12 @@ test('JavaScript stages have 30 distinct days and legacy practice links remain u
  const response=await page.request.post('/api/tutor',{data:{action:'ask',courseId:'javascript-1',questionId:'js-average-score-q1',userText:'Миёнаи [80,90,100] чанд аст?',language:'tg',isDeep:true}});expect(await response.json()).toMatchObject({mode:'local',usage:{totalTokens:0}});
 });
 
-test('React day and practice match and retired routes lead to the learning plan',async({page})=>{
+test('React day and practice match and review routes expose their own working panels',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('react-mentor-learning-v2',JSON.stringify({version:2,state:{selectedCourse:'react',courseChosen:true}})));
  await page.goto('/plan/1');await page.getByRole('link',{name:/День 1 /}).click();await expect(page).toHaveURL('/home?month=1&day=1');
  const title=await page.locator('.course-lesson h2').first().textContent();await page.getByRole('link',{name:'Практика этого дня',exact:true}).first().click();await expect(page).toHaveURL(/\/practice\?month=1&topic=.+&day=1/);await expect(page.locator('.section-heading h2').first()).toHaveText(title!);
- await page.goto('/revision');await expect(page).toHaveURL('/plan');await page.goto('/weak-topics');await expect(page).toHaveURL('/plan');await expect(page.locator('.sidebar')).not.toContainText('Повторение');await expect(page.locator('.sidebar')).not.toContainText('Сложные темы');
+ await page.goto('/revision');await expect(page).toHaveURL('/revision');await expect(page.getByRole('heading',{name:'Повторение по результатам',exact:true,level:1})).toBeVisible();await expect(page.locator('.learning-review')).toContainText('Пока нет тем');
+ await page.goto('/weak-topics');await expect(page).toHaveURL('/weak-topics');await expect(page.getByRole('heading',{name:'Темы для проработки',exact:true,level:1})).toBeVisible();await expect(page.locator('.sidebar')).toContainText('Повторение');await expect(page.locator('.sidebar')).toContainText('Сложные темы');
  const labels=await page.locator('.sidebar nav .nav-item span').allTextContents();expect(labels.indexOf('Учебный план')).toBeLessThan(labels.indexOf('Мой день'));
 });
 

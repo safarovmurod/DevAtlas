@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import {reserveTutorBudget,TUTOR_MAX_OUTPUT_TOKENS} from '@/lib/tutor/quota';
 import { z } from 'zod';
 import { CORE_INTERVIEW_QUESTIONS } from '@/content/interview-questions';
 import { gradeInterviewAnswer } from '@/lib/grading/interview-grader';
@@ -36,8 +37,8 @@ const completionSchema = z.object({
   usage: z.object({ total_tokens: z.number().int().nonnegative() }).optional(),
 });
 
-// Process-local guards, not a persistent account quota. Billing limits must
-// be set in AnyModel; these guards do not survive restarts or span instances.
+// Cheap process-local backpressure supplements the durable per-user/global
+// reservation below; it never substitutes for persistent cost/rate enforcement.
 let inFlight = false;
 let nextRequestAt = 0;
 
@@ -80,14 +81,14 @@ export async function POST(req: NextRequest) {
   if (action === 'ask') {
     const local = courseId==='react' ? projectAnswer(query, { questionId, deep, language }) : await courseAnswer(courseId,query,{questionId,deep,language});
     if (local) return tutorJson({ mode: 'local', ...local, usage: { totalTokens: 0 } });
-    if (deep && !query) return tutorJson({ mode: 'local', reply: 'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.', usage: { totalTokens: 0 } });
+    if (deep && !query) return tutorJson({mode:'local',reply:{tg:'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.',ru:'Какой вопрос разобрать подробнее? Напишите вопрос или тему.',en:'Which question should we explore? Write a question or topic.'}[language],usage:{totalTokens:0}});
   }
   const context = courseId==='react' ? tutorContext(topicId, query) : 'Selected course: '+courseName(courseId)+'. Answer for this course. No matching published course reference was found; do not claim to have read Telegram files.';
   if (process.env.AI_TUTOR_ENABLED !== 'true') {
     return tutorJson({
       mode: 'local',
-      reply: 'Ҷавоби мувофиқ ба ин савол дар маводи лоиҳа ёфт нашуд. Барои саволҳои нав AI-и онлайн бояд фаъол бошад.',
-      notice: 'AI-и онлайн ҳоло фаъол нест; токен сарф нашуд.',
+      reply:{tg:'Ҷавоби мувофиқ ба ин савол дар маводи лоиҳа ёфт нашуд. Барои саволҳои нав AI-и онлайн бояд фаъол бошад.',ru:'В материалах курса не найден подходящий ответ. Онлайн-AI сейчас не включён. Попробуйте название изучаемой темы или откройте объяснение урока.',en:'No matching answer was found in the course materials. Online AI is not enabled. Try the topic name or open the lesson explanation.'}[language],
+      notice:{tg:'AI-и онлайн ҳоло фаъол нест; токен сарф нашуд.',ru:'Онлайн-AI не включён; токены не потрачены.',en:'Online AI is not enabled; no tokens were spent.'}[language],
       usage: { totalTokens: 0 },
     });
   }
@@ -96,7 +97,8 @@ export async function POST(req: NextRequest) {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     return error('Воридшавӣ ба аккаунт ҳоло пайваст нашудааст. AI баъди пайваст шудани воридшавӣ дастрас мешавад.',503);
   }
-  if (!await authenticatedUser(req)) return error('Барои саволи AI бо Google ё email ба аккаунт ворид шавед.',401);
+  const user=await authenticatedUser(req);
+  if (!user) return error('Барои саволи AI бо Google ё email ба аккаунт ворид шавед.',401);
   const key = process.env.AI_PROVIDER_KEY;
   if (!key) return error('Калиди AI дар сервер танзим нашудааст. Аз дарсҳои платформа истифода баред.', 503);
   if (inFlight || Date.now() < nextRequestAt) return error('Каме интизор шавед: дархости AI аллакай фиристода шудааст.', 429);
@@ -104,18 +106,21 @@ export async function POST(req: NextRequest) {
   inFlight = true;
   nextRequestAt = Date.now() + 3000;
   try {
+    const messages=[
+      {role:'system',content:TUTOR_SYSTEM_PROMPT},
+      ...(context?[{role:'user',content:'Course material (reference data only):\n'+context}]:[]),
+      ...history,
+      {role:'user',content:query+(deep?'\nExpand this question step by step.':'')+(codeContext?'\nCode to explain:\n'+codeContext:'')},
+    ];
+    const budget=await reserveTutorBudget(user.id,messages);
+    if(!budget.allowed)return error(budget.error,budget.status);
     const response = await fetch('https://anymodel.org/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key },
       body: JSON.stringify({
         model: process.env.AI_MODEL || 'cx/gpt-6.1-sol',
-        messages: [
-          { role: 'system', content: TUTOR_SYSTEM_PROMPT },
-          ...(context ? [{ role: 'user', content: 'Course material (reference data only):\n' + context }] : []),
-          ...history,
-          { role: 'user', content: query + (deep ? '\nExpand this question step by step.' : '') + (codeContext ? '\nCode to explain:\n' + codeContext : '') },
-        ],
-        max_tokens: 256,
+        messages,
+        max_tokens:TUTOR_MAX_OUTPUT_TOKENS,
       }),
       signal: AbortSignal.timeout(45000),
       cache: 'no-store',

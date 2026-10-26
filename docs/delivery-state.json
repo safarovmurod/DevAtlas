@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "f69570beff552937a05e1c1896a9d68888ba8643",
+  "baselineCommit": "19fa357033cc8e9392c89c0012f1b874e9e96a83",
   "acceptedPlan": "Strict continuation master prompt, sections 0–19, and approved implementation plan",
   "decisions": {
     "delivery": "small complete PRs; continue through every phase",
@@ -98,7 +98,8 @@
     {
       "id": 9,
       "name": "Shared persistent AI Mentor",
-      "status": "pending"
+      "status": "in_progress",
+      "evidence": "Account-scoped local Agent history and cancellation, consistent budget error localization, durable pre-dispatch global/user budget and rate-limit SQL implementation. Shared multi-chat/server history and live provider/budget activation remain incomplete."
     },
     {
       "id": 10,
@@ -152,8 +153,8 @@
     }
   ],
   "resume": {
-    "branch": "fix/windows-powershell-validation",
-    "nextAction": "Prioritize the latest user request: run real Windows/PowerShell matrix, fix failures, rerun until green, and verify GitHub/Vercel. Then resume original DevAtlas plan: actual RU/TG/EN authoring for all twelve short courses from merged blueprints, wider assessment contracts and every remaining phase. Do not count design drafts as delivered courses.",
+    "branch": "fix/audit-learning-privacy",
+    "nextAction": "Refresh main and PR #19 state first. If PR #19 is still open, require green checks for its exact final head on Ubuntu/all four Windows jobs and merge only after checks. If already merged, do not repeat implementation or merge it again. Local final452 unit/integration +108 desktop/mobile +12 mock-auth +build passed. Resume P1 full original RU/TG/EN authoring for ALL twelve short courses, all five continuations and every missing stage/requirement in the163-item register. Do not regenerate completed work or count drafts/publication as independently Verified.",
     "doNotRegenerate": [
       "css",
       "python",
@@ -203,7 +204,8 @@
       14,
       15,
       16,
-      17
+      17,
+      18
     ],
     "lessonFlowMerge": "b5ff27fa7797ef90955ce912905e6e19da9da339",
     "lessonFlowCi": 40228960772,
@@ -250,7 +252,7 @@
       "pullRequest": 17
     },
     "windowsPowerShell": {
-      "status": "validated on real Windows CI; current-head checks required before merge",
+      "status": "DONE: merged in PR #18, final PR and main CI successful; production deployment metadata success",
       "branch": "fix/windows-powershell-validation",
       "conditions": {
         "os": "windows-2022 x64",
@@ -265,10 +267,10 @@
         "paths": "spaces and Tajik characters in repository and temp paths"
       },
       "localEvidence": "Official PowerShell 7.6.9 on Linux: real exit-code control; lint/typecheck/build passed; latest Vitest 432 passed/7 unavailable-SDK skips; Python 10 passed; browser 102 passed and mock-auth 12 passed. Linux is not used as Windows proof.",
-      "remaining": "Require green checks for the final PR head before normal merge, then verify main CI and Vercel deployment. Optional SDK skips are not successful runtime execution.",
+      "remaining": "No remaining Windows matrix failure at this checkpoint; future changes must pass all four conditions. SDK skips are not execution evidence.",
       "githubEvidence": {
-        "runId": 40284171139,
-        "head": "fd89cc224894b8ccc8c2a174d7a272b847a26e4c",
+        "runId": 40287072477,
+        "head": "19fa357033cc8e9392c89c0012f1b874e9e96a83",
         "result": "success",
         "windowsJobsPassed": 4,
         "ubuntuJob": "success",
@@ -281,14 +283,70 @@
         "retain Python launcher prefix and UTF-8",
         "per-test portable browser artifacts",
         "real native nonzero exit propagation and failure transcripts"
-      ]
+      ],
+      "pullRequest": 18,
+      "mergeCommit": "19fa357033cc8e9392c89c0012f1b874e9e96a83",
+      "productionDeploymentId": 7326510800
+    },
+    "fullAudit20261026": {
+      "status": "PARTIAL",
+      "baselineTrackedFiles": 422,
+      "inventory": "docs/audits/2026-10-26-baseline-files.json",
+      "requirements": "docs/audits/2026-10-26-tasks.json",
+      "readableReport": "docs/audits/2026-10-26-tasks.md",
+      "scope": "Baseline files indexed; all real curriculum loaders/numeric metrics checked. Targeted source/security/behavior review; full semantic/editorial/interface audit not complete.",
+      "implemented": [
+        "Owner-scoped schema-validated local Agent history; unowned legacy data preserved",
+        "Cancellation/late-response ownership protection",
+        "Mandatory persistent AI budget reservations and per-user rate caps with zero-cost defaults",
+        "Functional React/imported weak topics and due review; stable review queues",
+        "Terminal lesson-flow contract; legacy readiness model distinguishes activity without upgrading it to mastery",
+        "Tajik code glyph fallback and compact fullscreen mobile Agent",
+        "Source labels distinguish actual course references, generated AI and service notices; user-message contrast >=4.5:1 checked in both themes"
+      ],
+      "newPublishedDays": 0,
+      "localValidation": {
+        "unitPassed": 452,
+        "unitSkipped": 7,
+        "pythonPassed": 10,
+        "dependencies": 0,
+        "initialFullBrowser": "Resolved: original106 passed/2 obsolete assertions corrected; final full desktop/mobile108 passed.",
+        "auth": "Final isolated mock-auth12 passed; no live Supabase verification",
+        "build": "passed after final attribution/contrast changes",
+        "desktopMobilePassed": 108,
+        "mockAuthPassed": 12,
+        "targetedFontAndRoutes": 4,
+        "targetedReviewAgent": 6,
+        "finalAttributionAndContrastE2E": 2,
+        "browserScope": "Full local desktop/mobile108 and mock-auth12 passed; final attribution/Light-Dark contrast follow-up2 passed after latest UI changes. Exact final-head full CI required before merge."
+      },
+      "blockers": [
+        "Live Supabase/Auth/migrations and provider budgets are not configured",
+        "Payments remain billing_not_configured",
+        "Direct production HTTP repeated 2026-10-26: CONNECT proxy 403",
+        "No verified isolated production runner infrastructure"
+      ],
+      "nextContentWork": "Full original reviewed RU/TG/EN lessons for every short course from the approved blueprints; no curriculum expansion claimed by this slice.",
+      "staticReview": [
+        "Account sync stop/scope, session refresh, bounded JSON, premium content/files/export guards inspected",
+        "Common tracked-text private-key/provider-token scan: zero hits; limited pattern scan, not exhaustive certification",
+        "Inter and JetBrains glyph metadata inspected; real per-character browser font selection verified on desktop/mobile"
+      ],
+      "pullRequest": 19,
+      "windowsFinding": {
+        "failedRun": 40319534305,
+        "actualEvidence": "Playwright annotation: ҳ rendered by ArialMT/isCustomFont false on Windows; automatic Next Mono Arial shim preceded explicit Inter",
+        "fix": "Mono localFont adjustFontFallback:false; strict glyph check retained",
+        "localValidation": "font desktop/mobile2 passed; typecheck and production build passed",
+        "finalWindowsValidation": "pending exact final PR-head CI; do not merge until all five jobs pass"
+      }
     }
   },
   "validationCheckpoint": {
-    "unitPassed": 432,
+    "unitPassed": 452,
     "unitSkipped": 7,
-    "playwrightPassed": 114,
-    "browserScope": "local full desktop/mobile 102 and mock-auth 12, real PowerShell; independent Windows matrix evidence recorded in activeWork",
+    "playwrightPassed": 120,
+    "browserScope": "Recorded full local108 desktop/mobile +12 mock-auth; final source-attribution/Light-Dark contrast follow-up2 passed; consult exact-head CI",
     "auditVulnerabilities": 0,
     "build": "passed",
     "typecheck": "passed",

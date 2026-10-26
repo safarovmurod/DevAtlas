@@ -2,9 +2,11 @@
 
 Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-Recorded main checkpoint: `f69570beff552937a05e1c1896a9d68888ba8643`. 43 course IDs; 38 tracks; 114 stage requirements; 894 actual scheduled days (744 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
+Recorded main checkpoint: `19fa357033cc8e9392c89c0012f1b874e9e96a83`. 43 course IDs; 38 tracks; 114 stage requirements; 894 actual scheduled days (744 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
 
 42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
+
+Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](audits/2026-10-26-tasks.md). Historical checklists are dated evidence, not today’s completion status.
 
 ## Published inventory
 
@@ -63,7 +65,7 @@ Recorded main checkpoint: `f69570beff552937a05e1c1896a9d68888ba8643`. 43 course 
 - The SQLite pilot checks day 1 in a disposable browser worker with real WASM SQLite, changed datasets, constraints, expected/actual output and execution/output limits. It is local assessment, not server attestation. Other SQL days remain local CLI exercises. See [SQLITE-PRACTICE.md](SQLITE-PRACTICE.md) and the recorded publication status in delivery-state.json.
 - Communication day 1 has a versioned written rubric with three-language performance descriptors and required reflection. Reviews bind to the exact answer hash and existing account-scoped drafts. Self Reviewed remains separate from Auto Verified, AI Feedback and Human Reviewed; it never mints verified Mastered. Wider written-rubric rollout and authorized human review remain pending.
 - React function labs retain their existing isolated browser runner. Other native languages are not advertised as browser-compiled merely because an editor exists. Provision and test isolated trusted runners before enabling them.
-- Existing TutorDrawer and Floating Site Agent remain the two assistants. Persistent multi-chat, durable per-user quotas and cost caps are not delivered by these foundation slices. Do not represent local chat history as complete server history.
+- Existing TutorDrawer and Floating Site Agent remain the two assistants. Owner-scoped local Agent history, cancellation and mandatory persistent AI budget reservations are implemented; live budget migration/configuration and shared persistent multi-chat remain pending. Do not represent local chat history as complete server history.
 - Beginner remains free. Pro/Expert bodies, solutions, tutor references and paid attachments retain server authorization and private/no-store caching. Billing remains billing_not_configured; a browser flag or fake redirect never grants membership.
 
 ## Required remaining work
@@ -74,13 +76,13 @@ All 5 fourteen-day programs still require a reviewed continuation: `typescript`,
 
 Complete the 72 missing programs in the track/stage matrix, deepen HTML/JS1/JS2/Git/C++ and other thin explanations, and roll out meaningful assessments/projects across full curricula. Do not publish a plan as a lesson or duplicate days to reach a number.
 
-Subject visualizers, complete AI Mentor history/quotas, the full platform design update, personalized roadmap/placement/repetition, project portfolios and remaining product functions still require implementation and verification. Human review authority cannot come from learner-editable metadata. Subjective mastery needs actual authorized human review.
+Subject visualizers, complete AI Mentor history and live quota activation, the full platform design update, personalized roadmap/placement/repetition, project portfolios and remaining product functions still require implementation and verification. Human review authority cannot come from learner-editable metadata. Subjective mastery needs actual authorized human review.
 
 ## Validation and deployment evidence
 
 Current source audit finds 0 stale duration claims. This measures wording, not overall teaching quality; thin-theory and quiz-density findings remain in [SELF_LEARNING_CONTENT_AUDIT.md](SELF_LEARNING_CONTENT_AUDIT.md).
 
-Recorded local validation checkpoint: 432 tests passed, 7 skipped; 114 targeted desktop/mobile cases passed (local full desktop/mobile 102 and mock-auth 12, real PowerShell; independent Windows matrix evidence recorded in activeWork); dependency audit 0 known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.
+Recorded local validation checkpoint: 452 tests passed, 7 skipped; 120 targeted desktop/mobile cases passed (Recorded full local108 desktop/mobile +12 mock-auth; final source-attribution/Light-Dark contrast follow-up2 passed; consult exact-head CI); dependency audit 0 known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.
 
 PRs, merge SHAs and pending work are recorded in delivery-state.json. Vercel success metadata is separate from live HTTP/browser proof. Direct deployment HTTP was blocked by this workspace CONNECT proxy (403); live database, payment and online-AI configuration are not inferred from successful builds.
 
@@ -90,6 +92,6 @@ Use the repository lockfile and Node 24 in this workspace: `npm ci --cache /work
 
 Kotlin example execution uses the separately installed local KOTLINC path when available. SDK paths are machine-specific; missing compilers must be reported as skipped, not simulated.
 
-Follow [accounts-setup.md](accounts-setup.md) and [LAUNCH-STEPS-RU.md](LAUNCH-STEPS-RU.md). Review migrations in order in a test database, including 20261026000000_assessment_evidence.sql after account/session migrations. Never expose SUPABASE_SERVICE_ROLE_KEY or provider secrets to the browser. No live migration is claimed here. Payments require a real provider, agreed prices/currencies and verified lifecycle webhooks; online AI requires approved provider configuration and durable cost controls.
+Follow [accounts-setup.md](accounts-setup.md) and [LAUNCH-STEPS-RU.md](LAUNCH-STEPS-RU.md). Review migrations in order in a test database, including 20261026000000_assessment_evidence.sql and 20261026010000_tutor_budgets.sql after account/session migrations. Never expose SUPABASE_SERVICE_ROLE_KEY or provider secrets to the browser. No live migration is claimed here. Payments require a real provider, agreed prices/currencies and verified lifecycle webhooks; online AI requires approved provider configuration and durable cost controls.
 
 Repository changes, environment configuration drafts and production publication are separate operations. Preserve existing useful work; correct factual errors without regenerating completed courses. Do not force-push or bypass failed CI.

@@ -12,8 +12,11 @@ export default defineConfig({
   outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR || path.join(tmpdir(),'devatlas-playwright','results'),
   fullyParallel: false,
   workers: 1,
+  // A failing CI job stops at its first real failure for prompt diagnostics.
+  // A green job still executes the entire configured desktop/mobile suite.
+  maxFailures: process.env.GITHUB_ACTIONS ? 1 : 0,
   timeout: 30000,
-  reporter: 'list',
+  reporter: process.env.GITHUB_ACTIONS ? [['list'],['./e2e/github-failure-reporter.ts']] : 'list',
   use: {
     baseURL: 'http://127.0.0.1:3100',
     // Old regression flows use the Russian UI; new locale tests override this per request.

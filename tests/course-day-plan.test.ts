@@ -33,7 +33,7 @@ describe('courseMonthPlan', () => {
 describe('courseDayProgress', () => {
   it('keeps legacy continuation separate from assessed mastery',()=>{
     const item=courseMonthPlan(lessons)[0];
-    expect(courseDayReadiness(item,['a'],['a'],undefined,1)).toEqual({canContinue:true,status:'Not Started',mastered:false});
+    expect(courseDayReadiness(item,['a'],['a'],undefined,1)).toEqual({canContinue:true,status:'Practicing',mastered:false});
     expect(courseDayReadiness(item,['a'],['a'],{lessonVersion:1,read:true,needsReview:false,practice:{submitted:true,passed:true,method:'Self Reviewed',subjectiveReviewRequired:false,humanReviewed:false},quiz:{total:5,correct:5,criticalTotal:1,criticalCorrect:1}},1)).toEqual({canContinue:true,status:'Tested',mastered:false});
   });
   it('requires practice as well as theory for unscheduled lessons', () => {

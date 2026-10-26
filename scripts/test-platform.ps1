@@ -43,7 +43,7 @@ try {
     Invoke-CheckedNative -Command $npmBinary -Arguments @('--version')
     if (-not $SkipInstall) { Invoke-CheckedNative -Command $npmBinary -Arguments @('ci') }
     if ($Phase -in @('checks', 'all')) {
-        foreach ($report in @('coverage-matrix.mjs', 'delivery-report.mjs')) {
+        foreach ($report in @('coverage-matrix.mjs', 'delivery-report.mjs', 'audit-backlog.mjs')) {
             Invoke-CheckedNative -Command $nodeBinary -Arguments @((Join-Path 'scripts' $report), '--check')
         }
         Invoke-CheckedNative -Command $nodeBinary -Arguments @('scripts/check-short-course-blueprints.mjs')

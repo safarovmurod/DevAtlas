@@ -14,7 +14,7 @@ import { courseDisplayName } from '@/lib/catalog-copy';
 import { COURSE_CATALOG } from '@/content/courses/catalog';
 const items = [
   {key:'plan',href:'/plan',icon:BookOpen},{key:'home',href:'/home',icon:CalendarDays},{key:'practice',href:'/practice',icon:Code2},
-  {key:'tests',href:'/tests',icon:ListChecks},{key:'notes',href:'/notes',icon:NotebookPen},{key:'answers',href:'/answers',icon:BookOpenCheck},
+  {key:'tests',href:'/tests',icon:ListChecks},{key:'revision',href:'/revision',icon:CalendarDays},{key:'weak',href:'/weak-topics',icon:BookOpen},{key:'notes',href:'/notes',icon:NotebookPen},{key:'answers',href:'/answers',icon:BookOpenCheck},
 ] as const;
 
 const NAV_LABELS = {
