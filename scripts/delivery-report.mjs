@@ -2,6 +2,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {loadAuditData} from './lib/load-course-audit.mjs';
+import {reportMatches} from './lib/report-text.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const {rows,tracks,matrix}=await loadAuditData();
 const state=JSON.parse(await readFile(path.join(root,'docs/delivery-state.json'),'utf8'));
@@ -118,7 +119,7 @@ const continuation=[
 for(const [relative,lines] of [['docs/DEVATLAS-DELIVERY.md',delivery],['docs/CONTINUATION-PROMPT.md',continuation]]){
  const filename=path.join(root,relative),contents=lines.join('\n');
  if(process.argv.includes('--check')){
-  if(await readFile(filename,'utf8')!==contents)throw new Error(`Stale delivery report: ${relative}. Run node scripts/delivery-report.mjs.`);
+  if(!reportMatches(await readFile(filename,'utf8'),contents))throw new Error(`Stale delivery report: ${relative}. Run node scripts/delivery-report.mjs.`);
  }else await writeFile(filename,contents);
 }
 console.log(JSON.stringify({courses:rows.length,tracks:tracks.length,days:total,freeDays:days(free),premiumDays:days(paid),missingStages:missing.length,staleDurationClaims:stale}));

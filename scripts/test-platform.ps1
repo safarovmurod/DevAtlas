@@ -16,8 +16,19 @@ if (Test-Path Variable:PSNativeCommandUseErrorActionPreference) {
 }
 . (Join-Path $PSScriptRoot 'lib/native-process.ps1')
 $isWindowsHost = [Environment]::OSVersion.Platform -eq [PlatformID]::Win32NT
+$diagnosticFile = $null
+$transcribing = $false
 Push-Location -LiteralPath (Split-Path -Parent $PSScriptRoot)
 try {
+    if ($env:GITHUB_ACTIONS -eq 'true') {
+        try {
+            $diagnosticFile = [IO.Path]::GetTempFileName()
+            Start-Transcript -Path $diagnosticFile -Force | Out-Null
+            $transcribing = $true
+        } catch {
+            $diagnosticFile = $null
+        }
+    }
     $npmName = if ($isWindowsHost) { 'npm.cmd' } else { 'npm' }
     $npxName = if ($isWindowsHost) { 'npx.cmd' } else { 'npx' }
     $npmBinary = (Get-Command $npmName -CommandType Application -ErrorAction Stop).Source
@@ -45,10 +56,27 @@ try {
         Invoke-CheckedNative -Command $npmBinary -Arguments @('run', 'test:auth')
     }
 } catch {
-    [Console]::Error.WriteLine($_.Exception.Message)
+    $failureMessage = $_.Exception.Message
     $failureCode = 1
     if ($_.Exception.Data.Contains('NativeExitCode')) { $failureCode = [int]$_.Exception.Data['NativeExitCode'] }
+    if ($transcribing) { Stop-Transcript -ErrorAction SilentlyContinue | Out-Null; $transcribing = $false }
+    if ($env:GITHUB_ACTIONS -eq 'true') {
+        if ($diagnosticFile -and (Test-Path -LiteralPath $diagnosticFile)) {
+            $tail = [IO.File]::ReadAllText($diagnosticFile)
+            if ($tail.Length -gt 8000) { $tail = $tail.Substring($tail.Length - 8000) }
+            $failureMessage = $failureMessage + [Environment]::NewLine + $tail
+            if ($env:PLAYWRIGHT_OUTPUT_DIR) {
+                [IO.Directory]::CreateDirectory($env:PLAYWRIGHT_OUTPUT_DIR) | Out-Null
+                Copy-Item -LiteralPath $diagnosticFile -Destination (Join-Path $env:PLAYWRIGHT_OUTPUT_DIR "powershell-$Phase-failure.log")
+            }
+        }
+        $annotation = $failureMessage.Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
+        Write-Host "::error title=PowerShell validation::$annotation"
+    }
+    [Console]::Error.WriteLine($failureMessage)
     exit $failureCode
 } finally {
+    if ($transcribing) { Stop-Transcript -ErrorAction SilentlyContinue | Out-Null }
+    if ($diagnosticFile) { Remove-Item -LiteralPath $diagnosticFile -Force -ErrorAction SilentlyContinue }
     Pop-Location
 }
