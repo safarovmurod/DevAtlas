@@ -1,95 +1,94 @@
-# DevAtlas implementation and release gates
+# DevAtlas delivery status (generated)
 
-DevAtlas is the new product name for the `safarovmurod/react-mentor` course platform. The GitHub repository name, database identifiers, locale cookie and existing browser storage keys remain compatible with previous users. `safarovmurod/react-practice` is a separate reference repository and was not replaced.
+Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-## Implemented development workflow
+Recorded main checkpoint: `806f7eecadda49c7ee00b41067f5ea63485d48c2`. 43 course IDs; 38 tracks; 114 stage requirements; 894 actual scheduled days (744 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
 
-- Responsive catalog with 41 published courses across 11 categories: programming, AI engineering, design, marketing, analytics, business and management, soft skills, content creation, foreign languages, children, and lifestyle. Programming has six subtracks: frontend, backend, mobile, programming languages, databases, and tools. Shared `/practice` navigation supports coding exercises and written/project assignments without presenting every subject as programming.
-- HTML starts at day 1. Theory and practice must be completed before explicit day confirmation opens the next day. React month 2 requires the confirmed first month. Future lesson/practice URLs show the prerequisite state.
-- Lazy Monaco editor served from local assets: completion, syntax/type diagnostics, persistent drafts and collapsible instructions/reference. Invalid alternative variable names are not used as a grading heuristic.
-- HTML day 1 uses actual document-semantic checks. React function labs run inside the existing opaque iframe/worker boundary with execution deadlines and blocked network. Unsupported automatic tasks report that they are unavailable; manual self-check is labeled accordingly.
-- Twenty-five two-day Starter introductions include programming subjects and general subjects. Programming introductions cover Python, Backend, Mobile, Java, C#, Go, Rust, PHP, Ruby, SQL, Bash, Node.js, MongoDB, Swift and Kotlin. General introductions cover UX/UI design, digital marketing, data analytics, business foundations, communication, content creation, English foundations, digital literacy, personal productivity and management foundations. These are introductory modules, not advertised professional qualifications. Language-aware editing does not imply native language execution inside the browser.
-- Russian, Tajik, English, Japanese and Korean interface dictionaries, plus existing Ukrainian support. Region headers/browser preferences select a first locale; explicit choice takes priority. Authored lessons remain RU/TG/EN with a visible translation notice for other interface languages. Human translation review remains necessary.
-- Separate published curricula for Starter, Pro and Expert: 36 Starter courses (including React), four Pro modules and one Expert module. Pro includes JavaScript Pro, Backend Pro, UX Design Pro and Business Pro; Expert adds Software Architecture Expert. Each premium module has three authored days with practice. Checkout is intentionally unavailable, subscriber chat uses real expiring presence and server-managed membership, and no online users, payment success or subscriber access are invented.
-- Free AI Engineering direction (added 2026-10-23, see [AUDIT-2026-10-23.md](AUDIT-2026-10-23.md)): three original 14-day beginner courses — AI Fundamentals, Context Engineering and Agent Harness — each fully trilingual (RU/TG/EN) with 3 sections, 2–3 quiz questions and a practice assignment per day. All exercises run without any AI provider on mock data and local simulation; every JavaScript example and code solution was executed and matches its documented output. The courses follow the product syllabi day by day (AI/LLM basics, tokens, instructions, few-shot, structured outputs, hallucinations, injection, function calling, cost; context window, retrieval, RAG, chunking, compaction, untrusted documents; agent loop, tool schemas, permissions, sandbox, tracing, checkpoints, evals, human approval and a mock mini coding agent).
-- Additive server-attested HTML day 1 API and separate protected XP/confirmation records. Legacy browser study progress remains self-study data and is not represented as a certificate or protected payment entitlement.
+42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
 
-## Published curriculum inventory
+## Published inventory
 
-Counts below were calculated directly from the current catalog, JSON curricula, generated Next.js content module and React plan; they are not marketing estimates.
+| Course ID | Access tier | Actual days |
+|---|---|---:|
+| html | starter | 30 |
+| css | starter | 30 |
+| javascript-1 | starter | 30 |
+| javascript-2 | starter | 30 |
+| react | starter | 60 |
+| nextjs | starter | 20 |
+| git | starter | 30 |
+| typescript | starter | 14 |
+| algorithms | starter | 14 |
+| python | starter | 30 |
+| backend | starter | 2 |
+| mobile | starter | 2 |
+| cpp | starter | 30 |
+| java | starter | 30 |
+| csharp | starter | 30 |
+| go | starter | 30 |
+| rust | starter | 30 |
+| php | starter | 30 |
+| ruby | starter | 30 |
+| sql | starter | 30 |
+| bash | starter | 30 |
+| nodejs | starter | 30 |
+| mongodb | starter | 30 |
+| swift | starter | 30 |
+| kotlin | starter | 30 |
+| ux-design | starter | 2 |
+| ai-fundamentals | starter | 14 |
+| context-engineering | starter | 14 |
+| agent-harness | starter | 14 |
+| digital-marketing | starter | 2 |
+| data-analytics | starter | 2 |
+| business-foundations | starter | 2 |
+| communication | starter | 2 |
+| content-creation | starter | 2 |
+| english-foundations | starter | 2 |
+| digital-literacy | starter | 2 |
+| personal-productivity | starter | 2 |
+| management-foundations | starter | 2 |
+| javascript-pro | pro | 30 |
+| backend-pro | pro | 30 |
+| architecture-expert | expert | 30 |
+| ux-pro | pro | 30 |
+| business-pro | pro | 30 |
 
-| Published schedule | Days |
-| --- | ---: |
-| HTML + CSS, JavaScript JS1, JavaScript JS2, Git, C++, Python | 30 each |
-| CSS | 5 |
-| Next.js | 20 |
-| React | 60 across two months |
-| 24 Starter introductory modules | 2 each |
-| AI Fundamentals, Context Engineering, Agent Harness, TypeScript, Algorithms (free) | 14 each |
-| JavaScript Pro | 14 |
-| Backend Pro, UX Design Pro, Business Pro, Software Architecture Expert | 3 each |
+## Implemented and bounded
 
-There are **672 scheduled day slots** in total (612 across non-React track stages plus React's 60): 657 free and 15 premium. All five premium courses (JavaScript Pro, Backend Pro, UX Design Pro, Business Pro, Software Architecture Expert) and the free Python, Java, Node.js, SQL tracks are full 30-day curricula; AI/TypeScript/Algorithms courses carry 14 authored days each. Learning tracks are a first-class registry (`LEARNING_TRACKS`): 38 tracks whose Beginner stage is always free, with Pro/Expert stages rendered honestly on every course page — published stages carry real day counts, unpublished ones say "not published yet". The 2026-10-24 increments added 270 authored days in total with every executable solution verified by actually running it. Full Track × Stage matrix: [COMPLETE-COURSE-RECOVERY-AUDIT.md](COMPLETE-COURSE-RECOVERY-AUDIT.md), regenerable via `scripts/track-coverage-report.mjs`.
+- Existing catalog, tracks, accounts, progress, notes, drafts, Monaco, themes, Aurora, sidebar and six UI languages are retained. Authored new lesson material requires RU/TG/EN. Older incomplete translations keep visible fallback.
+- HTML day 1 has a compatible Learn → Understand → Watch → Try → Practice → Test → Review → Master pilot, real sandboxed HTML exploration and two authored eight-question assessment forms. Quiz result badges are distinct from full mastery. Wider lesson-flow rollout remains unfinished.
+- Mastered requires successful assessed practice, ≥80% and every critical question. Self review allows study continuation but cannot mint protected mastery. Late account results are isolated; legacy progress/XP is preserved. Readiness never grants or revokes paid content access.
+- The protected assessment ledger has server-derived grading, own-account/MFA reads and service-only idempotent writes. Its migration has PostgreSQL-compatible tests; live Supabase application is not verified. Missing configuration does not fabricate persistence.
+- The SQLite pilot checks day 1 in a disposable browser worker with real WASM SQLite, changed datasets, constraints, expected/actual output and execution/output limits. It is local assessment, not server attestation. Other SQL days remain local CLI exercises. See [SQLITE-PRACTICE.md](SQLITE-PRACTICE.md) and the recorded publication status in delivery-state.json.
+- React function labs retain their existing isolated browser runner. Other native languages are not advertised as browser-compiled merely because an editor exists. Provision and test isolated trusted runners before enabling them.
+- Existing TutorDrawer and Floating Site Agent remain the two assistants. Persistent multi-chat, durable per-user quotas and cost caps are not delivered by these foundation slices. Do not represent local chat history as complete server history.
+- Beginner remains free. Pro/Expert bodies, solutions, tutor references and paid attachments retain server authorization and private/no-store caching. Billing remains billing_not_configured; a browser flag or fake redirect never grants membership.
 
-`courseMonthPlan` publishes each unscheduled lesson once and retains explicit authored schedules; it no longer pads a short course with generated review days. Unscheduled reference lessons in explicitly scheduled courses stay in their answer library, not in invented extra days. Cards and navigation use actual `publishedDays` metadata. A short introduction is not silently expanded into a full 30-day course.
+## Required remaining work
 
-## Premium content boundary
+All 12 two-day programs still require full authored expansion: `backend`, `mobile`, `ux-design`, `digital-marketing`, `data-analytics`, `business-foundations`, `communication`, `content-creation`, `english-foundations`, `digital-literacy`, `personal-productivity`, `management-foundations`.
 
-Published catalog metadata is public, but paid lesson bodies, practice solutions and reference answers require a verified account and an active server-managed membership. Expert includes Pro; a Pro account cannot access the Expert module. The implementation guards `/api/courses/:courseId`, tutor reference lookup, and premium-only file downloads. A file already published by a Starter course remains public. Responses containing premium content and authorization denials use `private, no-store` caching.
+All 5 fourteen-day programs still require a reviewed continuation: `typescript`, `algorithms`, `ai-fundamentals`, `context-engineering`, `agent-harness`.
 
-Premium course pages do **not** embed paid content in their initial HTML or React Server Component payload. The client obtains premium content only through the authorized API; selecting a plan or editing browser state does not grant access. The page shell and catalog remain visible without revealing the paid body. Unauthenticated, insufficient-tier and unavailable-membership states fail closed. These boundaries have scoped tests; live Supabase authorization and deployment behavior still require production verification.
+Complete the 72 missing programs in the track/stage matrix, deepen HTML/JS1/JS2/Git/C++ and other thin explanations, and roll out meaningful assessments/projects across full curricula. Do not publish a plan as a lesson or duplicate days to reach a number.
 
-The step-by-step computer, Supabase and Vercel launch guide is [LAUNCH-STEPS-RU.md](LAUNCH-STEPS-RU.md). This is a deployment procedure, not a claim that production configuration or publication has been completed.
+Subject visualizers, complete AI Mentor history/quotas, the full platform design update, personalized roadmap/placement/repetition, project portfolios and remaining product functions still require implementation and verification. Human review authority cannot come from learner-editable metadata. Subjective mastery needs actual authorized human review.
 
-## Running locally
+## Validation and deployment evidence
 
-Use Node.js 24, npm, Python 3 for the example-execution tests, and Chromium for browser tests.
+Current source audit finds 0 stale duration claims. This measures wording, not overall teaching quality; thin-theory and quiz-density findings remain in [SELF_LEARNING_CONTENT_AUDIT.md](SELF_LEARNING_CONTENT_AUDIT.md).
 
-```bash
-cd /workspace/react-mentor
-npm ci --cache /workspace/.npm-cache --no-audit --no-fund
-npm run dev
-```
+Recorded local validation checkpoint: 423 tests passed, 7 skipped; 2 SQLite desktop/mobile cases passed; dependency audit 0 known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.
 
-`predev` and `prebuild` prepare ignored self-hosted Monaco assets. The editor is downloaded only when a practice workspace needs it. Guest learning works without Supabase; no paid checkout is configured.
+PRs, merge SHAs and pending work are recorded in delivery-state.json. Vercel success metadata is separate from live HTTP/browser proof. Direct deployment HTTP was blocked by this workspace CONNECT proxy (403); live database, payment and online-AI configuration are not inferred from successful builds.
 
-```bash
-npm run typecheck
-npm run lint
-npm run test -- --maxWorkers=2
-npm run test:e2e
-npm run test:auth
-npm run build
-```
+## Local setup and trust boundaries
 
-The standard browser test runner starts its own server on port 3100. If a known test server already runs, use `PLAYWRIGHT_REUSE_SERVER=true`. Keep independent Playwright runs in separate output directories. Stop only owned dev processes before rebuilding production outputs.
+Use the repository lockfile and Node 24 in this workspace: `npm ci --cache /workspace/.npm-cache`, then `npm run dev`. Predev/prebuild package ignored same-origin Monaco and SQLite assets with license notices. Run `npm run typecheck`, `npm run lint`, `npm run test`, `npm run build`, `npm run test:e2e` and `npm run test:auth` as appropriate. Playwright owns port 3100; stop owned dev servers before rebuilding production outputs.
 
-## Database and account integration
+Kotlin example execution uses the separately installed local KOTLINC path when available. SDK paths are machine-specific; missing compilers must be reported as skipped, not simulated.
 
-Use the existing account setup instructions in [accounts-setup.md](accounts-setup.md). Required public project configuration is `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Server-attested HTML grading additionally needs the existing server-only `SUPABASE_SERVICE_ROLE_KEY`. Never put that service key in a `NEXT_PUBLIC_*` variable, source control, chat or frontend bundle.
+Follow [accounts-setup.md](accounts-setup.md) and [LAUNCH-STEPS-RU.md](LAUNCH-STEPS-RU.md). Review migrations in order in a test database, including 20261026000000_assessment_evidence.sql after account/session migrations. Never expose SUPABASE_SERVICE_ROLE_KEY or provider secrets to the browser. No live migration is claimed here. Payments require a real provider, agreed prices/currencies and verified lifecycle webhooks; online AI requires approved provider configuration and durable cost controls.
 
-Review migrations in a test database before applying them to a shared project:
-
-1. Existing account and progress-conflict migrations.
-2. `20261022000000_verified_practice.sql`.
-3. `20261022010000_memberships_chat.sql`.
-
-`tests/database-migrations.test.ts` executes the new migrations in PGlite's PostgreSQL-compatible engine. It verifies role grants, private reads, idempotent XP, prerequisite confirmation, membership provisioning denial, chat authorization/rate limits and presence expiry. Its identity/MFA helpers model Supabase's JWT boundary; it does not establish that a live Supabase deployment has been configured correctly.
-
-For real server-attested progress, the API derives identity from a verified Supabase session, parses HTML without running learner scripts, records only a SHA-256 solution hash and writes via service-role-only functions. User-provided XP, grade flags and learner IDs are rejected. The first HTML exercise is the only new server-graded exercise in this increment. Other course completion, written work and manual practice acknowledgments remain explicitly self-study progress; their XP and day confirmations are not represented as server-certified assessments.
-
-## Payments and community
-
-See [MEMBERSHIP-COMMUNITY.md](MEMBERSHIP-COMMUNITY.md). The four Pro modules and one Expert module are published behind the server membership gate, but checkout intentionally fails closed until a payment provider, prices, currencies, account and signed webhook integration are supplied. Until then only a trusted administrator can provision a real membership; the application does not make a browser plan selection equivalent to a purchase. A success redirect must never grant membership. Subscriber chat needs the reviewed migration and a real, unexpired server membership; without configuration the UI explains the unavailable service.
-
-## Review and publication boundaries
-
-Ten distinct specialists participated across architecture, curriculum, frontend, editor/grading, backend, localization, subscriptions/community, security, visual/performance review and browser QA. Their review is evidence-based and scoped; there is no assertion of perfect security, perfect translations or guaranteed uptime.
-
-Before production launch: configure and test live authentication/database migrations, verify backup/restore and deployment HTTPS, provision secure isolated runners before advertising additional automatic language execution, integrate verified payment webhooks before selling paid access, review translations/content, and perform deployment/load/security checks.
-
-The owner subsequently canceled the private-before-push requirement, authorized pushing while public and then authorized merging. The DevAtlas change was fast-forwarded into `main` and pushed successfully. Vercel reported successful deployment; the live course API returned 38 entries and the premium course API denied an unauthenticated request with 401. Live account/database/payment configuration remains separately scoped.
-
-The cloud environment draft stores installation/startup instructions. Draft saving does not publish the environment or deploy the website. Repository changes and production publication are separate operations.
-
-Dependency remediation and the locally rebuilt patched editor are documented in [DEPENDENCY-SECURITY.md](DEPENDENCY-SECURITY.md). The recorded production dependency audit reported zero known vulnerabilities; the development-tool audit still has the documented unpatched `braces` advisory. See the dependency report for scope and limitations; neither result is a security guarantee.
+Repository changes, environment configuration drafts and production publication are separate operations. Preserve existing useful work; correct factual errors without regenerating completed courses. Do not force-push or bypass failed CI.
