@@ -6,6 +6,13 @@ import {writtenRubricSchema} from '@/lib/practice/written-review';
 const text = z.object({ tg: z.string().min(1), ru: z.string().min(1), en: z.string().optional() });
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]{0,119}$/);
 const source = z.object({ id, title: z.string().min(1), url: z.string().url().refine(url => new URL(url).protocol === 'https:'), page: z.number().int().positive().optional() });
+function completeTranslations(value:unknown):boolean{
+  if(Array.isArray(value))return value.every(completeTranslations);
+  if(!value||typeof value!=='object')return true;
+  const fields=value as Record<string,unknown>;
+  if('ru' in fields&&'tg' in fields&&['ru','tg','en'].some(locale=>typeof fields[locale]!=='string'||!(fields[locale] as string).trim()))return false;
+  return Object.values(fields).every(completeTranslations);
+}
 export const courseContentSchema = z.object({
   courseId: z.enum(COURSE_IDS).exclude(['react']),
   sources: z.array(source),
@@ -24,6 +31,7 @@ export const courseContentSchema = z.object({
   for (const lesson of course.lessons) {
     if (lessonIds.has(lesson.id)) ctx.addIssue({ code: 'custom', message: 'Duplicate lesson ID' });
     lessonIds.add(lesson.id);
+    if((lesson.learningFlow||lesson.practice?.rubric)&&!completeTranslations(lesson))ctx.addIssue({code:'custom',message:'Structured lesson requires complete RU/TG/EN translations: '+lesson.id});
     if(lesson.practice?.rubric&&(lesson.practice.kind!=='written'||lesson.practice.rubric.criteria.length!==lesson.practice.criteria.length))ctx.addIssue({code:'custom',message:'Written rubric must match written practice criteria'});
     if(lesson.learningFlow){
       if(!lesson.practice)ctx.addIssue({code:'custom',message:'Learning flow needs independent practice'});

@@ -18,6 +18,8 @@ it('rejects stale, incomplete and incompatible reviews',()=>{
  expect(writtenReviewSchema.safeParse({...review,reflection:'yes'}).success).toBe(false);
  const invalid=structuredClone(course);invalid.lessons[0].practice!.kind='code';
  expect(courseContentSchema.safeParse(invalid).success).toBe(false);
+ invalid.lessons[0].practice!.kind='written';delete invalid.lessons[0].summary.en;
+ expect(courseContentSchema.safeParse(invalid).success).toBe(false);
 });
 it('requires complete three-language rubric descriptors and unique criteria',()=>{
  const invalid=structuredClone(rubric);invalid.criteria.push(invalid.criteria[0]);
