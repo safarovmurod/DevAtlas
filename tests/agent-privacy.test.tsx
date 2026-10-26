@@ -62,3 +62,16 @@ it('mobile dialog focuses input, locks background scrolling and closes with Esca
  fireEvent.keyDown(document,{key:'Escape'});expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
  expect(document.body.style.overflow).toBe(before);expect(launcher).toHaveFocus();
 });
+
+it('labels service notices, generated replies and actual course references honestly',async()=>{
+ for(const [mode,source,expected] of [
+  ['local',undefined,'Local'],['online',undefined,'AI · AnyModel'],
+  ['local',{title:'HTML source',href:'/courses/html/home?day=1'},'From course materials'],
+  ['local',{title:'Bad link',href:'javascript:alert(1)'},'Local'],
+ ] as const){
+  localStorage.clear();vi.stubGlobal('fetch',vi.fn(async()=>Response.json({mode,source,reply:'Test reply'})));
+  render(<SiteAgent/>);open();fireEvent.change(screen.getByLabelText('Ask the assistant'),{target:{value:'frobnitz'}});
+  fireEvent.click(screen.getByRole('button',{name:'Send'}));await screen.findByText('Test reply');
+  expect(screen.getByText(expected,{exact:true})).toBeInTheDocument();cleanup();
+ }
+});

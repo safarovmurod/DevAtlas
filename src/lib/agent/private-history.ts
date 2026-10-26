@@ -3,10 +3,14 @@ import {z} from 'zod';
 // The old unscoped key has no trustworthy owner. Preserve it, but never assign
 // its contents to a newly signed-in user or silently import it into guest mode.
 export const LEGACY_AGENT_CHAT_KEY='devatlas-agent-chat-v1';
-const link=z.object({href:z.string().max(300).regex(/^\/(?!\/)/),label:z.string().max(300)});
+const link=z.object({href:z.string().max(300).regex(/^\/(?!\/)/).refine(value=>!/[\\\u0000-\u001f]/.test(value)),label:z.string().max(300)});
+export function agentMaterialLink(source:unknown){
+ const parsed=z.object({href:link.shape.href,title:link.shape.label}).safeParse(source);
+ return parsed.success?{href:parsed.data.href,label:parsed.data.title}:null;
+}
 export const agentMessageSchema=z.object({
  id:z.string().min(1).max(100),sender:z.enum(['user','assistant']),text:z.string().max(20000),
- kind:z.enum(['guide','materials','error']).optional(),links:z.array(link).max(8).optional(),
+ kind:z.enum(['guide','materials','online','notice','error']).optional(),links:z.array(link).max(8).optional(),
 });
 export type AgentMessage=z.infer<typeof agentMessageSchema>;
 export function agentStorageKey(owner:string|null,kind:'chat'|'voice'='chat'){

@@ -48,6 +48,17 @@ test('agent ignores unowned legacy history and persists its actual guest reply',
  const response=page.waitForResponse(response=>response.url().endsWith('/api/tutor')&&response.request().method()==='POST');
  await page.getByLabel('Ask the assistant',{exact:true}).fill('Explain the HTML document');await page.getByRole('button',{name:'Send',exact:true}).click();
  expect((await response).status()).toBe(200);await expect(page.locator('.agent-message.assistant')).toHaveCount(2);
+ await expect(page.locator('.agent-message.assistant').last().locator('.agent-kind')).toHaveText('Local');
+ for(const theme of ['light','dark']){
+ await page.evaluate(value=>{document.documentElement.dataset.theme=value;},theme);
+ const contrast=await page.locator('.agent-message.user p').evaluate(element=>{
+  const rgb=(value:string)=>(value.match(/[0-9.]+/g)??[]).slice(0,3).map(Number);
+  const luminance=(values:number[])=>values.map(value=>{const v=value/255;return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4;}).reduce((n,value,index)=>n+value*[0.2126,0.7152,0.0722][index],0);
+  const text=luminance(rgb(getComputedStyle(element).color)),background=luminance(rgb(getComputedStyle(element.parentElement!).backgroundColor));
+  return (Math.max(text,background)+0.05)/(Math.min(text,background)+0.05);
+ });expect(contrast,theme).toBeGreaterThanOrEqual(4.5);
+ }
+ await page.evaluate(()=>{document.documentElement.dataset.theme='light';});
  await page.reload();await page.getByRole('button',{name:'DevAtlas assistant',exact:true}).click();await expect(page.locator('.agent-message.user')).toHaveText('Explain the HTML document');
  expect(await page.evaluate(()=>localStorage.getItem('devatlas-agent-chat-v1'))).toContain('Unowned legacy conversation');
  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

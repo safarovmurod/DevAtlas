@@ -8,7 +8,7 @@ import { useAppStore } from '@/stores/app-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { siteGuideAnswer, guideContext, agentGreeting, agentQuickPrompts } from '@/lib/agent/site-agent';
 import {useAccount} from '@/components/account/account-provider';
-import {agentStorageKey,readAgentHistory,saveAgentHistory,type AgentMessage as AgentMsg} from '@/lib/agent/private-history';
+import {agentStorageKey,readAgentHistory,saveAgentHistory,agentMaterialLink,type AgentMessage as AgentMsg} from '@/lib/agent/private-history';
 import type { InterfaceLocale } from '@/lib/locale';
 import {LEARNING_UI_COPY,tutorErrorKey} from '@/lib/learning-ui-copy';
 
@@ -154,10 +154,10 @@ function SiteAgentSession({owner}:{owner:string|null}) {
         if(typeof data.reply!=='string'||!data.reply.trim()){
           push({id:crypto.randomUUID(),sender:'assistant',kind:'error',text:LEARNING_UI_COPY[uiLanguage].tutorEmpty});return;
         }
-        const source = data.source as { title?: string; href?: string } | undefined;
+        const source=agentMaterialLink(data.source);
         push({
-          id: crypto.randomUUID(), sender: 'assistant', kind: 'materials', text: data.reply,
-          links: source?.href ? [{ href: source.href, label: source.title ?? '' }] : [],
+          id: crypto.randomUUID(), sender:'assistant',kind:data.mode==='online'?'online':source?'materials':'notice',text:data.reply,
+          links:source?[source]:[],
         });
       } catch {
         if(request.signal.aborted)return;
@@ -199,7 +199,7 @@ function SiteAgentSession({owner}:{owner:string|null}) {
       </header>
       <div className="agent-messages" aria-live="polite" ref={list}>
         {(messages ?? []).map(message => <div key={message.id} className={'agent-message ' + message.sender}>
-          {message.kind && message.sender === 'assistant' && <span className="agent-kind">{message.kind === 'guide' ? (uiLanguage === 'ru' ? 'Гид по платформе' : uiLanguage === 'tg' ? 'Роҳнамо' : 'Platform guide') : message.kind === 'materials' ? (uiLanguage === 'ru' ? 'Из материалов курса' : uiLanguage === 'tg' ? 'Аз материалҳои курс' : 'From course materials') : (uiLanguage === 'ru' ? 'Не нашёл' : uiLanguage === 'tg' ? 'Наёфтам' : 'No match')}</span>}
+          {message.kind && message.sender === 'assistant' && <span className="agent-kind">{message.kind === 'guide' ? (uiLanguage === 'ru' ? 'Гид по платформе' : uiLanguage === 'tg' ? 'Роҳнамо' : 'Platform guide') : message.kind === 'materials' ? (uiLanguage === 'ru' ? 'Из материалов курса' : uiLanguage === 'tg' ? 'Аз материалҳои курс' : 'From course materials') : message.kind==='online'?'AI · AnyModel':message.kind==='notice'?LEARNING_UI_COPY[uiLanguage].tutorLocal:(uiLanguage === 'ru' ? 'Не нашёл' : uiLanguage === 'tg' ? 'Наёфтам' : 'No match')}</span>}
           <p>{message.text}</p>
           {message.links?.length ? <div className="agent-links">{message.links.map(link => <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</Link>)}</div> : null}
         </div>)}

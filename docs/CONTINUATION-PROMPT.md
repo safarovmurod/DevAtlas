@@ -8,7 +8,7 @@
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Refresh main and PR #19 state first. If PR #19 is still open, require green checks for its exact final head on Ubuntu/all four Windows jobs and merge only after checks. If already merged, do not repeat implementation or merge it again. Local final451 unit/integration +108 desktop/mobile +12 mock-auth +build passed. Resume P1 full original RU/TG/EN authoring for ALL twelve short courses, all five continuations and every missing stage/requirement in the163-item register. Do not regenerate completed work or count drafts/publication as independently Verified.
+Следующее действие по сохранённому состоянию: Refresh main and PR #19 state first. If PR #19 is still open, require green checks for its exact final head on Ubuntu/all four Windows jobs and merge only after checks. If already merged, do not repeat implementation or merge it again. Local final452 unit/integration +108 desktop/mobile +12 mock-auth +build passed. Resume P1 full original RU/TG/EN authoring for ALL twelve short courses, all five continuations and every missing stage/requirement in the163-item register. Do not regenerate completed work or count drafts/publication as independently Verified.
 
 ## Что сохранить
 
