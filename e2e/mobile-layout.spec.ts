@@ -43,7 +43,7 @@ test('phone header controls never overlap and the menu scrolls, traps focus and 
   }
   await page.setViewportSize({width:360,height:568});
   await expect(page.locator('.dashboard-heading p')).not.toContainText('Мансур');
-  await page.screenshot({path:'/tmp/react-mentor-'+info.project.name+'-phone-home.png'});
+  await page.screenshot({path: info.outputPath('phone-home.png')});
   const menu=page.getByRole('button',{name:'Открыть меню'});
   await menu.click();
   const drawer=page.getByRole('dialog',{name:'Навигация по курсу'});
@@ -54,7 +54,7 @@ test('phone header controls never overlap and the menu scrolls, traps focus and 
   const profile=await drawer.locator('.profile-row').boundingBox();expect(profile!.y+profile!.height).toBeLessThanOrEqual(568);
   await drawer.locator('.profile-row').focus();await page.keyboard.press('Tab');
   await expect(drawer.getByRole('button',{name:'Закрыть меню'})).toBeFocused();
-  await page.screenshot({path:'/tmp/react-mentor-'+info.project.name+'-phone-menu.png',animations:'disabled'});
+  await page.screenshot({path: info.outputPath('phone-menu.png'),animations:'disabled'});
   await page.keyboard.press('Escape');await expect(drawer).toBeHidden();await expect(menu).toBeFocused();
   expect(await page.evaluate(()=>document.body.style.overflow)).toBe('');
   await menu.click();await page.locator('.sidebar-overlay').click({position:{x:350,y:100}});await expect(menu).toHaveAttribute('aria-expanded','false');
@@ -79,7 +79,7 @@ test('unconfigured registration explains the blocker and offers usable guest acc
   }
   await page.getByRole('button',{name:'Создать аккаунт',exact:true}).click();
   await expect(page.getByLabel('Ваше имя',{exact:true})).toBeDisabled();
-  await page.screenshot({path:'/tmp/react-mentor-'+info.project.name+'-phone-registration.png',fullPage:true});
+  await page.screenshot({path: info.outputPath('phone-registration.png'),fullPage:true});
   await page.getByRole('button',{name:'Продолжить как гость',exact:true}).click();
   await expect(page).toHaveURL('/home');await expect(page.getByRole('heading',{name:'Время разобраться в React.'})).toBeVisible();
   expect(authRequests).toEqual([]);

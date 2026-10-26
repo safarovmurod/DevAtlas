@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { courseContentSchema } from '@/lib/courses/schema';
+import {findPython} from '../scripts/lib/python-runtime.mjs';
 
 const load = (id: string) => courseContentSchema.parse(JSON.parse(readFileSync(path.join(process.cwd(), 'src/content/courses', id + '.json'), 'utf8')));
 const root = mkdtempSync(path.join(tmpdir(), 'devatlas-trusted-examples-'));
@@ -15,12 +16,11 @@ const probe = (command: string, args: string[], pattern?: RegExp) => {
 };
 const hasJava = probe('java', ['--list-modules'], /jdk\.compiler@/);
 const hasGo = probe('go', ['version'], /^go version go/);
-// Version probes, not output-equality: a bare /^1$/ never matches "1\n" and
-// the WindowsApps `python` stub prints "Python" with no version number.
-const pythonCandidates = ['python3', 'python', ...(process.env.LOCALAPPDATA ? [path.join(process.env.LOCALAPPDATA, 'Programs/Python/Python312/python.exe')] : [])];
-const pythonCommand = pythonCandidates.find(command => probe(command, ['--version'], /Python 3\./)) ?? '';
-const hasPython = pythonCommand !== '';
-const hasBash = probe('bash', ['--version'], /GNU bash/);
+const python=findPython();
+const hasPython=python!==null;
+const bashCandidates=['bash',...([process.env.ProgramFiles,process.env.LOCALAPPDATA?path.join(process.env.LOCALAPPDATA,'Programs'):undefined].filter((value):value is string=>!!value).map(directory=>path.join(directory,'Git/bin/bash.exe')))];
+const bashCommand=bashCandidates.find(command=>probe(command,['--version'],/GNU bash/));
+const hasBash=!!bashCommand;
 const hasNode = probe(process.execPath, ['--version'], /^v\d+/);
 
 // These subprocesses execute only reviewed, repository-owned examples. This is
@@ -29,7 +29,7 @@ function runTrusted(command: string, args: string[], input?: string, timeout = 2
   const result = spawnSync(command, args, { cwd: root, input, encoding: 'utf8', timeout, maxBuffer: 200000 });
   expect(result.error, result.error?.message).toBeUndefined();
   expect(result.status, result.stderr).toBe(0);
-  return result.stdout.trim();
+  return result.stdout.replace(/\r\n/g,'\n').trim();
 }
 
 describe('programming course examples', () => {
@@ -94,13 +94,13 @@ describe('programming course examples', () => {
       const section = lesson.sections.find(item => item.output?.en !== undefined);
       if (!section) continue;
       writeFileSync(path.join(root, 'main.sh'), lesson.practice!.solution);
-      expect(runTrusted('bash', ['main.sh']).replace(/\r/g, ''), lesson.id).toBe(section.output!.en);
+      expect(runTrusted(bashCommand!, ['main.sh']).replace(/\r/g, ''), lesson.id).toBe(section.output!.en);
       verified++;
     }
     expect(verified).toBeGreaterThanOrEqual(26);
     const solution = load('bash').lessons[1].practice!.solution;
     writeFileSync(path.join(root, 'main.sh'), solution + '\ntotal 07 02\nif total 12 abc; then exit 99; fi\n');
-    expect(runTrusted('bash', ['main.sh'])).toBe('36\n0\nInvalid input rejected\n14');
+    expect(runTrusted(bashCommand!, ['main.sh'])).toBe('36\n0\nInvalid input rejected\n14');
   }, 180000);
   it.skipIf(!hasPython)('SQL course: every executable day runs in real SQLite and matches its recorded output', () => {
     const sqlite = 'import sqlite3, sys\nc=sqlite3.connect(":memory:")\nbuffer=""\nfor line in sys.stdin:\n buffer+=line\n if sqlite3.complete_statement(buffer):\n  cursor=c.execute(buffer)\n  if cursor.description:\n   for row in cursor.fetchall(): print("|".join(str(value) for value in row))\n  buffer=""\n';
@@ -110,7 +110,7 @@ describe('programming course examples', () => {
       const section = lesson.sections.find(item => item.output?.en !== undefined);
       if (!section) continue;
       // Windows pipes CRLF; course JSON stores LF like a Linux CI.
-      const out = runTrusted(pythonCommand, ['-c', sqlite], lesson.practice!.solution).replace(/\r/g, '');
+      const out = runTrusted(python!.command, [...python!.prefixArgs, '-c', sqlite], lesson.practice!.solution).replace(/\r/g, '');
       expect(out, lesson.id).toBe(section.output!.en);
       verified++;
     }

@@ -1,26 +1,12 @@
 // @vitest-environment node
 import { spawn, spawnSync } from 'node:child_process';
 import { once } from 'node:events';
-import path from 'node:path';
 import { expect, it } from 'vitest';
 import { loadCourseContent } from '@/lib/courses/content';
 import { courseMonthPlan } from '@/lib/courses/plan';
 
-// CI images ship `python3`; a user-scope Windows install exposes `python.exe`
-// (and the WindowsApps `python3` alias is only a Store stub). Probe real ones.
-function resolvePython(): { command: string; prefixArgs: string[] } | null {
-  const candidates: { command: string; prefixArgs: string[] }[] = [
-    { command: 'python3', prefixArgs: [] },
-    { command: 'python', prefixArgs: [] },
-  ];
-  if (process.env.LOCALAPPDATA) candidates.push({ command: path.join(process.env.LOCALAPPDATA, 'Programs/Python/Python312/python.exe'), prefixArgs: [] });
-  for (const candidate of candidates) {
-    const probe = spawnSync(candidate.command, [...candidate.prefixArgs, '-c', 'print(1)'], { encoding: 'utf8', timeout: 5000 });
-    if (probe.status === 0 && probe.stdout.trim() === '1') return candidate;
-  }
-  return null;
-}
-const python = resolvePython();
+import {findPython} from '../scripts/lib/python-runtime.mjs';
+const python=findPython();
 
 it('new introductory tracks have two real sequential days with explicit runtime instructions', async () => {
   for (const id of ['backend', 'mobile'] as const) {
@@ -54,7 +40,7 @@ it.skipIf(!python)('every published Python example with documented output execut
   for (const lesson of content.lessons) {
     const section = lesson.sections.find(item => item.output?.en !== undefined);
     if (!section) continue;
-    const result = spawnSync(python!.command, ['-c', lesson.practice!.solution], { encoding: 'utf8', timeout: 15000 });
+    const result = spawnSync(python!.command, [...python!.prefixArgs, '-c', lesson.practice!.solution], { encoding: 'utf8', timeout: 15000 });
     expect(result.error, `${lesson.id}: ${result.error?.message}`).toBeUndefined();
     expect(result.status, `${lesson.id}: ${result.stderr}`).toBe(0);
     // Windows Python text-mode emits CRLF; course JSON stores LF like a Linux CI.

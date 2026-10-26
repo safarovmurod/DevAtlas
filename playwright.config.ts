@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import { existsSync } from 'node:fs';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
 
 const systemChromium = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
   || (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined);
@@ -7,7 +9,7 @@ const systemChromium = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
 export default defineConfig({
   testDir: './e2e',
   testIgnore:'auth.spec.ts',
-  outputDir: '/tmp/react-mentor-playwright/results',
+  outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR || path.join(tmpdir(),'devatlas-playwright','results'),
   fullyParallel: false,
   workers: 1,
   timeout: 30000,

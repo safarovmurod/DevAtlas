@@ -55,7 +55,7 @@ test('answers library filters, searches, exports and preserves reading progress 
   await page.goto('/answers/interview-3');
   await expect(page.locator('#interview-q7 .flow-steps')).toContainText('Paint: намоиш');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  await page.screenshot({ path: '/tmp/react-mentor-' + testInfo.project.name + '-answer-reader.png', fullPage: true });
+  await page.screenshot({ path: testInfo.outputPath('answer-reader.png'), fullPage: true });
   await page.goto('/answers');
   const downloadEvent = page.waitForEvent('download');
   await page.getByRole('link', { name: 'Скачать общий HTML' }).click();
@@ -65,7 +65,7 @@ test('answers library filters, searches, exports and preserves reading progress 
   expect(response.headers()['content-security-policy']).toContain('sandbox');
   expect((await response.text()).match(/class="question"/g)).toHaveLength(462);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  await page.screenshot({ path: '/tmp/react-mentor-' + testInfo.project.name + '-answers.png', fullPage: true });
+  await page.screenshot({ path: testInfo.outputPath('answers.png'), fullPage: true });
   expect(errors).toEqual([]);
 });
 
@@ -109,6 +109,6 @@ test('merged answers preserve old reading marks and notes and open from their ot
   expect(stored.awards['learn:quiz-q196']).toBe(2);
   await selector.locator('summary').scrollIntoViewIfNeeded();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  await page.screenshot({ path: '/tmp/react-mentor-' + testInfo.project.name + '-merged-answer.png' });
+  await page.screenshot({ path: testInfo.outputPath('merged-answer.png') });
   expect(errors).toEqual([]);
 });

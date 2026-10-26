@@ -74,7 +74,7 @@ async function firstName(page:Page,name:string) {
 
 test('Google is recommended and starts a PKCE OAuth redirect (mock backend)',async ({page},info)=>{
   const backend=await mockBackend(page);await page.goto('/home');await expect(page.getByText('Рекомендуем',{exact:true})).toBeVisible();
-  await page.screenshot({path:'/tmp/react-mentor-'+info.project.name+'-login.png'});
+  await page.screenshot({path: info.outputPath('login.png')});
   await page.getByRole('button',{name:/Продолжить с Google/}).click();await expect.poll(()=>backend.oauth()).toContain('provider=google');
   const destination=new URL(backend.oauth());expect(destination.searchParams.get('redirect_to')).toBe('http://127.0.0.1:3101/auth/callback');expect(destination.searchParams.get('code_challenge')).toBeTruthy();
 });
@@ -160,7 +160,7 @@ test('photo upload, phone QR and authenticator enrollment/challenge work (mock b
   await page.getByRole('button',{name:'Подключить authenticator · QR',exact:true}).click();await expect(page.getByAltText('QR для приложения authenticator')).toBeVisible();await page.getByLabel('Код из приложения',{exact:true}).fill('123456');await page.getByRole('button',{name:'Подключить защиту',exact:true}).click();
   await expect(page.getByText('Authenticator подключён',{exact:true})).toBeVisible();await expect(page.getByAltText('QR для приложения authenticator')).toHaveCount(0);
   expect(await page.evaluate(()=>JSON.stringify(localStorage))).not.toContain('TEST-ONLY-SECRET');
-  await page.screenshot({path:'/tmp/react-mentor-'+info.project.name+'-account-settings.png',fullPage:true});
+  await page.screenshot({path: info.outputPath('account-settings.png'),fullPage:true});
   await page.getByRole('button',{name:'Выйти из аккаунта',exact:true}).click();await login(page);
   await expect(page.getByRole('heading',{name:'Подтвердите вход'})).toBeVisible();await expect(page.getByRole('heading',{name:'Навыки начинаются с практики.'})).toHaveCount(0);
   await page.getByLabel('Код authenticator',{exact:true}).fill('123456');await page.getByRole('button',{name:'Подтвердить',exact:true}).click();await expect(page.getByRole('heading',{name:'Настройки',exact:true})).toBeVisible();
