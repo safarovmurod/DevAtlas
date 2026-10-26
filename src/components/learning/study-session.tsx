@@ -29,7 +29,12 @@ export function StudySession({config}:{config:SessionConfig}) {
     questions=ids.map(id=>ALL_QUESTIONS.find(question=>question.id===id)!).filter(Boolean);
   } else if(config.topic) questions=questions.filter(question=>question.topicId===config.topic);
   else if(config.group) questions=questions.filter(question=>question.group===config.group);
-  if(config.review) questions=questions.filter(question=>state.reviews[question.id]?.due<=today);
+  const reviewScope=useLearningStore.persist.getOptions().name+':'+today+':'+JSON.stringify(config);
+  const [reviewQueue,setReviewQueue]=useState<{scope:string;ids:string[]}|null>(null);
+  if(config.review&&ready&&reviewQueue?.scope!==reviewScope){
+    setReviewQueue({scope:reviewScope,ids:questions.filter(question=>state.reviews[question.id]?.due<=today||state.reviews[question.id]?.repetitions===0).map(question=>question.id)});
+  }
+  if(config.review)questions=(reviewQueue?.scope===reviewScope?reviewQueue.ids:[]).map(id=>questions.find(question=>question.id===id)!).filter(Boolean);
   const question=questions[index];
   const record=question?state.answers[`${today}:${config.mode}:${question.id}`]:undefined;
   const back=config.topic?`/lesson/${config.topic}`:'/home';

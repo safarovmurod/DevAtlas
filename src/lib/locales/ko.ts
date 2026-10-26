@@ -43,6 +43,7 @@ export const KOREAN_LEARNING_COPY = {
   tutorUnavailable:'현재 AI를 이용할 수 없습니다. 나중에 다시 시도하세요.', tutorEmpty:'답변이 비어 있습니다. 나중에 다시 시도하세요.', tutorConnection:'연결이 끊겼거나 응답 시간이 초과되었습니다. 다시 시도하세요.',
   tutorInvalid:'질문 또는 대화 기록이 올바르지 않거나 너무 깁니다.', tutorSignInRequired:'AI에 질문하려면 Google 또는 이메일로 로그인하세요.', tutorAuthUnavailable:'로그인이 아직 설정되지 않았습니다. 설정 후 AI를 사용할 수 있습니다.',
   tutorUnconfigured:'서버에 AI 키가 설정되지 않았습니다. 학습 자료를 이용하세요.', tutorBusy:'AI에 요청을 보냈습니다. 잠시 기다려 주세요.', tutorRejected:'AI 키 또는 모델 접근이 거부되었습니다. 서버 설정을 확인하세요.',
+  tutorBudgetConfig:'온라인 AI 지출이 활성화되지 않았습니다. 강좌 자료 답변은 무료입니다.', tutorBudgetUnavailable:'AI 한도를 확인하지 못했습니다. 나중에 다시 시도하세요. 강좌 자료는 이용할 수 있습니다.', tutorBudgetLimit:'AI 예산 또는 요청 빈도 한도에 도달했습니다. 나중에 다시 시도하세요. 강좌 자료는 이용할 수 있습니다.',
   tutorQuota:'AnyModel 이용 한도 또는 토큰이 부족합니다. 제공업체 계정을 확인하세요.', tutorUnreadable:'AI가 읽을 수 있는 답변을 반환하지 않았습니다. 다시 시도하세요.',
   promptReact:'useState는 무엇에 사용하나요?', promptTopic:'강좌의 첫 주제를 자세히 설명해 주세요.', promptDeep:'앞의 질문을 단계별로 더 자세히 설명해 주세요.',
 };

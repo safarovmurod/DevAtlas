@@ -7,19 +7,10 @@ import { useLearningStore } from '@/stores/learning-store';
 import { useAppStore } from '@/stores/app-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { siteGuideAnswer, guideContext, agentGreeting, agentQuickPrompts } from '@/lib/agent/site-agent';
-import type { SiteGuideLink } from '@/lib/agent/site-agent';
+import {useAccount} from '@/components/account/account-provider';
+import {agentStorageKey,readAgentHistory,saveAgentHistory,type AgentMessage as AgentMsg} from '@/lib/agent/private-history';
 import type { InterfaceLocale } from '@/lib/locale';
-
-interface AgentMsg {
-  id: string;
-  sender: 'user' | 'assistant';
-  text: string;
-  kind?: 'guide' | 'materials' | 'error';
-  links?: SiteGuideLink[];
-}
-
-const CHAT_KEY = 'devatlas-agent-chat-v1';
-const VOICE_KEY = 'devatlas-agent-voice-v1';
+import {LEARNING_UI_COPY,tutorErrorKey} from '@/lib/learning-ui-copy';
 
 function speak(text: string, language: InterfaceLocale) {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
@@ -33,6 +24,10 @@ function speak(text: string, language: InterfaceLocale) {
 }
 
 export function SiteAgent() {
+  const {user}=useAccount();
+  return <SiteAgentSession key={user?.id??'guest'} owner={user?.id??null}/>;
+}
+function SiteAgentSession({owner}:{owner:string|null}) {
   const language = useLearningStore(state => state.language);
   const uiLanguage = useLearningStore(state => state.language);
   const courseId = useLearningStore(state => state.selectedCourse);
@@ -41,10 +36,14 @@ export function SiteAgent() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [voice, setVoice] = useState(false);
+  const [voice, setVoice] = useState(()=>{
+    try{return typeof window!=='undefined'&&localStorage.getItem(agentStorageKey(owner,'voice'))==='on';}catch{return false;}
+  });
   const [messages, setMessages] = useState<AgentMsg[] | null>(null);
   const sending = useRef(false);
+  const pending = useRef<AbortController|null>(null);
   const list = useRef<HTMLDivElement>(null);
+  const panel = useRef<HTMLElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Render-phase restore from localStorage (React's adjust-state pattern, as in
@@ -53,21 +52,38 @@ export function SiteAgent() {
     let restored: AgentMsg[] | null = null;
     if (typeof window !== 'undefined') {
       try {
-        const raw = localStorage.getItem(CHAT_KEY);
-        if (raw) restored = JSON.parse(raw) as AgentMsg[];
+        restored = readAgentHistory(localStorage,owner);
       } catch { /* corrupted history falls back to the greeting */ }
     }
     setMessages(restored ?? [{ id: 'greeting', sender: 'assistant', kind: 'guide', text: agentGreeting(language) }]);
   }
-  if (typeof window !== 'undefined' && localStorage.getItem(VOICE_KEY) === 'on' && !voice) {
-    // One-time render-phase read; the toggle keeps working from here on.
-    setVoice(true);
-  }
 
   useEffect(() => {
     if (!messages) return;
-    try { localStorage.setItem(CHAT_KEY, JSON.stringify(messages.slice(-40))); } catch { /* storage full — chat still works in memory */ }
-  }, [messages]);
+    try { saveAgentHistory(localStorage,owner,messages); } catch { /* storage denied — memory only */ }
+  }, [messages,owner]);
+
+  useEffect(()=>()=>{pending.current?.abort();if('speechSynthesis' in window)window.speechSynthesis.cancel();},[]);
+  useEffect(()=>{
+    if(!open||tutorOpen)return;
+    const previousFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
+    const previousOverflow=document.body.style.overflow;
+    const media=window.matchMedia?.('(max-width: 560px)');
+    const apply=()=>{const modal=media?.matches??false;panel.current?.setAttribute('aria-modal',String(modal));document.body.style.overflow=modal?'hidden':previousOverflow;};
+    apply();inputRef.current?.focus();media?.addEventListener('change',apply);
+    const onKey=(event:KeyboardEvent)=>{
+      if(event.key==='Escape'){event.preventDefault();setOpen(false);return;}
+      if(event.key!=='Tab'||!media?.matches)return;
+      const controls=panel.current?.querySelectorAll<HTMLElement>('button:not([disabled]),a[href],textarea:not([disabled])');
+      if(!controls?.length)return;
+      const first=controls[0],last=controls[controls.length-1];
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+    };
+    document.addEventListener('keydown',onKey);
+    return()=>{media?.removeEventListener('change',apply);document.removeEventListener('keydown',onKey);document.body.style.overflow=previousOverflow;if(previousFocus?.isConnected)previousFocus.focus();};
+  },[open,tutorOpen]);
+  if(tutorOpen&&open)setOpen(false);
 
   useEffect(() => {
     if (list.current) list.current.scrollTop = list.current.scrollHeight;
@@ -76,7 +92,7 @@ export function SiteAgent() {
   function toggleVoice() {
     const next = !voice;
     setVoice(next);
-    try { localStorage.setItem(VOICE_KEY, next ? 'on' : 'off'); } catch { /* preference is cosmetic */ }
+    try { localStorage.setItem(agentStorageKey(owner,'voice'), next ? 'on' : 'off'); } catch { /* preference is cosmetic */ }
     if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
   }
 
@@ -88,6 +104,12 @@ export function SiteAgent() {
     if (message.sender === 'assistant' && voice && message.kind !== 'error') speak(message.text, uiLanguage);
   }
 
+  function cancel() {
+    pending.current?.abort();pending.current=null;sending.current=false;setLoading(false);
+  }
+  function clear() {
+    cancel();setMessages([{id:crypto.randomUUID(),sender:'assistant',kind:'guide',text:agentGreeting(uiLanguage)}]);
+  }
   function ask(text: string) {
     if (sending.current || !text.trim()) return;
     sending.current = true;
@@ -108,25 +130,29 @@ export function SiteAgent() {
       inputRef.current?.focus();
       return;
     }
-    // Lesson-content question: forward to the reviewed course answer library.
+    // Ownership is bound before awaiting auth; a cleared/unmounted chat must
+    // never accept a late response, even if the transport ignores cancellation.
+    const request=new AbortController();pending.current=request;
     void (async () => {
       try {
         const session = await getSupabaseBrowserClient()?.auth.getSession();
-        const token = session?.data.session?.access_token;
+        if(request.signal.aborted)return;
+        const activeSession=session?.data.session;
+        if((activeSession?.user?.id??null)!==owner)throw new Error('Account changed');
+        const token = activeSession?.access_token;
         const response = await fetch('/api/tutor', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
           body: JSON.stringify({ action: 'ask', courseId, userText: text.trim(), isDeep: false, language: uiLanguage === 'uk' ? 'ru' : uiLanguage === 'ja' || uiLanguage === 'ko' ? 'en' : uiLanguage }),
-          signal: AbortSignal.timeout(50000),
+          signal: AbortSignal.any([request.signal,AbortSignal.timeout(50000)]),
         });
         const data = await response.json();
-        if (!response.ok || typeof data.reply !== 'string' || !data.reply.trim()) {
-          push({ id: crypto.randomUUID(), sender: 'assistant', kind: 'error', text: language === 'ru'
-            ? 'В библиотеке ответов курса на это точного ответа нет. Попробуйте спросить иначе — например, название темы из плана, — или откройте раздел «Ответы» курса.'
-            : language === 'tg'
-              ? 'Дар китобхонаи ҷавобҳо ҷавоби дақиқ нест. Дигар пурсед — масалан, номи мавзӯъ аз нақша — ё бахши «Ҷавобҳо»-и курсро кушоед.'
-              : 'The course answer library has no exact match. Try rephrasing — for example a topic name from the plan — or open the course’s Answers section.', links: [] });
-          return;
+        if(request.signal.aborted)return;
+        if(!response.ok){
+          push({id:crypto.randomUUID(),sender:'assistant',kind:'error',text:LEARNING_UI_COPY[uiLanguage][tutorErrorKey(response.status,data.error)]});return;
+        }
+        if(typeof data.reply!=='string'||!data.reply.trim()){
+          push({id:crypto.randomUUID(),sender:'assistant',kind:'error',text:LEARNING_UI_COPY[uiLanguage].tutorEmpty});return;
         }
         const source = data.source as { title?: string; href?: string } | undefined;
         push({
@@ -134,15 +160,16 @@ export function SiteAgent() {
           links: source?.href ? [{ href: source.href, label: source.title ?? '' }] : [],
         });
       } catch {
+        if(request.signal.aborted)return;
         push({ id: crypto.randomUUID(), sender: 'assistant', kind: 'error', text: language === 'ru'
           ? 'Сервис ответов сейчас недоступен. Руководство по платформе я по-прежнему подскажу: спросите «что дальше?», «где практи‑ка», «как считается мастерство».'
           : language === 'tg'
             ? 'Хидмати ҷавобҳо ҳоло дастрас нест. Роҳнамоии платформаро мегӯям: «чи дарозтар?», «машқ дар куҷо?», «мастерство чӣ тавр?».'
             : 'The answer service is unavailable right now. I can still guide the platform: ask “what next?”, “where is practice”, “how does mastery work”.', links: [] });
       } finally {
-        sending.current = false;
-        setLoading(false);
-        inputRef.current?.focus();
+        if(pending.current===request){
+          pending.current=null;sending.current=false;setLoading(false);inputRef.current?.focus();
+        }
       }
     })();
   }
@@ -159,14 +186,14 @@ export function SiteAgent() {
       title={bubbleLabel}
       onClick={() => setOpen(value => !value)}
     ><Bot size={24}/><span className="agent-pulse" aria-hidden="true"/></button>}
-    {open && <aside className="agent-panel" role="dialog" aria-label={bubbleLabel}>
+    {open && !tutorOpen && <aside ref={panel} className="agent-panel" role="dialog" aria-label={bubbleLabel}>
       <header className="agent-heading">
-        <div><h2><Bot size={18}/>{bubbleLabel}</h2><p>{uiLanguage === 'ru' ? 'Роҳнамоӣ дар платформа + ҷавобҳо аз материалҳо' : uiLanguage === 'tg' ? 'Роҳнамоии платформа + ҷавобҳо аз материалҳо' : 'Platform guide + answers from course materials'}</p></div>
+        <div><h2><Bot size={18}/>{bubbleLabel}</h2><p>{uiLanguage === 'ru' ? 'Навигация и ответы из материалов курса' : uiLanguage === 'tg' ? 'Роҳнамоии платформа + ҷавобҳо аз материалҳо' : 'Platform guide + answers from course materials'}</p></div>
         <div className="agent-tools">
           <button type="button" className={'icon-button' + (voice ? ' is-active' : '')} onClick={toggleVoice} aria-pressed={voice} aria-label={voice ? (uiLanguage === 'ru' ? 'Выключить голос' : uiLanguage === 'tg' ? 'Овозро хомӯш кун' : 'Turn voice off') : uiLanguage === 'ru' ? 'Включить голос' : uiLanguage === 'tg' ? 'Овозро фаъол кун' : 'Turn voice on'} title={voice ? (uiLanguage === 'ru' ? 'Голос включён' : 'Voice on') : uiLanguage === 'ru' ? 'Голос выключен' : 'Voice off'}>
             {voice ? <Volume2 size={17}/> : <VolumeX size={17}/>}
           </button>
-          <button type="button" className="icon-button" onClick={() => { setMessages([{ id: crypto.randomUUID(), sender: 'assistant', kind: 'guide', text: agentGreeting(uiLanguage) }]); }} aria-label={uiLanguage === 'ru' ? 'Очистить чат' : uiLanguage === 'tg' ? 'Чатро тоза кардан' : 'Clear chat'} title={uiLanguage === 'ru' ? 'Очистить чат' : 'Clear chat'}><Trash2 size={16}/></button>
+          <button type="button" className="icon-button" onClick={clear} aria-label={uiLanguage === 'ru' ? 'Очистить чат' : uiLanguage === 'tg' ? 'Чатро тоза кардан' : 'Clear chat'} title={uiLanguage === 'ru' ? 'Очистить чат' : 'Clear chat'}><Trash2 size={16}/></button>
           <button type="button" className="icon-button" onClick={() => setOpen(false)} aria-label={uiLanguage === 'ru' ? 'Закрыть' : uiLanguage === 'tg' ? 'Пӯшидан' : 'Close'}><X size={18}/></button>
         </div>
       </header>
@@ -176,9 +203,11 @@ export function SiteAgent() {
           <p>{message.text}</p>
           {message.links?.length ? <div className="agent-links">{message.links.map(link => <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</Link>)}</div> : null}
         </div>)}
+        {loading && <button type="button" className="button subtle" onClick={cancel}>{uiLanguage==='ru'?'Остановить':uiLanguage==='tg'?'Қатъ кардан':uiLanguage==='uk'?'Зупинити':uiLanguage==='ja'?'停止':uiLanguage==='ko'?'중지':'Stop'}</button>}
         {loading && <p role="status" className="agent-loading">{uiLanguage === 'ru' ? 'Думаю…' : uiLanguage === 'tg' ? 'Фикр мекунам…' : 'Thinking…'}</p>}
       </div>
       <div className="agent-composer">
+        <p className="agent-footnote">{{ru:'История разделена по аккаунтам и хранится только в этом браузере. Серверная история пока недоступна.',tg:'Таърих барои ҳар ҳисоб ҷудо буда, танҳо дар ҳамин браузер нигоҳ дошта мешавад. Таърихи серверӣ ҳоло дастрас нест.',en:'History is separated by account and stored only in this browser. Server history is not available yet.',uk:'Історія розділена за обліковими записами й зберігається лише в цьому браузері. Серверна історія поки недоступна.',ja:'履歴はアカウントごとに分かれ、このブラウザーにのみ保存されます。サーバー履歴はまだ利用できません。',ko:'기록은 계정별로 분리되어 이 브라우저에만 저장됩니다. 서버 기록은 아직 제공되지 않습니다.'}[uiLanguage]}</p>
         <div className="agent-chips">{chips.map(chip => <button key={chip} type="button" disabled={loading} onClick={() => ask(chip)}>{chip}</button>)}</div>
         <form onSubmit={event => { event.preventDefault(); void ask(input); }}>
           <label className="sr-only" htmlFor="agent-input">{uiLanguage === 'ru' ? 'Вопрос ассистенту' : uiLanguage === 'tg' ? 'Савол ба ёрдамчӣ' : 'Ask the assistant'}</label>

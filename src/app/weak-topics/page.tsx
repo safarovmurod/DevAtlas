@@ -1,2 +1,2 @@
-import { redirect } from 'next/navigation';
-export default function Page(){redirect('/plan');}
+import {ReactReview} from '@/components/learning/react-review';
+export default function Page(){return <ReactReview mode="weak"/>;}

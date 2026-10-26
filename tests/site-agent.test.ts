@@ -48,6 +48,8 @@ describe('site agent guide brain', () => {
 
   it('refuses to invent lesson content and hands material questions to the course library', () => {
     expect(siteGuideAnswer('Что такое переменные в Python?', base)).toBeNull();
+    expect(siteGuideAnswer('Explain variables', {...base,language:'en'})).toBeNull();
+    expect(siteGuideAnswer('What is user experience?', {...base,language:'en'})).toBeNull();
     expect(siteGuideAnswer('Как работает sort() в JavaScript?', base)).toBeNull();
   });
 

@@ -42,6 +42,24 @@ test('homepage renders local fonts without external font requests', async ({ pag
   expect(fontState.family.toLowerCase()).toContain('inter');
   expect(fontState.width).toBeLessThanOrEqual(fontState.viewport);
   expect(externalFonts).toEqual([]);
+  // Inspect actual rendered font selection, rather than treating a CSS family
+  // name as proof that these Tajik glyphs exist in the bundled mono font.
+  await page.evaluate(()=>{const sample=document.createElement('code');sample.id='tajik-font-probe';[...'ӣӯҳқҷғ'].forEach((text,index)=>{const glyph=document.createElement('span');glyph.id='tajik-glyph-'+index;glyph.textContent=text;sample.append(glyph);});document.body.append(sample);});
+  await page.locator('#tajik-font-probe').evaluate(element=>element.getBoundingClientRect().width);
+  await page.evaluate(()=>document.fonts.ready);
+  const cdp=await page.context().newCDPSession(page);
+  await cdp.send('DOM.enable');await cdp.send('CSS.enable');
+  const {root}=await cdp.send('DOM.getDocument');
+  for(const [index,letter] of [...'ӣӯҳқҷғ'].entries()){
+    const {nodeId}=await cdp.send('DOM.querySelector',{nodeId:root.nodeId,selector:'#tajik-glyph-'+index});
+    const {fonts}=await cdp.send('CSS.getPlatformFontsForNode',{nodeId});
+    expect(fonts.length,letter).toBeGreaterThan(0);
+    expect(fonts.every(font=>font.isCustomFont&&/Inter|JetBrains Mono/.test(font.familyName)&&font.glyphCount>0),JSON.stringify({letter,fonts})).toBe(true);
+    // The shaper can compose ӣ/ӯ from base+macron in Mono. The four other
+    // letters require our explicit Inter fallback, not an OS substitute.
+    if('ҳқҷғ'.includes(letter))expect(fonts.some(font=>font.familyName.includes('Inter')),JSON.stringify({letter,fonts})).toBe(true);
+  }
+  await cdp.detach();await page.locator('#tajik-font-probe').evaluate(element=>element.remove());
   await page.screenshot({ path: testInfo.outputPath('home.png') });
 });
 

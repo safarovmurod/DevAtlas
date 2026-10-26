@@ -42,3 +42,17 @@ it('requires an available matching server assessment for every published interac
   }
  }
 },30000);
+
+it('allows an explicit course ending only at the last scheduled day and rejects loops/skips',()=>{
+ const course=courseContentSchema.parse(html),flow=course.lessons[0].learningFlow!;
+ const last=course.lessons.filter(item=>item.day!==undefined).sort((a,b)=>a.day!-b.day!).at(-1)!;
+ // An authored terminal flow must still provide every learning activity and translation.
+ Object.assign(last,{...structuredClone(course.lessons[0]),id:last.id,day:last.day,questions:course.lessons[0].questions.map(question=>({...question,id:question.id+'-terminal'})),learningFlow:{...flow,nextLessonId:null}});
+ expect(courseContentSchema.safeParse(course).success).toBe(true);
+ course.lessons[0].learningFlow={...flow,nextLessonId:null};
+ expect(courseContentSchema.safeParse(course).success).toBe(false);
+ for(const nextLessonId of [course.lessons[0].id,last.id]){
+  course.lessons[0].learningFlow={...flow,nextLessonId};
+  expect(courseContentSchema.safeParse(course).success).toBe(false);
+ }
+});

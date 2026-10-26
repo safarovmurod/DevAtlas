@@ -28,6 +28,8 @@ export const courseContentSchema = z.object({
   const sourceIds = new Set(course.sources.map(source => source.id));
   if (sourceIds.size !== course.sources.length) ctx.addIssue({ code: 'custom', message: 'Duplicate source ID' });
   const lessonIds = new Set<string>(), questionIds = new Set<string>(), fileIds = new Set<string>();
+  const scheduled=course.lessons.filter(lesson=>lesson.day!==undefined).sort((a,b)=>a.day!-b.day!);
+  const route=scheduled.length?scheduled:course.lessons;
   for (const lesson of course.lessons) {
     if (lessonIds.has(lesson.id)) ctx.addIssue({ code: 'custom', message: 'Duplicate lesson ID' });
     lessonIds.add(lesson.id);
@@ -36,7 +38,11 @@ export const courseContentSchema = z.object({
     if(lesson.learningFlow){
       if(!lesson.practice)ctx.addIssue({code:'custom',message:'Learning flow needs independent practice'});
       if(lesson.learningFlow.walkthroughSections.some(index=>index>=lesson.sections.length))ctx.addIssue({code:'custom',message:'Missing walkthrough section'});
-      if(!course.lessons.some(next=>next.id===lesson.learningFlow!.nextLessonId))ctx.addIssue({code:'custom',message:'Missing next lesson'});
+      const nextId=lesson.learningFlow.nextLessonId,position=route.findIndex(item=>item.id===lesson.id);
+      if(nextId===null){
+        if(position!==route.length-1)ctx.addIssue({code:'custom',message:'Only the final scheduled lesson may end the course'});
+      }else if(!course.lessons.some(next=>next.id===nextId))ctx.addIssue({code:'custom',message:'Missing next lesson'});
+      else if(position>=0&&route[position+1]?.id!==nextId)ctx.addIssue({code:'custom',message:'Next lesson must follow the published sequence'});
     }
     for (const question of lesson.questions) {
       if (questionIds.has(question.id) || question.correctIndex >= question.options.length) ctx.addIssue({ code: 'custom', message: 'Invalid question ID or correct option' });

@@ -43,6 +43,7 @@ const ru = {
   tutorUnconfigured: 'Ключ AI не настроен на сервере. Используйте материалы уроков.',
   tutorBusy: 'Подождите: запрос к AI уже отправлен.',
   tutorRejected: 'Ключ AI или доступ к модели не принят. Проверьте настройки сервера.',
+  tutorBudgetConfig:'Расходы на онлайн-AI не включены. Ответы из материалов курса доступны бесплатно.', tutorBudgetUnavailable:'Не удалось проверить лимит AI. Попробуйте позже; материалы курса доступны.', tutorBudgetLimit:'Достигнут лимит AI или частоты запросов. Повторите позже; материалы курса доступны.',
   tutorQuota: 'Лимит или токены AnyModel закончились. Проверьте аккаунт провайдера.',
   tutorUnreadable: 'AI не прислал читаемый ответ. Попробуйте позже.',
   promptReact: 'Для чего нужен useState?', promptTopic: 'Подробно объясни первую тему курса.',
@@ -90,6 +91,7 @@ export const LEARNING_UI_COPY: Record<InterfaceLocale, typeof ru> = {
     tutorUnconfigured: 'The AI key is not configured on the server. Use the lesson material.',
     tutorBusy: 'Please wait: an AI request has already been sent.',
     tutorRejected: 'The AI key or model access was rejected. Check the server settings.',
+    tutorBudgetConfig:'Online AI spending is not enabled. Course material answers remain free.', tutorBudgetUnavailable:'The AI limit could not be checked. Try later; course materials remain available.', tutorBudgetLimit:'The AI budget or request rate limit was reached. Try later; course materials remain available.',
     tutorQuota: 'The AnyModel limit or tokens have run out. Check the provider account.',
     tutorUnreadable: 'AI did not return a readable answer. Try again later.',
     promptReact: 'What is useState for?', promptTopic: 'Explain the first course topic in depth.',
@@ -132,6 +134,7 @@ export const LEARNING_UI_COPY: Record<InterfaceLocale, typeof ru> = {
     tutorUnconfigured: 'Калиди AI дар сервер танзим нашудааст. Аз дарсҳои платформа истифода баред.',
     tutorBusy: 'Каме интизор шавед: дархости AI аллакай фиристода шудааст.',
     tutorRejected: 'Калиди AI ё дастрасӣ ба модел қабул нашуд. Танзимоти серверро санҷед.',
+    tutorBudgetConfig:'Хароҷоти AI-и онлайн фаъол нест. Ҷавобҳои маводи курс ройгонанд.', tutorBudgetUnavailable:'Лимити AI санҷида нашуд. Баъдтар кӯшиш кунед; маводи курс дастрас аст.', tutorBudgetLimit:'Лимити буҷет ё басомади дархости AI расид. Баъдтар кӯшиш кунед; маводи курс дастрас аст.',
     tutorQuota: 'Лимит ё токенҳои AnyModel тамом шуданд. Ҳисоби провайдерро санҷед.',
     tutorUnreadable: 'AI ҷавоби хондашаванда нафиристод. Баъдтар кӯшиш кунед.',
     promptReact: 'useState чиба даркорай?', promptTopic: 'Мавзӯи аввалро чуқур фаҳмон.',
@@ -174,6 +177,7 @@ export const LEARNING_UI_COPY: Record<InterfaceLocale, typeof ru> = {
     tutorUnconfigured: 'Ключ AI не налаштований на сервері. Використовуйте матеріали уроків.',
     tutorBusy: 'Зачекайте: запит до AI вже надіслано.',
     tutorRejected: 'Ключ AI або доступ до моделі відхилено. Перевірте налаштування сервера.',
+    tutorBudgetConfig:'Витрати на онлайн-AI не ввімкнено. Відповіді з матеріалів курсу безкоштовні.', tutorBudgetUnavailable:'Не вдалося перевірити ліміт AI. Спробуйте пізніше; матеріали курсу доступні.', tutorBudgetLimit:'Досягнуто ліміту бюджету або частоти запитів AI. Спробуйте пізніше; матеріали курсу доступні.',
     tutorQuota: 'Ліміт або токени AnyModel закінчилися. Перевірте акаунт провайдера.',
     tutorUnreadable: 'AI не надіслав читабельної відповіді. Спробуйте пізніше.',
     promptReact: 'Для чого потрібен useState?', promptTopic: 'Докладно поясни першу тему курсу.',
@@ -183,7 +187,7 @@ export const LEARNING_UI_COPY: Record<InterfaceLocale, typeof ru> = {
 
 export type TutorErrorKey = 'tutorUnavailable' | 'tutorEmpty' | 'tutorConnection' | 'tutorInvalid'
   | 'tutorSignInRequired' | 'tutorAuthUnavailable' | 'tutorUnconfigured' | 'tutorBusy'
-  | 'tutorRejected' | 'tutorQuota' | 'tutorUnreadable';
+  | 'tutorRejected' | 'tutorQuota' | 'tutorUnreadable' | 'tutorBudgetConfig' | 'tutorBudgetUnavailable' | 'tutorBudgetLimit';
 
 /** A translated interface does not imply translated authored lessons. */
 export function lessonTranslationNotice(locale: InterfaceLocale): string | null {
@@ -196,6 +200,9 @@ export function lessonTranslationNotice(locale: InterfaceLocale): string | null 
 // The current API supplies messages rather than stable codes. Recognize known
 // application failures; never show untrusted provider or browser errors as UI.
 export function tutorErrorKey(status: number, message: unknown): TutorErrorKey {
+  if(message==='ai_budget_not_configured')return 'tutorBudgetConfig';
+  if(message==='ai_budget_unavailable')return 'tutorBudgetUnavailable';
+  if(message==='ai_budget_exhausted')return 'tutorBudgetLimit';
   if (typeof message === 'string') {
     for (const key of ['tutorSignInRequired', 'tutorAuthUnavailable', 'tutorUnconfigured', 'tutorBusy', 'tutorRejected', 'tutorQuota', 'tutorUnreadable', 'tutorInvalid'] as const) {
       if (message === LEARNING_UI_COPY.tg[key]) return key;

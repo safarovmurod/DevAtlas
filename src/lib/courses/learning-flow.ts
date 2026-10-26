@@ -16,7 +16,8 @@ export const learningFlowSchema=z.object({
   miniChallenge:z.object({task:text,criteria:z.array(text).min(2),example:text}),
   summary:z.array(text).min(2),
   review:z.array(text).min(2),
-  nextLessonId:z.string().regex(/^[a-z0-9][a-z0-9_-]{0,119}$/),
+  // Explicit null means a real course ending, not a missing/draft lesson.
+  nextLessonId:z.string().regex(/^[a-z0-9][a-z0-9_-]{0,119}$/).nullable(),
 }).superRefine((flow,ctx)=>{
   if(flow.prediction.correctIndex>=flow.prediction.options.length)ctx.addIssue({code:'custom',message:'Invalid prediction answer'});
   if(new Set(flow.walkthroughSections).size!==flow.walkthroughSections.length)ctx.addIssue({code:'custom',message:'Duplicate walkthrough section'});

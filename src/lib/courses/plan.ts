@@ -28,7 +28,8 @@ export function courseDayReady(item: CoursePlanDay, completedTopics: readonly st
 }
 
 export function courseDayReadiness(item:CoursePlanDay,completedTopics:readonly string[],completedPractice:readonly string[],evidence:LearningEvidence|undefined,currentVersion:number){
-  const status=learningStatus(evidence,currentVersion);
+  // Legacy study activity is real activity, but never proof of tested mastery.
+  const status=evidence?learningStatus(evidence,currentVersion):completedPractice.includes(item.lesson.id)?'Practicing':completedTopics.includes(item.lesson.id)?'Studying':'Not Started';
   return {canContinue:courseDayReady(item,completedTopics,completedPractice),status,mastered:status==='Mastered'};
 }
 

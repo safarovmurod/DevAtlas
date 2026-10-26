@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `f69570beff552937a05e1c1896a9d68888ba8643`. Фактический каталог: 43 IDs, 38 направлений, 894 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `19fa357033cc8e9392c89c0012f1b874e9e96a83`. Фактический каталог: 43 IDs, 38 направлений, 894 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Prioritize the latest user request: run real Windows/PowerShell matrix, fix failures, rerun until green, and verify GitHub/Vercel. Then resume original DevAtlas plan: actual RU/TG/EN authoring for all twelve short courses from merged blueprints, wider assessment contracts and every remaining phase. Do not count design drafts as delivered courses.
+Следующее действие по сохранённому состоянию: Finish local/GitHub verification of privacy, durable AI budgets and restored review; then continue P1 authoring for ALL twelve short courses, all five continuations, every missing stage and the remaining 26 October requirement register. Do not restart existing completed work or count drafts as lessons.
 
 ## Что сохранить
 

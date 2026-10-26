@@ -43,6 +43,7 @@ export const JAPANESE_LEARNING_COPY = {
   tutorUnavailable:'AIは現在利用できません。後でもう一度お試しください。', tutorEmpty:'回答が空です。後でもう一度お試しください。', tutorConnection:'接続が切れたか、回答がタイムアウトしました。再試行してください。',
   tutorInvalid:'質問や会話履歴が不正か、長すぎます。', tutorSignInRequired:'AIへの質問にはGoogleまたはメールでログインしてください。', tutorAuthUnavailable:'ログインは未設定です。設定後にAIを利用できます。',
   tutorUnconfigured:'サーバーにAIキーが設定されていません。教材をご利用ください。', tutorBusy:'AIに問い合わせ中です。しばらくお待ちください。', tutorRejected:'AIキーまたはモデルへのアクセスが拒否されました。サーバー設定を確認してください。',
+  tutorBudgetConfig:'オンラインAIの支出は有効になっていません。教材の回答は無料です。', tutorBudgetUnavailable:'AIの利用上限を確認できませんでした。後でもう一度お試しください。教材は利用できます。', tutorBudgetLimit:'AIの予算またはリクエスト頻度の上限に達しました。後でもう一度お試しください。教材は利用できます。',
   tutorQuota:'AnyModelの利用上限またはトークンが不足しています。プロバイダーのアカウントを確認してください。', tutorUnreadable:'AIから読み取れる回答が返りませんでした。再試行してください。',
   promptReact:'useStateは何に使いますか？', promptTopic:'コースの最初のトピックを詳しく説明してください。', promptDeep:'前の質問について、手順を追って詳しく説明してください。',
 };

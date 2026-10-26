@@ -19,7 +19,7 @@ type Lang = InterfaceLocale;
 const T: Record<IntentKey, { ru?: RegExp; tg?: RegExp; en?: RegExp }> = {
   whereCourses: { ru: /где.*(курс|направлен)|какой курс|с чего начать|что изучать|список курсов|какие курсы/i, tg: /курсҳо дар куҷо|аз куҷо оғоз|қадамҳои аввал|курсҳои мо|фиҳрист/i, en: /where.*(course|track)|which course|how (do i )?start|what (should i )?(learn|study)|course list/i },
   nextStep: { ru: /что.*(дальше|делать)|продолжить|рекоменд|мой прогресс|где я остановил|следующий шаг/i, tg: /чи дароз|чи кунам|идома|тавсия|пешрафти ман|қадами навбатӣ/i, en: /what.*(next|now)|continue|recommend|my progress|where was i|next step/i },
-  howMastery: { ru: /мастерство|как.*(прогресс|подтвержд|заверш)|считается|xp|очки/i, tg: /мастерство|чӣ тавр.*(пешрафт|тасдиқ)|ҳисоб мешавад/i, en: /mastery|how.*(progress|confirm|complete)|counts as|xps?/i },
+  howMastery: { ru: /мастерство|как.*(прогресс|подтвержд|заверш)|считается|xp|очки/i, tg: /мастерство|чӣ тавр.*(пешрафт|тасдиқ)|ҳисоб мешавад/i, en: /mastery|how.*(progress|confirm|complete)|counts as|\bxps?\b/i },
   wherePractice: { ru: /где.*(практ|упражн)|как.*(практ|решать задач)/i, tg: /где.*(практ|машқ)|машқҳо дар куҷо/i, en: /where.*(practice|exercises)|how.*(practice|solve)/i },
   whereTests: { ru: /где.*(тест|экзамен|интервью)|(подготов|готов|репетиц).*(интервью|собеседов)|собеседован|интервью/i, tg: /где.*(тест|интервью)|тайёрӣ барои интервью/i, en: /where.*(test|exam|interview)|interview prep/i },
   whereNotes: { ru: /заметк|конспект/i, tg: /қайд|ёддошт/i, en: /\bnotes?\b/i },

@@ -23,8 +23,8 @@ The model identifier and endpoint follow the supplied AnyModel example. Live pro
 - Send only the last four chat messages (600 characters each), a question of at most 1500 characters, and at most 1200 characters of relevant course context.
 - The server uses a concise system prompt and never automatically retries paid calls.
 - Successful responses display the provider's `usage.total_tokens` when supplied; the conversation total includes successful reported calls only. It is not the remaining account balance.
-- A process-local single-request guard and a three-second cooldown discourage bursts. They reset on restart and are not a durable per-user billing cap. Paid provider requests require a verified Supabase account and the required MFA assurance; known local material remains available to guests.
-- Both input and output consume the provider balance. Set billing/usage limits in the actual provider account. Durable per-user quotas and billing controls remain a prerequisite for expanding paid usage; authenticated access alone does not provide those limits.
+- A process-local guard supplements mandatory persistent reservations. The database enforces UTC daily global/user cost ceilings, a per-user daily request cap and a three-second per-user cooldown atomically across application instances. Authenticated/MFA-verified users still cannot call the provider if budget configuration or the database reservation is unavailable. See [AI-BUDGETS.md](AI-BUDGETS.md).
+- Both input and output consume the provider balance. Set billing/usage limits in the actual provider account. Durable quota code and its migration are implemented and tested locally; live migration, verified provider billing bounds and actual online operation remain BLOCKED pending secure configuration. Authenticated access alone never enables spending.
 - Official grades and XP remain deterministic and do not use AI.
 
 ## Verification
@@ -33,6 +33,6 @@ The model identifier and endpoint follow the supplied AnyModel example. Live pro
 
 `npm run test:e2e` checks desktop and mobile learning persistence, local fonts, the actual offline tutor, and simulated online chat/errors. It always starts an isolated local-mode server on port 3100 and never sends requests to AnyModel. The shared development server should be stopped before running this command because Next.js locks `.next/dev`.
 
-The config uses `/usr/bin/chromium` when available. On machines without Chromium, run `npx playwright install chromium`, or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to a supported installed browser. Screenshots, traces and test outputs go to `/tmp`, outside the checkout.
+The config uses `/usr/bin/chromium` when available. On machines without Chromium, run `npx playwright install chromium`, or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to a supported installed browser. Screenshots, traces and test outputs use the OS temporary directory or PLAYWRIGHT_OUTPUT_DIR, outside the checkout.
 
-Real online answers have not been verified without a new secure API key. After entering it, restart the application and send one short question outside the course (for example, about Svelte runes); expect an `AI · AnyModel` source label and a meaningful answer. A course question must still show `Маводи лоиҳа · 0 токен`. Do not treat mocked tests as proof of provider availability.
+Real online answers have not been verified without a new secure API key. After applying the budget migration and securely configuring approved nonzero budgets and verified billing bounds, restart the application and send one short question outside the course (for example, about Svelte runes); expect an `AI · AnyModel` source label and a meaningful answer. A course question must still show `Маводи лоиҳа · 0 токен`. Do not treat mocked tests as proof of provider availability.

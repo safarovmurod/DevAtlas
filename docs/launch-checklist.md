@@ -1,4 +1,6 @@
-# Launch checklist
+# Historical launch checklist — 8 October 2026
+
+**Historical snapshot, not the current project readiness report.** Current requirements, known failures and blockers are tracked in [the 26 October register](audits/2026-10-26-tasks.md), [delivery state](delivery-state.json) and [generated source coverage](coverage-matrix-20261024.md). The DONE rows below describe their dated scope only; they do not certify today’s courses, live providers or all six UI languages. Preserve the startup/domain/legal prerequisites as historical context.
 
 Updated: 8 October 2026 (Asia/Dushanbe). Keep this file free of credentials and personal documents.
 

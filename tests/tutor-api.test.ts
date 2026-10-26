@@ -4,6 +4,8 @@ import { NextRequest } from 'next/server';
 
 const fetchMock = vi.fn();
 const authMock=vi.hoisted(()=>vi.fn());
+const budgetMock=vi.hoisted(()=>vi.fn());
+vi.mock('@/lib/tutor/quota',()=>({TUTOR_MAX_OUTPUT_TOKENS:256,reserveTutorBudget:budgetMock}));
 vi.mock('@/lib/account/require-user',()=>({authenticatedUser:authMock}));
 const input = { action: 'ask', userText: 'Svelte runes чияй?' };
 const request = (body: unknown) => new NextRequest('http://localhost/api/tutor', {
@@ -13,6 +15,7 @@ const request = (body: unknown) => new NextRequest('http://localhost/api/tutor',
 beforeEach(() => {
   vi.resetModules();
   fetchMock.mockReset();
+  budgetMock.mockReset();budgetMock.mockResolvedValue({allowed:true});
   vi.stubGlobal('fetch', fetchMock);
   vi.stubEnv('AI_TUTOR_ENABLED', 'true');
   vi.stubEnv('AI_PROVIDER_KEY', 'test-only-placeholder-not-a-real-key');
@@ -178,4 +181,17 @@ describe('Tutor API', () => {
     expect(await result.json()).toMatchObject({ mode: 'online', reply: 'New topic answer' });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
+});
+
+it('does not contact the provider when persistent budget enforcement fails closed',async()=>{
+ const {POST}=await import('@/app/api/tutor/route');
+ for(const [status,error] of [[503,'ai_budget_not_configured'],[503,'ai_budget_unavailable'],[429,'ai_budget_exhausted']] as const){
+  // Reset only cheap local cooldown for each isolated handler instance.
+  vi.resetModules();const {POST:handler}=await import('@/app/api/tutor/route');
+  budgetMock.mockResolvedValue({allowed:false,status,error});
+  const result=await handler(request(input));
+  expect(result.status).toBe(status);expect(await result.json()).toEqual({error});
+  expect(fetchMock).not.toHaveBeenCalled();
+ }
+ void POST;
 });
