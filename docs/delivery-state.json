@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "c6b81c14417b21de3d39ce597ff95edec9987f35",
+  "baselineCommit": "47dbc7aa646f1f386af0cb8939324db77f154844",
   "acceptedPlan": "Strict continuation master prompt, sections 0–19, and approved implementation plan",
   "decisions": {
     "delivery": "small complete PRs; continue through every phase",
@@ -41,7 +41,7 @@
     {
       "id": 4,
       "name": "Finish all 12 short courses",
-      "status": "pending",
+      "status": "in_progress",
       "courses": [
         "backend",
         "mobile",
@@ -55,7 +55,8 @@
         "digital-literacy",
         "personal-productivity",
         "management-foundations"
-      ]
+      ],
+      "evidence": "Draft blueprints cover all twelve courses with module outcomes, unique topic sequences and capstones. Existing IDs/days preserved. Partial official-source/TOC/license review recorded; no expansion lessons are published by the drafts."
     },
     {
       "id": 5,
@@ -151,8 +152,8 @@
     }
   ],
   "resume": {
-    "branch": "feat/written-rubric-review",
-    "nextAction": "Publish written rubric pilot after green CI and verify main/Vercel metadata. Next complete wider phase-3 evidence/rubric contracts and start all twelve short-course expansions with original RU/TG/EN teaching, practice, quizzes and projects. The complete remaining plan stays active; no missing programs are marked complete.",
+    "branch": "curriculum/short-course-blueprints",
+    "nextAction": "Publish the twelve-course design drafts and integrity gate after checks, without changing publishedDays. Then review relevant official source sections and author actual RU/TG/EN modules for all twelve courses, including deepening their first two lessons. Begin with communication where structured rubric support exists, keep all twelve tracked, and never mark drafts or unavailable review/runtimes as delivered courses.",
     "doNotRegenerate": [
       "css",
       "python",
@@ -186,7 +187,11 @@
     "sqlPr": 14,
     "sqlMerge": "806f7eecadda49c7ee00b41067f5ea63485d48c2",
     "sqlCi": 40251730918,
-    "sqlPreviewStatus": "success"
+    "sqlPreviewStatus": "success",
+    "writtenReviewPr": 16,
+    "writtenReviewMerge": "47dbc7aa646f1f386af0cb8939324db77f154844",
+    "writtenReviewCi": 40254485425,
+    "writtenReviewPreviewStatus": "success"
   },
   "activeWork": {
     "mergedPullRequests": [
@@ -196,7 +201,8 @@
       12,
       13,
       14,
-      15
+      15,
+      16
     ],
     "lessonFlowMerge": "b5ff27fa7797ef90955ce912905e6e19da9da339",
     "lessonFlowCi": 40228960772,
@@ -225,10 +231,21 @@
       "mergeCommit": "806f7eecadda49c7ee00b41067f5ea63485d48c2"
     },
     "writtenReview": {
-      "status": "communication day 1 pilot implemented and locally verified; publication pending",
+      "status": "merged after successful CI and Vercel preview metadata",
       "branch": "feat/written-rubric-review",
       "scope": "original RU/TG/EN performance descriptors, weighted self rating, reflection, versioned answer-bound private drafts and recovery; no verified mastery or human-review claim",
-      "newPublishedDays": 0
+      "newPublishedDays": 0,
+      "pullRequest": 16,
+      "ciRun": 40254485425,
+      "mergeCommit": "47dbc7aa646f1f386af0cb8939324db77f154844"
+    },
+    "shortCourseBlueprints": {
+      "path": "docs/curriculum-design/short-courses.draft.json",
+      "status": "draft_not_published",
+      "courses": 12,
+      "newPublishedDays": 0,
+      "sources": "partial review; exact scopes/licenses and unresolved sources recorded",
+      "integrityCheck": "scripts/check-short-course-blueprints.mjs"
     }
   },
   "validationCheckpoint": {

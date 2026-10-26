@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `c6b81c14417b21de3d39ce597ff95edec9987f35`. Фактический каталог: 43 IDs, 38 направлений, 894 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `47dbc7aa646f1f386af0cb8939324db77f154844`. Фактический каталог: 43 IDs, 38 направлений, 894 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Publish written rubric pilot after green CI and verify main/Vercel metadata. Next complete wider phase-3 evidence/rubric contracts and start all twelve short-course expansions with original RU/TG/EN teaching, practice, quizzes and projects. The complete remaining plan stays active; no missing programs are marked complete.
+Следующее действие по сохранённому состоянию: Publish the twelve-course design drafts and integrity gate after checks, without changing publishedDays. Then review relevant official source sections and author actual RU/TG/EN modules for all twelve courses, including deepening their first two lessons. Begin with communication where structured rubric support exists, keep all twelve tracked, and never mark drafts or unavailable review/runtimes as delivered courses.
 
 ## Что сохранить
 
