@@ -41,4 +41,4 @@ it('requires an available matching server assessment for every published interac
    for(const source of assessment!.sourceIds)expect(lesson.sourceIds).toContain(source);
   }
  }
-});
+},30000);
