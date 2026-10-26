@@ -1,6 +1,6 @@
 # Self-learning content audit (generated)
 
-Generated 2026-10-25 by `scripts/course-content-quality-report.mjs` from actual curriculum data. Numbers only: meaning, correctness and clarity need the separate editorial checklist — do not treat higher word counts as automatic quality.
+Generated 2026-10-26 by `scripts/course-content-quality-report.mjs` from actual curriculum data. Numbers only: meaning, correctness and clarity need the separate editorial checklist — do not treat higher word counts as automatic quality.
 
 Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js curricula. A missing loader, invalid course or catalog/day mismatch fails the report instead of silently omitting the course.
 
@@ -25,7 +25,7 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | rust | starter | 30 | 364/87/401 | 2 | 29 | 1 | 4 | 0 | — |
 | php | starter | 30 | 497/79/552 | 2 | 29 | 2 | 3 | 0 | — |
 | ruby | starter | 30 | 410/77/452 | 2 | 28 | 2 | 4 | 0 | — |
-| sql | starter | 30 | 369/97/403 | 2 | 28 | 2 | 4 | 0 | — |
+| sql | starter | 30 | 370/116/403 | 2 | 28 | 2 | 4 | 0 | — |
 | bash | starter | 30 | 342/92/384 | 2 | 30 | 2 | 3 | 0 | — |
 | nodejs | starter | 30 | 366/84/410 | 2 | 28 | 2 | 3 | 0 | — |
 | mongodb | starter | 30 | 328/96/452 | 2 | 29 | 3 | 4 | 0 | — |

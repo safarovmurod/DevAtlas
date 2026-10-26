@@ -14,6 +14,7 @@ import { gradeHtmlDocument, safeHtmlPreview, HTML_CHECK_IDS, type HtmlCheck } fr
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import type { PracticeSubmissionResult } from '@/lib/practice/types';
 import dynamic from 'next/dynamic';
+const SqlitePractice=dynamic(()=>import('./sqlite-practice').then(module=>module.SqlitePractice));
 const LessonAssessment=dynamic(()=>import('./lesson-assessment').then(module=>module.LessonAssessment));
 
 type HtmlCheckId = typeof HTML_CHECK_IDS[number];
@@ -116,6 +117,7 @@ export function CoursePractice({ courseId, lesson }: { courseId: ImportedCourseI
       <div className="editor-footer"><span>{copy.saved}</span><div className="button-row">{courseId === 'html' && <button className="button subtle" disabled={!code.trim()} onClick={() => setPreview(code)}><Eye size={16} />{ui.showHtml}</button>}{automatic && <button className="button primary" disabled={!code.trim() || submitting} onClick={verify}><Play size={16} />{submitting ? copy.loading : labels.verify}</button>}</div></div>
     </div>}
     {courseId === 'html' && preview !== null && <iframe title={ui.htmlResult} className="html-preview" sandbox="" referrerPolicy="no-referrer" srcDoc={safeHtmlPreview(preview)} />}
+    {courseId==='sql'&&lesson.id==='sql-day-01'&&<SqlitePractice code={code}/>}
     {automatic ? <section className="practice-validation" aria-live="polite"><p className="small muted">{labels.note}</p><ul>{(results ?? HTML_CHECK_IDS.map(id => ({ id, passed: false }))).map(check => <li key={check.id} className={results ? check.passed ? 'success-text' : 'warning-text' : ''}><span aria-hidden="true">{results ? check.passed ? '✓' : '×' : '○'}</span> {rubric[check.id as HtmlCheckId]}</li>)}</ul>{results && <p role="status">{results.every(check => check.passed) ? labels.passed : labels.failed}</p>}<p className="small muted">{labels.local}</p></section> : <section className="practice-validation"><p>{copy.manualHint}</p>{practice.criteria.map((criterion, index) => <label className="course-criterion" key={index}><input type="checkbox" checked={!!completed || checks.includes(index)} disabled={completed} onChange={event => setChecks(event.target.checked ? [...checks, index] : checks.filter(value => value !== index))} />{courseText(criterion, state.contentLanguage)}</label>)}<button className="button subtle" disabled={completed || !code.trim() || checks.length !== practice.criteria.length} onClick={() => state.completeCoursePractice(courseId, lesson.id)}><CheckCircle2 size={16} />{completed ? copy.completed : copy.manual}</button></section>}
     <details className="solution"><summary>{copy.solution}</summary>{written?<p className="preserve-lines">{practice.referenceAnswer?courseText(practice.referenceAnswer,state.contentLanguage):practice.solution}</p>:<pre><code>{practice.solution}</code></pre>}</details>
     {serverStatus && <p role="status" className={serverStatus === 'verified' ? 'success-text' : 'warning-text'}>{serverStatus === 'verified' ? labels.serverVerified : labels.serverUnavailable}</p>}
