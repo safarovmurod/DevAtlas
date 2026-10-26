@@ -16,7 +16,7 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | typescript | starter | 14 | 431/395/467 | 2.2 | 14 | 1 | 1 | 0 | — |
 | algorithms | starter | 14 | 422/392/522 | 3 | 14 | 1 | 0 | 0 | — |
 | python | starter | 30 | 487/203/520 | 2 | 30 | 1 | 3 | 0 | — |
-| backend | starter | 9 | 184/138/335 | 5 | 9 | 0 | 0 | 0 | — |
+| backend | starter | 9 | 204/138/382 | 5 | 9 | 0 | 0 | 0 | — |
 | mobile | starter | 2 | 87/86/88 | 1 | 2 | 0 | 0 | 0 | few-questions |
 | cpp | starter | 30 | 49/39/59 | 1 | 30 | 0 | 12 | 7 | thin-theory, few-questions |
 | java | starter | 30 | 379/84/431 | 2 | 30 | 1 | 3 | 0 | — |
