@@ -31,9 +31,9 @@ try {
     }
     $npmName = if ($isWindowsHost) { 'npm.cmd' } else { 'npm' }
     $npxName = if ($isWindowsHost) { 'npx.cmd' } else { 'npx' }
-    $npmBinary = (Get-Command $npmName -CommandType Application -ErrorAction Stop).Source
-    $npxBinary = (Get-Command $npxName -CommandType Application -ErrorAction Stop).Source
-    $nodeBinary = (Get-Command node -CommandType Application -ErrorAction Stop).Source
+    $npmBinary = (Get-Command $npmName -CommandType Application -ErrorAction Stop | Select-Object -First 1).Path
+    $npxBinary = (Get-Command $npxName -CommandType Application -ErrorAction Stop | Select-Object -First 1).Path
+    $nodeBinary = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Path
     Invoke-CheckedNative -Command $nodeBinary -Arguments @('--version')
     Invoke-CheckedNative -Command $npmBinary -Arguments @('--version')
     if (-not $SkipInstall) { Invoke-CheckedNative -Command $npmBinary -Arguments @('ci') }
