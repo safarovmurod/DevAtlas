@@ -107,9 +107,9 @@ jobs:
       - name: Install dependencies without npm.ps1 execution-policy dependency
         run: npm.cmd ci
       - name: PowerShell checks, native examples, Python and production build
-        run: ./scripts/test-platform.ps1 -Phase checks -SkipInstall
+        run: ./scripts/test-platform.ps1 -Phase checks -SkipInstall -ExpectedNodeMajor ${{ matrix.node }}
       - name: Real Windows Chromium desktop, mobile and mock-auth tests
-        run: ./scripts/test-platform.ps1 -Phase browser -SkipInstall
+        run: ./scripts/test-platform.ps1 -Phase browser -SkipInstall -ExpectedNodeMajor ${{ matrix.node }}
       - name: Retain failed browser traces
         if: failure()
         uses: actions/upload-artifact@v4

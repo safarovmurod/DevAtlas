@@ -14,6 +14,10 @@ For PowerShell 7, use `pwsh.exe` in the last command. The explicit process optio
 
 The script stops immediately on failed native commands and returns their nonzero exit code. It checks generated reports, lint, TypeScript, Vitest/native example tests, Python importer tests, production build, real Chromium desktop/mobile flows and mock-auth regressions. Use `-Phase checks` or `-Phase browser` for a targeted rerun; the default `all` runs both. `-SkipInstall` assumes dependencies already match the lockfile.
 
+If several Node installations are present, the runner selects the first application in PATH rather than passing a list of paths to a native command. CI also asserts the requested Node major using `-ExpectedNodeMajor 22` or `24`. Inspect installed choices with `Get-Command node -All -CommandType Application | Select-Object -ExpandProperty Path`.
+
+Generated report freshness accepts Git's CRLF checkout as the same text as LF; changed counts, changed wording and missing files still fail. CI failures include a short PowerShell transcript in annotations and a retained failure log, in addition to browser traces where available.
+
 Individual commands also work without a PowerShell script:
 
 ```powershell

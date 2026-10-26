@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [ValidateSet('checks', 'browser', 'all')][string]$Phase = 'all',
-    [switch]$SkipInstall
+    [switch]$SkipInstall,
+    [ValidateSet(0, 22, 24)][int]$ExpectedNodeMajor = 0
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -35,6 +36,10 @@ try {
     $npxBinary = (Get-Command $npxName -CommandType Application -ErrorAction Stop | Select-Object -First 1).Path
     $nodeBinary = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Path
     Invoke-CheckedNative -Command $nodeBinary -Arguments @('--version')
+    if ($ExpectedNodeMajor -ne 0) {
+        $actualNodeMajor = [int](Invoke-CheckedNative -Command $nodeBinary -Arguments @('-p', 'parseInt(process.versions.node,10)'))
+        if ($actualNodeMajor -ne $ExpectedNodeMajor) { throw "Expected Node $ExpectedNodeMajor but PATH selected Node $actualNodeMajor" }
+    }
     Invoke-CheckedNative -Command $npmBinary -Arguments @('--version')
     if (-not $SkipInstall) { Invoke-CheckedNative -Command $npmBinary -Arguments @('ci') }
     if ($Phase -in @('checks', 'all')) {
