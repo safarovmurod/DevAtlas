@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `19fa357033cc8e9392c89c0012f1b874e9e96a83`. Фактический каталог: 43 IDs, 38 направлений, 894 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `19fa357033cc8e9392c89c0012f1b874e9e96a83`. Фактический каталог: 43 IDs, 38 направлений, 901 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Refresh main and PR #19 state first. If PR #19 is still open, require green checks for its exact final head on Ubuntu/all four Windows jobs and merge only after checks. If already merged, do not repeat implementation or merge it again. Local final452 unit/integration +108 desktop/mobile +12 mock-auth +build passed. Resume P1 full original RU/TG/EN authoring for ALL twelve short courses, all five continuations and every missing stage/requirement in the163-item register. Do not regenerate completed work or count drafts/publication as independently Verified.
+Следующее действие по сохранённому состоянию: Continue authoring Backend days 10–44 in this same branch/PR before declaring Backend complete or merging as a finished course. Then remaining eleven short courses, five fourteen-day continuations and every missing stage. Do not reauthor days 1–9 or mistake the separate reference API for completed lessons.
 
 ## Что сохранить
 
@@ -18,7 +18,6 @@ HTML day 1: optional learningFlow, восемь типов вопросов, д�
 
 ## Обязательные незавершённые программы
 
-- backend: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - mobile: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - ux-design: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - digital-marketing: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.

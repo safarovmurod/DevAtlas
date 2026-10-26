@@ -116,12 +116,12 @@ const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     '14日間。計算量、配列と文字列、探索、ソート、データ構造、問題解決の手順を学びます。',
     '14일 과정입니다. 복잡도, 배열과 문자열, 탐색, 정렬, 자료 구조와 단계별 문제 해결을 배웁니다.'),
   backend: text(
-    'HTTP-сервер и проверка запросов. Для запуска нужен локальный Node.js.',
-    'An HTTP server and request validation. Running the examples requires local Node.js.',
-    'Сервери HTTP ва санҷиши дархостҳо. Барои иҷро Node.js дар компютер лозим аст.',
-    'HTTP-сервер і перевірка запитів. Для запуску потрібен локальний Node.js.',
-    'HTTPサーバーとリクエストの検証を学びます。実行にはローカルのNode.jsが必要です。',
-    'HTTP 서버와 요청 검증을 배웁니다. 예제를 실행하려면 로컬 Node.js가 필요합니다.'),
+    'Первые 9 дней с нуля: HTTP, валидация и основы JavaScript с исполняемой практикой. Продолжение ещё готовится; нужен локальный Node.js.',
+    'First 9 days from zero: HTTP, validation and JavaScript foundations with executable practice. Further lessons are still being authored; local Node.js is required.',
+    '9 рӯзи аввал аз сифр: HTTP, валидация ва асосҳои JavaScript бо машқи иҷрошаванда. Идома ҳоло омода мешавад; Node.js-и маҳаллӣ лозим аст.',
+    'Перші 9 днів з нуля: HTTP, валідація й основи JavaScript із виконуваними вправами. Продовження ще готується; потрібен локальний Node.js.',
+    '最初の9日間をゼロから学習。HTTP、検証、JavaScript基礎と実行できる演習。続きは作成中です。ローカルNode.jsが必要です。',
+    '처음 9일은 기초부터 HTTP, 검증, JavaScript와 실행 가능한 실습을 배웁니다. 나머지 수업은 작성 중이며 로컬 Node.js가 필요합니다.'),
   mobile: text(
     'Экран React Native и счётчик. Запускайте приложение через Expo на своём устройстве.',
     'A React Native screen and counter. Run the app with Expo on your own device.',

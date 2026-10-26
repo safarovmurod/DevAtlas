@@ -8,11 +8,11 @@ import { courseMonthPlan } from '@/lib/courses/plan';
 import {findPython} from '../scripts/lib/python-runtime.mjs';
 const python=findPython();
 
-it('new introductory tracks have two real sequential days with explicit runtime instructions', async () => {
+it('Backend foundations and the mobile introduction have actual sequential days with explicit runtime instructions', async () => {
   for (const id of ['backend', 'mobile'] as const) {
     const content = await loadCourseContent(id);
     const plan = courseMonthPlan(content.lessons);
-    expect(plan.map(day => day.day)).toEqual([1, 2]);
+    expect(plan.map(day => day.day)).toEqual(Array.from({length:id==='backend'?9:2},(_,i)=>i+1));
     expect(plan[0].lesson.prerequisiteDays).toEqual([]);
     expect(plan[1].lesson.prerequisiteDays).toEqual([1]);
     for (const lesson of content.lessons) {
@@ -59,6 +59,7 @@ for (const [price, quantity] of [['12', 3], [NaN, 3], [Infinity, 3], [12, 1.5], 
   if (!rejected) throw new Error('Invalid input accepted');
 }
 if (calculateTotal(7, 2) !== 14) throw new Error('Wrong result');
+console.log('Checks passed');
 `;
   const result = spawnSync(process.execPath, ['--input-type=module', '-e', code], { encoding: 'utf8', timeout: 3000 });
   expect(result.error).toBeUndefined();

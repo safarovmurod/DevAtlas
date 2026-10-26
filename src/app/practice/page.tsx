@@ -1,3 +1,4 @@
+import {coursePublishedDays} from '@/content/courses/catalog';
 import { courseAccessTier } from '@/lib/courses/access';
 import { PracticeHub } from '@/components/learning/practice-hub';
 import { getTopic } from '@/content/course';
@@ -12,7 +13,7 @@ export default async function PracticePage({searchParams}:{searchParams:Promise<
  if(params.course&&!isCourseId(params.course))notFound();
  if(params.course&&isCourseId(params.course)&&params.course!=='react'){
   const day=params.day!==undefined?Number(params.day):undefined;
-  if(day!==undefined&&(!Number.isInteger(day)||day<1||day>30))notFound();
+  if(day!==undefined&&(!Number.isInteger(day)||day<1||day>coursePublishedDays(params.course)))notFound();
   return <><PracticeSelector selected={params.course}/><CourseWorkspace key={params.course+day} courseId={params.course} section="practice" day={day} initialContent={courseAccessTier(params.course)==='starter'?await loadCourseContent(params.course):undefined}/></>;
  }
  if(month===3||getTopic(params.topic||'')?.month===3)redirect(`/courses/nextjs/practice${params.day?`?day=${params.day}`:''}`);

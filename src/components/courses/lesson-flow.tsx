@@ -28,20 +28,21 @@ const labels={
 
 function useFlowText(){
  const language=useLearningStore(state=>state.contentLanguage),ui=useLearningStore(state=>state.language);
- return {language,text:(value:CourseText)=>courseText(value,language),label:(key:keyof typeof labels)=>labels[key][ui]};
+ return {language,ui,text:(value:CourseText)=>courseText(value,language),label:(key:keyof typeof labels)=>labels[key][ui]};
 }
+const assessmentHref=(flow:LearningFlow,lessonId:string,practiceHref:string)=>flow.assessmentMode==='local-only'?practiceHref.replace('/practice','/tests'):`${practiceHref}#${lessonId}-assessment`;
 const anchor=(id:string,stage:string)=>`${id}-flow-${stage}`;
 export function LessonFlowIntro({flow,lessonId,practiceHref}:{flow:LearningFlow;lessonId:string;practiceHref:string}){
  const {text,label}=useFlowText();
  return <div className="lesson-flow-intro" id={anchor(lessonId,'learn')}>
-  <nav className="learning-flow-nav" aria-label={label('route')}>{LEARNING_FLOW_STAGES.map(stage=><Link key={stage} href={stage==='test'?`${practiceHref}#${lessonId}-assessment`:`#${anchor(lessonId,stage)}`}>{label(stage)}</Link>)}</nav>
+  <nav className="learning-flow-nav" aria-label={label('route')}>{LEARNING_FLOW_STAGES.map(stage=><Link key={stage} href={stage==='test'?assessmentHref(flow,lessonId,practiceHref):`#${anchor(lessonId,stage)}`}>{label(stage)}</Link>)}</nav>
   <h3>{label('goals')}</h3><ul>{flow.objectives.map((objective,index)=><li key={index}>{text(objective)}</li>)}</ul>
   <h3>{label('real')}</h3><p>{text(flow.realWorld)}</p>
  </div>;
 }
 
 export function LessonFlowActivities({flow,lessonId,practiceHref,nextTitle}:{flow:LearningFlow;lessonId:string;practiceHref:string;nextTitle?:CourseText}){
- const {language,text,label}=useFlowText();
+ const {language,ui,text,label}=useFlowText();
  const [answer,setAnswer]=useState<number|null>(null),[hint,setHint]=useState(false);
  const passed=answer===flow.prediction.correctIndex;
  return <div className="lesson-flow-activities">
@@ -50,16 +51,16 @@ export function LessonFlowActivities({flow,lessonId,practiceHref,nextTitle}:{flo
    <button className="button subtle" type="button" onClick={()=>setHint(true)}>{label('hint')}</button>{hint&&<p>{text(flow.prediction.hint)}</p>}
    {answer!==null&&<p role="status">{passed?`${label('correct')}. ${text(flow.prediction.explanation)}`:`${label('retry')}. ${text(flow.prediction.hint)}`}</p>}
   </fieldset></section>
-  <section id={anchor(lessonId,'watch')}><h3>{label('watch')}</h3><HtmlDocumentExplorer key={language} demo={flow.demo}/></section>
+  <section id={anchor(lessonId,'watch')}><h3>{label('watch')}</h3>{flow.demo.kind==='html-document'?<HtmlDocumentExplorer key={language} demo={flow.demo}/>:<CodeTrace key={language} demo={flow.demo}/>}</section>
   <section id={anchor(lessonId,'try')}><h3>{label('try')}</h3><ol>{flow.guidedPractice.steps.map((step,index)=><li key={index}>{text(step)}</li>)}</ol><details><summary>{label('hint')}</summary><p>{text(flow.guidedPractice.hint)}</p></details><p>{text(flow.guidedPractice.success)}</p></section>
   <section id={anchor(lessonId,'practice')}><h3>{label('practice')}</h3><h4>{label('challenge')}</h4><p>{text(flow.miniChallenge.task)}</p><ul>{flow.miniChallenge.criteria.map((criterion,index)=><li key={index}>{text(criterion)}</li>)}</ul><details><summary>{label('example')}</summary><p>{text(flow.miniChallenge.example)}</p></details><Link className="button primary" href={practiceHref}>{label('open')}</Link></section>
   <section id={anchor(lessonId,'review')}><h3>{label('review')}</h3><h4>{label('summary')}</h4><ul>{flow.summary.map((point,index)=><li key={index}>{text(point)}</li>)}</ul>{flow.review.map((prompt,index)=><p key={index}>{text(prompt)}</p>)}</section>
-  <section id={anchor(lessonId,'master')}><h3>{label('master')}</h3><p>{label('threshold')}</p><Link className="text-link" href={`${practiceHref}#${lessonId}-assessment`}>{label('test')}</Link>{flow.nextLessonId===null?<p>{label('end')}</p>:nextTitle&&<p>{label('next')}: {text(nextTitle)}</p>}</section>
+  <section id={anchor(lessonId,'master')}><h3>{label('master')}</h3><p>{flow.assessmentMode==='local-only'?localAssessment[ui]:label('threshold')}</p><Link className="text-link" href={assessmentHref(flow,lessonId,practiceHref)}>{label('test')}</Link>{flow.nextLessonId===null?<p>{flow.continuationNotice?text(flow.continuationNotice):label('end')}</p>:nextTitle&&<p>{label('next')}: {text(nextTitle)}</p>}</section>
  </div>;
 }
 
 const escaped=(value:string)=>value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
-function HtmlDocumentExplorer({demo}:{demo:LearningFlow['demo']}){
+function HtmlDocumentExplorer({demo}:{demo:Extract<LearningFlow['demo'],{kind:'html-document'}>}){
  const {language,text,label}=useFlowText();
  const [selected,setSelected]=useState<'title'|'h1'|'p'>('title');
  const [values,setValues]=useState({title:text(demo.tabTitle),h1:text(demo.heading),p:text(demo.paragraph)});
@@ -72,4 +73,15 @@ function HtmlDocumentExplorer({demo}:{demo:LearningFlow['demo']}){
   <iframe className="html-preview" title={label('preview')} sandbox="" referrerPolicy="no-referrer" srcDoc={code}/>
   <details open><summary>{label('code')}</summary><pre><code>{code}</code></pre></details>
  </div>;
+}
+
+const localAssessment=t('Квиз и тесты здесь учебные. Объяснение и локальный Node.js-проект оцениваются отдельно как Self Reviewed. Серверной аттестации Backend пока нет; эти действия не присваивают Mastered.','Квиз ва тестҳо омӯзишӣ мебошанд. Шарҳ ва лоиҳаи маҳаллии Node.js алоҳида ҳамчун Self Reviewed арзёбӣ мешаванд. Тасдиқи серверии Backend ҳоло нест; ин амалҳо Mastered намедиҳанд.','The quiz and tests here are learning checks. Review explanations and the local Node.js project separately as Self Reviewed. Backend server attestation is not available yet; these actions do not grant Mastered.','Квіз і тести навчальні. Пояснення та локальний Node.js-проєкт оцінюються окремо як Self Reviewed. Серверне підтвердження Backend поки недоступне; ці дії не надають Mastered.','クイズとテストは学習用です。説明とローカルのNode.jsプロジェクトはSelf Reviewedとして別に確認してください。Backendのサーバー認証は未対応で、Masteredは付与されません。','퀴즈와 테스트는 학습용입니다. 설명과 로컬 Node.js 프로젝트는 Self Reviewed로 별도 검토하세요. Backend 서버 인증은 아직 없으며 Mastered를 부여하지 않습니다.');
+const traceCopy={
+ note:t('Пошаговый разбор заданного примера, не выполнение вашего кода. Для настоящего запуска используйте редактор с тестами или локальный Node.js.','Шарҳи қадамии мисоли додашуда, на иҷрои рамзи шумо. Барои иҷрои воқеӣ муҳаррири тестдор ё Node.js-и маҳаллиро истифода баред.','A step-by-step explanation of the given example, not execution of your code. Use the test editor or local Node.js for actual execution.','Покроковий розбір прикладу, а не виконання вашого коду. Для виконання використовуйте редактор із тестами або локальний Node.js.','指定例の解説であり、入力コードの実行ではありません。実行にはテスト付きエディターかローカルNode.jsを使用してください。','제시된 예제의 단계별 해설이며 입력 코드의 실행이 아닙니다. 실제 실행에는 테스트 편집기나 로컬 Node.js를 사용하세요.'),
+ previous:t('Предыдущий шаг','Қадами пешина','Previous step','Попередній крок','前のステップ','이전 단계'),
+ next:t('Следующий шаг','Қадами оянда','Next step','Наступний крок','次のステップ','다음 단계'),
+};
+function CodeTrace({demo}:{demo:Extract<LearningFlow['demo'],{kind:'code-trace'}>}){
+ const {text,ui}=useFlowText();const [index,setIndex]=useState(0);const step=demo.steps[index];
+ return <div className="code-trace"><p>{traceCopy.note[ui]}</p><pre><code>{demo.code.split('\n').map((line,i)=><span key={i} aria-current={step.line===i+1?'step':undefined} style={{display:'block',background:step.line===i+1?'var(--accent-soft, #3155aa30)':undefined}}>{i+1}. {line||' '}</span>)}</code></pre><div aria-live="polite"><p>{index+1} / {demo.steps.length}: {text(step.explanation)}</p><pre><code>{step.values}</code></pre></div><div className="button-row"><button type="button" className="button subtle" disabled={index===0} onClick={()=>setIndex(value=>value-1)}>{traceCopy.previous[ui]}</button><button type="button" className="button subtle" disabled={index===demo.steps.length-1} onClick={()=>setIndex(value=>value+1)}>{traceCopy.next[ui]}</button></div></div>;
 }

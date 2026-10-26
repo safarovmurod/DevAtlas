@@ -1,6 +1,6 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useAccount } from './account-provider';
 import { AuthScreen, FirstProfileScreen, MfaChallengeScreen, PasswordRecoveryScreen } from './auth-screen';
 import { Header } from '@/components/layout/header';
@@ -30,5 +30,5 @@ export function AccountShell({children}:{children:React.ReactNode}) {
   if (account.user && account.error) return <div className="account-screen"><section className="auth-card"><h1>{copy.openFailed}</h1><p role="alert">{copy[accountErrorKey(account.error,'openError')]}</p><button className="button primary" onClick={account.reload}>{copy.retry}</button><button className="guest-button" onClick={account.signOut}>{copy.logout}</button></section></div>;
   if (account.user && !account.profile) return <FirstProfileScreen/>;
   if (!account.user && (!account.guest || pathname==='/login' || pathname==='/auth/callback')) return <AuthScreen/>;
-  return <><ActivityTracker key={'activity:'+(account.user?.id || 'guest')+course}/><Header/><Sidebar/><main className="app-main"><div className="page-container"><CourseBoundary>{children}</CourseBoundary></div></main><SiteAgent key={'agent:'+(account.user?.id || 'guest')+course}/>{tutorMounted&&<TutorDrawer key={'tutor:'+(account.user?.id || 'guest')+course}/>}</>;
+  return <><ActivityTracker key={'activity:'+(account.user?.id || 'guest')+course}/><Header/><Sidebar/><main className="app-main"><div className="page-container"><Suspense fallback={children}><CourseBoundary>{children}</CourseBoundary></Suspense></div></main><SiteAgent key={'agent:'+(account.user?.id || 'guest')+course}/>{tutorMounted&&<TutorDrawer key={'tutor:'+(account.user?.id || 'guest')+course}/>}</>;
 }
