@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-Recorded main checkpoint: `47dbc7aa646f1f386af0cb8939324db77f154844`. 43 course IDs; 38 tracks; 114 stage requirements; 894 actual scheduled days (744 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
+Recorded main checkpoint: `f69570beff552937a05e1c1896a9d68888ba8643`. 43 course IDs; 38 tracks; 114 stage requirements; 894 actual scheduled days (744 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
 
 42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
 
@@ -80,7 +80,7 @@ Subject visualizers, complete AI Mentor history/quotas, the full platform design
 
 Current source audit finds 0 stale duration claims. This measures wording, not overall teaching quality; thin-theory and quiz-density findings remain in [SELF_LEARNING_CONTENT_AUDIT.md](SELF_LEARNING_CONTENT_AUDIT.md).
 
-Recorded local validation checkpoint: 429 tests passed, 7 skipped; 2 targeted desktop/mobile cases passed (written rubric); dependency audit 0 known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.
+Recorded local validation checkpoint: 432 tests passed, 7 skipped; 114 targeted desktop/mobile cases passed (local full desktop/mobile 102 and mock-auth 12, real PowerShell; independent Windows matrix evidence recorded in activeWork); dependency audit 0 known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.
 
 PRs, merge SHAs and pending work are recorded in delivery-state.json. Vercel success metadata is separate from live HTTP/browser proof. Direct deployment HTTP was blocked by this workspace CONNECT proxy (403); live database, payment and online-AI configuration are not inferred from successful builds.
 

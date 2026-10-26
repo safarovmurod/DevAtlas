@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "47dbc7aa646f1f386af0cb8939324db77f154844",
+  "baselineCommit": "f69570beff552937a05e1c1896a9d68888ba8643",
   "acceptedPlan": "Strict continuation master prompt, sections 0–19, and approved implementation plan",
   "decisions": {
     "delivery": "small complete PRs; continue through every phase",
@@ -152,8 +152,8 @@
     }
   ],
   "resume": {
-    "branch": "curriculum/short-course-blueprints",
-    "nextAction": "Publish the twelve-course design drafts and integrity gate after checks, without changing publishedDays. Then review relevant official source sections and author actual RU/TG/EN modules for all twelve courses, including deepening their first two lessons. Begin with communication where structured rubric support exists, keep all twelve tracked, and never mark drafts or unavailable review/runtimes as delivered courses.",
+    "branch": "fix/windows-powershell-validation",
+    "nextAction": "Prioritize the latest user request: run real Windows/PowerShell matrix, fix failures, rerun until green, and verify GitHub/Vercel. Then resume original DevAtlas plan: actual RU/TG/EN authoring for all twelve short courses from merged blueprints, wider assessment contracts and every remaining phase. Do not count design drafts as delivered courses.",
     "doNotRegenerate": [
       "css",
       "python",
@@ -202,7 +202,8 @@
       13,
       14,
       15,
-      16
+      16,
+      17
     ],
     "lessonFlowMerge": "b5ff27fa7797ef90955ce912905e6e19da9da339",
     "lessonFlowCi": 40228960772,
@@ -241,18 +242,53 @@
     },
     "shortCourseBlueprints": {
       "path": "docs/curriculum-design/short-courses.draft.json",
-      "status": "draft_not_published",
+      "status": "design draft merged after CI; no expansion lessons published",
       "courses": 12,
       "newPublishedDays": 0,
       "sources": "partial review; exact scopes/licenses and unresolved sources recorded",
-      "integrityCheck": "scripts/check-short-course-blueprints.mjs"
+      "integrityCheck": "scripts/check-short-course-blueprints.mjs",
+      "pullRequest": 17
+    },
+    "windowsPowerShell": {
+      "status": "validated on real Windows CI; current-head checks required before merge",
+      "branch": "fix/windows-powershell-validation",
+      "conditions": {
+        "os": "windows-2022 x64",
+        "node": [
+          22,
+          24
+        ],
+        "shell": [
+          "Windows PowerShell 5.1",
+          "PowerShell 7"
+        ],
+        "paths": "spaces and Tajik characters in repository and temp paths"
+      },
+      "localEvidence": "Official PowerShell 7.6.9 on Linux: real exit-code control; lint/typecheck/build passed; latest Vitest 432 passed/7 unavailable-SDK skips; Python 10 passed; browser 102 passed and mock-auth 12 passed. Linux is not used as Windows proof.",
+      "remaining": "Require green checks for the final PR head before normal merge, then verify main CI and Vercel deployment. Optional SDK skips are not successful runtime execution.",
+      "githubEvidence": {
+        "runId": 40284171139,
+        "head": "fd89cc224894b8ccc8c2a174d7a272b847a26e4c",
+        "result": "success",
+        "windowsJobsPassed": 4,
+        "ubuntuJob": "success",
+        "scope": "Node 22/24 x Windows PowerShell 5.1/PowerShell 7; reports, native examples, Python, build, desktop/mobile and mock-auth; Unicode and space paths"
+      },
+      "fixes": [
+        "CRLF report comparison preserves all other text checks",
+        "first executable in PATH when several Node installations are exposed",
+        "assert actual Node major selected by matrix",
+        "retain Python launcher prefix and UTF-8",
+        "per-test portable browser artifacts",
+        "real native nonzero exit propagation and failure transcripts"
+      ]
     }
   },
   "validationCheckpoint": {
-    "unitPassed": 429,
+    "unitPassed": 432,
     "unitSkipped": 7,
-    "playwrightPassed": 2,
-    "browserScope": "written rubric",
+    "playwrightPassed": 114,
+    "browserScope": "local full desktop/mobile 102 and mock-auth 12, real PowerShell; independent Windows matrix evidence recorded in activeWork",
     "auditVulnerabilities": 0,
     "build": "passed",
     "typecheck": "passed",

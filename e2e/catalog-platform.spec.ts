@@ -35,7 +35,7 @@ test('catalog groups all learning categories and separates frontend from backend
   await page.locator('.category-card[data-category="design"]').click();
   await expect(page.locator('[data-course="ux-design"]')).toBeVisible();
   await expect(page.locator('.course-card')).toHaveCount(catalog.filter(course=>course.category==='design').length);
-  await page.screenshot({path:`/tmp/devatlas-${testInfo.project.name}-design-catalog.png`,fullPage:true});
+  await page.screenshot({path: testInfo.outputPath('design-catalog.png'),fullPage:true});
 });
 
 test('plan filters show real premium cards while guest requests cannot read paid lessons or SSR answers',async({page})=>{

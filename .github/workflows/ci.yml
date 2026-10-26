@@ -46,7 +46,7 @@ jobs:
         run: npm run test
 
       - name: Python Importer Tests
-        run: python3 -m unittest discover -s tests -p '*_test.py' -v
+        run: node scripts/run-python-tests.mjs
 
       - name: Next.js Production Build
         run: npm run build
@@ -59,3 +59,61 @@ jobs:
 
       - name: Playwright Mock Auth Regression
         run: npm run test:auth
+
+  windows:
+    name: Windows · ${{ matrix.shell }} · Node ${{ matrix.node }} · Unicode path
+    runs-on: windows-2022
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+        shell: [powershell, pwsh]
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+        working-directory: workspace with spaces/DevAtlas тоҷик
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      PWSH: ${{ matrix.shell }}
+      PLAYWRIGHT_OUTPUT_DIR: ${{ github.workspace }}/windows-test-results-${{ matrix.node }}-${{ matrix.shell }}
+    steps:
+      - name: Checkout into a path with spaces and Tajik characters
+        uses: actions/checkout@v5
+        with:
+          path: workspace with spaces/DevAtlas тоҷик
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: workspace with spaces/DevAtlas тоҷик/package-lock.json
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Setup Java compiler for trusted course examples
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Exercise temporary files in the Unicode workspace too
+        run: |
+          $taskTemp = Join-Path $env:RUNNER_TEMP ((Split-Path -Leaf $PWD.Path) + ' temporary files')
+          New-Item -ItemType Directory -Path $taskTemp -Force | Out-Null
+          $encoding = New-Object System.Text.UTF8Encoding($false)
+          [IO.File]::AppendAllText($env:GITHUB_ENV, "TEMP=$taskTemp`nTMP=$taskTemp`n", $encoding)
+      - name: Install dependencies without npm.ps1 execution-policy dependency
+        run: npm.cmd ci
+      - name: PowerShell checks, native examples, Python and production build
+        run: ./scripts/test-platform.ps1 -Phase checks -SkipInstall -ExpectedNodeMajor ${{ matrix.node }}
+      - name: Real Windows Chromium desktop, mobile and mock-auth tests
+        run: ./scripts/test-platform.ps1 -Phase browser -SkipInstall -ExpectedNodeMajor ${{ matrix.node }}
+      - name: Retain failed browser traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-browser-failure-node-${{ matrix.node }}-${{ matrix.shell }}
+          path: windows-test-results-${{ matrix.node }}-${{ matrix.shell }}
+          retention-days: 7

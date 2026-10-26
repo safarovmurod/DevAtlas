@@ -2,6 +2,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {loadAuditData} from './lib/load-course-audit.mjs';
+import {reportMatches} from './lib/report-text.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const {rows,tracks,matrix}=await loadAuditData();
@@ -31,7 +32,7 @@ for(const [relative,contents] of outputs){
  const filename=path.join(root,relative);
  if(process.argv.includes('--check')){
   const existing=await readFile(filename,'utf8').catch(()=>null);
-  if(existing!==contents)throw new Error(`Stale coverage artifact: ${relative}. Run node scripts/coverage-matrix.mjs.`);
+  if(!reportMatches(existing,contents))throw new Error(`Stale coverage artifact: ${relative}. Run node scripts/coverage-matrix.mjs.`);
  }else await writeFile(filename,contents);
 }
 console.log(JSON.stringify(summary));

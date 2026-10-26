@@ -42,7 +42,7 @@ test('homepage renders local fonts without external font requests', async ({ pag
   expect(fontState.family.toLowerCase()).toContain('inter');
   expect(fontState.width).toBeLessThanOrEqual(fontState.viewport);
   expect(externalFonts).toEqual([]);
-  await page.screenshot({ path: '/tmp/react-mentor-' + testInfo.project.name + '-home.png' });
+  await page.screenshot({ path: testInfo.outputPath('home.png') });
 });
 
 test('a correct quiz answer awards 10 XP and survives reload without duplicates', async ({ page }) => {
@@ -111,7 +111,7 @@ test('Tutor handles online chat history, token usage and API errors (mocked prov
     { role: 'assistant', content: 'useState хотираи компонент аст.' },
   ] });
   await expect(dialog.locator('.tutor-footnote')).toContainText('642 токенов');
-  await page.screenshot({ path: '/tmp/react-mentor-' + testInfo.project.name + '-tutor.png' });
+  await page.screenshot({ path: testInfo.outputPath('tutor.png') });
   await dialog.getByLabel('Вопрос к Tutor').fill('useEffect?');
   await dialog.getByRole('button', { name: 'Отправить', exact: true }).click();
   await expect(dialog.locator('.tutor-error')).toContainText('Лимит или токены AnyModel закончились');
@@ -136,7 +136,7 @@ test('deep tutor uses the displayed quiz answer and keeps its source through rep
     await expect(response.locator('.tutor-source').first()).toHaveText('Материалы проекта · 0 токенов');
     await expect(dialog.getByLabel('Вопрос к Tutor')).toBeEnabled();
   }
-  await page.screenshot({ path: '/tmp/react-mentor-' + testInfo.project.name + '-local-deep.png' });
+  await page.screenshot({ path: testInfo.outputPath('local-deep.png') });
   await dialog.getByLabel('Вопрос к Tutor').fill('Svelte runes чияй?');
   await dialog.getByRole('button', { name: 'Отправить', exact: true }).click();
   await expect(dialog.locator('.tutor-message.assistant').last()).toContainText('ёфт нашуд');

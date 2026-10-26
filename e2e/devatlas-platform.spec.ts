@@ -43,7 +43,7 @@ test('day 1 has a real editor, accepts alternate HTML, confirms and unlocks exac
   await expect(page.locator('.practice-validation [role=status]')).toContainText('Все проверки пройдены');
   await expect(page.frameLocator('.html-preview').getByRole('heading',{name:'Учусь создавать сайты'})).toBeVisible();
   await expect(page.getByRole('button',{name:'Подтвердить завершение дня',exact:true})).toBeEnabled();
-  await page.screenshot({path:`/tmp/devatlas-${testInfo.project.name}-verified-practice.png`,fullPage:true});
+  await page.screenshot({path: testInfo.outputPath('verified-practice.png'),fullPage:true});
   await page.getByRole('button',{name:'Подтвердить завершение дня',exact:true}).click();
   await expect(page.getByRole('button',{name:'День подтверждён',exact:true})).toBeDisabled();
   const before=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).state.courses.html,storageKey);
@@ -60,7 +60,7 @@ test('day 1 has a real editor, accepts alternate HTML, confirms and unlocks exac
   await expect(page.locator('.day-card.is-next')).toHaveCount(1);
   await expect(page.getByRole('link',{name:/День 2 /})).toBeVisible();
   await expect(page.getByRole('link',{name:/День 3 /})).toHaveCount(0);
-  await page.screenshot({path:`/tmp/devatlas-${testInfo.project.name}-progress.png`,fullPage:true});
+  await page.screenshot({path: testInfo.outputPath('progress.png'),fullPage:true});
   expect(errors).toEqual([]);
 });
 
@@ -91,7 +91,7 @@ test('all learning tracks have one shared practice catalog and responsive layout
     }
   }
   await page.setViewportSize({width:360,height:800});
-  await page.screenshot({path:`/tmp/devatlas-${testInfo.project.name}-practice-mobile.png`,fullPage:true});
+  await page.screenshot({path: testInfo.outputPath('practice-mobile.png'),fullPage:true});
 });
 
 for(const [locale,title] of [['ru','Лаборатория практики'],['tg','Озмоишгоҳи машқ'],['en','Practice lab'],['ja','演習ラボ'],['ko','실습실']] as const){
