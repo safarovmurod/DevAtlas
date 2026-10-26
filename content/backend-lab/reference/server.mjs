@@ -83,8 +83,9 @@ export function createApp({store = openStore(),sessionStore = sessions(),allowLo
   return server;
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const port = Number(process.env.PORT ?? 3001);
-  if (!Number.isInteger(port) || port<1024 || port>65535) throw new Error('Use PORT 1024–65535');
+  const rawPort = process.env.PORT ?? '3001';
+  const port = Number(rawPort);
+  if (!/^\d+$/.test(rawPort) || !Number.isInteger(port) || port<1024 || port>65535) throw new Error('Use PORT 1024–65535');
   const origin = `http://127.0.0.1:${port}`;
   const store = openStore(process.env.DB_PATH ?? 'tasks.sqlite');
   if (process.argv.includes('--seed')) {

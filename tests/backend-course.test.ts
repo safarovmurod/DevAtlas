@@ -10,7 +10,7 @@ import {COURSE_CATALOG} from '@/content/courses/catalog';
 
 it('Backend publishes only authored days with complete translations, connected flows, unique checks and honest local evidence',async()=>{
  const course=await loadCourseContent('backend');const entry=COURSE_CATALOG.find(item=>item.id==='backend')!;
- expect(entry.publishedDays).toBe(course.lessons.length);expect(entry.prerequisite).toBeNull();
+ expect(entry.publishedDays).toBe(44);expect(course.lessons.length).toBe(44);expect(entry.prerequisite).toBeNull();
  expect(course.lessons.map(lesson=>lesson.id)).toEqual(Array.from({length:course.lessons.length},(_,i)=>`backend-day-${String(i+1).padStart(2,'0')}`));
  const checkText=(value:unknown):void=>{
   if(Array.isArray(value)){value.forEach(checkText);return;}
@@ -26,7 +26,17 @@ it('Backend publishes only authored days with complete translations, connected f
   expect(new Set(lesson.questions.map(question=>question.question.en)).size).toBe(lesson.questions.length);
   expect(lesson.learningFlow?.nextLessonId).toBe(course.lessons[index+1]?.id??null);
   expect(lesson.learningFlow?.assessmentMode).toBe('local-only');
+  for(const section of lesson.sections)expect(new Set(Object.values(section.body)).size).toBe(3);
   for(const section of lesson.sections)for(const language of ['ru','tg','en'] as const)expect(section.body[language]!.length).toBeGreaterThan(120);
+ }
+ const book=JSON.parse(await readFile('content/backend-lab/exercise-cases.json','utf8'));
+ for(const lesson of course.lessons.slice(9)){
+  const number=String(lesson.day).padStart(2,'0');
+  expect(lesson.prerequisiteDays).toEqual([lesson.day!-1]);
+  expect(lesson.sections[1].code).toBe((await readFile(`content/backend-lab/examples/day-${number}.mjs`,'utf8')).replaceAll('\r\n','\n'));
+  for(const language of ['ru','tg','en'] as const)expect(lesson.sections[1].output?.[language]).toBe(book[lesson.day!].expectedOutput);
+  if(lesson.day!<40)expect(lesson.practice?.solution).toBe((await readFile(`content/backend-lab/solutions/day-${number}.mjs`,'utf8')).replaceAll('\r\n','\n'));
+  else expect(lesson.practice?.task.en).toContain(`node check-project.mjs project --phase ${lesson.day}`);
  }
  // Keep the two historical quiz IDs attached to their original concepts.
  expect(course.lessons[0].questions.find(q=>q.id==='backend-day-01-q')?.answer.en).toContain('404');
@@ -39,11 +49,11 @@ it('all authored browser-function solutions execute against every declared case 
  for(const lesson of course.lessons){
   const execution=lesson.practice?.execution;if(!execution)continue;
   // Trusted repository-authored reference only. Learner code never runs in this Node process.
-  const source=lesson.practice!.solution.replace(/\bexport /g,'');const context=createContext({});
+  const source=lesson.practice!.solution.replace(/\bexport /g,'');const context=createContext({URL,TextEncoder});
   const fn=runInContext(source+';'+execution.functionName,context,{timeout:1000}) as (...args:unknown[])=>unknown;
   for(const test of execution.tests){
    const args=structuredClone(test.args),before=JSON.stringify(args);
-   expect(JSON.stringify(fn(...args))).toBe(JSON.stringify(test.expected));expect(JSON.stringify(args)).toBe(before);cases++;
+   expect(JSON.stringify(await fn(...args))).toBe(JSON.stringify(test.expected));expect(JSON.stringify(args)).toBe(before);cases++;
   }
  }
  expect(cases).toBeGreaterThanOrEqual(30);
@@ -65,7 +75,7 @@ try {
 } finally {server.close();server.closeAllConnections();}
 `);
   const http=spawnSync(process.execPath,[httpFile],{encoding:'utf8',timeout:10000});expect(http.status,http.stderr).toBe(0);
-  for(const lesson of course.lessons.filter(lesson=>lesson.day!==1)){
+  for(const lesson of course.lessons.filter(lesson=>lesson.day!==1&&lesson.day!<=9)){
    for(const [index,section] of lesson.sections.entries()){
     if(!section.code)continue;
     const filename=path.join(folder,`day-${lesson.day}-${index}.mjs`);

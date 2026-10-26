@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "19fa357033cc8e9392c89c0012f1b874e9e96a83",
+  "baselineCommit": "91f12af9e666aa92c052c77d58ae77a13280d8a7",
   "acceptedPlan": "Strict continuation master prompt, sections 0–19, and approved implementation plan",
   "decisions": {
     "delivery": "small complete PRs; continue through every phase",
@@ -153,8 +153,8 @@
     }
   ],
   "resume": {
-    "branch": "fix/audit-learning-privacy",
-    "nextAction": "Continue authoring Backend days 10–44 in this same branch/PR before declaring Backend complete or merging as a finished course. Then remaining eleven short courses, five fourteen-day continuations and every missing stage. Do not reauthor days 1–9 or mistake the separate reference API for completed lessons.",
+    "branch": "feat/backend-beginner-course",
+    "nextAction": "Finish the exact-head quality gates and review/merge PR #20 for Backend Beginner 44 days. Check main CI after ordinary merge. Only then begin Mobile Beginner; do not reauthor Backend.",
     "doNotRegenerate": [
       "css",
       "python",
@@ -345,70 +345,37 @@
       "status": "PARTIAL",
       "branch": "feat/backend-beginner-course",
       "baseCommit": "91f12af9e666aa92c052c77d58ae77a13280d8a7",
-      "publishedDays": 9,
+      "publishedDays": 44,
       "targetDraftDays": 44,
-      "remainingDays": [
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20,
-        21,
-        22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        43,
-        44
-      ],
-      "content": "Original RU/TG/EN days 1–9 with 45 questions and guided/pure-function practice; not a complete Backend course",
+      "remainingDays": [],
+      "content": "Original RU/TG/EN days 1–44, 220 questions, executable browser functions, actual Node examples, daily SQL/auth/test exercises and phased independent API capstone",
       "implemented": [
         "Preserved old lesson IDs and historical quiz concepts",
         "Actual browser worker exercises for days 3–8; no Node runtime simulation or server Mastered claim",
         "Code trace explanation, not pretending to execute learner input",
         "Actual local task API reference with SQLite, password hashing, sessions, ownership, body limits, CSRF and tests",
         "MIT laboratory download and source JSON; learner starter tests initially fail intentionally",
-        "Course materials visible through authorized content; canonical file endpoint protection retained"
+        "Course materials visible through authorized content; canonical file endpoint protection retained",
+        "Days 10–39 local check-day CLI: actual SQLite writes/constraints/persistence, password verification, session-derived ownership and mutation checking learner-written assertions",
+        "Days 40–44 project checker dynamically loads learner four-module project, real HTTP negative cases, injected-clock 429/expiry and file-backed app reopening",
+        "Every new example actual stdout verified; intentionally unfinished starters and broken owner predicate must fail",
+        "Optional two-level hints reuse accessible native details controls; existing single-hint lessons unchanged"
       ],
-      "nextAction": "Continue authoring Backend days 10–44 in this same branch/PR before declaring Backend complete or merging as a finished course. Then remaining eleven short courses, five fourteen-day continuations and every missing stage. Do not reauthor days 1–9 or mistake the separate reference API for completed lessons.",
+      "nextAction": "Finish the exact-head quality gates and review/merge PR #20 for Backend Beginner 44 days. Check main CI after ordinary merge. Only then begin Mobile Beginner; do not reauthor Backend.",
       "validation": {
-        "powershell": "PowerShell 7 on Linux: full checks phase exit 0; lint/typecheck, 455 passed / 7 unavailable SDK skips across 73 Vitest files, Python 10 passed, real Node lab 4 groups, download integrity and production build passed",
-        "targetedE2E": "4 desktop/mobile passed including route/query guard fix and failure feedback",
-        "legacyProgress": "Historical question IDs, option order and correct indexes retained; targeted 7 tests passed",
-        "fullE2E": "112 desktop/mobile passed and 12 isolated mock-auth scenarios passed on behavioral commit c8aba3b; not live service validation. Final follow-up changes only lesson explanations and this evidence checkpoint.",
-        "windows": "All four real Windows CI jobs passed on c8aba3b: Node22/24 x PowerShell5.1/7, Unicode/spaced paths; Ubuntu still running at checkpoint. Final-head workflow must be checked separately.",
-        "localProduction": "next start: /api/courses/backend 200 with 9 lessons; ZIP 200, 16339 bytes and exact SHA256; guest Backend Pro 401 with no paid lesson body",
-        "preview": "Vercel Preview deployment7334732971 succeeded for c8aba3b; direct HTTP from cloud denied by CONNECT proxy403; no production merge",
-        "finalEditorial": "After explicit callback/arrow-function explanations were added to RU/TG/EN theory: 15 targeted tests passed and production build passed. Executable examples and application code are unchanged from c8aba3b."
+        "currentLocal": "Final Node lab: 12 groups passed, 35 new examples exact stdout, 30 solutions pass, all 30 starters rejected; eight capstone contract groups pass; unfinished/ownership-mutated/output-only-session candidates rejected",
+        "targetedVitest": "11 tests passed including source schema/44-day sequence, old question IDs/options and real Node examples",
+        "pending": "Final archive, targeted follow-up, exact-head GitHub/Windows CI, normal merge and main CI",
+        "powershell": "PowerShell 7.6.9 on Linux, Node24: checks phase exit 0; lint, typecheck, 455 unit/integration passed, 7 unavailable SDK tests skipped, 73 files; Python 10 passed; actual Node laboratory 11 groups passed; production build and download integrity passed",
+        "targetedE2E": "6 desktop/mobile passed: browser execution and timeout/recovery, persistent drafts, incorrect-answer hint/retry, course ZIP, day14 UTF-8 grading and day44 local-only capstone route. Final full suite additionally checks progressive hints.",
+        "localProduction": "next start on loopback: Backend API 200 with 44 lessons/220 questions; ZIP hash/size checked; downloaded/extracted lab actually runs hash and eight API groups; unfinished project rejected; guest Backend Pro 401 with no lesson bodies",
+        "fullE2E": "114 desktop/mobile passed; final Node-only session grader/content follow-up is covered by targeted rerun and exact-head CI",
+        "auth": "12 isolated mock-auth passed; not live Supabase validation"
       },
       "pullRequest": "https://github.com/safarovmurod/react-mentor/pull/20",
       "remainingAcceptance": [
-        "Author and execute days 10–44",
-        "Complete Backend assessment variants, practical strategies and capstone teaching/review",
-        "Independent language and educational review; publication is not Verified mastery"
+        "Full final desktop/mobile/auth suite and exact-head Windows/GitHub CI",
+        "Final diff review, ordinary PR #20 merge and successful main CI before Mobile"
       ]
     }
   },

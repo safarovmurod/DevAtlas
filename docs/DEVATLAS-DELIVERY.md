@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-Recorded main checkpoint: `19fa357033cc8e9392c89c0012f1b874e9e96a83`. 43 course IDs; 38 tracks; 114 stage requirements; 901 actual scheduled days (751 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
+Recorded main checkpoint: `91f12af9e666aa92c052c77d58ae77a13280d8a7`. 43 course IDs; 38 tracks; 114 stage requirements; 936 actual scheduled days (786 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
 
 42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
 
@@ -22,7 +22,7 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 | typescript | starter | 14 |
 | algorithms | starter | 14 |
 | python | starter | 30 |
-| backend | starter | 9 |
+| backend | starter | 44 |
 | mobile | starter | 2 |
 | cpp | starter | 30 |
 | java | starter | 30 |
@@ -64,7 +64,7 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 - The protected assessment ledger has server-derived grading, own-account/MFA reads and service-only idempotent writes. Its migration has PostgreSQL-compatible tests; live Supabase application is not verified. Missing configuration does not fabricate persistence.
 - The SQLite pilot checks day 1 in a disposable browser worker with real WASM SQLite, changed datasets, constraints, expected/actual output and execution/output limits. It is local assessment, not server attestation. Other SQL days remain local CLI exercises. See [SQLITE-PRACTICE.md](SQLITE-PRACTICE.md) and the recorded publication status in delivery-state.json.
 - Communication day 1 has a versioned written rubric with three-language performance descriptors and required reflection. Reviews bind to the exact answer hash and existing account-scoped drafts. Self Reviewed remains separate from Auto Verified, AI Feedback and Human Reviewed; it never mints verified Mastered. Wider written-rubric rollout and authorized human review remain pending.
-- Backend currently has 9 foundation days with RU/TG/EN explanations and five checks per day; its 44-day target is not complete. Supported function tasks reuse the isolated browser runner; code traces are explanatory and local Node.js project tests are separate. The downloadable reference API is working source, not a completed learner capstone or server attestation.
+- Backend currently has 44 authored days with RU/TG/EN explanations and five checks per day, including its 44-day capstone sequence. Supported function tasks reuse the isolated browser runner; code traces are explanatory and local Node.js project tests are separate. Daily CLI graders exercise learner files against actual Node/SQLite cases; capstone gates load the supplied project modules and reject broken ownership. Reference success does not establish learner authorship or server attestation.
 - React function labs retain their existing isolated browser runner. Other native languages are not advertised as browser-compiled merely because an editor exists. Provision and test isolated trusted runners before enabling them.
 - Existing TutorDrawer and Floating Site Agent remain the two assistants. Owner-scoped local Agent history, cancellation and mandatory persistent AI budget reservations are implemented; live budget migration/configuration and shared persistent multi-chat remain pending. Do not represent local chat history as complete server history.
 - Beginner remains free. Pro/Expert bodies, solutions, tutor references and paid attachments retain server authorization and private/no-store caching. Billing remains billing_not_configured; a browser flag or fake redirect never grants membership.

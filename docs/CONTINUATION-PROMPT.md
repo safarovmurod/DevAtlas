@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `19fa357033cc8e9392c89c0012f1b874e9e96a83`. Фактический каталог: 43 IDs, 38 направлений, 901 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `91f12af9e666aa92c052c77d58ae77a13280d8a7`. Фактический каталог: 43 IDs, 38 направлений, 936 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Continue authoring Backend days 10–44 in this same branch/PR before declaring Backend complete or merging as a finished course. Then remaining eleven short courses, five fourteen-day continuations and every missing stage. Do not reauthor days 1–9 or mistake the separate reference API for completed lessons.
+Следующее действие по сохранённому состоянию: Finish the exact-head quality gates and review/merge PR #20 for Backend Beginner 44 days. Check main CI after ordinary merge. Only then begin Mobile Beginner; do not reauthor Backend.
 
 ## Что сохранить
 

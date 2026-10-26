@@ -4,10 +4,14 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {once} from 'node:events';
-import {calculateTotal,taskInput,positiveId,pagination} from '../reference/validation.mjs';
-import {openStore} from '../reference/storage.mjs';
-import {hashPassword,verifyPassword,sessions,loginLimiter} from '../reference/auth.mjs';
-import {createApp} from '../reference/server.mjs';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+const root=process.env.DEVATLAS_BACKEND_PROJECT_ROOT;
+const moduleURL=name=>root?pathToFileURL(resolve(root,name+'.mjs')).href:new URL('../reference/'+name+'.mjs',import.meta.url).href;
+const {calculateTotal,taskInput,positiveId,pagination}=await import(moduleURL('validation'));
+const {openStore}=await import(moduleURL('storage'));
+const {hashPassword,verifyPassword,sessions,loginLimiter}=await import(moduleURL('auth'));
+const {createApp}=await import(moduleURL('server'));
 test('validation: types, boundaries, overflow, unknown properties, IDs and duplicate pagination',()=>{
   assert.equal(calculateTotal(12,3),36);assert.equal(calculateTotal(12,0),0);
   for(const args of [[12,-1],['12',1],[NaN,1],[Infinity,1],[12,0.5],[Number.MAX_VALUE,2]]) assert.throws(()=>calculateTotal(...args),TypeError);

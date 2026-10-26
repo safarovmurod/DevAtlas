@@ -1,0 +1,1420 @@
+{
+  "10": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "method": "GET",
+          "url": "/"
+        },
+        "expected": {
+          "method": "GET",
+          "path": "/"
+        }
+      },
+      {
+        "input": {
+          "method": "POST",
+          "url": "/notes?q=a"
+        },
+        "expected": {
+          "method": "POST",
+          "path": "/notes"
+        }
+      },
+      {
+        "input": {
+          "method": "DELETE",
+          "url": "/notes/7?x=1"
+        },
+        "expected": {
+          "method": "DELETE",
+          "path": "/notes/7"
+        }
+      }
+    ],
+    "expectedOutput": "{\"method\":\"POST\",\"path\":\"/notes\"}"
+  },
+  "11": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": true,
+        "expected": {
+          "status": 200,
+          "body": {
+            "status": "ok"
+          }
+        }
+      },
+      {
+        "input": false,
+        "expected": {
+          "status": 404,
+          "body": {
+            "error": "Not found"
+          }
+        }
+      }
+    ],
+    "expectedOutput": "{\"status\":201,\"location\":\"/tasks/1\",\"body\":{\"id\":1,\"title\":\"Read\"}}"
+  },
+  "12": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": "/tasks",
+        "expected": {
+          "limit": 10
+        }
+      },
+      {
+        "input": "/tasks?limit=2",
+        "expected": {
+          "limit": 2
+        }
+      },
+      {
+        "input": "/?limit=50",
+        "expected": {
+          "limit": 50
+        }
+      },
+      {
+        "input": "/?limit=0",
+        "expected": {
+          "error": "limit"
+        }
+      },
+      {
+        "input": "/?limit=1&limit=2",
+        "expected": {
+          "error": "limit"
+        }
+      },
+      {
+        "input": "/?limit=",
+        "expected": {
+          "error": "limit"
+        }
+      },
+      {
+        "input": "/?limit=1e1",
+        "expected": {
+          "error": "limit"
+        }
+      }
+    ],
+    "expectedOutput": "{\"limit\":2,\"offset\":0}"
+  },
+  "13": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "method": "GET",
+          "path": "/tasks"
+        },
+        "expected": "list"
+      },
+      {
+        "input": {
+          "method": "POST",
+          "path": "/tasks"
+        },
+        "expected": "create"
+      },
+      {
+        "input": {
+          "method": "PATCH",
+          "path": "/tasks"
+        },
+        "expected": "method-not-allowed"
+      },
+      {
+        "input": {
+          "method": "GET",
+          "path": "/missing"
+        },
+        "expected": "not-found"
+      },
+      {
+        "input": {
+          "method": "DELETE",
+          "path": "/other"
+        },
+        "expected": "not-found"
+      }
+    ],
+    "expectedOutput": "{\"status\":200,\"body\":[]}"
+  },
+  "14": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "type": "application/json",
+          "body": "{\"x\":1}"
+        },
+        "expected": {
+          "status": 200,
+          "value": {
+            "x": 1
+          }
+        }
+      },
+      {
+        "input": {
+          "type": "text/plain",
+          "body": "{}"
+        },
+        "expected": {
+          "status": 415
+        }
+      },
+      {
+        "input": {
+          "type": "application/json; charset=utf-8",
+          "body": "null"
+        },
+        "expected": {
+          "status": 200,
+          "value": null
+        }
+      },
+      {
+        "input": {
+          "type": "application/json",
+          "body": "{"
+        },
+        "expected": {
+          "status": 400
+        }
+      },
+      {
+        "input": {
+          "type": "application/json",
+          "body": "яяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяя"
+        },
+        "expected": {
+          "status": 413
+        }
+      }
+    ],
+    "expectedOutput": "{\"received\":{\"title\":\"Read\"}}"
+  },
+  "15": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "title": "  Read  "
+        },
+        "expected": {
+          "title": "Read"
+        }
+      },
+      {
+        "input": null,
+        "expected": {
+          "error": "title"
+        }
+      },
+      {
+        "input": [],
+        "expected": {
+          "error": "title"
+        }
+      },
+      {
+        "input": {
+          "title": ""
+        },
+        "expected": {
+          "error": "title"
+        }
+      },
+      {
+        "input": {
+          "title": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "expected": {
+          "error": "title"
+        }
+      },
+      {
+        "input": {
+          "title": "ok",
+          "ownerId": 2
+        },
+        "expected": {
+          "error": "title"
+        }
+      },
+      {
+        "input": {
+          "title": 42
+        },
+        "expected": {
+          "error": "title"
+        }
+      }
+    ],
+    "expectedOutput": "[{\"title\":\"Read\"},{\"status\":422}]"
+  },
+  "16": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "status": 404,
+          "message": "Not found",
+          "requestId": "r1"
+        },
+        "expected": {
+          "error": {
+            "code": 404,
+            "message": "Not found",
+            "requestId": "r1"
+          }
+        }
+      },
+      {
+        "input": {
+          "status": 422,
+          "message": "Invalid title",
+          "requestId": "r1"
+        },
+        "expected": {
+          "error": {
+            "code": 422,
+            "message": "Invalid title",
+            "requestId": "r1"
+          }
+        }
+      },
+      {
+        "input": {
+          "status": 500,
+          "message": "password=secret",
+          "requestId": "r1"
+        },
+        "expected": {
+          "error": {
+            "code": 500,
+            "message": "Service unavailable",
+            "requestId": "r1"
+          }
+        }
+      },
+      {
+        "input": {
+          "status": 200,
+          "message": "unexpected",
+          "requestId": "r1"
+        },
+        "expected": {
+          "error": {
+            "code": 500,
+            "message": "Service unavailable",
+            "requestId": "r1"
+          }
+        }
+      },
+      {
+        "input": {
+          "status": "404",
+          "message": "bad type",
+          "requestId": "r1"
+        },
+        "expected": {
+          "error": {
+            "code": 500,
+            "message": "Service unavailable",
+            "requestId": "r1"
+          }
+        }
+      }
+    ],
+    "expectedOutput": "{\"error\":{\"code\":404,\"message\":\"Not found\",\"requestId\":\"r-demo\"}}"
+  },
+  "17": {
+    "mode": "sql",
+    "cases": [
+      {
+        "input": null,
+        "expected": "created",
+        "query": "SELECT name,pk,\"notnull\" AS required FROM pragma_table_info('tasks') ORDER BY cid",
+        "rows": [
+          {
+            "name": "id",
+            "pk": 1,
+            "required": 0
+          },
+          {
+            "name": "title",
+            "pk": 0,
+            "required": 1
+          }
+        ],
+        "probes": [
+          {
+            "sql": "INSERT INTO tasks VALUES(1,'A'); INSERT INTO tasks VALUES(1,'B')",
+            "reject": true
+          },
+          {
+            "sql": "INSERT INTO tasks VALUES(2,NULL)",
+            "reject": true
+          }
+        ]
+      }
+    ],
+    "expectedOutput": "[{\"id\":1,\"title\":\"Read\"}]"
+  },
+  "18": {
+    "mode": "persistence",
+    "cases": [
+      {
+        "input": {
+          "title": "Read"
+        },
+        "expected": "saved",
+        "query": "SELECT title FROM tasks",
+        "rows": [
+          {
+            "title": "Read"
+          }
+        ]
+      },
+      {
+        "input": {
+          "title": "Дониш"
+        },
+        "expected": "saved",
+        "query": "SELECT title FROM tasks",
+        "rows": [
+          {
+            "title": "Дониш"
+          }
+        ]
+      },
+      {
+        "input": {
+          "title": "A ' quote"
+        },
+        "expected": "saved",
+        "query": "SELECT title FROM tasks",
+        "rows": [
+          {
+            "title": "A ' quote"
+          }
+        ]
+      }
+    ],
+    "expectedOutput": "[{\"title\":\"Read\"}]"
+  },
+  "19": {
+    "mode": "sql",
+    "cases": [
+      {
+        "input": {
+          "id": 1
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT);INSERT INTO tasks VALUES(1,'A'),(2,'B')",
+        "expected": [
+          {
+            "id": 1,
+            "title": "A"
+          }
+        ],
+        "query": "SELECT count(*) AS n FROM tasks",
+        "rows": [
+          {
+            "n": 2
+          }
+        ]
+      },
+      {
+        "input": {
+          "id": 2
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT);INSERT INTO tasks VALUES(1,'A'),(2,'B')",
+        "expected": [
+          {
+            "id": 2,
+            "title": "B"
+          }
+        ],
+        "query": "SELECT count(*) AS n FROM tasks",
+        "rows": [
+          {
+            "n": 2
+          }
+        ]
+      },
+      {
+        "input": {
+          "id": 99
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT);INSERT INTO tasks VALUES(1,'A'),(2,'B')",
+        "expected": [],
+        "query": "SELECT count(*) AS n FROM tasks",
+        "rows": [
+          {
+            "n": 2
+          }
+        ]
+      },
+      {
+        "input": {
+          "id": "1 OR 1=1"
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT);INSERT INTO tasks VALUES(1,'A'),(2,'B')",
+        "expected": [],
+        "query": "SELECT count(*) AS n FROM tasks",
+        "rows": [
+          {
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "expectedOutput": "{\"id\":2,\"title\":\"Write\"}"
+  },
+  "20": {
+    "mode": "sql",
+    "cases": [
+      {
+        "input": {
+          "title": "Read"
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 120))",
+        "expected": 1,
+        "query": "SELECT title FROM tasks",
+        "rows": [
+          {
+            "title": "Read"
+          }
+        ]
+      },
+      {
+        "input": {
+          "title": "A ' quote"
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 120))",
+        "expected": 1,
+        "query": "SELECT title FROM tasks",
+        "rows": [
+          {
+            "title": "A ' quote"
+          }
+        ]
+      },
+      {
+        "input": {
+          "title": "Китоб"
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 120))",
+        "expected": 1,
+        "query": "SELECT title FROM tasks",
+        "rows": [
+          {
+            "title": "Китоб"
+          }
+        ]
+      },
+      {
+        "input": {
+          "title": null
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 120))",
+        "throws": true,
+        "query": "SELECT count(*) AS n FROM tasks",
+        "rows": [
+          {
+            "n": 0
+          }
+        ]
+      },
+      {
+        "input": {
+          "title": "   "
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 120))",
+        "throws": true,
+        "query": "SELECT count(*) AS n FROM tasks",
+        "rows": [
+          {
+            "n": 0
+          }
+        ]
+      },
+      {
+        "input": {
+          "title": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 120))",
+        "throws": true,
+        "query": "SELECT count(*) AS n FROM tasks",
+        "rows": [
+          {
+            "n": 0
+          }
+        ]
+      }
+    ],
+    "expectedOutput": "{\"id\":1,\"rows\":[{\"title\":\"Read\"}]}"
+  },
+  "21": {
+    "mode": "sql",
+    "cases": [
+      {
+        "input": {
+          "action": "rename",
+          "id": 1,
+          "ownerId": 2,
+          "title": "X"
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'A'),(2,2,'B')",
+        "expected": 0,
+        "query": "SELECT id,title FROM tasks ORDER BY id",
+        "rows": [
+          {
+            "id": 1,
+            "title": "A"
+          },
+          {
+            "id": 2,
+            "title": "B"
+          }
+        ]
+      },
+      {
+        "input": {
+          "action": "rename",
+          "id": 1,
+          "ownerId": 1,
+          "title": "X"
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'A'),(2,2,'B')",
+        "expected": 1,
+        "query": "SELECT id,title FROM tasks ORDER BY id",
+        "rows": [
+          {
+            "id": 1,
+            "title": "X"
+          },
+          {
+            "id": 2,
+            "title": "B"
+          }
+        ]
+      },
+      {
+        "input": {
+          "action": "remove",
+          "id": 1,
+          "ownerId": 2
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'A'),(2,2,'B')",
+        "expected": 0,
+        "query": "SELECT id,title FROM tasks ORDER BY id",
+        "rows": [
+          {
+            "id": 1,
+            "title": "A"
+          },
+          {
+            "id": 2,
+            "title": "B"
+          }
+        ]
+      },
+      {
+        "input": {
+          "action": "remove",
+          "id": 1,
+          "ownerId": 1
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'A'),(2,2,'B')",
+        "expected": 1,
+        "query": "SELECT id,title FROM tasks ORDER BY id",
+        "rows": [
+          {
+            "id": 2,
+            "title": "B"
+          }
+        ]
+      },
+      {
+        "input": {
+          "action": "remove",
+          "id": 99,
+          "ownerId": 1
+        },
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'A'),(2,2,'B')",
+        "expected": 0,
+        "query": "SELECT id,title FROM tasks ORDER BY id",
+        "rows": [
+          {
+            "id": 1,
+            "title": "A"
+          },
+          {
+            "id": 2,
+            "title": "B"
+          }
+        ]
+      }
+    ],
+    "expectedOutput": "{\"changes\":0,\"title\":\"Read\"}"
+  },
+  "22": {
+    "mode": "sql",
+    "cases": [
+      {
+        "input": {
+          "titles": [
+            "A",
+            "B"
+          ]
+        },
+        "setup": "CREATE TABLE tasks(title TEXT NOT NULL CHECK(length(title)>0));INSERT INTO tasks VALUES('Keep')",
+        "expected": 2,
+        "query": "SELECT title FROM tasks ORDER BY rowid",
+        "rows": [
+          {
+            "title": "Keep"
+          },
+          {
+            "title": "A"
+          },
+          {
+            "title": "B"
+          }
+        ]
+      },
+      {
+        "input": {
+          "titles": []
+        },
+        "setup": "CREATE TABLE tasks(title TEXT NOT NULL CHECK(length(title)>0));INSERT INTO tasks VALUES('Keep')",
+        "expected": 0,
+        "query": "SELECT title FROM tasks ORDER BY rowid",
+        "rows": [
+          {
+            "title": "Keep"
+          }
+        ]
+      },
+      {
+        "input": {
+          "titles": [
+            "A",
+            ""
+          ]
+        },
+        "setup": "CREATE TABLE tasks(title TEXT NOT NULL CHECK(length(title)>0));INSERT INTO tasks VALUES('Keep')",
+        "throws": true,
+        "query": "SELECT title FROM tasks ORDER BY rowid",
+        "rows": [
+          {
+            "title": "Keep"
+          }
+        ]
+      },
+      {
+        "input": {
+          "titles": [
+            "A",
+            null
+          ]
+        },
+        "setup": "CREATE TABLE tasks(title TEXT NOT NULL CHECK(length(title)>0));INSERT INTO tasks VALUES('Keep')",
+        "throws": true,
+        "query": "SELECT title FROM tasks ORDER BY rowid",
+        "rows": [
+          {
+            "title": "Keep"
+          }
+        ]
+      }
+    ],
+    "expectedOutput": "[{\"title\":\"Keep\"}]"
+  },
+  "23": {
+    "mode": "sql",
+    "cases": [
+      {
+        "input": null,
+        "expected": 1,
+        "repeat": 2,
+        "query": "PRAGMA user_version",
+        "rows": [
+          {
+            "user_version": 1
+          }
+        ]
+      },
+      {
+        "input": null,
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT NOT NULL);INSERT INTO tasks VALUES(1,'Keep');PRAGMA user_version=1",
+        "expected": 1,
+        "repeat": 2,
+        "query": "SELECT title FROM tasks",
+        "rows": [
+          {
+            "title": "Keep"
+          }
+        ]
+      },
+      {
+        "input": null,
+        "setup": "PRAGMA user_version=2",
+        "throws": true,
+        "query": "PRAGMA user_version",
+        "rows": [
+          {
+            "user_version": 2
+          }
+        ]
+      }
+    ],
+    "expectedOutput": "{\"version\":1,\"rows\":[{\"id\":1,\"title\":\"Keep\"}]}"
+  },
+  "24": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "authenticated": false,
+          "userId": 1,
+          "ownerId": 1
+        },
+        "expected": 401
+      },
+      {
+        "input": {
+          "authenticated": true,
+          "userId": 1,
+          "ownerId": 1
+        },
+        "expected": 200
+      },
+      {
+        "input": {
+          "authenticated": true,
+          "userId": 1,
+          "ownerId": 2
+        },
+        "expected": 404
+      },
+      {
+        "input": {
+          "authenticated": true,
+          "userId": 2,
+          "ownerId": 2
+        },
+        "expected": 200
+      }
+    ],
+    "expectedOutput": "{\"valid\":true,\"invented\":true}"
+  },
+  "25": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "id": 1,
+          "name": "Amina",
+          "password": "secret",
+          "passwordHash": "hash",
+          "token": "private"
+        },
+        "expected": {
+          "id": 1,
+          "name": "Amina"
+        }
+      },
+      {
+        "input": {
+          "id": 2,
+          "name": "Фарид",
+          "password": "secret",
+          "passwordHash": "hash",
+          "token": "private"
+        },
+        "expected": {
+          "id": 2,
+          "name": "Фарид"
+        }
+      },
+      {
+        "input": {
+          "id": 99,
+          "name": "New name",
+          "password": "secret",
+          "passwordHash": "hash",
+          "token": "private"
+        },
+        "expected": {
+          "id": 99,
+          "name": "New name"
+        }
+      }
+    ],
+    "expectedOutput": "{\"plainStored\":false,\"profile\":{\"id\":1,\"name\":\"Amina\"}}"
+  },
+  "26": {
+    "mode": "password-hash",
+    "cases": [
+      {
+        "input": "local-example-password"
+      },
+      {
+        "input": "пароли-маҳаллии-дароз"
+      },
+      {
+        "input": "short",
+        "throws": true
+      },
+      {
+        "input": "яяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяя",
+        "throws": true
+      }
+    ],
+    "expectedOutput": "{\"different\":true,\"correct\":true,\"wrong\":false}"
+  },
+  "27": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "token": "sample-one",
+          "secure": false
+        },
+        "expected": "sid=sample-one; HttpOnly; SameSite=Strict; Path=/; Max-Age=1800"
+      },
+      {
+        "input": {
+          "token": "sample-two",
+          "secure": true
+        },
+        "expected": "sid=sample-two; HttpOnly; SameSite=Strict; Path=/; Max-Age=1800; Secure"
+      },
+      {
+        "input": {
+          "token": "sample-three",
+          "secure": true
+        },
+        "expected": "sid=sample-three; HttpOnly; SameSite=Strict; Path=/; Max-Age=1800; Secure"
+      }
+    ],
+    "expectedOutput": "{\"httpOnly\":true,\"sameSite\":true,\"secure\":false}"
+  },
+  "28": {
+    "mode": "session-lifecycle",
+    "cases": [
+      {
+        "input": {
+          "ttl": 10,
+          "advance": 9,
+          "logout": false
+        },
+        "expected": {
+          "before": 7,
+          "after": 7
+        }
+      },
+      {
+        "input": {
+          "ttl": 10,
+          "advance": 10,
+          "logout": false
+        },
+        "expected": {
+          "before": 7,
+          "after": null
+        }
+      },
+      {
+        "input": {
+          "ttl": 10,
+          "advance": 11,
+          "logout": false
+        },
+        "expected": {
+          "before": 7,
+          "after": null
+        }
+      },
+      {
+        "input": {
+          "ttl": 10,
+          "advance": 0,
+          "logout": true
+        },
+        "expected": {
+          "before": 7,
+          "after": null
+        }
+      }
+    ],
+    "expectedOutput": "{\"before\":7,\"expired\":null,\"revoked\":null}"
+  },
+  "29": {
+    "mode": "session-sql",
+    "cases": [
+      {
+        "input": {
+          "id": 1,
+          "ownerId": 1
+        },
+        "session": "owner",
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'Private'),(2,2,'Other')",
+        "expected": {
+          "status": 200,
+          "task": {
+            "id": 1,
+            "title": "Private"
+          }
+        }
+      },
+      {
+        "input": {
+          "id": 1,
+          "ownerId": 1
+        },
+        "session": "other",
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'Private'),(2,2,'Other')",
+        "expected": {
+          "status": 404
+        }
+      },
+      {
+        "input": {
+          "id": 1,
+          "ownerId": 1
+        },
+        "session": "none",
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'Private'),(2,2,'Other')",
+        "expected": {
+          "status": 401
+        }
+      },
+      {
+        "input": {
+          "id": 99,
+          "ownerId": 1
+        },
+        "session": "owner",
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'Private'),(2,2,'Other')",
+        "expected": {
+          "status": 404
+        }
+      },
+      {
+        "input": {
+          "id": 2,
+          "ownerId": 1
+        },
+        "session": "other",
+        "setup": "CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER,title TEXT);INSERT INTO tasks VALUES(1,1,'Private'),(2,2,'Other')",
+        "expected": {
+          "status": 200,
+          "task": {
+            "id": 2,
+            "title": "Other"
+          }
+        }
+      }
+    ],
+    "expectedOutput": "{\"foreign\":null,\"own\":{\"id\":1,\"title\":\"Private\"}}"
+  },
+  "30": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "method": "GET",
+          "origin": null
+        },
+        "expected": 200
+      },
+      {
+        "input": {
+          "method": "POST",
+          "origin": "http://127.0.0.1:3001"
+        },
+        "expected": 200
+      },
+      {
+        "input": {
+          "method": "PATCH",
+          "origin": null
+        },
+        "expected": 403
+      },
+      {
+        "input": {
+          "method": "DELETE",
+          "origin": "null"
+        },
+        "expected": 403
+      },
+      {
+        "input": {
+          "method": "POST",
+          "origin": "http://127.0.0.1:3001.evil.invalid"
+        },
+        "expected": 403
+      }
+    ],
+    "expectedOutput": "[true,true,false,true]"
+  },
+  "31": {
+    "mode": "mutation",
+    "cases": [
+      {
+        "input": "correct",
+        "throws": false
+      },
+      {
+        "input": "addition",
+        "throws": true
+      },
+      {
+        "input": "zero",
+        "throws": true
+      },
+      {
+        "input": "coercion",
+        "throws": true
+      }
+    ],
+    "expectedOutput": "{\"checks\":3}"
+  },
+  "32": {
+    "mode": "http-contract",
+    "cases": [
+      {
+        "input": "correct",
+        "throws": false
+      },
+      {
+        "input": "status",
+        "throws": true
+      },
+      {
+        "input": "type",
+        "throws": true
+      },
+      {
+        "input": "body",
+        "throws": true
+      }
+    ],
+    "expectedOutput": "{\"health\":true}"
+  },
+  "33": {
+    "mode": "validation-tests",
+    "cases": [
+      {
+        "input": "correct",
+        "throws": false
+      },
+      {
+        "input": "empty",
+        "throws": true
+      },
+      {
+        "input": "long",
+        "throws": true
+      },
+      {
+        "input": "unknown",
+        "throws": true
+      }
+    ],
+    "expectedOutput": "{\"boundary\":120}"
+  },
+  "34": {
+    "mode": "dependency",
+    "cases": [
+      {
+        "input": [],
+        "expected": {
+          "status": "ok",
+          "items": []
+        }
+      },
+      {
+        "input": [
+          1
+        ],
+        "expected": {
+          "status": "ok",
+          "items": [
+            1
+          ]
+        }
+      },
+      {
+        "input": {},
+        "expected": {
+          "status": "invalid"
+        }
+      },
+      {
+        "input": "reject",
+        "expected": {
+          "status": "unavailable"
+        }
+      }
+    ],
+    "expectedOutput": "{\"status\":\"ok\",\"items\":[]}"
+  },
+  "35": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "requestId": "1",
+          "method": "GET",
+          "status": 200,
+          "cookie": "sid=secret"
+        },
+        "expected": {
+          "requestId": "1",
+          "method": "GET",
+          "status": 200
+        }
+      },
+      {
+        "input": {
+          "requestId": "2",
+          "method": "POST",
+          "status": 401,
+          "password": "hidden"
+        },
+        "expected": {
+          "requestId": "2",
+          "method": "POST",
+          "status": 401
+        }
+      },
+      {
+        "input": {
+          "requestId": "3",
+          "method": "PATCH",
+          "status": 500,
+          "body": {
+            "token": "hidden"
+          }
+        },
+        "expected": {
+          "requestId": "3",
+          "method": "PATCH",
+          "status": 500
+        }
+      }
+    ],
+    "expectedOutput": "[\"method\",\"requestId\",\"status\"]"
+  },
+  "36": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {},
+        "expected": {
+          "port": 3001
+        }
+      },
+      {
+        "input": {
+          "PORT": "1024"
+        },
+        "expected": {
+          "port": 1024
+        }
+      },
+      {
+        "input": {
+          "PORT": "65535"
+        },
+        "expected": {
+          "port": 65535
+        }
+      },
+      {
+        "input": {
+          "PORT": ""
+        },
+        "expected": {
+          "error": "PORT"
+        }
+      },
+      {
+        "input": {
+          "PORT": "3e3"
+        },
+        "expected": {
+          "error": "PORT"
+        }
+      },
+      {
+        "input": {
+          "PORT": "65536"
+        },
+        "expected": {
+          "error": "PORT"
+        }
+      },
+      {
+        "input": {
+          "PORT": "80"
+        },
+        "expected": {
+          "error": "PORT"
+        }
+      }
+    ],
+    "expectedOutput": "[{\"port\":3001},{\"error\":\"PORT\"}]"
+  },
+  "37": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "status": 200,
+          "version": "v1",
+          "expectedVersion": "v1",
+          "rollbackReady": true
+        },
+        "expected": "promote"
+      },
+      {
+        "input": {
+          "status": 503,
+          "version": "v1",
+          "expectedVersion": "v1",
+          "rollbackReady": true
+        },
+        "expected": "hold"
+      },
+      {
+        "input": {
+          "status": 200,
+          "version": "v2",
+          "expectedVersion": "v1",
+          "rollbackReady": true
+        },
+        "expected": "hold"
+      },
+      {
+        "input": {
+          "status": 200,
+          "version": "v1",
+          "expectedVersion": "v1",
+          "rollbackReady": false
+        },
+        "expected": "hold"
+      }
+    ],
+    "expectedOutput": "{\"status\":200,\"body\":{\"status\":\"ok\"}}"
+  },
+  "38": {
+    "mode": "function",
+    "cases": [
+      {
+        "input": {
+          "create": 201,
+          "anonymous": 401,
+          "foreign": 404,
+          "invalid": 422
+        },
+        "expected": []
+      },
+      {
+        "input": {},
+        "expected": [
+          "create",
+          "anonymous",
+          "foreign",
+          "invalid"
+        ]
+      },
+      {
+        "input": {
+          "create": 200,
+          "anonymous": 401,
+          "foreign": 403,
+          "invalid": 422
+        },
+        "expected": [
+          "create",
+          "foreign"
+        ]
+      }
+    ],
+    "expectedOutput": "{\"create\":201,\"anonymous\":401,\"foreign\":404,\"invalid\":422}"
+  },
+  "39": {
+    "mode": "sql",
+    "cases": [
+      {
+        "input": {},
+        "query": "SELECT id FROM users",
+        "rows": [
+          {
+            "id": 1
+          }
+        ],
+        "probes": [
+          {
+            "sql": "INSERT INTO tasks VALUES(1,1,'Valid')",
+            "reject": false
+          },
+          {
+            "sql": "INSERT INTO tasks VALUES(1,99,'Foreign')",
+            "reject": true
+          },
+          {
+            "sql": "INSERT INTO tasks VALUES(1,1,' ')",
+            "reject": true
+          },
+          {
+            "sql": "INSERT INTO tasks VALUES(1,1,NULL)",
+            "reject": true
+          }
+        ]
+      }
+    ],
+    "expectedOutput": "{\"version\":1,\"violations\":[]}"
+  },
+  "40": {
+    "mode": "project",
+    "cases": [],
+    "expectedOutput": "{\"id\":1,\"title\":\"Read\"}"
+  },
+  "41": {
+    "mode": "project",
+    "cases": [],
+    "expectedOutput": "{\"foreignUpdate\":false,\"page\":[{\"id\":2,\"title\":\"Two\"}]}"
+  },
+  "42": {
+    "mode": "project",
+    "cases": [],
+    "expectedOutput": "{\"status\":404,\"error\":{\"code\":404,\"message\":\"Not found\"}}"
+  },
+  "43": {
+    "mode": "project",
+    "cases": [],
+    "expectedOutput": "[{\"id\":1,\"title\":\"Saved\"}]"
+  },
+  "44": {
+    "mode": "project",
+    "cases": [],
+    "expectedOutput": "{\"ownershipChecks\":2}"
+  }
+}

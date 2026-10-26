@@ -57,3 +57,19 @@ test('Backend flow has keyboard-controlled code traces, local-only assessment co
  await expect(download).toHaveAttribute('href',course.files[0].url);
  const response=await request.get(course.files[0].url);expect(response.status()).toBe(200);expect((await response.body()).length).toBe(course.files[0].bytes);
 });
+test('Backend day 14 grades UTF-8 boundaries in the browser and final day exposes the complete local project contract',async({page,request})=>{
+ test.setTimeout(90000);
+ const api=await request.get('/api/courses/backend');expect(api.status()).toBe(200);const published=await api.json();
+ expect(published.lessons).toHaveLength(44);expect(published.lessons.reduce((n:number,l:{questions:unknown[]})=>n+l.questions.length,0)).toBe(220);
+ await page.goto('/practice?course=backend&day=14');const panel=page.locator('.function-practice'),run=panel.getByRole('button',{name:'Выполнить тесты функции'});
+ const hints=page.locator('.practice-hint');await expect(hints).toHaveCount(2);
+ await hints.nth(0).locator('summary').focus();await page.keyboard.press('Enter');await expect(hints.nth(0)).toHaveAttribute('open','');await expect(hints.nth(1)).not.toHaveAttribute('open','');
+ await code(page,course.lessons[13].practice!.solution);await run.click();await expect(panel.getByRole('status')).toContainText('Локальные тесты пройдены',{timeout:30000});
+ await code(page,'export function solve(input){return {status:200,value:{}}}');await run.click();await expect(panel.getByRole('status')).toContainText('Есть ошибки');
+ // Synthetic preceding-day study fixture opens the final lesson; it grants no mastery.
+ await page.addInitScript(()=>{if(window.top!==window.self||new URL(location.href).searchParams.get('day')!=='44')return;const key='react-mentor-learning-v2',data=JSON.parse(localStorage.getItem(key)!);const ids=Array.from({length:43},(_,i)=>'backend-day-'+String(i+1).padStart(2,'0'));Object.assign(data.state.courses.backend,{completedTopics:ids,completedPractice:ids,confirmedDays:Array.from({length:43},(_,i)=>String(i+1))});localStorage.setItem(key,JSON.stringify(data));});
+ await page.goto('/courses/backend/home?day=44');await expect(page.locator('#backend-day-44-flow-master')).toContainText('Серверной аттестации Backend пока нет');
+ await expect(page.locator('main')).toContainText('node check-project.mjs project --phase 44');
+ await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.reload();await expect(page.locator('main')).toContainText('node check-project.mjs project --phase 44');
+});

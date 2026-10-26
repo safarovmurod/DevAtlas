@@ -8,8 +8,8 @@ const source=path.join(root,'content/backend-lab'),zip=new JSZip();
 async function collect(folder,prefix=''){
  for(const name of (await readdir(folder)).sort()){
   const relative=prefix+name,filename=path.join(folder,name);
-  if(!name.includes('.') && ['reference','starter','test'].includes(name))await collect(filename,relative+'/');
-  else if(name.endsWith('.mjs')||['package.json','README.md','LICENSE','.gitignore'].includes(name)){
+  if(!name.includes('.') && ['reference','starter','test','examples','daily','solutions','project'].includes(name))await collect(filename,relative+'/');
+  else if(name.endsWith('.mjs')||['package.json','exercise-cases.json','README.md','LICENSE','.gitignore'].includes(name)){
    // Archive digests must be identical across Windows checkout newline settings.
    const body=(await readFile(filename,'utf8')).replaceAll('\r\n','\n');
    zip.file('devatlas-backend-lab/'+relative,body,{date:new Date('2026-01-01T00:00:00.000Z'),createFolders:false});

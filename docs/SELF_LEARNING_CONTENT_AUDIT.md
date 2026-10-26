@@ -16,7 +16,7 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | typescript | starter | 14 | 431/395/467 | 2.2 | 14 | 1 | 1 | 0 | — |
 | algorithms | starter | 14 | 422/392/522 | 3 | 14 | 1 | 0 | 0 | — |
 | python | starter | 30 | 487/203/520 | 2 | 30 | 1 | 3 | 0 | — |
-| backend | starter | 9 | 204/138/382 | 5 | 9 | 0 | 0 | 0 | — |
+| backend | starter | 44 | 150/116/382 | 5 | 44 | 0 | 7 | 0 | — |
 | mobile | starter | 2 | 87/86/88 | 1 | 2 | 0 | 0 | 0 | few-questions |
 | cpp | starter | 30 | 49/39/59 | 1 | 30 | 0 | 12 | 7 | thin-theory, few-questions |
 | java | starter | 30 | 379/84/431 | 2 | 30 | 1 | 3 | 0 | — |
@@ -61,4 +61,4 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 - `code days` have code examples; this metric alone does not establish that the examples were executed. `written days` are explicitly marked self-reviewed written assignments.
 - React uses the actual two-month plan, topic explanations, exercises and multiple-choice question IDs. Reused questions count as assignments on each scheduled day; the quiz total counts distinct question IDs per course.
 - Next.js uses its application loader, including the original month-three curriculum. React and Next.js are not treated as missing JSON files.
-- Totals: 901 scheduled days including React, 841 excluding React; 2017 distinct quiz questions across courses; 90 flagged project/case days.
+- Totals: 936 scheduled days including React, 876 excluding React; 2192 distinct quiz questions across courses; 97 flagged project/case days.

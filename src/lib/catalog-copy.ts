@@ -116,12 +116,12 @@ const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     '14日間。計算量、配列と文字列、探索、ソート、データ構造、問題解決の手順を学びます。',
     '14일 과정입니다. 복잡도, 배열과 문자열, 탐색, 정렬, 자료 구조와 단계별 문제 해결을 배웁니다.'),
   backend: text(
-    'Первые 9 дней с нуля: HTTP, валидация и основы JavaScript с исполняемой практикой. Продолжение ещё готовится; нужен локальный Node.js.',
-    'First 9 days from zero: HTTP, validation and JavaScript foundations with executable practice. Further lessons are still being authored; local Node.js is required.',
-    '9 рӯзи аввал аз сифр: HTTP, валидация ва асосҳои JavaScript бо машқи иҷрошаванда. Идома ҳоло омода мешавад; Node.js-и маҳаллӣ лозим аст.',
-    'Перші 9 днів з нуля: HTTP, валідація й основи JavaScript із виконуваними вправами. Продовження ще готується; потрібен локальний Node.js.',
-    '最初の9日間をゼロから学習。HTTP、検証、JavaScript基礎と実行できる演習。続きは作成中です。ローカルNode.jsが必要です。',
-    '처음 9일은 기초부터 HTTP, 검증, JavaScript와 실행 가능한 실습을 배웁니다. 나머지 수업은 작성 중이며 로컬 Node.js가 필요합니다.'),
+    '44 дня с нуля: JavaScript, HTTP, SQLite, вход, права доступа и итоговый API с тестами. Нужен локальный Node.js.',
+    '44 days from zero: JavaScript, HTTP, SQLite, authentication, authorization and a tested final API. Local Node.js required.',
+    '44 рӯз аз сифр: JavaScript, HTTP, SQLite, воридшавӣ, ҳуқуқи дастрасӣ ва API-и ниҳоӣ бо тестҳо. Node.js-и маҳаллӣ лозим.',
+    '44 дні з нуля: JavaScript, HTTP, SQLite, вхід, права доступу та підсумковий API з тестами. Потрібен локальний Node.js.',
+    '44日間で基礎からJavaScript、HTTP、SQLite、認証、認可、テスト付きAPIを学びます。ローカルNode.jsが必要です。',
+    '44일 동안 기초부터 JavaScript, HTTP, SQLite, 인증, 권한과 테스트를 갖춘 API를 배웁니다. 로컬 Node.js가 필요합니다.'),
   mobile: text(
     'Экран React Native и счётчик. Запускайте приложение через Expo на своём устройстве.',
     'A React Native screen and counter. Run the app with Expo on your own device.',
