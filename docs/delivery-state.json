@@ -332,7 +332,14 @@
         "Common tracked-text private-key/provider-token scan: zero hits; limited pattern scan, not exhaustive certification",
         "Inter and JetBrains glyph metadata inspected; real per-character browser font selection verified on desktop/mobile"
       ],
-      "pullRequest": 19
+      "pullRequest": 19,
+      "windowsFinding": {
+        "failedRun": 40319534305,
+        "actualEvidence": "Playwright annotation: ҳ rendered by ArialMT/isCustomFont false on Windows; automatic Next Mono Arial shim preceded explicit Inter",
+        "fix": "Mono localFont adjustFontFallback:false; strict glyph check retained",
+        "localValidation": "font desktop/mobile2 passed; typecheck and production build passed",
+        "finalWindowsValidation": "pending exact final PR-head CI; do not merge until all five jobs pass"
+      }
     }
   },
   "validationCheckpoint": {

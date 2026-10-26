@@ -12,6 +12,9 @@ export default defineConfig({
   outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR || path.join(tmpdir(),'devatlas-playwright','results'),
   fullyParallel: false,
   workers: 1,
+  // A failing CI job stops at its first real failure for prompt diagnostics.
+  // A green job still executes the entire configured desktop/mobile suite.
+  maxFailures: process.env.GITHUB_ACTIONS ? 1 : 0,
   timeout: 30000,
   reporter: process.env.GITHUB_ACTIONS ? [['list'],['./e2e/github-failure-reporter.ts']] : 'list',
   use: {

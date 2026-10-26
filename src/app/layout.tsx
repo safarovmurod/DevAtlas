@@ -8,7 +8,9 @@ import { AccountProvider } from '@/components/account/account-provider';
 import { AccountShell } from '@/components/account/account-shell';
 
 const inter = localFont({ src: './fonts/Inter.ttf', weight: '100 900', variable: '--font-inter', display: 'swap' });
-const jetbrains = localFont({ src: './fonts/JetBrainsMono.ttf', weight: '100 800', variable: '--font-jetbrains', display: 'swap' });
+// Next's automatic Arial shim would precede our explicit Inter glyph fallback
+// on Windows. Keep that system-font shim out of the code-font chain.
+const jetbrains = localFont({ src: './fonts/JetBrainsMono.ttf', weight: '100 800', variable: '--font-jetbrains', display: 'swap', adjustFontFallback: false });
 
 export async function generateMetadata(): Promise<Metadata> {
   const copy=PUBLIC_COPY[await getRequestLocale()];
