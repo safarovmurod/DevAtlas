@@ -5,7 +5,8 @@ export interface SqliteGrade {checks:SqliteCheck[];passed:boolean;error?:string;
 const format=(rows:SqlValue[][])=>JSON.stringify(rows);
 function rows(db:Database,query:string):SqlValue[][]{
  const stmt=db.prepare(query),output:SqlValue[][]=[];
- try{while(stmt.step()){if(output.length>=32)throw new Error('Result exceeds 32 rows');const row=stmt.get();if(row.some(value=>typeof value==='string'&&value.length>2000||value instanceof Uint8Array&&value.length>2000))throw new Error('Result value too large');output.push(row);}return output;}
+ let outputBytes=0;
+ try{while(stmt.step()){if(output.length>=32)throw new Error('Result exceeds 32 rows');const row=stmt.get();if(row.length>16||row.some(value=>typeof value==='string'&&value.length>2000||value instanceof Uint8Array&&value.length>2000))throw new Error('Result value too large');outputBytes+=new TextEncoder().encode(JSON.stringify(row)).byteLength;if(outputBytes>16384)throw new Error('Result exceeds 16 KiB');output.push(row);}return output;}
  finally{stmt.free();}
 }
 
@@ -20,10 +21,13 @@ export function gradeFirstSqlLesson(SQL:SqlJsStatic,code:string):SqliteGrade{
   let query='',initial:SqlValue[][]=[];
   for(const stmt of db.iterateStatements(code)){
    const statementRows:SqlValue[][]=[];
+   let outputBytes=0;
    while(stmt.step()){
     if(statementRows.length>=32)throw new Error('Result exceeds 32 rows');
     const row=stmt.get();
-    if(row.some(value=>typeof value==='string'&&value.length>2000||value instanceof Uint8Array&&value.length>2000))throw new Error('Result value too large');
+    if(row.length>16||row.some(value=>typeof value==='string'&&value.length>2000||value instanceof Uint8Array&&value.length>2000))throw new Error('Result value too large');
+    outputBytes+=new TextEncoder().encode(JSON.stringify(row)).byteLength;
+    if(outputBytes>16384)throw new Error('Result exceeds 16 KiB');
     statementRows.push(row);
    }
    if(stmt.getColumnNames().length){query=stmt.getSQL();initial=statementRows;}
@@ -32,7 +36,7 @@ export function gradeFirstSqlLesson(SQL:SqlJsStatic,code:string):SqliteGrade{
   const expectRows=(id:SqliteCheck['id'],actual:SqlValue[][],expected:SqlValue[][])=>checks.push({id,passed:format(actual)===format(expected),expected:format(expected),actual:format(actual)});
   expectRows('baseline',initial,[['Tea',36]]);
   const columns=rows(db,"PRAGMA table_info('products')");
-  const schema=columns.some(c=>c[1]==='id'&&c[5]===1)&&columns.some(c=>c[1]==='name'&&c[3]===1)&&columns.some(c=>c[1]==='price'&&c[3]===1);
+  const schema=columns.some(c=>String(c[1]).toLowerCase()==='id'&&c[5]===1)&&columns.some(c=>String(c[1]).toLowerCase()==='name'&&c[3]===1)&&columns.some(c=>String(c[1]).toLowerCase()==='price'&&c[3]===1);
   checks.push({id:'schema',passed:schema,expected:'id PRIMARY KEY; name NOT NULL; price NOT NULL',actual:JSON.stringify(columns.map(c=>({name:c[1],notNull:c[3],primaryKey:c[5]})))});
   // Reuse the learner's actual final query against changed fixtures. Hard-coded
   // output, a missing WHERE and ignored data changes cannot pass these cases.
