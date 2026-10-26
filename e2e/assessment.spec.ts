@@ -42,6 +42,7 @@ test('assessment restores drafts, grades actual code and rotates retry forms',as
  await panel.getByRole('button',{name:copy.submit.ru,exact:true}).click();
  await expect(panel.locator('.assessment-result h4')).toHaveText(copy.mastered.ru);
  await expect(panel.locator('.assessment-result')).toContainText(copy.local.ru);
+ await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state.courses.html.completedPractice)).toContain('html-day-01');
  const nextResponse=page.waitForResponse(response=>response.url().includes('excludeVariant=')&&response.status()===200);
  await panel.getByRole('button',{name:copy.retry.ru,exact:true}).click();
  const next=await (await nextResponse).json();expect(next.variantId).not.toBe(view.variantId);

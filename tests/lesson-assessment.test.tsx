@@ -37,3 +37,22 @@ it('preserves malformed drafts instead of crashing or overwriting them',async()=
  fireEvent.click(document.querySelector('input[type=radio]')!);
  expect(localStorage.getItem(draftKey('guest'))).toBe(raw);
 });
+
+it('does not credit a late result after switching accounts',async()=>{
+ let finish!:(value:Response)=>void;
+ const onPracticePassed=vi.fn();
+ vi.stubGlobal('fetch',vi.fn((url:string,init?:RequestInit)=>{
+  if(init?.method==='POST')return new Promise<Response>(resolve=>{finish=resolve;});
+  return Promise.resolve(Response.json(url.includes('/progress?')?{attempts:[]}:assessmentView(bank,bank.variants[0].id)));
+ }));
+ const ui=render(<LessonAssessment {...props} onPracticePassed={onPracticePassed}/>);
+ await waitFor(()=>expect(screen.getAllByRole('group')).toHaveLength(8));
+ fireEvent.click(document.querySelector('input[type=radio]')!);
+ fireEvent.click(screen.getByRole('button',{name:copy.submit.ru}));
+ await waitFor(()=>expect(finish).toBeTypeOf('function'));
+ mocks.actor='new-account';ui.rerender(<LessonAssessment {...props} onPracticePassed={onPracticePassed}/>);
+ finish(Response.json({grade:{practice:{passed:true}},attestation:'server'}));
+ await waitFor(()=>expect(screen.getAllByRole('group')).toHaveLength(8));
+ expect(onPracticePassed).not.toHaveBeenCalled();
+ expect(screen.queryByText(copy.server.ru)).not.toBeInTheDocument();
+});

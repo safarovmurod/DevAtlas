@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { COURSE_IDS } from './ids';
+import {learningFlowSchema} from './learning-flow';
 
 const text = z.object({ tg: z.string().min(1), ru: z.string().min(1), en: z.string().optional() });
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]{0,119}$/);
@@ -13,6 +14,7 @@ export const courseContentSchema = z.object({
     sections: z.array(z.object({ title: text, body: text, code: z.string().optional(), language: z.string().optional(), output: text.optional() })).min(1),
     questions: z.array(z.object({ id, question: text, answer: text, options: z.array(text).min(2).max(6), correctIndex: z.number().int().nonnegative() })),
     practice: z.object({ kind: z.enum(['code','written']).optional(), referenceAnswer: text.optional(), task: text, hint: text, solution: z.string(), criteria: z.array(text).min(1) }).optional(),
+    learningFlow:learningFlowSchema.optional(),
   })),
 }).superRefine((course, ctx) => {
   const sourceIds = new Set(course.sources.map(source => source.id));
@@ -21,6 +23,11 @@ export const courseContentSchema = z.object({
   for (const lesson of course.lessons) {
     if (lessonIds.has(lesson.id)) ctx.addIssue({ code: 'custom', message: 'Duplicate lesson ID' });
     lessonIds.add(lesson.id);
+    if(lesson.learningFlow){
+      if(!lesson.practice)ctx.addIssue({code:'custom',message:'Learning flow needs independent practice'});
+      if(lesson.learningFlow.walkthroughSections.some(index=>index>=lesson.sections.length))ctx.addIssue({code:'custom',message:'Missing walkthrough section'});
+      if(!course.lessons.some(next=>next.id===lesson.learningFlow!.nextLessonId))ctx.addIssue({code:'custom',message:'Missing next lesson'});
+    }
     for (const question of lesson.questions) {
       if (questionIds.has(question.id) || question.correctIndex >= question.options.length) ctx.addIssue({ code: 'custom', message: 'Invalid question ID or correct option' });
       questionIds.add(question.id);

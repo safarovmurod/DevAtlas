@@ -30,13 +30,13 @@ function readDraft(key:string):{draft:Draft|null;corrupt:boolean}{
   }catch{return {draft:null,corrupt:true};}
 }
 
-export function LessonAssessment(props:{courseId:string;lessonId:string;code:string}){
+export function LessonAssessment(props:{courseId:string;lessonId:string;code:string;onPracticePassed?:(code:string)=>void}){
   const {user}=useAccount();
   const actor=user?.id??'guest';
   return <AssessmentSession key={`${actor}:${props.courseId}:${props.lessonId}`} {...props} actor={actor}/>;
 }
 
-function AssessmentSession({courseId,lessonId,code,actor}:{courseId:string;lessonId:string;code:string;actor:string}){
+function AssessmentSession({courseId,lessonId,code,actor,onPracticePassed}:{courseId:string;lessonId:string;code:string;actor:string;onPracticePassed?:(code:string)=>void}){
   const uiLanguage=useLearningStore(state=>state.language),language=useLearningStore(state=>state.contentLanguage);
   const label=(key:keyof typeof ASSESSMENT_COPY)=>ASSESSMENT_COPY[key][uiLanguage];
   const storageKey=`devatlas-assessment-draft-v1:${actor}:${courseId}:${lessonId}`;
@@ -96,6 +96,7 @@ function AssessmentSession({courseId,lessonId,code,actor}:{courseId:string;lesso
       const data=await response.json() as AssessmentResponse;
       if(controller.signal.aborted)return;
       setResult({response:data,answers:snapshot,code:submittedCode});
+      if(data.grade.practice.passed)onPracticePassed?.(submittedCode);
       if(data.attestation==='server')setLedger(old=>old.some(item=>item.attempt_id===data.attemptId)?old:[{attempt_id:data.attemptId,lesson_version:view.version,mastered:data.grade.mastered},...old]);
     }catch{if(!controller.signal.aborted)setError(true);}
     finally{sending.current=false;if(!controller.signal.aborted)setBusy(false);}
@@ -105,8 +106,8 @@ function AssessmentSession({courseId,lessonId,code,actor}:{courseId:string;lesso
     setExclude(view.variantId);setReload(value=>value+1);setView(null);setAnswers({});setHints({});setResult(null);pending.current=null;
   }
   const active=result?.answers===answers&&result.code===code?result.response:null;
-  if(!view)return <section className="panel lesson-assessment" aria-label={label('title')}><p role="status">{error?label('error'):label('loading')}</p>{error&&<button className="button subtle" onClick={()=>setReload(value=>value+1)}>{label('retryLoad')}</button>}</section>;
-  return <section className="panel lesson-assessment" aria-label={label('title')}>
+  if(!view)return <section id={`${lessonId}-assessment`} className="panel lesson-assessment" aria-label={label('title')}><p role="status">{error?label('error'):label('loading')}</p>{error&&<button className="button subtle" onClick={()=>setReload(value=>value+1)}>{label('retryLoad')}</button>}</section>;
+  return <section id={`${lessonId}-assessment`} className="panel lesson-assessment" aria-label={label('title')}>
     <h3>{label('title')}</h3><h4>{label('goals')}</h4><ul>{view.objectives.map((goal,index)=><li key={index}>{goal[language]}</li>)}</ul>
     <p>{label('practice')}</p>
     {restored.corrupt&&<p role="alert">{label('restoreError')}</p>}
