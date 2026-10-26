@@ -13,7 +13,7 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   timeout: 30000,
-  reporter: 'list',
+  reporter: process.env.GITHUB_ACTIONS ? [['list'],['./e2e/github-failure-reporter.ts']] : 'list',
   use: {
     baseURL: 'http://127.0.0.1:3100',
     // Old regression flows use the Russian UI; new locale tests override this per request.
