@@ -82,7 +82,7 @@ Subject visualizers, complete AI Mentor history and live quota activation, the f
 
 Current source audit finds 0 stale duration claims. This measures wording, not overall teaching quality; thin-theory and quiz-density findings remain in [SELF_LEARNING_CONTENT_AUDIT.md](SELF_LEARNING_CONTENT_AUDIT.md).
 
-Recorded local validation checkpoint: 450 tests passed, 7 skipped; 6 targeted desktop/mobile cases passed (Recorded targeted review/Agent6 plus routes/font4; prior mock-auth12. Final full rerun currently in progress; consult PR CI for exact-head result.); dependency audit 0 known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.
+Recorded local validation checkpoint: 451 tests passed, 7 skipped; 120 targeted desktop/mobile cases passed (Final full desktop/mobile108 plus isolated mock-auth12; actual local behavior, not live provider proof); dependency audit 0 known vulnerabilities. Typecheck, lint and production build passed at the recorded checkpoint. Skipped runtimes are not executed proof; consult current CI for the exact head.
 
 PRs, merge SHAs and pending work are recorded in delivery-state.json. Vercel success metadata is separate from live HTTP/browser proof. Direct deployment HTTP was blocked by this workspace CONNECT proxy (403); live database, payment and online-AI configuration are not inferred from successful builds.
 

@@ -8,7 +8,7 @@
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Finish local/GitHub verification of privacy, durable AI budgets and restored review; then continue P1 authoring for ALL twelve short courses, all five continuations, every missing stage and the remaining 26 October requirement register. Do not restart existing completed work or count drafts as lessons.
+Следующее действие по сохранённому состоянию: Require green exact PR #19 head on Ubuntu and all four Windows jobs; fix any failure and merge only after checks. Local final451 unit/integration +108 desktop/mobile +12 mock-auth +build passed. Then resume P1 full original RU/TG/EN authoring for ALL twelve short courses, all five continuations and every missing stage/requirement in the163-item register. Do not regenerate completed work or count drafts/publication as independently Verified.
 
 ## Что сохранить
 

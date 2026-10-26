@@ -81,14 +81,14 @@ export async function POST(req: NextRequest) {
   if (action === 'ask') {
     const local = courseId==='react' ? projectAnswer(query, { questionId, deep, language }) : await courseAnswer(courseId,query,{questionId,deep,language});
     if (local) return tutorJson({ mode: 'local', ...local, usage: { totalTokens: 0 } });
-    if (deep && !query) return tutorJson({ mode: 'local', reply: 'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.', usage: { totalTokens: 0 } });
+    if (deep && !query) return tutorJson({mode:'local',reply:{tg:'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.',ru:'Какой вопрос разобрать подробнее? Напишите вопрос или тему.',en:'Which question should we explore? Write a question or topic.'}[language],usage:{totalTokens:0}});
   }
   const context = courseId==='react' ? tutorContext(topicId, query) : 'Selected course: '+courseName(courseId)+'. Answer for this course. No matching published course reference was found; do not claim to have read Telegram files.';
   if (process.env.AI_TUTOR_ENABLED !== 'true') {
     return tutorJson({
       mode: 'local',
-      reply: 'Ҷавоби мувофиқ ба ин савол дар маводи лоиҳа ёфт нашуд. Барои саволҳои нав AI-и онлайн бояд фаъол бошад.',
-      notice: 'AI-и онлайн ҳоло фаъол нест; токен сарф нашуд.',
+      reply:{tg:'Ҷавоби мувофиқ ба ин савол дар маводи лоиҳа ёфт нашуд. Барои саволҳои нав AI-и онлайн бояд фаъол бошад.',ru:'В материалах курса не найден подходящий ответ. Онлайн-AI сейчас не включён. Попробуйте название изучаемой темы или откройте объяснение урока.',en:'No matching answer was found in the course materials. Online AI is not enabled. Try the topic name or open the lesson explanation.'}[language],
+      notice:{tg:'AI-и онлайн ҳоло фаъол нест; токен сарф нашуд.',ru:'Онлайн-AI не включён; токены не потрачены.',en:'Online AI is not enabled; no tokens were spent.'}[language],
       usage: { totalTokens: 0 },
     });
   }

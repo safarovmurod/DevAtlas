@@ -195,3 +195,14 @@ it('does not contact the provider when persistent budget enforcement fails close
  }
  void POST;
 });
+
+it('localizes unmatched offline replies without requiring registration or spending tokens',async()=>{
+ vi.stubEnv('AI_TUTOR_ENABLED','false');authMock.mockResolvedValue(null);
+ const {POST}=await import('@/app/api/tutor/route');
+ for(const [language,pattern] of [['en',/No matching answer/],['ru',/В материалах курса/],['tg',/Ҷавоби мувофиқ/]] as const){
+  const result=await POST(request({...input,language}));
+  expect(result.status).toBe(200);const body=await result.json();
+  expect(body.reply).toMatch(pattern);expect(body).toMatchObject({mode:'local',usage:{totalTokens:0}});
+ }
+ expect(fetchMock).not.toHaveBeenCalled();expect(authMock).not.toHaveBeenCalled();
+});
