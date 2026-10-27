@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "1b1f0d0da7a2d28461a152f331125ecede3b7d96",
+  "baselineCommit": "d5ed179175d3f524ec1d14956ff44ff98164467e",
   "acceptedPlan": "Strict continuation master prompt, sections 0–19, and approved implementation plan",
   "decisions": {
     "delivery": "small complete PRs; continue through every phase",
@@ -153,8 +153,8 @@
     }
   ],
   "resume": {
-    "branch": "fix/backend-main-ci-reload",
-    "nextAction": "Fix and verify the Backend Monaco reload test after main CI failure, merge the follow-up normally, and require green main CI before Mobile.",
+    "branch": "feat/mobile-beginner-course",
+    "nextAction": "Complete Mobile Beginner in order after the verified Backend merges. Preserve mobile-day-01/02 and their progress; verify Expo compatibility and report native SDK blockers honestly.",
     "doNotRegenerate": [
       "css",
       "python",
@@ -342,7 +342,7 @@
       }
     },
     "backendBeginner20261026": {
-      "status": "PARTIAL",
+      "status": "DONE",
       "branch": "feat/backend-beginner-course",
       "baseCommit": "91f12af9e666aa92c052c77d58ae77a13280d8a7",
       "publishedDays": 44,
@@ -361,7 +361,7 @@
         "Every new example actual stdout verified; intentionally unfinished starters and broken owner predicate must fail",
         "Optional two-level hints reuse accessible native details controls; existing single-hint lessons unchanged"
       ],
-      "nextAction": "Fix and verify the Backend Monaco reload test after main CI failure, merge the follow-up normally, and require green main CI before Mobile.",
+      "nextAction": "Backend merged and main CI passed; continue with Mobile Beginner.",
       "validation": {
         "currentLocal": "Final Node lab: 12 groups passed, 35 new examples exact stdout, 30 solutions pass, all 30 starters rejected; eight capstone contract groups pass; unfinished/ownership-mutated/output-only-session candidates rejected",
         "targetedVitest": "11 tests passed including source schema/44-day sequence, old question IDs/options and real Node examples",
@@ -372,14 +372,34 @@
         "fullE2E": "114 desktop/mobile passed; final Node-only session grader/content follow-up is covered by targeted rerun and exact-head CI",
         "auth": "12 isolated mock-auth passed; not live Supabase validation",
         "github": "Implementation commit 1fa08df11897481b328620a4c6b92de865631093: run https://github.com/safarovmurod/react-mentor/actions/runs/40411429950; Ubuntu and all four real Windows shell/Node combinations passed",
-        "mainCI": "Merge 1b1f0d0: GitHub run 40460576449 failed on Windows PowerShell 5.1/Node 22 because the Backend reload test read a Monaco model before it existed. Follow-up must verify saved draft after waiting for model initialization."
+        "mainCI": "Merge d5ed179175d3f524ec1d14956ff44ff98164467e: GitHub run 40462852429 passed Ubuntu and all four Windows shell/Node combinations after Monaco reload fix PR #21.",
+        "production": "Vercel reports successful production deploy for d5ed179; direct HTTP check blocked by proxy CONNECT 403."
       },
       "pullRequest": "https://github.com/safarovmurod/react-mentor/pull/20",
       "remainingAcceptance": [
-        "Backend reload follow-up passes its PR checks and main CI after normal merge",
-        "Live production browser access is blocked by this environment’s network proxy"
+        "Independent live production browser check requires network access outside this restricted environment"
       ],
       "implementationCommit": "1fa08df11897481b328620a4c6b92de865631093"
+    },
+    "mobileBeginner20261027": {
+      "status": "PARTIAL",
+      "branch": "feat/mobile-beginner-course",
+      "baseCommit": "d5ed179175d3f524ec1d14956ff44ff98164467e",
+      "publishedDays": 2,
+      "draftLessons": [
+        {
+          "day": 3,
+          "path": "content/mobile-lab/drafts/day-03.json",
+          "status": "authored with learning flow; requires editorial and device review before publication"
+        }
+      ],
+      "example": "content/mobile-lab/examples/day-03.tsx.txt",
+      "validation": [
+        "Expo SDK 58.0.19 / React Native 0.88.0 actual blank template: TypeScript passed; Android JavaScript bundle exported with Metro",
+        "Not an Android native build or device execution; Android/iOS SDKs unavailable",
+        "Nine targeted Vitest tests and six Backend desktop/mobile regression tests passed; Next.js typecheck, lint and production build passed after isolating the Expo source as text."
+      ],
+      "nextAction": "Deepen and review existing days 1–2 while preserving their IDs and progress, complete day 3 device/editorial review, then author days 4–44 with lessons, practice, quizzes and projects. Publish only complete reviewed material; do not transition to UX before the full gate."
     }
   },
   "validationCheckpoint": {

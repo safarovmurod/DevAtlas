@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-Recorded main checkpoint: `1b1f0d0da7a2d28461a152f331125ecede3b7d96`. 43 course IDs; 38 tracks; 114 stage requirements; 936 actual scheduled days (786 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
+Recorded main checkpoint: `d5ed179175d3f524ec1d14956ff44ff98164467e`. 43 course IDs; 38 tracks; 114 stage requirements; 936 actual scheduled days (786 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
 
 42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
 
