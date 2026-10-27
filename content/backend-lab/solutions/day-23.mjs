@@ -1,0 +1,1 @@
+export function solve(input,db){const version=db.prepare('PRAGMA user_version').get().user_version;if(version>1)throw new Error('Newer schema');if(version===0){db.exec('BEGIN IMMEDIATE');try{db.exec('CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT NOT NULL);PRAGMA user_version=1;COMMIT');}catch(error){db.exec('ROLLBACK');throw error;}}return 1;}

@@ -1,0 +1,1 @@
+export function solve(input,db){db.exec("PRAGMA foreign_keys=ON; CREATE TABLE users(id INTEGER PRIMARY KEY); INSERT INTO users VALUES(1); CREATE TABLE tasks(id INTEGER PRIMARY KEY,owner_id INTEGER NOT NULL REFERENCES users(id),title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 120));");}

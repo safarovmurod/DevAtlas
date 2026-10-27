@@ -1,0 +1,1 @@
+export function solve(input,db,auth){const owner=auth.read(input.token);if(!owner)return {status:401};const task=db.prepare('SELECT id,title FROM tasks WHERE id=? AND owner_id=?').get(input.id,owner);return task?{status:200,task}:{status:404};}

@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `19fa357033cc8e9392c89c0012f1b874e9e96a83`. Фактический каталог: 43 IDs, 38 направлений, 894 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `91f12af9e666aa92c052c77d58ae77a13280d8a7`. Фактический каталог: 43 IDs, 38 направлений, 936 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Refresh main and PR #19 state first. If PR #19 is still open, require green checks for its exact final head on Ubuntu/all four Windows jobs and merge only after checks. If already merged, do not repeat implementation or merge it again. Local final452 unit/integration +108 desktop/mobile +12 mock-auth +build passed. Resume P1 full original RU/TG/EN authoring for ALL twelve short courses, all five continuations and every missing stage/requirement in the163-item register. Do not regenerate completed work or count drafts/publication as independently Verified.
+Следующее действие по сохранённому состоянию: Finish the exact-head quality gates and review/merge PR #20 for Backend Beginner 44 days. Check main CI after ordinary merge. Only then begin Mobile Beginner; do not reauthor Backend.
 
 ## Что сохранить
 
@@ -18,7 +18,6 @@ HTML day 1: optional learningFlow, восемь типов вопросов, д�
 
 ## Обязательные незавершённые программы
 
-- backend: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - mobile: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - ux-design: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - digital-marketing: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.

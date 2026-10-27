@@ -1,0 +1,1 @@
+export function solve({status,message,requestId}){const code=Number.isInteger(status)&&status>=400&&status<=499?status:500;return {error:{code,message:code===500?'Service unavailable':message,requestId}};}

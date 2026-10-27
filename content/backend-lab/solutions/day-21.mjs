@@ -1,0 +1,1 @@
+export function solve(input,db){if(input.action==='rename')return db.prepare('UPDATE tasks SET title=? WHERE id=? AND owner_id=?').run(input.title,input.id,input.ownerId).changes;if(input.action==='remove')return db.prepare('DELETE FROM tasks WHERE id=? AND owner_id=?').run(input.id,input.ownerId).changes;throw new TypeError('Unknown action');}

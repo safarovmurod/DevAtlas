@@ -47,6 +47,8 @@ try {
             Invoke-CheckedNative -Command $nodeBinary -Arguments @((Join-Path 'scripts' $report), '--check')
         }
         Invoke-CheckedNative -Command $nodeBinary -Arguments @('scripts/check-short-course-blueprints.mjs')
+        Invoke-CheckedNative -Command $nodeBinary -Arguments @('--test', 'content/backend-lab/test/backend.test.mjs', 'content/backend-lab/test/project.test.mjs', 'content/backend-lab/test/curriculum.test.mjs')
+        Invoke-CheckedNative -Command $nodeBinary -Arguments @('scripts/package-backend-lab.mjs', '--check')
         Invoke-CheckedNative -Command $npmBinary -Arguments @('run', 'lint')
         Invoke-CheckedNative -Command $npmBinary -Arguments @('run', 'typecheck')
         Invoke-CheckedNative -Command $npmBinary -Arguments @('run', 'test')

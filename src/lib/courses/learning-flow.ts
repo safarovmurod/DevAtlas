@@ -9,7 +9,9 @@ export const learningFlowSchema=z.object({
   realWorld:text,
   walkthroughSections:z.array(z.number().int().nonnegative()).min(1),
   prediction:z.object({prompt:text,options:z.array(text).min(2).max(6),correctIndex:z.number().int().nonnegative(),hint:text,explanation:text}),
-  demo:z.object({kind:z.literal('html-document'),tabTitle:text,heading:text,paragraph:text}),
+  demo:z.discriminatedUnion('kind',[z.object({kind:z.literal('html-document'),tabTitle:text,heading:text,paragraph:text}),z.object({kind:z.literal('code-trace'),code:z.string().min(1).max(20000),steps:z.array(z.object({line:z.number().int().positive(),explanation:text,values:z.string().max(2000)})).min(2).max(30)})]),
+  assessmentMode:z.literal('local-only').optional(),
+  continuationNotice:text.optional(),
   guidedPractice:z.object({steps:z.array(text).min(2).max(8),hint:text,success:text}),
   independentPractice:z.literal('lesson-practice'),
   assessmentVersion:z.number().int().positive(),
@@ -19,6 +21,9 @@ export const learningFlowSchema=z.object({
   // Explicit null means a real course ending, not a missing/draft lesson.
   nextLessonId:z.string().regex(/^[a-z0-9][a-z0-9_-]{0,119}$/).nullable(),
 }).superRefine((flow,ctx)=>{
+  if(flow.continuationNotice&&flow.nextLessonId!==null)ctx.addIssue({code:'custom',message:'Continuation notice belongs to the end of the published block'});
+  const demo=flow.demo;
+  if(demo.kind==='code-trace'&&demo.steps.some(step=>step.line>demo.code.split('\n').length))ctx.addIssue({code:'custom',message:'Trace references a missing code line'});
   if(flow.prediction.correctIndex>=flow.prediction.options.length)ctx.addIssue({code:'custom',message:'Invalid prediction answer'});
   if(new Set(flow.walkthroughSections).size!==flow.walkthroughSections.length)ctx.addIssue({code:'custom',message:'Duplicate walkthrough section'});
 });

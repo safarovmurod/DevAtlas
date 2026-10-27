@@ -39,6 +39,11 @@ jobs:
       - name: Audit Backlog Retention and Freshness
         run: node scripts/audit-backlog.mjs --check
 
+      - name: Backend Node.js laboratory and download integrity
+        run: |
+          node --test content/backend-lab/test/backend.test.mjs content/backend-lab/test/project.test.mjs content/backend-lab/test/curriculum.test.mjs
+          node scripts/package-backend-lab.mjs --check
+
       - name: ESLint Check
         run: npm run lint
 

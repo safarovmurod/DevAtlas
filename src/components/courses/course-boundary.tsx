@@ -1,5 +1,5 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useLearningStore } from '@/stores/learning-store';
 import { CourseCatalog } from './course-catalog';
@@ -9,6 +9,7 @@ import { useAccount } from '@/components/account/account-provider';
 const sections:Record<string,string> = {'/home':'home','/plan':'plan','/study':'answers','/tests':'tests','/interview':'interview','/revision':'revision','/weak-topics':'weak-topics','/answers':'answers'};
 export function CourseBoundary({children}:{children:React.ReactNode}) {
   const pathname=usePathname();
+  const params=useSearchParams();
   const router=useRouter();
   // Legacy React month 3 URLs can be intercepted by this course-aware shell.
   // Redirect them here as well as in their server pages, preserving the selected day.
@@ -25,6 +26,9 @@ export function CourseBoundary({children}:{children:React.ReactNode}) {
   const chosen=useLearningStore(state=>state.courseChosen);
   const previousWork=useLearningStore(state=>state.studied.length+state.completedTopics.length+state.completedPractice.length+state.notes.length+Object.keys(state.answers).length+Object.keys(state.drafts).length);
   if (!chosen && !previousWork && !pathname.startsWith('/courses') && pathname!=='/practice' && pathname!=='/plans' && pathname!=='/community' && (pathname==='/home' || account.user)) return <CourseCatalog/>;
+  // An explicit course/day is handled by the server page, including access and bounds.
+  // Do not replace it with a remembered-course workspace that drops the requested day.
+  if(pathname==='/tests'&&params.has('course'))return children;
   if (course!=='react' && sections[pathname]) return <CourseWorkspace key={course+pathname} courseId={course} section={sections[pathname]}/>;
   return children;
 }

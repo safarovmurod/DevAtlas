@@ -14,6 +14,7 @@ import { gradeHtmlDocument, safeHtmlPreview, HTML_CHECK_IDS, type HtmlCheck } fr
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import type { PracticeSubmissionResult } from '@/lib/practice/types';
 import dynamic from 'next/dynamic';
+const FunctionPractice=dynamic(()=>import('./function-practice').then(module=>module.FunctionPractice));
 const WrittenRubricReview=dynamic(()=>import('./written-rubric-review').then(module=>module.WrittenRubricReview));
 const SqlitePractice=dynamic(()=>import('./sqlite-practice').then(module=>module.SqlitePractice));
 const LessonAssessment=dynamic(()=>import('./lesson-assessment').then(module=>module.LessonAssessment));
@@ -71,7 +72,7 @@ export function CoursePractice({ courseId, lesson }: { courseId: ImportedCourseI
   const [preview, setPreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [serverStatus, setServerStatus] = useState<'verified' | 'unavailable' | null>(null);
-  const code = state.courses[courseId]?.drafts[lesson.id] ?? '';
+  const code = state.courses[courseId]?.drafts[lesson.id] ?? practice.execution?.starter ?? '';
   const completed = state.courses[courseId]?.completedPractice.includes(lesson.id);
   const automatic = courseId === 'html' && lesson.id === 'html-day-01';
   const written=practice.kind==='written';
@@ -112,12 +113,13 @@ export function CoursePractice({ courseId, lesson }: { courseId: ImportedCourseI
   }
 
   return <div className="course-practice-studio">
-    <details className="practice-instructions" open><summary>{labels.instructions}</summary><p className="preserve-lines">{courseText(practice.task, state.contentLanguage)}</p><details><summary>{copy.hint}</summary><p>{courseText(practice.hint, state.contentLanguage)}</p></details></details>
+    <details className="practice-instructions" open><summary>{labels.instructions}</summary><p className="preserve-lines">{courseText(practice.task, state.contentLanguage)}</p>{(practice.hints??[practice.hint]).map((hint,index)=><details key={index} className="practice-hint"><summary>{copy.hint}{practice.hints?` ${index+1}`:null}</summary><p className="preserve-lines">{courseText(hint, state.contentLanguage)}</p></details>)}</details>
     {written?<div className="written-practice"><label htmlFor={lesson.id+'-answer'}>{copy.yourAnswer}</label><textarea id={lesson.id+'-answer'} rows={10} value={code} onChange={event=>update(event.target.value)} maxLength={100000}/><p className="small muted">{copy.saved}</p></div>:<div className="editor-panel"><div className="editor-header"><span><FileCode2 size={16} />{filename}</span><span>{language}</span></div>
       <CodeEditor path={courseId + '/' + lesson.id + '/' + filename} language={language} label={ui.yourCode} value={code} onChange={update} />
       <div className="editor-footer"><span>{copy.saved}</span><div className="button-row">{courseId === 'html' && <button className="button subtle" disabled={!code.trim()} onClick={() => setPreview(code)}><Eye size={16} />{ui.showHtml}</button>}{automatic && <button className="button primary" disabled={!code.trim() || submitting} onClick={verify}><Play size={16} />{submitting ? copy.loading : labels.verify}</button>}</div></div>
     </div>}
     {courseId === 'html' && preview !== null && <iframe title={ui.htmlResult} className="html-preview" sandbox="" referrerPolicy="no-referrer" srcDoc={safeHtmlPreview(preview)} />}
+    {practice.execution&&<FunctionPractice code={code} execution={practice.execution}/>}
     {courseId==='sql'&&lesson.id==='sql-day-01'&&<SqlitePractice code={code}/>}
     {automatic ? <section className="practice-validation" aria-live="polite"><p className="small muted">{labels.note}</p><ul>{(results ?? HTML_CHECK_IDS.map(id => ({ id, passed: false }))).map(check => <li key={check.id} className={results ? check.passed ? 'success-text' : 'warning-text' : ''}><span aria-hidden="true">{results ? check.passed ? '✓' : '×' : '○'}</span> {rubric[check.id as HtmlCheckId]}</li>)}</ul>{results && <p role="status">{results.every(check => check.passed) ? labels.passed : labels.failed}</p>}<p className="small muted">{labels.local}</p></section> : practice.rubric?<WrittenRubricReview courseId={courseId} lessonId={lesson.id} answer={code} rubric={practice.rubric} criteria={practice.criteria}/>: <section className="practice-validation"><p>{copy.manualHint}</p>{practice.criteria.map((criterion, index) => <label className="course-criterion" key={index}><input type="checkbox" checked={!!completed || checks.includes(index)} disabled={completed} onChange={event => setChecks(event.target.checked ? [...checks, index] : checks.filter(value => value !== index))} />{courseText(criterion, state.contentLanguage)}</label>)}<button className="button subtle" disabled={completed || !code.trim() || checks.length !== practice.criteria.length} onClick={() => state.completeCoursePractice(courseId, lesson.id)}><CheckCircle2 size={16} />{completed ? copy.completed : copy.manual}</button></section>}
     <details className="solution"><summary>{copy.solution}</summary>{written?<p className="preserve-lines">{practice.referenceAnswer?courseText(practice.referenceAnswer,state.contentLanguage):practice.solution}</p>:<pre><code>{practice.solution}</code></pre>}</details>

@@ -4,6 +4,7 @@ import html from '@/content/courses/html.json';
 import {courseContentSchema} from '@/lib/courses/schema';
 import {LEARNING_FLOW_STAGES,learningFlowSchema} from '@/lib/courses/learning-flow';
 import bank from '@/content/assessments/html-first-page';
+import {COURSE_CATALOG} from '@/content/courses/catalog';
 import {COURSE_IDS} from '@/lib/courses/ids';
 import {loadCourseContent} from '@/lib/courses/content';
 import {loadAssessmentBank} from '@/lib/practice/assessment-banks';
@@ -29,13 +30,21 @@ it('rejects missing translations, dangling references and impossible predictions
  expect(courseContentSchema.safeParse(broken).success).toBe(false);
 });
 
-it('requires an available matching server assessment for every published interactive flow',async()=>{
+it('requires matching server assessment or an explicit local-only flow that cannot claim attestation',async()=>{
  for(const id of COURSE_IDS){
   if(id==='react')continue;
   const course=await loadCourseContent(id);
   for(const lesson of course.lessons){
    if(!lesson.learningFlow)continue;
    const assessment=await loadAssessmentBank(id,lesson.id);
+   if(lesson.learningFlow.assessmentMode==='local-only'){
+    expect(assessment).toBeNull();
+    expect(COURSE_CATALOG.find(course=>course.id===id)?.runtime).toBe('local');
+    expect(lesson.questions.length).toBeGreaterThanOrEqual(5);
+    expect(lesson.practice).toBeDefined();
+    expect(lesson.learningFlow.demo.kind).toBe('code-trace');
+    continue;
+   }
    expect(assessment,`${id}/${lesson.id} assessment`).not.toBeNull();
    expect(assessment!.version).toBe(lesson.learningFlow.assessmentVersion);
    for(const source of assessment!.sourceIds)expect(lesson.sourceIds).toContain(source);
