@@ -1,0 +1,416 @@
+{
+  "id": "mobile-day-04",
+  "day": 4,
+  "prerequisiteDays": [
+    3
+  ],
+  "title": {
+    "ru": "Функция и обработчик нажатия",
+    "tg": "Функсия ва коркардкунандаи пахш",
+    "en": "Functions and press handlers"
+  },
+  "summary": {
+    "ru": "Передайте функцию кнопке и проследите изменение состояния.",
+    "tg": "Функсияро ба тугма дода, тағйири ҳолатро бинед.",
+    "en": "Pass a function to a button and trace state changes."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Функция и обработчик нажатия",
+        "tg": "Функсия ва коркардкунандаи пахш",
+        "en": "Functions and press handlers"
+      },
+      "body": {
+        "ru": "Функция — именованная последовательность действий. Объявление function startLesson() { ... } описывает действия, но не запускает их. Вызов startLesson() с круглыми скобками выполняет функцию. Кнопка React Native сообщает о касании через свойство onPress: передайте туда саму функцию startLesson, чтобы она вызвалась позже. Если написать onPress={startLesson()}, функция выполнится во время рендера вместо ожидания касания. Внутри обработчика setMessage просит React обновить состояние, а React повторно вызывает компонент и показывает новый текст. Эта задача работает только в памяти: она не начинает сетевой урок и не сохраняет прогресс после перезапуска.",
+        "tg": "Функсия пайдарпаии номдори амалҳост. Эълони function startLesson() { ... } амалҳоро тавсиф мекунад, вале иҷро намекунад. Даъвати startLesson() бо қавсҳо функсияро иҷро мекунад. Тугмаи React Native ламсро бо onPress хабар медиҳад: худи функсияи startLesson-ро диҳед, то баъдтар иҷро шавад. Агар onPress={startLesson()} нависед, функсия ҳангоми render иҷро мешавад, на баъди ламс. Дар коркардкунанда setMessage аз React навсозии ҳолатро мехоҳад; React компонентро боз хонда, матни нав нишон медиҳад. Ин мисол танҳо дар хотира аст: дарси шабакавиро оғоз ё пешрафтро баъди оғози нав нигоҳ намедорад.",
+        "en": "A function is a named sequence of actions. Declaring function startLesson() { ... } describes those actions without executing them. Calling startLesson() with parentheses executes it. A React Native button reports a touch through onPress: pass the function startLesson itself so it can be called later. Writing onPress={startLesson()} executes it during render instead of waiting for a touch. Inside the handler, setMessage asks React to update state; React calls the component again and displays the new text. This example only changes memory: it does not start an online lesson or preserve progress after restart."
+      }
+    },
+    {
+      "title": {
+        "ru": "Разбор примера",
+        "tg": "Шарҳи мисол",
+        "en": "Walk through the example"
+      },
+      "body": {
+        "ru": "Первый import подключает useState, второй — Button, Text и View. useState возвращает текущее message и setMessage; начальная строка видна до нажатия. Объявление startLesson вызывает setMessage только когда само будет вызвано. return описывает контейнер View, текст и кнопку. В onPress={startLesson} нет круглых скобок после имени: система вызовет обработчик при нажатии. После нажатия ожидаем «Урок начался». Перезапуск возвращает начальный текст. Для эксперимента добавьте отдельную кнопку сброса с обработчиком, устанавливающим исходную строку; не вызывайте обработчик во время рендера.",
+        "tg": "Import-и аввал useState, дуюм Button, Text ва View-ро мегирад. useState message-и ҷорӣ ва setMessage медиҳад; сатри аввал то пахш намоён аст. Эълони startLesson setMessage-ро танҳо ҳангоми даъвати худ мехонад. return View, матн ва тугмаро тавсиф мекунад. Дар onPress={startLesson} баъди ном қавс нест: система ҳангоми пахш коркардкунандаро мехонад. Баъди пахш «Урок начался» интизор аст. Оғози нав матни аввалро бармегардонад. Барои таҷриба тугмаи ҷудои reset бо коркардкунандаи сатри аввал созед; коркардкунандаро ҳангоми render нахонед.",
+        "en": "The first import obtains useState; the second obtains Button, Text and View. useState returns current message and setMessage; the initial string is visible before a press. The startLesson declaration calls setMessage only when the handler itself is invoked. return describes the View container, text and button. In onPress={startLesson} there are no parentheses after the name: the platform calls the handler on a press. After pressing, expect “Урок начался”. Restart restores the initial message. As an experiment, add a separate reset button with a handler that restores the initial string; do not call a handler during render."
+      },
+      "code": "import { useState } from 'react';\nimport { Button, Text, View } from 'react-native';\n\nexport default function App() {\n  const [message, setMessage] = useState('Готовы начать?');\n\n  function startLesson() {\n    setMessage('Урок начался');\n  }\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text>{message}</Text>\n      <Button title=\"Начать урок\" onPress={startLesson} />\n    </View>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-04-q1",
+      "question": {
+        "ru": "Что передаётся в onPress для вызова после касания?",
+        "tg": "Барои даъват баъди ламс ба onPress чӣ дода мешавад?",
+        "en": "What is passed to onPress for a later touch?"
+      },
+      "options": [
+        {
+          "ru": "startLesson",
+          "tg": "startLesson",
+          "en": "startLesson"
+        },
+        {
+          "ru": "startLesson()",
+          "tg": "startLesson()",
+          "en": "startLesson()"
+        },
+        {
+          "ru": "setMessage()",
+          "tg": "setMessage()",
+          "en": "setMessage()"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Имя функции — ссылка на обработчик; скобки немедленно вызывают функцию.",
+        "tg": "Номи функсия ишораи коркардкунанда аст; қавс фавран даъват мекунад.",
+        "en": "The function name references the handler; parentheses invoke it immediately."
+      },
+      "hint": {
+        "ru": "Объявите отдельную функцию resetLesson и передайте её в onPress без вызова. Внутри функции вызовите setMessage с исходной строкой.",
+        "tg": "Функсияи ҷудои resetLesson эълон ва онро бе даъват ба onPress диҳед. Дар дохилаш setMessage-ро бо сатри аввал хонед.",
+        "en": "Declare a separate resetLesson function and pass it to onPress without calling it. Inside it call setMessage with the initial string."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-04-q2",
+      "question": {
+        "ru": "Что отображается до первого нажатия?",
+        "tg": "То пахши аввал чӣ намоён аст?",
+        "en": "What is displayed before the first press?"
+      },
+      "options": [
+        {
+          "ru": "Готовы начать?",
+          "tg": "Готовы начать?",
+          "en": "Готовы начать?"
+        },
+        {
+          "ru": "Урок начался",
+          "tg": "Урок начался",
+          "en": "Урок начался"
+        },
+        {
+          "ru": "Пустой текст",
+          "tg": "Матни холӣ",
+          "en": "Empty text"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Это начальное значение useState.",
+        "tg": "Ин қимати аввали useState аст.",
+        "en": "It is the initial useState value."
+      },
+      "hint": {
+        "ru": "Объявите отдельную функцию resetLesson и передайте её в onPress без вызова. Внутри функции вызовите setMessage с исходной строкой.",
+        "tg": "Функсияи ҷудои resetLesson эълон ва онро бе даъват ба onPress диҳед. Дар дохилаш setMessage-ро бо сатри аввал хонед.",
+        "en": "Declare a separate resetLesson function and pass it to onPress without calling it. Inside it call setMessage with the initial string."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-04-q3",
+      "question": {
+        "ru": "Что произойдёт после нажатия кнопки?",
+        "tg": "Баъди пахши тугма чӣ мешавад?",
+        "en": "What happens after the button is pressed?"
+      },
+      "options": [
+        {
+          "ru": "React обновляет текст состояния.",
+          "tg": "React матни ҳолатро нав мекунад.",
+          "en": "React updates the state text."
+        },
+        {
+          "ru": "Задача сохраняется на сервере.",
+          "tg": "Вазифа дар сервер сабт мешавад.",
+          "en": "A task is saved to a server."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Обработчик вызывает setMessage; сетевой код отсутствует.",
+        "tg": "Коркардкунанда setMessage мехонад; рамзи шабака нест.",
+        "en": "The handler calls setMessage; there is no network code."
+      },
+      "hint": {
+        "ru": "Объявите отдельную функцию resetLesson и передайте её в onPress без вызова. Внутри функции вызовите setMessage с исходной строкой.",
+        "tg": "Функсияи ҷудои resetLesson эълон ва онро бе даъват ба onPress диҳед. Дар дохилаш setMessage-ро бо сатри аввал хонед.",
+        "en": "Declare a separate resetLesson function and pass it to onPress without calling it. Inside it call setMessage with the initial string."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-04-q4",
+      "question": {
+        "ru": "Какой текст вернётся после перезапуска примера?",
+        "tg": "Баъди оғози нави мисол кадом матн бармегардад?",
+        "en": "Which text returns after restarting the example?"
+      },
+      "options": [
+        {
+          "ru": "Готовы начать?",
+          "tg": "Готовы начать?",
+          "en": "Готовы начать?"
+        },
+        {
+          "ru": "Урок начался",
+          "tg": "Урок начался",
+          "en": "Урок начался"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Постоянное хранилище ещё не добавлено.",
+        "tg": "Анбори доимӣ ҳанӯз илова нашудааст.",
+        "en": "Persistent storage has not been added."
+      },
+      "hint": {
+        "ru": "Объявите отдельную функцию resetLesson и передайте её в onPress без вызова. Внутри функции вызовите setMessage с исходной строкой.",
+        "tg": "Функсияи ҷудои resetLesson эълон ва онро бе даъват ба onPress диҳед. Дар дохилаш setMessage-ро бо сатри аввал хонед.",
+        "en": "Declare a separate resetLesson function and pass it to onPress without calling it. Inside it call setMessage with the initial string."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-04-q5",
+      "question": {
+        "ru": "Что делает объявление функции само по себе?",
+        "tg": "Худи эълони функсия чӣ мекунад?",
+        "en": "What does a function declaration do on its own?"
+      },
+      "options": [
+        {
+          "ru": "Описывает действия, не выполняя их.",
+          "tg": "Амалро тавсиф мекунад, иҷро намекунад.",
+          "en": "Defines actions without running them."
+        },
+        {
+          "ru": "Сразу выполняет все действия.",
+          "tg": "Ҳама амалро фавран иҷро мекунад.",
+          "en": "Immediately executes every action."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Код тела выполняется при вызове функции.",
+        "tg": "Рамзи бадан ҳангоми даъват иҷро мешавад.",
+        "en": "The body executes when the function is called."
+      },
+      "hint": {
+        "ru": "Объявите отдельную функцию resetLesson и передайте её в onPress без вызова. Внутри функции вызовите setMessage с исходной строкой.",
+        "tg": "Функсияи ҷудои resetLesson эълон ва онро бе даъват ба onPress диҳед. Дар дохилаш setMessage-ро бо сатри аввал хонед.",
+        "en": "Declare a separate resetLesson function and pass it to onPress without calling it. Inside it call setMessage with the initial string."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "В Expo blank-проекте добавьте кнопку «Сброс», которая возвращает «Готовы начать?». Предскажите и проверьте последовательность: старт → начало → сброс → начало. Запишите фактические результаты; устройство или эмулятор требуется для проверки касаний. Без них объясните код, но не отмечайте устройство как проверенное. Для локальной проверки логики своего кода используйте лабораторию: node verify-component.mjs 04 <ваш-файл.tsx> <путь-к-expo-проекту>. Результат работает на mock-компонентах и не подтверждает устройство или Mastered.",
+      "tg": "Дар Expo blank-проект тугмаи «Сброс» илова кунед, ки «Готовы начать?»-ро бармегардонад. Пайдарпаии оғоз → оғоз кардани дарс → reset → оғозро пешгӯӣ ва санҷед. Натиҷаи воқеиро нависед; барои санҷиши ламс дастгоҳ ё эмулятор лозим. Бе онҳо кодро шарҳ диҳед, вале санҷиши дастгоҳро тасдиқ накунед. Барои санҷиши маҳаллии мантиқи коди худ лабораторияро гиред: node verify-component.mjs 04 <файли-худ.tsx> <роҳи-expo-проект>. Натиҷа бо mock-компонент аст ва дастгоҳ ё Mastered-ро тасдиқ намекунад.",
+      "en": "In an Expo blank project add a Reset button restoring “Готовы начать?”. Predict and test initial → start → reset → start. Record actual results; testing touches requires a device or emulator. Without one, explain the code but do not claim a device test. For a local check of your own component logic use the lab: node verify-component.mjs 04 <your-file.tsx> <expo-project-path>. This uses mocked components and does not verify a device or grant Mastered."
+    },
+    "hint": {
+      "ru": "Объявите отдельную функцию resetLesson и передайте её в onPress без вызова. Внутри функции вызовите setMessage с исходной строкой.",
+      "tg": "Функсияи ҷудои resetLesson эълон ва онро бе даъват ба onPress диҳед. Дар дохилаш setMessage-ро бо сатри аввал хонед.",
+      "en": "Declare a separate resetLesson function and pass it to onPress without calling it. Inside it call setMessage with the initial string."
+    },
+    "solution": "import { useState } from 'react';\nimport { Button, Text, View } from 'react-native';\n\nexport default function App() {\n  const [message, setMessage] = useState('Готовы начать?');\n\n  function startLesson() {\n    setMessage('Урок начался');\n  }\n\n  function resetLesson() {\n    setMessage('Готовы начать?');\n  }\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text>{message}</Text>\n      <Button title=\"Начать урок\" onPress={startLesson} />\n      <Button title=\"Сброс\" onPress={resetLesson} />\n    </View>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Записаны ожидаемые и фактические результаты четырёх действий.",
+        "tg": "Натиҷаҳои интизор ва воқеии чор амал сабт шуданд.",
+        "en": "Expected and actual outcomes for all four actions are recorded."
+      },
+      {
+        "ru": "Код обработчика и ограничение локального состояния объяснены самостоятельно; это Self Reviewed.",
+        "tg": "Рамзи коркардкунанда ва маҳдудияти ҳолати маҳаллӣ мустақил шарҳ шуд; ин Self Reviewed аст.",
+        "en": "The handler and limits of local state are explained independently; this is Self Reviewed."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Различить объявление функции и вызов.",
+        "tg": "Эълон ва даъвати функсияро фарқ кунед.",
+        "en": "Distinguish declaring from calling a function."
+      },
+      {
+        "ru": "Объяснить обработчик и обновление состояния.",
+        "tg": "Коркардкунанда ва навсозии ҳолатро фаҳмонед.",
+        "en": "Explain handlers and state updates."
+      }
+    ],
+    "realWorld": {
+      "ru": "Кнопка начинает учебный шаг после касания и показывает его состояние.",
+      "tg": "Тугма баъди ламс қадами омӯзиширо оғоз ва ҳолаташро нишон медиҳад.",
+      "en": "A button starts a learning step after a touch and displays its state."
+    },
+    "walkthroughSections": [
+      0,
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что передаётся в onPress для вызова после касания?",
+        "tg": "Барои даъват баъди ламс ба onPress чӣ дода мешавад?",
+        "en": "What is passed to onPress for a later touch?"
+      },
+      "options": [
+        {
+          "ru": "startLesson",
+          "tg": "startLesson",
+          "en": "startLesson"
+        },
+        {
+          "ru": "startLesson()",
+          "tg": "startLesson()",
+          "en": "startLesson()"
+        },
+        {
+          "ru": "setMessage()",
+          "tg": "setMessage()",
+          "en": "setMessage()"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Объявите отдельную функцию resetLesson и передайте её в onPress без вызова. Внутри функции вызовите setMessage с исходной строкой.",
+        "tg": "Функсияи ҷудои resetLesson эълон ва онро бе даъват ба onPress диҳед. Дар дохилаш setMessage-ро бо сатри аввал хонед.",
+        "en": "Declare a separate resetLesson function and pass it to onPress without calling it. Inside it call setMessage with the initial string."
+      },
+      "explanation": {
+        "ru": "Имя функции — ссылка на обработчик; скобки немедленно вызывают функцию.",
+        "tg": "Номи функсия ишораи коркардкунанда аст; қавс фавран даъват мекунад.",
+        "en": "The function name references the handler; parentheses invoke it immediately."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { Button, Text, View } from 'react-native';\n\nexport default function App() {\n  const [message, setMessage] = useState('Готовы начать?');\n\n  function startLesson() {\n    setMessage('Урок начался');\n  }\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text>{message}</Text>\n      <Button title=\"Начать урок\" onPress={startLesson} />\n    </View>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Первый рендер использует исходное состояние.",
+            "tg": "Render-и аввал ҳолати аввалро мегирад.",
+            "en": "The first render uses the initial state."
+          },
+          "values": "message = \"Готовы начать?\""
+        },
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Функция объявлена, но при рендере её тело не выполняется.",
+            "tg": "Функсия эълон шуд, вале баданаш дар render иҷро намешавад.",
+            "en": "The function is declared; its body does not run during render."
+          },
+          "values": ""
+        },
+        {
+          "line": 14,
+          "explanation": {
+            "ru": "После касания обработчик обновляет state; сам разбор не запускает приложение.",
+            "tg": "Баъди ламс коркардкунанда state-ро дигар мекунад; шарҳ барномаро иҷро намекунад.",
+            "en": "After a touch the handler updates state; this walkthrough does not run the app."
+          },
+          "values": "message = \"Урок начался\""
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите объявление startLesson и место передачи в onPress.",
+          "tg": "Эълони startLesson ва ҷойи додани онро ба onPress ёбед.",
+          "en": "Locate the startLesson declaration and where it is passed to onPress."
+        },
+        {
+          "ru": "Предскажите текст до и после касания; при наличии устройства проверьте в Expo.",
+          "tg": "Матни пешу баъди ламсро пешгӯӣ ва бо дастгоҳ дар Expo санҷед.",
+          "en": "Predict the text before and after a touch; check in Expo if a device is available."
+        }
+      ],
+      "hint": {
+        "ru": "Объявите отдельную функцию resetLesson и передайте её в onPress без вызова. Внутри функции вызовите setMessage с исходной строкой.",
+        "tg": "Функсияи ҷудои resetLesson эълон ва онро бе даъват ба onPress диҳед. Дар дохилаш setMessage-ро бо сатри аввал хонед.",
+        "en": "Declare a separate resetLesson function and pass it to onPress without calling it. Inside it call setMessage with the initial string."
+      },
+      "success": {
+        "ru": "До нажатия «Готовы начать?», после — «Урок начался».",
+        "tg": "Пеш аз пахш «Готовы начать?», баъд «Урок начался».",
+        "en": "Before the press: “Готовы начать?”; after: “Урок начался”."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "В Expo blank-проекте добавьте кнопку «Сброс», которая возвращает «Готовы начать?». Предскажите и проверьте последовательность: старт → начало → сброс → начало. Запишите фактические результаты; устройство или эмулятор требуется для проверки касаний. Без них объясните код, но не отмечайте устройство как проверенное. Для локальной проверки логики своего кода используйте лабораторию: node verify-component.mjs 04 <ваш-файл.tsx> <путь-к-expo-проекту>. Результат работает на mock-компонентах и не подтверждает устройство или Mastered.",
+        "tg": "Дар Expo blank-проект тугмаи «Сброс» илова кунед, ки «Готовы начать?»-ро бармегардонад. Пайдарпаии оғоз → оғоз кардани дарс → reset → оғозро пешгӯӣ ва санҷед. Натиҷаи воқеиро нависед; барои санҷиши ламс дастгоҳ ё эмулятор лозим. Бе онҳо кодро шарҳ диҳед, вале санҷиши дастгоҳро тасдиқ накунед. Барои санҷиши маҳаллии мантиқи коди худ лабораторияро гиред: node verify-component.mjs 04 <файли-худ.tsx> <роҳи-expo-проект>. Натиҷа бо mock-компонент аст ва дастгоҳ ё Mastered-ро тасдиқ намекунад.",
+        "en": "In an Expo blank project add a Reset button restoring “Готовы начать?”. Predict and test initial → start → reset → start. Record actual results; testing touches requires a device or emulator. Without one, explain the code but do not claim a device test. For a local check of your own component logic use the lab: node verify-component.mjs 04 <your-file.tsx> <expo-project-path>. This uses mocked components and does not verify a device or grant Mastered."
+      },
+      "criteria": [
+        {
+          "ru": "Записаны ожидаемые и фактические результаты четырёх действий.",
+          "tg": "Натиҷаҳои интизор ва воқеии чор амал сабт шуданд.",
+          "en": "Expected and actual outcomes for all four actions are recorded."
+        },
+        {
+          "ru": "Код обработчика и ограничение локального состояния объяснены самостоятельно; это Self Reviewed.",
+          "tg": "Рамзи коркардкунанда ва маҳдудияти ҳолати маҳаллӣ мустақил шарҳ шуд; ин Self Reviewed аст.",
+          "en": "The handler and limits of local state are explained independently; this is Self Reviewed."
+        }
+      ],
+      "example": {
+        "ru": "Функция сброса вызывает setMessage с исходным текстом и передаётся в onPress без скобок.",
+        "tg": "Функсияи reset setMessage-ро бо матни аввал мехонад ва бе қавс ба onPress дода мешавад.",
+        "en": "A reset function calls setMessage with the initial text and is passed to onPress without parentheses."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Объявление функции не выполняет её тело.",
+        "tg": "Эълони функсия бадани онро иҷро намекунад.",
+        "en": "Declaring a function does not execute its body."
+      },
+      {
+        "ru": "onPress получает обработчик; state хранится только в памяти примера.",
+        "tg": "onPress коркардкунанда мегирад; state танҳо дар хотираи мисол аст.",
+        "en": "onPress receives a handler; this example stores state only in memory."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что произойдёт после нажатия кнопки?",
+        "tg": "Баъди пахши тугма чӣ мешавад?",
+        "en": "What happens after the button is pressed?"
+      },
+      {
+        "ru": "Какой текст вернётся после перезапуска примера?",
+        "tg": "Баъди оғози нави мисол кадом матн бармегардад?",
+        "en": "Which text returns after restarting the example?"
+      }
+    ],
+    "nextLessonId": "mobile-day-05"
+  }
+}

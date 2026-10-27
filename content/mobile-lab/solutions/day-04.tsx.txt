@@ -1,0 +1,22 @@
+import { useState } from 'react';
+import { Button, Text, View } from 'react-native';
+
+export default function App() {
+  const [message, setMessage] = useState('Готовы начать?');
+
+  function startLesson() {
+    setMessage('Урок начался');
+  }
+
+  function resetLesson() {
+    setMessage('Готовы начать?');
+  }
+
+  return (
+    <View style={{ padding: 24 }}>
+      <Text>{message}</Text>
+      <Button title="Начать урок" onPress={startLesson} />
+      <Button title="Сброс" onPress={resetLesson} />
+    </View>
+  );
+}

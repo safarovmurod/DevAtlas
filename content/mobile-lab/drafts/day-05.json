@@ -1,0 +1,426 @@
+{
+  "id": "mobile-day-05",
+  "day": 5,
+  "prerequisiteDays": [
+    4
+  ],
+  "title": {
+    "ru": "Объекты и массивы в мобильном экране",
+    "tg": "Объект ва массив дар экрани мобилӣ",
+    "en": "Objects and arrays on a mobile screen"
+  },
+  "summary": {
+    "ru": "Группируйте название и список занятий и вычисляйте количество.",
+    "tg": "Ном ва рӯйхати машғулиятро гурӯҳ карда, шуморро ҳисоб кунед.",
+    "en": "Group a title and lesson list and calculate its count."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Объекты и массивы в мобильном экране",
+        "tg": "Объект ва массив дар экрани мобилӣ",
+        "en": "Objects and arrays on a mobile screen"
+      },
+      "body": {
+        "ru": "Когда несколько значений относятся к одному плану, объект объединяет их под именованными свойствами. Например, plan.title содержит название, а plan.lessons — массив, то есть упорядоченный список. Точка в plan.title читает свойство title; она не создаёт сетевой запрос. Длина массива доступна через length: пустой массив даёт 0, два элемента дают 2. Индексы начинаются с нуля: lessons[0] — первый элемент. Несуществующий индекс возвращает undefined, поэтому перед выводом отдельного элемента нужно проверить его наличие. Наш пример показывает только количество и одинаково работает с пустым списком. Это данные в памяти компонента, не база и не сохранённый файл.",
+        "tg": "Вақте чанд қимат ба як нақша тааллуқ дорад, объект онҳоро дар хосиятҳои номдор ҷамъ мекунад. Масалан, plan.title ном ва plan.lessons массив, яъне рӯйхати тартибдор аст. Нуқта дар plan.title хосияти title-ро мехонад, на дархости шабакаро месозад. Дарозии массив бо length дастрас аст: массиви холӣ 0 ва ду унсур 2 медиҳад. Индекс аз сифр сар мешавад: lessons[0] унсури аввал аст. Индекси набуда undefined медиҳад, пас пеш аз намоиши як унсур мавҷудияташро санҷед. Мисол танҳо шуморро нишон дода, бо рӯйхати холӣ ҳам кор мекунад. Ин дода дар хотираи компонент аст, на база ё файли сабтшуда.",
+        "en": "When several values describe one plan, an object groups them under named properties. For example, plan.title is a title and plan.lessons is an array, an ordered list. The dot in plan.title reads the title property; it does not send a network request. Array length is available through length: an empty array gives zero and two elements give two. Indices start at zero: lessons[0] is the first element. A missing index returns undefined, so check it before displaying an individual element. This example displays only the count and also works with an empty list. These are in-memory component values, not a database or a saved file."
+      }
+    },
+    {
+      "title": {
+        "ru": "Разбор примера",
+        "tg": "Шарҳи мисол",
+        "en": "Walk through the example"
+      },
+      "body": {
+        "ru": "import подключает Text и View. Внутри App создаём объект plan: фигурные скобки содержат свойства title и lessons, разделённые запятой. Квадратные скобки создают массив двух строк. plan.lessons.length читает длину и сохраняет число в lessonCount. return описывает View с заголовком и текстом; фигурные скобки JSX подставляют plan.title и lessonCount. Если добавить третью строку в массив, экран покажет 3; если убрать все элементы — 0. Не обращайтесь к lessons[0].title: элементы здесь строки, а не объекты с полем title.",
+        "tg": "import Text ва View-ро мегирад. Дар App объекти plan месозем: қавсҳои шаклдор хосиятҳои title ва lessons-ро бо вергул ҷудо доранд. Қавсҳои мураббаъ массиви ду сатр месозанд. plan.lessons.length дарозиро хонда, ададро дар lessonCount мегузорад. return View бо сарлавҳа ва матн аст; қавсҳои JSX plan.title ва lessonCount-ро мегузоранд. Сатри сеюм 3, массиви холӣ 0 нишон медиҳад. lessons[0].title нахонед: унсурҳои ин ҷо сатр ҳастанд, на объект бо title.",
+        "en": "import obtains Text and View. Inside App, create plan: braces hold title and lessons properties separated by a comma. Square brackets create an array of two strings. plan.lessons.length reads its length and binds the number to lessonCount. return describes a View with heading and text; JSX braces insert plan.title and lessonCount. Add a third string and the screen shows 3; remove all elements and it shows 0. Do not use lessons[0].title: these elements are strings, not objects with a title field."
+      },
+      "code": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  const plan = {\n    title: 'Мой план',\n    lessons: ['Открыть урок', 'Повторить тему'],\n  };\n  const lessonCount = plan.lessons.length;\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">{plan.title}</Text>\n      <Text>Занятий в плане: {lessonCount}</Text>\n    </View>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-05-q1",
+      "question": {
+        "ru": "Какова длина массива из двух строк?",
+        "tg": "Дарозии массиви ду сатр чанд аст?",
+        "en": "What is the length of a two-string array?"
+      },
+      "options": [
+        {
+          "ru": "2",
+          "tg": "2",
+          "en": "2"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "length считает элементы массива.",
+        "tg": "length унсурҳоро ҳисоб мекунад.",
+        "en": "length counts array elements."
+      },
+      "hint": {
+        "ru": "Изменяйте только элементы внутри квадратных скобок, затем проследите plan.lessons.length.",
+        "tg": "Танҳо унсурҳои дохили қавсҳои мураббаъро иваз ва plan.lessons.length-ро пайгирӣ кунед.",
+        "en": "Change only the elements inside the square brackets, then trace plan.lessons.length."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-05-q2",
+      "question": {
+        "ru": "Что вернёт длина пустого массива?",
+        "tg": "Дарозии массиви холӣ чист?",
+        "en": "What is the length of an empty array?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "undefined",
+          "tg": "undefined",
+          "en": "undefined"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Пустой массив существует, но не содержит элементов.",
+        "tg": "Массиви холӣ ҳаст, вале унсур надорад.",
+        "en": "An empty array exists but has no elements."
+      },
+      "hint": {
+        "ru": "Изменяйте только элементы внутри квадратных скобок, затем проследите plan.lessons.length.",
+        "tg": "Танҳо унсурҳои дохили қавсҳои мураббаъро иваз ва plan.lessons.length-ро пайгирӣ кунед.",
+        "en": "Change only the elements inside the square brackets, then trace plan.lessons.length."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-05-q3",
+      "question": {
+        "ru": "Как прочитать название из объекта plan?",
+        "tg": "Номи объекти plan-ро чӣ гуна хонем?",
+        "en": "How do you read the title from plan?"
+      },
+      "options": [
+        {
+          "ru": "plan.title",
+          "tg": "plan.title",
+          "en": "plan.title"
+        },
+        {
+          "ru": "plan[title without quotes]",
+          "tg": "plan[title without quotes]",
+          "en": "plan[title without quotes]"
+        },
+        {
+          "ru": "plan.length",
+          "tg": "plan.length",
+          "en": "plan.length"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Точка выбирает именованное свойство.",
+        "tg": "Нуқта хосияти номдорро мегирад.",
+        "en": "Dot notation reads the named property."
+      },
+      "hint": {
+        "ru": "Изменяйте только элементы внутри квадратных скобок, затем проследите plan.lessons.length.",
+        "tg": "Танҳо унсурҳои дохили қавсҳои мураббаъро иваз ва plan.lessons.length-ро пайгирӣ кунед.",
+        "en": "Change only the elements inside the square brackets, then trace plan.lessons.length."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-05-q4",
+      "question": {
+        "ru": "Какой индекс у первого элемента массива?",
+        "tg": "Индекси унсури аввал чанд аст?",
+        "en": "What is the first array index?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "-1",
+          "tg": "-1",
+          "en": "-1"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Индексы JavaScript начинаются с нуля.",
+        "tg": "Индексҳои JavaScript аз сифр сар мешаванд.",
+        "en": "JavaScript indices start at zero."
+      },
+      "hint": {
+        "ru": "Изменяйте только элементы внутри квадратных скобок, затем проследите plan.lessons.length.",
+        "tg": "Танҳо унсурҳои дохили қавсҳои мураббаъро иваз ва plan.lessons.length-ро пайгирӣ кунед.",
+        "en": "Change only the elements inside the square brackets, then trace plan.lessons.length."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-05-q5",
+      "question": {
+        "ru": "Почему lessons[0].title неверен в этом примере?",
+        "tg": "Чаро lessons[0].title дар ин мисол нодуруст аст?",
+        "en": "Why is lessons[0].title wrong for this example?"
+      },
+      "options": [
+        {
+          "ru": "Элементы — строки, а не объекты с title.",
+          "tg": "Унсурҳо сатр, на объект бо title мебошанд.",
+          "en": "Elements are strings, not objects with title."
+        },
+        {
+          "ru": "Массивы всегда содержат числа.",
+          "tg": "Массив ҳамеша адад дорад.",
+          "en": "Arrays always contain numbers."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "У строки из примера нет заданного свойства title.",
+        "tg": "Сатри мисол хосияти title-и додашуда надорад.",
+        "en": "The example string has no authored title property."
+      },
+      "hint": {
+        "ru": "Изменяйте только элементы внутри квадратных скобок, затем проследите plan.lessons.length.",
+        "tg": "Танҳо унсурҳои дохили қавсҳои мураббаъро иваз ва plan.lessons.length-ро пайгирӣ кунед.",
+        "en": "Change only the elements inside the square brackets, then trace plan.lessons.length."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "В blank-проекте Expo добавьте третью строку в lessons и предскажите количество. Затем проверьте пустой массив и объясните, почему результат 0. Добавьте отдельный Text с названием плана. Запишите результаты. Реальные касания и отображение проверяйте на устройстве; без него не отмечайте устройство проверенным.",
+      "tg": "Дар blank-проекти Expo сатри сеюмро ба lessons илова ва шуморро пешгӯӣ кунед. Баъд массиви холиро санҷида, сабаби 0-ро фаҳмонед. Text-и ҷудо бо номи нақша илова ва натиҷаҳоро нависед. Ламсу намоиши воқеиро дар дастгоҳ санҷед; бе он дастгоҳро тасдиқ накунед.",
+      "en": "In an Expo blank project add a third string to lessons and predict the count. Then check an empty array and explain why it gives zero. Add a separate Text containing the plan title. Record the outcomes. Verify actual display and touch on a device; do not claim a device check without one."
+    },
+    "hint": {
+      "ru": "Изменяйте только элементы внутри квадратных скобок, затем проследите plan.lessons.length.",
+      "tg": "Танҳо унсурҳои дохили қавсҳои мураббаъро иваз ва plan.lessons.length-ро пайгирӣ кунед.",
+      "en": "Change only the elements inside the square brackets, then trace plan.lessons.length."
+    },
+    "solution": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  const plan = {\n    title: 'Мой план',\n    lessons: ['Открыть урок', 'Повторить тему', 'Проверить себя'],\n  };\n  const lessonCount = plan.lessons.length;\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">{plan.title}</Text>\n      <Text>Занятий в плане: {lessonCount}</Text>\n      <Text>Название плана: {plan.title}</Text>\n    </View>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Проверены массивы из трёх и нуля элементов и записаны результаты.",
+        "tg": "Массиви се ва сифр унсур санҷида ва натиҷа сабт шуд.",
+        "en": "Three-element and empty arrays were checked and outcomes recorded."
+      },
+      {
+        "ru": "Добавлен текст названия и объяснено, что это не постоянное хранение. Проверка Self Reviewed.",
+        "tg": "Матни ном илова ва шарҳ шуд, ки ин нигоҳдории доимӣ нест. Санҷиш Self Reviewed.",
+        "en": "A title line is added and the absence of persistence is explained. Review remains Self Reviewed."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Различить объект, свойство и массив.",
+        "tg": "Объект, хосият ва массивро фарқ кунед.",
+        "en": "Distinguish objects, properties and arrays."
+      },
+      {
+        "ru": "Предсказать длину и проверить пустой массив.",
+        "tg": "Дарозиро пешгӯӣ ва массиви холиро санҷед.",
+        "en": "Predict length and check an empty array."
+      }
+    ],
+    "realWorld": {
+      "ru": "Планировщик объединяет название и список занятий для экрана.",
+      "tg": "Нақшасоз ном ва рӯйхати машғулиятро барои экран гурӯҳ мекунад.",
+      "en": "A planner groups a title and list of lessons for display."
+    },
+    "walkthroughSections": [
+      0,
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что вернёт длина пустого массива?",
+        "tg": "Дарозии массиви холӣ чист?",
+        "en": "What is the length of an empty array?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "undefined",
+          "tg": "undefined",
+          "en": "undefined"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Изменяйте только элементы внутри квадратных скобок, затем проследите plan.lessons.length.",
+        "tg": "Танҳо унсурҳои дохили қавсҳои мураббаъро иваз ва plan.lessons.length-ро пайгирӣ кунед.",
+        "en": "Change only the elements inside the square brackets, then trace plan.lessons.length."
+      },
+      "explanation": {
+        "ru": "Пустой массив существует, но не содержит элементов.",
+        "tg": "Массиви холӣ ҳаст, вале унсур надорад.",
+        "en": "An empty array exists but has no elements."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  const plan = {\n    title: 'Мой план',\n    lessons: ['Открыть урок', 'Повторить тему'],\n  };\n  const lessonCount = plan.lessons.length;\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">{plan.title}</Text>\n      <Text>Занятий в плане: {lessonCount}</Text>\n    </View>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Объект plan получает свойства title и lessons.",
+            "tg": "Объекти plan хосиятҳои title ва lessons мегирад.",
+            "en": "The plan object receives title and lessons properties."
+          },
+          "values": "title = \"Мой план\""
+        },
+        {
+          "line": 8,
+          "explanation": {
+            "ru": "length считает два элемента массива.",
+            "tg": "length ду унсури массивро ҳисоб мекунад.",
+            "en": "length counts two array elements."
+          },
+          "values": "lessonCount = 2"
+        },
+        {
+          "line": 13,
+          "explanation": {
+            "ru": "Text показывает вычисленное число; разбор не запускает приложение.",
+            "tg": "Text адади ҳисобшударо нишон медиҳад; шарҳ барномаро иҷро намекунад.",
+            "en": "Text displays the count; this walkthrough does not run the app."
+          },
+          "values": "2"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите объект plan и массив lessons.",
+          "tg": "Объекти plan ва массиви lessons-ро ёбед.",
+          "en": "Find the plan object and lessons array."
+        },
+        {
+          "ru": "Удалите оба элемента и предскажите результат до проверки на устройстве.",
+          "tg": "Ҳар ду унсурро гиред ва пеш аз санҷиши дастгоҳ натиҷаро пешгӯӣ кунед.",
+          "en": "Remove both elements and predict the result before checking on a device."
+        }
+      ],
+      "hint": {
+        "ru": "Изменяйте только элементы внутри квадратных скобок, затем проследите plan.lessons.length.",
+        "tg": "Танҳо унсурҳои дохили қавсҳои мураббаъро иваз ва plan.lessons.length-ро пайгирӣ кунед.",
+        "en": "Change only the elements inside the square brackets, then trace plan.lessons.length."
+      },
+      "success": {
+        "ru": "Пустой массив даёт 0.",
+        "tg": "Массиви холӣ 0 медиҳад.",
+        "en": "An empty array gives 0."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "В blank-проекте Expo добавьте третью строку в lessons и предскажите количество. Затем проверьте пустой массив и объясните, почему результат 0. Добавьте отдельный Text с названием плана. Запишите результаты. Реальные касания и отображение проверяйте на устройстве; без него не отмечайте устройство проверенным.",
+        "tg": "Дар blank-проекти Expo сатри сеюмро ба lessons илова ва шуморро пешгӯӣ кунед. Баъд массиви холиро санҷида, сабаби 0-ро фаҳмонед. Text-и ҷудо бо номи нақша илова ва натиҷаҳоро нависед. Ламсу намоиши воқеиро дар дастгоҳ санҷед; бе он дастгоҳро тасдиқ накунед.",
+        "en": "In an Expo blank project add a third string to lessons and predict the count. Then check an empty array and explain why it gives zero. Add a separate Text containing the plan title. Record the outcomes. Verify actual display and touch on a device; do not claim a device check without one."
+      },
+      "criteria": [
+        {
+          "ru": "Проверены массивы из трёх и нуля элементов и записаны результаты.",
+          "tg": "Массиви се ва сифр унсур санҷида ва натиҷа сабт шуд.",
+          "en": "Three-element and empty arrays were checked and outcomes recorded."
+        },
+        {
+          "ru": "Добавлен текст названия и объяснено, что это не постоянное хранение. Проверка Self Reviewed.",
+          "tg": "Матни ном илова ва шарҳ шуд, ки ин нигоҳдории доимӣ нест. Санҷиш Self Reviewed.",
+          "en": "A title line is added and the absence of persistence is explained. Review remains Self Reviewed."
+        }
+      ],
+      "example": {
+        "ru": "Три строки в lessons дают lessonCount=3.",
+        "tg": "Се сатри lessons lessonCount=3 медиҳад.",
+        "en": "Three strings in lessons give lessonCount=3."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Объект группирует именованные свойства.",
+        "tg": "Объект хосиятҳои номдорро гурӯҳ мекунад.",
+        "en": "An object groups named properties."
+      },
+      {
+        "ru": "Массив упорядочен; length возвращает количество элементов.",
+        "tg": "Массив тартибдор аст; length шуморро медиҳад.",
+        "en": "Arrays are ordered; length returns their element count."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Какой индекс у первого элемента массива?",
+        "tg": "Индекси унсури аввал чанд аст?",
+        "en": "What is the first array index?"
+      },
+      {
+        "ru": "Почему lessons[0].title неверен в этом примере?",
+        "tg": "Чаро lessons[0].title дар ин мисол нодуруст аст?",
+        "en": "Why is lessons[0].title wrong for this example?"
+      }
+    ],
+    "nextLessonId": "mobile-day-06"
+  }
+}

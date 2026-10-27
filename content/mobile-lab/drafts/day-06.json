@@ -1,0 +1,416 @@
+{
+  "id": "mobile-day-06",
+  "day": 6,
+  "prerequisiteDays": [
+    5
+  ],
+  "title": {
+    "ru": "Компоненты и JSX",
+    "tg": "Компонентҳо ва JSX",
+    "en": "Components and JSX"
+  },
+  "summary": {
+    "ru": "Создайте компонент и используйте его дважды.",
+    "tg": "Компонент созед ва ду бор истифода баред.",
+    "en": "Create a component and use it twice."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Компоненты и JSX",
+        "tg": "Компонентҳо ва JSX",
+        "en": "Components and JSX"
+      },
+      "body": {
+        "ru": "Компонент React — функция, которая возвращает описание части интерфейса. JSX позволяет записать это описание как вложенные элементы. Это не обычный HTML: в React Native используем View и Text из пакета react-native. Имя собственного компонента начинается с заглавной буквы: Greeting. Запись <Greeting /> просит React создать экземпляр этого компонента; две записи создают два отдельных места на экране. Компонент должен вернуть JSX или null. Мы отделяем повторяющуюся часть, чтобы изменить её в одном определении. На этом этапе оба приветствия одинаковы; передачу разных значений через props изучим в следующем дне. Пример не сохраняет данные и не вызывает сервер.",
+        "tg": "Компоненти React функсияест, ки тавсифи қисми интерфейсро бармегардонад. JSX имкон медиҳад ин тавсифро ҳамчун унсурҳои дарунӣ нависем. Ин HTML-и оддӣ нест: дар React Native View ва Text аз react-native аст. Номи компоненти худӣ бо ҳарфи калон сар мешавад: Greeting. <Greeting /> аз React сохтани як нусхаи компонентро мехоҳад; ду навишт ду ҷойи ҷудо дар экран месозад. Компонент бояд JSX ё null диҳад. Қисми такроршавандаро ҷудо мекунем, то онро дар як таъриф иваз кунем. Ҳоло ҳар ду салом яксонанд; props барои қиматҳои гуногун рӯзи оянда аст. Мисол дода сабт ё серверро даъват намекунад.",
+        "en": "A React component is a function that returns a description of part of the interface. JSX lets us write that description as nested elements. It is not ordinary HTML: React Native uses View and Text from react-native. A custom component name starts with an uppercase letter: Greeting. <Greeting /> asks React to create an instance; two occurrences create two separate positions on the screen. A component must return JSX or null. Separating repeated content lets us change its definition once. For now both greetings are identical; passing different values with props comes next. The example neither persists data nor calls a server."
+      }
+    },
+    {
+      "title": {
+        "ru": "Разбор компонентов",
+        "tg": "Шарҳи компонентҳо",
+        "en": "Walk through the components"
+      },
+      "body": {
+        "ru": "Первая строка импортирует платформенные Text и View. Функция Greeting возвращает один Text. export default function App объявляет корневой компонент Expo; return внутри него возвращает View. Внутри View дважды указан <Greeting />: при отображении появятся две одинаковые строки. Косая черта перед > закрывает JSX-тег без дочерних элементов. Измените текст внутри Greeting: оба места изменятся, поскольку используют одно определение. Затем добавьте отдельную функцию Goal, возвращающую Text, и разместите <Goal /> один раз. Если написать <greeting />, React воспримет имя иначе; используйте заглавную букву.",
+        "tg": "Сатри аввал Text ва View-и платформаро мегирад. Greeting як Text медиҳад. export default function App компоненти решаи Expo аст; return дар он View медиҳад. Дар View ду бор <Greeting /> аст: ду сатри яксон пайдо мешавад. Хатти моил пеш аз > теги JSX-и бефарзандро мебандад. Матни Greeting-ро иваз кунед: ҳар ду ҷой иваз мешаванд, чун як таърифро мегиранд. Баъд функсияи Goal бо Text сохта, <Goal />-ро як бор гузоред. Агар <greeting /> нависед, React номро дигар мефаҳмад; ҳарфи калон гиред.",
+        "en": "The first line imports platform Text and View. Greeting returns one Text. export default function App defines the Expo root component; its return supplies View. Inside View, <Greeting /> appears twice, so two identical lines are displayed. The slash before > closes a JSX tag without children. Change the text inside Greeting: both positions change because they use one definition. Then add a separate Goal function returning Text and place <Goal /> once. Writing <greeting /> makes React interpret the name differently; use an uppercase initial."
+      },
+      "code": "import { Text, View } from 'react-native';\n\nfunction Greeting() {\n  return <Text>Добро пожаловать!</Text>;\n}\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Greeting />\n      <Greeting />\n    </View>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-06-q1",
+      "question": {
+        "ru": "Сколько строк приветствия выдаёт исходный пример?",
+        "tg": "Мисоли аввал чанд сатри салом медиҳад?",
+        "en": "How many greeting lines does the original example produce?"
+      },
+      "options": [
+        {
+          "ru": "2",
+          "tg": "2",
+          "en": "2"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "В JSX два экземпляра Greeting.",
+        "tg": "Дар JSX ду нусхаи Greeting аст.",
+        "en": "JSX contains two Greeting instances."
+      },
+      "hint": {
+        "ru": "Объявите function Goal() до App и верните <Text>...</Text>; вставьте <Goal /> внутрь View.",
+        "tg": "function Goal()-ро пеш аз App эълон, <Text>...</Text> баргардон ва <Goal />-ро дар View гузоред.",
+        "en": "Declare function Goal() before App, return <Text>...</Text>, and place <Goal /> inside View."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-06-q2",
+      "question": {
+        "ru": "Что произойдёт при изменении текста внутри Greeting?",
+        "tg": "Бо тағйири матни Greeting чӣ мешавад?",
+        "en": "What happens when Greeting’s text changes?"
+      },
+      "options": [
+        {
+          "ru": "Оба экземпляра используют обновлённое определение.",
+          "tg": "Ҳар ду нусха таърифи навро мегиранд.",
+          "en": "Both instances use the updated definition."
+        },
+        {
+          "ru": "Изменится только первый.",
+          "tg": "Танҳо якум иваз мешавад.",
+          "en": "Only the first changes."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Повторные экземпляры используют одну функцию.",
+        "tg": "Нусхаҳо як функсияро мегиранд.",
+        "en": "Repeated instances use the same function."
+      },
+      "hint": {
+        "ru": "Объявите function Goal() до App и верните <Text>...</Text>; вставьте <Goal /> внутрь View.",
+        "tg": "function Goal()-ро пеш аз App эълон, <Text>...</Text> баргардон ва <Goal />-ро дар View гузоред.",
+        "en": "Declare function Goal() before App, return <Text>...</Text>, and place <Goal /> inside View."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-06-q3",
+      "question": {
+        "ru": "С какой буквы начинается имя собственного JSX-компонента?",
+        "tg": "Номи компоненти худии JSX бо кадом ҳарф сар мешавад?",
+        "en": "How does a custom JSX component name begin?"
+      },
+      "options": [
+        {
+          "ru": "С заглавной.",
+          "tg": "Бо ҳарфи калон.",
+          "en": "With an uppercase letter."
+        },
+        {
+          "ru": "Только с цифры.",
+          "tg": "Танҳо бо рақам.",
+          "en": "Only with a digit."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Greeting начинается с G.",
+        "tg": "Greeting бо G сар мешавад.",
+        "en": "Greeting begins with G."
+      },
+      "hint": {
+        "ru": "Объявите function Goal() до App и верните <Text>...</Text>; вставьте <Goal /> внутрь View.",
+        "tg": "function Goal()-ро пеш аз App эълон, <Text>...</Text> баргардон ва <Goal />-ро дар View гузоред.",
+        "en": "Declare function Goal() before App, return <Text>...</Text>, and place <Goal /> inside View."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-06-q4",
+      "question": {
+        "ru": "Что возвращает Greeting?",
+        "tg": "Greeting чӣ медиҳад?",
+        "en": "What does Greeting return?"
+      },
+      "options": [
+        {
+          "ru": "<Text>...</Text>",
+          "tg": "<Text>...</Text>",
+          "en": "<Text>...</Text>"
+        },
+        {
+          "ru": "HTTP request",
+          "tg": "HTTP request",
+          "en": "HTTP request"
+        },
+        {
+          "ru": "SQL row",
+          "tg": "SQL row",
+          "en": "SQL row"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Функция возвращает элемент Text.",
+        "tg": "Функсия унсури Text медиҳад.",
+        "en": "The function returns a Text element."
+      },
+      "hint": {
+        "ru": "Объявите function Goal() до App и верните <Text>...</Text>; вставьте <Goal /> внутрь View.",
+        "tg": "function Goal()-ро пеш аз App эълон, <Text>...</Text> баргардон ва <Goal />-ро дар View гузоред.",
+        "en": "Declare function Goal() before App, return <Text>...</Text>, and place <Goal /> inside View."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-06-q5",
+      "question": {
+        "ru": "Два экземпляра создают два места на экране?",
+        "tg": "Ду нусха ду ҷойи экран месозад?",
+        "en": "Do two instances create two screen positions?"
+      },
+      "options": [
+        {
+          "ru": "Да.",
+          "tg": "Бале.",
+          "en": "Yes."
+        },
+        {
+          "ru": "Нет, вторую запись React всегда удаляет.",
+          "tg": "Не, React ҳамеша дуюмро ҳазф мекунад.",
+          "en": "No, React always removes the second."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Оба экземпляра находятся внутри View.",
+        "tg": "Ҳар ду нусха дар View ҳастанд.",
+        "en": "Both instances appear inside View."
+      },
+      "hint": {
+        "ru": "Объявите function Goal() до App и верните <Text>...</Text>; вставьте <Goal /> внутрь View.",
+        "tg": "function Goal()-ро пеш аз App эълон, <Text>...</Text> баргардон ва <Goal />-ро дар View гузоред.",
+        "en": "Declare function Goal() before App, return <Text>...</Text>, and place <Goal /> inside View."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Измените приветствие в Greeting и добавьте отдельный компонент Goal со строкой цели. Разместите два Greeting и один Goal внутри View. Предскажите три строки, затем проверьте на устройстве или эмуляторе; без устройства объясните дерево, не утверждая запуск. Для локальной проверки структуры используйте node verify-component.mjs 06 <ваш-файл.tsx> <путь-к-expo-проекту>. Это проверка React с mock-компонентами, не проверка устройства и не Mastered.",
+      "tg": "Саломро дар Greeting иваз ва компоненти ҷудои Goal бо матни мақсад илова кунед. Дар View ду Greeting ва як Goal гузоред. Се сатрро пешгӯӣ ва бо дастгоҳ ё эмулятор санҷед; бе дастгоҳ дарахтро шарҳ диҳед, на иҷрои воқеиро. Барои санҷиши маҳаллии сохтор node verify-component.mjs 06 <файли-худ.tsx> <роҳи-expo-проект> гиред. Ин санҷиши React бо mock-компонент аст, на дастгоҳ ё Mastered.",
+      "en": "Change Greeting’s text and add a separate Goal component containing a goal. Place two Greeting instances and one Goal inside View. Predict the three lines, then check on a device or emulator; without one explain the tree without claiming a run. For a local structure check use node verify-component.mjs 06 <your-file.tsx> <expo-project-path>. This checks React under mocked components, not a device or Mastered."
+    },
+    "hint": {
+      "ru": "Объявите function Goal() до App и верните <Text>...</Text>; вставьте <Goal /> внутрь View.",
+      "tg": "function Goal()-ро пеш аз App эълон, <Text>...</Text> баргардон ва <Goal />-ро дар View гузоред.",
+      "en": "Declare function Goal() before App, return <Text>...</Text>, and place <Goal /> inside View."
+    },
+    "solution": "import { Text, View } from 'react-native';\n\nfunction Greeting() {\n  return <Text>Салом!</Text>;\n}\n\nfunction Goal() {\n  return <Text>Практиковаться каждый день</Text>;\n}\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Greeting />\n      <Greeting />\n      <Goal />\n    </View>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Изменено определение Greeting, добавлен Goal и объяснены три позиции.",
+        "tg": "Таърифи Greeting иваз, Goal илова ва се ҷой шарҳ шуд.",
+        "en": "Greeting is changed, Goal added and the three positions explained."
+      },
+      {
+        "ru": "Запуск на устройстве подтверждён только после реального запуска; проверка Self Reviewed.",
+        "tg": "Иҷрои дастгоҳ танҳо баъди иҷрои воқеӣ тасдиқ мешавад; санҷиш Self Reviewed.",
+        "en": "A device run is claimed only after actually running; review remains Self Reviewed."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить компонент и экземпляр JSX.",
+        "tg": "Компонент ва нусхаи JSX-ро фаҳмонед.",
+        "en": "Explain components and JSX instances."
+      },
+      {
+        "ru": "Предсказать повторное отображение и проверить его.",
+        "tg": "Намоиши такрориро пешгӯӣ ва санҷед.",
+        "en": "Predict repeated rendering and check it."
+      }
+    ],
+    "realWorld": {
+      "ru": "Одно определение компонента позволяет повторно показывать приветствие.",
+      "tg": "Як таърифи компонент имкон медиҳад салом такрор нишон дода шавад.",
+      "en": "One component definition can display a greeting repeatedly."
+    },
+    "walkthroughSections": [
+      0,
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Сколько строк приветствия выдаёт исходный пример?",
+        "tg": "Мисоли аввал чанд сатри салом медиҳад?",
+        "en": "How many greeting lines does the original example produce?"
+      },
+      "options": [
+        {
+          "ru": "2",
+          "tg": "2",
+          "en": "2"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Объявите function Goal() до App и верните <Text>...</Text>; вставьте <Goal /> внутрь View.",
+        "tg": "function Goal()-ро пеш аз App эълон, <Text>...</Text> баргардон ва <Goal />-ро дар View гузоред.",
+        "en": "Declare function Goal() before App, return <Text>...</Text>, and place <Goal /> inside View."
+      },
+      "explanation": {
+        "ru": "В JSX два экземпляра Greeting.",
+        "tg": "Дар JSX ду нусхаи Greeting аст.",
+        "en": "JSX contains two Greeting instances."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { Text, View } from 'react-native';\n\nfunction Greeting() {\n  return <Text>Добро пожаловать!</Text>;\n}\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Greeting />\n      <Greeting />\n    </View>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 3,
+          "explanation": {
+            "ru": "Greeting определён как функция, возвращающая Text.",
+            "tg": "Greeting функсияест, ки Text медиҳад.",
+            "en": "Greeting is defined as a function returning Text."
+          },
+          "values": ""
+        },
+        {
+          "line": 10,
+          "explanation": {
+            "ru": "Первый экземпляр добавляет строку приветствия.",
+            "tg": "Нусхаи аввал сатри салом илова мекунад.",
+            "en": "The first instance adds a greeting line."
+          },
+          "values": "1"
+        },
+        {
+          "line": 11,
+          "explanation": {
+            "ru": "Второй экземпляр добавляет ещё строку; разбор не исполняет приложение.",
+            "tg": "Нусхаи дуюм боз сатр илова мекунад; шарҳ барномаро иҷро намекунад.",
+            "en": "The second instance adds another line; this walkthrough does not execute the app."
+          },
+          "values": "2"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите определение Greeting и его два использования.",
+          "tg": "Таърифи Greeting ва ду истифодаро ёбед.",
+          "en": "Find the Greeting definition and both uses."
+        },
+        {
+          "ru": "Поменяйте текст и предскажите обе строки до запуска.",
+          "tg": "Матнро иваз ва пеш аз иҷро ҳар ду сатрро пешгӯӣ кунед.",
+          "en": "Change the text and predict both lines before running."
+        }
+      ],
+      "hint": {
+        "ru": "Объявите function Goal() до App и верните <Text>...</Text>; вставьте <Goal /> внутрь View.",
+        "tg": "function Goal()-ро пеш аз App эълон, <Text>...</Text> баргардон ва <Goal />-ро дар View гузоред.",
+        "en": "Declare function Goal() before App, return <Text>...</Text>, and place <Goal /> inside View."
+      },
+      "success": {
+        "ru": "Оба места показывают новое приветствие.",
+        "tg": "Ҳар ду ҷой саломи нав нишон медиҳанд.",
+        "en": "Both positions display the new greeting."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Измените приветствие в Greeting и добавьте отдельный компонент Goal со строкой цели. Разместите два Greeting и один Goal внутри View. Предскажите три строки, затем проверьте на устройстве или эмуляторе; без устройства объясните дерево, не утверждая запуск. Для локальной проверки структуры используйте node verify-component.mjs 06 <ваш-файл.tsx> <путь-к-expo-проекту>. Это проверка React с mock-компонентами, не проверка устройства и не Mastered.",
+        "tg": "Саломро дар Greeting иваз ва компоненти ҷудои Goal бо матни мақсад илова кунед. Дар View ду Greeting ва як Goal гузоред. Се сатрро пешгӯӣ ва бо дастгоҳ ё эмулятор санҷед; бе дастгоҳ дарахтро шарҳ диҳед, на иҷрои воқеиро. Барои санҷиши маҳаллии сохтор node verify-component.mjs 06 <файли-худ.tsx> <роҳи-expo-проект> гиред. Ин санҷиши React бо mock-компонент аст, на дастгоҳ ё Mastered.",
+        "en": "Change Greeting’s text and add a separate Goal component containing a goal. Place two Greeting instances and one Goal inside View. Predict the three lines, then check on a device or emulator; without one explain the tree without claiming a run. For a local structure check use node verify-component.mjs 06 <your-file.tsx> <expo-project-path>. This checks React under mocked components, not a device or Mastered."
+      },
+      "criteria": [
+        {
+          "ru": "Изменено определение Greeting, добавлен Goal и объяснены три позиции.",
+          "tg": "Таърифи Greeting иваз, Goal илова ва се ҷой шарҳ шуд.",
+          "en": "Greeting is changed, Goal added and the three positions explained."
+        },
+        {
+          "ru": "Запуск на устройстве подтверждён только после реального запуска; проверка Self Reviewed.",
+          "tg": "Иҷрои дастгоҳ танҳо баъди иҷрои воқеӣ тасдиқ мешавад; санҷиш Self Reviewed.",
+          "en": "A device run is claimed only after actually running; review remains Self Reviewed."
+        }
+      ],
+      "example": {
+        "ru": "Goal возвращает отдельный Text, а App включает <Goal />.",
+        "tg": "Goal Text-и ҷудо медиҳад ва App дорои <Goal /> аст.",
+        "en": "Goal returns a separate Text, and App includes <Goal />."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Компонент — функция, возвращающая интерфейс.",
+        "tg": "Компонент функсияи баргардонандаи интерфейс аст.",
+        "en": "A component is a function returning an interface."
+      },
+      {
+        "ru": "JSX создаёт отдельные экземпляры в каждом указанном месте.",
+        "tg": "JSX дар ҳар ҷойи навишташуда нусхаи ҷудо месозад.",
+        "en": "JSX creates separate instances at each specified position."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что произойдёт при изменении текста внутри Greeting?",
+        "tg": "Бо тағйири матни Greeting чӣ мешавад?",
+        "en": "What happens when Greeting’s text changes?"
+      },
+      {
+        "ru": "С какой буквы начинается имя собственного JSX-компонента?",
+        "tg": "Номи компоненти худии JSX бо кадом ҳарф сар мешавад?",
+        "en": "How does a custom JSX component name begin?"
+      }
+    ],
+    "nextLessonId": "mobile-day-07"
+  }
+}

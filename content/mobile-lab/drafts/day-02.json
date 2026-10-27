@@ -1,0 +1,418 @@
+{
+  "id": "mobile-day-02",
+  "day": 2,
+  "prerequisiteDays": [
+    1
+  ],
+  "title": {
+    "ru": "Mobile: состояние и нажатия",
+    "tg": "Mobile: ҳолат ва пахшкунӣ",
+    "en": "Mobile: state and button presses"
+  },
+  "summary": {
+    "ru": "Второй вводный день: добавьте счётчик заданий и сброс. Проверьте последовательность нажатий на устройстве; простое изменение переменной не перерисовывает компонент React.",
+    "tg": "Рӯзи дуюми шиносоӣ: ҳисобкунаки супориш ва барқароркуниро илова кунед. Пайдарпайии пахшҳоро дар дастгоҳ санҷед; тағйири тағйирёбандаи оддӣ ҷузъи React-ро нав намекунад.",
+    "en": "Second introductory day: add a task counter and reset. Check a sequence of presses on your device; changing an ordinary variable does not re-render a React component."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Как это работает",
+        "tg": "Чӣ тавр кор мекунад",
+        "en": "How it works"
+      },
+      "body": {
+        "ru": "Состояние — данные, которые могут измениться во время работы экрана. React вызывает функцию компонента, чтобы получить описание интерфейса; такой вызов называется рендером. useState(0) возвращает текущее число count и функцию setCount, которая просит React обновить экран. При первом рендере count равен 0. Обработчик — функция, которую система вызывает после действия пользователя. onPress получает такую функцию, а не результат её немедленного вызова. Функциональное обновление value => value + 1 получает последнее предыдущее значение и возвращает новое. Нажатия изменяют только память приложения: после перезапуска счётчик сбросится, потому что постоянное хранение и синхронизация ещё не созданы.",
+        "tg": "Ҳолат додаест, ки ҳангоми кори экран тағйир ёфта метавонад. React функсияи компонентро барои гирифтани тавсифи интерфейс мехонад; ин даъват render ном дорад. useState(0) адади ҷории count ва функсияи setCount медиҳад, ки аз React навсозии экранро мехоҳад. Дар render-и аввал count 0 аст. Коркардкунанда функсияест, ки система баъди амали корбар мехонад. onPress чунин функсия мегирад, на натиҷаи даъвати фаврии он. Навсозии value => value + 1 қимати охирини пешинаро гирифта, навро медиҳад. Пахшҳо танҳо хотираи барномаро иваз мекунанд: баъди оғози нав ҳисобкунак 0 мешавад, зеро нигоҳдории доимӣ ва ҳамоҳангсозӣ ҳанӯз сохта нашудааст.",
+        "en": "State is data that may change while a screen is in use. React calls a component function to obtain an interface description; that call is a render. useState(0) returns the current count and setCount, which asks React to update the screen. On the first render count is zero. A handler is a function the system calls after a user action. onPress receives that function, not the result of invoking it immediately. The functional update value => value + 1 receives the latest previous value and returns the next one. Presses change only application memory: restarting resets the counter because persistence and synchronization have not yet been implemented."
+      },
+      "code": "import { useState } from 'react';\nimport { View, Text, Button } from 'react-native';\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>\n      <Text accessibilityLiveRegion=\"polite\">Completed: {count}</Text>\n      <Button title=\"Complete one task\" onPress={() => setCount(value => value + 1)} />\n      <Button title=\"Reset\" onPress={() => setCount(0)} />\n    </View>\n  );\n}",
+      "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор кода",
+        "tg": "Шарҳи қадамии рамз",
+        "en": "Step-by-step code walkthrough"
+      },
+      "body": {
+        "ru": "Первый import получает useState из React, второй — View, Text и Button платформы. Запись [count, setCount] разделяет два значения, возвращённых useState(0). Text отображает count внутри фигурных скобок JSX. accessibilityLiveRegion=\"polite\" просит Android сообщать об изменениях в поддерживаемых сценариях; реальное поведение экранного диктора зависит от платформы и проверяется на устройстве. Первая кнопка передаёт () => setCount(value => value + 1): внешняя функция ждёт нажатия, внутренняя вычисляет следующее значение. Reset передаёт отдельную функцию, устанавливающую 0. Проверьте 0 → 1 → 2 → 3 → 0 → 1. Ошибка onPress={setCount(0)} вызывает обновление во время рендера и может вызвать цикл; используйте обработчик.",
+        "tg": "Import-и аввал useState-ро аз React, дуюм View, Text ва Button-ро аз платформа мегирад. [count, setCount] ду қимати useState(0)-ро ҷудо мекунад. Text count-ро дар қавсҳои JSX нишон медиҳад. accessibilityLiveRegion=\"polite\" аз Android хоҳиш мекунад, ки тағйирро дар ҳолатҳои дастгиришуда хабар диҳад; рафтори воқеии хонандаи экран аз платформа вобаста аст ва дар дастгоҳ санҷида мешавад. Тугмаи аввал () => setCount(value => value + 1) медиҳад: функсияи беруна пахшро интизор, дохилӣ қимати навро ҳисоб мекунад. Reset функсияи ҷудогонаи 0 медиҳад. 0 → 1 → 2 → 3 → 0 → 1-ро санҷед. Хатои onPress={setCount(0)} ҳангоми render навсозӣ карда метавонад давр созад; коркардкунанда гиред.",
+        "en": "The first import obtains useState from React; the second gets platform View, Text and Button. [count, setCount] separates the two values returned by useState(0). Text displays count inside JSX braces. accessibilityLiveRegion=\"polite\" requests announcements on Android in supported scenarios; actual screen-reader behavior varies by platform and requires device testing. The first button passes () => setCount(value => value + 1): the outer function waits for a press and the inner function calculates the next value. Reset passes a separate function setting zero. Check 0 → 1 → 2 → 3 → 0 → 1. The mistake onPress={setCount(0)} invokes an update during render and may cause a loop; pass a handler instead."
+      }
+    },
+    {
+      "title": {
+        "ru": "Запуск и проверка",
+        "tg": "Иҷро ва санҷиш",
+        "en": "Run and verify"
+      },
+      "body": {
+        "ru": "Шаг 1. Сохраните прошлый экран и добавьте useState(0).\nШаг 2. Добавьте кнопку увеличения через функциональное обновление.\nШаг 3. Добавьте Reset, устанавливающий 0. Запустите приложение через Expo.\nШаг 4. Проверьте: старт 0, три нажатия → 3, Reset → 0, ещё нажатие → 1. Не показывайте фиктивную синхронизацию с сервером.",
+        "tg": "Қадами 1. Экрани пешинаро нигоҳ дошта, useState(0) илова кунед.\nҚадами 2. Тугмаи зиёдкуниро бо навсозии функсионалӣ илова кунед.\nҚадами 3. Reset илова кунед, ки 0 мегузорад. Барномаро бо Expo иҷро кунед.\nҚадами 4. Санҷед: оғоз 0, се пахш → 3, Reset → 0, як пахши дигар → 1. Ҳамоҳангсозии сохта бо серверро нишон надиҳед.",
+        "en": "Step 1. Keep the previous screen and add useState(0).\nStep 2. Add an increment button using a functional update.\nStep 3. Add Reset, setting the value to 0. Run through Expo.\nStep 4. Check: initial 0, three presses → 3, Reset → 0, one more press → 1. Do not show pretend server synchronization."
+      },
+      "output": {
+        "ru": "0 → 1 → 2 → 3 → Reset → 0",
+        "tg": "0 → 1 → 2 → 3 → Reset → 0",
+        "en": "0 → 1 → 2 → 3 → Reset → 0"
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-02-q",
+      "question": {
+        "ru": "Что передают в onPress?",
+        "tg": "Ба onPress чӣ медиҳанд?",
+        "en": "What should you pass to onPress?"
+      },
+      "answer": {
+        "ru": "Функцию-обработчик, например () => setCount(0).",
+        "tg": "Функсияи коркардкунанда, масалан () => setCount(0).",
+        "en": "A handler function, such as () => setCount(0)."
+      },
+      "options": [
+        {
+          "ru": "Результат setCount(0)",
+          "tg": "Натиҷаи setCount(0)",
+          "en": "The result of setCount(0)"
+        },
+        {
+          "ru": "() => setCount(0)",
+          "tg": "() => setCount(0)",
+          "en": "() => setCount(0)"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "relatedSection": 0
+    },
+    {
+      "id": "mobile-day-02-q1",
+      "question": {
+        "ru": "Какое значение count при первом рендере?",
+        "tg": "Дар render-и аввал count чанд аст?",
+        "en": "What is count on the first render?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "useState получает начальное значение 0.",
+        "tg": "useState қимати аввали 0 мегирад.",
+        "en": "useState receives zero as its initial value."
+      },
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "relatedSection": 0
+    },
+    {
+      "id": "mobile-day-02-q2",
+      "question": {
+        "ru": "Три нажатия, затем Reset: что отображается?",
+        "tg": "Се пахш, баъд Reset: чӣ намоён аст?",
+        "en": "Three presses followed by Reset: what is displayed?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "3",
+          "tg": "3",
+          "en": "3"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Reset вызывает setCount(0).",
+        "tg": "Reset setCount(0)-ро мехонад.",
+        "en": "Reset calls setCount(0)."
+      },
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "relatedSection": 0
+    },
+    {
+      "id": "mobile-day-02-q3",
+      "question": {
+        "ru": "Что произойдёт со счётчиком после перезапуска примера?",
+        "tg": "Баъди оғози нави мисол ҳисобкунак чӣ мешавад?",
+        "en": "What happens to the example counter after restart?"
+      },
+      "options": [
+        {
+          "ru": "Сбросится: сохранение не реализовано.",
+          "tg": "0 мешавад: нигоҳдорӣ сохта нашудааст.",
+          "en": "It resets: persistence is not implemented."
+        },
+        {
+          "ru": "Синхронизируется с сервером.",
+          "tg": "Бо сервер ҳамоҳанг мешавад.",
+          "en": "It synchronizes to a server."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Состояние находится только в памяти.",
+        "tg": "Ҳолат танҳо дар хотира аст.",
+        "en": "The state exists only in memory."
+      },
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "relatedSection": 0
+    },
+    {
+      "id": "mobile-day-02-q4",
+      "question": {
+        "ru": "Зачем использовать value => value + 1?",
+        "tg": "Чаро value => value + 1 истифода шавад?",
+        "en": "Why use value => value + 1?"
+      },
+      "options": [
+        {
+          "ru": "Вычислить следующее значение из предыдущего.",
+          "tg": "Қимати навро аз пешина ҳисоб кардан.",
+          "en": "Compute the next value from the previous one."
+        },
+        {
+          "ru": "Скачать данные из сети.",
+          "tg": "Аз шабака дода гирифтан.",
+          "en": "Download network data."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Функциональное обновление получает предыдущее состояние.",
+        "tg": "Навсозии функсионалӣ ҳолати пешинаро мегирад.",
+        "en": "A functional update receives previous state."
+      },
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "relatedSection": 0
+    }
+  ],
+  "practice": {
+    "task": {
+      "ru": "Шаг 1. Сохраните прошлый экран и добавьте useState(0).\nШаг 2. Добавьте кнопку увеличения через функциональное обновление.\nШаг 3. Добавьте Reset, устанавливающий 0. Запустите приложение через Expo.\nШаг 4. Проверьте: старт 0, три нажатия → 3, Reset → 0, ещё нажатие → 1. Не показывайте фиктивную синхронизацию с сервером. Для локальной проверки логики своего кода используйте лабораторию: node verify-component.mjs 02 <ваш-файл.tsx> <путь-к-expo-проекту>. Результат работает на mock-компонентах и не подтверждает устройство или Mastered.",
+      "tg": "Қадами 1. Экрани пешинаро нигоҳ дошта, useState(0) илова кунед.\nҚадами 2. Тугмаи зиёдкуниро бо навсозии функсионалӣ илова кунед.\nҚадами 3. Reset илова кунед, ки 0 мегузорад. Барномаро бо Expo иҷро кунед.\nҚадами 4. Санҷед: оғоз 0, се пахш → 3, Reset → 0, як пахши дигар → 1. Ҳамоҳангсозии сохта бо серверро нишон надиҳед. Барои санҷиши маҳаллии мантиқи коди худ лабораторияро гиред: node verify-component.mjs 02 <файли-худ.tsx> <роҳи-expo-проект>. Натиҷа бо mock-компонент аст ва дастгоҳ ё Mastered-ро тасдиқ намекунад.",
+      "en": "Step 1. Keep the previous screen and add useState(0).\nStep 2. Add an increment button using a functional update.\nStep 3. Add Reset, setting the value to 0. Run through Expo.\nStep 4. Check: initial 0, three presses → 3, Reset → 0, one more press → 1. Do not show pretend server synchronization. For a local check of your own component logic use the lab: node verify-component.mjs 02 <your-file.tsx> <expo-project-path>. This uses mocked components and does not verify a device or grant Mastered."
+    },
+    "hint": {
+      "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+      "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+      "en": "Return to the walkthrough and trace the data passed to the component."
+    },
+    "solution": "import { useState } from 'react';\nimport { View, Text, Button } from 'react-native';\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>\n      <Text accessibilityRole=\"header\">Мой первый экран</Text>\n      <Text accessibilityLiveRegion=\"polite\">Completed: {count}</Text>\n      <Button title=\"Complete one task\" onPress={() => setCount(value => value + 1)} />\n      <Button title=\"Reset\" onPress={() => setCount(0)} />\n    </View>\n  );\n}",
+    "criteria": [
+      {
+        "ru": "Ожидаемый результат и действия записаны; запуск на устройстве подтверждён только если выполнен.",
+        "tg": "Натиҷаи интизор ва амалҳо сабтанд; иҷрои дастгоҳ танҳо баъди иҷро тасдиқ мешавад.",
+        "en": "Expected behavior and steps are recorded; claim a device run only if performed."
+      },
+      {
+        "ru": "Изменённые данные проверены и результат объяснён самостоятельно; это Self Reviewed.",
+        "tg": "Додаи дигар санҷида ва натиҷа мустақил шарҳ шуд; ин Self Reviewed аст.",
+        "en": "Changed inputs were checked and explained independently; this is Self Reviewed."
+      }
+    ],
+    "kind": "code"
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить назначение примера и его компонентов.",
+        "tg": "Мақсади мисол ва компонентҳояшро фаҳмонед.",
+        "en": "Explain the example and its components."
+      },
+      {
+        "ru": "Предсказать результат и проверить доступным способом.",
+        "tg": "Натиҷаро пешгӯӣ ва бо усули дастрас санҷед.",
+        "en": "Predict the result and verify it with an available method."
+      }
+    ],
+    "realWorld": {
+      "ru": "Мобильный учебный экран должен быть понятен пользователю и доступен для чтения.",
+      "tg": "Экрани омӯзишии мобилӣ бояд барои корбар фаҳмо ва хонданбоб бошад.",
+      "en": "A mobile learning screen should be understandable and readable."
+    },
+    "walkthroughSections": [
+      0,
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Какое значение count при первом рендере?",
+        "tg": "Дар render-и аввал count чанд аст?",
+        "en": "What is count on the first render?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "explanation": {
+        "ru": "useState получает начальное значение 0.",
+        "tg": "useState қимати аввали 0 мегирад.",
+        "en": "useState receives zero as its initial value."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { View, Text, Button } from 'react-native';\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>\n      <Text accessibilityLiveRegion=\"polite\">Completed: {count}</Text>\n      <Button title=\"Complete one task\" onPress={() => setCount(value => value + 1)} />\n      <Button title=\"Reset\" onPress={() => setCount(0)} />\n    </View>\n  );\n}",
+      "steps": [
+        {
+          "line": 1,
+          "explanation": {
+            "ru": "Подключаем компоненты из импортируемого пакета.",
+            "tg": "Компонентҳоро аз бастаи воридшуда мегирем.",
+            "en": "Import components from the package."
+          },
+          "values": ""
+        },
+        {
+          "line": 4,
+          "explanation": {
+            "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+            "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+            "en": "Return to the walkthrough and trace the data passed to the component."
+          },
+          "values": ""
+        },
+        {
+          "line": 8,
+          "explanation": {
+            "ru": "Этот разбор показывает ход примера, но не запускает мобильное приложение.",
+            "tg": "Ин шарҳ ҷараёни мисолро нишон медиҳад, вале барномаи мобилиро иҷро намекунад.",
+            "en": "This walkthrough explains the example but does not execute a mobile app."
+          },
+          "values": ""
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Прочитайте пример и найдите импорт и возвращаемый JSX.",
+          "tg": "Мисолро хонда import ва JSX-и баргашта ёбед.",
+          "en": "Read the example and locate its imports and returned JSX."
+        },
+        {
+          "ru": "Предскажите результат, а при наличии устройства проверьте его в Expo.",
+          "tg": "Натиҷаро пешгӯӣ ва бо дастгоҳ дар Expo санҷед.",
+          "en": "Predict the outcome and check it in Expo if a device is available."
+        }
+      ],
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "success": {
+        "ru": "0 → 1 → 2 → 3 → Reset → 0",
+        "tg": "0 → 1 → 2 → 3 → Reset → 0",
+        "en": "0 → 1 → 2 → 3 → Reset → 0"
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Шаг 1. Сохраните прошлый экран и добавьте useState(0).\nШаг 2. Добавьте кнопку увеличения через функциональное обновление.\nШаг 3. Добавьте Reset, устанавливающий 0. Запустите приложение через Expo.\nШаг 4. Проверьте: старт 0, три нажатия → 3, Reset → 0, ещё нажатие → 1. Не показывайте фиктивную синхронизацию с сервером. Для локальной проверки логики своего кода используйте лабораторию: node verify-component.mjs 02 <ваш-файл.tsx> <путь-к-expo-проекту>. Результат работает на mock-компонентах и не подтверждает устройство или Mastered.",
+        "tg": "Қадами 1. Экрани пешинаро нигоҳ дошта, useState(0) илова кунед.\nҚадами 2. Тугмаи зиёдкуниро бо навсозии функсионалӣ илова кунед.\nҚадами 3. Reset илова кунед, ки 0 мегузорад. Барномаро бо Expo иҷро кунед.\nҚадами 4. Санҷед: оғоз 0, се пахш → 3, Reset → 0, як пахши дигар → 1. Ҳамоҳангсозии сохта бо серверро нишон надиҳед. Барои санҷиши маҳаллии мантиқи коди худ лабораторияро гиред: node verify-component.mjs 02 <файли-худ.tsx> <роҳи-expo-проект>. Натиҷа бо mock-компонент аст ва дастгоҳ ё Mastered-ро тасдиқ намекунад.",
+        "en": "Step 1. Keep the previous screen and add useState(0).\nStep 2. Add an increment button using a functional update.\nStep 3. Add Reset, setting the value to 0. Run through Expo.\nStep 4. Check: initial 0, three presses → 3, Reset → 0, one more press → 1. Do not show pretend server synchronization. For a local check of your own component logic use the lab: node verify-component.mjs 02 <your-file.tsx> <expo-project-path>. This uses mocked components and does not verify a device or grant Mastered."
+      },
+      "criteria": [
+        {
+          "ru": "Ожидаемый результат и действия записаны; запуск на устройстве подтверждён только если выполнен.",
+          "tg": "Натиҷаи интизор ва амалҳо сабтанд; иҷрои дастгоҳ танҳо баъди иҷро тасдиқ мешавад.",
+          "en": "Expected behavior and steps are recorded; claim a device run only if performed."
+        },
+        {
+          "ru": "Изменённые данные проверены и результат объяснён самостоятельно; это Self Reviewed.",
+          "tg": "Додаи дигар санҷида ва натиҷа мустақил шарҳ шуд; ин Self Reviewed аст.",
+          "en": "Changed inputs were checked and explained independently; this is Self Reviewed."
+        }
+      ],
+      "example": {
+        "ru": "0 → 1 → 2 → 3 → Reset → 0",
+        "tg": "0 → 1 → 2 → 3 → Reset → 0",
+        "en": "0 → 1 → 2 → 3 → Reset → 0"
+      }
+    },
+    "summary": [
+      {
+        "ru": "Mobile: состояние и нажатия",
+        "tg": "Mobile: ҳолат ва пахшкунӣ",
+        "en": "Mobile: state and button presses"
+      },
+      {
+        "ru": "Первый import получает useState из React, второй — View, Text и Button платформы. Запись [count, setCount] разделяет два значения, возвращённых useState(0). Text отображает count внутри фигурных скобок JSX. accessibilityLiveRegion=\"polite\" просит Android сообщать об изменениях в поддерживаемых сценариях; реальное поведение экранного диктора зависит от платформы и проверяется на устройстве. Первая кнопка передаёт () => setCount(value => value + 1): внешняя функция ждёт нажатия, внутренняя вычисляет следующее значение. Reset передаёт отдельную функцию, устанавливающую 0. Проверьте 0 → 1 → 2 → 3 → 0 → 1. Ошибка onPress={setCount(0)} вызывает обновление во время рендера и может вызвать цикл; используйте обработчик.",
+        "tg": "Import-и аввал useState-ро аз React, дуюм View, Text ва Button-ро аз платформа мегирад. [count, setCount] ду қимати useState(0)-ро ҷудо мекунад. Text count-ро дар қавсҳои JSX нишон медиҳад. accessibilityLiveRegion=\"polite\" аз Android хоҳиш мекунад, ки тағйирро дар ҳолатҳои дастгиришуда хабар диҳад; рафтори воқеии хонандаи экран аз платформа вобаста аст ва дар дастгоҳ санҷида мешавад. Тугмаи аввал () => setCount(value => value + 1) медиҳад: функсияи беруна пахшро интизор, дохилӣ қимати навро ҳисоб мекунад. Reset функсияи ҷудогонаи 0 медиҳад. 0 → 1 → 2 → 3 → 0 → 1-ро санҷед. Хатои onPress={setCount(0)} ҳангоми render навсозӣ карда метавонад давр созад; коркардкунанда гиред.",
+        "en": "The first import obtains useState from React; the second gets platform View, Text and Button. [count, setCount] separates the two values returned by useState(0). Text displays count inside JSX braces. accessibilityLiveRegion=\"polite\" requests announcements on Android in supported scenarios; actual screen-reader behavior varies by platform and requires device testing. The first button passes () => setCount(value => value + 1): the outer function waits for a press and the inner function calculates the next value. Reset passes a separate function setting zero. Check 0 → 1 → 2 → 3 → 0 → 1. The mistake onPress={setCount(0)} invokes an update during render and may cause a loop; pass a handler instead."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что произойдёт со счётчиком после перезапуска примера?",
+        "tg": "Баъди оғози нави мисол ҳисобкунак чӣ мешавад?",
+        "en": "What happens to the example counter after restart?"
+      },
+      {
+        "ru": "Зачем использовать value => value + 1?",
+        "tg": "Чаро value => value + 1 истифода шавад?",
+        "en": "Why use value => value + 1?"
+      }
+    ],
+    "nextLessonId": "mobile-day-03"
+  }
+}
