@@ -2,6 +2,7 @@ import {test,expect,type Page} from '@playwright/test';
 import course from '../src/content/courses/backend.json';
 async function code(page:Page,value:string){
  await expect(page.locator('.monaco-editor')).toBeVisible({timeout:30000});
+ await expect.poll(()=>page.evaluate(()=>(window as unknown as {monaco?:{editor:{getModels:()=>unknown[]}}}).monaco?.editor.getModels().length??0),{timeout:30000}).toBeGreaterThan(0);
  await page.evaluate(value=>(window as unknown as {monaco:{editor:{getModels:()=>{setValue:(code:string)=>void}[]}}}).monaco.editor.getModels()[0].setValue(value),value);
 }
 test.beforeEach(async({page})=>{
@@ -29,7 +30,7 @@ test('Backend executes actual function tests, catches wrong results and timeout,
  const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state.courses.backend);
  expect(stored.drafts['backend-day-03']).toBe(solution);expect(stored.verifiedPractice??[]).not.toContain('backend-day-03');expect(stored.completedPractice).not.toContain('backend-day-03');
  await page.reload();await expect(page.locator('.monaco-editor')).toBeVisible({timeout:30000});
- expect(await page.evaluate(()=>(window as unknown as {monaco:{editor:{getModels:()=>{getValue:()=>string}[]}}}).monaco.editor.getModels()[0].getValue())).toBe(solution);
+ await expect.poll(()=>page.evaluate(()=>(window as unknown as {monaco?:{editor:{getModels:()=>{getValue:()=>string}[]}}}).monaco?.editor.getModels()[0]?.getValue()??null),{timeout:30000}).toBe(solution);
  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('Backend flow has keyboard-controlled code traces, local-only assessment copy and the actual ZIP download',async({page,request})=>{
