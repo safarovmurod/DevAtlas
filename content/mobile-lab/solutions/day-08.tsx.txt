@@ -1,0 +1,23 @@
+import { useState } from 'react';
+import { Button, Text, View } from 'react-native';
+
+export default function App() {
+  const [completed, setCompleted] = useState(0);
+
+  function completeTwo() {
+    setCompleted(previous => previous + 1);
+    setCompleted(previous => previous + 1);
+  }
+
+  function undo() {
+    setCompleted(previous => Math.max(0, previous - 1));
+  }
+
+  return (
+    <View style={{ padding: 24 }}>
+      <Text>Готово: {completed}</Text>
+      <Button title="Завершить два" onPress={completeTwo} />
+      <Button title="Отменить одно" onPress={undo} />
+    </View>
+  );
+}
