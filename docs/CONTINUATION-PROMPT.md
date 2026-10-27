@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `91f12af9e666aa92c052c77d58ae77a13280d8a7`. Фактический каталог: 43 IDs, 38 направлений, 936 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `1b1f0d0da7a2d28461a152f331125ecede3b7d96`. Фактический каталог: 43 IDs, 38 направлений, 936 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Finish the exact-head quality gates and review/merge PR #20 for Backend Beginner 44 days. Check main CI after ordinary merge. Only then begin Mobile Beginner; do not reauthor Backend.
+Следующее действие по сохранённому состоянию: Fix and verify the Backend Monaco reload test after main CI failure, merge the follow-up normally, and require green main CI before Mobile.
 
 ## Что сохранить
 

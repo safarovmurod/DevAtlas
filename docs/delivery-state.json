@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "91f12af9e666aa92c052c77d58ae77a13280d8a7",
+  "baselineCommit": "1b1f0d0da7a2d28461a152f331125ecede3b7d96",
   "acceptedPlan": "Strict continuation master prompt, sections 0–19, and approved implementation plan",
   "decisions": {
     "delivery": "small complete PRs; continue through every phase",
@@ -153,8 +153,8 @@
     }
   ],
   "resume": {
-    "branch": "feat/backend-beginner-course",
-    "nextAction": "Finish the exact-head quality gates and review/merge PR #20 for Backend Beginner 44 days. Check main CI after ordinary merge. Only then begin Mobile Beginner; do not reauthor Backend.",
+    "branch": "fix/backend-main-ci-reload",
+    "nextAction": "Fix and verify the Backend Monaco reload test after main CI failure, merge the follow-up normally, and require green main CI before Mobile.",
     "doNotRegenerate": [
       "css",
       "python",
@@ -342,7 +342,7 @@
       }
     },
     "backendBeginner20261026": {
-      "status": "DONE",
+      "status": "PARTIAL",
       "branch": "feat/backend-beginner-course",
       "baseCommit": "91f12af9e666aa92c052c77d58ae77a13280d8a7",
       "publishedDays": 44,
@@ -361,7 +361,7 @@
         "Every new example actual stdout verified; intentionally unfinished starters and broken owner predicate must fail",
         "Optional two-level hints reuse accessible native details controls; existing single-hint lessons unchanged"
       ],
-      "nextAction": "Finish the exact-head quality gates and review/merge PR #20 for Backend Beginner 44 days. Check main CI after ordinary merge. Only then begin Mobile Beginner; do not reauthor Backend.",
+      "nextAction": "Fix and verify the Backend Monaco reload test after main CI failure, merge the follow-up normally, and require green main CI before Mobile.",
       "validation": {
         "currentLocal": "Final Node lab: 12 groups passed, 35 new examples exact stdout, 30 solutions pass, all 30 starters rejected; eight capstone contract groups pass; unfinished/ownership-mutated/output-only-session candidates rejected",
         "targetedVitest": "11 tests passed including source schema/44-day sequence, old question IDs/options and real Node examples",
@@ -371,12 +371,13 @@
         "localProduction": "next start on loopback: Backend API 200 with 44 lessons/220 questions; ZIP hash/size checked; downloaded/extracted lab actually runs hash and eight API groups; unfinished project rejected; guest Backend Pro 401 with no lesson bodies",
         "fullE2E": "114 desktop/mobile passed; final Node-only session grader/content follow-up is covered by targeted rerun and exact-head CI",
         "auth": "12 isolated mock-auth passed; not live Supabase validation",
-        "github": "Implementation commit 1fa08df11897481b328620a4c6b92de865631093: run https://github.com/safarovmurod/react-mentor/actions/runs/40411429950; Ubuntu and all four real Windows shell/Node combinations passed"
+        "github": "Implementation commit 1fa08df11897481b328620a4c6b92de865631093: run https://github.com/safarovmurod/react-mentor/actions/runs/40411429950; Ubuntu and all four real Windows shell/Node combinations passed",
+        "mainCI": "Merge 1b1f0d0: GitHub run 40460576449 failed on Windows PowerShell 5.1/Node 22 because the Backend reload test read a Monaco model before it existed. Follow-up must verify saved draft after waiting for model initialization."
       },
       "pullRequest": "https://github.com/safarovmurod/react-mentor/pull/20",
       "remainingAcceptance": [
-        "Pass CI for the final PR HEAD, verify its diff, merge normally and check main CI",
-        "Live production browser access is blocked by this environment’s network proxy; do not claim live verification"
+        "Backend reload follow-up passes its PR checks and main CI after normal merge",
+        "Live production browser access is blocked by this environment’s network proxy"
       ],
       "implementationCommit": "1fa08df11897481b328620a4c6b92de865631093"
     }
