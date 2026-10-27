@@ -1,0 +1,23 @@
+import { Text, View } from 'react-native';
+
+type Lesson = { id: string; title: string };
+
+export function LessonList({ lessons }: { lessons: Lesson[] }) {
+  return (
+    <View>
+      {lessons.length === 0 ? (
+        <Text>Пока занятий нет</Text>
+      ) : (
+        lessons.map(lesson => <Text key={lesson.id}>{lesson.title}</Text>)
+      )}
+    </View>
+  );
+}
+
+export default function App() {
+  const lessons = [
+    { id: 'one', title: 'Первый шаг' },
+    { id: 'two', title: 'Повторение' },
+  ];
+  return <LessonList lessons={lessons} />;
+}
