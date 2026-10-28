@@ -1,0 +1,56 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type Task = { id: string; title: string; minutes: number };
+
+const KEY = 'devatlas-tasks-v2';
+
+export default function App() {
+  const [tasks, setTasks] = useState<Task[] | null>(null);
+  const [broken, setBroken] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem(KEY)
+      .then(raw => {
+        if (!raw) {
+          setTasks([]);
+          return;
+        }
+        try {
+          const parsed = JSON.parse(raw) as Task[];
+          const valid = Array.isArray(parsed) && parsed.every(task => typeof task.id === 'string' && typeof task.title === 'string' && typeof task.minutes === 'number');
+          setTasks(valid ? parsed : []);
+          setBroken(!valid);
+        } catch {
+          setTasks([]);
+          setBroken(true);
+        }
+      })
+      .catch(() => setTasks([]));
+  }, []);
+
+  if (tasks === null) {
+    return (
+      <View style={styles.screen}>
+        <Text>Открываем сохранённые занятия…</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Мои занятия</Text>
+      {broken ? <Text>Сохранённые данные не распознаны, показан пустой список.</Text> : null}
+      {tasks.length === 0 ? (
+        <Text>Сохранённых занятий нет. Это первый запуск.</Text>
+      ) : (
+        tasks.map(task => <Text key={task.id}>{task.title} — {task.minutes} мин.</Text>)
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+});

@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-30",
+  "day": 30,
+  "prerequisiteDays": [
+    29
+  ],
+  "title": {
+    "ru": "Согласование локальных и сетевых данных",
+    "tg": "Созиш кардани маълумоти маҳаллӣ ва шабакавӣ",
+    "en": "Reconciling local and network data"
+  },
+  "summary": {
+    "ru": "Объедините кэш и свежие записи по id и зафиксируйте правило выбора в коде.",
+    "tg": "Кэш ва сабтҳои навро аз рӯи id якҷоя карда, қоидаи интихобро дар рамз муқаррар кунед.",
+    "en": "Merge the cache and fresh records by id and fix the selection rule in code."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Откуда данные и какая запись новее",
+        "tg": "Маълумот аз куҷост ва кадом сабт навтар аст",
+        "en": "Where data comes from and which record is newer"
+      },
+      "body": {
+        "ru": "Одна и та же заметка может существовать в трёх местах: локально, в кэше и на сервере. Чтобы экран не показывал противоречия, объединение делают явной функцией с правилом: например, побеждает запись с более свежим updatedAt. Первый шаг — словарь по id: Map не допускает дублей ключей, поэтому объединение сводится к поочерёдной установке записей. Порядок важен: кого положили последним, тот и выиграл при равных id. Честный курс Beginner не строит синхронизацию с реальным сервером — это тема Pro: здесь правило изучают на наборе данных, а финальное сообщение экрана говорит, что сетевая часть появится позже.",
+        "tg": "Як қайди якхел метавонад дар се ҷо бошад: маҳаллӣ, дар кэш ва дар сервер. То экран зиддият нишон надиҳад, якҷоякуниро бо функсияи ошкор бо қоида мекунанд: масалан, сабти бо updatedAt-и навтар ғолиб меояд. Қадами аввал луғат аз рӯи id аст: Map калидҳои такрориро иҷозат намедиҳад, бинобар ин якҷоякунӣ ба гузошти пайиҳамии сабтҳо меояд. Тартиб муҳим аст: охирин гузошташуда ҳангоми баробарии id ғолиб мешавад. Курси огоҳкунандаи Beginner синхронизатсияи бо сервери воқеӣ намесозад — ин мавзӯи Pro аст: дар ин ҷо қоидаро дар маҷмӯи маълумот меомӯзанд ва паёми ниҳоии экран мегӯяд, ки қисми шабакавӣ баъдтар меояд.",
+        "en": "The same note can exist in three places: locally, in a cache and on a server. So the screen does not contradict itself, merging is an explicit function with a rule: for example, the record with a fresher updatedAt wins. The first step is a dictionary by id: a Map allows no duplicate keys, so merging becomes setting records one by one. Order matters: whoever was placed last wins on equal ids. An honest Beginner course does not build real-server synchronization — that is Pro material: here the rule is learned on a data set, and the final screen message says the network part arrives later."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "mergeNotes принимает два массива и возвращает объединение: сначала все локальные записи, потом сетевые поверх — Map хранит по одному на id. В примере правило простое: сетевая запись перезаписывает локальную при том же id; n1 обновится текстом «Обновлённая заметка». Состояние source объясняет пользователю, откуда показанные данные — это честнее, чем молчаливый список. Если хранилище отказало, показывается объединение сети и локальных данных. В решении правило усложняется: побеждает более свежий updatedAt, а список сортируется по дате — правило видно в коде, а не в комментарии.",
+        "tg": "mergeNotes ду массивро мегирад ва якҷоякуниро бармегардонад: аввал ҳамаи сабтҳои маҳаллӣ, баъд шабакавӣ болояшон — Map аз рӯи id яктоиро нигоҳ медорад. Дар мисол қоида содда аст: сабти шабакавӣ ҳангоми якхел будани id сабти маҳаллиро аз нав менависад; n1 бо матни «Қайди навшуда» нав мешавад. Ҳолати source ба корбар мефаҳмонад, ки маълумоти нишондодашуда аз куҷост — ин рӯбарӯтар аз рӯйхати хомӯш аст. Агар нигоҳдорӣ даст диҳад, якҷоякунии шабака ва маълумоти маҳаллӣ нишон дода мешавад. Дар ҳалл қоида мураккаб мешавад: сабти бо updatedAt-и навтар ғолиб мешавад ва рӯйхат аз рӯи сана ҷӯр мешавад — қоида дар рамз дида мешавад, на дар шарҳ.",
+        "en": "mergeNotes takes two arrays and returns the union: first all local records, then the network ones on top — the Map keeps one per id. In the example the rule is simple: a network record overwrites the local one on the same id; n1 updates to the «Обновлённая заметка» text. The source state explains to the user where the shown data came from — more honest than a silent list. If the store refuses, the union of network and local data shows. The solution complicates the rule: the fresher updatedAt wins and the list sorts by date — the rule lives in the code, not in a comment."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Note = { id: string; text: string };\n\nconst KEY = 'devatlas-cache';\n\nexport function mergeNotes(local: Note[], remote: Note[]): Note[] {\n  const byId = new Map<string, Note>();\n  for (const note of local) byId.set(note.id, note);\n  for (const note of remote) {\n    const existing = byId.get(note.id);\n    if (!existing || existing.text !== note.text) byId.set(note.id, note);\n  }\n  return [...byId.values()];\n}\n\nexport default function App() {\n  const [notes, setNotes] = useState<Note[] | null>(null);\n  const [source, setSource] = useState('');\n\n  useEffect(() => {\n    const local: Note[] = [\n      { id: 'n1', text: 'Локальная заметка' },\n    ];\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];\n        setNotes(mergeNotes(cached, local));\n        setSource(cached.length > 0 ? 'кэш + локальные' : 'только локальные');\n      })\n      .catch(() => {\n        setNotes(local);\n        setSource('только локальные');\n      });\n  }, []);\n\n  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Согласование данных</Text>\n      <Text>Источник: {source}</Text>\n      {notes.map(note => <Text key={note.id}>{note.text}</Text>)}\n      <Text>Сетевая часть появится в Pro-курсе; здесь правило — локальное и кэш объединяются по id.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-30-q1",
+      "question": {
+        "ru": "В скольких местах может существовать одна запись?",
+        "tg": "Як сабт дар чанд ҷо вуҷуд дошта метавонад?",
+        "en": "In how many places can one record exist?"
+      },
+      "options": [
+        {
+          "ru": "Только на сервере",
+          "tg": "Танҳо дар сервер",
+          "en": "Only on a server"
+        },
+        {
+          "ru": "В трёх: локально, в кэше и на сервере",
+          "tg": "Дар се: маҳаллӣ, дар кэш ва дар сервер",
+          "en": "In three: locally, in a cache and on a server"
+        },
+        {
+          "ru": "Только в памяти экрана",
+          "tg": "Танҳо дар хотираи экран",
+          "en": "Only in screen memory"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Отсюда и возникает задача согласования.",
+        "tg": "Аз ҳамин вазифаи созиш меояд.",
+        "en": "From this the reconciliation task arises."
+      },
+      "hint": {
+        "ru": "Перечитайте первое предложение первого раздела.",
+        "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+        "en": "Re-read the first sentence of the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-30-q2",
+      "question": {
+        "ru": "Почему для объединения удобен Map?",
+        "tg": "Map барои якҷоякунӣ барои чӣ қулай аст?",
+        "en": "Why is Map convenient for merging?"
+      },
+      "options": [
+        {
+          "ru": "Он удаляет старые записи сам",
+          "tg": "Ӯ сабтҳои кӯҳнаро худ нест мекунад",
+          "en": "It deletes old records itself"
+        },
+        {
+          "ru": "Он шифрует записи",
+          "tg": "Ӯ сабтҳоро рамзгузорӣ мекунад",
+          "en": "It encrypts records"
+        },
+        {
+          "ru": "Он хранит по одному значению на ключ id",
+          "tg": "Ӯ барои ҳар калиди id як қиматро нигоҳ медорад",
+          "en": "It keeps one value per id key"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Дубликаты id невозможны, установка поверх заменяет значение.",
+        "tg": "Такрори id имконнопазир аст, гузоштан болояшон қиматро иваз мекунад.",
+        "en": "Duplicate ids are impossible; setting on top replaces the value."
+      },
+      "hint": {
+        "ru": "Найдите в mergeNotes вызовы set.",
+        "tg": "Дархостҳои set-ро дар mergeNotes ёбед.",
+        "en": "Find the set calls in mergeNotes."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-30-q3",
+      "question": {
+        "ru": "Какое правило выбирает победителя в решении?",
+        "tg": "Дар ҳалл кадом қоида ғолибро интихоб мекунад?",
+        "en": "Which rule picks the winner in the solution?"
+      },
+      "options": [
+        {
+          "ru": "Более свежий updatedAt",
+          "tg": "updatedAt-и навтар",
+          "en": "The fresher updatedAt"
+        },
+        {
+          "ru": "Длинный текст",
+          "tg": "Матни дароз",
+          "en": "The longer text"
+        },
+        {
+          "ru": "Алфавитный порядок id",
+          "tg": "Тартиби алифбоии id",
+          "en": "Alphabetical id order"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Время изменения — честный признак свежести.",
+        "tg": "Вақти тағйир аломати рӯбарӯи навбудист.",
+        "en": "The change time is an honest freshness sign."
+      },
+      "hint": {
+        "ru": "Сравните условия в mergeNotes примера и решения.",
+        "tg": "Шартҳоро дар mergeNotes-и мисол ва ҳалл муқоиса кунед.",
+        "en": "Compare the conditions in the example and solution mergeNotes."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-30-q4",
+      "question": {
+        "ru": "Зачем состояние source пользователю?",
+        "tg": "Ҳолати source барои корбар барои чист?",
+        "en": "What is the source state for?"
+      },
+      "options": [
+        {
+          "ru": "Ускорить рендер",
+          "tg": "Render-ро тез кунад",
+          "en": "Speed up rendering"
+        },
+        {
+          "ru": "Честно объяснить, откуда показанные данные",
+          "tg": "Рӯбарӯ фаҳмонад, ки маълумоти нишондодашуда аз куҷост",
+          "en": "Explain honestly where the shown data came from"
+        },
+        {
+          "ru": "Скрыть ошибки сети",
+          "tg": "Хатоҳои шабакаро маҳкум кунад",
+          "en": "Hide network errors"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Пользователь видит границы своих данных.",
+        "tg": "Корбар ҳудуди маълумоти худро мебинад.",
+        "en": "The user sees the limits of their data."
+      },
+      "hint": {
+        "ru": "Посмотрите на строку «Источник:» в примере.",
+        "tg": "Ба сатри «Манбаъ:» дар мисол нигоҳ кунед.",
+        "en": "Look at the «Источник:» line in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-30-q5",
+      "question": {
+        "ru": "Что курс говорит о настоящей синхронизации с сервером?",
+        "tg": "Курс дар бораи синхронизатсияи воқеӣ бо сервер чӣ мегӯяд?",
+        "en": "What does the course say about real server synchronization?"
+      },
+      "options": [
+        {
+          "ru": "Она невозможна на телефоне",
+          "tg": "Дар телефон имконнопазир аст",
+          "en": "It is impossible on a phone"
+        },
+        {
+          "ru": "Она уже реализована в этом дне",
+          "tg": "Дар ҳамин рӯз амалӣ шудааст",
+          "en": "It is already implemented this day"
+        },
+        {
+          "ru": "Это тема Pro-курса, здесь правило учат на данных",
+          "tg": "Ин мавзӯи курси Pro аст, дар ин ҷо қоида дар маълумот омӯхта мешавад",
+          "en": "It is Pro material; here the rule is learned on data"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Правило слияния — фундамент; полная синхронизация сложнее.",
+        "tg": "Қоидаи якҷоякунӣ асос аст; синхронизатсияи пурра мураккабтар.",
+        "en": "The merge rule is the foundation; full synchronization is harder."
+      },
+      "hint": {
+        "ru": "Найдите в примере финальную строку про сетевую часть.",
+        "tg": "Дар мисол сатри ниҳоӣ дар бораи қисми шабакавиро ёбед.",
+        "en": "Find the final network-part line in the example."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте объединение на устройстве при доступном и недоступном хранилище. Соберите решение с правилом updatedAt и сортировкой; запишите, какая запись победила для каждого id. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва якҷоякуниро дар дастгоҳ ҳангоми дастрас ва дастнашаванда будани нигоҳдорӣ санҷед. Ҳаллро бо қоидаи updatedAt ва ҷӯркуни созед; сабт кунед, ки барои ҳар id кадом сабт ғолиб шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check the merge on a device with the store available and unavailable. Build the solution with the updatedAt rule and sorting; record which record won for each id. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "В решении условие note.updatedAt > existing.updatedAt решает, кого класть в Map.",
+      "tg": "Дар ҳалл шарти note.updatedAt > existing.updatedAt муайян мекунад, ки кист ба Map гузошта шавад.",
+      "en": "In the solution the note.updatedAt > existing.updatedAt condition decides who goes into the Map."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Note = { id: string; text: string; updatedAt: number };\n\nconst KEY = 'devatlas-cache-v2';\n\nexport function mergeNotes(local: Note[], remote: Note[]): Note[] {\n  const byId = new Map<string, Note>();\n  for (const note of local) byId.set(note.id, note);\n  for (const note of remote) {\n    const existing = byId.get(note.id);\n    if (!existing || note.updatedAt > existing.updatedAt) byId.set(note.id, note);\n  }\n  return [...byId.values()].sort((a, b) => b.updatedAt - a.updatedAt);\n}\n\nexport default function App() {\n  const [notes, setNotes] = useState<Note[] | null>(null);\n  const [source, setSource] = useState('');\n\n  useEffect(() => {\n    const local: Note[] = [\n      { id: 'n1', text: 'Локальная заметка', updatedAt: 100 },\n      { id: 'n2', text: 'Свежая локальная', updatedAt: 300 },\n    ];\n    const remote: Note[] = [\n      { id: 'n1', text: 'Обновлённая заметка', updatedAt: 200 },\n      { id: 'n3', text: 'Из учебного набора', updatedAt: 50 },\n    ];\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];\n        setNotes(mergeNotes(mergeNotes(remote, cached), local));\n        setSource(cached.length > 0 ? 'кэш + сеть + локальные' : 'сеть + локальные');\n      })\n      .catch(() => {\n        setNotes(mergeNotes(remote, local));\n        setSource('сеть + локальные');\n      });\n  }, []);\n\n  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Согласование данных</Text>\n      <Text>Источник: {source}</Text>\n      {notes.map(note => <Text key={note.id}>{note.text} ({note.updatedAt})</Text>)}\n      <Text>Правило дня: побеждает запись с более свежим updatedAt.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Объединённый список не содержит дублей id.",
+        "tg": "Рӯйхати якҷояшуда такрори id надорад.",
+        "en": "The merged list has no duplicate ids."
+      },
+      {
+        "ru": "Победители по id записаны и совпадают с правилом updatedAt.",
+        "tg": "Ғолибон аз рӯи id сабт шуда, ба қоидаи updatedAt мутобиқанд.",
+        "en": "The winners by id are recorded and match the updatedAt rule."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объединить записи из двух источников по id.",
+        "tg": "Сабтҳоро аз ду манбаъ аз рӯи id якҷоя кунед.",
+        "en": "Merge records from two sources by id."
+      },
+      {
+        "ru": "Зафиксировать правило выбора более свежей записи в коде.",
+        "tg": "Қоидаи интихоби сабти навтарро дар рамз муқаррар кунед.",
+        "en": "Fix the fresher-record rule in code."
+      }
+    ],
+    "realWorld": {
+      "ru": "Почтовое приложение показывает письмо из кэша мгновенно и обновляет его, когда сеть ответит.",
+      "tg": "Барномаи почта мактубро фавран аз кэш нишон медиҳад ва ҳангоми ҷавоби шабака нав мекунад.",
+      "en": "A mail app shows a letter from cache instantly and refreshes it when the network answers."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Почему для объединения удобен Map?",
+        "tg": "Map барои якҷоякунӣ барои чӣ қулай аст?",
+        "en": "Why is Map convenient for merging?"
+      },
+      "options": [
+        {
+          "ru": "Он удаляет старые записи сам",
+          "tg": "Ӯ сабтҳои кӯҳнаро худ нест мекунад",
+          "en": "It deletes old records itself"
+        },
+        {
+          "ru": "Он шифрует записи",
+          "tg": "Ӯ сабтҳоро рамзгузорӣ мекунад",
+          "en": "It encrypts records"
+        },
+        {
+          "ru": "Он хранит по одному значению на ключ id",
+          "tg": "Ӯ барои ҳар калиди id як қиматро нигоҳ медорад",
+          "en": "It keeps one value per id key"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Найдите в mergeNotes вызовы set.",
+        "tg": "Дархостҳои set-ро дар mergeNotes ёбед.",
+        "en": "Find the set calls in mergeNotes."
+      },
+      "explanation": {
+        "ru": "Дубликаты id невозможны, установка поверх заменяет значение.",
+        "tg": "Такрори id имконнопазир аст, гузоштан болояшон қиматро иваз мекунад.",
+        "en": "Duplicate ids are impossible; setting on top replaces the value."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Note = { id: string; text: string };\n\nconst KEY = 'devatlas-cache';\n\nexport function mergeNotes(local: Note[], remote: Note[]): Note[] {\n  const byId = new Map<string, Note>();\n  for (const note of local) byId.set(note.id, note);\n  for (const note of remote) {\n    const existing = byId.get(note.id);\n    if (!existing || existing.text !== note.text) byId.set(note.id, note);\n  }\n  return [...byId.values()];\n}\n\nexport default function App() {\n  const [notes, setNotes] = useState<Note[] | null>(null);\n  const [source, setSource] = useState('');\n\n  useEffect(() => {\n    const local: Note[] = [\n      { id: 'n1', text: 'Локальная заметка' },\n    ];\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];\n        setNotes(mergeNotes(cached, local));\n        setSource(cached.length > 0 ? 'кэш + локальные' : 'только локальные');\n      })\n      .catch(() => {\n        setNotes(local);\n        setSource('только локальные');\n      });\n  }, []);\n\n  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Согласование данных</Text>\n      <Text>Источник: {source}</Text>\n      {notes.map(note => <Text key={note.id}>{note.text}</Text>)}\n      <Text>Сетевая часть появится в Pro-курсе; здесь правило — локальное и кэш объединяются по id.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+      "steps": [
+        {
+          "line": 10,
+          "explanation": {
+            "ru": "Локальные записи кладутся в Map первыми.",
+            "tg": "Сабтҳои маҳаллӣ аввал ба Map гузошта мешаванд.",
+            "en": "Local records go into the Map first."
+          },
+          "values": "Map by id"
+        },
+        {
+          "line": 12,
+          "explanation": {
+            "ru": "Сетевые записи перезаписывают совпавшие id.",
+            "tg": "Сабтҳои шабакавӣ id-ҳои мутобиқро аз нав менависанд.",
+            "en": "Network records overwrite matching ids."
+          },
+          "values": "n1 updated"
+        },
+        {
+          "line": 14,
+          "explanation": {
+            "ru": "Результат — список без дублей id.",
+            "tg": "Натиҷа — рӯйхати бе такрори id.",
+            "en": "The result is a list with no duplicate ids."
+          },
+          "values": "unique ids"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в mergeNotes порядок установки записей и объясните, кто побеждает.",
+          "tg": "Дар mergeNotes тартиби гузоштани сабтҳоро ёфта, шарҳ диҳед, ки кист ғолиб.",
+          "en": "Find the record placement order in mergeNotes and explain who wins."
+        },
+        {
+          "ru": "Сравните подпись источника при доступном и недоступном хранилище.",
+          "tg": "Матни манбаъро ҳангоми дастрас ва дастнашаванда будани нигоҳдорӣ муқоиса кунед.",
+          "en": "Compare the source label with the store available and unavailable."
+        }
+      ],
+      "hint": {
+        "ru": "В решении условие note.updatedAt > existing.updatedAt решает, кого класть в Map.",
+        "tg": "Дар ҳалл шарти note.updatedAt > existing.updatedAt муайян мекунад, ки кист ба Map гузошта шавад.",
+        "en": "In the solution the note.updatedAt > existing.updatedAt condition decides who goes into the Map."
+      },
+      "success": {
+        "ru": "Список не содержит дублей, а каждый совпавший id разрешён по объявленному правилу.",
+        "tg": "Рӯйхат такрори надорад ва ҳар id-и мутобиқ аз рӯи қоидаи эълоншуда ҳал мешавад.",
+        "en": "The list has no duplicates and every matching id resolves by the declared rule."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте объединение на устройстве при доступном и недоступном хранилище. Соберите решение с правилом updatedAt и сортировкой; запишите, какая запись победила для каждого id. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва якҷоякуниро дар дастгоҳ ҳангоми дастрас ва дастнашаванда будани нигоҳдорӣ санҷед. Ҳаллро бо қоидаи updatedAt ва ҷӯркуни созед; сабт кунед, ки барои ҳар id кадом сабт ғолиб шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check the merge on a device with the store available and unavailable. Build the solution with the updatedAt rule and sorting; record which record won for each id. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Объединённый список не содержит дублей id.",
+          "tg": "Рӯйхати якҷояшуда такрори id надорад.",
+          "en": "The merged list has no duplicate ids."
+        },
+        {
+          "ru": "Победители по id записаны и совпадают с правилом updatedAt.",
+          "tg": "Ғолибон аз рӯи id сабт шуда, ба қоидаи updatedAt мутобиқанд.",
+          "en": "The winners by id are recorded and match the updatedAt rule."
+        }
+      ],
+      "example": {
+        "ru": "n1 показывает «Обновлённая заметка», потому что его updatedAt новее локальной версии.",
+        "tg": "n1 «Қайди навшударо» нишон медиҳад, чунки updatedAt-и ӯ навтар аз версияи маҳаллӣ аст.",
+        "en": "n1 shows «Обновлённая заметка» because its updatedAt is fresher than the local version."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Объединение — явная функция с объявленным правилом победителя.",
+        "tg": "Якҷоякунӣ функсияи ошкор бо қоидаи эълоншудаи ғолиб аст.",
+        "en": "Merging is an explicit function with a declared winning rule."
+      },
+      {
+        "ru": "Полная синхронизация с сервером — материал Pro-курса.",
+        "tg": "Синхронизатсияи пурра бо сервер мавзӯи курси Pro аст.",
+        "en": "Full server synchronization is Pro-course material."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Почему для объединения удобен Map?",
+        "tg": "Map барои якҷоякунӣ барои чӣ қулай аст?",
+        "en": "Why is Map convenient for merging?"
+      },
+      {
+        "ru": "Какое правило выбирает победителя в решении?",
+        "tg": "Дар ҳалл кадом қоида ғолибро интихоб мекунад?",
+        "en": "Which rule picks the winner in the solution?"
+      }
+    ],
+    "nextLessonId": null
+  }
+}

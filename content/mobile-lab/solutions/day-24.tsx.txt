@@ -1,0 +1,49 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+type Status = 'loading' | 'done' | 'error';
+
+function loadLessons(fail: boolean): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (fail) reject(new Error('Сеть недоступна'));
+      else resolve(['Экран', 'Стили', 'Flexbox']);
+    }, 1500);
+  });
+}
+
+export default function App() {
+  const [status, setStatus] = useState<Status>('loading');
+  const [items, setItems] = useState<string[]>([]);
+  const [fail, setFail] = useState(false);
+
+  useEffect(() => {
+    setStatus('loading');
+    loadLessons(fail)
+      .then(result => {
+        setItems(result);
+        setStatus('done');
+      })
+      .catch(() => setStatus('error'));
+  }, [fail]);
+
+  return (
+    <View style={styles.screen}>
+      {status === 'loading' ? <Text>Загрузка…</Text> : null}
+      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}
+      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}
+      <Text
+        accessibilityRole="button"
+        onPress={() => setFail(value => !value)}
+        style={styles.toggle}
+      >
+        {fail ? 'Включить успешную загрузку' : 'Включить ошибку'}
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  toggle: { color: '#2563eb' },
+});

@@ -1,0 +1,53 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type Note = { id: string; text: string };
+
+const KEY = 'devatlas-cache';
+
+export function mergeNotes(local: Note[], remote: Note[]): Note[] {
+  const byId = new Map<string, Note>();
+  for (const note of local) byId.set(note.id, note);
+  for (const note of remote) {
+    const existing = byId.get(note.id);
+    if (!existing || existing.text !== note.text) byId.set(note.id, note);
+  }
+  return [...byId.values()];
+}
+
+export default function App() {
+  const [notes, setNotes] = useState<Note[] | null>(null);
+  const [source, setSource] = useState('');
+
+  useEffect(() => {
+    const local: Note[] = [
+      { id: 'n1', text: 'Локальная заметка' },
+    ];
+    AsyncStorage.getItem(KEY)
+      .then(raw => {
+        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];
+        setNotes(mergeNotes(cached, local));
+        setSource(cached.length > 0 ? 'кэш + локальные' : 'только локальные');
+      })
+      .catch(() => {
+        setNotes(local);
+        setSource('только локальные');
+      });
+  }, []);
+
+  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Согласование данных</Text>
+      <Text>Источник: {source}</Text>
+      {notes.map(note => <Text key={note.id}>{note.text}</Text>)}
+      <Text>Сетевая часть появится в Pro-курсе; здесь правило — локальное и кэш объединяются по id.</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+});

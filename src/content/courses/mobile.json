@@ -9801,6 +9801,3016 @@
             "en": "What happens to the list after an app restart?"
           }
         ],
+        "nextLessonId": "mobile-day-24"
+      }
+    },
+    {
+      "id": "mobile-day-24",
+      "day": 24,
+      "prerequisiteDays": [
+        23
+      ],
+      "title": {
+        "ru": "Promise и жизненный цикл загрузки",
+        "tg": "Promise ва даври боркунӣ",
+        "en": "Promise and the loading lifecycle"
+      },
+      "summary": {
+        "ru": "Покажите три состояния экрана: загрузка, готово и ошибка — на управляемой загрузке.",
+        "tg": "Се ҳолати экранро нишон диҳед: боркунӣ, омода ва хато — дар боркунии идорашаванда.",
+        "en": "Show the three screen states: loading, done and error — on a controllable load."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Экран ждёт данные",
+            "tg": "Экран интизори маълумот аст",
+            "en": "The screen waits for data"
+          },
+          "body": {
+            "ru": "Данные редко приходят мгновенно: между запросом и ответом экран обязан что-то показывать. Promise — обещание результата: функция возвращает не данные, а объект с методом then, который вызовется позже. Жизненный цикл описывают тремя состояниями: loading — запрос идёт, done — данные получены, error — что-то сломалось. useEffect с пустым массивом зависимостей запускает загрузку один раз после первого рендера. Важно честно показывать каждый экран состояния: пользователь видит, что происходит, а не застывший интерфейс. В примере источник данных — таймер: он имитирует задержку сети, не требуя интернета, и его нельзя выдать за настоящий сетевой запрос.",
+            "tg": "Маълумот камвақт фавран меояд: байни дархост ва ҷавоб экран чизе нишон доданаш лозим. Promise — ваъдаи натиҷа: функсия маълумот нестан, объект бо усули then бармегардонад, ки баъдтар даъват мешавад. Даври зиндагиро бо се ҳолат менависанд: loading — дархост равон аст, done — маълумот омад, error — чизе вайрон шуд. useEffect бо массиви холии вобастагӣ боркуниро як маротиба баъди аввалин render оғоз мекунад. Ҳар ҳолати экранро рӯбарӯ нишон додан муҳим аст: корбар мебинад, ки чӣ рӯй дорад, на интерфейси яхкардашуда. Дар мисол манбаи маълумот таймер аст: таъхири шабакаро таклид мекунад, бе интернет кор мекунад ва набояд онро дархости шабакавии воқеӣ ҳисоб кард.",
+            "en": "Data rarely arrives instantly: between the request and the response the screen must show something. A Promise is a promise of a result: the function returns not data but an object with a then method that fires later. The lifecycle is described with three states: loading — the request runs, done — data arrived, error — something broke. useEffect with an empty dependency array starts the load once after the first render. Show every state honestly: the user sees what is happening instead of a frozen interface. The example data source is a timer: it imitates network delay without the internet and must not be presented as a real network request."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "loadLessons возвращает Promise, который через полторы секунды разрешается массивом из трёх строк. Состояние status начинается с loading. useEffect запускается после первого рендера: then получает массив, сохраняет его и переводит статус в done; catch ловит любой сбой и ставит error. Три блока в JSX показывают ровно один экран состояния. Запустите пример: полторы секунды видна загрузка, потом список. В решении добавлен переключатель ошибки и повторная загрузка: статус возвращается в loading перед каждым запросом, поэтому экран не врёт о происходящем.",
+            "tg": "loadLessons Promise-ро бармегардонад, ки баъди нима сон бо массиви се сатр ҳал мешавад. Ҳолати status аз loading оғоз мешавад. useEffect баъди аввалин render оғоз мешавад: then массивро мегирад, нигоҳ медорад ва статусро ба done мегузаронад; catch ҳар хаторо мегирад ва error мегузорад. Се блок дар JSX тамоман як ҳолати экранро нишон медиҳанд. Мисолро иҷро кунед: нима сон боркунӣ дида мешавад, баъд рӯйхат. Дар ҳалл калидгузари хато ва боркунии такрорӣ илова шудааст: статус пеш аз ҳар дархост ба loading бармегардад, бинобар ин экран дар бораи рафтор дуруст гап мезанад.",
+            "en": "loadLessons returns a Promise that resolves after one and a half seconds with a three-string array. The status state starts at loading. useEffect runs after the first render: then receives the array, stores it and moves the status to done; catch catches any failure and sets error. Three JSX blocks show exactly one state screen. Run the example: for a second and a half you see loading, then the list. The solution adds an error toggle and reloading: the status returns to loading before every request, so the screen does not lie about what is happening."
+          },
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\nfunction loadLessons(): Promise<string[]> {\n  return new Promise(resolve => {\n    setTimeout(() => resolve(['Экран', 'Стили', 'Flexbox']), 1500);\n  });\n}\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [items, setItems] = useState<string[]>([]);\n\n  useEffect(() => {\n    loadLessons()\n      .then(result => {\n        setItems(result);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-24-q1",
+          "question": {
+            "ru": "Что возвращает функция загрузки вместо данных?",
+            "tg": "Функсияи боркунӣ ба ҷои маълумот чӣ бармегардонад?",
+            "en": "What does a load function return instead of data?"
+          },
+          "options": [
+            {
+              "ru": "Готовый список сразу",
+              "tg": "Рӯйхати тайёр фавран",
+              "en": "A ready list at once"
+            },
+            {
+              "ru": "Promise — обещание будущего результата",
+              "tg": "Promise — ваъдаи натиҷаи оянда",
+              "en": "A Promise — a promise of a future result"
+            },
+            {
+              "ru": "Номер ошибки",
+              "tg": "Рақами хато",
+              "en": "An error number"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "then получит данные, когда они появятся.",
+            "tg": "then маълумотро мегирад, ки онҳо пайдо мешаванд.",
+            "en": "then receives the data when it appears."
+          },
+          "hint": {
+            "ru": "Перечитайте первое предложение первого раздела.",
+            "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+            "en": "Re-read the first sentence of the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-24-q2",
+          "question": {
+            "ru": "Сколько состояний у жизненного цикла загрузки?",
+            "tg": "Даври боркунӣ чанд ҳолат дорад?",
+            "en": "How many states does the loading lifecycle have?"
+          },
+          "options": [
+            {
+              "ru": "Одно: готово",
+              "tg": "Як: омода",
+              "en": "One: done"
+            },
+            {
+              "ru": "Два: открыто и закрыто",
+              "tg": "Ду: кушода ва пӯшида",
+              "en": "Two: open and closed"
+            },
+            {
+              "ru": "Три: loading, done и error",
+              "tg": "Се: loading, done ва error",
+              "en": "Three: loading, done and error"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Экран ожидания, экран данных и экран сбоя.",
+            "tg": "Экрани интизорӣ, экрани маълумот ва экрани хатогӣ.",
+            "en": "A waiting screen, a data screen and a failure screen."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе перечисление состояний.",
+            "tg": "Дар бахши аввал номбаркунии ҳолатҳоро ёбед.",
+            "en": "Find the state list in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-24-q3",
+          "question": {
+            "ru": "Когда выполнится useEffect с пустым массивом зависимостей?",
+            "tg": "useEffect бо массиви холии вобастагӣ ҳангоми чӣ иҷро мешавад?",
+            "en": "When does useEffect with an empty dependency array run?"
+          },
+          "options": [
+            {
+              "ru": "Один раз после первого рендера",
+              "tg": "Як маротиба баъди аввалин render",
+              "en": "Once after the first render"
+            },
+            {
+              "ru": "После каждого нажатия",
+              "tg": "Баъди ҳар пахш",
+              "en": "After every press"
+            },
+            {
+              "ru": "Никогда",
+              "tg": "Ҳеҷ гоҳ",
+              "en": "Never"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Пустые зависимости означают «не повторять при изменениях».",
+            "tg": "Вобастагии холӣ маънои «ҳангоми тағйир такрор накун»-ро дорад.",
+            "en": "Empty dependencies mean \"do not repeat on changes\"."
+          },
+          "hint": {
+            "ru": "Посмотрите на второй аргумент useEffect в примере.",
+            "tg": "Ба аргументи дуюми useEffect дар мисол нигоҳ кунед.",
+            "en": "Look at the second useEffect argument in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-24-q4",
+          "question": {
+            "ru": "Что делает catch в цепочке загрузки?",
+            "tg": "catch дар занҷири боркунӣ чӣ мекунад?",
+            "en": "What does catch do in the load chain?"
+          },
+          "options": [
+            {
+              "ru": "Повторяет запрос вечно",
+              "tg": "Дархостро беохир такрор мекунад",
+              "en": "Retries the request forever"
+            },
+            {
+              "ru": "Переводит экран в состояние ошибки",
+              "tg": "Экранро ба ҳолати хато мегузаронад",
+              "en": "Moves the screen to the error state"
+            },
+            {
+              "ru": "Скрывает данные",
+              "tg": "Маълумотро маҳкум мекунад",
+              "en": "Hides the data"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Пользователь видит честный сбой вместо зависания.",
+            "tg": "Корбар ба ҷои ях кардан хатои рӯбарӯ мебинад.",
+            "en": "The user sees an honest failure instead of a freeze."
+          },
+          "hint": {
+            "ru": "Найдите блок error в JSX примера.",
+            "tg": "Блоки error-ро дар JSX-и мисол ёбед.",
+            "en": "Find the error block in the example JSX."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-24-q5",
+          "question": {
+            "ru": "Чем является таймер в примере?",
+            "tg": "Таймер дар мисол чист?",
+            "en": "What is the timer in the example?"
+          },
+          "options": [
+            {
+              "ru": "Базой данных",
+              "tg": "Пойгоҳи додаҳо",
+              "en": "A database"
+            },
+            {
+              "ru": "Настоящим сервером",
+              "tg": "Сервери воқеӣ",
+              "en": "A real server"
+            },
+            {
+              "ru": "Имитацией задержки, а не настоящей сетью",
+              "tg": "Таклиди таъхир, на шабакаи воқеӣ",
+              "en": "An imitation of delay, not a real network"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Он помогает изучить цикл без интернета и не выдаётся за сеть.",
+            "tg": "Ӯ даврро бе интернет меомӯзонад ва ҳамчун шабака пешкаш намешавад.",
+            "en": "It teaches the cycle without the internet and is not presented as the network."
+          },
+          "hint": {
+            "ru": "Перечитайте последний предложение первого раздела.",
+            "tg": "Ҷумлаи охирини бахши аввалро аз нав хонед.",
+            "en": "Re-read the last sentence of the first section."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и пронаблюдайте цикл загрузки на устройстве. Соберите решение: добавьте переключатель ошибки и повторную загрузку со сбросом статуса в loading. Запишите, что видно в каждом из трёх состояний. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва даври боркуниро дар дастгоҳ пайгирӣ кунед. Ҳаллро созед: калидгузари хато ва боркунии такрорӣ бо баргардонидани статус ба loading илова кунед. Сабт кунед, ки дар ҳар се ҳолат чӣ дида мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and watch the load cycle on a device. Build the solution: add the error toggle and a reload that resets the status to loading. Record what is visible in each of the three states. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Добавьте состояние fail и включите его в массив зависимостей useEffect; ставьте loading в начале эффекта.",
+          "tg": "Ҳолати fail илова карда, онро ба массиви вобастагии useEffect дохил кунед; дар оғози эффект loading гузоред.",
+          "en": "Add a fail state and include it in the useEffect dependency array; set loading at the effect start."
+        },
+        "solution": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\nfunction loadLessons(fail: boolean): Promise<string[]> {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      if (fail) reject(new Error('Сеть недоступна'));\n      else resolve(['Экран', 'Стили', 'Flexbox']);\n    }, 1500);\n  });\n}\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [items, setItems] = useState<string[]>([]);\n  const [fail, setFail] = useState(false);\n\n  useEffect(() => {\n    setStatus('loading');\n    loadLessons(fail)\n      .then(result => {\n        setItems(result);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, [fail]);\n\n  return (\n    <View style={styles.screen}>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n      <Text\n        accessibilityRole=\"button\"\n        onPress={() => setFail(value => !value)}\n        style={styles.toggle}\n      >\n        {fail ? 'Включить успешную загрузку' : 'Включить ошибку'}\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  toggle: { color: '#2563eb' },\n});\n",
+        "criteria": [
+          {
+            "ru": "Все три состояния показаны и записаны с устройства.",
+            "tg": "Ҳамаи се ҳолат нишон дода, аз дастгоҳ сабт шудаанд.",
+            "en": "All three states are shown and recorded from the device."
+          },
+          {
+            "ru": "Повторная загрузка начинается с loading, а не с зависшего экрана.",
+            "tg": "Боркунии такрорӣ аз loading оғоз мешавад, на аз экрани яхкарда.",
+            "en": "A reload starts at loading, not a frozen screen."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Описать три состояния загрузки и связать их с Promise.",
+            "tg": "Се ҳолати боркуниро тавсиф карда, бо Promise пайваст кунед.",
+            "en": "Describe the three loading states and tie them to Promise."
+          },
+          {
+            "ru": "Запустить загрузку один раз через useEffect.",
+            "tg": "Боркуниро як маротиба тавассути useEffect оғоз кунед.",
+            "en": "Start the load once through useEffect."
+          }
+        ],
+        "realWorld": {
+          "ru": "Каждый ленточный экран сперва показывает «Загрузка…», потом данные или сбой.",
+          "tg": "Ҳар экрани лента аввал «Боркунӣ…», баъд маълумот ё хаторо нишон медиҳад.",
+          "en": "Every feed screen first shows \"Загрузка…\", then data or a failure."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Сколько состояний у жизненного цикла загрузки?",
+            "tg": "Даври боркунӣ чанд ҳолат дорад?",
+            "en": "How many states does the loading lifecycle have?"
+          },
+          "options": [
+            {
+              "ru": "Одно: готово",
+              "tg": "Як: омода",
+              "en": "One: done"
+            },
+            {
+              "ru": "Два: открыто и закрыто",
+              "tg": "Ду: кушода ва пӯшида",
+              "en": "Two: open and closed"
+            },
+            {
+              "ru": "Три: loading, done и error",
+              "tg": "Се: loading, done ва error",
+              "en": "Three: loading, done and error"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Найдите в первом разделе перечисление состояний.",
+            "tg": "Дар бахши аввал номбаркунии ҳолатҳоро ёбед.",
+            "en": "Find the state list in the first section."
+          },
+          "explanation": {
+            "ru": "Экран ожидания, экран данных и экран сбоя.",
+            "tg": "Экрани интизорӣ, экрани маълумот ва экрани хатогӣ.",
+            "en": "A waiting screen, a data screen and a failure screen."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\nfunction loadLessons(): Promise<string[]> {\n  return new Promise(resolve => {\n    setTimeout(() => resolve(['Экран', 'Стили', 'Flexbox']), 1500);\n  });\n}\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [items, setItems] = useState<string[]>([]);\n\n  useEffect(() => {\n    loadLessons()\n      .then(result => {\n        setItems(result);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+          "steps": [
+            {
+              "line": 6,
+              "explanation": {
+                "ru": "Promise разрешится через полторы секунды.",
+                "tg": "Promise баъди нима сон ҳал мешавад.",
+                "en": "The Promise resolves after one and a half seconds."
+              },
+              "values": "3 строки"
+            },
+            {
+              "line": 13,
+              "explanation": {
+                "ru": "useEffect стартует после первого рендера.",
+                "tg": "useEffect баъди аввалин render оғоз мешавад.",
+                "en": "useEffect starts after the first render."
+              },
+              "values": "status = loading"
+            },
+            {
+              "line": 15,
+              "explanation": {
+                "ru": "then сохраняет данные и переводит статус.",
+                "tg": "then маълумотро нигоҳ карда, статусро мегузаронад.",
+                "en": "then stores the data and moves the status."
+              },
+              "values": "status = done"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере три блока отображения и объясните, когда виден каждый.",
+              "tg": "Дар мисол се блоки нишондиҳандаро ёфта, шарҳ диҳед, ки ҳар яке ҳангоми чӣ дида мешавад.",
+              "en": "Find the three display blocks and explain when each is visible."
+            },
+            {
+              "ru": "Запустите пример и наблюдайте переход загрузка → список.",
+              "tg": "Мисолро иҷро карда, гузариш аз боркунӣ ба рӯйхатро пайгирӣ кунед.",
+              "en": "Run the example and watch the loading → list transition."
+            }
+          ],
+          "hint": {
+            "ru": "Добавьте состояние fail и включите его в массив зависимостей useEffect; ставьте loading в начале эффекта.",
+            "tg": "Ҳолати fail илова карда, онро ба массиви вобастагии useEffect дохил кунед; дар оғози эффект loading гузоред.",
+            "en": "Add a fail state and include it in the useEffect dependency array; set loading at the effect start."
+          },
+          "success": {
+            "ru": "Экран показывает загрузку, затем список, и ни одно состояние не пропущено.",
+            "tg": "Экран боркуниро, баъд рӯйхатро нишон медиҳад ва ягон ҳолат нагузаштааст.",
+            "en": "The screen shows loading then the list with no state skipped."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и пронаблюдайте цикл загрузки на устройстве. Соберите решение: добавьте переключатель ошибки и повторную загрузку со сбросом статуса в loading. Запишите, что видно в каждом из трёх состояний. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва даври боркуниро дар дастгоҳ пайгирӣ кунед. Ҳаллро созед: калидгузари хато ва боркунии такрорӣ бо баргардонидани статус ба loading илова кунед. Сабт кунед, ки дар ҳар се ҳолат чӣ дида мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and watch the load cycle on a device. Build the solution: add the error toggle and a reload that resets the status to loading. Record what is visible in each of the three states. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Все три состояния показаны и записаны с устройства.",
+              "tg": "Ҳамаи се ҳолат нишон дода, аз дастгоҳ сабт шудаанд.",
+              "en": "All three states are shown and recorded from the device."
+            },
+            {
+              "ru": "Повторная загрузка начинается с loading, а не с зависшего экрана.",
+              "tg": "Боркунии такрорӣ аз loading оғоз мешавад, на аз экрани яхкарда.",
+              "en": "A reload starts at loading, not a frozen screen."
+            }
+          ],
+          "example": {
+            "ru": "Кнопка переключает сбой: экран показывает ошибку, потом снова загрузку и список.",
+            "tg": "Тугма хаторо иваз мекунад: экран хаторо, баъд боркунию рӯйхатро нишон медиҳад.",
+            "en": "The toggle flips the failure: the screen shows the error, then loading and the list again."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Promise и три состояния описывают ожидание честно.",
+            "tg": "Promise ва се ҳолат интизориро рӯбарӯ менависанд.",
+            "en": "Promise and three states describe waiting honestly."
+          },
+          {
+            "ru": "useEffect с пустыми зависимостями грузит один раз.",
+            "tg": "useEffect бо вобастагии холӣ як маротиба бор мекунад.",
+            "en": "useEffect with empty dependencies loads once."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что делает catch в цепочке загрузки?",
+            "tg": "catch дар занҷири боркунӣ чӣ мекунад?",
+            "en": "What does catch do in the load chain?"
+          },
+          {
+            "ru": "Чем является таймер в примере?",
+            "tg": "Таймер дар мисол чист?",
+            "en": "What is the timer in the example?"
+          }
+        ],
+        "nextLessonId": "mobile-day-25"
+      }
+    },
+    {
+      "id": "mobile-day-25",
+      "day": 25,
+      "prerequisiteDays": [
+        24
+      ],
+      "title": {
+        "ru": "Запрос к учебному API",
+        "tg": "Дархост ба API-и таълимӣ",
+        "en": "A request to a learning API"
+      },
+      "summary": {
+        "ru": "Получите реальные данные через fetch, проверьте ответ и добавьте кнопку повтора.",
+        "tg": "Маълумоти воқеиро тавассути fetch гиред, ҷавобро санҷед ва тугмаи такрор илова кунед.",
+        "en": "Fetch real data, check the response and add a retry button."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "fetch и честная проверка ответа",
+            "tg": "fetch ва санҷиши рӯбарӯи ҷавоб",
+            "en": "fetch and an honest response check"
+          },
+          "body": {
+            "ru": "fetch — встроенный способ обратиться к сети: он принимает адрес и возвращает Promise с ответом. Ответ не обязан быть успешным: сервер может вернуть 404 или 500, поэтому статус проверяют явно — response.ok истинно только для ответов 200–299. response.json() тоже Promise: он разбирает тело ответа. Учебный сервис jsonplaceholder.typicode.com создан для практики: он бесплатный и отдаёт тестовые записи, но это чужой сервер — не отправляйте туда личные данные и не считайте его частью продукта. Ошибки сети — нет интернета, тайм-аут, отказ сервера — ловит catch; экран в этом состоянии предлагает повторить запрос.",
+            "tg": "fetch тарзи дарунсохти муроҷиат ба шабака аст: он суроғаро мегирад ва Promise бо ҷавоб бармегардонад. ҷавоб ҳатман муваффақ нест: сервер метавонад 404 ё 500 баргардонад, бинобар ин статусро ошкоро месанҷанд — response.ok танҳо барои ҷавобҳои 200–299 ҳақиқӣ аст. response.json() ҳам Promise аст: он бадани ҷавобро таҳлил мекунад. Хадамоти таълимии jsonplaceholder.typicode.com барои машқ сохта шудааст: ройгон аст ва сабтҳои санҷишӣ медиҳад, вале ин сервери дигарон аст — маълумоти шахсиро нафиристед ва онро қисми маҳсулот ҳисоб накунед. Хатоҳои шабака — набудани интернет, таъхири дароз, дастдории сервер — catch мегирад; экран дар ин ҳолат такрори дархостро пешниҳод мекунад.",
+            "en": "fetch is the built-in way to reach the network: it takes an address and returns a Promise with the response. The response is not automatically successful: a server may return 404 or 500, so the status is checked explicitly — response.ok is true only for 200–299. response.json() is also a Promise: it parses the body. The learning service jsonplaceholder.typicode.com exists for practice: it is free and serves test records, but it is someone else server — do not send personal data there and do not treat it as part of the product. Network errors — no internet, timeout, server refusal — are caught by catch; the screen in that state offers a retry."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Тип Todo описывает две строки из ответа: id и title. fetch получает пять записей через параметр _limit=5. Первый then проверяет response.ok: при неудаче выбрасывается ошибка, и цепочка уходит в catch — статус error. Второй then разбирает JSON и сохраняет массив. Список рисуется по id, как в дне 16. Отключите интернет и запустите пример: вы увидите сообщение о недоступности сети, а не зависание. В решении добавлена кнопка «Повторить»: состояние attempt меняется, useEffect запускается снова, потому что attempt входит в массив зависимостей.",
+            "tg": "Типи Todo ду сатри аз ҷавобро тавсиф медиҳад: id ва title. fetch панҷ сабтро тавассути параметри _limit=5 мегирад. Avvalin then response.ok-ро месанҷад: ҳангоми нокомӣ хато партофта мешавад ва занҷир ба catch меравад — статуси error. Дуюмин then JSON-ро таҳлил карда, массивро нигоҳ медорад. Рӯйхат аз рӯи id мекашад, мисли рӯзи 16. Интернетро хомӯш карда, мисолро иҷро кунед: паёми дастрасии нестӣ мебинед, на ях кардан. Дар ҳалл тугмаи «Такрор» илова шудааст: ҳолати attempt тағйир меёбад, useEffect боз оғоз мешавад, чунки attempt ба массиви вобастагӣ дохил аст.",
+            "en": "The Todo type describes two strings from the response: id and title. fetch receives five records through the _limit=5 parameter. The first then checks response.ok: on failure an error is thrown and the chain falls into catch — the error status. The second then parses JSON and stores the array. The list renders by id, as in day 16. Turn the internet off and run the example: you see the unavailable-network message, not a freeze. The solution adds a «Повторить» button: the attempt state changes, useEffect runs again, because attempt is in the dependency array."
+          },
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [todos, setTodos] = useState<Todo[]>([]);\n\n  useEffect(() => {\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')\n      .then(response => {\n        if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n        return response.json();\n      })\n      .then((data: Todo[]) => {\n        setTodos(data);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия из учебного API</Text>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? todos.map(todo => <Text key={todo.id}>{todo.title}</Text>) : null}\n      {status === 'error' ? <Text>Сеть недоступна. Проверьте интернет и откройте экран снова.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-25-q1",
+          "question": {
+            "ru": "Когда response.ok истинно?",
+            "tg": "response.ok ҳангоми чӣ ҳақиқӣ аст?",
+            "en": "When is response.ok true?"
+          },
+          "options": [
+            {
+              "ru": "Только для POST-запросов",
+              "tg": "Танҳо барои дархостҳои POST",
+              "en": "Only for POST requests"
+            },
+            {
+              "ru": "Всегда",
+              "tg": "Ҳамеша",
+              "en": "Always"
+            },
+            {
+              "ru": "Для статусов 200–299",
+              "tg": "Барои статусҳои 200–299",
+              "en": "For statuses 200–299"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Успешные ответы — от 200 до 299.",
+            "tg": "Ҷавобҳои муваффақ аз 200 то 299.",
+            "en": "Successful responses are 200 through 299."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе слова про 404 и 500.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи 404 ва 500-ро ёбед.",
+            "en": "Find the first-section words about 404 and 500."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-25-q2",
+          "question": {
+            "ru": "Что возвращает response.json()?",
+            "tg": "response.json() чӣ бармегардонад?",
+            "en": "What does response.json() return?"
+          },
+          "options": [
+            {
+              "ru": "Promise с разобранным телом",
+              "tg": "Promise бо бадани таҳлилшуда",
+              "en": "A Promise with the parsed body"
+            },
+            {
+              "ru": "Готовый массив сразу",
+              "tg": "Массиви тайёр фавран",
+              "en": "A ready array at once"
+            },
+            {
+              "ru": "Статус сервера",
+              "tg": "Статуси сервер",
+              "en": "The server status"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Разбор тела тоже асинхронен и продолжается в then.",
+            "tg": "Таҳлили бадан ҳам асинхронӣ аст ва дар then идома меёбад.",
+            "en": "Body parsing is asynchronous too and continues in then."
+          },
+          "hint": {
+            "ru": "Посмотрите на цепочку then в примере.",
+            "tg": "Ба занҷири then дар мисол нигоҳ кунед.",
+            "en": "Look at the then chain in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-25-q3",
+          "question": {
+            "ru": "Что такое jsonplaceholder в этом курсе?",
+            "tg": "jsonplaceholder дар ин курс чист?",
+            "en": "What is jsonplaceholder in this course?"
+          },
+          "options": [
+            {
+              "ru": "База паролей курса",
+              "tg": "Пойгоҳи паролҳои курс",
+              "en": "The course password database"
+            },
+            {
+              "ru": "Учебный сервис с тестовыми данными",
+              "tg": "Хадамоти таълимӣ бо маълумоти санҷишӣ",
+              "en": "A learning service with test data"
+            },
+            {
+              "ru": "Собственный сервер DevAtlas",
+              "tg": "Сервери шахсии DevAtlas",
+              "en": "The DevAtlas own server"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Он существует ради практики; личные данные туда не отправляют.",
+            "tg": "Ӯ барои машқ вуҷуд дорад; маълумоти шахсӣ ба он намефиристанд.",
+            "en": "It exists for practice; personal data is not sent there."
+          },
+          "hint": {
+            "ru": "Перечитайте середину первого раздела про чужой сервер.",
+            "tg": "Миёнаи бахши аввал дар бораи сервери дигаронро аз нав хонед.",
+            "en": "Re-read the middle of the first section about a foreign server."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-25-q4",
+          "question": {
+            "ru": "Как заставить useEffect загрузить данные повторно?",
+            "tg": "useEffect-ро чӣ тавр ба боркунии такрорӣ водор кардан мумкин?",
+            "en": "How do you make useEffect load data again?"
+          },
+          "options": [
+            {
+              "ru": "Удалить catch",
+              "tg": "catch-ро нест кунед",
+              "en": "Remove catch"
+            },
+            {
+              "ru": "Переименовать функцию",
+              "tg": "Функсияро аз нав номгузорӣ кунед",
+              "en": "Rename the function"
+            },
+            {
+              "ru": "Изменить значение из массива зависимостей",
+              "tg": "Қиматро аз массиви вобастагӣ тағйир диҳед",
+              "en": "Change a value from the dependency array"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Новый attempt снова запускает эффект.",
+            "tg": "attempt-и нав эффектро боз оғоз мекунад.",
+            "en": "A new attempt starts the effect again."
+          },
+          "hint": {
+            "ru": "Вспомните, что вошло в массив зависимостей решения.",
+            "tg": "Ёд оред, ки ба массиви вобастагии ҳалл чӣ дохил шуд.",
+            "en": "Recall what entered the solution dependency array."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-25-q5",
+          "question": {
+            "ru": "Что видит пользователь при отключённом интернете?",
+            "tg": "Ҳангоми хомӯш будани интернет корбар чӣ мебинад?",
+            "en": "What does the user see with the internet off?"
+          },
+          "options": [
+            {
+              "ru": "Сообщение об ошибке и кнопку повтора",
+              "tg": "Паёми хато ва тугмаи такрор",
+              "en": "An error message and a retry button"
+            },
+            {
+              "ru": "Вечную загрузку",
+              "tg": "Боркунии беохир",
+              "en": "Endless loading"
+            },
+            {
+              "ru": "Пустой экран без объяснений",
+              "tg": "Экрани холӣ бе шарҳ",
+              "en": "A blank screen without explanation"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Сбой ловится и объясняется, повтор доступен одной кнопкой.",
+            "tg": "Хато мегиранд ва фаҳмонанд; такрор бо як тугма дастрас аст.",
+            "en": "The failure is caught and explained; a retry is one button away."
+          },
+          "hint": {
+            "ru": "Найдите в примере блок error и кнопку решения.",
+            "tg": "Дар мисол блоки error ва тугмаи ҳаллро ёбед.",
+            "en": "Find the error block and the solution button."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и убедитесь, что записи приходят на устройстве. Добавьте кнопку «Повторить» из решения и проверьте оба сценария: успешную загрузку и загрузку без сети. Запишите статус ответа, который вы видели при сбое, если он доступен в выводе. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва боварӣ ҳосил кунед, ки сабтҳо дар дастгоҳ меоянд. Тугмаи «Такрор»-ро аз ҳалл илова карда, ҳарду сценариро санҷед: боркунии муваффақ ва боркунӣ бе шабака. Статуси ҷавоби дар ҳангоми хато дидашударо сабт кунед, агар дар натиҷа дастрас бошад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and confirm records arrive on the device. Add the «Повторить» button from the solution and check both scenarios: a successful load and a load without network. Record the response status you saw on failure, if visible in the output. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Состояние attempt и массив зависимостей [attempt] из решения делают повтор одной строкой onPress.",
+          "tg": "Ҳолати attempt ва массиви вобастагии [attempt] аз ҳалл такрорро бо як сатри onPress месозанд.",
+          "en": "The attempt state and the [attempt] dependency array from the solution make a retry one onPress line."
+        },
+        "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [todos, setTodos] = useState<Todo[]>([]);\n  const [attempt, setAttempt] = useState(0);\n\n  useEffect(() => {\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')\n      .then(response => {\n        if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n        return response.json();\n      })\n      .then((data: Todo[]) => {\n        setTodos(data);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, [attempt]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия из учебного API</Text>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? todos.map(todo => <Text key={todo.id}>{todo.title}</Text>) : null}\n      {status === 'error' ? <Text>Сеть недоступна. Проверьте интернет и повторите.</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Повторить запрос\"\n        onPress={() => setAttempt(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Повторить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Успешная загрузка показывает пять записей.",
+            "tg": "Боркунии муваффақ панҷ сабтро нишон медиҳад.",
+            "en": "A successful load shows five records."
+          },
+          {
+            "ru": "Отказ сети показывает сообщение и повтор работает.",
+            "tg": "Нокомии шабака паём нишон медиҳад ва такрор кор мекунад.",
+            "en": "A network refusal shows a message and the retry works."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Получить данные через fetch и проверить response.ok.",
+            "tg": "Маълумотро тавассути fetch гирифта, response.ok-ро санҷед.",
+            "en": "Fetch data and check response.ok."
+          },
+          {
+            "ru": "Добавить повтор запроса через зависимость useEffect.",
+            "tg": "Такрори дархостро тавассути вобастагии useEffect илова кунед.",
+            "en": "Add a request retry through a useEffect dependency."
+          }
+        ],
+        "realWorld": {
+          "ru": "Приложение погоды грузит данные при старте и повторяет запрос после сбоя сети.",
+          "tg": "Барномаи обҳавоӣ ҳангоми оғоз маълумот мегирад ва баъди хатои шабака такрор мекунад.",
+          "en": "A weather app loads data at start and retries after a network failure."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что возвращает response.json()?",
+            "tg": "response.json() чӣ бармегардонад?",
+            "en": "What does response.json() return?"
+          },
+          "options": [
+            {
+              "ru": "Promise с разобранным телом",
+              "tg": "Promise бо бадани таҳлилшуда",
+              "en": "A Promise with the parsed body"
+            },
+            {
+              "ru": "Готовый массив сразу",
+              "tg": "Массиви тайёр фавран",
+              "en": "A ready array at once"
+            },
+            {
+              "ru": "Статус сервера",
+              "tg": "Статуси сервер",
+              "en": "The server status"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Посмотрите на цепочку then в примере.",
+            "tg": "Ба занҷири then дар мисол нигоҳ кунед.",
+            "en": "Look at the then chain in the example."
+          },
+          "explanation": {
+            "ru": "Разбор тела тоже асинхронен и продолжается в then.",
+            "tg": "Таҳлили бадан ҳам асинхронӣ аст ва дар then идома меёбад.",
+            "en": "Body parsing is asynchronous too and continues in then."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [todos, setTodos] = useState<Todo[]>([]);\n\n  useEffect(() => {\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')\n      .then(response => {\n        if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n        return response.json();\n      })\n      .then((data: Todo[]) => {\n        setTodos(data);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия из учебного API</Text>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? todos.map(todo => <Text key={todo.id}>{todo.title}</Text>) : null}\n      {status === 'error' ? <Text>Сеть недоступна. Проверьте интернет и откройте экран снова.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+          "steps": [
+            {
+              "line": 12,
+              "explanation": {
+                "ru": "fetch запрашивает пять записей.",
+                "tg": "fetch панҷ сабтро мехоҳад.",
+                "en": "fetch requests five records."
+              },
+              "values": "_limit=5"
+            },
+            {
+              "line": 14,
+              "explanation": {
+                "ru": "Неуспешный статус выбрасывает ошибку в catch.",
+                "tg": "Статуси нокомӣ хаторо ба catch мепартояд.",
+                "en": "A failed status throws into catch."
+              },
+              "values": "ok | throw"
+            },
+            {
+              "line": 18,
+              "explanation": {
+                "ru": "Разобранный массив сохраняется в состояние.",
+                "tg": "Массиви таҳлилшуда ба ҳолат нигоҳ дошта мешавад.",
+                "en": "The parsed array is stored in state."
+              },
+              "values": "5 todos"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере проверку response.ok и объясните, что она защищает.",
+              "tg": "Дар мисол санҷиши response.ok-ро ёфта, шарҳ диҳед, ки аз чӣ ҳимоя мекунад.",
+              "en": "Find the response.ok check and explain what it guards."
+            },
+            {
+              "ru": "Отключите сеть, откройте экран и запишите, что показал экран ошибки.",
+              "tg": "Шабакаро хомӯш карда, экранро кушоед ва сабт кунед, ки экрани хато чӣ нишон дод.",
+              "en": "Turn the network off, open the screen and record what the error screen showed."
+            }
+          ],
+          "hint": {
+            "ru": "Состояние attempt и массив зависимостей [attempt] из решения делают повтор одной строкой onPress.",
+            "tg": "Ҳолати attempt ва массиви вобастагии [attempt] аз ҳалл такрорро бо як сатри onPress месозанд.",
+            "en": "The attempt state and the [attempt] dependency array from the solution make a retry one onPress line."
+          },
+          "success": {
+            "ru": "Список из пяти записей открывается, а сбой сети превращается в понятное сообщение с повтором.",
+            "tg": "Рӯйхати панҷ сабт кушода мешавад ва хатои шабака ба паёми фаҳмо бо такрор табдил меёбад.",
+            "en": "A five-record list opens and a network failure becomes a clear message with a retry."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и убедитесь, что записи приходят на устройстве. Добавьте кнопку «Повторить» из решения и проверьте оба сценария: успешную загрузку и загрузку без сети. Запишите статус ответа, который вы видели при сбое, если он доступен в выводе. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва боварӣ ҳосил кунед, ки сабтҳо дар дастгоҳ меоянд. Тугмаи «Такрор»-ро аз ҳалл илова карда, ҳарду сценариро санҷед: боркунии муваффақ ва боркунӣ бе шабака. Статуси ҷавоби дар ҳангоми хато дидашударо сабт кунед, агар дар натиҷа дастрас бошад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and confirm records arrive on the device. Add the «Повторить» button from the solution and check both scenarios: a successful load and a load without network. Record the response status you saw on failure, if visible in the output. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Успешная загрузка показывает пять записей.",
+              "tg": "Боркунии муваффақ панҷ сабтро нишон медиҳад.",
+              "en": "A successful load shows five records."
+            },
+            {
+              "ru": "Отказ сети показывает сообщение и повтор работает.",
+              "tg": "Нокомии шабака паём нишон медиҳад ва такрор кор мекунад.",
+              "en": "A network refusal shows a message and the retry works."
+            }
+          ],
+          "example": {
+            "ru": "После нажатия «Повторить» экран снова показывает «Загрузка…», затем данные.",
+            "tg": "Баъди пахши «Такрор» экран боз «Боркунӣ…», баъд маълумотро нишон медиҳад.",
+            "en": "Pressing «Повторить» shows «Загрузка…» again, then the data."
+          }
+        },
+        "summary": [
+          {
+            "ru": "fetch требует явной проверки response.ok.",
+            "tg": "fetch санҷиши ошкорои response.ok-ро талаб мекунад.",
+            "en": "fetch requires an explicit response.ok check."
+          },
+          {
+            "ru": "Учебный API — для практики, а не для личных данных.",
+            "tg": "API-и таълимӣ барои машқ аст, на барои маълумоти шахсӣ.",
+            "en": "A learning API is for practice, not personal data."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что возвращает response.json()?",
+            "tg": "response.json() чӣ бармегардонад?",
+            "en": "What does response.json() return?"
+          },
+          {
+            "ru": "Как заставить useEffect загрузить данные повторно?",
+            "tg": "useEffect-ро чӣ тавр ба боркунии такрорӣ водор кардан мумкин?",
+            "en": "How do you make useEffect load data again?"
+          }
+        ],
+        "nextLessonId": "mobile-day-26"
+      }
+    },
+    {
+      "id": "mobile-day-26",
+      "day": 26,
+      "prerequisiteDays": [
+        25
+      ],
+      "title": {
+        "ru": "Loading, empty и error",
+        "tg": "Loading, empty ва error",
+        "en": "Loading, empty and error"
+      },
+      "summary": {
+        "ru": "Соберите компонент ленты, который честно показывает все четыре состояния списка.",
+        "tg": "Компоненти лента созед, ки ҳамаи чор ҳолати рӯйхатро рӯбарӯ нишон медиҳад.",
+        "en": "Build a feed component that shows all four list states honestly."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Четыре состояния, а не два",
+            "tg": "Чор ҳолат, на ду",
+            "en": "Four states, not two"
+          },
+          "body": {
+            "ru": "Частая ошибка новичка — экран с двумя ветками: «данные есть» и «данные не пришли». На деле состояний четыре: загрузка идёт, данные пришли и их нет, данные пришли и они есть, сеть сломалась. Пустой список — не ошибка: сервер честно вернул пустой массив. Смешивать их нельзя: пользователь, увидев «Пока занятий нет» во время загрузки, решит, что записей действительно нет. Компонент ленты получает status и items через props — так его можно показать в любом состоянии без сети, а поведение проверить автоматическим тестом компонента. Это тот же принцип честных состояний, что и в дне 24, доведённый до отдельной детали интерфейса.",
+            "tg": "Хатои маъмулии навомӯз — экрани ду шоха: «маълумот ҳаст» ва «маълумот наомад». Дар воқеъ чор ҳолат ҳаст: боркунӣ идома дорад, маълумот омад ва нестан, маълумот омад ва ҳастанд, шабака вайрон шуд. Рӯйхати холӣ хато нест: сервер рӯбарӯ массиви холиро баргардондааст. Омехтани онҳо мумкин нест: корбар, ки ҳангоми боркунӣ «То ҳол машғулият нест»-ро мебинад, фаҳмидан мекунад, ки сабтҳо воқеан нестан. Компоненти лента status ва items-ро тавассути props мегирад — чунин онро дар ҳар ҳолате бе шабака нишон додан мумкин ва рафторро бо санҷиши худкори компонент месанҷанд. Ин ҳамон принсипи ҳолатҳои рӯбарӯи рӯзи 24 аст, ки ба як қисми алоҳидаи интерфейс оварда шудааст.",
+            "en": "A common beginner mistake is a two-branch screen: \"data exists\" and \"data did not come\". In reality there are four states: loading, data arrived and empty, data arrived and present, and the network broke. An empty list is not an error: the server honestly returned an empty array. Mixing them is harmful: a user who sees \"no lessons yet\" during loading believes there are truly no records. The feed component takes status and items through props — you can show it in any state without the network and check the behavior with an automated component test. It is the same honest-states principle as day 24, brought down to one interface part."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "LessonFeed получает status и items и рисует ровно одну ветку: loading — «Загрузка…», done без элементов — «Пока занятий нет.», done с элементами — строки списка, error — понятное сообщение. App показывает три ленты одновременно с разными props — это учебная страница, где все состояния видны сразу и их удобно сравнить. Обратите внимание на порядок условий: пустой список проверяется до отрисовки элементов, иначе ноль записей выглядел бы как ошибка. В решении в error-ветку добавлена необязательная кнопка «Повторить» через проп onRetry. Проверьте пример на устройстве и сверьте каждую ленту с её подписью.",
+            "tg": "LessonFeed status ва items мегирад ва тамоман як шохаро мекашад: loading — «Боркунӣ…», done бе унсурҳо — «То ҳол машғулият нест.», done бо унсурҳо — сатрҳои рӯйхат, error — паёми фаҳмо. App се лентаро якбоя бо props-и гуногун нишон медиҳад — ин саҳифаи таълимист, ки ҳамаи ҳолатҳо фавран дида мешаванд ва муқоисашон осон аст. Ба тартиби шартҳо диққат диҳед: рӯйхати холӣ пеш аз кашидани унсурҳо месанҷанд, вагарна сифр сабт ҳамчун хато менамуд. Дар ҳалл ба шохаи error тугмаи ихтиёрии «Такрор» тавассути пропи onRetry илова шудааст. Мисолро дар дастгоҳ санҷед ва ҳар лентаро бо матни худ мувофиқ кунед.",
+            "en": "LessonFeed takes status and items and renders exactly one branch: loading — «Загрузка…», done without items — «Пока занятий нет.», done with items — list rows, error — a clear message. App shows three feeds at once with different props — a teaching page where all states are visible immediately and easy to compare. Note the condition order: the empty list is checked before rendering items, otherwise zero records would look like a failure. The solution adds an optional «Повторить» button in the error branch through the onRetry prop. Check the example on a device and match each feed to its label."
+          },
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\ntype FeedProps = { status: Status; items: string[] };\n\nexport function LessonFeed({ status, items }: FeedProps) {\n  return (\n    <View>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}\n      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Три состояния ленты</Text>\n      <LessonFeed status=\"loading\" items={[]} />\n      <LessonFeed status=\"done\" items={['Экран', 'Стили']} />\n      <LessonFeed status=\"error\" items={[]} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-26-q1",
+          "question": {
+            "ru": "Сколько состояний у честной ленты?",
+            "tg": "Лентаи рӯбарӯ чанд ҳолат дорад?",
+            "en": "How many states does an honest feed have?"
+          },
+          "options": [
+            {
+              "ru": "Четыре",
+              "tg": "Чор",
+              "en": "Four"
+            },
+            {
+              "ru": "Два",
+              "tg": "Ду",
+              "en": "Two"
+            },
+            {
+              "ru": "Сколько придумает дизайнер",
+              "tg": "Чанде, ки тарроҳ ихтироъ кунад",
+              "en": "As many as the designer invents"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Загрузка, пусто, есть данные, ошибка.",
+            "tg": "Боркунӣ, холӣ, маълумот ҳаст, хато.",
+            "en": "Loading, empty, data present, error."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе перечисление состояний.",
+            "tg": "Дар бахши аввал номбаркунии ҳолатҳоро ёбед.",
+            "en": "Find the state list in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-26-q2",
+          "question": {
+            "ru": "Чем пустой список отличается от ошибки?",
+            "tg": "Рӯйхати холӣ аз хато чӣ фарқ дорад?",
+            "en": "How is an empty list different from an error?"
+          },
+          "options": [
+            {
+              "ru": "Ничем, это одно и то же",
+              "tg": "Ҳеҷ, ин як чиз аст",
+              "en": "Nothing, they are the same"
+            },
+            {
+              "ru": "Сервер успешно вернул пустой массив",
+              "tg": "Сервер рӯбарӯ массиви холиро баргардондааст",
+              "en": "The server successfully returned an empty array"
+            },
+            {
+              "ru": "Пустой список ломает приложение",
+              "tg": "Рӯйхати холӣ барномаро меканад",
+              "en": "An empty list breaks the app"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Пусто — честный ответ, ошибка — сбой доставки.",
+            "tg": "Холӣ — ҷавоби рӯбарӯ, хато — нокомии расонидан.",
+            "en": "Empty is an honest answer, an error is a delivery failure."
+          },
+          "hint": {
+            "ru": "Перечитайте про «Пока занятий нет» в первом разделе.",
+            "tg": "Дар бахши аввал дар бораи «То ҳол машғулият нест» аз нав хонед.",
+            "en": "Re-read about «Пока занятий нет» in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-26-q3",
+          "question": {
+            "ru": "Почему смешивать состояния вредно?",
+            "tg": "Омехтани ҳолатҳо барои чӣ зарарнок аст?",
+            "en": "Why is mixing states harmful?"
+          },
+          "options": [
+            {
+              "ru": "Приложение замедлится",
+              "tg": "Барнома суст мешавад",
+              "en": "The app slows down"
+            },
+            {
+              "ru": "Код станет длиннее",
+              "tg": "Рамз дарозтар мешавад",
+              "en": "The code gets longer"
+            },
+            {
+              "ru": "Пользователь поверит, что данных нет, во время загрузки",
+              "tg": "Корбар ҳангоми боркунӣ бовар мекунад, ки маълумот нест",
+              "en": "The user believes data is missing during loading"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Каждое состояние отвечает на свой вопрос пользователя.",
+            "tg": "Ҳар ҳолат ба саволи алоҳидаи корбар ҷавоб медиҳад.",
+            "en": "Each state answers its own user question."
+          },
+          "hint": {
+            "ru": "Вспомните пример с «Пока занятий нет» во время загрузки.",
+            "tg": "Мисоли «То ҳол машғулият нест» ҳангоми боркуниро ёд оред.",
+            "en": "Recall the \"no lessons yet\" during loading case."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-26-q4",
+          "question": {
+            "ru": "Зачем лента получает status и items через props?",
+            "tg": "Лента status ва items-ро барои чӣ тавассути props мегирад?",
+            "en": "Why does the feed receive status and items through props?"
+          },
+          "options": [
+            {
+              "ru": "Её можно показать и проверить в любом состоянии без сети",
+              "tg": "Онро дар ҳар ҳолате бе шабака нишон додан ва санҷидан мумкин",
+              "en": "It can be shown and checked in any state without the network"
+            },
+            {
+              "ru": "Так быстрее интернет",
+              "tg": "Интернет тезтар мешавад",
+              "en": "The internet gets faster"
+            },
+            {
+              "ru": "props шифруют данные",
+              "tg": "props маълумотро рамзгузорӣ мекунад",
+              "en": "props encrypt data"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Чистый компонент от состояния сети — основа проверки.",
+            "tg": "Компоненти соф аз ҳолати шабака асоси санҷиш аст.",
+            "en": "A network-independent component is the basis of testing."
+          },
+          "hint": {
+            "ru": "Посмотрите, как App использует три ленты в примере.",
+            "tg": "Бинед, ки App дар мисол се лентаро чӣ тавр истифода мебарад.",
+            "en": "See how App uses three feeds in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-26-q5",
+          "question": {
+            "ru": "Что добавляет решение в состояние ошибки?",
+            "tg": "Дар ҳолати хато ҳалл чӣ илова мекунад?",
+            "en": "What does the solution add to the error state?"
+          },
+          "options": [
+            {
+              "ru": "Автоскрытие ошибки через минуту",
+              "tg": "Худпокидашавии хато баъди як дақиқа",
+              "en": "Auto-hiding the error after a minute"
+            },
+            {
+              "ru": "Необязательную кнопку «Повторить»",
+              "tg": "Тугмаи ихтиёрии «Такрор»",
+              "en": "An optional «Повторить» button"
+            },
+            {
+              "ru": "Новый цвет фона",
+              "tg": "Ранги нави замина",
+              "en": "A new background color"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Повтор передаётся пропом onRetry и появляется, только если он передан.",
+            "tg": "Такрор бо пропи onRetry мегузарад ва танҳо ҳангоми гузоштан пайдо мешавад.",
+            "en": "A retry passes through onRetry and appears only when provided."
+          },
+          "hint": {
+            "ru": "Сравните ветку error в примере и решении.",
+            "tg": "Шохаи error-ро дар мисол ва ҳалл муқоиса кунед.",
+            "en": "Compare the error branch in the example and the solution."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте три ленты на устройстве. Добавьте кнопку «Повторить» в решение через проп onRetry и убедитесь, что она появляется только в ошибке. Запишите, как выглядит каждый из четырёх состояний. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва се лентаро дар дастгоҳ санҷед. Тугмаи «Такрор»-ро дар ҳалл тавассути пропи onRetry илова карда, боварӣ ҳосил кунед, ки он танҳо дар хато пайдо мешавад. Сабт кунед, ки ҳар яке аз чор ҳолат чӣ гуна менамояд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check the three feeds on a device. Add the «Повторить» button in the solution through the onRetry prop and confirm it appears only on error. Record what each of the four states looks like. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "onRetry — необязательный проп: условие onRetry ? кнопка : null внутри ветки error.",
+          "tg": "onRetry пропи ихтиёрист: шарти onRetry ? тугма : null дар дохили шохаи error.",
+          "en": "onRetry is an optional prop: the onRetry ? button : null condition inside the error branch."
+        },
+        "solution": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\ntype FeedProps = { status: Status; items: string[]; onRetry?: () => void };\n\nexport function LessonFeed({ status, items, onRetry }: FeedProps) {\n  return (\n    <View>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}\n      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? (\n        <View>\n          <Text>Не удалось загрузить. Попробуйте позже.</Text>\n          {onRetry ? (\n            <Text accessibilityRole=\"button\" onPress={onRetry} style={styles.retry}>\n              Повторить\n            </Text>\n          ) : null}\n        </View>\n      ) : null}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Три состояния ленты</Text>\n      <LessonFeed status=\"loading\" items={[]} />\n      <LessonFeed status=\"done\" items={['Экран', 'Стили']} />\n      <LessonFeed status=\"error\" items={[]} onRetry={() => {}} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  retry: { color: '#2563eb' },\n});\n",
+        "criteria": [
+          {
+            "ru": "Все четыре состояния показаны и записаны.",
+            "tg": "Ҳамаи чор ҳолат нишон дода, сабт шудаанд.",
+            "en": "All four states are shown and recorded."
+          },
+          {
+            "ru": "Кнопка повтора видна только при ошибке.",
+            "tg": "Тугмаи такрор танҳо ҳангоми хато дида мешавад.",
+            "en": "The retry button is visible only on error."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Различать все четыре состояния списка.",
+            "tg": "Ҳамаи чор ҳолати рӯйхатро фарқ кунед.",
+            "en": "Distinguish all four list states."
+          },
+          {
+            "ru": "Собрать ленту, независимую от сети.",
+            "tg": "Лентаи аз шабака мустақилро созед.",
+            "en": "Build a network-independent feed."
+          }
+        ],
+        "realWorld": {
+          "ru": "Лента соцсети показывает спиннер, «пока пусто» или сообщение о сбое — каждое на своём месте.",
+          "tg": "Лентаи шабакаи иҷтимоӣ спиннер, «то ҳол холӣ» ё паёми хаторо нишон медиҳад — ҳар яке дар ҷои худ.",
+          "en": "A social feed shows a spinner, \"nothing yet\" or a failure message — each in its place."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Чем пустой список отличается от ошибки?",
+            "tg": "Рӯйхати холӣ аз хато чӣ фарқ дорад?",
+            "en": "How is an empty list different from an error?"
+          },
+          "options": [
+            {
+              "ru": "Ничем, это одно и то же",
+              "tg": "Ҳеҷ, ин як чиз аст",
+              "en": "Nothing, they are the same"
+            },
+            {
+              "ru": "Сервер успешно вернул пустой массив",
+              "tg": "Сервер рӯбарӯ массиви холиро баргардондааст",
+              "en": "The server successfully returned an empty array"
+            },
+            {
+              "ru": "Пустой список ломает приложение",
+              "tg": "Рӯйхати холӣ барномаро меканад",
+              "en": "An empty list breaks the app"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Перечитайте про «Пока занятий нет» в первом разделе.",
+            "tg": "Дар бахши аввал дар бораи «То ҳол машғулият нест» аз нав хонед.",
+            "en": "Re-read about «Пока занятий нет» in the first section."
+          },
+          "explanation": {
+            "ru": "Пусто — честный ответ, ошибка — сбой доставки.",
+            "tg": "Холӣ — ҷавоби рӯбарӯ, хато — нокомии расонидан.",
+            "en": "Empty is an honest answer, an error is a delivery failure."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\ntype FeedProps = { status: Status; items: string[] };\n\nexport function LessonFeed({ status, items }: FeedProps) {\n  return (\n    <View>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}\n      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Три состояния ленты</Text>\n      <LessonFeed status=\"loading\" items={[]} />\n      <LessonFeed status=\"done\" items={['Экран', 'Стили']} />\n      <LessonFeed status=\"error\" items={[]} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n});\n",
+          "steps": [
+            {
+              "line": 10,
+              "explanation": {
+                "ru": "Первый блок отвечает за ожидание.",
+                "tg": "Блоки аввал барои интизорӣ ҷавобгар аст.",
+                "en": "The first block covers waiting."
+              },
+              "values": "status=loading"
+            },
+            {
+              "line": 11,
+              "explanation": {
+                "ru": "Пустой список проверен до отрисовки элементов.",
+                "tg": "Рӯйхати холӣ пеш аз кашидани унсурҳо месанҷанд.",
+                "en": "The empty list is checked before rendering items."
+              },
+              "values": "items.length===0"
+            },
+            {
+              "line": 13,
+              "explanation": {
+                "ru": "Ошибка объясняет сбой словами.",
+                "tg": "Хато нокомиро бо калимаҳо фаҳмонад.",
+                "en": "The error explains the failure in words."
+              },
+              "values": "status=error"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в LessonFeed все четыре ветки и их условия.",
+              "tg": "Дар LessonFeed ҳамаи чор шоха ва шартҳои онҳоро ёбед.",
+              "en": "Find all four branches and their conditions in LessonFeed."
+            },
+            {
+              "ru": "Сравните три ленты на устройстве и убедитесь, что подписи совпадают.",
+              "tg": "Се лентаро дар дастгоҳ муқоиса карда, боварӣ ҳосил кунед, ки матнҳо мутобиқанд.",
+              "en": "Compare the three feeds on a device and confirm the labels match."
+            }
+          ],
+          "hint": {
+            "ru": "onRetry — необязательный проп: условие onRetry ? кнопка : null внутри ветки error.",
+            "tg": "onRetry пропи ихтиёрист: шарти onRetry ? тугма : null дар дохили шохаи error.",
+            "en": "onRetry is an optional prop: the onRetry ? button : null condition inside the error branch."
+          },
+          "success": {
+            "ru": "Каждая лента показывает ровно одно состояние, и подписи не путаются.",
+            "tg": "Ҳар лента тамоман як ҳолатро нишон медиҳад ва матнҳо омехта намешаванд.",
+            "en": "Each feed shows exactly one state and the labels never mix."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте три ленты на устройстве. Добавьте кнопку «Повторить» в решение через проп onRetry и убедитесь, что она появляется только в ошибке. Запишите, как выглядит каждый из четырёх состояний. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва се лентаро дар дастгоҳ санҷед. Тугмаи «Такрор»-ро дар ҳалл тавассути пропи onRetry илова карда, боварӣ ҳосил кунед, ки он танҳо дар хато пайдо мешавад. Сабт кунед, ки ҳар яке аз чор ҳолат чӣ гуна менамояд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check the three feeds on a device. Add the «Повторить» button in the solution through the onRetry prop and confirm it appears only on error. Record what each of the four states looks like. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Все четыре состояния показаны и записаны.",
+              "tg": "Ҳамаи чор ҳолат нишон дода, сабт шудаанд.",
+              "en": "All four states are shown and recorded."
+            },
+            {
+              "ru": "Кнопка повтора видна только при ошибке.",
+              "tg": "Тугмаи такрор танҳо ҳангоми хато дида мешавад.",
+              "en": "The retry button is visible only on error."
+            }
+          ],
+          "example": {
+            "ru": "Третья лента показывает сбой и «Повторить», первые две — загрузку и данные.",
+            "tg": "Лентаи сеюм хато ва «Такрор»-ро нишон медиҳад, ду аввал — боркунию маълумотро.",
+            "en": "The third feed shows the failure and «Повторить», the first two — loading and data."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Четыре состояния ленты: загрузка, пусто, данные, ошибка.",
+            "tg": "Чор ҳолати лента: боркунӣ, холӣ, маълумот, хато.",
+            "en": "Four feed states: loading, empty, data, error."
+          },
+          {
+            "ru": "Компонент без сети — основа честной проверки.",
+            "tg": "Компоненти бе шабака асоси санҷиши рӯбарӯ аст.",
+            "en": "A network-free component is the basis of honest checking."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Чем пустой список отличается от ошибки?",
+            "tg": "Рӯйхати холӣ аз хато чӣ фарқ дорад?",
+            "en": "How is an empty list different from an error?"
+          },
+          {
+            "ru": "Что добавляет решение в состояние ошибки?",
+            "tg": "Дар ҳолати хато ҳалл чӣ илова мекунад?",
+            "en": "What does the solution add to the error state?"
+          }
+        ],
+        "nextLessonId": "mobile-day-27"
+      }
+    },
+    {
+      "id": "mobile-day-27",
+      "day": 27,
+      "prerequisiteDays": [
+        26
+      ],
+      "title": {
+        "ru": "Отмена устаревшего запроса",
+        "tg": "Бекор кардани дархости кӯҳна",
+        "en": "Canceling a stale request"
+      },
+      "summary": {
+        "ru": "Научите поиск отменять предыдущий запрос через AbortController.",
+        "tg": "Ҷустуҷӯро таълим диҳед, ки дархости қаблиро тавассути AbortController бекор кунад.",
+        "en": "Teach the search to cancel the previous request through AbortController."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Ответы приходят не по порядку",
+            "tg": "Ҷавобҳо ба тартиб намеоянд",
+            "en": "Responses do not arrive in order"
+          },
+          "body": {
+            "ru": "Пользователь печатает «ко», потом «кот»: два запроса уходят в сеть, и ответ на первый может вернуться позже второго. Без отмены экран покажет результаты для «ко», хотя в поле уже «кот». AbortController создаёт сигнал отмены: его передают в fetch, а метод abort прерывает запрос. В useEffect очистка возвращается функцией — React вызовет её перед следующим запуском эффекта, поэтому предыдущий запрос отменяется при каждом новом символе. Отменённый fetch отклоняется с ошибкой AbortError: её отличают по имени и не показывают пользователю как сбой. Это тот же принцип, что и гонка состояний из дня 8: последний ввод должен побеждать.",
+            "tg": "Корбар «ко»-ро менависад, баъд «кот»: ду дархост ба шабака мераванд ва ҷавоби аввал метавонад баъдтар аз дуюм биёяд. Бе бекоркунӣ экран натиҷаҳои «ко»-ро нишон медиҳад, ҳол он ки дар майдон аллакай «кот» аст. AbortController сигнали бекоркунӣ месозад: онро ба fetch медиҳанд ва усули abort дархостро қатъ мекунад. Дар useEffect тозакунӣ ҳамчун функсия бармегардад — React онро пеш аз оғози ояндаи эффект мехонад, бинобар ин дархости қаблӣ ҳангоми ҳар ҳарфи нав бекор мешавад. fetch-и бекоршуда бо хатои AbortError рад мешавад: онро аз рӯи ном фарқ мекунанд ва ҳамчун хато ба корбар нишон намедиҳанд. Ин ҳамон принсипи гонкаи ҳолатҳои рӯзи 8 аст: вуруди охирин бояд ғолиб ояд.",
+            "en": "The user types \"ко\", then \"кот\": two requests go to the network and the first answer may return after the second. Without cancellation the screen shows results for \"ко\" while the field already holds \"кот\". AbortController creates a cancel signal: it is passed to fetch and the abort method interrupts the request. In useEffect the cleanup returns as a function — React calls it before the next effect run, so the previous request cancels on every new character. An aborted fetch rejects with an AbortError: it is told apart by name and not shown to the user as a failure. It is the same principle as the day-8 state race: the latest input must win."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Пустой запрос не ходит в сеть: titles очищаются сразу. Для непустого создаётся controller, и его signal уходит в fetch. Ответ фильтруется по вхождению строки без учёта регистра — toLowerCase с обеих сторон. catch различает AbortError по свойству name и молча пропускает отмену. Функция очистки вызывает controller.abort() — она выполняется перед следующим запуском эффекта и при размонтировании. Введите слово, потом быстро допишите буквы: найденное обновляется, а устаревшие ответы отменяются. В решении добавлен счётчик отмен — видно, что abort действительно работает.",
+            "tg": "Дархости холӣ ба шабака намеравад: titles фавран тоза мешавад. Барои сатри холӣ controller сохта, signal-и ӯ ба fetch дода мешавад. ҷавоб аз рӯи даромадани сатр бе ҳисоби калон-хурдӣ филтр мешавад — toLowerCase аз ҳарду тараф. catch AbortError-ро аз рӯи хосияти name фарқ карда, бекоркуниро овозхон нагузашта мегузарад. Функсияи тозакунӣ controller.abort()-ро мехонад — ӯ пеш аз оғози ояндаи эффект ва ҳангоми ҷудо шудани компонент иҷро мешавад. Калимаеро ворид кунед, баъд зуд ҳарф илова кунед: ёфташуда нав мешавад ва ҷавобҳои кӯҳна бекор мешаванд. Дар ҳалл шумораи бекоркуниҳо илова шудааст — дида мешавад, ки abort воқеан кор мекунад.",
+            "en": "An empty query does not hit the network: titles clear immediately. For a nonempty query a controller is created and its signal goes into fetch. The response filters by substring match case-insensitively — toLowerCase on both sides. catch tells an AbortError apart by its name property and silently skips the cancellation. The cleanup function calls controller.abort() — it runs before the next effect start and on unmount. Type a word, then quickly add letters: matches update and stale answers cancel. The solution adds a cancellation counter — you see that abort really works."
+          },
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\n\nexport default function App() {\n  const [query, setQuery] = useState('');\n  const [titles, setTitles] = useState<string[]>([]);\n  const [status, setStatus] = useState<'loading' | 'done' | 'error'>('done');\n\n  useEffect(() => {\n    const trimmed = query.trim();\n    if (!trimmed) {\n      setTitles([]);\n      return;\n    }\n    const controller = new AbortController();\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=20', { signal: controller.signal })\n      .then(response => response.json())\n      .then((data: Todo[]) => {\n        const found = data\n          .map(item => item.title)\n          .filter(title => title.toLowerCase().includes(trimmed.toLowerCase()));\n        setTitles(found);\n        setStatus('done');\n      })\n      .catch((error: unknown) => {\n        if ((error as { name?: string }).name === 'AbortError') return;\n        setStatus('error');\n      });\n    return () => controller.abort();\n  }, [query]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Поиск занятий</Text>\n      <TextInput value={query} onChangeText={setQuery} placeholder=\"Введите слово\" style={styles.input} />\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && titles.length === 0 ? <Text>Ничего не найдено.</Text> : null}\n      {titles.map(title => <Text key={title}>{title}</Text>)}\n      {status === 'error' ? <Text>Сеть недоступна.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-27-q1",
+          "question": {
+            "ru": "Почему ответы могут прийти не по порядку?",
+            "tg": "Ҷавобҳо барои чӣ ба тартиб намеоянд?",
+            "en": "Why can responses arrive out of order?"
+          },
+          "options": [
+            {
+              "ru": "React перемешивает ответы",
+              "tg": "React ҷавобҳоро омехта мекунад",
+              "en": "React shuffles the answers"
+            },
+            {
+              "ru": "Каждый запрос идёт своей скоростью по сети",
+              "tg": "Ҳар дархост бо суръати худ аз шабака меравад",
+              "en": "Each request travels at its own network speed"
+            },
+            {
+              "ru": "fetch меняет порядок намеренно",
+              "tg": "fetch тартибро ошкоро иваз мекунад",
+              "en": "fetch reorders on purpose"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Сеть не гарантирует порядок доставки.",
+            "tg": "Шабака тартиби расониданро кафолат намедиҳад.",
+            "en": "The network guarantees no delivery order."
+          },
+          "hint": {
+            "ru": "Вспомните пример с «ко» и «кот».",
+            "tg": "Мисоли «ко» ва «кот»-ро ёд оред.",
+            "en": "Recall the \"ко\" and \"кот\" example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-27-q2",
+          "question": {
+            "ru": "Что делает AbortController?",
+            "tg": "AbortController чӣ мекунад?",
+            "en": "What does AbortController do?"
+          },
+          "options": [
+            {
+              "ru": "Шифрует запрос",
+              "tg": "Дархостро рамзгузорӣ мекунад",
+              "en": "Encrypts the request"
+            },
+            {
+              "ru": "Ускоряет ответ",
+              "tg": "Ҷавобро тез мекунад",
+              "en": "Speeds up the response"
+            },
+            {
+              "ru": "Даёт сигнал для отмены запроса",
+              "tg": "Сигнали бекоркунии дархост медиҳад",
+              "en": "Provides a signal to cancel a request"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "signal уходит в fetch, abort прерывает ожидание.",
+            "tg": "signal ба fetch меравад, abort интизорияро қатъ мекунад.",
+            "en": "The signal goes into fetch, abort interrupts the wait."
+          },
+          "hint": {
+            "ru": "Найдите в примере создание controller и передачу signal.",
+            "tg": "Дар мисол сохтани controller ва гузаронидани signal-ро ёбед.",
+            "en": "Find the controller creation and the signal passing."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-27-q3",
+          "question": {
+            "ru": "Когда React вызывает функцию очистки эффекта?",
+            "tg": "React функсияи тозакунии эффектро ҳангоми чӣ мехонад?",
+            "en": "When does React call the effect cleanup?"
+          },
+          "options": [
+            {
+              "ru": "Перед следующим запуском эффекта и при размонтировании",
+              "tg": "Пеш аз оғози ояндаи эффект ва ҳангоми ҷудо шудан",
+              "en": "Before the next effect run and on unmount"
+            },
+            {
+              "ru": "После каждого рендера",
+              "tg": "Баъди ҳар render",
+              "en": "After every render"
+            },
+            {
+              "ru": "Только при закрытии приложения",
+              "tg": "Танҳо ҳангоми пӯшидани барнома",
+              "en": "Only when the app closes"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Очистка подготавливает эффект к новому запуску.",
+            "tg": "Тозакунӣ эффектро барои оғози нав омода мекунад.",
+            "en": "Cleanup prepares the effect for a new run."
+          },
+          "hint": {
+            "ru": "Вспомните, что возвращает useEffect в примере.",
+            "tg": "Ёд оред, ки useEffect дар мисол чӣ бармегардонад.",
+            "en": "Recall what useEffect returns in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-27-q4",
+          "question": {
+            "ru": "Почему AbortError не показывают как сбой?",
+            "tg": "AbortError-ро барои чӣ ҳамчун хато нишон намедиҳанд?",
+            "en": "Why is AbortError not shown as a failure?"
+          },
+          "options": [
+            {
+              "ru": "Она ломает экран",
+              "tg": "Он экрани меканад",
+              "en": "It breaks the screen"
+            },
+            {
+              "ru": "Отмена — запланированное поведение, а не поломка",
+              "tg": "Бекоркунӣ рафтори дарназаршуда аст, на вайронӣ",
+              "en": "Cancellation is planned behavior, not a breakdown"
+            },
+            {
+              "ru": "Её не существует",
+              "tg": "Он вуҷуд надорад",
+              "en": "It does not exist"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Пользователь сам вызвал отмену новым вводом.",
+            "tg": "Корбар худ бо вуруди нав бекоркуниро оғоз кард.",
+            "en": "The user triggered the cancellation with new input."
+          },
+          "hint": {
+            "ru": "Найдите в catch проверку имени ошибки.",
+            "tg": "Дар catch санҷиши номи хаторо ёбед.",
+            "en": "Find the error name check in catch."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-27-q5",
+          "question": {
+            "ru": "Какой ввод должен побеждать в поиске?",
+            "tg": "Дар ҷустуҷӯ вуруди кадом бояд ғолиб ояд?",
+            "en": "Which input should win in search?"
+          },
+          "options": [
+            {
+              "ru": "Случайный",
+              "tg": "Тасодуфӣ",
+              "en": "A random one"
+            },
+            {
+              "ru": "Первый, он важнее",
+              "tg": "Аввал, он муҳимтар аст",
+              "en": "The first, it matters more"
+            },
+            {
+              "ru": "Последний, с отменой предыдущих запросов",
+              "tg": "Охирин, бо бекор кардани дархостҳои қаблӣ",
+              "en": "The latest, with earlier requests canceled"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Экран обязан показывать результат актуального поля.",
+            "tg": "Экран бояд натиҷаи майдони ҷориро нишон диҳад.",
+            "en": "The screen must show the result for the current field."
+          },
+          "hint": {
+            "ru": "Сравните с принципом дня 8 о последовательных обновлениях.",
+            "tg": "Бо принсипи рӯзи 8 дар бораи навсозиҳои пайиҳамӣ муқоиса кунед.",
+            "en": "Compare with the day-8 principle about sequential updates."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте поиск на устройстве при быстром наборе. Соберите решение со счётчиком отмен и запишите его значение после быстрого ввода. Убедитесь, что пустой запрос не ходит в сеть. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва ҷустуҷӯро дар дастгоҳ ҳангоми навишти тез санҷед. Ҳаллро бо шумораи бекоркуниҳо созед ва қиматашро баъди вуруди тез сабт кунед. Боварӣ ҳосил кунед, ки дархости холӣ ба шабака намеравад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check the search on a device while typing fast. Build the solution with the cancellation counter and record its value after fast typing. Confirm an empty query never hits the network. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Счётчик stopped увеличивается ровно в ветке AbortError.",
+          "tg": "Шумораи stopped тамоман дар шохаи AbortError меафзояд.",
+          "en": "The stopped counter grows exactly in the AbortError branch."
+        },
+        "solution": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\n\nexport default function App() {\n  const [query, setQuery] = useState('');\n  const [titles, setTitles] = useState<string[]>([]);\n  const [status, setStatus] = useState<'loading' | 'done' | 'error'>('done');\n  const [stopped, setStopped] = useState(0);\n\n  useEffect(() => {\n    const trimmed = query.trim();\n    if (!trimmed) {\n      setTitles([]);\n      return;\n    }\n    const controller = new AbortController();\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=20', { signal: controller.signal })\n      .then(response => response.json())\n      .then((data: Todo[]) => {\n        const found = data\n          .map(item => item.title)\n          .filter(title => title.toLowerCase().includes(trimmed.toLowerCase()));\n        setTitles(found);\n        setStatus('done');\n      })\n      .catch((error: unknown) => {\n        if ((error as { name?: string }).name === 'AbortError') {\n          setStopped(value => value + 1);\n          return;\n        }\n        setStatus('error');\n      });\n    return () => controller.abort();\n  }, [query]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Поиск занятий</Text>\n      <TextInput value={query} onChangeText={setQuery} placeholder=\"Введите слово\" style={styles.input} />\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && titles.length === 0 ? <Text>Ничего не найдено.</Text> : null}\n      {titles.map(title => <Text key={title}>{title}</Text>)}\n      {status === 'error' ? <Text>Сеть недоступна.</Text> : null}\n      <Text>Отменённых запросов: {stopped}</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Быстрый набор показывает результат последнего ввода.",
+            "tg": "Навишти тез натиҷаи вуруди охиринро нишон медиҳад.",
+            "en": "Fast typing shows the latest input result."
+          },
+          {
+            "ru": "Счётчик отмен растёт, AbortError не показан как сбой.",
+            "tg": "Шумораи бекоркуниҳо меафзояд ва AbortError ҳамчун хато дида намешавад.",
+            "en": "The cancellation counter grows and AbortError never shows as a failure."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Объяснить гонку ответов и её вред.",
+            "tg": "Гонкаи ҷавобҳоро шарҳ диҳед ва зари онро фаҳмонед.",
+            "en": "Explain the response race and its harm."
+          },
+          {
+            "ru": "Отменять устаревший запрос через AbortController.",
+            "tg": "Дархости кӯҳнаро тавассути AbortController бекор кунед.",
+            "en": "Cancel a stale request through AbortController."
+          }
+        ],
+        "realWorld": {
+          "ru": "Поиск в любом приложении отменяет предыдущие запросы: печатаете быстро — видите результат последнего слова.",
+          "tg": "Ҷустуҷӯ дар ҳар барнома дархостҳои қаблиро бекор мекунад: зуд менависед — натиҷаи калимаи охиринро мебинед.",
+          "en": "Search in any app cancels earlier requests: type fast and you see the last word result."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что делает AbortController?",
+            "tg": "AbortController чӣ мекунад?",
+            "en": "What does AbortController do?"
+          },
+          "options": [
+            {
+              "ru": "Шифрует запрос",
+              "tg": "Дархостро рамзгузорӣ мекунад",
+              "en": "Encrypts the request"
+            },
+            {
+              "ru": "Ускоряет ответ",
+              "tg": "Ҷавобро тез мекунад",
+              "en": "Speeds up the response"
+            },
+            {
+              "ru": "Даёт сигнал для отмены запроса",
+              "tg": "Сигнали бекоркунии дархост медиҳад",
+              "en": "Provides a signal to cancel a request"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Найдите в примере создание controller и передачу signal.",
+            "tg": "Дар мисол сохтани controller ва гузаронидани signal-ро ёбед.",
+            "en": "Find the controller creation and the signal passing."
+          },
+          "explanation": {
+            "ru": "signal уходит в fetch, abort прерывает ожидание.",
+            "tg": "signal ба fetch меравад, abort интизорияро қатъ мекунад.",
+            "en": "The signal goes into fetch, abort interrupts the wait."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\n\nexport default function App() {\n  const [query, setQuery] = useState('');\n  const [titles, setTitles] = useState<string[]>([]);\n  const [status, setStatus] = useState<'loading' | 'done' | 'error'>('done');\n\n  useEffect(() => {\n    const trimmed = query.trim();\n    if (!trimmed) {\n      setTitles([]);\n      return;\n    }\n    const controller = new AbortController();\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=20', { signal: controller.signal })\n      .then(response => response.json())\n      .then((data: Todo[]) => {\n        const found = data\n          .map(item => item.title)\n          .filter(title => title.toLowerCase().includes(trimmed.toLowerCase()));\n        setTitles(found);\n        setStatus('done');\n      })\n      .catch((error: unknown) => {\n        if ((error as { name?: string }).name === 'AbortError') return;\n        setStatus('error');\n      });\n    return () => controller.abort();\n  }, [query]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Поиск занятий</Text>\n      <TextInput value={query} onChangeText={setQuery} placeholder=\"Введите слово\" style={styles.input} />\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && titles.length === 0 ? <Text>Ничего не найдено.</Text> : null}\n      {titles.map(title => <Text key={title}>{title}</Text>)}\n      {status === 'error' ? <Text>Сеть недоступна.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+          "steps": [
+            {
+              "line": 12,
+              "explanation": {
+                "ru": "Пустой запрос чистит результаты без сети.",
+                "tg": "Дархости холӣ натиҷаҳоро бе шабака тоза мекунад.",
+                "en": "An empty query clears results without the network."
+              },
+              "values": "titles=[]"
+            },
+            {
+              "line": 15,
+              "explanation": {
+                "ru": "Signal связывает запрос с контроллером.",
+                "tg": "Signal дархостро бо контроллер мепайвандад.",
+                "en": "The signal ties the request to the controller."
+              },
+              "values": "signal"
+            },
+            {
+              "line": 27,
+              "explanation": {
+                "ru": "Очистка отменяет устаревший запрос.",
+                "tg": "Тозакунӣ дархости кӯҳнаро бекор мекунад.",
+                "en": "The cleanup cancels the stale request."
+              },
+              "values": "abort()"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере создание AbortController и функцию очистки.",
+              "tg": "Дар мисол сохтани AbortController ва функсияи тозакуниро ёбед.",
+              "en": "Find the AbortController creation and the cleanup function."
+            },
+            {
+              "ru": "Введите слово и быстро допишите буквы: результаты соответствуют последнему вводу.",
+              "tg": "Калимаро ворид карда, зуд ҳарф илова кунед: натиҷаҳо ба вуруди охирин мутобиқанд.",
+              "en": "Type a word and quickly add letters: matches match the latest input."
+            }
+          ],
+          "hint": {
+            "ru": "Счётчик stopped увеличивается ровно в ветке AbortError.",
+            "tg": "Шумораи stopped тамоман дар шохаи AbortError меафзояд.",
+            "en": "The stopped counter grows exactly in the AbortError branch."
+          },
+          "success": {
+            "ru": "Результаты всегда отвечают текущему тексту поля, отмены не видны как ошибки.",
+            "tg": "Натиҷаҳо ҳамеша ба матни ҷории майдон мутобиқанд ва бекоркуниҳо ҳамчун хато дида намешаванд.",
+            "en": "Results always match the current field text and cancellations never show as errors."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте поиск на устройстве при быстром наборе. Соберите решение со счётчиком отмен и запишите его значение после быстрого ввода. Убедитесь, что пустой запрос не ходит в сеть. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва ҷустуҷӯро дар дастгоҳ ҳангоми навишти тез санҷед. Ҳаллро бо шумораи бекоркуниҳо созед ва қиматашро баъди вуруди тез сабт кунед. Боварӣ ҳосил кунед, ки дархости холӣ ба шабака намеравад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check the search on a device while typing fast. Build the solution with the cancellation counter and record its value after fast typing. Confirm an empty query never hits the network. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Быстрый набор показывает результат последнего ввода.",
+              "tg": "Навишти тез натиҷаи вуруди охиринро нишон медиҳад.",
+              "en": "Fast typing shows the latest input result."
+            },
+            {
+              "ru": "Счётчик отмен растёт, AbortError не показан как сбой.",
+              "tg": "Шумораи бекоркуниҳо меафзояд ва AbortError ҳамчун хато дида намешавад.",
+              "en": "The cancellation counter grows and AbortError never shows as a failure."
+            }
+          ],
+          "example": {
+            "ru": "После быстрого ввода счётчик отмен больше нуля, а результаты соответствуют последнему слову.",
+            "tg": "Баъди вуруди тез шумораи бекоркуниҳо аз сифр зиёд аст ва натиҷаҳо ба калимаи охирин мутобиқанд.",
+            "en": "After fast typing the cancellation counter is above zero and matches match the last word."
+          }
+        },
+        "summary": [
+          {
+            "ru": "AbortController отменяет устаревший запрос до его результата.",
+            "tg": "AbortController дархости кӯҳнаро то натиҷааш бекор мекунад.",
+            "en": "AbortController cancels a stale request before its result."
+          },
+          {
+            "ru": "AbortError — плановая отмена, а не сбой для пользователя.",
+            "tg": "AbortError бекоркунии дарназаршуда аст, на хато барои корбар.",
+            "en": "AbortError is a planned cancellation, not a user-facing failure."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что делает AbortController?",
+            "tg": "AbortController чӣ мекунад?",
+            "en": "What does AbortController do?"
+          },
+          {
+            "ru": "Какой ввод должен побеждать в поиске?",
+            "tg": "Дар ҷустуҷӯ вуруди кадом бояд ғолиб ояд?",
+            "en": "Which input should win in search?"
+          }
+        ],
+        "nextLessonId": "mobile-day-28"
+      }
+    },
+    {
+      "id": "mobile-day-28",
+      "day": 28,
+      "prerequisiteDays": [
+        27
+      ],
+      "title": {
+        "ru": "Локальное хранение обычных данных",
+        "tg": "Нигоҳдории маҳаллии маълумоти оддӣ",
+        "en": "Local storage of plain data"
+      },
+      "summary": {
+        "ru": "Сохраните заметки в AsyncStorage и честно обработайте недоступное хранилище.",
+        "tg": "Қайдҳоро дар AsyncStorage нигоҳ дода, нигоҳдории дастраснаро рӯбарӯ бароред.",
+        "en": "Store notes in AsyncStorage and handle an unavailable store honestly."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Данные переживают перезапуск",
+            "tg": "Маълумот аз нав оғозро мегузаронанд",
+            "en": "Data survives a restart"
+          },
+          "body": {
+            "ru": "AsyncStorage — простое хранилище устройства для пар «ключ — значение»: записываете строку по ключу, читаете её после перезапуска. Оно подходит для небольших данных — заметок, настроек, черновиков — и не заменяет базу данных: больших массивов, поиска и связей там нет. Ставится пакет: npx expo install @react-native-async-storage/async-storage. Сложные структуры сохраняют как JSON: JSON.stringify перед записью, JSON.parse после чтения. Хранилище может отказать — место кончилось, права ограничены: тогда catch объясняет пользователю, что заметка видна только до перезапуска. Пароли и банковские данные сюда не кладут: хранилище не шифровано, для секретов существуют отдельные механизмы.",
+            "tg": "AsyncStorage нигоҳдорӣ соддаи дастгоҳ барои ҷуфтҳои «калид — қимат» аст: сатрро бо калид менависед, баъди аз нав оғоз мехонед. Барои маълумоти хурд мувофиқ аст — қайдҳо, танзимот, лоиҳаҳо — ва ҷойи пойгоҳи додаҳоро намегирад: массивҳои калон, ҷустуҷӯ ва пайвандҳо дар он нест. Пакет насб мешавад: npx expo install @react-native-async-storage/async-storage. Сохторҳои мураккабро ҳамчун JSON нигоҳ медоранд: JSON.stringify пеш аз навиштан, JSON.parse баъди хондан. Нигоҳдорӣ метавонад даст диҳад — ҷо тамом шуд, ҳуқуқҳо маҳдуд: он гоҳ catch ба корбар мефаҳмонад, ки қайд то аз нав оғоз дида мешавад. Паролҳо ва маълумоти банковиро ин ҷо намегузоранд: нигоҳдорӣ рамзгузорӣ нест, барoi сирҳо механизмҳои алоҳида ҳастанд.",
+            "en": "AsyncStorage is a simple device store for key-value pairs: write a string by key, read it after a restart. It fits small data — notes, settings, drafts — and does not replace a database: no large arrays, search or relations. The package installs with npx expo install @react-native-async-storage/async-storage. Complex structures are stored as JSON: JSON.stringify before writing, JSON.parse after reading. The store can refuse — out of space, restricted permissions: then catch explains to the user that the note is visible only until a restart. Passwords and banking data do not go here: the store is unencrypted, secrets deserve separate mechanisms."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Ключ devatlas-notes — константа: имя ключа пишут один раз, чтобы не опечататься. При запуске useEffect читает ключ: getItem возвращает строку или null, пустой null означает первый запуск без заметок. saveNote собирает новый массив копированием, сохраняет его в состояние и в хранилище через await AsyncStorage.setItem, а savedOnce подтверждает запись. Установка пакета обязательна: без него сборка упадёт с сообщением о недостающем модуле. Проверьте на устройстве: сохраните заметку, полностью закройте приложение, откройте снова — заметка на месте. В решении добавлены валидация длины, ошибочное состояние и стабильные id вместо индексов.",
+            "tg": "Калиди devatlas-notes доимӣ аст: номи калидро як бор менависанд, то хатои чопӣ набошад. Ҳангоми оғоз useEffect калидро мехонад: getItem сатр ё null бармегардонад, null-и холӣ маънои оғози аввал бе қайдҳост. saveNote массиви навро бо нусхабардорӣ месозад, онро ба ҳолат ва ба нигоҳдорӣ тавассути await AsyncStorage.setItem нигоҳ медорад ва savedOnce навиштанро тасдиқ мекунад. Насби пакет ҳатмист: бе он сохтмон бо паёми набудани модул меафтад. Дар дастгоҳ санҷед: қайдро нигоҳ доред, барномаро пурра пӯшед, аз нав кушоед — қайд дар ҷояш аст. Дар ҳалл санҷиши дарозӣ, ҳолати хато ва id-ҳои устувор ба ҷои индексҳо илова шудаанд.",
+            "en": "The devatlas-notes key is a constant: the key name is written once to avoid typos. At startup useEffect reads the key: getItem returns a string or null, a null means the first launch without notes. saveNote assembles the new array by copying, stores it in state and in the store through await AsyncStorage.setItem, and savedOnce confirms the write. Installing the package is mandatory: without it the build fails with a missing-module message. Check on a device: save a note, close the app fully, reopen — the note is there. The solution adds length validation, an error state and stable ids instead of indexes."
+          },
+          "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst KEY = 'devatlas-notes';\n\nexport default function App() {\n  const [draft, setDraft] = useState('');\n  const [notes, setNotes] = useState<string[]>([]);\n  const [savedOnce, setSavedOnce] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (raw) setNotes(JSON.parse(raw) as string[]);\n      })\n      .catch(() => {});\n  }, []);\n\n  async function saveNote() {\n    const value = draft.trim();\n    if (!value) return;\n    const next = [...notes, value];\n    setNotes(next);\n    setDraft('');\n    await AsyncStorage.setItem(KEY, JSON.stringify(next));\n    setSavedOnce(true);\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Заметки с хранением</Text>\n      <TextInput value={draft} onChangeText={setDraft} placeholder=\"Новая заметка\" style={styles.input} />\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сохранить заметку\"\n        onPress={saveNote}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сохранить</Text>\n      </Pressable>\n      {notes.length === 0 ? <Text>Заметок пока нет.</Text> : notes.map((note, index) => <Text key={index}>{note}</Text>)}\n      {savedOnce ? <Text>Заметка сохранена на устройстве.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-28-q1",
+          "question": {
+            "ru": "Для каких данных подходит AsyncStorage?",
+            "tg": "AsyncStorage барои кадом маълумот мувофиқ аст?",
+            "en": "What data fits AsyncStorage?"
+          },
+          "options": [
+            {
+              "ru": "Большие таблицы с поиском",
+              "tg": "Ҷадвалҳои калон бо ҷустуҷӯ",
+              "en": "Large tables with search"
+            },
+            {
+              "ru": "Пароли и банковские карты",
+              "tg": "Паролҳо ва кортҳои банковӣ",
+              "en": "Passwords and bank cards"
+            },
+            {
+              "ru": "Небольшие заметки и настройки",
+              "tg": "Қайдҳои хурд ва танзимот",
+              "en": "Small notes and settings"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Простое хранилище ключ-значение без шифрования и поиска.",
+            "tg": "Нигоҳдорӣ соддаи калид-қимат бе рамзгузорӣ ва ҷустуҷӯ.",
+            "en": "A plain key-value store without encryption or search."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе слова о том, что оно не заменяет.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи он ки чиро иваз намекунад, ёбед.",
+            "en": "Find the first-section words about what it does not replace."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-28-q2",
+          "question": {
+            "ru": "Что вернёт getItem для ключа, которого нет?",
+            "tg": "getItem барои калиди вуҷуднадошта чӣ бармегардонад?",
+            "en": "What does getItem return for a missing key?"
+          },
+          "options": [
+            {
+              "ru": "null — это первый запуск",
+              "tg": "null — ин оғози аввал аст",
+              "en": "null — it is the first launch"
+            },
+            {
+              "ru": "Пустую строку",
+              "tg": "Сатри холӣ",
+              "en": "An empty string"
+            },
+            {
+              "ru": "Ошибку приложения",
+              "tg": "Хатои барнома",
+              "en": "An app error"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Отсутствие записи — нормальная ситуация, а не сбой.",
+            "tg": "Набудани сабт ҳолати муқаррарист, на хатогӣ.",
+            "en": "A missing record is a normal situation, not a failure."
+          },
+          "hint": {
+            "ru": "Посмотрите на проверку raw в useEffect.",
+            "tg": "Ба санҷиши raw дар useEffect нигоҳ кунед.",
+            "en": "Look at the raw check in useEffect."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-28-q3",
+          "question": {
+            "ru": "Как хранят массив заметок в AsyncStorage?",
+            "tg": "Массиви қайдҳоро дар AsyncStorage чӣ тавр нигоҳ медоранд?",
+            "en": "How is a notes array stored in AsyncStorage?"
+          },
+          "options": [
+            {
+              "ru": "Каждый элемент отдельным файлом",
+              "tg": "Ҳар унсур файли алоҳида",
+              "en": "Each element as a separate file"
+            },
+            {
+              "ru": "JSON.stringify перед записью и JSON.parse после чтения",
+              "tg": "JSON.stringify пеш аз навиштан ва JSON.parse баъди хондан",
+              "en": "JSON.stringify before writing and JSON.parse after reading"
+            },
+            {
+              "ru": "Никак, массивы не поддерживаются",
+              "tg": "Ҳеҷ, массивҳо дастгирӣ намешаванд",
+              "en": "Not at all, arrays are unsupported"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Хранилище принимает строки, сложные структуры превращают в JSON.",
+            "tg": "Нигоҳдорӣ сатр мепазирад, сохторҳои мураккабро ба JSON табдил медиҳанд.",
+            "en": "The store takes strings; complex structures become JSON."
+          },
+          "hint": {
+            "ru": "Найдите setItem и getItem в примере.",
+            "tg": "setItem ва getItem-ро дар мисол ёбед.",
+            "en": "Find setItem and getItem in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-28-q4",
+          "question": {
+            "ru": "Что говорит пользователю catch при отказе хранилища?",
+            "tg": "catch ҳангоми даст додани нигоҳдорӣ ба корбар чӣ мегӯяд?",
+            "en": "What does catch tell the user when the store refuses?"
+          },
+          "options": [
+            {
+              "ru": "Что нужно переустановить телефон",
+              "tg": "Он ки телефонро аз нав насб кунед",
+              "en": "That the phone must be reinstalled"
+            },
+            {
+              "ru": "Ничего, ошибка молчит",
+              "tg": "Ҳеҷ чиз, хато хомӯш аст",
+              "en": "Nothing, the error is silent"
+            },
+            {
+              "ru": "Заметка видна только до перезапуска",
+              "tg": "Қайд танҳо то аз нав оғоз дида мешавад",
+              "en": "The note is visible only until a restart"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Пользователь знает реальные границы сохранности.",
+            "tg": "Корбар ҳудуди воқеии нигоҳдориро медонад.",
+            "en": "The user knows the real persistence limits."
+          },
+          "hint": {
+            "ru": "Найдите в решении сообщение об ошибке сохранения.",
+            "tg": "Дар ҳалл паёми хатои нигоҳдориро ёбед.",
+            "en": "Find the save error message in the solution."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-28-q5",
+          "question": {
+            "ru": "Почему в решении id вместо индексов?",
+            "tg": "Дар ҳалл id барои чӣ ба ҷои индекс аст?",
+            "en": "Why does the solution use ids instead of indexes?"
+          },
+          "options": [
+            {
+              "ru": "Стабильные ключи не зависят от порядка списка",
+              "tg": "Калидҳои устувор аз тартиби рӯйхат вобаста нестанд",
+              "en": "Stable keys do not depend on list order"
+            },
+            {
+              "ru": "id короче",
+              "tg": "id кӯтоҳтар аст",
+              "en": "ids are shorter"
+            },
+            {
+              "ru": "Индексы запрещены AsyncStorage",
+              "tg": "Индексҳо дар AsyncStorage мамнӯъанд",
+              "en": "Indexes are forbidden in AsyncStorage"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Тот же принцип stable key, что и в дне 9 и 16.",
+            "tg": "Ҳамон принсипи калиди устувор, ки дар рӯзҳои 9 ва 16 буд.",
+            "en": "The same stable-key principle as days 9 and 16."
+          },
+          "hint": {
+            "ru": "Сравните key={index} примера и key={note.id} решения.",
+            "tg": "key={index}-и мисол ва key={note.id}-и ҳаллро муқоиса кунед.",
+            "en": "Compare the example key={index} and the solution key={note.id}."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Установите AsyncStorage командой из первого раздела, соберите пример и проверьте перезапуск на устройстве. Соберите решение с валидацией и ошибками хранения и запишите, что происходит при короткой заметке. Проверьте второй запуск без закрытия приложения — что изменилось? Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "AsyncStorage-ро бо фармони аз бахши аввал насб карда, мисолро созед ва аз нав оғозро дар дастгоҳ санҷед. Ҳаллро бо санҷиш ва хатоҳои нигоҳдорӣ созед ва сабт кунед, ки ҳангоми қайди кӯтоҳ чӣ мешавад. Оғози дуюмро бе пӯшидани барнома санҷед — чӣ тағйир ёфт? Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Install AsyncStorage with the first-section command, build the example and check a restart on a device. Build the solution with validation and store errors and record what happens for a short note. Check a second run without closing the app — what changed? This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Валидация из дня 22: text.trim().length < 3 перед сохранением.",
+          "tg": "Санҷиш аз рӯзи 22: text.trim().length < 3 пеш аз нигоҳдорӣ.",
+          "en": "The day-22 validation: text.trim().length < 3 before saving."
+        },
+        "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst KEY = 'devatlas-notes-v2';\n\ntype Note = { id: string; text: string };\n\nexport default function App() {\n  const [draft, setDraft] = useState('');\n  const [notes, setNotes] = useState<Note[]>([]);\n  const [error, setError] = useState('');\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (raw) setNotes(JSON.parse(raw) as Note[]);\n      })\n      .catch(() => setError('Хранилище недоступно, заметки не загружены'));\n  }, []);\n\n  async function saveNote() {\n    const text = draft.trim();\n    if (text.length < 3) {\n      setError('Заметка короче трёх символов');\n      return;\n    }\n    setError('');\n    const next: Note[] = [...notes, { id: String(Date.now()), text }];\n    setNotes(next);\n    setDraft('');\n    try {\n      await AsyncStorage.setItem(KEY, JSON.stringify(next));\n    } catch {\n      setError('Не удалось сохранить: заметка видна только до перезапуска');\n    }\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Заметки с хранением</Text>\n      <TextInput value={draft} onChangeText={setDraft} placeholder=\"Новая заметка\" style={styles.input} />\n      {error ? <Text style={styles.error}>{error}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сохранить заметку\"\n        onPress={saveNote}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сохранить</Text>\n      </Pressable>\n      {notes.length === 0 ? <Text>Заметок пока нет.</Text> : notes.map(note => <Text key={note.id}>{note.text}</Text>)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Заметка осталась после полного перезапуска приложения.",
+            "tg": "Қайд баъди аз нав оғози пурраи барнома монд.",
+            "en": "The note remained after fully restarting the app."
+          },
+          {
+            "ru": "Короткая заметка и отказ хранилища показывают понятные сообщения.",
+            "tg": "Қайди кӯтоҳ ва даст додани нигоҳдорӣ паёмҳои фаҳмо нишон медиҳанд.",
+            "en": "A short note and a store refusal show clear messages."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Сохранить и прочитать заметки через AsyncStorage.",
+            "tg": "Қайдҳоро тавассути AsyncStorage нигоҳ дода, баргардонед.",
+            "en": "Store and read notes through AsyncStorage."
+          },
+          {
+            "ru": "Честно объяснить границы хранилища.",
+            "tg": "Ҳудуди нигоҳдориро рӯбарӯ фаҳмонед.",
+            "en": "Explain the store limits honestly."
+          }
+        ],
+        "realWorld": {
+          "ru": "Настройки темы и черновики сообщений в приложениях живут именно в таком хранилище.",
+          "tg": "Танзимоти мавзӯъ ва лоиҳаҳои паём дар барномаҳо дар ҳамон нигоҳдорӣ ҳастанд.",
+          "en": "Theme settings and message drafts in apps live in exactly such a store."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что вернёт getItem для ключа, которого нет?",
+            "tg": "getItem барои калиди вуҷуднадошта чӣ бармегардонад?",
+            "en": "What does getItem return for a missing key?"
+          },
+          "options": [
+            {
+              "ru": "null — это первый запуск",
+              "tg": "null — ин оғози аввал аст",
+              "en": "null — it is the first launch"
+            },
+            {
+              "ru": "Пустую строку",
+              "tg": "Сатри холӣ",
+              "en": "An empty string"
+            },
+            {
+              "ru": "Ошибку приложения",
+              "tg": "Хатои барнома",
+              "en": "An app error"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Посмотрите на проверку raw в useEffect.",
+            "tg": "Ба санҷиши raw дар useEffect нигоҳ кунед.",
+            "en": "Look at the raw check in useEffect."
+          },
+          "explanation": {
+            "ru": "Отсутствие записи — нормальная ситуация, а не сбой.",
+            "tg": "Набудани сабт ҳолати муқаррарист, на хатогӣ.",
+            "en": "A missing record is a normal situation, not a failure."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst KEY = 'devatlas-notes';\n\nexport default function App() {\n  const [draft, setDraft] = useState('');\n  const [notes, setNotes] = useState<string[]>([]);\n  const [savedOnce, setSavedOnce] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (raw) setNotes(JSON.parse(raw) as string[]);\n      })\n      .catch(() => {});\n  }, []);\n\n  async function saveNote() {\n    const value = draft.trim();\n    if (!value) return;\n    const next = [...notes, value];\n    setNotes(next);\n    setDraft('');\n    await AsyncStorage.setItem(KEY, JSON.stringify(next));\n    setSavedOnce(true);\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Заметки с хранением</Text>\n      <TextInput value={draft} onChangeText={setDraft} placeholder=\"Новая заметка\" style={styles.input} />\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сохранить заметку\"\n        onPress={saveNote}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сохранить</Text>\n      </Pressable>\n      {notes.length === 0 ? <Text>Заметок пока нет.</Text> : notes.map((note, index) => <Text key={index}>{note}</Text>)}\n      {savedOnce ? <Text>Заметка сохранена на устройстве.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 6,
+              "explanation": {
+                "ru": "Ключ хранилища объявлен один раз.",
+                "tg": "Калиди нигоҳдорӣ як бор эълон шудааст.",
+                "en": "The store key is declared once."
+              },
+              "values": "devatlas-notes"
+            },
+            {
+              "line": 15,
+              "explanation": {
+                "ru": "getItem возвращает строку или null.",
+                "tg": "getItem сатр ё null бармегардонад.",
+                "en": "getItem returns a string or null."
+              },
+              "values": "raw | null"
+            },
+            {
+              "line": 30,
+              "explanation": {
+                "ru": "setItem записывает JSON после состояния.",
+                "tg": "setItem JSON-ро баъди ҳолат менависад.",
+                "en": "setItem writes the JSON after the state."
+              },
+              "values": "notes saved"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере, где читается и где пишется хранилище.",
+              "tg": "Дар мисол ёбед, ки нигоҳдорӣ дар куҷо хонда ва дар куҷо навишта мешавад.",
+              "en": "Find where the store is read and where it is written."
+            },
+            {
+              "ru": "Сохраните заметку, закройте приложение полностью и найдите её после запуска.",
+              "tg": "Қайдро нигоҳ доред, барномаро пурра пӯшед ва баъди оғоз ӯро ёбед.",
+              "en": "Save a note, close the app fully and find it after a restart."
+            }
+          ],
+          "hint": {
+            "ru": "Валидация из дня 22: text.trim().length < 3 перед сохранением.",
+            "tg": "Санҷиш аз рӯзи 22: text.trim().length < 3 пеш аз нигоҳдорӣ.",
+            "en": "The day-22 validation: text.trim().length < 3 before saving."
+          },
+          "success": {
+            "ru": "Заметка переживает полный перезапуск, а пустое хранилище показывается как первый запуск.",
+            "tg": "Қайд аз нав оғози пурраро мегузарад ва нигоҳдории холӣ ҳамчун оғози аввал нишон дода мешавад.",
+            "en": "A note survives a full restart and an empty store shows as the first launch."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Установите AsyncStorage командой из первого раздела, соберите пример и проверьте перезапуск на устройстве. Соберите решение с валидацией и ошибками хранения и запишите, что происходит при короткой заметке. Проверьте второй запуск без закрытия приложения — что изменилось? Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "AsyncStorage-ро бо фармони аз бахши аввал насб карда, мисолро созед ва аз нав оғозро дар дастгоҳ санҷед. Ҳаллро бо санҷиш ва хатоҳои нигоҳдорӣ созед ва сабт кунед, ки ҳангоми қайди кӯтоҳ чӣ мешавад. Оғози дуюмро бе пӯшидани барнома санҷед — чӣ тағйир ёфт? Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Install AsyncStorage with the first-section command, build the example and check a restart on a device. Build the solution with validation and store errors and record what happens for a short note. Check a second run without closing the app — what changed? This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Заметка осталась после полного перезапуска приложения.",
+              "tg": "Қайд баъди аз нав оғози пурраи барнома монд.",
+              "en": "The note remained after fully restarting the app."
+            },
+            {
+              "ru": "Короткая заметка и отказ хранилища показывают понятные сообщения.",
+              "tg": "Қайди кӯтоҳ ва даст додани нигоҳдорӣ паёмҳои фаҳмо нишон медиҳанд.",
+              "en": "A short note and a store refusal show clear messages."
+            }
+          ],
+          "example": {
+            "ru": "После закрытия и запуска приложения список заметок восстанавливается из хранилища.",
+            "tg": "Баъди пӯшидан ва оғози барнома рӯйхати қайдҳо аз нигоҳдорӣ барқарор мешавад.",
+            "en": "After closing and opening the app the note list restores from the store."
+          }
+        },
+        "summary": [
+          {
+            "ru": "AsyncStorage хранит ключ-значение строками и переживает перезапуск.",
+            "tg": "AsyncStorage калид-қиматро ҳамчун сатр нигоҳ дошта, аз нав оғозро мегузарад.",
+            "en": "AsyncStorage stores key-value as strings and survives a restart."
+          },
+          {
+            "ru": "Хранилище может отказать — пользователь узнаёт об этом словами.",
+            "tg": "Нигоҳдорӣ метавонад даст диҳад — корбар инро бо калимаҳо медонад.",
+            "en": "The store can refuse — the user learns it in words."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что вернёт getItem для ключа, которого нет?",
+            "tg": "getItem барои калиди вуҷуднадошта чӣ бармегардонад?",
+            "en": "What does getItem return for a missing key?"
+          },
+          {
+            "ru": "Для каких данных подходит AsyncStorage?",
+            "tg": "AsyncStorage барои кадом маълумот мувофиқ аст?",
+            "en": "What data fits AsyncStorage?"
+          }
+        ],
+        "nextLessonId": "mobile-day-29"
+      }
+    },
+    {
+      "id": "mobile-day-29",
+      "day": 29,
+      "prerequisiteDays": [
+        28
+      ],
+      "title": {
+        "ru": "Восстановление состояния после запуска",
+        "tg": "Барқароркунии ҳолат баъди оғоз",
+        "en": "Restoring state after launch"
+      },
+      "summary": {
+        "ru": "Покажите экран загрузки, пока хранилище читается, и различите первый запуск от повторного.",
+        "tg": "То хондани нигоҳдорӣ экрани боркуниро нишон диҳед ва оғози аввалро аз такрорӣ фарқ кунед.",
+        "en": "Show a loading screen while the store reads and tell a first launch from a repeat."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "null как признак ожидания",
+            "tg": "null ҳамчун нишонаи интизорӣ",
+            "en": "null as the waiting sign"
+          },
+          "body": {
+            "ru": "При запуске хранилище читается асинхронно: между открытием приложения и данными проходит время. Отличайте «ещё не прочитано» от «прочитано и пусто»: для этого состояние начинают с null и переводят в массив после чтения. null означает «мы не знаем» — экран показывает загрузку. Пустой массив — честный ответ: данных нет, это первый запуск. Восстановленные данные рисуют так же, как созданные в этом сеансе: пользователь не должен угадывать источник. Важно проверять форму данных из хранилища: там могло оказаться что-то другое после сбоя записи или старой версии приложения — неподходящие данные отбрасывают честным сообщением, а не падением.",
+            "tg": "Ҳангоми оғоз нигоҳдорӣ асинхронӣ хонда мешавад: байни кушодани барнома ва маълумот вақт мегузарад. «Ҳоло хонда нашуд»-ро аз «хонда шуд ва холист» фарқ кунед: барои ин ҳолатро аз null оғоз карда, баъди хондан ба массив мегузаронанд. null маънои «намедонем»-ро дорад — экран боркуниро нишон медиҳад. Массиви холӣ ҷавоби рӯбарӯ аст: маълумот нест, ин оғози аввал аст. Маълумоти барқароршуда ҳамон тавр мекашанд, ки дар ҳамин сессия сохташуда: корбар набояд манбаъро дарёфт кунад. Санҷидани шакли маълумот аз нигоҳдорӣ муҳим аст: баъди хатои навиштан ё версияи куҳнаи барнома он ҷо чизи дигар буда метавонад — маълумоти номувофиқро бо паёми рӯбарӯ партофтан мумкин, на бо фурӯпоши.",
+            "en": "At launch the store reads asynchronously: time passes between opening the app and the data. Distinguish \"not read yet\" from \"read and empty\": the state starts as null and becomes an array after reading. null means \"we do not know\" — the screen shows loading. An empty array is an honest answer: no data, it is the first launch. Restored data renders the same way as data created in this session: the user must not guess the source. Validate the shape of store data: after a failed write or an older app version something else could be there — unsuitable data is dropped with an honest message, not a crash."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Состояние tasks начинается с null: тип Task[] | null описывает оба периода. Пока tasks — null, экран показывает «Открываем сохранённые занятия…». useEffect читает ключ: строка разбирается в массив, null превращается в пустой массив — первый запуск. catch тоже ставит пустой массив: отказ хранилища не должен оставить вечную загрузку. Запустите пример после дня 28 или с ручной записью — список восстановится. В решении добавлена проверка формы: каждая запись обязана иметь строковые id и title и число minutes; неподходящие данные отбрасываются с сообщением о том, что список показан пустым.",
+            "tg": "Ҳолати tasks аз null оғоз мешавад: типи Task[] | null ҳарду даврро тавсиф медиҳад. То tasks null бошад, экран «Кушода истодаем, машғулиятҳои нигоҳдоришуда…»-ро нишон медиҳад. useEffect калидро мехонад: сатр ба массив таҳлил мешавад, null ба массиви холӣ табдил меёбад — оғози аввал. catch низ массиви холӣ мегузорад: даст додани нигоҳдорӣ набояд боркунии беохир гузорад. Мисолро баъди рӯзи 28 ё бо навишти дастӣ иҷро кунед — рӯйхат барқарор мешавад. Дар ҳалл санҷиши шакл илова шудааст: ҳар сабт бояд id ва title-и сатрӣ ва minutes-и ададӣ дошта бошад; маълумоти номувофиқ бо паёми он ки рӯйхат холӣ нишон дода шуд, партофта мешавад.",
+            "en": "The tasks state starts as null: the Task[] | null type covers both periods. While tasks is null the screen shows «Открываем сохранённые занятия…». useEffect reads the key: a string parses into an array, null becomes an empty array — the first launch. catch also sets an empty array: a store refusal must not leave endless loading. Run the example after day 28 or with a manual write — the list restores. The solution adds a shape check: every record must have string id and title and a numeric minutes; unsuitable data is dropped with a message that the list is shown empty."
+          },
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Task = { id: string; title: string };\n\nconst KEY = 'devatlas-tasks';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        setTasks(raw ? (JSON.parse(raw) as Task[]) : []);\n      })\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return (\n      <View style={styles.screen}>\n        <Text>Открываем сохранённые занятия…</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      {tasks.length === 0 ? (\n        <Text>Сохранённых занятий нет. Это первый запуск.</Text>\n      ) : (\n        tasks.map(task => <Text key={task.id}>{task.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-29-q1",
+          "question": {
+            "ru": "Что означает состояние null до чтения хранилища?",
+            "tg": "Ҳолати null пеш аз хондани нигоҳдорӣ чӣ маъно дорад?",
+            "en": "What does the null state before reading mean?"
+          },
+          "options": [
+            {
+              "ru": "Данные ещё не прочитаны: экран показывает загрузку",
+              "tg": "Маълумот ҳоло хонда нашудааст: экран боркуниро нишон медиҳад",
+              "en": "Data is not read yet: the screen shows loading"
+            },
+            {
+              "ru": "Данных нет совсем",
+              "tg": "Маълумот тамоман нест",
+              "en": "There is no data at all"
+            },
+            {
+              "ru": "Произошла ошибка сети",
+              "tg": "Хатои шабака рух додааст",
+              "en": "A network error happened"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "«Не знаем» и «знаем, что пусто» — разные состояния.",
+            "tg": "«Намедонем» ва «медонем, ки холист» — ҳолатҳои гуногун.",
+            "en": "\"Do not know\" and \"know it is empty\" are different states."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе различие двух периодов.",
+            "tg": "Дар бахши аввал фарқи ду даврро ёбед.",
+            "en": "Find the two-period distinction in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-29-q2",
+          "question": {
+            "ru": "Какое состояние означает первый запуск?",
+            "tg": "Кадом ҳолат оғози аввалро мефаҳмонад?",
+            "en": "Which state means the first launch?"
+          },
+          "options": [
+            {
+              "ru": "Значение null",
+              "tg": "Қимати null",
+              "en": "The null value"
+            },
+            {
+              "ru": "Прочитанный пустой массив",
+              "tg": "Массиви холии хондашуда",
+              "en": "A read empty array"
+            },
+            {
+              "ru": "Ошибка чтения",
+              "tg": "Хатои хондан",
+              "en": "A read error"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Хранилище ответило честно: записей нет.",
+            "tg": "Нигоҳдорӣ рӯбарӯ ҷавоб дод: сабтҳо нестанд.",
+            "en": "The store answered honestly: no records."
+          },
+          "hint": {
+            "ru": "Сравните сообщения для null и пустого массива в примере.",
+            "tg": "Паёмҳои null ва массиви холиро дар мисол муқоиса кунед.",
+            "en": "Compare the messages for null and an empty array in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-29-q3",
+          "question": {
+            "ru": "Почему catch тоже ставит пустой массив?",
+            "tg": "catch низ барои чӣ массиви холӣ мегузорад?",
+            "en": "Why does catch also set an empty array?"
+          },
+          "options": [
+            {
+              "ru": "Так требует AsyncStorage",
+              "tg": "AsyncStorage инро талаб мекунад",
+              "en": "AsyncStorage requires it"
+            },
+            {
+              "ru": "Чтобы удалить заметки пользователя",
+              "tg": "То қайдҳои корбар нест шаванд",
+              "en": "To delete user notes"
+            },
+            {
+              "ru": "Чтобы отказ хранилища не оставил вечную загрузку",
+              "tg": "То даст додани нигоҳдорӣ боркунии беохир нагузорад",
+              "en": "So a store refusal does not leave endless loading"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Экран обязан выйти из загрузки в любом исходе.",
+            "tg": "Экран бояд аз боркунӣ дар ҳар натиҷа барояд.",
+            "en": "The screen must leave loading in every outcome."
+          },
+          "hint": {
+            "ru": "Вспомните правило дня 26 о честных состояниях.",
+            "tg": "Қоидаи рӯзи 26 дар бораи ҳолатҳои рӯбарӯро ёд оред.",
+            "en": "Recall the day-26 rule about honest states."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-29-q4",
+          "question": {
+            "ru": "Зачем проверять форму данных из хранилища?",
+            "tg": "Шакли маълумоти аз нигоҳдорӣ барои чӣ месанҷанд?",
+            "en": "Why validate the shape of stored data?"
+          },
+          "options": [
+            {
+              "ru": "После сбоя записи или старой версии там может быть другое",
+              "tg": "Баъди хатои навиштан ё версияи куҳна он ҷо чизи дигар метавонад бошад",
+              "en": "After a failed write or an older version something else could be there"
+            },
+            {
+              "ru": "Чтобы ускорить чтение",
+              "tg": "То хондан тез шавад",
+              "en": "To speed up reading"
+            },
+            {
+              "ru": "AsyncStorage шифрует данные",
+              "tg": "AsyncStorage маълумотро рамзгузорӣ мекунад",
+              "en": "AsyncStorage encrypts data"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Неподходящие данные отбрасывают с сообщением, а не падением.",
+            "tg": "Маълумоти номувофиқро бо паём партофтан мумкин, на бо фурӯпоши.",
+            "en": "Unsuitable data is dropped with a message, not a crash."
+          },
+          "hint": {
+            "ru": "Перечитайте конец первого раздела про форму данных.",
+            "tg": "Охири бахши аввал дар бораи шакли маълумотро аз нав хонед.",
+            "en": "Re-read the end of the first section about data shape."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-29-q5",
+          "question": {
+            "ru": "Как выглядят восстановленные записи для пользователя?",
+            "tg": "Сабтҳои барқароршуда барои корбар чӣ гуна менамоянд?",
+            "en": "How do restored records look to the user?"
+          },
+          "options": [
+            {
+              "ru": "Другим цветом с пометкой «из хранилища»",
+              "tg": "Бо ранги дигар ва аломати «аз нигоҳдорӣ»",
+              "en": "In another color with a \"from store\" mark"
+            },
+            {
+              "ru": "Так же, как созданные в этом сеансе",
+              "tg": "Мисли дар ҳамин сессия сохташуда",
+              "en": "Like ones created in this session"
+            },
+            {
+              "ru": "Они скрыты до нажатия кнопки",
+              "tg": "Онҳо то пахши тугма маҳкуманд",
+              "en": "They stay hidden until a button press"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Источник данных не обязан быть видимым; важно, что список вернулся.",
+            "tg": "Манбаи маълумот бояд дида нашавад; муҳим он ки рӯйхат баргашт.",
+            "en": "The data source need not be visible; what matters is the list returned."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова про источник.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи манбаъро ёбед.",
+            "en": "Find the first-section words about the source."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте оба запуска на устройстве: первый пустой и повторный с данными из дня 28. Соберите решение с проверкой формы данных и запишите, что происходит при неподходящих данных — для этого временно запишите в ключ строку вроде not-json. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва ҳарду оғозро дар дастгоҳ санҷед: аввалин холӣ ва такрорӣ бо маълумоти рӯзи 28. Ҳаллро бо санҷиши шакли маълумот созед ва сабт кунед, ки ҳангоми маълумоти номувофиқ чӣ мешавад — барои ин муваққатан ба калид сатри монанди not-json нависед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check both launches on a device: the first empty and a repeat with day-28 data. Build the solution with the data shape check and record what happens for unsuitable data — temporarily write a string like not-json into the key. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "В решении JSON.parse обёрнут в try: исключение переводит список в пустой с сообщением broken.",
+          "tg": "Дар ҳалл JSON.parse дар try аст: истисно рӯйхатро бо паёми broken ба холӣ мегузорад.",
+          "en": "The solution wraps JSON.parse in try: an exception turns the list empty with the broken message."
+        },
+        "solution": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst KEY = 'devatlas-tasks-v2';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [broken, setBroken] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (!raw) {\n          setTasks([]);\n          return;\n        }\n        try {\n          const parsed = JSON.parse(raw) as Task[];\n          const valid = Array.isArray(parsed) && parsed.every(task => typeof task.id === 'string' && typeof task.title === 'string' && typeof task.minutes === 'number');\n          setTasks(valid ? parsed : []);\n          setBroken(!valid);\n        } catch {\n          setTasks([]);\n          setBroken(true);\n        }\n      })\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return (\n      <View style={styles.screen}>\n        <Text>Открываем сохранённые занятия…</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      {broken ? <Text>Сохранённые данные не распознаны, показан пустой список.</Text> : null}\n      {tasks.length === 0 ? (\n        <Text>Сохранённых занятий нет. Это первый запуск.</Text>\n      ) : (\n        tasks.map(task => <Text key={task.id}>{task.title} — {task.minutes} мин.</Text>)\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Повторный запуск возвращает сохранённые записи.",
+            "tg": "Оғози такрорӣ сабтҳои нигоҳдоришударо бармегардонад.",
+            "en": "A repeat launch returns the stored records."
+          },
+          {
+            "ru": "Повреждённые данные показывают сообщение вместо падения.",
+            "tg": "Маълумоти вайрошуда паём нишон медиҳад, на фурӯпоши.",
+            "en": "Corrupted data shows a message instead of a crash."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Различить ожидание чтения и честную пустоту.",
+            "tg": "Интизории хондан ва холии рӯбарӯро фарқ кунед.",
+            "en": "Tell the reading wait from an honest emptiness."
+          },
+          {
+            "ru": "Восстановить список и проверить форму данных.",
+            "tg": "Рӯйхатро барқарор карда, шакли маълумотро санҷед.",
+            "en": "Restore a list and validate the data shape."
+          }
+        ],
+        "realWorld": {
+          "ru": "Приложение заметок при каждом запуске молча возвращает сохранённое — как будто ничего не закрывалось.",
+          "tg": "Барномаи қайдҳо ҳар оғоз бе овоз нигоҳдоришударо бармегардонад — мисли он ки ҳеҷ чиз пӯшида нашуд.",
+          "en": "A notes app silently restores saved data at every launch — as if nothing closed."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Какое состояние означает первый запуск?",
+            "tg": "Кадом ҳолат оғози аввалро мефаҳмонад?",
+            "en": "Which state means the first launch?"
+          },
+          "options": [
+            {
+              "ru": "Значение null",
+              "tg": "Қимати null",
+              "en": "The null value"
+            },
+            {
+              "ru": "Прочитанный пустой массив",
+              "tg": "Массиви холии хондашуда",
+              "en": "A read empty array"
+            },
+            {
+              "ru": "Ошибка чтения",
+              "tg": "Хатои хондан",
+              "en": "A read error"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Сравните сообщения для null и пустого массива в примере.",
+            "tg": "Паёмҳои null ва массиви холиро дар мисол муқоиса кунед.",
+            "en": "Compare the messages for null and an empty array in the example."
+          },
+          "explanation": {
+            "ru": "Хранилище ответило честно: записей нет.",
+            "tg": "Нигоҳдорӣ рӯбарӯ ҷавоб дод: сабтҳо нестанд.",
+            "en": "The store answered honestly: no records."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Task = { id: string; title: string };\n\nconst KEY = 'devatlas-tasks';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        setTasks(raw ? (JSON.parse(raw) as Task[]) : []);\n      })\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return (\n      <View style={styles.screen}>\n        <Text>Открываем сохранённые занятия…</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      {tasks.length === 0 ? (\n        <Text>Сохранённых занятий нет. Это первый запуск.</Text>\n      ) : (\n        tasks.map(task => <Text key={task.id}>{task.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+          "steps": [
+            {
+              "line": 12,
+              "explanation": {
+                "ru": "tasks начинается с null — состояние неизвестно.",
+                "tg": "tasks аз null оғоз мешавад — ҳолат маълум нест.",
+                "en": "tasks starts as null — the state is unknown."
+              },
+              "values": "null"
+            },
+            {
+              "line": 14,
+              "explanation": {
+                "ru": "Чтение превращает null в массив.",
+                "tg": "Хондан null-ро ба массив табдил медиҳад.",
+                "en": "Reading turns null into an array."
+              },
+              "values": "Task[]"
+            },
+            {
+              "line": 24,
+              "explanation": {
+                "ru": "Экран загрузки виден только пока null.",
+                "tg": "Экрани боркунӣ танҳо то null дида мешавад.",
+                "en": "The loading screen shows only while null."
+              },
+              "values": "tasks === null"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере, где различаются null и пустой массив.",
+              "tg": "Дар мисол ёбед, ки null ва массиви холӣ дар куҷо фарқ мекунанд.",
+              "en": "Find where null and an empty array differ in the example."
+            },
+            {
+              "ru": "Запустите пример после сохранения в дне 28 и убедитесь, что записи вернулись.",
+              "tg": "Мисолро баъди нигоҳдории рӯзи 28 иҷро карда, боварӣ ҳосил кунед, ки сабтҳо баргаштанд.",
+              "en": "Run the example after the day-28 save and confirm the records returned."
+            }
+          ],
+          "hint": {
+            "ru": "В решении JSON.parse обёрнут в try: исключение переводит список в пустой с сообщением broken.",
+            "tg": "Дар ҳалл JSON.parse дар try аст: истисно рӯйхатро бо паёми broken ба холӣ мегузорад.",
+            "en": "The solution wraps JSON.parse in try: an exception turns the list empty with the broken message."
+          },
+          "success": {
+            "ru": "Первый запуск показывает честную пустоту, повторный — восстановленные записи.",
+            "tg": "Оғози аввал холии рӯбарӯро нишон медиҳад, такрорӣ — сабтҳои барқароршуда.",
+            "en": "The first launch shows an honest emptiness, a repeat — restored records."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте оба запуска на устройстве: первый пустой и повторный с данными из дня 28. Соберите решение с проверкой формы данных и запишите, что происходит при неподходящих данных — для этого временно запишите в ключ строку вроде not-json. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва ҳарду оғозро дар дастгоҳ санҷед: аввалин холӣ ва такрорӣ бо маълумоти рӯзи 28. Ҳаллро бо санҷиши шакли маълумот созед ва сабт кунед, ки ҳангоми маълумоти номувофиқ чӣ мешавад — барои ин муваққатан ба калид сатри монанди not-json нависед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check both launches on a device: the first empty and a repeat with day-28 data. Build the solution with the data shape check and record what happens for unsuitable data — temporarily write a string like not-json into the key. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Повторный запуск возвращает сохранённые записи.",
+              "tg": "Оғози такрорӣ сабтҳои нигоҳдоришударо бармегардонад.",
+              "en": "A repeat launch returns the stored records."
+            },
+            {
+              "ru": "Повреждённые данные показывают сообщение вместо падения.",
+              "tg": "Маълумоти вайрошуда паём нишон медиҳад, на фурӯпоши.",
+              "en": "Corrupted data shows a message instead of a crash."
+            }
+          ],
+          "example": {
+            "ru": "Ключ с текстом not-json приводит к пустому списку и сообщению о нераспознанных данных.",
+            "tg": "Калиди бо матни not-json ба рӯйхати холӣ ва паёми маълумоти ношинохта меоварад.",
+            "en": "A key with the text not-json leads to an empty list and an unrecognized-data message."
+          }
+        },
+        "summary": [
+          {
+            "ru": "null — «не знаем», пустой массив — «знаем, что пусто».",
+            "tg": "null — «намедонем», массиви холӣ — «медонем, ки холист».",
+            "en": "null — \"unknown\", an empty array — \"known empty\"."
+          },
+          {
+            "ru": "Форму восстановленных данных проверяют, чтобы не падать.",
+            "tg": "Шакли маълумоти барқароршударо месанҷанд, то наафтанд.",
+            "en": "Restored data shape is checked to avoid crashes."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что означает состояние null до чтения хранилища?",
+            "tg": "Ҳолати null пеш аз хондани нигоҳдорӣ чӣ маъно дорад?",
+            "en": "What does the null state before reading mean?"
+          },
+          {
+            "ru": "Зачем проверять форму данных из хранилища?",
+            "tg": "Шакли маълумоти аз нигоҳдорӣ барои чӣ месанҷанд?",
+            "en": "Why validate the shape of stored data?"
+          }
+        ],
+        "nextLessonId": "mobile-day-30"
+      }
+    },
+    {
+      "id": "mobile-day-30",
+      "day": 30,
+      "prerequisiteDays": [
+        29
+      ],
+      "title": {
+        "ru": "Согласование локальных и сетевых данных",
+        "tg": "Созиш кардани маълумоти маҳаллӣ ва шабакавӣ",
+        "en": "Reconciling local and network data"
+      },
+      "summary": {
+        "ru": "Объедините кэш и свежие записи по id и зафиксируйте правило выбора в коде.",
+        "tg": "Кэш ва сабтҳои навро аз рӯи id якҷоя карда, қоидаи интихобро дар рамз муқаррар кунед.",
+        "en": "Merge the cache and fresh records by id and fix the selection rule in code."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Откуда данные и какая запись новее",
+            "tg": "Маълумот аз куҷост ва кадом сабт навтар аст",
+            "en": "Where data comes from and which record is newer"
+          },
+          "body": {
+            "ru": "Одна и та же заметка может существовать в трёх местах: локально, в кэше и на сервере. Чтобы экран не показывал противоречия, объединение делают явной функцией с правилом: например, побеждает запись с более свежим updatedAt. Первый шаг — словарь по id: Map не допускает дублей ключей, поэтому объединение сводится к поочерёдной установке записей. Порядок важен: кого положили последним, тот и выиграл при равных id. Честный курс Beginner не строит синхронизацию с реальным сервером — это тема Pro: здесь правило изучают на наборе данных, а финальное сообщение экрана говорит, что сетевая часть появится позже.",
+            "tg": "Як қайди якхел метавонад дар се ҷо бошад: маҳаллӣ, дар кэш ва дар сервер. То экран зиддият нишон надиҳад, якҷоякуниро бо функсияи ошкор бо қоида мекунанд: масалан, сабти бо updatedAt-и навтар ғолиб меояд. Қадами аввал луғат аз рӯи id аст: Map калидҳои такрориро иҷозат намедиҳад, бинобар ин якҷоякунӣ ба гузошти пайиҳамии сабтҳо меояд. Тартиб муҳим аст: охирин гузошташуда ҳангоми баробарии id ғолиб мешавад. Курси огоҳкунандаи Beginner синхронизатсияи бо сервери воқеӣ намесозад — ин мавзӯи Pro аст: дар ин ҷо қоидаро дар маҷмӯи маълумот меомӯзанд ва паёми ниҳоии экран мегӯяд, ки қисми шабакавӣ баъдтар меояд.",
+            "en": "The same note can exist in three places: locally, in a cache and on a server. So the screen does not contradict itself, merging is an explicit function with a rule: for example, the record with a fresher updatedAt wins. The first step is a dictionary by id: a Map allows no duplicate keys, so merging becomes setting records one by one. Order matters: whoever was placed last wins on equal ids. An honest Beginner course does not build real-server synchronization — that is Pro material: here the rule is learned on a data set, and the final screen message says the network part arrives later."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "mergeNotes принимает два массива и возвращает объединение: сначала все локальные записи, потом сетевые поверх — Map хранит по одному на id. В примере правило простое: сетевая запись перезаписывает локальную при том же id; n1 обновится текстом «Обновлённая заметка». Состояние source объясняет пользователю, откуда показанные данные — это честнее, чем молчаливый список. Если хранилище отказало, показывается объединение сети и локальных данных. В решении правило усложняется: побеждает более свежий updatedAt, а список сортируется по дате — правило видно в коде, а не в комментарии.",
+            "tg": "mergeNotes ду массивро мегирад ва якҷоякуниро бармегардонад: аввал ҳамаи сабтҳои маҳаллӣ, баъд шабакавӣ болояшон — Map аз рӯи id яктоиро нигоҳ медорад. Дар мисол қоида содда аст: сабти шабакавӣ ҳангоми якхел будани id сабти маҳаллиро аз нав менависад; n1 бо матни «Қайди навшуда» нав мешавад. Ҳолати source ба корбар мефаҳмонад, ки маълумоти нишондодашуда аз куҷост — ин рӯбарӯтар аз рӯйхати хомӯш аст. Агар нигоҳдорӣ даст диҳад, якҷоякунии шабака ва маълумоти маҳаллӣ нишон дода мешавад. Дар ҳалл қоида мураккаб мешавад: сабти бо updatedAt-и навтар ғолиб мешавад ва рӯйхат аз рӯи сана ҷӯр мешавад — қоида дар рамз дида мешавад, на дар шарҳ.",
+            "en": "mergeNotes takes two arrays and returns the union: first all local records, then the network ones on top — the Map keeps one per id. In the example the rule is simple: a network record overwrites the local one on the same id; n1 updates to the «Обновлённая заметка» text. The source state explains to the user where the shown data came from — more honest than a silent list. If the store refuses, the union of network and local data shows. The solution complicates the rule: the fresher updatedAt wins and the list sorts by date — the rule lives in the code, not in a comment."
+          },
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Note = { id: string; text: string };\n\nconst KEY = 'devatlas-cache';\n\nexport function mergeNotes(local: Note[], remote: Note[]): Note[] {\n  const byId = new Map<string, Note>();\n  for (const note of local) byId.set(note.id, note);\n  for (const note of remote) {\n    const existing = byId.get(note.id);\n    if (!existing || existing.text !== note.text) byId.set(note.id, note);\n  }\n  return [...byId.values()];\n}\n\nexport default function App() {\n  const [notes, setNotes] = useState<Note[] | null>(null);\n  const [source, setSource] = useState('');\n\n  useEffect(() => {\n    const local: Note[] = [\n      { id: 'n1', text: 'Локальная заметка' },\n    ];\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];\n        setNotes(mergeNotes(cached, local));\n        setSource(cached.length > 0 ? 'кэш + локальные' : 'только локальные');\n      })\n      .catch(() => {\n        setNotes(local);\n        setSource('только локальные');\n      });\n  }, []);\n\n  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Согласование данных</Text>\n      <Text>Источник: {source}</Text>\n      {notes.map(note => <Text key={note.id}>{note.text}</Text>)}\n      <Text>Сетевая часть появится в Pro-курсе; здесь правило — локальное и кэш объединяются по id.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-30-q1",
+          "question": {
+            "ru": "В скольких местах может существовать одна запись?",
+            "tg": "Як сабт дар чанд ҷо вуҷуд дошта метавонад?",
+            "en": "In how many places can one record exist?"
+          },
+          "options": [
+            {
+              "ru": "Только на сервере",
+              "tg": "Танҳо дар сервер",
+              "en": "Only on a server"
+            },
+            {
+              "ru": "В трёх: локально, в кэше и на сервере",
+              "tg": "Дар се: маҳаллӣ, дар кэш ва дар сервер",
+              "en": "In three: locally, in a cache and on a server"
+            },
+            {
+              "ru": "Только в памяти экрана",
+              "tg": "Танҳо дар хотираи экран",
+              "en": "Only in screen memory"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Отсюда и возникает задача согласования.",
+            "tg": "Аз ҳамин вазифаи созиш меояд.",
+            "en": "From this the reconciliation task arises."
+          },
+          "hint": {
+            "ru": "Перечитайте первое предложение первого раздела.",
+            "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+            "en": "Re-read the first sentence of the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-30-q2",
+          "question": {
+            "ru": "Почему для объединения удобен Map?",
+            "tg": "Map барои якҷоякунӣ барои чӣ қулай аст?",
+            "en": "Why is Map convenient for merging?"
+          },
+          "options": [
+            {
+              "ru": "Он удаляет старые записи сам",
+              "tg": "Ӯ сабтҳои кӯҳнаро худ нест мекунад",
+              "en": "It deletes old records itself"
+            },
+            {
+              "ru": "Он шифрует записи",
+              "tg": "Ӯ сабтҳоро рамзгузорӣ мекунад",
+              "en": "It encrypts records"
+            },
+            {
+              "ru": "Он хранит по одному значению на ключ id",
+              "tg": "Ӯ барои ҳар калиди id як қиматро нигоҳ медорад",
+              "en": "It keeps one value per id key"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Дубликаты id невозможны, установка поверх заменяет значение.",
+            "tg": "Такрори id имконнопазир аст, гузоштан болояшон қиматро иваз мекунад.",
+            "en": "Duplicate ids are impossible; setting on top replaces the value."
+          },
+          "hint": {
+            "ru": "Найдите в mergeNotes вызовы set.",
+            "tg": "Дархостҳои set-ро дар mergeNotes ёбед.",
+            "en": "Find the set calls in mergeNotes."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-30-q3",
+          "question": {
+            "ru": "Какое правило выбирает победителя в решении?",
+            "tg": "Дар ҳалл кадом қоида ғолибро интихоб мекунад?",
+            "en": "Which rule picks the winner in the solution?"
+          },
+          "options": [
+            {
+              "ru": "Более свежий updatedAt",
+              "tg": "updatedAt-и навтар",
+              "en": "The fresher updatedAt"
+            },
+            {
+              "ru": "Длинный текст",
+              "tg": "Матни дароз",
+              "en": "The longer text"
+            },
+            {
+              "ru": "Алфавитный порядок id",
+              "tg": "Тартиби алифбоии id",
+              "en": "Alphabetical id order"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Время изменения — честный признак свежести.",
+            "tg": "Вақти тағйир аломати рӯбарӯи навбудист.",
+            "en": "The change time is an honest freshness sign."
+          },
+          "hint": {
+            "ru": "Сравните условия в mergeNotes примера и решения.",
+            "tg": "Шартҳоро дар mergeNotes-и мисол ва ҳалл муқоиса кунед.",
+            "en": "Compare the conditions in the example and solution mergeNotes."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-30-q4",
+          "question": {
+            "ru": "Зачем состояние source пользователю?",
+            "tg": "Ҳолати source барои корбар барои чист?",
+            "en": "What is the source state for?"
+          },
+          "options": [
+            {
+              "ru": "Ускорить рендер",
+              "tg": "Render-ро тез кунад",
+              "en": "Speed up rendering"
+            },
+            {
+              "ru": "Честно объяснить, откуда показанные данные",
+              "tg": "Рӯбарӯ фаҳмонад, ки маълумоти нишондодашуда аз куҷост",
+              "en": "Explain honestly where the shown data came from"
+            },
+            {
+              "ru": "Скрыть ошибки сети",
+              "tg": "Хатоҳои шабакаро маҳкум кунад",
+              "en": "Hide network errors"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Пользователь видит границы своих данных.",
+            "tg": "Корбар ҳудуди маълумоти худро мебинад.",
+            "en": "The user sees the limits of their data."
+          },
+          "hint": {
+            "ru": "Посмотрите на строку «Источник:» в примере.",
+            "tg": "Ба сатри «Манбаъ:» дар мисол нигоҳ кунед.",
+            "en": "Look at the «Источник:» line in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-30-q5",
+          "question": {
+            "ru": "Что курс говорит о настоящей синхронизации с сервером?",
+            "tg": "Курс дар бораи синхронизатсияи воқеӣ бо сервер чӣ мегӯяд?",
+            "en": "What does the course say about real server synchronization?"
+          },
+          "options": [
+            {
+              "ru": "Она невозможна на телефоне",
+              "tg": "Дар телефон имконнопазир аст",
+              "en": "It is impossible on a phone"
+            },
+            {
+              "ru": "Она уже реализована в этом дне",
+              "tg": "Дар ҳамин рӯз амалӣ шудааст",
+              "en": "It is already implemented this day"
+            },
+            {
+              "ru": "Это тема Pro-курса, здесь правило учат на данных",
+              "tg": "Ин мавзӯи курси Pro аст, дар ин ҷо қоида дар маълумот омӯхта мешавад",
+              "en": "It is Pro material; here the rule is learned on data"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Правило слияния — фундамент; полная синхронизация сложнее.",
+            "tg": "Қоидаи якҷоякунӣ асос аст; синхронизатсияи пурра мураккабтар.",
+            "en": "The merge rule is the foundation; full synchronization is harder."
+          },
+          "hint": {
+            "ru": "Найдите в примере финальную строку про сетевую часть.",
+            "tg": "Дар мисол сатри ниҳоӣ дар бораи қисми шабакавиро ёбед.",
+            "en": "Find the final network-part line in the example."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте объединение на устройстве при доступном и недоступном хранилище. Соберите решение с правилом updatedAt и сортировкой; запишите, какая запись победила для каждого id. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва якҷоякуниро дар дастгоҳ ҳангоми дастрас ва дастнашаванда будани нигоҳдорӣ санҷед. Ҳаллро бо қоидаи updatedAt ва ҷӯркуни созед; сабт кунед, ки барои ҳар id кадом сабт ғолиб шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check the merge on a device with the store available and unavailable. Build the solution with the updatedAt rule and sorting; record which record won for each id. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "В решении условие note.updatedAt > existing.updatedAt решает, кого класть в Map.",
+          "tg": "Дар ҳалл шарти note.updatedAt > existing.updatedAt муайян мекунад, ки кист ба Map гузошта шавад.",
+          "en": "In the solution the note.updatedAt > existing.updatedAt condition decides who goes into the Map."
+        },
+        "solution": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Note = { id: string; text: string; updatedAt: number };\n\nconst KEY = 'devatlas-cache-v2';\n\nexport function mergeNotes(local: Note[], remote: Note[]): Note[] {\n  const byId = new Map<string, Note>();\n  for (const note of local) byId.set(note.id, note);\n  for (const note of remote) {\n    const existing = byId.get(note.id);\n    if (!existing || note.updatedAt > existing.updatedAt) byId.set(note.id, note);\n  }\n  return [...byId.values()].sort((a, b) => b.updatedAt - a.updatedAt);\n}\n\nexport default function App() {\n  const [notes, setNotes] = useState<Note[] | null>(null);\n  const [source, setSource] = useState('');\n\n  useEffect(() => {\n    const local: Note[] = [\n      { id: 'n1', text: 'Локальная заметка', updatedAt: 100 },\n      { id: 'n2', text: 'Свежая локальная', updatedAt: 300 },\n    ];\n    const remote: Note[] = [\n      { id: 'n1', text: 'Обновлённая заметка', updatedAt: 200 },\n      { id: 'n3', text: 'Из учебного набора', updatedAt: 50 },\n    ];\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];\n        setNotes(mergeNotes(mergeNotes(remote, cached), local));\n        setSource(cached.length > 0 ? 'кэш + сеть + локальные' : 'сеть + локальные');\n      })\n      .catch(() => {\n        setNotes(mergeNotes(remote, local));\n        setSource('сеть + локальные');\n      });\n  }, []);\n\n  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Согласование данных</Text>\n      <Text>Источник: {source}</Text>\n      {notes.map(note => <Text key={note.id}>{note.text} ({note.updatedAt})</Text>)}\n      <Text>Правило дня: побеждает запись с более свежим updatedAt.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Объединённый список не содержит дублей id.",
+            "tg": "Рӯйхати якҷояшуда такрори id надорад.",
+            "en": "The merged list has no duplicate ids."
+          },
+          {
+            "ru": "Победители по id записаны и совпадают с правилом updatedAt.",
+            "tg": "Ғолибон аз рӯи id сабт шуда, ба қоидаи updatedAt мутобиқанд.",
+            "en": "The winners by id are recorded and match the updatedAt rule."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Объединить записи из двух источников по id.",
+            "tg": "Сабтҳоро аз ду манбаъ аз рӯи id якҷоя кунед.",
+            "en": "Merge records from two sources by id."
+          },
+          {
+            "ru": "Зафиксировать правило выбора более свежей записи в коде.",
+            "tg": "Қоидаи интихоби сабти навтарро дар рамз муқаррар кунед.",
+            "en": "Fix the fresher-record rule in code."
+          }
+        ],
+        "realWorld": {
+          "ru": "Почтовое приложение показывает письмо из кэша мгновенно и обновляет его, когда сеть ответит.",
+          "tg": "Барномаи почта мактубро фавран аз кэш нишон медиҳад ва ҳангоми ҷавоби шабака нав мекунад.",
+          "en": "A mail app shows a letter from cache instantly and refreshes it when the network answers."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Почему для объединения удобен Map?",
+            "tg": "Map барои якҷоякунӣ барои чӣ қулай аст?",
+            "en": "Why is Map convenient for merging?"
+          },
+          "options": [
+            {
+              "ru": "Он удаляет старые записи сам",
+              "tg": "Ӯ сабтҳои кӯҳнаро худ нест мекунад",
+              "en": "It deletes old records itself"
+            },
+            {
+              "ru": "Он шифрует записи",
+              "tg": "Ӯ сабтҳоро рамзгузорӣ мекунад",
+              "en": "It encrypts records"
+            },
+            {
+              "ru": "Он хранит по одному значению на ключ id",
+              "tg": "Ӯ барои ҳар калиди id як қиматро нигоҳ медорад",
+              "en": "It keeps one value per id key"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Найдите в mergeNotes вызовы set.",
+            "tg": "Дархостҳои set-ро дар mergeNotes ёбед.",
+            "en": "Find the set calls in mergeNotes."
+          },
+          "explanation": {
+            "ru": "Дубликаты id невозможны, установка поверх заменяет значение.",
+            "tg": "Такрори id имконнопазир аст, гузоштан болояшон қиматро иваз мекунад.",
+            "en": "Duplicate ids are impossible; setting on top replaces the value."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Note = { id: string; text: string };\n\nconst KEY = 'devatlas-cache';\n\nexport function mergeNotes(local: Note[], remote: Note[]): Note[] {\n  const byId = new Map<string, Note>();\n  for (const note of local) byId.set(note.id, note);\n  for (const note of remote) {\n    const existing = byId.get(note.id);\n    if (!existing || existing.text !== note.text) byId.set(note.id, note);\n  }\n  return [...byId.values()];\n}\n\nexport default function App() {\n  const [notes, setNotes] = useState<Note[] | null>(null);\n  const [source, setSource] = useState('');\n\n  useEffect(() => {\n    const local: Note[] = [\n      { id: 'n1', text: 'Локальная заметка' },\n    ];\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];\n        setNotes(mergeNotes(cached, local));\n        setSource(cached.length > 0 ? 'кэш + локальные' : 'только локальные');\n      })\n      .catch(() => {\n        setNotes(local);\n        setSource('только локальные');\n      });\n  }, []);\n\n  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Согласование данных</Text>\n      <Text>Источник: {source}</Text>\n      {notes.map(note => <Text key={note.id}>{note.text}</Text>)}\n      <Text>Сетевая часть появится в Pro-курсе; здесь правило — локальное и кэш объединяются по id.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+          "steps": [
+            {
+              "line": 10,
+              "explanation": {
+                "ru": "Локальные записи кладутся в Map первыми.",
+                "tg": "Сабтҳои маҳаллӣ аввал ба Map гузошта мешаванд.",
+                "en": "Local records go into the Map first."
+              },
+              "values": "Map by id"
+            },
+            {
+              "line": 12,
+              "explanation": {
+                "ru": "Сетевые записи перезаписывают совпавшие id.",
+                "tg": "Сабтҳои шабакавӣ id-ҳои мутобиқро аз нав менависанд.",
+                "en": "Network records overwrite matching ids."
+              },
+              "values": "n1 updated"
+            },
+            {
+              "line": 14,
+              "explanation": {
+                "ru": "Результат — список без дублей id.",
+                "tg": "Натиҷа — рӯйхати бе такрори id.",
+                "en": "The result is a list with no duplicate ids."
+              },
+              "values": "unique ids"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в mergeNotes порядок установки записей и объясните, кто побеждает.",
+              "tg": "Дар mergeNotes тартиби гузоштани сабтҳоро ёфта, шарҳ диҳед, ки кист ғолиб.",
+              "en": "Find the record placement order in mergeNotes and explain who wins."
+            },
+            {
+              "ru": "Сравните подпись источника при доступном и недоступном хранилище.",
+              "tg": "Матни манбаъро ҳангоми дастрас ва дастнашаванда будани нигоҳдорӣ муқоиса кунед.",
+              "en": "Compare the source label with the store available and unavailable."
+            }
+          ],
+          "hint": {
+            "ru": "В решении условие note.updatedAt > existing.updatedAt решает, кого класть в Map.",
+            "tg": "Дар ҳалл шарти note.updatedAt > existing.updatedAt муайян мекунад, ки кист ба Map гузошта шавад.",
+            "en": "In the solution the note.updatedAt > existing.updatedAt condition decides who goes into the Map."
+          },
+          "success": {
+            "ru": "Список не содержит дублей, а каждый совпавший id разрешён по объявленному правилу.",
+            "tg": "Рӯйхат такрори надорад ва ҳар id-и мутобиқ аз рӯи қоидаи эълоншуда ҳал мешавад.",
+            "en": "The list has no duplicates and every matching id resolves by the declared rule."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте объединение на устройстве при доступном и недоступном хранилище. Соберите решение с правилом updatedAt и сортировкой; запишите, какая запись победила для каждого id. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва якҷоякуниро дар дастгоҳ ҳангоми дастрас ва дастнашаванда будани нигоҳдорӣ санҷед. Ҳаллро бо қоидаи updatedAt ва ҷӯркуни созед; сабт кунед, ки барои ҳар id кадом сабт ғолиб шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check the merge on a device with the store available and unavailable. Build the solution with the updatedAt rule and sorting; record which record won for each id. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Объединённый список не содержит дублей id.",
+              "tg": "Рӯйхати якҷояшуда такрори id надорад.",
+              "en": "The merged list has no duplicate ids."
+            },
+            {
+              "ru": "Победители по id записаны и совпадают с правилом updatedAt.",
+              "tg": "Ғолибон аз рӯи id сабт шуда, ба қоидаи updatedAt мутобиқанд.",
+              "en": "The winners by id are recorded and match the updatedAt rule."
+            }
+          ],
+          "example": {
+            "ru": "n1 показывает «Обновлённая заметка», потому что его updatedAt новее локальной версии.",
+            "tg": "n1 «Қайди навшударо» нишон медиҳад, чунки updatedAt-и ӯ навтар аз версияи маҳаллӣ аст.",
+            "en": "n1 shows «Обновлённая заметка» because its updatedAt is fresher than the local version."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Объединение — явная функция с объявленным правилом победителя.",
+            "tg": "Якҷоякунӣ функсияи ошкор бо қоидаи эълоншудаи ғолиб аст.",
+            "en": "Merging is an explicit function with a declared winning rule."
+          },
+          {
+            "ru": "Полная синхронизация с сервером — материал Pro-курса.",
+            "tg": "Синхронизатсияи пурра бо сервер мавзӯи курси Pro аст.",
+            "en": "Full server synchronization is Pro-course material."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Почему для объединения удобен Map?",
+            "tg": "Map барои якҷоякунӣ барои чӣ қулай аст?",
+            "en": "Why is Map convenient for merging?"
+          },
+          {
+            "ru": "Какое правило выбирает победителя в решении?",
+            "tg": "Дар ҳалл кадом қоида ғолибро интихоб мекунад?",
+            "en": "Which rule picks the winner in the solution?"
+          }
+        ],
         "nextLessonId": null
       }
     }

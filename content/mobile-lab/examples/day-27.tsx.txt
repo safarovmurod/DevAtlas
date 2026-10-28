@@ -1,0 +1,50 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+
+type Todo = { id: number; title: string };
+
+export default function App() {
+  const [query, setQuery] = useState('');
+  const [titles, setTitles] = useState<string[]>([]);
+  const [status, setStatus] = useState<'loading' | 'done' | 'error'>('done');
+
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (!trimmed) {
+      setTitles([]);
+      return;
+    }
+    const controller = new AbortController();
+    setStatus('loading');
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=20', { signal: controller.signal })
+      .then(response => response.json())
+      .then((data: Todo[]) => {
+        const found = data
+          .map(item => item.title)
+          .filter(title => title.toLowerCase().includes(trimmed.toLowerCase()));
+        setTitles(found);
+        setStatus('done');
+      })
+      .catch((error: unknown) => {
+        if ((error as { name?: string }).name === 'AbortError') return;
+        setStatus('error');
+      });
+    return () => controller.abort();
+  }, [query]);
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Поиск занятий</Text>
+      <TextInput value={query} onChangeText={setQuery} placeholder="Введите слово" style={styles.input} />
+      {status === 'loading' ? <Text>Загрузка…</Text> : null}
+      {status === 'done' && titles.length === 0 ? <Text>Ничего не найдено.</Text> : null}
+      {titles.map(title => <Text key={title}>{title}</Text>)}
+      {status === 'error' ? <Text>Сеть недоступна.</Text> : null}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+});
