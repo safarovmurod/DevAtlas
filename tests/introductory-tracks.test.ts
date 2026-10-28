@@ -12,7 +12,7 @@ it('Backend foundations and the mobile introduction have actual sequential days 
   for (const id of ['backend', 'mobile'] as const) {
     const content = await loadCourseContent(id);
     const plan = courseMonthPlan(content.lessons);
-    expect(plan.map(day => day.day)).toEqual(Array.from({length:id==='backend'?44:9},(_,i)=>i+1));
+    expect(plan.map(day => day.day)).toEqual(Array.from({length:id==='backend'?44:16},(_,i)=>i+1));
     expect(plan[0].lesson.prerequisiteDays).toEqual([]);
     expect(plan[1].lesson.prerequisiteDays).toEqual([1]);
     for (const lesson of content.lessons) {

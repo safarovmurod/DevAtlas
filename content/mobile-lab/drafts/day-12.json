@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-12",
+  "day": 12,
+  "prerequisiteDays": [
+    11
+  ],
+  "title": {
+    "ru": "Стили и размеры без web-допущений",
+    "tg": "Услубҳо ва андозаҳо бе фарзи веб",
+    "en": "Styles and sizes without web assumptions"
+  },
+  "summary": {
+    "ru": "Задавайте размеры числами, применяйте проценты осознанно и не переносите CSS-файлы из веба.",
+    "tg": "Андозаҳоро бо рақам диҳед, фоизҳоро огоҳона истифода баред ва CSS-ро аз веб нагузаронед.",
+    "en": "Give sizes as numbers, use percentages deliberately and do not carry CSS files over from the web."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Числа вместо пикселей",
+        "tg": "Рақам ба ҷои пиксел",
+        "en": "Numbers instead of pixels"
+      },
+      "body": {
+        "ru": "В React Native размеры задаются числами без единиц: padding: 16 — это плотностно-независимые пиксели, одинаково выглядящие на экранах разной чёткости. Строки «16px» здесь не работают: это число, а не CSS-значение. Проценты пишутся строкой и считаются от родителя: width: '50%' — половина ширины контейнера. margin создаёт отступ снаружи, padding — внутри; borderRadius скругляет углы. Цвета задаются строками, как '#ffffff'. Файл CSS из веб-проекта не подключить: свойства переименованы (font-size стало fontSize), а часть веб-возможностей отсутствует. StyleSheet.create собирает стили в один объект с именами, что заменяет классы.",
+        "tg": "Дар React Native андозаҳо бо рақамҳои бе воҳид дода мешаванд: padding: 16 — пиксели соҳибихтиёрии зичӣ, ки дар экранҳои гуногуни возеҳӣ якхелда менамоянд. Сатри «16px» дар ин ҷо кор намекунад: ин рақам аст, на қимати CSS. Фоиз сатр навишта мешавад ва аз волидайн ҳисоб мешавад: width: '50%' — нисфи паҳнии контейнер. margin фосиларо дар берун месозад, padding — дар дохил; borderRadius кунҷҳоро мудаввар мекунад. Рангҳо бо сатрҳо дода мешаванд, масалан '#ffffff'. Файли CSS-ро аз лоиҳаи веб пайваст кардан нашавад: хосиятҳо аз нав ном гирифтаанд (font-size ба fontSize) ва як қисми имконоти веб вуҷуд надорад. StyleSheet.create услубҳоро дар як объект бо номҳо ҷамъ меорад, ки ҷои синфҳоро мегирад.",
+        "en": "In React Native sizes are plain numbers without units: padding: 16 means density-independent pixels that look alike on screens of different sharpness. The string \"16px\" does not work here: it is a number, not a CSS value. Percentages are strings measured against the parent: width: '50%' is half of the container width. margin creates space outside, padding inside; borderRadius rounds corners. Colors are strings like '#ffffff'. A CSS file from a web project cannot be connected: properties were renamed (font-size became fontSize) and some web features do not exist. StyleSheet.create collects styles into one named object, which replaces classes."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Стиль card описывает карточку: margin 16 отделяет её от краёв экрана, padding 16 создаёт внутренний отступ, borderRadius 12 скругляет углы, а backgroundColor задаёт белый фон. title использует fontSize 20 и fontWeight '600' — числа и строки, не CSS-ключевые слова вроде semibold в старом синтаксисе. marginBottom 8 отделяет заголовок от текста. Все значения — числа или строки без единиц измерения. Измените фон карточки на свой цвет и запишите его: согласованность цветов вы воспроизводите сами, готовых тем в примере нет. Проверьте карточку на устройстве при увеличенном системном шрифте: текст остаётся читаемым, потому что размеры дают место.",
+        "tg": "Услуби card карточкаро тавсиф медиҳад: margin 16 онро аз ҳошияҳои экран ҷудо мекунад, padding 16 фосилаи дохилӣ месозад, borderRadius 12 кунҷҳоро мудаввар мекунад ва backgroundColor заминаи сафед медиҳад. title fontSize 20 ва fontWeight '600' истифода мебарад — рақам ва сатр, на калимаҳои CSS-и кӯҳна мисли semibold. marginBottom 8 сарлавҳаро аз матн ҷудо мекунад. Ҳамаи қиматҳо рақам ё сатри бе воҳиданд. Заминаи карточкаро ба ранги худ иваз карда, сабт кунед: созишномаи рангҳоро худ такрор мекунед, мавзӯъҳои тайёр дар мисол нест. Карточкаро дар дастгоҳ бо ҳуруфи калони система санҷед: матн хонданашаванда мемонад, чунки андозаҳо ҷо медиҳанд.",
+        "en": "The card style describes a card: margin 16 separates it from the screen edges, padding 16 creates inner spacing, borderRadius 12 rounds the corners, and backgroundColor sets a white background. title uses fontSize 20 and fontWeight '600' — a number and a string, not old CSS keywords like semibold. marginBottom 8 separates the title from the body. All values are numbers or unitless strings. Change the card background to your own color and record it: you reproduce color agreement yourself, the example ships no themes. Check the card on a device with a larger system font: text stays readable because the sizes give room."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>Урок 12</Text>\n      <Text style={styles.body}>Размеры задаются числами без единиц.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  card: { margin: 16, padding: 16, borderRadius: 12, backgroundColor: '#ffffff' },\n  title: { fontSize: 20, fontWeight: '600', marginBottom: 8 },\n  body: { fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-12-q1",
+      "question": {
+        "ru": "Что означает число в padding: 16?",
+        "tg": "Рақам дар padding: 16 чӣ маъно дорад?",
+        "en": "What does the number in padding: 16 mean?"
+      },
+      "options": [
+        {
+          "ru": "Миллиметры экрана",
+          "tg": "Миллиметри экран",
+          "en": "Screen millimeters"
+        },
+        {
+          "ru": "Плотностно-независимые пиксели",
+          "tg": "Пиксели соҳибихтиёрии зичӣ",
+          "en": "Density-independent pixels"
+        },
+        {
+          "ru": "Проценты от шрифта",
+          "tg": "Фоиз аз ҳуруф",
+          "en": "Percent of the font"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Число без единиц — плотностно-независимый размер.",
+        "tg": "Рақами бе воҳид — андозаи соҳибихтиёрии зичӣ.",
+        "en": "A unitless number is a density-independent size."
+      },
+      "hint": {
+        "ru": "Перечитайте первое предложение первого раздела.",
+        "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+        "en": "Re-read the first sentence of the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-12-q2",
+      "question": {
+        "ru": "Как записать половину ширины родителя?",
+        "tg": "Нисфи паҳнии волидайнро чӣ тавр навиштан мумкин?",
+        "en": "How do you write half of the parent width?"
+      },
+      "options": [
+        {
+          "ru": "width: 50",
+          "tg": "width: 50",
+          "en": "width: 50"
+        },
+        {
+          "ru": "width: half",
+          "tg": "width: half",
+          "en": "width: half"
+        },
+        {
+          "ru": "width: '50%'",
+          "tg": "width: '50%'",
+          "en": "width: '50%'"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Проценты пишутся строкой со знаком процента.",
+        "tg": "Фоиз ҳамчун сатри бо аломати фоиз навишта мешавад.",
+        "en": "Percentages are written as strings with the percent sign."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе слова про проценты.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи фоизро ёбед.",
+        "en": "Find the first-section words about percentages."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-12-q3",
+      "question": {
+        "ru": "Чем margin отличается от padding?",
+        "tg": "margin аз padding чӣ фарқ дорад?",
+        "en": "How does margin differ from padding?"
+      },
+      "options": [
+        {
+          "ru": "margin — отступ снаружи, padding — внутри",
+          "tg": "margin — фосила дар берун, padding — дар дохил",
+          "en": "margin is outside spacing, padding is inside"
+        },
+        {
+          "ru": "margin — для текста, padding — для картинок",
+          "tg": "margin — барои матн, padding — барои расмҳо",
+          "en": "margin is for text, padding for images"
+        },
+        {
+          "ru": "Они одинаковы",
+          "tg": "Онҳо якхелданд",
+          "en": "They are the same"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "margin отделяет снаружи, padding создаёт внутренний отступ.",
+        "tg": "margin дар берун ҷудо мекунад, padding фосилаи дохилӣ месозад.",
+        "en": "margin separates outside, padding creates inner spacing."
+      },
+      "hint": {
+        "ru": "Сравните определения margin и padding в первом разделе.",
+        "tg": "Таърифҳои margin ва padding-ро дар бахши аввал муқоиса кунед.",
+        "en": "Compare the margin and padding definitions in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-12-q4",
+      "question": {
+        "ru": "Почему CSS-файл из веб-проекта не подключают?",
+        "tg": "Барои чӣ файли CSS-и лоиҳаи веб пайваст намекунанд?",
+        "en": "Why is a CSS file from a web project not connected?"
+      },
+      "options": [
+        {
+          "ru": "Файлы CSS запрещены законом",
+          "tg": "Файлҳои CSS қонунан мамнӯъанд",
+          "en": "CSS files are forbidden by law"
+        },
+        {
+          "ru": "Свойства переименованы и часть веб-возможностей отсутствует",
+          "tg": "Хосиятҳо аз нав ном гирифтаанд ва як қисми имконоти веб нест",
+          "en": "Properties were renamed and some web features do not exist"
+        },
+        {
+          "ru": "CSS работает только ночью",
+          "tg": "CSS танҳо шабона кор мекунад",
+          "en": "CSS only works at night"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "React Native использует объекты стилей с другими именами свойств.",
+        "tg": "React Native объектҳои услубӣ бо номҳои дигари хосиятҳоро истифода мебарад.",
+        "en": "React Native uses style objects with different property names."
+      },
+      "hint": {
+        "ru": "Вспомните, что случилось с font-size при переходе на объекты.",
+        "tg": "Ёд оред, ки ҳангоми гузариш ба объектҳо бо font-size чӣ шуд.",
+        "en": "Recall what happened to font-size when moving to style objects."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-12-q5",
+      "question": {
+        "ru": "Что даёт StyleSheet.create?",
+        "tg": "StyleSheet.create чӣ медиҳад?",
+        "en": "What does StyleSheet.create provide?"
+      },
+      "options": [
+        {
+          "ru": "Доступ к файловой системе",
+          "tg": "Дастрасӣ ба системаи файлҳо",
+          "en": "File system access"
+        },
+        {
+          "ru": "Автоматический перевод CSS",
+          "tg": "Тарҷумаи худкори CSS",
+          "en": "Automatic CSS translation"
+        },
+        {
+          "ru": "Один объект с именованными стилями вместо классов",
+          "tg": "Як объект бо услубҳои номдор ба ҷои синфҳо",
+          "en": "One object with named styles instead of classes"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Имена стилей заменяют классы веб-разметки.",
+        "tg": "Номҳои услубҳо ҷои синфҳои нишонагузории вебро мегиранд.",
+        "en": "Style names replace the classes of web markup."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе предложение о StyleSheet.create.",
+        "tg": "Дар бахши аввал ҷумлаи дар бораи StyleSheet.create-ро ёбед.",
+        "en": "Find the first-section sentence about StyleSheet.create."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите карточку из примера и измените фон на свой цвет. Добавьте заметку Text со стилем fontSize 14 и marginTop 12. Запишите свои значения цветов и отступов, затем проверьте карточку на устройстве при обычном и увеличенном шрифте. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Карточкаро аз мисол созед ва заминаро ба ранги худ иваз кунед. Тавзеҳи Text бо услуби fontSize 14 ва marginTop 12 илова кунед. Қиматҳои ранг ва фосилаҳои худро сабт кунед, баъд карточкаро дар дастгоҳ бо ҳуруфи оддӣ ва калон санҷед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example card and change the background to your own color. Add a Text note with fontSize 14 and marginTop 12. Record your color and spacing values, then check the card on a device with the normal and a larger font. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Заметку добавьте внутрь card, а её стиль — в StyleSheet.create рядом с card.",
+      "tg": "Тавзеҳро дар дохили card илова кунед, услуби онро дар StyleSheet.create дар паҳлуи card.",
+      "en": "Add the note inside card and put its style in StyleSheet.create next to card."
+    },
+    "solution": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>Урок 12</Text>\n      <Text style={styles.body}>Размеры задаются числами без единиц.</Text>\n      <Text style={styles.note}>Записал цвета и отступы своей карточки.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  card: { margin: 16, padding: 16, borderRadius: 12, backgroundColor: '#f0f9ff' },\n  title: { fontSize: 20, fontWeight: '600', marginBottom: 8 },\n  body: { fontSize: 16 },\n  note: { fontSize: 14, marginTop: 12, color: '#475569' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Карточка использует ваш цвет и отдельный стиль заметки.",
+        "tg": "Карточка ранги шумо ва услуби алоҳидаи тавзеҳро истифода мебарад.",
+        "en": "The card uses your color and a separate note style."
+      },
+      {
+        "ru": "Записаны значения отступов и результат проверки при увеличенном шрифте.",
+        "tg": "Қиматҳои фосилаҳо ва натиҷаи санҷиш бо ҳуруфи калон сабт шудаанд.",
+        "en": "The spacing values and the larger-font check result are recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Задавать размеры числами и объяснить плотностно-независимые пиксели.",
+        "tg": "Андозаҳоро бо рақам диҳед ва пиксели соҳибихтиёрии зичӣро шарҳ диҳед.",
+        "en": "Give sizes as numbers and explain density-independent pixels."
+      },
+      {
+        "ru": "Собрать карточку со своими цветами и отступами.",
+        "tg": "Карточкаро бо рангҳо ва фосилаҳои худ созед.",
+        "en": "Build a card with your own colors and spacing."
+      }
+    ],
+    "realWorld": {
+      "ru": "Карточка занятия в приложении-планировщике: отступы, скруглённые углы и читаемый заголовок.",
+      "tg": "Карточкаи машғулият дар барномаи барномасозӣ: фосилаҳо, кунҷҳои мудаввар ва сарлавҳаи хонданашаванда.",
+      "en": "A lesson card in a planner app: spacing, rounded corners and a readable title."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Как записать половину ширины родителя?",
+        "tg": "Нисфи паҳнии волидайнро чӣ тавр навиштан мумкин?",
+        "en": "How do you write half of the parent width?"
+      },
+      "options": [
+        {
+          "ru": "width: 50",
+          "tg": "width: 50",
+          "en": "width: 50"
+        },
+        {
+          "ru": "width: half",
+          "tg": "width: half",
+          "en": "width: half"
+        },
+        {
+          "ru": "width: '50%'",
+          "tg": "width: '50%'",
+          "en": "width: '50%'"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Найдите в первом разделе слова про проценты.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи фоизро ёбед.",
+        "en": "Find the first-section words about percentages."
+      },
+      "explanation": {
+        "ru": "Проценты пишутся строкой со знаком процента.",
+        "tg": "Фоиз ҳамчун сатри бо аломати фоиз навишта мешавад.",
+        "en": "Percentages are written as strings with the percent sign."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>Урок 12</Text>\n      <Text style={styles.body}>Размеры задаются числами без единиц.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  card: { margin: 16, padding: 16, borderRadius: 12, backgroundColor: '#ffffff' },\n  title: { fontSize: 20, fontWeight: '600', marginBottom: 8 },\n  body: { fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "card применяется к контейнеру карточки.",
+            "tg": "card ба контейнери карточка татбиқ мешавад.",
+            "en": "card applies to the card container."
+          },
+          "values": "margin 16, padding 16, radius 12"
+        },
+        {
+          "line": 13,
+          "explanation": {
+            "ru": "Все значения card — числа без единиц.",
+            "tg": "Ҳамаи қиматҳои card — рақамҳои бе воҳид.",
+            "en": "All card values are unitless numbers."
+          },
+          "values": "16, 16, 12"
+        },
+        {
+          "line": 14,
+          "explanation": {
+            "ru": "title задаёт размер и вес текста.",
+            "tg": "title андоза ва вазни матнро муайян мекунад.",
+            "en": "title sets the text size and weight."
+          },
+          "values": "fontSize 20, weight 600"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в стиле card каждое числовое значение и назовите его смысл.",
+          "tg": "Дар услуби card ҳар қимати рақамиро ёфта, маънои онро номбар кунед.",
+          "en": "Find each numeric value in the card style and name its meaning."
+        },
+        {
+          "ru": "Замените цвет фона на свой и проверьте карточку на устройстве.",
+          "tg": "Ранги заминаро ба худи худ иваз карда, карточкаро дар дастгоҳ санҷед.",
+          "en": "Replace the background color with your own and check the card on a device."
+        }
+      ],
+      "hint": {
+        "ru": "Заметку добавьте внутрь card, а её стиль — в StyleSheet.create рядом с card.",
+        "tg": "Тавзеҳро дар дохили card илова кунед, услуби онро дар StyleSheet.create дар паҳлуи card.",
+        "en": "Add the note inside card and put its style in StyleSheet.create next to card."
+      },
+      "success": {
+        "ru": "Карточка показывает ваш цвет, скруглённые углы и читаемый текст.",
+        "tg": "Карточка ранги шумо, кунҷҳои мудаввар ва матни хонданашавандаро нишон медиҳад.",
+        "en": "The card shows your color, rounded corners and readable text."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите карточку из примера и измените фон на свой цвет. Добавьте заметку Text со стилем fontSize 14 и marginTop 12. Запишите свои значения цветов и отступов, затем проверьте карточку на устройстве при обычном и увеличенном шрифте. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Карточкаро аз мисол созед ва заминаро ба ранги худ иваз кунед. Тавзеҳи Text бо услуби fontSize 14 ва marginTop 12 илова кунед. Қиматҳои ранг ва фосилаҳои худро сабт кунед, баъд карточкаро дар дастгоҳ бо ҳуруфи оддӣ ва калон санҷед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example card and change the background to your own color. Add a Text note with fontSize 14 and marginTop 12. Record your color and spacing values, then check the card on a device with the normal and a larger font. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Карточка использует ваш цвет и отдельный стиль заметки.",
+          "tg": "Карточка ранги шумо ва услуби алоҳидаи тавзеҳро истифода мебарад.",
+          "en": "The card uses your color and a separate note style."
+        },
+        {
+          "ru": "Записаны значения отступов и результат проверки при увеличенном шрифте.",
+          "tg": "Қиматҳои фосилаҳо ва натиҷаи санҷиш бо ҳуруфи калон сабт шудаанд.",
+          "en": "The spacing values and the larger-font check result are recorded."
+        }
+      ],
+      "example": {
+        "ru": "Заметка «Записал цвета и отступы своей карточки» отображается мельче под основным текстом.",
+        "tg": "Тавзеҳи «Рангҳо ва фосилаҳои карточкаи худро сабт кардам» зери матни асосӣ хурдтар дида мешавад.",
+        "en": "The note \"Recorded my card colors and spacing\" appears smaller under the body text."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Размеры — числа без единиц; проценты пишутся строкой от родителя.",
+        "tg": "Андозаҳо рақамҳои бе воҳиданд; фоиз ҳамчун сатри аз волидайн навишта мешавад.",
+        "en": "Sizes are unitless numbers; percentages are strings measured against the parent."
+      },
+      {
+        "ru": "StyleSheet.create заменяет классы именованными стилями.",
+        "tg": "StyleSheet.create синфҳоро бо услубҳои номдор иваз мекунад.",
+        "en": "StyleSheet.create replaces classes with named styles."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Как записать половину ширины родителя?",
+        "tg": "Нисфи паҳнии волидайнро чӣ тавр навиштан мумкин?",
+        "en": "How do you write half of the parent width?"
+      },
+      {
+        "ru": "Почему CSS-файл из веб-проекта не подключают?",
+        "tg": "Барои чӣ файли CSS-и лоиҳаи веб пайваст намекунанд?",
+        "en": "Why is a CSS file from a web project not connected?"
+      }
+    ],
+    "nextLessonId": "mobile-day-13"
+  }
+}

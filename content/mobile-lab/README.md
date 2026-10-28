@@ -1,6 +1,6 @@
-# Mobile lab — days 1–9 published / дни 1–9 опубликованы / рӯзҳои 1–9 нашр шудаанд
+# Mobile lab — days 1–16 published / дни 1–16 опубликованы / рӯзҳои 1–16 нашр шудаанд
 
-Days 1–9 are published in `src/content/courses/mobile.json`; this folder keeps the authoring drafts, Expo examples, worked solutions and the learner-side component checker. The checker runs your chosen file with your own computer permissions in a temporary directory inside your Expo project. It is not used by the DevAtlas server. Run only code you trust.
+Days 1–16 are published in `src/content/courses/mobile.json`; this folder keeps the authoring drafts, Expo examples, worked solutions and the learner-side component checker. The checker runs your chosen file with your own computer permissions in a temporary directory inside your Expo project. It is not used by the DevAtlas server. Run only code you trust.
 
 RU: Для проверки логики дней 2, 4, 6, 8 и 9 используйте отдельный blank TypeScript-проект Expo SDK 58 с установленными `jest`, `jest-expo`, `@react-native/jest-preset`, `@testing-library/react-native` и `test-renderer`. Передайте свой файл и путь к проекту:
 

@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-16",
+  "day": 16,
+  "prerequisiteDays": [
+    15
+  ],
+  "title": {
+    "ru": "ScrollView и FlatList",
+    "tg": "ScrollView ва FlatList",
+    "en": "ScrollView and FlatList"
+  },
+  "summary": {
+    "ru": "Покажите список занятий через FlatList со стабильными ключами и узнайте, когда хватает ScrollView.",
+    "tg": "Рӯйхати машғулиятҳоро бо FlatList ва калидҳои устувор нишон диҳед ва бифаҳмед, ки ScrollView куҷо кифоя аст.",
+    "en": "Show a lesson list with FlatList and stable keys and learn when ScrollView is enough."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Два способа показать список",
+        "tg": "Ду тарзи нишон додани рӯйхат",
+        "en": "Two ways to show a list"
+      },
+      "body": {
+        "ru": "ScrollView прокручивает всех детей сразу: он подходит для короткого содержимого — шапки, пары блоков, формы. Для длинных данных существует FlatList: он получает массив data, рисует элементы функцией renderItem и держит в памяти только видимые строки, поэтому длинный список не тормозит. keyExtractor возвращает стабильный ключ для каждой записи: тот же принцип, что и key={lesson.id} в дне 9 — ключ не должен быть случайным числом каждого рендера. Если массив пуст, FlatList показывает ListEmptyComponent — готовое место для честного пустого состояния. Список примера — константа в коде: приход данных из сети и обновление списка — темы дней 24–30.",
+        "tg": "ScrollView ҳамаи кӯдаконро якбора мекашад: барои мазмуни кӯтоҳ мувофиқ аст — сарлавҳа, чанд блок, шакл. Барои маълумоти дароз FlatList вуҷуд дорад: массиви data мегирад, унсурҳоро бо функсияи renderItem мекашад ва танҳо сатрҳои дидашударо дар хотира нигоҳ медорад, бинобар ин рӯйхати дароз суст намешавад. keyExtractor барои ҳар сабт калиди устувор бармегардонад: ҳамон принсипи key={lesson.id}-и рӯзи 9 — калид набояд рақами тасодуфии ҳар render бошад. Агар массив холӣ бошад, FlatList ListEmptyComponent-ро нишон медиҳад — ҷои тайёри ҳолати холии рӯбарӯ. Рӯйхати мисол доимӣ дар рамз аст: омадани маълумот аз шабака ва навкунии рӯйхат мавзӯъҳои рӯзҳои 24–30.",
+        "en": "ScrollView scrolls all children at once: it fits short content — a header, a few blocks, a form. For long data there is FlatList: it takes a data array, renders items with the renderItem function and keeps only visible rows in memory, so a long list stays fast. keyExtractor returns a stable key per record: the same principle as key={lesson.id} in day 9 — the key must not be a random number on every render. With an empty array FlatList shows ListEmptyComponent — a ready place for an honest empty state. The example list is a constant in code: data arriving from the network and refreshing the list are topics of days 24–30."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Массив lessons описан типом Lesson с id и title и лежит вне компонента: он не меняется, поэтому его не нужно пересоздавать на каждом рендере. FlatList получает data={lessons}, keyExtractor возвращает item.id, renderItem превращает каждую запись в Text со стилем item. Запустите пример: три строки прокручиваются, если контент выше экрана. Добавьте четвёртый элемент и строку «Всего: N» над списком, посчитанную через lessons.length. Затем временно задайте data={[]} и проверьте ListEmptyComponent — «Список пуст». Верните данные. Этот список статичен: в следующих модулях он наполнится сохранёнными и сетевыми записями.",
+        "tg": "Массиви lessons бо типи Lesson бо id ва title тавсиф шуда, берунаи компонент аст: тағйир намеёбад, бинобар ин дар ҳар render аз нав сохта намешавад. FlatList data={lessons} мегирад, keyExtractor item.id-ро бармегардонад, renderItem ҳар сабтро ба Text бо услуби item табдил медиҳад. Мисолро иҷро кунед: се сатр мекашанд, агар мазмун аз экран баланд бошад. Унсури чорум ва сатри «Ҳама: N»-ро болои рӯйхат бо lessons.length илова кунед. Баъд муваққатан data={[]} гузоред ва ListEmptyComponent-ро санҷед — «Рӯйхат холӣ». Маълумотро баргардонед. Ин рӯйхат устувор аст: дар модулҳои оянда бо сабтҳои нигоҳдоришуда ва шабакавӣ пур мешавад.",
+        "en": "The lessons array is typed as Lesson with id and title and lives outside the component: it does not change, so it is not recreated on every render. FlatList takes data={lessons}, keyExtractor returns item.id, renderItem turns each record into a Text with the item style. Run the example: three rows scroll if the content is taller than the screen. Add a fourth item and a «Всего: N» line above the list computed from lessons.length. Then temporarily set data={[]} and check ListEmptyComponent — «Список пуст». Restore the data. This list is static: in the coming modules it fills with saved and network records."
+      },
+      "code": "import { FlatList, StyleSheet, Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nconst lessons: Lesson[] = [\n  { id: '1', title: 'Экран' },\n  { id: '2', title: 'Стили' },\n  { id: '3', title: 'Flexbox' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия</Text>\n      <FlatList\n        data={lessons}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <Text style={styles.item}>{item.title}</Text>}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 8 },\n  item: { padding: 12, fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-16-q1",
+      "question": {
+        "ru": "Когда достаточно ScrollView?",
+        "tg": "ScrollView куҷо кифоя аст?",
+        "en": "When is ScrollView enough?"
+      },
+      "options": [
+        {
+          "ru": "Для хранения пароля",
+          "tg": "Барои нигоҳдории парол",
+          "en": "For storing a password"
+        },
+        {
+          "ru": "Для списка из тысячи записей",
+          "tg": "Барои рӯйхати ҳазор сабт",
+          "en": "For a list of a thousand records"
+        },
+        {
+          "ru": "Для короткого фиксированного содержимого",
+          "tg": "Барои мазмуни кӯтоҳи собит",
+          "en": "For short fixed content"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "ScrollView держит всех детей в памяти и рисует их сразу.",
+        "tg": "ScrollView ҳамаи кӯдаконро дар хотира дорад ва якбора мекашад.",
+        "en": "ScrollView keeps all children in memory and renders them at once."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе, для чего подходит ScrollView.",
+        "tg": "Аз бахши аввал ёбед, ки ScrollView барои чӣ мувофиқ аст.",
+        "en": "Find in the first section what ScrollView fits."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-16-q2",
+      "question": {
+        "ru": "Что возвращает keyExtractor?",
+        "tg": "keyExtractor чӣ бармегардонад?",
+        "en": "What does keyExtractor return?"
+      },
+      "options": [
+        {
+          "ru": "Стабильный ключ каждой записи",
+          "tg": "Калиди устувори ҳар сабт",
+          "en": "A stable key per record"
+        },
+        {
+          "ru": "Количество элементов",
+          "tg": "Шумораи унсурҳо",
+          "en": "The item count"
+        },
+        {
+          "ru": "Случайное число для сортировки",
+          "tg": "Рақами тасодуфӣ барои ҷойгиркунӣ",
+          "en": "A random number for sorting"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Ключ помогает FlatList узнавать записи при изменении порядка.",
+        "tg": "Калид ба FlatList кӯмак мекунад ҳангоми тағйири тартиб сабтҳоро шиносад.",
+        "en": "The key helps FlatList recognize records when the order changes."
+      },
+      "hint": {
+        "ru": "Сравните keyExtractor с key={lesson.id} из дня 9.",
+        "tg": "keyExtractor-ро бо key={lesson.id}-и рӯзи 9 муқоиса кунед.",
+        "en": "Compare keyExtractor with day 9 key={lesson.id}."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-16-q3",
+      "question": {
+        "ru": "Почему длинный список на FlatList не тормозит?",
+        "tg": "Барои чӣ рӯйхати дарози FlatList суст намешавад?",
+        "en": "Why does a long FlatList stay fast?"
+      },
+      "options": [
+        {
+          "ru": "Он удаляет лишние записи из массива",
+          "tg": "Сабтҳои изофаро аз массив нест мекунад",
+          "en": "It removes extra records from the array"
+        },
+        {
+          "ru": "Он рисует только видимые строки",
+          "tg": "Танҳо сатрҳои дидашударо мекашад",
+          "en": "It renders only the visible rows"
+        },
+        {
+          "ru": "Он отключает стили",
+          "tg": "Услубҳоро хомӯш мекунад",
+          "en": "It disables styles"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "FlatList держит в памяти лишь видимые элементы и подгружает по мере прокрутки.",
+        "tg": "FlatList танҳо унсурҳои дидашударо дар хотира дорад ва ҳангоми скролл илова мекунад.",
+        "en": "FlatList keeps only visible items in memory and loads more while scrolling."
+      },
+      "hint": {
+        "ru": "Перечитайте в первом разделе, что FlatList держит в памяти.",
+        "tg": "Аз бахши аввал аз нав хонед, ки FlatList чиро дар хотира медорад.",
+        "en": "Re-read in the first section what FlatList keeps in memory."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-16-q4",
+      "question": {
+        "ru": "Что показывает ListEmptyComponent?",
+        "tg": "ListEmptyComponent чӣ нишон медиҳад?",
+        "en": "What does ListEmptyComponent show?"
+      },
+      "options": [
+        {
+          "ru": "Ошибку сети",
+          "tg": "Хатои шабака",
+          "en": "A network error"
+        },
+        {
+          "ru": "Индикатор загрузки",
+          "tg": "Нишондиҳандаи боркунӣ",
+          "en": "A loading indicator"
+        },
+        {
+          "ru": "Содержимое при пустом массиве data",
+          "tg": "Мазмун ҳангоми массиви холии data",
+          "en": "Content when the data array is empty"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Это готовое место для честного пустого состояния.",
+        "tg": "Ин ҷои тайёр барои ҳолати холии рӯбарӯ аст.",
+        "en": "It is a ready place for an honest empty state."
+      },
+      "hint": {
+        "ru": "Вспомните день 9: что должен объяснять экран при отсутствии данных.",
+        "tg": "Рӯзи 9-ро ёд оред: экран ҳангоми набудани маълумот чиро бояд фаҳмонад.",
+        "en": "Recall day 9: what a screen must explain when data is missing."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-16-q5",
+      "question": {
+        "ru": "Откуда пример берёт данные списка?",
+        "tg": "Мисол маълумоти рӯйхатро аз куҷо мегирад?",
+        "en": "Where does the example get its list data?"
+      },
+      "options": [
+        {
+          "ru": "Из константы в коде",
+          "tg": "Аз доимии дар рамз",
+          "en": "From a constant in the code"
+        },
+        {
+          "ru": "Из сети",
+          "tg": "Аз шабака",
+          "en": "From the network"
+        },
+        {
+          "ru": "Из базы данных",
+          "tg": "Аз пойгоҳи додаҳо",
+          "en": "From a database"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Массив объявлен вне компонента; сеть появится в модуле данных.",
+        "tg": "Массив берунаи компонент эълон шудааст; шабака дар модули маълумот меояд.",
+        "en": "The array is declared outside the component; the network arrives in the data module."
+      },
+      "hint": {
+        "ru": "Найдите в примере объявление массива lessons.",
+        "tg": "Дар мисол эълони массиви lessons-ро ёбед.",
+        "en": "Find the lessons array declaration in the example."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и прокрутите список на устройстве. Добавьте четвёртый элемент в массив и строку «Всего: N» над списком через lessons.length. Временно задайте data={[]} и запишите, что показывает ListEmptyComponent, затем верните данные. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва рӯйхатро дар дастгоҳ скролл кунед. Унсури чорум ба массив ва сатри «Ҳама: N»-ро болои рӯйхат бо lessons.length илова кунед. Муваққатан data={[]} гузоред ва сабт кунед, ки ListEmptyComponent чӣ нишон медиҳад, баъд маълумотро баргардонед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and scroll the list on a device. Add a fourth item to the array and a «Всего: N» line above the list through lessons.length. Temporarily set data={[]} and record what ListEmptyComponent shows, then restore the data. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Счётчик добавьте как обычный Text перед FlatList; для пустого состояния используйте ListEmptyComponent.",
+      "tg": "Ҳисобкунакро ҳамчун Text-и оддӣ пеш аз FlatList илова кунед; барои ҳолати холӣ ListEmptyComponent-ро истифода баред.",
+      "en": "Add the counter as a plain Text before FlatList; use ListEmptyComponent for the empty state."
+    },
+    "solution": "import { FlatList, StyleSheet, Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nconst lessons: Lesson[] = [\n  { id: '1', title: 'Экран' },\n  { id: '2', title: 'Стили' },\n  { id: '3', title: 'Flexbox' },\n  { id: '4', title: 'TextInput' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия</Text>\n      <Text>Всего: {lessons.length}</Text>\n      <FlatList\n        data={lessons}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <Text style={styles.item}>{item.title}</Text>}\n        ListEmptyComponent={<Text>Список пуст</Text>}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 8 },\n  item: { padding: 12, fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Список содержит четыре записи и строку «Всего: 4».",
+        "tg": "Рӯйхат чор сабт ва сатри «Ҳама: 4» дорад.",
+        "en": "The list has four records and a «Всего: 4» line."
+      },
+      {
+        "ru": "Записан результат проверки пустого состояния и возврат данных.",
+        "tg": "Натиҷаи санҷиши ҳолати холӣ ва баргардонидани маълумот сабт шудааст.",
+        "en": "The empty-state check and data restoration results are recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Показать список через FlatList со стабильными ключами.",
+        "tg": "Рӯйхатро бо FlatList ва калидҳои устувор нишон диҳед.",
+        "en": "Show a list with FlatList and stable keys."
+      },
+      {
+        "ru": "Выбрать между ScrollView и FlatList обоснованно.",
+        "tg": "Байни ScrollView ва FlatList асоснок интихоб кунед.",
+        "en": "Choose between ScrollView and FlatList with reasons."
+      }
+    ],
+    "realWorld": {
+      "ru": "Экран курса: список занятий из десятков записей прокручивается быстро и показывает «Всего: N».",
+      "tg": "Экрани курс: рӯйхати машғулиятҳо аз даҳҳо сабт тез мекашад ва «Ҳама: N»-ро нишон медиҳад.",
+      "en": "A course screen: a list of dozens of lessons scrolls fast and shows «Всего: N»."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что возвращает keyExtractor?",
+        "tg": "keyExtractor чӣ бармегардонад?",
+        "en": "What does keyExtractor return?"
+      },
+      "options": [
+        {
+          "ru": "Стабильный ключ каждой записи",
+          "tg": "Калиди устувори ҳар сабт",
+          "en": "A stable key per record"
+        },
+        {
+          "ru": "Количество элементов",
+          "tg": "Шумораи унсурҳо",
+          "en": "The item count"
+        },
+        {
+          "ru": "Случайное число для сортировки",
+          "tg": "Рақами тасодуфӣ барои ҷойгиркунӣ",
+          "en": "A random number for sorting"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Сравните keyExtractor с key={lesson.id} из дня 9.",
+        "tg": "keyExtractor-ро бо key={lesson.id}-и рӯзи 9 муқоиса кунед.",
+        "en": "Compare keyExtractor with day 9 key={lesson.id}."
+      },
+      "explanation": {
+        "ru": "Ключ помогает FlatList узнавать записи при изменении порядка.",
+        "tg": "Калид ба FlatList кӯмак мекунад ҳангоми тағйири тартиб сабтҳоро шиносад.",
+        "en": "The key helps FlatList recognize records when the order changes."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { FlatList, StyleSheet, Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nconst lessons: Lesson[] = [\n  { id: '1', title: 'Экран' },\n  { id: '2', title: 'Стили' },\n  { id: '3', title: 'Flexbox' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия</Text>\n      <FlatList\n        data={lessons}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <Text style={styles.item}>{item.title}</Text>}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 8 },\n  item: { padding: 12, fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Массив lessons объявлен вне компонента и не меняется.",
+            "tg": "Массиви lessons берунаи компонент эълон шуда, тағйир намеёбад.",
+            "en": "The lessons array is declared outside the component and does not change."
+          },
+          "values": "3 записи"
+        },
+        {
+          "line": 17,
+          "explanation": {
+            "ru": "keyExtractor берёт id записи как ключ.",
+            "tg": "keyExtractor id-и сабтро ҳамчун калид мегирад.",
+            "en": "keyExtractor takes the record id as the key."
+          },
+          "values": "key = item.id"
+        },
+        {
+          "line": 18,
+          "explanation": {
+            "ru": "renderItem превращает запись в Text со стилем.",
+            "tg": "renderItem сабтро ба Text бо услуб табдил медиҳад.",
+            "en": "renderItem turns a record into a styled Text."
+          },
+          "values": "Экран, Стили, Flexbox"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере data, keyExtractor и renderItem и объясните роль каждого.",
+          "tg": "Дар мисол data, keyExtractor ва renderItem-ро ёфта, нақши ҳар якеро шарҳ диҳед.",
+          "en": "Find data, keyExtractor and renderItem in the example and explain each role."
+        },
+        {
+          "ru": "Добавьте четвёртый элемент и строку «Всего: N», затем проверьте список на устройстве.",
+          "tg": "Унсури чорум ва сатри «Ҳама: N» илова карда, рӯйхатро дар дастгоҳ санҷед.",
+          "en": "Add a fourth item and a «Всего: N» line, then check the list on a device."
+        }
+      ],
+      "hint": {
+        "ru": "Счётчик добавьте как обычный Text перед FlatList; для пустого состояния используйте ListEmptyComponent.",
+        "tg": "Ҳисобкунакро ҳамчун Text-и оддӣ пеш аз FlatList илова кунед; барои ҳолати холӣ ListEmptyComponent-ро истифода баред.",
+        "en": "Add the counter as a plain Text before FlatList; use ListEmptyComponent for the empty state."
+      },
+      "success": {
+        "ru": "Список показывает четыре строки, счётчик совпадает с количеством записей.",
+        "tg": "Рӯйхат чор сатрро нишон медиҳад ва ҳисобкунак ба шумораи сабтҳо мутобиқ аст.",
+        "en": "The list shows four rows and the counter matches the record count."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и прокрутите список на устройстве. Добавьте четвёртый элемент в массив и строку «Всего: N» над списком через lessons.length. Временно задайте data={[]} и запишите, что показывает ListEmptyComponent, затем верните данные. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва рӯйхатро дар дастгоҳ скролл кунед. Унсури чорум ба массив ва сатри «Ҳама: N»-ро болои рӯйхат бо lessons.length илова кунед. Муваққатан data={[]} гузоред ва сабт кунед, ки ListEmptyComponent чӣ нишон медиҳад, баъд маълумотро баргардонед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and scroll the list on a device. Add a fourth item to the array and a «Всего: N» line above the list through lessons.length. Temporarily set data={[]} and record what ListEmptyComponent shows, then restore the data. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Список содержит четыре записи и строку «Всего: 4».",
+          "tg": "Рӯйхат чор сабт ва сатри «Ҳама: 4» дорад.",
+          "en": "The list has four records and a «Всего: 4» line."
+        },
+        {
+          "ru": "Записан результат проверки пустого состояния и возврат данных.",
+          "tg": "Натиҷаи санҷиши ҳолати холӣ ва баргардонидани маълумот сабт шудааст.",
+          "en": "The empty-state check and data restoration results are recorded."
+        }
+      ],
+      "example": {
+        "ru": "При data={[]} вместо строк появляется «Список пуст», а после возврата данных — четыре записи.",
+        "tg": "Бо data={[]} ба ҷои сатрҳо «Рӯйхат холӣ» пайдо мешавад ва баъди баргардонидан — чор сабт.",
+        "en": "With data={[]} «Список пуст» replaces the rows and four records return with the data."
+      }
+    },
+    "summary": [
+      {
+        "ru": "FlatList виртуализирует длинные списки; ScrollView годится для короткого содержимого.",
+        "tg": "FlatList рӯйхатҳои дарозро виртуалӣ мекунад; ScrollView барои мазмуни кӯтоҳ мувофиқ аст.",
+        "en": "FlatList virtualizes long lists; ScrollView fits short content."
+      },
+      {
+        "ru": "Стабильные ключи и ListEmptyComponent делают список предсказуемым.",
+        "tg": "Калидҳои устувор ва ListEmptyComponent рӯйхатро пешгӯишаванда мекунанд.",
+        "en": "Stable keys and ListEmptyComponent make the list predictable."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Почему длинный список на FlatList не тормозит?",
+        "tg": "Барои чӣ рӯйхати дарози FlatList суст намешавад?",
+        "en": "Why does a long FlatList stay fast?"
+      },
+      {
+        "ru": "Что показывает ListEmptyComponent?",
+        "tg": "ListEmptyComponent чӣ нишон медиҳад?",
+        "en": "What does ListEmptyComponent show?"
+      }
+    ],
+    "nextLessonId": null
+  }
+}

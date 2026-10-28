@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-14",
+  "day": 14,
+  "prerequisiteDays": [
+    13
+  ],
+  "title": {
+    "ru": "TextInput и управляемое значение",
+    "tg": "TextInput ва қимати идорашаванда",
+    "en": "TextInput and controlled values"
+  },
+  "summary": {
+    "ru": "Подключите ввод текста к состоянию и покажите зависимый текст на экране.",
+    "tg": "Вориди матнро ба ҳолат пайваст карда, матни вобастаро дар экран нишон диҳед.",
+    "en": "Connect text input to state and show dependent text on the screen."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Ввод как состояние",
+        "tg": "Вориди матн ҳамчун ҳолат",
+        "en": "Input as state"
+      },
+      "body": {
+        "ru": "TextInput — компонент ввода. Управляемое значение работает так: state хранит текущий текст, value={name} показывает его в поле, а onChangeText получает каждую новую строку и сохраняет её через setName. Каждое нажатие клавиши вызывает setName, React перерисовывает экран, и поле показывает то, что лежит в состоянии. Если задать value без onChangeText, поле перестанет принимать ввод: значение не меняется, и React каждый раз возвращает прежнее. placeholder показывает подсказку, когда поле пустое. keyboardtype выбирает вид клавиатуры, например «почта» или «числа», и пишется как keyboardType: 'email-address'. Ввод живёт в памяти: после перезапуска приложения поле снова пустое.",
+        "tg": "TextInput компоненти вориди матн аст. Қимати идорашаванда чунин кор мекунад: ҳолат матни ҷорииро нигоҳ медорад, value={name} онро дар майдон нишон медиҳад ва onChangeText ҳар сатри навро мегирад ва бо setName нигоҳ медорад. Ҳар пахши тугма setName-ро мехонад, React экранро аз нав мекашад ва майдон он чиро нишон медиҳад, ки дар ҳолат аст. Агар value бе onChangeText дода шавад, майдон воридро қабул намекунад: қимат тағйир намеёбад ва React ҳар бор қимати қаблиро бармегардонад. placeholder маслиҳатро нишон медиҳад, ки майдон холӣ бошад. keyboardtype навъи клавиатураро интихоб мекунад, масалан «почта» ё «рақамҳо», ва ҳамчун keyboardType: 'email-address' навишта мешавад. Ворид дар хотира аст: баъди аз нав оғоз кардани барнома майдон боз холӣ аст.",
+        "en": "TextInput is the input component. A controlled value works like this: state stores the current text, value={name} shows it in the field, and onChangeText receives each new string and stores it through setName. Every keystroke calls setName, React redraws the screen, and the field shows what the state holds. If you set value without onChangeText, the field stops accepting input: the value never changes and React keeps returning the old one. placeholder shows a hint while the field is empty. keyboardtype selects the keyboard kind, such as email or numbers, and is written as keyboardType: 'email-address'. The input lives in memory: after an app restart the field is empty again."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "useState('') создаёт пустую строку name и функцию setName. TextInput связан со значением двумя свойствами: value={name} показывает состояние, onChangeText={setName} сохраняет ввод. Так поле и состояние всегда совпадают. Строка приветствия использует оператор ||: если name пустая, показывается слово «друг». Проверьте: введите имя — приветствие обновится после каждого символа; очистите поле — вернётся «друг». Добавьте второй TextInput с собственным состоянием для цели и отдельную строку вывода. Скопируйте пример в App.tsx, запустите на устройстве и проверьте клавиатуру: она закрывается сама или её скрывают программно — это тема отдельного дня.",
+        "tg": "useState('') сатри холии name ва функсияи setName-ро месозад. TextInput бо қимат бо ду хосият пайваст аст: value={name} ҳолатро нишон медиҳад, onChangeText={setName} воридро нигоҳ медорад. Чунин майдон ва ҳолат ҳамеша мутобиқанд. Сатри салом оператори ||-ро истифода мебарад: агар name холӣ бошад, калимаи «дӯст» нишон дода мешавад. Санҷед: номро ворид кунед — салом баъди ҳар ҳарф нав мешавад; майдонро тоза кунед — «дӯст» бармегардад. TextInput-и дуюм бо ҳолати алоҳида барои ҳадаф ва сатри ҷудои натиҷа илова кунед. Мисолро ба App.tsx гузошта, дар дастгоҳ оғоз кунед ва клавиатураро санҷед: он худ фаромада мемонад ё барнома онро мепӯшонад — ин мавзӯи рӯзи алоҳида аст.",
+        "en": "useState('') creates an empty name string and the setName function. TextInput connects to the value through two properties: value={name} shows the state, onChangeText={setName} stores the input. Field and state always match this way. The greeting line uses the || operator: with an empty name the word «друг» appears. Check: type a name — the greeting updates after each character; clear the field — «друг» returns. Add a second TextInput with its own state for a goal and a separate output line. Copy the example into App.tsx, run on a device and check the keyboard: whether it closes by itself or the app dismisses it is a separate day topic."
+      },
+      "code": "import { useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [name, setName] = useState('');\n\n  return (\n    <View style={styles.screen}>\n      <Text>Как вас зовут?</Text>\n      <TextInput\n        value={name}\n        onChangeText={setName}\n        placeholder=\"Имя\"\n        style={styles.input}\n      />\n      <Text>Салом, {name || 'друг'}!</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-14-q1",
+      "question": {
+        "ru": "Какие два свойства делают TextInput управляемым?",
+        "tg": "Кадом ду хосият TextInput-ро идорашаванда мекунанд?",
+        "en": "Which two properties make TextInput controlled?"
+      },
+      "options": [
+        {
+          "ru": "value и onChangeText",
+          "tg": "value ва onChangeText",
+          "en": "value and onChangeText"
+        },
+        {
+          "ru": "style и placeholder",
+          "tg": "style ва placeholder",
+          "en": "style and placeholder"
+        },
+        {
+          "ru": "title и onPress",
+          "tg": "title ва onPress",
+          "en": "title and onPress"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "value показывает состояние, onChangeText его обновляет.",
+        "tg": "value ҳолатро нишон медиҳад, onChangeText онро нав мекунад.",
+        "en": "value shows the state, onChangeText updates it."
+      },
+      "hint": {
+        "ru": "Найдите в разборе два свойства связи поля и состояния.",
+        "tg": "Дар шарҳ ду хосияти пайвасти майдон ва ҳолатро ёбед.",
+        "en": "Find the two properties connecting field and state in the walkthrough."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-14-q2",
+      "question": {
+        "ru": "Что увидит пользователь, если задать value без onChangeText?",
+        "tg": "Агар value бе onChangeText дода шавад, корбар чӣ мебинад?",
+        "en": "What does the user see if value is set without onChangeText?"
+      },
+      "options": [
+        {
+          "ru": "Поле принимает ввод нормально",
+          "tg": "Майдон воридро муқарарр қабул мекунад",
+          "en": "The field accepts input normally"
+        },
+        {
+          "ru": "Поле не меняется при вводе",
+          "tg": "Майдон ҳангоми воридот тағйир намеёбад",
+          "en": "The field does not change while typing"
+        },
+        {
+          "ru": "Поле исчезает",
+          "tg": "Майдон нопадид мешавад",
+          "en": "The field disappears"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Состояние не обновляется, и React возвращает прежнее значение.",
+        "tg": "Ҳолат нав намешавад ва React қимати қаблиро бармегардонад.",
+        "en": "The state never updates and React keeps returning the old value."
+      },
+      "hint": {
+        "ru": "Перечитайте в первом разделе, что происходит без onChangeText.",
+        "tg": "Аз бахши аввал аз нав хонед, ки бе onChangeText чӣ мешавад.",
+        "en": "Re-read in the first section what happens without onChangeText."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-14-q3",
+      "question": {
+        "ru": "Что показывает placeholder?",
+        "tg": "placeholder чӣ нишон медиҳад?",
+        "en": "What does placeholder show?"
+      },
+      "options": [
+        {
+          "ru": "Количество символов",
+          "tg": "Шумораи аломатҳо",
+          "en": "The character count"
+        },
+        {
+          "ru": "Ошибку при неверном вводе",
+          "tg": "Хато ҳангоми вориди нодуруст",
+          "en": "An error for invalid input"
+        },
+        {
+          "ru": "Подсказку, когда поле пустое",
+          "tg": "Маслиҳат, ки майдон холӣ аст",
+          "en": "A hint while the field is empty"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Это текст-подсказка для пустого поля.",
+        "tg": "Ин матни маслиҳат барои майдони холӣ аст.",
+        "en": "It is a hint text for an empty field."
+      },
+      "hint": {
+        "ru": "Посмотрите на пустое поле примера и найдите подсказку.",
+        "tg": "Ба майдони холии мисол нигоҳ карда, маслиҳатро ёбед.",
+        "en": "Look at the empty field in the example and find the hint."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-14-q4",
+      "question": {
+        "ru": "Что покажет приветствие при пустом name?",
+        "tg": "Бо name-и холӣ салом чӣ нишон медиҳад?",
+        "en": "What does the greeting show for an empty name?"
+      },
+      "options": [
+        {
+          "ru": "Слово «друг» из ветки ||",
+          "tg": "Калимаи «дӯст» аз шохаи ||",
+          "en": "The word «друг» from the || branch"
+        },
+        {
+          "ru": "Пустую строку",
+          "tg": "Сатри холӣ",
+          "en": "An empty string"
+        },
+        {
+          "ru": "Ошибку приложения",
+          "tg": "Хатои барнома",
+          "en": "An app error"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "name || 'друг' выбирает запасное слово для пустой строки.",
+        "tg": "name || 'дӯст' барои сатри холӣ калимаи ҷойгузинро интихоб мекунад.",
+        "en": "name || 'друг' picks the fallback word for an empty string."
+      },
+      "hint": {
+        "ru": "Вспомните, как работает оператор || в строке приветствия.",
+        "tg": "Дар сатри салом оператори || чӣ тавр кор мекунад, ёд оред.",
+        "en": "Recall how the || operator works in the greeting line."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-14-q5",
+      "question": {
+        "ru": "Что произойдёт с введённым текстом после перезапуска приложения?",
+        "tg": "Баъди аз нав оғоз кардани барнома бо матни воридшуда чӣ мешавад?",
+        "en": "What happens to the typed text after an app restart?"
+      },
+      "options": [
+        {
+          "ru": "Он сохранится автоматически",
+          "tg": "Он худкор нигоҳ дошта мешавад",
+          "en": "It is saved automatically"
+        },
+        {
+          "ru": "Он исчезнет: поле снова пустое",
+          "tg": "Он нопадид мешавад: майдон боз холӣ аст",
+          "en": "It disappears: the field is empty again"
+        },
+        {
+          "ru": "Он уйдёт на сервер",
+          "tg": "Он ба сервер меравад",
+          "en": "It goes to a server"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Ввод живёт в состоянии памяти; сохранение ещё не написано.",
+        "tg": "Ворид дар ҳолати хотира аст; нигоҳдорӣ ҳоло навишта нашудааст.",
+        "en": "The input lives in memory state; persistence is not written yet."
+      },
+      "hint": {
+        "ru": "Найдите в примере код сохранения на диск.",
+        "tg": "Дар мисол рамзи нигоҳдорӣ ба дискро ҷустуҷӯ кунед.",
+        "en": "Look for disk persistence code in the example."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте управляемый ввод на устройстве. Добавьте второй TextInput для цели недели с собственным состоянием и строкой вывода с запасным словом. Запишите, что происходит при вводе и очистке каждого поля. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва вориди идорашавандаро дар дастгоҳ санҷед. TextInput-и дуюм барои ҳадафи ҳафта бо ҳолати алоҳида ва сатри натиҷа бо калимаи ҷойгузин илова кунед. Сабт кунед, ки ҳангоми воридот ва тозакунии ҳар майдон чӣ мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check the controlled input on a device. Add a second TextInput for a weekly goal with its own state and an output line with a fallback word. Record what happens while typing and clearing each field. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Скопируйте блок useState и TextInput из примера и замените имена name и setName на свои.",
+      "tg": "Блоки useState ва TextInput-ро аз мисол нусхабардорӣ карда, номҳои name ва setName-ро ба худи худ иваз кунед.",
+      "en": "Copy the useState and TextInput block from the example and rename name and setName to your own."
+    },
+    "solution": "import { useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [name, setName] = useState('');\n  const [goal, setGoal] = useState('');\n\n  return (\n    <View style={styles.screen}>\n      <Text>Как вас зовут?</Text>\n      <TextInput\n        value={name}\n        onChangeText={setName}\n        placeholder=\"Имя\"\n        style={styles.input}\n      />\n      <Text>Цель на неделю</Text>\n      <TextInput\n        value={goal}\n        onChangeText={setGoal}\n        placeholder=\"Например: 5 занятий\"\n        style={styles.input}\n      />\n      <Text>Салом, {name || 'друг'}!</Text>\n      <Text>Цель: {goal || 'пока не записана'}</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Второе поле управляется собственным состоянием.",
+        "tg": "Майдони дуюм бо ҳолати худ идора мешавад.",
+        "en": "The second field is controlled by its own state."
+      },
+      {
+        "ru": "Записаны наблюдения за вводом и очисткой обоих полей.",
+        "tg": "Мушоҳидаҳои вурӯд ва тозакунии ҳарду майдон сабт шудаанд.",
+        "en": "Observations of typing and clearing both fields are recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Подключить TextInput к состоянию через value и onChangeText.",
+        "tg": "TextInput-ро бо value ва onChangeText ба ҳолат пайваст кунед.",
+        "en": "Connect TextInput to state through value and onChangeText."
+      },
+      {
+        "ru": "Показать текст, зависящий от ввода.",
+        "tg": "Матни вобаста аз воридотро нишон диҳед.",
+        "en": "Show text that depends on the input."
+      }
+    ],
+    "realWorld": {
+      "ru": "Форма профиля: имя пользователя вводится в поле и сразу отображается в приветствии.",
+      "tg": "Шакли профил: номи корбар дар майдон ворид шуда, фавран дар салом нишон дода мешавад.",
+      "en": "A profile form: the user name is typed into a field and shown in a greeting right away."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что увидит пользователь, если задать value без onChangeText?",
+        "tg": "Агар value бе onChangeText дода шавад, корбар чӣ мебинад?",
+        "en": "What does the user see if value is set without onChangeText?"
+      },
+      "options": [
+        {
+          "ru": "Поле принимает ввод нормально",
+          "tg": "Майдон воридро муқарарр қабул мекунад",
+          "en": "The field accepts input normally"
+        },
+        {
+          "ru": "Поле не меняется при вводе",
+          "tg": "Майдон ҳангоми воридот тағйир намеёбад",
+          "en": "The field does not change while typing"
+        },
+        {
+          "ru": "Поле исчезает",
+          "tg": "Майдон нопадид мешавад",
+          "en": "The field disappears"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Перечитайте в первом разделе, что происходит без onChangeText.",
+        "tg": "Аз бахши аввал аз нав хонед, ки бе onChangeText чӣ мешавад.",
+        "en": "Re-read in the first section what happens without onChangeText."
+      },
+      "explanation": {
+        "ru": "Состояние не обновляется, и React возвращает прежнее значение.",
+        "tg": "Ҳолат нав намешавад ва React қимати қаблиро бармегардонад.",
+        "en": "The state never updates and React keeps returning the old value."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [name, setName] = useState('');\n\n  return (\n    <View style={styles.screen}>\n      <Text>Как вас зовут?</Text>\n      <TextInput\n        value={name}\n        onChangeText={setName}\n        placeholder=\"Имя\"\n        style={styles.input}\n      />\n      <Text>Салом, {name || 'друг'}!</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Состояние name начинается с пустой строки.",
+            "tg": "Ҳолати name бо сатри холӣ оғоз мешавад.",
+            "en": "The name state starts as an empty string."
+          },
+          "values": "name = ''"
+        },
+        {
+          "line": 11,
+          "explanation": {
+            "ru": "value показывает состояние в поле.",
+            "tg": "value ҳолатро дар майдон нишон медиҳад.",
+            "en": "value shows the state in the field."
+          },
+          "values": "value={name}"
+        },
+        {
+          "line": 16,
+          "explanation": {
+            "ru": "Приветствие собирается из name или запасного слова.",
+            "tg": "Салом аз name ё калимаи ҷойгузин сохта мешавад.",
+            "en": "The greeting is built from name or the fallback word."
+          },
+          "values": "name || 'друг'"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере, где состояние связывается с полем ввода.",
+          "tg": "Дар мисол ёбед, ки ҳолат бо майдони вурӯд дар куҷо пайваст аст.",
+          "en": "Find where the state connects to the input field in the example."
+        },
+        {
+          "ru": "Введите имя на устройстве и наблюдайте обновление приветствия после каждого символа.",
+          "tg": "Дар дастгоҳ номро ворид кунед ва навшавии саломро баъди ҳар ҳарф пайгирӣ кунед.",
+          "en": "Type a name on the device and watch the greeting update after each character."
+        }
+      ],
+      "hint": {
+        "ru": "Скопируйте блок useState и TextInput из примера и замените имена name и setName на свои.",
+        "tg": "Блоки useState ва TextInput-ро аз мисол нусхабардорӣ карда, номҳои name ва setName-ро ба худи худ иваз кунед.",
+        "en": "Copy the useState and TextInput block from the example and rename name and setName to your own."
+      },
+      "success": {
+        "ru": "Приветствие меняется вместе с вводом и возвращает «друг» на пустом поле.",
+        "tg": "Салом ҳамроҳи воридот тағйир ёфта, дар майдони холӣ «дӯст»-ро бармегардонад.",
+        "en": "The greeting changes with the input and returns «друг» on an empty field."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте управляемый ввод на устройстве. Добавьте второй TextInput для цели недели с собственным состоянием и строкой вывода с запасным словом. Запишите, что происходит при вводе и очистке каждого поля. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва вориди идорашавандаро дар дастгоҳ санҷед. TextInput-и дуюм барои ҳадафи ҳафта бо ҳолати алоҳида ва сатри натиҷа бо калимаи ҷойгузин илова кунед. Сабт кунед, ки ҳангоми воридот ва тозакунии ҳар майдон чӣ мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check the controlled input on a device. Add a second TextInput for a weekly goal with its own state and an output line with a fallback word. Record what happens while typing and clearing each field. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Второе поле управляется собственным состоянием.",
+          "tg": "Майдони дуюм бо ҳолати худ идора мешавад.",
+          "en": "The second field is controlled by its own state."
+        },
+        {
+          "ru": "Записаны наблюдения за вводом и очисткой обоих полей.",
+          "tg": "Мушоҳидаҳои вурӯд ва тозакунии ҳарду майдон сабт шудаанд.",
+          "en": "Observations of typing and clearing both fields are recorded."
+        }
+      ],
+      "example": {
+        "ru": "Второе поле показывает подсказку «Например: 5 занятий», а вывод — «Цель: 5 занятий» после ввода.",
+        "tg": "Майдони дуюм маслиҳати «Масалан: 5 машғулият»-ро нишон медиҳад ва натиҷа баъди воридот «Ҳадаф: 5 машғулият» мешавад.",
+        "en": "The second field shows the hint \"Например: 5 занятий\" and the output reads «Цель: 5 занятий» after typing."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Управляемый ввод: value показывает состояние, onChangeText его обновляет.",
+        "tg": "Вориди идорашаванда: value ҳолатро нишон медиҳад, onChangeText онро нав мекунад.",
+        "en": "Controlled input: value shows the state, onChangeText updates it."
+      },
+      {
+        "ru": "Без onChangeText поле перестает принимать ввод.",
+        "tg": "Бе onChangeText майдон воридро қабул намекунад.",
+        "en": "Without onChangeText the field stops accepting input."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что увидит пользователь, если задать value без onChangeText?",
+        "tg": "Агар value бе onChangeText дода шавад, корбар чӣ мебинад?",
+        "en": "What does the user see if value is set without onChangeText?"
+      },
+      {
+        "ru": "Что произойдёт с введённым текстом после перезапуска приложения?",
+        "tg": "Баъди аз нав оғоз кардани барнома бо матни воридшуда чӣ мешавад?",
+        "en": "What happens to the typed text after an app restart?"
+      }
+    ],
+    "nextLessonId": "mobile-day-15"
+  }
+}

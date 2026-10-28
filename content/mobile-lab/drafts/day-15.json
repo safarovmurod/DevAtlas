@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-15",
+  "day": 15,
+  "prerequisiteDays": [
+    14
+  ],
+  "title": {
+    "ru": "Pressable и обратная связь",
+    "tg": "Pressable ва ҷавоби интерфейс",
+    "en": "Pressable and press feedback"
+  },
+  "summary": {
+    "ru": "Соберите собственную кнопку с визуальным откликом на нажатие и доступной подписью.",
+    "tg": "Тугмаи худро бо ҷавоби возаҳи пахш ва матни дастрас созед.",
+    "en": "Build your own button with a visual press response and an accessible label."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Кнопка, которую видно и слышно",
+        "tg": "Тугмаи диданӣ ва шуниданӣ",
+        "en": "A button you can see and hear"
+      },
+      "body": {
+        "ru": "Готовый компонент Button быстрый, но ограничен: платформа сама рисует подпись. Pressable позволяет собрать кнопку из любых детей и управлять обратной связью. Функция style может получить объект { pressed }: пока палец на кнопке, pressed истинно, и вы возвращаете другой стиль — например, уменьшенную прозрачность. Это и есть обратная связь: пользователь видит, что нажатие началось. onPress срабатывает при отпускании внутри кнопки; также есть onPressIn и onPressOut. Доступность задаётся свойствами accessibilityRole=\"button\" и accessibilityLabel: экранный диктор объявляет элемент кнопкой и читает подпись. Кнопка меняет только состояние памяти: после перезапуска счётчик снова ноль.",
+        "tg": "Тугмаи тайёри Button тез аст, вале маҳдуд: платформа худ матнро мекашад. Pressable имкон медиҳад тугмаро аз ҳар кӯдак созед ва ҷавобро идора кунед. Функсияи style метавонад объекти { pressed } гирифта бошад: то киртии дастрӯй дар тугма, pressed ҳақиқист ва шумо услуби дигар бармегардонед — масалан шаффофи камтар. Ин ҳамон ҷавоб аст: корбар мебинад, ки пахш оғоз шуд. onPress ҳангоми дар дохили тугма раҳо кардан кор мекунад; инчунин onPressIn ва onPressOut ҳастанд. Дастрасиро бо хосиятҳои accessibilityRole=\"button\" ва accessibilityLabel муайян мекунанд: хонандаи экран элементро тугма эълом карда, матнро мехонад. Тугма танҳо ҳолати хотираро иваз мекунад: баъди аз нав оғоз ҳисобкунак боз сифр аст.",
+        "en": "The ready-made Button is quick but limited: the platform draws its own label. Pressable lets you build a button from any children and control the feedback. The style function can receive a { pressed } object: while the finger is on the button, pressed is true and you return a different style, for example reduced opacity. That is the feedback: the user sees the press begin. onPress fires on release inside the button; onPressIn and onPressOut also exist. Accessibility is set with accessibilityRole=\"button\" and accessibilityLabel: the screen reader announces the element as a button and reads the label. The button changes only memory state: after a restart the counter is zero again."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Состояние done начинается с нуля и показывается строкой «Выполнено: 0». Pressable собирает кнопку: роль button, подпись для диктора, обработчик onPress с функциональным обновлением из дня 8 и style как функция. Пока палец на кнопке, pressed истинно и к базовому стилю button добавляется pressed с прозрачностью 0.7 — видно нажатие. Внутри Pressable лежит собственный Text, потому что строка без Text не отобразится. Нажмите кнопку несколько раз: счётчик растёт, при касании кнопка темнеет. Добавьте вторую Pressable для сброса со своим цветом и подписью. Проверьте кнопку на устройстве и, если возможно, с диктором: подпись должна читаться целиком.",
+        "tg": "Ҳолати done аз сифр оғоз шуда, бо сатри «Иҷрошуда: 0» нишон дода мешавад. Pressable тугмаро месозад: нақши button, матн барои хонанда, обработчики onPress бо навсозии функсионалӣ аз рӯзи 8 ва style ҳамчун функсия. То киртии дастро дар тугма, pressed ҳақиқист ва ба услуби асосии button pressed бо шаффофи 0.7 илова мешавад — пахш дида мешавад. Дар дохили Pressable Text-и худ аст, чунки сатри бе Text нишон дода намешавад. Тугмаро чанд бор пахш кунед: ҳисобкунак меафзояд, ҳангоми ламс кардан тугма торик мешавад. Pressable-и дуюм барои сифр кардан бо ранги худ ва матни алоҳида илова кунед. Тугмаро дар дастгоҳ ва агар имкон бошад бо хонандаи экран санҷед: матн бояд пурра хонда шавад.",
+        "en": "The done state starts at zero and shows as «Выполнено: 0». Pressable assembles the button: the button role, a label for the reader, an onPress handler with the day-8 functional update, and style as a function. While the finger is down, pressed is true and the pressed style with opacity 0.7 joins the base button style — the touch is visible. Inside Pressable sits its own Text, because a bare string would not render. Press the button several times: the counter grows and the button darkens on touch. Add a second Pressable for reset with its own color and label. Check the button on a device and, if possible, with a screen reader: the label must read in full."
+      },
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  const [done, setDone] = useState(0);\n\n  return (\n    <View style={styles.screen}>\n      <Text>Выполнено: {done}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Отметить занятие выполненным\"\n        onPress={() => setDone(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Отметить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-15-q1",
+      "question": {
+        "ru": "Когда pressed истинно в функции style?",
+        "tg": "Дар функсияи style pressed ҳангоми чӣ ҳақиқӣ мешавад?",
+        "en": "When is pressed true in the style function?"
+      },
+      "options": [
+        {
+          "ru": "После перезапуска приложения",
+          "tg": "Баъди аз нав оғоз кардани барнома",
+          "en": "After the app restarts"
+        },
+        {
+          "ru": "Пока палец на кнопке",
+          "tg": "То киртии дастрӯй дар тугма",
+          "en": "While the finger is on the button"
+        },
+        {
+          "ru": "Когда счётчик больше нуля",
+          "tg": "Ҳангоми зиёд будани ҳисобкунак аз сифр",
+          "en": "When the counter is above zero"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "pressed описывает активное касание кнопки.",
+        "tg": "pressed ламси фаъоли тугмаро тавсиф медиҳад.",
+        "en": "pressed describes an active touch on the button."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе, что получает функция style.",
+        "tg": "Аз бахши аввал ёбед, ки функсияи style чӣ мегирад.",
+        "en": "Find in the first section what the style function receives."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-15-q2",
+      "question": {
+        "ru": "Зачем внутри Pressable написан Text?",
+        "tg": "Барои чӣ дар дохили Pressable Text навишта шудааст?",
+        "en": "Why is a Text written inside Pressable?"
+      },
+      "options": [
+        {
+          "ru": "Text заменяет onPress",
+          "tg": "Text ҷои onPress-ро мегирад",
+          "en": "Text replaces onPress"
+        },
+        {
+          "ru": "Text ускоряет нажатие",
+          "tg": "Text пахшро тез мекунад",
+          "en": "Text speeds up the press"
+        },
+        {
+          "ru": "Строка без Text не отобразится",
+          "tg": "Сатри бе Text нишон дода намешавад",
+          "en": "A bare string does not render"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Правило платформы: текст живёт внутри Text, даже в кнопке.",
+        "tg": "Қоидаи платформа: матн дар дохили Text аст, дар тугма ҳам.",
+        "en": "The platform rule: text lives inside Text, even in a button."
+      },
+      "hint": {
+        "ru": "Вспомните день 11: где обязан находиться текст.",
+        "tg": "Рӯзи 11-ро ёд оред: матн дар куҷо бояд бошад.",
+        "en": "Recall day 11: where text must live."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-15-q3",
+      "question": {
+        "ru": "Что объявляет accessibilityRole=\"button\"?",
+        "tg": "accessibilityRole=\"button\" чӣ эълон мекунад?",
+        "en": "What does accessibilityRole=\"button\" declare?"
+      },
+      "options": [
+        {
+          "ru": "Элемент для диктора — кнопка",
+          "tg": "Элемент барои хонанда — тугма",
+          "en": "The element is a button for the screen reader"
+        },
+        {
+          "ru": "Кнопка становится красной",
+          "tg": "Тугма сурх мешавад",
+          "en": "The button turns red"
+        },
+        {
+          "ru": "Кнопка отправляет форму",
+          "tg": "Тугма шаклро мефиристад",
+          "en": "The button submits a form"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Роль помогает вспомогательным технологиям правильно назвать элемент.",
+        "tg": "Нақш ба технологияҳои ёрирасон кӯмак мекунад элементро дуруст номбар кунанд.",
+        "en": "The role helps assistive technology name the element correctly."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе слова про экранный диктор.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи хонандаи экранро ёбед.",
+        "en": "Find the first-section words about the screen reader."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-15-q4",
+      "question": {
+        "ru": "Какое обновление состояния используется в onPress?",
+        "tg": "Дар onPress кадом навсозии ҳолат истифода мешавад?",
+        "en": "Which state update does onPress use?"
+      },
+      "options": [
+        {
+          "ru": "Прямую установку строки",
+          "tg": "Гузошти мустақими сатр",
+          "en": "A direct string assignment"
+        },
+        {
+          "ru": "Функциональное: value => value + 1",
+          "tg": "Функсионалӣ: value => value + 1",
+          "en": "Functional: value => value + 1"
+        },
+        {
+          "ru": "Запрос к серверу",
+          "tg": "Дархост ба сервер",
+          "en": "A server request"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Функциональное обновление считает следующее значение от предыдущего.",
+        "tg": "Навсозии функсионалӣ қимати ояндааро аз қаблӣ ҳисоб мекунад.",
+        "en": "The functional update computes the next value from the previous one."
+      },
+      "hint": {
+        "ru": "Сравните обработчик примера с днём 8.",
+        "tg": "Обработчики мисолро бо рӯзи 8 муқоиса кунед.",
+        "en": "Compare the example handler with day 8."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-15-q5",
+      "question": {
+        "ru": "Что произойдёт со счётчиком после перезапуска?",
+        "tg": "Баъди аз нав оғоз бо ҳисобкунак чӣ мешавад?",
+        "en": "What happens to the counter after a restart?"
+      },
+      "options": [
+        {
+          "ru": "Он удвоится",
+          "tg": "Он дучанд мешавад",
+          "en": "It doubles"
+        },
+        {
+          "ru": "Он сохранится на устройстве",
+          "tg": "Он дар дастгоҳ нигоҳ дошта мешавад",
+          "en": "It is saved on the device"
+        },
+        {
+          "ru": "Он снова ноль: состояния в памяти нет",
+          "tg": "Он боз сифр аст: ҳолат дар хотира нест",
+          "en": "It is zero again: the state is not in memory"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Pressable меняет только состояние памяти; сохранение позже.",
+        "tg": "Pressable танҳо ҳолати хотираро иваз мекунад; нигоҳдорӣ баъдтар.",
+        "en": "Pressable changes only memory state; persistence comes later."
+      },
+      "hint": {
+        "ru": "Найдите в примере какое-нибудь хранилище.",
+        "tg": "Дар мисол ягон нигоҳдориро ҷустуҷӯ кунед.",
+        "en": "Look for any storage in the example."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте обратную связь на устройстве. Добавьте вторую Pressable «Сбросить» со своим цветом, ролью button, подписью для диктора и тем же стилем pressed. Запишите, как кнопка отвечает на касание и что читает диктор, если он доступен. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва ҷавобро дар дастгоҳ санҷед. Pressable-и дуюми «Сифр кардан» бо ранги худ, нақши button, матни хонанда ва ҳамон услуби pressed илова кунед. Сабт кунед, ки тугма ба ламс чӣ ҷавоб медиҳад ва агар хонанда дастрас бошад, чиро мехонад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check the feedback on a device. Add a second Pressable «Сбросить» with its own color, the button role, a reader label and the same pressed style. Record how the button responds to touch and what the reader announces, if available. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Скопируйте Pressable из примера, замените обработчик на setDone(0) и добавьте свой цвет в StyleSheet.",
+      "tg": "Pressable-ро аз мисол нусхабардорӣ карда, обработчикро ба setDone(0) иваз ва ранги худро ба StyleSheet илова кунед.",
+      "en": "Copy the Pressable from the example, change the handler to setDone(0) and add your color to StyleSheet."
+    },
+    "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  const [done, setDone] = useState(0);\n\n  return (\n    <View style={styles.screen}>\n      <Text>Выполнено: {done}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Отметить занятие выполненным\"\n        onPress={() => setDone(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Отметить</Text>\n      </Pressable>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сбросить счётчик\"\n        onPress={() => setDone(0)}\n        style={({ pressed }) => [styles.button, styles.reset, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сбросить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  reset: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Вторая кнопка имеет роль, подпись и свой цвет.",
+        "tg": "Тугмаи дуюм нақш, матн ва ранги худро дорад.",
+        "en": "The second button has a role, a label and its own color."
+      },
+      {
+        "ru": "Записано наблюдение о pressed-отклике и работе диктора.",
+        "tg": "Мушоҳидаи ҷавоби pressed ва кори хонанда сабт шудааст.",
+        "en": "An observation of the pressed response and reader behavior is recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Собрать кнопку Pressable с ролевой подписью.",
+        "tg": "Тугмаи Pressable бо матни нақшӣ созед.",
+        "en": "Build a Pressable button with a role label."
+      },
+      {
+        "ru": "Добавить визуальный отклик на касание.",
+        "tg": "Ҷавоби возаҳи ламсро илова кунед.",
+        "en": "Add a visual response to touch."
+      }
+    ],
+    "realWorld": {
+      "ru": "Основная кнопка в приложении-планировщике темнеет при касании и объявляется диктором как кнопка.",
+      "tg": "Тугмаи асосии барномаи барномасозӣ ҳангоми ламс торик мешавад ва аз тарафи хонанда тугма эълон мешавад.",
+      "en": "A planner app primary button darkens on touch and is announced as a button by the reader."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Зачем внутри Pressable написан Text?",
+        "tg": "Барои чӣ дар дохили Pressable Text навишта шудааст?",
+        "en": "Why is a Text written inside Pressable?"
+      },
+      "options": [
+        {
+          "ru": "Text заменяет onPress",
+          "tg": "Text ҷои onPress-ро мегирад",
+          "en": "Text replaces onPress"
+        },
+        {
+          "ru": "Text ускоряет нажатие",
+          "tg": "Text пахшро тез мекунад",
+          "en": "Text speeds up the press"
+        },
+        {
+          "ru": "Строка без Text не отобразится",
+          "tg": "Сатри бе Text нишон дода намешавад",
+          "en": "A bare string does not render"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Вспомните день 11: где обязан находиться текст.",
+        "tg": "Рӯзи 11-ро ёд оред: матн дар куҷо бояд бошад.",
+        "en": "Recall day 11: where text must live."
+      },
+      "explanation": {
+        "ru": "Правило платформы: текст живёт внутри Text, даже в кнопке.",
+        "tg": "Қоидаи платформа: матн дар дохили Text аст, дар тугма ҳам.",
+        "en": "The platform rule: text lives inside Text, even in a button."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  const [done, setDone] = useState(0);\n\n  return (\n    <View style={styles.screen}>\n      <Text>Выполнено: {done}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Отметить занятие выполненным\"\n        onPress={() => setDone(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Отметить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Счётчик done начинается с нуля.",
+            "tg": "Ҳисобкунаки done аз сифр оғоз мешавад.",
+            "en": "The done counter starts at zero."
+          },
+          "values": "done = 0"
+        },
+        {
+          "line": 13,
+          "explanation": {
+            "ru": "onPress увеличивает счётчик функциональным обновлением.",
+            "tg": "onPress ҳисобкунакро бо навсозии функсионалӣ меафзояд.",
+            "en": "onPress increments the counter with a functional update."
+          },
+          "values": "done -> done + 1"
+        },
+        {
+          "line": 14,
+          "explanation": {
+            "ru": "style как функция добавляет pressed-стиль при касании.",
+            "tg": "style ҳамчун функсия ҳангоми ламс услуби pressed-ро илова мекунад.",
+            "en": "style as a function adds the pressed style during touch."
+          },
+          "values": "pressed ? opacity 0.7 : normal"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере роль, подпись и обработчик кнопки.",
+          "tg": "Дар мисол нақш, матн ва обработчики тугмаро ёбед.",
+          "en": "Find the role, label and handler of the button in the example."
+        },
+        {
+          "ru": "Нажмите кнопку и наблюдайте затемнение при касании и рост счётчика.",
+          "tg": "Тугмаро пахш карда, торикшавиро ҳангоми ламс ва афзоиши ҳисобкунакро пайгирӣ кунед.",
+          "en": "Press the button and watch the darkening on touch and the counter growth."
+        }
+      ],
+      "hint": {
+        "ru": "Скопируйте Pressable из примера, замените обработчик на setDone(0) и добавьте свой цвет в StyleSheet.",
+        "tg": "Pressable-ро аз мисол нусхабардорӣ карда, обработчикро ба setDone(0) иваз ва ранги худро ба StyleSheet илова кунед.",
+        "en": "Copy the Pressable from the example, change the handler to setDone(0) and add your color to StyleSheet."
+      },
+      "success": {
+        "ru": "Кнопка темнеет при касании, счётчик растёт, а диктор читает подпись целиком.",
+        "tg": "Тугма ҳангоми ламс торик мешавад, ҳисобкунак меафзояд ва хонанда матнро пурра мехонад.",
+        "en": "The button darkens on touch, the counter grows and the reader reads the label in full."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте обратную связь на устройстве. Добавьте вторую Pressable «Сбросить» со своим цветом, ролью button, подписью для диктора и тем же стилем pressed. Запишите, как кнопка отвечает на касание и что читает диктор, если он доступен. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва ҷавобро дар дастгоҳ санҷед. Pressable-и дуюми «Сифр кардан» бо ранги худ, нақши button, матни хонанда ва ҳамон услуби pressed илова кунед. Сабт кунед, ки тугма ба ламс чӣ ҷавоб медиҳад ва агар хонанда дастрас бошад, чиро мехонад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check the feedback on a device. Add a second Pressable «Сбросить» with its own color, the button role, a reader label and the same pressed style. Record how the button responds to touch and what the reader announces, if available. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Вторая кнопка имеет роль, подпись и свой цвет.",
+          "tg": "Тугмаи дуюм нақш, матн ва ранги худро дорад.",
+          "en": "The second button has a role, a label and its own color."
+        },
+        {
+          "ru": "Записано наблюдение о pressed-отклике и работе диктора.",
+          "tg": "Мушоҳидаи ҷавоби pressed ва кори хонанда сабт шудааст.",
+          "en": "An observation of the pressed response and reader behavior is recorded."
+        }
+      ],
+      "example": {
+        "ru": "Серая кнопка «Сбросить» возвращает «Выполнено: 0» и темнеет при касании так же, как синяя.",
+        "tg": "Тугмаи хокистарии «Сифр кардан» «Иҷрошуда: 0»-ро бармегардонад ва ҳангоми ламс мисли кабуд торик мешавад.",
+        "en": "The gray «Сбросить» button returns «Выполнено: 0» and darkens on touch like the blue one."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Pressable позволяет собрать кнопку и управлять откликом через pressed.",
+        "tg": "Pressable имкон медиҳад тугмаро созед ва ҷавобро бо идораи pressed танзим кунед.",
+        "en": "Pressable lets you build a button and control feedback through pressed."
+      },
+      {
+        "ru": "Доступность задаётся ролью и подписью для диктора.",
+        "tg": "Дастрасӣ бо нақш ва матни хонанда муайян мешавад.",
+        "en": "Accessibility is set by the role and the reader label."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Зачем внутри Pressable написан Text?",
+        "tg": "Барои чӣ дар дохили Pressable Text навишта шудааст?",
+        "en": "Why is a Text written inside Pressable?"
+      },
+      {
+        "ru": "Что объявляет accessibilityRole=\"button\"?",
+        "tg": "accessibilityRole=\"button\" чӣ эълон мекунад?",
+        "en": "What does accessibilityRole=\"button\" declare?"
+      }
+    ],
+    "nextLessonId": "mobile-day-16"
+  }
+}

@@ -1,0 +1,33 @@
+import { useState } from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+
+export default function App() {
+  const [name, setName] = useState('');
+  const [goal, setGoal] = useState('');
+
+  return (
+    <View style={styles.screen}>
+      <Text>Как вас зовут?</Text>
+      <TextInput
+        value={name}
+        onChangeText={setName}
+        placeholder="Имя"
+        style={styles.input}
+      />
+      <Text>Цель на неделю</Text>
+      <TextInput
+        value={goal}
+        onChangeText={setGoal}
+        placeholder="Например: 5 занятий"
+        style={styles.input}
+      />
+      <Text>Салом, {name || 'друг'}!</Text>
+      <Text>Цель: {goal || 'пока не записана'}</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, padding: 24, gap: 12 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+});

@@ -3707,11 +3707,6 @@
           ]
         },
         "assessmentMode": "local-only",
-        "continuationNotice": {
-          "ru": "Продолжение курса ещё готовится.",
-          "tg": "Идомаи курс ҳоло омода мешавад.",
-          "en": "The course continuation is still being prepared."
-        },
         "guidedPractice": {
           "steps": [
             {
@@ -3784,6 +3779,3016 @@
             "ru": "Доказан ли запуск на телефоне только после Metro export?",
             "tg": "Оё Metro export танҳо кори телефонро исбот мекунад?",
             "en": "Does Metro export alone prove a phone run?"
+          }
+        ],
+        "nextLessonId": "mobile-day-10"
+      }
+    },
+    {
+      "id": "mobile-day-10",
+      "day": 10,
+      "prerequisiteDays": [
+        9
+      ],
+      "title": {
+        "ru": "Совместимый Expo-проект и версии",
+        "tg": "Лоиҳаи мувофиқи Expo ва версияҳо",
+        "en": "A compatible Expo project and versions"
+      },
+      "summary": {
+        "ru": "Создайте собственный Expo-проект совместимых версий и найдите версии expo, react-native и react.",
+        "tg": "Лоиҳаи Expo-и худро бо версияҳои мувофиқ созед ва версияҳои expo, react-native ва react-ро ёбед.",
+        "en": "Create your own Expo project with compatible versions and locate the expo, react-native and react versions."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Зачем согласованы версии",
+            "tg": "Барои чӣ версияҳо мувофиқ мешаванд",
+            "en": "Why versions must agree"
+          },
+          "body": {
+            "ru": "Expo SDK — набор проверенных вместе версий: expo, react-native, react и инструменты сборки. Если установить react-native свежее, чем ожидает SDK, нативные модули могут перестать собираться, а ошибки появятся не в вашем коде, а в несовместимости. Поэтому проект создают командой npx create-expo-app, которая подбирает согласованные версии, а не отдельными установками. Версии перечислены в файле package.json в разделе dependencies: там записаны имена пакетов и их номера. Команда npx expo start запускает сервер разработки; открыть проект можно в приложении Expo Go на устройстве или в эмуляторе. Браузер этого курса остаётся учебным окружением, а не мобильным эмулятором: экран собирается в коде, а запуск проверяется на вашем устройстве.",
+            "tg": "Expo SDK маҷмӯи версияҳои санҷидашуда аст: expo, react-native, react ва абзорҳои сохтмон. Агар react-native-ро навтар аз он чи SDK интизор дорад насб кунед, модулҳои нативӣ метавонанд насб нашаванд ва хатоҳо на дар рамзи шумо, балки дар номувофиқӣ пайдо мешаванд. Барои ин лоиҳаро бо фармони npx create-expo-app месозанд, ки версияҳои мувофиқро интихоб мекунад, на бо насбҳои ҷудогона. Версияҳо дар файли package.json дар бахши dependencies навишта мешаванд: он ҷо номи бастаҳо ва рақами онҳост. Фармони npx expo start сервери таҳияро оғоз мекунед; лоиҳаро дар барномаи Expo Go дар дастгоҳ ё эмулятор мекушоед. Браузери ин курс муҳити омӯзист, на эмулятори мобилӣ: экран дар рамз сохта мешавад ва иҷро дар дастгоҳи шумо санҷида мешавад.",
+            "en": "An Expo SDK is a set of versions tested together: expo, react-native, react and the build tools. If you install a react-native newer than the SDK expects, native modules may stop building and errors will come from the incompatibility, not from your code. That is why a project is created with npx create-expo-app, which selects compatible versions, instead of separate installs. Versions are listed in the package.json file under dependencies: package names and their numbers. The npx expo start command runs the development server; open the project in the Expo Go app on a device or an emulator. This course browser remains a learning environment, not a mobile emulator: the screen is built in code and the run is checked on your device."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Экран примера — контрольный: он не зависит от версий и показывает, что проект запустился. import получает View и Text из react-native. export default делает App корневым компонентом проекта. View с padding 24 группирует две строки: заголовок с ролью header для вспомогательных технологий и подсказку про package.json. Откройте package.json в корне проекта: в dependencies должны быть указаны expo, react и react-native, и их номера соответствуют одному выпуску SDK, например 58-й. Если номера отличаются от ожидаемых для SDK, не правьте их вручную: пересоздайте проект или используйте npx expo install, который ставит совместимые версии. Затем запустите npx expo start и проверьте экран на устройстве.",
+            "tg": "Экрани мисол санҷишӣ аст: аз версияҳо вобаста нест ва нишон медиҳад, ки лоиҳа оғоз шудааст. import View ва Text-ро аз react-native мегирад. export default App-ро компоненти решаи лоиҳа мекунад. View бо padding 24 ду сатрро гурӯҳ мекунад: сарлавҳа бо нақши header барои технологияҳои ёрирасон ва маслиҳат дар бораи package.json. package.json-ро дар решаи лоиҳа кушоед: дар dependencies бояд expo, react ва react-native навишта шуда бошанд ва рақамҳои онҳо ба як нашри SDK мутобиқ бошанд, масалан 58. Агар рақамҳо аз интизорӣ фарқ кунанд, онҳоро дастӣ тағйир надиҳед: лоиҳаро аз нав созед ё npx expo install-ро истифода баред, ки версияҳои мувофиқро мегузорад. Баъд npx expo start-ро иҷро карда, экранро дар дастгоҳ санҷед.",
+            "en": "The example screen is a check: it does not depend on versions and shows that the project started. import obtains View and Text from react-native. export default makes App the project root component. A View with padding 24 groups two lines: a header with the header role for assistive technology and a hint about package.json. Open package.json at the project root: dependencies should list expo, react and react-native, and their numbers must belong to one SDK release, such as 58. If the numbers differ from what the SDK expects, do not edit them by hand: recreate the project or use npx expo install, which picks compatible versions. Then run npx expo start and check the screen on your device."
+          },
+          "code": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Проверка проекта</Text>\n      <Text>Откройте package.json и найдите версии expo, react-native и react.</Text>\n    </View>\n  );\n}\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-10-q1",
+          "question": {
+            "ru": "Какая команда создаёт проект с согласованными версиями?",
+            "tg": "Кадом фармон лоиҳаро бо версияҳои мувофиқ месозад?",
+            "en": "Which command creates a project with compatible versions?"
+          },
+          "options": [
+            {
+              "ru": "Копирование node_modules",
+              "tg": "Нусхабардории node_modules",
+              "en": "Copying node_modules"
+            },
+            {
+              "ru": "Ручная правка номеров в package.json",
+              "tg": "Тағйири дастии рақамҳо дар package.json",
+              "en": "Editing the numbers in package.json by hand"
+            },
+            {
+              "ru": "npx create-expo-app",
+              "tg": "npx create-expo-app",
+              "en": "npx create-expo-app"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Создатель проекта подбирает проверенные вместе версии.",
+            "tg": "Эҷодкунандаи лоиҳа версияҳои якҷоя санҷидашударо интихоб мекунад.",
+            "en": "The project creator selects versions tested together."
+          },
+          "hint": {
+            "ru": "Вспомните, что говорит первый раздел о создании проекта.",
+            "tg": "Бахши аввалро дар бораи сохтани лоиҳа ёд оред.",
+            "en": "Recall what the first section says about creating a project."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-10-q2",
+          "question": {
+            "ru": "Где перечислены версии пакетов проекта?",
+            "tg": "Дар куҷо версияҳои бастаҳои лоиҳа навишта мешаванд?",
+            "en": "Where are the project package versions listed?"
+          },
+          "options": [
+            {
+              "ru": "В имени папки проекта",
+              "tg": "Дар номи папкаи лоиҳа",
+              "en": "In the project folder name"
+            },
+            {
+              "ru": "В разделе dependencies файла package.json",
+              "tg": "Дар бахши dependencies-и package.json",
+              "en": "In the dependencies section of package.json"
+            },
+            {
+              "ru": "На экране телефона",
+              "tg": "Дар экрани телефон",
+              "en": "On the phone screen"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "package.json хранит имена пакетов и их номера.",
+            "tg": "package.json номи бастаҳо ва рақамҳои онҳоро нигоҳ медорад.",
+            "en": "package.json stores package names and their numbers."
+          },
+          "hint": {
+            "ru": "Вспомните, какой файл в корне проекта описывает зависимости.",
+            "tg": "Ёд оред, ки кадом файл дар решаи лоиҳа вобастагиро тавсиф мекунад.",
+            "en": "Recall which root file describes the dependencies."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-10-q3",
+          "question": {
+            "ru": "Что произойдёт, если поставить react-native новее, чем ожидает SDK?",
+            "tg": "Агар react-native-ро навтар аз интизории SDK насб кунед, чӣ мешавад?",
+            "en": "What happens if you install a react-native newer than the SDK expects?"
+          },
+          "options": [
+            {
+              "ru": "Ничего, версии не связаны",
+              "tg": "Ҳеҷ чиз, версияҳо пайванд надоранд",
+              "en": "Nothing, the versions are unrelated"
+            },
+            {
+              "ru": "Возможны ошибки сборки из-за несовместимости",
+              "tg": "Эҳтимоли хатоҳои сохтмон аз номувофиқӣ ҳаст",
+              "en": "Build errors from the incompatibility are possible"
+            },
+            {
+              "ru": "Приложение станет быстрее",
+              "tg": "Барнома тезтар мешавад",
+              "en": "The app becomes faster"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "SDK собирает проверенные вместе версии; замена одной ломает согласованность.",
+            "tg": "SDK версияҳои якҷоя санҷидашударо ҷамъ меорад; ивази яктоӣ мувофиқиро меканад.",
+            "en": "An SDK bundles versions tested together; replacing one breaks the agreement."
+          },
+          "hint": {
+            "ru": "Перечитайте первый раздел о том, что собрано внутри SDK.",
+            "tg": "Аз бахши аввал ёд оред, ки дар дохили SDK чӣ ҷамъ шудааст.",
+            "en": "Re-read the first section about what an SDK bundles."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-10-q4",
+          "question": {
+            "ru": "Что показывает экран примера?",
+            "tg": "Экрани мисол чӣ нишон медиҳад?",
+            "en": "What does the example screen show?"
+          },
+          "options": [
+            {
+              "ru": "Текущую погоду из сети",
+              "tg": "Обҳавоӣ аз шабака",
+              "en": "Current weather from the network"
+            },
+            {
+              "ru": "Список всех версий интернета",
+              "tg": "Рӯйхати ҳама версияҳои интернет",
+              "en": "A list of all internet versions"
+            },
+            {
+              "ru": "Что проект запустился: заголовок и подсказку",
+              "tg": "Он ки лоиҳа оғоз шуд: сарлавҳа ва маслиҳат",
+              "en": "That the project started: a header and a hint"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Контрольный экран подтверждает запуск и указывает на package.json.",
+            "tg": "Экрани санҷишӣ оғозшуданро тасдиқ мекунад ва ба package.json ишора мекунад.",
+            "en": "The check screen confirms the start and points to package.json."
+          },
+          "hint": {
+            "ru": "Посмотрите, какие две строки выводит пример.",
+            "tg": "Бинед, ки мисол кадом ду сатрро нишон медиҳад.",
+            "en": "Look at which two lines the example prints."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-10-q5",
+          "question": {
+            "ru": "Браузер курса заменяет запуск на устройстве?",
+            "tg": "Оё браузери курс иҷрои дар дастгоҳро иваз мекунад?",
+            "en": "Does the course browser replace a device run?"
+          },
+          "options": [
+            {
+              "ru": "Нет, запуск проверяют в Expo Go или эмуляторе",
+              "tg": "Не, иҷро дар Expo Go ё эмулятор санҷида мешавад",
+              "en": "No, the run is checked in Expo Go or an emulator"
+            },
+            {
+              "ru": "Да, это мобильный эмулятор",
+              "tg": "Бале, ин эмулятори мобилӣ аст",
+              "en": "Yes, it is a mobile emulator"
+            },
+            {
+              "ru": "Только для дней с кодом",
+              "tg": "Танҳо барои рӯзҳои дорои рамз",
+              "en": "Only for days with code"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Браузер — учебное окружение; экран запускают на своём устройстве.",
+            "tg": "Браузер муҳити омӯзист; экранро дар дастгоҳи худ иҷро мекунед.",
+            "en": "The browser is a learning environment; the screen runs on your own device."
+          },
+          "hint": {
+            "ru": "Вспомните слова первого раздела про браузер и эмулятор.",
+            "tg": "Гуфтаҳои бахши аввал дар бораи браузер ва эмуляторро ёд оред.",
+            "en": "Recall the first section words about the browser and an emulator."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Создайте свой Expo-проект, запустите пример и убедитесь, что экран открылся на устройстве. Запишите версии expo, react-native и react из package.json. Добавьте третью строку Text с вашим сообщением о проверке, например номер SDK. Сохраните короткий отчёт: версии, что видит экран, чем вы проверяли запуск. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Лоиҳаи Expo-и худро созед, мисолро иҷро кунед ва боварӣ ҳосил кунед, ки экран дар дастгоҳ кушода шуд. Версияҳои expo, react-native ва react-ро аз package.json сабт кунед. Сатри сеюми Text бо паёми санҷиши худро илова кунед, масалан рақами SDK. Ҳисоботи кӯтоҳ сабт кунед: версияҳо, экран чӣ мебинад ва иҷро чӣ тавр санҷида шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Create your own Expo project, run the example and confirm the screen opened on a device. Record the expo, react-native and react versions from package.json. Add a third Text line with your own check message, such as the SDK number. Keep a short report: the versions, what the screen shows and how you verified the run. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Команду создания и запуска смотрите в первом разделе; третью строку добавьте внутрь View.",
+          "tg": "Фармони сохтан ва оғозро дар бахши аввал ҷустуҷӯ кунед; сатри сеюмро дар дохили View илова кунед.",
+          "en": "Find the create and start commands in the first section; add the third line inside the View."
+        },
+        "solution": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Проверка проекта</Text>\n      <Text>Откройте package.json и найдите версии expo, react-native и react.</Text>\n      <Text>Мой проект: Expo SDK 58, React Native 0.88.</Text>\n    </View>\n  );\n}\n",
+        "criteria": [
+          {
+            "ru": "Версии из package.json записаны и соответствуют одному SDK.",
+            "tg": "Версияҳо аз package.json сабт шуда, ба як SDK мутобиқанд.",
+            "en": "The package.json versions are recorded and belong to one SDK."
+          },
+          {
+            "ru": "Скриншот или описание запуска подтверждает экран на устройстве.",
+            "tg": "Скриншот ё тавсифи иҷро экранро дар дастгоҳ тасдиқ мекунад.",
+            "en": "A screenshot or run description confirms the screen on a device."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Создать Expo-проект совместимых версий и объяснить роль SDK.",
+            "tg": "Лоиҳаи Expo бо версияҳои мувофиқ созед ва нақши SDK-ро шарҳ диҳед.",
+            "en": "Create an Expo project with compatible versions and explain the SDK role."
+          },
+          {
+            "ru": "Найти и записать версии expo, react-native и react.",
+            "tg": "Версияҳои expo, react-native ва react-ро ёфта, сабт кунед.",
+            "en": "Locate and record the expo, react-native and react versions."
+          }
+        ],
+        "realWorld": {
+          "ru": "Как в мастерской инструменты должны подходить друг другу, так и пакеты проекта согласованы внутри одного SDK.",
+          "tg": "Мисли коргоҳе, ки абзорҳо ба ҳам мувофиқанд, бастаҳои лоиҳа дар дохили як SDK мувофиқанд.",
+          "en": "Like workshop tools that must fit each other, the project packages agree inside one SDK."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Где перечислены версии пакетов проекта?",
+            "tg": "Дар куҷо версияҳои бастаҳои лоиҳа навишта мешаванд?",
+            "en": "Where are the project package versions listed?"
+          },
+          "options": [
+            {
+              "ru": "В имени папки проекта",
+              "tg": "Дар номи папкаи лоиҳа",
+              "en": "In the project folder name"
+            },
+            {
+              "ru": "В разделе dependencies файла package.json",
+              "tg": "Дар бахши dependencies-и package.json",
+              "en": "In the dependencies section of package.json"
+            },
+            {
+              "ru": "На экране телефона",
+              "tg": "Дар экрани телефон",
+              "en": "On the phone screen"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Вспомните, какой файл в корне проекта описывает зависимости.",
+            "tg": "Ёд оред, ки кадом файл дар решаи лоиҳа вобастагиро тавсиф мекунад.",
+            "en": "Recall which root file describes the dependencies."
+          },
+          "explanation": {
+            "ru": "package.json хранит имена пакетов и их номера.",
+            "tg": "package.json номи бастаҳо ва рақамҳои онҳоро нигоҳ медорад.",
+            "en": "package.json stores package names and their numbers."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Проверка проекта</Text>\n      <Text>Откройте package.json и найдите версии expo, react-native и react.</Text>\n    </View>\n  );\n}\n",
+          "steps": [
+            {
+              "line": 3,
+              "explanation": {
+                "ru": "App — корневой компонент нового проекта.",
+                "tg": "App — компоненти решаи лоиҳаи нав.",
+                "en": "App is the root component of the new project."
+              },
+              "values": "App()"
+            },
+            {
+              "line": 6,
+              "explanation": {
+                "ru": "Заголовок с ролью header подтверждает запуск.",
+                "tg": "Сарлавҳа бо нақши header оғозшуданро тасдиқ мекунад.",
+                "en": "The header-role title confirms the start."
+              },
+              "values": "Проверка проекта"
+            },
+            {
+              "line": 7,
+              "explanation": {
+                "ru": "Подсказка ведёт к package.json, где записаны версии.",
+                "tg": "Маслиҳат ба package.json мебарад, ки версияҳоро нигоҳ медорад.",
+                "en": "The hint leads to package.json where versions are stored."
+              },
+              "values": "dependencies"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Создайте проект командой из первого раздела и запустите npx expo start.",
+              "tg": "Лоиҳаро бо фармони аз бахши аввал созед ва npx expo start-ро иҷро кунед.",
+              "en": "Create the project with the command from the first section and run npx expo start."
+            },
+            {
+              "ru": "Откройте package.json и выпишите версии expo, react-native и react.",
+              "tg": "package.json-ро кушода, версияҳои expo, react-native ва react-ро сабт кунед.",
+              "en": "Open package.json and write down the expo, react-native and react versions."
+            }
+          ],
+          "hint": {
+            "ru": "Команду создания и запуска смотрите в первом разделе; третью строку добавьте внутрь View.",
+            "tg": "Фармони сохтан ва оғозро дар бахши аввал ҷустуҷӯ кунед; сатри сеюмро дар дохили View илова кунед.",
+            "en": "Find the create and start commands in the first section; add the third line inside the View."
+          },
+          "success": {
+            "ru": "Экран примера виден на устройстве, а версии записаны рядом с номером SDK.",
+            "tg": "Экрани мисол дар дастгоҳ дида мешавад ва версияҳо дар паҳлуи рақами SDK сабт шудаанд.",
+            "en": "The example screen is visible on the device and the versions are recorded next to the SDK number."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Создайте свой Expo-проект, запустите пример и убедитесь, что экран открылся на устройстве. Запишите версии expo, react-native и react из package.json. Добавьте третью строку Text с вашим сообщением о проверке, например номер SDK. Сохраните короткий отчёт: версии, что видит экран, чем вы проверяли запуск. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Лоиҳаи Expo-и худро созед, мисолро иҷро кунед ва боварӣ ҳосил кунед, ки экран дар дастгоҳ кушода шуд. Версияҳои expo, react-native ва react-ро аз package.json сабт кунед. Сатри сеюми Text бо паёми санҷиши худро илова кунед, масалан рақами SDK. Ҳисоботи кӯтоҳ сабт кунед: версияҳо, экран чӣ мебинад ва иҷро чӣ тавр санҷида шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Create your own Expo project, run the example and confirm the screen opened on a device. Record the expo, react-native and react versions from package.json. Add a third Text line with your own check message, such as the SDK number. Keep a short report: the versions, what the screen shows and how you verified the run. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Версии из package.json записаны и соответствуют одному SDK.",
+              "tg": "Версияҳо аз package.json сабт шуда, ба як SDK мутобиқанд.",
+              "en": "The package.json versions are recorded and belong to one SDK."
+            },
+            {
+              "ru": "Скриншот или описание запуска подтверждает экран на устройстве.",
+              "tg": "Скриншот ё тавсифи иҷро экранро дар дастгоҳ тасдиқ мекунад.",
+              "en": "A screenshot or run description confirms the screen on a device."
+            }
+          ],
+          "example": {
+            "ru": "Третья строка с номером SDK, например «Мой проект: Expo SDK 58», видна под подсказкой.",
+            "tg": "Сатри сеюм бо рақами SDK, масалан «Лоиҳаи ман: Expo SDK 58», зери маслиҳат дида мешавад.",
+            "en": "A third line with the SDK number, such as \"My project: Expo SDK 58\", appears under the hint."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Expo SDK объединяет проверенные вместе версии пакетов.",
+            "tg": "Expo SDK версияҳои якҷоя санҷидашудаи бастаҳоро муттаҳид мекунад.",
+            "en": "An Expo SDK bundles package versions tested together."
+          },
+          {
+            "ru": "Версии проекта читают в package.json, а запуск проверяют на устройстве.",
+            "tg": "Версияҳои лоиҳаро аз package.json мехонанд ва иҷро дар дастгоҳ санҷида мешавад.",
+            "en": "Project versions are read from package.json and the run is checked on a device."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что произойдёт, если поставить react-native новее, чем ожидает SDK?",
+            "tg": "Агар react-native-ро навтар аз интизории SDK насб кунед, чӣ мешавад?",
+            "en": "What happens if you install a react-native newer than the SDK expects?"
+          },
+          {
+            "ru": "Браузер курса заменяет запуск на устройстве?",
+            "tg": "Оё браузери курс иҷрои дар дастгоҳро иваз мекунад?",
+            "en": "Does the course browser replace a device run?"
+          }
+        ],
+        "nextLessonId": "mobile-day-11"
+      }
+    },
+    {
+      "id": "mobile-day-11",
+      "day": 11,
+      "prerequisiteDays": [
+        10
+      ],
+      "title": {
+        "ru": "View, Text и структура экрана",
+        "tg": "View, Text ва сохтори экран",
+        "en": "View, Text and screen structure"
+      },
+      "summary": {
+        "ru": "Разделите экран на заголовок, содержимое и подвал с помощью вложенных View.",
+        "tg": "Экранро бо View-ҳои дарунсоя ба сарлавҳа, мазмун ва поён ҷудо кунед.",
+        "en": "Split the screen into a header, content and footer using nested Views."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Экран из областей",
+            "tg": "Экран аз минтақаҳо",
+            "en": "A screen made of areas"
+          },
+          "body": {
+            "ru": "Реальные экраны делят на области: сверху заголовок, в середине основное содержимое, снизу служебная строка. View — контейнер без внешнего вида по умолчанию: он группирует детей и передаёт им раскладку. Вложенные View создают иерархию: внешний View занимает весь экран, внутренние — свои области. Стили описывают каждую область отдельно, поэтому правка заголовка не затрагивает подвал. Текст всегда находится внутри Text: React Native не отображает строку прямо внутри View. Такая структура готовит экран к заполнению списком и формами в следующих днях. Это описание в памяти: пока нет сохранения и сети, после перезапуска приложение показывает то же самое.",
+            "tg": "Экранҳои воқеӣ ба минтақаҳо ҷудо мешаванд: дар боло сарлавҳа, дар миёна мазмуни асосӣ, дар поён сатри хидматӣ. View контейнери бе намуди берунӣ аст: он кӯдаконро гурӯҳ мекунад ва ороишро ба онҳо медиҳад. View-ҳои дарунсоя сохтори иерархӣ месозанд: View-и берунӣ тамоми экранро мегирад, дохиён — минтақаҳои худро. Услубҳо ҳар минтақаро алоҳида тавсиф мекунанд, аз ин рӯ ислоҳи сарлавҳа поёнро тағйир намедиҳад. Матн ҳамеша дар дохили Text аст: React Native сатрро мустақим дар View нишон намедиҳад. Ин сохтор экранро барои пур кардан бо рӯйхат ва шаклҳо дар рӯзҳои оянда омода мекунад. Ин тавсиф дар хотира аст: то нақлиёт ва шабака набошад, баъди аз нав оғоз кардан барнома ҳамонро нишон медиҳад.",
+            "en": "Real screens are divided into areas: a header at the top, main content in the middle and a service line at the bottom. A View is a container with no default look: it groups children and passes layout to them. Nested Views create a hierarchy: the outer View fills the screen, the inner ones take their areas. Styles describe each area separately, so changing the header does not touch the footer. Text always lives inside a Text component: React Native does not render a string directly inside a View. This structure prepares the screen for lists and forms in the coming days. It is an in-memory description: with no persistence or network yet, a restart shows the same thing."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Внешний View имеет flex: 1 — он занимает всю высоту экрана. Три вложенных View описывают области: header с фоном и padding, content с flex: 1, чтобы занять место между ними, и footer. Порядок детей задаёт порядок на экране: сверху вниз, потому что основное направление — колонка. Внутри каждой области находится Text; заголовок помечен ролью header. Замените текст заголовка на свой: изменится только header, content и footer останутся на местах. Добавьте ещё один Text в content — область растянется сама, потому что flex: 1 делит свободное место. Скопируйте пример в App.tsx вашего проекта и проверьте на устройстве.",
+            "tg": "View-и берунӣ flex: 1 дорад — тамоми баландии экранро мегирад. Се View-и дарунсоя минтақаҳоро тавсиф медиҳанд: header бо ранги замина ва padding, content бо flex: 1, то ҷои байни онҳоро пур кунад ва footer. Тартиби кӯдакон тартиби экранро муайян мекунад: аз боло ба поён, чунки самти асосӣ сутун аст. Дар дохили ҳар минтақа Text аст; сарлавҳа бо нақши header ишора шудааст. Матни сарлавҳаро ба худи худ иваз кунед: танҳо header тағйир меёбад, content ва footer дар ҷоянд. Як Text-и дигар ба content илова кунед — минтақа худ васеъ мешавад, чунки flex: 1 ҷои холиро тақсим мекунад. Мисолро ба App.tsx-и лоиҳа гузошта, дар дастгоҳ санҷед.",
+            "en": "The outer View has flex: 1 — it fills the whole screen height. Three nested Views describe the areas: a header with background and padding, a content area with flex: 1 to take the space between them, and a footer. The children order sets the screen order: top to bottom, because the main axis is a column. Each area contains a Text; the header is marked with the header role. Change the header text to your own: only the header changes, content and footer stay in place. Add one more Text to content — the area grows by itself, because flex: 1 shares the free space. Copy the example into App.tsx of your project and check it on a device."
+          },
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.header}>\n        <Text accessibilityRole=\"header\">Мой план</Text>\n      </View>\n      <View style={styles.content}>\n        <Text>Здесь будет список занятий.</Text>\n      </View>\n      <View style={styles.footer}>\n        <Text>День 11</Text>\n      </View>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1 },\n  header: { padding: 16, backgroundColor: '#dbeafe' },\n  content: { flex: 1, padding: 16 },\n  footer: { padding: 16, backgroundColor: '#e5e7eb' },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-11-q1",
+          "question": {
+            "ru": "Что делает View в структуре экрана?",
+            "tg": "View дар сохтори экран чӣ мекунад?",
+            "en": "What does View do in the screen structure?"
+          },
+          "options": [
+            {
+              "ru": "Группирует дочерние элементы в область",
+              "tg": "Унсурҳои кӯдакро ба минтақа гурӯҳ мекунад",
+              "en": "Groups child elements into an area"
+            },
+            {
+              "ru": "Отправляет данные в сеть",
+              "tg": "Маълумотро ба шабака медиҳад",
+              "en": "Sends data to the network"
+            },
+            {
+              "ru": "Сохраняет текст в файл",
+              "tg": "Матнро ба файл нигоҳ медорад",
+              "en": "Saves text to a file"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "View — контейнер, который группирует и передаёт раскладку.",
+            "tg": "View — контейнерест, ки гурӯҳ мекунад ва ороишро медиҳад.",
+            "en": "View is a container that groups and passes layout."
+          },
+          "hint": {
+            "ru": "Вспомните определение View из первого раздела.",
+            "tg": "Таърифи View-ро аз бахши аввал ёд оред.",
+            "en": "Recall the View definition from the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-11-q2",
+          "question": {
+            "ru": "Почему текст примера находится внутри Text?",
+            "tg": "Барои чӣ матни мисол дар дохили Text аст?",
+            "en": "Why is the example text inside Text?"
+          },
+          "options": [
+            {
+              "ru": "Text быстрее загружается из сети",
+              "tg": "Text тезтар аз шабака меояд",
+              "en": "Text loads faster from the network"
+            },
+            {
+              "ru": "View не отображает строку напрямую",
+              "tg": "View сатрро мустақим нишон намедиҳад",
+              "en": "A View does not render a string directly"
+            },
+            {
+              "ru": "Так требует package.json",
+              "tg": "package.json инро талаб мекунад",
+              "en": "package.json requires it"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Правило платформы: строка отображается только внутри Text.",
+            "tg": "Қоидаи платформа: сатр танҳо дар дохили Text нишон дода мешавад.",
+            "en": "The platform rule: a string renders only inside Text."
+          },
+          "hint": {
+            "ru": "Перечитайте первое предложение о Text в первом разделе.",
+            "tg": "Ҷумлаи аввал дар бораи Text-ро аз бахши аввал аз нав хонед.",
+            "en": "Re-read the first sentence about Text in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-11-q3",
+          "question": {
+            "ru": "Какая область растягивается между header и footer?",
+            "tg": "Кадом минтақа байни header ва footer кашида мешавад?",
+            "en": "Which area stretches between the header and footer?"
+          },
+          "options": [
+            {
+              "ru": "header",
+              "tg": "header",
+              "en": "header"
+            },
+            {
+              "ru": "footer",
+              "tg": "footer",
+              "en": "footer"
+            },
+            {
+              "ru": "content со стилем flex: 1",
+              "tg": "content бо услуби flex: 1",
+              "en": "content with the flex: 1 style"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "flex: 1 отдаёт content всё свободное место.",
+            "tg": "flex: 1 ба content ҳамаи ҷои холиро медиҳад.",
+            "en": "flex: 1 gives content all the free space."
+          },
+          "hint": {
+            "ru": "Найдите в разборе, какой стиль занимает свободное место.",
+            "tg": "Аз шарҳ ёбед, ки кадом услуб ҷои холиро мегирад.",
+            "en": "Find in the walkthrough which style takes the free space."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-11-q4",
+          "question": {
+            "ru": "Что изменится, если поменять текст внутри header?",
+            "tg": "Агар матни дар дохили header иваз шавад, чӣ тағйир меёбад?",
+            "en": "What changes if the text inside the header changes?"
+          },
+          "options": [
+            {
+              "ru": "Только заголовок, остальные области на местах",
+              "tg": "Танҳо сарлавҳа, минтақаҳои дигар дар ҷоянд",
+              "en": "Only the header, other areas stay in place"
+            },
+            {
+              "ru": "Весь экран исчезнет",
+              "tg": "Тамоми экран нопадид мешавад",
+              "en": "The whole screen disappears"
+            },
+            {
+              "ru": "footer тоже изменит текст",
+              "tg": "footer ҳам матнро иваз мекунад",
+              "en": "The footer also changes its text"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Каждая область описана своей группой стилей.",
+            "tg": "Ҳар минтақа бо гурӯҳи услубии худ тавсиф шудааст.",
+            "en": "Each area is described by its own style group."
+          },
+          "hint": {
+            "ru": "Вспомните, зачем области описывают отдельными стилями.",
+            "tg": "Ёд оред, ки барои чӣ минтақаҳоро алоҳида услуб мекунанд.",
+            "en": "Recall why areas are styled separately."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-11-q5",
+          "question": {
+            "ru": "Откуда порядок «сверху вниз» у трёх областей?",
+            "tg": "Тартиби «аз боло ба поён»-и се минтақа аз куҷо меояд?",
+            "en": "Where does the top-to-bottom order of the three areas come from?"
+          },
+          "options": [
+            {
+              "ru": "Из алфавита имён стилей",
+              "tg": "Аз алифбои номҳои услубҳо",
+              "en": "From the alphabetical style names"
+            },
+            {
+              "ru": "Из порядка детей: основное направление — колонка",
+              "tg": "Аз тартиби кӯдакон: самти асосӣ сутун аст",
+              "en": "From the children order: the main axis is a column"
+            },
+            {
+              "ru": "Из размера шрифта",
+              "tg": "Аз андозаи ҳуруф",
+              "en": "From the font size"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Дети View располагаются колонкой по порядку объявления.",
+            "tg": "Кӯдакони View ба шакли сутун аз рӯи тартиби эълон ҷойгир мешаванд.",
+            "en": "View children stack in a column in declaration order."
+          },
+          "hint": {
+            "ru": "Найдите в разборе слова про порядок детей.",
+            "tg": "Дар шарҳ калимаҳои дар бораи тартиби кӯдаконро ёбед.",
+            "en": "Find the walkthrough words about the children order."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите экран из трёх областей: header, content и footer. Измените текст заголовка на своё название и добавьте в content второй Text. Запишите, какая область растянулась и почему. Проверьте экран на устройстве, при необходимости поверните его. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Экранро аз се минтақа созед: header, content ва footer. Матни сарлавҳаро ба номи худ иваз карда, дар content Text-и дуюмро илова кунед. Сабт кунед, ки кадом минтақа кашид ва чаро. Экранро дар дастгоҳ санҷед, дар сурати зарурат гардиш диҳед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build a screen with three areas: header, content and footer. Change the header text to your own title and add a second Text to content. Record which area stretched and why. Check the screen on a device and rotate it if needed. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Второй Text добавьте внутрь View со стилем content; растягивается область с flex: 1.",
+          "tg": "Text-и дуюмро дар дохили View-и бо услуби content илова кунед; минтақаи flex: 1 кашида мешавад.",
+          "en": "Add the second Text inside the View with the content style; the flex: 1 area stretches."
+        },
+        "solution": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.header}>\n        <Text accessibilityRole=\"header\">Мой план</Text>\n      </View>\n      <View style={styles.content}>\n        <Text>Здесь будет список занятий.</Text>\n        <Text>Второй блок содержимого.</Text>\n      </View>\n      <View style={styles.footer}>\n        <Text>День 11</Text>\n      </View>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1 },\n  header: { padding: 16, backgroundColor: '#dbeafe' },\n  content: { flex: 1, padding: 16, gap: 8 },\n  footer: { padding: 16, backgroundColor: '#e5e7eb' },\n});\n",
+        "criteria": [
+          {
+            "ru": "Экран содержит три отдельные области с разными фонами.",
+            "tg": "Экран се минтақаи алоҳида бо заминаҳои гуногун дорад.",
+            "en": "The screen has three separate areas with different backgrounds."
+          },
+          {
+            "ru": "Записано объяснение растягивания content через flex: 1.",
+            "tg": "Тавсифи кашидашавии content бо flex: 1 сабт шудааст.",
+            "en": "An explanation of content stretching through flex: 1 is recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Разделить экран на области с вложенными View.",
+            "tg": "Экранро бо View-ҳои дарунсоя ба минтақаҳо ҷудо кунед.",
+            "en": "Divide the screen into areas with nested Views."
+          },
+          {
+            "ru": "Объяснить роль flex: 1 и порядок областей.",
+            "tg": "Нақши flex: 1 ва тартиби минтақаҳоро шарҳ диҳед.",
+            "en": "Explain the flex: 1 role and the area order."
+          }
+        ],
+        "realWorld": {
+          "ru": "Экран приложения-планировщика начинается с шапки, списка в середине и строки состояния внизу.",
+          "tg": "Экрани барномаи барномасозӣ бо сарлавҳа, рӯйхат дар миёна ва сатри ҳолат дар поён оғоз мешавад.",
+          "en": "A planner app screen starts with a header, a list in the middle and a status line at the bottom."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Почему текст примера находится внутри Text?",
+            "tg": "Барои чӣ матни мисол дар дохили Text аст?",
+            "en": "Why is the example text inside Text?"
+          },
+          "options": [
+            {
+              "ru": "Text быстрее загружается из сети",
+              "tg": "Text тезтар аз шабака меояд",
+              "en": "Text loads faster from the network"
+            },
+            {
+              "ru": "View не отображает строку напрямую",
+              "tg": "View сатрро мустақим нишон намедиҳад",
+              "en": "A View does not render a string directly"
+            },
+            {
+              "ru": "Так требует package.json",
+              "tg": "package.json инро талаб мекунад",
+              "en": "package.json requires it"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Перечитайте первое предложение о Text в первом разделе.",
+            "tg": "Ҷумлаи аввал дар бораи Text-ро аз бахши аввал аз нав хонед.",
+            "en": "Re-read the first sentence about Text in the first section."
+          },
+          "explanation": {
+            "ru": "Правило платформы: строка отображается только внутри Text.",
+            "tg": "Қоидаи платформа: сатр танҳо дар дохили Text нишон дода мешавад.",
+            "en": "The platform rule: a string renders only inside Text."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.header}>\n        <Text accessibilityRole=\"header\">Мой план</Text>\n      </View>\n      <View style={styles.content}>\n        <Text>Здесь будет список занятий.</Text>\n      </View>\n      <View style={styles.footer}>\n        <Text>День 11</Text>\n      </View>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1 },\n  header: { padding: 16, backgroundColor: '#dbeafe' },\n  content: { flex: 1, padding: 16 },\n  footer: { padding: 16, backgroundColor: '#e5e7eb' },\n});\n",
+          "steps": [
+            {
+              "line": 6,
+              "explanation": {
+                "ru": "Область header — первый ребёнок внешнего View.",
+                "tg": "Минтақаи header — кӯдаки аввали View-и берунӣ.",
+                "en": "The header area is the first child of the outer View."
+              },
+              "values": "header: padding 16"
+            },
+            {
+              "line": 9,
+              "explanation": {
+                "ru": "content получает flex: 1 и растягивается.",
+                "tg": "content flex: 1 мегирад ва кашида мешавад.",
+                "en": "content receives flex: 1 and stretches."
+              },
+              "values": "content: flex 1"
+            },
+            {
+              "line": 12,
+              "explanation": {
+                "ru": "footer остаётся внизу, потому что объявлен последним.",
+                "tg": "footer дар поён мемонад, чунки охирин эълон шудааст.",
+                "en": "footer stays at the bottom because it is declared last."
+              },
+              "values": "footer: padding 16"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере три вложенных View и назовите их области.",
+              "tg": "Дар мисол се View-и дарунсояро ёфта, минтақаҳои онҳоро номбар кунед.",
+              "en": "Find the three nested Views in the example and name their areas."
+            },
+            {
+              "ru": "Измените текст заголовка и проверьте на устройстве, что остальное не сдвинулось.",
+              "tg": "Матни сарлавҳаро иваз карда, дар дастгоҳ санҷед, ки боқимонда ҷойиваз накунад.",
+              "en": "Change the header text and check on a device that the rest did not move."
+            }
+          ],
+          "hint": {
+            "ru": "Второй Text добавьте внутрь View со стилем content; растягивается область с flex: 1.",
+            "tg": "Text-и дуюмро дар дохили View-и бо услуби content илова кунед; минтақаи flex: 1 кашида мешавад.",
+            "en": "Add the second Text inside the View with the content style; the flex: 1 area stretches."
+          },
+          "success": {
+            "ru": "Заголовок изменился, а content и footer остались на своих местах.",
+            "tg": "Сарлавҳа тағйир ёфт, вале content ва footer дар ҷойҳои худ монданд.",
+            "en": "The header changed while content and footer stayed in place."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите экран из трёх областей: header, content и footer. Измените текст заголовка на своё название и добавьте в content второй Text. Запишите, какая область растянулась и почему. Проверьте экран на устройстве, при необходимости поверните его. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Экранро аз се минтақа созед: header, content ва footer. Матни сарлавҳаро ба номи худ иваз карда, дар content Text-и дуюмро илова кунед. Сабт кунед, ки кадом минтақа кашид ва чаро. Экранро дар дастгоҳ санҷед, дар сурати зарурат гардиш диҳед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build a screen with three areas: header, content and footer. Change the header text to your own title and add a second Text to content. Record which area stretched and why. Check the screen on a device and rotate it if needed. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Экран содержит три отдельные области с разными фонами.",
+              "tg": "Экран се минтақаи алоҳида бо заминаҳои гуногун дорад.",
+              "en": "The screen has three separate areas with different backgrounds."
+            },
+            {
+              "ru": "Записано объяснение растягивания content через flex: 1.",
+              "tg": "Тавсифи кашидашавии content бо flex: 1 сабт шудааст.",
+              "en": "An explanation of content stretching through flex: 1 is recorded."
+            }
+          ],
+          "example": {
+            "ru": "После добавления второго Text область content занимает место между header и footer.",
+            "tg": "Баъди иловаи Text-и дуюм минтақаи content ҷои байни header ва footer-ро мегирад.",
+            "en": "After adding the second Text, the content area takes the space between header and footer."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Вложенные View делят экран на области, а Text обязан содержать текст.",
+            "tg": "View-ҳои дарунсоя экранро ба минтақаҳо ҷудо мекунанд ва матн бояд дар Text бошад.",
+            "en": "Nested Views divide the screen into areas and text must live in Text."
+          },
+          {
+            "ru": "flex: 1 отдаёт области свободное место между остальными.",
+            "tg": "flex: 1 ба минтақа ҷои холи байни дигаронро медиҳад.",
+            "en": "flex: 1 gives an area the free space between the others."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Почему текст примера находится внутри Text?",
+            "tg": "Барои чӣ матни мисол дар дохили Text аст?",
+            "en": "Why is the example text inside Text?"
+          },
+          {
+            "ru": "Откуда порядок «сверху вниз» у трёх областей?",
+            "tg": "Тартиби «аз боло ба поён»-и се минтақа аз куҷо меояд?",
+            "en": "Where does the top-to-bottom order of the three areas come from?"
+          }
+        ],
+        "nextLessonId": "mobile-day-12"
+      }
+    },
+    {
+      "id": "mobile-day-12",
+      "day": 12,
+      "prerequisiteDays": [
+        11
+      ],
+      "title": {
+        "ru": "Стили и размеры без web-допущений",
+        "tg": "Услубҳо ва андозаҳо бе фарзи веб",
+        "en": "Styles and sizes without web assumptions"
+      },
+      "summary": {
+        "ru": "Задавайте размеры числами, применяйте проценты осознанно и не переносите CSS-файлы из веба.",
+        "tg": "Андозаҳоро бо рақам диҳед, фоизҳоро огоҳона истифода баред ва CSS-ро аз веб нагузаронед.",
+        "en": "Give sizes as numbers, use percentages deliberately and do not carry CSS files over from the web."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Числа вместо пикселей",
+            "tg": "Рақам ба ҷои пиксел",
+            "en": "Numbers instead of pixels"
+          },
+          "body": {
+            "ru": "В React Native размеры задаются числами без единиц: padding: 16 — это плотностно-независимые пиксели, одинаково выглядящие на экранах разной чёткости. Строки «16px» здесь не работают: это число, а не CSS-значение. Проценты пишутся строкой и считаются от родителя: width: '50%' — половина ширины контейнера. margin создаёт отступ снаружи, padding — внутри; borderRadius скругляет углы. Цвета задаются строками, как '#ffffff'. Файл CSS из веб-проекта не подключить: свойства переименованы (font-size стало fontSize), а часть веб-возможностей отсутствует. StyleSheet.create собирает стили в один объект с именами, что заменяет классы.",
+            "tg": "Дар React Native андозаҳо бо рақамҳои бе воҳид дода мешаванд: padding: 16 — пиксели соҳибихтиёрии зичӣ, ки дар экранҳои гуногуни возеҳӣ якхелда менамоянд. Сатри «16px» дар ин ҷо кор намекунад: ин рақам аст, на қимати CSS. Фоиз сатр навишта мешавад ва аз волидайн ҳисоб мешавад: width: '50%' — нисфи паҳнии контейнер. margin фосиларо дар берун месозад, padding — дар дохил; borderRadius кунҷҳоро мудаввар мекунад. Рангҳо бо сатрҳо дода мешаванд, масалан '#ffffff'. Файли CSS-ро аз лоиҳаи веб пайваст кардан нашавад: хосиятҳо аз нав ном гирифтаанд (font-size ба fontSize) ва як қисми имконоти веб вуҷуд надорад. StyleSheet.create услубҳоро дар як объект бо номҳо ҷамъ меорад, ки ҷои синфҳоро мегирад.",
+            "en": "In React Native sizes are plain numbers without units: padding: 16 means density-independent pixels that look alike on screens of different sharpness. The string \"16px\" does not work here: it is a number, not a CSS value. Percentages are strings measured against the parent: width: '50%' is half of the container width. margin creates space outside, padding inside; borderRadius rounds corners. Colors are strings like '#ffffff'. A CSS file from a web project cannot be connected: properties were renamed (font-size became fontSize) and some web features do not exist. StyleSheet.create collects styles into one named object, which replaces classes."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Стиль card описывает карточку: margin 16 отделяет её от краёв экрана, padding 16 создаёт внутренний отступ, borderRadius 12 скругляет углы, а backgroundColor задаёт белый фон. title использует fontSize 20 и fontWeight '600' — числа и строки, не CSS-ключевые слова вроде semibold в старом синтаксисе. marginBottom 8 отделяет заголовок от текста. Все значения — числа или строки без единиц измерения. Измените фон карточки на свой цвет и запишите его: согласованность цветов вы воспроизводите сами, готовых тем в примере нет. Проверьте карточку на устройстве при увеличенном системном шрифте: текст остаётся читаемым, потому что размеры дают место.",
+            "tg": "Услуби card карточкаро тавсиф медиҳад: margin 16 онро аз ҳошияҳои экран ҷудо мекунад, padding 16 фосилаи дохилӣ месозад, borderRadius 12 кунҷҳоро мудаввар мекунад ва backgroundColor заминаи сафед медиҳад. title fontSize 20 ва fontWeight '600' истифода мебарад — рақам ва сатр, на калимаҳои CSS-и кӯҳна мисли semibold. marginBottom 8 сарлавҳаро аз матн ҷудо мекунад. Ҳамаи қиматҳо рақам ё сатри бе воҳиданд. Заминаи карточкаро ба ранги худ иваз карда, сабт кунед: созишномаи рангҳоро худ такрор мекунед, мавзӯъҳои тайёр дар мисол нест. Карточкаро дар дастгоҳ бо ҳуруфи калони система санҷед: матн хонданашаванда мемонад, чунки андозаҳо ҷо медиҳанд.",
+            "en": "The card style describes a card: margin 16 separates it from the screen edges, padding 16 creates inner spacing, borderRadius 12 rounds the corners, and backgroundColor sets a white background. title uses fontSize 20 and fontWeight '600' — a number and a string, not old CSS keywords like semibold. marginBottom 8 separates the title from the body. All values are numbers or unitless strings. Change the card background to your own color and record it: you reproduce color agreement yourself, the example ships no themes. Check the card on a device with a larger system font: text stays readable because the sizes give room."
+          },
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>Урок 12</Text>\n      <Text style={styles.body}>Размеры задаются числами без единиц.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  card: { margin: 16, padding: 16, borderRadius: 12, backgroundColor: '#ffffff' },\n  title: { fontSize: 20, fontWeight: '600', marginBottom: 8 },\n  body: { fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-12-q1",
+          "question": {
+            "ru": "Что означает число в padding: 16?",
+            "tg": "Рақам дар padding: 16 чӣ маъно дорад?",
+            "en": "What does the number in padding: 16 mean?"
+          },
+          "options": [
+            {
+              "ru": "Миллиметры экрана",
+              "tg": "Миллиметри экран",
+              "en": "Screen millimeters"
+            },
+            {
+              "ru": "Плотностно-независимые пиксели",
+              "tg": "Пиксели соҳибихтиёрии зичӣ",
+              "en": "Density-independent pixels"
+            },
+            {
+              "ru": "Проценты от шрифта",
+              "tg": "Фоиз аз ҳуруф",
+              "en": "Percent of the font"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Число без единиц — плотностно-независимый размер.",
+            "tg": "Рақами бе воҳид — андозаи соҳибихтиёрии зичӣ.",
+            "en": "A unitless number is a density-independent size."
+          },
+          "hint": {
+            "ru": "Перечитайте первое предложение первого раздела.",
+            "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+            "en": "Re-read the first sentence of the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-12-q2",
+          "question": {
+            "ru": "Как записать половину ширины родителя?",
+            "tg": "Нисфи паҳнии волидайнро чӣ тавр навиштан мумкин?",
+            "en": "How do you write half of the parent width?"
+          },
+          "options": [
+            {
+              "ru": "width: 50",
+              "tg": "width: 50",
+              "en": "width: 50"
+            },
+            {
+              "ru": "width: half",
+              "tg": "width: half",
+              "en": "width: half"
+            },
+            {
+              "ru": "width: '50%'",
+              "tg": "width: '50%'",
+              "en": "width: '50%'"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Проценты пишутся строкой со знаком процента.",
+            "tg": "Фоиз ҳамчун сатри бо аломати фоиз навишта мешавад.",
+            "en": "Percentages are written as strings with the percent sign."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе слова про проценты.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи фоизро ёбед.",
+            "en": "Find the first-section words about percentages."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-12-q3",
+          "question": {
+            "ru": "Чем margin отличается от padding?",
+            "tg": "margin аз padding чӣ фарқ дорад?",
+            "en": "How does margin differ from padding?"
+          },
+          "options": [
+            {
+              "ru": "margin — отступ снаружи, padding — внутри",
+              "tg": "margin — фосила дар берун, padding — дар дохил",
+              "en": "margin is outside spacing, padding is inside"
+            },
+            {
+              "ru": "margin — для текста, padding — для картинок",
+              "tg": "margin — барои матн, padding — барои расмҳо",
+              "en": "margin is for text, padding for images"
+            },
+            {
+              "ru": "Они одинаковы",
+              "tg": "Онҳо якхелданд",
+              "en": "They are the same"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "margin отделяет снаружи, padding создаёт внутренний отступ.",
+            "tg": "margin дар берун ҷудо мекунад, padding фосилаи дохилӣ месозад.",
+            "en": "margin separates outside, padding creates inner spacing."
+          },
+          "hint": {
+            "ru": "Сравните определения margin и padding в первом разделе.",
+            "tg": "Таърифҳои margin ва padding-ро дар бахши аввал муқоиса кунед.",
+            "en": "Compare the margin and padding definitions in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-12-q4",
+          "question": {
+            "ru": "Почему CSS-файл из веб-проекта не подключают?",
+            "tg": "Барои чӣ файли CSS-и лоиҳаи веб пайваст намекунанд?",
+            "en": "Why is a CSS file from a web project not connected?"
+          },
+          "options": [
+            {
+              "ru": "Файлы CSS запрещены законом",
+              "tg": "Файлҳои CSS қонунан мамнӯъанд",
+              "en": "CSS files are forbidden by law"
+            },
+            {
+              "ru": "Свойства переименованы и часть веб-возможностей отсутствует",
+              "tg": "Хосиятҳо аз нав ном гирифтаанд ва як қисми имконоти веб нест",
+              "en": "Properties were renamed and some web features do not exist"
+            },
+            {
+              "ru": "CSS работает только ночью",
+              "tg": "CSS танҳо шабона кор мекунад",
+              "en": "CSS only works at night"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "React Native использует объекты стилей с другими именами свойств.",
+            "tg": "React Native объектҳои услубӣ бо номҳои дигари хосиятҳоро истифода мебарад.",
+            "en": "React Native uses style objects with different property names."
+          },
+          "hint": {
+            "ru": "Вспомните, что случилось с font-size при переходе на объекты.",
+            "tg": "Ёд оред, ки ҳангоми гузариш ба объектҳо бо font-size чӣ шуд.",
+            "en": "Recall what happened to font-size when moving to style objects."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-12-q5",
+          "question": {
+            "ru": "Что даёт StyleSheet.create?",
+            "tg": "StyleSheet.create чӣ медиҳад?",
+            "en": "What does StyleSheet.create provide?"
+          },
+          "options": [
+            {
+              "ru": "Доступ к файловой системе",
+              "tg": "Дастрасӣ ба системаи файлҳо",
+              "en": "File system access"
+            },
+            {
+              "ru": "Автоматический перевод CSS",
+              "tg": "Тарҷумаи худкори CSS",
+              "en": "Automatic CSS translation"
+            },
+            {
+              "ru": "Один объект с именованными стилями вместо классов",
+              "tg": "Як объект бо услубҳои номдор ба ҷои синфҳо",
+              "en": "One object with named styles instead of classes"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Имена стилей заменяют классы веб-разметки.",
+            "tg": "Номҳои услубҳо ҷои синфҳои нишонагузории вебро мегиранд.",
+            "en": "Style names replace the classes of web markup."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе предложение о StyleSheet.create.",
+            "tg": "Дар бахши аввал ҷумлаи дар бораи StyleSheet.create-ро ёбед.",
+            "en": "Find the first-section sentence about StyleSheet.create."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите карточку из примера и измените фон на свой цвет. Добавьте заметку Text со стилем fontSize 14 и marginTop 12. Запишите свои значения цветов и отступов, затем проверьте карточку на устройстве при обычном и увеличенном шрифте. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Карточкаро аз мисол созед ва заминаро ба ранги худ иваз кунед. Тавзеҳи Text бо услуби fontSize 14 ва marginTop 12 илова кунед. Қиматҳои ранг ва фосилаҳои худро сабт кунед, баъд карточкаро дар дастгоҳ бо ҳуруфи оддӣ ва калон санҷед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example card and change the background to your own color. Add a Text note with fontSize 14 and marginTop 12. Record your color and spacing values, then check the card on a device with the normal and a larger font. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Заметку добавьте внутрь card, а её стиль — в StyleSheet.create рядом с card.",
+          "tg": "Тавзеҳро дар дохили card илова кунед, услуби онро дар StyleSheet.create дар паҳлуи card.",
+          "en": "Add the note inside card and put its style in StyleSheet.create next to card."
+        },
+        "solution": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>Урок 12</Text>\n      <Text style={styles.body}>Размеры задаются числами без единиц.</Text>\n      <Text style={styles.note}>Записал цвета и отступы своей карточки.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  card: { margin: 16, padding: 16, borderRadius: 12, backgroundColor: '#f0f9ff' },\n  title: { fontSize: 20, fontWeight: '600', marginBottom: 8 },\n  body: { fontSize: 16 },\n  note: { fontSize: 14, marginTop: 12, color: '#475569' },\n});\n",
+        "criteria": [
+          {
+            "ru": "Карточка использует ваш цвет и отдельный стиль заметки.",
+            "tg": "Карточка ранги шумо ва услуби алоҳидаи тавзеҳро истифода мебарад.",
+            "en": "The card uses your color and a separate note style."
+          },
+          {
+            "ru": "Записаны значения отступов и результат проверки при увеличенном шрифте.",
+            "tg": "Қиматҳои фосилаҳо ва натиҷаи санҷиш бо ҳуруфи калон сабт шудаанд.",
+            "en": "The spacing values and the larger-font check result are recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Задавать размеры числами и объяснить плотностно-независимые пиксели.",
+            "tg": "Андозаҳоро бо рақам диҳед ва пиксели соҳибихтиёрии зичӣро шарҳ диҳед.",
+            "en": "Give sizes as numbers and explain density-independent pixels."
+          },
+          {
+            "ru": "Собрать карточку со своими цветами и отступами.",
+            "tg": "Карточкаро бо рангҳо ва фосилаҳои худ созед.",
+            "en": "Build a card with your own colors and spacing."
+          }
+        ],
+        "realWorld": {
+          "ru": "Карточка занятия в приложении-планировщике: отступы, скруглённые углы и читаемый заголовок.",
+          "tg": "Карточкаи машғулият дар барномаи барномасозӣ: фосилаҳо, кунҷҳои мудаввар ва сарлавҳаи хонданашаванда.",
+          "en": "A lesson card in a planner app: spacing, rounded corners and a readable title."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Как записать половину ширины родителя?",
+            "tg": "Нисфи паҳнии волидайнро чӣ тавр навиштан мумкин?",
+            "en": "How do you write half of the parent width?"
+          },
+          "options": [
+            {
+              "ru": "width: 50",
+              "tg": "width: 50",
+              "en": "width: 50"
+            },
+            {
+              "ru": "width: half",
+              "tg": "width: half",
+              "en": "width: half"
+            },
+            {
+              "ru": "width: '50%'",
+              "tg": "width: '50%'",
+              "en": "width: '50%'"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Найдите в первом разделе слова про проценты.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи фоизро ёбед.",
+            "en": "Find the first-section words about percentages."
+          },
+          "explanation": {
+            "ru": "Проценты пишутся строкой со знаком процента.",
+            "tg": "Фоиз ҳамчун сатри бо аломати фоиз навишта мешавад.",
+            "en": "Percentages are written as strings with the percent sign."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>Урок 12</Text>\n      <Text style={styles.body}>Размеры задаются числами без единиц.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  card: { margin: 16, padding: 16, borderRadius: 12, backgroundColor: '#ffffff' },\n  title: { fontSize: 20, fontWeight: '600', marginBottom: 8 },\n  body: { fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 5,
+              "explanation": {
+                "ru": "card применяется к контейнеру карточки.",
+                "tg": "card ба контейнери карточка татбиқ мешавад.",
+                "en": "card applies to the card container."
+              },
+              "values": "margin 16, padding 16, radius 12"
+            },
+            {
+              "line": 13,
+              "explanation": {
+                "ru": "Все значения card — числа без единиц.",
+                "tg": "Ҳамаи қиматҳои card — рақамҳои бе воҳид.",
+                "en": "All card values are unitless numbers."
+              },
+              "values": "16, 16, 12"
+            },
+            {
+              "line": 14,
+              "explanation": {
+                "ru": "title задаёт размер и вес текста.",
+                "tg": "title андоза ва вазни матнро муайян мекунад.",
+                "en": "title sets the text size and weight."
+              },
+              "values": "fontSize 20, weight 600"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в стиле card каждое числовое значение и назовите его смысл.",
+              "tg": "Дар услуби card ҳар қимати рақамиро ёфта, маънои онро номбар кунед.",
+              "en": "Find each numeric value in the card style and name its meaning."
+            },
+            {
+              "ru": "Замените цвет фона на свой и проверьте карточку на устройстве.",
+              "tg": "Ранги заминаро ба худи худ иваз карда, карточкаро дар дастгоҳ санҷед.",
+              "en": "Replace the background color with your own and check the card on a device."
+            }
+          ],
+          "hint": {
+            "ru": "Заметку добавьте внутрь card, а её стиль — в StyleSheet.create рядом с card.",
+            "tg": "Тавзеҳро дар дохили card илова кунед, услуби онро дар StyleSheet.create дар паҳлуи card.",
+            "en": "Add the note inside card and put its style in StyleSheet.create next to card."
+          },
+          "success": {
+            "ru": "Карточка показывает ваш цвет, скруглённые углы и читаемый текст.",
+            "tg": "Карточка ранги шумо, кунҷҳои мудаввар ва матни хонданашавандаро нишон медиҳад.",
+            "en": "The card shows your color, rounded corners and readable text."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите карточку из примера и измените фон на свой цвет. Добавьте заметку Text со стилем fontSize 14 и marginTop 12. Запишите свои значения цветов и отступов, затем проверьте карточку на устройстве при обычном и увеличенном шрифте. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Карточкаро аз мисол созед ва заминаро ба ранги худ иваз кунед. Тавзеҳи Text бо услуби fontSize 14 ва marginTop 12 илова кунед. Қиматҳои ранг ва фосилаҳои худро сабт кунед, баъд карточкаро дар дастгоҳ бо ҳуруфи оддӣ ва калон санҷед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example card and change the background to your own color. Add a Text note with fontSize 14 and marginTop 12. Record your color and spacing values, then check the card on a device with the normal and a larger font. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Карточка использует ваш цвет и отдельный стиль заметки.",
+              "tg": "Карточка ранги шумо ва услуби алоҳидаи тавзеҳро истифода мебарад.",
+              "en": "The card uses your color and a separate note style."
+            },
+            {
+              "ru": "Записаны значения отступов и результат проверки при увеличенном шрифте.",
+              "tg": "Қиматҳои фосилаҳо ва натиҷаи санҷиш бо ҳуруфи калон сабт шудаанд.",
+              "en": "The spacing values and the larger-font check result are recorded."
+            }
+          ],
+          "example": {
+            "ru": "Заметка «Записал цвета и отступы своей карточки» отображается мельче под основным текстом.",
+            "tg": "Тавзеҳи «Рангҳо ва фосилаҳои карточкаи худро сабт кардам» зери матни асосӣ хурдтар дида мешавад.",
+            "en": "The note \"Recorded my card colors and spacing\" appears smaller under the body text."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Размеры — числа без единиц; проценты пишутся строкой от родителя.",
+            "tg": "Андозаҳо рақамҳои бе воҳиданд; фоиз ҳамчун сатри аз волидайн навишта мешавад.",
+            "en": "Sizes are unitless numbers; percentages are strings measured against the parent."
+          },
+          {
+            "ru": "StyleSheet.create заменяет классы именованными стилями.",
+            "tg": "StyleSheet.create синфҳоро бо услубҳои номдор иваз мекунад.",
+            "en": "StyleSheet.create replaces classes with named styles."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Как записать половину ширины родителя?",
+            "tg": "Нисфи паҳнии волидайнро чӣ тавр навиштан мумкин?",
+            "en": "How do you write half of the parent width?"
+          },
+          {
+            "ru": "Почему CSS-файл из веб-проекта не подключают?",
+            "tg": "Барои чӣ файли CSS-и лоиҳаи веб пайваст намекунанд?",
+            "en": "Why is a CSS file from a web project not connected?"
+          }
+        ],
+        "nextLessonId": "mobile-day-13"
+      }
+    },
+    {
+      "id": "mobile-day-13",
+      "day": 13,
+      "prerequisiteDays": [
+        12
+      ],
+      "title": {
+        "ru": "Flexbox и небольшие экраны",
+        "tg": "Flexbox ва экранҳои хурд",
+        "en": "Flexbox and small screens"
+      },
+      "summary": {
+        "ru": "Расположите две панели в строке, задайте им пропорции и проверьте раскладку на узком экране.",
+        "tg": "Ду панелро дар як сатр ҷойгир кунед, нисбатҳои онҳоро таъин намуда, дар экрани танг санҷед.",
+        "en": "Place two panels in a row, give them proportions and check the layout on a narrow screen."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Строки, колонки и пропорции",
+            "tg": "Сатрҳо, сутунҳо ва нисбатҳо",
+            "en": "Rows, columns and proportions"
+          },
+          "body": {
+            "ru": "Flexbox описывает, как дети контейнера занимают место. Главное отличие от веба: направление по умолчанию — колонка, поэтому без дополнительных стилей элементы идут сверху вниз. Свойство flexDirection: 'row' выстраивает детей в строку. flex: 1, flex: 2 задают пропорции свободного места: если две панели имеют flex 1 и 2, вторая получит две трети ширины. justifyContent распределяет детей по главной оси, alignItems — по поперечной. На узком экране в строке остаётся меньше места: проверяйте раскладку и в вертикальном, и в горизонтальном положении, а важный контент не прячьте в узкой колонке. Это раскладка в памяти: поворот экрана меняет доступное место, но не сохраняет состояние.",
+            "tg": "Flexbox тавсиф медиҳад, ки кӯдакони контейнер чӣ тавр ҷо мегиранд. Фарқи асосӣ аз веб: самти пешфрӯз сутун аст, бинобар ин бе услубҳои иловагӣ унсурҳо аз боло ба поён мераванд. Хосияти flexDirection: 'row' кӯдаконро ба сатр мешорад. flex: 1 ва flex: 2 нисбатҳои ҷои холиро муайян мекунанд: агар ду панел flex 1 ва 2 дошта бошанд, дуюм ду сеяки паҳниро мегирад. justifyContent кӯдаконро дар самти асосӣ тақсим мекунад, alignItems — дар самтиokuaacross. Дар экрани танг дар сатр ҷои камтар мемонад: ороишро ҳам дар ҳолати амудӣ ҳам уфуқӣ санҷед ва мазмуни муҳимро дар сутуни танг маҳкум накунед. Ин ороиш дар хотира аст: гардиши экран ҷои дастрасро иваз мекунад, вале ҳолатро нигоҳ намедорад.",
+            "en": "Flexbox describes how a container children take space. The main difference from the web: the default direction is a column, so elements stack top to bottom without extra styles. flexDirection: 'row' lines the children up in a row. flex: 1 and flex: 2 set proportions of the free space: with two panels at flex 1 and 2, the second gets two thirds of the width. justifyContent distributes children along the main axis, alignItems across it. A narrow screen leaves less room in a row: check the layout in both orientations and do not hide important content in a narrow column. This layout lives in memory: rotating the screen changes the available space but stores nothing."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Экран занимает flex: 1, а row описывает строку высотой 120 с flexDirection: 'row' и зазором gap: 12 между панелями. partOne имеет flex: 1, partTwo — flex: 2: свободная ширина делится на три части, поэтому «Прогресс» вдвое шире «Плана». Фон каждой панели свой, чтобы пропорции были видны. Нижний Text объясняет, что раскладку надо проверить при повороте. Попробуйте поменять пропорции на 1:1 — панели сравняются. Затем уменьшите height строки и посмотрите, что текст не обрезается при большом системном шрифте. Скопируйте пример в App.tsx и проверьте на устройстве в двух ориентациях.",
+            "tg": "Экран flex: 1 мегирад, row сатри бо баландии 120, flexDirection: 'row' ва фосилаи gap: 12-и байни панелҳоро тавсиф медиҳад. partOne flex: 1 дорад, partTwo — flex: 2: паҳнии холӣ ба се қисм тақсим мешавад, бинобар ин «Пешрафт» аз «Нақша» ду бор паҳнтар аст. Заминаи ҳар панел алоҳида аст, то нисбатҳо дида шаванд. Text-и поёнӣ мефаҳмонад, ки ороишро ҳангоми гардиш санҷидан лозим аст. Нисбатҳоро ба 1:1 иваз кунед — панелҳо баробар мешаванд. Баъд баландии сатрро кам кунед ва бинед, ки матн бо ҳуруфи калони система бурида намешавад. Мисолро ба App.tsx гузошта, дар дастгоҳ дар ду самт санҷед.",
+            "en": "The screen takes flex: 1, and row describes a 120-tall line with flexDirection: 'row' and a gap: 12 between the panels. partOne has flex: 1, partTwo flex: 2: the free width splits into three parts, so \"Прогресс\" is twice as wide as \"План\". Each panel has its own background so the proportions are visible. The bottom Text explains that the layout must be checked when rotating. Change the proportions to 1:1 — the panels equalize. Then reduce the row height and see that text is not clipped with a large system font. Copy the example into App.tsx and check on a device in both orientations."
+          },
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.row}>\n        <View style={styles.partOne}>\n          <Text>План</Text>\n        </View>\n        <View style={styles.partTwo}>\n          <Text>Прогресс</Text>\n        </View>\n      </View>\n      <Text>Поверните экран и проверьте раскладку.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 12 },\n  row: { flexDirection: 'row', height: 120, gap: 12 },\n  partOne: { flex: 1, backgroundColor: '#bfdbfe', padding: 12 },\n  partTwo: { flex: 2, backgroundColor: '#bbf7d0', padding: 12 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-13-q1",
+          "question": {
+            "ru": "Как дети контейнера расположены по умолчанию?",
+            "tg": "Кӯдакони контейнер бо пешфрӯз чӣ тавр ҷойгир мешаванд?",
+            "en": "How are container children arranged by default?"
+          },
+          "options": [
+            {
+              "ru": "В строку слева направо",
+              "tg": "Дар сатр аз чап ба рост",
+              "en": "In a row left to right"
+            },
+            {
+              "ru": "По кругу",
+              "tg": "Даврзанона",
+              "en": "In a circle"
+            },
+            {
+              "ru": "В колонку сверху вниз",
+              "tg": "Дар сутун аз боло ба поён",
+              "en": "In a column top to bottom"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Основное направление по умолчанию — колонка, не как в вебе.",
+            "tg": "Самти асосии пешфрӯз сутун аст, на мисли веб.",
+            "en": "The default main axis is a column, unlike the web."
+          },
+          "hint": {
+            "ru": "Вспомните первое отличие от веба из первого раздела.",
+            "tg": "Фарқи аввал аз вебро аз бахши аввал ёд оред.",
+            "en": "Recall the first web difference from the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-13-q2",
+          "question": {
+            "ru": "Панели имеют flex: 1 и flex: 2. Какая доля ширины у второй?",
+            "tg": "Панелҳо flex: 1 ва flex: 2 доранд. Дуюм чанде аз паҳниро мегирад?",
+            "en": "Panels have flex: 1 and flex: 2. What share of the width does the second take?"
+          },
+          "options": [
+            {
+              "ru": "Две трети",
+              "tg": "Ду сеяк",
+              "en": "Two thirds"
+            },
+            {
+              "ru": "Одну треть",
+              "tg": "Як сеяк",
+              "en": "One third"
+            },
+            {
+              "ru": "Всю ширину",
+              "tg": "Тамоми паҳнӣ",
+              "en": "The whole width"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Свободное место делится на три части: 1 + 2.",
+            "tg": "Ҷои холӣ ба се қисм тақсим мешавад: 1 + 2.",
+            "en": "The free space splits into three parts: 1 + 2."
+          },
+          "hint": {
+            "ru": "Сложите значения flex и посчитайте долю второй панели.",
+            "tg": "Қиматҳои flex-ро ҷамъ карда, саҳми панели дуюмро ҳисоб кунед.",
+            "en": "Add the flex values and compute the second panel share."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-13-q3",
+          "question": {
+            "ru": "Что делает flexDirection: 'row'?",
+            "tg": "flexDirection: 'row' чӣ мекунад?",
+            "en": "What does flexDirection: 'row' do?"
+          },
+          "options": [
+            {
+              "ru": "Скрывает лишние элементы",
+              "tg": "Унсурҳои изофаро маҳкум мекунад",
+              "en": "Hides extra elements"
+            },
+            {
+              "ru": "Выстраивает детей в строку",
+              "tg": "Кӯдаконро ба сатр мешорад",
+              "en": "Lines the children up in a row"
+            },
+            {
+              "ru": "Включает тёмную тему",
+              "tg": "Мавзӯъи торикро фаъол мекунад",
+              "en": "Enables dark mode"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Свойство меняет главную ось на горизонтальную.",
+            "tg": "Хосият самти асосиро ба уфуқӣ иваз мекунад.",
+            "en": "The property switches the main axis to horizontal."
+          },
+          "hint": {
+            "ru": "Найдите в разборе описание свойства row.",
+            "tg": "Дар шарҳ тавсифи хосияти row-ро ёбед.",
+            "en": "Find the row property description in the walkthrough."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-13-q4",
+          "question": {
+            "ru": "Что означает gap: 12 в стиле строки?",
+            "tg": "gap: 12 дар услуби сатр чӣ маъно дорад?",
+            "en": "What does gap: 12 mean in the row style?"
+          },
+          "options": [
+            {
+              "ru": "Задержку перед нажатием",
+              "tg": "Таъхир пеш аз пахш",
+              "en": "A delay before a press"
+            },
+            {
+              "ru": "Размер шрифта внутри панелей",
+              "tg": "Андозаи ҳуруф дар дохили панелҳо",
+              "en": "Font size inside the panels"
+            },
+            {
+              "ru": "Отступ между соседними панелями",
+              "tg": "Фосилаи байни панелҳои ҳамсоя",
+              "en": "Spacing between neighboring panels"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "gap задаёт зазор между детьми контейнера.",
+            "tg": "gap фосилаи байни кӯдакони контейнерро муайян мекунад.",
+            "en": "gap sets the spacing between container children."
+          },
+          "hint": {
+            "ru": "Посмотрите на примере, где остаются 12 единиц пустого места.",
+            "tg": "Дар мисол бинед, ки 12 воҳиди ҷои холӣ куҷо мемонад.",
+            "en": "Look at the example where the 12 empty units remain."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-13-q5",
+          "question": {
+            "ru": "Зачем проверять раскладку при повороте экрана?",
+            "tg": "Барои чӣ ороишро ҳангоми гардиши экран санҷидан лозим?",
+            "en": "Why check the layout when the screen rotates?"
+          },
+          "options": [
+            {
+              "ru": "Поворот меняет доступное место для панелей",
+              "tg": "Гардиш ҷои дастраси панелҳоро иваз мекунад",
+              "en": "Rotation changes the space available to the panels"
+            },
+            {
+              "ru": "Поворот удаляет стили",
+              "tg": "Гардиш услубҳоро нест мекунад",
+              "en": "Rotation deletes styles"
+            },
+            {
+              "ru": "Поворот не влияет на раскладку",
+              "tg": "Гардиш ба ороиш таъсир намерасонад",
+              "en": "Rotation does not affect layout"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "В горизонтальном положении ширина и высота меняются местами.",
+            "tg": "Дар ҳолати уфуқӣ паҳнӣ ва баландӣ ҷой иваз мекунанд.",
+            "en": "In landscape the width and height swap."
+          },
+          "hint": {
+            "ru": "Вспомните слова примера про поворот и узкие экраны.",
+            "tg": "Калимаҳои мисол дар бораи гардиш ва экранҳои тангро ёд оред.",
+            "en": "Recall the example words about rotation and narrow screens."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте его на устройстве в вертикальном и горизонтальном положении. Затем добавьте вторую строку из двух равных панелей flex: 1 и запишите, чем она отличается от первой. Проверьте, что текст панелей не обрезается при увеличенном системном шрифте. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва дар дастгоҳ дар ҳолатҳои амудию уфуқӣ санҷед. Баъд сатри дуюми аз ду панели баробари flex: 1 илова карда, сабт кунед, ки аз сатри аввал чӣ фарқ дорад. Санҷед, ки матни панелҳо бо ҳуруфи калони система бурида намешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check it on a device in portrait and landscape. Then add a second row of two equal flex: 1 panels and record how it differs from the first. Check that panel text is not clipped with a larger system font. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Вторая строка — тот же flexDirection: 'row' с двумя дочерними View, у каждого flex: 1.",
+          "tg": "Сатри дуюм — ҳамон flexDirection: 'row' бо ду View-и кӯдак, ки ҳар яке flex: 1 дорад.",
+          "en": "The second row is the same flexDirection: 'row' with two child Views, each with flex: 1."
+        },
+        "solution": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.row}>\n        <View style={styles.partOne}>\n          <Text>План</Text>\n        </View>\n        <View style={styles.partTwo}>\n          <Text>Прогресс</Text>\n        </View>\n      </View>\n      <View style={styles.secondRow}>\n        <View style={styles.equal}>\n          <Text>Поровну</Text>\n        </View>\n        <View style={styles.equal}>\n          <Text>Поровну</Text>\n        </View>\n      </View>\n      <Text>Поверните экран и проверьте раскладку.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 12 },\n  row: { flexDirection: 'row', height: 120, gap: 12 },\n  partOne: { flex: 1, backgroundColor: '#bfdbfe', padding: 12 },\n  partTwo: { flex: 2, backgroundColor: '#bbf7d0', padding: 12 },\n  secondRow: { flexDirection: 'row', height: 80, gap: 12 },\n  equal: { flex: 1, backgroundColor: '#fde68a', padding: 12 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Вторая строка содержит две равные панели с разными фонами.",
+            "tg": "Сатри дуюм ду панели баробар бо заминаҳои гуногун дорад.",
+            "en": "The second row has two equal panels with different backgrounds."
+          },
+          {
+            "ru": "Записаны результаты проверки в двух ориентациях и при увеличенном шрифте.",
+            "tg": "Натиҷаҳои санҷиш дар ду самт ва бо ҳуруфи калон сабт шудаанд.",
+            "en": "The results of checks in both orientations and with a larger font are recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Построить строку из панелей с пропорциями flex.",
+            "tg": "Сатри аз панелҳо бо нисбатҳои flex созед.",
+            "en": "Build a row of panels with flex proportions."
+          },
+          {
+            "ru": "Проверить раскладку в двух ориентациях экрана.",
+            "tg": "Ороишро дар ду самти экран санҷед.",
+            "en": "Check the layout in both screen orientations."
+          }
+        ],
+        "realWorld": {
+          "ru": "Экран статистики: панель плана и панель прогресса рядом, вторая вдвое шире.",
+          "tg": "Экрани омора: панели нақша ва панели пешрафт дар паҳлуи ҳам, дуюм ду бор паҳнтар.",
+          "en": "A statistics screen: a plan panel and a progress panel side by side, the second twice as wide."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Панели имеют flex: 1 и flex: 2. Какая доля ширины у второй?",
+            "tg": "Панелҳо flex: 1 ва flex: 2 доранд. Дуюм чанде аз паҳниро мегирад?",
+            "en": "Panels have flex: 1 and flex: 2. What share of the width does the second take?"
+          },
+          "options": [
+            {
+              "ru": "Две трети",
+              "tg": "Ду сеяк",
+              "en": "Two thirds"
+            },
+            {
+              "ru": "Одну треть",
+              "tg": "Як сеяк",
+              "en": "One third"
+            },
+            {
+              "ru": "Всю ширину",
+              "tg": "Тамоми паҳнӣ",
+              "en": "The whole width"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Сложите значения flex и посчитайте долю второй панели.",
+            "tg": "Қиматҳои flex-ро ҷамъ карда, саҳми панели дуюмро ҳисоб кунед.",
+            "en": "Add the flex values and compute the second panel share."
+          },
+          "explanation": {
+            "ru": "Свободное место делится на три части: 1 + 2.",
+            "tg": "Ҷои холӣ ба се қисм тақсим мешавад: 1 + 2.",
+            "en": "The free space splits into three parts: 1 + 2."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.row}>\n        <View style={styles.partOne}>\n          <Text>План</Text>\n        </View>\n        <View style={styles.partTwo}>\n          <Text>Прогресс</Text>\n        </View>\n      </View>\n      <Text>Поверните экран и проверьте раскладку.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 12 },\n  row: { flexDirection: 'row', height: 120, gap: 12 },\n  partOne: { flex: 1, backgroundColor: '#bfdbfe', padding: 12 },\n  partTwo: { flex: 2, backgroundColor: '#bbf7d0', padding: 12 },\n});\n",
+          "steps": [
+            {
+              "line": 21,
+              "explanation": {
+                "ru": "row включает горизонтальное направление.",
+                "tg": "row самти уфуқиро фаъол мекунад.",
+                "en": "row enables the horizontal direction."
+              },
+              "values": "flexDirection row, gap 12"
+            },
+            {
+              "line": 22,
+              "explanation": {
+                "ru": "partOne получает одну часть из трёх.",
+                "tg": "partOne як қисм аз се мегирад.",
+                "en": "partOne takes one part of three."
+              },
+              "values": "flex 1"
+            },
+            {
+              "line": 23,
+              "explanation": {
+                "ru": "partTwo получает две части — вдвое шире соседа.",
+                "tg": "partTwo ду қисм мегирад — аз ҳамсоя ду бор паҳнтар.",
+                "en": "partTwo takes two parts — twice as wide as its neighbor."
+              },
+              "values": "flex 2"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере, где заданы flexDirection и пропорции flex.",
+              "tg": "Дар мисол ёбед, ки flexDirection ва нисбатҳои flex дар куҷо таъин шудаанд.",
+              "en": "Find where flexDirection and the flex proportions are set in the example."
+            },
+            {
+              "ru": "Измените пропорции на 1:1 и сравните панели на устройстве.",
+              "tg": "Нисбатҳоро ба 1:1 иваз карда, панелҳоро дар дастгоҳ муқоиса кунед.",
+              "en": "Change the proportions to 1:1 and compare the panels on a device."
+            }
+          ],
+          "hint": {
+            "ru": "Вторая строка — тот же flexDirection: 'row' с двумя дочерними View, у каждого flex: 1.",
+            "tg": "Сатри дуюм — ҳамон flexDirection: 'row' бо ду View-и кӯдак, ки ҳар яке flex: 1 дорад.",
+            "en": "The second row is the same flexDirection: 'row' with two child Views, each with flex: 1."
+          },
+          "success": {
+            "ru": "Панели стали равными при flex 1:1 и вернулись к 1:2 после возврата значений.",
+            "tg": "Панелҳо дар flex 1:1 баробар шуданд ва баъди баргардонидани қиматҳо ба 1:2 баргаштанд.",
+            "en": "The panels became equal at flex 1:1 and returned to 1:2 after restoring the values."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте его на устройстве в вертикальном и горизонтальном положении. Затем добавьте вторую строку из двух равных панелей flex: 1 и запишите, чем она отличается от первой. Проверьте, что текст панелей не обрезается при увеличенном системном шрифте. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва дар дастгоҳ дар ҳолатҳои амудию уфуқӣ санҷед. Баъд сатри дуюми аз ду панели баробари flex: 1 илова карда, сабт кунед, ки аз сатри аввал чӣ фарқ дорад. Санҷед, ки матни панелҳо бо ҳуруфи калони система бурида намешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check it on a device in portrait and landscape. Then add a second row of two equal flex: 1 panels and record how it differs from the first. Check that panel text is not clipped with a larger system font. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Вторая строка содержит две равные панели с разными фонами.",
+              "tg": "Сатри дуюм ду панели баробар бо заминаҳои гуногун дорад.",
+              "en": "The second row has two equal panels with different backgrounds."
+            },
+            {
+              "ru": "Записаны результаты проверки в двух ориентациях и при увеличенном шрифте.",
+              "tg": "Натиҷаҳои санҷиш дар ду самт ва бо ҳуруфи калон сабт шудаанд.",
+              "en": "The results of checks in both orientations and with a larger font are recorded."
+            }
+          ],
+          "example": {
+            "ru": "Две панели с flex: 1 делят ширину второй строки ровно пополам.",
+            "tg": "Ду панели flex: 1 паҳнии сатри дуюмро дақиқ нисф тақсим мекунанд.",
+            "en": "Two flex: 1 panels split the second row width exactly in half."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Основное направление по умолчанию — колонка; row выстраивает детей в строку.",
+            "tg": "Самти асосии пешфрӯз сутун аст; row кӯдаконро ба сатр мешорад.",
+            "en": "The default main axis is a column; row lines children up horizontally."
+          },
+          {
+            "ru": "flex задает пропорции свободного места между панелями.",
+            "tg": "flex нисбатҳои ҷои холи байни панелҳоро муайян мекунад.",
+            "en": "flex sets the proportions of free space between panels."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Панели имеют flex: 1 и flex: 2. Какая доля ширины у второй?",
+            "tg": "Панелҳо flex: 1 ва flex: 2 доранд. Дуюм чанде аз паҳниро мегирад?",
+            "en": "Panels have flex: 1 and flex: 2. What share of the width does the second take?"
+          },
+          {
+            "ru": "Зачем проверять раскладку при повороте экрана?",
+            "tg": "Барои чӣ ороишро ҳангоми гардиши экран санҷидан лозим?",
+            "en": "Why check the layout when the screen rotates?"
+          }
+        ],
+        "nextLessonId": "mobile-day-14"
+      }
+    },
+    {
+      "id": "mobile-day-14",
+      "day": 14,
+      "prerequisiteDays": [
+        13
+      ],
+      "title": {
+        "ru": "TextInput и управляемое значение",
+        "tg": "TextInput ва қимати идорашаванда",
+        "en": "TextInput and controlled values"
+      },
+      "summary": {
+        "ru": "Подключите ввод текста к состоянию и покажите зависимый текст на экране.",
+        "tg": "Вориди матнро ба ҳолат пайваст карда, матни вобастаро дар экран нишон диҳед.",
+        "en": "Connect text input to state and show dependent text on the screen."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Ввод как состояние",
+            "tg": "Вориди матн ҳамчун ҳолат",
+            "en": "Input as state"
+          },
+          "body": {
+            "ru": "TextInput — компонент ввода. Управляемое значение работает так: state хранит текущий текст, value={name} показывает его в поле, а onChangeText получает каждую новую строку и сохраняет её через setName. Каждое нажатие клавиши вызывает setName, React перерисовывает экран, и поле показывает то, что лежит в состоянии. Если задать value без onChangeText, поле перестанет принимать ввод: значение не меняется, и React каждый раз возвращает прежнее. placeholder показывает подсказку, когда поле пустое. keyboardtype выбирает вид клавиатуры, например «почта» или «числа», и пишется как keyboardType: 'email-address'. Ввод живёт в памяти: после перезапуска приложения поле снова пустое.",
+            "tg": "TextInput компоненти вориди матн аст. Қимати идорашаванда чунин кор мекунад: ҳолат матни ҷорииро нигоҳ медорад, value={name} онро дар майдон нишон медиҳад ва onChangeText ҳар сатри навро мегирад ва бо setName нигоҳ медорад. Ҳар пахши тугма setName-ро мехонад, React экранро аз нав мекашад ва майдон он чиро нишон медиҳад, ки дар ҳолат аст. Агар value бе onChangeText дода шавад, майдон воридро қабул намекунад: қимат тағйир намеёбад ва React ҳар бор қимати қаблиро бармегардонад. placeholder маслиҳатро нишон медиҳад, ки майдон холӣ бошад. keyboardtype навъи клавиатураро интихоб мекунад, масалан «почта» ё «рақамҳо», ва ҳамчун keyboardType: 'email-address' навишта мешавад. Ворид дар хотира аст: баъди аз нав оғоз кардани барнома майдон боз холӣ аст.",
+            "en": "TextInput is the input component. A controlled value works like this: state stores the current text, value={name} shows it in the field, and onChangeText receives each new string and stores it through setName. Every keystroke calls setName, React redraws the screen, and the field shows what the state holds. If you set value without onChangeText, the field stops accepting input: the value never changes and React keeps returning the old one. placeholder shows a hint while the field is empty. keyboardtype selects the keyboard kind, such as email or numbers, and is written as keyboardType: 'email-address'. The input lives in memory: after an app restart the field is empty again."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "useState('') создаёт пустую строку name и функцию setName. TextInput связан со значением двумя свойствами: value={name} показывает состояние, onChangeText={setName} сохраняет ввод. Так поле и состояние всегда совпадают. Строка приветствия использует оператор ||: если name пустая, показывается слово «друг». Проверьте: введите имя — приветствие обновится после каждого символа; очистите поле — вернётся «друг». Добавьте второй TextInput с собственным состоянием для цели и отдельную строку вывода. Скопируйте пример в App.tsx, запустите на устройстве и проверьте клавиатуру: она закрывается сама или её скрывают программно — это тема отдельного дня.",
+            "tg": "useState('') сатри холии name ва функсияи setName-ро месозад. TextInput бо қимат бо ду хосият пайваст аст: value={name} ҳолатро нишон медиҳад, onChangeText={setName} воридро нигоҳ медорад. Чунин майдон ва ҳолат ҳамеша мутобиқанд. Сатри салом оператори ||-ро истифода мебарад: агар name холӣ бошад, калимаи «дӯст» нишон дода мешавад. Санҷед: номро ворид кунед — салом баъди ҳар ҳарф нав мешавад; майдонро тоза кунед — «дӯст» бармегардад. TextInput-и дуюм бо ҳолати алоҳида барои ҳадаф ва сатри ҷудои натиҷа илова кунед. Мисолро ба App.tsx гузошта, дар дастгоҳ оғоз кунед ва клавиатураро санҷед: он худ фаромада мемонад ё барнома онро мепӯшонад — ин мавзӯи рӯзи алоҳида аст.",
+            "en": "useState('') creates an empty name string and the setName function. TextInput connects to the value through two properties: value={name} shows the state, onChangeText={setName} stores the input. Field and state always match this way. The greeting line uses the || operator: with an empty name the word «друг» appears. Check: type a name — the greeting updates after each character; clear the field — «друг» returns. Add a second TextInput with its own state for a goal and a separate output line. Copy the example into App.tsx, run on a device and check the keyboard: whether it closes by itself or the app dismisses it is a separate day topic."
+          },
+          "code": "import { useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [name, setName] = useState('');\n\n  return (\n    <View style={styles.screen}>\n      <Text>Как вас зовут?</Text>\n      <TextInput\n        value={name}\n        onChangeText={setName}\n        placeholder=\"Имя\"\n        style={styles.input}\n      />\n      <Text>Салом, {name || 'друг'}!</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-14-q1",
+          "question": {
+            "ru": "Какие два свойства делают TextInput управляемым?",
+            "tg": "Кадом ду хосият TextInput-ро идорашаванда мекунанд?",
+            "en": "Which two properties make TextInput controlled?"
+          },
+          "options": [
+            {
+              "ru": "value и onChangeText",
+              "tg": "value ва onChangeText",
+              "en": "value and onChangeText"
+            },
+            {
+              "ru": "style и placeholder",
+              "tg": "style ва placeholder",
+              "en": "style and placeholder"
+            },
+            {
+              "ru": "title и onPress",
+              "tg": "title ва onPress",
+              "en": "title and onPress"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "value показывает состояние, onChangeText его обновляет.",
+            "tg": "value ҳолатро нишон медиҳад, onChangeText онро нав мекунад.",
+            "en": "value shows the state, onChangeText updates it."
+          },
+          "hint": {
+            "ru": "Найдите в разборе два свойства связи поля и состояния.",
+            "tg": "Дар шарҳ ду хосияти пайвасти майдон ва ҳолатро ёбед.",
+            "en": "Find the two properties connecting field and state in the walkthrough."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-14-q2",
+          "question": {
+            "ru": "Что увидит пользователь, если задать value без onChangeText?",
+            "tg": "Агар value бе onChangeText дода шавад, корбар чӣ мебинад?",
+            "en": "What does the user see if value is set without onChangeText?"
+          },
+          "options": [
+            {
+              "ru": "Поле принимает ввод нормально",
+              "tg": "Майдон воридро муқарарр қабул мекунад",
+              "en": "The field accepts input normally"
+            },
+            {
+              "ru": "Поле не меняется при вводе",
+              "tg": "Майдон ҳангоми воридот тағйир намеёбад",
+              "en": "The field does not change while typing"
+            },
+            {
+              "ru": "Поле исчезает",
+              "tg": "Майдон нопадид мешавад",
+              "en": "The field disappears"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Состояние не обновляется, и React возвращает прежнее значение.",
+            "tg": "Ҳолат нав намешавад ва React қимати қаблиро бармегардонад.",
+            "en": "The state never updates and React keeps returning the old value."
+          },
+          "hint": {
+            "ru": "Перечитайте в первом разделе, что происходит без onChangeText.",
+            "tg": "Аз бахши аввал аз нав хонед, ки бе onChangeText чӣ мешавад.",
+            "en": "Re-read in the first section what happens without onChangeText."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-14-q3",
+          "question": {
+            "ru": "Что показывает placeholder?",
+            "tg": "placeholder чӣ нишон медиҳад?",
+            "en": "What does placeholder show?"
+          },
+          "options": [
+            {
+              "ru": "Количество символов",
+              "tg": "Шумораи аломатҳо",
+              "en": "The character count"
+            },
+            {
+              "ru": "Ошибку при неверном вводе",
+              "tg": "Хато ҳангоми вориди нодуруст",
+              "en": "An error for invalid input"
+            },
+            {
+              "ru": "Подсказку, когда поле пустое",
+              "tg": "Маслиҳат, ки майдон холӣ аст",
+              "en": "A hint while the field is empty"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Это текст-подсказка для пустого поля.",
+            "tg": "Ин матни маслиҳат барои майдони холӣ аст.",
+            "en": "It is a hint text for an empty field."
+          },
+          "hint": {
+            "ru": "Посмотрите на пустое поле примера и найдите подсказку.",
+            "tg": "Ба майдони холии мисол нигоҳ карда, маслиҳатро ёбед.",
+            "en": "Look at the empty field in the example and find the hint."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-14-q4",
+          "question": {
+            "ru": "Что покажет приветствие при пустом name?",
+            "tg": "Бо name-и холӣ салом чӣ нишон медиҳад?",
+            "en": "What does the greeting show for an empty name?"
+          },
+          "options": [
+            {
+              "ru": "Слово «друг» из ветки ||",
+              "tg": "Калимаи «дӯст» аз шохаи ||",
+              "en": "The word «друг» from the || branch"
+            },
+            {
+              "ru": "Пустую строку",
+              "tg": "Сатри холӣ",
+              "en": "An empty string"
+            },
+            {
+              "ru": "Ошибку приложения",
+              "tg": "Хатои барнома",
+              "en": "An app error"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "name || 'друг' выбирает запасное слово для пустой строки.",
+            "tg": "name || 'дӯст' барои сатри холӣ калимаи ҷойгузинро интихоб мекунад.",
+            "en": "name || 'друг' picks the fallback word for an empty string."
+          },
+          "hint": {
+            "ru": "Вспомните, как работает оператор || в строке приветствия.",
+            "tg": "Дар сатри салом оператори || чӣ тавр кор мекунад, ёд оред.",
+            "en": "Recall how the || operator works in the greeting line."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-14-q5",
+          "question": {
+            "ru": "Что произойдёт с введённым текстом после перезапуска приложения?",
+            "tg": "Баъди аз нав оғоз кардани барнома бо матни воридшуда чӣ мешавад?",
+            "en": "What happens to the typed text after an app restart?"
+          },
+          "options": [
+            {
+              "ru": "Он сохранится автоматически",
+              "tg": "Он худкор нигоҳ дошта мешавад",
+              "en": "It is saved automatically"
+            },
+            {
+              "ru": "Он исчезнет: поле снова пустое",
+              "tg": "Он нопадид мешавад: майдон боз холӣ аст",
+              "en": "It disappears: the field is empty again"
+            },
+            {
+              "ru": "Он уйдёт на сервер",
+              "tg": "Он ба сервер меравад",
+              "en": "It goes to a server"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Ввод живёт в состоянии памяти; сохранение ещё не написано.",
+            "tg": "Ворид дар ҳолати хотира аст; нигоҳдорӣ ҳоло навишта нашудааст.",
+            "en": "The input lives in memory state; persistence is not written yet."
+          },
+          "hint": {
+            "ru": "Найдите в примере код сохранения на диск.",
+            "tg": "Дар мисол рамзи нигоҳдорӣ ба дискро ҷустуҷӯ кунед.",
+            "en": "Look for disk persistence code in the example."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте управляемый ввод на устройстве. Добавьте второй TextInput для цели недели с собственным состоянием и строкой вывода с запасным словом. Запишите, что происходит при вводе и очистке каждого поля. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва вориди идорашавандаро дар дастгоҳ санҷед. TextInput-и дуюм барои ҳадафи ҳафта бо ҳолати алоҳида ва сатри натиҷа бо калимаи ҷойгузин илова кунед. Сабт кунед, ки ҳангоми воридот ва тозакунии ҳар майдон чӣ мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check the controlled input on a device. Add a second TextInput for a weekly goal with its own state and an output line with a fallback word. Record what happens while typing and clearing each field. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Скопируйте блок useState и TextInput из примера и замените имена name и setName на свои.",
+          "tg": "Блоки useState ва TextInput-ро аз мисол нусхабардорӣ карда, номҳои name ва setName-ро ба худи худ иваз кунед.",
+          "en": "Copy the useState and TextInput block from the example and rename name and setName to your own."
+        },
+        "solution": "import { useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [name, setName] = useState('');\n  const [goal, setGoal] = useState('');\n\n  return (\n    <View style={styles.screen}>\n      <Text>Как вас зовут?</Text>\n      <TextInput\n        value={name}\n        onChangeText={setName}\n        placeholder=\"Имя\"\n        style={styles.input}\n      />\n      <Text>Цель на неделю</Text>\n      <TextInput\n        value={goal}\n        onChangeText={setGoal}\n        placeholder=\"Например: 5 занятий\"\n        style={styles.input}\n      />\n      <Text>Салом, {name || 'друг'}!</Text>\n      <Text>Цель: {goal || 'пока не записана'}</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Второе поле управляется собственным состоянием.",
+            "tg": "Майдони дуюм бо ҳолати худ идора мешавад.",
+            "en": "The second field is controlled by its own state."
+          },
+          {
+            "ru": "Записаны наблюдения за вводом и очисткой обоих полей.",
+            "tg": "Мушоҳидаҳои вурӯд ва тозакунии ҳарду майдон сабт шудаанд.",
+            "en": "Observations of typing and clearing both fields are recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Подключить TextInput к состоянию через value и onChangeText.",
+            "tg": "TextInput-ро бо value ва onChangeText ба ҳолат пайваст кунед.",
+            "en": "Connect TextInput to state through value and onChangeText."
+          },
+          {
+            "ru": "Показать текст, зависящий от ввода.",
+            "tg": "Матни вобаста аз воридотро нишон диҳед.",
+            "en": "Show text that depends on the input."
+          }
+        ],
+        "realWorld": {
+          "ru": "Форма профиля: имя пользователя вводится в поле и сразу отображается в приветствии.",
+          "tg": "Шакли профил: номи корбар дар майдон ворид шуда, фавран дар салом нишон дода мешавад.",
+          "en": "A profile form: the user name is typed into a field and shown in a greeting right away."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что увидит пользователь, если задать value без onChangeText?",
+            "tg": "Агар value бе onChangeText дода шавад, корбар чӣ мебинад?",
+            "en": "What does the user see if value is set without onChangeText?"
+          },
+          "options": [
+            {
+              "ru": "Поле принимает ввод нормально",
+              "tg": "Майдон воридро муқарарр қабул мекунад",
+              "en": "The field accepts input normally"
+            },
+            {
+              "ru": "Поле не меняется при вводе",
+              "tg": "Майдон ҳангоми воридот тағйир намеёбад",
+              "en": "The field does not change while typing"
+            },
+            {
+              "ru": "Поле исчезает",
+              "tg": "Майдон нопадид мешавад",
+              "en": "The field disappears"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Перечитайте в первом разделе, что происходит без onChangeText.",
+            "tg": "Аз бахши аввал аз нав хонед, ки бе onChangeText чӣ мешавад.",
+            "en": "Re-read in the first section what happens without onChangeText."
+          },
+          "explanation": {
+            "ru": "Состояние не обновляется, и React возвращает прежнее значение.",
+            "tg": "Ҳолат нав намешавад ва React қимати қаблиро бармегардонад.",
+            "en": "The state never updates and React keeps returning the old value."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [name, setName] = useState('');\n\n  return (\n    <View style={styles.screen}>\n      <Text>Как вас зовут?</Text>\n      <TextInput\n        value={name}\n        onChangeText={setName}\n        placeholder=\"Имя\"\n        style={styles.input}\n      />\n      <Text>Салом, {name || 'друг'}!</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+          "steps": [
+            {
+              "line": 5,
+              "explanation": {
+                "ru": "Состояние name начинается с пустой строки.",
+                "tg": "Ҳолати name бо сатри холӣ оғоз мешавад.",
+                "en": "The name state starts as an empty string."
+              },
+              "values": "name = ''"
+            },
+            {
+              "line": 11,
+              "explanation": {
+                "ru": "value показывает состояние в поле.",
+                "tg": "value ҳолатро дар майдон нишон медиҳад.",
+                "en": "value shows the state in the field."
+              },
+              "values": "value={name}"
+            },
+            {
+              "line": 16,
+              "explanation": {
+                "ru": "Приветствие собирается из name или запасного слова.",
+                "tg": "Салом аз name ё калимаи ҷойгузин сохта мешавад.",
+                "en": "The greeting is built from name or the fallback word."
+              },
+              "values": "name || 'друг'"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере, где состояние связывается с полем ввода.",
+              "tg": "Дар мисол ёбед, ки ҳолат бо майдони вурӯд дар куҷо пайваст аст.",
+              "en": "Find where the state connects to the input field in the example."
+            },
+            {
+              "ru": "Введите имя на устройстве и наблюдайте обновление приветствия после каждого символа.",
+              "tg": "Дар дастгоҳ номро ворид кунед ва навшавии саломро баъди ҳар ҳарф пайгирӣ кунед.",
+              "en": "Type a name on the device and watch the greeting update after each character."
+            }
+          ],
+          "hint": {
+            "ru": "Скопируйте блок useState и TextInput из примера и замените имена name и setName на свои.",
+            "tg": "Блоки useState ва TextInput-ро аз мисол нусхабардорӣ карда, номҳои name ва setName-ро ба худи худ иваз кунед.",
+            "en": "Copy the useState and TextInput block from the example and rename name and setName to your own."
+          },
+          "success": {
+            "ru": "Приветствие меняется вместе с вводом и возвращает «друг» на пустом поле.",
+            "tg": "Салом ҳамроҳи воридот тағйир ёфта, дар майдони холӣ «дӯст»-ро бармегардонад.",
+            "en": "The greeting changes with the input and returns «друг» on an empty field."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте управляемый ввод на устройстве. Добавьте второй TextInput для цели недели с собственным состоянием и строкой вывода с запасным словом. Запишите, что происходит при вводе и очистке каждого поля. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва вориди идорашавандаро дар дастгоҳ санҷед. TextInput-и дуюм барои ҳадафи ҳафта бо ҳолати алоҳида ва сатри натиҷа бо калимаи ҷойгузин илова кунед. Сабт кунед, ки ҳангоми воридот ва тозакунии ҳар майдон чӣ мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check the controlled input on a device. Add a second TextInput for a weekly goal with its own state and an output line with a fallback word. Record what happens while typing and clearing each field. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Второе поле управляется собственным состоянием.",
+              "tg": "Майдони дуюм бо ҳолати худ идора мешавад.",
+              "en": "The second field is controlled by its own state."
+            },
+            {
+              "ru": "Записаны наблюдения за вводом и очисткой обоих полей.",
+              "tg": "Мушоҳидаҳои вурӯд ва тозакунии ҳарду майдон сабт шудаанд.",
+              "en": "Observations of typing and clearing both fields are recorded."
+            }
+          ],
+          "example": {
+            "ru": "Второе поле показывает подсказку «Например: 5 занятий», а вывод — «Цель: 5 занятий» после ввода.",
+            "tg": "Майдони дуюм маслиҳати «Масалан: 5 машғулият»-ро нишон медиҳад ва натиҷа баъди воридот «Ҳадаф: 5 машғулият» мешавад.",
+            "en": "The second field shows the hint \"Например: 5 занятий\" and the output reads «Цель: 5 занятий» after typing."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Управляемый ввод: value показывает состояние, onChangeText его обновляет.",
+            "tg": "Вориди идорашаванда: value ҳолатро нишон медиҳад, onChangeText онро нав мекунад.",
+            "en": "Controlled input: value shows the state, onChangeText updates it."
+          },
+          {
+            "ru": "Без onChangeText поле перестает принимать ввод.",
+            "tg": "Бе onChangeText майдон воридро қабул намекунад.",
+            "en": "Without onChangeText the field stops accepting input."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что увидит пользователь, если задать value без onChangeText?",
+            "tg": "Агар value бе onChangeText дода шавад, корбар чӣ мебинад?",
+            "en": "What does the user see if value is set without onChangeText?"
+          },
+          {
+            "ru": "Что произойдёт с введённым текстом после перезапуска приложения?",
+            "tg": "Баъди аз нав оғоз кардани барнома бо матни воридшуда чӣ мешавад?",
+            "en": "What happens to the typed text after an app restart?"
+          }
+        ],
+        "nextLessonId": "mobile-day-15"
+      }
+    },
+    {
+      "id": "mobile-day-15",
+      "day": 15,
+      "prerequisiteDays": [
+        14
+      ],
+      "title": {
+        "ru": "Pressable и обратная связь",
+        "tg": "Pressable ва ҷавоби интерфейс",
+        "en": "Pressable and press feedback"
+      },
+      "summary": {
+        "ru": "Соберите собственную кнопку с визуальным откликом на нажатие и доступной подписью.",
+        "tg": "Тугмаи худро бо ҷавоби возаҳи пахш ва матни дастрас созед.",
+        "en": "Build your own button with a visual press response and an accessible label."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Кнопка, которую видно и слышно",
+            "tg": "Тугмаи диданӣ ва шуниданӣ",
+            "en": "A button you can see and hear"
+          },
+          "body": {
+            "ru": "Готовый компонент Button быстрый, но ограничен: платформа сама рисует подпись. Pressable позволяет собрать кнопку из любых детей и управлять обратной связью. Функция style может получить объект { pressed }: пока палец на кнопке, pressed истинно, и вы возвращаете другой стиль — например, уменьшенную прозрачность. Это и есть обратная связь: пользователь видит, что нажатие началось. onPress срабатывает при отпускании внутри кнопки; также есть onPressIn и onPressOut. Доступность задаётся свойствами accessibilityRole=\"button\" и accessibilityLabel: экранный диктор объявляет элемент кнопкой и читает подпись. Кнопка меняет только состояние памяти: после перезапуска счётчик снова ноль.",
+            "tg": "Тугмаи тайёри Button тез аст, вале маҳдуд: платформа худ матнро мекашад. Pressable имкон медиҳад тугмаро аз ҳар кӯдак созед ва ҷавобро идора кунед. Функсияи style метавонад объекти { pressed } гирифта бошад: то киртии дастрӯй дар тугма, pressed ҳақиқист ва шумо услуби дигар бармегардонед — масалан шаффофи камтар. Ин ҳамон ҷавоб аст: корбар мебинад, ки пахш оғоз шуд. onPress ҳангоми дар дохили тугма раҳо кардан кор мекунад; инчунин onPressIn ва onPressOut ҳастанд. Дастрасиро бо хосиятҳои accessibilityRole=\"button\" ва accessibilityLabel муайян мекунанд: хонандаи экран элементро тугма эълом карда, матнро мехонад. Тугма танҳо ҳолати хотираро иваз мекунад: баъди аз нав оғоз ҳисобкунак боз сифр аст.",
+            "en": "The ready-made Button is quick but limited: the platform draws its own label. Pressable lets you build a button from any children and control the feedback. The style function can receive a { pressed } object: while the finger is on the button, pressed is true and you return a different style, for example reduced opacity. That is the feedback: the user sees the press begin. onPress fires on release inside the button; onPressIn and onPressOut also exist. Accessibility is set with accessibilityRole=\"button\" and accessibilityLabel: the screen reader announces the element as a button and reads the label. The button changes only memory state: after a restart the counter is zero again."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Состояние done начинается с нуля и показывается строкой «Выполнено: 0». Pressable собирает кнопку: роль button, подпись для диктора, обработчик onPress с функциональным обновлением из дня 8 и style как функция. Пока палец на кнопке, pressed истинно и к базовому стилю button добавляется pressed с прозрачностью 0.7 — видно нажатие. Внутри Pressable лежит собственный Text, потому что строка без Text не отобразится. Нажмите кнопку несколько раз: счётчик растёт, при касании кнопка темнеет. Добавьте вторую Pressable для сброса со своим цветом и подписью. Проверьте кнопку на устройстве и, если возможно, с диктором: подпись должна читаться целиком.",
+            "tg": "Ҳолати done аз сифр оғоз шуда, бо сатри «Иҷрошуда: 0» нишон дода мешавад. Pressable тугмаро месозад: нақши button, матн барои хонанда, обработчики onPress бо навсозии функсионалӣ аз рӯзи 8 ва style ҳамчун функсия. То киртии дастро дар тугма, pressed ҳақиқист ва ба услуби асосии button pressed бо шаффофи 0.7 илова мешавад — пахш дида мешавад. Дар дохили Pressable Text-и худ аст, чунки сатри бе Text нишон дода намешавад. Тугмаро чанд бор пахш кунед: ҳисобкунак меафзояд, ҳангоми ламс кардан тугма торик мешавад. Pressable-и дуюм барои сифр кардан бо ранги худ ва матни алоҳида илова кунед. Тугмаро дар дастгоҳ ва агар имкон бошад бо хонандаи экран санҷед: матн бояд пурра хонда шавад.",
+            "en": "The done state starts at zero and shows as «Выполнено: 0». Pressable assembles the button: the button role, a label for the reader, an onPress handler with the day-8 functional update, and style as a function. While the finger is down, pressed is true and the pressed style with opacity 0.7 joins the base button style — the touch is visible. Inside Pressable sits its own Text, because a bare string would not render. Press the button several times: the counter grows and the button darkens on touch. Add a second Pressable for reset with its own color and label. Check the button on a device and, if possible, with a screen reader: the label must read in full."
+          },
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  const [done, setDone] = useState(0);\n\n  return (\n    <View style={styles.screen}>\n      <Text>Выполнено: {done}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Отметить занятие выполненным\"\n        onPress={() => setDone(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Отметить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-15-q1",
+          "question": {
+            "ru": "Когда pressed истинно в функции style?",
+            "tg": "Дар функсияи style pressed ҳангоми чӣ ҳақиқӣ мешавад?",
+            "en": "When is pressed true in the style function?"
+          },
+          "options": [
+            {
+              "ru": "После перезапуска приложения",
+              "tg": "Баъди аз нав оғоз кардани барнома",
+              "en": "After the app restarts"
+            },
+            {
+              "ru": "Пока палец на кнопке",
+              "tg": "То киртии дастрӯй дар тугма",
+              "en": "While the finger is on the button"
+            },
+            {
+              "ru": "Когда счётчик больше нуля",
+              "tg": "Ҳангоми зиёд будани ҳисобкунак аз сифр",
+              "en": "When the counter is above zero"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "pressed описывает активное касание кнопки.",
+            "tg": "pressed ламси фаъоли тугмаро тавсиф медиҳад.",
+            "en": "pressed describes an active touch on the button."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе, что получает функция style.",
+            "tg": "Аз бахши аввал ёбед, ки функсияи style чӣ мегирад.",
+            "en": "Find in the first section what the style function receives."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-15-q2",
+          "question": {
+            "ru": "Зачем внутри Pressable написан Text?",
+            "tg": "Барои чӣ дар дохили Pressable Text навишта шудааст?",
+            "en": "Why is a Text written inside Pressable?"
+          },
+          "options": [
+            {
+              "ru": "Text заменяет onPress",
+              "tg": "Text ҷои onPress-ро мегирад",
+              "en": "Text replaces onPress"
+            },
+            {
+              "ru": "Text ускоряет нажатие",
+              "tg": "Text пахшро тез мекунад",
+              "en": "Text speeds up the press"
+            },
+            {
+              "ru": "Строка без Text не отобразится",
+              "tg": "Сатри бе Text нишон дода намешавад",
+              "en": "A bare string does not render"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Правило платформы: текст живёт внутри Text, даже в кнопке.",
+            "tg": "Қоидаи платформа: матн дар дохили Text аст, дар тугма ҳам.",
+            "en": "The platform rule: text lives inside Text, even in a button."
+          },
+          "hint": {
+            "ru": "Вспомните день 11: где обязан находиться текст.",
+            "tg": "Рӯзи 11-ро ёд оред: матн дар куҷо бояд бошад.",
+            "en": "Recall day 11: where text must live."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-15-q3",
+          "question": {
+            "ru": "Что объявляет accessibilityRole=\"button\"?",
+            "tg": "accessibilityRole=\"button\" чӣ эълон мекунад?",
+            "en": "What does accessibilityRole=\"button\" declare?"
+          },
+          "options": [
+            {
+              "ru": "Элемент для диктора — кнопка",
+              "tg": "Элемент барои хонанда — тугма",
+              "en": "The element is a button for the screen reader"
+            },
+            {
+              "ru": "Кнопка становится красной",
+              "tg": "Тугма сурх мешавад",
+              "en": "The button turns red"
+            },
+            {
+              "ru": "Кнопка отправляет форму",
+              "tg": "Тугма шаклро мефиристад",
+              "en": "The button submits a form"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Роль помогает вспомогательным технологиям правильно назвать элемент.",
+            "tg": "Нақш ба технологияҳои ёрирасон кӯмак мекунад элементро дуруст номбар кунанд.",
+            "en": "The role helps assistive technology name the element correctly."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе слова про экранный диктор.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи хонандаи экранро ёбед.",
+            "en": "Find the first-section words about the screen reader."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-15-q4",
+          "question": {
+            "ru": "Какое обновление состояния используется в onPress?",
+            "tg": "Дар onPress кадом навсозии ҳолат истифода мешавад?",
+            "en": "Which state update does onPress use?"
+          },
+          "options": [
+            {
+              "ru": "Прямую установку строки",
+              "tg": "Гузошти мустақими сатр",
+              "en": "A direct string assignment"
+            },
+            {
+              "ru": "Функциональное: value => value + 1",
+              "tg": "Функсионалӣ: value => value + 1",
+              "en": "Functional: value => value + 1"
+            },
+            {
+              "ru": "Запрос к серверу",
+              "tg": "Дархост ба сервер",
+              "en": "A server request"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Функциональное обновление считает следующее значение от предыдущего.",
+            "tg": "Навсозии функсионалӣ қимати ояндааро аз қаблӣ ҳисоб мекунад.",
+            "en": "The functional update computes the next value from the previous one."
+          },
+          "hint": {
+            "ru": "Сравните обработчик примера с днём 8.",
+            "tg": "Обработчики мисолро бо рӯзи 8 муқоиса кунед.",
+            "en": "Compare the example handler with day 8."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-15-q5",
+          "question": {
+            "ru": "Что произойдёт со счётчиком после перезапуска?",
+            "tg": "Баъди аз нав оғоз бо ҳисобкунак чӣ мешавад?",
+            "en": "What happens to the counter after a restart?"
+          },
+          "options": [
+            {
+              "ru": "Он удвоится",
+              "tg": "Он дучанд мешавад",
+              "en": "It doubles"
+            },
+            {
+              "ru": "Он сохранится на устройстве",
+              "tg": "Он дар дастгоҳ нигоҳ дошта мешавад",
+              "en": "It is saved on the device"
+            },
+            {
+              "ru": "Он снова ноль: состояния в памяти нет",
+              "tg": "Он боз сифр аст: ҳолат дар хотира нест",
+              "en": "It is zero again: the state is not in memory"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Pressable меняет только состояние памяти; сохранение позже.",
+            "tg": "Pressable танҳо ҳолати хотираро иваз мекунад; нигоҳдорӣ баъдтар.",
+            "en": "Pressable changes only memory state; persistence comes later."
+          },
+          "hint": {
+            "ru": "Найдите в примере какое-нибудь хранилище.",
+            "tg": "Дар мисол ягон нигоҳдориро ҷустуҷӯ кунед.",
+            "en": "Look for any storage in the example."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте обратную связь на устройстве. Добавьте вторую Pressable «Сбросить» со своим цветом, ролью button, подписью для диктора и тем же стилем pressed. Запишите, как кнопка отвечает на касание и что читает диктор, если он доступен. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва ҷавобро дар дастгоҳ санҷед. Pressable-и дуюми «Сифр кардан» бо ранги худ, нақши button, матни хонанда ва ҳамон услуби pressed илова кунед. Сабт кунед, ки тугма ба ламс чӣ ҷавоб медиҳад ва агар хонанда дастрас бошад, чиро мехонад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check the feedback on a device. Add a second Pressable «Сбросить» with its own color, the button role, a reader label and the same pressed style. Record how the button responds to touch and what the reader announces, if available. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Скопируйте Pressable из примера, замените обработчик на setDone(0) и добавьте свой цвет в StyleSheet.",
+          "tg": "Pressable-ро аз мисол нусхабардорӣ карда, обработчикро ба setDone(0) иваз ва ранги худро ба StyleSheet илова кунед.",
+          "en": "Copy the Pressable from the example, change the handler to setDone(0) and add your color to StyleSheet."
+        },
+        "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  const [done, setDone] = useState(0);\n\n  return (\n    <View style={styles.screen}>\n      <Text>Выполнено: {done}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Отметить занятие выполненным\"\n        onPress={() => setDone(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Отметить</Text>\n      </Pressable>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сбросить счётчик\"\n        onPress={() => setDone(0)}\n        style={({ pressed }) => [styles.button, styles.reset, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сбросить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  reset: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Вторая кнопка имеет роль, подпись и свой цвет.",
+            "tg": "Тугмаи дуюм нақш, матн ва ранги худро дорад.",
+            "en": "The second button has a role, a label and its own color."
+          },
+          {
+            "ru": "Записано наблюдение о pressed-отклике и работе диктора.",
+            "tg": "Мушоҳидаи ҷавоби pressed ва кори хонанда сабт шудааст.",
+            "en": "An observation of the pressed response and reader behavior is recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Собрать кнопку Pressable с ролевой подписью.",
+            "tg": "Тугмаи Pressable бо матни нақшӣ созед.",
+            "en": "Build a Pressable button with a role label."
+          },
+          {
+            "ru": "Добавить визуальный отклик на касание.",
+            "tg": "Ҷавоби возаҳи ламсро илова кунед.",
+            "en": "Add a visual response to touch."
+          }
+        ],
+        "realWorld": {
+          "ru": "Основная кнопка в приложении-планировщике темнеет при касании и объявляется диктором как кнопка.",
+          "tg": "Тугмаи асосии барномаи барномасозӣ ҳангоми ламс торик мешавад ва аз тарафи хонанда тугма эълон мешавад.",
+          "en": "A planner app primary button darkens on touch and is announced as a button by the reader."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Зачем внутри Pressable написан Text?",
+            "tg": "Барои чӣ дар дохили Pressable Text навишта шудааст?",
+            "en": "Why is a Text written inside Pressable?"
+          },
+          "options": [
+            {
+              "ru": "Text заменяет onPress",
+              "tg": "Text ҷои onPress-ро мегирад",
+              "en": "Text replaces onPress"
+            },
+            {
+              "ru": "Text ускоряет нажатие",
+              "tg": "Text пахшро тез мекунад",
+              "en": "Text speeds up the press"
+            },
+            {
+              "ru": "Строка без Text не отобразится",
+              "tg": "Сатри бе Text нишон дода намешавад",
+              "en": "A bare string does not render"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Вспомните день 11: где обязан находиться текст.",
+            "tg": "Рӯзи 11-ро ёд оред: матн дар куҷо бояд бошад.",
+            "en": "Recall day 11: where text must live."
+          },
+          "explanation": {
+            "ru": "Правило платформы: текст живёт внутри Text, даже в кнопке.",
+            "tg": "Қоидаи платформа: матн дар дохили Text аст, дар тугма ҳам.",
+            "en": "The platform rule: text lives inside Text, even in a button."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  const [done, setDone] = useState(0);\n\n  return (\n    <View style={styles.screen}>\n      <Text>Выполнено: {done}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Отметить занятие выполненным\"\n        onPress={() => setDone(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Отметить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 5,
+              "explanation": {
+                "ru": "Счётчик done начинается с нуля.",
+                "tg": "Ҳисобкунаки done аз сифр оғоз мешавад.",
+                "en": "The done counter starts at zero."
+              },
+              "values": "done = 0"
+            },
+            {
+              "line": 13,
+              "explanation": {
+                "ru": "onPress увеличивает счётчик функциональным обновлением.",
+                "tg": "onPress ҳисобкунакро бо навсозии функсионалӣ меафзояд.",
+                "en": "onPress increments the counter with a functional update."
+              },
+              "values": "done -> done + 1"
+            },
+            {
+              "line": 14,
+              "explanation": {
+                "ru": "style как функция добавляет pressed-стиль при касании.",
+                "tg": "style ҳамчун функсия ҳангоми ламс услуби pressed-ро илова мекунад.",
+                "en": "style as a function adds the pressed style during touch."
+              },
+              "values": "pressed ? opacity 0.7 : normal"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере роль, подпись и обработчик кнопки.",
+              "tg": "Дар мисол нақш, матн ва обработчики тугмаро ёбед.",
+              "en": "Find the role, label and handler of the button in the example."
+            },
+            {
+              "ru": "Нажмите кнопку и наблюдайте затемнение при касании и рост счётчика.",
+              "tg": "Тугмаро пахш карда, торикшавиро ҳангоми ламс ва афзоиши ҳисобкунакро пайгирӣ кунед.",
+              "en": "Press the button and watch the darkening on touch and the counter growth."
+            }
+          ],
+          "hint": {
+            "ru": "Скопируйте Pressable из примера, замените обработчик на setDone(0) и добавьте свой цвет в StyleSheet.",
+            "tg": "Pressable-ро аз мисол нусхабардорӣ карда, обработчикро ба setDone(0) иваз ва ранги худро ба StyleSheet илова кунед.",
+            "en": "Copy the Pressable from the example, change the handler to setDone(0) and add your color to StyleSheet."
+          },
+          "success": {
+            "ru": "Кнопка темнеет при касании, счётчик растёт, а диктор читает подпись целиком.",
+            "tg": "Тугма ҳангоми ламс торик мешавад, ҳисобкунак меафзояд ва хонанда матнро пурра мехонад.",
+            "en": "The button darkens on touch, the counter grows and the reader reads the label in full."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте обратную связь на устройстве. Добавьте вторую Pressable «Сбросить» со своим цветом, ролью button, подписью для диктора и тем же стилем pressed. Запишите, как кнопка отвечает на касание и что читает диктор, если он доступен. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва ҷавобро дар дастгоҳ санҷед. Pressable-и дуюми «Сифр кардан» бо ранги худ, нақши button, матни хонанда ва ҳамон услуби pressed илова кунед. Сабт кунед, ки тугма ба ламс чӣ ҷавоб медиҳад ва агар хонанда дастрас бошад, чиро мехонад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check the feedback on a device. Add a second Pressable «Сбросить» with its own color, the button role, a reader label and the same pressed style. Record how the button responds to touch and what the reader announces, if available. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Вторая кнопка имеет роль, подпись и свой цвет.",
+              "tg": "Тугмаи дуюм нақш, матн ва ранги худро дорад.",
+              "en": "The second button has a role, a label and its own color."
+            },
+            {
+              "ru": "Записано наблюдение о pressed-отклике и работе диктора.",
+              "tg": "Мушоҳидаи ҷавоби pressed ва кори хонанда сабт шудааст.",
+              "en": "An observation of the pressed response and reader behavior is recorded."
+            }
+          ],
+          "example": {
+            "ru": "Серая кнопка «Сбросить» возвращает «Выполнено: 0» и темнеет при касании так же, как синяя.",
+            "tg": "Тугмаи хокистарии «Сифр кардан» «Иҷрошуда: 0»-ро бармегардонад ва ҳангоми ламс мисли кабуд торик мешавад.",
+            "en": "The gray «Сбросить» button returns «Выполнено: 0» and darkens on touch like the blue one."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Pressable позволяет собрать кнопку и управлять откликом через pressed.",
+            "tg": "Pressable имкон медиҳад тугмаро созед ва ҷавобро бо идораи pressed танзим кунед.",
+            "en": "Pressable lets you build a button and control feedback through pressed."
+          },
+          {
+            "ru": "Доступность задаётся ролью и подписью для диктора.",
+            "tg": "Дастрасӣ бо нақш ва матни хонанда муайян мешавад.",
+            "en": "Accessibility is set by the role and the reader label."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Зачем внутри Pressable написан Text?",
+            "tg": "Барои чӣ дар дохили Pressable Text навишта шудааст?",
+            "en": "Why is a Text written inside Pressable?"
+          },
+          {
+            "ru": "Что объявляет accessibilityRole=\"button\"?",
+            "tg": "accessibilityRole=\"button\" чӣ эълон мекунад?",
+            "en": "What does accessibilityRole=\"button\" declare?"
+          }
+        ],
+        "nextLessonId": "mobile-day-16"
+      }
+    },
+    {
+      "id": "mobile-day-16",
+      "day": 16,
+      "prerequisiteDays": [
+        15
+      ],
+      "title": {
+        "ru": "ScrollView и FlatList",
+        "tg": "ScrollView ва FlatList",
+        "en": "ScrollView and FlatList"
+      },
+      "summary": {
+        "ru": "Покажите список занятий через FlatList со стабильными ключами и узнайте, когда хватает ScrollView.",
+        "tg": "Рӯйхати машғулиятҳоро бо FlatList ва калидҳои устувор нишон диҳед ва бифаҳмед, ки ScrollView куҷо кифоя аст.",
+        "en": "Show a lesson list with FlatList and stable keys and learn when ScrollView is enough."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Два способа показать список",
+            "tg": "Ду тарзи нишон додани рӯйхат",
+            "en": "Two ways to show a list"
+          },
+          "body": {
+            "ru": "ScrollView прокручивает всех детей сразу: он подходит для короткого содержимого — шапки, пары блоков, формы. Для длинных данных существует FlatList: он получает массив data, рисует элементы функцией renderItem и держит в памяти только видимые строки, поэтому длинный список не тормозит. keyExtractor возвращает стабильный ключ для каждой записи: тот же принцип, что и key={lesson.id} в дне 9 — ключ не должен быть случайным числом каждого рендера. Если массив пуст, FlatList показывает ListEmptyComponent — готовое место для честного пустого состояния. Список примера — константа в коде: приход данных из сети и обновление списка — темы дней 24–30.",
+            "tg": "ScrollView ҳамаи кӯдаконро якбора мекашад: барои мазмуни кӯтоҳ мувофиқ аст — сарлавҳа, чанд блок, шакл. Барои маълумоти дароз FlatList вуҷуд дорад: массиви data мегирад, унсурҳоро бо функсияи renderItem мекашад ва танҳо сатрҳои дидашударо дар хотира нигоҳ медорад, бинобар ин рӯйхати дароз суст намешавад. keyExtractor барои ҳар сабт калиди устувор бармегардонад: ҳамон принсипи key={lesson.id}-и рӯзи 9 — калид набояд рақами тасодуфии ҳар render бошад. Агар массив холӣ бошад, FlatList ListEmptyComponent-ро нишон медиҳад — ҷои тайёри ҳолати холии рӯбарӯ. Рӯйхати мисол доимӣ дар рамз аст: омадани маълумот аз шабака ва навкунии рӯйхат мавзӯъҳои рӯзҳои 24–30.",
+            "en": "ScrollView scrolls all children at once: it fits short content — a header, a few blocks, a form. For long data there is FlatList: it takes a data array, renders items with the renderItem function and keeps only visible rows in memory, so a long list stays fast. keyExtractor returns a stable key per record: the same principle as key={lesson.id} in day 9 — the key must not be a random number on every render. With an empty array FlatList shows ListEmptyComponent — a ready place for an honest empty state. The example list is a constant in code: data arriving from the network and refreshing the list are topics of days 24–30."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Массив lessons описан типом Lesson с id и title и лежит вне компонента: он не меняется, поэтому его не нужно пересоздавать на каждом рендере. FlatList получает data={lessons}, keyExtractor возвращает item.id, renderItem превращает каждую запись в Text со стилем item. Запустите пример: три строки прокручиваются, если контент выше экрана. Добавьте четвёртый элемент и строку «Всего: N» над списком, посчитанную через lessons.length. Затем временно задайте data={[]} и проверьте ListEmptyComponent — «Список пуст». Верните данные. Этот список статичен: в следующих модулях он наполнится сохранёнными и сетевыми записями.",
+            "tg": "Массиви lessons бо типи Lesson бо id ва title тавсиф шуда, берунаи компонент аст: тағйир намеёбад, бинобар ин дар ҳар render аз нав сохта намешавад. FlatList data={lessons} мегирад, keyExtractor item.id-ро бармегардонад, renderItem ҳар сабтро ба Text бо услуби item табдил медиҳад. Мисолро иҷро кунед: се сатр мекашанд, агар мазмун аз экран баланд бошад. Унсури чорум ва сатри «Ҳама: N»-ро болои рӯйхат бо lessons.length илова кунед. Баъд муваққатан data={[]} гузоред ва ListEmptyComponent-ро санҷед — «Рӯйхат холӣ». Маълумотро баргардонед. Ин рӯйхат устувор аст: дар модулҳои оянда бо сабтҳои нигоҳдоришуда ва шабакавӣ пур мешавад.",
+            "en": "The lessons array is typed as Lesson with id and title and lives outside the component: it does not change, so it is not recreated on every render. FlatList takes data={lessons}, keyExtractor returns item.id, renderItem turns each record into a Text with the item style. Run the example: three rows scroll if the content is taller than the screen. Add a fourth item and a «Всего: N» line above the list computed from lessons.length. Then temporarily set data={[]} and check ListEmptyComponent — «Список пуст». Restore the data. This list is static: in the coming modules it fills with saved and network records."
+          },
+          "code": "import { FlatList, StyleSheet, Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nconst lessons: Lesson[] = [\n  { id: '1', title: 'Экран' },\n  { id: '2', title: 'Стили' },\n  { id: '3', title: 'Flexbox' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия</Text>\n      <FlatList\n        data={lessons}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <Text style={styles.item}>{item.title}</Text>}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 8 },\n  item: { padding: 12, fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-16-q1",
+          "question": {
+            "ru": "Когда достаточно ScrollView?",
+            "tg": "ScrollView куҷо кифоя аст?",
+            "en": "When is ScrollView enough?"
+          },
+          "options": [
+            {
+              "ru": "Для хранения пароля",
+              "tg": "Барои нигоҳдории парол",
+              "en": "For storing a password"
+            },
+            {
+              "ru": "Для списка из тысячи записей",
+              "tg": "Барои рӯйхати ҳазор сабт",
+              "en": "For a list of a thousand records"
+            },
+            {
+              "ru": "Для короткого фиксированного содержимого",
+              "tg": "Барои мазмуни кӯтоҳи собит",
+              "en": "For short fixed content"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "ScrollView держит всех детей в памяти и рисует их сразу.",
+            "tg": "ScrollView ҳамаи кӯдаконро дар хотира дорад ва якбора мекашад.",
+            "en": "ScrollView keeps all children in memory and renders them at once."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе, для чего подходит ScrollView.",
+            "tg": "Аз бахши аввал ёбед, ки ScrollView барои чӣ мувофиқ аст.",
+            "en": "Find in the first section what ScrollView fits."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-16-q2",
+          "question": {
+            "ru": "Что возвращает keyExtractor?",
+            "tg": "keyExtractor чӣ бармегардонад?",
+            "en": "What does keyExtractor return?"
+          },
+          "options": [
+            {
+              "ru": "Стабильный ключ каждой записи",
+              "tg": "Калиди устувори ҳар сабт",
+              "en": "A stable key per record"
+            },
+            {
+              "ru": "Количество элементов",
+              "tg": "Шумораи унсурҳо",
+              "en": "The item count"
+            },
+            {
+              "ru": "Случайное число для сортировки",
+              "tg": "Рақами тасодуфӣ барои ҷойгиркунӣ",
+              "en": "A random number for sorting"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Ключ помогает FlatList узнавать записи при изменении порядка.",
+            "tg": "Калид ба FlatList кӯмак мекунад ҳангоми тағйири тартиб сабтҳоро шиносад.",
+            "en": "The key helps FlatList recognize records when the order changes."
+          },
+          "hint": {
+            "ru": "Сравните keyExtractor с key={lesson.id} из дня 9.",
+            "tg": "keyExtractor-ро бо key={lesson.id}-и рӯзи 9 муқоиса кунед.",
+            "en": "Compare keyExtractor with day 9 key={lesson.id}."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-16-q3",
+          "question": {
+            "ru": "Почему длинный список на FlatList не тормозит?",
+            "tg": "Барои чӣ рӯйхати дарози FlatList суст намешавад?",
+            "en": "Why does a long FlatList stay fast?"
+          },
+          "options": [
+            {
+              "ru": "Он удаляет лишние записи из массива",
+              "tg": "Сабтҳои изофаро аз массив нест мекунад",
+              "en": "It removes extra records from the array"
+            },
+            {
+              "ru": "Он рисует только видимые строки",
+              "tg": "Танҳо сатрҳои дидашударо мекашад",
+              "en": "It renders only the visible rows"
+            },
+            {
+              "ru": "Он отключает стили",
+              "tg": "Услубҳоро хомӯш мекунад",
+              "en": "It disables styles"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "FlatList держит в памяти лишь видимые элементы и подгружает по мере прокрутки.",
+            "tg": "FlatList танҳо унсурҳои дидашударо дар хотира дорад ва ҳангоми скролл илова мекунад.",
+            "en": "FlatList keeps only visible items in memory and loads more while scrolling."
+          },
+          "hint": {
+            "ru": "Перечитайте в первом разделе, что FlatList держит в памяти.",
+            "tg": "Аз бахши аввал аз нав хонед, ки FlatList чиро дар хотира медорад.",
+            "en": "Re-read in the first section what FlatList keeps in memory."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-16-q4",
+          "question": {
+            "ru": "Что показывает ListEmptyComponent?",
+            "tg": "ListEmptyComponent чӣ нишон медиҳад?",
+            "en": "What does ListEmptyComponent show?"
+          },
+          "options": [
+            {
+              "ru": "Ошибку сети",
+              "tg": "Хатои шабака",
+              "en": "A network error"
+            },
+            {
+              "ru": "Индикатор загрузки",
+              "tg": "Нишондиҳандаи боркунӣ",
+              "en": "A loading indicator"
+            },
+            {
+              "ru": "Содержимое при пустом массиве data",
+              "tg": "Мазмун ҳангоми массиви холии data",
+              "en": "Content when the data array is empty"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Это готовое место для честного пустого состояния.",
+            "tg": "Ин ҷои тайёр барои ҳолати холии рӯбарӯ аст.",
+            "en": "It is a ready place for an honest empty state."
+          },
+          "hint": {
+            "ru": "Вспомните день 9: что должен объяснять экран при отсутствии данных.",
+            "tg": "Рӯзи 9-ро ёд оред: экран ҳангоми набудани маълумот чиро бояд фаҳмонад.",
+            "en": "Recall day 9: what a screen must explain when data is missing."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-16-q5",
+          "question": {
+            "ru": "Откуда пример берёт данные списка?",
+            "tg": "Мисол маълумоти рӯйхатро аз куҷо мегирад?",
+            "en": "Where does the example get its list data?"
+          },
+          "options": [
+            {
+              "ru": "Из константы в коде",
+              "tg": "Аз доимии дар рамз",
+              "en": "From a constant in the code"
+            },
+            {
+              "ru": "Из сети",
+              "tg": "Аз шабака",
+              "en": "From the network"
+            },
+            {
+              "ru": "Из базы данных",
+              "tg": "Аз пойгоҳи додаҳо",
+              "en": "From a database"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Массив объявлен вне компонента; сеть появится в модуле данных.",
+            "tg": "Массив берунаи компонент эълон шудааст; шабака дар модули маълумот меояд.",
+            "en": "The array is declared outside the component; the network arrives in the data module."
+          },
+          "hint": {
+            "ru": "Найдите в примере объявление массива lessons.",
+            "tg": "Дар мисол эълони массиви lessons-ро ёбед.",
+            "en": "Find the lessons array declaration in the example."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и прокрутите список на устройстве. Добавьте четвёртый элемент в массив и строку «Всего: N» над списком через lessons.length. Временно задайте data={[]} и запишите, что показывает ListEmptyComponent, затем верните данные. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва рӯйхатро дар дастгоҳ скролл кунед. Унсури чорум ба массив ва сатри «Ҳама: N»-ро болои рӯйхат бо lessons.length илова кунед. Муваққатан data={[]} гузоред ва сабт кунед, ки ListEmptyComponent чӣ нишон медиҳад, баъд маълумотро баргардонед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and scroll the list on a device. Add a fourth item to the array and a «Всего: N» line above the list through lessons.length. Temporarily set data={[]} and record what ListEmptyComponent shows, then restore the data. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Счётчик добавьте как обычный Text перед FlatList; для пустого состояния используйте ListEmptyComponent.",
+          "tg": "Ҳисобкунакро ҳамчун Text-и оддӣ пеш аз FlatList илова кунед; барои ҳолати холӣ ListEmptyComponent-ро истифода баред.",
+          "en": "Add the counter as a plain Text before FlatList; use ListEmptyComponent for the empty state."
+        },
+        "solution": "import { FlatList, StyleSheet, Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nconst lessons: Lesson[] = [\n  { id: '1', title: 'Экран' },\n  { id: '2', title: 'Стили' },\n  { id: '3', title: 'Flexbox' },\n  { id: '4', title: 'TextInput' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия</Text>\n      <Text>Всего: {lessons.length}</Text>\n      <FlatList\n        data={lessons}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <Text style={styles.item}>{item.title}</Text>}\n        ListEmptyComponent={<Text>Список пуст</Text>}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 8 },\n  item: { padding: 12, fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Список содержит четыре записи и строку «Всего: 4».",
+            "tg": "Рӯйхат чор сабт ва сатри «Ҳама: 4» дорад.",
+            "en": "The list has four records and a «Всего: 4» line."
+          },
+          {
+            "ru": "Записан результат проверки пустого состояния и возврат данных.",
+            "tg": "Натиҷаи санҷиши ҳолати холӣ ва баргардонидани маълумот сабт шудааст.",
+            "en": "The empty-state check and data restoration results are recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Показать список через FlatList со стабильными ключами.",
+            "tg": "Рӯйхатро бо FlatList ва калидҳои устувор нишон диҳед.",
+            "en": "Show a list with FlatList and stable keys."
+          },
+          {
+            "ru": "Выбрать между ScrollView и FlatList обоснованно.",
+            "tg": "Байни ScrollView ва FlatList асоснок интихоб кунед.",
+            "en": "Choose between ScrollView and FlatList with reasons."
+          }
+        ],
+        "realWorld": {
+          "ru": "Экран курса: список занятий из десятков записей прокручивается быстро и показывает «Всего: N».",
+          "tg": "Экрани курс: рӯйхати машғулиятҳо аз даҳҳо сабт тез мекашад ва «Ҳама: N»-ро нишон медиҳад.",
+          "en": "A course screen: a list of dozens of lessons scrolls fast and shows «Всего: N»."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что возвращает keyExtractor?",
+            "tg": "keyExtractor чӣ бармегардонад?",
+            "en": "What does keyExtractor return?"
+          },
+          "options": [
+            {
+              "ru": "Стабильный ключ каждой записи",
+              "tg": "Калиди устувори ҳар сабт",
+              "en": "A stable key per record"
+            },
+            {
+              "ru": "Количество элементов",
+              "tg": "Шумораи унсурҳо",
+              "en": "The item count"
+            },
+            {
+              "ru": "Случайное число для сортировки",
+              "tg": "Рақами тасодуфӣ барои ҷойгиркунӣ",
+              "en": "A random number for sorting"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Сравните keyExtractor с key={lesson.id} из дня 9.",
+            "tg": "keyExtractor-ро бо key={lesson.id}-и рӯзи 9 муқоиса кунед.",
+            "en": "Compare keyExtractor with day 9 key={lesson.id}."
+          },
+          "explanation": {
+            "ru": "Ключ помогает FlatList узнавать записи при изменении порядка.",
+            "tg": "Калид ба FlatList кӯмак мекунад ҳангоми тағйири тартиб сабтҳоро шиносад.",
+            "en": "The key helps FlatList recognize records when the order changes."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { FlatList, StyleSheet, Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nconst lessons: Lesson[] = [\n  { id: '1', title: 'Экран' },\n  { id: '2', title: 'Стили' },\n  { id: '3', title: 'Flexbox' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия</Text>\n      <FlatList\n        data={lessons}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <Text style={styles.item}>{item.title}</Text>}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 8 },\n  item: { padding: 12, fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 5,
+              "explanation": {
+                "ru": "Массив lessons объявлен вне компонента и не меняется.",
+                "tg": "Массиви lessons берунаи компонент эълон шуда, тағйир намеёбад.",
+                "en": "The lessons array is declared outside the component and does not change."
+              },
+              "values": "3 записи"
+            },
+            {
+              "line": 17,
+              "explanation": {
+                "ru": "keyExtractor берёт id записи как ключ.",
+                "tg": "keyExtractor id-и сабтро ҳамчун калид мегирад.",
+                "en": "keyExtractor takes the record id as the key."
+              },
+              "values": "key = item.id"
+            },
+            {
+              "line": 18,
+              "explanation": {
+                "ru": "renderItem превращает запись в Text со стилем.",
+                "tg": "renderItem сабтро ба Text бо услуб табдил медиҳад.",
+                "en": "renderItem turns a record into a styled Text."
+              },
+              "values": "Экран, Стили, Flexbox"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере data, keyExtractor и renderItem и объясните роль каждого.",
+              "tg": "Дар мисол data, keyExtractor ва renderItem-ро ёфта, нақши ҳар якеро шарҳ диҳед.",
+              "en": "Find data, keyExtractor and renderItem in the example and explain each role."
+            },
+            {
+              "ru": "Добавьте четвёртый элемент и строку «Всего: N», затем проверьте список на устройстве.",
+              "tg": "Унсури чорум ва сатри «Ҳама: N» илова карда, рӯйхатро дар дастгоҳ санҷед.",
+              "en": "Add a fourth item and a «Всего: N» line, then check the list on a device."
+            }
+          ],
+          "hint": {
+            "ru": "Счётчик добавьте как обычный Text перед FlatList; для пустого состояния используйте ListEmptyComponent.",
+            "tg": "Ҳисобкунакро ҳамчун Text-и оддӣ пеш аз FlatList илова кунед; барои ҳолати холӣ ListEmptyComponent-ро истифода баред.",
+            "en": "Add the counter as a plain Text before FlatList; use ListEmptyComponent for the empty state."
+          },
+          "success": {
+            "ru": "Список показывает четыре строки, счётчик совпадает с количеством записей.",
+            "tg": "Рӯйхат чор сатрро нишон медиҳад ва ҳисобкунак ба шумораи сабтҳо мутобиқ аст.",
+            "en": "The list shows four rows and the counter matches the record count."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и прокрутите список на устройстве. Добавьте четвёртый элемент в массив и строку «Всего: N» над списком через lessons.length. Временно задайте data={[]} и запишите, что показывает ListEmptyComponent, затем верните данные. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва рӯйхатро дар дастгоҳ скролл кунед. Унсури чорум ба массив ва сатри «Ҳама: N»-ро болои рӯйхат бо lessons.length илова кунед. Муваққатан data={[]} гузоред ва сабт кунед, ки ListEmptyComponent чӣ нишон медиҳад, баъд маълумотро баргардонед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and scroll the list on a device. Add a fourth item to the array and a «Всего: N» line above the list through lessons.length. Temporarily set data={[]} and record what ListEmptyComponent shows, then restore the data. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Список содержит четыре записи и строку «Всего: 4».",
+              "tg": "Рӯйхат чор сабт ва сатри «Ҳама: 4» дорад.",
+              "en": "The list has four records and a «Всего: 4» line."
+            },
+            {
+              "ru": "Записан результат проверки пустого состояния и возврат данных.",
+              "tg": "Натиҷаи санҷиши ҳолати холӣ ва баргардонидани маълумот сабт шудааст.",
+              "en": "The empty-state check and data restoration results are recorded."
+            }
+          ],
+          "example": {
+            "ru": "При data={[]} вместо строк появляется «Список пуст», а после возврата данных — четыре записи.",
+            "tg": "Бо data={[]} ба ҷои сатрҳо «Рӯйхат холӣ» пайдо мешавад ва баъди баргардонидан — чор сабт.",
+            "en": "With data={[]} «Список пуст» replaces the rows and four records return with the data."
+          }
+        },
+        "summary": [
+          {
+            "ru": "FlatList виртуализирует длинные списки; ScrollView годится для короткого содержимого.",
+            "tg": "FlatList рӯйхатҳои дарозро виртуалӣ мекунад; ScrollView барои мазмуни кӯтоҳ мувофиқ аст.",
+            "en": "FlatList virtualizes long lists; ScrollView fits short content."
+          },
+          {
+            "ru": "Стабильные ключи и ListEmptyComponent делают список предсказуемым.",
+            "tg": "Калидҳои устувор ва ListEmptyComponent рӯйхатро пешгӯишаванда мекунанд.",
+            "en": "Stable keys and ListEmptyComponent make the list predictable."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Почему длинный список на FlatList не тормозит?",
+            "tg": "Барои чӣ рӯйхати дарози FlatList суст намешавад?",
+            "en": "Why does a long FlatList stay fast?"
+          },
+          {
+            "ru": "Что показывает ListEmptyComponent?",
+            "tg": "ListEmptyComponent чӣ нишон медиҳад?",
+            "en": "What does ListEmptyComponent show?"
           }
         ],
         "nextLessonId": null
