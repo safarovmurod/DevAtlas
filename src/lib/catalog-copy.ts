@@ -123,12 +123,12 @@ const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     '44日間で基礎からJavaScript、HTTP、SQLite、認証、認可、テスト付きAPIを学びます。ローカルNode.jsが必要です。',
     '44일 동안 기초부터 JavaScript, HTTP, SQLite, 인증, 권한과 테스트를 갖춘 API를 배웁니다. 로컬 Node.js가 필요합니다.'),
   mobile: text(
-    'Экран React Native и счётчик. Запускайте приложение через Expo на своём устройстве.',
-    'A React Native screen and counter. Run the app with Expo on your own device.',
-    'Экрани React Native ва ҳисобкунак. Барномаро бо Expo дар дастгоҳи худ иҷро кунед.',
-    'Екран React Native і лічильник. Запускайте застосунок через Expo на власному пристрої.',
-    'React Nativeの画面とカウンターを作ります。Expoで自分のデバイス上で実行します。',
-    'React Native 화면과 카운터를 만듭니다. Expo로 내 기기에서 앱을 실행하세요.'),
+    'Девять дней с нуля: экран, состояние, компоненты, props и списки. Запуск через Expo на своём устройстве.',
+    'Nine days from zero: screen, state, components, props and lists. Run with Expo on your own device.',
+    'Нӯҳ рӯз аз сифр: экран, ҳолат, компонентҳо, props ва рӯйхатҳо. Иҷро бо Expo дар дастгоҳи худ.',
+    'Девʼять днів з нуля: екран, стан, компоненти, props і списки. Запуск через Expo на власному пристрої.',
+    '9日間で基礎から画面、状態、コンポーネント、props、リストを学びます。Expoで自分のデバイス上で実行します。',
+    '9일 동안 기초부터 화면, 상태, 컴포넌트, props, 목록을 배웁니다. Expo로 내 기기에서 실행하세요.'),
   java: text(
     'Классы, методы и небольшая программа. Выполняйте код в локальном JDK.',
     'Classes, methods and a small program. Run the code with a local JDK.',
