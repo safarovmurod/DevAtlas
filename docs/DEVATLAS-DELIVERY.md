@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-Recorded main checkpoint: `d5ed179175d3f524ec1d14956ff44ff98164467e`. 43 course IDs; 38 tracks; 114 stage requirements; 936 actual scheduled days (786 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
+Recorded main checkpoint: `d5ed179175d3f524ec1d14956ff44ff98164467e`. 43 course IDs; 38 tracks; 114 stage requirements; 978 actual scheduled days (828 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
 
 42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
 
@@ -23,7 +23,7 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 | algorithms | starter | 14 |
 | python | starter | 30 |
 | backend | starter | 44 |
-| mobile | starter | 2 |
+| mobile | starter | 44 |
 | cpp | starter | 30 |
 | java | starter | 30 |
 | csharp | starter | 30 |
@@ -71,7 +71,7 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 
 ## Required remaining work
 
-All 11 two-day programs still require full authored expansion: `mobile`, `ux-design`, `digital-marketing`, `data-analytics`, `business-foundations`, `communication`, `content-creation`, `english-foundations`, `digital-literacy`, `personal-productivity`, `management-foundations`.
+All 10 two-day programs still require full authored expansion: `ux-design`, `digital-marketing`, `data-analytics`, `business-foundations`, `communication`, `content-creation`, `english-foundations`, `digital-literacy`, `personal-productivity`, `management-foundations`.
 
 All 5 fourteen-day programs still require a reviewed continuation: `typescript`, `algorithms`, `ai-fundamentals`, `context-engineering`, `agent-harness`.
 
