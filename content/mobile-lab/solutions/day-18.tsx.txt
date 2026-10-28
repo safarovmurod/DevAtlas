@@ -1,0 +1,35 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Button, Text, View } from 'react-native';
+
+function ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {
+  return (
+    <View style={{ flex: 1, padding: 24, gap: 12 }}>
+      <Text accessibilityRole="header">Мои занятия</Text>
+      <Button title="Подробности" onPress={() => navigation.navigate('Details')} />
+    </View>
+  );
+}
+
+function DetailsScreen({ navigation }: { navigation: { goBack: () => void } }) {
+  return (
+    <View style={{ flex: 1, padding: 24, gap: 12 }}>
+      <Text accessibilityRole="header">Подробности</Text>
+      <Text>Второй экран стека.</Text>
+      <Button title="Назад" onPress={() => navigation.goBack()} />
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="List" component={ListScreen} options={{ title: 'Занятия' }} />
+        <Stack.Screen name="Details" component={DetailsScreen} options={{ title: 'Подробности' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

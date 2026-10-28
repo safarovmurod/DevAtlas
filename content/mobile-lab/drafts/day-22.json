@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-22",
+  "day": 22,
+  "prerequisiteDays": [
+    21
+  ],
+  "title": {
+    "ru": "Проверка формы и ошибки",
+    "tg": "Санҷиши шакл ва хатоҳо",
+    "en": "Form validation and errors"
+  },
+  "summary": {
+    "ru": "Напишите функцию проверки полей и покажите понятные ошибки под каждым полем.",
+    "tg": "Функсияи санҷиши майдонҳоро нависед ва хатоҳои фаҳморо зери ҳар майдон нишон диҳед.",
+    "en": "Write a field validation function and show clear errors under each field."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Ошибки говорят, что исправить",
+        "tg": "Хатоҳо мегӯянд, ки чиро ислоҳ кунанд",
+        "en": "Errors say what to fix"
+      },
+      "body": {
+        "ru": "Форма без проверки принимает мусор: пустое название или отрицательные минуты. Проверку делают чистой функцией: validate принимает значения полей и возвращает объект ошибок, где ключ — имя поля, значение — понятное сообщение. Пустой объект означает, что всё в порядке. Чистая функция не меняет состояние и не лезет в сеть: её легко вызвать с любыми значениями и проверить, в том числе автоматическим тестом компонента. Сообщения пишут от пользователя: не «invalid input», а «Название короче трёх символов». Ошибки показывают под своим полем и убирают при следующей успешной проверке. Проверка на устройстве не заменяет проверку данных на сервере: она помогает пользователю, а не защищает систему.",
+        "tg": "Шакли бе санҷиш ахротро қабул мекунад: номи холӣ ё дақиқаҳои манфӣ. Санҷиш бо функсияи софа мекунанд: validate қиматҳои майдонҳоро мегирад ва объекти хатоҳоро бармегардонад, ки калид — номи майдон, қимат — паёми фаҳмо. Объекти холӣ маънои он аст, ки ҳама чиз дуруст аст. Функсияи софа ҳолатро тағйир намедиҳад ва ба шабака намеравад: онро бо ҳар қимат даъват кардан, аз ҷумла бо санҷиши худкори компонент, осон аст. Паёмҳоро аз тарафи корбар менависанд: на «invalid input», балки «Ном аз се аломат кӯтоҳ аст». Хатоҳоро зери майдони худ нишон дода, ҳангоми санҷиши муваффақияти оянда мебароранд. Санҷиши дар дастгоҳ ҷои санҷиши маълумот дар серверро намегирад: ӯ ба корбар кӯмак мекунад, на системаro ҳимоя.",
+        "en": "A form without validation accepts garbage: an empty title or negative minutes. Validation is a pure function: validate takes the field values and returns an errors object where the key is the field name and the value is a clear message. An empty object means everything is fine. A pure function does not touch state or the network: you can call it with any values and check it, including an automated component test. Write messages from the user perspective: not \"invalid input\" but \"Название короче трёх символов\". Errors show under their own field and clear on the next successful check. On-device validation does not replace server-side checks: it helps the user, it does not protect the system."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Тип Errors описывает два необязательных поля — title и minutes. validate наполняет объект: title проверяется через trim и длину, minutes — регулярным выражением ^d+$, чтобы строка была целым числом, и сравнением с нулём. Регулярное выражение читается так: от начала до конца только цифры. Обработчик submit вызывает validate и сохраняет результат в состояние errors; под каждым полем показывается своя ошибка, если она есть. Регулярное выражение читается так: от начала до конца только цифры. Проверьте на устройстве: пустая форма даёт две ошибки, «аб» и «0» — тоже, «абв» и «30» проходят. В решении добавлена строка успеха после удачной проверки.",
+        "tg": "Типи Errors ду майдони ихтиёриро тавсиф медиҳад — title ва minutes. validate объектро пур мекунад: title тавассути trim ва дарозӣ, minutes бо ифодаи муқаррарии ^d+$ месанҷад, ки сатр адади бутун бошад, ва муқоиса бо сифр. Ифодаи муқаррарӣ чунин хонда мешавад: аз оғоз то охир танҳо рақамҳо. Обработчики submit validate-ро мехонад ва натиҷаро ба ҳолати errors нигоҳ медорад; зери ҳар майдон хатои худаш нишон дода мешавад, агар бошад. Дар дастгоҳ санҷед: шакли холӣ ду хато медиҳад, «аб» ва «0» ҳам, «абв» ва «30» мегузаранд. Дар ҳалл баъди санҷиши муваффақ сатри муваффақият илова шудааст.",
+        "en": "The Errors type describes two optional fields — title and minutes. validate fills the object: title is checked through trim and length, minutes with the ^d+$ regular expression, so the string is a whole number, and a comparison with zero. The regular expression reads: from start to end only digits. The submit handler calls validate and stores the result in the errors state; each field shows its own error if present. Check on a device: an empty form gives two errors, so do «аб» with «0»; «абв» with «30» passes. The solution adds a success line after a valid check."
+      },
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Errors = { title?: string; minutes?: string };\n\nexport function validate(title: string, minutes: string): Errors {\n  const errors: Errors = {};\n  if (title.trim().length < 3) errors.title = 'Название короче трёх символов';\n  if (!/^\\d+$/.test(minutes) || Number(minutes) <= 0) errors.minutes = 'Минуты — целое число больше нуля';\n  return errors;\n}\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('');\n  const [errors, setErrors] = useState<Errors>({});\n\n  function submit() {\n    setErrors(validate(title, minutes));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Новое занятие</Text>\n      <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n      {errors.title ? <Text style={styles.error}>{errors.title}</Text> : null}\n      <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n      {errors.minutes ? <Text style={styles.error}>{errors.minutes}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={submit}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Проверить форму</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-22-q1",
+      "question": {
+        "ru": "Что возвращает validate?",
+        "tg": "validate чӣ бармегардонад?",
+        "en": "What does validate return?"
+      },
+      "options": [
+        {
+          "ru": "true или false",
+          "tg": "true ё false",
+          "en": "true or false"
+        },
+        {
+          "ru": "Строку с логом",
+          "tg": "Сатри матни ҳодиса",
+          "en": "A log string"
+        },
+        {
+          "ru": "Объект ошибок по именам полей",
+          "tg": "Объекти хатоҳо аз рӯи номи майдонҳо",
+          "en": "An errors object keyed by field names"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Ключ — имя поля, значение — понятное сообщение.",
+        "tg": "Калид — номи майдон, қимат — паёми фаҳмо.",
+        "en": "The key is the field name, the value is a clear message."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе описание формы результата.",
+        "tg": "Дар бахши аввал тавсифи шакли натиҷаро ёбед.",
+        "en": "Find the result shape description in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-22-q2",
+      "question": {
+        "ru": "Что означает пустой объект ошибок?",
+        "tg": "Объекти холи хатоҳо чӣ маъно дорад?",
+        "en": "What does an empty errors object mean?"
+      },
+      "options": [
+        {
+          "ru": "Все поля прошли проверку",
+          "tg": "Ҳамаи майдонҳо санҷишро гузаштанд",
+          "en": "All fields passed validation"
+        },
+        {
+          "ru": "Произошла ошибка сети",
+          "tg": "Хатои шабака рух дод",
+          "en": "A network error happened"
+        },
+        {
+          "ru": "Форма ещё не открыта",
+          "tg": "Шакл ҳоло кушода нашудааст",
+          "en": "The form is not open yet"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Нет сообщений — нет ошибок.",
+        "tg": "Паём нест — хато нест.",
+        "en": "No messages — no errors."
+      },
+      "hint": {
+        "ru": "Вспомните, что показывают блоки errors.title ? ... : null.",
+        "tg": "Ёд оред, ки блокҳои errors.title ? ... : null чӣ нишон медиҳанд.",
+        "en": "Recall what the errors.title ? ... : null blocks show."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-22-q3",
+      "question": {
+        "ru": "Почему validate — чистая функция?",
+        "tg": "validate барои чӣ функсияи соф аст?",
+        "en": "Why is validate a pure function?"
+      },
+      "options": [
+        {
+          "ru": "Она всегда быстрая",
+          "tg": "Он ҳамеша тез аст",
+          "en": "It is always fast"
+        },
+        {
+          "ru": "Она не меняет состояние и не обращается к сети",
+          "tg": "Он ҳолатро тағйир намедиҳад ва ба шабака намеравад",
+          "en": "It does not change state or touch the network"
+        },
+        {
+          "ru": "Она написана на TypeScript",
+          "tg": "Он бо TypeScript навишта шудааст",
+          "en": "It is written in TypeScript"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Чистоту легко проверить любыми значениями, в том числе тестом.",
+        "tg": "Софиро бо ҳар қимат, аз ҷумла бо тест, осон санҷидан мумкин.",
+        "en": "Purity lets you check it with any values, including a test."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе слова о проверке чистой функции.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи санҷиши функсияи софро ёбед.",
+        "en": "Find the first-section words about checking a pure function."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-22-q4",
+      "question": {
+        "ru": "Что проверяет регулярное выражение ^d+$?",
+        "tg": "Ифодаи муқаррарии ^d+$ чиро месанҷад?",
+        "en": "What does the ^d+$ regular expression check?"
+      },
+      "options": [
+        {
+          "ru": "Что строка содержит пробел",
+          "tg": "Он ки сатр фосила дорад",
+          "en": "That the string has a space"
+        },
+        {
+          "ru": "Что строка начинается с буквы",
+          "tg": "Он ки сатр бо ҳарф оғоз мешавад",
+          "en": "That the string starts with a letter"
+        },
+        {
+          "ru": "Что строка целиком состоит из цифр",
+          "tg": "Он ки сатр пурра аз рақамҳо иборат аст",
+          "en": "That the string is entirely digits"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "От начала до конца — только цифры, поэтому 1.5 не пройдёт.",
+        "tg": "Аз оғоз то охир — танҳо рақамҳо, бинобар ин 1.5 намегузарад.",
+        "en": "Start to end, digits only, so 1.5 fails."
+      },
+      "hint": {
+        "ru": "Посмотрите на проверку minutes в validate.",
+        "tg": "Ба санҷиши minutes дар validate нигоҳ кунед.",
+        "en": "Look at the minutes check in validate."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-22-q5",
+      "question": {
+        "ru": "Чего не заменяет проверка формы на устройстве?",
+        "tg": "Санҷиши шакл дар дастгоҳ чиро иваз намекунад?",
+        "en": "What does on-device form validation not replace?"
+      },
+      "options": [
+        {
+          "ru": "Проверку данных на сервере",
+          "tg": "Санҷиши маълумот дар сервер",
+          "en": "Server-side data checks"
+        },
+        {
+          "ru": "Показ ошибок пользователю",
+          "tg": "Нишон додани хатоҳо ба корбар",
+          "en": "Showing errors to the user"
+        },
+        {
+          "ru": "Разметку полей",
+          "tg": "Андозаи майдонҳо",
+          "en": "Field layout"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Клиентская проверка помогает пользователю; система защищается на сервере.",
+        "tg": "Санҷиши клиентӣ ба корбар кӯмак мекунад; система дар сервер ҳимоя мешавад.",
+        "en": "Client validation helps the user; the system is protected on the server."
+      },
+      "hint": {
+        "ru": "Перечитайте последнее предложение первого раздела.",
+        "tg": "Ҷумлаи охирини бахши аввалро аз нав хонед.",
+        "en": "Re-read the last sentence of the first section."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте форму на устройстве с тремя наборами значений: пустая, почти правильная и верная. Добавьте строку успеха после удачной проверки, как в решении, и запишите сообщения ошибок дословно. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва шаклро дар дастгоҳ бо се маҷмӯи қиматҳо санҷед: холӣ, қариб дуруст ва дуруст. Баъди санҷиши муваффақ сатри муваффақиятро мисли ҳалл илова карда, паёмҳои хаторо калима ба калима сабт кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check the form on a device with three value sets: empty, almost valid and valid. Add the success line after a valid check as in the solution and record the error messages verbatim. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Скопируйте блок с checked и valid из решения: setChecked(true) в submit и условие под кнопкой.",
+      "tg": "Блоки checked ва valid-ро аз ҳалл нусхабардорӣ кунед: setChecked(true) дар submit ва шарти зери тугма.",
+      "en": "Copy the checked and valid block from the solution: setChecked(true) in submit and the condition under the button."
+    },
+    "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Errors = { title?: string; minutes?: string };\n\nexport function validate(title: string, minutes: string): Errors {\n  const errors: Errors = {};\n  if (title.trim().length < 3) errors.title = 'Название короче трёх символов';\n  if (!/^\\d+$/.test(minutes) || Number(minutes) <= 0) errors.minutes = 'Минуты — целое число больше нуля';\n  return errors;\n}\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('');\n  const [errors, setErrors] = useState<Errors>({});\n  const [checked, setChecked] = useState(false);\n\n  function submit() {\n    setErrors(validate(title, minutes));\n    setChecked(true);\n  }\n\n  const valid = checked && Object.keys(errors).length === 0;\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Новое занятие</Text>\n      <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n      {errors.title ? <Text style={styles.error}>{errors.title}</Text> : null}\n      <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n      {errors.minutes ? <Text style={styles.error}>{errors.minutes}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={submit}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Проверить форму</Text>\n      </Pressable>\n      {valid ? <Text>Форма готова к сохранению.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Ошибки показываются под своими полями и совпадают с записью.",
+        "tg": "Хатоҳо зери майдонҳои худ нишон дода, ба сабт мутобиқанд.",
+        "en": "Errors show under their fields and match the record."
+      },
+      {
+        "ru": "Успешная проверка показана отдельной строкой.",
+        "tg": "Санҷиши муваффақ бо сатри алоҳида нишон дода мешавад.",
+        "en": "A valid check is shown with a separate line."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Написать чистую функцию проверки формы.",
+        "tg": "Функсияи софи санҷиши шаклро нависед.",
+        "en": "Write a pure form validation function."
+      },
+      {
+        "ru": "Показывать ошибки под своими полями.",
+        "tg": "Хатоҳоро зери майдонҳои худ нишон диҳед.",
+        "en": "Show errors under their own fields."
+      }
+    ],
+    "realWorld": {
+      "ru": "Форма регистрации не примет заявку, пока поля не исправят, и скажет что именно.",
+      "tg": "Шакли сабти ном то ислоҳи майдонҳо дархостро намепазирад ва мегӯяд, ки чӣ.",
+      "en": "A signup form rejects the request until fields are fixed and says exactly what."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что означает пустой объект ошибок?",
+        "tg": "Объекти холи хатоҳо чӣ маъно дорад?",
+        "en": "What does an empty errors object mean?"
+      },
+      "options": [
+        {
+          "ru": "Все поля прошли проверку",
+          "tg": "Ҳамаи майдонҳо санҷишро гузаштанд",
+          "en": "All fields passed validation"
+        },
+        {
+          "ru": "Произошла ошибка сети",
+          "tg": "Хатои шабака рух дод",
+          "en": "A network error happened"
+        },
+        {
+          "ru": "Форма ещё не открыта",
+          "tg": "Шакл ҳоло кушода нашудааст",
+          "en": "The form is not open yet"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Вспомните, что показывают блоки errors.title ? ... : null.",
+        "tg": "Ёд оред, ки блокҳои errors.title ? ... : null чӣ нишон медиҳанд.",
+        "en": "Recall what the errors.title ? ... : null blocks show."
+      },
+      "explanation": {
+        "ru": "Нет сообщений — нет ошибок.",
+        "tg": "Паём нест — хато нест.",
+        "en": "No messages — no errors."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Errors = { title?: string; minutes?: string };\n\nexport function validate(title: string, minutes: string): Errors {\n  const errors: Errors = {};\n  if (title.trim().length < 3) errors.title = 'Название короче трёх символов';\n  if (!/^\\d+$/.test(minutes) || Number(minutes) <= 0) errors.minutes = 'Минуты — целое число больше нуля';\n  return errors;\n}\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('');\n  const [errors, setErrors] = useState<Errors>({});\n\n  function submit() {\n    setErrors(validate(title, minutes));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Новое занятие</Text>\n      <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n      {errors.title ? <Text style={styles.error}>{errors.title}</Text> : null}\n      <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n      {errors.minutes ? <Text style={styles.error}>{errors.minutes}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={submit}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Проверить форму</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "validate принимает значения полей.",
+            "tg": "validate қиматҳои майдонҳоро мегирад.",
+            "en": "validate takes the field values."
+          },
+          "values": "title, minutes"
+        },
+        {
+          "line": 9,
+          "explanation": {
+            "ru": "Ошибка записи описывает проблему словами.",
+            "tg": "Паёми хато мушкилиро бо калимаҳо менависад.",
+            "en": "The error message names the problem in words."
+          },
+          "values": "title error"
+        },
+        {
+          "line": 10,
+          "explanation": {
+            "ru": "Minutes проверяется цифрами и сравнением с нулём.",
+            "tg": "minutes бо рақамҳо ва муқоиса бо сифр санҷида мешавад.",
+            "en": "minutes is checked for digits and compared with zero."
+          },
+          "values": "minutes error | ok"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере, где вызывается validate и где показываются ошибки.",
+          "tg": "Дар мисол ёбед, ки validate дар куҷо даъват ва хатоҳо дар куҷо нишон дода мешаванд.",
+          "en": "Find where validate is called and where errors render."
+        },
+        {
+          "ru": "Отправьте пустую форму, затем «абв» и «30», и сравните сообщения.",
+          "tg": "Шакли холиро фиристода, баъд «абв» ва «30»-ро фиристода, паёмҳоро муқоиса кунед.",
+          "en": "Submit the empty form, then «абв» and «30», and compare the messages."
+        }
+      ],
+      "hint": {
+        "ru": "Скопируйте блок с checked и valid из решения: setChecked(true) в submit и условие под кнопкой.",
+        "tg": "Блоки checked ва valid-ро аз ҳалл нусхабардорӣ кунед: setChecked(true) дар submit ва шарти зери тугма.",
+        "en": "Copy the checked and valid block from the solution: setChecked(true) in submit and the condition under the button."
+      },
+      "success": {
+        "ru": "Пустая форма показывает две понятные ошибки, а правильные значения — успех.",
+        "tg": "Шакли холӣ ду хатои фаҳмо нишон медиҳад ва қиматҳои дуруст — муваффақият.",
+        "en": "The empty form shows two clear errors and correct values succeed."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте форму на устройстве с тремя наборами значений: пустая, почти правильная и верная. Добавьте строку успеха после удачной проверки, как в решении, и запишите сообщения ошибок дословно. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва шаклро дар дастгоҳ бо се маҷмӯи қиматҳо санҷед: холӣ, қариб дуруст ва дуруст. Баъди санҷиши муваффақ сатри муваффақиятро мисли ҳалл илова карда, паёмҳои хаторо калима ба калима сабт кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check the form on a device with three value sets: empty, almost valid and valid. Add the success line after a valid check as in the solution and record the error messages verbatim. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Ошибки показываются под своими полями и совпадают с записью.",
+          "tg": "Хатоҳо зери майдонҳои худ нишон дода, ба сабт мутобиқанд.",
+          "en": "Errors show under their fields and match the record."
+        },
+        {
+          "ru": "Успешная проверка показана отдельной строкой.",
+          "tg": "Санҷиши муваффақ бо сатри алоҳида нишон дода мешавад.",
+          "en": "A valid check is shown with a separate line."
+        }
+      ],
+      "example": {
+        "ru": "После ввода «Чтение» и «30» под кнопкой появляется «Форма готова к сохранению.».",
+        "tg": "Баъди вориди «Хониш» ва «30» зери тугма «Шакл барои нигоҳдорӣ омода аст.» пайдо мешавад.",
+        "en": "Typing «Чтение» and «30» shows «Форма готова к сохранению.» under the button."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Проверка — чистая функция, возвращающая ошибки по полям.",
+        "tg": "Санҷиш функсияи соф аст, ки хатоҳоро аз рӯи майдонҳо бармегардонад.",
+        "en": "Validation is a pure function returning per-field errors."
+      },
+      {
+        "ru": "Понятные сообщения и проверка на сервере — разные вещи.",
+        "tg": "Паёми фаҳмо ва санҷиши сервер чизҳои гуногунанд.",
+        "en": "Clear messages and server checks are different things."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что означает пустой объект ошибок?",
+        "tg": "Объекти холи хатоҳо чӣ маъно дорад?",
+        "en": "What does an empty errors object mean?"
+      },
+      {
+        "ru": "Что проверяет регулярное выражение ^d+$?",
+        "tg": "Ифодаи муқаррарии ^d+$ чиро месанҷад?",
+        "en": "What does the ^d+$ regular expression check?"
+      }
+    ],
+    "nextLessonId": "mobile-day-23"
+  }
+}

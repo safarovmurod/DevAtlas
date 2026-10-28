@@ -6791,6 +6791,3016 @@
             "en": "What does ListEmptyComponent show?"
           }
         ],
+        "nextLessonId": "mobile-day-17"
+      }
+    },
+    {
+      "id": "mobile-day-17",
+      "day": 17,
+      "prerequisiteDays": [
+        16
+      ],
+      "title": {
+        "ru": "Карта экранов и сценарий",
+        "tg": "Харитаи экранҳо ва сценарий",
+        "en": "A screen map and scenario"
+      },
+      "summary": {
+        "ru": "Спроектируйте два экрана и переход между ними на простом переключателе состояния.",
+        "tg": "Ду экран ва гузариш байни онҳоро бо калидгузари соддаи ҳолат тарҳрезӣ кунед.",
+        "en": "Design two screens and a transition with a simple state switch."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Сначала сценарий, потом код",
+            "tg": "Аввал сценарий, баъд рамз",
+            "en": "Scenario first, code second"
+          },
+          "body": {
+            "ru": "Приложение с несколькими экранами начинается со сценария: пользователь смотрит список, открывает занятие, возвращается. Сценарий записывают словами или списком: «список → детали → назад». Каждый экран — состояние интерфейса, а переход — замена состояния. До подключения навигационной библиотеки сценарий можно собрать прямо на состоянии: строковая переменная screen хранит имя текущего экрана, а обработчик меняет его. Такой переключатель учебный: он не хранит историю переходов и не даёт системную кнопку «назад», за это отвечает настоящий стек из следующего дня. Зато сценарий видно целиком в одном файле, и его легко проверить на устройстве.",
+            "tg": "Барномаи бисёрэкранӣ бо сценарий оғоз мешавад: корбар рӯйхатро мебинад, машғулиятро мекушояд, бармегардад. Сценариро бо калимаҳо ё рӯйхат менависанд: «рӯйхат → тафсилот → ба ақиб». Ҳар экран ҳолати интерфейс аст ва гузариш ивази ҳолат. Пеш аз пайвасти китобхонаи навигатсия сценарийро дар ҳолат сохтан мумкин: тағйирёбандаи сатри screen номи экрани ҷориро нигоҳ медорад ва обработчик онро иваз мекунад. Ин калидгузарӣ таълимист: таърихи гузаришҳоро нигоҳ намедорад ва тугмаи системавии «ба ақиб»-ро намедиҳад, барои ин стеки воқеии рӯзи оянда ҷавобгар аст. Вале сценарий дар як файл пурра дида мешавад ва дар дастгоҳ осон санҷида мешавад.",
+            "en": "An app with several screens starts with a scenario: the user views a list, opens a lesson, returns. Write the scenario in words: \"list → details → back\". Each screen is a state of the interface and a transition is replacing that state. Before connecting a navigation library, you can build the scenario on plain state: the string variable screen stores the current screen name and a handler changes it. Such a switch is a teaching tool: it keeps no history and gives no system back button — the real stack from the next day does that. In exchange the whole scenario is visible in one file and easy to check on a device."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Тип ScreenName ограничивает имена экранов двумя значениями: list и about. Состояние screen начинается с list. Заголовок и содержимое выбираются условием: список показывает заглушку, «о приложении» — версию. Кнопка меняет экран на противоположный и подпись тоже зависит от состояния. Проверьте на устройстве: нажмите кнопку — заголовок и текст поменяются, повторное нажатие вернёт список. Добавьте второй экран details с собственным текстом и переходом. Такой сценарий — скелет: в дне 23 вы расширите его до трёх экранов, а библиотека навигации даст историю и системный возврат.",
+            "tg": "Типи ScreenName номҳои экранҳоро ба ду қимат маҳдуд мекунад: list ва about. Ҳолати screen аз list оғоз мешавад. Сарлавҳа ва мазмун бо шарти интихоб мешаванд: рӯйхат ҷои холӣ нишон медиҳад, «дар бораи барнома» — версия. Тугма экранро ба баръакс иваз мекунад ва матни он низ аз ҳолат вобаста аст. Дар дастгоҳ санҷед: тугмаро пахш кунед — сарлавҳа ва матн иваз мешаванд, пахши дигар рӯйхатро бармегардонад. Экрани дуюми details-ро бо матни худ ва гузариш илова кунед. Ин сценарий скелет аст: дар рӯзи 23 онро ба се экран васеъ мекунед, китобхонаи навигатсия бошад таърих ва баргашти системавӣ медиҳад.",
+            "en": "The ScreenName type limits screen names to two values: list and about. The screen state starts at list. Header and content are chosen by condition: the list shows a placeholder, \"about\" shows a version. The button flips the screen and its own label depends on the state too. Check on a device: press the button — header and text swap, pressing again returns the list. Add a second details screen with its own text and transition. This scenario is a skeleton: in day 23 you will extend it to three screens, and the navigation library adds history and the system back."
+          },
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype ScreenName = 'list' | 'about';\n\nexport default function App() {\n  const [screen, setScreen] = useState<ScreenName>('list');\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">\n        {screen === 'list' ? 'Мои занятия' : 'О приложении'}\n      </Text>\n      {screen === 'list' ? (\n        <Text>Экран списка. Занятий пока нет.</Text>\n      ) : (\n        <Text>Версия 1. Учебное приложение.</Text>\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={() => setScreen(screen === 'list' ? 'about' : 'list')}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>\n          {screen === 'list' ? 'Открыть «О приложении»' : 'Вернуться к списку'}\n        </Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-17-q1",
+          "question": {
+            "ru": "Что описывает сценарий экранов?",
+            "tg": "Сценарийи экранҳо чиро тавсиф медиҳад?",
+            "en": "What does a screen scenario describe?"
+          },
+          "options": [
+            {
+              "ru": "Путь пользователя: какие экраны и переходы нужны",
+              "tg": "Роҳи корбар: кадом экранҳо ва гузаришҳо лозиманд",
+              "en": "The user path: which screens and transitions are needed"
+            },
+            {
+              "ru": "Цены подписки",
+              "tg": "Нархҳои обуна",
+              "en": "Subscription prices"
+            },
+            {
+              "ru": "Размер шрифта на каждом экране",
+              "tg": "Андозаи ҳуруф дар ҳар экран",
+              "en": "The font size on every screen"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Сценарий — последовательность экранов и переходов.",
+            "tg": "Сценарий пайиҳамии экранҳо ва гузаришҳост.",
+            "en": "A scenario is the sequence of screens and transitions."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе пример записи сценария.",
+            "tg": "Дар бахши аввал мисоли навишти сценарияро ёбед.",
+            "en": "Find the scenario notation example in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-17-q2",
+          "question": {
+            "ru": "Где в примере хранится текущий экран?",
+            "tg": "Дар мисол экрани ҷорӣ дар куҷо нигоҳ дошта мешавад?",
+            "en": "Where does the example store the current screen?"
+          },
+          "options": [
+            {
+              "ru": "В файле package.json",
+              "tg": "Дар файли package.json",
+              "en": "In package.json"
+            },
+            {
+              "ru": "В состоянии screen",
+              "tg": "Дар ҳолати screen",
+              "en": "In the screen state"
+            },
+            {
+              "ru": "В сети",
+              "tg": "Дар шабака",
+              "en": "In the network"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Строковое состояние screen хранит имя активного экрана.",
+            "tg": "Ҳолати сатри screen номи экрани фаъолро нигоҳ медорад.",
+            "en": "The string state screen stores the active screen name."
+          },
+          "hint": {
+            "ru": "Найдите вызов useState в начале компонента.",
+            "tg": "Дархости useState-ро дар оғози компонент ёбед.",
+            "en": "Find the useState call at the component start."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-17-q3",
+          "question": {
+            "ru": "Чего не даёт переключатель состояния по сравнению со стеком?",
+            "tg": "Калидгузари ҳолат нисбат ба стек чӣ намедиҳад?",
+            "en": "What does the state switch lack compared to a stack?"
+          },
+          "options": [
+            {
+              "ru": "Возможность менять состояние",
+              "tg": "Имконияти ивази ҳолат",
+              "en": "The ability to change state"
+            },
+            {
+              "ru": "Возможность показывать текст",
+              "tg": "Имконияти нишон додани матн",
+              "en": "The ability to show text"
+            },
+            {
+              "ru": "Историю переходов и системный возврат",
+              "tg": "Таърихи гузаришҳо ва баргашти системавӣ",
+              "en": "Transition history and the system back"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Переключатель знает только имя экрана, стек хранит порядок.",
+            "tg": "Калидгузарӣ танҳо номи экранро медонад, стек тартибро нигоҳ медорад.",
+            "en": "The switch knows only the screen name; a stack keeps the order."
+          },
+          "hint": {
+            "ru": "Перечитайте конец первого раздела про настоящий стек.",
+            "tg": "Охири бахши аввал дар бораи стеки воқеиро аз нав хонед.",
+            "en": "Re-read the end of the first section about the real stack."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-17-q4",
+          "question": {
+            "ru": "Почему подпись кнопки зависит от состояния?",
+            "tg": "Барои чӣ матни тугма аз ҳолат вобаста аст?",
+            "en": "Why does the button label depend on the state?"
+          },
+          "options": [
+            {
+              "ru": "На каждом экране действие своё",
+              "tg": "Дар ҳар экран амал аз худ аст",
+              "en": "Each screen has its own action"
+            },
+            {
+              "ru": "Так требует StyleSheet",
+              "tg": "StyleSheet инро талаб мекунад",
+              "en": "StyleSheet requires it"
+            },
+            {
+              "ru": "Подпись берётся из сети",
+              "tg": "Матн аз шабака меояд",
+              "en": "The label comes from the network"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Кнопка ведёт к следующему шагу сценария текущего экрана.",
+            "tg": "Тугма ба қадами ояндаи сценарияи экрани ҷорӣ мебарад.",
+            "en": "The button leads to the next step of the current screen scenario."
+          },
+          "hint": {
+            "ru": "Сравните подписи на list и about в примере.",
+            "tg": "Матнҳои list ва about-ро дар мисол муқоиса кунед.",
+            "en": "Compare the labels on list and about in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-17-q5",
+          "question": {
+            "ru": "Что произойдёт с переключённым экраном после перезапуска?",
+            "tg": "Баъди аз нав оғоз бо экрани ивазшуда чӣ мешавад?",
+            "en": "What happens to the switched screen after a restart?"
+          },
+          "options": [
+            {
+              "ru": "Приложение запомнит последний экран",
+              "tg": "Барнома охирин экранро ёд мекунад",
+              "en": "The app remembers the last screen"
+            },
+            {
+              "ru": "Приложение откроется со списка",
+              "tg": "Барнома аз рӯйхат кушода мешавад",
+              "en": "The app opens at the list"
+            },
+            {
+              "ru": "Приложение не запустится",
+              "tg": "Барнома оғоз намешавад",
+              "en": "The app does not start"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Состояние в памяти; сохранение выбранного экрана ещё не написано.",
+            "tg": "Ҳолат дар хотира аст; нигоҳдории интихобшудаи экран ҳоло навишта нашудааст.",
+            "en": "The state is in memory; persisting the chosen screen is not written yet."
+          },
+          "hint": {
+            "ru": "Найдите в примере код сохранения.",
+            "tg": "Дар мисол рамзи нигоҳдориро ҷустуҷӯ кунед.",
+            "en": "Look for persistence code in the example."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте переключение на устройстве. Добавьте экран details со своим текстом и переходом: из списка открывается занятие, из занятия возврат. Запишите сценарий словами и опишите, чего в переключателе не хватает по сравнению со стеком. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва ивазро дар дастгоҳ санҷед. Экрани details-ро бо матни худ ва гузариш илова кунед: аз рӯйхат машғулият кушода мешавад, аз машғулият баргашт. Сценарийро бо калимаҳо сабт кунед ва тавсиф диҳед, ки калидгузарӣ нисбат ба стек чӣ надорад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check the switch on a device. Add a details screen with your own text and transition: the list opens a lesson, the lesson returns. Write the scenario in words and describe what the switch lacks compared to a stack. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Добавьте второе имя в ScreenName и условие для details в JSX.",
+          "tg": "Номи дуюмро ба ScreenName илова ва шарти details-ро дар JSX гузоред.",
+          "en": "Add the second name to ScreenName and a details condition in JSX."
+        },
+        "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype ScreenName = 'list' | 'details';\n\nexport default function App() {\n  const [screen, setScreen] = useState<ScreenName>('list');\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">\n        {screen === 'list' ? 'Мои занятия' : 'Первый шаг'}\n      </Text>\n      {screen === 'list' ? (\n        <Text>Занятий пока нет, но сценарий перехода готов.</Text>\n      ) : (\n        <Text>Первое занятие: собрать экран из View и Text.</Text>\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={() => setScreen(screen === 'list' ? 'details' : 'list')}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>\n          {screen === 'list' ? 'Открыть первое занятие' : 'Вернуться к списку'}\n        </Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Сценарий записан словами и реализован на трёх именах экранов или двух с деталями.",
+            "tg": "Сценарий бо калимаҳо сабт шуда, дар се ё ду номи экран бо тафсилот ҷамъ омадааст.",
+            "en": "The scenario is written in words and implemented with three screen names or two with details."
+          },
+          {
+            "ru": "Записано наблюдение о переключении и отличие от стека.",
+            "tg": "Мушоҳидаи иваз ва фарқ аз стек сабт шудааст.",
+            "en": "The switching observation and the stack difference are recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Записать сценарий из двух экранов и реализовать его на состоянии.",
+            "tg": "Сценарии аз ду экран нависед ва онро дар ҳолат ҷамъ оваред.",
+            "en": "Write a two-screen scenario and implement it with state."
+          },
+          {
+            "ru": "Объяснить ограничения переключателя перед настоящим стеком.",
+            "tg": "Маҳдудиятҳои калидгузариро пеш аз стеки воқеӣ шарҳ диҳед.",
+            "en": "Explain the switch limits before the real stack."
+          }
+        ],
+        "realWorld": {
+          "ru": "Двухэкранный сценарий «список → детали» есть в каждом приложении заметок.",
+          "tg": "Сценарии дуэкрании «рӯйхат → тафсилот» дар ҳар барномаи қайдҳо ҳаст.",
+          "en": "The two-screen \"list → details\" scenario exists in every notes app."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Где в примере хранится текущий экран?",
+            "tg": "Дар мисол экрани ҷорӣ дар куҷо нигоҳ дошта мешавад?",
+            "en": "Where does the example store the current screen?"
+          },
+          "options": [
+            {
+              "ru": "В файле package.json",
+              "tg": "Дар файли package.json",
+              "en": "In package.json"
+            },
+            {
+              "ru": "В состоянии screen",
+              "tg": "Дар ҳолати screen",
+              "en": "In the screen state"
+            },
+            {
+              "ru": "В сети",
+              "tg": "Дар шабака",
+              "en": "In the network"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Найдите вызов useState в начале компонента.",
+            "tg": "Дархости useState-ро дар оғози компонент ёбед.",
+            "en": "Find the useState call at the component start."
+          },
+          "explanation": {
+            "ru": "Строковое состояние screen хранит имя активного экрана.",
+            "tg": "Ҳолати сатри screen номи экрани фаъолро нигоҳ медорад.",
+            "en": "The string state screen stores the active screen name."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype ScreenName = 'list' | 'about';\n\nexport default function App() {\n  const [screen, setScreen] = useState<ScreenName>('list');\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">\n        {screen === 'list' ? 'Мои занятия' : 'О приложении'}\n      </Text>\n      {screen === 'list' ? (\n        <Text>Экран списка. Занятий пока нет.</Text>\n      ) : (\n        <Text>Версия 1. Учебное приложение.</Text>\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={() => setScreen(screen === 'list' ? 'about' : 'list')}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>\n          {screen === 'list' ? 'Открыть «О приложении»' : 'Вернуться к списку'}\n        </Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 5,
+              "explanation": {
+                "ru": "Тип ScreenName перечисляет допустимые экраны.",
+                "tg": "Типи ScreenName экранҳои иҷозатдодаро номбар мекунад.",
+                "en": "The ScreenName type lists the allowed screens."
+              },
+              "values": "'list' | 'about'"
+            },
+            {
+              "line": 7,
+              "explanation": {
+                "ru": "Состояние screen начинается со списка.",
+                "tg": "Ҳолати screen аз рӯйхат оғоз мешавад.",
+                "en": "The screen state starts at the list."
+              },
+              "values": "screen = 'list'"
+            },
+            {
+              "line": 19,
+              "explanation": {
+                "ru": "Нажатие меняет экран на противоположный.",
+                "tg": "Пахш экранро ба баръакс иваз мекунاد.",
+                "en": "A press flips to the other screen."
+              },
+              "values": "list <-> about"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере, где выбираются заголовок и содержимое экрана.",
+              "tg": "Дар мисол ёбед, ки сарлавҳа ва мазмуни экран дар куҷо интихоб мешаванд.",
+              "en": "Find where the example picks the header and content."
+            },
+            {
+              "ru": "Нажмите кнопку на устройстве и вернитесь, наблюдая оба экрана.",
+              "tg": "Тугмаро дар дастгоҳ пахш карда, ҳарду экранро дида баргардед.",
+              "en": "Press the button on a device and return, watching both screens."
+            }
+          ],
+          "hint": {
+            "ru": "Добавьте второе имя в ScreenName и условие для details в JSX.",
+            "tg": "Номи дуюмро ба ScreenName илова ва шарти details-ро дар JSX гузоред.",
+            "en": "Add the second name to ScreenName and a details condition in JSX."
+          },
+          "success": {
+            "ru": "Нажатие показывает второй экран, повторное возвращает список.",
+            "tg": "Пахш экрани дуюмро нишон медиҳад, пахши дигар рӯйхатро бармегардонад.",
+            "en": "A press shows the second screen and pressing again returns the list."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте переключение на устройстве. Добавьте экран details со своим текстом и переходом: из списка открывается занятие, из занятия возврат. Запишите сценарий словами и опишите, чего в переключателе не хватает по сравнению со стеком. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва ивазро дар дастгоҳ санҷед. Экрани details-ро бо матни худ ва гузариш илова кунед: аз рӯйхат машғулият кушода мешавад, аз машғулият баргашт. Сценарийро бо калимаҳо сабт кунед ва тавсиф диҳед, ки калидгузарӣ нисбат ба стек чӣ надорад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check the switch on a device. Add a details screen with your own text and transition: the list opens a lesson, the lesson returns. Write the scenario in words and describe what the switch lacks compared to a stack. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Сценарий записан словами и реализован на трёх именах экранов или двух с деталями.",
+              "tg": "Сценарий бо калимаҳо сабт шуда, дар се ё ду номи экран бо тафсилот ҷамъ омадааст.",
+              "en": "The scenario is written in words and implemented with three screen names or two with details."
+            },
+            {
+              "ru": "Записано наблюдение о переключении и отличие от стека.",
+              "tg": "Мушоҳидаи иваз ва фарқ аз стек сабт шудааст.",
+              "en": "The switching observation and the stack difference are recorded."
+            }
+          ],
+          "example": {
+            "ru": "Из списка открывается «Первый шаг», а кнопка возврата возвращает список.",
+            "tg": "Аз рӯйхат «Қадами аввал» кушода мешавад ва тугмаи баргашт рӯйхатро бармегардонад.",
+            "en": "The list opens «Первый шаг» and the return button brings back the list."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Сценарий экранов записывают до кода и проверяют на устройстве.",
+            "tg": "Сценарии экранҳоро пеш аз рамз менависанд ва дар дастгоҳ месанҷанд.",
+            "en": "Write the screen scenario before code and check it on a device."
+          },
+          {
+            "ru": "Переключатель состояния не хранит историю — это работа настоящего стека.",
+            "tg": "Калидгузари ҳолат таърихро нигоҳ намедорад — ин кори стеки воқеӣ аст.",
+            "en": "A state switch keeps no history — that is the real stack job."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Чего не даёт переключатель состояния по сравнению со стеком?",
+            "tg": "Калидгузари ҳолат нисбат ба стек чӣ намедиҳад?",
+            "en": "What does the state switch lack compared to a stack?"
+          },
+          {
+            "ru": "Что произойдёт с переключённым экраном после перезапуска?",
+            "tg": "Баъди аз нав оғоз бо экрани ивазшуда чӣ мешавад?",
+            "en": "What happens to the switched screen after a restart?"
+          }
+        ],
+        "nextLessonId": "mobile-day-18"
+      }
+    },
+    {
+      "id": "mobile-day-18",
+      "day": 18,
+      "prerequisiteDays": [
+        17
+      ],
+      "title": {
+        "ru": "Маршруты выбранного стека",
+        "tg": "Масирҳои стеки интихобшуда",
+        "en": "Routes of the chosen stack"
+      },
+      "summary": {
+        "ru": "Подключите настоящий стек React Navigation и объявите в нём два экрана.",
+        "tg": "Стеки воқеии React Navigation-ро пайваст карда, дар он ду экран эълон кунед.",
+        "en": "Connect a real React Navigation stack and declare two screens in it."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Настоящий стек и его части",
+            "tg": "Стеки воқеӣ ва қисмҳои он",
+            "en": "A real stack and its parts"
+          },
+          "body": {
+            "ru": "React Navigation — библиотека, которую используют большинство приложений на React Native. Для стека нужно четыре пакета: npx expo install @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context — expo install подберёт версии, совместимые с вашим SDK. Корень приложения — NavigationContainer: внутри него живут все маршруты. createNativeStackNavigator создаёт стек, а каждый Stack.Screen связывает имя маршрута с компонентом. Первый экран стека — стартовый; остальные кладутся поверх. Стек даёт то, чего не было у переключателя: историю переходов, системную кнопку «назад» и анимацию. Это код проекта: браузер курса его не запускает, проверяйте в своём Expo-проекте.",
+            "tg": "React Navigation китобхонаест, ки бештари барномаҳои React Native истифода мебаранд. Барои stack чор баста лозим: npx expo install @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context — expo install версияҳои мувофиқи SDK-и шуморо интихоб мекунад. Решаи барнома NavigationContainer аст: ҳамаи масирҳо дар дохили он ҳастанд. createNativeStackNavigator стек месозад ва ҳар Stack.Screen номи масирро бо компонент мепайвандад. Экрани аввали стек оғозӣ аст; боқимонда болои он гузошта мешаванд. Стек он чизеро медиҳад, ки калидгузарӣ надошт: таърихи гузаришҳо, тугмаи системавии «ба ақиб» ва аниматсия. Ин рамзи лоиҳа аст: браузери курс онро иҷро намекунад, дар лоиҳаи Expo-и худ санҷед.",
+            "en": "React Navigation is the library most React Native apps use. A stack needs four packages: npx expo install @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context — expo install picks versions compatible with your SDK. The app root is NavigationContainer: all routes live inside it. createNativeStackNavigator builds a stack, and each Stack.Screen ties a route name to a component. The first screen of the stack is the start; the rest stack on top. The stack gives what the switch lacked: transition history, the system back button and animation. This is project code: the course browser does not run it, check it in your Expo project."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "ListScreen получает navigation через props; в примере тип описывает только navigate. Нажатие кнопки вызывает navigation.navigate('Details') — стек открывает экран с этим именем. DetailsScreen в примере статичен; в решении он получает goBack и собственную кнопку назад. Stack.Navigator объявляет порядок: List первый — стартовый, Details лежит поверх. Свойство options задаёт заголовок шапки. Установите пакеты, скопируйте пример и запустите: кнопка открывает Details, системная кнопка «назад» возвращает на List — как и ожидается от настоящего стека.",
+            "tg": "ListScreen navigation-ро аз props мегирад; дар мисол тип танҳо navigate-ро тавсиф мекунад. Пахши тугма navigation.navigate('Details')-ро мехонад — стек экран бо ин номро мекушояд. DetailsScreen дар мисол устувор аст; дар ҳалл goBack ва тугмаи алоҳидаи баргашт мегирад. Stack.Navigator тартибро эълон мекунад: List аввал — оғозӣ, Details болояш аст. Хосияти options сарлавҳаи болоро муайян мекунад. Бастаҳоро насб кунед, мисолро нусхабардорӣ ва иҷро кунед: тугма Details-ро мекушояд, тугмаи системавии «ба ақиб» List-ро бармегардонад — мисли интизории стеки воқеӣ.",
+            "en": "ListScreen receives navigation through props; the example type describes only navigate. Pressing the button calls navigation.navigate('Details') — the stack opens the screen with that name. DetailsScreen is static in the example; the solution gives it goBack and its own back button. Stack.Navigator declares the order: List first — the start, Details on top. The options property sets the header title. Install the packages, copy the example and run: the button opens Details and the system back returns to List, as expected from a real stack."
+          },
+          "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <Button title=\"Подробности\" onPress={() => navigation.navigate('Details')} />\n    </View>\n  );\n}\n\nfunction DetailsScreen() {\n  return (\n    <View style={{ flex: 1, padding: 24 }}>\n      <Text accessibilityRole=\"header\">Подробности</Text>\n      <Text>Второй экран стека.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-18-q1",
+          "question": {
+            "ru": "Какие пакеты нужны для стека?",
+            "tg": "Барои stack кадом бастаҳо лозиманд?",
+            "en": "Which packages does a stack need?"
+          },
+          "options": [
+            {
+              "ru": "Только StyleSheet",
+              "tg": "Танҳо StyleSheet",
+              "en": "Only StyleSheet"
+            },
+            {
+              "ru": "@react-navigation/native, native-stack, screens и safe-area-context",
+              "tg": "@react-navigation/native, native-stack, screens ва safe-area-context",
+              "en": "@react-navigation/native, native-stack, screens and safe-area-context"
+            },
+            {
+              "ru": "Никакие, стек встроен в React",
+              "tg": "Ҳеҷ кадом, стек дар React сохта шудааст",
+              "en": "None, the stack is built into React"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Стек собирается из четырёх согласованных пакетов.",
+            "tg": "Стек аз чор бастаи мувофиқ ҷамъ меояд.",
+            "en": "The stack assembles from four coordinated packages."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе команду установки.",
+            "tg": "Дар бахши аввали фармони насбро ёбед.",
+            "en": "Find the install command in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-18-q2",
+          "question": {
+            "ru": "Что делает npx expo install вместо npm install?",
+            "tg": "npx expo install ба ҷои npm install чӣ мекунад?",
+            "en": "What does npx expo install do instead of npm install?"
+          },
+          "options": [
+            {
+              "ru": "Запускает приложение",
+              "tg": "Барномаро иҷро мекунад",
+              "en": "Runs the app"
+            },
+            {
+              "ru": "Удаляет node_modules",
+              "tg": "node_modules-ро нест мекунад",
+              "en": "Deletes node_modules"
+            },
+            {
+              "ru": "Подбирает версии, совместимые с SDK",
+              "tg": "Версияҳои мувофиқи SDK-ро интихоб мекунад",
+              "en": "Picks versions compatible with the SDK"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Установщик Expo сверяется с SDK, чтобы версии не разошлись.",
+            "tg": "Насбкунандаи Expo бо SDK муқоиса мекунад, то версияҳо фарқ накунанд.",
+            "en": "The Expo installer checks the SDK so versions stay aligned."
+          },
+          "hint": {
+            "ru": "Вспомните день 10 о согласованных версиях.",
+            "tg": "Рӯзи 10-ро дар бораи версияҳои мувофиқ ёд оред.",
+            "en": "Recall day 10 about compatible versions."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-18-q3",
+          "question": {
+            "ru": "Где живут все маршруты приложения?",
+            "tg": "Ҳамаи масирҳои барнома дар куҷоянд?",
+            "en": "Where do all app routes live?"
+          },
+          "options": [
+            {
+              "ru": "Внутри NavigationContainer",
+              "tg": "Дар дохили NavigationContainer",
+              "en": "Inside NavigationContainer"
+            },
+            {
+              "ru": "В файле App.json",
+              "tg": "Дар файли App.json",
+              "en": "In App.json"
+            },
+            {
+              "ru": "В состоянии кнопки",
+              "tg": "Дар ҳолати тугма",
+              "en": "In the button state"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "NavigationContainer — корень, внутри которого объявлен стек.",
+            "tg": "NavigationContainer реша аст, ки дар дохили он стек эълон шудааст.",
+            "en": "NavigationContainer is the root holding the stack."
+          },
+          "hint": {
+            "ru": "Посмотрите на самую внешнюю обёртку в примере.",
+            "tg": "Ба бастаи берунатарин дар мисол нигоҳ кунед.",
+            "en": "Look at the outermost wrapper in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-18-q4",
+          "question": {
+            "ru": "Какой экран стека открывается первым?",
+            "tg": "Экрани стек ҳангоми оғоз кадом кушода мешавад?",
+            "en": "Which stack screen opens first?"
+          },
+          "options": [
+            {
+              "ru": "Самый красивый",
+              "tg": "Зеботарин",
+              "en": "The prettiest one"
+            },
+            {
+              "ru": "Первый объявленный в Stack.Navigator",
+              "tg": "Аввалин эълоншуда дар Stack.Navigator",
+              "en": "The first one declared in Stack.Navigator"
+            },
+            {
+              "ru": "Последний в списке",
+              "tg": "Охирин дар рӯйхат",
+              "en": "The last in the list"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Стартовый экран — первый ребёнок навигатора.",
+            "tg": "Экрани оғозӣ — кӯдаки аввали навигатор.",
+            "en": "The start screen is the first child of the navigator."
+          },
+          "hint": {
+            "ru": "Сравните порядок объявлений с поведением приложения.",
+            "tg": "Тартиби эълонҳоро бо рафтори барнома муқоиса кунед.",
+            "en": "Compare the declaration order with the app behavior."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-18-q5",
+          "question": {
+            "ru": "Что даёт стек по сравнению с переключателем дня 17?",
+            "tg": "Стек нисбат ба калидгузари рӯзи 17 чӣ медиҳад?",
+            "en": "What does the stack give compared to the day-17 switch?"
+          },
+          "options": [
+            {
+              "ru": "Работу без установки пакетов",
+              "tg": "Кор бе насби бастаҳо",
+              "en": "Work without installing packages"
+            },
+            {
+              "ru": "Более короткий код без контейнера",
+              "tg": "Рамзи кӯтоҳтар бе контейнер",
+              "en": "Shorter code without a container"
+            },
+            {
+              "ru": "Историю, системный возврат и анимацию",
+              "tg": "Таърих, баргашти системавӣ ва аниматсия",
+              "en": "History, the system back and animation"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Стек помнит порядок экранов и умеет возвращать назад.",
+            "tg": "Стек тартиби экранҳоро дар ёд дорад ва баргаштро медонад.",
+            "en": "The stack remembers the screen order and can go back."
+          },
+          "hint": {
+            "ru": "Вернитесь к словам первого раздела о преимуществах стека.",
+            "tg": "Ба гуфтаҳои бахши аввал дар бораи бартарии стек баргардед.",
+            "en": "Return to the first-section words about stack advantages."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Установите пакеты стека в своём проекте и соберите пример. Проверьте переход на Details и системный возврат. Добавьте в Details кнопку «Назад» через goBack и заголовки шапки через options. Запишите, чем поведение стека отличается от переключателя дня 17. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Дар лоиҳаи худ бастаҳои стекро насб карда, мисолро созед. Гузариш ба Details ва баргашти системавиро санҷед. Дар Details тугмаи «Ба ақиб» бо goBack ва сарлавҳаҳои боло бо options илова кунед. Сабт кунед, ки рафтори стек аз калидгузари рӯзи 17 чӣ фарқ дорад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Install the stack packages in your project and build the example. Check the Details transition and the system back. Add a «Назад» button in Details through goBack and header titles through options. Record how the stack behavior differs from the day-17 switch. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Добавьте проп navigation в DetailsScreen и вызовите navigation.goBack() по нажатию.",
+          "tg": "Пропи navigation-ро ба DetailsScreen илова карда, ҳангоми пахш navigation.goBack()-ро хонед.",
+          "en": "Add the navigation prop to DetailsScreen and call navigation.goBack() on press."
+        },
+        "solution": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <Button title=\"Подробности\" onPress={() => navigation.navigate('Details')} />\n    </View>\n  );\n}\n\nfunction DetailsScreen({ navigation }: { navigation: { goBack: () => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Подробности</Text>\n      <Text>Второй экран стека.</Text>\n      <Button title=\"Назад\" onPress={() => navigation.goBack()} />\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} options={{ title: 'Занятия' }} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} options={{ title: 'Подробности' }} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+        "criteria": [
+          {
+            "ru": "Стек из двух экранов работает: переход и возврат.",
+            "tg": "Стеки аз ду экран кор мекунад: гузариш ва баргашт.",
+            "en": "The two-screen stack works: transition and return."
+          },
+          {
+            "ru": "Записано сравнение со стеком дня 17 и наблюдение о шапке.",
+            "tg": "Муқоиса бо стеки рӯзи 17 ва мушоҳидаи боло сабт шудааст.",
+            "en": "The comparison with the day-17 switch and the header observation are recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Установить пакеты стека и объяснить роль NavigationContainer.",
+            "tg": "Бастаҳои стекро насб карда, нақши NavigationContainer-ро шарҳ диҳед.",
+            "en": "Install the stack packages and explain NavigationContainer."
+          },
+          {
+            "ru": "Объявить два маршрута и перейти между ними.",
+            "tg": "Ду масир эълон карда, байни онҳо гузаред.",
+            "en": "Declare two routes and navigate between them."
+          }
+        ],
+        "realWorld": {
+          "ru": "Приложения открывают разделы поверх списка именно стеком: история и возврат работают из коробки.",
+          "tg": "Барномаҳо бахшҳоро болои рӯйхат бо стек мекушоянд: таърих ва баргашт аз худ кор мекунанд.",
+          "en": "Apps open sections over a list with a stack: history and back work out of the box."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что делает npx expo install вместо npm install?",
+            "tg": "npx expo install ба ҷои npm install чӣ мекунад?",
+            "en": "What does npx expo install do instead of npm install?"
+          },
+          "options": [
+            {
+              "ru": "Запускает приложение",
+              "tg": "Барномаро иҷро мекунад",
+              "en": "Runs the app"
+            },
+            {
+              "ru": "Удаляет node_modules",
+              "tg": "node_modules-ро нест мекунад",
+              "en": "Deletes node_modules"
+            },
+            {
+              "ru": "Подбирает версии, совместимые с SDK",
+              "tg": "Версияҳои мувофиқи SDK-ро интихоб мекунад",
+              "en": "Picks versions compatible with the SDK"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Вспомните день 10 о согласованных версиях.",
+            "tg": "Рӯзи 10-ро дар бораи версияҳои мувофиқ ёд оред.",
+            "en": "Recall day 10 about compatible versions."
+          },
+          "explanation": {
+            "ru": "Установщик Expo сверяется с SDK, чтобы версии не разошлись.",
+            "tg": "Насбкунандаи Expo бо SDK муқоиса мекунад, то версияҳо фарқ накунанд.",
+            "en": "The Expo installer checks the SDK so versions stay aligned."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <Button title=\"Подробности\" onPress={() => navigation.navigate('Details')} />\n    </View>\n  );\n}\n\nfunction DetailsScreen() {\n  return (\n    <View style={{ flex: 1, padding: 24 }}>\n      <Text accessibilityRole=\"header\">Подробности</Text>\n      <Text>Второй экран стека.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+          "steps": [
+            {
+              "line": 23,
+              "explanation": {
+                "ru": "createNativeStackNavigator создаёт компонент стека.",
+                "tg": "createNativeStackNavigator компоненти стекро месозад.",
+                "en": "createNativeStackNavigator builds the stack component."
+              },
+              "values": "Stack"
+            },
+            {
+              "line": 27,
+              "explanation": {
+                "ru": "NavigationContainer оборачивает все маршруты.",
+                "tg": "NavigationContainer ҳамаи масирҳоро мепӯшонад.",
+                "en": "NavigationContainer wraps all routes."
+              },
+              "values": "container"
+            },
+            {
+              "line": 29,
+              "explanation": {
+                "ru": "List объявлен первым и становится стартовым.",
+                "tg": "List аввал эълон шуда, оғозӣ мешавад.",
+                "en": "List is declared first and becomes the start."
+              },
+              "values": "List -> Details"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Установите четыре пакета командой из первого раздела.",
+              "tg": "Чор бастаро бо фармони аз бахши аввал насб кунед.",
+              "en": "Install the four packages with the command from the first section."
+            },
+            {
+              "ru": "Запустите пример, откройте Details и вернитесь системной кнопкой назад.",
+              "tg": "Мисолро иҷро кунед, Details-ро кушода, бо тугмаи системавии баргашт баргардед.",
+              "en": "Run the example, open Details and return with the system back button."
+            }
+          ],
+          "hint": {
+            "ru": "Добавьте проп navigation в DetailsScreen и вызовите navigation.goBack() по нажатию.",
+            "tg": "Пропи navigation-ро ба DetailsScreen илова карда, ҳангоми пахш navigation.goBack()-ро хонед.",
+            "en": "Add the navigation prop to DetailsScreen and call navigation.goBack() on press."
+          },
+          "success": {
+            "ru": "Details открывается по кнопке, а системный возврат возвращает на List.",
+            "tg": "Details бо тугма кушода мешавад ва баргашти системавӣ ба List бармегардонад.",
+            "en": "Details opens by the button and the system back returns to List."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Установите пакеты стека в своём проекте и соберите пример. Проверьте переход на Details и системный возврат. Добавьте в Details кнопку «Назад» через goBack и заголовки шапки через options. Запишите, чем поведение стека отличается от переключателя дня 17. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Дар лоиҳаи худ бастаҳои стекро насб карда, мисолро созед. Гузариш ба Details ва баргашти системавиро санҷед. Дар Details тугмаи «Ба ақиб» бо goBack ва сарлавҳаҳои боло бо options илова кунед. Сабт кунед, ки рафтори стек аз калидгузари рӯзи 17 чӣ фарқ дорад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Install the stack packages in your project and build the example. Check the Details transition and the system back. Add a «Назад» button in Details through goBack and header titles through options. Record how the stack behavior differs from the day-17 switch. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Стек из двух экранов работает: переход и возврат.",
+              "tg": "Стеки аз ду экран кор мекунад: гузариш ва баргашт.",
+              "en": "The two-screen stack works: transition and return."
+            },
+            {
+              "ru": "Записано сравнение со стеком дня 17 и наблюдение о шапке.",
+              "tg": "Муқоиса бо стеки рӯзи 17 ва мушоҳидаи боло сабт шудааст.",
+              "en": "The comparison with the day-17 switch and the header observation are recorded."
+            }
+          ],
+          "example": {
+            "ru": "Кнопка «Назад» на Details и системный возврат оба возвращают на List.",
+            "tg": "Тугмаи «Ба ақиб» дар Details ва баргашти системавӣ ҳарду ба List бармегардонанд.",
+            "en": "The «Назад» button on Details and the system back both return to List."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Стек собирается из четырёх пакетов и объявляется внутри NavigationContainer.",
+            "tg": "Стек аз чор баста ҷамъ омада, дар дохили NavigationContainer эълон мешавад.",
+            "en": "A stack assembles from four packages and is declared inside NavigationContainer."
+          },
+          {
+            "ru": "Порядок объявлений задаёт стартовый экран и историю переходов.",
+            "tg": "Тартиби эълонҳо экрани оғозӣ ва таърихи гузаришҳоро муайян мекунад.",
+            "en": "The declaration order sets the start screen and the transition history."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что делает npx expo install вместо npm install?",
+            "tg": "npx expo install ба ҷои npm install чӣ мекунад?",
+            "en": "What does npx expo install do instead of npm install?"
+          },
+          {
+            "ru": "Что даёт стек по сравнению с переключателем дня 17?",
+            "tg": "Стек нисбат ба калидгузари рӯзи 17 чӣ медиҳад?",
+            "en": "What does the stack give compared to the day-17 switch?"
+          }
+        ],
+        "nextLessonId": "mobile-day-19"
+      }
+    },
+    {
+      "id": "mobile-day-19",
+      "day": 19,
+      "prerequisiteDays": [
+        18
+      ],
+      "title": {
+        "ru": "Параметры экрана",
+        "tg": "Параметрҳои экран",
+        "en": "Screen parameters"
+      },
+      "summary": {
+        "ru": "Передайте выбранное занятие на второй экран через параметры маршрута.",
+        "tg": "Машғулияти интихобшударо тавассути параметрҳои масир ба экрани дуюм гузаронед.",
+        "en": "Pass the chosen lesson to the second screen through route parameters."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Данные едут вместе с переходом",
+            "tg": "Маълумот бо гузариш меравад",
+            "en": "Data travels with the transition"
+          },
+          "body": {
+            "ru": "Экран подробностей не должен угадывать, что выбрал пользователь: выбор передают параметрами. navigation.navigate('Details', { id: lesson.id }) открывает маршрут и передаёт объект параметров. На втором экране его читают через route.params — здесь route тоже приходит в props. Внутри параметры проверяют: params может отсутствовать, поэтому используется вопросительный знак и запасной текст, если запись не найдена. Найденную запись ищут в массиве по id методом find: он возвращает элемент или undefined. Так один экран подробностей обслуживает все записи списка. Параметры живут в памяти навигации: после перезапуска приложения их нет.",
+            "tg": "Экрани тафсилот набояд дарёфт кунад, ки корбар чиро интихоб кард: интихоб бо параметрҳо мегузарад. navigation.navigate('Details', { id: lesson.id }) масирро мекушояд ва объекти параметрҳоро медиҳад. Дар экрани дуюм онро тавассути route.params мехонанд — route ҳам аз props меояд. Дар дохил параметрҳоро санҷед: params метавонад набошад, бинобар ин аломати савол ва матни ҷойгузин истифода мешавад, агар сабт наёбад. Сабти ёфташударо дар массив аз рӯи id бо усули find меҷӯянд: он унсур ё undefined бармегардонад. Чунин як экрани тафсилот ҳамаи сабтҳои рӯйхатро хизмат мекунад. Параметрҳо дар хотираи навигатсия ҳастанд: баъди аз нав оғоз онҳо нестанд.",
+            "en": "The details screen must not guess what the user picked: the choice travels as parameters. navigation.navigate('Details', { id: lesson.id }) opens the route and passes a parameters object. The second screen reads it through route.params — route also arrives in props. Validate parameters inside: params may be missing, so the optional chaining and a fallback text handle an unknown record. The record is found in the array by id with the find method: it returns the item or undefined. This way one details screen serves every list record. Parameters live in navigation memory: after an app restart they are gone."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Массив lessons лежит вне компонентов: оба экрана читают одни и те же данные. ListScreen рисует кнопку для каждой записи через map, и каждая кнопка передаёт свой id в navigate. Тип navigation допускает второй аргумент — объект параметров. DetailsScreen извлекает route из props и находит запись: lessons.find(item => item.id === route.params?.id). Если параметра нет или id неизвестен, find вернёт undefined, и экран покажет «Занятие не найдено» вместо падения приложения. Запустите пример и откройте оба занятия — заголовок меняется. В решении на список добавлен счётчик записей.",
+            "tg": "Массиви lessons берунаи компонентҳост: ҳарду экран як маълумотро мехонанд. ListScreen барои ҳар сабт тугма тавассути map мекашад ва ҳар тугма id-и худро ба navigate медиҳад. Типи navigation аргументи дуюм — объекти параметрҳоро иҷозат медиҳад. DetailsScreen route-ро аз props мегирад ва сабтро меёбад: lessons.find(item => item.id === route.params?.id). Агар параметр набошад ё id маълум набошад, find undefined бармегардонад ва экран «Машғулият наёфт»-ро ба ҷои фурӯпошии барнома нишон медиҳад. Мисолро иҷро кунед ва ҳарду машғулиятро кушоед — сарлавҳа иваз мешавад. Дар ҳалл ба рӯйхат ҳисобкунаки сабтҳо илова шудааст.",
+            "en": "The lessons array lives outside the components: both screens read the same data. ListScreen renders a button per record through map, and each button passes its own id to navigate. The navigation type allows the second argument — the parameters object. DetailsScreen takes route from props and finds the record: lessons.find(item => item.id === route.params?.id). With no parameter or an unknown id, find returns undefined and the screen shows «Занятие не найдено» instead of crashing. Run the example and open both lessons — the header changes. The solution adds a record counter to the list."
+          },
+          "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nconst lessons = [\n  { id: 'a1', title: 'Первый шаг' },\n  { id: 'a2', title: 'Повторение' },\n];\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string, params?: { id: string }) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      {lessons.map(lesson => (\n        <Button key={lesson.id} title={lesson.title} onPress={() => navigation.navigate('Details', { id: lesson.id })} />\n      ))}\n    </View>\n  );\n}\n\nfunction DetailsScreen({ route }: { route: { params?: { id?: string } } }) {\n  const lesson = lessons.find(item => item.id === route.params?.id);\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">{lesson ? lesson.title : 'Занятие не найдено'}</Text>\n      {lesson ? <Text>Изучите тему этого занятия.</Text> : <Text>Вернитесь и выберите занятие.</Text>}\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-19-q1",
+          "question": {
+            "ru": "Как передать выбор на другой экран?",
+            "tg": "Интихобро ба экрани дигар чӣ тавр гузаронидан мумкин?",
+            "en": "How do you pass a choice to another screen?"
+          },
+          "options": [
+            {
+              "ru": "Записать в StyleSheet",
+              "tg": "Ба StyleSheet нависед",
+              "en": "Write it into StyleSheet"
+            },
+            {
+              "ru": "Через глобальную переменную",
+              "tg": "Тавассути тағйирёбандаи умумӣ",
+              "en": "Through a global variable"
+            },
+            {
+              "ru": "Вторым аргументом navigate",
+              "tg": "Ба воситаи аргументи дуюми navigate",
+              "en": "As the second argument of navigate"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Параметры передаются объектом во втором аргументе navigate.",
+            "tg": "Параметрҳо ҳамчун объекти аргументи дуюми navigate мегузаранд.",
+            "en": "Parameters pass as the object in the second navigate argument."
+          },
+          "hint": {
+            "ru": "Найдите в примере вызов navigate с двумя аргументами.",
+            "tg": "Дар мисол дархости navigate бо ду аргументро ёбед.",
+            "en": "Find the navigate call with two arguments in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-19-q2",
+          "question": {
+            "ru": "Где второй экран читает параметры?",
+            "tg": "Экрани дуюм параметрҳоро аз куҷо мехонад?",
+            "en": "Where does the second screen read parameters?"
+          },
+          "options": [
+            {
+              "ru": "Из route.params",
+              "tg": "Аз route.params",
+              "en": "From route.params"
+            },
+            {
+              "ru": "Из StyleSheet",
+              "tg": "Аз StyleSheet",
+              "en": "From StyleSheet"
+            },
+            {
+              "ru": "Из консоли",
+              "tg": "Аз консол",
+              "en": "From the console"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "route приходит в props и содержит params.",
+            "tg": "route аз props меояд ва params-ро дорад.",
+            "en": "route arrives in props and carries params."
+          },
+          "hint": {
+            "ru": "Посмотрите на props функции DetailsScreen.",
+            "tg": "Ба props-и функсияи DetailsScreen нигоҳ кунед.",
+            "en": "Look at the DetailsScreen function props."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-19-q3",
+          "question": {
+            "ru": "Что вернёт find для неизвестного id?",
+            "tg": "find барои id-и номаълум чӣ бармегардонад?",
+            "en": "What does find return for an unknown id?"
+          },
+          "options": [
+            {
+              "ru": "Первый элемент массива",
+              "tg": "Унсури аввали массив",
+              "en": "The first array item"
+            },
+            {
+              "ru": "undefined",
+              "tg": "undefined",
+              "en": "undefined"
+            },
+            {
+              "ru": "Пустую строку",
+              "tg": "Сатри холӣ",
+              "en": "An empty string"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Ничего не найдено — undefined; экран обязан это обработать.",
+            "tg": "Ҳеҷ чиз наёфт — undefined; экран бояд инро барорад.",
+            "en": "Nothing found — undefined; the screen must handle it."
+          },
+          "hint": {
+            "ru": "Найдите в примере запасной заголовок для не найденной записи.",
+            "tg": "Дар мисол сарлавҳаи ҷойгузин барои сабти наёфташударо ёбед.",
+            "en": "Find the fallback header for an unknown record in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-19-q4",
+          "question": {
+            "ru": "Зачем знак вопроса в route.params?.id?",
+            "tg": "Аломати савол дар route.params?.id барои чӣ аст?",
+            "en": "Why the question mark in route.params?.id?"
+          },
+          "options": [
+            {
+              "ru": "Это комментарий",
+              "tg": "Ин шарҳ аст",
+              "en": "It is a comment"
+            },
+            {
+              "ru": "Так пишут все свойства",
+              "tg": "Ҳамаи хосиятҳоро чунин менависанд",
+              "en": "All properties are written that way"
+            },
+            {
+              "ru": "params может отсутствовать",
+              "tg": "params метавонад набошад",
+              "en": "params may be missing"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Опциональная цепочка не падает, если params пуст.",
+            "tg": "Занҷири ихтиёрӣ ҳангоми холӣ будани params намеафтад.",
+            "en": "Optional chaining does not crash when params is empty."
+          },
+          "hint": {
+            "ru": "Вспомните, что передаёт navigate при переходе без параметров.",
+            "tg": "Ёд оред, ки navigate ҳангоми гузариш бе параметр чӣ медиҳад.",
+            "en": "Recall what navigate passes on a transition without parameters."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-19-q5",
+          "question": {
+            "ru": "Что станет с параметрами после перезапуска приложения?",
+            "tg": "Баъди аз нав оғоз бо параметрҳо чӣ мешавад?",
+            "en": "What happens to parameters after an app restart?"
+          },
+          "options": [
+            {
+              "ru": "Они исчезнут вместе с навигацией",
+              "tg": "Онҳо бо навигатсия нопадид мешаванд",
+              "en": "They disappear with the navigation"
+            },
+            {
+              "ru": "Они сохранятся на диске",
+              "tg": "Онҳо дар диск нигоҳ дошта мешаванд",
+              "en": "They are saved to disk"
+            },
+            {
+              "ru": "Они улетят на сервер",
+              "tg": "Онҳо ба сервер мераванд",
+              "en": "They are uploaded to a server"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Параметры живут в памяти навигации; сохранение — тема дня 28.",
+            "tg": "Параметрҳо дар хотираи навигатсия ҳастанд; нигоҳдорӣ мавзӯи рӯзи 28 аст.",
+            "en": "Parameters live in navigation memory; persistence is the day-28 topic."
+          },
+          "hint": {
+            "ru": "Вспомните, где хранится история стека.",
+            "tg": "Ёд оред, ки таърихи стек дар куҷо нигоҳ дошта мешавад.",
+            "en": "Recall where the stack history is stored."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте переходы с параметрами на устройстве. Добавьте третью запись в массив и убедитесь, что она открывается. Временно передайте неизвестный id и запишите, что показал запасной экран. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва гузаришҳоро бо параметрҳо дар дастгоҳ санҷед. Сабти сеюмро ба массив илова карда, боварӣ ҳосил кунед, ки кушода мешавад. Муваққатан id-и номаълум гузаронед ва сабт кунед, ки экрани ҷойгузин чӣ нишон дод. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check the parameter transitions on a device. Add a third record to the array and confirm it opens. Temporarily pass an unknown id and record what the fallback screen showed. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Третью запись добавьте в массив lessons с уникальным id; неизвестный id передайте строкой вроде x9.",
+          "tg": "Сабти сеюмро бо id-и ягона ба lessons илова кунед; id-и номаълумро бо сатри монанди x9 гузаронед.",
+          "en": "Add the third record to lessons with a unique id; pass an unknown id like x9 as a string."
+        },
+        "solution": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nconst lessons = [\n  { id: 'a1', title: 'Первый шаг' },\n  { id: 'a2', title: 'Повторение' },\n  { id: 'a3', title: 'Списки' },\n];\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string, params?: { id: string }) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text>Занятий: {lessons.length}</Text>\n      {lessons.map(lesson => (\n        <Button key={lesson.id} title={lesson.title} onPress={() => navigation.navigate('Details', { id: lesson.id })} />\n      ))}\n    </View>\n  );\n}\n\nfunction DetailsScreen({ route }: { route: { params?: { id?: string } } }) {\n  const lesson = lessons.find(item => item.id === route.params?.id);\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">{lesson ? lesson.title : 'Занятие не найдено'}</Text>\n      {lesson ? <Text>Изучите тему этого занятия.</Text> : <Text>Вернитесь и выберите занятие.</Text>}\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+        "criteria": [
+          {
+            "ru": "Три записи открываются с правильными заголовками.",
+            "tg": "Се сабт бо сарлавҳаҳои дуруст кушода мешаванд.",
+            "en": "Three records open with correct headers."
+          },
+          {
+            "ru": "Записана реакция приложения на неизвестный id.",
+            "tg": "Муносибати барнома ба id-и номаълум сабт шудааст.",
+            "en": "The app reaction to an unknown id is recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Передать id выбранной записи параметрами маршрута.",
+            "tg": "id-и сабти интихобшударо бо параметрҳои масир гузаронед.",
+            "en": "Pass the chosen record id as route parameters."
+          },
+          {
+            "ru": "Обработать отсутствие записи честным запасным экраном.",
+            "tg": "Набудани сабтро бо экрани ҷойгузини рӯбарӯ бароред.",
+            "en": "Handle a missing record with an honest fallback screen."
+          }
+        ],
+        "realWorld": {
+          "ru": "Каждый товар в магазине открывает один и тот же экран товара — с разным id.",
+          "tg": "Ҳар мол дар мағоза як экрани якхеларо мекушояд — бо id-и гуногун.",
+          "en": "Every shop item opens the same product screen — with a different id."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Где второй экран читает параметры?",
+            "tg": "Экрани дуюм параметрҳоро аз куҷо мехонад?",
+            "en": "Where does the second screen read parameters?"
+          },
+          "options": [
+            {
+              "ru": "Из route.params",
+              "tg": "Аз route.params",
+              "en": "From route.params"
+            },
+            {
+              "ru": "Из StyleSheet",
+              "tg": "Аз StyleSheet",
+              "en": "From StyleSheet"
+            },
+            {
+              "ru": "Из консоли",
+              "tg": "Аз консол",
+              "en": "From the console"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Посмотрите на props функции DetailsScreen.",
+            "tg": "Ба props-и функсияи DetailsScreen нигоҳ кунед.",
+            "en": "Look at the DetailsScreen function props."
+          },
+          "explanation": {
+            "ru": "route приходит в props и содержит params.",
+            "tg": "route аз props меояд ва params-ро дорад.",
+            "en": "route arrives in props and carries params."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nconst lessons = [\n  { id: 'a1', title: 'Первый шаг' },\n  { id: 'a2', title: 'Повторение' },\n];\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string, params?: { id: string }) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      {lessons.map(lesson => (\n        <Button key={lesson.id} title={lesson.title} onPress={() => navigation.navigate('Details', { id: lesson.id })} />\n      ))}\n    </View>\n  );\n}\n\nfunction DetailsScreen({ route }: { route: { params?: { id?: string } } }) {\n  const lesson = lessons.find(item => item.id === route.params?.id);\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">{lesson ? lesson.title : 'Занятие не найдено'}</Text>\n      {lesson ? <Text>Изучите тему этого занятия.</Text> : <Text>Вернитесь и выберите занятие.</Text>}\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+          "steps": [
+            {
+              "line": 13,
+              "explanation": {
+                "ru": "Каждая кнопка передаёт свой id в navigate.",
+                "tg": "Ҳар тугма id-и худро ба navigate медиҳад.",
+                "en": "Each button passes its own id to navigate."
+              },
+              "values": "navigate('Details', { id })"
+            },
+            {
+              "line": 19,
+              "explanation": {
+                "ru": "find ищет запись по id из параметров.",
+                "tg": "find сабтро аз рӯи id-и параметрҳо меҷӯяд.",
+                "en": "find looks up the record by the parameter id."
+              },
+              "values": "lesson | undefined"
+            },
+            {
+              "line": 21,
+              "explanation": {
+                "ru": "Запасной заголовок показывается, если запись не найдена.",
+                "tg": "Сарлавҳаи ҷойгузин нишон дода мешавад, агар сабт наёбад.",
+                "en": "The fallback header shows when no record is found."
+              },
+              "values": "title | Занятие не найдено"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере, где передаётся параметр и где он читается.",
+              "tg": "Дар мисол ёбед, ки параметр дар куҷо гузаронида ва аз куҷо хонда мешавад.",
+              "en": "Find where the parameter is passed and where it is read."
+            },
+            {
+              "ru": "Откройте оба занятия на устройстве и сравните заголовки.",
+              "tg": "Ҳарду машғулиятро дар дастгоҳ кушода, сарлавҳаҳоро муқоиса кунед.",
+              "en": "Open both lessons on a device and compare the headers."
+            }
+          ],
+          "hint": {
+            "ru": "Третью запись добавьте в массив lessons с уникальным id; неизвестный id передайте строкой вроде x9.",
+            "tg": "Сабти сеюмро бо id-и ягона ба lessons илова кунед; id-и номаълумро бо сатри монанди x9 гузаронед.",
+            "en": "Add the third record to lessons with a unique id; pass an unknown id like x9 as a string."
+          },
+          "success": {
+            "ru": "Каждая кнопка открывает подробности своей записи, а неизвестный id не роняет приложение.",
+            "tg": "Ҳар тугма тафсилоти сабти худро мекушояд ва id-и номаълум барномаро намеафканад.",
+            "en": "Each button opens its record details and an unknown id does not crash the app."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте переходы с параметрами на устройстве. Добавьте третью запись в массив и убедитесь, что она открывается. Временно передайте неизвестный id и запишите, что показал запасной экран. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва гузаришҳоро бо параметрҳо дар дастгоҳ санҷед. Сабти сеюмро ба массив илова карда, боварӣ ҳосил кунед, ки кушода мешавад. Муваққатан id-и номаълум гузаронед ва сабт кунед, ки экрани ҷойгузин чӣ нишон дод. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check the parameter transitions on a device. Add a third record to the array and confirm it opens. Temporarily pass an unknown id and record what the fallback screen showed. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Три записи открываются с правильными заголовками.",
+              "tg": "Се сабт бо сарлавҳаҳои дуруст кушода мешаванд.",
+              "en": "Three records open with correct headers."
+            },
+            {
+              "ru": "Записана реакция приложения на неизвестный id.",
+              "tg": "Муносибати барнома ба id-и номаълум сабт шудааст.",
+              "en": "The app reaction to an unknown id is recorded."
+            }
+          ],
+          "example": {
+            "ru": "Третья кнопка «Списки» открывает подробности с этим же заголовком.",
+            "tg": "Тугмаи сеюми «Рӯйхатҳо» тафсилотро бо ҳамон сарлавҳа мекушояд.",
+            "en": "The third «Списки» button opens details with the same header."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Параметры передаются вторым аргументом navigate и читаются из route.params.",
+            "tg": "Параметрҳо ҳамчун аргументи дуюми navigate гузаронида, аз route.params хонда мешаванд.",
+            "en": "Parameters pass as the second navigate argument and are read from route.params."
+          },
+          {
+            "ru": "Отсутствие записи обрабатывают запасным текстом, а не падением.",
+            "tg": "Набудани сабтро бо матни ҷойгузин бароранд, на бо фурӯпоши.",
+            "en": "A missing record is handled with fallback text, not a crash."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что вернёт find для неизвестного id?",
+            "tg": "find барои id-и номаълум чӣ бармегардонад?",
+            "en": "What does find return for an unknown id?"
+          },
+          {
+            "ru": "Что станет с параметрами после перезапуска приложения?",
+            "tg": "Баъди аз нав оғоз бо параметрҳо чӣ мешавад?",
+            "en": "What happens to parameters after an app restart?"
+          }
+        ],
+        "nextLessonId": "mobile-day-20"
+      }
+    },
+    {
+      "id": "mobile-day-20",
+      "day": 20,
+      "prerequisiteDays": [
+        19
+      ],
+      "title": {
+        "ru": "Возврат и несохранённый ввод",
+        "tg": "Баргашт ва вуруди нигоҳнашуда",
+        "en": "Going back and unsaved input"
+      },
+      "summary": {
+        "ru": "Убедитесь, что черновик живёт, пока экран в стеке, и сохраните заметку осознанно.",
+        "tg": "Боварӣ ҳосил кунед, ки лоиҳа то зинда будани экран дар стек мемонад ва қайдро огоҳона нигоҳ доред.",
+        "en": "Confirm a draft survives while its screen stays in the stack and save the note deliberately."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Экран в стеке не умирает",
+            "tg": "Экран дар стек намемирад",
+            "en": "A screen in the stack does not die"
+          },
+          "body": {
+            "ru": "В стеке навигации предыдущий экран не уничтожается при переходе вперёд: он остаётся смонтированным под верхним экраном. Поэтому состояние черновика — TextInput и его текст — сохраняется, пока пользователь читает подсказку на соседнем экране и возвращается. Это важно понимать честно: черновик живёт только пока приложение не закрыто и экран не вытеснен из стека. Настоящее сохранение на диск — тема дня 28. Для осознанного сохранения в этом дне используется кнопка: пользователь сам решает, что текст стал заметкой. Если экран закрыть совсем (например, уйти со стека), несохранённый ввод будет потерян — именно поэтому в интерфейсе пишут подсказки и используют кнопки сохранения.",
+            "tg": "Дар стаки навигатсия экрани қаблӣ ҳангоми гузариш ба пеш нобуд намешавад: он зери экрани болоӣ монтаҷ мемонад. Барои ин ҳолати лоиҳа — TextInput ва матни он — нигоҳ дошта мешавад, то корбар дар экрани ҳамсоя маслиҳатро хонда, баргардад. Инро рӯбарӯ фаҳмидан муҳим аст: лоиҳа то бастан нашудани барнома ва набаромадани экран аз стек зинда аст. Нигоҳдории воқеӣ ба диск мавзӯи рӯзи 28 аст. Барои нигоҳдории огоҳона дар ин рӯз тугма истифода мешавад: корбар худ қазия мекунад, ки матн қайд шуд. Агар экран пурра баста шавад (масалан, аз хориҷ шудан аз стек), вуруди нигоҳнашуда гум мешавад — бинобар ин дар интерфейс маслиҳатҳо менависанд ва тугмаҳои нигоҳдориро истифода мебаранд.",
+            "en": "In a navigation stack the previous screen is not destroyed on a forward transition: it stays mounted under the top screen. That is why the draft state — the TextInput and its text — survives while the user reads a hint on the neighbor screen and comes back. Be honest about this: the draft lives only while the app is not closed and the screen is not pushed out of the stack. Real on-disk persistence is the day-28 topic. Deliberate saving in this day uses a button: the user decides the text became a note. If the screen is closed entirely, unsaved input is lost — which is exactly why interfaces show hints and use save buttons."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "ListScreen владеет двумя состояниями: draft для текущего ввода и saved для списка сохранённых заметок. Проверьте на устройстве: введите текст, откройте Help, вернитесь — текст в поле на месте, потому что ListScreen никуда не делся. Кнопка «Сохранить черновик» проверяет trim: пустые и пробельные строки не сохраняются, текст добавляется в saved копированием массива, поле очищается. Сохранённые заметки выводятся через map с индексными ключами — для неизменяемого списка это допустимо, для изменяемого лучше стабильные id. В решении на Help добавлена кнопка «Назад» через goBack, чтобы возврат не зависел от платформы.",
+            "tg": "ListScreen ду ҳолат дорад: draft барои вуруди ҷорӣ ва saved барои рӯйхати қайдҳои нигоҳдоришуда. Дар дастгоҳ санҷед: матнро ворид кунед, Help-ро кушоед, баргардед — матн дар майдон ҳаст, чунки ListScreen ҳеҷ ҷо намеравад. Тугмаи «Нигоҳ доштани лоиҳа» trim-ро месанҷад: сатрҳои холӣ ва фосиладор нигоҳ дошта намешаванд, матн бо нусхабардории массив ба saved илова ва майдон тоза мешавад. Қайдҳои нигоҳдоришуда тавассути map бо калидҳои индексӣ мебароранд — барои рӯйхати тағйирнашаванда ин ҷоиз аст, барои тағйирёбанда калидҳои устувори беҳтаранд. Дар ҳалл ба Help тугмаи «Ба ақиб» бо goBack илова шудааст, то баргашт аз платформа вобаста набошад.",
+            "en": "ListScreen owns two states: draft for the current input and saved for the list of stored notes. Check on a device: type text, open Help, return — the text is still in the field, because ListScreen never went away. The «Сохранить черновик» button checks trim: empty and whitespace-only strings are not stored, the text is appended to saved by copying the array, and the field clears. Stored notes render through map with index keys — acceptable for an immutable list, mutable ones deserve stable ids. The solution adds a «Назад» button on Help through goBack so returning does not depend on the platform."
+          },
+          "code": "import { useState } from 'react';\nimport { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, StyleSheet, Text, TextInput, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  const [draft, setDraft] = useState('');\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Черновик заметки</Text>\n      <TextInput\n        value={draft}\n        onChangeText={setDraft}\n        placeholder=\"Пишите здесь\"\n        style={styles.input}\n      />\n      <Button title=\"Открыть подсказку\" onPress={() => navigation.navigate('Help')} />\n      <Text>Черновик останется, пока экран в стеке.</Text>\n    </View>\n  );\n}\n\nfunction HelpScreen() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Подсказка</Text>\n      <Text>Вернитесь назад системной кнопкой и найдите черновик.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Help\" component={HelpScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-20-q1",
+          "question": {
+            "ru": "Почему черновик живёт после перехода на Help?",
+            "tg": "Барои чӣ лоиҳа баъди гузариш ба Help мемонад?",
+            "en": "Why does the draft survive a transition to Help?"
+          },
+          "options": [
+            {
+              "ru": "ListScreen остаётся смонтированным в стеке",
+              "tg": "ListScreen дар стек монтаҷ мемонад",
+              "en": "ListScreen stays mounted in the stack"
+            },
+            {
+              "ru": "Текст записан в файл",
+              "tg": "Матн ба файл навишта шудааст",
+              "en": "The text is written to a file"
+            },
+            {
+              "ru": "Help запоминает его",
+              "tg": "Help онро дар ёд дорад",
+              "en": "Help remembers it"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Состояние принадлежит ListScreen, который никуда не делся.",
+            "tg": "Ҳолат аз они ListScreen аст, ки ҳеҷ ҷо намеравад.",
+            "en": "The state belongs to ListScreen, which never went away."
+          },
+          "hint": {
+            "ru": "Перечитайте первый раздел о предыдущем экране в стеке.",
+            "tg": "Бахши аввал дар бораи экрани қаблии дар стекро аз нав хонед.",
+            "en": "Re-read the first section about the previous screen in the stack."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-20-q2",
+          "question": {
+            "ru": "Когда несохранённый ввод всё же потеряется?",
+            "tg": "Вуруди нигоҳнашуда ҳангоми чӣ бар ҳар ҳол гум мешавад?",
+            "en": "When is unsaved input still lost?"
+          },
+          "options": [
+            {
+              "ru": "Никогда",
+              "tg": "Ҳеҷ гоҳ",
+              "en": "Never"
+            },
+            {
+              "ru": "При закрытии приложения или вытеснении экрана из стека",
+              "tg": "Ҳангоми бастан ё баромадани экран аз стек",
+              "en": "When the app closes or the screen leaves the stack"
+            },
+            {
+              "ru": "Только при поломке интернета",
+              "tg": "Танҳо ҳангоми вайрони интернет",
+              "en": "Only when the internet breaks"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Черновик живёт в памяти: закрыли приложение — потеряли.",
+            "tg": "Лоиҳа дар хотира аст: барномаро пӯшед — гум мекунед.",
+            "en": "The draft lives in memory: close the app and it is gone."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе слова о границах этого поведения.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи ҳудуди ин рафторро ёбед.",
+            "en": "Find the first-section words about the limits of this behavior."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-20-q3",
+          "question": {
+            "ru": "Что проверяет кнопка сохранения перед добавлением?",
+            "tg": "Тугмаи нигоҳдорӣ пеш аз илова чиро месанҷад?",
+            "en": "What does the save button check before appending?"
+          },
+          "options": [
+            {
+              "ru": "Что заметка короче 100 символов",
+              "tg": "Он ки қайд аз 100 аломат кӯтоҳ аст",
+              "en": "That the note is under 100 characters"
+            },
+            {
+              "ru": "Что интернет включён",
+              "tg": "Он ки интернет фаъол аст",
+              "en": "That the internet is on"
+            },
+            {
+              "ru": "Что строка не пустая после trim",
+              "tg": "Он ки сатр баъди trim холӣ нест",
+              "en": "That the string is not empty after trim"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Пустые и пробельные строки не становятся заметками.",
+            "tg": "Сатрҳои холӣ ва фосиладор қайд намешаванд.",
+            "en": "Empty and whitespace-only strings do not become notes."
+          },
+          "hint": {
+            "ru": "Посмотрите на условие внутри onPress кнопки сохранения.",
+            "tg": "Ба шарти дар дохили onPress-и тугмаи нигоҳдорӣ нигоҳ кунед.",
+            "en": "Look at the condition inside the save button onPress."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-20-q4",
+          "question": {
+            "ru": "Почему массив saved копируют перед добавлением?",
+            "tg": "Барои чӣ массиви saved-ро пеш аз илова нусхабардорӣ мекунанд?",
+            "en": "Why is the saved array copied before appending?"
+          },
+          "options": [
+            {
+              "ru": "Чтобы React увидел новое состояние",
+              "tg": "То React ҳолати навро бинад",
+              "en": "So React sees a new state"
+            },
+            {
+              "ru": "Чтобы массив стал длиннее",
+              "tg": "То массив дарозтар шавад",
+              "en": "To make the array longer"
+            },
+            {
+              "ru": "Чтобы сэкономить память",
+              "tg": "То хотира сарфа шавад",
+              "en": "To save memory"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Функциональное обновление создаёт новый массив из предыдущего.",
+            "tg": "Навсозии функсионалӣ массиви навро аз қаблӣ месозад.",
+            "en": "The functional update builds a new array from the previous one."
+          },
+          "hint": {
+            "ru": "Сравните обработчик с функциональными обновлениями дня 8.",
+            "tg": "Обработчикро бо навсозиҳои функсионалии рӯзи 8 муқоиса кунед.",
+            "en": "Compare the handler with the day-8 functional updates."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-20-q5",
+          "question": {
+            "ru": "Что добавляет решение на экране Help?",
+            "tg": "Дар ҳалл ба экрани Help чӣ илова шудааст?",
+            "en": "What does the solution add on Help?"
+          },
+          "options": [
+            {
+              "ru": "Сохранение на диск",
+              "tg": "Нигоҳдорӣ ба диск",
+              "en": "Disk persistence"
+            },
+            {
+              "ru": "Кнопку «Назад» через goBack",
+              "tg": "Тугмаи «Ба ақиб» бо goBack",
+              "en": "A «Назад» button through goBack"
+            },
+            {
+              "ru": "Новый маршрут Details",
+              "tg": "Масири нави Details",
+              "en": "A new Details route"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Возврат перестаёт зависеть только от системной кнопки.",
+            "tg": "Баргашт танҳо ба тугмаи системавӣ вобаста намемонад.",
+            "en": "Returning no longer depends only on the system button."
+          },
+          "hint": {
+            "ru": "Сравните HelpScreen примера и решения.",
+            "tg": "HelpScreen-и мисол ва ҳаллро муқоиса кунед.",
+            "en": "Compare HelpScreen in the example and the solution."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте на устройстве: ввод, переход на Help, возврат, сохранение. Добавьте в Help кнопку «Назад» через goBack и запишите, что происходит с черновиком и заметками после каждого шага. Затем полностью закройте приложение и опишите честно, что пропало. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва дар дастгоҳ санҷед: вурӯд, гузариш ба Help, баргашт, нигоҳдорӣ. Ба Help тугмаи «Ба ақиб» бо goBack илова карда, сабт кунед, ки баъди ҳар қадам бо лоиҳа ва қайдҳо чӣ мешавад. Баъд барномаро пурра пӯшеда, рӯбарӯ тавсиф диҳед, ки чӣ нопадид. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check on a device: input, Help transition, return, save. Add a «Назад» button on Help through goBack and record what happens to the draft and notes after each step. Then close the app fully and describe honestly what disappeared. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Добавьте проп navigation в HelpScreen и кнопку с navigation.goBack(); закройте приложение из меню системы, а не сворачиванием.",
+          "tg": "Пропи navigation-ро ба HelpScreen ва тугма бо navigation.goBack() илова кунед; барномаро аз менюи система пӯшед, на бо тарқиш.",
+          "en": "Add the navigation prop to HelpScreen and a button with navigation.goBack(); close the app from the system menu, not by minimizing."
+        },
+        "solution": "import { useState } from 'react';\nimport { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, StyleSheet, Text, TextInput, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  const [draft, setDraft] = useState('');\n  const [saved, setSaved] = useState<string[]>([]);\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Черновик заметки</Text>\n      <TextInput\n        value={draft}\n        onChangeText={setDraft}\n        placeholder=\"Пишите здесь\"\n        style={styles.input}\n      />\n      <Button\n        title=\"Сохранить черновик\"\n        onPress={() => {\n          if (draft.trim()) {\n            setSaved(current => [...current, draft.trim()]);\n            setDraft('');\n          }\n        }}\n      />\n      <Button title=\"Открыть подсказку\" onPress={() => navigation.navigate('Help')} />\n      {saved.map((note, index) => <Text key={index}>Сохранено: {note}</Text>)}\n      <Text>Черновик останется, пока экран в стеке.</Text>\n    </View>\n  );\n}\n\nfunction HelpScreen({ navigation }: { navigation: { goBack: () => void } }) {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Подсказка</Text>\n      <Button title=\"Назад\" onPress={() => navigation.goBack()} />\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Help\" component={HelpScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Черновик переживает переход и возврат, а сохранённые заметки остаются.",
+            "tg": "Лоиҳа гузариш ва баргаштро мегузарад ва қайдҳои нигоҳдоришуда мемонанд.",
+            "en": "The draft survives the transition and return, stored notes remain."
+          },
+          {
+            "ru": "Честно записано, что пропадает после полного закрытия приложения.",
+            "tg": "Рӯбарӯ сабт шудааст, ки баъди пурра пӯшидани барнома чӣ нопадид.",
+            "en": "What disappears after fully closing the app is recorded honestly."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Объяснить, почему состояние экрана переживает переход вперёд.",
+            "tg": "Шарҳ диҳед, ки чаро ҳолати экран гузариш ба пешро мегузарад.",
+            "en": "Explain why screen state survives a forward transition."
+          },
+          {
+            "ru": "Сохранять заметку осознанным действием пользователя.",
+            "tg": "Қайдро бо амали огоҳонаи корбар нигоҳ доред.",
+            "en": "Store a note through a deliberate user action."
+          }
+        ],
+        "realWorld": {
+          "ru": "Черновик сообщения в мессенджере не исчезает, пока вы читаете другой чат.",
+          "tg": "Лоиҳаи паём дар паёмгӯй нопадид намешавад, то дигар чатро мехонед.",
+          "en": "A message draft does not vanish while you read another chat."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Когда несохранённый ввод всё же потеряется?",
+            "tg": "Вуруди нигоҳнашуда ҳангоми чӣ бар ҳар ҳол гум мешавад?",
+            "en": "When is unsaved input still lost?"
+          },
+          "options": [
+            {
+              "ru": "Никогда",
+              "tg": "Ҳеҷ гоҳ",
+              "en": "Never"
+            },
+            {
+              "ru": "При закрытии приложения или вытеснении экрана из стека",
+              "tg": "Ҳангоми бастан ё баромадани экран аз стек",
+              "en": "When the app closes or the screen leaves the stack"
+            },
+            {
+              "ru": "Только при поломке интернета",
+              "tg": "Танҳо ҳангоми вайрони интернет",
+              "en": "Only when the internet breaks"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Найдите в первом разделе слова о границах этого поведения.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи ҳудуди ин рафторро ёбед.",
+            "en": "Find the first-section words about the limits of this behavior."
+          },
+          "explanation": {
+            "ru": "Черновик живёт в памяти: закрыли приложение — потеряли.",
+            "tg": "Лоиҳа дар хотира аст: барномаро пӯшед — гум мекунед.",
+            "en": "The draft lives in memory: close the app and it is gone."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, StyleSheet, Text, TextInput, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  const [draft, setDraft] = useState('');\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Черновик заметки</Text>\n      <TextInput\n        value={draft}\n        onChangeText={setDraft}\n        placeholder=\"Пишите здесь\"\n        style={styles.input}\n      />\n      <Button title=\"Открыть подсказку\" onPress={() => navigation.navigate('Help')} />\n      <Text>Черновик останется, пока экран в стеке.</Text>\n    </View>\n  );\n}\n\nfunction HelpScreen() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Подсказка</Text>\n      <Text>Вернитесь назад системной кнопкой и найдите черновик.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Help\" component={HelpScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+          "steps": [
+            {
+              "line": 7,
+              "explanation": {
+                "ru": "Черновик — состояние ListScreen.",
+                "tg": "Лоиҳа ҳолати ListScreen аст.",
+                "en": "The draft is ListScreen state."
+              },
+              "values": "draft = ''"
+            },
+            {
+              "line": 8,
+              "explanation": {
+                "ru": "saved хранит осознанно сохранённые заметки.",
+                "tg": "saved қайдҳои огоҳона нигоҳдоришударо медорад.",
+                "en": "saved holds deliberately stored notes."
+              },
+              "values": "saved = []"
+            },
+            {
+              "line": 19,
+              "explanation": {
+                "ru": "Подсказка объясняет границы черновика.",
+                "tg": "Маслиҳат ҳудуди лоиҳаро фаҳмонад.",
+                "en": "The hint explains the draft limits."
+              },
+              "values": "in-memory"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Введите текст, откройте Help и вернитесь: найдите черновик на месте.",
+              "tg": "Матнро ворид кунед, Help-ро кушоед ва баргардед: лоиҳаро дар ҷояш ёбед.",
+              "en": "Type text, open Help and return: find the draft intact."
+            },
+            {
+              "ru": "Нажмите «Сохранить черновик» и убедитесь, что поле очистилось, а заметка появилась.",
+              "tg": "«Нигоҳ доштани лоиҳа»-ро пахш карда, боварӣ ҳосил кунед, ки майдон тоза ва қайд пайдо шуд.",
+              "en": "Press «Сохранить черновик» and confirm the field cleared and the note appeared."
+            }
+          ],
+          "hint": {
+            "ru": "Добавьте проп navigation в HelpScreen и кнопку с navigation.goBack(); закройте приложение из меню системы, а не сворачиванием.",
+            "tg": "Пропи navigation-ро ба HelpScreen ва тугма бо navigation.goBack() илова кунед; барномаро аз менюи система пӯшед, на бо тарқиш.",
+            "en": "Add the navigation prop to HelpScreen and a button with navigation.goBack(); close the app from the system menu, not by minimizing."
+          },
+          "success": {
+            "ru": "Черновик возвращается из Help нетронутым, а сохранённая заметка остаётся в списке.",
+            "tg": "Лоиҳа аз Help дастнорасида бармегардад ва қайди нигоҳдоришуда дар рӯйхат мемонад.",
+            "en": "The draft returns from Help untouched and the stored note stays in the list."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте на устройстве: ввод, переход на Help, возврат, сохранение. Добавьте в Help кнопку «Назад» через goBack и запишите, что происходит с черновиком и заметками после каждого шага. Затем полностью закройте приложение и опишите честно, что пропало. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва дар дастгоҳ санҷед: вурӯд, гузариш ба Help, баргашт, нигоҳдорӣ. Ба Help тугмаи «Ба ақиб» бо goBack илова карда, сабт кунед, ки баъди ҳар қадам бо лоиҳа ва қайдҳо чӣ мешавад. Баъд барномаро пурра пӯшеда, рӯбарӯ тавсиф диҳед, ки чӣ нопадид. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check on a device: input, Help transition, return, save. Add a «Назад» button on Help through goBack and record what happens to the draft and notes after each step. Then close the app fully and describe honestly what disappeared. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Черновик переживает переход и возврат, а сохранённые заметки остаются.",
+              "tg": "Лоиҳа гузариш ва баргаштро мегузарад ва қайдҳои нигоҳдоришуда мемонанд.",
+              "en": "The draft survives the transition and return, stored notes remain."
+            },
+            {
+              "ru": "Честно записано, что пропадает после полного закрытия приложения.",
+              "tg": "Рӯбарӯ сабт шудааст, ки баъди пурра пӯшидани барнома чӣ нопадид.",
+              "en": "What disappears after fully closing the app is recorded honestly."
+            }
+          ],
+          "example": {
+            "ru": "После полного закрытия и повторного запуска список заметок пуст — об этом сказано в отчёте.",
+            "tg": "Баъди пурра пӯшидан ва аз нав оғоз рӯйхати қайдҳо холӣ аст — дар ҳисобот ин навишта шудааст.",
+            "en": "After fully closing and reopening, the note list is empty — the report says so."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Экран в стеке сохраняет состояние, пока не закрыт или не вытеснен.",
+            "tg": "Экрани дар стек ҳолатро нигоҳ медорад, то пӯшида ё аз стек набарояд.",
+            "en": "A screen in the stack keeps its state until closed or evicted."
+          },
+          {
+            "ru": "Сохранение — осознанное действие; диск появляется в дне 28.",
+            "tg": "Нигоҳдорӣ амали огоҳона аст; диск дар рӯзи 28 меояд.",
+            "en": "Saving is deliberate; the disk arrives in day 28."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Когда несохранённый ввод всё же потеряется?",
+            "tg": "Вуруди нигоҳнашуда ҳангоми чӣ бар ҳар ҳол гум мешавад?",
+            "en": "When is unsaved input still lost?"
+          },
+          {
+            "ru": "Почему массив saved копируют перед добавлением?",
+            "tg": "Барои чӣ массиви saved-ро пеш аз илова нусхабардорӣ мекунанд?",
+            "en": "Why is the saved array copied before appending?"
+          }
+        ],
+        "nextLessonId": "mobile-day-21"
+      }
+    },
+    {
+      "id": "mobile-day-21",
+      "day": 21,
+      "prerequisiteDays": [
+        20
+      ],
+      "title": {
+        "ru": "Общее состояние и границы компонента",
+        "tg": "Ҳолати умумӣ ва ҳудуди компонент",
+        "en": "Shared state and component boundaries"
+      },
+      "summary": {
+        "ru": "Поднимите состояние на уровень родителя и передайте детям данные и события.",
+        "tg": "Ҳолатро ба сатҳи волидайн бароварда, ба кӯдакон маълумот ва ҳодисаро гузаронед.",
+        "en": "Lift state to the parent and pass children data and events."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Кому принадлежит состояние",
+            "tg": "Ҳолат аз они кист",
+            "en": "Who owns the state"
+          },
+          "body": {
+            "ru": "Два компонента не могут отредактировать чужое состояние: данные должны принадлежать их общему родителю. Это называют подъёмом состояния: App хранит счётчик, Counter получает число через props, а CompleteButton — функцию onComplete через props и вызывает её по нажатию. Данные текут вниз через props, события — вверх через вызовы функций-обработчиков. Граница компонента — это его props: Counter не знает, откуда число, и его нельзя переиспользовать иначе. Ребёнок не мутирует props и не хранит копию данных родителя: при изменении родитель перерисует детей сам. Так строятся формы, списки и экраны следующего дня.",
+            "tg": "Ду компонент наметавонанд ҳолати дигарро тағйир диҳанд: маълумот бояд аз они волидайни умумии онҳо бошад. Инро баровардани ҳолат меноманд: App ҳисобкунакро нигоҳ медорад, Counter рақамро тавассути props мегирад ва CompleteButton функсияи onComplete-ро тавассути props гирифта, ҳангоми пахш мехонад. Маълумот ба поён тавассути props, ҳодисҳо ба боло тавассути даъвати функсияҳои обработчик мераванд. Ҳудуди компонент props-и ӯст: Counter намедонад, ки рақам аз куҷост ва дигарбора истифода бурдан нашавад. Кӯдак props-ро тағйир намедиҳад ва нусхаи маълумоти волидайнро нигоҳ намедорад: ҳангоми тағйир волидайн кӯдакро худ аз нав мекашад. Чунин шаклҳо, рӯйхатҳо ва экранҳои рӯзи оянда сохта мешаванд.",
+            "en": "Two components cannot edit each other state: the data must belong to their common parent. This is called lifting state: App stores the counter, Counter receives the number through props, and CompleteButton receives the onComplete function through props and calls it on press. Data flows down through props, events flow up through handler calls. The component boundary is its props: Counter does not know where the number comes from and cannot be reused differently. A child never mutates props and never keeps a copy of parent data: on change the parent rerenders the children itself. Forms, lists and the next day screen are built this way."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Counter — чистый компонент отображения: один проп count и одна строка текста. CompleteButton получает onComplete и не знает, что тот делает: это граница ответственности. App владеет состоянием count и передаёт setCount внутрь стрелки — ребёнок вызывает функцию, родитель меняет состояние, оба ребёнка получают новые props. Сравните с днём 15: там состояние жило внутри одного компонента, здесь оно поднято, потому что данными пользуются двое. Добавьте ResetButton с пропом onReset — он станет третьим ребёнком того же состояния. Проверьте на устройстве: отметка увеличивает, сброс обнуляет, число всегда одно для обоих детей.",
+            "tg": "Counter компоненти софи нишондиҳанда аст: як пропи count ва як сатри матн. CompleteButton onComplete мегирад ва намедонад, ки он чӣ мекунад: ин ҳудуди масъулият аст. App соҳиби ҳолати count аст ва setCount-ро дар дохили тир мефристонад — кӯдак функсияро мехонад, волидайн ҳолатро иваз мекунад ва ҳарду кӯдак props-и нав мегиранд. Бо рӯзи 15 муқоиса кунед: он ҷо ҳолат дар дохили як компонент буд, ин ҷо боло бароварда шудааст, чунки маълумотро ду нафар истифода мебаранд. ResetButton бо пропи onReset илова кунед — ӯ кӯдаки сеюми ҳамон ҳолат мешавад. Дар дастгоҳ санҷед: қайд меафзояд, сифр нобуд мекунад ва рақам ҳамеша якест барои ҳарду кӯдак.",
+            "en": "Counter is a pure display component: one count prop and one text line. CompleteButton receives onComplete and does not know what it does: that is the responsibility boundary. App owns the count state and passes setCount inside an arrow — the child calls the function, the parent changes state, and both children receive new props. Compare with day 15: there the state lived inside one component, here it is lifted because two children use the data. Add a ResetButton with an onReset prop — it becomes the third child of the same state. Check on a device: complete increments, reset zeroes, and the number is always one value for both children."
+          },
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nfunction Counter({ count }: { count: number }) {\n  return <Text>Выполнено: {count}</Text>;\n}\n\nfunction CompleteButton({ onComplete }: { onComplete: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Отметить занятие выполненным\"\n      onPress={onComplete}\n      style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Отметить</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Counter count={count} />\n      <CompleteButton onComplete={() => setCount(value => value + 1)} />\n      <Text>Состояние живёт в App и передаётся детям.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-21-q1",
+          "question": {
+            "ru": "Где должно жить состояние, нужное двум детям?",
+            "tg": "Ҳолати лозимии ду кӯдак дар куҷо бояд бошад?",
+            "en": "Where should state needed by two children live?"
+          },
+          "options": [
+            {
+              "ru": "В каждом ребёнке по копии",
+              "tg": "Дар ҳар кӯдак як нусха",
+              "en": "As a copy in each child"
+            },
+            {
+              "ru": "В их ближайшем общем родителе",
+              "tg": "Дар волидайни умумии наздикашон",
+              "en": "In their closest common parent"
+            },
+            {
+              "ru": "В StyleSheet",
+              "tg": "Дар StyleSheet",
+              "en": "In StyleSheet"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Подъём состояния отдаёт данные общему родителю.",
+            "tg": "Баровардани ҳолат маълумотро ба волидайни умумӣ медиҳад.",
+            "en": "Lifting state gives the data to the common parent."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе фразу про общего родителя.",
+            "tg": "Дар бахши аввал ибораи дар бораи волидайни умумиро ёбед.",
+            "en": "Find the common-parent phrase in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-21-q2",
+          "question": {
+            "ru": "Что знает CompleteButton о onComplete?",
+            "tg": "CompleteButton дар бораи onComplete чӣ медонад?",
+            "en": "What does CompleteButton know about onComplete?"
+          },
+          "options": [
+            {
+              "ru": "Имя состояния родителя",
+              "tg": "Номи ҳолати волидайн",
+              "en": "The parent state name"
+            },
+            {
+              "ru": "Точную формулу обновления",
+              "tg": "Формулаи дақиқи навсозӣ",
+              "en": "The exact update formula"
+            },
+            {
+              "ru": "Ничего: только что функцию можно вызвать",
+              "tg": "Ҳеҷ чиз: танҳо он ки функсияро хонда мешавад",
+              "en": "Nothing: only that the function is callable"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Граница компонента — props: ребёнок не знает внутренности родителя.",
+            "tg": "Ҳудуди компонент props аст: кӯдак дохили волидайнро намедонад.",
+            "en": "The component boundary is props: the child does not know the parent internals."
+          },
+          "hint": {
+            "ru": "Перечитайте слова о границе ответственности в разборе.",
+            "tg": "Калимаҳои дар бораи ҳудуди масъулиятро дар шарҳ аз нав хонед.",
+            "en": "Re-read the responsibility boundary words in the walkthrough."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-21-q3",
+          "question": {
+            "ru": "Куда текут события из ребёнка?",
+            "tg": "Ҳодисҳо аз кӯдак ба куҷо мераванд?",
+            "en": "Where do events from a child flow?"
+          },
+          "options": [
+            {
+              "ru": "Вверх через вызовы функций-обработчиков",
+              "tg": "Ба боло тавассути даъвати функсияҳои обработчик",
+              "en": "Up through handler function calls"
+            },
+            {
+              "ru": "Вниз вместе с props",
+              "tg": "Ба поён бо props",
+              "en": "Down together with props"
+            },
+            {
+              "ru": "На сервер",
+              "tg": "Ба сервер",
+              "en": "To a server"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Ребёнок вызывает функцию родителя, родитель меняет состояние.",
+            "tg": "Кӯдак функсияи волидайнро мехонад, волидайн ҳолатро иваз мекунад.",
+            "en": "The child calls a parent function, the parent updates state."
+          },
+          "hint": {
+            "ru": "Сравните направление props и вызовов в примере.",
+            "tg": "Самти props ва даъватҳоро дар мисол муқоиса кунед.",
+            "en": "Compare the props and call directions in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-21-q4",
+          "question": {
+            "ru": "Чем пример отличается от дня 15?",
+            "tg": "Мисол аз рӯзи 15 чӣ фарқ дорад?",
+            "en": "How does the example differ from day 15?"
+          },
+          "options": [
+            {
+              "ru": "Здесь нет состояния",
+              "tg": "Дар ин ҷо ҳолат нест",
+              "en": "There is no state here"
+            },
+            {
+              "ru": "Состояние поднято, потому что его используют два ребёнка",
+              "tg": "Ҳолат бароварда шудааст, чунки ду кӯдак истифода мебаранд",
+              "en": "The state is lifted because two children use it"
+            },
+            {
+              "ru": "Кнопка заменена на TextInput",
+              "tg": "Тугма ба TextInput иваз шудааст",
+              "en": "The button became a TextInput"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "День 15 держал состояние внутри одного компонента; здесь двое пользуются данными.",
+            "tg": "Рӯзи 15 ҳолатро дар дохили як компонент дошт; ин ҷо ду нафар маълумотро истифода мебаранд.",
+            "en": "Day 15 kept state inside one component; here two children share the data."
+          },
+          "hint": {
+            "ru": "Вспомните, кто использовал счётчик в дне 15.",
+            "tg": "Ёд оред, ки дар рӯзи 15 ҳисобкунакро кист истифода мебурд.",
+            "en": "Recall who used the counter in day 15."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-21-q5",
+          "question": {
+            "ru": "Что сделает ребёнок, если данные родителя изменились?",
+            "tg": "Агар маълумоти волидайн тағйир ёбад, кӯдак чӣ мекунад?",
+            "en": "What does a child do when the parent data changes?"
+          },
+          "options": [
+            {
+              "ru": "Изменит props родителя",
+              "tg": "Props-и волидайнро тағйир медиҳад",
+              "en": "Mutates the parent props"
+            },
+            {
+              "ru": "Скопирует данные себе",
+              "tg": "Маълумотро ба худ нусхабардорӣ мекунад",
+              "en": "Copies the data to itself"
+            },
+            {
+              "ru": "Ничего: родитель перерисует его с новыми props",
+              "tg": "Ҳеҷ чиз: волидайн ӯро бо props-и нав аз нав мекашад",
+              "en": "Nothing: the parent rerenders it with new props"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Ребёнок отображает props; владелец данных обновляет их.",
+            "tg": "Кӯдак props-ро нишон медиҳад; соҳиби маълумот онҳоро нав мекунад.",
+            "en": "The child renders props; the data owner updates them."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе слова о мутации props.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи тағйири props-ро ёбед.",
+            "en": "Find the first-section words about mutating props."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте на устройстве. Добавьте ResetButton с пропом onReset, своим цветом и ролью button. Запишите, какие данные текут вниз и какие события вверх, и почему состояние нельзя было оставить в CompleteButton. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва дар дастгоҳ санҷед. ResetButton бо пропи onReset, ранги худ ва нақши button илова кунед. Сабт кунед, ки кадом маълумот ба поён ва кадом ҳодисҳо ба боло мераванд ва чаро ҳолатро дар CompleteButton гузоштан нашавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check on a device. Add a ResetButton with an onReset prop, its own color and the button role. Record which data flows down and which events flow up, and why the state could not stay in CompleteButton. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Скопируйте CompleteButton, переименуйте в ResetButton и передайте onReset={() => setCount(0)}.",
+          "tg": "CompleteButton-ро нусхабардорӣ карда, ба ResetButton номгузорӣ намуда, onReset={() => setCount(0)} гузаронед.",
+          "en": "Copy CompleteButton, rename it ResetButton and pass onReset={() => setCount(0)}."
+        },
+        "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nfunction Counter({ count }: { count: number }) {\n  return <Text>Выполнено: {count}</Text>;\n}\n\nfunction CompleteButton({ onComplete }: { onComplete: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Отметить занятие выполненным\"\n      onPress={onComplete}\n      style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Отметить</Text>\n    </Pressable>\n  );\n}\n\nfunction ResetButton({ onReset }: { onReset: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Сбросить счётчик\"\n      onPress={onReset}\n      style={({ pressed }) => [styles.button, styles.reset, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Сбросить</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Counter count={count} />\n      <CompleteButton onComplete={() => setCount(value => value + 1)} />\n      <ResetButton onReset={() => setCount(0)} />\n      <Text>Состояние живёт в App и передаётся детям.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  reset: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Три ребёнка используют одно состояние родителя.",
+            "tg": "Се кӯдак як ҳолати волидайнро истифода мебаранд.",
+            "en": "Three children use one parent state."
+          },
+          {
+            "ru": "Записано объяснение направления данных и событий.",
+            "tg": "Шарҳи самти маълумот ва ҳодисҳо сабт шудааст.",
+            "en": "The data and event direction explanation is recorded."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Поднять состояние к общему родителю и обосновать это.",
+            "tg": "Ҳолатро ба волидайни умумӣ бароварда, онро асоснок кунед.",
+            "en": "Lift state to the common parent with a reason."
+          },
+          {
+            "ru": "Разделить компоненты на отображение и действие.",
+            "tg": "Компонентҳоро ба нишондиҳанда ва амал ҷудо кунед.",
+            "en": "Split components into display and action."
+          }
+        ],
+        "realWorld": {
+          "ru": "Экран корзины: значок количества и кнопка «плюс» — два ребёнка одного состояния родителя.",
+          "tg": "Экрани сабад: нишонаи шумора ва тугмаи «зиёд» — ду кӯдаки як ҳолати волидайн.",
+          "en": "A cart screen: the count badge and the plus button are two children of one parent state."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что знает CompleteButton о onComplete?",
+            "tg": "CompleteButton дар бораи onComplete чӣ медонад?",
+            "en": "What does CompleteButton know about onComplete?"
+          },
+          "options": [
+            {
+              "ru": "Имя состояния родителя",
+              "tg": "Номи ҳолати волидайн",
+              "en": "The parent state name"
+            },
+            {
+              "ru": "Точную формулу обновления",
+              "tg": "Формулаи дақиқи навсозӣ",
+              "en": "The exact update formula"
+            },
+            {
+              "ru": "Ничего: только что функцию можно вызвать",
+              "tg": "Ҳеҷ чиз: танҳо он ки функсияро хонда мешавад",
+              "en": "Nothing: only that the function is callable"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Перечитайте слова о границе ответственности в разборе.",
+            "tg": "Калимаҳои дар бораи ҳудуди масъулиятро дар шарҳ аз нав хонед.",
+            "en": "Re-read the responsibility boundary words in the walkthrough."
+          },
+          "explanation": {
+            "ru": "Граница компонента — props: ребёнок не знает внутренности родителя.",
+            "tg": "Ҳудуди компонент props аст: кӯдак дохили волидайнро намедонад.",
+            "en": "The component boundary is props: the child does not know the parent internals."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nfunction Counter({ count }: { count: number }) {\n  return <Text>Выполнено: {count}</Text>;\n}\n\nfunction CompleteButton({ onComplete }: { onComplete: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Отметить занятие выполненным\"\n      onPress={onComplete}\n      style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Отметить</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Counter count={count} />\n      <CompleteButton onComplete={() => setCount(value => value + 1)} />\n      <Text>Состояние живёт в App и передаётся детям.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 22,
+              "explanation": {
+                "ru": "App владеет единственным источником счётчика.",
+                "tg": "App соҳиби ягона манбаи ҳисобкунак аст.",
+                "en": "App owns the single counter source."
+              },
+              "values": "count = 0"
+            },
+            {
+              "line": 23,
+              "explanation": {
+                "ru": "Counter получает число через props.",
+                "tg": "Counter рақамро тавассути props мегирад.",
+                "en": "Counter receives the number through props."
+              },
+              "values": "count prop"
+            },
+            {
+              "line": 24,
+              "explanation": {
+                "ru": "CompleteButton вызывает функцию родителя.",
+                "tg": "CompleteButton функсияи волидайнро мехонад.",
+                "en": "CompleteButton calls the parent function."
+              },
+              "values": "onComplete()"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере, кто владеет состоянием и кто его читает.",
+              "tg": "Дар мисол ёбед, ки соҳиби ҳолат кист ва кист мехонад.",
+              "en": "Find who owns the state and who reads it in the example."
+            },
+            {
+              "ru": "Нажмите «Отметить» и убедитесь, что число обновилось у отображения.",
+              "tg": "«Отметить»-ро пахш карда, боварӣ ҳосил кунед, ки рақам дар нишондиҳанда нав шуд.",
+              "en": "Press «Отметить» and confirm the display updated."
+            }
+          ],
+          "hint": {
+            "ru": "Скопируйте CompleteButton, переименуйте в ResetButton и передайте onReset={() => setCount(0)}.",
+            "tg": "CompleteButton-ро нусхабардорӣ карда, ба ResetButton номгузорӣ намуда, onReset={() => setCount(0)} гузаронед.",
+            "en": "Copy CompleteButton, rename it ResetButton and pass onReset={() => setCount(0)}."
+          },
+          "success": {
+            "ru": "Оба ребёнка показывают одно значение, потому что состояние одно у родителя.",
+            "tg": "Ҳарду кӯдак як қиматро нишон медиҳанд, чунки ҳолат ягона ва аз они волидайн аст.",
+            "en": "Both children show one value because the state belongs to the parent alone."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте на устройстве. Добавьте ResetButton с пропом onReset, своим цветом и ролью button. Запишите, какие данные текут вниз и какие события вверх, и почему состояние нельзя было оставить в CompleteButton. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва дар дастгоҳ санҷед. ResetButton бо пропи onReset, ранги худ ва нақши button илова кунед. Сабт кунед, ки кадом маълумот ба поён ва кадом ҳодисҳо ба боло мераванд ва чаро ҳолатро дар CompleteButton гузоштан нашавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check on a device. Add a ResetButton with an onReset prop, its own color and the button role. Record which data flows down and which events flow up, and why the state could not stay in CompleteButton. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Три ребёнка используют одно состояние родителя.",
+              "tg": "Се кӯдак як ҳолати волидайнро истифода мебаранд.",
+              "en": "Three children use one parent state."
+            },
+            {
+              "ru": "Записано объяснение направления данных и событий.",
+              "tg": "Шарҳи самти маълумот ва ҳодисҳо сабт шудааст.",
+              "en": "The data and event direction explanation is recorded."
+            }
+          ],
+          "example": {
+            "ru": "Серая кнопка «Сбросить» обнуляет счётчик, который показывает Counter.",
+            "tg": "Тугмаи хокистарии «Сбросить» ҳисобкунаки, ки Counter нишон медиҳад, нобуд мекунад.",
+            "en": "The gray «Сбросить» button zeroes the counter that Counter displays."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Состояние двух детей живёт у общего родителя.",
+            "tg": "Ҳолати ду кӯдак дар волидайни умумӣ аст.",
+            "en": "State for two children lives in their common parent."
+          },
+          {
+            "ru": "Данные — вниз через props, события — вверх через вызовы функций.",
+            "tg": "Маълумот — ба поён бо props, ҳодисҳо — ба боло бо даъвати функсияҳо.",
+            "en": "Data flows down through props, events up through function calls."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что знает CompleteButton о onComplete?",
+            "tg": "CompleteButton дар бораи onComplete чӣ медонад?",
+            "en": "What does CompleteButton know about onComplete?"
+          },
+          {
+            "ru": "Что сделает ребёнок, если данные родителя изменились?",
+            "tg": "Агар маълумоти волидайн тағйир ёбад, кӯдак чӣ мекунад?",
+            "en": "What does a child do when the parent data changes?"
+          }
+        ],
+        "nextLessonId": "mobile-day-22"
+      }
+    },
+    {
+      "id": "mobile-day-22",
+      "day": 22,
+      "prerequisiteDays": [
+        21
+      ],
+      "title": {
+        "ru": "Проверка формы и ошибки",
+        "tg": "Санҷиши шакл ва хатоҳо",
+        "en": "Form validation and errors"
+      },
+      "summary": {
+        "ru": "Напишите функцию проверки полей и покажите понятные ошибки под каждым полем.",
+        "tg": "Функсияи санҷиши майдонҳоро нависед ва хатоҳои фаҳморо зери ҳар майдон нишон диҳед.",
+        "en": "Write a field validation function and show clear errors under each field."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Ошибки говорят, что исправить",
+            "tg": "Хатоҳо мегӯянд, ки чиро ислоҳ кунанд",
+            "en": "Errors say what to fix"
+          },
+          "body": {
+            "ru": "Форма без проверки принимает мусор: пустое название или отрицательные минуты. Проверку делают чистой функцией: validate принимает значения полей и возвращает объект ошибок, где ключ — имя поля, значение — понятное сообщение. Пустой объект означает, что всё в порядке. Чистая функция не меняет состояние и не лезет в сеть: её легко вызвать с любыми значениями и проверить, в том числе автоматическим тестом компонента. Сообщения пишут от пользователя: не «invalid input», а «Название короче трёх символов». Ошибки показывают под своим полем и убирают при следующей успешной проверке. Проверка на устройстве не заменяет проверку данных на сервере: она помогает пользователю, а не защищает систему.",
+            "tg": "Шакли бе санҷиш ахротро қабул мекунад: номи холӣ ё дақиқаҳои манфӣ. Санҷиш бо функсияи софа мекунанд: validate қиматҳои майдонҳоро мегирад ва объекти хатоҳоро бармегардонад, ки калид — номи майдон, қимат — паёми фаҳмо. Объекти холӣ маънои он аст, ки ҳама чиз дуруст аст. Функсияи софа ҳолатро тағйир намедиҳад ва ба шабака намеравад: онро бо ҳар қимат даъват кардан, аз ҷумла бо санҷиши худкори компонент, осон аст. Паёмҳоро аз тарафи корбар менависанд: на «invalid input», балки «Ном аз се аломат кӯтоҳ аст». Хатоҳоро зери майдони худ нишон дода, ҳангоми санҷиши муваффақияти оянда мебароранд. Санҷиши дар дастгоҳ ҷои санҷиши маълумот дар серверро намегирад: ӯ ба корбар кӯмак мекунад, на системаro ҳимоя.",
+            "en": "A form without validation accepts garbage: an empty title or negative minutes. Validation is a pure function: validate takes the field values and returns an errors object where the key is the field name and the value is a clear message. An empty object means everything is fine. A pure function does not touch state or the network: you can call it with any values and check it, including an automated component test. Write messages from the user perspective: not \"invalid input\" but \"Название короче трёх символов\". Errors show under their own field and clear on the next successful check. On-device validation does not replace server-side checks: it helps the user, it does not protect the system."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Тип Errors описывает два необязательных поля — title и minutes. validate наполняет объект: title проверяется через trim и длину, minutes — регулярным выражением ^d+$, чтобы строка была целым числом, и сравнением с нулём. Регулярное выражение читается так: от начала до конца только цифры. Обработчик submit вызывает validate и сохраняет результат в состояние errors; под каждым полем показывается своя ошибка, если она есть. Регулярное выражение читается так: от начала до конца только цифры. Проверьте на устройстве: пустая форма даёт две ошибки, «аб» и «0» — тоже, «абв» и «30» проходят. В решении добавлена строка успеха после удачной проверки.",
+            "tg": "Типи Errors ду майдони ихтиёриро тавсиф медиҳад — title ва minutes. validate объектро пур мекунад: title тавассути trim ва дарозӣ, minutes бо ифодаи муқаррарии ^d+$ месанҷад, ки сатр адади бутун бошад, ва муқоиса бо сифр. Ифодаи муқаррарӣ чунин хонда мешавад: аз оғоз то охир танҳо рақамҳо. Обработчики submit validate-ро мехонад ва натиҷаро ба ҳолати errors нигоҳ медорад; зери ҳар майдон хатои худаш нишон дода мешавад, агар бошад. Дар дастгоҳ санҷед: шакли холӣ ду хато медиҳад, «аб» ва «0» ҳам, «абв» ва «30» мегузаранд. Дар ҳалл баъди санҷиши муваффақ сатри муваффақият илова шудааст.",
+            "en": "The Errors type describes two optional fields — title and minutes. validate fills the object: title is checked through trim and length, minutes with the ^d+$ regular expression, so the string is a whole number, and a comparison with zero. The regular expression reads: from start to end only digits. The submit handler calls validate and stores the result in the errors state; each field shows its own error if present. Check on a device: an empty form gives two errors, so do «аб» with «0»; «абв» with «30» passes. The solution adds a success line after a valid check."
+          },
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Errors = { title?: string; minutes?: string };\n\nexport function validate(title: string, minutes: string): Errors {\n  const errors: Errors = {};\n  if (title.trim().length < 3) errors.title = 'Название короче трёх символов';\n  if (!/^\\d+$/.test(minutes) || Number(minutes) <= 0) errors.minutes = 'Минуты — целое число больше нуля';\n  return errors;\n}\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('');\n  const [errors, setErrors] = useState<Errors>({});\n\n  function submit() {\n    setErrors(validate(title, minutes));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Новое занятие</Text>\n      <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n      {errors.title ? <Text style={styles.error}>{errors.title}</Text> : null}\n      <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n      {errors.minutes ? <Text style={styles.error}>{errors.minutes}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={submit}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Проверить форму</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-22-q1",
+          "question": {
+            "ru": "Что возвращает validate?",
+            "tg": "validate чӣ бармегардонад?",
+            "en": "What does validate return?"
+          },
+          "options": [
+            {
+              "ru": "true или false",
+              "tg": "true ё false",
+              "en": "true or false"
+            },
+            {
+              "ru": "Строку с логом",
+              "tg": "Сатри матни ҳодиса",
+              "en": "A log string"
+            },
+            {
+              "ru": "Объект ошибок по именам полей",
+              "tg": "Объекти хатоҳо аз рӯи номи майдонҳо",
+              "en": "An errors object keyed by field names"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Ключ — имя поля, значение — понятное сообщение.",
+            "tg": "Калид — номи майдон, қимат — паёми фаҳмо.",
+            "en": "The key is the field name, the value is a clear message."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе описание формы результата.",
+            "tg": "Дар бахши аввал тавсифи шакли натиҷаро ёбед.",
+            "en": "Find the result shape description in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-22-q2",
+          "question": {
+            "ru": "Что означает пустой объект ошибок?",
+            "tg": "Объекти холи хатоҳо чӣ маъно дорад?",
+            "en": "What does an empty errors object mean?"
+          },
+          "options": [
+            {
+              "ru": "Все поля прошли проверку",
+              "tg": "Ҳамаи майдонҳо санҷишро гузаштанд",
+              "en": "All fields passed validation"
+            },
+            {
+              "ru": "Произошла ошибка сети",
+              "tg": "Хатои шабака рух дод",
+              "en": "A network error happened"
+            },
+            {
+              "ru": "Форма ещё не открыта",
+              "tg": "Шакл ҳоло кушода нашудааст",
+              "en": "The form is not open yet"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Нет сообщений — нет ошибок.",
+            "tg": "Паём нест — хато нест.",
+            "en": "No messages — no errors."
+          },
+          "hint": {
+            "ru": "Вспомните, что показывают блоки errors.title ? ... : null.",
+            "tg": "Ёд оред, ки блокҳои errors.title ? ... : null чӣ нишон медиҳанд.",
+            "en": "Recall what the errors.title ? ... : null blocks show."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-22-q3",
+          "question": {
+            "ru": "Почему validate — чистая функция?",
+            "tg": "validate барои чӣ функсияи соф аст?",
+            "en": "Why is validate a pure function?"
+          },
+          "options": [
+            {
+              "ru": "Она всегда быстрая",
+              "tg": "Он ҳамеша тез аст",
+              "en": "It is always fast"
+            },
+            {
+              "ru": "Она не меняет состояние и не обращается к сети",
+              "tg": "Он ҳолатро тағйир намедиҳад ва ба шабака намеравад",
+              "en": "It does not change state or touch the network"
+            },
+            {
+              "ru": "Она написана на TypeScript",
+              "tg": "Он бо TypeScript навишта шудааст",
+              "en": "It is written in TypeScript"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Чистоту легко проверить любыми значениями, в том числе тестом.",
+            "tg": "Софиро бо ҳар қимат, аз ҷумла бо тест, осон санҷидан мумкин.",
+            "en": "Purity lets you check it with any values, including a test."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе слова о проверке чистой функции.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи санҷиши функсияи софро ёбед.",
+            "en": "Find the first-section words about checking a pure function."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-22-q4",
+          "question": {
+            "ru": "Что проверяет регулярное выражение ^d+$?",
+            "tg": "Ифодаи муқаррарии ^d+$ чиро месанҷад?",
+            "en": "What does the ^d+$ regular expression check?"
+          },
+          "options": [
+            {
+              "ru": "Что строка содержит пробел",
+              "tg": "Он ки сатр фосила дорад",
+              "en": "That the string has a space"
+            },
+            {
+              "ru": "Что строка начинается с буквы",
+              "tg": "Он ки сатр бо ҳарф оғоз мешавад",
+              "en": "That the string starts with a letter"
+            },
+            {
+              "ru": "Что строка целиком состоит из цифр",
+              "tg": "Он ки сатр пурра аз рақамҳо иборат аст",
+              "en": "That the string is entirely digits"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "От начала до конца — только цифры, поэтому 1.5 не пройдёт.",
+            "tg": "Аз оғоз то охир — танҳо рақамҳо, бинобар ин 1.5 намегузарад.",
+            "en": "Start to end, digits only, so 1.5 fails."
+          },
+          "hint": {
+            "ru": "Посмотрите на проверку minutes в validate.",
+            "tg": "Ба санҷиши minutes дар validate нигоҳ кунед.",
+            "en": "Look at the minutes check in validate."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-22-q5",
+          "question": {
+            "ru": "Чего не заменяет проверка формы на устройстве?",
+            "tg": "Санҷиши шакл дар дастгоҳ чиро иваз намекунад?",
+            "en": "What does on-device form validation not replace?"
+          },
+          "options": [
+            {
+              "ru": "Проверку данных на сервере",
+              "tg": "Санҷиши маълумот дар сервер",
+              "en": "Server-side data checks"
+            },
+            {
+              "ru": "Показ ошибок пользователю",
+              "tg": "Нишон додани хатоҳо ба корбар",
+              "en": "Showing errors to the user"
+            },
+            {
+              "ru": "Разметку полей",
+              "tg": "Андозаи майдонҳо",
+              "en": "Field layout"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Клиентская проверка помогает пользователю; система защищается на сервере.",
+            "tg": "Санҷиши клиентӣ ба корбар кӯмак мекунад; система дар сервер ҳимоя мешавад.",
+            "en": "Client validation helps the user; the system is protected on the server."
+          },
+          "hint": {
+            "ru": "Перечитайте последнее предложение первого раздела.",
+            "tg": "Ҷумлаи охирини бахши аввалро аз нав хонед.",
+            "en": "Re-read the last sentence of the first section."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте форму на устройстве с тремя наборами значений: пустая, почти правильная и верная. Добавьте строку успеха после удачной проверки, как в решении, и запишите сообщения ошибок дословно. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва шаклро дар дастгоҳ бо се маҷмӯи қиматҳо санҷед: холӣ, қариб дуруст ва дуруст. Баъди санҷиши муваффақ сатри муваффақиятро мисли ҳалл илова карда, паёмҳои хаторо калима ба калима сабт кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check the form on a device with three value sets: empty, almost valid and valid. Add the success line after a valid check as in the solution and record the error messages verbatim. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Скопируйте блок с checked и valid из решения: setChecked(true) в submit и условие под кнопкой.",
+          "tg": "Блоки checked ва valid-ро аз ҳалл нусхабардорӣ кунед: setChecked(true) дар submit ва шарти зери тугма.",
+          "en": "Copy the checked and valid block from the solution: setChecked(true) in submit and the condition under the button."
+        },
+        "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Errors = { title?: string; minutes?: string };\n\nexport function validate(title: string, minutes: string): Errors {\n  const errors: Errors = {};\n  if (title.trim().length < 3) errors.title = 'Название короче трёх символов';\n  if (!/^\\d+$/.test(minutes) || Number(minutes) <= 0) errors.minutes = 'Минуты — целое число больше нуля';\n  return errors;\n}\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('');\n  const [errors, setErrors] = useState<Errors>({});\n  const [checked, setChecked] = useState(false);\n\n  function submit() {\n    setErrors(validate(title, minutes));\n    setChecked(true);\n  }\n\n  const valid = checked && Object.keys(errors).length === 0;\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Новое занятие</Text>\n      <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n      {errors.title ? <Text style={styles.error}>{errors.title}</Text> : null}\n      <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n      {errors.minutes ? <Text style={styles.error}>{errors.minutes}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={submit}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Проверить форму</Text>\n      </Pressable>\n      {valid ? <Text>Форма готова к сохранению.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Ошибки показываются под своими полями и совпадают с записью.",
+            "tg": "Хатоҳо зери майдонҳои худ нишон дода, ба сабт мутобиқанд.",
+            "en": "Errors show under their fields and match the record."
+          },
+          {
+            "ru": "Успешная проверка показана отдельной строкой.",
+            "tg": "Санҷиши муваффақ бо сатри алоҳида нишон дода мешавад.",
+            "en": "A valid check is shown with a separate line."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Написать чистую функцию проверки формы.",
+            "tg": "Функсияи софи санҷиши шаклро нависед.",
+            "en": "Write a pure form validation function."
+          },
+          {
+            "ru": "Показывать ошибки под своими полями.",
+            "tg": "Хатоҳоро зери майдонҳои худ нишон диҳед.",
+            "en": "Show errors under their own fields."
+          }
+        ],
+        "realWorld": {
+          "ru": "Форма регистрации не примет заявку, пока поля не исправят, и скажет что именно.",
+          "tg": "Шакли сабти ном то ислоҳи майдонҳо дархостро намепазирад ва мегӯяд, ки чӣ.",
+          "en": "A signup form rejects the request until fields are fixed and says exactly what."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что означает пустой объект ошибок?",
+            "tg": "Объекти холи хатоҳо чӣ маъно дорад?",
+            "en": "What does an empty errors object mean?"
+          },
+          "options": [
+            {
+              "ru": "Все поля прошли проверку",
+              "tg": "Ҳамаи майдонҳо санҷишро гузаштанд",
+              "en": "All fields passed validation"
+            },
+            {
+              "ru": "Произошла ошибка сети",
+              "tg": "Хатои шабака рух дод",
+              "en": "A network error happened"
+            },
+            {
+              "ru": "Форма ещё не открыта",
+              "tg": "Шакл ҳоло кушода нашудааст",
+              "en": "The form is not open yet"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Вспомните, что показывают блоки errors.title ? ... : null.",
+            "tg": "Ёд оред, ки блокҳои errors.title ? ... : null чӣ нишон медиҳанд.",
+            "en": "Recall what the errors.title ? ... : null blocks show."
+          },
+          "explanation": {
+            "ru": "Нет сообщений — нет ошибок.",
+            "tg": "Паём нест — хато нест.",
+            "en": "No messages — no errors."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Errors = { title?: string; minutes?: string };\n\nexport function validate(title: string, minutes: string): Errors {\n  const errors: Errors = {};\n  if (title.trim().length < 3) errors.title = 'Название короче трёх символов';\n  if (!/^\\d+$/.test(minutes) || Number(minutes) <= 0) errors.minutes = 'Минуты — целое число больше нуля';\n  return errors;\n}\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('');\n  const [errors, setErrors] = useState<Errors>({});\n\n  function submit() {\n    setErrors(validate(title, minutes));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Новое занятие</Text>\n      <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n      {errors.title ? <Text style={styles.error}>{errors.title}</Text> : null}\n      <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n      {errors.minutes ? <Text style={styles.error}>{errors.minutes}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={submit}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Проверить форму</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 7,
+              "explanation": {
+                "ru": "validate принимает значения полей.",
+                "tg": "validate қиматҳои майдонҳоро мегирад.",
+                "en": "validate takes the field values."
+              },
+              "values": "title, minutes"
+            },
+            {
+              "line": 9,
+              "explanation": {
+                "ru": "Ошибка записи описывает проблему словами.",
+                "tg": "Паёми хато мушкилиро бо калимаҳо менависад.",
+                "en": "The error message names the problem in words."
+              },
+              "values": "title error"
+            },
+            {
+              "line": 10,
+              "explanation": {
+                "ru": "Minutes проверяется цифрами и сравнением с нулём.",
+                "tg": "minutes бо рақамҳо ва муқоиса бо сифр санҷида мешавад.",
+                "en": "minutes is checked for digits and compared with zero."
+              },
+              "values": "minutes error | ok"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере, где вызывается validate и где показываются ошибки.",
+              "tg": "Дар мисол ёбед, ки validate дар куҷо даъват ва хатоҳо дар куҷо нишон дода мешаванд.",
+              "en": "Find where validate is called and where errors render."
+            },
+            {
+              "ru": "Отправьте пустую форму, затем «абв» и «30», и сравните сообщения.",
+              "tg": "Шакли холиро фиристода, баъд «абв» ва «30»-ро фиристода, паёмҳоро муқоиса кунед.",
+              "en": "Submit the empty form, then «абв» and «30», and compare the messages."
+            }
+          ],
+          "hint": {
+            "ru": "Скопируйте блок с checked и valid из решения: setChecked(true) в submit и условие под кнопкой.",
+            "tg": "Блоки checked ва valid-ро аз ҳалл нусхабардорӣ кунед: setChecked(true) дар submit ва шарти зери тугма.",
+            "en": "Copy the checked and valid block from the solution: setChecked(true) in submit and the condition under the button."
+          },
+          "success": {
+            "ru": "Пустая форма показывает две понятные ошибки, а правильные значения — успех.",
+            "tg": "Шакли холӣ ду хатои фаҳмо нишон медиҳад ва қиматҳои дуруст — муваффақият.",
+            "en": "The empty form shows two clear errors and correct values succeed."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте форму на устройстве с тремя наборами значений: пустая, почти правильная и верная. Добавьте строку успеха после удачной проверки, как в решении, и запишите сообщения ошибок дословно. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва шаклро дар дастгоҳ бо се маҷмӯи қиматҳо санҷед: холӣ, қариб дуруст ва дуруст. Баъди санҷиши муваффақ сатри муваффақиятро мисли ҳалл илова карда, паёмҳои хаторо калима ба калима сабт кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check the form on a device with three value sets: empty, almost valid and valid. Add the success line after a valid check as in the solution and record the error messages verbatim. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Ошибки показываются под своими полями и совпадают с записью.",
+              "tg": "Хатоҳо зери майдонҳои худ нишон дода, ба сабт мутобиқанд.",
+              "en": "Errors show under their fields and match the record."
+            },
+            {
+              "ru": "Успешная проверка показана отдельной строкой.",
+              "tg": "Санҷиши муваффақ бо сатри алоҳида нишон дода мешавад.",
+              "en": "A valid check is shown with a separate line."
+            }
+          ],
+          "example": {
+            "ru": "После ввода «Чтение» и «30» под кнопкой появляется «Форма готова к сохранению.».",
+            "tg": "Баъди вориди «Хониш» ва «30» зери тугма «Шакл барои нигоҳдорӣ омода аст.» пайдо мешавад.",
+            "en": "Typing «Чтение» and «30» shows «Форма готова к сохранению.» under the button."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Проверка — чистая функция, возвращающая ошибки по полям.",
+            "tg": "Санҷиш функсияи соф аст, ки хатоҳоро аз рӯи майдонҳо бармегардонад.",
+            "en": "Validation is a pure function returning per-field errors."
+          },
+          {
+            "ru": "Понятные сообщения и проверка на сервере — разные вещи.",
+            "tg": "Паёми фаҳмо ва санҷиши сервер чизҳои гуногунанд.",
+            "en": "Clear messages and server checks are different things."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что означает пустой объект ошибок?",
+            "tg": "Объекти холи хатоҳо чӣ маъно дорад?",
+            "en": "What does an empty errors object mean?"
+          },
+          {
+            "ru": "Что проверяет регулярное выражение ^d+$?",
+            "tg": "Ифодаи муқаррарии ^d+$ чиро месанҷад?",
+            "en": "What does the ^d+$ regular expression check?"
+          }
+        ],
+        "nextLessonId": "mobile-day-23"
+      }
+    },
+    {
+      "id": "mobile-day-23",
+      "day": 23,
+      "prerequisiteDays": [
+        22
+      ],
+      "title": {
+        "ru": "Мини-проект: три экрана",
+        "tg": "Лоиҳаи хурд: се экран",
+        "en": "Mini project: three screens"
+      },
+      "summary": {
+        "ru": "Соберите список, форму добавления и подробности в одном приложении на переключателе состояния.",
+        "tg": "Рӯйхат, шакли илова ва тафсилотро дар як барнома бо калидгузари ҳолат ҷамъ оваред.",
+        "en": "Combine a list, an add form and details in one app on a state switch."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Сценарий становится приложением",
+            "tg": "Сценарий ба барнома табдил меёбад",
+            "en": "The scenario becomes an app"
+          },
+          "body": {
+            "ru": "Мини-проект собирает всё, что выучено в модуле: сценарий из дня 17, TextInput из дня 14, Pressable из дня 15 и проверку из дня 22. Три экрана переключаются одной переменной screen со значениями list, add и details; выбранная запись хранится отдельным состоянием selected. Сценарий записывается тремя строками: список → (добавить | открыть) → возврат. Важно честно называть ограничения: данные живут в памяти, поэтому после перезапуска список пуст; запись ищется по id, и неизвестный id показывает запасной текст; настоящий стек из дней 18–19 в реальном проекте заменит переключатель. Сначала проверьте сценарий на устройстве, потом расширяйте.",
+            "tg": "Лоиҳаи хурд ҳамаи он чизеро, ки дар модул омӯхтед, ҷамъ меорад: сценарий аз рӯзи 17, TextInput аз рӯзи 14, Pressable аз рӯзи 15 ва санҷиш аз рӯзи 22. Се экран бо як тағйирёбандаи screen бо қиматҳои list, add ва details иваз мешаванд; сабти интихобшуда дар ҳолати алоҳидаи selected нигоҳ дошта мешавад. Сценарий бо се сатр навишта мешавад: рӯйхат → (илова | кушодан) → баргашт. Маҳдудиятҳоро рӯбарӯ номбар кардан муҳим аст: маълумот дар хотира аст, бинобар ин баъди аз нав оғоз рӯйхат холист; сабт аз рӯи id меҷӯянд ва id-и номаълум матни ҷойгузин нишон медиҳад; стеки воқеии рӯзҳои 18–19 дар лоиҳаи ҳақиқӣ калидгузариро иваз мекунад. Аввал сценарийро дар дастгоҳ санҷед, баъд васеъ кунед.",
+            "en": "The mini project combines everything from the module: the day-17 scenario, the day-14 TextInput, the day-15 Pressable and the day-22 validation. Three screens switch on one screen variable with the values list, add and details; the chosen record lives in a separate selected state. The scenario is three lines: list → (add | open) → back. Name the limits honestly: data lives in memory, so the list is empty after a restart; the record is found by id and an unknown id shows fallback text; the real stack of days 18–19 would replace the switch in a production app. Check the scenario on a device first, then extend."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Экран list показывает заглушку, пока tasks пуст, иначе рисует каждую запись Pressable-строкой, которая запоминает id и открывает details. add — форма с полем и двумя кнопками: «Сохранить» вызывает addTask, «Отмена» возвращается без изменений. addTask проверяет trim: пустая строка не добавляется, id создаётся из Date.now — для учебного списка достаточно, настоящие id генерируют надёжнее. details находит запись по selected и показывает запасной заголовок, если записи нет. Пройдите весь сценарий на устройстве: добавьте два занятия, откройте оба, вернитесь. В решении добавлено сообщение об ошибке при коротком названии — как в дне 22.",
+            "tg": "Экрани list то холӣ будани tasks ҷои холӣ нишон медиҳад, вагарна ҳар сабтро ҳамчун сатри Pressable мекашад, ки id-ро дар ёд дорад ва details-ро мекушояд. add шакл бо майдон ва ду тугма аст: «Нигоҳ доштан» addTask-ро мехонад, «Бекор» бе тағйир бармегардонад. addTask trim-ро месанҷад: сатри холӣ илова намешавад, id аз Date.now сохта мешавад — барои рӯйхати таълимӣ кифоя аст, id-и воқеиро беҳтар месозанд. details сабтро аз рӯи selected меёбад ва агар сабт набошад, сарлавҳаи ҷойгузин нишон медиҳад. Тамоми сценариро дар дастгох гузаронед: ду машғулият илова карда, ҳарду кушода, баргардед. Дар ҳалл ҳангоми номи кӯтоҳ паёми хато илова шудааст — мисли рӯзи 22.",
+            "en": "The list screen shows a placeholder while tasks is empty, otherwise renders each record as a Pressable row that remembers the id and opens details. add is a form with a field and two buttons: «Сохранить» calls addTask, «Отмена» returns unchanged. addTask checks trim: an empty string is not added, the id comes from Date.now — enough for a teaching list, real ids deserve stronger generation. details finds the record by selected and shows a fallback header when it is missing. Walk the whole scenario on a device: add two lessons, open both, return. The solution adds an error message for a short title, as in day 22."
+          },
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Task = { id: string; title: string };\ntype ScreenName = 'list' | 'add' | 'details';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [screen, setScreen] = useState<ScreenName>('list');\n  const [selected, setSelected] = useState<string | null>(null);\n  const [title, setTitle] = useState('');\n\n  function addTask() {\n    if (!title.trim()) return;\n    const task = { id: String(Date.now()), title: title.trim() };\n    setTasks(current => [...current, task]);\n    setTitle('');\n    setScreen('list');\n  }\n\n  const selectedTask = tasks.find(task => task.id === selected);\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                onPress={() => { setSelected(task.id); setScreen('details'); }}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title}</Text>\n              </Pressable>\n            ))\n          )}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('add')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : screen === 'add' ? (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          <Pressable accessibilityRole=\"button\" onPress={addTask} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">{selectedTask ? selectedTask.title : 'Занятие не найдено'}</Text>\n          {selectedTask ? <Text>Детали занятия «{selectedTask.title}».</Text> : null}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Назад к списку</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-23-q1",
+          "question": {
+            "ru": "Сколько экранов переключает переменная screen?",
+            "tg": "Тағйирёбандаи screen чанд экранро иваз мекунад?",
+            "en": "How many screens does the screen variable switch?"
+          },
+          "options": [
+            {
+              "ru": "Три: list, add и details",
+              "tg": "Се: list, add ва details",
+              "en": "Three: list, add and details"
+            },
+            {
+              "ru": "Один",
+              "tg": "Як",
+              "en": "One"
+            },
+            {
+              "ru": "Десять",
+              "tg": "Даҳ",
+              "en": "Ten"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Сценарий модуля — три имени экрана.",
+            "tg": "Сценарии модул — се номи экран.",
+            "en": "The module scenario has three screen names."
+          },
+          "hint": {
+            "ru": "Посмотрите на тип ScreenName в примере.",
+            "tg": "Ба типи ScreenName дар мисол нигоҳ кунед.",
+            "en": "Look at the ScreenName type in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-23-q2",
+          "question": {
+            "ru": "Где хранится выбранная запись?",
+            "tg": "Сабти интихобшуда дар куҷо нигоҳ дошта мешавад?",
+            "en": "Where is the chosen record stored?"
+          },
+          "options": [
+            {
+              "ru": "В StyleSheet",
+              "tg": "Дар StyleSheet",
+              "en": "In StyleSheet"
+            },
+            {
+              "ru": "В отдельном состоянии selected",
+              "tg": "Дар ҳолати алоҳидаи selected",
+              "en": "In the separate selected state"
+            },
+            {
+              "ru": "На сервере",
+              "tg": "Дар сервер",
+              "en": "On a server"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "id записи живёт в selected, запись ищется при рендере.",
+            "tg": "id-и сабт дар selected аст ва сабт ҳангоми render меҷӯяд.",
+            "en": "The record id lives in selected and the record is looked up at render."
+          },
+          "hint": {
+            "ru": "Найдите вызов tasks.find в примере.",
+            "tg": "Дархости tasks.find-ро дар мисол ёбед.",
+            "en": "Find the tasks.find call in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-23-q3",
+          "question": {
+            "ru": "Что происходит при нажатии «Отмена» на add?",
+            "tg": "Ҳангоми пахши «Бекор» дар add чӣ мешавад?",
+            "en": "What does «Отмена» on add do?"
+          },
+          "options": [
+            {
+              "ru": "Сохраняет пустую запись",
+              "tg": "Сабти холиро нигоҳ медорад",
+              "en": "Saves an empty record"
+            },
+            {
+              "ru": "Удаляет все записи",
+              "tg": "Ҳамаи сабтҳоро нест мекунад",
+              "en": "Deletes all records"
+            },
+            {
+              "ru": "Возвращает на список без изменений",
+              "tg": "Бе тағйир ба рӯйхат бармегардонад",
+              "en": "Returns to the list unchanged"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Отмена — возврат по сценарию без изменения данных.",
+            "tg": "Бекоркунӣ аз рӯи сценарий бе тағйири маълумот бармегардад.",
+            "en": "Cancel returns along the scenario without changing data."
+          },
+          "hint": {
+            "ru": "Посмотрите на onPress кнопки «Отмена».",
+            "tg": "Ба onPress-и тугмаи «Бекор» нигоҳ кунед.",
+            "en": "Look at the «Отмена» button onPress."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-23-q4",
+          "question": {
+            "ru": "Почему id создаётся из Date.now?",
+            "tg": "id барои чӣ аз Date.now сохта мешавад?",
+            "en": "Why is the id built from Date.now?"
+          },
+          "options": [
+            {
+              "ru": "Для уникальности в учебном списке",
+              "tg": "Барои ягонагӣ дар рӯйхати таълимӣ",
+              "en": "For uniqueness in a teaching list"
+            },
+            {
+              "ru": "Для скорости рендера",
+              "tg": "Барои тезии render",
+              "en": "For render speed"
+            },
+            {
+              "ru": "Для шифрования",
+              "tg": "Барои рамзгузорӣ",
+              "en": "For encryption"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Каждая запись получает уникальный ключ; в реальном проекте id делают надёжнее.",
+            "tg": "Ҳар сабт калиди ягона мегирад; дар лоиҳаи воқеӣ id-ро беҳтар месозанд.",
+            "en": "Each record gets a unique key; production apps build stronger ids."
+          },
+          "hint": {
+            "ru": "Вспомните день 9: чем хорош стабильный id.",
+            "tg": "Рӯзи 9-ро ёд оред: id-и устувор чӣ гуна беҳтар аст.",
+            "en": "Recall day 9: why a stable id is good."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-23-q5",
+          "question": {
+            "ru": "Что станет со списком после перезапуска приложения?",
+            "tg": "Баъди аз нав оғоз бо рӯйхат чӣ мешавад?",
+            "en": "What happens to the list after an app restart?"
+          },
+          "options": [
+            {
+              "ru": "Он сохранится на устройстве",
+              "tg": "Дар дастгоҳ нигоҳ дошта мешавад",
+              "en": "It is saved on the device"
+            },
+            {
+              "ru": "Он опустеет: данные в памяти",
+              "tg": "Холӣ мешавад: маълумот дар хотира аст",
+              "en": "It empties: the data is in memory"
+            },
+            {
+              "ru": "Он отправится на сервер",
+              "tg": "Ба сервер меравад",
+              "en": "It is uploaded to a server"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Ограничение названо честно: сохранение — тема следующего модуля.",
+            "tg": "Маҳдудият рӯбарӯ номбар шудааст: нигоҳдорӣ мавзӯи модули оянда аст.",
+            "en": "The limit is named honestly: persistence is the next module topic."
+          },
+          "hint": {
+            "ru": "Перечитайте конец первого раздела про ограничения.",
+            "tg": "Охири бахши аввал дар бораи маҳдудиятҳоро аз нав хонед.",
+            "en": "Re-read the end of the first section about limits."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите мини-проект и пройдите весь сценарий на устройстве: добавить два занятия, открыть оба, вернуться, проверить пустое состояние до добавлений. Добавьте сообщение об ошибке при коротком названии, как в решении. Запишите, какие ограничения проекта вы проверили лично. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Лоиҳаи хурдро созед ва тамоми сценариро дар дастгоҳ гузаронед: ду машғулият илова кунед, ҳарду кушоед, баргардед, ҳолати холиро пеш аз иловаҳо санҷед. Ҳангоми номи кӯтоҳ паёми хаторо мисли ҳалл илова кунед. Сабт кунед, ки кадом маҳдудиятҳои лоиҳаро худ санҷидед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the mini project and walk the whole scenario on a device: add two lessons, open both, return, check the empty state before adding. Add the short-title error message as in the solution. Record which project limits you verified yourself. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Скопируйте состояние error и условие сохранения из дня 22: title.trim().length < 3.",
+          "tg": "Ҳолати error ва шарти нигоҳдориро аз рӯзи 22 нусхабардорӣ кунед: title.trim().length < 3.",
+          "en": "Copy the error state and the save condition from day 22: title.trim().length < 3."
+        },
+        "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Task = { id: string; title: string };\ntype ScreenName = 'list' | 'add' | 'details';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [screen, setScreen] = useState<ScreenName>('list');\n  const [selected, setSelected] = useState<string | null>(null);\n  const [title, setTitle] = useState('');\n  const [error, setError] = useState('');\n\n  function addTask() {\n    if (title.trim().length < 3) {\n      setError('Название короче трёх символов');\n      return;\n    }\n    const task = { id: String(Date.now()), title: title.trim() };\n    setTasks(current => [...current, task]);\n    setTitle('');\n    setError('');\n    setScreen('list');\n  }\n\n  const selectedTask = tasks.find(task => task.id === selected);\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                onPress={() => { setSelected(task.id); setScreen('details'); }}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title}</Text>\n              </Pressable>\n            ))\n          )}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('add')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : screen === 'add' ? (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          {error ? <Text style={styles.error}>{error}</Text> : null}\n          <Pressable accessibilityRole=\"button\" onPress={addTask} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">{selectedTask ? selectedTask.title : 'Занятие не найдено'}</Text>\n          {selectedTask ? <Text>Детали занятия «{selectedTask.title}».</Text> : null}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Назад к списку</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Сценарий из трёх экранов пройден целиком на устройстве.",
+            "tg": "Сценарии аз се экран дар дастгоҳ пурра гузаронида шудааст.",
+            "en": "The three-screen scenario is walked fully on a device."
+          },
+          {
+            "ru": "Пустое состояние и ошибка короткого названия работают.",
+            "tg": "Ҳолати холӣ ва хатои номи кӯтоҳ кор мекунанд.",
+            "en": "The empty state and the short-title error work."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Собрать сценарий из трёх экранов в рабочем приложении.",
+            "tg": "Сценарии аз се экранро дар барномаи корӣ ҷамъ оваред.",
+            "en": "Assemble the three-screen scenario into a working app."
+          },
+          {
+            "ru": "Проверить весь пользовательский путь на устройстве.",
+            "tg": "Тамоми роҳи корбарро дар дастгоҳ санҷед.",
+            "en": "Walk the whole user path on a device."
+          }
+        ],
+        "realWorld": {
+          "ru": "Приложение заметок: список, кнопка «плюс», форма и экран заметки — тот же каркас.",
+          "tg": "Барномаи қайдҳо: рӯйхат, тугмаи «зиёд», шакл ва экрани қайд — ҳамон каркас.",
+          "en": "A notes app: list, plus button, form and note screen — the same skeleton."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Где хранится выбранная запись?",
+            "tg": "Сабти интихобшуда дар куҷо нигоҳ дошта мешавад?",
+            "en": "Where is the chosen record stored?"
+          },
+          "options": [
+            {
+              "ru": "В StyleSheet",
+              "tg": "Дар StyleSheet",
+              "en": "In StyleSheet"
+            },
+            {
+              "ru": "В отдельном состоянии selected",
+              "tg": "Дар ҳолати алоҳидаи selected",
+              "en": "In the separate selected state"
+            },
+            {
+              "ru": "На сервере",
+              "tg": "Дар сервер",
+              "en": "On a server"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Найдите вызов tasks.find в примере.",
+            "tg": "Дархости tasks.find-ро дар мисол ёбед.",
+            "en": "Find the tasks.find call in the example."
+          },
+          "explanation": {
+            "ru": "id записи живёт в selected, запись ищется при рендере.",
+            "tg": "id-и сабт дар selected аст ва сабт ҳангоми render меҷӯяд.",
+            "en": "The record id lives in selected and the record is looked up at render."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Task = { id: string; title: string };\ntype ScreenName = 'list' | 'add' | 'details';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [screen, setScreen] = useState<ScreenName>('list');\n  const [selected, setSelected] = useState<string | null>(null);\n  const [title, setTitle] = useState('');\n\n  function addTask() {\n    if (!title.trim()) return;\n    const task = { id: String(Date.now()), title: title.trim() };\n    setTasks(current => [...current, task]);\n    setTitle('');\n    setScreen('list');\n  }\n\n  const selectedTask = tasks.find(task => task.id === selected);\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                onPress={() => { setSelected(task.id); setScreen('details'); }}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title}</Text>\n              </Pressable>\n            ))\n          )}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('add')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : screen === 'add' ? (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          <Pressable accessibilityRole=\"button\" onPress={addTask} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">{selectedTask ? selectedTask.title : 'Занятие не найдено'}</Text>\n          {selectedTask ? <Text>Детали занятия «{selectedTask.title}».</Text> : null}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Назад к списку</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 9,
+              "explanation": {
+                "ru": "addTask создаёт запись и очищает поле.",
+                "tg": "addTask сабт месозад ва майдонро тоза мекунад.",
+                "en": "addTask creates a record and clears the field."
+              },
+              "values": "tasks + 1"
+            },
+            {
+              "line": 15,
+              "explanation": {
+                "ru": "selected находит запись для экрана details.",
+                "tg": "selected сабтро барои экрани details меёбад.",
+                "en": "selected looks up the record for details."
+              },
+              "values": "task | undefined"
+            },
+            {
+              "line": 27,
+              "explanation": {
+                "ru": "Список с пустым состоянием честен: нет записей — есть подсказка.",
+                "tg": "Рӯйхат бо ҳолати холӣ рӯбарӯ аст: сабт нест — маслиҳат ҳаст.",
+                "en": "The list empty state is honest: no records means a hint."
+              },
+              "values": "list screen"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Пройдите сценарий целиком: список → добавить → сохранить → открыть → назад.",
+              "tg": "Сценариро пурра гузаронед: рӯйхат → илова → нигоҳдорӣ → кушодан → ба ақиб.",
+              "en": "Walk the scenario fully: list → add → save → open → back."
+            },
+            {
+              "ru": "Добавьте второе занятие и убедитесь, что оба открываются по своим id.",
+              "tg": "Машғулияти дуюмро илова карда, боварӣ ҳосил кунед, ки ҳарду бо id-и худ кушода мешаванд.",
+              "en": "Add a second lesson and confirm both open by their ids."
+            }
+          ],
+          "hint": {
+            "ru": "Скопируйте состояние error и условие сохранения из дня 22: title.trim().length < 3.",
+            "tg": "Ҳолати error ва шарти нигоҳдориро аз рӯзи 22 нусхабардорӣ кунед: title.trim().length < 3.",
+            "en": "Copy the error state and the save condition from day 22: title.trim().length < 3."
+          },
+          "success": {
+            "ru": "Сценарий из трёх экранов работает целиком, пустое состояние объясняет отсутствие записей.",
+            "tg": "Сценарии аз се экран пурра кор мекунад ва ҳолати холӣ набудани сабтҳоро фаҳмонад.",
+            "en": "The three-screen scenario works end to end and the empty state explains missing records."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите мини-проект и пройдите весь сценарий на устройстве: добавить два занятия, открыть оба, вернуться, проверить пустое состояние до добавлений. Добавьте сообщение об ошибке при коротком названии, как в решении. Запишите, какие ограничения проекта вы проверили лично. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Лоиҳаи хурдро созед ва тамоми сценариро дар дастгоҳ гузаронед: ду машғулият илова кунед, ҳарду кушоед, баргардед, ҳолати холиро пеш аз иловаҳо санҷед. Ҳангоми номи кӯтоҳ паёми хаторо мисли ҳалл илова кунед. Сабт кунед, ки кадом маҳдудиятҳои лоиҳаро худ санҷидед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the mini project and walk the whole scenario on a device: add two lessons, open both, return, check the empty state before adding. Add the short-title error message as in the solution. Record which project limits you verified yourself. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Сценарий из трёх экранов пройден целиком на устройстве.",
+              "tg": "Сценарии аз се экран дар дастгоҳ пурра гузаронида шудааст.",
+              "en": "The three-screen scenario is walked fully on a device."
+            },
+            {
+              "ru": "Пустое состояние и ошибка короткого названия работают.",
+              "tg": "Ҳолати холӣ ва хатои номи кӯтоҳ кор мекунанд.",
+              "en": "The empty state and the short-title error work."
+            }
+          ],
+          "example": {
+            "ru": "Пустой список показывает подсказку, а после добавления двух занятий — две строки с переходом в детали.",
+            "tg": "Рӯйхати холӣ маслиҳат нишон медиҳад ва баъди иловаи ду машғулият — ду сатр бо гузариш ба тафсилот.",
+            "en": "The empty list shows a hint and after adding two lessons — two rows opening details."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Модуль собран: сценарий, ввод, кнопки и проверка работают вместе.",
+            "tg": "Модул ҷамъ омад: сценарий, вурӯд, тугмаҳо ва санҷиш якҷоя кор мекунанд.",
+            "en": "The module is assembled: scenario, input, buttons and validation work together."
+          },
+          {
+            "ru": "Ограничения памяти названы честно; сохранение — следующий модуль.",
+            "tg": "Маҳдудиятҳои хотира рӯбарӯ номбар шудаанд; нигоҳдорӣ модули оянда аст.",
+            "en": "Memory limits are named honestly; persistence is the next module."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Где хранится выбранная запись?",
+            "tg": "Сабти интихобшуда дар куҷо нигоҳ дошта мешавад?",
+            "en": "Where is the chosen record stored?"
+          },
+          {
+            "ru": "Что станет со списком после перезапуска приложения?",
+            "tg": "Баъди аз нав оғоз бо рӯйхат чӣ мешавад?",
+            "en": "What happens to the list after an app restart?"
+          }
+        ],
         "nextLessonId": null
       }
     }

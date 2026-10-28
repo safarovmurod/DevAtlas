@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-18",
+  "day": 18,
+  "prerequisiteDays": [
+    17
+  ],
+  "title": {
+    "ru": "Маршруты выбранного стека",
+    "tg": "Масирҳои стеки интихобшуда",
+    "en": "Routes of the chosen stack"
+  },
+  "summary": {
+    "ru": "Подключите настоящий стек React Navigation и объявите в нём два экрана.",
+    "tg": "Стеки воқеии React Navigation-ро пайваст карда, дар он ду экран эълон кунед.",
+    "en": "Connect a real React Navigation stack and declare two screens in it."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Настоящий стек и его части",
+        "tg": "Стеки воқеӣ ва қисмҳои он",
+        "en": "A real stack and its parts"
+      },
+      "body": {
+        "ru": "React Navigation — библиотека, которую используют большинство приложений на React Native. Для стека нужно четыре пакета: npx expo install @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context — expo install подберёт версии, совместимые с вашим SDK. Корень приложения — NavigationContainer: внутри него живут все маршруты. createNativeStackNavigator создаёт стек, а каждый Stack.Screen связывает имя маршрута с компонентом. Первый экран стека — стартовый; остальные кладутся поверх. Стек даёт то, чего не было у переключателя: историю переходов, системную кнопку «назад» и анимацию. Это код проекта: браузер курса его не запускает, проверяйте в своём Expo-проекте.",
+        "tg": "React Navigation китобхонаест, ки бештари барномаҳои React Native истифода мебаранд. Барои stack чор баста лозим: npx expo install @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context — expo install версияҳои мувофиқи SDK-и шуморо интихоб мекунад. Решаи барнома NavigationContainer аст: ҳамаи масирҳо дар дохили он ҳастанд. createNativeStackNavigator стек месозад ва ҳар Stack.Screen номи масирро бо компонент мепайвандад. Экрани аввали стек оғозӣ аст; боқимонда болои он гузошта мешаванд. Стек он чизеро медиҳад, ки калидгузарӣ надошт: таърихи гузаришҳо, тугмаи системавии «ба ақиб» ва аниматсия. Ин рамзи лоиҳа аст: браузери курс онро иҷро намекунад, дар лоиҳаи Expo-и худ санҷед.",
+        "en": "React Navigation is the library most React Native apps use. A stack needs four packages: npx expo install @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context — expo install picks versions compatible with your SDK. The app root is NavigationContainer: all routes live inside it. createNativeStackNavigator builds a stack, and each Stack.Screen ties a route name to a component. The first screen of the stack is the start; the rest stack on top. The stack gives what the switch lacked: transition history, the system back button and animation. This is project code: the course browser does not run it, check it in your Expo project."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "ListScreen получает navigation через props; в примере тип описывает только navigate. Нажатие кнопки вызывает navigation.navigate('Details') — стек открывает экран с этим именем. DetailsScreen в примере статичен; в решении он получает goBack и собственную кнопку назад. Stack.Navigator объявляет порядок: List первый — стартовый, Details лежит поверх. Свойство options задаёт заголовок шапки. Установите пакеты, скопируйте пример и запустите: кнопка открывает Details, системная кнопка «назад» возвращает на List — как и ожидается от настоящего стека.",
+        "tg": "ListScreen navigation-ро аз props мегирад; дар мисол тип танҳо navigate-ро тавсиф мекунад. Пахши тугма navigation.navigate('Details')-ро мехонад — стек экран бо ин номро мекушояд. DetailsScreen дар мисол устувор аст; дар ҳалл goBack ва тугмаи алоҳидаи баргашт мегирад. Stack.Navigator тартибро эълон мекунад: List аввал — оғозӣ, Details болояш аст. Хосияти options сарлавҳаи болоро муайян мекунад. Бастаҳоро насб кунед, мисолро нусхабардорӣ ва иҷро кунед: тугма Details-ро мекушояд, тугмаи системавии «ба ақиб» List-ро бармегардонад — мисли интизории стеки воқеӣ.",
+        "en": "ListScreen receives navigation through props; the example type describes only navigate. Pressing the button calls navigation.navigate('Details') — the stack opens the screen with that name. DetailsScreen is static in the example; the solution gives it goBack and its own back button. Stack.Navigator declares the order: List first — the start, Details on top. The options property sets the header title. Install the packages, copy the example and run: the button opens Details and the system back returns to List, as expected from a real stack."
+      },
+      "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <Button title=\"Подробности\" onPress={() => navigation.navigate('Details')} />\n    </View>\n  );\n}\n\nfunction DetailsScreen() {\n  return (\n    <View style={{ flex: 1, padding: 24 }}>\n      <Text accessibilityRole=\"header\">Подробности</Text>\n      <Text>Второй экран стека.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-18-q1",
+      "question": {
+        "ru": "Какие пакеты нужны для стека?",
+        "tg": "Барои stack кадом бастаҳо лозиманд?",
+        "en": "Which packages does a stack need?"
+      },
+      "options": [
+        {
+          "ru": "Только StyleSheet",
+          "tg": "Танҳо StyleSheet",
+          "en": "Only StyleSheet"
+        },
+        {
+          "ru": "@react-navigation/native, native-stack, screens и safe-area-context",
+          "tg": "@react-navigation/native, native-stack, screens ва safe-area-context",
+          "en": "@react-navigation/native, native-stack, screens and safe-area-context"
+        },
+        {
+          "ru": "Никакие, стек встроен в React",
+          "tg": "Ҳеҷ кадом, стек дар React сохта шудааст",
+          "en": "None, the stack is built into React"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Стек собирается из четырёх согласованных пакетов.",
+        "tg": "Стек аз чор бастаи мувофиқ ҷамъ меояд.",
+        "en": "The stack assembles from four coordinated packages."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе команду установки.",
+        "tg": "Дар бахши аввали фармони насбро ёбед.",
+        "en": "Find the install command in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-18-q2",
+      "question": {
+        "ru": "Что делает npx expo install вместо npm install?",
+        "tg": "npx expo install ба ҷои npm install чӣ мекунад?",
+        "en": "What does npx expo install do instead of npm install?"
+      },
+      "options": [
+        {
+          "ru": "Запускает приложение",
+          "tg": "Барномаро иҷро мекунад",
+          "en": "Runs the app"
+        },
+        {
+          "ru": "Удаляет node_modules",
+          "tg": "node_modules-ро нест мекунад",
+          "en": "Deletes node_modules"
+        },
+        {
+          "ru": "Подбирает версии, совместимые с SDK",
+          "tg": "Версияҳои мувофиқи SDK-ро интихоб мекунад",
+          "en": "Picks versions compatible with the SDK"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Установщик Expo сверяется с SDK, чтобы версии не разошлись.",
+        "tg": "Насбкунандаи Expo бо SDK муқоиса мекунад, то версияҳо фарқ накунанд.",
+        "en": "The Expo installer checks the SDK so versions stay aligned."
+      },
+      "hint": {
+        "ru": "Вспомните день 10 о согласованных версиях.",
+        "tg": "Рӯзи 10-ро дар бораи версияҳои мувофиқ ёд оред.",
+        "en": "Recall day 10 about compatible versions."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-18-q3",
+      "question": {
+        "ru": "Где живут все маршруты приложения?",
+        "tg": "Ҳамаи масирҳои барнома дар куҷоянд?",
+        "en": "Where do all app routes live?"
+      },
+      "options": [
+        {
+          "ru": "Внутри NavigationContainer",
+          "tg": "Дар дохили NavigationContainer",
+          "en": "Inside NavigationContainer"
+        },
+        {
+          "ru": "В файле App.json",
+          "tg": "Дар файли App.json",
+          "en": "In App.json"
+        },
+        {
+          "ru": "В состоянии кнопки",
+          "tg": "Дар ҳолати тугма",
+          "en": "In the button state"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "NavigationContainer — корень, внутри которого объявлен стек.",
+        "tg": "NavigationContainer реша аст, ки дар дохили он стек эълон шудааст.",
+        "en": "NavigationContainer is the root holding the stack."
+      },
+      "hint": {
+        "ru": "Посмотрите на самую внешнюю обёртку в примере.",
+        "tg": "Ба бастаи берунатарин дар мисол нигоҳ кунед.",
+        "en": "Look at the outermost wrapper in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-18-q4",
+      "question": {
+        "ru": "Какой экран стека открывается первым?",
+        "tg": "Экрани стек ҳангоми оғоз кадом кушода мешавад?",
+        "en": "Which stack screen opens first?"
+      },
+      "options": [
+        {
+          "ru": "Самый красивый",
+          "tg": "Зеботарин",
+          "en": "The prettiest one"
+        },
+        {
+          "ru": "Первый объявленный в Stack.Navigator",
+          "tg": "Аввалин эълоншуда дар Stack.Navigator",
+          "en": "The first one declared in Stack.Navigator"
+        },
+        {
+          "ru": "Последний в списке",
+          "tg": "Охирин дар рӯйхат",
+          "en": "The last in the list"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Стартовый экран — первый ребёнок навигатора.",
+        "tg": "Экрани оғозӣ — кӯдаки аввали навигатор.",
+        "en": "The start screen is the first child of the navigator."
+      },
+      "hint": {
+        "ru": "Сравните порядок объявлений с поведением приложения.",
+        "tg": "Тартиби эълонҳоро бо рафтори барнома муқоиса кунед.",
+        "en": "Compare the declaration order with the app behavior."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-18-q5",
+      "question": {
+        "ru": "Что даёт стек по сравнению с переключателем дня 17?",
+        "tg": "Стек нисбат ба калидгузари рӯзи 17 чӣ медиҳад?",
+        "en": "What does the stack give compared to the day-17 switch?"
+      },
+      "options": [
+        {
+          "ru": "Работу без установки пакетов",
+          "tg": "Кор бе насби бастаҳо",
+          "en": "Work without installing packages"
+        },
+        {
+          "ru": "Более короткий код без контейнера",
+          "tg": "Рамзи кӯтоҳтар бе контейнер",
+          "en": "Shorter code without a container"
+        },
+        {
+          "ru": "Историю, системный возврат и анимацию",
+          "tg": "Таърих, баргашти системавӣ ва аниматсия",
+          "en": "History, the system back and animation"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Стек помнит порядок экранов и умеет возвращать назад.",
+        "tg": "Стек тартиби экранҳоро дар ёд дорад ва баргаштро медонад.",
+        "en": "The stack remembers the screen order and can go back."
+      },
+      "hint": {
+        "ru": "Вернитесь к словам первого раздела о преимуществах стека.",
+        "tg": "Ба гуфтаҳои бахши аввал дар бораи бартарии стек баргардед.",
+        "en": "Return to the first-section words about stack advantages."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Установите пакеты стека в своём проекте и соберите пример. Проверьте переход на Details и системный возврат. Добавьте в Details кнопку «Назад» через goBack и заголовки шапки через options. Запишите, чем поведение стека отличается от переключателя дня 17. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Дар лоиҳаи худ бастаҳои стекро насб карда, мисолро созед. Гузариш ба Details ва баргашти системавиро санҷед. Дар Details тугмаи «Ба ақиб» бо goBack ва сарлавҳаҳои боло бо options илова кунед. Сабт кунед, ки рафтори стек аз калидгузари рӯзи 17 чӣ фарқ дорад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Install the stack packages in your project and build the example. Check the Details transition and the system back. Add a «Назад» button in Details through goBack and header titles through options. Record how the stack behavior differs from the day-17 switch. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Добавьте проп navigation в DetailsScreen и вызовите navigation.goBack() по нажатию.",
+      "tg": "Пропи navigation-ро ба DetailsScreen илова карда, ҳангоми пахш navigation.goBack()-ро хонед.",
+      "en": "Add the navigation prop to DetailsScreen and call navigation.goBack() on press."
+    },
+    "solution": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <Button title=\"Подробности\" onPress={() => navigation.navigate('Details')} />\n    </View>\n  );\n}\n\nfunction DetailsScreen({ navigation }: { navigation: { goBack: () => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Подробности</Text>\n      <Text>Второй экран стека.</Text>\n      <Button title=\"Назад\" onPress={() => navigation.goBack()} />\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} options={{ title: 'Занятия' }} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} options={{ title: 'Подробности' }} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Стек из двух экранов работает: переход и возврат.",
+        "tg": "Стеки аз ду экран кор мекунад: гузариш ва баргашт.",
+        "en": "The two-screen stack works: transition and return."
+      },
+      {
+        "ru": "Записано сравнение со стеком дня 17 и наблюдение о шапке.",
+        "tg": "Муқоиса бо стеки рӯзи 17 ва мушоҳидаи боло сабт шудааст.",
+        "en": "The comparison with the day-17 switch and the header observation are recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Установить пакеты стека и объяснить роль NavigationContainer.",
+        "tg": "Бастаҳои стекро насб карда, нақши NavigationContainer-ро шарҳ диҳед.",
+        "en": "Install the stack packages and explain NavigationContainer."
+      },
+      {
+        "ru": "Объявить два маршрута и перейти между ними.",
+        "tg": "Ду масир эълон карда, байни онҳо гузаред.",
+        "en": "Declare two routes and navigate between them."
+      }
+    ],
+    "realWorld": {
+      "ru": "Приложения открывают разделы поверх списка именно стеком: история и возврат работают из коробки.",
+      "tg": "Барномаҳо бахшҳоро болои рӯйхат бо стек мекушоянд: таърих ва баргашт аз худ кор мекунанд.",
+      "en": "Apps open sections over a list with a stack: history and back work out of the box."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что делает npx expo install вместо npm install?",
+        "tg": "npx expo install ба ҷои npm install чӣ мекунад?",
+        "en": "What does npx expo install do instead of npm install?"
+      },
+      "options": [
+        {
+          "ru": "Запускает приложение",
+          "tg": "Барномаро иҷро мекунад",
+          "en": "Runs the app"
+        },
+        {
+          "ru": "Удаляет node_modules",
+          "tg": "node_modules-ро нест мекунад",
+          "en": "Deletes node_modules"
+        },
+        {
+          "ru": "Подбирает версии, совместимые с SDK",
+          "tg": "Версияҳои мувофиқи SDK-ро интихоб мекунад",
+          "en": "Picks versions compatible with the SDK"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Вспомните день 10 о согласованных версиях.",
+        "tg": "Рӯзи 10-ро дар бораи версияҳои мувофиқ ёд оред.",
+        "en": "Recall day 10 about compatible versions."
+      },
+      "explanation": {
+        "ru": "Установщик Expo сверяется с SDK, чтобы версии не разошлись.",
+        "tg": "Насбкунандаи Expo бо SDK муқоиса мекунад, то версияҳо фарқ накунанд.",
+        "en": "The Expo installer checks the SDK so versions stay aligned."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <Button title=\"Подробности\" onPress={() => navigation.navigate('Details')} />\n    </View>\n  );\n}\n\nfunction DetailsScreen() {\n  return (\n    <View style={{ flex: 1, padding: 24 }}>\n      <Text accessibilityRole=\"header\">Подробности</Text>\n      <Text>Второй экран стека.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 23,
+          "explanation": {
+            "ru": "createNativeStackNavigator создаёт компонент стека.",
+            "tg": "createNativeStackNavigator компоненти стекро месозад.",
+            "en": "createNativeStackNavigator builds the stack component."
+          },
+          "values": "Stack"
+        },
+        {
+          "line": 27,
+          "explanation": {
+            "ru": "NavigationContainer оборачивает все маршруты.",
+            "tg": "NavigationContainer ҳамаи масирҳоро мепӯшонад.",
+            "en": "NavigationContainer wraps all routes."
+          },
+          "values": "container"
+        },
+        {
+          "line": 29,
+          "explanation": {
+            "ru": "List объявлен первым и становится стартовым.",
+            "tg": "List аввал эълон шуда, оғозӣ мешавад.",
+            "en": "List is declared first and becomes the start."
+          },
+          "values": "List -> Details"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Установите четыре пакета командой из первого раздела.",
+          "tg": "Чор бастаро бо фармони аз бахши аввал насб кунед.",
+          "en": "Install the four packages with the command from the first section."
+        },
+        {
+          "ru": "Запустите пример, откройте Details и вернитесь системной кнопкой назад.",
+          "tg": "Мисолро иҷро кунед, Details-ро кушода, бо тугмаи системавии баргашт баргардед.",
+          "en": "Run the example, open Details and return with the system back button."
+        }
+      ],
+      "hint": {
+        "ru": "Добавьте проп navigation в DetailsScreen и вызовите navigation.goBack() по нажатию.",
+        "tg": "Пропи navigation-ро ба DetailsScreen илова карда, ҳангоми пахш navigation.goBack()-ро хонед.",
+        "en": "Add the navigation prop to DetailsScreen and call navigation.goBack() on press."
+      },
+      "success": {
+        "ru": "Details открывается по кнопке, а системный возврат возвращает на List.",
+        "tg": "Details бо тугма кушода мешавад ва баргашти системавӣ ба List бармегардонад.",
+        "en": "Details opens by the button and the system back returns to List."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Установите пакеты стека в своём проекте и соберите пример. Проверьте переход на Details и системный возврат. Добавьте в Details кнопку «Назад» через goBack и заголовки шапки через options. Запишите, чем поведение стека отличается от переключателя дня 17. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Дар лоиҳаи худ бастаҳои стекро насб карда, мисолро созед. Гузариш ба Details ва баргашти системавиро санҷед. Дар Details тугмаи «Ба ақиб» бо goBack ва сарлавҳаҳои боло бо options илова кунед. Сабт кунед, ки рафтори стек аз калидгузари рӯзи 17 чӣ фарқ дорад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Install the stack packages in your project and build the example. Check the Details transition and the system back. Add a «Назад» button in Details through goBack and header titles through options. Record how the stack behavior differs from the day-17 switch. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Стек из двух экранов работает: переход и возврат.",
+          "tg": "Стеки аз ду экран кор мекунад: гузариш ва баргашт.",
+          "en": "The two-screen stack works: transition and return."
+        },
+        {
+          "ru": "Записано сравнение со стеком дня 17 и наблюдение о шапке.",
+          "tg": "Муқоиса бо стеки рӯзи 17 ва мушоҳидаи боло сабт шудааст.",
+          "en": "The comparison with the day-17 switch and the header observation are recorded."
+        }
+      ],
+      "example": {
+        "ru": "Кнопка «Назад» на Details и системный возврат оба возвращают на List.",
+        "tg": "Тугмаи «Ба ақиб» дар Details ва баргашти системавӣ ҳарду ба List бармегардонанд.",
+        "en": "The «Назад» button on Details and the system back both return to List."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Стек собирается из четырёх пакетов и объявляется внутри NavigationContainer.",
+        "tg": "Стек аз чор баста ҷамъ омада, дар дохили NavigationContainer эълон мешавад.",
+        "en": "A stack assembles from four packages and is declared inside NavigationContainer."
+      },
+      {
+        "ru": "Порядок объявлений задаёт стартовый экран и историю переходов.",
+        "tg": "Тартиби эълонҳо экрани оғозӣ ва таърихи гузаришҳоро муайян мекунад.",
+        "en": "The declaration order sets the start screen and the transition history."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что делает npx expo install вместо npm install?",
+        "tg": "npx expo install ба ҷои npm install чӣ мекунад?",
+        "en": "What does npx expo install do instead of npm install?"
+      },
+      {
+        "ru": "Что даёт стек по сравнению с переключателем дня 17?",
+        "tg": "Стек нисбат ба калидгузари рӯзи 17 чӣ медиҳад?",
+        "en": "What does the stack give compared to the day-17 switch?"
+      }
+    ],
+    "nextLessonId": "mobile-day-19"
+  }
+}

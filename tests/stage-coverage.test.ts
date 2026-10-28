@@ -12,7 +12,7 @@ describe('strict track × stage coverage',()=>{
   expect(rows.filter(row=>row.status==='Published')).toHaveLength(42);
   expect(rows.filter(row=>row.status==='Missing')).toHaveLength(72);
   expect(rows.some(row=>row.status==='Verified')).toBe(false);
-  expect(rows.reduce((sum,row)=>sum+row.publishedDays,0)).toBe(950);
+  expect(rows.reduce((sum,row)=>sum+row.publishedDays,0)).toBe(957);
  });
  it('preserves completed Kotlin and both JavaScript Beginner modules',()=>{
   const rows=buildStageCoverage(courses,LEARNING_TRACKS);
