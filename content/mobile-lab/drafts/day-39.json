@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-39",
+  "day": 39,
+  "prerequisiteDays": [
+    38
+  ],
+  "title": {
+    "ru": "Модель данных и экраны",
+    "tg": "Модели маълумот ва экранҳо",
+    "en": "The data model and screens"
+  },
+  "summary": {
+    "ru": "Опишите записи, границы значений и имена экранов до интерфейса.",
+    "tg": "Сабтҳо, ҳудуди қиматҳо ва номҳои экранҳоро пеш аз интерфейс тавсиф диҳед.",
+    "en": "Describe records, value borders and screen names before the interface."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Сначала типы, потом кнопки",
+        "tg": "Аввал типҳо, баъд тугмаҳо",
+        "en": "Types first, buttons second"
+      },
+      "body": {
+        "ru": "Модель данных — договор, который держит весь проект: тип Task описывает запись (id, title, minutes, createdAt), ScreenName перечисляет экраны, STORAGE_KEY фиксирует имя в хранилище. Границы значений задают в одном месте: название не длиннее сорока символов, минуты от 5 до 180. Функция makeTask создаёт запись с уникальным id и применяет границы сразу, чтобы неправильные данные не появились. Такая модель переживает смену интерфейса: если экраны переписать, типы останутся. Экспортируйте всё из одного файла — дни 40–43 импортируют эти типы и константы.",
+        "tg": "Модели маълумот шартномае аст, ки тамоми лоиҳаро нигоҳ медорад: типи Task сабтро тавсиф медиҳад (id, title, minutes, createdAt), ScreenName экранҳоро номбар мекунад, STORAGE_KEY номи дар нигоҳдориро муқаррар мекунад. Ҳудуди қиматҳоро дар як ҷо таъин мекунанд: ном аз чил аломат дароз нест, дақиқаҳо аз 5 то 180. Функсияи makeTask сабтро бо id-и ягона месозад ва ҳудудҳоро фавран татбиқ мекунад, то маълумоти нодуруст пайдо нашавад. Чунин модел аз ивази интерфейс намемирад: агар экранҳоро аз нав нависед, типҳо мемонанд. Ҳамаро аз як файл экспорт кунед — рӯзҳои 40–43 ин типҳо ва доимиҳоро импорт мекунанд.",
+        "en": "The data model is the contract holding the whole project: the Task type describes a record (id, title, minutes, createdAt), ScreenName lists the screens, STORAGE_KEY fixes the store name. Value borders live in one place: the title is at most forty characters, minutes from 5 to 180. The makeTask function creates a record with a unique id and applies the borders immediately, so wrong data never appears. Such a model survives an interface rewrite: screens may change, types stay. Export everything from one file — days 40–43 import these types and constants."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Task требует строковый id, строковый title, число minutes и число createdAt — время создания сортирует список. makeTask ставит id из Date.now и minutes по умолчанию 20. В решении границы становятся частью модели: title обрезается до сорока, minutes зажимается между 5 и 180 — Math.min и Math.max в одной строке. Экран примера показывает карточку с готовой записью и перечисляет экраны и ключ. Прочитайте типы вслух и ответьте: что случится, если minutes станет строкой? TypeScript не соберёт такой код — в этом смысл модели.",
+        "tg": "Task id-и сатрӣ, title-и сатрӣ, minutes-и ададӣ ва createdAt-и ададиро талаб мекунад — вақти сохтан рӯйхатро ҷӯр мекунад. makeTask id-ро аз Date.now мегузорад ва minutes-ро бо пешфрӯз 20. Дар ҳалл ҳудудҳо қисми модел мешаванд: title то чил аломат бурида мешавад, minutes байни 5 ва 180 маҳдуд — Math.min ва Math.max дар як сатр. Экрани мисол кортаро бо сабти тайёр нишон дода, экранҳо ва калидро номбар мекунад. Типҳоро бо овоз хонед ва ҷавоб диҳед: агар minutes сатр шавад, чӣ мешавад? TypeScript чунин рамзро намесозад — ин маънои модел аст.",
+        "en": "Task demands a string id, a string title, a numeric minutes and a numeric createdAt — the creation time sorts the list. makeTask builds the id from Date.now and defaults minutes to 20. In the solution the borders become part of the model: the title truncates to forty, minutes clamps between 5 and 180 — Math.min and Math.max in one line. The example screen shows a card with a ready record and lists the screens and the key. Read the types aloud and answer: what if minutes becomes a string? TypeScript will not build that code — that is the point of the model."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport type ScreenName = 'list' | 'add' | 'details';\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function makeTask(title: string): Task {\n  return { id: `t${Date.now()}`, title, minutes: 20, createdAt: Date.now() };\n}\n\nconst sample = makeTask('Прочитать день 39');\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Модель данных планировщика</Text>\n      <View style={styles.card}>\n        <Text style={styles.title}>{sample.title}</Text>\n        <Text style={styles.body}>id: {sample.id}</Text>\n        <Text style={styles.body}>минуты: {sample.minutes}</Text>\n      </View>\n      <Text>Экраны: list, add, details. Ключ хранилища: {STORAGE_KEY}.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  card: { padding: 16, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  title: { fontSize: 16, fontWeight: '600' },\n  body: { fontSize: 14, color: '#475569' },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-39-q1",
+      "question": {
+        "ru": "Что описывает тип Task?",
+        "tg": "Типи Task чиро тавсиф медиҳад?",
+        "en": "What does the Task type describe?"
+      },
+      "options": [
+        {
+          "ru": "Список экранов",
+          "tg": "Рӯйхати экранҳо",
+          "en": "The screen list"
+        },
+        {
+          "ru": "Поля одной записи: id, title, minutes, createdAt",
+          "tg": "Майдонҳои як сабт: id, title, minutes, createdAt",
+          "en": "One record fields: id, title, minutes, createdAt"
+        },
+        {
+          "ru": "Цвета приложения",
+          "tg": "Рангҳои барнома",
+          "en": "The app colors"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Четыре поля описывают одну запись планировщика.",
+        "tg": "Чор майдон як сабти барномасозро тавсиф медиҳанд.",
+        "en": "Four fields describe one planner record."
+      },
+      "hint": {
+        "ru": "Найдите объявление type Task в примере.",
+        "tg": "Эъломияи type Task-ро дар мисол ёбед.",
+        "en": "Find the type Task declaration in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-39-q2",
+      "question": {
+        "ru": "Зачем границы значений в модели, а не в экране?",
+        "tg": "Ҳудуди қиматҳо барои чӣ дар модел, на дар экрананд?",
+        "en": "Why are value borders in the model, not the screen?"
+      },
+      "options": [
+        {
+          "ru": "Экраны не умеют проверять",
+          "tg": "Экранҳо санҷиш наметавонанд",
+          "en": "Screens cannot validate"
+        },
+        {
+          "ru": "Так код короче",
+          "tg": "Рамз кӯтоҳтар мешавад",
+          "en": "The code is shorter"
+        },
+        {
+          "ru": "Неправильные данные не появляются ни на одном экране",
+          "tg": "Маълумоти нодуруст дар ҳеҷ экран пайдо намешавад",
+          "en": "Wrong data never appears on any screen"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Одна функция makeTask защищает всех будущих вызывающих.",
+        "tg": "Як функсияи makeTask ҳамаи даъваткунандагони ояндаро ҳимоя мекунад.",
+        "en": "One makeTask function protects all future callers."
+      },
+      "hint": {
+        "ru": "Сравните место проверки в примере и решении.",
+        "tg": "Ҷои санҷишро дар мисол ва ҳалл муқоиса кунед.",
+        "en": "Compare the check place in the example and the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-39-q3",
+      "question": {
+        "ru": "Откуда makeTask берёт уникальный id?",
+        "tg": "makeTask id-и ягонаро аз куҷо мегирад?",
+        "en": "Where does makeTask get a unique id?"
+      },
+      "options": [
+        {
+          "ru": "Из текущего времени Date.now",
+          "tg": "Аз вақти ҷории Date.now",
+          "en": "From the current Date.now time"
+        },
+        {
+          "ru": "Из массива tasks",
+          "tg": "Аз массиви tasks",
+          "en": "From the tasks array"
+        },
+        {
+          "ru": "Из сети",
+          "tg": "Аз шабака",
+          "en": "From the network"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Для учебного приложения времени достаточно; продакшен берёт надёжнее.",
+        "tg": "Барои барномаи таълимӣ вақт кифоя аст; продакшен беҳтарашро мегирад.",
+        "en": "Time is enough for a study app; production takes something sturdier."
+      },
+      "hint": {
+        "ru": "Найдите шаблон id внутри makeTask.",
+        "tg": "Қолаби id-ро дар дохили makeTask ёбед.",
+        "en": "Find the id template inside makeTask."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-39-q4",
+      "question": {
+        "ru": "Что случится, если передать minutes строкой?",
+        "tg": "Агар minutes-ро ҳамчун сатр гузаронед, чӣ мешавад?",
+        "en": "What happens if minutes arrives as a string?"
+      },
+      "options": [
+        {
+          "ru": "Приложение округлит значение",
+          "tg": "Барнома қиматро мудаввар мекунад",
+          "en": "The app rounds the value"
+        },
+        {
+          "ru": "TypeScript не соберёт такой код",
+          "tg": "TypeScript чунин рамзро намесозад",
+          "en": "TypeScript refuses to build it"
+        },
+        {
+          "ru": "Ничего, типы это разрешают",
+          "tg": "Ҳеҷ чиз, типҳо иҷозат медиҳанд",
+          "en": "Nothing, types allow it"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Строгие типы ловят ошибку до запуска.",
+        "tg": "Типҳои қатӣ хаторо пеш аз иҷро мегиранд.",
+        "en": "Strict types catch the error before running."
+      },
+      "hint": {
+        "ru": "Вспомните день 7: что проверяют типы, а что нет.",
+        "tg": "Рӯзи 7-ро ёд оред: типҳо чиро месанҷанд, чиро не.",
+        "en": "Recall day 7: what types check and what they do not."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-39-q5",
+      "question": {
+        "ru": "Зачем константа STORAGE_KEY вынесена в модель?",
+        "tg": "Доимии STORAGE_KEY барои чӣ ба модел бароварда шудааст?",
+        "en": "Why is the STORAGE_KEY constant in the model?"
+      },
+      "options": [
+        {
+          "ru": "AsyncStorage требует константу",
+          "tg": "AsyncStorage доимиро талаб мекунад",
+          "en": "AsyncStorage demands a constant"
+        },
+        {
+          "ru": "Так быстрее хранилище",
+          "tg": "Нигоҳдорӣ тезтар мешавад",
+          "en": "The store gets faster"
+        },
+        {
+          "ru": "Ключ пишется один раз и не разъезжается по файлам",
+          "tg": "Калид як бор навишта, аз файлҳо фарқ намекунад",
+          "en": "The key is written once and never drifts across files"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Смена ключа — правка одной строки, а не поиска по проекту.",
+        "tg": "Ивази калид — тағйири як сатр аст, на ҷустуҷӯ дар лоиҳа.",
+        "en": "Changing the key is a one-line edit, not a project-wide search."
+      },
+      "hint": {
+        "ru": "Найдите STORAGE_KEY в примере и в дне 28.",
+        "tg": "STORAGE_KEY-ро дар мисол ва дар рӯзи 28 ёбед.",
+        "en": "Find STORAGE_KEY in the example and in day 28."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и убедитесь, что карточка показывает запись из makeTask. Соберите решение с границами: передайте название из сорока одного символа и минуты 300, запишите, что получилось. Ответьте письменно: что сломается, если убрать поле createdAt. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва боварӣ ҳосил кунед, ки корта сабтро аз makeTask нишон медиҳад. Ҳаллро бо ҳудудҳо созед: номи аз чилу як аломат ва дақиқаи 300 гузаронида, натиҷаро сабт кунед. Бо навиштан ҷавоб диҳед: агар майдони createdAt тарк шавад, чӣ вайрон мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and confirm the card shows a record from makeTask. Build the solution with borders: pass a forty-one-character title and 300 minutes, record the result. Answer in writing: what breaks without the createdAt field. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "В решении Math.min(Math.max(5, minutes), MAX_MINUTES) зажимает минуты с двух сторон.",
+      "tg": "Дар ҳалл Math.min(Math.max(5, minutes), MAX_MINUTES) дақиқаҳоро аз ҳарду тараф маҳдуд мекунад.",
+      "en": "In the solution Math.min(Math.max(5, minutes), MAX_MINUTES) clamps minutes both ways."
+    },
+    "solution": "import { StyleSheet, Text, View } from 'react-native';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport type ScreenName = 'list' | 'add' | 'details';\nexport const STORAGE_KEY = 'devatlas-planner';\nexport const MAX_TITLE = 40;\nexport const MAX_MINUTES = 180;\n\nexport function makeTask(title: string, minutes: number): Task {\n  return {\n    id: `t${Date.now()}`,\n    title: title.slice(0, MAX_TITLE),\n    minutes: Math.min(Math.max(5, minutes), MAX_MINUTES),\n    createdAt: Date.now(),\n  };\n}\n\nconst sample = makeTask('Прочитать день 39', 25);\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Модель данных планировщика</Text>\n      <View style={styles.card}>\n        <Text style={styles.title}>{sample.title}</Text>\n        <Text style={styles.body}>id: {sample.id}</Text>\n        <Text style={styles.body}>минуты: {sample.minutes}</Text>\n      </View>\n      <Text>\n        Экраны: list, add, details. Ключ: {STORAGE_KEY}. Границы: до {MAX_TITLE}\n        символов и от 5 до {MAX_MINUTES} минут.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  card: { padding: 16, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  title: { fontSize: 16, fontWeight: '600' },\n  body: { fontSize: 14, color: '#475569' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Границы применяются: длинное название и большие минуты обрезаны.",
+        "tg": "Ҳудудҳо татбиқ мешаванд: номи дароз ва дақиқаҳои калон бурида мешаванд.",
+        "en": "Borders apply: a long title and big minutes are truncated."
+      },
+      {
+        "ru": "Ответ о роли createdAt записан.",
+        "tg": "Ҷавоб дар бораи нақши createdAt сабт шудааст.",
+        "en": "The answer about the createdAt role is recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Описать тип записи и границы значений в одном месте.",
+        "tg": "Типи сабт ва ҳудуди қиматҳоро дар як ҷо тавсиф диҳед.",
+        "en": "Describe the record type and value borders in one place."
+      },
+      {
+        "ru": "Перечислить экраны и ключ хранилища до интерфейса.",
+        "tg": "Экранҳо ва калиди нигоҳдориро пеш аз интерфейс номбар кунед.",
+        "en": "List the screens and the store key before the interface."
+      }
+    ],
+    "realWorld": {
+      "ru": "Команда начинается проект с файла моделей: типы переживают десятки редизайнов.",
+      "tg": "Гурӯҳ лоиҳаро бо файли моделҳо оғоз мекунад: типҳо даҳҳо редизайнро мегузаронанд.",
+      "en": "A team starts a project with the models file: types outlive dozens of redesigns."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Зачем границы значений в модели, а не в экране?",
+        "tg": "Ҳудуди қиматҳо барои чӣ дар модел, на дар экрананд?",
+        "en": "Why are value borders in the model, not the screen?"
+      },
+      "options": [
+        {
+          "ru": "Экраны не умеют проверять",
+          "tg": "Экранҳо санҷиш наметавонанд",
+          "en": "Screens cannot validate"
+        },
+        {
+          "ru": "Так код короче",
+          "tg": "Рамз кӯтоҳтар мешавад",
+          "en": "The code is shorter"
+        },
+        {
+          "ru": "Неправильные данные не появляются ни на одном экране",
+          "tg": "Маълумоти нодуруст дар ҳеҷ экран пайдо намешавад",
+          "en": "Wrong data never appears on any screen"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Сравните место проверки в примере и решении.",
+        "tg": "Ҷои санҷишро дар мисол ва ҳалл муқоиса кунед.",
+        "en": "Compare the check place in the example and the solution."
+      },
+      "explanation": {
+        "ru": "Одна функция makeTask защищает всех будущих вызывающих.",
+        "tg": "Як функсияи makeTask ҳамаи даъваткунандагони ояндаро ҳимоя мекунад.",
+        "en": "One makeTask function protects all future callers."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport type ScreenName = 'list' | 'add' | 'details';\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function makeTask(title: string): Task {\n  return { id: `t${Date.now()}`, title, minutes: 20, createdAt: Date.now() };\n}\n\nconst sample = makeTask('Прочитать день 39');\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Модель данных планировщика</Text>\n      <View style={styles.card}>\n        <Text style={styles.title}>{sample.title}</Text>\n        <Text style={styles.body}>id: {sample.id}</Text>\n        <Text style={styles.body}>минуты: {sample.minutes}</Text>\n      </View>\n      <Text>Экраны: list, add, details. Ключ хранилища: {STORAGE_KEY}.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  card: { padding: 16, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  title: { fontSize: 16, fontWeight: '600' },\n  body: { fontSize: 14, color: '#475569' },\n});\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Четыре поля описывают одну запись.",
+            "tg": "Чор майдон як сабтро тавсиф медиҳанд.",
+            "en": "Four fields describe one record."
+          },
+          "values": "Task"
+        },
+        {
+          "line": 10,
+          "explanation": {
+            "ru": "makeTask создаёт запись с id и значением по умолчанию.",
+            "tg": "makeTask сабтро бо id ва қимати пешфрӯз месозад.",
+            "en": "makeTask builds a record with an id and a default."
+          },
+          "values": "minutes 20"
+        },
+        {
+          "line": 15,
+          "explanation": {
+            "ru": "Экран показывает готовую запись из модели.",
+            "tg": "Экран сабти тайёро аз модел нишон медиҳад.",
+            "en": "The screen shows a ready record from the model."
+          },
+          "values": "sample card"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере тип Task и назовите его четыре поля.",
+          "tg": "Дар мисол типи Task-ро ёфта, чор майдонашро номбар кунед.",
+          "en": "Find the Task type and name its four fields."
+        },
+        {
+          "ru": "Соберите решение и проверьте, что makeTask обрезает длинное название.",
+          "tg": "Ҳаллро созед ва месанҷед, ки makeTask номи дарозро мебурад.",
+          "en": "Build the solution and check makeTask truncates a long title."
+        }
+      ],
+      "hint": {
+        "ru": "В решении Math.min(Math.max(5, minutes), MAX_MINUTES) зажимает минуты с двух сторон.",
+        "tg": "Дар ҳалл Math.min(Math.max(5, minutes), MAX_MINUTES) дақиқаҳоро аз ҳарду тараф маҳдуд мекунад.",
+        "en": "In the solution Math.min(Math.max(5, minutes), MAX_MINUTES) clamps minutes both ways."
+      },
+      "success": {
+        "ru": "Модель создаёт корректные записи сама: границы применены в одном месте.",
+        "tg": "Модел худ сабтҳои дурустро месозад: ҳудудҳо дар як ҷо татбиқ шудаанд.",
+        "en": "The model creates correct records itself: borders applied in one place."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и убедитесь, что карточка показывает запись из makeTask. Соберите решение с границами: передайте название из сорока одного символа и минуты 300, запишите, что получилось. Ответьте письменно: что сломается, если убрать поле createdAt. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва боварӣ ҳосил кунед, ки корта сабтро аз makeTask нишон медиҳад. Ҳаллро бо ҳудудҳо созед: номи аз чилу як аломат ва дақиқаи 300 гузаронида, натиҷаро сабт кунед. Бо навиштан ҷавоб диҳед: агар майдони createdAt тарк шавад, чӣ вайрон мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and confirm the card shows a record from makeTask. Build the solution with borders: pass a forty-one-character title and 300 minutes, record the result. Answer in writing: what breaks without the createdAt field. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Границы применяются: длинное название и большие минуты обрезаны.",
+          "tg": "Ҳудудҳо татбиқ мешаванд: номи дароз ва дақиқаҳои калон бурида мешаванд.",
+          "en": "Borders apply: a long title and big minutes are truncated."
+        },
+        {
+          "ru": "Ответ о роли createdAt записан.",
+          "tg": "Ҷавоб дар бораи нақши createdAt сабт шудааст.",
+          "en": "The answer about the createdAt role is recorded."
+        }
+      ],
+      "example": {
+        "ru": "Название из 50 символов в решении превращается в первые 40, минуты 300 — в 180.",
+        "tg": "Номи аз 50 аломат дар ҳалл ба 40-и аввал ва дақиқаҳои 300 — ба 180 табдил меёбад.",
+        "en": "A 50-character title becomes the first forty and 300 minutes become 180 in the solution."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Модель — договор проекта: типы, границы, ключи.",
+        "tg": "Модел шартномаи лоиҳа аст: типҳо, ҳудудҳо, калидҳо.",
+        "en": "The model is the project contract: types, borders, keys."
+      },
+      {
+        "ru": "Строгие типы ловят ошибку до запуска.",
+        "tg": "Типҳои қатӣ хаторо пеш аз иҷро мегиранд.",
+        "en": "Strict types catch errors before running."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Зачем границы значений в модели, а не в экране?",
+        "tg": "Ҳудуди қиматҳо барои чӣ дар модел, на дар экрананд?",
+        "en": "Why are value borders in the model, not the screen?"
+      },
+      {
+        "ru": "Что случится, если передать minutes строкой?",
+        "tg": "Агар minutes-ро ҳамчун сатр гузаронед, чӣ мешавад?",
+        "en": "What happens if minutes arrives as a string?"
+      }
+    ],
+    "nextLessonId": "mobile-day-40"
+  }
+}

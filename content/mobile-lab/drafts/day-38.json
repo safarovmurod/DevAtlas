@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-38",
+  "day": 38,
+  "prerequisiteDays": [
+    37
+  ],
+  "title": {
+    "ru": "Пользователь и критерии проекта",
+    "tg": "Корбар ва меъёрҳои лоиҳа",
+    "en": "The project user and criteria"
+  },
+  "summary": {
+    "ru": "Зафиксируйте цель итогового приложения и проверяемые критерии приёмки.",
+    "tg": "Ҳадафи барномаи ниҳоӣ ва меъёрҳои санҷишашавандаро сабт кунед.",
+    "en": "Fix the final app goal and checkable acceptance criteria."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Что строим и как поймём, что готово",
+        "tg": "Чӣ месозем ва аз чӣ фаҳмедем, ки омода аст",
+        "en": "What we build and how we know it is done"
+      },
+      "body": {
+        "ru": "Итоговый проект модуля — учебный планировщик: пользователь ведёт список занятий, добавляет записи, открывает детали, правит и сохраняет. Данные живут на устройстве, сеть приносит шаблоны. До первой строки кода фиксируют два документа: описание пользователя — кто он и что делает, и критерии приёмки — проверяемые утверждения о готовности. Критерий формулируется так, чтобы ответ был «да» или «нет»: «сценарий список → детали → правка → сохранение проходит на устройстве», а не «приложение удобное». Чужие критерии можно дополнить своими: например, напоминанием или цветовой меткой. Экран примера держит критерии перед глазами всю неделю.",
+        "tg": "Лоиҳаи ниҳоии модул — барномасози таълимӣ: корбар рӯйхати машғулиятҳоро мебарад, сабт илова мекунад, тафсилотро мекушояд, тағйир медиҳад ва нигоҳ медорад. Маълумот дар дастгоҳ аст, шабака қолабҳоро меорад. Пеш аз аввалин сатри рамз ду ҳуҷҷат сабт мешаванд: тавсифи корбар — кист ва чӣ мекунад, ва меъёрҳои қабул — изҳороти санҷишашаванда дар бораи омодагӣ. Меёр чунин навишта мешавад, ки ҷавоб «ҳа» ё «не» бошад: «сенарияи рӯйхат → тафсилот → тағйир → нигоҳдорӣ дар дастгоҳ мегузарад», на «барнома қулай аст». Меъёрҳои дигаронро бо худи худ пур кардан мумкин: масалан, ёдоварӣ ё аломати ранга. Экрани мисол ҳар ҳафта меъёрҳоро дар назар нигоҳ медорад.",
+        "en": "The module final project is a study planner: the user keeps a list of lessons, adds records, opens details, edits and saves. Data lives on the device, the network brings templates. Before the first line of code two documents are fixed: the user description — who they are and what they do, and the acceptance criteria — checkable statements of readiness. A criterion is phrased so the answer is yes or no: \"the list → details → edit → save scenario passes on a device\", not \"the app is convenient\". Other people criteria can gain your own: a reminder or a color tag, for example. The example screen keeps the criteria in sight all week."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Массив criteria описывает пять критериев: что проверяем и как именно — команда запуска, шаги сценария, диктор. Экран показывает цель проекта одной фразой и карточки критериев с пометкой способа проверки. Это справочник, а не рабочая форма: он не сохраняет отметки — отметки появятся в решении. Добавьте свой критерий шестым элементом массива: он должен быть таким же проверяемым, как остальные. Этот экран станет основой финального отчёта дня 44: те же формулировки перейдут в итоговый список проверок.",
+        "tg": "Массиви criteria панҷ меърро тавсиф медиҳад: чиро месанҷем ва чӣ тавр — фармони оғоз, қадамҳои сенария, хонанда. Экран ҳадафи лоиҳаро бо як ҷумла ва кортаҳои меъёрҳоро бо тарзи санҷиш нишон медиҳад. Ин маълумнома аст, на шакли корӣ: он аломатҳоро нигоҳ намедорад — аломатҳо дар ҳалл пайдо мешаванд. Меъёри худро ҳамчун унсури шашуми массив илова кунед: ӯ бояд ҳамон қадар санҷишашаванда бошад. Ин экран асоси ҳисоботи ниҳоии рӯзи 44 мешавад: ҳамон формулировкаҳо ба рӯйхати ниҳоии санҷишҳо мегузаранд.",
+        "en": "The criteria array describes five criteria: what we check and how — the start command, the scenario steps, the reader. The screen shows the project goal in one phrase and criterion cards with their check method. It is a reference, not a working form: it stores no marks — marks arrive in the solution. Add your own criterion as the sixth array item: it must be as checkable as the rest. This screen becomes the basis of the day-44 final report: the same wording moves into the final check list."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Criterion = { id: string; label: string; how: string };\n\nconst criteria: Criterion[] = [\n  { id: 'k1', label: 'Список, создание, детали и редактирование работают', how: 'пройти сценарий на устройстве' },\n  { id: 'k2', label: 'Данные сохраняются и восстанавливаются', how: 'закрыть и открыть приложение' },\n  { id: 'k3', label: 'Пустое состояние и ошибки понятны', how: 'открыть пустой список и отключить сеть' },\n  { id: 'k4', label: 'Управление доступно диктору', how: 'TalkBack или VoiceOver' },\n  { id: 'k5', label: 'Ограничения указаны честно', how: 'прочитать финальный отчёт' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проект: учебный планировщик</Text>\n      <Text style={styles.goal}>\n        Пользователь ведёт список занятий: добавляет, открывает детали, правит\n        и сохраняет. Данные живут на устройстве, сеть приносит шаблоны.\n      </Text>\n      {criteria.map(criterion => (\n        <View key={criterion.id} style={styles.row}>\n          <Text style={styles.label}>{criterion.label}</Text>\n          <Text style={styles.how}>Как проверить: {criterion.how}</Text>\n        </View>\n      ))}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  goal: { fontSize: 15, color: '#334155' },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  label: { fontSize: 15, fontWeight: '600' },\n  how: { fontSize: 13, color: '#64748b' },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-38-q1",
+      "question": {
+        "ru": "Каким должен быть критерий приёмки?",
+        "tg": "Меёри қабул чӣ гуна бояд бошад?",
+        "en": "What should an acceptance criterion be?"
+      },
+      "options": [
+        {
+          "ru": "Проверяемым: ответ «да» или «нет»",
+          "tg": "Санҷишашаванда: ҷавоб «ҳа» ё «не»",
+          "en": "Checkable: the answer is yes or no"
+        },
+        {
+          "ru": "Эмоциональным: «приложение красивое»",
+          "tg": "Ҳиссиётӣ: «барнома зебост»",
+          "en": "Emotional: \"the app is pretty\""
+        },
+        {
+          "ru": "Как можно более общим",
+          "tg": "Ҳарчи умумитар, беҳтар",
+          "en": "As general as possible"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Проверяемость делает приёмку честной.",
+        "tg": "Санҷишашавандӣ қабулро рӯбарӯ мекунад.",
+        "en": "Checkability makes acceptance honest."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел пример удачной формулировки.",
+        "tg": "Дар бахши аввал мисоли навишти муваффақро ёбед.",
+        "en": "Find the good wording example in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-38-q2",
+      "question": {
+        "ru": "Что описывает документ пользователя?",
+        "tg": "Ҳуҷҷати корбар чиро тавсиф медиҳад?",
+        "en": "What does the user document describe?"
+      },
+      "options": [
+        {
+          "ru": "Версии операционной системы",
+          "tg": "Версияҳои системаи оператсионӣ",
+          "en": "Operating system versions"
+        },
+        {
+          "ru": "Кто пользователь и какие действия он делает",
+          "tg": "Корбар кист ва кадом амалҳоро мекунад",
+          "en": "Who the user is and which actions they take"
+        },
+        {
+          "ru": "Цены хостинга",
+          "tg": "Нархҳои хостинг",
+          "en": "Hosting prices"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Сценарии проекта выводятся из действий пользователя.",
+        "tg": "Сенарияҳои лоиҳа аз амалҳои корбар мебароянд.",
+        "en": "Project scenarios follow from user actions."
+      },
+      "hint": {
+        "ru": "Перечитайте цель проекта в примере.",
+        "tg": "Ҳадафи лоиҳаро дар мисол аз нав хонед.",
+        "en": "Re-read the project goal in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-38-q3",
+      "question": {
+        "ru": "Что делает экран примера?",
+        "tg": "Экрани мисол чӣ мекунад?",
+        "en": "What does the example screen do?"
+      },
+      "options": [
+        {
+          "ru": "Загружает шаблоны из сети",
+          "tg": "Қолабҳоро аз шабака мегирад",
+          "en": "Loads network templates"
+        },
+        {
+          "ru": "Сохраняет записи в хранилище",
+          "tg": "Сабтҳоро ба нигоҳдорӣ медиҳад",
+          "en": "Stores records"
+        },
+        {
+          "ru": "Держит цель и критерии перед глазами",
+          "tg": "Ҳадоф ва меъёрҳоро дар назар нигоҳ медорад",
+          "en": "Keeps the goal and criteria in sight"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Это справочник проекта; работа начнётся со следующего дня.",
+        "tg": "Ин маълумномаи лоиҳа аст; кор аз рӯзи оянда оғоз мешавад.",
+        "en": "It is the project reference; work starts next day."
+      },
+      "hint": {
+        "ru": "Посмотрите, есть ли в примере кнопки и состояние.",
+        "tg": "Бинед, ки оё дар мисол тугмаҳо ва ҳолат ҳастанд.",
+        "en": "Look whether the example has buttons and state."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-38-q4",
+      "question": {
+        "ru": "Почему данные проекта живут на устройстве?",
+        "tg": "Маълумоти лоиҳа барои чӣ дар дастгоҳ аст?",
+        "en": "Why does the project data live on the device?"
+      },
+      "options": [
+        {
+          "ru": "Сервер и синхронизация — материал Pro-уровня",
+          "tg": "Сервер ва синхронизатсия мавзӯи сатҳи Pro аст",
+          "en": "A server and synchronization are Pro-level material"
+        },
+        {
+          "ru": "Устройство быстрее любого сервера",
+          "tg": "Дастгоҳ аз ҳар сервер тезтар аст",
+          "en": "A device is faster than any server"
+        },
+        {
+          "ru": "Серверы запрещены в учебных проектах",
+          "tg": "Дар лоиҳаҳои таълимӣ серверҳо мамнӯъанд",
+          "en": "Servers are forbidden in study projects"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Beginner-курс строит честное локальное приложение без выдуманных серверов.",
+        "tg": "Курси Beginner барномаи маҳаллии рӯбарӯро бе серверҳои сохта месозад.",
+        "en": "The Beginner course builds an honest local app without invented servers."
+      },
+      "hint": {
+        "ru": "Перечитайте описание проекта в примере.",
+        "tg": "Тавсифи лоиҳаро дар мисол аз нав хонед.",
+        "en": "Re-read the project description in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-38-q5",
+      "question": {
+        "ru": "Куда перейдут критерии дальше?",
+        "tg": "Меъёрҳо минбаъд ба куҷо мераванд?",
+        "en": "Where do the criteria go next?"
+      },
+      "options": [
+        {
+          "ru": "В App Store",
+          "tg": "Ба App Store",
+          "en": "To the App Store"
+        },
+        {
+          "ru": "В итоговый отчёт дня 44",
+          "tg": "Ба ҳисоботи ниҳоии рӯзи 44",
+          "en": "Into the day-44 final report"
+        },
+        {
+          "ru": "Никуда, они нужны только сегодня",
+          "tg": "Ҳеҷ ҷо, танҳо имрӯз лозиманд",
+          "en": "Nowhere, they are only for today"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Финальный отчёт переиспользует формулировки этого экрана.",
+        "tg": "Ҳисоботи ниҳоӣ формулировкаҳои ин экранро такрор истифода мебарад.",
+        "en": "The final report reuses this screen wording."
+      },
+      "hint": {
+        "ru": "Найдите в разбор слова про день 44.",
+        "tg": "Дар шарҳ калимаҳои дар бораи рӯзи 44-ро ёбед.",
+        "en": "Find the walkthrough words about day 44."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и прочитайте критерии на устройстве. Добавьте свой критерий с пометкой «мой» в решении, выделив его рамкой. Запишите пользователем проекта одно предложение о себе и три действия, которые он делает. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва меъёрҳоро дар дастгоҳ хонед. Меъёри худро бо аломати «мани» дар ҳалл илова карда, онро бо чорчӯба ҷудо кунед. Ҳамчун корбари лоиҳа як ҷумла дар бораи худ ва се амале, ки мекунед, сабт кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and read the criteria on a device. Add your own criterion marked as yours in the solution, highlighted with a border. As the project user record one sentence about yourself and three actions you take. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "В решении поле mine подсвечивает карточку синей рамкой и звездой.",
+      "tg": "Дар ҳалл майдони mine кортаро бо чорчӯбаи кабуд ва ситора ҷудо мекунад.",
+      "en": "In the solution the mine field highlights the card with a blue border and a star."
+    },
+    "solution": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Criterion = { id: string; label: string; how: string; mine: boolean };\n\nconst criteria: Criterion[] = [\n  { id: 'k1', label: 'Список, создание, детали и редактирование работают', how: 'пройти сценарий на устройстве', mine: false },\n  { id: 'k2', label: 'Данные сохраняются и восстанавливаются', how: 'закрыть и открыть приложение', mine: false },\n  { id: 'k3', label: 'Пустое состояние и ошибки понятны', how: 'открыть пустой список и отключить сеть', mine: false },\n  { id: 'k4', label: 'Управление доступно диктору', how: 'TalkBack или VoiceOver', mine: false },\n  { id: 'k5', label: 'Ограничения указаны честно', how: 'прочитать финальный отчёт', mine: false },\n  { id: 'k6', label: 'Мой критерий: напоминание о занятии видно на главном экране', how: 'записано автором проекта', mine: true },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проект: учебный планировщик</Text>\n      <Text style={styles.goal}>\n        Пользователь ведёт список занятий: добавляет, открывает детали, правит\n        и сохраняет. Данные живут на устройстве, сеть приносит шаблоны.\n      </Text>\n      {criteria.map(criterion => (\n        <View key={criterion.id} style={[styles.row, criterion.mine && styles.mine]}>\n          <Text style={styles.label}>{criterion.mine ? '★ ' : ''}{criterion.label}</Text>\n          <Text style={styles.how}>Как проверить: {criterion.how}</Text>\n        </View>\n      ))}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  goal: { fontSize: 15, color: '#334155' },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  mine: { borderColor: '#2563eb' },\n  label: { fontSize: 15, fontWeight: '600' },\n  how: { fontSize: 13, color: '#64748b' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Шесть критериев на экране, шестой — ваш.",
+        "tg": "Шаш меёр дар экран, шашумин — худи шумо.",
+        "en": "Six criteria on the screen, the sixth is yours."
+      },
+      {
+        "ru": "Пользователь описан одним предложением и тремя действиями.",
+        "tg": "Корбар бо як ҷумла ва се амал тавсиф шудааст.",
+        "en": "The user is described in one sentence and three actions."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Зафиксировать пользователя и цель приложения одной фразой.",
+        "tg": "Корбар ва ҳадафи барномаро бо як ҷумла сабт кунед.",
+        "en": "Fix the user and the app goal in one phrase."
+      },
+      {
+        "ru": "Сформулировать проверяемые критерии приёмки.",
+        "tg": "Меъёрҳои санҷишашавандаи қабулро нависед.",
+        "en": "Write checkable acceptance criteria."
+      }
+    ],
+    "realWorld": {
+      "ru": "Заказчик и разработчик соглашаются о критериях приёмки до первой строки кода.",
+      "tg": "Фармоишидент ва таҳиягар пеш аз аввалин сатри рамз меъёрҳои қабулро созиш медиҳанд.",
+      "en": "Customer and developer agree on acceptance criteria before the first line of code."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что описывает документ пользователя?",
+        "tg": "Ҳуҷҷати корбар чиро тавсиф медиҳад?",
+        "en": "What does the user document describe?"
+      },
+      "options": [
+        {
+          "ru": "Версии операционной системы",
+          "tg": "Версияҳои системаи оператсионӣ",
+          "en": "Operating system versions"
+        },
+        {
+          "ru": "Кто пользователь и какие действия он делает",
+          "tg": "Корбар кист ва кадом амалҳоро мекунад",
+          "en": "Who the user is and which actions they take"
+        },
+        {
+          "ru": "Цены хостинга",
+          "tg": "Нархҳои хостинг",
+          "en": "Hosting prices"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Перечитайте цель проекта в примере.",
+        "tg": "Ҳадафи лоиҳаро дар мисол аз нав хонед.",
+        "en": "Re-read the project goal in the example."
+      },
+      "explanation": {
+        "ru": "Сценарии проекта выводятся из действий пользователя.",
+        "tg": "Сенарияҳои лоиҳа аз амалҳои корбар мебароянд.",
+        "en": "Project scenarios follow from user actions."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Criterion = { id: string; label: string; how: string };\n\nconst criteria: Criterion[] = [\n  { id: 'k1', label: 'Список, создание, детали и редактирование работают', how: 'пройти сценарий на устройстве' },\n  { id: 'k2', label: 'Данные сохраняются и восстанавливаются', how: 'закрыть и открыть приложение' },\n  { id: 'k3', label: 'Пустое состояние и ошибки понятны', how: 'открыть пустой список и отключить сеть' },\n  { id: 'k4', label: 'Управление доступно диктору', how: 'TalkBack или VoiceOver' },\n  { id: 'k5', label: 'Ограничения указаны честно', how: 'прочитать финальный отчёт' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проект: учебный планировщик</Text>\n      <Text style={styles.goal}>\n        Пользователь ведёт список занятий: добавляет, открывает детали, правит\n        и сохраняет. Данные живут на устройстве, сеть приносит шаблоны.\n      </Text>\n      {criteria.map(criterion => (\n        <View key={criterion.id} style={styles.row}>\n          <Text style={styles.label}>{criterion.label}</Text>\n          <Text style={styles.how}>Как проверить: {criterion.how}</Text>\n        </View>\n      ))}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  goal: { fontSize: 15, color: '#334155' },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  label: { fontSize: 15, fontWeight: '600' },\n  how: { fontSize: 13, color: '#64748b' },\n});\n",
+      "steps": [
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Каждый критерий имеет способ проверки.",
+            "tg": "Ҳар меёр тарзи санҷиш дорад.",
+            "en": "Every criterion has a check method."
+          },
+          "values": "5 критериев"
+        },
+        {
+          "line": 20,
+          "explanation": {
+            "ru": "Цель проекта — одна фраза над карточками.",
+            "tg": "Ҳадафи лоиҳа як ҷумла болои кортаҳост.",
+            "en": "The project goal is one phrase above the cards."
+          },
+          "values": "goal"
+        },
+        {
+          "line": 22,
+          "explanation": {
+            "ru": "Критерии выводятся списком с пометками «как проверить».",
+            "tg": "Меъёрҳо бо аломатҳои «чӣ тавр месанҷем» мебароянд.",
+            "en": "Criteria render with \"how to check\" notes."
+          },
+          "values": "criteria list"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Прочитайте пять критериев и назовите, какой из них уже покрыт днями курса.",
+          "tg": "Панҷ меърро хонда, номбар кунед, ки кадомаш аллакай аз рӯзҳои курс пӯшонида шудааст.",
+          "en": "Read the five criteria and name the one already covered by the course days."
+        },
+        {
+          "ru": "Добавьте свой критерий и запишите способ его проверки.",
+          "tg": "Меъёри худро илова карда, тарзи санҷишашро сабт кунед.",
+          "en": "Add your own criterion and record its check method."
+        }
+      ],
+      "hint": {
+        "ru": "В решении поле mine подсвечивает карточку синей рамкой и звездой.",
+        "tg": "Дар ҳалл майдони mine кортаро бо чорчӯбаи кабуд ва ситора ҷудо мекунад.",
+        "en": "In the solution the mine field highlights the card with a blue border and a star."
+      },
+      "success": {
+        "ru": "Экран показывает цель и шесть критериев, включая ваш собственный.",
+        "tg": "Экран ҳадоф ва шаш меёрро нишон медиҳад, аз ҷумла меъёри худи шумо.",
+        "en": "The screen shows the goal and six criteria including your own."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и прочитайте критерии на устройстве. Добавьте свой критерий с пометкой «мой» в решении, выделив его рамкой. Запишите пользователем проекта одно предложение о себе и три действия, которые он делает. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва меъёрҳоро дар дастгоҳ хонед. Меъёри худро бо аломати «мани» дар ҳалл илова карда, онро бо чорчӯба ҷудо кунед. Ҳамчун корбари лоиҳа як ҷумла дар бораи худ ва се амале, ки мекунед, сабт кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and read the criteria on a device. Add your own criterion marked as yours in the solution, highlighted with a border. As the project user record one sentence about yourself and three actions you take. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Шесть критериев на экране, шестой — ваш.",
+          "tg": "Шаш меёр дар экран, шашумин — худи шумо.",
+          "en": "Six criteria on the screen, the sixth is yours."
+        },
+        {
+          "ru": "Пользователь описан одним предложением и тремя действиями.",
+          "tg": "Корбар бо як ҷумла ва се амал тавсиф шудааст.",
+          "en": "The user is described in one sentence and three actions."
+        }
+      ],
+      "example": {
+        "ru": "Шестая карточка с рамкой и звездой показывает ваш собственный критерий.",
+        "tg": "Кортаи шашум бо чорчӯба ва ситора меъёри худи шуморо нишон медиҳад.",
+        "en": "The sixth bordered and starred card shows your own criterion."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Цель и критерии фиксируют до кода и держат перед глазами.",
+        "tg": "Ҳадоф ва меъёрҳоро пеш аз рамз сабт карда, дар назар медоранд.",
+        "en": "Fix the goal and criteria before code and keep them in sight."
+      },
+      {
+        "ru": "Критерий проверяем, если ответ «да» или «нет».",
+        "tg": "Меёр санҷишашаванда аст, агар ҷавоб «ҳа» ё «не» бошад.",
+        "en": "A criterion is checkable if the answer is yes or no."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Каким должен быть критерий приёмки?",
+        "tg": "Меёри қабул чӣ гуна бояд бошад?",
+        "en": "What should an acceptance criterion be?"
+      },
+      {
+        "ru": "Почему данные проекта живут на устройстве?",
+        "tg": "Маълумоти лоиҳа барои чӣ дар дастгоҳ аст?",
+        "en": "Why does the project data live on the device?"
+      }
+    ],
+    "nextLessonId": "mobile-day-39"
+  }
+}

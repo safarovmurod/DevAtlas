@@ -1,0 +1,94 @@
+import { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export type Task = { id: string; title: string; minutes: number; createdAt: number };
+export const STORAGE_KEY = 'devatlas-planner';
+
+export function taskA11yLabel(task: Task): string {
+  return `${task.title}, ${task.minutes} минут практики, записано в планировщик`;
+}
+
+export default function App() {
+  const [tasks, setTasks] = useState<Task[] | null>(null);
+  const [title, setTitle] = useState('');
+  const [error, setError] = useState('');
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))
+      .catch(() => setTasks([]));
+  }, []);
+
+  async function addTask() {
+    const value = title.trim();
+    if (value.length < 3) {
+      setError('Название короче трёх символов');
+      setSaved(false);
+      return;
+    }
+    setError('');
+    const next: Task[] = [...tasks ?? [], { id: `t${Date.now()}`, title: value, minutes: 20, createdAt: Date.now() }];
+    setTasks(next);
+    setTitle('');
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      setSaved(true);
+    } catch {
+      setSaved(false);
+      setError('Не удалось сохранить: данные видны только до перезапуска');
+    }
+  }
+
+  if (tasks === null) {
+    return <View style={styles.screen}><Text accessibilityLiveRegion="polite">Открываем планировщик…</Text></View>;
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Мои занятия</Text>
+      <TextInput
+        value={title}
+        onChangeText={text => { setTitle(text); setSaved(false); }}
+        placeholder="Название занятия"
+        accessibilityLabel="Название нового занятия"
+        style={styles.input}
+      />
+      {error ? (
+        <Text accessibilityLiveRegion="assertive" style={styles.error}>{error}</Text>
+      ) : null}
+      {saved ? (
+        <Text accessibilityLiveRegion="polite">Занятие сохранено.</Text>
+      ) : null}
+      {tasks.length === 0 ? (
+        <Text>Пока занятий нет. Добавьте первое.</Text>
+      ) : (
+        tasks.map(task => (
+          <View key={task.id} style={styles.item} accessible accessibilityLabel={taskA11yLabel(task)}>
+            <Text>{task.title} — {task.minutes} мин.</Text>
+          </View>
+        ))
+      )}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Добавить занятие в план"
+        accessibilityHint="Сохраняет запись на устройстве"
+        onPress={addTask}
+        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      >
+        <Text style={styles.buttonText}>Добавить</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+  error: { color: '#dc2626', fontSize: 14 },
+  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },
+  pressed: { opacity: 0.7 },
+  buttonText: { color: '#ffffff', fontSize: 16 },
+});

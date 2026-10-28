@@ -1,0 +1,39 @@
+import { StyleSheet, Text, View } from 'react-native';
+
+type Criterion = { id: string; label: string; how: string; mine: boolean };
+
+const criteria: Criterion[] = [
+  { id: 'k1', label: 'Список, создание, детали и редактирование работают', how: 'пройти сценарий на устройстве', mine: false },
+  { id: 'k2', label: 'Данные сохраняются и восстанавливаются', how: 'закрыть и открыть приложение', mine: false },
+  { id: 'k3', label: 'Пустое состояние и ошибки понятны', how: 'открыть пустой список и отключить сеть', mine: false },
+  { id: 'k4', label: 'Управление доступно диктору', how: 'TalkBack или VoiceOver', mine: false },
+  { id: 'k5', label: 'Ограничения указаны честно', how: 'прочитать финальный отчёт', mine: false },
+  { id: 'k6', label: 'Мой критерий: напоминание о занятии видно на главном экране', how: 'записано автором проекта', mine: true },
+];
+
+export default function App() {
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Проект: учебный планировщик</Text>
+      <Text style={styles.goal}>
+        Пользователь ведёт список занятий: добавляет, открывает детали, правит
+        и сохраняет. Данные живут на устройстве, сеть приносит шаблоны.
+      </Text>
+      {criteria.map(criterion => (
+        <View key={criterion.id} style={[styles.row, criterion.mine && styles.mine]}>
+          <Text style={styles.label}>{criterion.mine ? '★ ' : ''}{criterion.label}</Text>
+          <Text style={styles.how}>Как проверить: {criterion.how}</Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  goal: { fontSize: 15, color: '#334155' },
+  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },
+  mine: { borderColor: '#2563eb' },
+  label: { fontSize: 15, fontWeight: '600' },
+  how: { fontSize: 13, color: '#64748b' },
+});

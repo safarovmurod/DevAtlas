@@ -1,0 +1,32 @@
+import { StyleSheet, Text, View } from 'react-native';
+
+export type Task = { id: string; title: string; minutes: number; createdAt: number };
+export type ScreenName = 'list' | 'add' | 'details';
+export const STORAGE_KEY = 'devatlas-planner';
+
+export function makeTask(title: string): Task {
+  return { id: `t${Date.now()}`, title, minutes: 20, createdAt: Date.now() };
+}
+
+const sample = makeTask('Прочитать день 39');
+
+export default function App() {
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Модель данных планировщика</Text>
+      <View style={styles.card}>
+        <Text style={styles.title}>{sample.title}</Text>
+        <Text style={styles.body}>id: {sample.id}</Text>
+        <Text style={styles.body}>минуты: {sample.minutes}</Text>
+      </View>
+      <Text>Экраны: list, add, details. Ключ хранилища: {STORAGE_KEY}.</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  card: { padding: 16, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },
+  title: { fontSize: 16, fontWeight: '600' },
+  body: { fontSize: 14, color: '#475569' },
+});

@@ -8,7 +8,7 @@ import {spawnSync} from 'node:child_process';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 
 export async function verifyComponent(day,source,expoProject){
- if(!['02','04','06','08','09','14','16','21','22','26','30','35'].includes(day))throw new Error('Available component checks: 02, 04, 06, 08, 09, 14, 16, 21, 22, 26, 30 and 35');
+ if(!['02','04','06','08','09','14','16','21','22','26','30','35','40','41'].includes(day))throw new Error('Available component checks: 02, 04, 06, 08, 09, 14, 16, 21, 22, 26, 30, 35, 40 and 41');
  if(!source||!expoProject)throw new Error('Usage: node verify-component.mjs 02|04|06|08|09|14|16 <your-file.tsx> <expo-project>');
  const project=resolve(expoProject),requireFromProject=createRequire(join(project,'package.json'));
  const expo=requireFromProject('expo/package.json').version;
