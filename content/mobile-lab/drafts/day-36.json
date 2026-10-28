@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-36",
+  "day": 36,
+  "prerequisiteDays": [
+    35
+  ],
+  "title": {
+    "ru": "Тест пользовательского сценария",
+    "tg": "Таҷрибаи сенарияи корбар",
+    "en": "Testing a user scenario"
+  },
+  "summary": {
+    "ru": "Проверьте путь пользователя целиком: шаги, отметки и заметки между ними.",
+    "tg": "Роҳи корбарро тамоман месанҷед: қадамҳо, аломатгузорӣ ва қайдҳои миёна.",
+    "en": "Check the whole user path: steps, marks and notes in between."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Сценарий вместо набора кнопок",
+        "tg": "Сенария ба ҷои маҷмӯи тугмаҳо",
+        "en": "A scenario instead of a button pile"
+      },
+      "body": {
+        "ru": "Отдельные тесты компонентов не отвечают на главный вопрос: работает ли путь пользователя целиком. Сценарий — последовательность шагов от открытия приложения до результата: «открыть список → добавить занятие → открыть подробности → вернуться без потери ввода». Сценарный тест фиксирует каждый шаг: в этом курсе — на устройстве, с отметками в компоненте-чеклисте и записью наблюдений. Автоматизировать сценарий интерфейса можно инструментами вроде Maestro или Detox, но это отдельная инфраструктура; Beginner-курс учит мыслить шагами и фиксировать результат честно, не выдавая ручную проверку за автоматическую.",
+        "tg": "Таҷрибаҳои ҷудогонаи компонентҳо ба саволи асосӣ ҷавоб намедиҳанд: оё роҳи корбар тамоман кор мекунад? Сенария — пайиҳамии қадамҳо аз кушодани барнома то натиҷа: «кушодани рӯйхат → илова кардани машғулият → кушодани тафсилот → баргашт бе гум шудани вурӯд». Таҷрибаи сенариавӣ ҳар қадамро сабт мекунад: дар ин курс — дар дастгоҳ, бо аломатгузорӣ дар компоненти чеклист ва сабти мушоҳидаҳо. Худкурондани сенарияи интерфейс бо абзорҳои монанди Maestro ё Detox мумкин аст, вале ин зерсохти алоҳида аст; курси Beginner фикронидан бо қадамҳо ва сабти рӯбарӯи натиҷаро меомӯзад, бе он ки санҷиши дастиро ҳамчун худкор пешкаш кунад.",
+        "en": "Separate component tests do not answer the main question: does the user path work as a whole? A scenario is a sequence of steps from opening the app to a result: \"open the list → add a lesson → open details → return without losing input\". A scenario test records every step: in this course — on a device, with marks in a checklist component and recorded observations. Automating interface scenarios with tools like Maestro or Detox is possible, but that is separate infrastructure; the Beginner course teaches thinking in steps and recording the result honestly, without presenting a manual check as automated."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Массив initialSteps описывает четыре шага сценария с уникальными id. Нажатие на шаг отмечает его через map с копированием объекта — прошлые шаги не теряются. Поле заметки живёт между шагами: его текст сохраняется, пока экран смонтирован. В решении добавлена функция allDone — чистая проверка, что все шаги отмечены, и строка «Сценарий пройден полностью». Пройдите сценарий на устройстве против своего приложения из дней 23 и 30: каждый шаг сценария должен совпасть с реальным поведением. Запишите, где сценарий и приложение разошлись — это и есть результат теста.",
+        "tg": "Массиви initialSteps чор қадами сенарияро бо id-ҳои ягона тавсиф медиҳад. Пахши қадам онро тавассути map бо нусхабардории объект аломат мекунад — қадамҳои гузашта гум намешаванд. Майдони қайд байни қадамҳо зиндагӣ мекунад: матнаш то монтаҷ будани экран мемонад. Дар ҳалл функсияи allDone илова шудааст — санҷиши софи он ки ҳамаи қадамҳо аломат шуданд ва сатри «Сенария пурра гузашт». Сенарияро дар дастгоҳ муқобили барномаи худ аз рӯзҳои 23 ва 30 гузаронед: ҳар қадами сенария бояд ба рафтори воқеӣ мутобиқ ояд. Сабт кунед, ки сенария ва барнома дар куҷо фарқ карданд — ин натиҷаи таҷриба аст.",
+        "en": "The initialSteps array describes four scenario steps with unique ids. Pressing a step marks it through a map with object copying — earlier steps survive. The note field lives between steps: its text stays while the screen is mounted. The solution adds the allDone function — a pure check that every step is marked — and the «Сценарий пройден полностью» line. Walk the scenario on a device against your app from days 23 and 30: every scenario step must match the real behavior. Record where the scenario and the app diverged — that is the test result."
+      },
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Step = { id: string; label: string; done: boolean };\n\nconst initialSteps: Step[] = [\n  { id: 's1', label: 'Открыть список', done: false },\n  { id: 's2', label: 'Добавить занятие', done: false },\n  { id: 's3', label: 'Открыть подробности', done: false },\n  { id: 's4', label: 'Вернуться без потери ввода', done: false },\n];\n\nexport default function App() {\n  const [steps, setSteps] = useState<Step[]>(initialSteps);\n  const [note, setNote] = useState('');\n\n  function mark(id: string) {\n    setSteps(current => current.map(step => (step.id === id ? { ...step, done: true } : step)));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Сценарий проверки</Text>\n      {steps.map(step => (\n        <Pressable\n          key={step.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`Шаг: ${step.label}. Отметить выполненным`}\n          onPress={() => mark(step.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text>{step.done ? '✔' : '☐'} {step.label}</Text>\n        </Pressable>\n      ))}\n      <TextInput\n        value={note}\n        onChangeText={setNote}\n        placeholder=\"Заметка между шагами\"\n        style={styles.input}\n      />\n      <Text>Отметьте шаги по мере прохождения сценария на устройстве.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  pressed: { opacity: 0.6 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-36-q1",
+      "question": {
+        "ru": "Что проверяет сценарный тест, чего не видно в тестах компонентов?",
+        "tg": "Таҷрибаи сенариавӣ чиро месанҷад, ки дар таҷрибаҳои компонент дида намешавад?",
+        "en": "What does a scenario test check that component tests miss?"
+      },
+      "options": [
+        {
+          "ru": "Скорость рендера",
+          "tg": "Суръати render",
+          "en": "Render speed"
+        },
+        {
+          "ru": "Работу пути пользователя целиком",
+          "tg": "Кори тамоми роҳи корбарро",
+          "en": "The whole user path working"
+        },
+        {
+          "ru": "Цвет кнопок",
+          "tg": "Ранги тугмаҳо",
+          "en": "Button colors"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Шаги связаны: сбой на границе шагов видно только сценарием.",
+        "tg": "Қадамҳо пайвастанд: хато дар ҳудуди қадамҳоро танҳо сенария мебинад.",
+        "en": "Steps connect: failures at step boundaries only show in a scenario."
+      },
+      "hint": {
+        "ru": "Перечитайте первое предложение первого раздела.",
+        "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+        "en": "Re-read the first sentence of the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-36-q2",
+      "question": {
+        "ru": "Как выглядит честная запись сценарного теста?",
+        "tg": "Сабти рӯбарӯи таҷрибаи сенариавӣ чӣ гуна аст?",
+        "en": "What does an honest scenario record look like?"
+      },
+      "options": [
+        {
+          "ru": "Скриншот чужого приложения",
+          "tg": "Скриншоти барномаи дигарон",
+          "en": "A screenshot of someone else app"
+        },
+        {
+          "ru": "Автоматическая галочка без запуска",
+          "tg": "Аломати худкор бе иҷро",
+          "en": "An automated checkmark without a run"
+        },
+        {
+          "ru": "Каждый шаг отмечен на устройстве с наблюдениями",
+          "tg": "Ҳар қадам дар дастгоҳ аломат карда, бо мушоҳидаҳо сабт мешавад",
+          "en": "Every step marked on a device with observations"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Ручная проверка так и остаётся ручной — честно подписанной.",
+        "tg": "Санҷиши дастӣ дастӣ мемонад — бо имзои рӯбарӯ.",
+        "en": "A manual check stays manual — honestly labeled."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова про автоматизацию.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи худкурониро ёбед.",
+        "en": "Find the first-section words about automation."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-36-q3",
+      "question": {
+        "ru": "Что делает mark в примере?",
+        "tg": "mark дар мисол чӣ мекунад?",
+        "en": "What does mark do in the example?"
+      },
+      "options": [
+        {
+          "ru": "Отмечает один шаг, копируя объект с новым done",
+          "tg": "Як қадамро аломат мекунад, объектро бо done-и нав нусхабардорӣ мекунад",
+          "en": "Marks one step, copying the object with a new done"
+        },
+        {
+          "ru": "Удаляет шаг из списка",
+          "tg": "Қадамро аз рӯйхат нест мекунад",
+          "en": "Removes the step from the list"
+        },
+        {
+          "ru": "Очищает заметку",
+          "tg": "Қайдро тоза мекунад",
+          "en": "Clears the note"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Иммутабельное обновление сохраняет остальные шаги.",
+        "tg": "Навсозии тағйирнопазир боқимондаро нигоҳ медорад.",
+        "en": "The immutable update keeps the other steps."
+      },
+      "hint": {
+        "ru": "Найдите map внутри mark.",
+        "tg": "map-ро дар дохили mark ёбед.",
+        "en": "Find the map inside mark."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-36-q4",
+      "question": {
+        "ru": "Зачем заметка между шагами?",
+        "tg": "Қайд байни қадамҳо барои чист?",
+        "en": "What is the between-steps note for?"
+      },
+      "options": [
+        {
+          "ru": "Она ускоряет сценарий",
+          "tg": "Он сенарияро тез мекунад",
+          "en": "It speeds up the scenario"
+        },
+        {
+          "ru": "Она показывает, что ввод живёт при переходах по сценарию",
+          "tg": "Он нишон медиҳад, ки вурӯд ҳангоми гузаришҳои сенария зинда аст",
+          "en": "It shows input survives scenario transitions"
+        },
+        {
+          "ru": "Она шифрует результаты",
+          "tg": "Он натиҷаҳоро рамзгузорӣ мекунад",
+          "en": "It encrypts results"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Потеря ввода на границе шагов — частый сценарный баг.",
+        "tg": "Гум шудани вурӯд дар ҳудуди қадамҳо хатои маъмулии сенариавист.",
+        "en": "Input loss at step boundaries is a common scenario bug."
+      },
+      "hint": {
+        "ru": "Сравните с днём 20 про черновик и стек.",
+        "tg": "Бо рӯзи 20 дар бораи лоиҳа ва стек муқоиса кунед.",
+        "en": "Compare with day 20 about the draft and stack."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-36-q5",
+      "question": {
+        "ru": "Что делает allDone в решении?",
+        "tg": "allDone дар ҳалл чӣ мекунад?",
+        "en": "What does allDone do in the solution?"
+      },
+      "options": [
+        {
+          "ru": "Сохраняет заметку",
+          "tg": "Қайдро нигоҳ медорад",
+          "en": "Saves the note"
+        },
+        {
+          "ru": "Сбрасывает сценарий",
+          "tg": "Сенарияро аз нав оғоз мекунад",
+          "en": "Resets the scenario"
+        },
+        {
+          "ru": "Возвращает true, когда все шаги отмечены",
+          "tg": "Ҳангоми аломат шудани ҳамаи қадамҳо true бармегардонад",
+          "en": "Returns true when every step is marked"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Завершение сценария — тоже состояние, которое видно пользователю.",
+        "tg": "Тамом шудани сенария ҳам ҳолатест, ки корбар мебинад.",
+        "en": "Scenario completion is also a state the user sees."
+      },
+      "hint": {
+        "ru": "Найдите строку успеха в решении.",
+        "tg": "Сатри муваффақиятро дар ҳалл ёбед.",
+        "en": "Find the success line in the solution."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и отметьте шаги на устройстве. Соберите решение с allDone и строкой завершения. Пройдите сценарий против своего приложения из дня 23 и запишите дословно, где поведение разошлось со сценарием. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва қадамҳоро дар дастгоҳ аломат кунед. Ҳаллро бо allDone ва сатри тамомшавӣ созед. Сенарияро муқобили барномаи худ аз рӯзи 23 гузаронида, калима ба калима сабт кунед, ки рафтор дар куҷо аз сенария фарқ кард. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and mark the steps on a device. Build the solution with allDone and the completion line. Walk the scenario against your day-23 app and record verbatim where behavior diverged from the scenario. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Сценарий из дня 23: список → добавить → сохранить → открыть → назад; сверьте каждый шаг.",
+      "tg": "Сенария аз рӯзи 23: рӯйхат → илова → нигоҳдорӣ → кушодан → ба ақиб; ҳар қадамро муқоиса кунед.",
+      "en": "The day-23 scenario: list → add → save → open → back; match every step."
+    },
+    "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Step = { id: string; label: string; done: boolean };\n\nconst initialSteps: Step[] = [\n  { id: 's1', label: 'Открыть список', done: false },\n  { id: 's2', label: 'Добавить занятие', done: false },\n  { id: 's3', label: 'Открыть подробности', done: false },\n  { id: 's4', label: 'Вернуться без потери ввода', done: false },\n];\n\nexport function allDone(steps: Step[]): boolean {\n  return steps.every(step => step.done);\n}\n\nexport default function App() {\n  const [steps, setSteps] = useState<Step[]>(initialSteps);\n  const [note, setNote] = useState('');\n\n  function mark(id: string) {\n    setSteps(current => current.map(step => (step.id === id ? { ...step, done: true } : step)));\n  }\n\n  const complete = allDone(steps);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Сценарий проверки</Text>\n      {steps.map(step => (\n        <Pressable\n          key={step.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`Шаг: ${step.label}. Отметить выполненным`}\n          onPress={() => mark(step.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text>{step.done ? '✔' : '☐'} {step.label}</Text>\n        </Pressable>\n      ))}\n      <TextInput\n        value={note}\n        onChangeText={setNote}\n        placeholder=\"Заметка между шагами\"\n        style={styles.input}\n      />\n      {complete ? <Text>Сценарий пройден полностью. Запишите результаты.</Text> : null}\n      <Text>Отметьте шаги по мере прохождения сценария на устройстве.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  pressed: { opacity: 0.6 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Все шаги сценария отмечены на устройстве.",
+        "tg": "Ҳамаи қадамҳои сенария дар дастгоҳ аломат шуданд.",
+        "en": "All scenario steps are marked on a device."
+      },
+      {
+        "ru": "Расхождения со сценарием записаны, если были.",
+        "tg": "Агар бошанд, фарқҳо аз сенария сабт шудаанд.",
+        "en": "Divergences from the scenario are recorded, if any."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Записать сценарий из шагов и пройти его на устройстве.",
+        "tg": "Сенарияро аз қадамҳо нависед ва дар дастгоҳ гузаронед.",
+        "en": "Write a step scenario and walk it on a device."
+      },
+      {
+        "ru": "Честно отделить ручную проверку от автоматической.",
+        "tg": "Санҷиши дастӣро аз худкорӣ рӯбарӯ ҷудо кунед.",
+        "en": "Honestly separate manual checking from automated."
+      }
+    ],
+    "realWorld": {
+      "ru": "Перед выпуском обновления QA-инженер проходит сценарий покупки от открытия до чека.",
+      "tg": "Пеш аз нашри навсозӣ муҳандиси QA сенарияи харидро аз кушодан то чек мегузарад.",
+      "en": "Before a release a QA engineer walks the purchase scenario from opening to the receipt."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Как выглядит честная запись сценарного теста?",
+        "tg": "Сабти рӯбарӯи таҷрибаи сенариавӣ чӣ гуна аст?",
+        "en": "What does an honest scenario record look like?"
+      },
+      "options": [
+        {
+          "ru": "Скриншот чужого приложения",
+          "tg": "Скриншоти барномаи дигарон",
+          "en": "A screenshot of someone else app"
+        },
+        {
+          "ru": "Автоматическая галочка без запуска",
+          "tg": "Аломати худкор бе иҷро",
+          "en": "An automated checkmark without a run"
+        },
+        {
+          "ru": "Каждый шаг отмечен на устройстве с наблюдениями",
+          "tg": "Ҳар қадам дар дастгоҳ аломат карда, бо мушоҳидаҳо сабт мешавад",
+          "en": "Every step marked on a device with observations"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Найдите в первом раздел слова про автоматизацию.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи худкурониро ёбед.",
+        "en": "Find the first-section words about automation."
+      },
+      "explanation": {
+        "ru": "Ручная проверка так и остаётся ручной — честно подписанной.",
+        "tg": "Санҷиши дастӣ дастӣ мемонад — бо имзои рӯбарӯ.",
+        "en": "A manual check stays manual — honestly labeled."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Step = { id: string; label: string; done: boolean };\n\nconst initialSteps: Step[] = [\n  { id: 's1', label: 'Открыть список', done: false },\n  { id: 's2', label: 'Добавить занятие', done: false },\n  { id: 's3', label: 'Открыть подробности', done: false },\n  { id: 's4', label: 'Вернуться без потери ввода', done: false },\n];\n\nexport default function App() {\n  const [steps, setSteps] = useState<Step[]>(initialSteps);\n  const [note, setNote] = useState('');\n\n  function mark(id: string) {\n    setSteps(current => current.map(step => (step.id === id ? { ...step, done: true } : step)));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Сценарий проверки</Text>\n      {steps.map(step => (\n        <Pressable\n          key={step.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`Шаг: ${step.label}. Отметить выполненным`}\n          onPress={() => mark(step.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text>{step.done ? '✔' : '☐'} {step.label}</Text>\n        </Pressable>\n      ))}\n      <TextInput\n        value={note}\n        onChangeText={setNote}\n        placeholder=\"Заметка между шагами\"\n        style={styles.input}\n      />\n      <Text>Отметьте шаги по мере прохождения сценария на устройстве.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  pressed: { opacity: 0.6 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+      "steps": [
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Четыре шага описывают путь пользователя.",
+            "tg": "Чор қадам роҳи корбарро тавсиф медиҳанд.",
+            "en": "Four steps describe the user path."
+          },
+          "values": "list → add → details → back"
+        },
+        {
+          "line": 19,
+          "explanation": {
+            "ru": "Отметка шага копирует объект с done: true.",
+            "tg": "Аломати қадам объектро бо done: true нусхабардорӣ мекунад.",
+            "en": "Marking a step copies the object with done: true."
+          },
+          "values": "step.done"
+        },
+        {
+          "line": 28,
+          "explanation": {
+            "ru": "Заметка живёт между шагами сценария.",
+            "tg": "Қайд байни қадамҳои сенария зиндагӣ мекунад.",
+            "en": "The note lives between scenario steps."
+          },
+          "values": "note persists"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Отметьте первый шаг и убедитесь, что остальные не изменились.",
+          "tg": "Қадами аввалро аломат карда, боварӣ ҳосил кунед, ки боқимонда тағйир наёфтанд.",
+          "en": "Mark the first step and confirm the others did not change."
+        },
+        {
+          "ru": "Пройдите все четыре шага против приложения из дня 23 и запишите расхождения.",
+          "tg": "Ҳамаи чор қадамро муқобили барномаи рӯзи 23 гузаронида, фарқҳоро сабт кунед.",
+          "en": "Walk all four steps against the day-23 app and record the divergences."
+        }
+      ],
+      "hint": {
+        "ru": "Сценарий из дня 23: список → добавить → сохранить → открыть → назад; сверьте каждый шаг.",
+        "tg": "Сенария аз рӯзи 23: рӯйхат → илова → нигоҳдорӣ → кушодан → ба ақиб; ҳар қадамро муқоиса кунед.",
+        "en": "The day-23 scenario: list → add → save → open → back; match every step."
+      },
+      "success": {
+        "ru": "Все шаги отмечены, заметка не потерялась, расхождения записаны словами.",
+        "tg": "Ҳамаи қадамҳо аломат шуданд, қайд гум нашуд ва фарқҳо бо калимаҳо сабт шуданд.",
+        "en": "All steps are marked, the note survived and divergences are recorded in words."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и отметьте шаги на устройстве. Соберите решение с allDone и строкой завершения. Пройдите сценарий против своего приложения из дня 23 и запишите дословно, где поведение разошлось со сценарием. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва қадамҳоро дар дастгоҳ аломат кунед. Ҳаллро бо allDone ва сатри тамомшавӣ созед. Сенарияро муқобили барномаи худ аз рӯзи 23 гузаронида, калима ба калима сабт кунед, ки рафтор дар куҷо аз сенария фарқ кард. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and mark the steps on a device. Build the solution with allDone and the completion line. Walk the scenario against your day-23 app and record verbatim where behavior diverged from the scenario. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Все шаги сценария отмечены на устройстве.",
+          "tg": "Ҳамаи қадамҳои сенария дар дастгоҳ аломат шуданд.",
+          "en": "All scenario steps are marked on a device."
+        },
+        {
+          "ru": "Расхождения со сценарием записаны, если были.",
+          "tg": "Агар бошанд, фарқҳо аз сенария сабт шудаанд.",
+          "en": "Divergences from the scenario are recorded, if any."
+        }
+      ],
+      "example": {
+        "ru": "После четвёртого шага появляется строка «Сценарий пройден полностью».",
+        "tg": "Баъди қадами чорум сатри «Сенария пурра гузашт» пайдо мешавад.",
+        "en": "After the fourth step the «Сценарий пройден полностью» line appears."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Сценарий проверяет путь целиком, включая границы шагов.",
+        "tg": "Сенария роҳро тамоман месанҷад, аз ҷумла ҳудуди қадамҳоро.",
+        "en": "A scenario checks the whole path, including step boundaries."
+      },
+      {
+        "ru": "Ручная проверка остаётся ручной и подписывается честно.",
+        "tg": "Санҷиши дастӣ дастӣ мемонад ва рӯбарӯ имзо мешавад.",
+        "en": "A manual check stays manual and is labeled honestly."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Как выглядит честная запись сценарного теста?",
+        "tg": "Сабти рӯбарӯи таҷрибаи сенариавӣ чӣ гуна аст?",
+        "en": "What does an honest scenario record look like?"
+      },
+      {
+        "ru": "Что делает allDone в решении?",
+        "tg": "allDone дар ҳалл чӣ мекунад?",
+        "en": "What does allDone do in the solution?"
+      }
+    ],
+    "nextLessonId": "mobile-day-37"
+  }
+}

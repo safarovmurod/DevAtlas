@@ -1,0 +1,58 @@
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+
+type Step = { id: string; label: string; done: boolean };
+
+const initialSteps: Step[] = [
+  { id: 's1', label: 'Открыть список', done: false },
+  { id: 's2', label: 'Добавить занятие', done: false },
+  { id: 's3', label: 'Открыть подробности', done: false },
+  { id: 's4', label: 'Вернуться без потери ввода', done: false },
+];
+
+export function allDone(steps: Step[]): boolean {
+  return steps.every(step => step.done);
+}
+
+export default function App() {
+  const [steps, setSteps] = useState<Step[]>(initialSteps);
+  const [note, setNote] = useState('');
+
+  function mark(id: string) {
+    setSteps(current => current.map(step => (step.id === id ? { ...step, done: true } : step)));
+  }
+
+  const complete = allDone(steps);
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Сценарий проверки</Text>
+      {steps.map(step => (
+        <Pressable
+          key={step.id}
+          accessibilityRole="button"
+          accessibilityLabel={`Шаг: ${step.label}. Отметить выполненным`}
+          onPress={() => mark(step.id)}
+          style={({ pressed }) => [styles.row, pressed && styles.pressed]}
+        >
+          <Text>{step.done ? '✔' : '☐'} {step.label}</Text>
+        </Pressable>
+      ))}
+      <TextInput
+        value={note}
+        onChangeText={setNote}
+        placeholder="Заметка между шагами"
+        style={styles.input}
+      />
+      {complete ? <Text>Сценарий пройден полностью. Запишите результаты.</Text> : null}
+      <Text>Отметьте шаги по мере прохождения сценария на устройстве.</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },
+  pressed: { opacity: 0.6 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+});

@@ -1,0 +1,53 @@
+import { useState } from 'react';
+import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+
+export default function App() {
+  const [title, setTitle] = useState('');
+  const [saved, setSaved] = useState<string[]>([]);
+
+  function submit() {
+    const value = title.trim();
+    if (!value) return;
+    setSaved(current => [...current, value]);
+    setTitle('');
+    Keyboard.dismiss();
+  }
+
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={styles.flex}
+    >
+      <View style={styles.screen}>
+        <Text accessibilityRole="header">Новое занятие</Text>
+        <TextInput
+          value={title}
+          onChangeText={setTitle}
+          placeholder="Название"
+          returnKeyType="done"
+          onSubmitEditing={submit}
+          style={styles.input}
+        />
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Сохранить занятие и убрать клавиатуру"
+          onPress={() => submit()}
+          style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+        >
+          <Text style={styles.buttonText}>Сохранить</Text>
+        </Pressable>
+        {saved.map((note, index) => <Text key={index}>{note}</Text>)}
+        <Text>Клавиатура не должна закрывать поле и кнопку.</Text>
+      </View>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  flex: { flex: 1 },
+  screen: { flex: 1, gap: 12, padding: 24 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },
+  pressed: { opacity: 0.7 },
+  buttonText: { color: '#ffffff', fontSize: 16 },
+});

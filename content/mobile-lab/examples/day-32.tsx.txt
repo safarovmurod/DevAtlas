@@ -1,0 +1,35 @@
+import { StyleSheet, Text, View } from 'react-native';
+
+type Task = { id: string; title: string; minutes: number };
+
+const tasks: Task[] = [
+  { id: 'a1', title: 'Экран и структуры', minutes: 20 },
+  { id: 'a2', title: 'Списки и ключи', minutes: 30 },
+];
+
+export function TaskRow({ task }: { task: Task }) {
+  return (
+    <View accessible style={styles.row}>
+      <Text style={styles.title}>{task.title}</Text>
+      <Text style={styles.minutes}>
+        {task.minutes} минут. Двойное нажатие откроет подробности.
+      </Text>
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Занятия на сегодня</Text>
+      {tasks.map(task => <TaskRow key={task.id} task={task} />)}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },
+  title: { fontSize: 16, fontWeight: '600' },
+  minutes: { fontSize: 14, color: '#475569' },
+});

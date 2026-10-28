@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-35",
+  "day": 35,
+  "prerequisiteDays": [
+    34
+  ],
+  "title": {
+    "ru": "Тест компонента и состояния",
+    "tg": "Таҷрибаи компонент ва ҳолат",
+    "en": "Testing a component and its state"
+  },
+  "summary": {
+    "ru": "Напишите первый настоящий тест: чистая функция плюс проверка интерфейса под мок-хостом.",
+    "tg": "Аваллин таҷрибаи воқеиро нависед: функсияи соф ва санҷиши интерфейс зери мок-ҳост.",
+    "en": "Write the first real test: a pure function plus a mocked-host interface check."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Что вообще проверять",
+        "tg": "Дар воқеъ чиро месанҷанд",
+        "en": "What to check at all"
+      },
+      "body": {
+        "ru": "Тест — код, который проверяет другой код и сообщает честно: прошло или нет. Для мобильного компонента есть два уровня. Первый — чистые функции: decrement(current) можно вызвать с любыми числами и сверить ответ без экрана; это самый дешёвый и надёжный тест. Второй — поведение интерфейса: тест рендерит компонент под мок-хостом React Native (jest-expo), нажимает кнопки fireEvent.press и сверяет тексты. Это не проверка на устройстве: мок-хост имитирует платформу, поэтому тест называется проверкой логики. В этом курсе тесты живут в content/mobile-lab/component-tests и запускаются verify-component.mjs в вашем Expo-проекте.",
+        "tg": "Таҷриба рамзест, ки рамзи дигарро месанҷад ва рӯбарӯ хабар медиҳад: гузашт ё не. Барои компоненти мобилӣ ду сатҳ ҳаст. Аввал — функсияҳои соф: decrement(current)-ро бо ҳар рақам даъват карда, ҷавобро бе экран муқоиса мекунанд; ин арзонтарин ва мустаҳкамтарин таҷриба аст. Дуюм — рафтори интерфейс: таҷриба компонентро зери мок-ҳости React Native (jest-expo) мекашад, тугмаҳоро бо fireEvent.press мепахшонад ва матнҳоро муқоиса мекунад. Ин санҷиши дар дастгоҳ нест: мок-хост платформаро таклид мекунад, бинобар ин таҷриба санҷиши мантиқ номида мешавад. Дар ин курс таҷрибаҳо дар content/mobile-lab/component-tests ҳастанд ва тавассути verify-component.mjs дар лоиҳаи Expo-и шумо иҷро мешаванд.",
+        "en": "A test is code that checks other code and reports honestly: passed or not. For a mobile component there are two levels. The first — pure functions: decrement(current) is callable with any numbers and the answer compared without a screen; the cheapest and sturdiest test. The second — interface behavior: the test renders the component under the React Native mock host (jest-expo), presses buttons with fireEvent.press and compares texts. It is not a device check: the mock host imitates the platform, so the test is called a logic check. In this course tests live in content/mobile-lab/component-tests and run through verify-component.mjs in your Expo project."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Функция decrement помечена export — тест импортирует её отдельно от экрана. Правило Math.max(0, current - 1) запретит уход ниже нуля. Тест дня проверяет четыре вызова: 2→1, 1→0, 0→0 и 5→4 — граница нуля покрыта. Экран примера поясняет правило словами; в решении кнопка «Уменьшить» реально вызывает decrement внутри setCount, так что поведение интерфейса и функции совпадают. Запустите тест компонента verify-component.mjs 35 и убедитесь, что намеренно сломанная версия (без Math.max) провалится на decrement(0).",
+        "tg": "Функсияи decrement бо export ишора шудааст — таҷриба онро ҷудо аз экран импорт мекунад. Қоидаи Math.max(0, current - 1) поён рафтанро аз сифр манъ мекунад. Таҷрибаи рӯз чор даъватро месанҷад: 2→1, 1→0, 0→0 ва 5→4 — ҳудуди сифр пӯшонида шудааст. Экрани мисол қоидаро бо калимаҳо мефаҳмонад; дар ҳалл тугмаи «Кам кардан» воқеан decrement-ро дар дохили setCount мехонад, бинобар ин рафтори интерфейс ва функсия мутобиқанд. Таҷрибаи компонентро verify-component.mjs 35 иҷро кунед ва боварӣ ҳосил кунед, ки версияи ошкоро вайроншуда (бе Math.max) дар decrement(0) мекунад.",
+        "en": "The decrement function is marked export — the test imports it separately from the screen. The Math.max(0, current - 1) rule forbids going below zero. The day test checks four calls: 2→1, 1→0, 0→0 and 5→4 — the zero boundary is covered. The example screen states the rule in words; in the solution the «Уменьшить» button really calls decrement inside setCount, so interface behavior and the function match. Run the component test verify-component.mjs 35 and confirm a deliberately broken version (without Math.max) fails on decrement(0)."
+      },
+      "code": "import { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport function decrement(current: number): number {\n  return Math.max(0, current - 1);\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Что проверяет тест</Text>\n      <Text>decrement(2) равен 1, decrement(0) остаётся 0.</Text>\n      <Pressable accessibilityRole=\"button\" onPress={() => {}} style={styles.button}>\n        <Text style={styles.buttonText}>Проверить вручную</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-35-q1",
+      "question": {
+        "ru": "Что делает тест?",
+        "tg": "Таҷриба чӣ мекунад?",
+        "en": "What does a test do?"
+      },
+      "options": [
+        {
+          "ru": "Проверяет код и честно сообщает результат",
+          "tg": "Рамзро месанҷад ва натиҷаро рӯбарӯ хабар медиҳад",
+          "en": "Checks code and reports the result honestly"
+        },
+        {
+          "ru": "Ускоряет приложение",
+          "tg": "Барномаро тез мекунад",
+          "en": "Speeds up the app"
+        },
+        {
+          "ru": "Заменяет запуск на устройстве",
+          "tg": "Иҷрои дар дастгоҳро иваз мекунад",
+          "en": "Replaces a device run"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Тест — это проверка, а не аттестация работы на устройстве.",
+        "tg": "Таҷриба санҷиш аст, на аттестатсияи кори дар дастгоҳ.",
+        "en": "A test is a check, not a device-run attestation."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел определение теста.",
+        "tg": "Дар бахши аввал таърифи таҷрибаро ёбед.",
+        "en": "Find the test definition in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-35-q2",
+      "question": {
+        "ru": "Почему чистую функцию проверять дешевле?",
+        "tg": "Функсияи софро барои чӣ арзонтар месанҷанд?",
+        "en": "Why is a pure function cheaper to check?"
+      },
+      "options": [
+        {
+          "ru": "Она всегда корректна",
+          "tg": "Он ҳамеша дуруст аст",
+          "en": "It is always correct"
+        },
+        {
+          "ru": "Она проверяется вызовами без экрана и платформы",
+          "tg": "Он бо даъватҳо бе экран ва платформа месанҷанд",
+          "en": "It is checked by calls without a screen or platform"
+        },
+        {
+          "ru": "Она не требует TypeScript",
+          "tg": "Ӯ TypeScript талаб намекунад",
+          "en": "It does not need TypeScript"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Никакого мок-хоста не нужно: вызов и сравнение.",
+        "tg": "Мок-хост лозим нест: даъват ва муқоиса.",
+        "en": "No mock host needed: call and compare."
+      },
+      "hint": {
+        "ru": "Сравните два уровня проверки из первого раздела.",
+        "tg": "Ду сатҳи санҷишро аз бахши аввал муқоиса кунед.",
+        "en": "Compare the two check levels from the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-35-q3",
+      "question": {
+        "ru": "Что имитирует мок-хост jest-expo?",
+        "tg": "Мок-ҳости jest-expо чиро таклид мекунад?",
+        "en": "What does the jest-expo mock host imitate?"
+      },
+      "options": [
+        {
+          "ru": "Сервер",
+          "tg": "Сервер",
+          "en": "A server"
+        },
+        {
+          "ru": "Настоящий телефон со всеми сенсорами",
+          "tg": "Телефони воқеӣ бо ҳамаи сенсорҳо",
+          "en": "A real phone with all sensors"
+        },
+        {
+          "ru": "Платформу React Native для логики компонента",
+          "tg": "Платформаи React Native барои мантиқи компонент",
+          "en": "The React Native platform for component logic"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Поэтому тест называется проверкой логики, а не устройства.",
+        "tg": "Бинобар ин таҷриба санҷиши мантиқ номида мешавад, на дастгоҳ.",
+        "en": "That is why the test is a logic check, not a device one."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова про мок-хост.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи мок-ҳостро ёбед.",
+        "en": "Find the first-section words about the mock host."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-35-q4",
+      "question": {
+        "ru": "Почему тест проверяет decrement(0)?",
+        "tg": "Таҷриба decrement(0)-ро барои чӣ месанҷад?",
+        "en": "Why does the test check decrement(0)?"
+      },
+      "options": [
+        {
+          "ru": "Это граница правила: ноль не должен стать минус одним",
+          "tg": "Ин ҳудуди қоида аст: сифр набояд минус як шавад",
+          "en": "It is the rule boundary: zero must not become minus one"
+        },
+        {
+          "ru": "Так быстрее тест",
+          "tg": "Таҷриба тезтар мешавад",
+          "en": "The test gets faster"
+        },
+        {
+          "ru": "Все тесты обязаны проверять ноль",
+          "tg": "Ҳамаи таҷрибаҳо сифрро месанҷанд, ҳатман",
+          "en": "All tests must check zero"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Границы правил ломаются чаще середины.",
+        "tg": "Ҳудуди қоидаҳо аз миёна бештар вайрон мешаванд.",
+        "en": "Rule boundaries break more often than the middle."
+      },
+      "hint": {
+        "ru": "Посмотрите на список вызовов в тесте дня.",
+        "tg": "Ба рӯйхати даъватҳо дар таҷрибаи рӯз нигоҳ кунед.",
+        "en": "Look at the call list in the day test."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-35-q5",
+      "question": {
+        "ru": "Где живут тесты этого курса?",
+        "tg": "Таҷрибаҳои ин курс дар куҷо ҳастанд?",
+        "en": "Where do the course tests live?"
+      },
+      "options": [
+        {
+          "ru": "В App Store",
+          "tg": "Дар App Store",
+          "en": "In the App Store"
+        },
+        {
+          "ru": "В content/mobile-lab/component-tests",
+          "tg": "Дар content/mobile-lab/component-tests",
+          "en": "In content/mobile-lab/component-tests"
+        },
+        {
+          "ru": "В настройках телефона",
+          "tg": "Дар танзимоти телефон",
+          "en": "In the phone settings"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Запускает их verify-component.mjs в вашем Expo-проекте.",
+        "tg": "Онҳоро verify-component.mjs дар лоиҳаи Expo-и шумо иҷро мекунад.",
+        "en": "verify-component.mjs runs them in your Expo project."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел путь к тестам.",
+        "tg": "Дар бахши аввал роҳи ба таҷрибаҳоро ёбед.",
+        "en": "Find the test path in the first section."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и решение, затем запустите компонентный тест дня через verify-component.mjs 35 в своём Expo-проекте. Временно сломайте decrement, убрав Math.max, и запишите, что тест действительно падает на decrement(0). Верните правило. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисол ва ҳаллро созед, баъд таҷрибаи компонентии рӯзро тавассути verify-component.mjs 35 дар лоиҳаи Expo-и худ иҷро кунед. Муваққатан decrement-ро вайрон кунед, Math.max-ро тарк карда, сабт кунед, ки таҷриба дар decrement(0) воқеан мекунад. Қоидаро баргардонед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and the solution, then run the day component test through verify-component.mjs 35 in your Expo project. Temporarily break decrement by removing Math.max and record that the test really fails on decrement(0). Restore the rule. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Экспорт и правило должны остаться нетронутыми; ломайте только тело на время проверки.",
+      "tg": "Экспорт ва қоида дахалнашаванда бояд мондан; танҳо баданро ҳангоми санҷиш вайрон кунед.",
+      "en": "Keep the export and the rule untouched; break only the body for the check."
+    },
+    "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport function decrement(current: number): number {\n  return Math.max(0, current - 1);\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Что проверяет тест</Text>\n      <Text>Счётчик: {count}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Уменьшить счётчик, но не ниже нуля\"\n        onPress={() => setCount(decrement)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Уменьшить</Text>\n      </Pressable>\n      <Text>decrement(2) равен 1, decrement(0) остаётся 0 — это проверяет тест.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Тест проходит на решении и падает на намеренно сломанной версии.",
+        "tg": "Таҷриба дар ҳалл мегузарад ва дар версияи ошкоро вайроншуда мекунад.",
+        "en": "The test passes on the solution and fails on the deliberately broken version."
+      },
+      {
+        "ru": "Граница нуля покрыта проверкой.",
+        "tg": "Ҳудуди сифр бо санҷиш пӯшонида шудааст.",
+        "en": "The zero boundary is covered by the check."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Различить проверку чистой функции и интерфейса.",
+        "tg": "Санҷиши функсияи соф ва интерфейсро фарқ кунед.",
+        "en": "Tell apart pure-function and interface checks."
+      },
+      {
+        "ru": "Объяснить, что мок-хост не заменяет устройство.",
+        "tg": "Мок-ҳост дастгоҳро иваз намекунад, инро шарҳ диҳед.",
+        "en": "Explain that a mock host does not replace a device."
+      }
+    ],
+    "realWorld": {
+      "ru": "Команда мобильного приложения запускает сотни таких тестов при каждом изменении кода.",
+      "tg": "Гурӯҳи барномаи мобилӣ ҳангоми ҳар тағйири рамз садҳо чунин таҷриба иҷро мекунад.",
+      "en": "A mobile team runs hundreds of such tests on every code change."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Почему чистую функцию проверять дешевле?",
+        "tg": "Функсияи софро барои чӣ арзонтар месанҷанд?",
+        "en": "Why is a pure function cheaper to check?"
+      },
+      "options": [
+        {
+          "ru": "Она всегда корректна",
+          "tg": "Он ҳамеша дуруст аст",
+          "en": "It is always correct"
+        },
+        {
+          "ru": "Она проверяется вызовами без экрана и платформы",
+          "tg": "Он бо даъватҳо бе экран ва платформа месанҷанд",
+          "en": "It is checked by calls without a screen or platform"
+        },
+        {
+          "ru": "Она не требует TypeScript",
+          "tg": "Ӯ TypeScript талаб намекунад",
+          "en": "It does not need TypeScript"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Сравните два уровня проверки из первого раздела.",
+        "tg": "Ду сатҳи санҷишро аз бахши аввал муқоиса кунед.",
+        "en": "Compare the two check levels from the first section."
+      },
+      "explanation": {
+        "ru": "Никакого мок-хоста не нужно: вызов и сравнение.",
+        "tg": "Мок-хост лозим нест: даъват ва муқоиса.",
+        "en": "No mock host needed: call and compare."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport function decrement(current: number): number {\n  return Math.max(0, current - 1);\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Что проверяет тест</Text>\n      <Text>decrement(2) равен 1, decrement(0) остаётся 0.</Text>\n      <Pressable accessibilityRole=\"button\" onPress={() => {}} style={styles.button}>\n        <Text style={styles.buttonText}>Проверить вручную</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 4,
+          "explanation": {
+            "ru": "decrement экспортирован для отдельного теста.",
+            "tg": "decrement барои таҷрибаи ҷудо экспорт шудааст.",
+            "en": "decrement is exported for a separate test."
+          },
+          "values": "export function"
+        },
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Math.max держит ноль как границу.",
+            "tg": "Math.max сифрро ҳамчун ҳудуд медорад.",
+            "en": "Math.max keeps zero as the boundary."
+          },
+          "values": "max(0, cur-1)"
+        },
+        {
+          "line": 12,
+          "explanation": {
+            "ru": "Экран поясняет правило словами.",
+            "tg": "Экран қоидаро бо калимаҳо мефаҳмонад.",
+            "en": "The screen states the rule in words."
+          },
+          "values": "2→1, 0→0"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере экспортируемую функцию и назовите её правило.",
+          "tg": "Дар мисол функсияи экспортишавандаро ёфта, қоидаашро номбар кунед.",
+          "en": "Find the exported function and name its rule."
+        },
+        {
+          "ru": "Запустите verify-component.mjs 35 и запишите результат.",
+          "tg": "verify-component.mjs 35-ро иҷро карда, натиҷаро сабт кунед.",
+          "en": "Run verify-component.mjs 35 and record the result."
+        }
+      ],
+      "hint": {
+        "ru": "Экспорт и правило должны остаться нетронутыми; ломайте только тело на время проверки.",
+        "tg": "Экспорт ва қоида дахалнашаванда бояд мондан; танҳо баданро ҳангоми санҷиш вайрон кунед.",
+        "en": "Keep the export and the rule untouched; break only the body for the check."
+      },
+      "success": {
+        "ru": "Тест проходит: граница нуля защищена, а интерфейс вызывает ту же функцию.",
+        "tg": "Таҷриба мегузарад: ҳудуди сифр ҳимоя шудааст ва интерфейс ҳамон функсияро мехонад.",
+        "en": "The test passes: the zero boundary holds and the interface calls the same function."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и решение, затем запустите компонентный тест дня через verify-component.mjs 35 в своём Expo-проекте. Временно сломайте decrement, убрав Math.max, и запишите, что тест действительно падает на decrement(0). Верните правило. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисол ва ҳаллро созед, баъд таҷрибаи компонентии рӯзро тавассути verify-component.mjs 35 дар лоиҳаи Expo-и худ иҷро кунед. Муваққатан decrement-ро вайрон кунед, Math.max-ро тарк карда, сабт кунед, ки таҷриба дар decrement(0) воқеан мекунад. Қоидаро баргардонед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and the solution, then run the day component test through verify-component.mjs 35 in your Expo project. Temporarily break decrement by removing Math.max and record that the test really fails on decrement(0). Restore the rule. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Тест проходит на решении и падает на намеренно сломанной версии.",
+          "tg": "Таҷриба дар ҳалл мегузарад ва дар версияи ошкоро вайроншуда мекунад.",
+          "en": "The test passes on the solution and fails on the deliberately broken version."
+        },
+        {
+          "ru": "Граница нуля покрыта проверкой.",
+          "tg": "Ҳудуди сифр бо санҷиш пӯшонида шудааст.",
+          "en": "The zero boundary is covered by the check."
+        }
+      ],
+      "example": {
+        "ru": "Версия без Math.max проваливает decrement(0): тест сообщает об ожидании 0 и результате −1.",
+        "tg": "Версияи бе Math.max decrement(0)-ро мешиканад: таҷриба интизории 0 ва натиҷаи −1-ро хабар медиҳад.",
+        "en": "The version without Math.max fails decrement(0): the test reports expected 0 and got −1."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Тест — честная проверка: логика отдельно, интерфейс под мок-хостом.",
+        "tg": "Таҷриба санҷиши рӯбарӯ аст: мантиқ алоҳида, интерфейс зери мок-ҳост.",
+        "en": "A test is an honest check: logic separately, interface under the mock host."
+      },
+      {
+        "ru": "Границы правил проверяют первыми.",
+        "tg": "Ҳудуди қоидаҳоро аввал месанҷанд.",
+        "en": "Rule boundaries are checked first."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что имитирует мок-хост jest-expo?",
+        "tg": "Мок-ҳости jest-expо чиро таклид мекунад?",
+        "en": "What does the jest-expo mock host imitate?"
+      },
+      {
+        "ru": "Почему тест проверяет decrement(0)?",
+        "tg": "Таҷриба decrement(0)-ро барои чӣ месанҷад?",
+        "en": "Why does the test check decrement(0)?"
+      }
+    ],
+    "nextLessonId": "mobile-day-36"
+  }
+}

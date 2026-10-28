@@ -12811,6 +12811,3016 @@
             "en": "Which rule picks the winner in the solution?"
           }
         ],
+        "nextLessonId": "mobile-day-31"
+      }
+    },
+    {
+      "id": "mobile-day-31",
+      "day": 31,
+      "prerequisiteDays": [
+        30
+      ],
+      "title": {
+        "ru": "Клавиатура и безопасные области",
+        "tg": "Клавиатура ва минтақаҳои бехатар",
+        "en": "Keyboard and safe areas"
+      },
+      "summary": {
+        "ru": "Не позволяйте клавиатуре закрывать поля и кнопки формы.",
+        "tg": "Клавиатура набояд майдонҳо ва тугмаҳои шаклро пӯшонад.",
+        "en": "Do not let the keyboard cover form fields and buttons."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Клавиатура — гость на экране",
+            "tg": "Клавиатура меҳмони экран аст",
+            "en": "The keyboard is a guest on the screen"
+          },
+          "body": {
+            "ru": "Когда поле получает фокус, клавиатура занимает нижнюю часть экрана и закрывает всё, что там было. KeyboardAvoidingView поднимает содержимое на iOS через behavior=\"padding\"; на Android система обычно подстраивается сама, поэтому поведение выбирают по Platform.OS. Вторая часть урока — returnKeyType=\"done\" и onSubmitEditing: клавиша «Готово» вызывает тот же обработчик, что и кнопка, а Keyboard.dismiss убирает клавиатуру после сохранения. Безопасные области — вырезы и жестовые полосы: контент не должен лежать под ними, в Expo для этого есть react-native-safe-area-context. Проверка честная: откройте форму на устройстве, введите текст и убедитесь, что поле и кнопка видны.",
+            "tg": "Ҳангоми гирифтани фокус майдон клавиатура қисми поёни экранро мегирад ва ҳамаи он ҷоро мепӯшонад. KeyboardAvoidingView мазмунро дар iOS бо behavior=\"padding\" мебардорад; дар Android система одатан худ мутобиқ мешавад, бинобар ин рафторро аз рӯи Platform.OS интихоб мекунанд. Қисми дуюми дарс — returnKeyType=\"done\" ва onSubmitEditing: тугмаи «Тайёр» ҳамон обработчикро мехонад, ки тугма, ва Keyboard.dismiss баъди нигоҳдорӣ клавиатураро мебарад. Минтақаҳои бехатар — буришҳо ва наворҳои ҷестӣ: мазмун набояд зери онҳо бошад, дар Expo барои ин react-native-safe-area-context ҳаст. Санҷиш рӯбарӯ: шаклро дар дастгоҳ кушоед, матн ворид кунед ва боварӣ ҳосил кунед, ки майдон ва тугма дида мешаванд.",
+            "en": "When a field takes focus the keyboard takes the bottom of the screen and covers everything there. KeyboardAvoidingView lifts the content on iOS through behavior=\"padding\"; Android usually adjusts by itself, so the behavior is chosen by Platform.OS. The second part is returnKeyType=\"done\" and onSubmitEditing: the Done key calls the same handler as the button, and Keyboard.dismiss hides the keyboard after saving. Safe areas — notches and gesture bars: content must not sit under them; Expo provides react-native-safe-area-context. The check is honest: open the form on a device, type, and confirm the field and button are visible."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "KeyboardAvoidingView оборачивает весь экран и растягивается на flex: 1. behavior вычисляется один раз: на iOS — padding, на Android — undefined, потому что система сама меняет размер окна. TextInput получает returnKeyType=\"done\" и onSubmitEditing={submit}: нажатие «Готово» на клавиатуре сохраняет так же, как кнопка. submit проверяет trim и очищает поле. В решении добавлены Keyboard.dismiss после сохранения и список сохранённых строк — видно, что ввод не теряется. Проверьте на устройстве с открытой клавиатурой: кнопка должна оставаться доступной.",
+            "tg": "KeyboardAvoidingView тамоми экранро мепӯшонад ва бо flex: 1 кашида мешавад. behavior як бор ҳисоб мешавад: дар iOS — padding, дар Android — undefined, чунки система худ андозаи равзанаро иваз мекунад. TextInput returnKeyType=\"done\" ва onSubmitEditing={submit} мегирад: пахши «Тайёр» дар клавиатура ҳамчун тугма нигоҳ медорад. submit trim-ро месанҷад ва майдонро тоза мекунад. Дар ҳалл Keyboard.dismiss баъди нигоҳдорӣ ва рӯйхати сатрҳои нигоҳдоришуда илова шудааст — дида мешавад, ки вуруд гум намешавад. Дар дастгоҳ бо клавиатураи кушода санҷед: тугма бояд дастрас мемонад.",
+            "en": "KeyboardAvoidingView wraps the whole screen and stretches with flex: 1. The behavior computes once: on iOS — padding, on Android — undefined, because the system resizes the window itself. TextInput receives returnKeyType=\"done\" and onSubmitEditing={submit}: the keyboard Done key saves like the button. submit checks trim and clears the field. The solution adds Keyboard.dismiss after saving and a list of stored rows — the input clearly survives. Check on a device with the keyboard open: the button must stay reachable."
+          },
+          "code": "import { useState } from 'react';\nimport { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n\n  function submit() {\n    if (!title.trim()) return;\n    setTitle('');\n  }\n\n  return (\n    <KeyboardAvoidingView\n      behavior={Platform.OS === 'ios' ? 'padding' : undefined}\n      style={styles.flex}\n    >\n      <View style={styles.screen}>\n        <Text accessibilityRole=\"header\">Новое занятие</Text>\n        <TextInput\n          value={title}\n          onChangeText={setTitle}\n          placeholder=\"Название\"\n          returnKeyType=\"done\"\n          onSubmitEditing={submit}\n          style={styles.input}\n        />\n        <Pressable\n          accessibilityRole=\"button\"\n          accessibilityLabel=\"Сохранить занятие и убрать клавиатуру\"\n          onPress={() => submit()}\n          style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n        >\n          <Text style={styles.buttonText}>Сохранить</Text>\n        </Pressable>\n        <Text>Клавиатура не должна закрывать поле и кнопку.</Text>\n      </View>\n    </KeyboardAvoidingView>\n  );\n}\n\nconst styles = StyleSheet.create({\n  flex: { flex: 1 },\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-31-q1",
+          "question": {
+            "ru": "Что делает KeyboardAvoidingView?",
+            "tg": "KeyboardAvoidingView чӣ мекунад?",
+            "en": "What does KeyboardAvoidingView do?"
+          },
+          "options": [
+            {
+              "ru": "Отключает ввод",
+              "tg": "Вурӯдро хомӯш мекунад",
+              "en": "Disables input"
+            },
+            {
+              "ru": "Скрывает клавиатуру",
+              "tg": "Клавиатураро маҳкум мекунад",
+              "en": "Hides the keyboard"
+            },
+            {
+              "ru": "Поднимает содержимое над клавиатурой",
+              "tg": "Мазмунро болои клавиатура мебардорад",
+              "en": "Lifts the content above the keyboard"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Форма остаётся видимой, пока пользователь печатает.",
+            "tg": "Шакл то навиштани корбар дида мешавад.",
+            "en": "The form stays visible while the user types."
+          },
+          "hint": {
+            "ru": "Найдите в первом разделе описание компонента.",
+            "tg": "Дар бахши аввал тавсифи компонентро ёбед.",
+            "en": "Find the component description in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-31-q2",
+          "question": {
+            "ru": "Почему behavior зависит от Platform.OS?",
+            "tg": "behavior барои чӣ аз Platform.OS вобаста аст?",
+            "en": "Why does behavior depend on Platform.OS?"
+          },
+          "options": [
+            {
+              "ru": "Android обычно подстраивается сам",
+              "tg": "Android одатан худ мутобиқ мешавад",
+              "en": "Android usually adjusts by itself"
+            },
+            {
+              "ru": "iOS не умеет показывать клавиатуру",
+              "tg": "iOS клавиатураро нишон дода наметавонад",
+              "en": "iOS cannot show a keyboard"
+            },
+            {
+              "ru": "Так требует StyleSheet",
+              "tg": "StyleSheet инро талаб мекунад",
+              "en": "StyleSheet requires it"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Платформы ведут себя по-разному, и это учитывают явно.",
+            "tg": "Платформаҳо гуногун рафтор мекунанд ва инро ошкоро ҳисоб мекунанд.",
+            "en": "Platforms behave differently and this is handled explicitly."
+          },
+          "hint": {
+            "ru": "Перечитайте про поведение на двух системах.",
+            "tg": "Дар бораи рафтор дар ду система аз нав хонед.",
+            "en": "Re-read about the behavior on the two systems."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-31-q3",
+          "question": {
+            "ru": "Что вызывает onSubmitEditing?",
+            "tg": "onSubmitEditing-ро чӣ мехонад?",
+            "en": "What triggers onSubmitEditing?"
+          },
+          "options": [
+            {
+              "ru": "Смена темы",
+              "tg": "Ивази мавзӯъ",
+              "en": "A theme change"
+            },
+            {
+              "ru": "Клавиша «Готово» на клавиатуре",
+              "tg": "Тугмаи «Тайёр» дар клавиатура",
+              "en": "The Done key on the keyboard"
+            },
+            {
+              "ru": "Поворот экрана",
+              "tg": "Гардиши экран",
+              "en": "Screen rotation"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Клавиатурное сохранение равно нажатию кнопки.",
+            "tg": "Нигоҳдорӣ аз клавиатура баробари пахши тугма аст.",
+            "en": "Keyboard saving equals pressing the button."
+          },
+          "hint": {
+            "ru": "Посмотрите на props TextInput в примере.",
+            "tg": "Ба props-и TextInput дар мисол нигоҳ кунед.",
+            "en": "Look at the TextInput props in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-31-q4",
+          "question": {
+            "ru": "Что делает Keyboard.dismiss?",
+            "tg": "Keyboard.dismiss чӣ мекунад?",
+            "en": "What does Keyboard.dismiss do?"
+          },
+          "options": [
+            {
+              "ru": "Сохраняет черновик",
+              "tg": "Лоиҳаро нигоҳ медорад",
+              "en": "Saves the draft"
+            },
+            {
+              "ru": "Очищает все поля",
+              "tg": "Ҳамаи майдонҳоро тоза мекунад",
+              "en": "Clears all fields"
+            },
+            {
+              "ru": "Убирает клавиатуру с экрана",
+              "tg": "Клавиатураро аз экран мебарад",
+              "en": "Removes the keyboard from the screen"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "После сохранения пользователь снова видит весь экран.",
+            "tg": "Баъди нигоҳдорӣ корбар боз тамоми экранро мебинад.",
+            "en": "After saving the user sees the whole screen again."
+          },
+          "hint": {
+            "ru": "Найдите dismiss в решении.",
+            "tg": "dismiss-ро дар ҳалл ёбед.",
+            "en": "Find dismiss in the solution."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-31-q5",
+          "question": {
+            "ru": "Что такое безопасные области?",
+            "tg": "Минтақаҳои бехатар чистанд?",
+            "en": "What are safe areas?"
+          },
+          "options": [
+            {
+              "ru": "Зоны вырезов и жестовых полос, где контент лучше не класть",
+              "tg": "Минтақаҳои буриш ва навори ҷестӣ, ки мазмун нагузоранд",
+              "en": "Notch and gesture-bar zones where content should not sit"
+            },
+            {
+              "ru": "Зоны с хорошим Wi-Fi",
+              "tg": "Минтақаҳои Wi-Fi-и хуб",
+              "en": "Zones with good Wi-Fi"
+            },
+            {
+              "ru": "Зоны для рекламы",
+              "tg": "Минтақаҳои реклама",
+              "en": "Ad zones"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Контент у краёв экрана может оказаться под вырезом.",
+            "tg": "Мазмуни канори экран метавонад зери буриш бошад.",
+            "en": "Edge content can end up under the notch."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова про вырезы.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи буришҳоро ёбед.",
+            "en": "Find the first-section words about notches."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте его на устройстве с открытой клавиатурой. Соберите решение: сохранение из клавиатуры, Keyboard.dismiss и список сохранённых строк. Запишите, как вёл себя экран при печати и после сохранения. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва онро дар дастгоҳ бо клавиатураи кушода санҷед. Ҳаллро созед: нигоҳдорӣ аз клавиатура, Keyboard.dismiss ва рӯйхати сатрҳои нигоҳдоришуда. Сабт кунед, ки экран ҳангоми навиштан ва баъди нигоҳдорӣ чӣ тавр рафтор кард. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check it on a device with the keyboard open. Build the solution: keyboard saving, Keyboard.dismiss and the list of stored rows. Record how the screen behaved while typing and after saving. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Импортируйте Keyboard из react-native и вызовите Keyboard.dismiss() после setSaved.",
+          "tg": "Keyboard-ро аз react-native импорт карда, баъди setSaved Keyboard.dismiss()-ро хонед.",
+          "en": "Import Keyboard from react-native and call Keyboard.dismiss() after setSaved."
+        },
+        "solution": "import { useState } from 'react';\nimport { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [saved, setSaved] = useState<string[]>([]);\n\n  function submit() {\n    const value = title.trim();\n    if (!value) return;\n    setSaved(current => [...current, value]);\n    setTitle('');\n    Keyboard.dismiss();\n  }\n\n  return (\n    <KeyboardAvoidingView\n      behavior={Platform.OS === 'ios' ? 'padding' : undefined}\n      style={styles.flex}\n    >\n      <View style={styles.screen}>\n        <Text accessibilityRole=\"header\">Новое занятие</Text>\n        <TextInput\n          value={title}\n          onChangeText={setTitle}\n          placeholder=\"Название\"\n          returnKeyType=\"done\"\n          onSubmitEditing={submit}\n          style={styles.input}\n        />\n        <Pressable\n          accessibilityRole=\"button\"\n          accessibilityLabel=\"Сохранить занятие и убрать клавиатуру\"\n          onPress={() => submit()}\n          style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n        >\n          <Text style={styles.buttonText}>Сохранить</Text>\n        </Pressable>\n        {saved.map((note, index) => <Text key={index}>{note}</Text>)}\n        <Text>Клавиатура не должна закрывать поле и кнопку.</Text>\n      </View>\n    </KeyboardAvoidingView>\n  );\n}\n\nconst styles = StyleSheet.create({\n  flex: { flex: 1 },\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Поле и кнопка видимы при открытой клавиатуре.",
+            "tg": "Майдон ва тугма ҳангоми клавиатураи кушода дида мешаванд.",
+            "en": "The field and button are visible with the keyboard open."
+          },
+          {
+            "ru": "Сохранение с клавиатуры работает, клавиатура убирается после.",
+            "tg": "Нигоҳдорӣ аз клавиатура кор мекунад ва баъд клавиатура мебарад.",
+            "en": "Keyboard saving works and the keyboard dismisses after."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Держать форму видимой при открытой клавиатуре.",
+            "tg": "Шаклро ҳангоми клавиатураи кушода дида кардан.",
+            "en": "Keep the form visible with the keyboard open."
+          },
+          {
+            "ru": "Сохранять с клавиатуры и убирать её после.",
+            "tg": "Аз клавиатура нигоҳ дошта, баъд онро мебарад.",
+            "en": "Save from the keyboard and dismiss it after."
+          }
+        ],
+        "realWorld": {
+          "ru": "Форма входа любого приложения не прячет кнопку под клавиатурой.",
+          "tg": "Шакли вуруди ҳар барнома тугмаро зери клавиатура намепӯшонад.",
+          "en": "Any login form does not hide the button under the keyboard."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Почему behavior зависит от Platform.OS?",
+            "tg": "behavior барои чӣ аз Platform.OS вобаста аст?",
+            "en": "Why does behavior depend on Platform.OS?"
+          },
+          "options": [
+            {
+              "ru": "Android обычно подстраивается сам",
+              "tg": "Android одатан худ мутобиқ мешавад",
+              "en": "Android usually adjusts by itself"
+            },
+            {
+              "ru": "iOS не умеет показывать клавиатуру",
+              "tg": "iOS клавиатураро нишон дода наметавонад",
+              "en": "iOS cannot show a keyboard"
+            },
+            {
+              "ru": "Так требует StyleSheet",
+              "tg": "StyleSheet инро талаб мекунад",
+              "en": "StyleSheet requires it"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Перечитайте про поведение на двух системах.",
+            "tg": "Дар бораи рафтор дар ду система аз нав хонед.",
+            "en": "Re-read about the behavior on the two systems."
+          },
+          "explanation": {
+            "ru": "Платформы ведут себя по-разному, и это учитывают явно.",
+            "tg": "Платформаҳо гуногун рафтор мекунанд ва инро ошкоро ҳисоб мекунанд.",
+            "en": "Platforms behave differently and this is handled explicitly."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n\n  function submit() {\n    if (!title.trim()) return;\n    setTitle('');\n  }\n\n  return (\n    <KeyboardAvoidingView\n      behavior={Platform.OS === 'ios' ? 'padding' : undefined}\n      style={styles.flex}\n    >\n      <View style={styles.screen}>\n        <Text accessibilityRole=\"header\">Новое занятие</Text>\n        <TextInput\n          value={title}\n          onChangeText={setTitle}\n          placeholder=\"Название\"\n          returnKeyType=\"done\"\n          onSubmitEditing={submit}\n          style={styles.input}\n        />\n        <Pressable\n          accessibilityRole=\"button\"\n          accessibilityLabel=\"Сохранить занятие и убрать клавиатуру\"\n          onPress={() => submit()}\n          style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n        >\n          <Text style={styles.buttonText}>Сохранить</Text>\n        </Pressable>\n        <Text>Клавиатура не должна закрывать поле и кнопку.</Text>\n      </View>\n    </KeyboardAvoidingView>\n  );\n}\n\nconst styles = StyleSheet.create({\n  flex: { flex: 1 },\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 13,
+              "explanation": {
+                "ru": "Контейнер клавиатуры оборачивает экран.",
+                "tg": "Контейнери клавиатура экранро мепӯшонад.",
+                "en": "The keyboard container wraps the screen."
+              },
+              "values": "padding on iOS"
+            },
+            {
+              "line": 20,
+              "explanation": {
+                "ru": "Клавиша «Готово» вызывает обработчик сохранения.",
+                "tg": "Тугмаи «Тайёр» обработчики нигоҳдориро мехонад.",
+                "en": "The Done key calls the save handler."
+              },
+              "values": "submit()"
+            },
+            {
+              "line": 27,
+              "explanation": {
+                "ru": "Кнопка остаётся видимой при открытой клавиатуре.",
+                "tg": "Тугма ҳангоми клавиатураи кушода дида мешавад.",
+                "en": "The button stays visible with the keyboard open."
+              },
+              "values": "visible"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Откройте форму на устройстве и введите длинный текст: поле и кнопка видимы?",
+              "tg": "Шаклро дар дастгоҳ кушода, матни дароз ворид кунед: майдон ва тугма дида мешаванд?",
+              "en": "Open the form on a device and type long text: are the field and button visible?"
+            },
+            {
+              "ru": "Сохраните с клавиатуры кнопкой «Готово» и запишите, что произошло.",
+              "tg": "Аз клавиатура бо тугмаи «Тайёр» нигоҳ доред ва сабт кунед, ки чӣ шуд.",
+              "en": "Save from the keyboard with Done and record what happened."
+            }
+          ],
+          "hint": {
+            "ru": "Импортируйте Keyboard из react-native и вызовите Keyboard.dismiss() после setSaved.",
+            "tg": "Keyboard-ро аз react-native импорт карда, баъди setSaved Keyboard.dismiss()-ро хонед.",
+            "en": "Import Keyboard from react-native and call Keyboard.dismiss() after setSaved."
+          },
+          "success": {
+            "ru": "Поле и кнопка не закрываются клавиатурой, а сохранение работает с клавиатуры.",
+            "tg": "Майдон ва тугма аз клавиатура пӯшонида намешаванд ва нигоҳдорӣ аз клавиатура кор мекунад.",
+            "en": "The field and button stay clear of the keyboard and saving works from it."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте его на устройстве с открытой клавиатурой. Соберите решение: сохранение из клавиатуры, Keyboard.dismiss и список сохранённых строк. Запишите, как вёл себя экран при печати и после сохранения. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва онро дар дастгоҳ бо клавиатураи кушода санҷед. Ҳаллро созед: нигоҳдорӣ аз клавиатура, Keyboard.dismiss ва рӯйхати сатрҳои нигоҳдоришуда. Сабт кунед, ки экран ҳангоми навиштан ва баъди нигоҳдорӣ чӣ тавр рафтор кард. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check it on a device with the keyboard open. Build the solution: keyboard saving, Keyboard.dismiss and the list of stored rows. Record how the screen behaved while typing and after saving. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Поле и кнопка видимы при открытой клавиатуре.",
+              "tg": "Майдон ва тугма ҳангоми клавиатураи кушода дида мешаванд.",
+              "en": "The field and button are visible with the keyboard open."
+            },
+            {
+              "ru": "Сохранение с клавиатуры работает, клавиатура убирается после.",
+              "tg": "Нигоҳдорӣ аз клавиатура кор мекунад ва баъд клавиатура мебарад.",
+              "en": "Keyboard saving works and the keyboard dismisses after."
+            }
+          ],
+          "example": {
+            "ru": "После «Готово» заметка появляется в списке, а клавиатура исчезает.",
+            "tg": "Баъди «Тайёр» қайд дар рӯйхат пайдо мешавад ва клавиатура нопадид мешавад.",
+            "en": "After Done the note appears in the list and the keyboard disappears."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Клавиатуру учитывают явно: поведение зависит от платформы.",
+            "tg": "Клавиатураро ошкоро ҳисоб мекунанд: рафтор аз платформа вобаста аст.",
+            "en": "The keyboard is handled explicitly: behavior depends on the platform."
+          },
+          {
+            "ru": "Safe areas удерживают контент от вырезов и жестовых полос.",
+            "tg": "Минтақаҳои бехатар мазмунро аз буришҳо ва наворҳои ҷестӣ дур медоранд.",
+            "en": "Safe areas keep content away from notches and gesture bars."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что вызывает onSubmitEditing?",
+            "tg": "onSubmitEditing-ро чӣ мехонад?",
+            "en": "What triggers onSubmitEditing?"
+          },
+          {
+            "ru": "Что такое безопасные области?",
+            "tg": "Минтақаҳои бехатар чистанд?",
+            "en": "What are safe areas?"
+          }
+        ],
+        "nextLessonId": "mobile-day-32"
+      }
+    },
+    {
+      "id": "mobile-day-32",
+      "day": 32,
+      "prerequisiteDays": [
+        31
+      ],
+      "title": {
+        "ru": "Экранный диктор и подписи",
+        "tg": "Хонандаи экран ва матнҳо",
+        "en": "The screen reader and labels"
+      },
+      "summary": {
+        "ru": "Сделайте строку списка единым понятным элементом для TalkBack и VoiceOver.",
+        "tg": "Сатри рӯйхатро як унсури фаҳмо барои TalkBack ва VoiceOver созед.",
+        "en": "Make a list row one understandable element for TalkBack and VoiceOver."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Диктор читает то, что вы сказали",
+            "tg": "Хонанда он чиро мехонад, ки шумо гуфтед",
+            "en": "The reader reads what you said"
+          },
+          "body": {
+            "ru": "Пользователь с нарушением зрения проводит пальцем по экрану, и диктор объявляет элемент за элементом. Если строка списка состоит из двух отдельных Text, диктор читает их по отдельности и пользователь не понимает, что это одна карточка. Свойство accessible собирает детей в один фокус, accessibilityRole=\"button\" объясняет, что элемент нажимается, accessibilityLabel задаёт текст целиком, а accessibilityHint говорит, что произойдёт. Читаемый порядок и подписи проверяются только на устройстве с включённым TalkBack (Android) или VoiceOver (iOS) — браузер курса это не заменяет. Подпись должна быть короткой и понятной: не «View 3», а «Экран и структуры, 20 минут».",
+            "tg": "Корбари бо ҳусни дидани маҳдуд ангуштаро дар экран мегузаронад ва хонанда элемент ба элемент эълон мекунад. Агар сатри рӯйхат аз ду Text-и алоҳида иборат бошад, хонанда онҳоро ҷудо мехонад ва корбар нафаҳмад, ки ин як кортаст. Хосияти accessible кӯдакронро ба як фокус ҷамъ меорад, accessibilityRole=\"button\" мефаҳмонад, ки элемент пахш мешавад, accessibilityLabel матни пурраро муайян мекунад ва accessibilityHint мегӯяд, ки чӣ рух медиҳад. Тартиби хондан ва матнҳоро танҳо дар дастгоҳ бо TalkBack (Android) ё VoiceOver (iOS) месанҷанд — браузери курс онро иваз намекунад. Матн бояд кӯтоҳ ва фаҳмо бошад: на «View 3», балки «Экран ва сохторҳо, 20 дақиқа».",
+            "en": "A user with low vision swipes across the screen and the reader announces element after element. If a list row is two separate Text components, the reader reads them separately and the user cannot tell it is one card. The accessible property gathers the children into one focus, accessibilityRole=\"button\" explains the element is pressable, accessibilityLabel sets the text as a whole, and accessibilityHint says what happens. Reading order and labels are only checked on a device with TalkBack (Android) or VoiceOver (iOS) on — the course browser does not replace that. Keep the label short and meaningful: not \"View 3\" but \"Экран и структуры, 20 минут\"."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "TaskRow получает задачу через props и рисует два Text. В примере accessible только объединяет фокус — диктор всё ещё читает тексты подряд. В решении добавлены роль button, шаблонная подпись с названием и минутами и hint про подробности: строка объявляется одной фразой. Сравните оба варианта на устройстве с включённым диктором и запишите разницу. Обратите внимание: подпись собирается из данных записи — при изменении названия или минут диктор прочитает новое значение, дублировать текст вручную не нужно.",
+            "tg": "TaskRow вазифаро тавассути props мегирад ва ду Text мекашад. Дар мисол accessible танҳо фокусро муттаҳид мекунад — хонанда ҳамеле матнҳоро пайиҳам мехонад. Дар ҳалл нақши button, матни қолабӣ бо ном ва дақиқаҳо ва hint дар бораи тафсилот илова шудааст: сатр як ҷумла эълон мешавад. Ҳарду вариантро дар дастгоҳ бо фаъоли хонанда муқоиса карда, фарқро сабт кунед. Диққат диҳед: матн аз маълумоти сабт сохта мешавад — ҳангоми ивази ном ё дақиқаҳо хонанда қимати навро мехонад, дублиронидани матн лозим нест.",
+            "en": "TaskRow receives a task through props and renders two Text components. In the example accessible only merges the focus — the reader still reads the texts one by one. The solution adds the button role, a templated label with the title and minutes, and a hint about details: the row is announced as one phrase. Compare both variants on a device with the reader on and record the difference. Note: the label is built from the record data — change the title or minutes and the reader reads the new value, no manual duplication needed."
+          },
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = [\n  { id: 'a1', title: 'Экран и структуры', minutes: 20 },\n  { id: 'a2', title: 'Списки и ключи', minutes: 30 },\n];\n\nexport function TaskRow({ task }: { task: Task }) {\n  return (\n    <View accessible style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>\n        {task.minutes} минут. Двойное нажатие откроет подробности.\n      </Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия на сегодня</Text>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  title: { fontSize: 16, fontWeight: '600' },\n  minutes: { fontSize: 14, color: '#475569' },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-32-q1",
+          "question": {
+            "ru": "Что делает свойство accessible на View?",
+            "tg": "Хосияти accessible дар View чӣ мекунад?",
+            "en": "What does the accessible property do on a View?"
+          },
+          "options": [
+            {
+              "ru": "Собирает детей в один элемент фокуса",
+              "tg": "Кӯдакронро ба як унсури фокус ҷамъ мекунад",
+              "en": "Gathers children into one focus element"
+            },
+            {
+              "ru": "Скрывает элемент от диктора",
+              "tg": "Унсурро аз хонанда маҳкум мекунад",
+              "en": "Hides the element from the reader"
+            },
+            {
+              "ru": "Ускоряет рендер",
+              "tg": "Render-ро тез мекунад",
+              "en": "Speeds up rendering"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Диктор объявляет строку целиком, а не по частям.",
+            "tg": "Хонанда сатрро пурра эълон мекунад, на ба қисмҳо.",
+            "en": "The reader announces the row as a whole, not in pieces."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова про отдельные Text.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи Text-ҳои ҷудогонаро ёбед.",
+            "en": "Find the first-section words about separate Text components."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-32-q2",
+          "question": {
+            "ru": "Что сообщает accessibilityHint?",
+            "tg": "accessibilityHint чиро хабар медиҳад?",
+            "en": "What does accessibilityHint report?"
+          },
+          "options": [
+            {
+              "ru": "Цвет элемента",
+              "tg": "Ранги элемент",
+              "en": "The element color"
+            },
+            {
+              "ru": "Что произойдёт при активации",
+              "tg": "Ҳангоми фаъолияти чӣ рух медиҳад",
+              "en": "What happens on activation"
+            },
+            {
+              "ru": "Количество детей",
+              "tg": "Шумораи кӯдакон",
+              "en": "The children count"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Подпись говорит «что это», hint — «что будет».",
+            "tg": "Матн мегӯяд «ин чист», hint — «чӣ мешавад».",
+            "en": "The label says \"what it is\", the hint — \"what happens\"."
+          },
+          "hint": {
+            "ru": "Сравните label и hint в решении.",
+            "tg": "label ва hint-ро дар ҳалл муқоиса кунед.",
+            "en": "Compare label and hint in the solution."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-32-q3",
+          "question": {
+            "ru": "Почему подпись собирается из данных записи?",
+            "tg": "Матн барои чӣ аз маълумоти сабт сохта мешавад?",
+            "en": "Why is the label built from record data?"
+          },
+          "options": [
+            {
+              "ru": "Диктор не читает шаблоны",
+              "tg": "Хонанда қолабҳоро намехонад",
+              "en": "The reader cannot read templates"
+            },
+            {
+              "ru": "Так короче код",
+              "tg": "Рамз кӯтоҳтар мешавад",
+              "en": "The code is shorter"
+            },
+            {
+              "ru": "Изменённые данные автоматически читаются диктором",
+              "tg": "Маълумоти тағйирёфта худкор аз тарафи хонанда хонда мешавад",
+              "en": "Changed data is read by the reader automatically"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Ручная копия текста устареет после первого изменения.",
+            "tg": "Нусхаи дастии матн баъди аввалин тағйир кӯҳна мешавад.",
+            "en": "A manual text copy goes stale after the first change."
+          },
+          "hint": {
+            "ru": "Перечитайте конец разбора про шаблонную подпись.",
+            "tg": "Охири шарҳ дар бораи матни қолабиро аз нав хонед.",
+            "en": "Re-read the walkthrough end about the templated label."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-32-q4",
+          "question": {
+            "ru": "Чем проверяют поведение диктора?",
+            "tg": "Рафтори хонандаро бо чӣ месанҷанд?",
+            "en": "How is the reader behavior checked?"
+          },
+          "options": [
+            {
+              "ru": "TalkBack на Android или VoiceOver на iOS",
+              "tg": "TalkBack дар Android ё VoiceOver дар iOS",
+              "en": "TalkBack on Android or VoiceOver on iOS"
+            },
+            {
+              "ru": "Браузером курса",
+              "tg": "Браузери курс",
+              "en": "The course browser"
+            },
+            {
+              "ru": "Консолью разработки",
+              "tg": "Консоли таҳия",
+              "en": "The development console"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Настоящий диктор — часть системы устройства.",
+            "tg": "Хонандаи воқеӣ қисми системи дастгоҳ аст.",
+            "en": "The real reader is part of the device system."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова про проверку на устройстве.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи санҷиш дар дастгоҳро ёбед.",
+            "en": "Find the first-section words about device checking."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-32-q5",
+          "question": {
+            "ru": "Какая подпись хороша для диктора?",
+            "tg": "Кадом матн барои хонанда хуб аст?",
+            "en": "Which label is good for the reader?"
+          },
+          "options": [
+            {
+              "ru": "«View 3»",
+              "tg": "«View 3»",
+              "en": "«View 3»"
+            },
+            {
+              "ru": "«Экран и структуры, 20 минут»",
+              "tg": "«Экран ва сохторҳо, 20 дақиқа»",
+              "en": "«Экран и структуры, 20 минут»"
+            },
+            {
+              "ru": "«Нажмите сюда»",
+              "tg": "«Ин ҷо пахш кунед»",
+              "en": "«Нажмите сюда»"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Подпись описывает содержимое, а не внешний вид.",
+            "tg": "Матн мазмунро тавсиф мекунад, на намудро.",
+            "en": "The label describes the content, not the looks."
+          },
+          "hint": {
+            "ru": "Сравните два варианта подписи из первого раздела.",
+            "tg": "Ду варианти матнро аз бахши аввал муқоиса кунед.",
+            "en": "Compare the two label variants from the first section."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и пройдите его с диктором на устройстве. Соберите решение и сравните объявление строк до и после. Запишите обе версии объявлений дословно и проверьте, что подпись обновилась после изменения минут в данных. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва онро бо хонанда дар дастгоҳ гузаред. Ҳаллро созед ва эълони сатрҳоро пеш аз баъд муқоиса кунед. Ҳарду версияи эълонро калима ба калима сабт карда, санҷед, ки матн баъди ивази дақиқаҳо нав шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and walk it with the reader on a device. Build the solution and compare the row announcements before and after. Record both announcement versions verbatim and check the label updated after changing the minutes in the data. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Подпись — шаблонная строка: `${task.title}, ${task.minutes} минут` внутри accessibilityLabel.",
+          "tg": "Матн сатри қолабист: `${task.title}, ${task.minutes} минут` дар дохили accessibilityLabel.",
+          "en": "The label is a template string: `${task.title}, ${task.minutes} минут` inside accessibilityLabel."
+        },
+        "solution": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = [\n  { id: 'a1', title: 'Экран и структуры', minutes: 20 },\n  { id: 'a2', title: 'Списки и ключи', minutes: 30 },\n];\n\nexport function TaskRow({ task }: { task: Task }) {\n  return (\n    <View\n      accessible\n      accessibilityRole=\"button\"\n      accessibilityLabel={`${task.title}, ${task.minutes} минут`}\n      accessibilityHint=\"Открывает подробности занятия\"\n      style={styles.row}\n    >\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} минут</Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия на сегодня</Text>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  title: { fontSize: 16, fontWeight: '600' },\n  minutes: { fontSize: 14, color: '#475569' },\n});\n",
+        "criteria": [
+          {
+            "ru": "Строка объявляется одной фразой, а не по частям.",
+            "tg": "Сатр бо як ҷумла эълон мешавад, на ба қисмҳо.",
+            "en": "The row announces as one phrase, not in pieces."
+          },
+          {
+            "ru": "Подпись обновилась после изменения данных.",
+            "tg": "Матн баъди тағйири маълумот нав шуд.",
+            "en": "The label updated after the data changed."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Собрать строку списка в один элемент диктора.",
+            "tg": "Сатри рӯйхатро ба як элементи хонанда ҷамъ оваред.",
+            "en": "Assemble a list row into one reader element."
+          },
+          {
+            "ru": "Написать подпись и hint из данных записи.",
+            "tg": "Матн ва hint-ро аз маълумоти сабт нависед.",
+            "en": "Write the label and hint from record data."
+          }
+        ],
+        "realWorld": {
+          "ru": "Пользователь VoiceOver проходит список задач за секунды, если строки объявлены одной фразой.",
+          "tg": "Корбари VoiceOver рӯйхати вазифаҳоро дар сонияҳо мегузарад, агар сатрҳо як ҷумла эълон шаванд.",
+          "en": "A VoiceOver user walks a task list in seconds when rows announce as one phrase."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что сообщает accessibilityHint?",
+            "tg": "accessibilityHint чиро хабар медиҳад?",
+            "en": "What does accessibilityHint report?"
+          },
+          "options": [
+            {
+              "ru": "Цвет элемента",
+              "tg": "Ранги элемент",
+              "en": "The element color"
+            },
+            {
+              "ru": "Что произойдёт при активации",
+              "tg": "Ҳангоми фаъолияти чӣ рух медиҳад",
+              "en": "What happens on activation"
+            },
+            {
+              "ru": "Количество детей",
+              "tg": "Шумораи кӯдакон",
+              "en": "The children count"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Сравните label и hint в решении.",
+            "tg": "label ва hint-ро дар ҳалл муқоиса кунед.",
+            "en": "Compare label and hint in the solution."
+          },
+          "explanation": {
+            "ru": "Подпись говорит «что это», hint — «что будет».",
+            "tg": "Матн мегӯяд «ин чист», hint — «чӣ мешавад».",
+            "en": "The label says \"what it is\", the hint — \"what happens\"."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = [\n  { id: 'a1', title: 'Экран и структуры', minutes: 20 },\n  { id: 'a2', title: 'Списки и ключи', minutes: 30 },\n];\n\nexport function TaskRow({ task }: { task: Task }) {\n  return (\n    <View accessible style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>\n        {task.minutes} минут. Двойное нажатие откроет подробности.\n      </Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия на сегодня</Text>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  title: { fontSize: 16, fontWeight: '600' },\n  minutes: { fontSize: 14, color: '#475569' },\n});\n",
+          "steps": [
+            {
+              "line": 12,
+              "explanation": {
+                "ru": "accessible объединяет два Text в один фокус.",
+                "tg": "accessible ду Text-ро ба як фокус муттаҳид мекунад.",
+                "en": "accessible merges the two Text into one focus."
+              },
+              "values": "one element"
+            },
+            {
+              "line": 15,
+              "explanation": {
+                "ru": "Роль button объясняет нажимаемость.",
+                "tg": "Нақши button пахшшавандагиро мефаҳмонад.",
+                "en": "The button role explains pressability."
+              },
+              "values": "role=button"
+            },
+            {
+              "line": 16,
+              "explanation": {
+                "ru": "Подпись собирается из названия и минут.",
+                "tg": "Матн аз ном ва дақиқаҳо сохта мешавад.",
+                "en": "The label builds from the title and minutes."
+              },
+              "values": "title + minutes"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Включите диктор на устройстве и пройдите две строки примера.",
+              "tg": "Дар дастгоҳ хонандаро фаъол карда, ду сатри мисолро гузаред.",
+              "en": "Turn the reader on and walk the two example rows."
+            },
+            {
+              "ru": "Добавьте роль, подпись и hint из решения и сравните объявление.",
+              "tg": "Нақш, матн ва hint-ро аз ҳалл илова карда, эълонро муқоиса кунед.",
+              "en": "Add the role, label and hint from the solution and compare the announcement."
+            }
+          ],
+          "hint": {
+            "ru": "Подпись — шаблонная строка: `${task.title}, ${task.minutes} минут` внутри accessibilityLabel.",
+            "tg": "Матн сатри қолабист: `${task.title}, ${task.minutes} минут` дар дохили accessibilityLabel.",
+            "en": "The label is a template string: `${task.title}, ${task.minutes} минут` inside accessibilityLabel."
+          },
+          "success": {
+            "ru": "Каждая строка объявляется одной фразой с названием, минутами и подсказкой.",
+            "tg": "Ҳар сатр бо як ҷумлаи ном, дақиқаҳо ва маслиҳат эълон мешавад.",
+            "en": "Every row announces as one phrase with the title, minutes and a hint."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и пройдите его с диктором на устройстве. Соберите решение и сравните объявление строк до и после. Запишите обе версии объявлений дословно и проверьте, что подпись обновилась после изменения минут в данных. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва онро бо хонанда дар дастгоҳ гузаред. Ҳаллро созед ва эълони сатрҳоро пеш аз баъд муқоиса кунед. Ҳарду версияи эълонро калима ба калима сабт карда, санҷед, ки матн баъди ивази дақиқаҳо нав шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and walk it with the reader on a device. Build the solution and compare the row announcements before and after. Record both announcement versions verbatim and check the label updated after changing the minutes in the data. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Строка объявляется одной фразой, а не по частям.",
+              "tg": "Сатр бо як ҷумла эълон мешавад, на ба қисмҳо.",
+              "en": "The row announces as one phrase, not in pieces."
+            },
+            {
+              "ru": "Подпись обновилась после изменения данных.",
+              "tg": "Матн баъди тағйири маълумот нав шуд.",
+              "en": "The label updated after the data changed."
+            }
+          ],
+          "example": {
+            "ru": "Диктор объявляет «Экран и структуры, 20 минут. Открывает подробности занятия.» одним фокусом.",
+            "tg": "Хонанда «Экран ва сохторҳо, 20 дақиқа. Тафсилоти машғулиятро мекушояд.»-ро бо як фокус эълон мекунад.",
+            "en": "The reader announces the full label and hint in one focus."
+          }
+        },
+        "summary": [
+          {
+            "ru": "accessible, роль, label и hint делают элемент понятным диктору.",
+            "tg": "accessible, нақш, label ва hint элементро барои хонанда фаҳмо мекунанд.",
+            "en": "accessible, role, label and hint make the element readable."
+          },
+          {
+            "ru": "Проверка диктора возможна только на устройстве.",
+            "tg": "Санҷиши хонанда танҳо дар дастгоҳ имконнопазир аст.",
+            "en": "Reader checking only happens on a device."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что сообщает accessibilityHint?",
+            "tg": "accessibilityHint чиро хабар медиҳад?",
+            "en": "What does accessibilityHint report?"
+          },
+          {
+            "ru": "Какая подпись хороша для диктора?",
+            "tg": "Кадом матн барои хонанда хуб аст?",
+            "en": "Which label is good for the reader?"
+          }
+        ],
+        "nextLessonId": "mobile-day-33"
+      }
+    },
+    {
+      "id": "mobile-day-33",
+      "day": 33,
+      "prerequisiteDays": [
+        32
+      ],
+      "title": {
+        "ru": "Размер текста и контраст",
+        "tg": "Андозаи матн ва зиддигарии ранг",
+        "en": "Text size and contrast"
+      },
+      "summary": {
+        "ru": "Проверьте экран при увеличенном системном шрифте и узнайте правило контраста.",
+        "tg": "Экранро ҳангоми ҳуруфи калони система санҷед ва қоидаи зиддигариро ёд гиред.",
+        "en": "Check the screen with a larger system font and learn the contrast rule."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Экран для глаз и настроек",
+            "tg": "Экран барои чашм ва танзимот",
+            "en": "A screen for eyes and settings"
+          },
+          "body": {
+            "ru": "Многие пользователи увеличивают системный шрифт: по умолчанию текст React Native масштабируется вместе с настройкой, и интерфейс, проверенный только при стандартном размере, может обрезать строки. Первое правило — не отключать масштабирование (allowFontScaling) без причины; ограничитель maxFontSizeMultiplier разрешает расти, но не бесконечно. Второе правило — контраст: светлый текст на светлом фоне читается плохо. Ориентир WCAG: отношение яркости текста и фона не ниже 4.5:1 для обычного текста и 3:1 для крупного. Контраст и поведение при увеличенном шрифте проверяются на устройстве в настройках системы, а не по памяти разработчика.",
+            "tg": "Бисёре аз корбарон ҳуруфи системиро калон мекунанд: бо пешфрӯз матни React Native якҷоя бо танзим масштаб мешавад ва интерфейси танҳо бо андозаи стандартии санҷидашуда сатрҳоро бурида метавонад. Қоидаи аввал — масштабиро бе сабат хомӯш накунед (allowFontScaling); маҳдудкунандаи maxFontSizeMultiplier афзоишро иҷозат медиҳад, вале беохир нест. Қоидаи дуюм — зиддигарӣ: матни равшан дар заминаи равшан суст хонда мешавад. Маъёри WCAG: нисбати равшании матн ва замина на камтар аз 4.5:1 барои матни оддӣ ва 3:1 барои калон. Зиддигарӣ ва рафтор ҳангоми ҳуруфи калон дар дастгоҳ дар танзимоти система месанҷанд, на аз хотираи таҳиягар.",
+            "en": "Many users enlarge the system font: React Native text scales with the setting by default, and an interface checked only at the standard size can clip lines. The first rule is not to disable scaling (allowFontScaling) without a reason; the maxFontSizeMultiplier limiter lets text grow but not endlessly. The second rule is contrast: light text on a light background reads poorly. The WCAG landmark: the luminance ratio of text and background is at least 4.5:1 for normal text and 3:1 for large text. Contrast and enlarged-font behavior are checked on a device in the system settings, not from developer memory."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "LessonCard использует тёмный текст #0f172a и #334155 на светлом фоне #f8fafc — высокие отношения контраста, обе пары проходят 4.5:1. В примере масштабирование работает по умолчанию: увеличьте системный шрифт до максимума и откройте экран — текст растёт, карточка растягивается, ничего не обрезается. В решении добавлен maxFontSizeMultiplier={2}: рост ограничен двумя размерами, чтобы макет не разваливался при экстремальных настройках, но читаемость сохраняется. Запишите обе проверки: стандартный шрифт, максимальный, максимальный с ограничителем.",
+            "tg": "LessonCard матни торики #0f172a ва #334155-ро дар заминаи равшани #f8fafc истифода мебарад — нисбатҳои зиддигарии баланд, ҳарду ҷуфт 4.5:1-ро мегузаранд. Дар мисол масштабирование бо пешфрӯз кор мекунад: ҳуруфи системиро то максимум калон карда, экранро кушоед — матн меафзояд, корта кашида мешавад, ҳеҷ чиз бурида намешавад. Дар ҳалл maxFontSizeMultiplier={2} илова шудааст: афзоиш ба ду андоза маҳдуд аст, то ороиш ҳангоми танзимоти экстремалӣ вайрон нашавад, вале хонданашавандӣ мемонад. Ҳарду санҷишро сабт кунед: ҳуруфи стандартии калон, максимум, максимум бо маҳдудкунанда.",
+            "en": "LessonCard uses dark text #0f172a and #334155 on the light background #f8fafc — high contrast ratios, both pairs pass 4.5:1. In the example scaling works by default: set the system font to maximum and open the screen — text grows, the card stretches, nothing clips. The solution adds maxFontSizeMultiplier={2}: growth is limited to twice the size so the layout survives extreme settings while readability holds. Record both checks: the standard font, the maximum, and the maximum with the limiter."
+          },
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport function LessonCard({ title, minutes }: { title: string; minutes: number }) {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>{title}</Text>\n      <Text style={styles.body}>{minutes} минут практики</Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка читаемости</Text>\n      <LessonCard title=\"Экран и структуры\" minutes={20} />\n      <Text style={styles.note}>\n        Увеличьте системный шрифт в настройках и откройте экран снова.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  card: { padding: 16, borderRadius: 12, backgroundColor: '#f8fafc' },\n  title: { fontSize: 18, fontWeight: '600', color: '#0f172a' },\n  body: { fontSize: 15, color: '#334155' },\n  note: { fontSize: 14, color: '#475569' },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-33-q1",
+          "question": {
+            "ru": "Что происходит с текстом React Native при увеличенном системном шрифте?",
+            "tg": "Ҳангоми калон шудани ҳуруфи системӣ бо матни React Native чӣ мешавад?",
+            "en": "What happens to React Native text with a larger system font?"
+          },
+          "options": [
+            {
+              "ru": "Он игнорирует настройку",
+              "tg": "Танзимро сарфи назар мекунад",
+              "en": "It ignores the setting"
+            },
+            {
+              "ru": "Он масштабируется вместе с настройкой",
+              "tg": "Он якҷоя бо танзим масштаб мешавад",
+              "en": "It scales with the setting"
+            },
+            {
+              "ru": "Экран падает",
+              "tg": "Экран меафтад",
+              "en": "The screen crashes"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Поэтому интерфейс проверяют при большом шрифте.",
+            "tg": "Бинобар ин интерфейсро бо ҳуруфи калон месанҷанд.",
+            "en": "That is why the interface is checked at a large font."
+          },
+          "hint": {
+            "ru": "Перечитайте первое предложение первого раздела.",
+            "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+            "en": "Re-read the first sentence of the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-33-q2",
+          "question": {
+            "ru": "Когда допустимо ограничить рост текста?",
+            "tg": "Афзоиши матнро ҳангоми чӣ маҳдуд кардан ҷоиз аст?",
+            "en": "When is limiting text growth acceptable?"
+          },
+          "options": [
+            {
+              "ru": "Никогда ограничивать нельзя",
+              "tg": "Ҳеҷ гоҳ маҳдуд кардан мумкин нест",
+              "en": "Never limit it"
+            },
+            {
+              "ru": "Всегда отключать масштабирование",
+              "tg": "Ҳамеша масштабиро хомӯш кардан",
+              "en": "Always disable scaling"
+            },
+            {
+              "ru": "Осознанно, с maxFontSizeMultiplier, чтобы сохранить макет",
+              "tg": "Огоҳона, бо maxFontSizeMultiplier, то ороиш нигоҳ дошта шавад",
+              "en": "Deliberately, with maxFontSizeMultiplier, to keep the layout"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Ограничитель — компромисс, а не запрет роста.",
+            "tg": "Маҳдудкунанда созиш аст, на манъи афзоиш.",
+            "en": "The limiter is a compromise, not a growth ban."
+          },
+          "hint": {
+            "ru": "Сравните пример и решение по allowFontScaling.",
+            "tg": "Мисол ва ҳаллро аз рӯи allowFontScaling муқоиса кунед.",
+            "en": "Compare the example and the solution on allowFontScaling."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-33-q3",
+          "question": {
+            "ru": "Какое минимальное отношение контраста для обычного текста?",
+            "tg": "Барои матни оддӣ камтарин нисбати зиддигарӣ чанд аст?",
+            "en": "What is the minimum contrast ratio for normal text?"
+          },
+          "options": [
+            {
+              "ru": "4.5:1",
+              "tg": "4.5:1",
+              "en": "4.5:1"
+            },
+            {
+              "ru": "1:1",
+              "tg": "1:1",
+              "en": "1:1"
+            },
+            {
+              "ru": "10:1",
+              "tg": "10:1",
+              "en": "10:1"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Ориентир WCAG для обычного текста — 4.5:1, для крупного — 3:1.",
+            "tg": "Маъёри WCAG барои матни оддӣ — 4.5:1, барои калон — 3:1.",
+            "en": "The WCAG landmark is 4.5:1 for normal and 3:1 for large text."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел числа отношения.",
+            "tg": "Дар бахши аввал рақамҳои нисбатро ёбед.",
+            "en": "Find the ratio numbers in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-33-q4",
+          "question": {
+            "ru": "Какая пара цветов в примере?",
+            "tg": "Дар мисол кадом ҷуфти рангҳо ҳастанд?",
+            "en": "Which color pair does the example use?"
+          },
+          "options": [
+            {
+              "ru": "Светлый текст на светлом фоне",
+              "tg": "Матни равшан дар заминаи равшан",
+              "en": "Light text on a light background"
+            },
+            {
+              "ru": "Тёмный текст на светлом фоне",
+              "tg": "Матни торик дар заминаи равшан",
+              "en": "Dark text on a light background"
+            },
+            {
+              "ru": "Светлый текст на тёмном фоне без проверки",
+              "tg": "Матни равшан дар заминаи торик бе санҷиш",
+              "en": "Light text on dark background unchecked"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Обе пары текста проходят порог 4.5:1.",
+            "tg": "Ҳарду ҷуфти матн остонаи 4.5:1-ро мегузаранд.",
+            "en": "Both text pairs pass the 4.5:1 threshold."
+          },
+          "hint": {
+            "ru": "Посмотрите на цвета стилей в примере.",
+            "tg": "Ба рангҳои услубҳо дар мисол нигоҳ кунед.",
+            "en": "Look at the style colors in the example."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-33-q5",
+          "question": {
+            "ru": "Где проверяют поведение при увеличенном шрифте?",
+            "tg": "Рафтор ҳангоми ҳуруфи калон дар куҷо месанҷанд?",
+            "en": "Where is enlarged-font behavior checked?"
+          },
+          "options": [
+            {
+              "ru": "Его не проверяют",
+              "tg": "Онро месанҷанд, набояд",
+              "en": "It is not checked"
+            },
+            {
+              "ru": "В консоли разработки",
+              "tg": "Дар консоли таҳия",
+              "en": "In the dev console"
+            },
+            {
+              "ru": "В настройках системы на устройстве",
+              "tg": "Дар танзимоти система дар дастгоҳ",
+              "en": "In the device system settings"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Настройка шрифта — системная, проверка тоже.",
+            "tg": "Танзими ҳуруф системист, санҷиш ҳам.",
+            "en": "The font setting is a system one, so is the check."
+          },
+          "hint": {
+            "ru": "Найдите подсказку в примере про настройки.",
+            "tg": "Дар мисол маслиҳати дар бораи танзимотро ёбед.",
+            "en": "Find the settings hint in the example."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и проверьте его при стандартном и максимальном системном шрифте. Соберите решение с maxFontSizeMultiplier={2} и сравните все три состояния. Запишите цвета из примера и оцените их контраст по правилу 4.5:1. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва онро бо ҳуруфи стандартию максимуми система санҷед. Ҳаллро бо maxFontSizeMultiplier={2} созед ва ҳарду ҳолатро муқоиса кунед. Рангҳои аз мисолро сабт карда, зиддигарии онҳоро аз рӯи қоидаи 4.5:1 баҳогузорӣ кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and check it at the standard and maximum system font. Build the solution with maxFontSizeMultiplier={2} and compare all three states. Record the example colors and rate their contrast against the 4.5:1 rule. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Ограничитель ставится на каждый Text, которому нужен контролируемый рост.",
+          "tg": "Маҳдудкунанда ба ҳар Text-е гузошта мешавад, ки афзоиши идорашаванда лозим аст.",
+          "en": "The limiter goes on every Text that needs controlled growth."
+        },
+        "solution": "import { StyleSheet, Text, View } from 'react-native';\n\nexport function LessonCard({ title, minutes }: { title: string; minutes: number }) {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={2}>{title}</Text>\n      <Text style={styles.body} allowFontScaling maxFontSizeMultiplier={2}>\n        {minutes} минут практики\n      </Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка читаемости</Text>\n      <LessonCard title=\"Экран и структуры\" minutes={20} />\n      <Text style={styles.note} allowFontScaling maxFontSizeMultiplier={2}>\n        Увеличьте системный шрифт в настройках и откройте экран снова.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  card: { padding: 16, borderRadius: 12, backgroundColor: '#f8fafc' },\n  title: { fontSize: 18, fontWeight: '600', color: '#0f172a' },\n  body: { fontSize: 15, color: '#334155' },\n  note: { fontSize: 14, color: '#475569' },\n});\n",
+        "criteria": [
+          {
+            "ru": "Текст читаем при максимальном шрифте и не ломает макет.",
+            "tg": "Матн ҳангоми ҳуруфи максимум хонданашаванда аст ва ороишро намеканад.",
+            "en": "Text is readable at maximum font without breaking the layout."
+          },
+          {
+            "ru": "Цвета записаны с оценкой контраста.",
+            "tg": "Рангҳо бо баҳои зиддигарӣ сабт шудаанд.",
+            "en": "The colors are recorded with a contrast estimate."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Проверить экран при увеличенном системном шрифте.",
+            "tg": "Экранро ҳангоми ҳуруфи калони система санҷед.",
+            "en": "Check the screen with an enlarged system font."
+          },
+          {
+            "ru": "Объяснить правило контраста и применить его к цветам.",
+            "tg": "Қоидаи зиддигариро шарҳ дода, ба рангҳо татбиқ кунед.",
+            "en": "Explain the contrast rule and apply it to colors."
+          }
+        ],
+        "realWorld": {
+          "ru": "Пользователь с ослабленным зрением ставит максимальный шрифт — и приложение обязано остаться читаемым.",
+          "tg": "Корбари бо дидани суст андозаи ҳуруфро максимум мегузорад — ва барнома бояд хонданашаванда мемонад.",
+          "en": "A low-vision user sets the maximum font — and the app must stay readable."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Когда допустимо ограничить рост текста?",
+            "tg": "Афзоиши матнро ҳангоми чӣ маҳдуд кардан ҷоиз аст?",
+            "en": "When is limiting text growth acceptable?"
+          },
+          "options": [
+            {
+              "ru": "Никогда ограничивать нельзя",
+              "tg": "Ҳеҷ гоҳ маҳдуд кардан мумкин нест",
+              "en": "Never limit it"
+            },
+            {
+              "ru": "Всегда отключать масштабирование",
+              "tg": "Ҳамеша масштабиро хомӯш кардан",
+              "en": "Always disable scaling"
+            },
+            {
+              "ru": "Осознанно, с maxFontSizeMultiplier, чтобы сохранить макет",
+              "tg": "Огоҳона, бо maxFontSizeMultiplier, то ороиш нигоҳ дошта шавад",
+              "en": "Deliberately, with maxFontSizeMultiplier, to keep the layout"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Сравните пример и решение по allowFontScaling.",
+            "tg": "Мисол ва ҳаллро аз рӯи allowFontScaling муқоиса кунед.",
+            "en": "Compare the example and the solution on allowFontScaling."
+          },
+          "explanation": {
+            "ru": "Ограничитель — компромисс, а не запрет роста.",
+            "tg": "Маҳдудкунанда созиш аст, на манъи афзоиш.",
+            "en": "The limiter is a compromise, not a growth ban."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport function LessonCard({ title, minutes }: { title: string; minutes: number }) {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>{title}</Text>\n      <Text style={styles.body}>{minutes} минут практики</Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка читаемости</Text>\n      <LessonCard title=\"Экран и структуры\" minutes={20} />\n      <Text style={styles.note}>\n        Увеличьте системный шрифт в настройках и откройте экран снова.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  card: { padding: 16, borderRadius: 12, backgroundColor: '#f8fafc' },\n  title: { fontSize: 18, fontWeight: '600', color: '#0f172a' },\n  body: { fontSize: 15, color: '#334155' },\n  note: { fontSize: 14, color: '#475569' },\n});\n",
+          "steps": [
+            {
+              "line": 7,
+              "explanation": {
+                "ru": "Карточка использует тёмный текст на светлом фоне.",
+                "tg": "Корта матни торикро дар заминаи равшан истифода мебарад.",
+                "en": "The card uses dark text on a light background."
+              },
+              "values": "#0f172a on #f8fafc"
+            },
+            {
+              "line": 15,
+              "explanation": {
+                "ru": "Масштабирование работает по умолчанию.",
+                "tg": "Масштабирование бо пешфрӯз кор мекунад.",
+                "en": "Scaling works by default."
+              },
+              "values": "allowFontScaling"
+            },
+            {
+              "line": 20,
+              "explanation": {
+                "ru": "Подсказка ведёт к настройкам системы.",
+                "tg": "Маслиҳат ба танзимоти система мебарад.",
+                "en": "The hint leads to the system settings."
+              },
+              "values": "font size"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Откройте пример при стандартном шрифте и запишите вид карточки.",
+              "tg": "Мисолро бо ҳуруфи стандарти кушода, намуди кортаро сабт кунед.",
+              "en": "Open the example at the standard font and record the card look."
+            },
+            {
+              "ru": "Увеличьте шрифт до максимума в настройках и сравните поведение экрана.",
+              "tg": "Ҳуруфро дар танзимот то максимум калон карда, рафтори экранро муқоиса кунед.",
+              "en": "Enlarge the font to maximum in settings and compare the screen behavior."
+            }
+          ],
+          "hint": {
+            "ru": "Ограничитель ставится на каждый Text, которому нужен контролируемый рост.",
+            "tg": "Маҳдудкунанда ба ҳар Text-е гузошта мешавад, ки афзоиши идорашаванда лозим аст.",
+            "en": "The limiter goes on every Text that needs controlled growth."
+          },
+          "success": {
+            "ru": "Текст растёт с системным шрифтом и остаётся читаемым на контрастном фоне.",
+            "tg": "Матн бо ҳуруфи система меафзояд ва дар заминаи контрастӣ хонданашаванда мемонад.",
+            "en": "Text grows with the system font and stays readable on the contrasty background."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и проверьте его при стандартном и максимальном системном шрифте. Соберите решение с maxFontSizeMultiplier={2} и сравните все три состояния. Запишите цвета из примера и оцените их контраст по правилу 4.5:1. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва онро бо ҳуруфи стандартию максимуми система санҷед. Ҳаллро бо maxFontSizeMultiplier={2} созед ва ҳарду ҳолатро муқоиса кунед. Рангҳои аз мисолро сабт карда, зиддигарии онҳоро аз рӯи қоидаи 4.5:1 баҳогузорӣ кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and check it at the standard and maximum system font. Build the solution with maxFontSizeMultiplier={2} and compare all three states. Record the example colors and rate their contrast against the 4.5:1 rule. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Текст читаем при максимальном шрифте и не ломает макет.",
+              "tg": "Матн ҳангоми ҳуруфи максимум хонданашаванда аст ва ороишро намеканад.",
+              "en": "Text is readable at maximum font without breaking the layout."
+            },
+            {
+              "ru": "Цвета записаны с оценкой контраста.",
+              "tg": "Рангҳо бо баҳои зиддигарӣ сабт шудаанд.",
+              "en": "The colors are recorded with a contrast estimate."
+            }
+          ],
+          "example": {
+            "ru": "При максимальном шрифте карточка растягивается на два размера и остаётся читаемой.",
+            "tg": "Ҳангоми ҳуруфи максимум корта то ду андоза кашида, хонданашаванда мемонад.",
+            "en": "At maximum font the card grows to twice the size and stays readable."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Не отключайте масштабирование без причины; ограничивайте осознанно.",
+            "tg": "Масштабиро бе сабат хомӯш накунед; огоҳона маҳдуд кунед.",
+            "en": "Do not disable scaling without a reason; limit deliberately."
+          },
+          {
+            "ru": "Контраст 4.5:1 для обычного текста — рабочий ориентир.",
+            "tg": "Зиддигарии 4.5:1 барои матни оддӣ маъёри корӣ аст.",
+            "en": "A 4.5:1 contrast for normal text is the working landmark."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Когда допустимо ограничить рост текста?",
+            "tg": "Афзоиши матнро ҳангоми чӣ маҳдуд кардан ҷоиз аст?",
+            "en": "When is limiting text growth acceptable?"
+          },
+          {
+            "ru": "Какое минимальное отношение контраста для обычного текста?",
+            "tg": "Барои матни оддӣ камтарин нисбати зиддигарӣ чанд аст?",
+            "en": "What is the minimum contrast ratio for normal text?"
+          }
+        ],
+        "nextLessonId": "mobile-day-34"
+      }
+    },
+    {
+      "id": "mobile-day-34",
+      "day": 34,
+      "prerequisiteDays": [
+        33
+      ],
+      "title": {
+        "ru": "Производительность списка",
+        "tg": "Самаранокии рӯйхат",
+        "en": "List performance"
+      },
+      "summary": {
+        "ru": "Покажите длинный список частями и объясните, почему двести строк сразу — плохо.",
+        "tg": "Рӯйхати дарозро ба қисмҳо нишон диҳед ва шарҳ диҳед, ки чаро дусад сатр якбора бад аст.",
+        "en": "Show a long list in parts and explain why two hundred rows at once is bad."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Список, который не тормозит",
+            "tg": "Рӯйхати сустнамешаванда",
+            "en": "A list that does not lag"
+          },
+          "body": {
+            "ru": "Двести строк, отрисованных одновременно, тратят память и время рендера: на слабом устройстве прокрутка дёргается. Правило производительности: показывать только то, что видно, и догружать по мере прокрутки. FlatList делает это сам, но требует правильного использования: стабильный keyExtractor, лёгкие строки без тяжёлых стилей и обработчик onEndReached, который добавляет следующую страницу, когда пользователь приближается к концу. Дополнительно: обработчики передают через useCallback, чтобы строка не считала свой проп новым на каждом рендере родителя. Прокрутку двухсот записей проверяют на устройстве, а не в браузере: тормоза видны только на реальном железе.",
+            "tg": "Дусад сатри якбора кашидашуда хотира ва вақти render-ро мехӯрад: дар дастгоҳи суст скролл мекашад. Қоидаи самаранокӣ: танҳо онро нишон диҳед, ки дида мешавад ва ҳангоми скролл илова кунед. FlatList инро худ мекунад, вале истифодаи дурустро талаб мекунад: keyExtractor-и устувор, сатрҳои сабук бе услубҳои вазнин ва обработчики onEndReached, ки ҳангоми наздик шудани корбар ба охир саҳифаи ояндаро илова мекунад. Илова: обработчикҳоро тавассути useCallback мегузаронанд, то сатр проп-и худро дар ҳар render-и волидайн нав ҳисоб накунад. Скролли дусад сабтро дар дастгоҳ месанҷанд, на дар браузер: сустӣ танҳо дар санги воқеӣ дида мешавад.",
+            "en": "Two hundred rows rendered at once spend memory and render time: scrolling stutters on a weak device. The performance rule: show only what is visible and load more as the user scrolls. FlatList does this by itself but demands correct use: a stable keyExtractor, light rows without heavy styles, and an onEndReached handler that appends the next page as the user nears the end. Additionally: handlers pass through useCallback so a row does not consider its prop new on every parent render. Scrolling two hundred records is checked on a device, not the browser: lag shows only on real hardware."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Массив из двухсот записей создаётся один раз вне компонента. В примере TaskList рисует map по первым двадцати — страница, а не весь список: это уже экономнее, чем двести сразу. В решении FlatList получает data как срез visible записей, keyExtractor берёт id, а onEndReached добавляет по двадцать, пока не кончатся двести. Строка — Pressable с ролью и подписью из дня 32. Проверьте на устройстве: прокрутка плавная, в конце списка появляется «Открыто: …» при нажатии. Запишите ощущение прокрутки до и после разбиения на страницы.",
+            "tg": "Массиви дусад сабт як бор берунаи компонент сохта мешавад. Дар мисол TaskList map-ро аз рӯи бист нахустин мекашад — саҳифа, на тамоми рӯйхат: ин аллакай сарфакор аз дусад аст. Дар ҳалл FlatList data-ро ҳамчун буриши visible мегирад, keyExtractor id-ро месанҷад ва onEndReached то тамом шудани дусад ҳар бор бист илова мекунад. Сатр Pressable бо нақш ва матни рӯзи 32 аст. Дар дастгоҳ санҷед: скролл шуст аст, дар охири рӯйхат ҳангоми пахш «Кушода шуд: …» пайдо мешавад. Ҳисси сколлро пеш аз баъди тақсим ба саҳифаҳо сабт кунед.",
+            "en": "The two-hundred-record array is created once outside the component. In the example TaskList maps over the first twenty — a page, not the whole list: already thriftier than two hundred at once. In the solution FlatList receives data as a slice of the visible records, keyExtractor takes the id, and onEndReached appends twenty at a time until the two hundred end. The row is a Pressable with the role and label from day 32. Check on a device: scrolling is smooth, and pressing near the end shows «Открыто: …». Record the scrolling feel before and after pagination."
+          },
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({\n  id: `t${index + 1}`,\n  title: `Занятие ${index + 1}`,\n  minutes: 15 + (index % 4) * 5,\n}));\n\nfunction TaskRow({ task }: { task: Task }) {\n  return (\n    <View style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} мин.</Text>\n    </View>\n  );\n}\n\nexport function TaskList({ tasks }: { tasks: Task[] }) {\n  return (\n    <View>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Двести записей</Text>\n      <TaskList tasks={tasks.slice(0, 20)} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },\n  title: { fontSize: 16 },\n  minutes: { fontSize: 14, color: '#64748b' },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-34-q1",
+          "question": {
+            "ru": "Почему двести строк сразу — плохо?",
+            "tg": "Дусад сатр якбора барои чӣ бад аст?",
+            "en": "Why are two hundred rows at once bad?"
+          },
+          "options": [
+            {
+              "ru": "Строки перестают обновляться",
+              "tg": "Сатрҳо навшавӣ намешаванд",
+              "en": "Rows stop updating"
+            },
+            {
+              "ru": "FlatList запрещает это",
+              "tg": "FlatList инро мамнӯъ мекунад",
+              "en": "FlatList forbids it"
+            },
+            {
+              "ru": "Они тратят память и время рендера",
+              "tg": "Онҳо хотира ва вақти render-ро мехӯранд",
+              "en": "They spend memory and render time"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "На слабом устройстве прокрутка начинает дёргаться.",
+            "tg": "Дар дастгоҳи суст скролл мекашад.",
+            "en": "Scrolling stutters on a weak device."
+          },
+          "hint": {
+            "ru": "Перечитайте первое предложение первого раздела.",
+            "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+            "en": "Re-read the first sentence of the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-34-q2",
+          "question": {
+            "ru": "Что делает onEndReached?",
+            "tg": "onEndReached чӣ мекунад?",
+            "en": "What does onEndReached do?"
+          },
+          "options": [
+            {
+              "ru": "Добавляет следующую страницу при приближении к концу",
+              "tg": "Ҳангоми наздикӣ ба охир саҳифаи ояндаро илова мекунад",
+              "en": "Appends the next page when nearing the end"
+            },
+            {
+              "ru": "Удаляет начало списка",
+              "tg": "Охири рӯйхатро нест мекунад",
+              "en": "Deletes the list start"
+            },
+            {
+              "ru": "Прерывает прокрутку",
+              "tg": "Скроллро қатъ мекунад",
+              "en": "Interrupts scrolling"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Пользователь видит бесконечный список без единого ожидания.",
+            "tg": "Корбар рӯйхати беохирро бе як интизор мебинад.",
+            "en": "The user sees an endless list without a single wait."
+          },
+          "hint": {
+            "ru": "Найдите onEndReached в решении.",
+            "tg": "onEndReached-ро дар ҳалл ёбед.",
+            "en": "Find onEndReached in the solution."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-34-q3",
+          "question": {
+            "ru": "Зачем обработчику openTask нужен useCallback?",
+            "tg": "openTask барои чӣ useCallback лозим дорад?",
+            "en": "Why does the openTask handler need useCallback?"
+          },
+          "options": [
+            {
+              "ru": "Чтобы функция работала быстрее",
+              "tg": "То функсия тезтар кор кунад",
+              "en": "To make the function faster"
+            },
+            {
+              "ru": "Чтобы строка не считала проп новым на каждом рендере",
+              "tg": "То сатр проп-и худро дар ҳар render нав ҳисоб накунад",
+              "en": "So a row does not consider its prop new on every render"
+            },
+            {
+              "ru": "Чтобы обработчик не вызывался дважды",
+              "tg": "То обработчик ду бор даъват нашавад",
+              "en": "So the handler never fires twice"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Стабильная ссылка позволяет FlatList экономнее обновлять строки.",
+            "tg": "Пайванди устувор ба FlatList имкон медиҳад сатрҳоро сарфакор нав кунад.",
+            "en": "A stable reference lets FlatList update rows thriftily."
+          },
+          "hint": {
+            "ru": "Перечитайте слова о пропах строк в первом разделе.",
+            "tg": "Калимаҳои дар бораи пропҳои сатрро дар бахши аввал аз нав хонед.",
+            "en": "Re-read the first-section words about row props."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-34-q4",
+          "question": {
+            "ru": "Что делает keyExtractor для производительности?",
+            "tg": "keyExtractor барои самаранокӣ чӣ мекунад?",
+            "en": "What does keyExtractor do for performance?"
+          },
+          "options": [
+            {
+              "ru": "Кэширует изображения",
+              "tg": "Расмҳоро кэш мекунад",
+              "en": "Caches images"
+            },
+            {
+              "ru": "Сжимает данные",
+              "tg": "Маълумотро фишор медиҳад",
+              "en": "Compresses data"
+            },
+            {
+              "ru": "Позволяет обновлять и переупорядочивать строки без полной перерисовки",
+              "tg": "Ба нав кардан ва ҷойивазкунии сатрҳо бе кашидани пурра имкон медиҳад",
+              "en": "Lets rows update and reorder without a full redraw"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Тот же принцип стабильных ключей из дней 9 и 16.",
+            "tg": "Ҳамон принсипи калидҳои устувори рӯзҳои 9 ва 16.",
+            "en": "The same stable-key principle as days 9 and 16."
+          },
+          "hint": {
+            "ru": "Вспомните день 16 про stable keys.",
+            "tg": "Рӯзи 16-ро дар бораи калидҳои устувор ёд оред.",
+            "en": "Recall day 16 about stable keys."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-34-q5",
+          "question": {
+            "ru": "Где проверяют плавность прокрутки?",
+            "tg": "Шустии сколлро дар куҷо месанҷанд?",
+            "en": "Where is scrolling smoothness checked?"
+          },
+          "options": [
+            {
+              "ru": "На реальном устройстве",
+              "tg": "Дар дастгоҳи воқеӣ",
+              "en": "On a real device"
+            },
+            {
+              "ru": "В браузере курса",
+              "tg": "Дар браузери курс",
+              "en": "In the course browser"
+            },
+            {
+              "ru": "На бумаге",
+              "tg": "Дар коғаз",
+              "en": "On paper"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Тормоза видны только на реальном железе.",
+            "tg": "Сустӣ танҳо дар санги воқеӣ дида мешавад.",
+            "en": "Lag shows only on real hardware."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова про реальное железо.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи санги воқеиро ёбед.",
+            "en": "Find the first-section words about real hardware."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и решение, прокрутите оба на устройстве и запишите ощущение прокрутки. Соберите счётчик видимых записей и убедитесь, что он растёт по двадцать. Проверьте подписи диктора на строках из дня 32. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисол ва ҳаллро созед, ҳардуиро дар дастгоҳ скролл карда, ҳисси сколлро сабт кунед. Шумораи сабтҳои дидашударо созед ва боварӣ ҳосил кунед, ки он бо бист меафзояд. Матнҳои хонандаро аз рӯзи 32 дар сатрҳо санҷед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and the solution, scroll both on a device and record the scrolling feel. Build a visible-record counter and confirm it grows by twenty. Check the day-32 reader labels on the rows. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "visible растёт через Math.min(current + PAGE, tasks.length), чтобы не выйти за двести.",
+          "tg": "visible тавассути Math.min(current + PAGE, tasks.length) меафзояд, то аз дусад набарояд.",
+          "en": "visible grows through Math.min(current + PAGE, tasks.length) to stay within two hundred."
+        },
+        "solution": "import { useCallback, useState } from 'react';\nimport { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst PAGE = 20;\n\nconst tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({\n  id: `t${index + 1}`,\n  title: `Занятие ${index + 1}`,\n  minutes: 15 + (index % 4) * 5,\n}));\n\nfunction TaskRow({ task, onOpen }: { task: Task; onOpen: (id: string) => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel={`${task.title}, ${task.minutes} минут`}\n      onPress={() => onOpen(task.id)}\n      style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n    >\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} мин.</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [visible, setVisible] = useState(PAGE);\n  const [opened, setOpened] = useState<string | null>(null);\n\n  const openTask = useCallback((id: string) => setOpened(id), []);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Двести записей по частям</Text>\n      {opened ? <Text>Открыто: {opened}</Text> : <Text>Нажмите строку, чтобы открыть.</Text>}\n      <FlatList\n        data={tasks.slice(0, visible)}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <TaskRow task={item} onOpen={openTask} />}\n        onEndReached={() => setVisible(current => Math.min(current + PAGE, tasks.length))}\n        onEndReachedThreshold={0.3}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },\n  pressed: { opacity: 0.6 },\n  title: { fontSize: 16 },\n  minutes: { fontSize: 14, color: '#64748b' },\n});\n",
+        "criteria": [
+          {
+            "ru": "Прокрутка двухсот записей плавная на устройстве.",
+            "tg": "Скролли дусад сабт дар дастгоҳ шуст аст.",
+            "en": "Scrolling two hundred records is smooth on a device."
+          },
+          {
+            "ru": "Страницы добавляются по двадцать до конца списка.",
+            "tg": "Саҳифаҳо бо бист то охири рӯйхат илова мешаванд.",
+            "en": "Pages append by twenty until the list ends."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Показывать длинный список частями через onEndReached.",
+            "tg": "Рӯйхати дарозро ба қисмҳо тавассути onEndReached нишон диҳед.",
+            "en": "Show a long list in parts through onEndReached."
+          },
+          {
+            "ru": "Объяснить связь стабильных ключей и плавной прокрутки.",
+            "tg": "Пайванди калидҳои устувор ва сколли шустаро шарҳ диҳед.",
+            "en": "Explain the tie between stable keys and smooth scrolling."
+          }
+        ],
+        "realWorld": {
+          "ru": "Лента новостей подгружает следующую страницу, пока вы ещё читаете текущую.",
+          "tg": "Лентаи хабарҳо саҳифаи ояндаéro меоварад, то шумо ҳанӯз ҷорияро мехонед.",
+          "en": "A news feed loads the next page while you are still reading the current one."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Что делает onEndReached?",
+            "tg": "onEndReached чӣ мекунад?",
+            "en": "What does onEndReached do?"
+          },
+          "options": [
+            {
+              "ru": "Добавляет следующую страницу при приближении к концу",
+              "tg": "Ҳангоми наздикӣ ба охир саҳифаи ояндаро илова мекунад",
+              "en": "Appends the next page when nearing the end"
+            },
+            {
+              "ru": "Удаляет начало списка",
+              "tg": "Охири рӯйхатро нест мекунад",
+              "en": "Deletes the list start"
+            },
+            {
+              "ru": "Прерывает прокрутку",
+              "tg": "Скроллро қатъ мекунад",
+              "en": "Interrupts scrolling"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Найдите onEndReached в решении.",
+            "tg": "onEndReached-ро дар ҳалл ёбед.",
+            "en": "Find onEndReached in the solution."
+          },
+          "explanation": {
+            "ru": "Пользователь видит бесконечный список без единого ожидания.",
+            "tg": "Корбар рӯйхати беохирро бе як интизор мебинад.",
+            "en": "The user sees an endless list without a single wait."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({\n  id: `t${index + 1}`,\n  title: `Занятие ${index + 1}`,\n  minutes: 15 + (index % 4) * 5,\n}));\n\nfunction TaskRow({ task }: { task: Task }) {\n  return (\n    <View style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} мин.</Text>\n    </View>\n  );\n}\n\nexport function TaskList({ tasks }: { tasks: Task[] }) {\n  return (\n    <View>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Двести записей</Text>\n      <TaskList tasks={tasks.slice(0, 20)} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },\n  title: { fontSize: 16 },\n  minutes: { fontSize: 14, color: '#64748b' },\n});\n",
+          "steps": [
+            {
+              "line": 6,
+              "explanation": {
+                "ru": "Двести записей создаются один раз.",
+                "tg": "Дусад сабт як бор сохта мешавад.",
+                "en": "Two hundred records are created once."
+              },
+              "values": "200 records"
+            },
+            {
+              "line": 33,
+              "explanation": {
+                "ru": "FlatList получает срез видимых записей.",
+                "tg": "FlatList буриши сабтҳои дидашударо мегирад.",
+                "en": "FlatList receives the visible-record slice."
+              },
+              "values": "slice(0, visible)"
+            },
+            {
+              "line": 36,
+              "explanation": {
+                "ru": "Достижение конца добавляет следующую страницу.",
+                "tg": "Расидан ба охир саҳифаи ояндаро илова мекунад.",
+                "en": "Reaching the end appends the next page."
+              },
+              "values": "+20"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Прокрутите список решения на устройстве до конца и наблюдайте подгрузку.",
+              "tg": "Рӯйхати ҳаллро дар дастгоҳ то охир скролл карда, боркуниро пайгирӣ кунед.",
+              "en": "Scroll the solution list on a device to the end and watch the loading."
+            },
+            {
+              "ru": "Сравните ощущение прокрутки с полным map на двести строк.",
+              "tg": "Ҳисси сколлро бо map-и пурраи дусад сатр муқоиса кунед.",
+              "en": "Compare the scrolling feel with a full map over two hundred rows."
+            }
+          ],
+          "hint": {
+            "ru": "visible растёт через Math.min(current + PAGE, tasks.length), чтобы не выйти за двести.",
+            "tg": "visible тавассути Math.min(current + PAGE, tasks.length) меафзояд, то аз дусад набарояд.",
+            "en": "visible grows through Math.min(current + PAGE, tasks.length) to stay within two hundred."
+          },
+          "success": {
+            "ru": "Прокрутка остаётся плавной до последней записи, страницы добавляются незаметно.",
+            "tg": "Скролл то охирин сабт шуст мемонад ва саҳифаҳо бе диққат илова мешаванд.",
+            "en": "Scrolling stays smooth to the last record and pages append unnoticeably."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и решение, прокрутите оба на устройстве и запишите ощущение прокрутки. Соберите счётчик видимых записей и убедитесь, что он растёт по двадцать. Проверьте подписи диктора на строках из дня 32. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисол ва ҳаллро созед, ҳардуиро дар дастгоҳ скролл карда, ҳисси сколлро сабт кунед. Шумораи сабтҳои дидашударо созед ва боварӣ ҳосил кунед, ки он бо бист меафзояд. Матнҳои хонандаро аз рӯзи 32 дар сатрҳо санҷед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and the solution, scroll both on a device and record the scrolling feel. Build a visible-record counter and confirm it grows by twenty. Check the day-32 reader labels on the rows. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Прокрутка двухсот записей плавная на устройстве.",
+              "tg": "Скролли дусад сабт дар дастгоҳ шуст аст.",
+              "en": "Scrolling two hundred records is smooth on a device."
+            },
+            {
+              "ru": "Страницы добавляются по двадцать до конца списка.",
+              "tg": "Саҳифаҳо бо бист то охири рӯйхат илова мешаванд.",
+              "en": "Pages append by twenty until the list ends."
+            }
+          ],
+          "example": {
+            "ru": "После нескольких прокруток в конце списка видна запись «Занятие 200».",
+            "tg": "Баъди чанд скролл дар охири рӯйхат сабти «Машғулияти 200» дида мешавад.",
+            "en": "After several scrolls the last record «Занятие 200» appears."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Показывайте видимое и догружайте по мере прокрутки.",
+            "tg": "Он чиро ки дида мешавад нишон диҳед ва ҳангоми скролл илова кунед.",
+            "en": "Show what is visible and load more while scrolling."
+          },
+          {
+            "ru": "Стабильные ключи и лёгкие строки — основа плавного списка.",
+            "tg": "Калидҳои устувор ва сатрҳои сабук асоси рӯйхати шустанд.",
+            "en": "Stable keys and light rows are the basis of a smooth list."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что делает onEndReached?",
+            "tg": "onEndReached чӣ мекунад?",
+            "en": "What does onEndReached do?"
+          },
+          {
+            "ru": "Где проверяют плавность прокрутки?",
+            "tg": "Шустии сколлро дар куҷо месанҷанд?",
+            "en": "Where is scrolling smoothness checked?"
+          }
+        ],
+        "nextLessonId": "mobile-day-35"
+      }
+    },
+    {
+      "id": "mobile-day-35",
+      "day": 35,
+      "prerequisiteDays": [
+        34
+      ],
+      "title": {
+        "ru": "Тест компонента и состояния",
+        "tg": "Таҷрибаи компонент ва ҳолат",
+        "en": "Testing a component and its state"
+      },
+      "summary": {
+        "ru": "Напишите первый настоящий тест: чистая функция плюс проверка интерфейса под мок-хостом.",
+        "tg": "Аваллин таҷрибаи воқеиро нависед: функсияи соф ва санҷиши интерфейс зери мок-ҳост.",
+        "en": "Write the first real test: a pure function plus a mocked-host interface check."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Что вообще проверять",
+            "tg": "Дар воқеъ чиро месанҷанд",
+            "en": "What to check at all"
+          },
+          "body": {
+            "ru": "Тест — код, который проверяет другой код и сообщает честно: прошло или нет. Для мобильного компонента есть два уровня. Первый — чистые функции: decrement(current) можно вызвать с любыми числами и сверить ответ без экрана; это самый дешёвый и надёжный тест. Второй — поведение интерфейса: тест рендерит компонент под мок-хостом React Native (jest-expo), нажимает кнопки fireEvent.press и сверяет тексты. Это не проверка на устройстве: мок-хост имитирует платформу, поэтому тест называется проверкой логики. В этом курсе тесты живут в content/mobile-lab/component-tests и запускаются verify-component.mjs в вашем Expo-проекте.",
+            "tg": "Таҷриба рамзест, ки рамзи дигарро месанҷад ва рӯбарӯ хабар медиҳад: гузашт ё не. Барои компоненти мобилӣ ду сатҳ ҳаст. Аввал — функсияҳои соф: decrement(current)-ро бо ҳар рақам даъват карда, ҷавобро бе экран муқоиса мекунанд; ин арзонтарин ва мустаҳкамтарин таҷриба аст. Дуюм — рафтори интерфейс: таҷриба компонентро зери мок-ҳости React Native (jest-expo) мекашад, тугмаҳоро бо fireEvent.press мепахшонад ва матнҳоро муқоиса мекунад. Ин санҷиши дар дастгоҳ нест: мок-хост платформаро таклид мекунад, бинобар ин таҷриба санҷиши мантиқ номида мешавад. Дар ин курс таҷрибаҳо дар content/mobile-lab/component-tests ҳастанд ва тавассути verify-component.mjs дар лоиҳаи Expo-и шумо иҷро мешаванд.",
+            "en": "A test is code that checks other code and reports honestly: passed or not. For a mobile component there are two levels. The first — pure functions: decrement(current) is callable with any numbers and the answer compared without a screen; the cheapest and sturdiest test. The second — interface behavior: the test renders the component under the React Native mock host (jest-expo), presses buttons with fireEvent.press and compares texts. It is not a device check: the mock host imitates the platform, so the test is called a logic check. In this course tests live in content/mobile-lab/component-tests and run through verify-component.mjs in your Expo project."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Функция decrement помечена export — тест импортирует её отдельно от экрана. Правило Math.max(0, current - 1) запретит уход ниже нуля. Тест дня проверяет четыре вызова: 2→1, 1→0, 0→0 и 5→4 — граница нуля покрыта. Экран примера поясняет правило словами; в решении кнопка «Уменьшить» реально вызывает decrement внутри setCount, так что поведение интерфейса и функции совпадают. Запустите тест компонента verify-component.mjs 35 и убедитесь, что намеренно сломанная версия (без Math.max) провалится на decrement(0).",
+            "tg": "Функсияи decrement бо export ишора шудааст — таҷриба онро ҷудо аз экран импорт мекунад. Қоидаи Math.max(0, current - 1) поён рафтанро аз сифр манъ мекунад. Таҷрибаи рӯз чор даъватро месанҷад: 2→1, 1→0, 0→0 ва 5→4 — ҳудуди сифр пӯшонида шудааст. Экрани мисол қоидаро бо калимаҳо мефаҳмонад; дар ҳалл тугмаи «Кам кардан» воқеан decrement-ро дар дохили setCount мехонад, бинобар ин рафтори интерфейс ва функсия мутобиқанд. Таҷрибаи компонентро verify-component.mjs 35 иҷро кунед ва боварӣ ҳосил кунед, ки версияи ошкоро вайроншуда (бе Math.max) дар decrement(0) мекунад.",
+            "en": "The decrement function is marked export — the test imports it separately from the screen. The Math.max(0, current - 1) rule forbids going below zero. The day test checks four calls: 2→1, 1→0, 0→0 and 5→4 — the zero boundary is covered. The example screen states the rule in words; in the solution the «Уменьшить» button really calls decrement inside setCount, so interface behavior and the function match. Run the component test verify-component.mjs 35 and confirm a deliberately broken version (without Math.max) fails on decrement(0)."
+          },
+          "code": "import { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport function decrement(current: number): number {\n  return Math.max(0, current - 1);\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Что проверяет тест</Text>\n      <Text>decrement(2) равен 1, decrement(0) остаётся 0.</Text>\n      <Pressable accessibilityRole=\"button\" onPress={() => {}} style={styles.button}>\n        <Text style={styles.buttonText}>Проверить вручную</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-35-q1",
+          "question": {
+            "ru": "Что делает тест?",
+            "tg": "Таҷриба чӣ мекунад?",
+            "en": "What does a test do?"
+          },
+          "options": [
+            {
+              "ru": "Проверяет код и честно сообщает результат",
+              "tg": "Рамзро месанҷад ва натиҷаро рӯбарӯ хабар медиҳад",
+              "en": "Checks code and reports the result honestly"
+            },
+            {
+              "ru": "Ускоряет приложение",
+              "tg": "Барномаро тез мекунад",
+              "en": "Speeds up the app"
+            },
+            {
+              "ru": "Заменяет запуск на устройстве",
+              "tg": "Иҷрои дар дастгоҳро иваз мекунад",
+              "en": "Replaces a device run"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Тест — это проверка, а не аттестация работы на устройстве.",
+            "tg": "Таҷриба санҷиш аст, на аттестатсияи кори дар дастгоҳ.",
+            "en": "A test is a check, not a device-run attestation."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел определение теста.",
+            "tg": "Дар бахши аввал таърифи таҷрибаро ёбед.",
+            "en": "Find the test definition in the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-35-q2",
+          "question": {
+            "ru": "Почему чистую функцию проверять дешевле?",
+            "tg": "Функсияи софро барои чӣ арзонтар месанҷанд?",
+            "en": "Why is a pure function cheaper to check?"
+          },
+          "options": [
+            {
+              "ru": "Она всегда корректна",
+              "tg": "Он ҳамеша дуруст аст",
+              "en": "It is always correct"
+            },
+            {
+              "ru": "Она проверяется вызовами без экрана и платформы",
+              "tg": "Он бо даъватҳо бе экран ва платформа месанҷанд",
+              "en": "It is checked by calls without a screen or platform"
+            },
+            {
+              "ru": "Она не требует TypeScript",
+              "tg": "Ӯ TypeScript талаб намекунад",
+              "en": "It does not need TypeScript"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Никакого мок-хоста не нужно: вызов и сравнение.",
+            "tg": "Мок-хост лозим нест: даъват ва муқоиса.",
+            "en": "No mock host needed: call and compare."
+          },
+          "hint": {
+            "ru": "Сравните два уровня проверки из первого раздела.",
+            "tg": "Ду сатҳи санҷишро аз бахши аввал муқоиса кунед.",
+            "en": "Compare the two check levels from the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-35-q3",
+          "question": {
+            "ru": "Что имитирует мок-хост jest-expo?",
+            "tg": "Мок-ҳости jest-expо чиро таклид мекунад?",
+            "en": "What does the jest-expo mock host imitate?"
+          },
+          "options": [
+            {
+              "ru": "Сервер",
+              "tg": "Сервер",
+              "en": "A server"
+            },
+            {
+              "ru": "Настоящий телефон со всеми сенсорами",
+              "tg": "Телефони воқеӣ бо ҳамаи сенсорҳо",
+              "en": "A real phone with all sensors"
+            },
+            {
+              "ru": "Платформу React Native для логики компонента",
+              "tg": "Платформаи React Native барои мантиқи компонент",
+              "en": "The React Native platform for component logic"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Поэтому тест называется проверкой логики, а не устройства.",
+            "tg": "Бинобар ин таҷриба санҷиши мантиқ номида мешавад, на дастгоҳ.",
+            "en": "That is why the test is a logic check, not a device one."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова про мок-хост.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи мок-ҳостро ёбед.",
+            "en": "Find the first-section words about the mock host."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-35-q4",
+          "question": {
+            "ru": "Почему тест проверяет decrement(0)?",
+            "tg": "Таҷриба decrement(0)-ро барои чӣ месанҷад?",
+            "en": "Why does the test check decrement(0)?"
+          },
+          "options": [
+            {
+              "ru": "Это граница правила: ноль не должен стать минус одним",
+              "tg": "Ин ҳудуди қоида аст: сифр набояд минус як шавад",
+              "en": "It is the rule boundary: zero must not become minus one"
+            },
+            {
+              "ru": "Так быстрее тест",
+              "tg": "Таҷриба тезтар мешавад",
+              "en": "The test gets faster"
+            },
+            {
+              "ru": "Все тесты обязаны проверять ноль",
+              "tg": "Ҳамаи таҷрибаҳо сифрро месанҷанд, ҳатман",
+              "en": "All tests must check zero"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Границы правил ломаются чаще середины.",
+            "tg": "Ҳудуди қоидаҳо аз миёна бештар вайрон мешаванд.",
+            "en": "Rule boundaries break more often than the middle."
+          },
+          "hint": {
+            "ru": "Посмотрите на список вызовов в тесте дня.",
+            "tg": "Ба рӯйхати даъватҳо дар таҷрибаи рӯз нигоҳ кунед.",
+            "en": "Look at the call list in the day test."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-35-q5",
+          "question": {
+            "ru": "Где живут тесты этого курса?",
+            "tg": "Таҷрибаҳои ин курс дар куҷо ҳастанд?",
+            "en": "Where do the course tests live?"
+          },
+          "options": [
+            {
+              "ru": "В App Store",
+              "tg": "Дар App Store",
+              "en": "In the App Store"
+            },
+            {
+              "ru": "В content/mobile-lab/component-tests",
+              "tg": "Дар content/mobile-lab/component-tests",
+              "en": "In content/mobile-lab/component-tests"
+            },
+            {
+              "ru": "В настройках телефона",
+              "tg": "Дар танзимоти телефон",
+              "en": "In the phone settings"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Запускает их verify-component.mjs в вашем Expo-проекте.",
+            "tg": "Онҳоро verify-component.mjs дар лоиҳаи Expo-и шумо иҷро мекунад.",
+            "en": "verify-component.mjs runs them in your Expo project."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел путь к тестам.",
+            "tg": "Дар бахши аввал роҳи ба таҷрибаҳоро ёбед.",
+            "en": "Find the test path in the first section."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и решение, затем запустите компонентный тест дня через verify-component.mjs 35 в своём Expo-проекте. Временно сломайте decrement, убрав Math.max, и запишите, что тест действительно падает на decrement(0). Верните правило. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисол ва ҳаллро созед, баъд таҷрибаи компонентии рӯзро тавассути verify-component.mjs 35 дар лоиҳаи Expo-и худ иҷро кунед. Муваққатан decrement-ро вайрон кунед, Math.max-ро тарк карда, сабт кунед, ки таҷриба дар decrement(0) воқеан мекунад. Қоидаро баргардонед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and the solution, then run the day component test through verify-component.mjs 35 in your Expo project. Temporarily break decrement by removing Math.max and record that the test really fails on decrement(0). Restore the rule. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Экспорт и правило должны остаться нетронутыми; ломайте только тело на время проверки.",
+          "tg": "Экспорт ва қоида дахалнашаванда бояд мондан; танҳо баданро ҳангоми санҷиш вайрон кунед.",
+          "en": "Keep the export and the rule untouched; break only the body for the check."
+        },
+        "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport function decrement(current: number): number {\n  return Math.max(0, current - 1);\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Что проверяет тест</Text>\n      <Text>Счётчик: {count}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Уменьшить счётчик, но не ниже нуля\"\n        onPress={() => setCount(decrement)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Уменьшить</Text>\n      </Pressable>\n      <Text>decrement(2) равен 1, decrement(0) остаётся 0 — это проверяет тест.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Тест проходит на решении и падает на намеренно сломанной версии.",
+            "tg": "Таҷриба дар ҳалл мегузарад ва дар версияи ошкоро вайроншуда мекунад.",
+            "en": "The test passes on the solution and fails on the deliberately broken version."
+          },
+          {
+            "ru": "Граница нуля покрыта проверкой.",
+            "tg": "Ҳудуди сифр бо санҷиш пӯшонида шудааст.",
+            "en": "The zero boundary is covered by the check."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Различить проверку чистой функции и интерфейса.",
+            "tg": "Санҷиши функсияи соф ва интерфейсро фарқ кунед.",
+            "en": "Tell apart pure-function and interface checks."
+          },
+          {
+            "ru": "Объяснить, что мок-хост не заменяет устройство.",
+            "tg": "Мок-ҳост дастгоҳро иваз намекунад, инро шарҳ диҳед.",
+            "en": "Explain that a mock host does not replace a device."
+          }
+        ],
+        "realWorld": {
+          "ru": "Команда мобильного приложения запускает сотни таких тестов при каждом изменении кода.",
+          "tg": "Гурӯҳи барномаи мобилӣ ҳангоми ҳар тағйири рамз садҳо чунин таҷриба иҷро мекунад.",
+          "en": "A mobile team runs hundreds of such tests on every code change."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Почему чистую функцию проверять дешевле?",
+            "tg": "Функсияи софро барои чӣ арзонтар месанҷанд?",
+            "en": "Why is a pure function cheaper to check?"
+          },
+          "options": [
+            {
+              "ru": "Она всегда корректна",
+              "tg": "Он ҳамеша дуруст аст",
+              "en": "It is always correct"
+            },
+            {
+              "ru": "Она проверяется вызовами без экрана и платформы",
+              "tg": "Он бо даъватҳо бе экран ва платформа месанҷанд",
+              "en": "It is checked by calls without a screen or platform"
+            },
+            {
+              "ru": "Она не требует TypeScript",
+              "tg": "Ӯ TypeScript талаб намекунад",
+              "en": "It does not need TypeScript"
+            }
+          ],
+          "correctIndex": 1,
+          "hint": {
+            "ru": "Сравните два уровня проверки из первого раздела.",
+            "tg": "Ду сатҳи санҷишро аз бахши аввал муқоиса кунед.",
+            "en": "Compare the two check levels from the first section."
+          },
+          "explanation": {
+            "ru": "Никакого мок-хоста не нужно: вызов и сравнение.",
+            "tg": "Мок-хост лозим нест: даъват ва муқоиса.",
+            "en": "No mock host needed: call and compare."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport function decrement(current: number): number {\n  return Math.max(0, current - 1);\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Что проверяет тест</Text>\n      <Text>decrement(2) равен 1, decrement(0) остаётся 0.</Text>\n      <Pressable accessibilityRole=\"button\" onPress={() => {}} style={styles.button}>\n        <Text style={styles.buttonText}>Проверить вручную</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+          "steps": [
+            {
+              "line": 4,
+              "explanation": {
+                "ru": "decrement экспортирован для отдельного теста.",
+                "tg": "decrement барои таҷрибаи ҷудо экспорт шудааст.",
+                "en": "decrement is exported for a separate test."
+              },
+              "values": "export function"
+            },
+            {
+              "line": 5,
+              "explanation": {
+                "ru": "Math.max держит ноль как границу.",
+                "tg": "Math.max сифрро ҳамчун ҳудуд медорад.",
+                "en": "Math.max keeps zero as the boundary."
+              },
+              "values": "max(0, cur-1)"
+            },
+            {
+              "line": 12,
+              "explanation": {
+                "ru": "Экран поясняет правило словами.",
+                "tg": "Экран қоидаро бо калимаҳо мефаҳмонад.",
+                "en": "The screen states the rule in words."
+              },
+              "values": "2→1, 0→0"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Найдите в примере экспортируемую функцию и назовите её правило.",
+              "tg": "Дар мисол функсияи экспортишавандаро ёфта, қоидаашро номбар кунед.",
+              "en": "Find the exported function and name its rule."
+            },
+            {
+              "ru": "Запустите verify-component.mjs 35 и запишите результат.",
+              "tg": "verify-component.mjs 35-ро иҷро карда, натиҷаро сабт кунед.",
+              "en": "Run verify-component.mjs 35 and record the result."
+            }
+          ],
+          "hint": {
+            "ru": "Экспорт и правило должны остаться нетронутыми; ломайте только тело на время проверки.",
+            "tg": "Экспорт ва қоида дахалнашаванда бояд мондан; танҳо баданро ҳангоми санҷиш вайрон кунед.",
+            "en": "Keep the export and the rule untouched; break only the body for the check."
+          },
+          "success": {
+            "ru": "Тест проходит: граница нуля защищена, а интерфейс вызывает ту же функцию.",
+            "tg": "Таҷриба мегузарад: ҳудуди сифр ҳимоя шудааст ва интерфейс ҳамон функсияро мехонад.",
+            "en": "The test passes: the zero boundary holds and the interface calls the same function."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и решение, затем запустите компонентный тест дня через verify-component.mjs 35 в своём Expo-проекте. Временно сломайте decrement, убрав Math.max, и запишите, что тест действительно падает на decrement(0). Верните правило. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисол ва ҳаллро созед, баъд таҷрибаи компонентии рӯзро тавассути verify-component.mjs 35 дар лоиҳаи Expo-и худ иҷро кунед. Муваққатан decrement-ро вайрон кунед, Math.max-ро тарк карда, сабт кунед, ки таҷриба дар decrement(0) воқеан мекунад. Қоидаро баргардонед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and the solution, then run the day component test through verify-component.mjs 35 in your Expo project. Temporarily break decrement by removing Math.max and record that the test really fails on decrement(0). Restore the rule. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Тест проходит на решении и падает на намеренно сломанной версии.",
+              "tg": "Таҷриба дар ҳалл мегузарад ва дар версияи ошкоро вайроншуда мекунад.",
+              "en": "The test passes on the solution and fails on the deliberately broken version."
+            },
+            {
+              "ru": "Граница нуля покрыта проверкой.",
+              "tg": "Ҳудуди сифр бо санҷиш пӯшонида шудааст.",
+              "en": "The zero boundary is covered by the check."
+            }
+          ],
+          "example": {
+            "ru": "Версия без Math.max проваливает decrement(0): тест сообщает об ожидании 0 и результате −1.",
+            "tg": "Версияи бе Math.max decrement(0)-ро мешиканад: таҷриба интизории 0 ва натиҷаи −1-ро хабар медиҳад.",
+            "en": "The version without Math.max fails decrement(0): the test reports expected 0 and got −1."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Тест — честная проверка: логика отдельно, интерфейс под мок-хостом.",
+            "tg": "Таҷриба санҷиши рӯбарӯ аст: мантиқ алоҳида, интерфейс зери мок-ҳост.",
+            "en": "A test is an honest check: logic separately, interface under the mock host."
+          },
+          {
+            "ru": "Границы правил проверяют первыми.",
+            "tg": "Ҳудуди қоидаҳоро аввал месанҷанд.",
+            "en": "Rule boundaries are checked first."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Что имитирует мок-хост jest-expo?",
+            "tg": "Мок-ҳости jest-expо чиро таклид мекунад?",
+            "en": "What does the jest-expo mock host imitate?"
+          },
+          {
+            "ru": "Почему тест проверяет decrement(0)?",
+            "tg": "Таҷриба decrement(0)-ро барои чӣ месанҷад?",
+            "en": "Why does the test check decrement(0)?"
+          }
+        ],
+        "nextLessonId": "mobile-day-36"
+      }
+    },
+    {
+      "id": "mobile-day-36",
+      "day": 36,
+      "prerequisiteDays": [
+        35
+      ],
+      "title": {
+        "ru": "Тест пользовательского сценария",
+        "tg": "Таҷрибаи сенарияи корбар",
+        "en": "Testing a user scenario"
+      },
+      "summary": {
+        "ru": "Проверьте путь пользователя целиком: шаги, отметки и заметки между ними.",
+        "tg": "Роҳи корбарро тамоман месанҷед: қадамҳо, аломатгузорӣ ва қайдҳои миёна.",
+        "en": "Check the whole user path: steps, marks and notes in between."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Сценарий вместо набора кнопок",
+            "tg": "Сенария ба ҷои маҷмӯи тугмаҳо",
+            "en": "A scenario instead of a button pile"
+          },
+          "body": {
+            "ru": "Отдельные тесты компонентов не отвечают на главный вопрос: работает ли путь пользователя целиком. Сценарий — последовательность шагов от открытия приложения до результата: «открыть список → добавить занятие → открыть подробности → вернуться без потери ввода». Сценарный тест фиксирует каждый шаг: в этом курсе — на устройстве, с отметками в компоненте-чеклисте и записью наблюдений. Автоматизировать сценарий интерфейса можно инструментами вроде Maestro или Detox, но это отдельная инфраструктура; Beginner-курс учит мыслить шагами и фиксировать результат честно, не выдавая ручную проверку за автоматическую.",
+            "tg": "Таҷрибаҳои ҷудогонаи компонентҳо ба саволи асосӣ ҷавоб намедиҳанд: оё роҳи корбар тамоман кор мекунад? Сенария — пайиҳамии қадамҳо аз кушодани барнома то натиҷа: «кушодани рӯйхат → илова кардани машғулият → кушодани тафсилот → баргашт бе гум шудани вурӯд». Таҷрибаи сенариавӣ ҳар қадамро сабт мекунад: дар ин курс — дар дастгоҳ, бо аломатгузорӣ дар компоненти чеклист ва сабти мушоҳидаҳо. Худкурондани сенарияи интерфейс бо абзорҳои монанди Maestro ё Detox мумкин аст, вале ин зерсохти алоҳида аст; курси Beginner фикронидан бо қадамҳо ва сабти рӯбарӯи натиҷаро меомӯзад, бе он ки санҷиши дастиро ҳамчун худкор пешкаш кунад.",
+            "en": "Separate component tests do not answer the main question: does the user path work as a whole? A scenario is a sequence of steps from opening the app to a result: \"open the list → add a lesson → open details → return without losing input\". A scenario test records every step: in this course — on a device, with marks in a checklist component and recorded observations. Automating interface scenarios with tools like Maestro or Detox is possible, but that is separate infrastructure; the Beginner course teaches thinking in steps and recording the result honestly, without presenting a manual check as automated."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Массив initialSteps описывает четыре шага сценария с уникальными id. Нажатие на шаг отмечает его через map с копированием объекта — прошлые шаги не теряются. Поле заметки живёт между шагами: его текст сохраняется, пока экран смонтирован. В решении добавлена функция allDone — чистая проверка, что все шаги отмечены, и строка «Сценарий пройден полностью». Пройдите сценарий на устройстве против своего приложения из дней 23 и 30: каждый шаг сценария должен совпасть с реальным поведением. Запишите, где сценарий и приложение разошлись — это и есть результат теста.",
+            "tg": "Массиви initialSteps чор қадами сенарияро бо id-ҳои ягона тавсиф медиҳад. Пахши қадам онро тавассути map бо нусхабардории объект аломат мекунад — қадамҳои гузашта гум намешаванд. Майдони қайд байни қадамҳо зиндагӣ мекунад: матнаш то монтаҷ будани экран мемонад. Дар ҳалл функсияи allDone илова шудааст — санҷиши софи он ки ҳамаи қадамҳо аломат шуданд ва сатри «Сенария пурра гузашт». Сенарияро дар дастгоҳ муқобили барномаи худ аз рӯзҳои 23 ва 30 гузаронед: ҳар қадами сенария бояд ба рафтори воқеӣ мутобиқ ояд. Сабт кунед, ки сенария ва барнома дар куҷо фарқ карданд — ин натиҷаи таҷриба аст.",
+            "en": "The initialSteps array describes four scenario steps with unique ids. Pressing a step marks it through a map with object copying — earlier steps survive. The note field lives between steps: its text stays while the screen is mounted. The solution adds the allDone function — a pure check that every step is marked — and the «Сценарий пройден полностью» line. Walk the scenario on a device against your app from days 23 and 30: every scenario step must match the real behavior. Record where the scenario and the app diverged — that is the test result."
+          },
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Step = { id: string; label: string; done: boolean };\n\nconst initialSteps: Step[] = [\n  { id: 's1', label: 'Открыть список', done: false },\n  { id: 's2', label: 'Добавить занятие', done: false },\n  { id: 's3', label: 'Открыть подробности', done: false },\n  { id: 's4', label: 'Вернуться без потери ввода', done: false },\n];\n\nexport default function App() {\n  const [steps, setSteps] = useState<Step[]>(initialSteps);\n  const [note, setNote] = useState('');\n\n  function mark(id: string) {\n    setSteps(current => current.map(step => (step.id === id ? { ...step, done: true } : step)));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Сценарий проверки</Text>\n      {steps.map(step => (\n        <Pressable\n          key={step.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`Шаг: ${step.label}. Отметить выполненным`}\n          onPress={() => mark(step.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text>{step.done ? '✔' : '☐'} {step.label}</Text>\n        </Pressable>\n      ))}\n      <TextInput\n        value={note}\n        onChangeText={setNote}\n        placeholder=\"Заметка между шагами\"\n        style={styles.input}\n      />\n      <Text>Отметьте шаги по мере прохождения сценария на устройстве.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  pressed: { opacity: 0.6 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-36-q1",
+          "question": {
+            "ru": "Что проверяет сценарный тест, чего не видно в тестах компонентов?",
+            "tg": "Таҷрибаи сенариавӣ чиро месанҷад, ки дар таҷрибаҳои компонент дида намешавад?",
+            "en": "What does a scenario test check that component tests miss?"
+          },
+          "options": [
+            {
+              "ru": "Скорость рендера",
+              "tg": "Суръати render",
+              "en": "Render speed"
+            },
+            {
+              "ru": "Работу пути пользователя целиком",
+              "tg": "Кори тамоми роҳи корбарро",
+              "en": "The whole user path working"
+            },
+            {
+              "ru": "Цвет кнопок",
+              "tg": "Ранги тугмаҳо",
+              "en": "Button colors"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Шаги связаны: сбой на границе шагов видно только сценарием.",
+            "tg": "Қадамҳо пайвастанд: хато дар ҳудуди қадамҳоро танҳо сенария мебинад.",
+            "en": "Steps connect: failures at step boundaries only show in a scenario."
+          },
+          "hint": {
+            "ru": "Перечитайте первое предложение первого раздела.",
+            "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+            "en": "Re-read the first sentence of the first section."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-36-q2",
+          "question": {
+            "ru": "Как выглядит честная запись сценарного теста?",
+            "tg": "Сабти рӯбарӯи таҷрибаи сенариавӣ чӣ гуна аст?",
+            "en": "What does an honest scenario record look like?"
+          },
+          "options": [
+            {
+              "ru": "Скриншот чужого приложения",
+              "tg": "Скриншоти барномаи дигарон",
+              "en": "A screenshot of someone else app"
+            },
+            {
+              "ru": "Автоматическая галочка без запуска",
+              "tg": "Аломати худкор бе иҷро",
+              "en": "An automated checkmark without a run"
+            },
+            {
+              "ru": "Каждый шаг отмечен на устройстве с наблюдениями",
+              "tg": "Ҳар қадам дар дастгоҳ аломат карда, бо мушоҳидаҳо сабт мешавад",
+              "en": "Every step marked on a device with observations"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Ручная проверка так и остаётся ручной — честно подписанной.",
+            "tg": "Санҷиши дастӣ дастӣ мемонад — бо имзои рӯбарӯ.",
+            "en": "A manual check stays manual — honestly labeled."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова про автоматизацию.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи худкурониро ёбед.",
+            "en": "Find the first-section words about automation."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-36-q3",
+          "question": {
+            "ru": "Что делает mark в примере?",
+            "tg": "mark дар мисол чӣ мекунад?",
+            "en": "What does mark do in the example?"
+          },
+          "options": [
+            {
+              "ru": "Отмечает один шаг, копируя объект с новым done",
+              "tg": "Як қадамро аломат мекунад, объектро бо done-и нав нусхабардорӣ мекунад",
+              "en": "Marks one step, copying the object with a new done"
+            },
+            {
+              "ru": "Удаляет шаг из списка",
+              "tg": "Қадамро аз рӯйхат нест мекунад",
+              "en": "Removes the step from the list"
+            },
+            {
+              "ru": "Очищает заметку",
+              "tg": "Қайдро тоза мекунад",
+              "en": "Clears the note"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Иммутабельное обновление сохраняет остальные шаги.",
+            "tg": "Навсозии тағйирнопазир боқимондаро нигоҳ медорад.",
+            "en": "The immutable update keeps the other steps."
+          },
+          "hint": {
+            "ru": "Найдите map внутри mark.",
+            "tg": "map-ро дар дохили mark ёбед.",
+            "en": "Find the map inside mark."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-36-q4",
+          "question": {
+            "ru": "Зачем заметка между шагами?",
+            "tg": "Қайд байни қадамҳо барои чист?",
+            "en": "What is the between-steps note for?"
+          },
+          "options": [
+            {
+              "ru": "Она ускоряет сценарий",
+              "tg": "Он сенарияро тез мекунад",
+              "en": "It speeds up the scenario"
+            },
+            {
+              "ru": "Она показывает, что ввод живёт при переходах по сценарию",
+              "tg": "Он нишон медиҳад, ки вурӯд ҳангоми гузаришҳои сенария зинда аст",
+              "en": "It shows input survives scenario transitions"
+            },
+            {
+              "ru": "Она шифрует результаты",
+              "tg": "Он натиҷаҳоро рамзгузорӣ мекунад",
+              "en": "It encrypts results"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Потеря ввода на границе шагов — частый сценарный баг.",
+            "tg": "Гум шудани вурӯд дар ҳудуди қадамҳо хатои маъмулии сенариавист.",
+            "en": "Input loss at step boundaries is a common scenario bug."
+          },
+          "hint": {
+            "ru": "Сравните с днём 20 про черновик и стек.",
+            "tg": "Бо рӯзи 20 дар бораи лоиҳа ва стек муқоиса кунед.",
+            "en": "Compare with day 20 about the draft and stack."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-36-q5",
+          "question": {
+            "ru": "Что делает allDone в решении?",
+            "tg": "allDone дар ҳалл чӣ мекунад?",
+            "en": "What does allDone do in the solution?"
+          },
+          "options": [
+            {
+              "ru": "Сохраняет заметку",
+              "tg": "Қайдро нигоҳ медорад",
+              "en": "Saves the note"
+            },
+            {
+              "ru": "Сбрасывает сценарий",
+              "tg": "Сенарияро аз нав оғоз мекунад",
+              "en": "Resets the scenario"
+            },
+            {
+              "ru": "Возвращает true, когда все шаги отмечены",
+              "tg": "Ҳангоми аломат шудани ҳамаи қадамҳо true бармегардонад",
+              "en": "Returns true when every step is marked"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Завершение сценария — тоже состояние, которое видно пользователю.",
+            "tg": "Тамом шудани сенария ҳам ҳолатест, ки корбар мебинад.",
+            "en": "Scenario completion is also a state the user sees."
+          },
+          "hint": {
+            "ru": "Найдите строку успеха в решении.",
+            "tg": "Сатри муваффақиятро дар ҳалл ёбед.",
+            "en": "Find the success line in the solution."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Соберите пример и отметьте шаги на устройстве. Соберите решение с allDone и строкой завершения. Пройдите сценарий против своего приложения из дня 23 и запишите дословно, где поведение разошлось со сценарием. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Мисолро созед ва қадамҳоро дар дастгоҳ аломат кунед. Ҳаллро бо allDone ва сатри тамомшавӣ созед. Сенарияро муқобили барномаи худ аз рӯзи 23 гузаронида, калима ба калима сабт кунед, ки рафтор дар куҷо аз сенария фарқ кард. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Build the example and mark the steps on a device. Build the solution with allDone and the completion line. Walk the scenario against your day-23 app and record verbatim where behavior diverged from the scenario. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Сценарий из дня 23: список → добавить → сохранить → открыть → назад; сверьте каждый шаг.",
+          "tg": "Сенария аз рӯзи 23: рӯйхат → илова → нигоҳдорӣ → кушодан → ба ақиб; ҳар қадамро муқоиса кунед.",
+          "en": "The day-23 scenario: list → add → save → open → back; match every step."
+        },
+        "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Step = { id: string; label: string; done: boolean };\n\nconst initialSteps: Step[] = [\n  { id: 's1', label: 'Открыть список', done: false },\n  { id: 's2', label: 'Добавить занятие', done: false },\n  { id: 's3', label: 'Открыть подробности', done: false },\n  { id: 's4', label: 'Вернуться без потери ввода', done: false },\n];\n\nexport function allDone(steps: Step[]): boolean {\n  return steps.every(step => step.done);\n}\n\nexport default function App() {\n  const [steps, setSteps] = useState<Step[]>(initialSteps);\n  const [note, setNote] = useState('');\n\n  function mark(id: string) {\n    setSteps(current => current.map(step => (step.id === id ? { ...step, done: true } : step)));\n  }\n\n  const complete = allDone(steps);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Сценарий проверки</Text>\n      {steps.map(step => (\n        <Pressable\n          key={step.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`Шаг: ${step.label}. Отметить выполненным`}\n          onPress={() => mark(step.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text>{step.done ? '✔' : '☐'} {step.label}</Text>\n        </Pressable>\n      ))}\n      <TextInput\n        value={note}\n        onChangeText={setNote}\n        placeholder=\"Заметка между шагами\"\n        style={styles.input}\n      />\n      {complete ? <Text>Сценарий пройден полностью. Запишите результаты.</Text> : null}\n      <Text>Отметьте шаги по мере прохождения сценария на устройстве.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  pressed: { opacity: 0.6 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+        "criteria": [
+          {
+            "ru": "Все шаги сценария отмечены на устройстве.",
+            "tg": "Ҳамаи қадамҳои сенария дар дастгоҳ аломат шуданд.",
+            "en": "All scenario steps are marked on a device."
+          },
+          {
+            "ru": "Расхождения со сценарием записаны, если были.",
+            "tg": "Агар бошанд, фарқҳо аз сенария сабт шудаанд.",
+            "en": "Divergences from the scenario are recorded, if any."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Записать сценарий из шагов и пройти его на устройстве.",
+            "tg": "Сенарияро аз қадамҳо нависед ва дар дастгоҳ гузаронед.",
+            "en": "Write a step scenario and walk it on a device."
+          },
+          {
+            "ru": "Честно отделить ручную проверку от автоматической.",
+            "tg": "Санҷиши дастӣро аз худкорӣ рӯбарӯ ҷудо кунед.",
+            "en": "Honestly separate manual checking from automated."
+          }
+        ],
+        "realWorld": {
+          "ru": "Перед выпуском обновления QA-инженер проходит сценарий покупки от открытия до чека.",
+          "tg": "Пеш аз нашри навсозӣ муҳандиси QA сенарияи харидро аз кушодан то чек мегузарад.",
+          "en": "Before a release a QA engineer walks the purchase scenario from opening to the receipt."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Как выглядит честная запись сценарного теста?",
+            "tg": "Сабти рӯбарӯи таҷрибаи сенариавӣ чӣ гуна аст?",
+            "en": "What does an honest scenario record look like?"
+          },
+          "options": [
+            {
+              "ru": "Скриншот чужого приложения",
+              "tg": "Скриншоти барномаи дигарон",
+              "en": "A screenshot of someone else app"
+            },
+            {
+              "ru": "Автоматическая галочка без запуска",
+              "tg": "Аломати худкор бе иҷро",
+              "en": "An automated checkmark without a run"
+            },
+            {
+              "ru": "Каждый шаг отмечен на устройстве с наблюдениями",
+              "tg": "Ҳар қадам дар дастгоҳ аломат карда, бо мушоҳидаҳо сабт мешавад",
+              "en": "Every step marked on a device with observations"
+            }
+          ],
+          "correctIndex": 2,
+          "hint": {
+            "ru": "Найдите в первом раздел слова про автоматизацию.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи худкурониро ёбед.",
+            "en": "Find the first-section words about automation."
+          },
+          "explanation": {
+            "ru": "Ручная проверка так и остаётся ручной — честно подписанной.",
+            "tg": "Санҷиши дастӣ дастӣ мемонад — бо имзои рӯбарӯ.",
+            "en": "A manual check stays manual — honestly labeled."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Step = { id: string; label: string; done: boolean };\n\nconst initialSteps: Step[] = [\n  { id: 's1', label: 'Открыть список', done: false },\n  { id: 's2', label: 'Добавить занятие', done: false },\n  { id: 's3', label: 'Открыть подробности', done: false },\n  { id: 's4', label: 'Вернуться без потери ввода', done: false },\n];\n\nexport default function App() {\n  const [steps, setSteps] = useState<Step[]>(initialSteps);\n  const [note, setNote] = useState('');\n\n  function mark(id: string) {\n    setSteps(current => current.map(step => (step.id === id ? { ...step, done: true } : step)));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Сценарий проверки</Text>\n      {steps.map(step => (\n        <Pressable\n          key={step.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`Шаг: ${step.label}. Отметить выполненным`}\n          onPress={() => mark(step.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text>{step.done ? '✔' : '☐'} {step.label}</Text>\n        </Pressable>\n      ))}\n      <TextInput\n        value={note}\n        onChangeText={setNote}\n        placeholder=\"Заметка между шагами\"\n        style={styles.input}\n      />\n      <Text>Отметьте шаги по мере прохождения сценария на устройстве.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  pressed: { opacity: 0.6 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+          "steps": [
+            {
+              "line": 7,
+              "explanation": {
+                "ru": "Четыре шага описывают путь пользователя.",
+                "tg": "Чор қадам роҳи корбарро тавсиф медиҳанд.",
+                "en": "Four steps describe the user path."
+              },
+              "values": "list → add → details → back"
+            },
+            {
+              "line": 19,
+              "explanation": {
+                "ru": "Отметка шага копирует объект с done: true.",
+                "tg": "Аломати қадам объектро бо done: true нусхабардорӣ мекунад.",
+                "en": "Marking a step copies the object with done: true."
+              },
+              "values": "step.done"
+            },
+            {
+              "line": 28,
+              "explanation": {
+                "ru": "Заметка живёт между шагами сценария.",
+                "tg": "Қайд байни қадамҳои сенария зиндагӣ мекунад.",
+                "en": "The note lives between scenario steps."
+              },
+              "values": "note persists"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Отметьте первый шаг и убедитесь, что остальные не изменились.",
+              "tg": "Қадами аввалро аломат карда, боварӣ ҳосил кунед, ки боқимонда тағйир наёфтанд.",
+              "en": "Mark the first step and confirm the others did not change."
+            },
+            {
+              "ru": "Пройдите все четыре шага против приложения из дня 23 и запишите расхождения.",
+              "tg": "Ҳамаи чор қадамро муқобили барномаи рӯзи 23 гузаронида, фарқҳоро сабт кунед.",
+              "en": "Walk all four steps against the day-23 app and record the divergences."
+            }
+          ],
+          "hint": {
+            "ru": "Сценарий из дня 23: список → добавить → сохранить → открыть → назад; сверьте каждый шаг.",
+            "tg": "Сенария аз рӯзи 23: рӯйхат → илова → нигоҳдорӣ → кушодан → ба ақиб; ҳар қадамро муқоиса кунед.",
+            "en": "The day-23 scenario: list → add → save → open → back; match every step."
+          },
+          "success": {
+            "ru": "Все шаги отмечены, заметка не потерялась, расхождения записаны словами.",
+            "tg": "Ҳамаи қадамҳо аломат шуданд, қайд гум нашуд ва фарқҳо бо калимаҳо сабт шуданд.",
+            "en": "All steps are marked, the note survived and divergences are recorded in words."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Соберите пример и отметьте шаги на устройстве. Соберите решение с allDone и строкой завершения. Пройдите сценарий против своего приложения из дня 23 и запишите дословно, где поведение разошлось со сценарием. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Мисолро созед ва қадамҳоро дар дастгоҳ аломат кунед. Ҳаллро бо allDone ва сатри тамомшавӣ созед. Сенарияро муқобили барномаи худ аз рӯзи 23 гузаронида, калима ба калима сабт кунед, ки рафтор дар куҷо аз сенария фарқ кард. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Build the example and mark the steps on a device. Build the solution with allDone and the completion line. Walk the scenario against your day-23 app and record verbatim where behavior diverged from the scenario. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Все шаги сценария отмечены на устройстве.",
+              "tg": "Ҳамаи қадамҳои сенария дар дастгоҳ аломат шуданд.",
+              "en": "All scenario steps are marked on a device."
+            },
+            {
+              "ru": "Расхождения со сценарием записаны, если были.",
+              "tg": "Агар бошанд, фарқҳо аз сенария сабт шудаанд.",
+              "en": "Divergences from the scenario are recorded, if any."
+            }
+          ],
+          "example": {
+            "ru": "После четвёртого шага появляется строка «Сценарий пройден полностью».",
+            "tg": "Баъди қадами чорум сатри «Сенария пурра гузашт» пайдо мешавад.",
+            "en": "After the fourth step the «Сценарий пройден полностью» line appears."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Сценарий проверяет путь целиком, включая границы шагов.",
+            "tg": "Сенария роҳро тамоман месанҷад, аз ҷумла ҳудуди қадамҳоро.",
+            "en": "A scenario checks the whole path, including step boundaries."
+          },
+          {
+            "ru": "Ручная проверка остаётся ручной и подписывается честно.",
+            "tg": "Санҷиши дастӣ дастӣ мемонад ва рӯбарӯ имзо мешавад.",
+            "en": "A manual check stays manual and is labeled honestly."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Как выглядит честная запись сценарного теста?",
+            "tg": "Сабти рӯбарӯи таҷрибаи сенариавӣ чӣ гуна аст?",
+            "en": "What does an honest scenario record look like?"
+          },
+          {
+            "ru": "Что делает allDone в решении?",
+            "tg": "allDone дар ҳалл чӣ мекунад?",
+            "en": "What does allDone do in the solution?"
+          }
+        ],
+        "nextLessonId": "mobile-day-37"
+      }
+    },
+    {
+      "id": "mobile-day-37",
+      "day": 37,
+      "prerequisiteDays": [
+        36
+      ],
+      "title": {
+        "ru": "Проверка устройства и границы сборки",
+        "tg": "Санҷиши дастгоҳ ва ҳудуди сохтмон",
+        "en": "Device checks and build limits"
+      },
+      "summary": {
+        "ru": "Пройдите чек-лист проверки на устройстве и честно зафиксируйте, чего он не проверяет.",
+        "tg": "Чеклисти санҷиши дар дастгоҳро гузаронида, рӯбарӯ сабт кунед, ки чиро месанҷад.",
+        "en": "Walk the device checklist and record honestly what it does not check."
+      },
+      "level": "beginner",
+      "sourceIds": [
+        "mobile-docs",
+        "expo-docs"
+      ],
+      "sections": [
+        {
+          "title": {
+            "ru": "Чек-лист и его границы",
+            "tg": "Чеклист ва ҳудуди ӯ",
+            "en": "The checklist and its borders"
+          },
+          "body": {
+            "ru": "Итог модуля качества — список проверок, которые выполняются на устройстве: экран открывается через Expo Go, клавиатура не закрывает форму, диктор читает подписи, крупный шрифт не обрезает текст. Каждая проверка формулируется так, чтобы её можно было повторить: команда запуска, шаги, ожидаемый результат. Честность требует границ: чек-лист не проверяет сборку APK или IPA, поведение в оффлайн-упаковке и работу на разных версиях операционной системы — для этого нужны настоящие сборки и устройства, которых в курсе нет. Отметка в чек-листе — Self Reviewed: вы сами выполнили шаги и сами отвечаете за результат.",
+            "tg": "Натиҷаи модули сифат — рӯйхати санҷишҳое, ки дар дастгоҳ иҷро мешаванд: экран тавассути Expo Go кушода мешавад, клавиатура шаклро намепӯшонад, хонанда матнҳоро мехонад, ҳуруфи калон матнро намебурад. Ҳар санҷиш чунин навишта мешавад, ки такрор кардан мумкин бошад: фармони оғоз, қадамҳо, натиҷаи интизорӣ. Рӯбарӣ ҳудудро талаб мекунад: чеклист сохтмони APK ё IPA, рафтор дар бастаи оффлайн ва кор дар версияҳои гуногуни система]-ро месанҷад — барои ин сохтмонҳои воқеӣ ва дастгоҳҳо лозим, ки дар курс нестанд. Аломата дар чеклист — Self Reviewed: шумо худ қадамҳоро иҷро кардед ва худ барои натиҷа ҷавобгаред.",
+            "en": "The quality module outcome is a list of checks performed on a device: the screen opens through Expo Go, the keyboard does not cover the form, the reader reads the labels, a large font does not clip text. Every check is phrased so it can be repeated: the start command, the steps, the expected result. Honesty demands borders: the checklist does not check an APK or IPA build, offline-package behavior or different OS versions — real builds and devices are needed, which the course lacks. A checklist mark is Self Reviewed: you performed the steps yourself and answer for the result yourself."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пошаговый разбор",
+            "tg": "Шарҳи қадам ба қадам",
+            "en": "Step-by-step walkthrough"
+          },
+          "body": {
+            "ru": "Массив checks описывает четыре проверки: что проверяем и как именно. Пример — справочник: он показывает формулировки, но ничего не отмечает. Решение превращает справочник в рабочий чек-лист: нажатие отмечает проверку passed и добавляет запись с датой в результаты. Каждая отметка — ваше личное выполнение шага на устройстве, даты делают запись воспроизводимой. Красная строка внизу напоминает о границе: отметки не равны сборке APK. Пройдите все четыре проверки на своём устройстве и сохраните отчёт — он пригодится в модуле проекта.",
+            "tg": "Массиви checks чор санҷишро тавсиф медиҳад: чиро месанҷем ва чӣ тавр. Мисол маълумнома аст: формулировкаҳоро нишон медиҳад, вале ҳеҷ чизро аломат намекунад. Ҳалл маълумномаро ба чеклисти корӣ табдил медиҳад: пахш санҷишро бо passed аломат карда, сабт бо сана ба натиҷаҳо илова мекунад. Ҳар аломат иҷрои шахсии шумо аст, санаҳо сабтро такроршаванда мекунанд. Сатри сурх дар поён ҳудудро ёдовар мешавад: аломатҳо ба сохтмони APK баробар нестанд. Ҳамаи чор санҷишро дар дастгоҳи худ гузаронида, ҳисоботро нигоҳ доред — дар модули лоиҳа лозим мешавад.",
+            "en": "The checks array describes four checks: what we check and how. The example is a reference: it shows the wording but marks nothing. The solution turns the reference into a working checklist: a press marks the check passed and appends a dated entry to the results. Every mark is your personal execution of the step on a device; dates make the record reproducible. The red line at the bottom reminds of the border: marks do not equal an APK build. Walk all four checks on your device and keep the report — the project module will need it."
+          },
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Check = { id: string; label: string; how: string };\n\nconst checks: Check[] = [\n  { id: 'c1', label: 'Экран открывается на устройстве', how: 'npx expo start и Expo Go' },\n  { id: 'c2', label: 'Клавиатура не закрывает поля', how: 'открыть форму и печатать' },\n  { id: 'c3', label: 'Диктор читает подписи', how: 'включить TalkBack или VoiceOver' },\n  { id: 'c4', label: 'Крупный шрифт не обрезается', how: 'увеличить системный шрифт' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка устройства</Text>\n      {checks.map(check => (\n        <View key={check.id} style={styles.row}>\n          <Text style={styles.label}>{check.label}</Text>\n          <Text style={styles.how}>Как проверить: {check.how}</Text>\n        </View>\n      ))}\n      <Text style={styles.note}>\n        Сборка APK и запуск на реальной сборке — отдельная задача; этот список не заменяет её.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  label: { fontSize: 16, fontWeight: '600' },\n  how: { fontSize: 14, color: '#475569' },\n  note: { fontSize: 13, color: '#b91c1c' },\n});\n",
+          "language": "tsx"
+        }
+      ],
+      "questions": [
+        {
+          "id": "mobile-day-37-q1",
+          "question": {
+            "ru": "Что делает проверку повторяемой?",
+            "tg": "Санҷишро чӣ такроршаванда мекунад?",
+            "en": "What makes a check repeatable?"
+          },
+          "options": [
+            {
+              "ru": "Название устройства",
+              "tg": "Номи дастгоҳ",
+              "en": "The device name"
+            },
+            {
+              "ru": "Скриншот результата",
+              "tg": "Скриншоти натиҷа",
+              "en": "A screenshot of the result"
+            },
+            {
+              "ru": "Команда запуска, шаги и ожидаемый результат",
+              "tg": "Фармони оғоз, қадамҳо ва натиҷаи интизорӣ",
+              "en": "The start command, steps and expected result"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Другой человек по записи сможет повторить ваши шаги.",
+            "tg": "Дигар кас аз рӯи сабт қадамҳои шуморо такрор карда метавонад.",
+            "en": "Another person can repeat your steps from the record."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова о формулировке проверки.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи навишти санҷишро ёбед.",
+            "en": "Find the first-section words about check wording."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-37-q2",
+          "question": {
+            "ru": "Чего чек-лист этого курса не проверяет?",
+            "tg": "Чеклисти ин курс чиро месанҷад?",
+            "en": "What does this course checklist not check?"
+          },
+          "options": [
+            {
+              "ru": "Сборку APK/IPA и поведение в оффлайн-упаковке",
+              "tg": "Сохтмони APK/IPA ва рафтор дар бастаи оффлайн",
+              "en": "An APK/IPA build and offline-package behavior"
+            },
+            {
+              "ru": "Экран при открытии через Expo Go",
+              "tg": "Экранро ҳангоми кушодан тавассути Expo Go",
+              "en": "The screen opening via Expo Go"
+            },
+            {
+              "ru": "Диктора на устройстве",
+              "tg": "Хонандаро дар дастгоҳ",
+              "en": "The reader on a device"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Для сборок нужны настоящие инструменты и сертификаты.",
+            "tg": "Барои сохтмон абзорҳои воқеӣ ва сертификатҳо лозиманд.",
+            "en": "Builds need real tools and certificates."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова про APK и IPA.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи APK ва IPA-ро ёбед.",
+            "en": "Find the first-section words about APK and IPA."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-37-q3",
+          "question": {
+            "ru": "Какой статус у отметки в чек-листе?",
+            "tg": "Аломата дар чеклист кадом статус дорад?",
+            "en": "What status does a checklist mark have?"
+          },
+          "options": [
+            {
+              "ru": "Auto Verified сервером",
+              "tg": "Auto Verified аз тарафи сервер",
+              "en": "Auto Verified by a server"
+            },
+            {
+              "ru": "Self Reviewed — проверил сам",
+              "tg": "Self Reviewed — худ санҷидам",
+              "en": "Self Reviewed — checked by myself"
+            },
+            {
+              "ru": "Сертификат платформы",
+              "tg": "Сертификати платформа",
+              "en": "A platform certificate"
+            }
+          ],
+          "correctIndex": 1,
+          "answer": {
+            "ru": "Вы сами выполнили шаги и отвечаете за результат.",
+            "tg": "Шумо худ қадамҳоро иҷро кардед ва барои натиҷа ҷавобгаред.",
+            "en": "You performed the steps yourself and answer for the result."
+          },
+          "hint": {
+            "ru": "Найдите в первом раздел слова о честности.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи рӯбариро ёбед.",
+            "en": "Find the first-section words about honesty."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-37-q4",
+          "question": {
+            "ru": "Зачем запись с датой в решении?",
+            "tg": "Сабти бо сана дар ҳалл барои чист?",
+            "en": "What is the dated record in the solution for?"
+          },
+          "options": [
+            {
+              "ru": "Чтобы скрыть старые проверки",
+              "tg": "То санҷишҳои кӯҳна маҳкум шаванд",
+              "en": "To hide old checks"
+            },
+            {
+              "ru": "Чтобы ускорить отметку",
+              "tg": "То аломатгузорӣ тез шавад",
+              "en": "To speed up marking"
+            },
+            {
+              "ru": "Чтобы результаты были воспроизводимы во времени",
+              "tg": "То натиҷаҳо дар вақт такроршаванда бошанд",
+              "en": "So results are reproducible over time"
+            }
+          ],
+          "correctIndex": 2,
+          "answer": {
+            "ru": "Отчёт с датами можно сравнить с результатами следующего дня.",
+            "tg": "Ҳисоботи бо санаҳоро бо натиҷаҳои рӯзи оянда муқоиса кардан мумкин.",
+            "en": "A dated report can be compared with the next check results."
+          },
+          "hint": {
+            "ru": "Посмотрите на setResults в решении.",
+            "tg": "Ба setResults дар ҳалл нигоҳ кунед.",
+            "en": "Look at setResults in the solution."
+          },
+          "relatedSection": 1
+        },
+        {
+          "id": "mobile-day-37-q5",
+          "question": {
+            "ru": "Куда пойдёт этот отчёт дальше?",
+            "tg": "Ин ҳисобот минбаъд ба куҷо меравад?",
+            "en": "Where does this report go next?"
+          },
+          "options": [
+            {
+              "ru": "В модуль итогового проекта",
+              "tg": "Ба модули лоиҳаи ниҳоӣ",
+              "en": "Into the final project module"
+            },
+            {
+              "ru": "В App Store",
+              "tg": "Ба App Store",
+              "en": "To the App Store"
+            },
+            {
+              "ru": "Никуда, он не нужен",
+              "tg": "Ҳеҷ ҷо, лозим нест",
+              "en": "Nowhere, it is unneeded"
+            }
+          ],
+          "correctIndex": 0,
+          "answer": {
+            "ru": "Капstone использует ваши проверки как основу отчёта о качестве.",
+            "tg": "Капстон санҷишҳои шуморо ҳамчун асоси ҳисоботи сифат истифода мебарад.",
+            "en": "The capstone uses your checks as the basis of the quality report."
+          },
+          "hint": {
+            "ru": "Найдите в разбор слова про модуль проекта.",
+            "tg": "Дар шарҳ калимаҳои дар бораи модули лоиҳаро ёбед.",
+            "en": "Find the walkthrough words about the project module."
+          },
+          "relatedSection": 1
+        }
+      ],
+      "practice": {
+        "kind": "code",
+        "task": {
+          "ru": "Пройдите все четыре проверки чек-листа на своём устройстве и отметьте их в решении. Добавьте пятую проверку из своего модуля: например, поворот экрана, и запишите способ её повторения. В отчёте отдельным разделом перечислите, что чек-лист не проверяет. Это самостоятельная проверка, не автоматическая аттестация.",
+          "tg": "Ҳамаи чор санҷиши чеклистро дар дастгоҳи худ гузаронида, дар ҳалл аломат кунед. Санҷиши панҷумро аз модули худ илова кунед: масалан, гардиши экран ва тарзи такрорашро сабт кунед. Дар ҳисобот бо бахши алоҳида номбар кунед, ки чеклист чиро месанҷад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+          "en": "Walk all four checklist checks on your device and mark them in the solution. Add a fifth check from your own module: for example screen rotation, and record its repeat method. In the report list separately what the checklist does not check. This is self-review, not automated attestation."
+        },
+        "hint": {
+          "ru": "Пятая проверка повторяет структуру: label, how, passed — и попадает в map без изменений кода.",
+          "tg": "Санҷиши панҷум сохторро такрор мекунад: label, how, passed — ва бе тағйири рамз ба map даромадааст.",
+          "en": "The fifth check repeats the structure: label, how, passed — and enters the map without code changes."
+        },
+        "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype Check = { id: string; label: string; how: string; passed: boolean };\n\nconst initialChecks: Check[] = [\n  { id: 'c1', label: 'Экран открывается на устройстве', how: 'npx expo start и Expo Go', passed: false },\n  { id: 'c2', label: 'Клавиатура не закрывает поля', how: 'открыть форму и печатать', passed: false },\n  { id: 'c3', label: 'Диктор читает подписи', how: 'включить TalkBack или VoiceOver', passed: false },\n  { id: 'c4', label: 'Крупный шрифт не обрезается', how: 'увеличить системный шрифт', passed: false },\n];\n\nexport default function App() {\n  const [checks, setChecks] = useState<Check[]>(initialChecks);\n  const [results, setResults] = useState<string[]>([]);\n\n  function pass(id: string) {\n    setChecks(current => current.map(check => (check.id === id ? { ...check, passed: true } : check)));\n    const check = checks.find(item => item.id === id);\n    if (check) setResults(current => [...current, `${new Date().toISOString().slice(0, 10)}: ${check.label} — пройдено`]);\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка устройства</Text>\n      {checks.map(check => (\n        <Pressable\n          key={check.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`${check.label}. Отметить пройденной`}\n          onPress={() => pass(check.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text style={styles.label}>{check.passed ? '✔' : '☐'} {check.label}</Text>\n          <Text style={styles.how}>Как проверить: {check.how}</Text>\n        </Pressable>\n      ))}\n      {results.map((result, index) => <Text key={index}>{result}</Text>)}\n      <Text style={styles.note}>\n        Сборка APK и запуск на реальной сборке — отдельная задача; отметки здесь не заменяют её.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  pressed: { opacity: 0.6 },\n  label: { fontSize: 16, fontWeight: '600' },\n  how: { fontSize: 14, color: '#475569' },\n  note: { fontSize: 13, color: '#b91c1c' },\n});\n",
+        "criteria": [
+          {
+            "ru": "Четыре базовые проверки отмечены с датами.",
+            "tg": "Чор санҷиши асосӣ бо санаҳо аломат шуданд.",
+            "en": "The four base checks are marked with dates."
+          },
+          {
+            "ru": "Границы чек-листа перечислены в отчёте отдельным разделом.",
+            "tg": "Ҳудуди чеклист дар ҳисобот бо бахши алоҳида номбар шудааст.",
+            "en": "The checklist borders are listed in the report as a separate section."
+          }
+        ]
+      },
+      "learningFlow": {
+        "version": 1,
+        "objectives": [
+          {
+            "ru": "Пройти повторяемый чек-лист проверок на устройстве.",
+            "tg": "Чеклисти такроршавандаи санҷишҳоро дар дастгоҳ гузаронед.",
+            "en": "Walk a repeatable device checklist."
+          },
+          {
+            "ru": "Честно назвать границы: что чек-лист не проверяет.",
+            "tg": "Ҳудудро рӯбарӯ номбар кунед: чеклист чиро месанҷад.",
+            "en": "Name the borders honestly: what the checklist does not check."
+          }
+        ],
+        "realWorld": {
+          "ru": "Перед демо заказчику команда проходит чек-лист и прикладывает его к результатам.",
+          "tg": "Пеш аз намоиш ба фармоишидента гурӯҳ чеклист мегузаронад ва онро ба натиҷаҳо замима мекунад.",
+          "en": "Before a customer demo the team walks a checklist and attaches it to the results."
+        },
+        "walkthroughSections": [
+          1
+        ],
+        "prediction": {
+          "prompt": {
+            "ru": "Чего чек-лист этого курса не проверяет?",
+            "tg": "Чеклисти ин курс чиро месанҷад?",
+            "en": "What does this course checklist not check?"
+          },
+          "options": [
+            {
+              "ru": "Сборку APK/IPA и поведение в оффлайн-упаковке",
+              "tg": "Сохтмони APK/IPA ва рафтор дар бастаи оффлайн",
+              "en": "An APK/IPA build and offline-package behavior"
+            },
+            {
+              "ru": "Экран при открытии через Expo Go",
+              "tg": "Экранро ҳангоми кушодан тавассути Expo Go",
+              "en": "The screen opening via Expo Go"
+            },
+            {
+              "ru": "Диктора на устройстве",
+              "tg": "Хонандаро дар дастгоҳ",
+              "en": "The reader on a device"
+            }
+          ],
+          "correctIndex": 0,
+          "hint": {
+            "ru": "Найдите в первом раздел слова про APK и IPA.",
+            "tg": "Дар бахши аввал калимаҳои дар бораи APK ва IPA-ро ёбед.",
+            "en": "Find the first-section words about APK and IPA."
+          },
+          "explanation": {
+            "ru": "Для сборок нужны настоящие инструменты и сертификаты.",
+            "tg": "Барои сохтмон абзорҳои воқеӣ ва сертификатҳо лозиманд.",
+            "en": "Builds need real tools and certificates."
+          }
+        },
+        "demo": {
+          "kind": "code-trace",
+          "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Check = { id: string; label: string; how: string };\n\nconst checks: Check[] = [\n  { id: 'c1', label: 'Экран открывается на устройстве', how: 'npx expo start и Expo Go' },\n  { id: 'c2', label: 'Клавиатура не закрывает поля', how: 'открыть форму и печатать' },\n  { id: 'c3', label: 'Диктор читает подписи', how: 'включить TalkBack или VoiceOver' },\n  { id: 'c4', label: 'Крупный шрифт не обрезается', how: 'увеличить системный шрифт' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка устройства</Text>\n      {checks.map(check => (\n        <View key={check.id} style={styles.row}>\n          <Text style={styles.label}>{check.label}</Text>\n          <Text style={styles.how}>Как проверить: {check.how}</Text>\n        </View>\n      ))}\n      <Text style={styles.note}>\n        Сборка APK и запуск на реальной сборке — отдельная задача; этот список не заменяет её.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  label: { fontSize: 16, fontWeight: '600' },\n  how: { fontSize: 14, color: '#475569' },\n  note: { fontSize: 13, color: '#b91c1c' },\n});\n",
+          "steps": [
+            {
+              "line": 7,
+              "explanation": {
+                "ru": "Каждая проверка имеет способ повторения.",
+                "tg": "Ҳар санҷиш тарзи такрор дорад.",
+                "en": "Every check has a repeat method."
+              },
+              "values": "how"
+            },
+            {
+              "line": 18,
+              "explanation": {
+                "ru": "Отметка меняет passed у конкретной проверки.",
+                "tg": "Аломат passed-и санҷиши муайянро иваз мекунад.",
+                "en": "A mark changes passed on the specific check."
+              },
+              "values": "passed=true"
+            },
+            {
+              "line": 19,
+              "explanation": {
+                "ru": "Результаты получают дату и текст проверки.",
+                "tg": "Натиҷаҳо сана ва матни санҷишро мегиранд.",
+                "en": "Results get a date and the check text."
+              },
+              "values": "dated entry"
+            }
+          ]
+        },
+        "assessmentMode": "local-only",
+        "guidedPractice": {
+          "steps": [
+            {
+              "ru": "Пройдите первые две проверки из чек-листа на своём устройстве.",
+              "tg": "Ду санҷиши аввали чеклистро дар дастгоҳи худ гузаронед.",
+              "en": "Walk the first two checklist checks on your device."
+            },
+            {
+              "ru": "Отметьте их в решении и убедитесь, что записи с датой появились.",
+              "tg": "Онҳоро дар ҳалл аломат карда, боварӣ ҳосил кунед, ки сабтҳои бо сана пайдо шуданд.",
+              "en": "Mark them in the solution and confirm dated entries appeared."
+            }
+          ],
+          "hint": {
+            "ru": "Пятая проверка повторяет структуру: label, how, passed — и попадает в map без изменений кода.",
+            "tg": "Санҷиши панҷум сохторро такрор мекунад: label, how, passed — ва бе тағйири рамз ба map даромадааст.",
+            "en": "The fifth check repeats the structure: label, how, passed — and enters the map without code changes."
+          },
+          "success": {
+            "ru": "Все четыре проверки отмечены с датами, а границы честно записаны в отчёте.",
+            "tg": "Ҳамаи чор санҷиш бо санаҳо аломат шуданд ва ҳудудҳо рӯбарӯ дар ҳисобот сабт шуданд.",
+            "en": "All four checks are marked with dates and the borders are honestly recorded."
+          }
+        },
+        "independentPractice": "lesson-practice",
+        "assessmentVersion": 1,
+        "miniChallenge": {
+          "task": {
+            "ru": "Пройдите все четыре проверки чек-листа на своём устройстве и отметьте их в решении. Добавьте пятую проверку из своего модуля: например, поворот экрана, и запишите способ её повторения. В отчёте отдельным разделом перечислите, что чек-лист не проверяет. Это самостоятельная проверка, не автоматическая аттестация.",
+            "tg": "Ҳамаи чор санҷиши чеклистро дар дастгоҳи худ гузаронида, дар ҳалл аломат кунед. Санҷиши панҷумро аз модули худ илова кунед: масалан, гардиши экран ва тарзи такрорашро сабт кунед. Дар ҳисобот бо бахши алоҳида номбар кунед, ки чеклист чиро месанҷад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+            "en": "Walk all four checklist checks on your device and mark them in the solution. Add a fifth check from your own module: for example screen rotation, and record its repeat method. In the report list separately what the checklist does not check. This is self-review, not automated attestation."
+          },
+          "criteria": [
+            {
+              "ru": "Четыре базовые проверки отмечены с датами.",
+              "tg": "Чор санҷиши асосӣ бо санаҳо аломат шуданд.",
+              "en": "The four base checks are marked with dates."
+            },
+            {
+              "ru": "Границы чек-листа перечислены в отчёте отдельным разделом.",
+              "tg": "Ҳудуди чеклист дар ҳисобот бо бахши алоҳида номбар шудааст.",
+              "en": "The checklist borders are listed in the report as a separate section."
+            }
+          ],
+          "example": {
+            "ru": "Отчёт содержит пять пройденных проверок с датами и раздел «не проверено этим чек-листом».",
+            "tg": "Ҳисобот панҷ санҷиши гузаштаро бо санаҳо ва бахши «ин чеклист месанҷад» дорад.",
+            "en": "The report holds five passed checks with dates and a \"not checked by this list\" section."
+          }
+        },
+        "summary": [
+          {
+            "ru": "Повторяемая проверка: команда, шаги, ожидаемый результат.",
+            "tg": "Санҷиши такроршаванда: фармон, қадамҳо, натиҷаи интизорӣ.",
+            "en": "A repeatable check: command, steps, expected result."
+          },
+          {
+            "ru": "Отметки Self Reviewed честно отличаются от сборки и аттестации.",
+            "tg": "Аломатҳои Self Reviewed аз сохтмон ва аттестатсия рӯбарӯ фарқ мекунанд.",
+            "en": "Self Reviewed marks honestly differ from a build and attestation."
+          }
+        ],
+        "review": [
+          {
+            "ru": "Чего чек-лист этого курса не проверяет?",
+            "tg": "Чеклисти ин курс чиро месанҷад?",
+            "en": "What does this course checklist not check?"
+          },
+          {
+            "ru": "Какой статус у отметки в чек-листе?",
+            "tg": "Аломата дар чеклист кадом статус дорад?",
+            "en": "What status does a checklist mark have?"
+          }
+        ],
         "nextLessonId": null
       }
     }

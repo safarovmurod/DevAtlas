@@ -1,0 +1,53 @@
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+
+type Check = { id: string; label: string; how: string; passed: boolean };
+
+const initialChecks: Check[] = [
+  { id: 'c1', label: 'Экран открывается на устройстве', how: 'npx expo start и Expo Go', passed: false },
+  { id: 'c2', label: 'Клавиатура не закрывает поля', how: 'открыть форму и печатать', passed: false },
+  { id: 'c3', label: 'Диктор читает подписи', how: 'включить TalkBack или VoiceOver', passed: false },
+  { id: 'c4', label: 'Крупный шрифт не обрезается', how: 'увеличить системный шрифт', passed: false },
+];
+
+export default function App() {
+  const [checks, setChecks] = useState<Check[]>(initialChecks);
+  const [results, setResults] = useState<string[]>([]);
+
+  function pass(id: string) {
+    setChecks(current => current.map(check => (check.id === id ? { ...check, passed: true } : check)));
+    const check = checks.find(item => item.id === id);
+    if (check) setResults(current => [...current, `${new Date().toISOString().slice(0, 10)}: ${check.label} — пройдено`]);
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Проверка устройства</Text>
+      {checks.map(check => (
+        <Pressable
+          key={check.id}
+          accessibilityRole="button"
+          accessibilityLabel={`${check.label}. Отметить пройденной`}
+          onPress={() => pass(check.id)}
+          style={({ pressed }) => [styles.row, pressed && styles.pressed]}
+        >
+          <Text style={styles.label}>{check.passed ? '✔' : '☐'} {check.label}</Text>
+          <Text style={styles.how}>Как проверить: {check.how}</Text>
+        </Pressable>
+      ))}
+      {results.map((result, index) => <Text key={index}>{result}</Text>)}
+      <Text style={styles.note}>
+        Сборка APK и запуск на реальной сборке — отдельная задача; отметки здесь не заменяют её.
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },
+  pressed: { opacity: 0.6 },
+  label: { fontSize: 16, fontWeight: '600' },
+  how: { fontSize: 14, color: '#475569' },
+  note: { fontSize: 13, color: '#b91c1c' },
+});

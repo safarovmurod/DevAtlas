@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-33",
+  "day": 33,
+  "prerequisiteDays": [
+    32
+  ],
+  "title": {
+    "ru": "Размер текста и контраст",
+    "tg": "Андозаи матн ва зиддигарии ранг",
+    "en": "Text size and contrast"
+  },
+  "summary": {
+    "ru": "Проверьте экран при увеличенном системном шрифте и узнайте правило контраста.",
+    "tg": "Экранро ҳангоми ҳуруфи калони система санҷед ва қоидаи зиддигариро ёд гиред.",
+    "en": "Check the screen with a larger system font and learn the contrast rule."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Экран для глаз и настроек",
+        "tg": "Экран барои чашм ва танзимот",
+        "en": "A screen for eyes and settings"
+      },
+      "body": {
+        "ru": "Многие пользователи увеличивают системный шрифт: по умолчанию текст React Native масштабируется вместе с настройкой, и интерфейс, проверенный только при стандартном размере, может обрезать строки. Первое правило — не отключать масштабирование (allowFontScaling) без причины; ограничитель maxFontSizeMultiplier разрешает расти, но не бесконечно. Второе правило — контраст: светлый текст на светлом фоне читается плохо. Ориентир WCAG: отношение яркости текста и фона не ниже 4.5:1 для обычного текста и 3:1 для крупного. Контраст и поведение при увеличенном шрифте проверяются на устройстве в настройках системы, а не по памяти разработчика.",
+        "tg": "Бисёре аз корбарон ҳуруфи системиро калон мекунанд: бо пешфрӯз матни React Native якҷоя бо танзим масштаб мешавад ва интерфейси танҳо бо андозаи стандартии санҷидашуда сатрҳоро бурида метавонад. Қоидаи аввал — масштабиро бе сабат хомӯш накунед (allowFontScaling); маҳдудкунандаи maxFontSizeMultiplier афзоишро иҷозат медиҳад, вале беохир нест. Қоидаи дуюм — зиддигарӣ: матни равшан дар заминаи равшан суст хонда мешавад. Маъёри WCAG: нисбати равшании матн ва замина на камтар аз 4.5:1 барои матни оддӣ ва 3:1 барои калон. Зиддигарӣ ва рафтор ҳангоми ҳуруфи калон дар дастгоҳ дар танзимоти система месанҷанд, на аз хотираи таҳиягар.",
+        "en": "Many users enlarge the system font: React Native text scales with the setting by default, and an interface checked only at the standard size can clip lines. The first rule is not to disable scaling (allowFontScaling) without a reason; the maxFontSizeMultiplier limiter lets text grow but not endlessly. The second rule is contrast: light text on a light background reads poorly. The WCAG landmark: the luminance ratio of text and background is at least 4.5:1 for normal text and 3:1 for large text. Contrast and enlarged-font behavior are checked on a device in the system settings, not from developer memory."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "LessonCard использует тёмный текст #0f172a и #334155 на светлом фоне #f8fafc — высокие отношения контраста, обе пары проходят 4.5:1. В примере масштабирование работает по умолчанию: увеличьте системный шрифт до максимума и откройте экран — текст растёт, карточка растягивается, ничего не обрезается. В решении добавлен maxFontSizeMultiplier={2}: рост ограничен двумя размерами, чтобы макет не разваливался при экстремальных настройках, но читаемость сохраняется. Запишите обе проверки: стандартный шрифт, максимальный, максимальный с ограничителем.",
+        "tg": "LessonCard матни торики #0f172a ва #334155-ро дар заминаи равшани #f8fafc истифода мебарад — нисбатҳои зиддигарии баланд, ҳарду ҷуфт 4.5:1-ро мегузаранд. Дар мисол масштабирование бо пешфрӯз кор мекунад: ҳуруфи системиро то максимум калон карда, экранро кушоед — матн меафзояд, корта кашида мешавад, ҳеҷ чиз бурида намешавад. Дар ҳалл maxFontSizeMultiplier={2} илова шудааст: афзоиш ба ду андоза маҳдуд аст, то ороиш ҳангоми танзимоти экстремалӣ вайрон нашавад, вале хонданашавандӣ мемонад. Ҳарду санҷишро сабт кунед: ҳуруфи стандартии калон, максимум, максимум бо маҳдудкунанда.",
+        "en": "LessonCard uses dark text #0f172a and #334155 on the light background #f8fafc — high contrast ratios, both pairs pass 4.5:1. In the example scaling works by default: set the system font to maximum and open the screen — text grows, the card stretches, nothing clips. The solution adds maxFontSizeMultiplier={2}: growth is limited to twice the size so the layout survives extreme settings while readability holds. Record both checks: the standard font, the maximum, and the maximum with the limiter."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport function LessonCard({ title, minutes }: { title: string; minutes: number }) {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>{title}</Text>\n      <Text style={styles.body}>{minutes} минут практики</Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка читаемости</Text>\n      <LessonCard title=\"Экран и структуры\" minutes={20} />\n      <Text style={styles.note}>\n        Увеличьте системный шрифт в настройках и откройте экран снова.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  card: { padding: 16, borderRadius: 12, backgroundColor: '#f8fafc' },\n  title: { fontSize: 18, fontWeight: '600', color: '#0f172a' },\n  body: { fontSize: 15, color: '#334155' },\n  note: { fontSize: 14, color: '#475569' },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-33-q1",
+      "question": {
+        "ru": "Что происходит с текстом React Native при увеличенном системном шрифте?",
+        "tg": "Ҳангоми калон шудани ҳуруфи системӣ бо матни React Native чӣ мешавад?",
+        "en": "What happens to React Native text with a larger system font?"
+      },
+      "options": [
+        {
+          "ru": "Он игнорирует настройку",
+          "tg": "Танзимро сарфи назар мекунад",
+          "en": "It ignores the setting"
+        },
+        {
+          "ru": "Он масштабируется вместе с настройкой",
+          "tg": "Он якҷоя бо танзим масштаб мешавад",
+          "en": "It scales with the setting"
+        },
+        {
+          "ru": "Экран падает",
+          "tg": "Экран меафтад",
+          "en": "The screen crashes"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Поэтому интерфейс проверяют при большом шрифте.",
+        "tg": "Бинобар ин интерфейсро бо ҳуруфи калон месанҷанд.",
+        "en": "That is why the interface is checked at a large font."
+      },
+      "hint": {
+        "ru": "Перечитайте первое предложение первого раздела.",
+        "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+        "en": "Re-read the first sentence of the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-33-q2",
+      "question": {
+        "ru": "Когда допустимо ограничить рост текста?",
+        "tg": "Афзоиши матнро ҳангоми чӣ маҳдуд кардан ҷоиз аст?",
+        "en": "When is limiting text growth acceptable?"
+      },
+      "options": [
+        {
+          "ru": "Никогда ограничивать нельзя",
+          "tg": "Ҳеҷ гоҳ маҳдуд кардан мумкин нест",
+          "en": "Never limit it"
+        },
+        {
+          "ru": "Всегда отключать масштабирование",
+          "tg": "Ҳамеша масштабиро хомӯш кардан",
+          "en": "Always disable scaling"
+        },
+        {
+          "ru": "Осознанно, с maxFontSizeMultiplier, чтобы сохранить макет",
+          "tg": "Огоҳона, бо maxFontSizeMultiplier, то ороиш нигоҳ дошта шавад",
+          "en": "Deliberately, with maxFontSizeMultiplier, to keep the layout"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Ограничитель — компромисс, а не запрет роста.",
+        "tg": "Маҳдудкунанда созиш аст, на манъи афзоиш.",
+        "en": "The limiter is a compromise, not a growth ban."
+      },
+      "hint": {
+        "ru": "Сравните пример и решение по allowFontScaling.",
+        "tg": "Мисол ва ҳаллро аз рӯи allowFontScaling муқоиса кунед.",
+        "en": "Compare the example and the solution on allowFontScaling."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-33-q3",
+      "question": {
+        "ru": "Какое минимальное отношение контраста для обычного текста?",
+        "tg": "Барои матни оддӣ камтарин нисбати зиддигарӣ чанд аст?",
+        "en": "What is the minimum contrast ratio for normal text?"
+      },
+      "options": [
+        {
+          "ru": "4.5:1",
+          "tg": "4.5:1",
+          "en": "4.5:1"
+        },
+        {
+          "ru": "1:1",
+          "tg": "1:1",
+          "en": "1:1"
+        },
+        {
+          "ru": "10:1",
+          "tg": "10:1",
+          "en": "10:1"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Ориентир WCAG для обычного текста — 4.5:1, для крупного — 3:1.",
+        "tg": "Маъёри WCAG барои матни оддӣ — 4.5:1, барои калон — 3:1.",
+        "en": "The WCAG landmark is 4.5:1 for normal and 3:1 for large text."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел числа отношения.",
+        "tg": "Дар бахши аввал рақамҳои нисбатро ёбед.",
+        "en": "Find the ratio numbers in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-33-q4",
+      "question": {
+        "ru": "Какая пара цветов в примере?",
+        "tg": "Дар мисол кадом ҷуфти рангҳо ҳастанд?",
+        "en": "Which color pair does the example use?"
+      },
+      "options": [
+        {
+          "ru": "Светлый текст на светлом фоне",
+          "tg": "Матни равшан дар заминаи равшан",
+          "en": "Light text on a light background"
+        },
+        {
+          "ru": "Тёмный текст на светлом фоне",
+          "tg": "Матни торик дар заминаи равшан",
+          "en": "Dark text on a light background"
+        },
+        {
+          "ru": "Светлый текст на тёмном фоне без проверки",
+          "tg": "Матни равшан дар заминаи торик бе санҷиш",
+          "en": "Light text on dark background unchecked"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Обе пары текста проходят порог 4.5:1.",
+        "tg": "Ҳарду ҷуфти матн остонаи 4.5:1-ро мегузаранд.",
+        "en": "Both text pairs pass the 4.5:1 threshold."
+      },
+      "hint": {
+        "ru": "Посмотрите на цвета стилей в примере.",
+        "tg": "Ба рангҳои услубҳо дар мисол нигоҳ кунед.",
+        "en": "Look at the style colors in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-33-q5",
+      "question": {
+        "ru": "Где проверяют поведение при увеличенном шрифте?",
+        "tg": "Рафтор ҳангоми ҳуруфи калон дар куҷо месанҷанд?",
+        "en": "Where is enlarged-font behavior checked?"
+      },
+      "options": [
+        {
+          "ru": "Его не проверяют",
+          "tg": "Онро месанҷанд, набояд",
+          "en": "It is not checked"
+        },
+        {
+          "ru": "В консоли разработки",
+          "tg": "Дар консоли таҳия",
+          "en": "In the dev console"
+        },
+        {
+          "ru": "В настройках системы на устройстве",
+          "tg": "Дар танзимоти система дар дастгоҳ",
+          "en": "In the device system settings"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Настройка шрифта — системная, проверка тоже.",
+        "tg": "Танзими ҳуруф системист, санҷиш ҳам.",
+        "en": "The font setting is a system one, so is the check."
+      },
+      "hint": {
+        "ru": "Найдите подсказку в примере про настройки.",
+        "tg": "Дар мисол маслиҳати дар бораи танзимотро ёбед.",
+        "en": "Find the settings hint in the example."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте его при стандартном и максимальном системном шрифте. Соберите решение с maxFontSizeMultiplier={2} и сравните все три состояния. Запишите цвета из примера и оцените их контраст по правилу 4.5:1. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва онро бо ҳуруфи стандартию максимуми система санҷед. Ҳаллро бо maxFontSizeMultiplier={2} созед ва ҳарду ҳолатро муқоиса кунед. Рангҳои аз мисолро сабт карда, зиддигарии онҳоро аз рӯи қоидаи 4.5:1 баҳогузорӣ кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check it at the standard and maximum system font. Build the solution with maxFontSizeMultiplier={2} and compare all three states. Record the example colors and rate their contrast against the 4.5:1 rule. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Ограничитель ставится на каждый Text, которому нужен контролируемый рост.",
+      "tg": "Маҳдудкунанда ба ҳар Text-е гузошта мешавад, ки афзоиши идорашаванда лозим аст.",
+      "en": "The limiter goes on every Text that needs controlled growth."
+    },
+    "solution": "import { StyleSheet, Text, View } from 'react-native';\n\nexport function LessonCard({ title, minutes }: { title: string; minutes: number }) {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={2}>{title}</Text>\n      <Text style={styles.body} allowFontScaling maxFontSizeMultiplier={2}>\n        {minutes} минут практики\n      </Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка читаемости</Text>\n      <LessonCard title=\"Экран и структуры\" minutes={20} />\n      <Text style={styles.note} allowFontScaling maxFontSizeMultiplier={2}>\n        Увеличьте системный шрифт в настройках и откройте экран снова.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  card: { padding: 16, borderRadius: 12, backgroundColor: '#f8fafc' },\n  title: { fontSize: 18, fontWeight: '600', color: '#0f172a' },\n  body: { fontSize: 15, color: '#334155' },\n  note: { fontSize: 14, color: '#475569' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Текст читаем при максимальном шрифте и не ломает макет.",
+        "tg": "Матн ҳангоми ҳуруфи максимум хонданашаванда аст ва ороишро намеканад.",
+        "en": "Text is readable at maximum font without breaking the layout."
+      },
+      {
+        "ru": "Цвета записаны с оценкой контраста.",
+        "tg": "Рангҳо бо баҳои зиддигарӣ сабт шудаанд.",
+        "en": "The colors are recorded with a contrast estimate."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Проверить экран при увеличенном системном шрифте.",
+        "tg": "Экранро ҳангоми ҳуруфи калони система санҷед.",
+        "en": "Check the screen with an enlarged system font."
+      },
+      {
+        "ru": "Объяснить правило контраста и применить его к цветам.",
+        "tg": "Қоидаи зиддигариро шарҳ дода, ба рангҳо татбиқ кунед.",
+        "en": "Explain the contrast rule and apply it to colors."
+      }
+    ],
+    "realWorld": {
+      "ru": "Пользователь с ослабленным зрением ставит максимальный шрифт — и приложение обязано остаться читаемым.",
+      "tg": "Корбари бо дидани суст андозаи ҳуруфро максимум мегузорад — ва барнома бояд хонданашаванда мемонад.",
+      "en": "A low-vision user sets the maximum font — and the app must stay readable."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Когда допустимо ограничить рост текста?",
+        "tg": "Афзоиши матнро ҳангоми чӣ маҳдуд кардан ҷоиз аст?",
+        "en": "When is limiting text growth acceptable?"
+      },
+      "options": [
+        {
+          "ru": "Никогда ограничивать нельзя",
+          "tg": "Ҳеҷ гоҳ маҳдуд кардан мумкин нест",
+          "en": "Never limit it"
+        },
+        {
+          "ru": "Всегда отключать масштабирование",
+          "tg": "Ҳамеша масштабиро хомӯш кардан",
+          "en": "Always disable scaling"
+        },
+        {
+          "ru": "Осознанно, с maxFontSizeMultiplier, чтобы сохранить макет",
+          "tg": "Огоҳона, бо maxFontSizeMultiplier, то ороиш нигоҳ дошта шавад",
+          "en": "Deliberately, with maxFontSizeMultiplier, to keep the layout"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Сравните пример и решение по allowFontScaling.",
+        "tg": "Мисол ва ҳаллро аз рӯи allowFontScaling муқоиса кунед.",
+        "en": "Compare the example and the solution on allowFontScaling."
+      },
+      "explanation": {
+        "ru": "Ограничитель — компромисс, а не запрет роста.",
+        "tg": "Маҳдудкунанда созиш аст, на манъи афзоиш.",
+        "en": "The limiter is a compromise, not a growth ban."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport function LessonCard({ title, minutes }: { title: string; minutes: number }) {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>{title}</Text>\n      <Text style={styles.body}>{minutes} минут практики</Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка читаемости</Text>\n      <LessonCard title=\"Экран и структуры\" minutes={20} />\n      <Text style={styles.note}>\n        Увеличьте системный шрифт в настройках и откройте экран снова.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  card: { padding: 16, borderRadius: 12, backgroundColor: '#f8fafc' },\n  title: { fontSize: 18, fontWeight: '600', color: '#0f172a' },\n  body: { fontSize: 15, color: '#334155' },\n  note: { fontSize: 14, color: '#475569' },\n});\n",
+      "steps": [
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Карточка использует тёмный текст на светлом фоне.",
+            "tg": "Корта матни торикро дар заминаи равшан истифода мебарад.",
+            "en": "The card uses dark text on a light background."
+          },
+          "values": "#0f172a on #f8fafc"
+        },
+        {
+          "line": 15,
+          "explanation": {
+            "ru": "Масштабирование работает по умолчанию.",
+            "tg": "Масштабирование бо пешфрӯз кор мекунад.",
+            "en": "Scaling works by default."
+          },
+          "values": "allowFontScaling"
+        },
+        {
+          "line": 20,
+          "explanation": {
+            "ru": "Подсказка ведёт к настройкам системы.",
+            "tg": "Маслиҳат ба танзимоти система мебарад.",
+            "en": "The hint leads to the system settings."
+          },
+          "values": "font size"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Откройте пример при стандартном шрифте и запишите вид карточки.",
+          "tg": "Мисолро бо ҳуруфи стандарти кушода, намуди кортаро сабт кунед.",
+          "en": "Open the example at the standard font and record the card look."
+        },
+        {
+          "ru": "Увеличьте шрифт до максимума в настройках и сравните поведение экрана.",
+          "tg": "Ҳуруфро дар танзимот то максимум калон карда, рафтори экранро муқоиса кунед.",
+          "en": "Enlarge the font to maximum in settings and compare the screen behavior."
+        }
+      ],
+      "hint": {
+        "ru": "Ограничитель ставится на каждый Text, которому нужен контролируемый рост.",
+        "tg": "Маҳдудкунанда ба ҳар Text-е гузошта мешавад, ки афзоиши идорашаванда лозим аст.",
+        "en": "The limiter goes on every Text that needs controlled growth."
+      },
+      "success": {
+        "ru": "Текст растёт с системным шрифтом и остаётся читаемым на контрастном фоне.",
+        "tg": "Матн бо ҳуруфи система меафзояд ва дар заминаи контрастӣ хонданашаванда мемонад.",
+        "en": "Text grows with the system font and stays readable on the contrasty background."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте его при стандартном и максимальном системном шрифте. Соберите решение с maxFontSizeMultiplier={2} и сравните все три состояния. Запишите цвета из примера и оцените их контраст по правилу 4.5:1. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва онро бо ҳуруфи стандартию максимуми система санҷед. Ҳаллро бо maxFontSizeMultiplier={2} созед ва ҳарду ҳолатро муқоиса кунед. Рангҳои аз мисолро сабт карда, зиддигарии онҳоро аз рӯи қоидаи 4.5:1 баҳогузорӣ кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check it at the standard and maximum system font. Build the solution with maxFontSizeMultiplier={2} and compare all three states. Record the example colors and rate their contrast against the 4.5:1 rule. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Текст читаем при максимальном шрифте и не ломает макет.",
+          "tg": "Матн ҳангоми ҳуруфи максимум хонданашаванда аст ва ороишро намеканад.",
+          "en": "Text is readable at maximum font without breaking the layout."
+        },
+        {
+          "ru": "Цвета записаны с оценкой контраста.",
+          "tg": "Рангҳо бо баҳои зиддигарӣ сабт шудаанд.",
+          "en": "The colors are recorded with a contrast estimate."
+        }
+      ],
+      "example": {
+        "ru": "При максимальном шрифте карточка растягивается на два размера и остаётся читаемой.",
+        "tg": "Ҳангоми ҳуруфи максимум корта то ду андоза кашида, хонданашаванда мемонад.",
+        "en": "At maximum font the card grows to twice the size and stays readable."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Не отключайте масштабирование без причины; ограничивайте осознанно.",
+        "tg": "Масштабиро бе сабат хомӯш накунед; огоҳона маҳдуд кунед.",
+        "en": "Do not disable scaling without a reason; limit deliberately."
+      },
+      {
+        "ru": "Контраст 4.5:1 для обычного текста — рабочий ориентир.",
+        "tg": "Зиддигарии 4.5:1 барои матни оддӣ маъёри корӣ аст.",
+        "en": "A 4.5:1 contrast for normal text is the working landmark."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Когда допустимо ограничить рост текста?",
+        "tg": "Афзоиши матнро ҳангоми чӣ маҳдуд кардан ҷоиз аст?",
+        "en": "When is limiting text growth acceptable?"
+      },
+      {
+        "ru": "Какое минимальное отношение контраста для обычного текста?",
+        "tg": "Барои матни оддӣ камтарин нисбати зиддигарӣ чанд аст?",
+        "en": "What is the minimum contrast ratio for normal text?"
+      }
+    ],
+    "nextLessonId": "mobile-day-34"
+  }
+}

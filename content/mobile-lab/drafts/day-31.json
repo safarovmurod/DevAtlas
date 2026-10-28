@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-31",
+  "day": 31,
+  "prerequisiteDays": [
+    30
+  ],
+  "title": {
+    "ru": "Клавиатура и безопасные области",
+    "tg": "Клавиатура ва минтақаҳои бехатар",
+    "en": "Keyboard and safe areas"
+  },
+  "summary": {
+    "ru": "Не позволяйте клавиатуре закрывать поля и кнопки формы.",
+    "tg": "Клавиатура набояд майдонҳо ва тугмаҳои шаклро пӯшонад.",
+    "en": "Do not let the keyboard cover form fields and buttons."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Клавиатура — гость на экране",
+        "tg": "Клавиатура меҳмони экран аст",
+        "en": "The keyboard is a guest on the screen"
+      },
+      "body": {
+        "ru": "Когда поле получает фокус, клавиатура занимает нижнюю часть экрана и закрывает всё, что там было. KeyboardAvoidingView поднимает содержимое на iOS через behavior=\"padding\"; на Android система обычно подстраивается сама, поэтому поведение выбирают по Platform.OS. Вторая часть урока — returnKeyType=\"done\" и onSubmitEditing: клавиша «Готово» вызывает тот же обработчик, что и кнопка, а Keyboard.dismiss убирает клавиатуру после сохранения. Безопасные области — вырезы и жестовые полосы: контент не должен лежать под ними, в Expo для этого есть react-native-safe-area-context. Проверка честная: откройте форму на устройстве, введите текст и убедитесь, что поле и кнопка видны.",
+        "tg": "Ҳангоми гирифтани фокус майдон клавиатура қисми поёни экранро мегирад ва ҳамаи он ҷоро мепӯшонад. KeyboardAvoidingView мазмунро дар iOS бо behavior=\"padding\" мебардорад; дар Android система одатан худ мутобиқ мешавад, бинобар ин рафторро аз рӯи Platform.OS интихоб мекунанд. Қисми дуюми дарс — returnKeyType=\"done\" ва onSubmitEditing: тугмаи «Тайёр» ҳамон обработчикро мехонад, ки тугма, ва Keyboard.dismiss баъди нигоҳдорӣ клавиатураро мебарад. Минтақаҳои бехатар — буришҳо ва наворҳои ҷестӣ: мазмун набояд зери онҳо бошад, дар Expo барои ин react-native-safe-area-context ҳаст. Санҷиш рӯбарӯ: шаклро дар дастгоҳ кушоед, матн ворид кунед ва боварӣ ҳосил кунед, ки майдон ва тугма дида мешаванд.",
+        "en": "When a field takes focus the keyboard takes the bottom of the screen and covers everything there. KeyboardAvoidingView lifts the content on iOS through behavior=\"padding\"; Android usually adjusts by itself, so the behavior is chosen by Platform.OS. The second part is returnKeyType=\"done\" and onSubmitEditing: the Done key calls the same handler as the button, and Keyboard.dismiss hides the keyboard after saving. Safe areas — notches and gesture bars: content must not sit under them; Expo provides react-native-safe-area-context. The check is honest: open the form on a device, type, and confirm the field and button are visible."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "KeyboardAvoidingView оборачивает весь экран и растягивается на flex: 1. behavior вычисляется один раз: на iOS — padding, на Android — undefined, потому что система сама меняет размер окна. TextInput получает returnKeyType=\"done\" и onSubmitEditing={submit}: нажатие «Готово» на клавиатуре сохраняет так же, как кнопка. submit проверяет trim и очищает поле. В решении добавлены Keyboard.dismiss после сохранения и список сохранённых строк — видно, что ввод не теряется. Проверьте на устройстве с открытой клавиатурой: кнопка должна оставаться доступной.",
+        "tg": "KeyboardAvoidingView тамоми экранро мепӯшонад ва бо flex: 1 кашида мешавад. behavior як бор ҳисоб мешавад: дар iOS — padding, дар Android — undefined, чунки система худ андозаи равзанаро иваз мекунад. TextInput returnKeyType=\"done\" ва onSubmitEditing={submit} мегирад: пахши «Тайёр» дар клавиатура ҳамчун тугма нигоҳ медорад. submit trim-ро месанҷад ва майдонро тоза мекунад. Дар ҳалл Keyboard.dismiss баъди нигоҳдорӣ ва рӯйхати сатрҳои нигоҳдоришуда илова шудааст — дида мешавад, ки вуруд гум намешавад. Дар дастгоҳ бо клавиатураи кушода санҷед: тугма бояд дастрас мемонад.",
+        "en": "KeyboardAvoidingView wraps the whole screen and stretches with flex: 1. The behavior computes once: on iOS — padding, on Android — undefined, because the system resizes the window itself. TextInput receives returnKeyType=\"done\" and onSubmitEditing={submit}: the keyboard Done key saves like the button. submit checks trim and clears the field. The solution adds Keyboard.dismiss after saving and a list of stored rows — the input clearly survives. Check on a device with the keyboard open: the button must stay reachable."
+      },
+      "code": "import { useState } from 'react';\nimport { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n\n  function submit() {\n    if (!title.trim()) return;\n    setTitle('');\n  }\n\n  return (\n    <KeyboardAvoidingView\n      behavior={Platform.OS === 'ios' ? 'padding' : undefined}\n      style={styles.flex}\n    >\n      <View style={styles.screen}>\n        <Text accessibilityRole=\"header\">Новое занятие</Text>\n        <TextInput\n          value={title}\n          onChangeText={setTitle}\n          placeholder=\"Название\"\n          returnKeyType=\"done\"\n          onSubmitEditing={submit}\n          style={styles.input}\n        />\n        <Pressable\n          accessibilityRole=\"button\"\n          accessibilityLabel=\"Сохранить занятие и убрать клавиатуру\"\n          onPress={() => submit()}\n          style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n        >\n          <Text style={styles.buttonText}>Сохранить</Text>\n        </Pressable>\n        <Text>Клавиатура не должна закрывать поле и кнопку.</Text>\n      </View>\n    </KeyboardAvoidingView>\n  );\n}\n\nconst styles = StyleSheet.create({\n  flex: { flex: 1 },\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-31-q1",
+      "question": {
+        "ru": "Что делает KeyboardAvoidingView?",
+        "tg": "KeyboardAvoidingView чӣ мекунад?",
+        "en": "What does KeyboardAvoidingView do?"
+      },
+      "options": [
+        {
+          "ru": "Отключает ввод",
+          "tg": "Вурӯдро хомӯш мекунад",
+          "en": "Disables input"
+        },
+        {
+          "ru": "Скрывает клавиатуру",
+          "tg": "Клавиатураро маҳкум мекунад",
+          "en": "Hides the keyboard"
+        },
+        {
+          "ru": "Поднимает содержимое над клавиатурой",
+          "tg": "Мазмунро болои клавиатура мебардорад",
+          "en": "Lifts the content above the keyboard"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Форма остаётся видимой, пока пользователь печатает.",
+        "tg": "Шакл то навиштани корбар дида мешавад.",
+        "en": "The form stays visible while the user types."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе описание компонента.",
+        "tg": "Дар бахши аввал тавсифи компонентро ёбед.",
+        "en": "Find the component description in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-31-q2",
+      "question": {
+        "ru": "Почему behavior зависит от Platform.OS?",
+        "tg": "behavior барои чӣ аз Platform.OS вобаста аст?",
+        "en": "Why does behavior depend on Platform.OS?"
+      },
+      "options": [
+        {
+          "ru": "Android обычно подстраивается сам",
+          "tg": "Android одатан худ мутобиқ мешавад",
+          "en": "Android usually adjusts by itself"
+        },
+        {
+          "ru": "iOS не умеет показывать клавиатуру",
+          "tg": "iOS клавиатураро нишон дода наметавонад",
+          "en": "iOS cannot show a keyboard"
+        },
+        {
+          "ru": "Так требует StyleSheet",
+          "tg": "StyleSheet инро талаб мекунад",
+          "en": "StyleSheet requires it"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Платформы ведут себя по-разному, и это учитывают явно.",
+        "tg": "Платформаҳо гуногун рафтор мекунанд ва инро ошкоро ҳисоб мекунанд.",
+        "en": "Platforms behave differently and this is handled explicitly."
+      },
+      "hint": {
+        "ru": "Перечитайте про поведение на двух системах.",
+        "tg": "Дар бораи рафтор дар ду система аз нав хонед.",
+        "en": "Re-read about the behavior on the two systems."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-31-q3",
+      "question": {
+        "ru": "Что вызывает onSubmitEditing?",
+        "tg": "onSubmitEditing-ро чӣ мехонад?",
+        "en": "What triggers onSubmitEditing?"
+      },
+      "options": [
+        {
+          "ru": "Смена темы",
+          "tg": "Ивази мавзӯъ",
+          "en": "A theme change"
+        },
+        {
+          "ru": "Клавиша «Готово» на клавиатуре",
+          "tg": "Тугмаи «Тайёр» дар клавиатура",
+          "en": "The Done key on the keyboard"
+        },
+        {
+          "ru": "Поворот экрана",
+          "tg": "Гардиши экран",
+          "en": "Screen rotation"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Клавиатурное сохранение равно нажатию кнопки.",
+        "tg": "Нигоҳдорӣ аз клавиатура баробари пахши тугма аст.",
+        "en": "Keyboard saving equals pressing the button."
+      },
+      "hint": {
+        "ru": "Посмотрите на props TextInput в примере.",
+        "tg": "Ба props-и TextInput дар мисол нигоҳ кунед.",
+        "en": "Look at the TextInput props in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-31-q4",
+      "question": {
+        "ru": "Что делает Keyboard.dismiss?",
+        "tg": "Keyboard.dismiss чӣ мекунад?",
+        "en": "What does Keyboard.dismiss do?"
+      },
+      "options": [
+        {
+          "ru": "Сохраняет черновик",
+          "tg": "Лоиҳаро нигоҳ медорад",
+          "en": "Saves the draft"
+        },
+        {
+          "ru": "Очищает все поля",
+          "tg": "Ҳамаи майдонҳоро тоза мекунад",
+          "en": "Clears all fields"
+        },
+        {
+          "ru": "Убирает клавиатуру с экрана",
+          "tg": "Клавиатураро аз экран мебарад",
+          "en": "Removes the keyboard from the screen"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "После сохранения пользователь снова видит весь экран.",
+        "tg": "Баъди нигоҳдорӣ корбар боз тамоми экранро мебинад.",
+        "en": "After saving the user sees the whole screen again."
+      },
+      "hint": {
+        "ru": "Найдите dismiss в решении.",
+        "tg": "dismiss-ро дар ҳалл ёбед.",
+        "en": "Find dismiss in the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-31-q5",
+      "question": {
+        "ru": "Что такое безопасные области?",
+        "tg": "Минтақаҳои бехатар чистанд?",
+        "en": "What are safe areas?"
+      },
+      "options": [
+        {
+          "ru": "Зоны вырезов и жестовых полос, где контент лучше не класть",
+          "tg": "Минтақаҳои буриш ва навори ҷестӣ, ки мазмун нагузоранд",
+          "en": "Notch and gesture-bar zones where content should not sit"
+        },
+        {
+          "ru": "Зоны с хорошим Wi-Fi",
+          "tg": "Минтақаҳои Wi-Fi-и хуб",
+          "en": "Zones with good Wi-Fi"
+        },
+        {
+          "ru": "Зоны для рекламы",
+          "tg": "Минтақаҳои реклама",
+          "en": "Ad zones"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Контент у краёв экрана может оказаться под вырезом.",
+        "tg": "Мазмуни канори экран метавонад зери буриш бошад.",
+        "en": "Edge content can end up under the notch."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова про вырезы.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи буришҳоро ёбед.",
+        "en": "Find the first-section words about notches."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте его на устройстве с открытой клавиатурой. Соберите решение: сохранение из клавиатуры, Keyboard.dismiss и список сохранённых строк. Запишите, как вёл себя экран при печати и после сохранения. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва онро дар дастгоҳ бо клавиатураи кушода санҷед. Ҳаллро созед: нигоҳдорӣ аз клавиатура, Keyboard.dismiss ва рӯйхати сатрҳои нигоҳдоришуда. Сабт кунед, ки экран ҳангоми навиштан ва баъди нигоҳдорӣ чӣ тавр рафтор кард. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check it on a device with the keyboard open. Build the solution: keyboard saving, Keyboard.dismiss and the list of stored rows. Record how the screen behaved while typing and after saving. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Импортируйте Keyboard из react-native и вызовите Keyboard.dismiss() после setSaved.",
+      "tg": "Keyboard-ро аз react-native импорт карда, баъди setSaved Keyboard.dismiss()-ро хонед.",
+      "en": "Import Keyboard from react-native and call Keyboard.dismiss() after setSaved."
+    },
+    "solution": "import { useState } from 'react';\nimport { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [saved, setSaved] = useState<string[]>([]);\n\n  function submit() {\n    const value = title.trim();\n    if (!value) return;\n    setSaved(current => [...current, value]);\n    setTitle('');\n    Keyboard.dismiss();\n  }\n\n  return (\n    <KeyboardAvoidingView\n      behavior={Platform.OS === 'ios' ? 'padding' : undefined}\n      style={styles.flex}\n    >\n      <View style={styles.screen}>\n        <Text accessibilityRole=\"header\">Новое занятие</Text>\n        <TextInput\n          value={title}\n          onChangeText={setTitle}\n          placeholder=\"Название\"\n          returnKeyType=\"done\"\n          onSubmitEditing={submit}\n          style={styles.input}\n        />\n        <Pressable\n          accessibilityRole=\"button\"\n          accessibilityLabel=\"Сохранить занятие и убрать клавиатуру\"\n          onPress={() => submit()}\n          style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n        >\n          <Text style={styles.buttonText}>Сохранить</Text>\n        </Pressable>\n        {saved.map((note, index) => <Text key={index}>{note}</Text>)}\n        <Text>Клавиатура не должна закрывать поле и кнопку.</Text>\n      </View>\n    </KeyboardAvoidingView>\n  );\n}\n\nconst styles = StyleSheet.create({\n  flex: { flex: 1 },\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Поле и кнопка видимы при открытой клавиатуре.",
+        "tg": "Майдон ва тугма ҳангоми клавиатураи кушода дида мешаванд.",
+        "en": "The field and button are visible with the keyboard open."
+      },
+      {
+        "ru": "Сохранение с клавиатуры работает, клавиатура убирается после.",
+        "tg": "Нигоҳдорӣ аз клавиатура кор мекунад ва баъд клавиатура мебарад.",
+        "en": "Keyboard saving works and the keyboard dismisses after."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Держать форму видимой при открытой клавиатуре.",
+        "tg": "Шаклро ҳангоми клавиатураи кушода дида кардан.",
+        "en": "Keep the form visible with the keyboard open."
+      },
+      {
+        "ru": "Сохранять с клавиатуры и убирать её после.",
+        "tg": "Аз клавиатура нигоҳ дошта, баъд онро мебарад.",
+        "en": "Save from the keyboard and dismiss it after."
+      }
+    ],
+    "realWorld": {
+      "ru": "Форма входа любого приложения не прячет кнопку под клавиатурой.",
+      "tg": "Шакли вуруди ҳар барнома тугмаро зери клавиатура намепӯшонад.",
+      "en": "Any login form does not hide the button under the keyboard."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Почему behavior зависит от Platform.OS?",
+        "tg": "behavior барои чӣ аз Platform.OS вобаста аст?",
+        "en": "Why does behavior depend on Platform.OS?"
+      },
+      "options": [
+        {
+          "ru": "Android обычно подстраивается сам",
+          "tg": "Android одатан худ мутобиқ мешавад",
+          "en": "Android usually adjusts by itself"
+        },
+        {
+          "ru": "iOS не умеет показывать клавиатуру",
+          "tg": "iOS клавиатураро нишон дода наметавонад",
+          "en": "iOS cannot show a keyboard"
+        },
+        {
+          "ru": "Так требует StyleSheet",
+          "tg": "StyleSheet инро талаб мекунад",
+          "en": "StyleSheet requires it"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Перечитайте про поведение на двух системах.",
+        "tg": "Дар бораи рафтор дар ду система аз нав хонед.",
+        "en": "Re-read about the behavior on the two systems."
+      },
+      "explanation": {
+        "ru": "Платформы ведут себя по-разному, и это учитывают явно.",
+        "tg": "Платформаҳо гуногун рафтор мекунанд ва инро ошкоро ҳисоб мекунанд.",
+        "en": "Platforms behave differently and this is handled explicitly."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n\n  function submit() {\n    if (!title.trim()) return;\n    setTitle('');\n  }\n\n  return (\n    <KeyboardAvoidingView\n      behavior={Platform.OS === 'ios' ? 'padding' : undefined}\n      style={styles.flex}\n    >\n      <View style={styles.screen}>\n        <Text accessibilityRole=\"header\">Новое занятие</Text>\n        <TextInput\n          value={title}\n          onChangeText={setTitle}\n          placeholder=\"Название\"\n          returnKeyType=\"done\"\n          onSubmitEditing={submit}\n          style={styles.input}\n        />\n        <Pressable\n          accessibilityRole=\"button\"\n          accessibilityLabel=\"Сохранить занятие и убрать клавиатуру\"\n          onPress={() => submit()}\n          style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n        >\n          <Text style={styles.buttonText}>Сохранить</Text>\n        </Pressable>\n        <Text>Клавиатура не должна закрывать поле и кнопку.</Text>\n      </View>\n    </KeyboardAvoidingView>\n  );\n}\n\nconst styles = StyleSheet.create({\n  flex: { flex: 1 },\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 13,
+          "explanation": {
+            "ru": "Контейнер клавиатуры оборачивает экран.",
+            "tg": "Контейнери клавиатура экранро мепӯшонад.",
+            "en": "The keyboard container wraps the screen."
+          },
+          "values": "padding on iOS"
+        },
+        {
+          "line": 20,
+          "explanation": {
+            "ru": "Клавиша «Готово» вызывает обработчик сохранения.",
+            "tg": "Тугмаи «Тайёр» обработчики нигоҳдориро мехонад.",
+            "en": "The Done key calls the save handler."
+          },
+          "values": "submit()"
+        },
+        {
+          "line": 27,
+          "explanation": {
+            "ru": "Кнопка остаётся видимой при открытой клавиатуре.",
+            "tg": "Тугма ҳангоми клавиатураи кушода дида мешавад.",
+            "en": "The button stays visible with the keyboard open."
+          },
+          "values": "visible"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Откройте форму на устройстве и введите длинный текст: поле и кнопка видимы?",
+          "tg": "Шаклро дар дастгоҳ кушода, матни дароз ворид кунед: майдон ва тугма дида мешаванд?",
+          "en": "Open the form on a device and type long text: are the field and button visible?"
+        },
+        {
+          "ru": "Сохраните с клавиатуры кнопкой «Готово» и запишите, что произошло.",
+          "tg": "Аз клавиатура бо тугмаи «Тайёр» нигоҳ доред ва сабт кунед, ки чӣ шуд.",
+          "en": "Save from the keyboard with Done and record what happened."
+        }
+      ],
+      "hint": {
+        "ru": "Импортируйте Keyboard из react-native и вызовите Keyboard.dismiss() после setSaved.",
+        "tg": "Keyboard-ро аз react-native импорт карда, баъди setSaved Keyboard.dismiss()-ро хонед.",
+        "en": "Import Keyboard from react-native and call Keyboard.dismiss() after setSaved."
+      },
+      "success": {
+        "ru": "Поле и кнопка не закрываются клавиатурой, а сохранение работает с клавиатуры.",
+        "tg": "Майдон ва тугма аз клавиатура пӯшонида намешаванд ва нигоҳдорӣ аз клавиатура кор мекунад.",
+        "en": "The field and button stay clear of the keyboard and saving works from it."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте его на устройстве с открытой клавиатурой. Соберите решение: сохранение из клавиатуры, Keyboard.dismiss и список сохранённых строк. Запишите, как вёл себя экран при печати и после сохранения. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва онро дар дастгоҳ бо клавиатураи кушода санҷед. Ҳаллро созед: нигоҳдорӣ аз клавиатура, Keyboard.dismiss ва рӯйхати сатрҳои нигоҳдоришуда. Сабт кунед, ки экран ҳангоми навиштан ва баъди нигоҳдорӣ чӣ тавр рафтор кард. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check it on a device with the keyboard open. Build the solution: keyboard saving, Keyboard.dismiss and the list of stored rows. Record how the screen behaved while typing and after saving. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Поле и кнопка видимы при открытой клавиатуре.",
+          "tg": "Майдон ва тугма ҳангоми клавиатураи кушода дида мешаванд.",
+          "en": "The field and button are visible with the keyboard open."
+        },
+        {
+          "ru": "Сохранение с клавиатуры работает, клавиатура убирается после.",
+          "tg": "Нигоҳдорӣ аз клавиатура кор мекунад ва баъд клавиатура мебарад.",
+          "en": "Keyboard saving works and the keyboard dismisses after."
+        }
+      ],
+      "example": {
+        "ru": "После «Готово» заметка появляется в списке, а клавиатура исчезает.",
+        "tg": "Баъди «Тайёр» қайд дар рӯйхат пайдо мешавад ва клавиатура нопадид мешавад.",
+        "en": "After Done the note appears in the list and the keyboard disappears."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Клавиатуру учитывают явно: поведение зависит от платформы.",
+        "tg": "Клавиатураро ошкоро ҳисоб мекунанд: рафтор аз платформа вобаста аст.",
+        "en": "The keyboard is handled explicitly: behavior depends on the platform."
+      },
+      {
+        "ru": "Safe areas удерживают контент от вырезов и жестовых полос.",
+        "tg": "Минтақаҳои бехатар мазмунро аз буришҳо ва наворҳои ҷестӣ дур медоранд.",
+        "en": "Safe areas keep content away from notches and gesture bars."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что вызывает onSubmitEditing?",
+        "tg": "onSubmitEditing-ро чӣ мехонад?",
+        "en": "What triggers onSubmitEditing?"
+      },
+      {
+        "ru": "Что такое безопасные области?",
+        "tg": "Минтақаҳои бехатар чистанд?",
+        "en": "What are safe areas?"
+      }
+    ],
+    "nextLessonId": "mobile-day-32"
+  }
+}

@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-34",
+  "day": 34,
+  "prerequisiteDays": [
+    33
+  ],
+  "title": {
+    "ru": "Производительность списка",
+    "tg": "Самаранокии рӯйхат",
+    "en": "List performance"
+  },
+  "summary": {
+    "ru": "Покажите длинный список частями и объясните, почему двести строк сразу — плохо.",
+    "tg": "Рӯйхати дарозро ба қисмҳо нишон диҳед ва шарҳ диҳед, ки чаро дусад сатр якбора бад аст.",
+    "en": "Show a long list in parts and explain why two hundred rows at once is bad."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Список, который не тормозит",
+        "tg": "Рӯйхати сустнамешаванда",
+        "en": "A list that does not lag"
+      },
+      "body": {
+        "ru": "Двести строк, отрисованных одновременно, тратят память и время рендера: на слабом устройстве прокрутка дёргается. Правило производительности: показывать только то, что видно, и догружать по мере прокрутки. FlatList делает это сам, но требует правильного использования: стабильный keyExtractor, лёгкие строки без тяжёлых стилей и обработчик onEndReached, который добавляет следующую страницу, когда пользователь приближается к концу. Дополнительно: обработчики передают через useCallback, чтобы строка не считала свой проп новым на каждом рендере родителя. Прокрутку двухсот записей проверяют на устройстве, а не в браузере: тормоза видны только на реальном железе.",
+        "tg": "Дусад сатри якбора кашидашуда хотира ва вақти render-ро мехӯрад: дар дастгоҳи суст скролл мекашад. Қоидаи самаранокӣ: танҳо онро нишон диҳед, ки дида мешавад ва ҳангоми скролл илова кунед. FlatList инро худ мекунад, вале истифодаи дурустро талаб мекунад: keyExtractor-и устувор, сатрҳои сабук бе услубҳои вазнин ва обработчики onEndReached, ки ҳангоми наздик шудани корбар ба охир саҳифаи ояндаро илова мекунад. Илова: обработчикҳоро тавассути useCallback мегузаронанд, то сатр проп-и худро дар ҳар render-и волидайн нав ҳисоб накунад. Скролли дусад сабтро дар дастгоҳ месанҷанд, на дар браузер: сустӣ танҳо дар санги воқеӣ дида мешавад.",
+        "en": "Two hundred rows rendered at once spend memory and render time: scrolling stutters on a weak device. The performance rule: show only what is visible and load more as the user scrolls. FlatList does this by itself but demands correct use: a stable keyExtractor, light rows without heavy styles, and an onEndReached handler that appends the next page as the user nears the end. Additionally: handlers pass through useCallback so a row does not consider its prop new on every parent render. Scrolling two hundred records is checked on a device, not the browser: lag shows only on real hardware."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Массив из двухсот записей создаётся один раз вне компонента. В примере TaskList рисует map по первым двадцати — страница, а не весь список: это уже экономнее, чем двести сразу. В решении FlatList получает data как срез visible записей, keyExtractor берёт id, а onEndReached добавляет по двадцать, пока не кончатся двести. Строка — Pressable с ролью и подписью из дня 32. Проверьте на устройстве: прокрутка плавная, в конце списка появляется «Открыто: …» при нажатии. Запишите ощущение прокрутки до и после разбиения на страницы.",
+        "tg": "Массиви дусад сабт як бор берунаи компонент сохта мешавад. Дар мисол TaskList map-ро аз рӯи бист нахустин мекашад — саҳифа, на тамоми рӯйхат: ин аллакай сарфакор аз дусад аст. Дар ҳалл FlatList data-ро ҳамчун буриши visible мегирад, keyExtractor id-ро месанҷад ва onEndReached то тамом шудани дусад ҳар бор бист илова мекунад. Сатр Pressable бо нақш ва матни рӯзи 32 аст. Дар дастгоҳ санҷед: скролл шуст аст, дар охири рӯйхат ҳангоми пахш «Кушода шуд: …» пайдо мешавад. Ҳисси сколлро пеш аз баъди тақсим ба саҳифаҳо сабт кунед.",
+        "en": "The two-hundred-record array is created once outside the component. In the example TaskList maps over the first twenty — a page, not the whole list: already thriftier than two hundred at once. In the solution FlatList receives data as a slice of the visible records, keyExtractor takes the id, and onEndReached appends twenty at a time until the two hundred end. The row is a Pressable with the role and label from day 32. Check on a device: scrolling is smooth, and pressing near the end shows «Открыто: …». Record the scrolling feel before and after pagination."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({\n  id: `t${index + 1}`,\n  title: `Занятие ${index + 1}`,\n  minutes: 15 + (index % 4) * 5,\n}));\n\nfunction TaskRow({ task }: { task: Task }) {\n  return (\n    <View style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} мин.</Text>\n    </View>\n  );\n}\n\nexport function TaskList({ tasks }: { tasks: Task[] }) {\n  return (\n    <View>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Двести записей</Text>\n      <TaskList tasks={tasks.slice(0, 20)} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },\n  title: { fontSize: 16 },\n  minutes: { fontSize: 14, color: '#64748b' },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-34-q1",
+      "question": {
+        "ru": "Почему двести строк сразу — плохо?",
+        "tg": "Дусад сатр якбора барои чӣ бад аст?",
+        "en": "Why are two hundred rows at once bad?"
+      },
+      "options": [
+        {
+          "ru": "Строки перестают обновляться",
+          "tg": "Сатрҳо навшавӣ намешаванд",
+          "en": "Rows stop updating"
+        },
+        {
+          "ru": "FlatList запрещает это",
+          "tg": "FlatList инро мамнӯъ мекунад",
+          "en": "FlatList forbids it"
+        },
+        {
+          "ru": "Они тратят память и время рендера",
+          "tg": "Онҳо хотира ва вақти render-ро мехӯранд",
+          "en": "They spend memory and render time"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "На слабом устройстве прокрутка начинает дёргаться.",
+        "tg": "Дар дастгоҳи суст скролл мекашад.",
+        "en": "Scrolling stutters on a weak device."
+      },
+      "hint": {
+        "ru": "Перечитайте первое предложение первого раздела.",
+        "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+        "en": "Re-read the first sentence of the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-34-q2",
+      "question": {
+        "ru": "Что делает onEndReached?",
+        "tg": "onEndReached чӣ мекунад?",
+        "en": "What does onEndReached do?"
+      },
+      "options": [
+        {
+          "ru": "Добавляет следующую страницу при приближении к концу",
+          "tg": "Ҳангоми наздикӣ ба охир саҳифаи ояндаро илова мекунад",
+          "en": "Appends the next page when nearing the end"
+        },
+        {
+          "ru": "Удаляет начало списка",
+          "tg": "Охири рӯйхатро нест мекунад",
+          "en": "Deletes the list start"
+        },
+        {
+          "ru": "Прерывает прокрутку",
+          "tg": "Скроллро қатъ мекунад",
+          "en": "Interrupts scrolling"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Пользователь видит бесконечный список без единого ожидания.",
+        "tg": "Корбар рӯйхати беохирро бе як интизор мебинад.",
+        "en": "The user sees an endless list without a single wait."
+      },
+      "hint": {
+        "ru": "Найдите onEndReached в решении.",
+        "tg": "onEndReached-ро дар ҳалл ёбед.",
+        "en": "Find onEndReached in the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-34-q3",
+      "question": {
+        "ru": "Зачем обработчику openTask нужен useCallback?",
+        "tg": "openTask барои чӣ useCallback лозим дорад?",
+        "en": "Why does the openTask handler need useCallback?"
+      },
+      "options": [
+        {
+          "ru": "Чтобы функция работала быстрее",
+          "tg": "То функсия тезтар кор кунад",
+          "en": "To make the function faster"
+        },
+        {
+          "ru": "Чтобы строка не считала проп новым на каждом рендере",
+          "tg": "То сатр проп-и худро дар ҳар render нав ҳисоб накунад",
+          "en": "So a row does not consider its prop new on every render"
+        },
+        {
+          "ru": "Чтобы обработчик не вызывался дважды",
+          "tg": "То обработчик ду бор даъват нашавад",
+          "en": "So the handler never fires twice"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Стабильная ссылка позволяет FlatList экономнее обновлять строки.",
+        "tg": "Пайванди устувор ба FlatList имкон медиҳад сатрҳоро сарфакор нав кунад.",
+        "en": "A stable reference lets FlatList update rows thriftily."
+      },
+      "hint": {
+        "ru": "Перечитайте слова о пропах строк в первом разделе.",
+        "tg": "Калимаҳои дар бораи пропҳои сатрро дар бахши аввал аз нав хонед.",
+        "en": "Re-read the first-section words about row props."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-34-q4",
+      "question": {
+        "ru": "Что делает keyExtractor для производительности?",
+        "tg": "keyExtractor барои самаранокӣ чӣ мекунад?",
+        "en": "What does keyExtractor do for performance?"
+      },
+      "options": [
+        {
+          "ru": "Кэширует изображения",
+          "tg": "Расмҳоро кэш мекунад",
+          "en": "Caches images"
+        },
+        {
+          "ru": "Сжимает данные",
+          "tg": "Маълумотро фишор медиҳад",
+          "en": "Compresses data"
+        },
+        {
+          "ru": "Позволяет обновлять и переупорядочивать строки без полной перерисовки",
+          "tg": "Ба нав кардан ва ҷойивазкунии сатрҳо бе кашидани пурра имкон медиҳад",
+          "en": "Lets rows update and reorder without a full redraw"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Тот же принцип стабильных ключей из дней 9 и 16.",
+        "tg": "Ҳамон принсипи калидҳои устувори рӯзҳои 9 ва 16.",
+        "en": "The same stable-key principle as days 9 and 16."
+      },
+      "hint": {
+        "ru": "Вспомните день 16 про stable keys.",
+        "tg": "Рӯзи 16-ро дар бораи калидҳои устувор ёд оред.",
+        "en": "Recall day 16 about stable keys."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-34-q5",
+      "question": {
+        "ru": "Где проверяют плавность прокрутки?",
+        "tg": "Шустии сколлро дар куҷо месанҷанд?",
+        "en": "Where is scrolling smoothness checked?"
+      },
+      "options": [
+        {
+          "ru": "На реальном устройстве",
+          "tg": "Дар дастгоҳи воқеӣ",
+          "en": "On a real device"
+        },
+        {
+          "ru": "В браузере курса",
+          "tg": "Дар браузери курс",
+          "en": "In the course browser"
+        },
+        {
+          "ru": "На бумаге",
+          "tg": "Дар коғаз",
+          "en": "On paper"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Тормоза видны только на реальном железе.",
+        "tg": "Сустӣ танҳо дар санги воқеӣ дида мешавад.",
+        "en": "Lag shows only on real hardware."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова про реальное железо.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи санги воқеиро ёбед.",
+        "en": "Find the first-section words about real hardware."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и решение, прокрутите оба на устройстве и запишите ощущение прокрутки. Соберите счётчик видимых записей и убедитесь, что он растёт по двадцать. Проверьте подписи диктора на строках из дня 32. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисол ва ҳаллро созед, ҳардуиро дар дастгоҳ скролл карда, ҳисси сколлро сабт кунед. Шумораи сабтҳои дидашударо созед ва боварӣ ҳосил кунед, ки он бо бист меафзояд. Матнҳои хонандаро аз рӯзи 32 дар сатрҳо санҷед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and the solution, scroll both on a device and record the scrolling feel. Build a visible-record counter and confirm it grows by twenty. Check the day-32 reader labels on the rows. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "visible растёт через Math.min(current + PAGE, tasks.length), чтобы не выйти за двести.",
+      "tg": "visible тавассути Math.min(current + PAGE, tasks.length) меафзояд, то аз дусад набарояд.",
+      "en": "visible grows through Math.min(current + PAGE, tasks.length) to stay within two hundred."
+    },
+    "solution": "import { useCallback, useState } from 'react';\nimport { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst PAGE = 20;\n\nconst tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({\n  id: `t${index + 1}`,\n  title: `Занятие ${index + 1}`,\n  minutes: 15 + (index % 4) * 5,\n}));\n\nfunction TaskRow({ task, onOpen }: { task: Task; onOpen: (id: string) => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel={`${task.title}, ${task.minutes} минут`}\n      onPress={() => onOpen(task.id)}\n      style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n    >\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} мин.</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [visible, setVisible] = useState(PAGE);\n  const [opened, setOpened] = useState<string | null>(null);\n\n  const openTask = useCallback((id: string) => setOpened(id), []);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Двести записей по частям</Text>\n      {opened ? <Text>Открыто: {opened}</Text> : <Text>Нажмите строку, чтобы открыть.</Text>}\n      <FlatList\n        data={tasks.slice(0, visible)}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <TaskRow task={item} onOpen={openTask} />}\n        onEndReached={() => setVisible(current => Math.min(current + PAGE, tasks.length))}\n        onEndReachedThreshold={0.3}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },\n  pressed: { opacity: 0.6 },\n  title: { fontSize: 16 },\n  minutes: { fontSize: 14, color: '#64748b' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Прокрутка двухсот записей плавная на устройстве.",
+        "tg": "Скролли дусад сабт дар дастгоҳ шуст аст.",
+        "en": "Scrolling two hundred records is smooth on a device."
+      },
+      {
+        "ru": "Страницы добавляются по двадцать до конца списка.",
+        "tg": "Саҳифаҳо бо бист то охири рӯйхат илова мешаванд.",
+        "en": "Pages append by twenty until the list ends."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Показывать длинный список частями через onEndReached.",
+        "tg": "Рӯйхати дарозро ба қисмҳо тавассути onEndReached нишон диҳед.",
+        "en": "Show a long list in parts through onEndReached."
+      },
+      {
+        "ru": "Объяснить связь стабильных ключей и плавной прокрутки.",
+        "tg": "Пайванди калидҳои устувор ва сколли шустаро шарҳ диҳед.",
+        "en": "Explain the tie between stable keys and smooth scrolling."
+      }
+    ],
+    "realWorld": {
+      "ru": "Лента новостей подгружает следующую страницу, пока вы ещё читаете текущую.",
+      "tg": "Лентаи хабарҳо саҳифаи ояндаéro меоварад, то шумо ҳанӯз ҷорияро мехонед.",
+      "en": "A news feed loads the next page while you are still reading the current one."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что делает onEndReached?",
+        "tg": "onEndReached чӣ мекунад?",
+        "en": "What does onEndReached do?"
+      },
+      "options": [
+        {
+          "ru": "Добавляет следующую страницу при приближении к концу",
+          "tg": "Ҳангоми наздикӣ ба охир саҳифаи ояндаро илова мекунад",
+          "en": "Appends the next page when nearing the end"
+        },
+        {
+          "ru": "Удаляет начало списка",
+          "tg": "Охири рӯйхатро нест мекунад",
+          "en": "Deletes the list start"
+        },
+        {
+          "ru": "Прерывает прокрутку",
+          "tg": "Скроллро қатъ мекунад",
+          "en": "Interrupts scrolling"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Найдите onEndReached в решении.",
+        "tg": "onEndReached-ро дар ҳалл ёбед.",
+        "en": "Find onEndReached in the solution."
+      },
+      "explanation": {
+        "ru": "Пользователь видит бесконечный список без единого ожидания.",
+        "tg": "Корбар рӯйхати беохирро бе як интизор мебинад.",
+        "en": "The user sees an endless list without a single wait."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({\n  id: `t${index + 1}`,\n  title: `Занятие ${index + 1}`,\n  minutes: 15 + (index % 4) * 5,\n}));\n\nfunction TaskRow({ task }: { task: Task }) {\n  return (\n    <View style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} мин.</Text>\n    </View>\n  );\n}\n\nexport function TaskList({ tasks }: { tasks: Task[] }) {\n  return (\n    <View>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Двести записей</Text>\n      <TaskList tasks={tasks.slice(0, 20)} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },\n  title: { fontSize: 16 },\n  minutes: { fontSize: 14, color: '#64748b' },\n});\n",
+      "steps": [
+        {
+          "line": 6,
+          "explanation": {
+            "ru": "Двести записей создаются один раз.",
+            "tg": "Дусад сабт як бор сохта мешавад.",
+            "en": "Two hundred records are created once."
+          },
+          "values": "200 records"
+        },
+        {
+          "line": 33,
+          "explanation": {
+            "ru": "FlatList получает срез видимых записей.",
+            "tg": "FlatList буриши сабтҳои дидашударо мегирад.",
+            "en": "FlatList receives the visible-record slice."
+          },
+          "values": "slice(0, visible)"
+        },
+        {
+          "line": 36,
+          "explanation": {
+            "ru": "Достижение конца добавляет следующую страницу.",
+            "tg": "Расидан ба охир саҳифаи ояндаро илова мекунад.",
+            "en": "Reaching the end appends the next page."
+          },
+          "values": "+20"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Прокрутите список решения на устройстве до конца и наблюдайте подгрузку.",
+          "tg": "Рӯйхати ҳаллро дар дастгоҳ то охир скролл карда, боркуниро пайгирӣ кунед.",
+          "en": "Scroll the solution list on a device to the end and watch the loading."
+        },
+        {
+          "ru": "Сравните ощущение прокрутки с полным map на двести строк.",
+          "tg": "Ҳисси сколлро бо map-и пурраи дусад сатр муқоиса кунед.",
+          "en": "Compare the scrolling feel with a full map over two hundred rows."
+        }
+      ],
+      "hint": {
+        "ru": "visible растёт через Math.min(current + PAGE, tasks.length), чтобы не выйти за двести.",
+        "tg": "visible тавассути Math.min(current + PAGE, tasks.length) меафзояд, то аз дусад набарояд.",
+        "en": "visible grows through Math.min(current + PAGE, tasks.length) to stay within two hundred."
+      },
+      "success": {
+        "ru": "Прокрутка остаётся плавной до последней записи, страницы добавляются незаметно.",
+        "tg": "Скролл то охирин сабт шуст мемонад ва саҳифаҳо бе диққат илова мешаванд.",
+        "en": "Scrolling stays smooth to the last record and pages append unnoticeably."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и решение, прокрутите оба на устройстве и запишите ощущение прокрутки. Соберите счётчик видимых записей и убедитесь, что он растёт по двадцать. Проверьте подписи диктора на строках из дня 32. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисол ва ҳаллро созед, ҳардуиро дар дастгоҳ скролл карда, ҳисси сколлро сабт кунед. Шумораи сабтҳои дидашударо созед ва боварӣ ҳосил кунед, ки он бо бист меафзояд. Матнҳои хонандаро аз рӯзи 32 дар сатрҳо санҷед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and the solution, scroll both on a device and record the scrolling feel. Build a visible-record counter and confirm it grows by twenty. Check the day-32 reader labels on the rows. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Прокрутка двухсот записей плавная на устройстве.",
+          "tg": "Скролли дусад сабт дар дастгоҳ шуст аст.",
+          "en": "Scrolling two hundred records is smooth on a device."
+        },
+        {
+          "ru": "Страницы добавляются по двадцать до конца списка.",
+          "tg": "Саҳифаҳо бо бист то охири рӯйхат илова мешаванд.",
+          "en": "Pages append by twenty until the list ends."
+        }
+      ],
+      "example": {
+        "ru": "После нескольких прокруток в конце списка видна запись «Занятие 200».",
+        "tg": "Баъди чанд скролл дар охири рӯйхат сабти «Машғулияти 200» дида мешавад.",
+        "en": "After several scrolls the last record «Занятие 200» appears."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Показывайте видимое и догружайте по мере прокрутки.",
+        "tg": "Он чиро ки дида мешавад нишон диҳед ва ҳангоми скролл илова кунед.",
+        "en": "Show what is visible and load more while scrolling."
+      },
+      {
+        "ru": "Стабильные ключи и лёгкие строки — основа плавного списка.",
+        "tg": "Калидҳои устувор ва сатрҳои сабук асоси рӯйхати шустанд.",
+        "en": "Stable keys and light rows are the basis of a smooth list."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что делает onEndReached?",
+        "tg": "onEndReached чӣ мекунад?",
+        "en": "What does onEndReached do?"
+      },
+      {
+        "ru": "Где проверяют плавность прокрутки?",
+        "tg": "Шустии сколлро дар куҷо месанҷанд?",
+        "en": "Where is scrolling smoothness checked?"
+      }
+    ],
+    "nextLessonId": "mobile-day-35"
+  }
+}
