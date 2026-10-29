@@ -33,8 +33,10 @@ test('answers library filters, searches, exports and preserves reading progress 
   await expect(page.locator('.answer-topic-card[href="/answers/deep-71"]')).toBeVisible();
   await expect(page.getByRole('searchbox')).toHaveValue('/products/:id');
   await page.locator('.answer-topic-card[href="/answers/deep-71"]').click();
-  await expect(page.locator('.lesson-article pre')).toContainText('// Route: /products/:id');
-  await expect(page.locator('.flow-steps')).toContainText('UI update');
+  // Cold dev-server compilation of the first deep answer can exceed the default
+  // 5s on CI runners; the assertion stays the same, only the wait grows.
+  await expect(page.locator('.lesson-article pre')).toContainText('// Route: /products/:id', { timeout: 20000 });
+  await expect(page.locator('.flow-steps')).toContainText('UI update', { timeout: 20000 });
   await page.goto('/answers/deep-1');
   await expect(page.locator('.answer-reading-body').first()).toContainText(quiz.groups[0].items[0].correctAnswer);
   await page.getByRole('button', { name: 'Прочитал и понял', exact: true }).first().click();
