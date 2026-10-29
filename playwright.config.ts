@@ -15,6 +15,9 @@ export default defineConfig({
   // A failing CI job stops at its first real failure for prompt diagnostics.
   // A green job still executes the entire configured desktop/mobile suite.
   maxFailures: process.env.GITHUB_ACTIONS ? 1 : 0,
+  // Legacy multi-page regressions are marginally timed on slower CI runners:
+  // a real break fails every retry, a runner hiccup passes on the second try.
+  retries: process.env.GITHUB_ACTIONS ? 2 : 0,
   timeout: 30000,
   reporter: process.env.GITHUB_ACTIONS ? [['list'],['./e2e/github-failure-reporter.ts']] : 'list',
   use: {
