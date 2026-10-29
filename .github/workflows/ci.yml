@@ -64,9 +64,13 @@ jobs:
 
       - name: Playwright Desktop and Mobile E2E
         run: npm run test:e2e
+        env:
+          PLAYWRIGHT_PROD_SERVER: 'true'
 
       - name: Playwright Mock Auth Regression
         run: npm run test:auth
+        env:
+          PLAYWRIGHT_PROD_SERVER: 'true'
 
   windows:
     name: Windows · ${{ matrix.shell }} · Node ${{ matrix.node }} · Unicode path

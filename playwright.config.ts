@@ -30,7 +30,11 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
-    command: 'npm run dev -- --hostname 127.0.0.1 --port 3100',
+    // CI builds production right before e2e; serving that build removes
+    // dev-mode compile slowness that made Windows runners flake mid-suite.
+    command: process.env.PLAYWRIGHT_PROD_SERVER === 'true'
+      ? 'npm run start -- --hostname 127.0.0.1 --port 3100'
+      : 'npm run dev -- --hostname 127.0.0.1 --port 3100',
     url: 'http://127.0.0.1:3100/home',
     reuseExistingServer: process.env.PLAYWRIGHT_REUSE_SERVER === 'true',
     timeout: 120000,
