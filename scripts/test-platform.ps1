@@ -63,6 +63,7 @@ try {
         # removes dev-mode compile slowness that flaked Windows runners.
         $env:PLAYWRIGHT_PROD_SERVER = 'true'
         Invoke-CheckedNative -Command $npmBinary -Arguments @('run', 'test:e2e')
+        Remove-Item Env:PLAYWRIGHT_PROD_SERVER -ErrorAction SilentlyContinue
         Invoke-CheckedNative -Command $npmBinary -Arguments @('run', 'test:auth')
     }
 } catch {
