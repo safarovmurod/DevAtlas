@@ -39,10 +39,21 @@ it('requires matching server assessment or an explicit local-only flow that cann
    const assessment=await loadAssessmentBank(id,lesson.id);
    if(lesson.learningFlow.assessmentMode==='local-only'){
     expect(assessment).toBeNull();
-    expect(COURSE_CATALOG.find(course=>course.id===id)?.runtime).toBe('local');
     expect(lesson.questions.length).toBeGreaterThanOrEqual(5);
     expect(lesson.practice).toBeDefined();
-    expect(lesson.learningFlow.demo.kind).toBe('code-trace');
+    // Code courses trace real code; document courses render a real practice
+    // document with no code sections. Both stay local simulations: neither
+    // fakes execution output and neither claims server attestation.
+    if(lesson.learningFlow.demo.kind==='html-document'){
+     // Document courses declare no runtime: written practice runs on paper,
+     // and the demo renders a real practice document, not execution output.
+     expect(lesson.practice!.kind).toBe('written');
+     expect(lesson.sections.some(section=>section.code!==undefined)).toBe(false);
+     expect(COURSE_CATALOG.find(course=>course.id===id)?.runtime).toBeUndefined();
+    }else{
+     expect(lesson.learningFlow.demo.kind).toBe('code-trace');
+     expect(COURSE_CATALOG.find(course=>course.id===id)?.runtime).toBe('local');
+    }
     continue;
    }
    expect(assessment,`${id}/${lesson.id} assessment`).not.toBeNull();

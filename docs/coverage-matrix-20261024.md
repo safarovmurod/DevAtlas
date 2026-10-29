@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/coverage-matrix.mjs`. Validate without writing: `node scripts/coverage-matrix.mjs --check`.
 
-38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 978 actual scheduled days.
+38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1006 actual scheduled days.
 
 Missing: 72 · Planned: 0 · In Progress: 0 · Published: 42 · Verified: 0
 
@@ -91,7 +91,7 @@ Published describes existing curriculum availability, not completion of the stri
 | Agent Harness (agent-harness) | beginner | Published | agent-harness | 14 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Agent Harness (agent-harness) | pro | Missing | — | 0 | agent-harness-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Agent Harness (agent-harness) | expert | Missing | — | 0 | agent-harness-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| UX/UI Design (ux) | beginner | Published | ux-design | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| UX/UI Design (ux) | beginner | Published | ux-design | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | UX/UI Design (ux) | pro | Published | ux-pro | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | UX/UI Design (ux) | expert | Missing | — | 0 | ux-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Digital Marketing (digital-marketing) | beginner | Published | digital-marketing | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |

@@ -642,12 +642,32 @@
       "id": "expand-ux-design",
       "priority": "P1",
       "title": "Finish short course: ux-design",
-      "status": "PARTIAL",
+      "status": "DONE",
       "evidence": [
-        "2 published days; draft target 30 days; not a completed curriculum"
+        "30 authored published days; original day-01/02 IDs and their original quiz questions retained; 150 RU/TG/EN questions (5 per day)",
+        "Full learning flow on every day (objectives, prediction, guided practice, mini challenge, review); written practice with reference answers on all 30 days",
+        "Blueprint docs/curriculum-design/short-courses.draft.json followed: research/ethics days 1-9, synthesis days 10-16, prototype days 17-23, testing and final case days 24-30",
+        "8 verified https sources (W3C WAI x2, Nielsen Norman Group x4, Usability.gov); local checks are honest Self Reviewed, no automated design attestation claimed"
       ],
       "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
-      "validation": []
+      "validation": [
+        "Targeted Vitest: tests/ux-design-course.test.ts (2), general-course-content (5), catalog-copy (3) passed; full suite 457 passed / 9 skipped",
+        "Schema validation via courseContentSchema: 30 lessons OK; RU theory words avg 187 (min 153); questions/day 5.0; stale-copy scan: 0 hits",
+        "npm typecheck, lint and build passed; coverage-matrix and delivery-report --check pass at 1006 published days",
+        "CI and main verification pending until PR merge (filled after merge)"
+      ],
+      "changedFiles": [
+        "src/content/courses/ux-design.json",
+        "src/content/courses/catalog.ts",
+        "src/lib/catalog-copy.ts",
+        "tests/ux-design-course.test.ts",
+        "tests/general-course-content.test.ts",
+        "tests/learning-flow.test.ts",
+        "tests/stage-coverage.test.ts",
+        "docs/coverage-matrix.json",
+        "docs/SELF_LEARNING_CONTENT_AUDIT.md",
+        "docs/delivery-state.json"
+      ]
     },
     {
       "id": "expand-digital-marketing",
@@ -1793,13 +1813,23 @@
       "id": "stage-ux-beginner",
       "priority": "P1",
       "title": "UX/UI Design / beginner",
-      "status": "PARTIAL",
+      "status": "DONE",
       "evidence": [
-        "2 published days; courses: ux-design",
-        "docs/coverage-matrix.json"
+        "30 published days; course: ux-design; beginner stage published with full curriculum",
+        "docs/coverage-matrix.json (publishedDays 2 -> 30; repo total 978 -> 1006)"
       ],
       "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
-      "validation": []
+      "validation": [
+        "Full suite 457 passed / 9 skipped; stage-coverage strict test updated to 1006 published days and passes",
+        "Local-only flow gate: 30 UX lessons carry local-only assessment mode with written practice and no code sections"
+      ],
+      "changedFiles": [
+        "src/content/courses/ux-design.json",
+        "src/content/courses/catalog.ts",
+        "docs/coverage-matrix.json",
+        "tests/stage-coverage.test.ts",
+        "tests/ux-design-course.test.ts"
+      ]
     },
     {
       "id": "stage-ux-pro",

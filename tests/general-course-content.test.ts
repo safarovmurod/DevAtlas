@@ -11,6 +11,7 @@ const introductions = [
 ] as const;
 const applied = ['ux-pro', 'business-pro'] as const;
 const appliedDays = { 'ux-pro': 30, 'business-pro': 30 } as Record<string, number>;
+const starterDays = { 'ux-design': 30 } as Record<string, number>;
 async function content(id: string) {
   const file = await readFile(path.join(process.cwd(), 'src/content/courses', `${id}.json`), 'utf8');
   return courseContentSchema.parse(JSON.parse(file));
@@ -24,7 +25,7 @@ describe('original general-education modules', () => {
     for (const id of [...introductions, ...applied]) {
       const course = await content(id);
       expect(course.courseId).toBe(id);
-      const count = appliedDays[id] ?? 2;
+      const count = appliedDays[id] ?? starterDays[id] ?? 2;
       const plan = courseMonthPlan(course.lessons);
       expect(plan.map(item => item.day)).toEqual(Array.from({ length: count }, (_, index) => index + 1));
       expect(course.lessons).toHaveLength(count);
@@ -63,7 +64,7 @@ describe('original general-education modules', () => {
         }
       }
     }
-    expect(lessonCount).toBe(80);
+    expect(lessonCount).toBe(108);
   });
 
   it('applied Pro cases are distinct from free introductions and include intermediate days', async () => {
