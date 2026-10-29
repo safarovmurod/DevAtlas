@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-27",
+  "day": 27,
+  "prerequisiteDays": [
+    26
+  ],
+  "title": {
+    "ru": "Отмена устаревшего запроса",
+    "tg": "Бекор кардани дархости кӯҳна",
+    "en": "Canceling a stale request"
+  },
+  "summary": {
+    "ru": "Научите поиск отменять предыдущий запрос через AbortController.",
+    "tg": "Ҷустуҷӯро таълим диҳед, ки дархости қаблиро тавассути AbortController бекор кунад.",
+    "en": "Teach the search to cancel the previous request through AbortController."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Ответы приходят не по порядку",
+        "tg": "Ҷавобҳо ба тартиб намеоянд",
+        "en": "Responses do not arrive in order"
+      },
+      "body": {
+        "ru": "Пользователь печатает «ко», потом «кот»: два запроса уходят в сеть, и ответ на первый может вернуться позже второго. Без отмены экран покажет результаты для «ко», хотя в поле уже «кот». AbortController создаёт сигнал отмены: его передают в fetch, а метод abort прерывает запрос. В useEffect очистка возвращается функцией — React вызовет её перед следующим запуском эффекта, поэтому предыдущий запрос отменяется при каждом новом символе. Отменённый fetch отклоняется с ошибкой AbortError: её отличают по имени и не показывают пользователю как сбой. Это тот же принцип, что и гонка состояний из дня 8: последний ввод должен побеждать.",
+        "tg": "Корбар «ко»-ро менависад, баъд «кот»: ду дархост ба шабака мераванд ва ҷавоби аввал метавонад баъдтар аз дуюм биёяд. Бе бекоркунӣ экран натиҷаҳои «ко»-ро нишон медиҳад, ҳол он ки дар майдон аллакай «кот» аст. AbortController сигнали бекоркунӣ месозад: онро ба fetch медиҳанд ва усули abort дархостро қатъ мекунад. Дар useEffect тозакунӣ ҳамчун функсия бармегардад — React онро пеш аз оғози ояндаи эффект мехонад, бинобар ин дархости қаблӣ ҳангоми ҳар ҳарфи нав бекор мешавад. fetch-и бекоршуда бо хатои AbortError рад мешавад: онро аз рӯи ном фарқ мекунанд ва ҳамчун хато ба корбар нишон намедиҳанд. Ин ҳамон принсипи гонкаи ҳолатҳои рӯзи 8 аст: вуруди охирин бояд ғолиб ояд.",
+        "en": "The user types \"ко\", then \"кот\": two requests go to the network and the first answer may return after the second. Without cancellation the screen shows results for \"ко\" while the field already holds \"кот\". AbortController creates a cancel signal: it is passed to fetch and the abort method interrupts the request. In useEffect the cleanup returns as a function — React calls it before the next effect run, so the previous request cancels on every new character. An aborted fetch rejects with an AbortError: it is told apart by name and not shown to the user as a failure. It is the same principle as the day-8 state race: the latest input must win."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Пустой запрос не ходит в сеть: titles очищаются сразу. Для непустого создаётся controller, и его signal уходит в fetch. Ответ фильтруется по вхождению строки без учёта регистра — toLowerCase с обеих сторон. catch различает AbortError по свойству name и молча пропускает отмену. Функция очистки вызывает controller.abort() — она выполняется перед следующим запуском эффекта и при размонтировании. Введите слово, потом быстро допишите буквы: найденное обновляется, а устаревшие ответы отменяются. В решении добавлен счётчик отмен — видно, что abort действительно работает.",
+        "tg": "Дархости холӣ ба шабака намеравад: titles фавран тоза мешавад. Барои сатри холӣ controller сохта, signal-и ӯ ба fetch дода мешавад. ҷавоб аз рӯи даромадани сатр бе ҳисоби калон-хурдӣ филтр мешавад — toLowerCase аз ҳарду тараф. catch AbortError-ро аз рӯи хосияти name фарқ карда, бекоркуниро овозхон нагузашта мегузарад. Функсияи тозакунӣ controller.abort()-ро мехонад — ӯ пеш аз оғози ояндаи эффект ва ҳангоми ҷудо шудани компонент иҷро мешавад. Калимаеро ворид кунед, баъд зуд ҳарф илова кунед: ёфташуда нав мешавад ва ҷавобҳои кӯҳна бекор мешаванд. Дар ҳалл шумораи бекоркуниҳо илова шудааст — дида мешавад, ки abort воқеан кор мекунад.",
+        "en": "An empty query does not hit the network: titles clear immediately. For a nonempty query a controller is created and its signal goes into fetch. The response filters by substring match case-insensitively — toLowerCase on both sides. catch tells an AbortError apart by its name property and silently skips the cancellation. The cleanup function calls controller.abort() — it runs before the next effect start and on unmount. Type a word, then quickly add letters: matches update and stale answers cancel. The solution adds a cancellation counter — you see that abort really works."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\n\nexport default function App() {\n  const [query, setQuery] = useState('');\n  const [titles, setTitles] = useState<string[]>([]);\n  const [status, setStatus] = useState<'loading' | 'done' | 'error'>('done');\n\n  useEffect(() => {\n    const trimmed = query.trim();\n    if (!trimmed) {\n      setTitles([]);\n      return;\n    }\n    const controller = new AbortController();\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=20', { signal: controller.signal })\n      .then(response => response.json())\n      .then((data: Todo[]) => {\n        const found = data\n          .map(item => item.title)\n          .filter(title => title.toLowerCase().includes(trimmed.toLowerCase()));\n        setTitles(found);\n        setStatus('done');\n      })\n      .catch((error: unknown) => {\n        if ((error as { name?: string }).name === 'AbortError') return;\n        setStatus('error');\n      });\n    return () => controller.abort();\n  }, [query]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Поиск занятий</Text>\n      <TextInput value={query} onChangeText={setQuery} placeholder=\"Введите слово\" style={styles.input} />\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && titles.length === 0 ? <Text>Ничего не найдено.</Text> : null}\n      {titles.map(title => <Text key={title}>{title}</Text>)}\n      {status === 'error' ? <Text>Сеть недоступна.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-27-q1",
+      "question": {
+        "ru": "Почему ответы могут прийти не по порядку?",
+        "tg": "Ҷавобҳо барои чӣ ба тартиб намеоянд?",
+        "en": "Why can responses arrive out of order?"
+      },
+      "options": [
+        {
+          "ru": "React перемешивает ответы",
+          "tg": "React ҷавобҳоро омехта мекунад",
+          "en": "React shuffles the answers"
+        },
+        {
+          "ru": "Каждый запрос идёт своей скоростью по сети",
+          "tg": "Ҳар дархост бо суръати худ аз шабака меравад",
+          "en": "Each request travels at its own network speed"
+        },
+        {
+          "ru": "fetch меняет порядок намеренно",
+          "tg": "fetch тартибро ошкоро иваз мекунад",
+          "en": "fetch reorders on purpose"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Сеть не гарантирует порядок доставки.",
+        "tg": "Шабака тартиби расониданро кафолат намедиҳад.",
+        "en": "The network guarantees no delivery order."
+      },
+      "hint": {
+        "ru": "Вспомните пример с «ко» и «кот».",
+        "tg": "Мисоли «ко» ва «кот»-ро ёд оред.",
+        "en": "Recall the \"ко\" and \"кот\" example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-27-q2",
+      "question": {
+        "ru": "Что делает AbortController?",
+        "tg": "AbortController чӣ мекунад?",
+        "en": "What does AbortController do?"
+      },
+      "options": [
+        {
+          "ru": "Шифрует запрос",
+          "tg": "Дархостро рамзгузорӣ мекунад",
+          "en": "Encrypts the request"
+        },
+        {
+          "ru": "Ускоряет ответ",
+          "tg": "Ҷавобро тез мекунад",
+          "en": "Speeds up the response"
+        },
+        {
+          "ru": "Даёт сигнал для отмены запроса",
+          "tg": "Сигнали бекоркунии дархост медиҳад",
+          "en": "Provides a signal to cancel a request"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "signal уходит в fetch, abort прерывает ожидание.",
+        "tg": "signal ба fetch меравад, abort интизорияро қатъ мекунад.",
+        "en": "The signal goes into fetch, abort interrupts the wait."
+      },
+      "hint": {
+        "ru": "Найдите в примере создание controller и передачу signal.",
+        "tg": "Дар мисол сохтани controller ва гузаронидани signal-ро ёбед.",
+        "en": "Find the controller creation and the signal passing."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-27-q3",
+      "question": {
+        "ru": "Когда React вызывает функцию очистки эффекта?",
+        "tg": "React функсияи тозакунии эффектро ҳангоми чӣ мехонад?",
+        "en": "When does React call the effect cleanup?"
+      },
+      "options": [
+        {
+          "ru": "Перед следующим запуском эффекта и при размонтировании",
+          "tg": "Пеш аз оғози ояндаи эффект ва ҳангоми ҷудо шудан",
+          "en": "Before the next effect run and on unmount"
+        },
+        {
+          "ru": "После каждого рендера",
+          "tg": "Баъди ҳар render",
+          "en": "After every render"
+        },
+        {
+          "ru": "Только при закрытии приложения",
+          "tg": "Танҳо ҳангоми пӯшидани барнома",
+          "en": "Only when the app closes"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Очистка подготавливает эффект к новому запуску.",
+        "tg": "Тозакунӣ эффектро барои оғози нав омода мекунад.",
+        "en": "Cleanup prepares the effect for a new run."
+      },
+      "hint": {
+        "ru": "Вспомните, что возвращает useEffect в примере.",
+        "tg": "Ёд оред, ки useEffect дар мисол чӣ бармегардонад.",
+        "en": "Recall what useEffect returns in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-27-q4",
+      "question": {
+        "ru": "Почему AbortError не показывают как сбой?",
+        "tg": "AbortError-ро барои чӣ ҳамчун хато нишон намедиҳанд?",
+        "en": "Why is AbortError not shown as a failure?"
+      },
+      "options": [
+        {
+          "ru": "Она ломает экран",
+          "tg": "Он экрани меканад",
+          "en": "It breaks the screen"
+        },
+        {
+          "ru": "Отмена — запланированное поведение, а не поломка",
+          "tg": "Бекоркунӣ рафтори дарназаршуда аст, на вайронӣ",
+          "en": "Cancellation is planned behavior, not a breakdown"
+        },
+        {
+          "ru": "Её не существует",
+          "tg": "Он вуҷуд надорад",
+          "en": "It does not exist"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Пользователь сам вызвал отмену новым вводом.",
+        "tg": "Корбар худ бо вуруди нав бекоркуниро оғоз кард.",
+        "en": "The user triggered the cancellation with new input."
+      },
+      "hint": {
+        "ru": "Найдите в catch проверку имени ошибки.",
+        "tg": "Дар catch санҷиши номи хаторо ёбед.",
+        "en": "Find the error name check in catch."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-27-q5",
+      "question": {
+        "ru": "Какой ввод должен побеждать в поиске?",
+        "tg": "Дар ҷустуҷӯ вуруди кадом бояд ғолиб ояд?",
+        "en": "Which input should win in search?"
+      },
+      "options": [
+        {
+          "ru": "Случайный",
+          "tg": "Тасодуфӣ",
+          "en": "A random one"
+        },
+        {
+          "ru": "Первый, он важнее",
+          "tg": "Аввал, он муҳимтар аст",
+          "en": "The first, it matters more"
+        },
+        {
+          "ru": "Последний, с отменой предыдущих запросов",
+          "tg": "Охирин, бо бекор кардани дархостҳои қаблӣ",
+          "en": "The latest, with earlier requests canceled"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Экран обязан показывать результат актуального поля.",
+        "tg": "Экран бояд натиҷаи майдони ҷориро нишон диҳад.",
+        "en": "The screen must show the result for the current field."
+      },
+      "hint": {
+        "ru": "Сравните с принципом дня 8 о последовательных обновлениях.",
+        "tg": "Бо принсипи рӯзи 8 дар бораи навсозиҳои пайиҳамӣ муқоиса кунед.",
+        "en": "Compare with the day-8 principle about sequential updates."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте поиск на устройстве при быстром наборе. Соберите решение со счётчиком отмен и запишите его значение после быстрого ввода. Убедитесь, что пустой запрос не ходит в сеть. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва ҷустуҷӯро дар дастгоҳ ҳангоми навишти тез санҷед. Ҳаллро бо шумораи бекоркуниҳо созед ва қиматашро баъди вуруди тез сабт кунед. Боварӣ ҳосил кунед, ки дархости холӣ ба шабака намеравад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check the search on a device while typing fast. Build the solution with the cancellation counter and record its value after fast typing. Confirm an empty query never hits the network. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Счётчик stopped увеличивается ровно в ветке AbortError.",
+      "tg": "Шумораи stopped тамоман дар шохаи AbortError меафзояд.",
+      "en": "The stopped counter grows exactly in the AbortError branch."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\n\nexport default function App() {\n  const [query, setQuery] = useState('');\n  const [titles, setTitles] = useState<string[]>([]);\n  const [status, setStatus] = useState<'loading' | 'done' | 'error'>('done');\n  const [stopped, setStopped] = useState(0);\n\n  useEffect(() => {\n    const trimmed = query.trim();\n    if (!trimmed) {\n      setTitles([]);\n      return;\n    }\n    const controller = new AbortController();\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=20', { signal: controller.signal })\n      .then(response => response.json())\n      .then((data: Todo[]) => {\n        const found = data\n          .map(item => item.title)\n          .filter(title => title.toLowerCase().includes(trimmed.toLowerCase()));\n        setTitles(found);\n        setStatus('done');\n      })\n      .catch((error: unknown) => {\n        if ((error as { name?: string }).name === 'AbortError') {\n          setStopped(value => value + 1);\n          return;\n        }\n        setStatus('error');\n      });\n    return () => controller.abort();\n  }, [query]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Поиск занятий</Text>\n      <TextInput value={query} onChangeText={setQuery} placeholder=\"Введите слово\" style={styles.input} />\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && titles.length === 0 ? <Text>Ничего не найдено.</Text> : null}\n      {titles.map(title => <Text key={title}>{title}</Text>)}\n      {status === 'error' ? <Text>Сеть недоступна.</Text> : null}\n      <Text>Отменённых запросов: {stopped}</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Быстрый набор показывает результат последнего ввода.",
+        "tg": "Навишти тез натиҷаи вуруди охиринро нишон медиҳад.",
+        "en": "Fast typing shows the latest input result."
+      },
+      {
+        "ru": "Счётчик отмен растёт, AbortError не показан как сбой.",
+        "tg": "Шумораи бекоркуниҳо меафзояд ва AbortError ҳамчун хато дида намешавад.",
+        "en": "The cancellation counter grows and AbortError never shows as a failure."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить гонку ответов и её вред.",
+        "tg": "Гонкаи ҷавобҳоро шарҳ диҳед ва зари онро фаҳмонед.",
+        "en": "Explain the response race and its harm."
+      },
+      {
+        "ru": "Отменять устаревший запрос через AbortController.",
+        "tg": "Дархости кӯҳнаро тавассути AbortController бекор кунед.",
+        "en": "Cancel a stale request through AbortController."
+      }
+    ],
+    "realWorld": {
+      "ru": "Поиск в любом приложении отменяет предыдущие запросы: печатаете быстро — видите результат последнего слова.",
+      "tg": "Ҷустуҷӯ дар ҳар барнома дархостҳои қаблиро бекор мекунад: зуд менависед — натиҷаи калимаи охиринро мебинед.",
+      "en": "Search in any app cancels earlier requests: type fast and you see the last word result."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что делает AbortController?",
+        "tg": "AbortController чӣ мекунад?",
+        "en": "What does AbortController do?"
+      },
+      "options": [
+        {
+          "ru": "Шифрует запрос",
+          "tg": "Дархостро рамзгузорӣ мекунад",
+          "en": "Encrypts the request"
+        },
+        {
+          "ru": "Ускоряет ответ",
+          "tg": "Ҷавобро тез мекунад",
+          "en": "Speeds up the response"
+        },
+        {
+          "ru": "Даёт сигнал для отмены запроса",
+          "tg": "Сигнали бекоркунии дархост медиҳад",
+          "en": "Provides a signal to cancel a request"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Найдите в примере создание controller и передачу signal.",
+        "tg": "Дар мисол сохтани controller ва гузаронидани signal-ро ёбед.",
+        "en": "Find the controller creation and the signal passing."
+      },
+      "explanation": {
+        "ru": "signal уходит в fetch, abort прерывает ожидание.",
+        "tg": "signal ба fetch меравад, abort интизорияро қатъ мекунад.",
+        "en": "The signal goes into fetch, abort interrupts the wait."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\n\nexport default function App() {\n  const [query, setQuery] = useState('');\n  const [titles, setTitles] = useState<string[]>([]);\n  const [status, setStatus] = useState<'loading' | 'done' | 'error'>('done');\n\n  useEffect(() => {\n    const trimmed = query.trim();\n    if (!trimmed) {\n      setTitles([]);\n      return;\n    }\n    const controller = new AbortController();\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=20', { signal: controller.signal })\n      .then(response => response.json())\n      .then((data: Todo[]) => {\n        const found = data\n          .map(item => item.title)\n          .filter(title => title.toLowerCase().includes(trimmed.toLowerCase()));\n        setTitles(found);\n        setStatus('done');\n      })\n      .catch((error: unknown) => {\n        if ((error as { name?: string }).name === 'AbortError') return;\n        setStatus('error');\n      });\n    return () => controller.abort();\n  }, [query]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Поиск занятий</Text>\n      <TextInput value={query} onChangeText={setQuery} placeholder=\"Введите слово\" style={styles.input} />\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && titles.length === 0 ? <Text>Ничего не найдено.</Text> : null}\n      {titles.map(title => <Text key={title}>{title}</Text>)}\n      {status === 'error' ? <Text>Сеть недоступна.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+      "steps": [
+        {
+          "line": 12,
+          "explanation": {
+            "ru": "Пустой запрос чистит результаты без сети.",
+            "tg": "Дархости холӣ натиҷаҳоро бе шабака тоза мекунад.",
+            "en": "An empty query clears results without the network."
+          },
+          "values": "titles=[]"
+        },
+        {
+          "line": 15,
+          "explanation": {
+            "ru": "Signal связывает запрос с контроллером.",
+            "tg": "Signal дархостро бо контроллер мепайвандад.",
+            "en": "The signal ties the request to the controller."
+          },
+          "values": "signal"
+        },
+        {
+          "line": 27,
+          "explanation": {
+            "ru": "Очистка отменяет устаревший запрос.",
+            "tg": "Тозакунӣ дархости кӯҳнаро бекор мекунад.",
+            "en": "The cleanup cancels the stale request."
+          },
+          "values": "abort()"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере создание AbortController и функцию очистки.",
+          "tg": "Дар мисол сохтани AbortController ва функсияи тозакуниро ёбед.",
+          "en": "Find the AbortController creation and the cleanup function."
+        },
+        {
+          "ru": "Введите слово и быстро допишите буквы: результаты соответствуют последнему вводу.",
+          "tg": "Калимаро ворид карда, зуд ҳарф илова кунед: натиҷаҳо ба вуруди охирин мутобиқанд.",
+          "en": "Type a word and quickly add letters: matches match the latest input."
+        }
+      ],
+      "hint": {
+        "ru": "Счётчик stopped увеличивается ровно в ветке AbortError.",
+        "tg": "Шумораи stopped тамоман дар шохаи AbortError меафзояд.",
+        "en": "The stopped counter grows exactly in the AbortError branch."
+      },
+      "success": {
+        "ru": "Результаты всегда отвечают текущему тексту поля, отмены не видны как ошибки.",
+        "tg": "Натиҷаҳо ҳамеша ба матни ҷории майдон мутобиқанд ва бекоркуниҳо ҳамчун хато дида намешаванд.",
+        "en": "Results always match the current field text and cancellations never show as errors."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте поиск на устройстве при быстром наборе. Соберите решение со счётчиком отмен и запишите его значение после быстрого ввода. Убедитесь, что пустой запрос не ходит в сеть. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва ҷустуҷӯро дар дастгоҳ ҳангоми навишти тез санҷед. Ҳаллро бо шумораи бекоркуниҳо созед ва қиматашро баъди вуруди тез сабт кунед. Боварӣ ҳосил кунед, ки дархости холӣ ба шабака намеравад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check the search on a device while typing fast. Build the solution with the cancellation counter and record its value after fast typing. Confirm an empty query never hits the network. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Быстрый набор показывает результат последнего ввода.",
+          "tg": "Навишти тез натиҷаи вуруди охиринро нишон медиҳад.",
+          "en": "Fast typing shows the latest input result."
+        },
+        {
+          "ru": "Счётчик отмен растёт, AbortError не показан как сбой.",
+          "tg": "Шумораи бекоркуниҳо меафзояд ва AbortError ҳамчун хато дида намешавад.",
+          "en": "The cancellation counter grows and AbortError never shows as a failure."
+        }
+      ],
+      "example": {
+        "ru": "После быстрого ввода счётчик отмен больше нуля, а результаты соответствуют последнему слову.",
+        "tg": "Баъди вуруди тез шумораи бекоркуниҳо аз сифр зиёд аст ва натиҷаҳо ба калимаи охирин мутобиқанд.",
+        "en": "After fast typing the cancellation counter is above zero and matches match the last word."
+      }
+    },
+    "summary": [
+      {
+        "ru": "AbortController отменяет устаревший запрос до его результата.",
+        "tg": "AbortController дархости кӯҳнаро то натиҷааш бекор мекунад.",
+        "en": "AbortController cancels a stale request before its result."
+      },
+      {
+        "ru": "AbortError — плановая отмена, а не сбой для пользователя.",
+        "tg": "AbortError бекоркунии дарназаршуда аст, на хато барои корбар.",
+        "en": "AbortError is a planned cancellation, not a user-facing failure."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что делает AbortController?",
+        "tg": "AbortController чӣ мекунад?",
+        "en": "What does AbortController do?"
+      },
+      {
+        "ru": "Какой ввод должен побеждать в поиске?",
+        "tg": "Дар ҷустуҷӯ вуруди кадом бояд ғолиб ояд?",
+        "en": "Which input should win in search?"
+      }
+    ],
+    "nextLessonId": "mobile-day-28"
+  }
+}

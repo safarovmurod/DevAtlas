@@ -1,0 +1,36 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+type Status = 'loading' | 'done' | 'error';
+
+function loadLessons(): Promise<string[]> {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(['Экран', 'Стили', 'Flexbox']), 1500);
+  });
+}
+
+export default function App() {
+  const [status, setStatus] = useState<Status>('loading');
+  const [items, setItems] = useState<string[]>([]);
+
+  useEffect(() => {
+    loadLessons()
+      .then(result => {
+        setItems(result);
+        setStatus('done');
+      })
+      .catch(() => setStatus('error'));
+  }, []);
+
+  return (
+    <View style={styles.screen}>
+      {status === 'loading' ? <Text>Загрузка…</Text> : null}
+      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}
+      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+});

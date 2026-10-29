@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-19",
+  "day": 19,
+  "prerequisiteDays": [
+    18
+  ],
+  "title": {
+    "ru": "Параметры экрана",
+    "tg": "Параметрҳои экран",
+    "en": "Screen parameters"
+  },
+  "summary": {
+    "ru": "Передайте выбранное занятие на второй экран через параметры маршрута.",
+    "tg": "Машғулияти интихобшударо тавассути параметрҳои масир ба экрани дуюм гузаронед.",
+    "en": "Pass the chosen lesson to the second screen through route parameters."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Данные едут вместе с переходом",
+        "tg": "Маълумот бо гузариш меравад",
+        "en": "Data travels with the transition"
+      },
+      "body": {
+        "ru": "Экран подробностей не должен угадывать, что выбрал пользователь: выбор передают параметрами. navigation.navigate('Details', { id: lesson.id }) открывает маршрут и передаёт объект параметров. На втором экране его читают через route.params — здесь route тоже приходит в props. Внутри параметры проверяют: params может отсутствовать, поэтому используется вопросительный знак и запасной текст, если запись не найдена. Найденную запись ищут в массиве по id методом find: он возвращает элемент или undefined. Так один экран подробностей обслуживает все записи списка. Параметры живут в памяти навигации: после перезапуска приложения их нет.",
+        "tg": "Экрани тафсилот набояд дарёфт кунад, ки корбар чиро интихоб кард: интихоб бо параметрҳо мегузарад. navigation.navigate('Details', { id: lesson.id }) масирро мекушояд ва объекти параметрҳоро медиҳад. Дар экрани дуюм онро тавассути route.params мехонанд — route ҳам аз props меояд. Дар дохил параметрҳоро санҷед: params метавонад набошад, бинобар ин аломати савол ва матни ҷойгузин истифода мешавад, агар сабт наёбад. Сабти ёфташударо дар массив аз рӯи id бо усули find меҷӯянд: он унсур ё undefined бармегардонад. Чунин як экрани тафсилот ҳамаи сабтҳои рӯйхатро хизмат мекунад. Параметрҳо дар хотираи навигатсия ҳастанд: баъди аз нав оғоз онҳо нестанд.",
+        "en": "The details screen must not guess what the user picked: the choice travels as parameters. navigation.navigate('Details', { id: lesson.id }) opens the route and passes a parameters object. The second screen reads it through route.params — route also arrives in props. Validate parameters inside: params may be missing, so the optional chaining and a fallback text handle an unknown record. The record is found in the array by id with the find method: it returns the item or undefined. This way one details screen serves every list record. Parameters live in navigation memory: after an app restart they are gone."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Массив lessons лежит вне компонентов: оба экрана читают одни и те же данные. ListScreen рисует кнопку для каждой записи через map, и каждая кнопка передаёт свой id в navigate. Тип navigation допускает второй аргумент — объект параметров. DetailsScreen извлекает route из props и находит запись: lessons.find(item => item.id === route.params?.id). Если параметра нет или id неизвестен, find вернёт undefined, и экран покажет «Занятие не найдено» вместо падения приложения. Запустите пример и откройте оба занятия — заголовок меняется. В решении на список добавлен счётчик записей.",
+        "tg": "Массиви lessons берунаи компонентҳост: ҳарду экран як маълумотро мехонанд. ListScreen барои ҳар сабт тугма тавассути map мекашад ва ҳар тугма id-и худро ба navigate медиҳад. Типи navigation аргументи дуюм — объекти параметрҳоро иҷозат медиҳад. DetailsScreen route-ро аз props мегирад ва сабтро меёбад: lessons.find(item => item.id === route.params?.id). Агар параметр набошад ё id маълум набошад, find undefined бармегардонад ва экран «Машғулият наёфт»-ро ба ҷои фурӯпошии барнома нишон медиҳад. Мисолро иҷро кунед ва ҳарду машғулиятро кушоед — сарлавҳа иваз мешавад. Дар ҳалл ба рӯйхат ҳисобкунаки сабтҳо илова шудааст.",
+        "en": "The lessons array lives outside the components: both screens read the same data. ListScreen renders a button per record through map, and each button passes its own id to navigate. The navigation type allows the second argument — the parameters object. DetailsScreen takes route from props and finds the record: lessons.find(item => item.id === route.params?.id). With no parameter or an unknown id, find returns undefined and the screen shows «Занятие не найдено» instead of crashing. Run the example and open both lessons — the header changes. The solution adds a record counter to the list."
+      },
+      "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nconst lessons = [\n  { id: 'a1', title: 'Первый шаг' },\n  { id: 'a2', title: 'Повторение' },\n];\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string, params?: { id: string }) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      {lessons.map(lesson => (\n        <Button key={lesson.id} title={lesson.title} onPress={() => navigation.navigate('Details', { id: lesson.id })} />\n      ))}\n    </View>\n  );\n}\n\nfunction DetailsScreen({ route }: { route: { params?: { id?: string } } }) {\n  const lesson = lessons.find(item => item.id === route.params?.id);\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">{lesson ? lesson.title : 'Занятие не найдено'}</Text>\n      {lesson ? <Text>Изучите тему этого занятия.</Text> : <Text>Вернитесь и выберите занятие.</Text>}\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-19-q1",
+      "question": {
+        "ru": "Как передать выбор на другой экран?",
+        "tg": "Интихобро ба экрани дигар чӣ тавр гузаронидан мумкин?",
+        "en": "How do you pass a choice to another screen?"
+      },
+      "options": [
+        {
+          "ru": "Записать в StyleSheet",
+          "tg": "Ба StyleSheet нависед",
+          "en": "Write it into StyleSheet"
+        },
+        {
+          "ru": "Через глобальную переменную",
+          "tg": "Тавассути тағйирёбандаи умумӣ",
+          "en": "Through a global variable"
+        },
+        {
+          "ru": "Вторым аргументом navigate",
+          "tg": "Ба воситаи аргументи дуюми navigate",
+          "en": "As the second argument of navigate"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Параметры передаются объектом во втором аргументе navigate.",
+        "tg": "Параметрҳо ҳамчун объекти аргументи дуюми navigate мегузаранд.",
+        "en": "Parameters pass as the object in the second navigate argument."
+      },
+      "hint": {
+        "ru": "Найдите в примере вызов navigate с двумя аргументами.",
+        "tg": "Дар мисол дархости navigate бо ду аргументро ёбед.",
+        "en": "Find the navigate call with two arguments in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-19-q2",
+      "question": {
+        "ru": "Где второй экран читает параметры?",
+        "tg": "Экрани дуюм параметрҳоро аз куҷо мехонад?",
+        "en": "Where does the second screen read parameters?"
+      },
+      "options": [
+        {
+          "ru": "Из route.params",
+          "tg": "Аз route.params",
+          "en": "From route.params"
+        },
+        {
+          "ru": "Из StyleSheet",
+          "tg": "Аз StyleSheet",
+          "en": "From StyleSheet"
+        },
+        {
+          "ru": "Из консоли",
+          "tg": "Аз консол",
+          "en": "From the console"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "route приходит в props и содержит params.",
+        "tg": "route аз props меояд ва params-ро дорад.",
+        "en": "route arrives in props and carries params."
+      },
+      "hint": {
+        "ru": "Посмотрите на props функции DetailsScreen.",
+        "tg": "Ба props-и функсияи DetailsScreen нигоҳ кунед.",
+        "en": "Look at the DetailsScreen function props."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-19-q3",
+      "question": {
+        "ru": "Что вернёт find для неизвестного id?",
+        "tg": "find барои id-и номаълум чӣ бармегардонад?",
+        "en": "What does find return for an unknown id?"
+      },
+      "options": [
+        {
+          "ru": "Первый элемент массива",
+          "tg": "Унсури аввали массив",
+          "en": "The first array item"
+        },
+        {
+          "ru": "undefined",
+          "tg": "undefined",
+          "en": "undefined"
+        },
+        {
+          "ru": "Пустую строку",
+          "tg": "Сатри холӣ",
+          "en": "An empty string"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Ничего не найдено — undefined; экран обязан это обработать.",
+        "tg": "Ҳеҷ чиз наёфт — undefined; экран бояд инро барорад.",
+        "en": "Nothing found — undefined; the screen must handle it."
+      },
+      "hint": {
+        "ru": "Найдите в примере запасной заголовок для не найденной записи.",
+        "tg": "Дар мисол сарлавҳаи ҷойгузин барои сабти наёфташударо ёбед.",
+        "en": "Find the fallback header for an unknown record in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-19-q4",
+      "question": {
+        "ru": "Зачем знак вопроса в route.params?.id?",
+        "tg": "Аломати савол дар route.params?.id барои чӣ аст?",
+        "en": "Why the question mark in route.params?.id?"
+      },
+      "options": [
+        {
+          "ru": "Это комментарий",
+          "tg": "Ин шарҳ аст",
+          "en": "It is a comment"
+        },
+        {
+          "ru": "Так пишут все свойства",
+          "tg": "Ҳамаи хосиятҳоро чунин менависанд",
+          "en": "All properties are written that way"
+        },
+        {
+          "ru": "params может отсутствовать",
+          "tg": "params метавонад набошад",
+          "en": "params may be missing"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Опциональная цепочка не падает, если params пуст.",
+        "tg": "Занҷири ихтиёрӣ ҳангоми холӣ будани params намеафтад.",
+        "en": "Optional chaining does not crash when params is empty."
+      },
+      "hint": {
+        "ru": "Вспомните, что передаёт navigate при переходе без параметров.",
+        "tg": "Ёд оред, ки navigate ҳангоми гузариш бе параметр чӣ медиҳад.",
+        "en": "Recall what navigate passes on a transition without parameters."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-19-q5",
+      "question": {
+        "ru": "Что станет с параметрами после перезапуска приложения?",
+        "tg": "Баъди аз нав оғоз бо параметрҳо чӣ мешавад?",
+        "en": "What happens to parameters after an app restart?"
+      },
+      "options": [
+        {
+          "ru": "Они исчезнут вместе с навигацией",
+          "tg": "Онҳо бо навигатсия нопадид мешаванд",
+          "en": "They disappear with the navigation"
+        },
+        {
+          "ru": "Они сохранятся на диске",
+          "tg": "Онҳо дар диск нигоҳ дошта мешаванд",
+          "en": "They are saved to disk"
+        },
+        {
+          "ru": "Они улетят на сервер",
+          "tg": "Онҳо ба сервер мераванд",
+          "en": "They are uploaded to a server"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Параметры живут в памяти навигации; сохранение — тема дня 28.",
+        "tg": "Параметрҳо дар хотираи навигатсия ҳастанд; нигоҳдорӣ мавзӯи рӯзи 28 аст.",
+        "en": "Parameters live in navigation memory; persistence is the day-28 topic."
+      },
+      "hint": {
+        "ru": "Вспомните, где хранится история стека.",
+        "tg": "Ёд оред, ки таърихи стек дар куҷо нигоҳ дошта мешавад.",
+        "en": "Recall where the stack history is stored."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте переходы с параметрами на устройстве. Добавьте третью запись в массив и убедитесь, что она открывается. Временно передайте неизвестный id и запишите, что показал запасной экран. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва гузаришҳоро бо параметрҳо дар дастгоҳ санҷед. Сабти сеюмро ба массив илова карда, боварӣ ҳосил кунед, ки кушода мешавад. Муваққатан id-и номаълум гузаронед ва сабт кунед, ки экрани ҷойгузин чӣ нишон дод. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check the parameter transitions on a device. Add a third record to the array and confirm it opens. Temporarily pass an unknown id and record what the fallback screen showed. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Третью запись добавьте в массив lessons с уникальным id; неизвестный id передайте строкой вроде x9.",
+      "tg": "Сабти сеюмро бо id-и ягона ба lessons илова кунед; id-и номаълумро бо сатри монанди x9 гузаронед.",
+      "en": "Add the third record to lessons with a unique id; pass an unknown id like x9 as a string."
+    },
+    "solution": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nconst lessons = [\n  { id: 'a1', title: 'Первый шаг' },\n  { id: 'a2', title: 'Повторение' },\n  { id: 'a3', title: 'Списки' },\n];\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string, params?: { id: string }) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text>Занятий: {lessons.length}</Text>\n      {lessons.map(lesson => (\n        <Button key={lesson.id} title={lesson.title} onPress={() => navigation.navigate('Details', { id: lesson.id })} />\n      ))}\n    </View>\n  );\n}\n\nfunction DetailsScreen({ route }: { route: { params?: { id?: string } } }) {\n  const lesson = lessons.find(item => item.id === route.params?.id);\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">{lesson ? lesson.title : 'Занятие не найдено'}</Text>\n      {lesson ? <Text>Изучите тему этого занятия.</Text> : <Text>Вернитесь и выберите занятие.</Text>}\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Три записи открываются с правильными заголовками.",
+        "tg": "Се сабт бо сарлавҳаҳои дуруст кушода мешаванд.",
+        "en": "Three records open with correct headers."
+      },
+      {
+        "ru": "Записана реакция приложения на неизвестный id.",
+        "tg": "Муносибати барнома ба id-и номаълум сабт шудааст.",
+        "en": "The app reaction to an unknown id is recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Передать id выбранной записи параметрами маршрута.",
+        "tg": "id-и сабти интихобшударо бо параметрҳои масир гузаронед.",
+        "en": "Pass the chosen record id as route parameters."
+      },
+      {
+        "ru": "Обработать отсутствие записи честным запасным экраном.",
+        "tg": "Набудани сабтро бо экрани ҷойгузини рӯбарӯ бароред.",
+        "en": "Handle a missing record with an honest fallback screen."
+      }
+    ],
+    "realWorld": {
+      "ru": "Каждый товар в магазине открывает один и тот же экран товара — с разным id.",
+      "tg": "Ҳар мол дар мағоза як экрани якхеларо мекушояд — бо id-и гуногун.",
+      "en": "Every shop item opens the same product screen — with a different id."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Где второй экран читает параметры?",
+        "tg": "Экрани дуюм параметрҳоро аз куҷо мехонад?",
+        "en": "Where does the second screen read parameters?"
+      },
+      "options": [
+        {
+          "ru": "Из route.params",
+          "tg": "Аз route.params",
+          "en": "From route.params"
+        },
+        {
+          "ru": "Из StyleSheet",
+          "tg": "Аз StyleSheet",
+          "en": "From StyleSheet"
+        },
+        {
+          "ru": "Из консоли",
+          "tg": "Аз консол",
+          "en": "From the console"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Посмотрите на props функции DetailsScreen.",
+        "tg": "Ба props-и функсияи DetailsScreen нигоҳ кунед.",
+        "en": "Look at the DetailsScreen function props."
+      },
+      "explanation": {
+        "ru": "route приходит в props и содержит params.",
+        "tg": "route аз props меояд ва params-ро дорад.",
+        "en": "route arrives in props and carries params."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nconst lessons = [\n  { id: 'a1', title: 'Первый шаг' },\n  { id: 'a2', title: 'Повторение' },\n];\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string, params?: { id: string }) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      {lessons.map(lesson => (\n        <Button key={lesson.id} title={lesson.title} onPress={() => navigation.navigate('Details', { id: lesson.id })} />\n      ))}\n    </View>\n  );\n}\n\nfunction DetailsScreen({ route }: { route: { params?: { id?: string } } }) {\n  const lesson = lessons.find(item => item.id === route.params?.id);\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">{lesson ? lesson.title : 'Занятие не найдено'}</Text>\n      {lesson ? <Text>Изучите тему этого занятия.</Text> : <Text>Вернитесь и выберите занятие.</Text>}\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 13,
+          "explanation": {
+            "ru": "Каждая кнопка передаёт свой id в navigate.",
+            "tg": "Ҳар тугма id-и худро ба navigate медиҳад.",
+            "en": "Each button passes its own id to navigate."
+          },
+          "values": "navigate('Details', { id })"
+        },
+        {
+          "line": 19,
+          "explanation": {
+            "ru": "find ищет запись по id из параметров.",
+            "tg": "find сабтро аз рӯи id-и параметрҳо меҷӯяд.",
+            "en": "find looks up the record by the parameter id."
+          },
+          "values": "lesson | undefined"
+        },
+        {
+          "line": 21,
+          "explanation": {
+            "ru": "Запасной заголовок показывается, если запись не найдена.",
+            "tg": "Сарлавҳаи ҷойгузин нишон дода мешавад, агар сабт наёбад.",
+            "en": "The fallback header shows when no record is found."
+          },
+          "values": "title | Занятие не найдено"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере, где передаётся параметр и где он читается.",
+          "tg": "Дар мисол ёбед, ки параметр дар куҷо гузаронида ва аз куҷо хонда мешавад.",
+          "en": "Find where the parameter is passed and where it is read."
+        },
+        {
+          "ru": "Откройте оба занятия на устройстве и сравните заголовки.",
+          "tg": "Ҳарду машғулиятро дар дастгоҳ кушода, сарлавҳаҳоро муқоиса кунед.",
+          "en": "Open both lessons on a device and compare the headers."
+        }
+      ],
+      "hint": {
+        "ru": "Третью запись добавьте в массив lessons с уникальным id; неизвестный id передайте строкой вроде x9.",
+        "tg": "Сабти сеюмро бо id-и ягона ба lessons илова кунед; id-и номаълумро бо сатри монанди x9 гузаронед.",
+        "en": "Add the third record to lessons with a unique id; pass an unknown id like x9 as a string."
+      },
+      "success": {
+        "ru": "Каждая кнопка открывает подробности своей записи, а неизвестный id не роняет приложение.",
+        "tg": "Ҳар тугма тафсилоти сабти худро мекушояд ва id-и номаълум барномаро намеафканад.",
+        "en": "Each button opens its record details and an unknown id does not crash the app."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте переходы с параметрами на устройстве. Добавьте третью запись в массив и убедитесь, что она открывается. Временно передайте неизвестный id и запишите, что показал запасной экран. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва гузаришҳоро бо параметрҳо дар дастгоҳ санҷед. Сабти сеюмро ба массив илова карда, боварӣ ҳосил кунед, ки кушода мешавад. Муваққатан id-и номаълум гузаронед ва сабт кунед, ки экрани ҷойгузин чӣ нишон дод. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check the parameter transitions on a device. Add a third record to the array and confirm it opens. Temporarily pass an unknown id and record what the fallback screen showed. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Три записи открываются с правильными заголовками.",
+          "tg": "Се сабт бо сарлавҳаҳои дуруст кушода мешаванд.",
+          "en": "Three records open with correct headers."
+        },
+        {
+          "ru": "Записана реакция приложения на неизвестный id.",
+          "tg": "Муносибати барнома ба id-и номаълум сабт шудааст.",
+          "en": "The app reaction to an unknown id is recorded."
+        }
+      ],
+      "example": {
+        "ru": "Третья кнопка «Списки» открывает подробности с этим же заголовком.",
+        "tg": "Тугмаи сеюми «Рӯйхатҳо» тафсилотро бо ҳамон сарлавҳа мекушояд.",
+        "en": "The third «Списки» button opens details with the same header."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Параметры передаются вторым аргументом navigate и читаются из route.params.",
+        "tg": "Параметрҳо ҳамчун аргументи дуюми navigate гузаронида, аз route.params хонда мешаванд.",
+        "en": "Parameters pass as the second navigate argument and are read from route.params."
+      },
+      {
+        "ru": "Отсутствие записи обрабатывают запасным текстом, а не падением.",
+        "tg": "Набудани сабтро бо матни ҷойгузин бароранд, на бо фурӯпоши.",
+        "en": "A missing record is handled with fallback text, not a crash."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что вернёт find для неизвестного id?",
+        "tg": "find барои id-и номаълум чӣ бармегардонад?",
+        "en": "What does find return for an unknown id?"
+      },
+      {
+        "ru": "Что станет с параметрами после перезапуска приложения?",
+        "tg": "Баъди аз нав оғоз бо параметрҳо чӣ мешавад?",
+        "en": "What happens to parameters after an app restart?"
+      }
+    ],
+    "nextLessonId": "mobile-day-20"
+  }
+}

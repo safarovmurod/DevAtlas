@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-37",
+  "day": 37,
+  "prerequisiteDays": [
+    36
+  ],
+  "title": {
+    "ru": "Проверка устройства и границы сборки",
+    "tg": "Санҷиши дастгоҳ ва ҳудуди сохтмон",
+    "en": "Device checks and build limits"
+  },
+  "summary": {
+    "ru": "Пройдите чек-лист проверки на устройстве и честно зафиксируйте, чего он не проверяет.",
+    "tg": "Чеклисти санҷиши дар дастгоҳро гузаронида, рӯбарӯ сабт кунед, ки чиро месанҷад.",
+    "en": "Walk the device checklist and record honestly what it does not check."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Чек-лист и его границы",
+        "tg": "Чеклист ва ҳудуди ӯ",
+        "en": "The checklist and its borders"
+      },
+      "body": {
+        "ru": "Итог модуля качества — список проверок, которые выполняются на устройстве: экран открывается через Expo Go, клавиатура не закрывает форму, диктор читает подписи, крупный шрифт не обрезает текст. Каждая проверка формулируется так, чтобы её можно было повторить: команда запуска, шаги, ожидаемый результат. Честность требует границ: чек-лист не проверяет сборку APK или IPA, поведение в оффлайн-упаковке и работу на разных версиях операционной системы — для этого нужны настоящие сборки и устройства, которых в курсе нет. Отметка в чек-листе — Self Reviewed: вы сами выполнили шаги и сами отвечаете за результат.",
+        "tg": "Натиҷаи модули сифат — рӯйхати санҷишҳое, ки дар дастгоҳ иҷро мешаванд: экран тавассути Expo Go кушода мешавад, клавиатура шаклро намепӯшонад, хонанда матнҳоро мехонад, ҳуруфи калон матнро намебурад. Ҳар санҷиш чунин навишта мешавад, ки такрор кардан мумкин бошад: фармони оғоз, қадамҳо, натиҷаи интизорӣ. Рӯбарӣ ҳудудро талаб мекунад: чеклист сохтмони APK ё IPA, рафтор дар бастаи оффлайн ва кор дар версияҳои гуногуни система]-ро месанҷад — барои ин сохтмонҳои воқеӣ ва дастгоҳҳо лозим, ки дар курс нестанд. Аломата дар чеклист — Self Reviewed: шумо худ қадамҳоро иҷро кардед ва худ барои натиҷа ҷавобгаред.",
+        "en": "The quality module outcome is a list of checks performed on a device: the screen opens through Expo Go, the keyboard does not cover the form, the reader reads the labels, a large font does not clip text. Every check is phrased so it can be repeated: the start command, the steps, the expected result. Honesty demands borders: the checklist does not check an APK or IPA build, offline-package behavior or different OS versions — real builds and devices are needed, which the course lacks. A checklist mark is Self Reviewed: you performed the steps yourself and answer for the result yourself."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Массив checks описывает четыре проверки: что проверяем и как именно. Пример — справочник: он показывает формулировки, но ничего не отмечает. Решение превращает справочник в рабочий чек-лист: нажатие отмечает проверку passed и добавляет запись с датой в результаты. Каждая отметка — ваше личное выполнение шага на устройстве, даты делают запись воспроизводимой. Красная строка внизу напоминает о границе: отметки не равны сборке APK. Пройдите все четыре проверки на своём устройстве и сохраните отчёт — он пригодится в модуле проекта.",
+        "tg": "Массиви checks чор санҷишро тавсиф медиҳад: чиро месанҷем ва чӣ тавр. Мисол маълумнома аст: формулировкаҳоро нишон медиҳад, вале ҳеҷ чизро аломат намекунад. Ҳалл маълумномаро ба чеклисти корӣ табдил медиҳад: пахш санҷишро бо passed аломат карда, сабт бо сана ба натиҷаҳо илова мекунад. Ҳар аломат иҷрои шахсии шумо аст, санаҳо сабтро такроршаванда мекунанд. Сатри сурх дар поён ҳудудро ёдовар мешавад: аломатҳо ба сохтмони APK баробар нестанд. Ҳамаи чор санҷишро дар дастгоҳи худ гузаронида, ҳисоботро нигоҳ доред — дар модули лоиҳа лозим мешавад.",
+        "en": "The checks array describes four checks: what we check and how. The example is a reference: it shows the wording but marks nothing. The solution turns the reference into a working checklist: a press marks the check passed and appends a dated entry to the results. Every mark is your personal execution of the step on a device; dates make the record reproducible. The red line at the bottom reminds of the border: marks do not equal an APK build. Walk all four checks on your device and keep the report — the project module will need it."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Check = { id: string; label: string; how: string };\n\nconst checks: Check[] = [\n  { id: 'c1', label: 'Экран открывается на устройстве', how: 'npx expo start и Expo Go' },\n  { id: 'c2', label: 'Клавиатура не закрывает поля', how: 'открыть форму и печатать' },\n  { id: 'c3', label: 'Диктор читает подписи', how: 'включить TalkBack или VoiceOver' },\n  { id: 'c4', label: 'Крупный шрифт не обрезается', how: 'увеличить системный шрифт' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка устройства</Text>\n      {checks.map(check => (\n        <View key={check.id} style={styles.row}>\n          <Text style={styles.label}>{check.label}</Text>\n          <Text style={styles.how}>Как проверить: {check.how}</Text>\n        </View>\n      ))}\n      <Text style={styles.note}>\n        Сборка APK и запуск на реальной сборке — отдельная задача; этот список не заменяет её.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  label: { fontSize: 16, fontWeight: '600' },\n  how: { fontSize: 14, color: '#475569' },\n  note: { fontSize: 13, color: '#b91c1c' },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-37-q1",
+      "question": {
+        "ru": "Что делает проверку повторяемой?",
+        "tg": "Санҷишро чӣ такроршаванда мекунад?",
+        "en": "What makes a check repeatable?"
+      },
+      "options": [
+        {
+          "ru": "Название устройства",
+          "tg": "Номи дастгоҳ",
+          "en": "The device name"
+        },
+        {
+          "ru": "Скриншот результата",
+          "tg": "Скриншоти натиҷа",
+          "en": "A screenshot of the result"
+        },
+        {
+          "ru": "Команда запуска, шаги и ожидаемый результат",
+          "tg": "Фармони оғоз, қадамҳо ва натиҷаи интизорӣ",
+          "en": "The start command, steps and expected result"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Другой человек по записи сможет повторить ваши шаги.",
+        "tg": "Дигар кас аз рӯи сабт қадамҳои шуморо такрор карда метавонад.",
+        "en": "Another person can repeat your steps from the record."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова о формулировке проверки.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи навишти санҷишро ёбед.",
+        "en": "Find the first-section words about check wording."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-37-q2",
+      "question": {
+        "ru": "Чего чек-лист этого курса не проверяет?",
+        "tg": "Чеклисти ин курс чиро месанҷад?",
+        "en": "What does this course checklist not check?"
+      },
+      "options": [
+        {
+          "ru": "Сборку APK/IPA и поведение в оффлайн-упаковке",
+          "tg": "Сохтмони APK/IPA ва рафтор дар бастаи оффлайн",
+          "en": "An APK/IPA build and offline-package behavior"
+        },
+        {
+          "ru": "Экран при открытии через Expo Go",
+          "tg": "Экранро ҳангоми кушодан тавассути Expo Go",
+          "en": "The screen opening via Expo Go"
+        },
+        {
+          "ru": "Диктора на устройстве",
+          "tg": "Хонандаро дар дастгоҳ",
+          "en": "The reader on a device"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Для сборок нужны настоящие инструменты и сертификаты.",
+        "tg": "Барои сохтмон абзорҳои воқеӣ ва сертификатҳо лозиманд.",
+        "en": "Builds need real tools and certificates."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова про APK и IPA.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи APK ва IPA-ро ёбед.",
+        "en": "Find the first-section words about APK and IPA."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-37-q3",
+      "question": {
+        "ru": "Какой статус у отметки в чек-листе?",
+        "tg": "Аломата дар чеклист кадом статус дорад?",
+        "en": "What status does a checklist mark have?"
+      },
+      "options": [
+        {
+          "ru": "Auto Verified сервером",
+          "tg": "Auto Verified аз тарафи сервер",
+          "en": "Auto Verified by a server"
+        },
+        {
+          "ru": "Self Reviewed — проверил сам",
+          "tg": "Self Reviewed — худ санҷидам",
+          "en": "Self Reviewed — checked by myself"
+        },
+        {
+          "ru": "Сертификат платформы",
+          "tg": "Сертификати платформа",
+          "en": "A platform certificate"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Вы сами выполнили шаги и отвечаете за результат.",
+        "tg": "Шумо худ қадамҳоро иҷро кардед ва барои натиҷа ҷавобгаред.",
+        "en": "You performed the steps yourself and answer for the result."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова о честности.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи рӯбариро ёбед.",
+        "en": "Find the first-section words about honesty."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-37-q4",
+      "question": {
+        "ru": "Зачем запись с датой в решении?",
+        "tg": "Сабти бо сана дар ҳалл барои чист?",
+        "en": "What is the dated record in the solution for?"
+      },
+      "options": [
+        {
+          "ru": "Чтобы скрыть старые проверки",
+          "tg": "То санҷишҳои кӯҳна маҳкум шаванд",
+          "en": "To hide old checks"
+        },
+        {
+          "ru": "Чтобы ускорить отметку",
+          "tg": "То аломатгузорӣ тез шавад",
+          "en": "To speed up marking"
+        },
+        {
+          "ru": "Чтобы результаты были воспроизводимы во времени",
+          "tg": "То натиҷаҳо дар вақт такроршаванда бошанд",
+          "en": "So results are reproducible over time"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Отчёт с датами можно сравнить с результатами следующего дня.",
+        "tg": "Ҳисоботи бо санаҳоро бо натиҷаҳои рӯзи оянда муқоиса кардан мумкин.",
+        "en": "A dated report can be compared with the next check results."
+      },
+      "hint": {
+        "ru": "Посмотрите на setResults в решении.",
+        "tg": "Ба setResults дар ҳалл нигоҳ кунед.",
+        "en": "Look at setResults in the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-37-q5",
+      "question": {
+        "ru": "Куда пойдёт этот отчёт дальше?",
+        "tg": "Ин ҳисобот минбаъд ба куҷо меравад?",
+        "en": "Where does this report go next?"
+      },
+      "options": [
+        {
+          "ru": "В модуль итогового проекта",
+          "tg": "Ба модули лоиҳаи ниҳоӣ",
+          "en": "Into the final project module"
+        },
+        {
+          "ru": "В App Store",
+          "tg": "Ба App Store",
+          "en": "To the App Store"
+        },
+        {
+          "ru": "Никуда, он не нужен",
+          "tg": "Ҳеҷ ҷо, лозим нест",
+          "en": "Nowhere, it is unneeded"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Капstone использует ваши проверки как основу отчёта о качестве.",
+        "tg": "Капстон санҷишҳои шуморо ҳамчун асоси ҳисоботи сифат истифода мебарад.",
+        "en": "The capstone uses your checks as the basis of the quality report."
+      },
+      "hint": {
+        "ru": "Найдите в разбор слова про модуль проекта.",
+        "tg": "Дар шарҳ калимаҳои дар бораи модули лоиҳаро ёбед.",
+        "en": "Find the walkthrough words about the project module."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Пройдите все четыре проверки чек-листа на своём устройстве и отметьте их в решении. Добавьте пятую проверку из своего модуля: например, поворот экрана, и запишите способ её повторения. В отчёте отдельным разделом перечислите, что чек-лист не проверяет. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Ҳамаи чор санҷиши чеклистро дар дастгоҳи худ гузаронида, дар ҳалл аломат кунед. Санҷиши панҷумро аз модули худ илова кунед: масалан, гардиши экран ва тарзи такрорашро сабт кунед. Дар ҳисобот бо бахши алоҳида номбар кунед, ки чеклист чиро месанҷад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Walk all four checklist checks on your device and mark them in the solution. Add a fifth check from your own module: for example screen rotation, and record its repeat method. In the report list separately what the checklist does not check. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Пятая проверка повторяет структуру: label, how, passed — и попадает в map без изменений кода.",
+      "tg": "Санҷиши панҷум сохторро такрор мекунад: label, how, passed — ва бе тағйири рамз ба map даромадааст.",
+      "en": "The fifth check repeats the structure: label, how, passed — and enters the map without code changes."
+    },
+    "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype Check = { id: string; label: string; how: string; passed: boolean };\n\nconst initialChecks: Check[] = [\n  { id: 'c1', label: 'Экран открывается на устройстве', how: 'npx expo start и Expo Go', passed: false },\n  { id: 'c2', label: 'Клавиатура не закрывает поля', how: 'открыть форму и печатать', passed: false },\n  { id: 'c3', label: 'Диктор читает подписи', how: 'включить TalkBack или VoiceOver', passed: false },\n  { id: 'c4', label: 'Крупный шрифт не обрезается', how: 'увеличить системный шрифт', passed: false },\n];\n\nexport default function App() {\n  const [checks, setChecks] = useState<Check[]>(initialChecks);\n  const [results, setResults] = useState<string[]>([]);\n\n  function pass(id: string) {\n    setChecks(current => current.map(check => (check.id === id ? { ...check, passed: true } : check)));\n    const check = checks.find(item => item.id === id);\n    if (check) setResults(current => [...current, `${new Date().toISOString().slice(0, 10)}: ${check.label} — пройдено`]);\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка устройства</Text>\n      {checks.map(check => (\n        <Pressable\n          key={check.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`${check.label}. Отметить пройденной`}\n          onPress={() => pass(check.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text style={styles.label}>{check.passed ? '✔' : '☐'} {check.label}</Text>\n          <Text style={styles.how}>Как проверить: {check.how}</Text>\n        </Pressable>\n      ))}\n      {results.map((result, index) => <Text key={index}>{result}</Text>)}\n      <Text style={styles.note}>\n        Сборка APK и запуск на реальной сборке — отдельная задача; отметки здесь не заменяют её.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  pressed: { opacity: 0.6 },\n  label: { fontSize: 16, fontWeight: '600' },\n  how: { fontSize: 14, color: '#475569' },\n  note: { fontSize: 13, color: '#b91c1c' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Четыре базовые проверки отмечены с датами.",
+        "tg": "Чор санҷиши асосӣ бо санаҳо аломат шуданд.",
+        "en": "The four base checks are marked with dates."
+      },
+      {
+        "ru": "Границы чек-листа перечислены в отчёте отдельным разделом.",
+        "tg": "Ҳудуди чеклист дар ҳисобот бо бахши алоҳида номбар шудааст.",
+        "en": "The checklist borders are listed in the report as a separate section."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Пройти повторяемый чек-лист проверок на устройстве.",
+        "tg": "Чеклисти такроршавандаи санҷишҳоро дар дастгоҳ гузаронед.",
+        "en": "Walk a repeatable device checklist."
+      },
+      {
+        "ru": "Честно назвать границы: что чек-лист не проверяет.",
+        "tg": "Ҳудудро рӯбарӯ номбар кунед: чеклист чиро месанҷад.",
+        "en": "Name the borders honestly: what the checklist does not check."
+      }
+    ],
+    "realWorld": {
+      "ru": "Перед демо заказчику команда проходит чек-лист и прикладывает его к результатам.",
+      "tg": "Пеш аз намоиш ба фармоишидента гурӯҳ чеклист мегузаронад ва онро ба натиҷаҳо замима мекунад.",
+      "en": "Before a customer demo the team walks a checklist and attaches it to the results."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Чего чек-лист этого курса не проверяет?",
+        "tg": "Чеклисти ин курс чиро месанҷад?",
+        "en": "What does this course checklist not check?"
+      },
+      "options": [
+        {
+          "ru": "Сборку APK/IPA и поведение в оффлайн-упаковке",
+          "tg": "Сохтмони APK/IPA ва рафтор дар бастаи оффлайн",
+          "en": "An APK/IPA build and offline-package behavior"
+        },
+        {
+          "ru": "Экран при открытии через Expo Go",
+          "tg": "Экранро ҳангоми кушодан тавассути Expo Go",
+          "en": "The screen opening via Expo Go"
+        },
+        {
+          "ru": "Диктора на устройстве",
+          "tg": "Хонандаро дар дастгоҳ",
+          "en": "The reader on a device"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Найдите в первом раздел слова про APK и IPA.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи APK ва IPA-ро ёбед.",
+        "en": "Find the first-section words about APK and IPA."
+      },
+      "explanation": {
+        "ru": "Для сборок нужны настоящие инструменты и сертификаты.",
+        "tg": "Барои сохтмон абзорҳои воқеӣ ва сертификатҳо лозиманд.",
+        "en": "Builds need real tools and certificates."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Check = { id: string; label: string; how: string };\n\nconst checks: Check[] = [\n  { id: 'c1', label: 'Экран открывается на устройстве', how: 'npx expo start и Expo Go' },\n  { id: 'c2', label: 'Клавиатура не закрывает поля', how: 'открыть форму и печатать' },\n  { id: 'c3', label: 'Диктор читает подписи', how: 'включить TalkBack или VoiceOver' },\n  { id: 'c4', label: 'Крупный шрифт не обрезается', how: 'увеличить системный шрифт' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка устройства</Text>\n      {checks.map(check => (\n        <View key={check.id} style={styles.row}>\n          <Text style={styles.label}>{check.label}</Text>\n          <Text style={styles.how}>Как проверить: {check.how}</Text>\n        </View>\n      ))}\n      <Text style={styles.note}>\n        Сборка APK и запуск на реальной сборке — отдельная задача; этот список не заменяет её.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  label: { fontSize: 16, fontWeight: '600' },\n  how: { fontSize: 14, color: '#475569' },\n  note: { fontSize: 13, color: '#b91c1c' },\n});\n",
+      "steps": [
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Каждая проверка имеет способ повторения.",
+            "tg": "Ҳар санҷиш тарзи такрор дорад.",
+            "en": "Every check has a repeat method."
+          },
+          "values": "how"
+        },
+        {
+          "line": 18,
+          "explanation": {
+            "ru": "Отметка меняет passed у конкретной проверки.",
+            "tg": "Аломат passed-и санҷиши муайянро иваз мекунад.",
+            "en": "A mark changes passed on the specific check."
+          },
+          "values": "passed=true"
+        },
+        {
+          "line": 19,
+          "explanation": {
+            "ru": "Результаты получают дату и текст проверки.",
+            "tg": "Натиҷаҳо сана ва матни санҷишро мегиранд.",
+            "en": "Results get a date and the check text."
+          },
+          "values": "dated entry"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Пройдите первые две проверки из чек-листа на своём устройстве.",
+          "tg": "Ду санҷиши аввали чеклистро дар дастгоҳи худ гузаронед.",
+          "en": "Walk the first two checklist checks on your device."
+        },
+        {
+          "ru": "Отметьте их в решении и убедитесь, что записи с датой появились.",
+          "tg": "Онҳоро дар ҳалл аломат карда, боварӣ ҳосил кунед, ки сабтҳои бо сана пайдо шуданд.",
+          "en": "Mark them in the solution and confirm dated entries appeared."
+        }
+      ],
+      "hint": {
+        "ru": "Пятая проверка повторяет структуру: label, how, passed — и попадает в map без изменений кода.",
+        "tg": "Санҷиши панҷум сохторро такрор мекунад: label, how, passed — ва бе тағйири рамз ба map даромадааст.",
+        "en": "The fifth check repeats the structure: label, how, passed — and enters the map without code changes."
+      },
+      "success": {
+        "ru": "Все четыре проверки отмечены с датами, а границы честно записаны в отчёте.",
+        "tg": "Ҳамаи чор санҷиш бо санаҳо аломат шуданд ва ҳудудҳо рӯбарӯ дар ҳисобот сабт шуданд.",
+        "en": "All four checks are marked with dates and the borders are honestly recorded."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Пройдите все четыре проверки чек-листа на своём устройстве и отметьте их в решении. Добавьте пятую проверку из своего модуля: например, поворот экрана, и запишите способ её повторения. В отчёте отдельным разделом перечислите, что чек-лист не проверяет. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Ҳамаи чор санҷиши чеклистро дар дастгоҳи худ гузаронида, дар ҳалл аломат кунед. Санҷиши панҷумро аз модули худ илова кунед: масалан, гардиши экран ва тарзи такрорашро сабт кунед. Дар ҳисобот бо бахши алоҳида номбар кунед, ки чеклист чиро месанҷад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Walk all four checklist checks on your device and mark them in the solution. Add a fifth check from your own module: for example screen rotation, and record its repeat method. In the report list separately what the checklist does not check. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Четыре базовые проверки отмечены с датами.",
+          "tg": "Чор санҷиши асосӣ бо санаҳо аломат шуданд.",
+          "en": "The four base checks are marked with dates."
+        },
+        {
+          "ru": "Границы чек-листа перечислены в отчёте отдельным разделом.",
+          "tg": "Ҳудуди чеклист дар ҳисобот бо бахши алоҳида номбар шудааст.",
+          "en": "The checklist borders are listed in the report as a separate section."
+        }
+      ],
+      "example": {
+        "ru": "Отчёт содержит пять пройденных проверок с датами и раздел «не проверено этим чек-листом».",
+        "tg": "Ҳисобот панҷ санҷиши гузаштаро бо санаҳо ва бахши «ин чеклист месанҷад» дорад.",
+        "en": "The report holds five passed checks with dates and a \"not checked by this list\" section."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Повторяемая проверка: команда, шаги, ожидаемый результат.",
+        "tg": "Санҷиши такроршаванда: фармон, қадамҳо, натиҷаи интизорӣ.",
+        "en": "A repeatable check: command, steps, expected result."
+      },
+      {
+        "ru": "Отметки Self Reviewed честно отличаются от сборки и аттестации.",
+        "tg": "Аломатҳои Self Reviewed аз сохтмон ва аттестатсия рӯбарӯ фарқ мекунанд.",
+        "en": "Self Reviewed marks honestly differ from a build and attestation."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Чего чек-лист этого курса не проверяет?",
+        "tg": "Чеклисти ин курс чиро месанҷад?",
+        "en": "What does this course checklist not check?"
+      },
+      {
+        "ru": "Какой статус у отметки в чек-листе?",
+        "tg": "Аломата дар чеклист кадом статус дорад?",
+        "en": "What status does a checklist mark have?"
+      }
+    ],
+    "nextLessonId": "mobile-day-38"
+  }
+}

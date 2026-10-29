@@ -1,0 +1,58 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type Note = { id: string; text: string; updatedAt: number };
+
+const KEY = 'devatlas-cache-v2';
+
+export function mergeNotes(local: Note[], remote: Note[]): Note[] {
+  const byId = new Map<string, Note>();
+  for (const note of local) byId.set(note.id, note);
+  for (const note of remote) {
+    const existing = byId.get(note.id);
+    if (!existing || note.updatedAt > existing.updatedAt) byId.set(note.id, note);
+  }
+  return [...byId.values()].sort((a, b) => b.updatedAt - a.updatedAt);
+}
+
+export default function App() {
+  const [notes, setNotes] = useState<Note[] | null>(null);
+  const [source, setSource] = useState('');
+
+  useEffect(() => {
+    const local: Note[] = [
+      { id: 'n1', text: 'Локальная заметка', updatedAt: 100 },
+      { id: 'n2', text: 'Свежая локальная', updatedAt: 300 },
+    ];
+    const remote: Note[] = [
+      { id: 'n1', text: 'Обновлённая заметка', updatedAt: 200 },
+      { id: 'n3', text: 'Из учебного набора', updatedAt: 50 },
+    ];
+    AsyncStorage.getItem(KEY)
+      .then(raw => {
+        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];
+        setNotes(mergeNotes(mergeNotes(remote, cached), local));
+        setSource(cached.length > 0 ? 'кэш + сеть + локальные' : 'сеть + локальные');
+      })
+      .catch(() => {
+        setNotes(mergeNotes(remote, local));
+        setSource('сеть + локальные');
+      });
+  }, []);
+
+  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Согласование данных</Text>
+      <Text>Источник: {source}</Text>
+      {notes.map(note => <Text key={note.id}>{note.text} ({note.updatedAt})</Text>)}
+      <Text>Правило дня: побеждает запись с более свежим updatedAt.</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+});

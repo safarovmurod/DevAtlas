@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-42",
+  "day": 42,
+  "prerequisiteDays": [
+    41
+  ],
+  "title": {
+    "ru": "Сеть, ошибки и повторение",
+    "tg": "Шабака, хатоҳо ва такрор",
+    "en": "Network, errors and retries"
+  },
+  "summary": {
+    "ru": "Добавьте шаблоны из сети с честными состояниями и сохранением результата.",
+    "tg": "Қолабҳоро аз шабака бо ҳолатҳои рӯбарӯ ва нигоҳдории натиҷа илова кунед.",
+    "en": "Add network templates with honest states and result persistence."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Сеть как дополнение, а не замена",
+        "tg": "Шабака ҳамчун илова, на иваз",
+        "en": "The network as an addition, not a replacement"
+      },
+      "body": {
+        "ru": "Планировщик уже работает без сети — это правильная основа. Сеть добавляет шаблоны: пользователь нажимает кнопку, приложение получает три тестовые записи из учебного API и вписывает их в локальный список. Повторные id отфильтровываются: шаблон не добавляется дважды. Сеть может отказать — и это не ломает приложение: локальные данные остаются, экран показывает понятное сообщение, кнопка доступна снова. После успеха шаблоны сохраняются в хранилище, а сообщение честно различает «добавлены и сохранены» от «показаны, но не сохранены». Учебный API — чужой тестовый сервис: он для практики, не для личных данных.",
+        "tg": "Барномасоз аллакай бе шабака кор мекунад — ин асоси дуруст аст. Шабака қолабҳоро илова мекунад: корбар тугмаро мепахшонад, барнома се сабти санҷишӣ аз API-и таълимӣ мегирад ва ба рӯйхати маҳаллӣ мегузорад. id-ҳои такрорӣ филтр мешаванд: қолаб дучор илова намешавад. Шабака метавонад даст диҳад — ин барномаро намеканад: маълумоти маҳаллӣ мемонанд, экран паёми фаҳмо нишон медиҳад ва тугма боз дастрас аст. Баъди муваффақият қолабҳо ба нигоҳдорӣ мераванд ва паём «илова ва нигоҳ дошта шуд»-ро аз «нишон дода шуд, вале нигоҳ дошта нашуд» рӯбарӯ фарқ мекунад. API-и таълимӣ хадамоти санҷишии дигарон аст: барои машқ, на барои маълумоти шахсӣ.",
+        "en": "The planner already works offline — the right foundation. The network adds templates: the user presses a button, the app receives three test records from the learning API and merges them into the local list. Duplicate ids are filtered: a template never joins twice. The network can refuse — the app does not break: local data stays, the screen shows a clear message, the button is available again. After success the templates persist, and the message honestly tells \"added and saved\" from \"shown but not saved\". The learning API is a foreign test service: for practice, not personal data."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "templateToTask превращает запись сети в Task: id получает приставку net, title обрезается до сорока символов — границы модели соблюдаются и для чужих данных. addFromNetwork — async-функция: статус loading, fetch с проверкой response.ok, фильтр дубликатов по id, объединение массивов, запись в хранилище в try. Ошибка сети переводит статус в error, локальные данные не трогаются. Проверьте на устройстве: нажмите «Взять шаблоны» дважды — второй раз сообщение скажет, что новых нет. В решении добавлено время последней успешной загрузки.",
+        "tg": "templateToTask сабти шабакаро ба Task табдил медиҳад: id пешгӯи net мегирад, title то чил аломат бурида мешавад — ҳудуди модел барои маълумоти дигарон ҳам риоя мешавад. addFromNetwork функсияи async аст: ҳолати loading, fetch бо санҷиши response.ok, филтри такрорҳо аз рӯи id, якҷоякунии массивҳо, навиштан ба нигоҳдорӣ дар try. Хатои шабака ҳолатро ба error мегузорад, маълумоти маҳаллӣ дастнорасида мемонанд. Дар дастгоҳ санҷед: «Гирифтани қолабҳо»-ро ду бор пахш кунед — бори дуюм паём мегӯяд, ки нав нест. Дар ҳалл вақти охирин боркунии муваффақ илова шудааст.",
+        "en": "templateToTask turns a network record into a Task: the id gains the net prefix, the title truncates to forty characters — the model borders hold for foreign data too. addFromNetwork is an async function: the loading status, fetch with the response.ok check, a duplicate filter by id, array merging, a store write inside try. A network error moves the status to error and leaves local data untouched. Check on a device: press «Взять шаблоны» twice — the second time the message says there is nothing new. The solution adds the time of the last successful load."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function templateToTask(raw: { id: number; title: string }): Task {\n  return { id: `net${raw.id}`, title: raw.title.slice(0, 40), minutes: 20, createdAt: Date.now() };\n}\n\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [status, setStatus] = useState<Status>('done');\n  const [notice, setNotice] = useState('Данные с устройства. Шаблоны — из учебной сети.');\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function addFromNetwork() {\n    setStatus('loading');\n    try {\n      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=3');\n      if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n      const data = (await response.json()) as { id: number; title: string }[];\n      const fresh = data.map(templateToTask).filter(item => !tasks.some(task => task.id === item.id));\n      if (fresh.length === 0) {\n        setNotice('Новых шаблонов нет: они уже в списке.');\n        setStatus('done');\n        return;\n      }\n      const next = [...tasks, ...fresh];\n      setTasks(next);\n      try {\n        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n      } catch {\n        setNotice('Шаблоны показаны, но не сохранены: хранилище недоступно.');\n      }\n      setStatus('done');\n    } catch {\n      setStatus('error');\n    }\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Планировщик и шаблоны</Text>\n      {tasks.length === 0 ? <Text>Список пуст. Возьмите шаблон из сети.</Text> : tasks.map(task => (\n        <View key={task.id} style={styles.item}>\n          <Text>{task.title} — {task.minutes} мин.</Text>\n        </View>\n      ))}\n      {status === 'loading' ? <Text>Загружаем шаблоны…</Text> : null}\n      {status === 'error' ? <Text>Сеть недоступна. Локальные данные на месте.</Text> : null}\n      <Text>{notice}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Добавить шаблоны из учебной сети\"\n        onPress={addFromNetwork}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Взять шаблоны</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-42-q1",
+      "question": {
+        "ru": "Что происходит с локальными данными при отказе сети?",
+        "tg": "Ҳангоми даст додани шабака бо маълумоти маҳаллӣ чӣ мешавад?",
+        "en": "What happens to local data on a network refusal?"
+      },
+      "options": [
+        {
+          "ru": "Они удаляются",
+          "tg": "Онҳо нест мешаванд",
+          "en": "They are deleted"
+        },
+        {
+          "ru": "Ничего: они остаются и показываются",
+          "tg": "Ҳеҷ чиз: онҳо мемонанд ва нишон дода мешаванд",
+          "en": "Nothing: they stay and show"
+        },
+        {
+          "ru": "Они уходят на сервер",
+          "tg": "Онҳо ба сервер мераванд",
+          "en": "They upload to a server"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Сеть — дополнение; локальное приложение самодостаточно.",
+        "tg": "Шабака илова аст; барномаи маҳаллӣ худифо аст.",
+        "en": "The network is an addition; the local app is self-sufficient."
+      },
+      "hint": {
+        "ru": "Найдите в примере сообщение о недоступной сети.",
+        "tg": "Дар мисол паёми шабакаи дастраснастро ёбед.",
+        "en": "Find the unavailable-network message in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-42-q2",
+      "question": {
+        "ru": "Почему шаблоны не добавляются дважды?",
+        "tg": "Қолабҳо барои чӣ дучор илова намешаванд?",
+        "en": "Why do templates never join twice?"
+      },
+      "options": [
+        {
+          "ru": "Сеть запоминает загрузки",
+          "tg": "Шабака боркуниҳоро дар ёд дорад",
+          "en": "The network remembers loads"
+        },
+        {
+          "ru": "Кнопка исчезает после первого нажатия",
+          "tg": "Тугма баъди аввалин пахш нопадид мешавад",
+          "en": "The button disappears after the first press"
+        },
+        {
+          "ru": "Повторные id отфильтровываются перед объединением",
+          "tg": "id-ҳои такрорӣ пеш аз якҷоякунӣ филтр мешаванд",
+          "en": "Duplicate ids filter out before merging"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Проверка some по id защищает список от дублей.",
+        "tg": "Санҷиши some аз рӯи id рӯйхатро аз такрор ҳимоя мекунад.",
+        "en": "The some check by id guards the list from duplicates."
+      },
+      "hint": {
+        "ru": "Найдите filter с some внутри addFromNetwork.",
+        "tg": "filter бо some-ро дар дохили addFromNetwork ёбед.",
+        "en": "Find the filter with some inside addFromNetwork."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-42-q3",
+      "question": {
+        "ru": "Что делает templateToTask с чужими данными?",
+        "tg": "templateToTask бо маълумоти дигарон чӣ мекунад?",
+        "en": "What does templateToTask do with foreign data?"
+      },
+      "options": [
+        {
+          "ru": "Обрезает название и ставит свой префикс id",
+          "tg": "Номро мебурад ва пешгӯи id-и худро мегузорад",
+          "en": "Truncates the title and prefixes the id"
+        },
+        {
+          "ru": "Отправляет их на сервер",
+          "tg": "Онҳоро ба сервер мефиристад",
+          "en": "Uploads them to a server"
+        },
+        {
+          "ru": "Шифрует их",
+          "tg": "Онҳоро рамзгузорӣ мекунад",
+          "en": "Encrypts them"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Границы модели действуют и для внешних данных.",
+        "tg": "Ҳудуди модел барои маълумоти берунӣ ҳам амал мекунад.",
+        "en": "The model borders apply to external data too."
+      },
+      "hint": {
+        "ru": "Сравните makeTask из дня 39 и templateToTask.",
+        "tg": "makeTask-и рӯзи 39 ва templateToTask-ро муқоиса кунед.",
+        "en": "Compare the day-39 makeTask and templateToTask."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-42-q4",
+      "question": {
+        "ru": "Чем «добавлены и сохранены» отличается от «показаны, но не сохранены»?",
+        "tg": "«Илова ва нигоҳ дошта шуд» аз «нишон дода шуд, вале нигоҳ дошта нашуд» чӣ фарқ дорад?",
+        "en": "How does \"added and saved\" differ from \"shown but not saved\"?"
+      },
+      "options": [
+        {
+          "ru": "Ничем, это одно и то же",
+          "tg": "Ҳеҷ, ин як чиз аст",
+          "en": "Nothing, they are the same"
+        },
+        {
+          "ru": "Первое пишется в хранилище, второе живёт только до перезапуска",
+          "tg": "Аввалин ба нигоҳдорӣ меравад, дуюм танҳо то аз нав оғоз зинда аст",
+          "en": "The first is written to the store, the second lives only until a restart"
+        },
+        {
+          "ru": "Первое быстрее",
+          "tg": "Аввал тезтар аст",
+          "en": "The first is faster"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Пользователь знает, что переживёт перезапуск.",
+        "tg": "Корбар медонад, ки чӣ аз нав оғозро мегузарад.",
+        "en": "The user knows what survives a restart."
+      },
+      "hint": {
+        "ru": "Найдите оба сообщения в try и catch хранилища.",
+        "tg": "Ҳарду паёмро дар try ва catch-и нигоҳдорӣ ёбед.",
+        "en": "Find both messages in the store try and catch."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-42-q5",
+      "question": {
+        "ru": "Что добавляет решение?",
+        "tg": "Ҳалл чӣ илова мекунад?",
+        "en": "What does the solution add?"
+      },
+      "options": [
+        {
+          "ru": "Новую таблицу стилей",
+          "tg": "Ҷадвали нави услубҳо",
+          "en": "A new stylesheet"
+        },
+        {
+          "ru": "Автообновление каждую секунду",
+          "tg": "Худнавсозӣ ҳар сония",
+          "en": "Auto-refresh every second"
+        },
+        {
+          "ru": "Время последней успешной загрузки шаблонов",
+          "tg": "Вақти охирин боркунии муваффақи қолабҳо",
+          "en": "The time of the last successful template load"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Отметка времени делает повтор предсказуемым.",
+        "tg": "Аломати вақт такрорро пешгӯишаванда мекунад.",
+        "en": "A timestamp makes the retry predictable."
+      },
+      "hint": {
+        "ru": "Найдите состояние synced в решении.",
+        "tg": "Ҳолати synced-ро дар ҳалл ёбед.",
+        "en": "Find the synced state in the solution."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и добавьте шаблоны на устройстве при включённой и отключённой сети. Соберите решение с отметкой времени и запишите оба сообщения: успех и повтор. Проверьте, что после отказа сети список остался прежним. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва қолабҳоро дар дастгоҳ бо шабакаи фаъол ва хомӯш илова кунед. Ҳаллро бо аломати вақт созед ва ҳарду паёмро сабт кунед: муваффақият ва такрор. Месанҷед, ки баъди даст додани шабака рӯйхат ҳамон монд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and add templates on a device with the network on and off. Build the solution with the timestamp and record both messages: success and duplicate. Confirm the list stayed the same after a network refusal. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Фильтр fresh уже отсекает повторы — повторное нажатие обязано дать сообщение о пустой выборке.",
+      "tg": "Филтри fresh такрорҳоро аллакай мегузаронад — пахши дуюм ҳатман паёми интихоби холиро медиҳад.",
+      "en": "The fresh filter already skips repeats — a second press must show the empty-result message."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function templateToTask(raw: { id: number; title: string }): Task {\n  return { id: `net${raw.id}`, title: raw.title.slice(0, 40), minutes: 20, createdAt: Date.now() };\n}\n\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [status, setStatus] = useState<Status>('done');\n  const [notice, setNotice] = useState('Данные с устройства. Шаблоны — из учебной сети.');\n  const [synced, setSynced] = useState<string | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function addFromNetwork() {\n    setStatus('loading');\n    try {\n      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=3');\n      if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n      const data = (await response.json()) as { id: number; title: string }[];\n      const fresh = data.map(templateToTask).filter(item => !tasks.some(task => task.id === item.id));\n      if (fresh.length === 0) {\n        setNotice('Новых шаблонов нет: они уже в списке.');\n        setStatus('done');\n        return;\n      }\n      const next = [...tasks, ...fresh];\n      setTasks(next);\n      try {\n        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n        setSynced(new Date().toLocaleTimeString());\n        setNotice('Шаблоны добавлены и сохранены.');\n      } catch {\n        setNotice('Шаблоны показаны, но не сохранены: хранилище недоступно.');\n      }\n      setStatus('done');\n    } catch {\n      setStatus('error');\n    }\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Планировщик и шаблоны</Text>\n      {tasks.length === 0 ? <Text>Список пуст. Возьмите шаблон из сети.</Text> : tasks.map(task => (\n        <View key={task.id} style={styles.item}>\n          <Text>{task.title} — {task.minutes} мин.</Text>\n        </View>\n      ))}\n      {status === 'loading' ? <Text>Загружаем шаблоны…</Text> : null}\n      {status === 'error' ? <Text>Сеть недоступна. Локальные данные на месте.</Text> : null}\n      <Text>{notice}</Text>\n      {synced ? <Text>Последняя успешная загрузка: {synced}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Добавить шаблоны из учебной сети\"\n        onPress={addFromNetwork}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Взять шаблоны</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Шаблоны добавлены один раз: повтор не плодит дубликаты.",
+        "tg": "Қолабҳо як бор илова мешаванд: такрор такрор намесозад.",
+        "en": "Templates join once: a retry creates no duplicates."
+      },
+      {
+        "ru": "Отказ сети оставил локальные данные целыми.",
+        "tg": "Даст додани шабака маълумоти маҳаллиро солим гузошт.",
+        "en": "A network refusal left local data intact."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Добавить сетевые шаблоны без поломки локальной работы.",
+        "tg": "Қолабҳои шабакавиро бе вайрони кори маҳаллӣ илова кунед.",
+        "en": "Add network templates without breaking local work."
+      },
+      {
+        "ru": "Честно разделить сохранённое и показанное.",
+        "tg": "Нигоҳдоришударо аз нишондодашуда рӯбарӯ ҷудо кунед.",
+        "en": "Honestly tell the saved from the shown."
+      }
+    ],
+    "realWorld": {
+      "ru": "Приложение рецептов добавляет готовые шаблоны блюд, но работает и без интернета.",
+      "tg": "Барномаи таомҳо қолабҳои тайёри таомҳоро илова мекунад, вале бе интернет ҳам кор мекунад.",
+      "en": "A recipe app adds ready meal templates but works offline too."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Почему шаблоны не добавляются дважды?",
+        "tg": "Қолабҳо барои чӣ дучор илова намешаванд?",
+        "en": "Why do templates never join twice?"
+      },
+      "options": [
+        {
+          "ru": "Сеть запоминает загрузки",
+          "tg": "Шабака боркуниҳоро дар ёд дорад",
+          "en": "The network remembers loads"
+        },
+        {
+          "ru": "Кнопка исчезает после первого нажатия",
+          "tg": "Тугма баъди аввалин пахш нопадид мешавад",
+          "en": "The button disappears after the first press"
+        },
+        {
+          "ru": "Повторные id отфильтровываются перед объединением",
+          "tg": "id-ҳои такрорӣ пеш аз якҷоякунӣ филтр мешаванд",
+          "en": "Duplicate ids filter out before merging"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Найдите filter с some внутри addFromNetwork.",
+        "tg": "filter бо some-ро дар дохили addFromNetwork ёбед.",
+        "en": "Find the filter with some inside addFromNetwork."
+      },
+      "explanation": {
+        "ru": "Проверка some по id защищает список от дублей.",
+        "tg": "Санҷиши some аз рӯи id рӯйхатро аз такрор ҳимоя мекунад.",
+        "en": "The some check by id guards the list from duplicates."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function templateToTask(raw: { id: number; title: string }): Task {\n  return { id: `net${raw.id}`, title: raw.title.slice(0, 40), minutes: 20, createdAt: Date.now() };\n}\n\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [status, setStatus] = useState<Status>('done');\n  const [notice, setNotice] = useState('Данные с устройства. Шаблоны — из учебной сети.');\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function addFromNetwork() {\n    setStatus('loading');\n    try {\n      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=3');\n      if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n      const data = (await response.json()) as { id: number; title: string }[];\n      const fresh = data.map(templateToTask).filter(item => !tasks.some(task => task.id === item.id));\n      if (fresh.length === 0) {\n        setNotice('Новых шаблонов нет: они уже в списке.');\n        setStatus('done');\n        return;\n      }\n      const next = [...tasks, ...fresh];\n      setTasks(next);\n      try {\n        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n      } catch {\n        setNotice('Шаблоны показаны, но не сохранены: хранилище недоступно.');\n      }\n      setStatus('done');\n    } catch {\n      setStatus('error');\n    }\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Планировщик и шаблоны</Text>\n      {tasks.length === 0 ? <Text>Список пуст. Возьмите шаблон из сети.</Text> : tasks.map(task => (\n        <View key={task.id} style={styles.item}>\n          <Text>{task.title} — {task.minutes} мин.</Text>\n        </View>\n      ))}\n      {status === 'loading' ? <Text>Загружаем шаблоны…</Text> : null}\n      {status === 'error' ? <Text>Сеть недоступна. Локальные данные на месте.</Text> : null}\n      <Text>{notice}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Добавить шаблоны из учебной сети\"\n        onPress={addFromNetwork}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Взять шаблоны</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 10,
+          "explanation": {
+            "ru": "templateToTask применяет границы модели к чужим данным.",
+            "tg": "templateToTask ҳудуди моделро ба маълумоти дигарон татбиқ мекунад.",
+            "en": "templateToTask applies the model borders to foreign data."
+          },
+          "values": "net-id, 40 chars"
+        },
+        {
+          "line": 26,
+          "explanation": {
+            "ru": "Фильтр отсекает шаблоны, которые уже в списке.",
+            "tg": "Филтр қолабҳои дар рӯйхат бударо мегузаронад.",
+            "en": "The filter skips templates already in the list."
+          },
+          "values": "unique only"
+        },
+        {
+          "line": 32,
+          "explanation": {
+            "ru": "Успех пишет в хранилище и различает исходы.",
+            "tg": "Муваффақият ба нигоҳдорӣ менависад ва натиҷаҳоро фарқ мекунад.",
+            "en": "Success writes to the store and tells the outcomes apart."
+          },
+          "values": "saved | shown"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Нажмите «Взять шаблоны» и найдите три записи в списке.",
+          "tg": "«Гирифтани қолабҳо»-ро пахш карда, се сабтро дар рӯйхат ёбед.",
+          "en": "Press «Взять шаблоны» and find three records in the list."
+        },
+        {
+          "ru": "Нажмите ещё раз и запишите сообщение о повторе.",
+          "tg": "Боз як бор пахш карда, паёми такрорро сабт кунед.",
+          "en": "Press again and record the duplicate message."
+        }
+      ],
+      "hint": {
+        "ru": "Фильтр fresh уже отсекает повторы — повторное нажатие обязано дать сообщение о пустой выборке.",
+        "tg": "Филтри fresh такрорҳоро аллакай мегузаронад — пахши дуюм ҳатман паёми интихоби холиро медиҳад.",
+        "en": "The fresh filter already skips repeats — a second press must show the empty-result message."
+      },
+      "success": {
+        "ru": "Шаблоны добавлены, дубликаты отсечены, а отказ сети не тронул локальные данные.",
+        "tg": "Қолабҳо илова шуданд, такрорҳо гузаштанд ва даст додани шабака маълумоти маҳаллиро дамонд.",
+        "en": "Templates joined, duplicates skipped, and a network refusal left local data intact."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и добавьте шаблоны на устройстве при включённой и отключённой сети. Соберите решение с отметкой времени и запишите оба сообщения: успех и повтор. Проверьте, что после отказа сети список остался прежним. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва қолабҳоро дар дастгоҳ бо шабакаи фаъол ва хомӯш илова кунед. Ҳаллро бо аломати вақт созед ва ҳарду паёмро сабт кунед: муваффақият ва такрор. Месанҷед, ки баъди даст додани шабака рӯйхат ҳамон монд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and add templates on a device with the network on and off. Build the solution with the timestamp and record both messages: success and duplicate. Confirm the list stayed the same after a network refusal. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Шаблоны добавлены один раз: повтор не плодит дубликаты.",
+          "tg": "Қолабҳо як бор илова мешаванд: такрор такрор намесозад.",
+          "en": "Templates join once: a retry creates no duplicates."
+        },
+        {
+          "ru": "Отказ сети оставил локальные данные целыми.",
+          "tg": "Даст додани шабака маълумоти маҳаллиро солим гузошт.",
+          "en": "A network refusal left local data intact."
+        }
+      ],
+      "example": {
+        "ru": "Строка «Последняя успешная загрузка: 12:34:56» появляется после первого успеха.",
+        "tg": "Сатри «Охирин боркунии муваффақ: 12:34:56» баъди аввалин муваффақият пайдо мешавад.",
+        "en": "The «Последняя успешная загрузка: 12:34:56» line appears after the first success."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Локальное ядро работает без сети; сеть добавляет шаблоны.",
+        "tg": "Ҳастаи маҳаллӣ бе шабака кор мекунад; шабака қолабҳоро илова мекунад.",
+        "en": "The local core works offline; the network adds templates."
+      },
+      {
+        "ru": "Сохранённое и показанное — разные состояния, о которых говорят словами.",
+        "tg": "Нигоҳдоришуда ва нишондодашуда — ҳолатҳои гуногун, ки бо калимаҳо мегӯянд.",
+        "en": "Saved and shown are different states, said in words."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Почему шаблоны не добавляются дважды?",
+        "tg": "Қолабҳо барои чӣ дучор илова намешаванд?",
+        "en": "Why do templates never join twice?"
+      },
+      {
+        "ru": "Что делает templateToTask с чужими данными?",
+        "tg": "templateToTask бо маълумоти дигарон чӣ мекунад?",
+        "en": "What does templateToTask do with foreign data?"
+      }
+    ],
+    "nextLessonId": "mobile-day-43"
+  }
+}

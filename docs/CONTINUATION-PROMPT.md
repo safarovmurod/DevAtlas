@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `1b1f0d0da7a2d28461a152f331125ecede3b7d96`. Фактический каталог: 43 IDs, 38 направлений, 936 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `d5ed179175d3f524ec1d14956ff44ff98164467e`. Фактический каталог: 43 IDs, 38 направлений, 978 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Fix and verify the Backend Monaco reload test after main CI failure, merge the follow-up normally, and require green main CI before Mobile.
+Следующее действие по сохранённому состоянию: Complete Mobile Beginner in order after the verified Backend merges. Preserve mobile-day-01/02 and their progress; verify Expo compatibility and report native SDK blockers honestly.
 
 ## Что сохранить
 
@@ -18,7 +18,6 @@ HTML day 1: optional learningFlow, восемь типов вопросов, д�
 
 ## Обязательные незавершённые программы
 
-- mobile: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - ux-design: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - digital-marketing: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - data-analytics: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.

@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-21",
+  "day": 21,
+  "prerequisiteDays": [
+    20
+  ],
+  "title": {
+    "ru": "Общее состояние и границы компонента",
+    "tg": "Ҳолати умумӣ ва ҳудуди компонент",
+    "en": "Shared state and component boundaries"
+  },
+  "summary": {
+    "ru": "Поднимите состояние на уровень родителя и передайте детям данные и события.",
+    "tg": "Ҳолатро ба сатҳи волидайн бароварда, ба кӯдакон маълумот ва ҳодисаро гузаронед.",
+    "en": "Lift state to the parent and pass children data and events."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Кому принадлежит состояние",
+        "tg": "Ҳолат аз они кист",
+        "en": "Who owns the state"
+      },
+      "body": {
+        "ru": "Два компонента не могут отредактировать чужое состояние: данные должны принадлежать их общему родителю. Это называют подъёмом состояния: App хранит счётчик, Counter получает число через props, а CompleteButton — функцию onComplete через props и вызывает её по нажатию. Данные текут вниз через props, события — вверх через вызовы функций-обработчиков. Граница компонента — это его props: Counter не знает, откуда число, и его нельзя переиспользовать иначе. Ребёнок не мутирует props и не хранит копию данных родителя: при изменении родитель перерисует детей сам. Так строятся формы, списки и экраны следующего дня.",
+        "tg": "Ду компонент наметавонанд ҳолати дигарро тағйир диҳанд: маълумот бояд аз они волидайни умумии онҳо бошад. Инро баровардани ҳолат меноманд: App ҳисобкунакро нигоҳ медорад, Counter рақамро тавассути props мегирад ва CompleteButton функсияи onComplete-ро тавассути props гирифта, ҳангоми пахш мехонад. Маълумот ба поён тавассути props, ҳодисҳо ба боло тавассути даъвати функсияҳои обработчик мераванд. Ҳудуди компонент props-и ӯст: Counter намедонад, ки рақам аз куҷост ва дигарбора истифода бурдан нашавад. Кӯдак props-ро тағйир намедиҳад ва нусхаи маълумоти волидайнро нигоҳ намедорад: ҳангоми тағйир волидайн кӯдакро худ аз нав мекашад. Чунин шаклҳо, рӯйхатҳо ва экранҳои рӯзи оянда сохта мешаванд.",
+        "en": "Two components cannot edit each other state: the data must belong to their common parent. This is called lifting state: App stores the counter, Counter receives the number through props, and CompleteButton receives the onComplete function through props and calls it on press. Data flows down through props, events flow up through handler calls. The component boundary is its props: Counter does not know where the number comes from and cannot be reused differently. A child never mutates props and never keeps a copy of parent data: on change the parent rerenders the children itself. Forms, lists and the next day screen are built this way."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Counter — чистый компонент отображения: один проп count и одна строка текста. CompleteButton получает onComplete и не знает, что тот делает: это граница ответственности. App владеет состоянием count и передаёт setCount внутрь стрелки — ребёнок вызывает функцию, родитель меняет состояние, оба ребёнка получают новые props. Сравните с днём 15: там состояние жило внутри одного компонента, здесь оно поднято, потому что данными пользуются двое. Добавьте ResetButton с пропом onReset — он станет третьим ребёнком того же состояния. Проверьте на устройстве: отметка увеличивает, сброс обнуляет, число всегда одно для обоих детей.",
+        "tg": "Counter компоненти софи нишондиҳанда аст: як пропи count ва як сатри матн. CompleteButton onComplete мегирад ва намедонад, ки он чӣ мекунад: ин ҳудуди масъулият аст. App соҳиби ҳолати count аст ва setCount-ро дар дохили тир мефристонад — кӯдак функсияро мехонад, волидайн ҳолатро иваз мекунад ва ҳарду кӯдак props-и нав мегиранд. Бо рӯзи 15 муқоиса кунед: он ҷо ҳолат дар дохили як компонент буд, ин ҷо боло бароварда шудааст, чунки маълумотро ду нафар истифода мебаранд. ResetButton бо пропи onReset илова кунед — ӯ кӯдаки сеюми ҳамон ҳолат мешавад. Дар дастгоҳ санҷед: қайд меафзояд, сифр нобуд мекунад ва рақам ҳамеша якест барои ҳарду кӯдак.",
+        "en": "Counter is a pure display component: one count prop and one text line. CompleteButton receives onComplete and does not know what it does: that is the responsibility boundary. App owns the count state and passes setCount inside an arrow — the child calls the function, the parent changes state, and both children receive new props. Compare with day 15: there the state lived inside one component, here it is lifted because two children use the data. Add a ResetButton with an onReset prop — it becomes the third child of the same state. Check on a device: complete increments, reset zeroes, and the number is always one value for both children."
+      },
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nfunction Counter({ count }: { count: number }) {\n  return <Text>Выполнено: {count}</Text>;\n}\n\nfunction CompleteButton({ onComplete }: { onComplete: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Отметить занятие выполненным\"\n      onPress={onComplete}\n      style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Отметить</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Counter count={count} />\n      <CompleteButton onComplete={() => setCount(value => value + 1)} />\n      <Text>Состояние живёт в App и передаётся детям.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-21-q1",
+      "question": {
+        "ru": "Где должно жить состояние, нужное двум детям?",
+        "tg": "Ҳолати лозимии ду кӯдак дар куҷо бояд бошад?",
+        "en": "Where should state needed by two children live?"
+      },
+      "options": [
+        {
+          "ru": "В каждом ребёнке по копии",
+          "tg": "Дар ҳар кӯдак як нусха",
+          "en": "As a copy in each child"
+        },
+        {
+          "ru": "В их ближайшем общем родителе",
+          "tg": "Дар волидайни умумии наздикашон",
+          "en": "In their closest common parent"
+        },
+        {
+          "ru": "В StyleSheet",
+          "tg": "Дар StyleSheet",
+          "en": "In StyleSheet"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Подъём состояния отдаёт данные общему родителю.",
+        "tg": "Баровардани ҳолат маълумотро ба волидайни умумӣ медиҳад.",
+        "en": "Lifting state gives the data to the common parent."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе фразу про общего родителя.",
+        "tg": "Дар бахши аввал ибораи дар бораи волидайни умумиро ёбед.",
+        "en": "Find the common-parent phrase in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-21-q2",
+      "question": {
+        "ru": "Что знает CompleteButton о onComplete?",
+        "tg": "CompleteButton дар бораи onComplete чӣ медонад?",
+        "en": "What does CompleteButton know about onComplete?"
+      },
+      "options": [
+        {
+          "ru": "Имя состояния родителя",
+          "tg": "Номи ҳолати волидайн",
+          "en": "The parent state name"
+        },
+        {
+          "ru": "Точную формулу обновления",
+          "tg": "Формулаи дақиқи навсозӣ",
+          "en": "The exact update formula"
+        },
+        {
+          "ru": "Ничего: только что функцию можно вызвать",
+          "tg": "Ҳеҷ чиз: танҳо он ки функсияро хонда мешавад",
+          "en": "Nothing: only that the function is callable"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Граница компонента — props: ребёнок не знает внутренности родителя.",
+        "tg": "Ҳудуди компонент props аст: кӯдак дохили волидайнро намедонад.",
+        "en": "The component boundary is props: the child does not know the parent internals."
+      },
+      "hint": {
+        "ru": "Перечитайте слова о границе ответственности в разборе.",
+        "tg": "Калимаҳои дар бораи ҳудуди масъулиятро дар шарҳ аз нав хонед.",
+        "en": "Re-read the responsibility boundary words in the walkthrough."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-21-q3",
+      "question": {
+        "ru": "Куда текут события из ребёнка?",
+        "tg": "Ҳодисҳо аз кӯдак ба куҷо мераванд?",
+        "en": "Where do events from a child flow?"
+      },
+      "options": [
+        {
+          "ru": "Вверх через вызовы функций-обработчиков",
+          "tg": "Ба боло тавассути даъвати функсияҳои обработчик",
+          "en": "Up through handler function calls"
+        },
+        {
+          "ru": "Вниз вместе с props",
+          "tg": "Ба поён бо props",
+          "en": "Down together with props"
+        },
+        {
+          "ru": "На сервер",
+          "tg": "Ба сервер",
+          "en": "To a server"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Ребёнок вызывает функцию родителя, родитель меняет состояние.",
+        "tg": "Кӯдак функсияи волидайнро мехонад, волидайн ҳолатро иваз мекунад.",
+        "en": "The child calls a parent function, the parent updates state."
+      },
+      "hint": {
+        "ru": "Сравните направление props и вызовов в примере.",
+        "tg": "Самти props ва даъватҳоро дар мисол муқоиса кунед.",
+        "en": "Compare the props and call directions in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-21-q4",
+      "question": {
+        "ru": "Чем пример отличается от дня 15?",
+        "tg": "Мисол аз рӯзи 15 чӣ фарқ дорад?",
+        "en": "How does the example differ from day 15?"
+      },
+      "options": [
+        {
+          "ru": "Здесь нет состояния",
+          "tg": "Дар ин ҷо ҳолат нест",
+          "en": "There is no state here"
+        },
+        {
+          "ru": "Состояние поднято, потому что его используют два ребёнка",
+          "tg": "Ҳолат бароварда шудааст, чунки ду кӯдак истифода мебаранд",
+          "en": "The state is lifted because two children use it"
+        },
+        {
+          "ru": "Кнопка заменена на TextInput",
+          "tg": "Тугма ба TextInput иваз шудааст",
+          "en": "The button became a TextInput"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "День 15 держал состояние внутри одного компонента; здесь двое пользуются данными.",
+        "tg": "Рӯзи 15 ҳолатро дар дохили як компонент дошт; ин ҷо ду нафар маълумотро истифода мебаранд.",
+        "en": "Day 15 kept state inside one component; here two children share the data."
+      },
+      "hint": {
+        "ru": "Вспомните, кто использовал счётчик в дне 15.",
+        "tg": "Ёд оред, ки дар рӯзи 15 ҳисобкунакро кист истифода мебурд.",
+        "en": "Recall who used the counter in day 15."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-21-q5",
+      "question": {
+        "ru": "Что сделает ребёнок, если данные родителя изменились?",
+        "tg": "Агар маълумоти волидайн тағйир ёбад, кӯдак чӣ мекунад?",
+        "en": "What does a child do when the parent data changes?"
+      },
+      "options": [
+        {
+          "ru": "Изменит props родителя",
+          "tg": "Props-и волидайнро тағйир медиҳад",
+          "en": "Mutates the parent props"
+        },
+        {
+          "ru": "Скопирует данные себе",
+          "tg": "Маълумотро ба худ нусхабардорӣ мекунад",
+          "en": "Copies the data to itself"
+        },
+        {
+          "ru": "Ничего: родитель перерисует его с новыми props",
+          "tg": "Ҳеҷ чиз: волидайн ӯро бо props-и нав аз нав мекашад",
+          "en": "Nothing: the parent rerenders it with new props"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Ребёнок отображает props; владелец данных обновляет их.",
+        "tg": "Кӯдак props-ро нишон медиҳад; соҳиби маълумот онҳоро нав мекунад.",
+        "en": "The child renders props; the data owner updates them."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе слова о мутации props.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи тағйири props-ро ёбед.",
+        "en": "Find the first-section words about mutating props."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте на устройстве. Добавьте ResetButton с пропом onReset, своим цветом и ролью button. Запишите, какие данные текут вниз и какие события вверх, и почему состояние нельзя было оставить в CompleteButton. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва дар дастгоҳ санҷед. ResetButton бо пропи onReset, ранги худ ва нақши button илова кунед. Сабт кунед, ки кадом маълумот ба поён ва кадом ҳодисҳо ба боло мераванд ва чаро ҳолатро дар CompleteButton гузоштан нашавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check on a device. Add a ResetButton with an onReset prop, its own color and the button role. Record which data flows down and which events flow up, and why the state could not stay in CompleteButton. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Скопируйте CompleteButton, переименуйте в ResetButton и передайте onReset={() => setCount(0)}.",
+      "tg": "CompleteButton-ро нусхабардорӣ карда, ба ResetButton номгузорӣ намуда, onReset={() => setCount(0)} гузаронед.",
+      "en": "Copy CompleteButton, rename it ResetButton and pass onReset={() => setCount(0)}."
+    },
+    "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nfunction Counter({ count }: { count: number }) {\n  return <Text>Выполнено: {count}</Text>;\n}\n\nfunction CompleteButton({ onComplete }: { onComplete: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Отметить занятие выполненным\"\n      onPress={onComplete}\n      style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Отметить</Text>\n    </Pressable>\n  );\n}\n\nfunction ResetButton({ onReset }: { onReset: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Сбросить счётчик\"\n      onPress={onReset}\n      style={({ pressed }) => [styles.button, styles.reset, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Сбросить</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Counter count={count} />\n      <CompleteButton onComplete={() => setCount(value => value + 1)} />\n      <ResetButton onReset={() => setCount(0)} />\n      <Text>Состояние живёт в App и передаётся детям.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  reset: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Три ребёнка используют одно состояние родителя.",
+        "tg": "Се кӯдак як ҳолати волидайнро истифода мебаранд.",
+        "en": "Three children use one parent state."
+      },
+      {
+        "ru": "Записано объяснение направления данных и событий.",
+        "tg": "Шарҳи самти маълумот ва ҳодисҳо сабт шудааст.",
+        "en": "The data and event direction explanation is recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Поднять состояние к общему родителю и обосновать это.",
+        "tg": "Ҳолатро ба волидайни умумӣ бароварда, онро асоснок кунед.",
+        "en": "Lift state to the common parent with a reason."
+      },
+      {
+        "ru": "Разделить компоненты на отображение и действие.",
+        "tg": "Компонентҳоро ба нишондиҳанда ва амал ҷудо кунед.",
+        "en": "Split components into display and action."
+      }
+    ],
+    "realWorld": {
+      "ru": "Экран корзины: значок количества и кнопка «плюс» — два ребёнка одного состояния родителя.",
+      "tg": "Экрани сабад: нишонаи шумора ва тугмаи «зиёд» — ду кӯдаки як ҳолати волидайн.",
+      "en": "A cart screen: the count badge and the plus button are two children of one parent state."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что знает CompleteButton о onComplete?",
+        "tg": "CompleteButton дар бораи onComplete чӣ медонад?",
+        "en": "What does CompleteButton know about onComplete?"
+      },
+      "options": [
+        {
+          "ru": "Имя состояния родителя",
+          "tg": "Номи ҳолати волидайн",
+          "en": "The parent state name"
+        },
+        {
+          "ru": "Точную формулу обновления",
+          "tg": "Формулаи дақиқи навсозӣ",
+          "en": "The exact update formula"
+        },
+        {
+          "ru": "Ничего: только что функцию можно вызвать",
+          "tg": "Ҳеҷ чиз: танҳо он ки функсияро хонда мешавад",
+          "en": "Nothing: only that the function is callable"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Перечитайте слова о границе ответственности в разборе.",
+        "tg": "Калимаҳои дар бораи ҳудуди масъулиятро дар шарҳ аз нав хонед.",
+        "en": "Re-read the responsibility boundary words in the walkthrough."
+      },
+      "explanation": {
+        "ru": "Граница компонента — props: ребёнок не знает внутренности родителя.",
+        "tg": "Ҳудуди компонент props аст: кӯдак дохили волидайнро намедонад.",
+        "en": "The component boundary is props: the child does not know the parent internals."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nfunction Counter({ count }: { count: number }) {\n  return <Text>Выполнено: {count}</Text>;\n}\n\nfunction CompleteButton({ onComplete }: { onComplete: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Отметить занятие выполненным\"\n      onPress={onComplete}\n      style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Отметить</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Counter count={count} />\n      <CompleteButton onComplete={() => setCount(value => value + 1)} />\n      <Text>Состояние живёт в App и передаётся детям.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 22,
+          "explanation": {
+            "ru": "App владеет единственным источником счётчика.",
+            "tg": "App соҳиби ягона манбаи ҳисобкунак аст.",
+            "en": "App owns the single counter source."
+          },
+          "values": "count = 0"
+        },
+        {
+          "line": 23,
+          "explanation": {
+            "ru": "Counter получает число через props.",
+            "tg": "Counter рақамро тавассути props мегирад.",
+            "en": "Counter receives the number through props."
+          },
+          "values": "count prop"
+        },
+        {
+          "line": 24,
+          "explanation": {
+            "ru": "CompleteButton вызывает функцию родителя.",
+            "tg": "CompleteButton функсияи волидайнро мехонад.",
+            "en": "CompleteButton calls the parent function."
+          },
+          "values": "onComplete()"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере, кто владеет состоянием и кто его читает.",
+          "tg": "Дар мисол ёбед, ки соҳиби ҳолат кист ва кист мехонад.",
+          "en": "Find who owns the state and who reads it in the example."
+        },
+        {
+          "ru": "Нажмите «Отметить» и убедитесь, что число обновилось у отображения.",
+          "tg": "«Отметить»-ро пахш карда, боварӣ ҳосил кунед, ки рақам дар нишондиҳанда нав шуд.",
+          "en": "Press «Отметить» and confirm the display updated."
+        }
+      ],
+      "hint": {
+        "ru": "Скопируйте CompleteButton, переименуйте в ResetButton и передайте onReset={() => setCount(0)}.",
+        "tg": "CompleteButton-ро нусхабардорӣ карда, ба ResetButton номгузорӣ намуда, onReset={() => setCount(0)} гузаронед.",
+        "en": "Copy CompleteButton, rename it ResetButton and pass onReset={() => setCount(0)}."
+      },
+      "success": {
+        "ru": "Оба ребёнка показывают одно значение, потому что состояние одно у родителя.",
+        "tg": "Ҳарду кӯдак як қиматро нишон медиҳанд, чунки ҳолат ягона ва аз они волидайн аст.",
+        "en": "Both children show one value because the state belongs to the parent alone."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте на устройстве. Добавьте ResetButton с пропом onReset, своим цветом и ролью button. Запишите, какие данные текут вниз и какие события вверх, и почему состояние нельзя было оставить в CompleteButton. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва дар дастгоҳ санҷед. ResetButton бо пропи onReset, ранги худ ва нақши button илова кунед. Сабт кунед, ки кадом маълумот ба поён ва кадом ҳодисҳо ба боло мераванд ва чаро ҳолатро дар CompleteButton гузоштан нашавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check on a device. Add a ResetButton with an onReset prop, its own color and the button role. Record which data flows down and which events flow up, and why the state could not stay in CompleteButton. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Три ребёнка используют одно состояние родителя.",
+          "tg": "Се кӯдак як ҳолати волидайнро истифода мебаранд.",
+          "en": "Three children use one parent state."
+        },
+        {
+          "ru": "Записано объяснение направления данных и событий.",
+          "tg": "Шарҳи самти маълумот ва ҳодисҳо сабт шудааст.",
+          "en": "The data and event direction explanation is recorded."
+        }
+      ],
+      "example": {
+        "ru": "Серая кнопка «Сбросить» обнуляет счётчик, который показывает Counter.",
+        "tg": "Тугмаи хокистарии «Сбросить» ҳисобкунаки, ки Counter нишон медиҳад, нобуд мекунад.",
+        "en": "The gray «Сбросить» button zeroes the counter that Counter displays."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Состояние двух детей живёт у общего родителя.",
+        "tg": "Ҳолати ду кӯдак дар волидайни умумӣ аст.",
+        "en": "State for two children lives in their common parent."
+      },
+      {
+        "ru": "Данные — вниз через props, события — вверх через вызовы функций.",
+        "tg": "Маълумот — ба поён бо props, ҳодисҳо — ба боло бо даъвати функсияҳо.",
+        "en": "Data flows down through props, events up through function calls."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что знает CompleteButton о onComplete?",
+        "tg": "CompleteButton дар бораи onComplete чӣ медонад?",
+        "en": "What does CompleteButton know about onComplete?"
+      },
+      {
+        "ru": "Что сделает ребёнок, если данные родителя изменились?",
+        "tg": "Агар маълумоти волидайн тағйир ёбад, кӯдак чӣ мекунад?",
+        "en": "What does a child do when the parent data changes?"
+      }
+    ],
+    "nextLessonId": "mobile-day-22"
+  }
+}

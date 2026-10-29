@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-17",
+  "day": 17,
+  "prerequisiteDays": [
+    16
+  ],
+  "title": {
+    "ru": "Карта экранов и сценарий",
+    "tg": "Харитаи экранҳо ва сценарий",
+    "en": "A screen map and scenario"
+  },
+  "summary": {
+    "ru": "Спроектируйте два экрана и переход между ними на простом переключателе состояния.",
+    "tg": "Ду экран ва гузариш байни онҳоро бо калидгузари соддаи ҳолат тарҳрезӣ кунед.",
+    "en": "Design two screens and a transition with a simple state switch."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Сначала сценарий, потом код",
+        "tg": "Аввал сценарий, баъд рамз",
+        "en": "Scenario first, code second"
+      },
+      "body": {
+        "ru": "Приложение с несколькими экранами начинается со сценария: пользователь смотрит список, открывает занятие, возвращается. Сценарий записывают словами или списком: «список → детали → назад». Каждый экран — состояние интерфейса, а переход — замена состояния. До подключения навигационной библиотеки сценарий можно собрать прямо на состоянии: строковая переменная screen хранит имя текущего экрана, а обработчик меняет его. Такой переключатель учебный: он не хранит историю переходов и не даёт системную кнопку «назад», за это отвечает настоящий стек из следующего дня. Зато сценарий видно целиком в одном файле, и его легко проверить на устройстве.",
+        "tg": "Барномаи бисёрэкранӣ бо сценарий оғоз мешавад: корбар рӯйхатро мебинад, машғулиятро мекушояд, бармегардад. Сценариро бо калимаҳо ё рӯйхат менависанд: «рӯйхат → тафсилот → ба ақиб». Ҳар экран ҳолати интерфейс аст ва гузариш ивази ҳолат. Пеш аз пайвасти китобхонаи навигатсия сценарийро дар ҳолат сохтан мумкин: тағйирёбандаи сатри screen номи экрани ҷориро нигоҳ медорад ва обработчик онро иваз мекунад. Ин калидгузарӣ таълимист: таърихи гузаришҳоро нигоҳ намедорад ва тугмаи системавии «ба ақиб»-ро намедиҳад, барои ин стеки воқеии рӯзи оянда ҷавобгар аст. Вале сценарий дар як файл пурра дида мешавад ва дар дастгоҳ осон санҷида мешавад.",
+        "en": "An app with several screens starts with a scenario: the user views a list, opens a lesson, returns. Write the scenario in words: \"list → details → back\". Each screen is a state of the interface and a transition is replacing that state. Before connecting a navigation library, you can build the scenario on plain state: the string variable screen stores the current screen name and a handler changes it. Such a switch is a teaching tool: it keeps no history and gives no system back button — the real stack from the next day does that. In exchange the whole scenario is visible in one file and easy to check on a device."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Тип ScreenName ограничивает имена экранов двумя значениями: list и about. Состояние screen начинается с list. Заголовок и содержимое выбираются условием: список показывает заглушку, «о приложении» — версию. Кнопка меняет экран на противоположный и подпись тоже зависит от состояния. Проверьте на устройстве: нажмите кнопку — заголовок и текст поменяются, повторное нажатие вернёт список. Добавьте второй экран details с собственным текстом и переходом. Такой сценарий — скелет: в дне 23 вы расширите его до трёх экранов, а библиотека навигации даст историю и системный возврат.",
+        "tg": "Типи ScreenName номҳои экранҳоро ба ду қимат маҳдуд мекунад: list ва about. Ҳолати screen аз list оғоз мешавад. Сарлавҳа ва мазмун бо шарти интихоб мешаванд: рӯйхат ҷои холӣ нишон медиҳад, «дар бораи барнома» — версия. Тугма экранро ба баръакс иваз мекунад ва матни он низ аз ҳолат вобаста аст. Дар дастгоҳ санҷед: тугмаро пахш кунед — сарлавҳа ва матн иваз мешаванд, пахши дигар рӯйхатро бармегардонад. Экрани дуюми details-ро бо матни худ ва гузариш илова кунед. Ин сценарий скелет аст: дар рӯзи 23 онро ба се экран васеъ мекунед, китобхонаи навигатсия бошад таърих ва баргашти системавӣ медиҳад.",
+        "en": "The ScreenName type limits screen names to two values: list and about. The screen state starts at list. Header and content are chosen by condition: the list shows a placeholder, \"about\" shows a version. The button flips the screen and its own label depends on the state too. Check on a device: press the button — header and text swap, pressing again returns the list. Add a second details screen with its own text and transition. This scenario is a skeleton: in day 23 you will extend it to three screens, and the navigation library adds history and the system back."
+      },
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype ScreenName = 'list' | 'about';\n\nexport default function App() {\n  const [screen, setScreen] = useState<ScreenName>('list');\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">\n        {screen === 'list' ? 'Мои занятия' : 'О приложении'}\n      </Text>\n      {screen === 'list' ? (\n        <Text>Экран списка. Занятий пока нет.</Text>\n      ) : (\n        <Text>Версия 1. Учебное приложение.</Text>\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={() => setScreen(screen === 'list' ? 'about' : 'list')}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>\n          {screen === 'list' ? 'Открыть «О приложении»' : 'Вернуться к списку'}\n        </Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-17-q1",
+      "question": {
+        "ru": "Что описывает сценарий экранов?",
+        "tg": "Сценарийи экранҳо чиро тавсиф медиҳад?",
+        "en": "What does a screen scenario describe?"
+      },
+      "options": [
+        {
+          "ru": "Путь пользователя: какие экраны и переходы нужны",
+          "tg": "Роҳи корбар: кадом экранҳо ва гузаришҳо лозиманд",
+          "en": "The user path: which screens and transitions are needed"
+        },
+        {
+          "ru": "Цены подписки",
+          "tg": "Нархҳои обуна",
+          "en": "Subscription prices"
+        },
+        {
+          "ru": "Размер шрифта на каждом экране",
+          "tg": "Андозаи ҳуруф дар ҳар экран",
+          "en": "The font size on every screen"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Сценарий — последовательность экранов и переходов.",
+        "tg": "Сценарий пайиҳамии экранҳо ва гузаришҳост.",
+        "en": "A scenario is the sequence of screens and transitions."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе пример записи сценария.",
+        "tg": "Дар бахши аввал мисоли навишти сценарияро ёбед.",
+        "en": "Find the scenario notation example in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-17-q2",
+      "question": {
+        "ru": "Где в примере хранится текущий экран?",
+        "tg": "Дар мисол экрани ҷорӣ дар куҷо нигоҳ дошта мешавад?",
+        "en": "Where does the example store the current screen?"
+      },
+      "options": [
+        {
+          "ru": "В файле package.json",
+          "tg": "Дар файли package.json",
+          "en": "In package.json"
+        },
+        {
+          "ru": "В состоянии screen",
+          "tg": "Дар ҳолати screen",
+          "en": "In the screen state"
+        },
+        {
+          "ru": "В сети",
+          "tg": "Дар шабака",
+          "en": "In the network"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Строковое состояние screen хранит имя активного экрана.",
+        "tg": "Ҳолати сатри screen номи экрани фаъолро нигоҳ медорад.",
+        "en": "The string state screen stores the active screen name."
+      },
+      "hint": {
+        "ru": "Найдите вызов useState в начале компонента.",
+        "tg": "Дархости useState-ро дар оғози компонент ёбед.",
+        "en": "Find the useState call at the component start."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-17-q3",
+      "question": {
+        "ru": "Чего не даёт переключатель состояния по сравнению со стеком?",
+        "tg": "Калидгузари ҳолат нисбат ба стек чӣ намедиҳад?",
+        "en": "What does the state switch lack compared to a stack?"
+      },
+      "options": [
+        {
+          "ru": "Возможность менять состояние",
+          "tg": "Имконияти ивази ҳолат",
+          "en": "The ability to change state"
+        },
+        {
+          "ru": "Возможность показывать текст",
+          "tg": "Имконияти нишон додани матн",
+          "en": "The ability to show text"
+        },
+        {
+          "ru": "Историю переходов и системный возврат",
+          "tg": "Таърихи гузаришҳо ва баргашти системавӣ",
+          "en": "Transition history and the system back"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Переключатель знает только имя экрана, стек хранит порядок.",
+        "tg": "Калидгузарӣ танҳо номи экранро медонад, стек тартибро нигоҳ медорад.",
+        "en": "The switch knows only the screen name; a stack keeps the order."
+      },
+      "hint": {
+        "ru": "Перечитайте конец первого раздела про настоящий стек.",
+        "tg": "Охири бахши аввал дар бораи стеки воқеиро аз нав хонед.",
+        "en": "Re-read the end of the first section about the real stack."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-17-q4",
+      "question": {
+        "ru": "Почему подпись кнопки зависит от состояния?",
+        "tg": "Барои чӣ матни тугма аз ҳолат вобаста аст?",
+        "en": "Why does the button label depend on the state?"
+      },
+      "options": [
+        {
+          "ru": "На каждом экране действие своё",
+          "tg": "Дар ҳар экран амал аз худ аст",
+          "en": "Each screen has its own action"
+        },
+        {
+          "ru": "Так требует StyleSheet",
+          "tg": "StyleSheet инро талаб мекунад",
+          "en": "StyleSheet requires it"
+        },
+        {
+          "ru": "Подпись берётся из сети",
+          "tg": "Матн аз шабака меояд",
+          "en": "The label comes from the network"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Кнопка ведёт к следующему шагу сценария текущего экрана.",
+        "tg": "Тугма ба қадами ояндаи сценарияи экрани ҷорӣ мебарад.",
+        "en": "The button leads to the next step of the current screen scenario."
+      },
+      "hint": {
+        "ru": "Сравните подписи на list и about в примере.",
+        "tg": "Матнҳои list ва about-ро дар мисол муқоиса кунед.",
+        "en": "Compare the labels on list and about in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-17-q5",
+      "question": {
+        "ru": "Что произойдёт с переключённым экраном после перезапуска?",
+        "tg": "Баъди аз нав оғоз бо экрани ивазшуда чӣ мешавад?",
+        "en": "What happens to the switched screen after a restart?"
+      },
+      "options": [
+        {
+          "ru": "Приложение запомнит последний экран",
+          "tg": "Барнома охирин экранро ёд мекунад",
+          "en": "The app remembers the last screen"
+        },
+        {
+          "ru": "Приложение откроется со списка",
+          "tg": "Барнома аз рӯйхат кушода мешавад",
+          "en": "The app opens at the list"
+        },
+        {
+          "ru": "Приложение не запустится",
+          "tg": "Барнома оғоз намешавад",
+          "en": "The app does not start"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Состояние в памяти; сохранение выбранного экрана ещё не написано.",
+        "tg": "Ҳолат дар хотира аст; нигоҳдории интихобшудаи экран ҳоло навишта нашудааст.",
+        "en": "The state is in memory; persisting the chosen screen is not written yet."
+      },
+      "hint": {
+        "ru": "Найдите в примере код сохранения.",
+        "tg": "Дар мисол рамзи нигоҳдориро ҷустуҷӯ кунед.",
+        "en": "Look for persistence code in the example."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте переключение на устройстве. Добавьте экран details со своим текстом и переходом: из списка открывается занятие, из занятия возврат. Запишите сценарий словами и опишите, чего в переключателе не хватает по сравнению со стеком. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва ивазро дар дастгоҳ санҷед. Экрани details-ро бо матни худ ва гузариш илова кунед: аз рӯйхат машғулият кушода мешавад, аз машғулият баргашт. Сценарийро бо калимаҳо сабт кунед ва тавсиф диҳед, ки калидгузарӣ нисбат ба стек чӣ надорад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check the switch on a device. Add a details screen with your own text and transition: the list opens a lesson, the lesson returns. Write the scenario in words and describe what the switch lacks compared to a stack. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Добавьте второе имя в ScreenName и условие для details в JSX.",
+      "tg": "Номи дуюмро ба ScreenName илова ва шарти details-ро дар JSX гузоред.",
+      "en": "Add the second name to ScreenName and a details condition in JSX."
+    },
+    "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype ScreenName = 'list' | 'details';\n\nexport default function App() {\n  const [screen, setScreen] = useState<ScreenName>('list');\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">\n        {screen === 'list' ? 'Мои занятия' : 'Первый шаг'}\n      </Text>\n      {screen === 'list' ? (\n        <Text>Занятий пока нет, но сценарий перехода готов.</Text>\n      ) : (\n        <Text>Первое занятие: собрать экран из View и Text.</Text>\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={() => setScreen(screen === 'list' ? 'details' : 'list')}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>\n          {screen === 'list' ? 'Открыть первое занятие' : 'Вернуться к списку'}\n        </Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Сценарий записан словами и реализован на трёх именах экранов или двух с деталями.",
+        "tg": "Сценарий бо калимаҳо сабт шуда, дар се ё ду номи экран бо тафсилот ҷамъ омадааст.",
+        "en": "The scenario is written in words and implemented with three screen names or two with details."
+      },
+      {
+        "ru": "Записано наблюдение о переключении и отличие от стека.",
+        "tg": "Мушоҳидаи иваз ва фарқ аз стек сабт шудааст.",
+        "en": "The switching observation and the stack difference are recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Записать сценарий из двух экранов и реализовать его на состоянии.",
+        "tg": "Сценарии аз ду экран нависед ва онро дар ҳолат ҷамъ оваред.",
+        "en": "Write a two-screen scenario and implement it with state."
+      },
+      {
+        "ru": "Объяснить ограничения переключателя перед настоящим стеком.",
+        "tg": "Маҳдудиятҳои калидгузариро пеш аз стеки воқеӣ шарҳ диҳед.",
+        "en": "Explain the switch limits before the real stack."
+      }
+    ],
+    "realWorld": {
+      "ru": "Двухэкранный сценарий «список → детали» есть в каждом приложении заметок.",
+      "tg": "Сценарии дуэкрании «рӯйхат → тафсилот» дар ҳар барномаи қайдҳо ҳаст.",
+      "en": "The two-screen \"list → details\" scenario exists in every notes app."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Где в примере хранится текущий экран?",
+        "tg": "Дар мисол экрани ҷорӣ дар куҷо нигоҳ дошта мешавад?",
+        "en": "Where does the example store the current screen?"
+      },
+      "options": [
+        {
+          "ru": "В файле package.json",
+          "tg": "Дар файли package.json",
+          "en": "In package.json"
+        },
+        {
+          "ru": "В состоянии screen",
+          "tg": "Дар ҳолати screen",
+          "en": "In the screen state"
+        },
+        {
+          "ru": "В сети",
+          "tg": "Дар шабака",
+          "en": "In the network"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Найдите вызов useState в начале компонента.",
+        "tg": "Дархости useState-ро дар оғози компонент ёбед.",
+        "en": "Find the useState call at the component start."
+      },
+      "explanation": {
+        "ru": "Строковое состояние screen хранит имя активного экрана.",
+        "tg": "Ҳолати сатри screen номи экрани фаъолро нигоҳ медорад.",
+        "en": "The string state screen stores the active screen name."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype ScreenName = 'list' | 'about';\n\nexport default function App() {\n  const [screen, setScreen] = useState<ScreenName>('list');\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">\n        {screen === 'list' ? 'Мои занятия' : 'О приложении'}\n      </Text>\n      {screen === 'list' ? (\n        <Text>Экран списка. Занятий пока нет.</Text>\n      ) : (\n        <Text>Версия 1. Учебное приложение.</Text>\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={() => setScreen(screen === 'list' ? 'about' : 'list')}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>\n          {screen === 'list' ? 'Открыть «О приложении»' : 'Вернуться к списку'}\n        </Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Тип ScreenName перечисляет допустимые экраны.",
+            "tg": "Типи ScreenName экранҳои иҷозатдодаро номбар мекунад.",
+            "en": "The ScreenName type lists the allowed screens."
+          },
+          "values": "'list' | 'about'"
+        },
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Состояние screen начинается со списка.",
+            "tg": "Ҳолати screen аз рӯйхат оғоз мешавад.",
+            "en": "The screen state starts at the list."
+          },
+          "values": "screen = 'list'"
+        },
+        {
+          "line": 19,
+          "explanation": {
+            "ru": "Нажатие меняет экран на противоположный.",
+            "tg": "Пахш экранро ба баръакс иваз мекунاد.",
+            "en": "A press flips to the other screen."
+          },
+          "values": "list <-> about"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере, где выбираются заголовок и содержимое экрана.",
+          "tg": "Дар мисол ёбед, ки сарлавҳа ва мазмуни экран дар куҷо интихоб мешаванд.",
+          "en": "Find where the example picks the header and content."
+        },
+        {
+          "ru": "Нажмите кнопку на устройстве и вернитесь, наблюдая оба экрана.",
+          "tg": "Тугмаро дар дастгоҳ пахш карда, ҳарду экранро дида баргардед.",
+          "en": "Press the button on a device and return, watching both screens."
+        }
+      ],
+      "hint": {
+        "ru": "Добавьте второе имя в ScreenName и условие для details в JSX.",
+        "tg": "Номи дуюмро ба ScreenName илова ва шарти details-ро дар JSX гузоред.",
+        "en": "Add the second name to ScreenName and a details condition in JSX."
+      },
+      "success": {
+        "ru": "Нажатие показывает второй экран, повторное возвращает список.",
+        "tg": "Пахш экрани дуюмро нишон медиҳад, пахши дигар рӯйхатро бармегардонад.",
+        "en": "A press shows the second screen and pressing again returns the list."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте переключение на устройстве. Добавьте экран details со своим текстом и переходом: из списка открывается занятие, из занятия возврат. Запишите сценарий словами и опишите, чего в переключателе не хватает по сравнению со стеком. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва ивазро дар дастгоҳ санҷед. Экрани details-ро бо матни худ ва гузариш илова кунед: аз рӯйхат машғулият кушода мешавад, аз машғулият баргашт. Сценарийро бо калимаҳо сабт кунед ва тавсиф диҳед, ки калидгузарӣ нисбат ба стек чӣ надорад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check the switch on a device. Add a details screen with your own text and transition: the list opens a lesson, the lesson returns. Write the scenario in words and describe what the switch lacks compared to a stack. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Сценарий записан словами и реализован на трёх именах экранов или двух с деталями.",
+          "tg": "Сценарий бо калимаҳо сабт шуда, дар се ё ду номи экран бо тафсилот ҷамъ омадааст.",
+          "en": "The scenario is written in words and implemented with three screen names or two with details."
+        },
+        {
+          "ru": "Записано наблюдение о переключении и отличие от стека.",
+          "tg": "Мушоҳидаи иваз ва фарқ аз стек сабт шудааст.",
+          "en": "The switching observation and the stack difference are recorded."
+        }
+      ],
+      "example": {
+        "ru": "Из списка открывается «Первый шаг», а кнопка возврата возвращает список.",
+        "tg": "Аз рӯйхат «Қадами аввал» кушода мешавад ва тугмаи баргашт рӯйхатро бармегардонад.",
+        "en": "The list opens «Первый шаг» and the return button brings back the list."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Сценарий экранов записывают до кода и проверяют на устройстве.",
+        "tg": "Сценарии экранҳоро пеш аз рамз менависанд ва дар дастгоҳ месанҷанд.",
+        "en": "Write the screen scenario before code and check it on a device."
+      },
+      {
+        "ru": "Переключатель состояния не хранит историю — это работа настоящего стека.",
+        "tg": "Калидгузари ҳолат таърихро нигоҳ намедорад — ин кори стеки воқеӣ аст.",
+        "en": "A state switch keeps no history — that is the real stack job."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Чего не даёт переключатель состояния по сравнению со стеком?",
+        "tg": "Калидгузари ҳолат нисбат ба стек чӣ намедиҳад?",
+        "en": "What does the state switch lack compared to a stack?"
+      },
+      {
+        "ru": "Что произойдёт с переключённым экраном после перезапуска?",
+        "tg": "Баъди аз нав оғоз бо экрани ивазшуда чӣ мешавад?",
+        "en": "What happens to the switched screen after a restart?"
+      }
+    ],
+    "nextLessonId": "mobile-day-18"
+  }
+}

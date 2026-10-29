@@ -1,0 +1,416 @@
+{
+  "id": "mobile-day-07",
+  "day": 7,
+  "prerequisiteDays": [
+    6
+  ],
+  "title": {
+    "ru": "Props: данные от родителя к компоненту",
+    "tg": "Props: дода аз волид ба компонент",
+    "en": "Props: data from parent to component"
+  },
+  "summary": {
+    "ru": "Передайте разным экземплярам компонента разные имена.",
+    "tg": "Ба нусхаҳои компонент номҳои гуногун диҳед.",
+    "en": "Pass different names to component instances."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Props: данные от родителя к компоненту",
+        "tg": "Props: дода аз волид ба компонент",
+        "en": "Props: data from parent to component"
+      },
+      "body": {
+        "ru": "Props — входные данные, которые родительский компонент передаёт дочернему. В <Greeting name=\"Мадина\" /> значение name задано для одного экземпляра, а в следующей записи можно передать другое имя. Внутри Greeting запись { name } извлекает свойство из объекта props. Тип GreetingProps описывает ожидаемую форму: name должен быть строкой. TypeScript проверяет тип при разработке; тип сам по себе не проверяет данные сервера во время работы. Компонент читает props и возвращает JSX. Не изменяйте переданный объект: если данные должны меняться, родитель управляет state и передаёт новое значение. В примере имена заданы в коде и не сохраняются на сервере.",
+        "tg": "Props додаи вурудианд, ки компоненти волид ба фарзанд медиҳад. Дар <Greeting name=\"Мадина\" /> name барои як нусха дода мешавад ва дар навбати дигар номи дигар додан мумкин. Дар Greeting навишти { name } хосиятро аз объекти props мегирад. Навъи GreetingProps шакли интизорро мегӯяд: name бояд сатр бошад. TypeScript навъро ҳангоми таҳия месанҷад; худи навъ додаи серверро ҳангоми кор тафтиш намекунад. Компонент props-ро мехонад ва JSX медиҳад. Объекти додашударо дигар накунед: агар дода тағйир ёбад, волид state-ро идора ва қимати нав медиҳад. Номҳои мисол дар коданд ва ба сервер сабт намешаванд.",
+        "en": "Props are inputs a parent component passes to a child. In <Greeting name=\"Мадина\" />, name is supplied for one instance; another instance can receive another name. Inside Greeting, { name } extracts the property from the props object. The GreetingProps type describes the expected shape: name must be a string. TypeScript checks this during development; a type alone does not validate server data at runtime. A component reads props and returns JSX. Do not mutate the passed object: when data needs to change, the parent owns state and passes a new value. These example names are written in code and are not saved to a server."
+      }
+    },
+    {
+      "title": {
+        "ru": "Разбор передачи имени",
+        "tg": "Шарҳи додани ном",
+        "en": "Walk through the passed name"
+      },
+      "body": {
+        "ru": "import получает Text и View. Строка type GreetingProps описывает объект с обязательным строковым полем name; это описание удаляется при преобразовании TypeScript в JavaScript. Функция Greeting({ name }: GreetingProps) принимает объект свойств и извлекает name. В JSX {name} вставляет строку внутрь Text. App возвращает View с двумя экземплярами: первый получает «Мадина», второй — «Фарид». Если поменять только второе значение, изменится только второе приветствие. Если передать число name={7}, TypeScript сообщает ошибку, потому что договор ожидает строку. Для сетевых данных одной этой проверки недостаточно: вход проверяется во время работы отдельно.",
+        "tg": "import Text ва View-ро мегирад. type GreetingProps объекти дорои майдони ҳатмии сатри name-ро тавсиф мекунад; ин тавсиф ҳангоми табдили TypeScript ба JavaScript нест мешавад. Greeting({ name }: GreetingProps) объекти хосиятҳоро гирифта, name-ро ҷудо мекунад. Дар JSX {name} сатрро ба Text мегузорад. App View бо ду нусха медиҳад: якум «Мадина», дуюм «Фарид» мегирад. Танҳо қимати дуюмро иваз кунед: танҳо саломи дуюм иваз мешавад. Бо name={7} TypeScript хато медиҳад, чун шартнома сатр мехоҳад. Барои додаи шабака ин кофӣ нест: вуруд дар вақти кор ҷудо санҷида мешавад.",
+        "en": "import obtains Text and View. type GreetingProps describes an object with a required string name; this description is erased when TypeScript is transformed to JavaScript. Greeting({ name }: GreetingProps) receives a props object and extracts name. In JSX {name} inserts the string into Text. App returns a View with two instances: the first receives “Мадина”, the second “Фарид”. Change only the second value and only the second greeting changes. Passing name={7} causes a TypeScript error because the contract expects a string. For network data that static check is insufficient: validate input at runtime separately."
+      },
+      "code": "import { Text, View } from 'react-native';\n\ntype GreetingProps = { name: string };\n\nfunction Greeting({ name }: GreetingProps) {\n  return <Text>Салом, {name}!</Text>;\n}\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Greeting name=\"Мадина\" />\n      <Greeting name=\"Фарид\" />\n    </View>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-07-q1",
+      "question": {
+        "ru": "Сколько разных имён передаёт исходный App?",
+        "tg": "App-и аввал чанд номи гуногун медиҳад?",
+        "en": "How many different names does the original App pass?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "2",
+          "tg": "2",
+          "en": "2"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Два экземпляра получают разные строки.",
+        "tg": "Ду нусха сатрҳои гуногун мегиранд.",
+        "en": "The two instances receive different strings."
+      },
+      "hint": {
+        "ru": "Посчитайте атрибуты name на двух экземплярах Greeting.",
+        "tg": "Атрибутҳои name-ро дар ду нусхаи Greeting шуморед.",
+        "en": "Count the name attributes on the two Greeting instances."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-07-q2",
+      "question": {
+        "ru": "Что изменится, если заменить только второе имя?",
+        "tg": "Агар танҳо номи дуюм иваз шавад, чӣ мешавад?",
+        "en": "What changes if only the second name changes?"
+      },
+      "options": [
+        {
+          "ru": "Все приветствия одновременно.",
+          "tg": "Ҳама салом якбора.",
+          "en": "Every greeting simultaneously."
+        },
+        {
+          "ru": "Только второе приветствие.",
+          "tg": "Танҳо саломи дуюм.",
+          "en": "Only the second greeting."
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Каждый экземпляр получает собственные props.",
+        "tg": "Ҳар нусха props-и худро мегирад.",
+        "en": "Each instance receives its own props."
+      },
+      "hint": {
+        "ru": "Props у каждого экземпляра свои; вспомните, какой экземпляр получает изменённое значение.",
+        "tg": "Props-и ҳар нусха алоҳида аст; ёд оред, ки кадом нусха қимати тағйирёфтаро мегирад.",
+        "en": "Props belong to each instance; recall which instance receives the changed value."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-07-q3",
+      "question": {
+        "ru": "Проверяет ли type GreetingProps сетевой JSON во время работы?",
+        "tg": "Оё type GreetingProps JSON-и шабакаро ҳангоми кор месанҷад?",
+        "en": "Does type GreetingProps validate network JSON at runtime?"
+      },
+      "options": [
+        {
+          "ru": "Нет, нужна отдельная runtime-проверка.",
+          "tg": "Не, санҷиши runtime-и ҷудо лозим.",
+          "en": "No, separate runtime validation is needed."
+        },
+        {
+          "ru": "Да, всегда.",
+          "tg": "Бале, ҳамеша.",
+          "en": "Yes, always."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Типы TypeScript удаляются при преобразовании.",
+        "tg": "Навъҳои TypeScript ҳангоми табдил нест мешаванд.",
+        "en": "TypeScript types are erased during transformation."
+      },
+      "hint": {
+        "ru": "Вспомните из разбора, что TypeScript делает с типами при преобразовании в JavaScript.",
+        "tg": "Аз шарҳ ёд оред, ки TypeScript ҳангоми табдил ба JavaScript бо типҳо чӣ мекунад.",
+        "en": "Recall from the walkthrough what TypeScript does with types when transforming to JavaScript."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-07-q4",
+      "question": {
+        "ru": "Кто передаёт значение name в примере?",
+        "tg": "Дар мисол қимати name-ро кӣ медиҳад?",
+        "en": "Who supplies name in this example?"
+      },
+      "options": [
+        {
+          "ru": "SQLite",
+          "tg": "SQLite",
+          "en": "SQLite"
+        },
+        {
+          "ru": "Greeting",
+          "tg": "Greeting",
+          "en": "Greeting"
+        },
+        {
+          "ru": "App",
+          "tg": "App",
+          "en": "App"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Родитель App задаёт атрибут каждого Greeting.",
+        "tg": "Волид App атрибути ҳар Greeting-ро медиҳад.",
+        "en": "Parent App supplies each Greeting attribute."
+      },
+      "hint": {
+        "ru": "Найдите компонент, который пишет name=... в своём JSX.",
+        "tg": "Компонентеро ёбед, ки name=...-ро дар JSX-и худ менависад.",
+        "en": "Find the component that writes name=... in its JSX."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-07-q5",
+      "question": {
+        "ru": "Следует ли изменять props внутри дочернего компонента?",
+        "tg": "Оё props дар компоненти фарзанд иваз шавад?",
+        "en": "Should a child mutate its props?"
+      },
+      "options": [
+        {
+          "ru": "Нет, родитель передаёт новое значение.",
+          "tg": "Не, волид қимати нав медиҳад.",
+          "en": "No, the parent supplies a new value."
+        },
+        {
+          "ru": "Да, это обязательный способ изменения экрана.",
+          "tg": "Бале, ин роҳи ҳатмии тағйири экран аст.",
+          "en": "Yes, it is required to change the screen."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Props являются входом компонента; изменяемые данные принадлежат state владельца.",
+        "tg": "Props вуруди компонент аст; додаи тағйирёбанда дар state-и соҳиби он аст.",
+        "en": "Props are component inputs; changing data belongs in the owner’s state."
+      },
+      "hint": {
+        "ru": "Вспомните из разбора, где должно находиться изменяющееся значение.",
+        "tg": "Аз шарҳ ёд оред, ки қимати тағйирёбанда дар куҷо нигоҳ дошта мешавад.",
+        "en": "Recall from the walkthrough where changing data belongs."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Добавьте третий Greeting со своим именем, затем замените только второе имя. Предскажите все три строки. В совместимом Expo-проекте выполните проверку TypeScript и, если доступно устройство, проверьте отображение. Не считайте статическую проверку запуском приложения.",
+      "tg": "Greeting-и сеюм бо номи худ илова ва танҳо номи дуюмро иваз кунед. Ҳар се сатрро пешгӯӣ кунед. Дар Expo-проекти мувофиқ TypeScript-ро санҷед ва бо дастгоҳ намоишро бинед. Санҷиши статикӣ иҷрои барнома нест.",
+      "en": "Add a third Greeting with your own name, then change only the second name. Predict all three lines. Run TypeScript in a compatible Expo project and check the display on a device if available. A static type check is not an app run."
+    },
+    "hint": {
+      "ru": "Используйте <Greeting name=\"...\" />; передавайте строку каждому экземпляру и не меняйте name внутри Greeting.",
+      "tg": "<Greeting name=\"...\" /> гиред; ба ҳар нусха сатр диҳед ва name-ро дар Greeting иваз накунед.",
+      "en": "Use <Greeting name=\"...\" />; pass a string to each instance and do not mutate name inside Greeting."
+    },
+    "solution": "import { Text, View } from 'react-native';\n\ntype GreetingProps = { name: string };\n\nfunction Greeting({ name }: GreetingProps) {\n  return <Text>Салом, {name}!</Text>;\n}\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Greeting name=\"Мадина\" />\n      <Greeting name=\"Ситора\" />\n      <Greeting name=\"Салим\" />\n    </View>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Добавлен третий экземпляр; предсказаны и записаны разные имена.",
+        "tg": "Нусхаи сеюм илова ва номҳои гуногун пешгӯӣ ва сабт шуданд.",
+        "en": "A third instance is added and different names are predicted and recorded."
+      },
+      {
+        "ru": "Объяснена граница статической и runtime-проверки; устройство отмечено только после запуска.",
+        "tg": "Ҳудуди санҷиши статикӣ ва runtime шарҳ ва дастгоҳ танҳо баъди иҷро тасдиқ шуд.",
+        "en": "The static/runtime boundary is explained; device verification is claimed only after execution."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить props и направление данных.",
+        "tg": "Props ва самти додаҳоро фаҳмонед.",
+        "en": "Explain props and data direction."
+      },
+      {
+        "ru": "Передать разные значения экземплярам.",
+        "tg": "Ба нусхаҳо қиматҳои гуногун диҳед.",
+        "en": "Supply different values to instances."
+      }
+    ],
+    "realWorld": {
+      "ru": "Один компонент приветствия показывает имя конкретного ученика.",
+      "tg": "Як компоненти салом номи хонандаи муайянро нишон медиҳад.",
+      "en": "One greeting component displays each learner’s name."
+    },
+    "walkthroughSections": [
+      0,
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Сколько разных имён передаёт исходный App?",
+        "tg": "App-и аввал чанд номи гуногун медиҳад?",
+        "en": "How many different names does the original App pass?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "2",
+          "tg": "2",
+          "en": "2"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Используйте <Greeting name=\"...\" />; передавайте строку каждому экземпляру и не меняйте name внутри Greeting.",
+        "tg": "<Greeting name=\"...\" /> гиред; ба ҳар нусха сатр диҳед ва name-ро дар Greeting иваз накунед.",
+        "en": "Use <Greeting name=\"...\" />; pass a string to each instance and do not mutate name inside Greeting."
+      },
+      "explanation": {
+        "ru": "Два экземпляра получают разные строки.",
+        "tg": "Ду нусха сатрҳои гуногун мегиранд.",
+        "en": "The two instances receive different strings."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { Text, View } from 'react-native';\n\ntype GreetingProps = { name: string };\n\nfunction Greeting({ name }: GreetingProps) {\n  return <Text>Салом, {name}!</Text>;\n}\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Greeting name=\"Мадина\" />\n      <Greeting name=\"Фарид\" />\n    </View>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 3,
+          "explanation": {
+            "ru": "Тип описывает обязательную строку name.",
+            "tg": "Навъ сатри ҳатмии name-ро мегӯяд.",
+            "en": "The type describes a required string name."
+          },
+          "values": ""
+        },
+        {
+          "line": 12,
+          "explanation": {
+            "ru": "Первый экземпляр получает своё имя.",
+            "tg": "Нусхаи аввал номи худро мегирад.",
+            "en": "The first instance receives its own name."
+          },
+          "values": "name = \"Мадина\""
+        },
+        {
+          "line": 13,
+          "explanation": {
+            "ru": "Второй получает другое имя; этот разбор не запускает приложение.",
+            "tg": "Дуюм номи дигар мегирад; шарҳ барномаро иҷро намекунад.",
+            "en": "The second receives another name; the walkthrough does not run the app."
+          },
+          "values": "name = \"Фарид\""
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите два атрибута name и место, где Greeting его читает.",
+          "tg": "Ду атрибути name ва ҷои хондани онро дар Greeting ёбед.",
+          "en": "Find both name attributes and where Greeting reads them."
+        },
+        {
+          "ru": "Измените второе имя и предскажите обе строки.",
+          "tg": "Номи дуюмро иваз ва ҳар ду сатрро пешгӯӣ кунед.",
+          "en": "Change the second name and predict both lines."
+        }
+      ],
+      "hint": {
+        "ru": "Используйте <Greeting name=\"...\" />; передавайте строку каждому экземпляру и не меняйте name внутри Greeting.",
+        "tg": "<Greeting name=\"...\" /> гиред; ба ҳар нусха сатр диҳед ва name-ро дар Greeting иваз накунед.",
+        "en": "Use <Greeting name=\"...\" />; pass a string to each instance and do not mutate name inside Greeting."
+      },
+      "success": {
+        "ru": "Первое имя остаётся прежним, второе меняется.",
+        "tg": "Номи аввал мемонад, дуюм иваз мешавад.",
+        "en": "The first name stays the same; the second changes."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Добавьте третий Greeting со своим именем, затем замените только второе имя. Предскажите все три строки. В совместимом Expo-проекте выполните проверку TypeScript и, если доступно устройство, проверьте отображение. Не считайте статическую проверку запуском приложения.",
+        "tg": "Greeting-и сеюм бо номи худ илова ва танҳо номи дуюмро иваз кунед. Ҳар се сатрро пешгӯӣ кунед. Дар Expo-проекти мувофиқ TypeScript-ро санҷед ва бо дастгоҳ намоишро бинед. Санҷиши статикӣ иҷрои барнома нест.",
+        "en": "Add a third Greeting with your own name, then change only the second name. Predict all three lines. Run TypeScript in a compatible Expo project and check the display on a device if available. A static type check is not an app run."
+      },
+      "criteria": [
+        {
+          "ru": "Добавлен третий экземпляр; предсказаны и записаны разные имена.",
+          "tg": "Нусхаи сеюм илова ва номҳои гуногун пешгӯӣ ва сабт шуданд.",
+          "en": "A third instance is added and different names are predicted and recorded."
+        },
+        {
+          "ru": "Объяснена граница статической и runtime-проверки; устройство отмечено только после запуска.",
+          "tg": "Ҳудуди санҷиши статикӣ ва runtime шарҳ ва дастгоҳ танҳо баъди иҷро тасдиқ шуд.",
+          "en": "The static/runtime boundary is explained; device verification is claimed only after execution."
+        }
+      ],
+      "example": {
+        "ru": "Три экземпляра могут получить три разные строки name.",
+        "tg": "Се нусха се сатри гуногуни name гирифта метавонанд.",
+        "en": "Three instances can receive three different name strings."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Props передаются от родителя к ребёнку.",
+        "tg": "Props аз волид ба фарзанд дода мешавад.",
+        "en": "Props flow from parent to child."
+      },
+      {
+        "ru": "Тип TypeScript не заменяет проверку входа во время работы.",
+        "tg": "Навъи TypeScript ҷойи санҷиши вуруд ҳангоми кор нест.",
+        "en": "TypeScript types do not replace runtime input validation."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что изменится, если заменить только второе имя?",
+        "tg": "Агар танҳо номи дуюм иваз шавад, чӣ мешавад?",
+        "en": "What changes if only the second name changes?"
+      },
+      {
+        "ru": "Проверяет ли type GreetingProps сетевой JSON во время работы?",
+        "tg": "Оё type GreetingProps JSON-и шабакаро ҳангоми кор месанҷад?",
+        "en": "Does type GreetingProps validate network JSON at runtime?"
+      }
+    ],
+    "nextLessonId": "mobile-day-08"
+  }
+}

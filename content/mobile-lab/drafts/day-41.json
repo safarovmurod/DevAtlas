@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-41",
+  "day": 41,
+  "prerequisiteDays": [
+    40
+  ],
+  "title": {
+    "ru": "Детали, редактирование и сохранение",
+    "tg": "Тафсилот, тағйир ва нигоҳдорӣ",
+    "en": "Details, editing and saving"
+  },
+  "summary": {
+    "ru": "Добавьте просмотр, правку и удаление записи — полный жизненный цикл.",
+    "tg": "Дидан, тағйир ва несткунии сабтро илова кунед — даври пурраи зиндагӣ.",
+    "en": "Add viewing, editing and deleting a record — the full lifecycle."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Три экрана, один источник",
+        "tg": "Се экран, як манбаъ",
+        "en": "Three screens, one source"
+      },
+      "body": {
+        "ru": "Теперь запись можно не только создать, но и открыть, поправить и удалить. Тип Screen описывает три состояния: list, details и edit — в edit передаётся id записи. Все экраны читают один массив tasks из состояния App: правка меняет запись через applyEdit, удаление — через removeTask; обе функции чистые и проверяются тестом компонента. Форма правки переиспользует validateTitle из дня 40 и добавляет проверку минут: целое число больше нуля. После сохранения пользователь возвращается к списку и видит изменения — данные уже в хранилище. Это полный жизненный цикл записи: создать → посмотреть → поправить → удалить.",
+        "tg": "Акнун сабтро на танҳо сохтан, балки кушодан, ислоҳ ва нест кардан мумкин аст. Типи Screen се ҳолатро тавсиф медиҳад: list, details ва edit — дар edit id-и сабт мегузарад. Ҳамаи экранҳо як массиви tasks-ро аз ҳолати App мехонанд: тағйир сабтро тавассути applyEdit, несткунӣ тавассути removeTask иваз мекунад; ҳарду функсия софанд ва аз таҷрибаи компонент месанҷанд. Шакли тағйир validateTitle-ро аз рӯзи 40 такрор истифода мебарад ва санҷиши дақиқаҳоро илова мекунад: адади бутуни зиёдтар аз сифр. Баъди нигоҳдорӣ корбар ба рӯйхат бармегардад ва тағйиротро мебинад — маълумот аллакай дар нигоҳдорӣ аст. Ин даври пурраи зиндагии сабт аст: сохтан → дидан → тағйир → нест кардан.",
+        "en": "Now a record can be opened, fixed and deleted, not only created. The Screen type describes three states: list, details and edit — edit carries the record id. All screens read the same tasks array from the App state: an edit changes the record through applyEdit, a deletion through removeTask; both functions are pure and checked by the component test. The edit form reuses validateTitle from day 40 and adds the minutes check: a whole number above zero. After saving the user returns to the list and sees the changes — the data is already in the store. This is the full record lifecycle: create → view → edit → delete."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Screen — размеченное объединение: у list нет полей, у details и edit есть id. selected ищется через find и показывает запасной заголовок, если записи нет. Кнопка «Редактировать» заполняет форму текущими значениями — пользователь правит, а не пишет с нуля. saveEdit валидирует оба поля и вызывает applyEdit, которая копирует массив и меняет только выбранную запись: остальные не тронуты, что видно в тесте. В решении добавлена красная кнопка «Удалить» с removeTask. Пройдите на устройстве весь цикл: создать, открыть, поправить минуты, сохранить, удалить.",
+        "tg": "Screen иттиҳоди қолабӣ аст: дар list майдон нест, дар details ва edit id ҳаст. selected тавассути find меёбад ва ҳангоми набудани сабт сарлавҳаи ҷойгузин нишон медиҳад. Тугмаи «Тағйир додан» шаклро бо қиматҳои ҷорӣ пур мекунад — корбар ислоҳ мекунад, на аз сифр менависад. saveEdit ҳарду майдонро месанҷад ва applyEdit-ро мехонад, ки массивро нусхабардорӣ карда, танҳо сабти интихобшударо иваз мекунад: боқимонда дастнорасида мемонанд, дар таҷриба дида мешавад. Дар ҳалл тугмаи сурхи «Нест кардан» бо removeTask илова шудааст. Тамоми даврро дар дастгоҳ гузаронед: сохтан, кушодан, тағйири дақиқаҳо, нигоҳдорӣ, нест кардан.",
+        "en": "Screen is a tagged union: list has no fields, details and edit carry an id. selected comes from find and shows a fallback header when the record is missing. The «Редактировать» button fills the form with current values — the user edits, not writes from scratch. saveEdit validates both fields and calls applyEdit, which copies the array and changes only the chosen record: the others untouched, as the test shows. The solution adds the red «Удалить» button with removeTask. Walk the whole cycle on a device: create, open, fix the minutes, save, delete."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function validateTitle(title: string): string | null {\n  const value = title.trim();\n  if (value.length < 3) return 'Название короче трёх символов';\n  if (value.length > 40) return 'Название длиннее сорока символов';\n  return null;\n}\n\nexport function applyEdit(tasks: Task[], id: string, title: string, minutes: number): Task[] {\n  return tasks.map(task => (task.id === id ? { ...task, title: title.trim(), minutes } : task));\n}\n\ntype Screen = { name: 'list' } | { name: 'details'; id: string } | { name: 'edit'; id: string };\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [screen, setScreen] = useState<Screen>({ name: 'list' });\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('20');\n  const [error, setError] = useState('');\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function persist(next: Task[]) {\n    setTasks(next);\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n    } catch {\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  function saveEdit() {\n    const problem = validateTitle(title);\n    const value = Number(minutes);\n    if (problem) return setError(problem);\n    if (!Number.isInteger(value) || value <= 0) return setError('Минуты — целое число больше нуля');\n    setError('');\n    if (screen.name === 'edit') {\n      void persist(applyEdit(tasks ?? [], screen.id, title, value));\n    }\n    setScreen({ name: 'list' });\n  }\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем планировщик…</Text></View>;\n  }\n\n  const selected = screen.name !== 'list' ? tasks.find(task => task.id === screen.id) : undefined;\n\n  return (\n    <View style={styles.screen}>\n      {screen.name === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                accessibilityLabel={`${task.title}, ${task.minutes} минут. Открывает подробности`}\n                onPress={() => setScreen({ name: 'details', id: task.id })}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title} — {task.minutes} мин.</Text>\n              </Pressable>\n            ))\n          )}\n        </>\n      ) : screen.name === 'details' ? (\n        <>\n          <Text accessibilityRole=\"header\">{selected ? selected.title : 'Занятие не найдено'}</Text>\n          {selected ? <Text>План: {selected.minutes} минут практики.</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Редактировать занятие\"\n            onPress={() => {\n              if (!selected) return;\n              setTitle(selected.title);\n              setMinutes(String(selected.minutes));\n              setScreen({ name: 'edit', id: selected.id });\n            }}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Редактировать</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Вернуться к списку\"\n            onPress={() => setScreen({ name: 'list' })}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Назад</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">Редактирование</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n          {error ? <Text style={styles.error}>{error}</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Сохранить изменения\"\n            onPress={saveEdit}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Отменить правку\"\n            onPress={() => { setError(''); setScreen({ name: 'list' }); }}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-41-q1",
+      "question": {
+        "ru": "Что описывает тип Screen?",
+        "tg": "Типи Screen чиро тавсиф медиҳад?",
+        "en": "What does the Screen type describe?"
+      },
+      "options": [
+        {
+          "ru": "Три состояния с id для details и edit",
+          "tg": "Се ҳолат бо id барои details ва edit",
+          "en": "Three states with an id for details and edit"
+        },
+        {
+          "ru": "Только список",
+          "tg": "Танҳо рӯйхат",
+          "en": "Only the list"
+        },
+        {
+          "ru": "Цвета кнопок",
+          "tg": "Ранги тугмаҳо",
+          "en": "Button colors"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Размеченное объединение не позволяет открыть details без id.",
+        "tg": "Иттиҳоди қолабӣ кушодани details бе id-ро мамнӯъ мекунад.",
+        "en": "The tagged union forbids opening details without an id."
+      },
+      "hint": {
+        "ru": "Найдите объявление type Screen в примере.",
+        "tg": "Эъломияи type Screen-ро дар мисол ёбед.",
+        "en": "Find the type Screen declaration in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-41-q2",
+      "question": {
+        "ru": "Что делает applyEdit?",
+        "tg": "applyEdit чӣ мекунад?",
+        "en": "What does applyEdit do?"
+      },
+      "options": [
+        {
+          "ru": "Удаляет все записи",
+          "tg": "Ҳамаи сабтҳоро нест мекунад",
+          "en": "Deletes all records"
+        },
+        {
+          "ru": "Копирует массив и меняет только выбранную запись",
+          "tg": "Массивро нусхабардорӣ карда, танҳо сабти интихобшударо иваз мекунад",
+          "en": "Copies the array and changes only the chosen record"
+        },
+        {
+          "ru": "Сортирует список",
+          "tg": "Рӯйхатро ҷӯр мекунад",
+          "en": "Sorts the list"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Чистая функция без побочных эффектов — идеальна для теста.",
+        "tg": "Функсияи соф бе таъсири паҳлӯ — барои таҷриба мукаммал.",
+        "en": "A pure function without side effects — perfect for a test."
+      },
+      "hint": {
+        "ru": "Найдите map внутри applyEdit.",
+        "tg": "map-ро дар дохили applyEdit ёбед.",
+        "en": "Find the map inside applyEdit."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-41-q3",
+      "question": {
+        "ru": "Почему форма правки заполнена текущими значениями?",
+        "tg": "Шакли тағйир барои чӣ бо қиматҳои ҷорӣ пур аст?",
+        "en": "Why is the edit form pre-filled with current values?"
+      },
+      "options": [
+        {
+          "ru": "Диктор требует полей",
+          "tg": "Хонанда майдонҳоро талаб мекунад",
+          "en": "The reader demands fields"
+        },
+        {
+          "ru": "Так быстрее хранилище",
+          "tg": "Нигоҳдорӣ тезтар мешавад",
+          "en": "The store gets faster"
+        },
+        {
+          "ru": "Пользователь правит, а не переписывает с нуля",
+          "tg": "Корбар ислоҳ мекунад, на аз сифр менависад",
+          "en": "The user edits instead of rewriting from scratch"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Пустая форма правки — частая причина потери данных.",
+        "tg": "Шакли холии тағйир сабти маъмулии гум шудани маълумот аст.",
+        "en": "An empty edit form is a common data-loss cause."
+      },
+      "hint": {
+        "ru": "Посмотрите на обработчик кнопки «Редактировать».",
+        "tg": "Ба обработчики тугмаи «Тағйир додан» нигоҳ кунед.",
+        "en": "Look at the «Редактировать» button handler."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-41-q4",
+      "question": {
+        "ru": "Что проверяет saveEdit помимо названия?",
+        "tg": "saveEdit аз ном гузашта чиро месанҷад?",
+        "en": "What does saveEdit check besides the title?"
+      },
+      "options": [
+        {
+          "ru": "Что минуты — целое число больше нуля",
+          "tg": "Он ки дақиқаҳо адади бутуни зиёдтар аз сифр аст",
+          "en": "That minutes is a whole number above zero"
+        },
+        {
+          "ru": "Что интернет включён",
+          "tg": "Он ки интернет фаъол аст",
+          "en": "That the internet is on"
+        },
+        {
+          "ru": "Что запись первая в списке",
+          "tg": "Он ки сабт аввали рӯйхат аст",
+          "en": "That the record is first in the list"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Обе границы из модели проверяются перед сохранением.",
+        "tg": "Ҳарду ҳудуди модел пеш аз нигоҳдорӣ месанҷанд.",
+        "en": "Both model borders are checked before saving."
+      },
+      "hint": {
+        "ru": "Найдите проверку Number.isInteger в saveEdit.",
+        "tg": "Санҷиши Number.isInteger-ро дар saveEdit ёбед.",
+        "en": "Find the Number.isInteger check in saveEdit."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-41-q5",
+      "question": {
+        "ru": "Что добавляет решение к экрану деталей?",
+        "tg": "Ҳалл ба экрани тафсилот чӣ илова мекунад?",
+        "en": "What does the solution add to details?"
+      },
+      "options": [
+        {
+          "ru": "Автосохранение каждую минуту",
+          "tg": "Худнигоҳдорӣ ҳар дақиқа",
+          "en": "Auto-save every minute"
+        },
+        {
+          "ru": "Красную кнопку «Удалить» через removeTask",
+          "tg": "Тугмаи сурхи «Нест кардан» тавассути removeTask",
+          "en": "The red «Удалить» button through removeTask"
+        },
+        {
+          "ru": "Новую тему оформления",
+          "tg": "Мавзӯъи нави ороиш",
+          "en": "A new theme"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Удаление замыкает жизненный цикл записи.",
+        "tg": "Несткунӣ даври зиндагии сабтро пур мекунад.",
+        "en": "Deletion closes the record lifecycle."
+      },
+      "hint": {
+        "ru": "Сравните экран details в примере и решении.",
+        "tg": "Экрани details-ро дар мисол ва ҳалл муқоиса кунед.",
+        "en": "Compare the details screen in the example and the solution."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и пройдите жизненный цикл записи на устройстве: создать, открыть, отредактировать, сохранить, перезапустить. Соберите решение с удалением и запишите, что стало со списком после удаления. Проверьте правку с ошибочными минутами: 0 и 1.5. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва даври зиндагии сабтро дар дастгоҳ гузаронед: сохтан, кушодан, тағйир додан, нигоҳдорӣ, аз нав оғоз кардан. Ҳаллро бо несткунӣ созед ва сабт кунед, ки баъди несткунӣ бо рӯйхат чӣ шуд. Тағйир бо дақиқаҳои хато месанҷед: 0 ва 1.5. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and walk the record lifecycle on a device: create, open, edit, save, restart. Build the solution with deletion and record what the list looks like after it. Check the edit with wrong minutes: 0 and 1.5. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "removeTask — это filter по id; красный цвет кнопки берётся из нового стиля danger.",
+      "tg": "removeTask — filter аз рӯи id; ранги сурхи тугма аз услуби нави danger меояд.",
+      "en": "removeTask is a filter by id; the red button color comes from the new danger style."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function validateTitle(title: string): string | null {\n  const value = title.trim();\n  if (value.length < 3) return 'Название короче трёх символов';\n  if (value.length > 40) return 'Название длиннее сорока символов';\n  return null;\n}\n\nexport function applyEdit(tasks: Task[], id: string, title: string, minutes: number): Task[] {\n  return tasks.map(task => (task.id === id ? { ...task, title: title.trim(), minutes } : task));\n}\n\nexport function removeTask(tasks: Task[], id: string): Task[] {\n  return tasks.filter(task => task.id !== id);\n}\n\ntype Screen = { name: 'list' } | { name: 'details'; id: string } | { name: 'edit'; id: string };\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [screen, setScreen] = useState<Screen>({ name: 'list' });\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('20');\n  const [error, setError] = useState('');\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function persist(next: Task[]) {\n    setTasks(next);\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n    } catch {\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  function saveEdit() {\n    const problem = validateTitle(title);\n    const value = Number(minutes);\n    if (problem) return setError(problem);\n    if (!Number.isInteger(value) || value <= 0) return setError('Минуты — целое число больше нуля');\n    setError('');\n    if (screen.name === 'edit') {\n      void persist(applyEdit(tasks ?? [], screen.id, title, value));\n    }\n    setScreen({ name: 'list' });\n  }\n\n  function deleteSelected() {\n    if (screen.name !== 'details') return;\n    void persist(removeTask(tasks ?? [], screen.id));\n    setScreen({ name: 'list' });\n  }\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем планировщик…</Text></View>;\n  }\n\n  const selected = screen.name !== 'list' ? tasks.find(task => task.id === screen.id) : undefined;\n\n  return (\n    <View style={styles.screen}>\n      {screen.name === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                accessibilityLabel={`${task.title}, ${task.minutes} минут. Открывает подробности`}\n                onPress={() => setScreen({ name: 'details', id: task.id })}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title} — {task.minutes} мин.</Text>\n              </Pressable>\n            ))\n          )}\n        </>\n      ) : screen.name === 'details' ? (\n        <>\n          <Text accessibilityRole=\"header\">{selected ? selected.title : 'Занятие не найдено'}</Text>\n          {selected ? <Text>План: {selected.minutes} минут практики.</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Редактировать занятие\"\n            onPress={() => {\n              if (!selected) return;\n              setTitle(selected.title);\n              setMinutes(String(selected.minutes));\n              setScreen({ name: 'edit', id: selected.id });\n            }}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Редактировать</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Удалить занятие\"\n            onPress={deleteSelected}\n            style={({ pressed }) => [styles.button, styles.danger, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Удалить</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Вернуться к списку\"\n            onPress={() => setScreen({ name: 'list' })}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Назад</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">Редактирование</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n          {error ? <Text style={styles.error}>{error}</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Сохранить изменения\"\n            onPress={saveEdit}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Отменить правку\"\n            onPress={() => { setError(''); setScreen({ name: 'list' }); }}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  danger: { backgroundColor: '#dc2626' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Правка и удаление переживают перезапуск приложения.",
+        "tg": "Тағйир ва несткунӣ аз нав оғози барномаро мегузаранд.",
+        "en": "The edit and deletion survive an app restart."
+      },
+      {
+        "ru": "Ошибочные минуты показывают сообщение и не сохраняются.",
+        "tg": "Дақиқаҳои хато паём нишон дода, нигоҳ дошта намешаванд.",
+        "en": "Wrong minutes show a message and do not save."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Провести запись через весь жизненный цикл на устройстве.",
+        "tg": "Сабтро тавассути даври пурраи зиндагӣ дар дастгоҳ гузаронед.",
+        "en": "Take a record through the full lifecycle on a device."
+      },
+      {
+        "ru": "Изменять данные чистыми функциями под тестом.",
+        "tg": "Маълумотро бо функсияҳои софи зери таҷриба тағйир диҳед.",
+        "en": "Change data with pure functions under test."
+      }
+    ],
+    "realWorld": {
+      "ru": "Экран товара в магазине: посмотреть, поправить количество, удалить из корзины.",
+      "tg": "Экрани мол дар мағоза: дидан, тағйири шумора, нест кардан аз сабад.",
+      "en": "A shop product screen: view, adjust the quantity, remove from the cart."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что делает applyEdit?",
+        "tg": "applyEdit чӣ мекунад?",
+        "en": "What does applyEdit do?"
+      },
+      "options": [
+        {
+          "ru": "Удаляет все записи",
+          "tg": "Ҳамаи сабтҳоро нест мекунад",
+          "en": "Deletes all records"
+        },
+        {
+          "ru": "Копирует массив и меняет только выбранную запись",
+          "tg": "Массивро нусхабардорӣ карда, танҳо сабти интихобшударо иваз мекунад",
+          "en": "Copies the array and changes only the chosen record"
+        },
+        {
+          "ru": "Сортирует список",
+          "tg": "Рӯйхатро ҷӯр мекунад",
+          "en": "Sorts the list"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Найдите map внутри applyEdit.",
+        "tg": "map-ро дар дохили applyEdit ёбед.",
+        "en": "Find the map inside applyEdit."
+      },
+      "explanation": {
+        "ru": "Чистая функция без побочных эффектов — идеальна для теста.",
+        "tg": "Функсияи соф бе таъсири паҳлӯ — барои таҷриба мукаммал.",
+        "en": "A pure function without side effects — perfect for a test."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function validateTitle(title: string): string | null {\n  const value = title.trim();\n  if (value.length < 3) return 'Название короче трёх символов';\n  if (value.length > 40) return 'Название длиннее сорока символов';\n  return null;\n}\n\nexport function applyEdit(tasks: Task[], id: string, title: string, minutes: number): Task[] {\n  return tasks.map(task => (task.id === id ? { ...task, title: title.trim(), minutes } : task));\n}\n\ntype Screen = { name: 'list' } | { name: 'details'; id: string } | { name: 'edit'; id: string };\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [screen, setScreen] = useState<Screen>({ name: 'list' });\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('20');\n  const [error, setError] = useState('');\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function persist(next: Task[]) {\n    setTasks(next);\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n    } catch {\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  function saveEdit() {\n    const problem = validateTitle(title);\n    const value = Number(minutes);\n    if (problem) return setError(problem);\n    if (!Number.isInteger(value) || value <= 0) return setError('Минуты — целое число больше нуля');\n    setError('');\n    if (screen.name === 'edit') {\n      void persist(applyEdit(tasks ?? [], screen.id, title, value));\n    }\n    setScreen({ name: 'list' });\n  }\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем планировщик…</Text></View>;\n  }\n\n  const selected = screen.name !== 'list' ? tasks.find(task => task.id === screen.id) : undefined;\n\n  return (\n    <View style={styles.screen}>\n      {screen.name === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                accessibilityLabel={`${task.title}, ${task.minutes} минут. Открывает подробности`}\n                onPress={() => setScreen({ name: 'details', id: task.id })}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title} — {task.minutes} мин.</Text>\n              </Pressable>\n            ))\n          )}\n        </>\n      ) : screen.name === 'details' ? (\n        <>\n          <Text accessibilityRole=\"header\">{selected ? selected.title : 'Занятие не найдено'}</Text>\n          {selected ? <Text>План: {selected.minutes} минут практики.</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Редактировать занятие\"\n            onPress={() => {\n              if (!selected) return;\n              setTitle(selected.title);\n              setMinutes(String(selected.minutes));\n              setScreen({ name: 'edit', id: selected.id });\n            }}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Редактировать</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Вернуться к списку\"\n            onPress={() => setScreen({ name: 'list' })}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Назад</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">Редактирование</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n          {error ? <Text style={styles.error}>{error}</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Сохранить изменения\"\n            onPress={saveEdit}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Отменить правку\"\n            onPress={() => { setError(''); setScreen({ name: 'list' }); }}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 15,
+          "explanation": {
+            "ru": "applyEdit копирует массив и правит одну запись.",
+            "tg": "applyEdit массивро нусхабардорӣ карда, як сабтро ислоҳ мекунад.",
+            "en": "applyEdit copies the array and fixes one record."
+          },
+          "values": "new array"
+        },
+        {
+          "line": 44,
+          "explanation": {
+            "ru": "details ищет запись по id из Screen.",
+            "tg": "details сабтро аз рӯи id-и Screen меҷӯяд.",
+            "en": "details looks up the record by the Screen id."
+          },
+          "values": "selected"
+        },
+        {
+          "line": 47,
+          "explanation": {
+            "ru": "Правка начинается с текущих значений записи.",
+            "tg": "Тағйир аз қиматҳои ҷории сабт оғоз мешавад.",
+            "en": "Editing starts from the record current values."
+          },
+          "values": "prefill"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Откройте запись, поправьте минуты на 45 и сохраните: список показывает новое значение.",
+          "tg": "Сабтро кушоед, дақиқаҳоро ба 45 тағйир дода, нигоҳ доред: рӯйхат қимати навро нишон медиҳад.",
+          "en": "Open a record, change the minutes to 45 and save: the list shows the new value."
+        },
+        {
+          "ru": "Перезапустите приложение и убедитесь, что правка пережила перезапуск.",
+          "tg": "Барномаро аз нав оғоз карда, боварӣ ҳосил кунед, ки тағйир монд.",
+          "en": "Restart the app and confirm the edit survived."
+        }
+      ],
+      "hint": {
+        "ru": "removeTask — это filter по id; красный цвет кнопки берётся из нового стиля danger.",
+        "tg": "removeTask — filter аз рӯи id; ранги сурхи тугма аз услуби нави danger меояд.",
+        "en": "removeTask is a filter by id; the red button color comes from the new danger style."
+      },
+      "success": {
+        "ru": "Полный цикл — создать, посмотреть, поправить, удалить — работает с сохранением.",
+        "tg": "Даври пурра — сохтан, дидан, тағйир, нест кардан — бо нигоҳдорӣ кор мекунад.",
+        "en": "The full cycle — create, view, edit, delete — works with persistence."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и пройдите жизненный цикл записи на устройстве: создать, открыть, отредактировать, сохранить, перезапустить. Соберите решение с удалением и запишите, что стало со списком после удаления. Проверьте правку с ошибочными минутами: 0 и 1.5. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва даври зиндагии сабтро дар дастгоҳ гузаронед: сохтан, кушодан, тағйир додан, нигоҳдорӣ, аз нав оғоз кардан. Ҳаллро бо несткунӣ созед ва сабт кунед, ки баъди несткунӣ бо рӯйхат чӣ шуд. Тағйир бо дақиқаҳои хато месанҷед: 0 ва 1.5. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and walk the record lifecycle on a device: create, open, edit, save, restart. Build the solution with deletion and record what the list looks like after it. Check the edit with wrong minutes: 0 and 1.5. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Правка и удаление переживают перезапуск приложения.",
+          "tg": "Тағйир ва несткунӣ аз нав оғози барномаро мегузаранд.",
+          "en": "The edit and deletion survive an app restart."
+        },
+        {
+          "ru": "Ошибочные минуты показывают сообщение и не сохраняются.",
+          "tg": "Дақиқаҳои хато паём нишон дода, нигоҳ дошта намешаванд.",
+          "en": "Wrong minutes show a message and do not save."
+        }
+      ],
+      "example": {
+        "ru": "После удаления записи список показывает остальных, а хранилище уже без неё.",
+        "tg": "Баъди нест кардани сабт рӯйхат боқимондаро нишон медиҳад ва нигоҳдорӣ аллакай бе он аст.",
+        "en": "After deletion the list shows the rest and the store is already without the record."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Полный жизненный цикл: создать, посмотреть, поправить, удалить.",
+        "tg": "Даври пурраи зиндагӣ: сохтан, дидан, тағйир, нест кардан.",
+        "en": "The full lifecycle: create, view, edit, delete."
+      },
+      {
+        "ru": "Правки идут через чистые функции, которые покрывает тест.",
+        "tg": "Тағйирот тавассути функсияҳои соф мераванд, ки таҷриба мепӯшонад.",
+        "en": "Edits go through pure functions the test covers."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что делает applyEdit?",
+        "tg": "applyEdit чӣ мекунад?",
+        "en": "What does applyEdit do?"
+      },
+      {
+        "ru": "Почему форма правки заполнена текущими значениями?",
+        "tg": "Шакли тағйир барои чӣ бо қиматҳои ҷорӣ пур аст?",
+        "en": "Why is the edit form pre-filled with current values?"
+      }
+    ],
+    "nextLessonId": "mobile-day-42"
+  }
+}

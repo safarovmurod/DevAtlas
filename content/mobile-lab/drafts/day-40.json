@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-40",
+  "day": 40,
+  "prerequisiteDays": [
+    39
+  ],
+  "title": {
+    "ru": "Список и создание записи",
+    "tg": "Рӯйхат ва сохтани сабт",
+    "en": "The list and record creation"
+  },
+  "summary": {
+    "ru": "Соберите первую рабочую часть планировщика: список, форма, проверка и хранение.",
+    "tg": "Аввалин қисми кории барномасозро созед: рӯйхат, шакл, санҷиш ва нигоҳдорӣ.",
+    "en": "Build the first working part of the planner: list, form, validation and storage."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Ядро приложения",
+        "tg": "Ҳастаи барнома",
+        "en": "The app core"
+      },
+      "body": {
+        "ru": "Эта часть объединяет дни 28, 30 и 34: AsyncStorage хранит записи, чтение различает «ещё не прочитано» и «пусто», форма проверяет название до сохранения. Состояние tasks начинается с null и показывает экран ожидания, пока хранилище читается. persist обновляет состояние и пишет JSON; при отказе хранилища пользователь узнаёт об этом словами, а не молчанием. Валидация вынесена в экспортируемую функцию validateTitle — её проверяет автоматический тест компонента, а экран лишь показывает результат. Сценарий этого дня: открыть → добавить → увидеть в списке → перезапустить → увидеть снова.",
+        "tg": "Ин қисм рӯзҳои 28, 30 ва 34-ро муттаҳид мекунад: AsyncStorage сабтҳоро нигоҳ медорад, хондан «ҳоло хонда нашуд»-ро аз «холист» фарқ мекунад, шакл номро пеш аз нигоҳдорӣ месанҷад. Ҳолати tasks аз null оғоз шуда, то хондани нигоҳдорӣ экрани интизориро нишон медиҳад. persist ҳолатро нав карда, JSON-ро менависад; ҳангоми даст додани нигоҳдорӣ корбар инро бо калимаҳо менависад, на бо хомӯшӣ. Санҷиш ба функсияи экспортишавандаи validateTitle бароварда шудааст — онро таҷрибаи худкори компонент месанҷад ва экран танҳо натиҷаро нишон медиҳад. Сенарияи ин рӯз: кушодан → илова кардан → дидан дар рӯйхат → аз нав оғоз кардан → боз дидан.",
+        "en": "This part combines days 28, 30 and 34: AsyncStorage stores records, reading tells \"not read yet\" from \"empty\", the form validates the title before saving. The tasks state starts null and shows a waiting screen while the store reads. persist updates the state and writes JSON; a store refusal reaches the user in words, not silence. Validation lives in the exported validateTitle function — the automated component test checks it, the screen only shows the result. This day scenario: open → add → see it in the list → restart → see it again."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Экран переключается между list и add через состояние screen. persist принимает новый массив, обновляет состояние и вызывает AsyncStorage.setItem в try — отказ ловится и объясняется. addTask сначала вызывает validateTitle: при ошибке сообщение появляется под полем, запись не создаётся. Успешная ветка собирает новый массив копированием, очищает поле и возвращает список. В решении добавлена сортировка по createdAt — новые записи сверху — и строка «Всего: N». Проверьте на устройстве полный сценарий с перезапуском приложения.",
+        "tg": "Экран байни list ва add тавассути ҳолати screen иваз мешавад. persist массиви навро мегирад, ҳолатро нав карда, AsyncStorage.setItem-ро дар try мехонад — дастдодӣ мегиранд ва фаҳмонанд. addTask аввал validateTitle-ро мехонад: ҳангоми хато паём зери майдон пайдо мешавад ва сабт сохта намешавад. Шохаи муваффақ массиви навро бо нусхабардорӣ месозад, майдонро тоза карда, ба рӯйхат бармегардонад. Дар ҳалл ҷӯркунии аз рӯи createdAt илова шудааст — сабтҳои нав болоянд — ва сатри «Ҳама: N». Сенарияи пурраро бо аз нав оғоз кардани барнома дар дастгоҳ санҷед.",
+        "en": "The screen switches between list and add through the screen state. persist takes the new array, updates the state and calls AsyncStorage.setItem inside try — a refusal is caught and explained. addTask calls validateTitle first: on error the message appears under the field and no record is created. The success branch assembles the new array by copying, clears the field and returns to the list. The solution adds createdAt sorting — newest on top — and the «Всего: N» line. Check the full scenario with an app restart on a device."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function validateTitle(title: string): string | null {\n  const value = title.trim();\n  if (value.length < 3) return 'Название короче трёх символов';\n  if (value.length > 40) return 'Название длиннее сорока символов';\n  return null;\n}\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [title, setTitle] = useState('');\n  const [error, setError] = useState('');\n  const [screen, setScreen] = useState<'list' | 'add'>('list');\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function persist(next: Task[]) {\n    setTasks(next);\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n    } catch {\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  function addTask() {\n    const problem = validateTitle(title);\n    if (problem) {\n      setError(problem);\n      return;\n    }\n    setError('');\n    const task: Task = { id: `t${Date.now()}`, title: title.trim(), minutes: 20, createdAt: Date.now() };\n    void persist([...tasks ?? [], task]);\n    setTitle('');\n    setScreen('list');\n  }\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем планировщик…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            tasks.map(task => (\n              <View key={task.id} style={styles.item}>\n                <Text>{task.title} — {task.minutes} мин.</Text>\n              </View>\n            ))\n          )}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Перейти к форме нового занятия\"\n            onPress={() => setScreen('add')}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          {error ? <Text style={styles.error}>{error}</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Сохранить занятие\"\n            onPress={addTask}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Вернуться к списку без сохранения\"\n            onPress={() => { setError(''); setScreen('list'); }}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-40-q1",
+      "question": {
+        "ru": "Почему tasks начинается с null?",
+        "tg": "tasks барои чӣ аз null оғоз мешавад?",
+        "en": "Why does tasks start as null?"
+      },
+      "options": [
+        {
+          "ru": "Так быстрее рендер",
+          "tg": "Render тезтар мешавад",
+          "en": "Rendering is faster"
+        },
+        {
+          "ru": "Массив пуст по умолчанию",
+          "tg": "Массив бо пешфрӯз холист",
+          "en": "The array is empty by default"
+        },
+        {
+          "ru": "Хранилище ещё не прочитано",
+          "tg": "Нигоҳдорӣ ҳоло хонда нашудааст",
+          "en": "The store is not read yet"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Ожидание чтения и честная пустота — разные экраны.",
+        "tg": "Интизории хондан ва холии рӯбарӯ — экранҳои гуногун.",
+        "en": "The reading wait and an honest emptiness are different screens."
+      },
+      "hint": {
+        "ru": "Вспомните день 29 про null и пустой массив.",
+        "tg": "Рӯзи 29-ро дар бораи null ва массиви холӣ ёд оред.",
+        "en": "Recall day 29 about null and an empty array."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-40-q2",
+      "question": {
+        "ru": "Что делает validateTitle?",
+        "tg": "validateTitle чӣ мекунад?",
+        "en": "What does validateTitle do?"
+      },
+      "options": [
+        {
+          "ru": "Возвращает понятную ошибку или null",
+          "tg": "Хатои фаҳмо ё null бармегардонад",
+          "en": "Returns a clear error or null"
+        },
+        {
+          "ru": "Сохраняет запись",
+          "tg": "Сабтро нигоҳ медорад",
+          "en": "Saves the record"
+        },
+        {
+          "ru": "Очищает форму",
+          "tg": "Шаклро тоза мекунад",
+          "en": "Clears the form"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Чистая функция — её проверяет автоматический тест.",
+        "tg": "Функсияи соф — онро таҷрибаи худкор месанҷад.",
+        "en": "A pure function — the automated test checks it."
+      },
+      "hint": {
+        "ru": "Найдите export перед validateTitle.",
+        "tg": "Export-ро пеш аз validateTitle ёбед.",
+        "en": "Find the export before validateTitle."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-40-q3",
+      "question": {
+        "ru": "Что делает persist при отказе хранилища?",
+        "tg": "persist ҳангоми даст додани нигоҳдорӣ чӣ мекунад?",
+        "en": "What does persist do when the store refuses?"
+      },
+      "options": [
+        {
+          "ru": "Молча игнорирует",
+          "tg": "Бе овоз сарфи назар мекунад",
+          "en": "Silently ignores"
+        },
+        {
+          "ru": "Объясняет словами, что данные видны только до перезапуска",
+          "tg": "Бо калимаҳо мефаҳмонад, ки маълумот то аз нав оғоз дида мешавад",
+          "en": "Explains in words that data is visible only until a restart"
+        },
+        {
+          "ru": "Удаляет список",
+          "tg": "Рӯйхатро нест мекунад",
+          "en": "Deletes the list"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Экран обновился, но пользователь знает настоящие границы.",
+        "tg": "Экран нав шуд, вале корбар ҳудуди воқеиро медонад.",
+        "en": "The screen updated but the user knows the real limits."
+      },
+      "hint": {
+        "ru": "Найдите catch внутри persist.",
+        "tg": "catch-ро дар дохили persist ёбед.",
+        "en": "Find the catch inside persist."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-40-q4",
+      "question": {
+        "ru": "Что добавила сортировка в решении?",
+        "tg": "Ҷӯркунӣ дар ҳалл чӣ илова кард?",
+        "en": "What did the solution sorting add?"
+      },
+      "options": [
+        {
+          "ru": "Список исчезает",
+          "tg": "Рӯйхат нопадид мешавад",
+          "en": "The list disappears"
+        },
+        {
+          "ru": "Старые записи удаляются",
+          "tg": "Сабтҳои кӯҳна нест мешаванд",
+          "en": "Old records are deleted"
+        },
+        {
+          "ru": "Новые записи показываются сверху списка",
+          "tg": "Сабтҳои нав болои рӯйхат нишон дода мешаванд",
+          "en": "New records show at the top of the list"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Порядок по createdAt — правило модели, применённое на экране.",
+        "tg": "Тартиби аз рӯи createdAt — қоидаи модел, ки дар экран татбиқ шудааст.",
+        "en": "The createdAt order is a model rule applied on the screen."
+      },
+      "hint": {
+        "ru": "Найдите sort в решении.",
+        "tg": "sort-ро дар ҳалл ёбед.",
+        "en": "Find sort in the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-40-q5",
+      "question": {
+        "ru": "Что происходит при пустом названии?",
+        "tg": "Ҳангоми номи холӣ чӣ мешавад?",
+        "en": "What happens with an empty title?"
+      },
+      "options": [
+        {
+          "ru": "Форма показывает ошибку и не создаёт запись",
+          "tg": "Шакл хаторо нишон дода, сабт намесозад",
+          "en": "The form shows an error and creates no record"
+        },
+        {
+          "ru": "Создаётся запись без названия",
+          "tg": "Сабти бе ном сохта мешавад",
+          "en": "A titleless record is created"
+        },
+        {
+          "ru": "Приложение закрывается",
+          "tg": "Барнома пӯшида мешавад",
+          "en": "The app closes"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Проверка не пропускает мусор в модель.",
+        "tg": "Санҷиш ахротро ба модел намегузаронад.",
+        "en": "Validation keeps garbage out of the model."
+      },
+      "hint": {
+        "ru": "Посмотрите на первую ветку addTask.",
+        "tg": "Ба шохаи аввали addTask нигоҳ кунед.",
+        "en": "Look at the first addTask branch."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и пройдите сценарий: пустой список → добавление → перезапуск → запись на месте. Соберите решение с сортировкой и счётчиком «Всего: N». Проверьте валидацию: пустая строка, два символа, сорок один символ. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва сенарияро гузаронед: рӯйхати холӣ → илова → аз нав оғоз → сабт дар ҷояш. Ҳаллро бо ҷӯркунӣ ва шумораи «Ҳама: N» созед. Санҷишро месанҷед: сатри холӣ, ду аломат, чилу як аломат. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and walk the scenario: empty list → add → restart → the record in place. Build the solution with sorting and the «Всего: N» counter. Check validation: an empty string, two characters, forty-one characters. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Сортировка в решении: [...tasks].sort((a, b) => b.createdAt - a.createdAt).",
+      "tg": "Ҷӯркунӣ дар ҳалл: [...tasks].sort((a, b) => b.createdAt - a.createdAt).",
+      "en": "The solution sort: [...tasks].sort((a, b) => b.createdAt - a.createdAt)."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function validateTitle(title: string): string | null {\n  const value = title.trim();\n  if (value.length < 3) return 'Название короче трёх символов';\n  if (value.length > 40) return 'Название длиннее сорока символов';\n  return null;\n}\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [title, setTitle] = useState('');\n  const [error, setError] = useState('');\n  const [screen, setScreen] = useState<'list' | 'add'>('list');\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function persist(next: Task[]) {\n    setTasks(next);\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n    } catch {\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  function addTask() {\n    const problem = validateTitle(title);\n    if (problem) {\n      setError(problem);\n      return;\n    }\n    setError('');\n    const task: Task = { id: `t${Date.now()}`, title: title.trim(), minutes: 20, createdAt: Date.now() };\n    void persist([...tasks ?? [], task]);\n    setTitle('');\n    setScreen('list');\n  }\n\n  const sorted = tasks === null ? [] : [...tasks].sort((a, b) => b.createdAt - a.createdAt);\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем планировщик…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {sorted.length > 0 ? <Text>Всего: {sorted.length}, новое сверху.</Text> : null}\n          {sorted.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            sorted.map(task => (\n              <View key={task.id} style={styles.item}>\n                <Text>{task.title} — {task.minutes} мин.</Text>\n              </View>\n            ))\n          )}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Перейти к форме нового занятия\"\n            onPress={() => setScreen('add')}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          {error ? <Text style={styles.error}>{error}</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Сохранить занятие\"\n            onPress={addTask}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Вернуться к списку без сохранения\"\n            onPress={() => { setError(''); setScreen('list'); }}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Запись переживает полный перезапуск приложения.",
+        "tg": "Сабт аз нав оғози пурраи барномаро мегузарад.",
+        "en": "The record survives a full app restart."
+      },
+      {
+        "ru": "Все три случая валидации показывают правильные сообщения.",
+        "tg": "Ҳар се ҳолати санҷиш паёмҳои дурустро нишон медиҳанд.",
+        "en": "All three validation cases show correct messages."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Собрать список с хранением и честными состояниями.",
+        "tg": "Рӯйхат бо нигоҳдорӣ ва ҳолатҳои рӯбарӯ созед.",
+        "en": "Assemble a list with storage and honest states."
+      },
+      {
+        "ru": "Создать запись через проверенную форму.",
+        "tg": "Сабтро тавассути шакли санҷидашуда созед.",
+        "en": "Create a record through a validated form."
+      }
+    ],
+    "realWorld": {
+      "ru": "Первый рабочий экран любого приложения-списка выглядит именно так: список, кнопка, форма.",
+      "tg": "Аввалин экрани кории ҳар барномаи рӯйхат ҳамон тавр менамояд: рӯйхат, тугма, шакл.",
+      "en": "The first working screen of any list app looks exactly like this: list, button, form."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что делает validateTitle?",
+        "tg": "validateTitle чӣ мекунад?",
+        "en": "What does validateTitle do?"
+      },
+      "options": [
+        {
+          "ru": "Возвращает понятную ошибку или null",
+          "tg": "Хатои фаҳмо ё null бармегардонад",
+          "en": "Returns a clear error or null"
+        },
+        {
+          "ru": "Сохраняет запись",
+          "tg": "Сабтро нигоҳ медорад",
+          "en": "Saves the record"
+        },
+        {
+          "ru": "Очищает форму",
+          "tg": "Шаклро тоза мекунад",
+          "en": "Clears the form"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Найдите export перед validateTitle.",
+        "tg": "Export-ро пеш аз validateTitle ёбед.",
+        "en": "Find the export before validateTitle."
+      },
+      "explanation": {
+        "ru": "Чистая функция — её проверяет автоматический тест.",
+        "tg": "Функсияи соф — онро таҷрибаи худкор месанҷад.",
+        "en": "A pure function — the automated test checks it."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function validateTitle(title: string): string | null {\n  const value = title.trim();\n  if (value.length < 3) return 'Название короче трёх символов';\n  if (value.length > 40) return 'Название длиннее сорока символов';\n  return null;\n}\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [title, setTitle] = useState('');\n  const [error, setError] = useState('');\n  const [screen, setScreen] = useState<'list' | 'add'>('list');\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function persist(next: Task[]) {\n    setTasks(next);\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n    } catch {\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  function addTask() {\n    const problem = validateTitle(title);\n    if (problem) {\n      setError(problem);\n      return;\n    }\n    setError('');\n    const task: Task = { id: `t${Date.now()}`, title: title.trim(), minutes: 20, createdAt: Date.now() };\n    void persist([...tasks ?? [], task]);\n    setTitle('');\n    setScreen('list');\n  }\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем планировщик…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            tasks.map(task => (\n              <View key={task.id} style={styles.item}>\n                <Text>{task.title} — {task.minutes} мин.</Text>\n              </View>\n            ))\n          )}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Перейти к форме нового занятия\"\n            onPress={() => setScreen('add')}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          {error ? <Text style={styles.error}>{error}</Text> : null}\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Сохранить занятие\"\n            onPress={addTask}\n            style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable\n            accessibilityRole=\"button\"\n            accessibilityLabel=\"Вернуться к списку без сохранения\"\n            onPress={() => { setError(''); setScreen('list'); }}\n            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}\n          >\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 19,
+          "explanation": {
+            "ru": "null держит экран ожидания, пока хранилище читается.",
+            "tg": "null то хондани нигоҳдорӣ экрани интизориро медорад.",
+            "en": "null holds the waiting screen while the store reads."
+          },
+          "values": "tasks=null"
+        },
+        {
+          "line": 27,
+          "explanation": {
+            "ru": "persist пишет JSON и объясняет отказ.",
+            "tg": "persist JSON-ро менависад ва дастдодиро фаҳмонад.",
+            "en": "persist writes the JSON and explains a refusal."
+          },
+          "values": "setItem"
+        },
+        {
+          "line": 38,
+          "explanation": {
+            "ru": "validateTitle решает, станет ли запись.",
+            "tg": "validateTitle муайян мекунад, ки сабт мешавад ё не.",
+            "en": "validateTitle decides whether a record happens."
+          },
+          "values": "error | null"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Добавьте занятие и убедитесь, что оно появилось в списке.",
+          "tg": "Машғулият илова карда, боварӣ ҳосил кунед, ки дар рӯйхат пайдо шуд.",
+          "en": "Add a lesson and confirm it appears in the list."
+        },
+        {
+          "ru": "Перезапустите приложение и найдите запись на месте.",
+          "tg": "Барномаро аз нав оғоз карда, сабтро дар ҷояш ёбед.",
+          "en": "Restart the app and find the record in place."
+        }
+      ],
+      "hint": {
+        "ru": "Сортировка в решении: [...tasks].sort((a, b) => b.createdAt - a.createdAt).",
+        "tg": "Ҷӯркунӣ дар ҳалл: [...tasks].sort((a, b) => b.createdAt - a.createdAt).",
+        "en": "The solution sort: [...tasks].sort((a, b) => b.createdAt - a.createdAt)."
+      },
+      "success": {
+        "ru": "Запись прошла проверку, появилась в списке и вернулась после перезапуска.",
+        "tg": "Сабт аз санҷиш гузашт, дар рӯйхат пайдо шуд ва баъди аз нав оғоз баргашт.",
+        "en": "The record passed validation, appeared in the list and returned after a restart."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и пройдите сценарий: пустой список → добавление → перезапуск → запись на месте. Соберите решение с сортировкой и счётчиком «Всего: N». Проверьте валидацию: пустая строка, два символа, сорок один символ. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва сенарияро гузаронед: рӯйхати холӣ → илова → аз нав оғоз → сабт дар ҷояш. Ҳаллро бо ҷӯркунӣ ва шумораи «Ҳама: N» созед. Санҷишро месанҷед: сатри холӣ, ду аломат, чилу як аломат. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and walk the scenario: empty list → add → restart → the record in place. Build the solution with sorting and the «Всего: N» counter. Check validation: an empty string, two characters, forty-one characters. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Запись переживает полный перезапуск приложения.",
+          "tg": "Сабт аз нав оғози пурраи барномаро мегузарад.",
+          "en": "The record survives a full app restart."
+        },
+        {
+          "ru": "Все три случая валидации показывают правильные сообщения.",
+          "tg": "Ҳар се ҳолати санҷиш паёмҳои дурустро нишон медиҳанд.",
+          "en": "All three validation cases show correct messages."
+        }
+      ],
+      "example": {
+        "ru": "После перезапуска новый заголовок «Всего: 1» подтверждает сохранённую запись.",
+        "tg": "Баъди аз нав оғоз сарлавҳаи нави «Ҳама: 1» сабти нигоҳдоришударо тасдиқ мекунад.",
+        "en": "After a restart the new «Всего: 1» header confirms the stored record."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Ядро приложения: список, форма, проверка, хранение.",
+        "tg": "Ҳастаи барнома: рӯйхат, шакл, санҷиш, нигоҳдорӣ.",
+        "en": "The app core: list, form, validation, storage."
+      },
+      {
+        "ru": "Чистая валидация проверяется тестом, экран лишь показывает.",
+        "tg": "Санҷиши соф бо таҷриба месанҷанд, экран танҳо нишон медиҳад.",
+        "en": "Pure validation is test-checked, the screen only shows."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что делает persist при отказе хранилища?",
+        "tg": "persist ҳангоми даст додани нигоҳдорӣ чӣ мекунад?",
+        "en": "What does persist do when the store refuses?"
+      },
+      {
+        "ru": "Что происходит при пустом названии?",
+        "tg": "Ҳангоми номи холӣ чӣ мешавад?",
+        "en": "What happens with an empty title?"
+      }
+    ],
+    "nextLessonId": "mobile-day-41"
+  }
+}

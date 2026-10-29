@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-10",
+  "day": 10,
+  "prerequisiteDays": [
+    9
+  ],
+  "title": {
+    "ru": "Совместимый Expo-проект и версии",
+    "tg": "Лоиҳаи мувофиқи Expo ва версияҳо",
+    "en": "A compatible Expo project and versions"
+  },
+  "summary": {
+    "ru": "Создайте собственный Expo-проект совместимых версий и найдите версии expo, react-native и react.",
+    "tg": "Лоиҳаи Expo-и худро бо версияҳои мувофиқ созед ва версияҳои expo, react-native ва react-ро ёбед.",
+    "en": "Create your own Expo project with compatible versions and locate the expo, react-native and react versions."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Зачем согласованы версии",
+        "tg": "Барои чӣ версияҳо мувофиқ мешаванд",
+        "en": "Why versions must agree"
+      },
+      "body": {
+        "ru": "Expo SDK — набор проверенных вместе версий: expo, react-native, react и инструменты сборки. Если установить react-native свежее, чем ожидает SDK, нативные модули могут перестать собираться, а ошибки появятся не в вашем коде, а в несовместимости. Поэтому проект создают командой npx create-expo-app, которая подбирает согласованные версии, а не отдельными установками. Версии перечислены в файле package.json в разделе dependencies: там записаны имена пакетов и их номера. Команда npx expo start запускает сервер разработки; открыть проект можно в приложении Expo Go на устройстве или в эмуляторе. Браузер этого курса остаётся учебным окружением, а не мобильным эмулятором: экран собирается в коде, а запуск проверяется на вашем устройстве.",
+        "tg": "Expo SDK маҷмӯи версияҳои санҷидашуда аст: expo, react-native, react ва абзорҳои сохтмон. Агар react-native-ро навтар аз он чи SDK интизор дорад насб кунед, модулҳои нативӣ метавонанд насб нашаванд ва хатоҳо на дар рамзи шумо, балки дар номувофиқӣ пайдо мешаванд. Барои ин лоиҳаро бо фармони npx create-expo-app месозанд, ки версияҳои мувофиқро интихоб мекунад, на бо насбҳои ҷудогона. Версияҳо дар файли package.json дар бахши dependencies навишта мешаванд: он ҷо номи бастаҳо ва рақами онҳост. Фармони npx expo start сервери таҳияро оғоз мекунед; лоиҳаро дар барномаи Expo Go дар дастгоҳ ё эмулятор мекушоед. Браузери ин курс муҳити омӯзист, на эмулятори мобилӣ: экран дар рамз сохта мешавад ва иҷро дар дастгоҳи шумо санҷида мешавад.",
+        "en": "An Expo SDK is a set of versions tested together: expo, react-native, react and the build tools. If you install a react-native newer than the SDK expects, native modules may stop building and errors will come from the incompatibility, not from your code. That is why a project is created with npx create-expo-app, which selects compatible versions, instead of separate installs. Versions are listed in the package.json file under dependencies: package names and their numbers. The npx expo start command runs the development server; open the project in the Expo Go app on a device or an emulator. This course browser remains a learning environment, not a mobile emulator: the screen is built in code and the run is checked on your device."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Экран примера — контрольный: он не зависит от версий и показывает, что проект запустился. import получает View и Text из react-native. export default делает App корневым компонентом проекта. View с padding 24 группирует две строки: заголовок с ролью header для вспомогательных технологий и подсказку про package.json. Откройте package.json в корне проекта: в dependencies должны быть указаны expo, react и react-native, и их номера соответствуют одному выпуску SDK, например 58-й. Если номера отличаются от ожидаемых для SDK, не правьте их вручную: пересоздайте проект или используйте npx expo install, который ставит совместимые версии. Затем запустите npx expo start и проверьте экран на устройстве.",
+        "tg": "Экрани мисол санҷишӣ аст: аз версияҳо вобаста нест ва нишон медиҳад, ки лоиҳа оғоз шудааст. import View ва Text-ро аз react-native мегирад. export default App-ро компоненти решаи лоиҳа мекунад. View бо padding 24 ду сатрро гурӯҳ мекунад: сарлавҳа бо нақши header барои технологияҳои ёрирасон ва маслиҳат дар бораи package.json. package.json-ро дар решаи лоиҳа кушоед: дар dependencies бояд expo, react ва react-native навишта шуда бошанд ва рақамҳои онҳо ба як нашри SDK мутобиқ бошанд, масалан 58. Агар рақамҳо аз интизорӣ фарқ кунанд, онҳоро дастӣ тағйир надиҳед: лоиҳаро аз нав созед ё npx expo install-ро истифода баред, ки версияҳои мувофиқро мегузорад. Баъд npx expo start-ро иҷро карда, экранро дар дастгоҳ санҷед.",
+        "en": "The example screen is a check: it does not depend on versions and shows that the project started. import obtains View and Text from react-native. export default makes App the project root component. A View with padding 24 groups two lines: a header with the header role for assistive technology and a hint about package.json. Open package.json at the project root: dependencies should list expo, react and react-native, and their numbers must belong to one SDK release, such as 58. If the numbers differ from what the SDK expects, do not edit them by hand: recreate the project or use npx expo install, which picks compatible versions. Then run npx expo start and check the screen on your device."
+      },
+      "code": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Проверка проекта</Text>\n      <Text>Откройте package.json и найдите версии expo, react-native и react.</Text>\n    </View>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-10-q1",
+      "question": {
+        "ru": "Какая команда создаёт проект с согласованными версиями?",
+        "tg": "Кадом фармон лоиҳаро бо версияҳои мувофиқ месозад?",
+        "en": "Which command creates a project with compatible versions?"
+      },
+      "options": [
+        {
+          "ru": "Копирование node_modules",
+          "tg": "Нусхабардории node_modules",
+          "en": "Copying node_modules"
+        },
+        {
+          "ru": "Ручная правка номеров в package.json",
+          "tg": "Тағйири дастии рақамҳо дар package.json",
+          "en": "Editing the numbers in package.json by hand"
+        },
+        {
+          "ru": "npx create-expo-app",
+          "tg": "npx create-expo-app",
+          "en": "npx create-expo-app"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Создатель проекта подбирает проверенные вместе версии.",
+        "tg": "Эҷодкунандаи лоиҳа версияҳои якҷоя санҷидашударо интихоб мекунад.",
+        "en": "The project creator selects versions tested together."
+      },
+      "hint": {
+        "ru": "Вспомните, что говорит первый раздел о создании проекта.",
+        "tg": "Бахши аввалро дар бораи сохтани лоиҳа ёд оред.",
+        "en": "Recall what the first section says about creating a project."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-10-q2",
+      "question": {
+        "ru": "Где перечислены версии пакетов проекта?",
+        "tg": "Дар куҷо версияҳои бастаҳои лоиҳа навишта мешаванд?",
+        "en": "Where are the project package versions listed?"
+      },
+      "options": [
+        {
+          "ru": "В имени папки проекта",
+          "tg": "Дар номи папкаи лоиҳа",
+          "en": "In the project folder name"
+        },
+        {
+          "ru": "В разделе dependencies файла package.json",
+          "tg": "Дар бахши dependencies-и package.json",
+          "en": "In the dependencies section of package.json"
+        },
+        {
+          "ru": "На экране телефона",
+          "tg": "Дар экрани телефон",
+          "en": "On the phone screen"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "package.json хранит имена пакетов и их номера.",
+        "tg": "package.json номи бастаҳо ва рақамҳои онҳоро нигоҳ медорад.",
+        "en": "package.json stores package names and their numbers."
+      },
+      "hint": {
+        "ru": "Вспомните, какой файл в корне проекта описывает зависимости.",
+        "tg": "Ёд оред, ки кадом файл дар решаи лоиҳа вобастагиро тавсиф мекунад.",
+        "en": "Recall which root file describes the dependencies."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-10-q3",
+      "question": {
+        "ru": "Что произойдёт, если поставить react-native новее, чем ожидает SDK?",
+        "tg": "Агар react-native-ро навтар аз интизории SDK насб кунед, чӣ мешавад?",
+        "en": "What happens if you install a react-native newer than the SDK expects?"
+      },
+      "options": [
+        {
+          "ru": "Ничего, версии не связаны",
+          "tg": "Ҳеҷ чиз, версияҳо пайванд надоранд",
+          "en": "Nothing, the versions are unrelated"
+        },
+        {
+          "ru": "Возможны ошибки сборки из-за несовместимости",
+          "tg": "Эҳтимоли хатоҳои сохтмон аз номувофиқӣ ҳаст",
+          "en": "Build errors from the incompatibility are possible"
+        },
+        {
+          "ru": "Приложение станет быстрее",
+          "tg": "Барнома тезтар мешавад",
+          "en": "The app becomes faster"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "SDK собирает проверенные вместе версии; замена одной ломает согласованность.",
+        "tg": "SDK версияҳои якҷоя санҷидашударо ҷамъ меорад; ивази яктоӣ мувофиқиро меканад.",
+        "en": "An SDK bundles versions tested together; replacing one breaks the agreement."
+      },
+      "hint": {
+        "ru": "Перечитайте первый раздел о том, что собрано внутри SDK.",
+        "tg": "Аз бахши аввал ёд оред, ки дар дохили SDK чӣ ҷамъ шудааст.",
+        "en": "Re-read the first section about what an SDK bundles."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-10-q4",
+      "question": {
+        "ru": "Что показывает экран примера?",
+        "tg": "Экрани мисол чӣ нишон медиҳад?",
+        "en": "What does the example screen show?"
+      },
+      "options": [
+        {
+          "ru": "Текущую погоду из сети",
+          "tg": "Обҳавоӣ аз шабака",
+          "en": "Current weather from the network"
+        },
+        {
+          "ru": "Список всех версий интернета",
+          "tg": "Рӯйхати ҳама версияҳои интернет",
+          "en": "A list of all internet versions"
+        },
+        {
+          "ru": "Что проект запустился: заголовок и подсказку",
+          "tg": "Он ки лоиҳа оғоз шуд: сарлавҳа ва маслиҳат",
+          "en": "That the project started: a header and a hint"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Контрольный экран подтверждает запуск и указывает на package.json.",
+        "tg": "Экрани санҷишӣ оғозшуданро тасдиқ мекунад ва ба package.json ишора мекунад.",
+        "en": "The check screen confirms the start and points to package.json."
+      },
+      "hint": {
+        "ru": "Посмотрите, какие две строки выводит пример.",
+        "tg": "Бинед, ки мисол кадом ду сатрро нишон медиҳад.",
+        "en": "Look at which two lines the example prints."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-10-q5",
+      "question": {
+        "ru": "Браузер курса заменяет запуск на устройстве?",
+        "tg": "Оё браузери курс иҷрои дар дастгоҳро иваз мекунад?",
+        "en": "Does the course browser replace a device run?"
+      },
+      "options": [
+        {
+          "ru": "Нет, запуск проверяют в Expo Go или эмуляторе",
+          "tg": "Не, иҷро дар Expo Go ё эмулятор санҷида мешавад",
+          "en": "No, the run is checked in Expo Go or an emulator"
+        },
+        {
+          "ru": "Да, это мобильный эмулятор",
+          "tg": "Бале, ин эмулятори мобилӣ аст",
+          "en": "Yes, it is a mobile emulator"
+        },
+        {
+          "ru": "Только для дней с кодом",
+          "tg": "Танҳо барои рӯзҳои дорои рамз",
+          "en": "Only for days with code"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Браузер — учебное окружение; экран запускают на своём устройстве.",
+        "tg": "Браузер муҳити омӯзист; экранро дар дастгоҳи худ иҷро мекунед.",
+        "en": "The browser is a learning environment; the screen runs on your own device."
+      },
+      "hint": {
+        "ru": "Вспомните слова первого раздела про браузер и эмулятор.",
+        "tg": "Гуфтаҳои бахши аввал дар бораи браузер ва эмуляторро ёд оред.",
+        "en": "Recall the first section words about the browser and an emulator."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Создайте свой Expo-проект, запустите пример и убедитесь, что экран открылся на устройстве. Запишите версии expo, react-native и react из package.json. Добавьте третью строку Text с вашим сообщением о проверке, например номер SDK. Сохраните короткий отчёт: версии, что видит экран, чем вы проверяли запуск. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Лоиҳаи Expo-и худро созед, мисолро иҷро кунед ва боварӣ ҳосил кунед, ки экран дар дастгоҳ кушода шуд. Версияҳои expo, react-native ва react-ро аз package.json сабт кунед. Сатри сеюми Text бо паёми санҷиши худро илова кунед, масалан рақами SDK. Ҳисоботи кӯтоҳ сабт кунед: версияҳо, экран чӣ мебинад ва иҷро чӣ тавр санҷида шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Create your own Expo project, run the example and confirm the screen opened on a device. Record the expo, react-native and react versions from package.json. Add a third Text line with your own check message, such as the SDK number. Keep a short report: the versions, what the screen shows and how you verified the run. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Команду создания и запуска смотрите в первом разделе; третью строку добавьте внутрь View.",
+      "tg": "Фармони сохтан ва оғозро дар бахши аввал ҷустуҷӯ кунед; сатри сеюмро дар дохили View илова кунед.",
+      "en": "Find the create and start commands in the first section; add the third line inside the View."
+    },
+    "solution": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Проверка проекта</Text>\n      <Text>Откройте package.json и найдите версии expo, react-native и react.</Text>\n      <Text>Мой проект: Expo SDK 58, React Native 0.88.</Text>\n    </View>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Версии из package.json записаны и соответствуют одному SDK.",
+        "tg": "Версияҳо аз package.json сабт шуда, ба як SDK мутобиқанд.",
+        "en": "The package.json versions are recorded and belong to one SDK."
+      },
+      {
+        "ru": "Скриншот или описание запуска подтверждает экран на устройстве.",
+        "tg": "Скриншот ё тавсифи иҷро экранро дар дастгоҳ тасдиқ мекунад.",
+        "en": "A screenshot or run description confirms the screen on a device."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Создать Expo-проект совместимых версий и объяснить роль SDK.",
+        "tg": "Лоиҳаи Expo бо версияҳои мувофиқ созед ва нақши SDK-ро шарҳ диҳед.",
+        "en": "Create an Expo project with compatible versions and explain the SDK role."
+      },
+      {
+        "ru": "Найти и записать версии expo, react-native и react.",
+        "tg": "Версияҳои expo, react-native ва react-ро ёфта, сабт кунед.",
+        "en": "Locate and record the expo, react-native and react versions."
+      }
+    ],
+    "realWorld": {
+      "ru": "Как в мастерской инструменты должны подходить друг другу, так и пакеты проекта согласованы внутри одного SDK.",
+      "tg": "Мисли коргоҳе, ки абзорҳо ба ҳам мувофиқанд, бастаҳои лоиҳа дар дохили як SDK мувофиқанд.",
+      "en": "Like workshop tools that must fit each other, the project packages agree inside one SDK."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Где перечислены версии пакетов проекта?",
+        "tg": "Дар куҷо версияҳои бастаҳои лоиҳа навишта мешаванд?",
+        "en": "Where are the project package versions listed?"
+      },
+      "options": [
+        {
+          "ru": "В имени папки проекта",
+          "tg": "Дар номи папкаи лоиҳа",
+          "en": "In the project folder name"
+        },
+        {
+          "ru": "В разделе dependencies файла package.json",
+          "tg": "Дар бахши dependencies-и package.json",
+          "en": "In the dependencies section of package.json"
+        },
+        {
+          "ru": "На экране телефона",
+          "tg": "Дар экрани телефон",
+          "en": "On the phone screen"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Вспомните, какой файл в корне проекта описывает зависимости.",
+        "tg": "Ёд оред, ки кадом файл дар решаи лоиҳа вобастагиро тавсиф мекунад.",
+        "en": "Recall which root file describes the dependencies."
+      },
+      "explanation": {
+        "ru": "package.json хранит имена пакетов и их номера.",
+        "tg": "package.json номи бастаҳо ва рақамҳои онҳоро нигоҳ медорад.",
+        "en": "package.json stores package names and their numbers."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Проверка проекта</Text>\n      <Text>Откройте package.json и найдите версии expo, react-native и react.</Text>\n    </View>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 3,
+          "explanation": {
+            "ru": "App — корневой компонент нового проекта.",
+            "tg": "App — компоненти решаи лоиҳаи нав.",
+            "en": "App is the root component of the new project."
+          },
+          "values": "App()"
+        },
+        {
+          "line": 6,
+          "explanation": {
+            "ru": "Заголовок с ролью header подтверждает запуск.",
+            "tg": "Сарлавҳа бо нақши header оғозшуданро тасдиқ мекунад.",
+            "en": "The header-role title confirms the start."
+          },
+          "values": "Проверка проекта"
+        },
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Подсказка ведёт к package.json, где записаны версии.",
+            "tg": "Маслиҳат ба package.json мебарад, ки версияҳоро нигоҳ медорад.",
+            "en": "The hint leads to package.json where versions are stored."
+          },
+          "values": "dependencies"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Создайте проект командой из первого раздела и запустите npx expo start.",
+          "tg": "Лоиҳаро бо фармони аз бахши аввал созед ва npx expo start-ро иҷро кунед.",
+          "en": "Create the project with the command from the first section and run npx expo start."
+        },
+        {
+          "ru": "Откройте package.json и выпишите версии expo, react-native и react.",
+          "tg": "package.json-ро кушода, версияҳои expo, react-native ва react-ро сабт кунед.",
+          "en": "Open package.json and write down the expo, react-native and react versions."
+        }
+      ],
+      "hint": {
+        "ru": "Команду создания и запуска смотрите в первом разделе; третью строку добавьте внутрь View.",
+        "tg": "Фармони сохтан ва оғозро дар бахши аввал ҷустуҷӯ кунед; сатри сеюмро дар дохили View илова кунед.",
+        "en": "Find the create and start commands in the first section; add the third line inside the View."
+      },
+      "success": {
+        "ru": "Экран примера виден на устройстве, а версии записаны рядом с номером SDK.",
+        "tg": "Экрани мисол дар дастгоҳ дида мешавад ва версияҳо дар паҳлуи рақами SDK сабт шудаанд.",
+        "en": "The example screen is visible on the device and the versions are recorded next to the SDK number."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Создайте свой Expo-проект, запустите пример и убедитесь, что экран открылся на устройстве. Запишите версии expo, react-native и react из package.json. Добавьте третью строку Text с вашим сообщением о проверке, например номер SDK. Сохраните короткий отчёт: версии, что видит экран, чем вы проверяли запуск. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Лоиҳаи Expo-и худро созед, мисолро иҷро кунед ва боварӣ ҳосил кунед, ки экран дар дастгоҳ кушода шуд. Версияҳои expo, react-native ва react-ро аз package.json сабт кунед. Сатри сеюми Text бо паёми санҷиши худро илова кунед, масалан рақами SDK. Ҳисоботи кӯтоҳ сабт кунед: версияҳо, экран чӣ мебинад ва иҷро чӣ тавр санҷида шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Create your own Expo project, run the example and confirm the screen opened on a device. Record the expo, react-native and react versions from package.json. Add a third Text line with your own check message, such as the SDK number. Keep a short report: the versions, what the screen shows and how you verified the run. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Версии из package.json записаны и соответствуют одному SDK.",
+          "tg": "Версияҳо аз package.json сабт шуда, ба як SDK мутобиқанд.",
+          "en": "The package.json versions are recorded and belong to one SDK."
+        },
+        {
+          "ru": "Скриншот или описание запуска подтверждает экран на устройстве.",
+          "tg": "Скриншот ё тавсифи иҷро экранро дар дастгоҳ тасдиқ мекунад.",
+          "en": "A screenshot or run description confirms the screen on a device."
+        }
+      ],
+      "example": {
+        "ru": "Третья строка с номером SDK, например «Мой проект: Expo SDK 58», видна под подсказкой.",
+        "tg": "Сатри сеюм бо рақами SDK, масалан «Лоиҳаи ман: Expo SDK 58», зери маслиҳат дида мешавад.",
+        "en": "A third line with the SDK number, such as \"My project: Expo SDK 58\", appears under the hint."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Expo SDK объединяет проверенные вместе версии пакетов.",
+        "tg": "Expo SDK версияҳои якҷоя санҷидашудаи бастаҳоро муттаҳид мекунад.",
+        "en": "An Expo SDK bundles package versions tested together."
+      },
+      {
+        "ru": "Версии проекта читают в package.json, а запуск проверяют на устройстве.",
+        "tg": "Версияҳои лоиҳаро аз package.json мехонанд ва иҷро дар дастгоҳ санҷида мешавад.",
+        "en": "Project versions are read from package.json and the run is checked on a device."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что произойдёт, если поставить react-native новее, чем ожидает SDK?",
+        "tg": "Агар react-native-ро навтар аз интизории SDK насб кунед, чӣ мешавад?",
+        "en": "What happens if you install a react-native newer than the SDK expects?"
+      },
+      {
+        "ru": "Браузер курса заменяет запуск на устройстве?",
+        "tg": "Оё браузери курс иҷрои дар дастгоҳро иваз мекунад?",
+        "en": "Does the course browser replace a device run?"
+      }
+    ],
+    "nextLessonId": "mobile-day-11"
+  }
+}

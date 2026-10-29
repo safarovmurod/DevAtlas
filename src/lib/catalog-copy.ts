@@ -123,12 +123,12 @@ const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     '44日間で基礎からJavaScript、HTTP、SQLite、認証、認可、テスト付きAPIを学びます。ローカルNode.jsが必要です。',
     '44일 동안 기초부터 JavaScript, HTTP, SQLite, 인증, 권한과 테스트를 갖춘 API를 배웁니다. 로컬 Node.js가 필요합니다.'),
   mobile: text(
-    'Экран React Native и счётчик. Запускайте приложение через Expo на своём устройстве.',
-    'A React Native screen and counter. Run the app with Expo on your own device.',
-    'Экрани React Native ва ҳисобкунак. Барномаро бо Expo дар дастгоҳи худ иҷро кунед.',
-    'Екран React Native і лічильник. Запускайте застосунок через Expo на власному пристрої.',
-    'React Nativeの画面とカウンターを作ります。Expoで自分のデバイス上で実行します。',
-    'React Native 화면과 카운터를 만듭니다. Expo로 내 기기에서 앱을 실행하세요.'),
+    'Сорок четыре дня с нуля: экраны, навигация, сеть, хранение, качество и итоговый планировщик. Запуск через Expo на своём устройстве.',
+    'Forty-four days from zero: screens, navigation, network, storage, quality and the final planner. Run with Expo on your own device.',
+    'Чилу чор рӯз аз сифр: экранҳо, навигатсия, шабака, нигоҳдорӣ, сифат ва барномасози ниҳоӣ. Иҷро бо Expo дар дастгоҳи худ.',
+    'Сорок чотири дні з нуля: екрани, навігація, мережа, сховище, якість і підсумковий планувальник. Запуск через Expo на власному пристрої.',
+    '44日間で基礎から画面、ナビゲーション、ネットワーク、保存、品質と最終プランナーを学びます。Expoで自分のデバイス上で実行します。',
+    '44일 동안 기초부터 화면, 내비게이션, 네트워크, 저장, 품질과 최종 플래너를 배웁니다. Expo로 내 기기에서 실행하세요.'),
   java: text(
     'Классы, методы и небольшая программа. Выполняйте код в локальном JDK.',
     'Classes, methods and a small program. Run the code with a local JDK.',

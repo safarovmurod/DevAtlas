@@ -1,0 +1,64 @@
+import { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const KEY = 'devatlas-notes-v2';
+
+type Note = { id: string; text: string };
+
+export default function App() {
+  const [draft, setDraft] = useState('');
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    AsyncStorage.getItem(KEY)
+      .then(raw => {
+        if (raw) setNotes(JSON.parse(raw) as Note[]);
+      })
+      .catch(() => setError('Хранилище недоступно, заметки не загружены'));
+  }, []);
+
+  async function saveNote() {
+    const text = draft.trim();
+    if (text.length < 3) {
+      setError('Заметка короче трёх символов');
+      return;
+    }
+    setError('');
+    const next: Note[] = [...notes, { id: String(Date.now()), text }];
+    setNotes(next);
+    setDraft('');
+    try {
+      await AsyncStorage.setItem(KEY, JSON.stringify(next));
+    } catch {
+      setError('Не удалось сохранить: заметка видна только до перезапуска');
+    }
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Заметки с хранением</Text>
+      <TextInput value={draft} onChangeText={setDraft} placeholder="Новая заметка" style={styles.input} />
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Сохранить заметку"
+        onPress={saveNote}
+        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      >
+        <Text style={styles.buttonText}>Сохранить</Text>
+      </Pressable>
+      {notes.length === 0 ? <Text>Заметок пока нет.</Text> : notes.map(note => <Text key={note.id}>{note.text}</Text>)}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+  error: { color: '#dc2626', fontSize: 14 },
+  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },
+  pressed: { opacity: 0.7 },
+  buttonText: { color: '#ffffff', fontSize: 16 },
+});

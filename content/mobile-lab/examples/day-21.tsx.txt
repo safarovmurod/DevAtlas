@@ -1,0 +1,37 @@
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+
+function Counter({ count }: { count: number }) {
+  return <Text>Выполнено: {count}</Text>;
+}
+
+function CompleteButton({ onComplete }: { onComplete: () => void }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="Отметить занятие выполненным"
+      onPress={onComplete}
+      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+    >
+      <Text style={styles.buttonText}>Отметить</Text>
+    </Pressable>
+  );
+}
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <View style={styles.screen}>
+      <Counter count={count} />
+      <CompleteButton onComplete={() => setCount(value => value + 1)} />
+      <Text>Состояние живёт в App и передаётся детям.</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 16, padding: 24 },
+  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },
+  pressed: { opacity: 0.7 },
+  buttonText: { color: '#ffffff', fontSize: 16 },
+});

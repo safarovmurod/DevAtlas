@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-23",
+  "day": 23,
+  "prerequisiteDays": [
+    22
+  ],
+  "title": {
+    "ru": "Мини-проект: три экрана",
+    "tg": "Лоиҳаи хурд: се экран",
+    "en": "Mini project: three screens"
+  },
+  "summary": {
+    "ru": "Соберите список, форму добавления и подробности в одном приложении на переключателе состояния.",
+    "tg": "Рӯйхат, шакли илова ва тафсилотро дар як барнома бо калидгузари ҳолат ҷамъ оваред.",
+    "en": "Combine a list, an add form and details in one app on a state switch."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Сценарий становится приложением",
+        "tg": "Сценарий ба барнома табдил меёбад",
+        "en": "The scenario becomes an app"
+      },
+      "body": {
+        "ru": "Мини-проект собирает всё, что выучено в модуле: сценарий из дня 17, TextInput из дня 14, Pressable из дня 15 и проверку из дня 22. Три экрана переключаются одной переменной screen со значениями list, add и details; выбранная запись хранится отдельным состоянием selected. Сценарий записывается тремя строками: список → (добавить | открыть) → возврат. Важно честно называть ограничения: данные живут в памяти, поэтому после перезапуска список пуст; запись ищется по id, и неизвестный id показывает запасной текст; настоящий стек из дней 18–19 в реальном проекте заменит переключатель. Сначала проверьте сценарий на устройстве, потом расширяйте.",
+        "tg": "Лоиҳаи хурд ҳамаи он чизеро, ки дар модул омӯхтед, ҷамъ меорад: сценарий аз рӯзи 17, TextInput аз рӯзи 14, Pressable аз рӯзи 15 ва санҷиш аз рӯзи 22. Се экран бо як тағйирёбандаи screen бо қиматҳои list, add ва details иваз мешаванд; сабти интихобшуда дар ҳолати алоҳидаи selected нигоҳ дошта мешавад. Сценарий бо се сатр навишта мешавад: рӯйхат → (илова | кушодан) → баргашт. Маҳдудиятҳоро рӯбарӯ номбар кардан муҳим аст: маълумот дар хотира аст, бинобар ин баъди аз нав оғоз рӯйхат холист; сабт аз рӯи id меҷӯянд ва id-и номаълум матни ҷойгузин нишон медиҳад; стеки воқеии рӯзҳои 18–19 дар лоиҳаи ҳақиқӣ калидгузариро иваз мекунад. Аввал сценарийро дар дастгоҳ санҷед, баъд васеъ кунед.",
+        "en": "The mini project combines everything from the module: the day-17 scenario, the day-14 TextInput, the day-15 Pressable and the day-22 validation. Three screens switch on one screen variable with the values list, add and details; the chosen record lives in a separate selected state. The scenario is three lines: list → (add | open) → back. Name the limits honestly: data lives in memory, so the list is empty after a restart; the record is found by id and an unknown id shows fallback text; the real stack of days 18–19 would replace the switch in a production app. Check the scenario on a device first, then extend."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Экран list показывает заглушку, пока tasks пуст, иначе рисует каждую запись Pressable-строкой, которая запоминает id и открывает details. add — форма с полем и двумя кнопками: «Сохранить» вызывает addTask, «Отмена» возвращается без изменений. addTask проверяет trim: пустая строка не добавляется, id создаётся из Date.now — для учебного списка достаточно, настоящие id генерируют надёжнее. details находит запись по selected и показывает запасной заголовок, если записи нет. Пройдите весь сценарий на устройстве: добавьте два занятия, откройте оба, вернитесь. В решении добавлено сообщение об ошибке при коротком названии — как в дне 22.",
+        "tg": "Экрани list то холӣ будани tasks ҷои холӣ нишон медиҳад, вагарна ҳар сабтро ҳамчун сатри Pressable мекашад, ки id-ро дар ёд дорад ва details-ро мекушояд. add шакл бо майдон ва ду тугма аст: «Нигоҳ доштан» addTask-ро мехонад, «Бекор» бе тағйир бармегардонад. addTask trim-ро месанҷад: сатри холӣ илова намешавад, id аз Date.now сохта мешавад — барои рӯйхати таълимӣ кифоя аст, id-и воқеиро беҳтар месозанд. details сабтро аз рӯи selected меёбад ва агар сабт набошад, сарлавҳаи ҷойгузин нишон медиҳад. Тамоми сценариро дар дастгох гузаронед: ду машғулият илова карда, ҳарду кушода, баргардед. Дар ҳалл ҳангоми номи кӯтоҳ паёми хато илова шудааст — мисли рӯзи 22.",
+        "en": "The list screen shows a placeholder while tasks is empty, otherwise renders each record as a Pressable row that remembers the id and opens details. add is a form with a field and two buttons: «Сохранить» calls addTask, «Отмена» returns unchanged. addTask checks trim: an empty string is not added, the id comes from Date.now — enough for a teaching list, real ids deserve stronger generation. details finds the record by selected and shows a fallback header when it is missing. Walk the whole scenario on a device: add two lessons, open both, return. The solution adds an error message for a short title, as in day 22."
+      },
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Task = { id: string; title: string };\ntype ScreenName = 'list' | 'add' | 'details';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [screen, setScreen] = useState<ScreenName>('list');\n  const [selected, setSelected] = useState<string | null>(null);\n  const [title, setTitle] = useState('');\n\n  function addTask() {\n    if (!title.trim()) return;\n    const task = { id: String(Date.now()), title: title.trim() };\n    setTasks(current => [...current, task]);\n    setTitle('');\n    setScreen('list');\n  }\n\n  const selectedTask = tasks.find(task => task.id === selected);\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                onPress={() => { setSelected(task.id); setScreen('details'); }}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title}</Text>\n              </Pressable>\n            ))\n          )}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('add')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : screen === 'add' ? (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          <Pressable accessibilityRole=\"button\" onPress={addTask} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">{selectedTask ? selectedTask.title : 'Занятие не найдено'}</Text>\n          {selectedTask ? <Text>Детали занятия «{selectedTask.title}».</Text> : null}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Назад к списку</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-23-q1",
+      "question": {
+        "ru": "Сколько экранов переключает переменная screen?",
+        "tg": "Тағйирёбандаи screen чанд экранро иваз мекунад?",
+        "en": "How many screens does the screen variable switch?"
+      },
+      "options": [
+        {
+          "ru": "Три: list, add и details",
+          "tg": "Се: list, add ва details",
+          "en": "Three: list, add and details"
+        },
+        {
+          "ru": "Один",
+          "tg": "Як",
+          "en": "One"
+        },
+        {
+          "ru": "Десять",
+          "tg": "Даҳ",
+          "en": "Ten"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Сценарий модуля — три имени экрана.",
+        "tg": "Сценарии модул — се номи экран.",
+        "en": "The module scenario has three screen names."
+      },
+      "hint": {
+        "ru": "Посмотрите на тип ScreenName в примере.",
+        "tg": "Ба типи ScreenName дар мисол нигоҳ кунед.",
+        "en": "Look at the ScreenName type in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-23-q2",
+      "question": {
+        "ru": "Где хранится выбранная запись?",
+        "tg": "Сабти интихобшуда дар куҷо нигоҳ дошта мешавад?",
+        "en": "Where is the chosen record stored?"
+      },
+      "options": [
+        {
+          "ru": "В StyleSheet",
+          "tg": "Дар StyleSheet",
+          "en": "In StyleSheet"
+        },
+        {
+          "ru": "В отдельном состоянии selected",
+          "tg": "Дар ҳолати алоҳидаи selected",
+          "en": "In the separate selected state"
+        },
+        {
+          "ru": "На сервере",
+          "tg": "Дар сервер",
+          "en": "On a server"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "id записи живёт в selected, запись ищется при рендере.",
+        "tg": "id-и сабт дар selected аст ва сабт ҳангоми render меҷӯяд.",
+        "en": "The record id lives in selected and the record is looked up at render."
+      },
+      "hint": {
+        "ru": "Найдите вызов tasks.find в примере.",
+        "tg": "Дархости tasks.find-ро дар мисол ёбед.",
+        "en": "Find the tasks.find call in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-23-q3",
+      "question": {
+        "ru": "Что происходит при нажатии «Отмена» на add?",
+        "tg": "Ҳангоми пахши «Бекор» дар add чӣ мешавад?",
+        "en": "What does «Отмена» on add do?"
+      },
+      "options": [
+        {
+          "ru": "Сохраняет пустую запись",
+          "tg": "Сабти холиро нигоҳ медорад",
+          "en": "Saves an empty record"
+        },
+        {
+          "ru": "Удаляет все записи",
+          "tg": "Ҳамаи сабтҳоро нест мекунад",
+          "en": "Deletes all records"
+        },
+        {
+          "ru": "Возвращает на список без изменений",
+          "tg": "Бе тағйир ба рӯйхат бармегардонад",
+          "en": "Returns to the list unchanged"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Отмена — возврат по сценарию без изменения данных.",
+        "tg": "Бекоркунӣ аз рӯи сценарий бе тағйири маълумот бармегардад.",
+        "en": "Cancel returns along the scenario without changing data."
+      },
+      "hint": {
+        "ru": "Посмотрите на onPress кнопки «Отмена».",
+        "tg": "Ба onPress-и тугмаи «Бекор» нигоҳ кунед.",
+        "en": "Look at the «Отмена» button onPress."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-23-q4",
+      "question": {
+        "ru": "Почему id создаётся из Date.now?",
+        "tg": "id барои чӣ аз Date.now сохта мешавад?",
+        "en": "Why is the id built from Date.now?"
+      },
+      "options": [
+        {
+          "ru": "Для уникальности в учебном списке",
+          "tg": "Барои ягонагӣ дар рӯйхати таълимӣ",
+          "en": "For uniqueness in a teaching list"
+        },
+        {
+          "ru": "Для скорости рендера",
+          "tg": "Барои тезии render",
+          "en": "For render speed"
+        },
+        {
+          "ru": "Для шифрования",
+          "tg": "Барои рамзгузорӣ",
+          "en": "For encryption"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Каждая запись получает уникальный ключ; в реальном проекте id делают надёжнее.",
+        "tg": "Ҳар сабт калиди ягона мегирад; дар лоиҳаи воқеӣ id-ро беҳтар месозанд.",
+        "en": "Each record gets a unique key; production apps build stronger ids."
+      },
+      "hint": {
+        "ru": "Вспомните день 9: чем хорош стабильный id.",
+        "tg": "Рӯзи 9-ро ёд оред: id-и устувор чӣ гуна беҳтар аст.",
+        "en": "Recall day 9: why a stable id is good."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-23-q5",
+      "question": {
+        "ru": "Что станет со списком после перезапуска приложения?",
+        "tg": "Баъди аз нав оғоз бо рӯйхат чӣ мешавад?",
+        "en": "What happens to the list after an app restart?"
+      },
+      "options": [
+        {
+          "ru": "Он сохранится на устройстве",
+          "tg": "Дар дастгоҳ нигоҳ дошта мешавад",
+          "en": "It is saved on the device"
+        },
+        {
+          "ru": "Он опустеет: данные в памяти",
+          "tg": "Холӣ мешавад: маълумот дар хотира аст",
+          "en": "It empties: the data is in memory"
+        },
+        {
+          "ru": "Он отправится на сервер",
+          "tg": "Ба сервер меравад",
+          "en": "It is uploaded to a server"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Ограничение названо честно: сохранение — тема следующего модуля.",
+        "tg": "Маҳдудият рӯбарӯ номбар шудааст: нигоҳдорӣ мавзӯи модули оянда аст.",
+        "en": "The limit is named honestly: persistence is the next module topic."
+      },
+      "hint": {
+        "ru": "Перечитайте конец первого раздела про ограничения.",
+        "tg": "Охири бахши аввал дар бораи маҳдудиятҳоро аз нав хонед.",
+        "en": "Re-read the end of the first section about limits."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите мини-проект и пройдите весь сценарий на устройстве: добавить два занятия, открыть оба, вернуться, проверить пустое состояние до добавлений. Добавьте сообщение об ошибке при коротком названии, как в решении. Запишите, какие ограничения проекта вы проверили лично. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Лоиҳаи хурдро созед ва тамоми сценариро дар дастгоҳ гузаронед: ду машғулият илова кунед, ҳарду кушоед, баргардед, ҳолати холиро пеш аз иловаҳо санҷед. Ҳангоми номи кӯтоҳ паёми хаторо мисли ҳалл илова кунед. Сабт кунед, ки кадом маҳдудиятҳои лоиҳаро худ санҷидед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the mini project and walk the whole scenario on a device: add two lessons, open both, return, check the empty state before adding. Add the short-title error message as in the solution. Record which project limits you verified yourself. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Скопируйте состояние error и условие сохранения из дня 22: title.trim().length < 3.",
+      "tg": "Ҳолати error ва шарти нигоҳдориро аз рӯзи 22 нусхабардорӣ кунед: title.trim().length < 3.",
+      "en": "Copy the error state and the save condition from day 22: title.trim().length < 3."
+    },
+    "solution": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Task = { id: string; title: string };\ntype ScreenName = 'list' | 'add' | 'details';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [screen, setScreen] = useState<ScreenName>('list');\n  const [selected, setSelected] = useState<string | null>(null);\n  const [title, setTitle] = useState('');\n  const [error, setError] = useState('');\n\n  function addTask() {\n    if (title.trim().length < 3) {\n      setError('Название короче трёх символов');\n      return;\n    }\n    const task = { id: String(Date.now()), title: title.trim() };\n    setTasks(current => [...current, task]);\n    setTitle('');\n    setError('');\n    setScreen('list');\n  }\n\n  const selectedTask = tasks.find(task => task.id === selected);\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                onPress={() => { setSelected(task.id); setScreen('details'); }}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title}</Text>\n              </Pressable>\n            ))\n          )}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('add')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : screen === 'add' ? (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          {error ? <Text style={styles.error}>{error}</Text> : null}\n          <Pressable accessibilityRole=\"button\" onPress={addTask} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">{selectedTask ? selectedTask.title : 'Занятие не найдено'}</Text>\n          {selectedTask ? <Text>Детали занятия «{selectedTask.title}».</Text> : null}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Назад к списку</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Сценарий из трёх экранов пройден целиком на устройстве.",
+        "tg": "Сценарии аз се экран дар дастгоҳ пурра гузаронида шудааст.",
+        "en": "The three-screen scenario is walked fully on a device."
+      },
+      {
+        "ru": "Пустое состояние и ошибка короткого названия работают.",
+        "tg": "Ҳолати холӣ ва хатои номи кӯтоҳ кор мекунанд.",
+        "en": "The empty state and the short-title error work."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Собрать сценарий из трёх экранов в рабочем приложении.",
+        "tg": "Сценарии аз се экранро дар барномаи корӣ ҷамъ оваред.",
+        "en": "Assemble the three-screen scenario into a working app."
+      },
+      {
+        "ru": "Проверить весь пользовательский путь на устройстве.",
+        "tg": "Тамоми роҳи корбарро дар дастгоҳ санҷед.",
+        "en": "Walk the whole user path on a device."
+      }
+    ],
+    "realWorld": {
+      "ru": "Приложение заметок: список, кнопка «плюс», форма и экран заметки — тот же каркас.",
+      "tg": "Барномаи қайдҳо: рӯйхат, тугмаи «зиёд», шакл ва экрани қайд — ҳамон каркас.",
+      "en": "A notes app: list, plus button, form and note screen — the same skeleton."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Где хранится выбранная запись?",
+        "tg": "Сабти интихобшуда дар куҷо нигоҳ дошта мешавад?",
+        "en": "Where is the chosen record stored?"
+      },
+      "options": [
+        {
+          "ru": "В StyleSheet",
+          "tg": "Дар StyleSheet",
+          "en": "In StyleSheet"
+        },
+        {
+          "ru": "В отдельном состоянии selected",
+          "tg": "Дар ҳолати алоҳидаи selected",
+          "en": "In the separate selected state"
+        },
+        {
+          "ru": "На сервере",
+          "tg": "Дар сервер",
+          "en": "On a server"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Найдите вызов tasks.find в примере.",
+        "tg": "Дархости tasks.find-ро дар мисол ёбед.",
+        "en": "Find the tasks.find call in the example."
+      },
+      "explanation": {
+        "ru": "id записи живёт в selected, запись ищется при рендере.",
+        "tg": "id-и сабт дар selected аст ва сабт ҳангоми render меҷӯяд.",
+        "en": "The record id lives in selected and the record is looked up at render."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Task = { id: string; title: string };\ntype ScreenName = 'list' | 'add' | 'details';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[]>([]);\n  const [screen, setScreen] = useState<ScreenName>('list');\n  const [selected, setSelected] = useState<string | null>(null);\n  const [title, setTitle] = useState('');\n\n  function addTask() {\n    if (!title.trim()) return;\n    const task = { id: String(Date.now()), title: title.trim() };\n    setTasks(current => [...current, task]);\n    setTitle('');\n    setScreen('list');\n  }\n\n  const selectedTask = tasks.find(task => task.id === selected);\n\n  return (\n    <View style={styles.screen}>\n      {screen === 'list' ? (\n        <>\n          <Text accessibilityRole=\"header\">Мои занятия</Text>\n          {tasks.length === 0 ? (\n            <Text>Пока занятий нет. Добавьте первое.</Text>\n          ) : (\n            tasks.map(task => (\n              <Pressable\n                key={task.id}\n                accessibilityRole=\"button\"\n                onPress={() => { setSelected(task.id); setScreen('details'); }}\n                style={({ pressed }) => [styles.item, pressed && styles.pressed]}\n              >\n                <Text>{task.title}</Text>\n              </Pressable>\n            ))\n          )}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('add')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Добавить</Text>\n          </Pressable>\n        </>\n      ) : screen === 'add' ? (\n        <>\n          <Text accessibilityRole=\"header\">Новое занятие</Text>\n          <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n          <Pressable accessibilityRole=\"button\" onPress={addTask} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Сохранить</Text>\n          </Pressable>\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Отмена</Text>\n          </Pressable>\n        </>\n      ) : (\n        <>\n          <Text accessibilityRole=\"header\">{selectedTask ? selectedTask.title : 'Занятие не найдено'}</Text>\n          {selectedTask ? <Text>Детали занятия «{selectedTask.title}».</Text> : null}\n          <Pressable accessibilityRole=\"button\" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>\n            <Text style={styles.buttonText}>Назад к списку</Text>\n          </Pressable>\n        </>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  cancel: { backgroundColor: '#64748b' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 9,
+          "explanation": {
+            "ru": "addTask создаёт запись и очищает поле.",
+            "tg": "addTask сабт месозад ва майдонро тоза мекунад.",
+            "en": "addTask creates a record and clears the field."
+          },
+          "values": "tasks + 1"
+        },
+        {
+          "line": 15,
+          "explanation": {
+            "ru": "selected находит запись для экрана details.",
+            "tg": "selected сабтро барои экрани details меёбад.",
+            "en": "selected looks up the record for details."
+          },
+          "values": "task | undefined"
+        },
+        {
+          "line": 27,
+          "explanation": {
+            "ru": "Список с пустым состоянием честен: нет записей — есть подсказка.",
+            "tg": "Рӯйхат бо ҳолати холӣ рӯбарӯ аст: сабт нест — маслиҳат ҳаст.",
+            "en": "The list empty state is honest: no records means a hint."
+          },
+          "values": "list screen"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Пройдите сценарий целиком: список → добавить → сохранить → открыть → назад.",
+          "tg": "Сценариро пурра гузаронед: рӯйхат → илова → нигоҳдорӣ → кушодан → ба ақиб.",
+          "en": "Walk the scenario fully: list → add → save → open → back."
+        },
+        {
+          "ru": "Добавьте второе занятие и убедитесь, что оба открываются по своим id.",
+          "tg": "Машғулияти дуюмро илова карда, боварӣ ҳосил кунед, ки ҳарду бо id-и худ кушода мешаванд.",
+          "en": "Add a second lesson and confirm both open by their ids."
+        }
+      ],
+      "hint": {
+        "ru": "Скопируйте состояние error и условие сохранения из дня 22: title.trim().length < 3.",
+        "tg": "Ҳолати error ва шарти нигоҳдориро аз рӯзи 22 нусхабардорӣ кунед: title.trim().length < 3.",
+        "en": "Copy the error state and the save condition from day 22: title.trim().length < 3."
+      },
+      "success": {
+        "ru": "Сценарий из трёх экранов работает целиком, пустое состояние объясняет отсутствие записей.",
+        "tg": "Сценарии аз се экран пурра кор мекунад ва ҳолати холӣ набудани сабтҳоро фаҳмонад.",
+        "en": "The three-screen scenario works end to end and the empty state explains missing records."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите мини-проект и пройдите весь сценарий на устройстве: добавить два занятия, открыть оба, вернуться, проверить пустое состояние до добавлений. Добавьте сообщение об ошибке при коротком названии, как в решении. Запишите, какие ограничения проекта вы проверили лично. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Лоиҳаи хурдро созед ва тамоми сценариро дар дастгоҳ гузаронед: ду машғулият илова кунед, ҳарду кушоед, баргардед, ҳолати холиро пеш аз иловаҳо санҷед. Ҳангоми номи кӯтоҳ паёми хаторо мисли ҳалл илова кунед. Сабт кунед, ки кадом маҳдудиятҳои лоиҳаро худ санҷидед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the mini project and walk the whole scenario on a device: add two lessons, open both, return, check the empty state before adding. Add the short-title error message as in the solution. Record which project limits you verified yourself. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Сценарий из трёх экранов пройден целиком на устройстве.",
+          "tg": "Сценарии аз се экран дар дастгоҳ пурра гузаронида шудааст.",
+          "en": "The three-screen scenario is walked fully on a device."
+        },
+        {
+          "ru": "Пустое состояние и ошибка короткого названия работают.",
+          "tg": "Ҳолати холӣ ва хатои номи кӯтоҳ кор мекунанд.",
+          "en": "The empty state and the short-title error work."
+        }
+      ],
+      "example": {
+        "ru": "Пустой список показывает подсказку, а после добавления двух занятий — две строки с переходом в детали.",
+        "tg": "Рӯйхати холӣ маслиҳат нишон медиҳад ва баъди иловаи ду машғулият — ду сатр бо гузариш ба тафсилот.",
+        "en": "The empty list shows a hint and after adding two lessons — two rows opening details."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Модуль собран: сценарий, ввод, кнопки и проверка работают вместе.",
+        "tg": "Модул ҷамъ омад: сценарий, вурӯд, тугмаҳо ва санҷиш якҷоя кор мекунанд.",
+        "en": "The module is assembled: scenario, input, buttons and validation work together."
+      },
+      {
+        "ru": "Ограничения памяти названы честно; сохранение — следующий модуль.",
+        "tg": "Маҳдудиятҳои хотира рӯбарӯ номбар шудаанд; нигоҳдорӣ модули оянда аст.",
+        "en": "Memory limits are named honestly; persistence is the next module."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Где хранится выбранная запись?",
+        "tg": "Сабти интихобшуда дар куҷо нигоҳ дошта мешавад?",
+        "en": "Where is the chosen record stored?"
+      },
+      {
+        "ru": "Что станет со списком после перезапуска приложения?",
+        "tg": "Баъди аз нав оғоз бо рӯйхат чӣ мешавад?",
+        "en": "What happens to the list after an app restart?"
+      }
+    ],
+    "nextLessonId": "mobile-day-24"
+  }
+}

@@ -1,0 +1,49 @@
+import { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+
+type Todo = { id: number; title: string };
+type Status = 'loading' | 'done' | 'error';
+
+export default function App() {
+  const [status, setStatus] = useState<Status>('loading');
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [attempt, setAttempt] = useState(0);
+
+  useEffect(() => {
+    setStatus('loading');
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
+      .then(response => {
+        if (!response.ok) throw new Error('Ответ сервера: ' + response.status);
+        return response.json();
+      })
+      .then((data: Todo[]) => {
+        setTodos(data);
+        setStatus('done');
+      })
+      .catch(() => setStatus('error'));
+  }, [attempt]);
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Занятия из учебного API</Text>
+      {status === 'loading' ? <Text>Загрузка…</Text> : null}
+      {status === 'done' ? todos.map(todo => <Text key={todo.id}>{todo.title}</Text>) : null}
+      {status === 'error' ? <Text>Сеть недоступна. Проверьте интернет и повторите.</Text> : null}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Повторить запрос"
+        onPress={() => setAttempt(value => value + 1)}
+        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      >
+        <Text style={styles.buttonText}>Повторить</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },
+  pressed: { opacity: 0.7 },
+  buttonText: { color: '#ffffff', fontSize: 16 },
+});

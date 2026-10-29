@@ -1,0 +1,85 @@
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+
+type Task = { id: string; title: string };
+type ScreenName = 'list' | 'add' | 'details';
+
+export default function App() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [screen, setScreen] = useState<ScreenName>('list');
+  const [selected, setSelected] = useState<string | null>(null);
+  const [title, setTitle] = useState('');
+  const [error, setError] = useState('');
+
+  function addTask() {
+    if (title.trim().length < 3) {
+      setError('Название короче трёх символов');
+      return;
+    }
+    const task = { id: String(Date.now()), title: title.trim() };
+    setTasks(current => [...current, task]);
+    setTitle('');
+    setError('');
+    setScreen('list');
+  }
+
+  const selectedTask = tasks.find(task => task.id === selected);
+
+  return (
+    <View style={styles.screen}>
+      {screen === 'list' ? (
+        <>
+          <Text accessibilityRole="header">Мои занятия</Text>
+          {tasks.length === 0 ? (
+            <Text>Пока занятий нет. Добавьте первое.</Text>
+          ) : (
+            tasks.map(task => (
+              <Pressable
+                key={task.id}
+                accessibilityRole="button"
+                onPress={() => { setSelected(task.id); setScreen('details'); }}
+                style={({ pressed }) => [styles.item, pressed && styles.pressed]}
+              >
+                <Text>{task.title}</Text>
+              </Pressable>
+            ))
+          )}
+          <Pressable accessibilityRole="button" onPress={() => setScreen('add')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>
+            <Text style={styles.buttonText}>Добавить</Text>
+          </Pressable>
+        </>
+      ) : screen === 'add' ? (
+        <>
+          <Text accessibilityRole="header">Новое занятие</Text>
+          <TextInput value={title} onChangeText={setTitle} placeholder="Название" style={styles.input} />
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+          <Pressable accessibilityRole="button" onPress={addTask} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>
+            <Text style={styles.buttonText}>Сохранить</Text>
+          </Pressable>
+          <Pressable accessibilityRole="button" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}>
+            <Text style={styles.buttonText}>Отмена</Text>
+          </Pressable>
+        </>
+      ) : (
+        <>
+          <Text accessibilityRole="header">{selectedTask ? selectedTask.title : 'Занятие не найдено'}</Text>
+          {selectedTask ? <Text>Детали занятия «{selectedTask.title}».</Text> : null}
+          <Pressable accessibilityRole="button" onPress={() => setScreen('list')} style={({ pressed }) => [styles.button, pressed && styles.pressed]}>
+            <Text style={styles.buttonText}>Назад к списку</Text>
+          </Pressable>
+        </>
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+  error: { color: '#dc2626', fontSize: 14 },
+  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },
+  cancel: { backgroundColor: '#64748b' },
+  pressed: { opacity: 0.7 },
+  buttonText: { color: '#ffffff', fontSize: 16 },
+});

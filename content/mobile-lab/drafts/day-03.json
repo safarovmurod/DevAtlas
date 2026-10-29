@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-03",
+  "day": 3,
+  "prerequisiteDays": [
+    2
+  ],
+  "title": {
+    "ru": "Переменные и значения на экране",
+    "tg": "Тағйирёбанда ва қимат дар экран",
+    "en": "Values and variables on screen"
+  },
+  "summary": {
+    "ru": "Используйте строки, числа и вычисления в JSX экрана React Native.",
+    "tg": "Сатр, адад ва ҳисобро дар JSX-и экрани React Native истифода баред.",
+    "en": "Use strings, numbers and calculations in a React Native screen."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "От значения к экрану",
+        "tg": "Аз қимат то экран",
+        "en": "From values to the screen"
+      },
+      "body": {
+        "ru": "Значение — данные, например имя или число выполненных занятий. Переменная даёт значению имя, чтобы использовать его в нескольких местах. const объявляет имя, которое нельзя переназначить; само значение может быть строкой в кавычках или числом без кавычек. JSX похож на разметку, но позволяет вставить JavaScript-выражение в одиночных фигурных скобках: {remaining}. Выражение сначала вычисляется, затем Text отображает результат. Вычитание total - completed возвращает число, а не сохраняет что-либо на сервере. При каждом новом рендере функция App запускается снова. Обычная переменная не вызывает рендер после нажатия — для этого нужен state, знакомый по дню 2.",
+        "tg": "Қимат дода аст, масалан ном ё шумори машғулияти анҷомёфта. Тағйирёбанда ба қимат ном медиҳад, то онро чанд бор истифода барем. const номеро эълон мекунад, ки аз нав таъин намешавад; қимат сатр дар нохунак ё адади бе нохунак шуда метавонад. JSX ба нишонагузорӣ монанд аст, вале ифодаи JavaScript-ро дар қавсҳои ягонаи шаклдор мегирад: {remaining}. Аввал ифода ҳисоб ва баъд Text натиҷаро нишон медиҳад. total - completed адад медиҳад, вале дар сервер чизе сабт намекунад. Дар ҳар render-и нав функсияи App боз иҷро мешавад. Тағйирёбандаи оддӣ баъди пахш render намекунад — барои ин state-и рӯзи 2 лозим аст.",
+        "en": "A value is data, such as a name or a number of completed lessons. A variable gives that value a name for reuse. const declares a binding that cannot be reassigned; its value can be a quoted string or an unquoted number. JSX resembles markup but evaluates a JavaScript expression between single braces: {remaining}. The expression is evaluated first and Text displays its result. Subtracting completed from total returns a number; it does not save anything to a server. App runs again on each render. Changing an ordinary variable after a button press does not request a render: use the state introduced on day 2."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "import получает View и Text из библиотеки react-native. export default делает App корневым компонентом Expo. В четырёх const сначала записаны имя, два числа и результат 5 − 2 = 3. return описывает дерево интерфейса: View группирует два Text, первый имеет роль заголовка для вспомогательных технологий. Внутри Text {learnerName} и {remaining} вставляют вычисленные значения. style={{ padding: 24 }} имеет две пары скобок: внешняя открывает выражение JSX, внутренняя создаёт объект стиля. Поменяйте completed на 5: остаток станет 0. Если задать 7, получится −2; позже добавим проверку диапазона. Скопируйте файл в App.tsx совместимого blank-проекта Expo и запустите на своём устройстве.",
+        "tg": "import View ва Text-ро аз react-native мегирад. export default App-ро компоненти решаи Expo мекунад. Чор const ном, ду адад ва натиҷаи 5 − 2 = 3-ро нигоҳ медоранд. return дарахти интерфейс аст: View ду Text-ро гурӯҳ мекунад, аввал барои технологияҳои ёрирасон нақши сарлавҳа дорад. {learnerName} ва {remaining} қиматҳои ҳисобшударо ба Text мегузоранд. style={{ padding: 24 }} ду ҷуфт қавс дорад: берунаш ифодаи JSX, дарунаш объекти услуб аст. completed-ро 5 кунед: бақия 0 мешавад. Бо 7 натиҷа −2; дертар ҳудудро месанҷем. Файлро ба App.tsx-и blank-проекти мувофиқи Expo гузошта, дар дастгоҳи худ иҷро кунед.",
+        "en": "import obtains View and Text from react-native. export default makes App the Expo root component. Four const declarations bind the name, two numbers and the result 5 − 2 = 3. return describes the interface tree: View groups two Text components, and the first has a heading role for assistive technology. {learnerName} and {remaining} insert evaluated values into Text. style={{ padding: 24 }} has two sets of braces: outer JSX expression and inner style object. Change completed to 5 and the remainder is 0; with 7 it is −2. We will validate that range later. Copy the file into App.tsx in a compatible blank Expo project and run it on your device."
+      },
+      "code": "import { View, Text } from 'react-native';\n\nexport default function App() {\n  const learnerName = 'Мадина';\n  const completed = 2;\n  const total = 5;\n  const remaining = total - completed;\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Салом, {learnerName}!</Text>\n      <Text>Осталось занятий: {remaining}</Text>\n    </View>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-03-q1",
+      "question": {
+        "ru": "Где JSX читает значение переменной learnerName?",
+        "tg": "JSX қимати learnerName-ро аз куҷо мехонад?",
+        "en": "Where does JSX read learnerName?"
+      },
+      "options": [
+        {
+          "ru": "Из обычного текста learnerName.",
+          "tg": "Аз матни оддии learnerName.",
+          "en": "From plain text learnerName."
+        },
+        {
+          "ru": "Из выражения {learnerName}.",
+          "tg": "Аз ифодаи {learnerName}.",
+          "en": "From the expression {learnerName}."
+        },
+        {
+          "ru": "Из имени файла.",
+          "tg": "Аз номи файл.",
+          "en": "From the file name."
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Фигурные скобки внутри JSX вычисляют JavaScript-выражение.",
+        "tg": "Қавсҳои шаклдор дар JSX ифодаи JavaScript-ро ҳисоб мекунанд.",
+        "en": "Braces inside JSX evaluate a JavaScript expression."
+      },
+      "hint": {
+        "ru": "Найдите, где внутри Text стоят фигурные скобки, и вспомните слова разбора о выражениях.",
+        "tg": "Ёбед, ки дар дохили Text қавсҳои шаклдор куҷоянд, ва гуфтаҳои шарҳ дар бораи ифодаҳоро ёд оред.",
+        "en": "Find where braces appear inside Text and recall what the walkthrough says about expressions."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-03-q2",
+      "question": {
+        "ru": "Если completed равен 5 и total равен 5, чему равен remaining?",
+        "tg": "Агар completed ва total ҳар ду 5 бошанд, remaining чанд аст?",
+        "en": "If completed and total are both 5, what is remaining?"
+      },
+      "options": [
+        {
+          "ru": "10",
+          "tg": "10",
+          "en": "10"
+        },
+        {
+          "ru": "5",
+          "tg": "5",
+          "en": "5"
+        },
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Вычитаем 5 из 5: осталось 0 занятий.",
+        "tg": "5-ро аз 5 кам мекунем: 0 машғулият мемонад.",
+        "en": "Subtract 5 from 5: zero lessons remain."
+      },
+      "hint": {
+        "ru": "Сначала вычислите total - completed вручную, потом отвечайте.",
+        "tg": "Аввал total - completed-ро дастӣ ҳисоб кунед, баъд ҷавоб диҳед.",
+        "en": "Compute total - completed by hand before answering."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-03-q3",
+      "question": {
+        "ru": "Что произойдёт при total=5 и completed=7 без дополнительной проверки?",
+        "tg": "Бо total=5 ва completed=7 бе санҷиши иловагӣ чӣ мешавад?",
+        "en": "What happens for total=5 and completed=7 without an extra check?"
+      },
+      "options": [
+        {
+          "ru": "remaining будет −2.",
+          "tg": "remaining −2 мешавад.",
+          "en": "remaining is −2."
+        },
+        {
+          "ru": "JavaScript автоматически исправит значение на 0.",
+          "tg": "JavaScript қиматро худкор 0 мекунад.",
+          "en": "JavaScript automatically changes it to 0."
+        },
+        {
+          "ru": "Создастся задача на сервере.",
+          "tg": "Дар сервер вазифа сохта мешавад.",
+          "en": "A server task is created."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Вычитание само не знает бизнес-правила; проверку диапазона надо написать отдельно.",
+        "tg": "Тарҳ худ қоидаи барномаро намедонад; ҳудудро ҷудо санҷед.",
+        "en": "Subtraction does not know business rules; add a separate range check."
+      },
+      "hint": {
+        "ru": "Само вычитание не знает бизнес-правил; подумайте, какое число даёт математика.",
+        "tg": "Тарҳ худ қоидаҳои барномаро намедонад; фикр кунед, ки математика кадом ададро медиҳад.",
+        "en": "Subtraction itself knows no business rules; think about which number the math produces."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-03-q4",
+      "question": {
+        "ru": "Какие кавычки в learnerName создают строку?",
+        "tg": "Кадом нохунак дар learnerName сатр месозад?",
+        "en": "What do the quotes around learnerName create?"
+      },
+      "options": [
+        {
+          "ru": "Имя компонента.",
+          "tg": "Номи компонент.",
+          "en": "A component name."
+        },
+        {
+          "ru": "Строковое значение.",
+          "tg": "Қимати сатрӣ.",
+          "en": "A string value."
+        },
+        {
+          "ru": "Сетевой запрос.",
+          "tg": "Дархости шабака.",
+          "en": "A network request."
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Текст в одинарных кавычках — строковый литерал JavaScript.",
+        "tg": "Матн дар нохунакҳои якка литерали сатрии JavaScript аст.",
+        "en": "Text in single quotes is a JavaScript string literal."
+      },
+      "hint": {
+        "ru": "Вспомните два вида значений в примере: текст в кавычках и числа без кавычек.",
+        "tg": "Ду навъи қиматро дар мисол ёд оред: матн дар нохунак ва ададҳои бе нохунак.",
+        "en": "Recall the two kinds of values in the example: quoted text and bare numbers."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-03-q5",
+      "question": {
+        "ru": "Изменение обычной переменной после нажатия гарантирует обновление экрана?",
+        "tg": "Тағйири тағйирёбандаи оддӣ баъди пахш экранро нав мекунад?",
+        "en": "Does changing an ordinary variable after a press guarantee a screen update?"
+      },
+      "options": [
+        {
+          "ru": "Да, но только с Text.",
+          "tg": "Бале, танҳо бо Text.",
+          "en": "Yes, but only inside Text."
+        },
+        {
+          "ru": "Да, всегда.",
+          "tg": "Бале, ҳамеша.",
+          "en": "Yes, always."
+        },
+        {
+          "ru": "Нет: для изменяемого состояния используйте state.",
+          "tg": "Не: барои ҳолати тағйирёбанда state гиред.",
+          "en": "No: use state for changing screen data."
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Переменная пересчитывается при рендере, но сама по себе не запрашивает новый рендер.",
+        "tg": "Тағйирёбанда ҳангоми render ҳисоб мешавад, вале худ render-и нав талаб намекунад.",
+        "en": "A variable is evaluated during rendering but does not request a new render."
+      },
+      "hint": {
+        "ru": "Вспомните день 2: какой механизм просит React отрисовать экран заново?",
+        "tg": "Рӯзи 2-ро ёд оред: кадом механизм аз React талаб мекунад, ки экран аз нав кашида шавад?",
+        "en": "Recall day 2: which mechanism asks React to render the screen again?"
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "В своём Expo blank-проекте измените имя, total и completed. Предскажите результат для 5/2, 5/5 и 5/7; затем проверьте на устройстве. Добавьте третью строку Text с общим числом. Сохраните короткий отчёт с полученными значениями и опишите, почему −2 требует проверки. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Дар Expo blank-проекти худ ном, total ва completed-ро тағйир диҳед. Натиҷаи 5/2, 5/5 ва 5/7-ро пешгӯӣ ва дар дастгоҳ санҷед. Text-и сеюм бо шумори умумӣ илова кунед. Натиҷаҳо ва сабаби зарурати санҷиши −2-ро нависед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "In your Expo blank project change the name, total and completed. Predict 5/2, 5/5 and 5/7, then check on a device. Add a third Text line with the total. Record observed values and explain why −2 needs validation. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Сначала посчитайте total - completed вручную. Для третьей строки вставьте {total} внутри Text.",
+      "tg": "Аввал total - completed-ро дастӣ ҳисоб кунед. Барои сатри сеюм {total}-ро дар Text гузоред.",
+      "en": "First calculate total - completed by hand. Insert {total} inside a third Text."
+    },
+    "solution": "import { View, Text } from 'react-native';\n\nexport default function App() {\n  const learnerName = 'Мадина';\n  const completed = 2;\n  const total = 5;\n  const remaining = total - completed;\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Салом, {learnerName}!</Text>\n      <Text>Осталось занятий: {remaining}</Text>\n      <Text>Всего занятий: {total}</Text>\n    </View>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Для трёх входов записаны ожидаемые и фактические результаты.",
+        "tg": "Барои се вуруд натиҷаҳои интизор ва воқеӣ сабт шуданд.",
+        "en": "Expected and observed values are recorded for all three inputs."
+      },
+      {
+        "ru": "Добавлена строка общего числа и объяснено отрицательное значение; проверка остаётся Self Reviewed.",
+        "tg": "Сатри шумори умумӣ ва шарҳи қимати манфӣ ҳаст; санҷиш Self Reviewed мемонад.",
+        "en": "The total line and explanation of a negative result are present; the review remains Self Reviewed."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить const, строку, число и JSX-выражение.",
+        "tg": "const, сатр, адад ва ифодаи JSX-ро шарҳ диҳед.",
+        "en": "Explain const, strings, numbers and JSX expressions."
+      },
+      {
+        "ru": "Предсказать результат вычитания и проверить его на устройстве.",
+        "tg": "Натиҷаи тарҳро пешгӯӣ ва дар дастгоҳ санҷед.",
+        "en": "Predict subtraction and check it on a device."
+      }
+    ],
+    "realWorld": {
+      "ru": "Экран прогресса показывает имя и количество оставшихся занятий, как в ежедневном учебном приложении.",
+      "tg": "Экрани пешрафт ном ва шумори машғулияти боқимондаро мисли барномаи омӯзишии рӯзона нишон медиҳад.",
+      "en": "A progress screen displays a name and remaining lessons, as in a daily learning app."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Если completed равен 5 и total равен 5, чему равен remaining?",
+        "tg": "Агар completed ва total ҳар ду 5 бошанд, remaining чанд аст?",
+        "en": "If completed and total are both 5, what is remaining?"
+      },
+      "options": [
+        {
+          "ru": "10",
+          "tg": "10",
+          "en": "10"
+        },
+        {
+          "ru": "5",
+          "tg": "5",
+          "en": "5"
+        },
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Вернитесь к разбору переменных и вычислите выражение по шагам.",
+        "tg": "Ба шарҳи тағйирёбанда баргардед ва ифодаро қадам ба қадам ҳисоб кунед.",
+        "en": "Return to the variable walkthrough and evaluate the expression step by step."
+      },
+      "explanation": {
+        "ru": "Вычитаем 5 из 5: осталось 0 занятий.",
+        "tg": "5-ро аз 5 кам мекунем: 0 машғулият мемонад.",
+        "en": "Subtract 5 from 5: zero lessons remain."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { View, Text } from 'react-native';\n\nexport default function App() {\n  const learnerName = 'Мадина';\n  const completed = 2;\n  const total = 5;\n  const remaining = total - completed;\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Салом, {learnerName}!</Text>\n      <Text>Осталось занятий: {remaining}</Text>\n    </View>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 4,
+          "explanation": {
+            "ru": "learnerName получает строку; это пока не запрос к серверу.",
+            "tg": "learnerName сатр мегирад; ин ҳоло дархости сервер нест.",
+            "en": "learnerName receives a string, not a server request."
+          },
+          "values": "learnerName = \"Мадина\""
+        },
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Вычисляем 5 − 2 и сохраняем число в remaining.",
+            "tg": "5 − 2-ро ҳисоб ва ададро дар remaining нигоҳ медорем.",
+            "en": "Evaluate 5 − 2 and bind the number to remaining."
+          },
+          "values": "total = 5; completed = 2; remaining = 3"
+        },
+        {
+          "line": 12,
+          "explanation": {
+            "ru": "Text отображает вычисленное число. Этот разбор сам не выполняет приложение.",
+            "tg": "Text адади ҳисобшударо нишон медиҳад. Ин шарҳ барномаро иҷро намекунад.",
+            "en": "Text displays the computed number. This walkthrough does not run the app."
+          },
+          "values": "3"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Прочитайте пример и найдите каждое объявление const.",
+          "tg": "Мисолро хонда, ҳар const-ро ёбед.",
+          "en": "Read the example and locate each const declaration."
+        },
+        {
+          "ru": "Вручную рассчитайте remaining при completed=5, затем проверьте в Expo на своём устройстве.",
+          "tg": "Бо completed=5 remaining-ро дастӣ ҳисоб, баъд дар Expo-и дастгоҳ санҷед.",
+          "en": "Calculate remaining for completed=5 by hand, then check Expo on your device."
+        }
+      ],
+      "hint": {
+        "ru": "Сначала посчитайте total - completed вручную. Для третьей строки вставьте {total} внутри Text.",
+        "tg": "Аввал total - completed-ро дастӣ ҳисоб кунед. Барои сатри сеюм {total}-ро дар Text гузоред.",
+        "en": "First calculate total - completed by hand. Insert {total} inside a third Text."
+      },
+      "success": {
+        "ru": "При total=5 и completed=5 ожидается 0.",
+        "tg": "Бо total=5 ва completed=5 натиҷа 0 аст.",
+        "en": "With total=5 and completed=5, expect 0."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "В своём Expo blank-проекте измените имя, total и completed. Предскажите результат для 5/2, 5/5 и 5/7; затем проверьте на устройстве. Добавьте третью строку Text с общим числом. Сохраните короткий отчёт с полученными значениями и опишите, почему −2 требует проверки. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Дар Expo blank-проекти худ ном, total ва completed-ро тағйир диҳед. Натиҷаи 5/2, 5/5 ва 5/7-ро пешгӯӣ ва дар дастгоҳ санҷед. Text-и сеюм бо шумори умумӣ илова кунед. Натиҷаҳо ва сабаби зарурати санҷиши −2-ро нависед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "In your Expo blank project change the name, total and completed. Predict 5/2, 5/5 and 5/7, then check on a device. Add a third Text line with the total. Record observed values and explain why −2 needs validation. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Для трёх входов записаны ожидаемые и фактические результаты.",
+          "tg": "Барои се вуруд натиҷаҳои интизор ва воқеӣ сабт шуданд.",
+          "en": "Expected and observed values are recorded for all three inputs."
+        },
+        {
+          "ru": "Добавлена строка общего числа и объяснено отрицательное значение; проверка остаётся Self Reviewed.",
+          "tg": "Сатри шумори умумӣ ва шарҳи қимати манфӣ ҳаст; санҷиш Self Reviewed мемонад.",
+          "en": "The total line and explanation of a negative result are present; the review remains Self Reviewed."
+        }
+      ],
+      "example": {
+        "ru": "Для total=5 и completed=2 ожидается 3; экран подтверждается только настоящим запуском.",
+        "tg": "Барои total=5 ва completed=2 натиҷа 3; экран танҳо бо иҷрои воқеӣ тасдиқ мешавад.",
+        "en": "For total=5 and completed=2 expect 3; the screen is confirmed only by actual execution."
+      }
+    },
+    "summary": [
+      {
+        "ru": "JSX вставляет выражения в фигурных скобках.",
+        "tg": "JSX ифодаро дар қавсҳои шаклдор мегузорад.",
+        "en": "JSX embeds expressions in braces."
+      },
+      {
+        "ru": "const сам не запускает новый рендер; для изменения используйте state.",
+        "tg": "const худ render-и нав намекунад; барои тағйир state гиред.",
+        "en": "const alone does not trigger a render; use state for changes."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что произойдёт при total=5 и completed=7 без дополнительной проверки?",
+        "tg": "Бо total=5 ва completed=7 бе санҷиши иловагӣ чӣ мешавад?",
+        "en": "What happens for total=5 and completed=7 without an extra check?"
+      },
+      {
+        "ru": "Изменение обычной переменной после нажатия гарантирует обновление экрана?",
+        "tg": "Тағйири тағйирёбандаи оддӣ баъди пахш экранро нав мекунад?",
+        "en": "Does changing an ordinary variable after a press guarantee a screen update?"
+      }
+    ],
+    "nextLessonId": "mobile-day-04"
+  }
+}

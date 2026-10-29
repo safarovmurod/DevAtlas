@@ -1,0 +1,42 @@
+import { StyleSheet, Text, View } from 'react-native';
+
+type Task = { id: string; title: string; minutes: number };
+
+const tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({
+  id: `t${index + 1}`,
+  title: `Занятие ${index + 1}`,
+  minutes: 15 + (index % 4) * 5,
+}));
+
+function TaskRow({ task }: { task: Task }) {
+  return (
+    <View style={styles.row}>
+      <Text style={styles.title}>{task.title}</Text>
+      <Text style={styles.minutes}>{task.minutes} мин.</Text>
+    </View>
+  );
+}
+
+export function TaskList({ tasks }: { tasks: Task[] }) {
+  return (
+    <View>
+      {tasks.map(task => <TaskRow key={task.id} task={task} />)}
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Двести записей</Text>
+      <TaskList tasks={tasks.slice(0, 20)} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },
+  title: { fontSize: 16 },
+  minutes: { fontSize: 14, color: '#64748b' },
+});

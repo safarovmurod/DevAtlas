@@ -1,0 +1,48 @@
+import { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+
+function ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {
+  const [draft, setDraft] = useState('');
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Черновик заметки</Text>
+      <TextInput
+        value={draft}
+        onChangeText={setDraft}
+        placeholder="Пишите здесь"
+        style={styles.input}
+      />
+      <Button title="Открыть подсказку" onPress={() => navigation.navigate('Help')} />
+      <Text>Черновик останется, пока экран в стеке.</Text>
+    </View>
+  );
+}
+
+function HelpScreen() {
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Подсказка</Text>
+      <Text>Вернитесь назад системной кнопкой и найдите черновик.</Text>
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="List" component={ListScreen} />
+        <Stack.Screen name="Help" component={HelpScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, padding: 24, gap: 12 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+});

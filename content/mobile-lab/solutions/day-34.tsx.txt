@@ -1,0 +1,55 @@
+import { useCallback, useState } from 'react';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+
+type Task = { id: string; title: string; minutes: number };
+
+const PAGE = 20;
+
+const tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({
+  id: `t${index + 1}`,
+  title: `Занятие ${index + 1}`,
+  minutes: 15 + (index % 4) * 5,
+}));
+
+function TaskRow({ task, onOpen }: { task: Task; onOpen: (id: string) => void }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${task.title}, ${task.minutes} минут`}
+      onPress={() => onOpen(task.id)}
+      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
+    >
+      <Text style={styles.title}>{task.title}</Text>
+      <Text style={styles.minutes}>{task.minutes} мин.</Text>
+    </Pressable>
+  );
+}
+
+export default function App() {
+  const [visible, setVisible] = useState(PAGE);
+  const [opened, setOpened] = useState<string | null>(null);
+
+  const openTask = useCallback((id: string) => setOpened(id), []);
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Двести записей по частям</Text>
+      {opened ? <Text>Открыто: {opened}</Text> : <Text>Нажмите строку, чтобы открыть.</Text>}
+      <FlatList
+        data={tasks.slice(0, visible)}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => <TaskRow task={item} onOpen={openTask} />}
+        onEndReached={() => setVisible(current => Math.min(current + PAGE, tasks.length))}
+        onEndReachedThreshold={0.3}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },
+  pressed: { opacity: 0.6 },
+  title: { fontSize: 16 },
+  minutes: { fontSize: 14, color: '#64748b' },
+});
