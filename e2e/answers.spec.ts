@@ -13,50 +13,53 @@ test.beforeEach(async ({ page }) => {
 
 import quiz from '../src/content/imported/quiz.json';
 
+// This legacy regression walks a long dev-mode route chain; cold CI runners
+// exceed the 5s default expect wait on later steps. Assertions stay identical;
+// only the per-file wait grows.
+const slow = expect.configure({ timeout: 20000 });
+
 test('answers library filters, searches, exports and preserves reading progress and notes', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/answers');
-  await expect(page.getByRole('heading', { name: 'Ответы и интервью', exact: true })).toBeVisible();
-  await expect(page.locator('.answer-topic-card')).toHaveCount(18);
-  await expect(page.locator('.answers-intro')).toContainText('462');
+  await slow(page.getByRole('heading', { name: 'Ответы и интервью', exact: true })).toBeVisible();
+  await slow(page.locator('.answer-topic-card')).toHaveCount(18);
+  await slow(page.locator('.answers-intro')).toContainText('462');
   await page.locator('.answers-source-filters').getByRole('link', { name: 'Тесты', exact: true }).click();
-  await expect(page.locator('.answers-source-filters').getByRole('link', { name: 'Тесты', exact: true })).toHaveAttribute('aria-current', 'page');
+  await slow(page.locator('.answers-source-filters').getByRole('link', { name: 'Тесты', exact: true })).toHaveAttribute('aria-current', 'page');
   await page.locator('.answer-group').filter({ hasText: 'Группа 2' }).click();
-  await expect(page.locator('.answers-pagination')).toContainText('1 / 2');
-  await expect(page.locator('.answer-topic-card').first()).toContainText('Группа 2');
+  await slow(page.locator('.answers-pagination')).toContainText('1 / 2');
+  await slow(page.locator('.answer-topic-card').first()).toContainText('Группа 2');
   await page.locator('.answers-source-filters').getByRole('link', { name: 'Все', exact: true }).click();
-  await expect(page.locator('.answers-source-filters').getByRole('link', { name: 'Все', exact: true })).toHaveAttribute('aria-current', 'page');
-  await expect(page).toHaveURL('/answers');
+  await slow(page.locator('.answers-source-filters').getByRole('link', { name: 'Все', exact: true })).toHaveAttribute('aria-current', 'page');
+  await slow(page).toHaveURL('/answers');
   await page.getByRole('searchbox').fill('/products/:id');
   await page.getByRole('button', { name: 'Найти', exact: true }).click();
-  await expect(page.locator('.answer-topic-card[href="/answers/deep-71"]')).toBeVisible();
-  await expect(page.getByRole('searchbox')).toHaveValue('/products/:id');
+  await slow(page.locator('.answer-topic-card[href="/answers/deep-71"]')).toBeVisible();
+  await slow(page.getByRole('searchbox')).toHaveValue('/products/:id');
   await page.locator('.answer-topic-card[href="/answers/deep-71"]').click();
-  // Cold dev-server compilation of the first deep answer can exceed the default
-  // 5s on CI runners; the assertion stays the same, only the wait grows.
-  await expect(page.locator('.lesson-article pre')).toContainText('// Route: /products/:id', { timeout: 20000 });
-  await expect(page.locator('.flow-steps')).toContainText('UI update', { timeout: 20000 });
+  await slow(page.locator('.lesson-article pre')).toContainText('// Route: /products/:id');
+  await slow(page.locator('.flow-steps')).toContainText('UI update');
   await page.goto('/answers/deep-1');
-  await expect(page.locator('.answer-reading-body').first()).toContainText(quiz.groups[0].items[0].correctAnswer);
+  await slow(page.locator('.answer-reading-body').first()).toContainText(quiz.groups[0].items[0].correctAnswer);
   await page.getByRole('button', { name: 'Прочитал и понял', exact: true }).first().click();
   await page.getByRole('button', { name: 'В заметки', exact: true }).first().click();
   await page.reload();
-  await expect(page.getByRole('button', { name: 'Изучено', exact: true }).first()).toBeDisabled();
-  await expect(page.getByRole('button', { name: 'Сохранено', exact: true }).first()).toBeDisabled();
+  await slow(page.getByRole('button', { name: 'Изучено', exact: true }).first()).toBeDisabled();
+  await slow(page.getByRole('button', { name: 'Сохранено', exact: true }).first()).toBeDisabled();
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);
   expect(stored.studied).toContain('quiz-q001');
   expect(stored.awards['learn:quiz-q001']).toBe(2);
   expect(stored.notes.filter((note: {id:string}) => note.id === 'answer:quiz-q001')).toHaveLength(1);
   await page.goto('/notes');
-  await expect(page.locator('main')).toContainText(quiz.groups[0].items[0].question);
+  await slow(page.locator('main')).toContainText(quiz.groups[0].items[0].question);
   await page.goto('/answers?source=interview');
-  await expect(page.locator('.answer-topic-card').first()).toContainText('Interview');
+  await slow(page.locator('.answer-topic-card').first()).toContainText('Interview');
   await page.locator('.answer-topic-card').first().click();
-  await expect(page.locator('.answer-reading-body pre').first()).toBeVisible();
+  await slow(page.locator('.answer-reading-body pre').first()).toBeVisible();
   await page.goto('/answers/interview-3');
-  await expect(page.locator('#interview-q7 .flow-steps')).toContainText('Paint: намоиш');
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await slow(page.locator('#interview-q7 .flow-steps')).toContainText('Paint: намоиш');
+  slow(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('answer-reader.png'), fullPage: true });
   await page.goto('/answers');
   const downloadEvent = page.waitForEvent('download');
@@ -66,7 +69,7 @@ test('answers library filters, searches, exports and preserves reading progress 
   const response = await page.request.get('/answers/export');
   expect(response.headers()['content-security-policy']).toContain('sandbox');
   expect((await response.text()).match(/class="question"/g)).toHaveLength(462);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  slow(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('answers.png'), fullPage: true });
   expect(errors).toEqual([]);
 });
@@ -75,7 +78,7 @@ test('merged answers preserve old reading marks and notes and open from their ot
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/answers');
-  await expect(page.getByRole('heading', { name: 'Ответы и интервью', exact: true })).toBeVisible();
+  await slow(page.getByRole('heading', { name: 'Ответы и интервью', exact: true })).toBeVisible();
   await page.evaluate(() => {
     const key = 'react-mentor-learning-v2';
     const stored = JSON.parse(localStorage.getItem(key)!);
@@ -86,31 +89,31 @@ test('merged answers preserve old reading marks and notes and open from their ot
   });
   await page.goto('/answers/deep-12');
   const batching = page.locator('#quiz-q060');
-  await expect(batching.getByRole('button', { name: 'Изучено', exact: true })).toBeDisabled();
-  await expect(batching.getByRole('button', { name: 'Сохранено', exact: true })).toBeDisabled();
-  await expect(batching.locator('.answer-variant')).toContainText('Batching — React');
-  await expect(batching.locator('.answer-variant pre')).toBeVisible();
+  await slow(batching.getByRole('button', { name: 'Изучено', exact: true })).toBeDisabled();
+  await slow(batching.getByRole('button', { name: 'Сохранено', exact: true })).toBeDisabled();
+  await slow(batching.locator('.answer-variant')).toContainText('Batching — React');
+  await slow(batching.locator('.answer-variant pre')).toBeVisible();
   let stored = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);
   expect(stored.awards['learn:quiz-q060']).toBeUndefined();
   expect(stored.notes[0].content).toBe('Моя сохранённая заметка');
   await page.goto('/answers');
-  await expect(page.locator('.answers-intro')).toContainText('1 изучено');
+  await slow(page.locator('.answers-intro')).toContainText('1 изучено');
   await page.goto('/answers/deep-40');
-  await expect(page.locator('#quiz-q212')).toContainText('Selector чист?');
+  await slow(page.locator('#quiz-q212')).toContainText('Selector чист?');
   await page.locator('#quiz-q212').click();
-  await expect(page).toHaveURL(/\/answers\/deep-38#quiz-q196$/);
+  await slow(page).toHaveURL(/\/answers\/deep-38#quiz-q196$/);
   const selector = page.locator('#quiz-q196');
-  await expect(selector).toHaveAttribute('open', '');
-  await expect(selector.locator('.answer-variant')).toContainText('Redux Architecture');
+  await slow(selector).toHaveAttribute('open', '');
+  await slow(selector.locator('.answer-variant')).toContainText('Redux Architecture');
   const reduxAnswer = quiz.groups[39].items.find(question => question.id === 'q212')!.correctAnswer;
-  await expect(selector.locator('.answer-variant')).toContainText(reduxAnswer);
+  await slow(selector.locator('.answer-variant')).toContainText(reduxAnswer);
   await selector.getByRole('button', { name: 'Прочитал и понял', exact: true }).click();
   await selector.getByRole('button', { name: 'В заметки', exact: true }).click();
   stored = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);
   expect(stored.notes.find((note: {id:string;content:string}) => note.id === 'answer:quiz-q196').content).toContain(reduxAnswer);
   expect(stored.awards['learn:quiz-q196']).toBe(2);
   await selector.locator('summary').scrollIntoViewIfNeeded();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  slow(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('merged-answer.png') });
   expect(errors).toEqual([]);
 });
