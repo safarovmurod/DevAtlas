@@ -51,8 +51,9 @@ it('requires matching server assessment or an explicit local-only flow that cann
      expect(lesson.sections.some(section=>section.code!==undefined)).toBe(false);
      expect(COURSE_CATALOG.find(course=>course.id===id)?.runtime).toBeUndefined();
     }else{
+     // Code-trace demos trace locally authored code; where that code executes
+     // is governed by the catalog runtime and the taxonomy test, not here.
      expect(lesson.learningFlow.demo.kind).toBe('code-trace');
-     expect(COURSE_CATALOG.find(course=>course.id===id)?.runtime).toBe('local');
     }
     continue;
    }

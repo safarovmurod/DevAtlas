@@ -11,7 +11,7 @@ const introductions = [
 ] as const;
 const applied = ['ux-pro', 'business-pro'] as const;
 const appliedDays = { 'ux-pro': 30, 'business-pro': 30 } as Record<string, number>;
-const starterDays = { 'ux-design': 30 } as Record<string, number>;
+const starterDays = { 'ux-design': 30, 'digital-marketing': 30 } as Record<string, number>;
 async function content(id: string) {
   const file = await readFile(path.join(process.cwd(), 'src/content/courses', `${id}.json`), 'utf8');
   return courseContentSchema.parse(JSON.parse(file));
@@ -38,19 +38,26 @@ describe('original general-education modules', () => {
         expect(lesson.prerequisiteDays).toEqual(index === 0 ? [] : [index]);
         expect(lesson.sections.length).toBeGreaterThanOrEqual(2);
         expect(lesson.sections.every(section => section.code === undefined && section.language === undefined)).toBe(true);
-        expect(lesson.practice?.kind).toBe('written');
-        expect(lesson.practice?.referenceAnswer).toBeDefined();
-        expect(lesson.practice!.criteria.length).toBeGreaterThanOrEqual(3);
+        const practice = lesson.practice!;
+        if (practice.kind === 'code') {
+          // Executable practice is Auto Verified: the machine, not the author, confirms it.
+          expect(practice.execution).toBeDefined();
+          expect(practice.execution!.tests.length).toBeGreaterThanOrEqual(3);
+        } else {
+          expect(practice.kind).toBe('written');
+          expect(practice.referenceAnswer).toBeDefined();
+        }
+        expect(practice.criteria.length).toBeGreaterThanOrEqual(3);
         for (const locale of ['ru', 'tg', 'en'] as const) {
           expect(lesson.title[locale]!.length).toBeGreaterThan(15);
           expect(lesson.summary[locale]!.length).toBeGreaterThan(80);
           for (const section of lesson.sections) expect(section.body[locale]!.length).toBeGreaterThan(100);
-          expect(lesson.practice!.task[locale]).toMatch(/^1\. /);
-          expect(lesson.practice!.task[locale]).toContain('\n4. ');
-          expect(lesson.practice!.referenceAnswer![locale]!.length).toBeGreaterThan(180);
-          expect(lesson.practice!.criteria.every(criterion => criterion[locale]!.trim().length > 15)).toBe(true);
+          expect(practice.task[locale]).toMatch(/^1\. /);
+          expect(practice.task[locale]).toContain('\n4. ');
+          expect(practice.criteria.every(criterion => criterion[locale]!.trim().length > 15)).toBe(true);
+          if (practice.kind === 'written') expect(practice.referenceAnswer![locale]!.length).toBeGreaterThan(180);
         }
-        expect(lesson.practice!.solution).toBe(lesson.practice!.referenceAnswer!.ru);
+        if (practice.kind === 'written') expect(practice.solution).toBe(practice.referenceAnswer!.ru);
         expect(lesson.questions.length).toBeGreaterThan(0);
         for (const question of lesson.questions) {
           expect(questionIds.has(question.id)).toBe(false);
@@ -64,7 +71,7 @@ describe('original general-education modules', () => {
         }
       }
     }
-    expect(lessonCount).toBe(108);
+    expect(lessonCount).toBe(136);
   });
 
   it('applied Pro cases are distinct from free introductions and include intermediate days', async () => {
