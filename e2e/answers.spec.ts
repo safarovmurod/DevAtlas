@@ -19,6 +19,8 @@ import quiz from '../src/content/imported/quiz.json';
 const slow = expect.configure({ timeout: 20000 });
 
 test('answers library filters, searches, exports and preserves reading progress and notes', async ({ page }, testInfo) => {
+  // The regression walks many dev-mode pages; CI runners exceed the 30s default.
+  test.setTimeout(90000);
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/answers');
