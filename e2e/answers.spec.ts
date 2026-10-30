@@ -81,7 +81,10 @@ test('merged answers preserve old reading marks and notes and open from their ot
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/answers');
   await slow(page.getByRole('heading', { name: 'Ответы и интервью', exact: true })).toBeVisible();
-  await page.evaluate(() => {
+  // Seed the old mark through an init script: a mid-session evaluate can be
+  // overwritten by the app's own state flush during the next navigation,
+  // which raced the alias-merge assertion on slow CI runners.
+  await page.addInitScript(() => {
     const key = 'react-mentor-learning-v2';
     const stored = JSON.parse(localStorage.getItem(key)!);
     stored.state.studied = ['interview-q13'];
