@@ -63,10 +63,14 @@ test('plan filters show real premium cards while guest requests cannot read paid
 });
 
 test('written business practice saves a real response without Monaco and confirms the next day',async({page})=>{
+  // The lesson→practice hand-off is a client-side navigation; on a cold CI
+  // browser the route can take longer than the default 5s expect timeout.
+  const slow=expect.configure({timeout:20000});
+  test.setTimeout(90000);
   await page.goto('/courses/business-foundations/home?day=1');
   await page.getByRole('button',{name:'Прочитал и понял',exact:true}).click();
   await page.getByRole('link',{name:'Практика этого дня',exact:true}).click();
-  await expect(page).toHaveURL('/practice?course=business-foundations&day=1');
+  await slow(page).toHaveURL('/practice?course=business-foundations&day=1');
   await expect(page.locator('.monaco-editor')).toHaveCount(0);
   await expect(page.locator('.learning-code-editor')).toHaveCount(0);
   const response='Клиент: владелец небольшой кофейни. Задача: заранее учитывать остатки молока. Предложение: простой ежедневный список. Предположение: список уменьшит срочные закупки. Проверка: сравнить записи двух рабочих дней без сбора персональных данных.';
@@ -86,6 +90,6 @@ test('written business practice saves a real response without Monaco and confirm
   const next=await page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state.courses['business-foundations']);
   expect(next.awards).toEqual(progress.awards);
   await page.getByRole('link',{name:/Следующий день 2/}).click();
-  await expect(page).toHaveURL('/courses/business-foundations/home?day=2');
+  await slow(page).toHaveURL('/courses/business-foundations/home?day=2');
   await expect(page.locator('.course-lesson h2')).toBeVisible();
 });
