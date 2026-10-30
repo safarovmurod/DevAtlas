@@ -103,6 +103,8 @@ test('signup explains a temporary email quota and allows retry (mock backend)',a
 });
 
 test('first name, private notes and profile survive login, account switching and reload (mock backend)',async ({page})=>{
+  // Long multi-page regression; CI runners exceed the 30s default test cap.
+  test.setTimeout(90000);
   const backend=await mockBackend(page);await page.goto('/home');await login(page);await firstName(page,'Мансур');
   await page.goto('/home');await expect(page.locator('.dashboard-heading p')).toContainText('Мансур');
   await page.goto('/notes');await page.getByRole('button',{name:'Новая заметка',exact:true}).click();await page.getByLabel('Название',{exact:true}).fill('Личная заметка A');await page.getByLabel('Текст',{exact:true}).fill('Только аккаунт A');await page.getByRole('button',{name:'Сохранить',exact:true}).click();
@@ -115,7 +117,7 @@ test('first name, private notes and profile survive login, account switching and
 });
 
 test('remembered login survives closing the browser, refreshes expired access and respects logout (mock backend)',async ({},info)=>{
-  test.setTimeout(60000);
+  test.setTimeout(90000);
   const directory=await mkdtemp(join(tmpdir(),'react-mentor-remembered-login-'));
   let context:BrowserContext|undefined;const pageErrors:string[]=[];
   async function open(previous?:MockServerState){
