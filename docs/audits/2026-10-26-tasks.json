@@ -686,7 +686,9 @@
       "validation": [
         "Targeted Vitest: tests/digital-marketing-course.test.ts (3), general-course-content (5), catalog-copy (3), course-taxonomy (8), learning-flow, stage-coverage passed",
         "Reference solutions of all 5 executable days verified against their declared cases; schema validation via courseContentSchema: 30 lessons OK; RU theory avg 206 words (min 179); questions/day 5.0; stale-copy 0",
-        "npm typecheck, lint and build passed; coverage-matrix and delivery-report --check at 1034 published days; CI and main verification pending until PR merge"
+        "PR #24 CI: after stabilizing the legacy browser regressions (production-server e2e in CI, per-file expect waits, init-script seeding, CI retries), all six checks passed on head dfa4474: https://github.com/safarovmurod/DevAtlas/pull/24",
+        "Merged as 8437b3b; two Windows Node 22 jobs flaked on the same marginal assertion and the init-script seeding fix landed on main as 8214281 with a fully green main CI run (5/5 jobs)",
+        "Local verification: full Vitest 459 passed/9 skipped; Playwright e2e 114/114 twice (dev and production server); mock-auth 12/12"
       ],
       "changedFiles": [
         "src/content/courses/digital-marketing.json",
@@ -699,7 +701,9 @@
         "docs/coverage-matrix.json",
         "docs/SELF_LEARNING_CONTENT_AUDIT.md",
         "docs/delivery-state.json"
-      ]
+      ],
+      "commit": "8437b3bdb20f78eb2fed142f07f3a45de4de6ff1 (merge); follow-up test fix 8214281",
+      "pullRequest": "https://github.com/safarovmurod/DevAtlas/pull/24"
     },
     {
       "id": "expand-data-analytics",
