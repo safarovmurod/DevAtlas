@@ -11,7 +11,7 @@ const introductions = [
 ] as const;
 const applied = ['ux-pro', 'business-pro'] as const;
 const appliedDays = { 'ux-pro': 30, 'business-pro': 30 } as Record<string, number>;
-const starterDays = { 'ux-design': 30, 'digital-marketing': 30, 'data-analytics': 30 } as Record<string, number>;
+const starterDays = { 'ux-design': 30, 'digital-marketing': 30, 'data-analytics': 30, 'business-foundations': 30 } as Record<string, number>;
 async function content(id: string) {
   const file = await readFile(path.join(process.cwd(), 'src/content/courses', `${id}.json`), 'utf8');
   return courseContentSchema.parse(JSON.parse(file));
@@ -76,7 +76,7 @@ describe('original general-education modules', () => {
         }
       }
     }
-    expect(lessonCount).toBe(164);
+    expect(lessonCount).toBe(192);
   });
 
   it('applied Pro cases are distinct from free introductions and include intermediate days', async () => {
