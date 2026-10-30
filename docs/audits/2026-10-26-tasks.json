@@ -719,7 +719,10 @@
       "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
       "validation": [
         "Targeted Vitest: tests/data-analytics-course.test.ts (4), general-course-content (5), stage-coverage, learning-flow passed; 78 test files, 464 tests green locally",
-        "Reference solutions of all 5 executable days verified against their declared cases in Node (34/34); typecheck, lint, production build, coverage-matrix/delivery-report/audit-backlog all clean; snapshot 1034 -> 1062 published days"
+        "Reference solutions of all 5 executable days verified against their declared cases in Node (34/34); typecheck, lint, production build, coverage-matrix/delivery-report/audit-backlog all clean; snapshot 1034 -> 1062 published days",
+        "PR #25 CI: all six checks passed on head 1160d94 (https://github.com/safarovmurod/DevAtlas/pull/25); merged as 3c41a2a",
+        "Main CI on 3c41a2a: one Windows pwsh Node 24 job flaked on the legacy written-business-practice navigation (default 5s toHaveURL after a client-side link click), fixed systemically by PR #26 (20s navigation waits, 90s body budget, no assertion weakened); merged as 30a26e7",
+        "Main CI green on 30a26e7: all five CI jobs success (Lint/Typecheck/Test/Build + four Windows browser jobs)"
       ],
       "changedFiles": [
         "src/content/courses/data-analytics.json",
@@ -731,7 +734,9 @@
         "docs/coverage-matrix.json",
         "docs/SELF_LEARNING_CONTENT_AUDIT.md",
         "docs/delivery-state.json"
-      ]
+      ],
+      "commit": "1160d94 (PR head); merge 3c41a2a; flake fix 1e747b0, main merge 30a26e7",
+      "pullRequest": "https://github.com/safarovmurod/DevAtlas/pull/25; stabilization https://github.com/safarovmurod/DevAtlas/pull/26"
     },
     {
       "id": "expand-business-foundations",
