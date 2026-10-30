@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/coverage-matrix.mjs`. Validate without writing: `node scripts/coverage-matrix.mjs --check`.
 
-38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1034 actual scheduled days.
+38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1062 actual scheduled days.
 
 Missing: 72 · Planned: 0 · In Progress: 0 · Published: 42 · Verified: 0
 
@@ -97,7 +97,7 @@ Published describes existing curriculum availability, not completion of the stri
 | Digital Marketing (digital-marketing) | beginner | Published | digital-marketing | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Digital Marketing (digital-marketing) | pro | Missing | — | 0 | digital-marketing-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Digital Marketing (digital-marketing) | expert | Missing | — | 0 | digital-marketing-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| Data Analytics (data-analytics) | beginner | Published | data-analytics | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| Data Analytics (data-analytics) | beginner | Published | data-analytics | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Data Analytics (data-analytics) | pro | Missing | — | 0 | data-analytics-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Data Analytics (data-analytics) | expert | Missing | — | 0 | data-analytics-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Business (business) | beginner | Published | business-foundations | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |

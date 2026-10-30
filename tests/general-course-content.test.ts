@@ -11,7 +11,7 @@ const introductions = [
 ] as const;
 const applied = ['ux-pro', 'business-pro'] as const;
 const appliedDays = { 'ux-pro': 30, 'business-pro': 30 } as Record<string, number>;
-const starterDays = { 'ux-design': 30, 'digital-marketing': 30 } as Record<string, number>;
+const starterDays = { 'ux-design': 30, 'digital-marketing': 30, 'data-analytics': 30 } as Record<string, number>;
 async function content(id: string) {
   const file = await readFile(path.join(process.cwd(), 'src/content/courses', `${id}.json`), 'utf8');
   return courseContentSchema.parse(JSON.parse(file));
@@ -40,9 +40,14 @@ describe('original general-education modules', () => {
         expect(lesson.sections.every(section => section.code === undefined && section.language === undefined)).toBe(true);
         const practice = lesson.practice!;
         if (practice.kind === 'code') {
-          // Executable practice is Auto Verified: the machine, not the author, confirms it.
-          expect(practice.execution).toBeDefined();
-          expect(practice.execution!.tests.length).toBeGreaterThanOrEqual(3);
+          if (practice.execution) {
+            // Executable practice is Auto Verified: the machine, not the author, confirms it.
+            expect(practice.execution.tests.length).toBeGreaterThanOrEqual(3);
+          } else {
+            // Local-SQL workflow days: the solution runs in the course's local SQL
+            // tool rather than the JavaScript engine, so no JS execution is declared.
+            expect(practice.solution).toMatch(/\bSELECT\b/);
+          }
         } else {
           expect(practice.kind).toBe('written');
           expect(practice.referenceAnswer).toBeDefined();
@@ -71,7 +76,7 @@ describe('original general-education modules', () => {
         }
       }
     }
-    expect(lessonCount).toBe(136);
+    expect(lessonCount).toBe(164);
   });
 
   it('applied Pro cases are distinct from free introductions and include intermediate days', async () => {
