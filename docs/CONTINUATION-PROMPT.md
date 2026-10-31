@@ -2,7 +2,7 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `99dee7c7b85cd1dbad89e16b1af80d8904dea9cd`. Фактический каталог: 43 IDs, 38 направлений, 1090 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `99dee7c7b85cd1dbad89e16b1af80d8904dea9cd`. Фактический каталог: 43 IDs, 38 направлений, 1118 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
@@ -18,7 +18,6 @@ HTML day 1: optional learningFlow, восемь типов вопросов, д�
 
 ## Обязательные незавершённые программы
 
-- communication: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - content-creation: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - english-foundations: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
 - digital-literacy: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.

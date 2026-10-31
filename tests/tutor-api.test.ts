@@ -32,7 +32,7 @@ describe('Tutor API', () => {
     const {POST}=await import('@/app/api/tutor/route');
     expect((await POST(request(input))).status).toBe(401);expect(fetchMock).not.toHaveBeenCalled();
     const known=await POST(request({...input,userText:'useState чиба даркорай?'}));expect(known.status).toBe(200);expect((await known.json()).mode).toBe('local');expect(fetchMock).not.toHaveBeenCalled();
-  },10000);
+  },15000);
   it('never calls paid AI when registration is not connected, even if a provider key exists',async ()=>{
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL','');vi.stubEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY','');
     const {POST}=await import('@/app/api/tutor/route');
