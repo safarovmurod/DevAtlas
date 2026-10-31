@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `d5ed179175d3f524ec1d14956ff44ff98164467e`. Фактический каталог: 43 IDs, 38 направлений, 1090 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `99dee7c7b85cd1dbad89e16b1af80d8904dea9cd`. Фактический каталог: 43 IDs, 38 направлений, 1090 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Complete Mobile Beginner in order after the verified Backend merges. Preserve mobile-day-01/02 and their progress; verify Expo compatibility and report native SDK blockers honestly.
+Следующее действие по сохранённому состоянию: Complete the remaining two-day Beginner courses in registry order: expand-communication (2->30) next, then content-creation, english-foundations (42), digital-literacy, personal-productivity (22), management-foundations. Preserve each course's original day-01/02 IDs, quizzes and progress.
 
 ## Что сохранить
 
