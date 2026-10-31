@@ -742,14 +742,35 @@
       "id": "expand-business-foundations",
       "priority": "P1",
       "title": "Finish short course: business-foundations",
-      "status": "PARTIAL",
+      "status": "DONE",
       "evidence": [
-        "30 authored days complete locally on branch feat/business-foundations-beginner-course (PR #27, head 257454b): 150 RU/TG/EN questions, 4 executable Auto Verified days (contribution/breakEven/unitEconomics/monthSalesNeeded, 28 cases verified in Node), 26 written Self Reviewed days; original day-01/02 IDs and quiz concepts preserved",
-        "Local gates measured green: typecheck, lint, 79 test files / 467 tests, production build, coverage-matrix/delivery-report/audit-backlog; snapshot 1062->1090; stale two-day copy removed from day-01 summaries (course-audit scan)",
-        "CI BLOCKED (external): GitHub Actions returns 'The job was not started because recent account payments have failed or your spending limit needs to be increased' on every job — billing failure on the account, not a code failure. Retried via rerun-failed-jobs on 2026-10-31 (run 41138158064 attempt 2): same billing error. Merge on hold until CI can run; only the account owner can fix Settings → Billing & plans."
+        "30 authored published days delivered to main 1ddc7fc by direct push per the owner's explicit permission (PR #27 auto-marked merged by GitHub: head commits became ancestors of main); original day-01/02 IDs, practices and quiz concepts preserved (pinned day-2 price-15 model)",
+        "150 RU/TG/EN questions (5 per day); 4 executable Auto Verified days (contribution, breakEven, unitEconomics, monthSalesNeeded) with 28 declared cases verified against reference solutions in Node including zero-margin and invalid-input edges; 26 written Self Reviewed days on one canonical fictional scenario (margin 3.5, break-even 1 sale, the 4/10 price pair, plan [13,13,13] for three months); no real payments or personal data anywhere",
+        "Full learning flow on every day, assessmentMode local-only; day 30 ends the course with nextLessonId null; stale two-day copy removed from day-01 summaries (course-audit stale-copy scan)",
+        "Local verification measured on the delivered tree: typecheck 0 errors, lint 0 errors, 79 test files / 467 unit tests passed, production build passed, Playwright E2E 114/114, mock-auth regressions 12/12, coverage-matrix/delivery-report/audit-backlog clean; snapshot 1062->1090 published days; one marginal test-stability fix (tutor-api 5s->10s under full parallel load, no assertion weakened)",
+        "GitHub Actions CI remains BLOCKED (external billing): 'The job was not started because recent account payments have failed or your spending limit needs to be increased' on every job (run 41138158064 attempts 1-2); CI is NOT claimed green; local verification above is the recorded evidence base"
       ],
       "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
-      "validation": []
+      "validation": [
+        "Targeted Vitest: tests/business-foundations-course.test.ts (3), general-course-content (5), stage-coverage, learning-flow, course-audit, tutor-api passed",
+        "Reference solutions of all 4 executable days verified against their declared cases in Node (28/28); schema validation via courseContentSchema: 30 lessons OK",
+        "Full local battery on the delivered tree: typecheck 0, lint 0, 79 test files / 467 tests passed, production build passed, Playwright E2E 114/114, mock-auth 12/12",
+        "Direct push to main verified via GitHub API: branch main at 1ddc7fc0 contains business-foundations.json with 30 lessons / 150 questions / catalog publishedDays 30; PR #27 auto-closed as merged (merge_commit 6381c71b)",
+        "GitHub Actions CI BLOCKED (billing): not claimed green; recorded as the externally blocked check per the owner's direct-push authorization"
+      ],
+      "changedFiles": [
+        "src/content/courses/business-foundations.json",
+        "src/content/courses/catalog.ts",
+        "src/lib/catalog-copy.ts",
+        "tests/business-foundations-course.test.ts",
+        "tests/general-course-content.test.ts",
+        "tests/stage-coverage.test.ts",
+        "tests/tutor-api.test.ts",
+        "docs/coverage-matrix.json",
+        "docs/delivery-state.json"
+      ],
+      "commit": "branch head 00a147d; merge commit 1ddc7fc on main (direct push per owner permission)",
+      "pullRequest": "https://github.com/safarovmurod/DevAtlas/pull/27 (auto-marked merged by the direct push)"
     },
     {
       "id": "expand-communication",
