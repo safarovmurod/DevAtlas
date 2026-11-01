@@ -150,10 +150,21 @@
   --text-inverse: #f8fafc;
   --accent: #365be7;
   --accent-solid: #365be7;
+  --accent-solid-hover: #2949c9;
   --primary: var(--accent);
   --primary-hover: #2949c9;
   --primary-soft: #edf2ff;
   --brand-gradient: linear-gradient(135deg, #365be7, #6d5cf0);
+  --cat-programming: #365be7; --cat-programming-tint: #edf2ff;
+  --cat-design: #9b56bd; --cat-design-tint: #f5ebfb;
+  --cat-marketing: #c56635; --cat-marketing-tint: #fff0e5;
+  --cat-analytics: #21876e; --cat-analytics-tint: #e7f6ef;
+  --cat-business: #386aaf; --cat-business-tint: #edf3fc;
+  --cat-soft-skills: #bc5f87; --cat-soft-skills-tint: #fcecf3;
+  --cat-content: #8c6bb7; --cat-content-tint: #f2ecfa;
+  --cat-languages: #397e9f; --cat-languages-tint: #eaf5fb;
+  --cat-kids: #b68a2a; --cat-kids-tint: #fff7df;
+  --cat-lifestyle: #64894c; --cat-lifestyle-tint: #edf5e9;
   --success: #10b981;
   --success-soft: #ecfdf5;
   --success-border: #a7f3d0;
@@ -392,7 +403,7 @@ a { color: inherit; }
 .button:active { transform: scale(0.99); }
 .button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .button.primary { background: var(--accent-solid); color: #ffffff; }
-.button.primary:hover:not(:disabled) { background: #2949c9; }
+.button.primary:hover:not(:disabled) { background: var(--accent-solid-hover); }
 .button.subtle { background: var(--card); color: var(--text); border-color: var(--border); }
 .button.subtle:hover:not(:disabled) { background: #f8fafc; border-color: var(--border-strong); }
 .button.full-width { width: 100%; }
@@ -1194,7 +1205,7 @@ select { cursor: pointer; }
 .category-reset {display:inline-flex;align-items:center;gap:8px;background:transparent;border:0;color:var(--text-muted);font:inherit;font-size:12px;cursor:pointer;padding:8px 0;}
 .category-reset.is-active {color:var(--primary);font-weight:650;}
 .category-grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
-.category-card {--category-color:#365be7;--category-tint:#edf2ff;display:flex;align-items:flex-start;flex-direction:column;gap:15px;padding:19px 16px 17px;min-width:0;position:relative;text-align:left;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:15px;cursor:pointer;transition:none;font:inherit;}
+.category-card {--category-color:var(--cat-programming);--category-tint:var(--cat-programming-tint);display:flex;align-items:flex-start;flex-direction:column;gap:15px;padding:19px 16px 17px;min-width:0;position:relative;text-align:left;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:15px;cursor:pointer;transition:none;font:inherit;}
 .category-card:hover {border-color:color-mix(in srgb,var(--category-color) 55%,var(--border));box-shadow:0 9px 24px -18px #162d5f55;}
 .category-card.is-active {border-color:var(--category-color);box-shadow:inset 0 0 0 1px var(--category-color);background:color-mix(in srgb,var(--category-tint) 50%,var(--card));}
 .category-icon {display:grid;place-items:center;width:42px;height:42px;flex:none;border-radius:12px;background:var(--category-tint);color:var(--category-color);}
@@ -1204,15 +1215,15 @@ select { cursor: pointer; }
 .category-text small {font-size:12px;line-height:1.5;color:var(--text-muted);}
 .category-chevron {position:absolute;top:21px;right:12px;color:var(--border-strong);}
 .category-card.is-active .category-chevron {color:var(--category-color);}
-[data-category=design] {--category-color:#9b56bd;--category-tint:#f5ebfb;}
-[data-category=marketing] {--category-color:#c56635;--category-tint:#fff0e5;}
-[data-category=analytics] {--category-color:#21876e;--category-tint:#e7f6ef;}
-[data-category=business] {--category-color:#386aaf;--category-tint:#edf3fc;}
-[data-category=soft-skills] {--category-color:#bc5f87;--category-tint:#fcecf3;}
-[data-category=content] {--category-color:#8c6bb7;--category-tint:#f2ecfa;}
-[data-category=languages] {--category-color:#397e9f;--category-tint:#eaf5fb;}
-[data-category=kids] {--category-color:#b68a2a;--category-tint:#fff7df;}
-[data-category=lifestyle] {--category-color:#64894c;--category-tint:#edf5e9;}
+[data-category=design] {--category-color:var(--cat-design);--category-tint:var(--cat-design-tint);}
+[data-category=marketing] {--category-color:var(--cat-marketing);--category-tint:var(--cat-marketing-tint);}
+[data-category=analytics] {--category-color:var(--cat-analytics);--category-tint:var(--cat-analytics-tint);}
+[data-category=business] {--category-color:var(--cat-business);--category-tint:var(--cat-business-tint);}
+[data-category=soft-skills] {--category-color:var(--cat-soft-skills);--category-tint:var(--cat-soft-skills-tint);}
+[data-category=content] {--category-color:var(--cat-content);--category-tint:var(--cat-content-tint);}
+[data-category=languages] {--category-color:var(--cat-languages);--category-tint:var(--cat-languages-tint);}
+[data-category=kids] {--category-color:var(--cat-kids);--category-tint:var(--cat-kids-tint);}
+[data-category=lifestyle] {--category-color:var(--cat-lifestyle);--category-tint:var(--cat-lifestyle-tint);}
 .programming-filters {margin:0 0 30px;padding:18px 20px;background:color-mix(in srgb,var(--well) 65%,var(--card));border:1px solid var(--border);border-radius:14px;}
 .programming-filters>span {display:block;color:var(--text-muted);font-size:12px;font-weight:600;margin-bottom:12px;}
 .subtrack-filters {display:flex;gap:7px;flex-wrap:wrap;}
@@ -1224,7 +1235,7 @@ select { cursor: pointer; }
 .catalog-groups {display:flex;flex-direction:column;gap:34px;}
 .catalog-course-group {min-width:0;}
 .catalog-group-heading {display:flex;align-items:center;gap:11px;margin:0 0 16px;}
-.group-category-icon {width:35px;height:35px;flex:none;display:grid;place-items:center;color:var(--category-color,#365be7);background:var(--category-tint,#edf2ff);border-radius:10px;}
+.group-category-icon {width:35px;height:35px;flex:none;display:grid;place-items:center;color:var(--category-color,var(--cat-programming));background:var(--category-tint,var(--cat-programming-tint));border-radius:10px;}
 .catalog-group-heading h2 {font-size:17px;line-height:1.4;letter-spacing:-.025em;}
 .group-parent-category {display:block;font-size:12px;color:var(--text-muted);margin-bottom:3px;}
 .group-course-count {margin-left:auto;flex:none;color:var(--text-muted);font-size:12px;background:var(--well);padding:5px 8px;border-radius:6px;}
