@@ -74,3 +74,16 @@ test('lessons have an ordering game and practice blocks large pastes', async ({ 
   expect(value).not.toContain('Copied answer');
   await page.screenshot({ path: testInfo.outputPath('paste-guard.png') });
 });
+
+test('catalog filters by start level and course length', async ({ page }, testInfo) => {
+  const { COURSE_CATALOG } = await import('../src/content/courses/catalog');
+  const listed = COURSE_CATALOG.filter(course => course.id !== 'javascript-2');
+  await page.goto('/courses');
+  await expect(page.locator('.course-card')).toHaveCount(listed.length);
+  await page.getByRole('button', { name: 'Аз сифр', exact: true }).click();
+  await expect(page.locator('.course-card')).toHaveCount(listed.filter(course => !course.prerequisite).length);
+  await page.getByRole('button', { name: 'То 14 рӯз', exact: true }).click();
+  const expected = listed.filter(course => !course.prerequisite && (course.publishedDays ?? 0) <= 14).length;
+  await expect(page.locator('.course-card')).toHaveCount(expected);
+  await page.locator('.course-extra-filters').screenshot({ path: testInfo.outputPath('catalog-filters.png') });
+});

@@ -64,7 +64,7 @@ test('returning learner opens only the current lesson, preserves manual practice
  },{ids:prior});
  await page.goto('/courses/html/plan');await expect(page.locator('.day-card')).toHaveCount(30);
  await page.getByRole('link',{name:/День 15.*Flexbox/}).click();await expect(page).toHaveURL('/courses/html/home?day=15');
- await expect(page.locator('.course-lesson')).toHaveCount(1);await expect(page.locator('.course-lesson h2')).toHaveText('Flexbox: меню из прошлых уроков');await expect(page.locator('.lesson-connections')).toContainText('День 3');
+ await expect(page.locator('.course-lesson')).toHaveCount(1);await expect(page.locator('.course-lesson h2')).toHaveText('Flexbox: меню аз дарсҳои гузашта');await expect(page.locator('.lesson-connections')).toContainText('День 3');
  await page.getByRole('button',{name:'Прочитал и понял',exact:true}).click();
  await page.getByRole('link',{name:'Практика этого дня',exact:true}).click();await expect(page).toHaveURL('/practice?course=html&day=15');
  await replaceDocument(page,'<h1>Мой результат</h1><style>h1{color:purple}</style>');await page.getByRole('button',{name:'Показать HTML + CSS'}).click();await expect(page.frameLocator('.html-preview').getByRole('heading',{name:'Мой результат'})).toBeVisible();
@@ -73,7 +73,7 @@ test('returning learner opens only the current lesson, preserves manual practice
  await page.getByRole('button',{name:'Подтвердить завершение дня',exact:true}).click();
  await page.goto('/courses/html/tests?day=15');const lesson=html.lessons.find(l=>l.id==='html-day-15')!;const tests=page.locator('.course-question').first();await tests.getByRole('radio',{name:lesson.questions[0].options[lesson.questions[0].correctIndex].tg,exact:true}).check();await tests.getByRole('button',{name:'Проверить',exact:true}).click();await expect(tests.getByRole('status')).toHaveText('Верно');
  await expect(page.getByRole('heading',{name:'1. Тесты'})).toBeVisible();await expect(page.getByRole('heading',{name:'2. Интервью'})).toBeVisible();await page.reload();await expect(page.locator('.course-question').first().getByRole('status')).toHaveText('Верно');
- const state=await page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);expect(state.courses.html.awards).toMatchObject({'lesson:html-day-15':5,'practice:html-day-15':4,'test:html-day-15-q':10});expect(state.awards).toEqual({});
+ const state=await page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);expect(state.courses.html.awards).toMatchObject({'lesson:html-day-15':5,'practice:html-day-15':4,['test:'+lesson.questions[0].id]:10});expect(state.awards).toEqual({});
  await page.goto('/courses/html/plan?day=15');await expect(page.locator('.day-card.is-done')).toHaveCount(15);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path: testInfo.outputPath('plan.png')});expect(errors).toEqual([]);
 });
 test('CSS is a full standalone course and the Sass library lessons stay readable',async ({page})=>{
