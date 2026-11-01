@@ -52,6 +52,13 @@ jobs:
         run: npx playwright test e2e/courses.spec.ts --project=desktop --grep 'returning learner' --retries=0
         env:
           PLAYWRIGHT_PROD_SERVER: 'true'
+      - name: Check design interactions
+        if: matrix.version == 'after'
+        continue-on-error: true
+        working-directory: app
+        run: npx playwright test e2e/design-upgrade.spec.ts --project=desktop --project=mobile --retries=0 --max-failures=0
+        env:
+          PLAYWRIGHT_PROD_SERVER: 'true'
       - name: Capture screens
         working-directory: app
         env:
