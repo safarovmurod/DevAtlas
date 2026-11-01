@@ -235,3 +235,30 @@ test('sidebar navigation works when view transitions are unavailable',async({pag
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test('six interface languages fit key mobile pages',async({page},testInfo)=>{
+  test.skip(testInfo.project.name!=='mobile','Mobile-only locale layout coverage.');
+  test.setTimeout(180000);
+  const routes=['/','/login','/home','/courses','/practice','/settings','/plans','/community','/privacy','/terms'];
+  const issues:Array<{locale:string;route:string;viewport:number;width:number}>=[];
+  await page.goto('/');
+  for(const locale of ['ru','uk','en','tg','ja','ko']) {
+    await page.context().addCookies([{name:'react-mentor-locale',value:locale,url:'http://127.0.0.1:3100'}]);
+    await page.evaluate(language=>{
+      const contentLanguage=language==='ru'?'ru':language==='tg'?'tg':'en';
+      localStorage.setItem('react-mentor-learning-v2',JSON.stringify({version:2,state:{language,contentLanguage,theme:'light'}}));
+      localStorage.setItem('devatlas-theme','light');
+    },locale);
+    for(const route of routes) {
+      await page.goto(route);
+      await expect(page.locator('h1').first()).toBeVisible();
+      await expect(page.locator('html')).toHaveAttribute('lang',locale);
+      for(const width of [320,390]) {
+        await page.setViewportSize({width,height:844});
+        const layout=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth}));
+        if(layout.width>layout.viewport)issues.push({locale,route,...layout});
+      }
+    }
+  }
+  expect(issues).toEqual([]);
+});
