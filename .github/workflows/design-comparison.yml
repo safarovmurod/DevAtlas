@@ -45,6 +45,13 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ''
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ''
+      - name: Diagnose course plan overflow
+        if: matrix.version == 'after'
+        continue-on-error: true
+        working-directory: app
+        run: npx playwright test e2e/courses.spec.ts --project=desktop --grep 'returning learner' --retries=0
+        env:
+          PLAYWRIGHT_PROD_SERVER: 'true'
       - name: Capture screens
         working-directory: app
         env:
