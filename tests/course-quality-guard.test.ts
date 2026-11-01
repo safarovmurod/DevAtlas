@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
  * Courses still awaiting a rewrite are listed explicitly; remove an id from
  * this list when its rewrite lands so the guard covers it from then on.
  */
-const AWAITING_REWRITE = new Set(['javascript-2', 'git', 'cpp']);
+const AWAITING_REWRITE = new Set(['git', 'cpp']);
 const MARKERS = [
   'Как объяснить тему',
   'Достаточно скопировать код, не проверяя результат',
@@ -58,5 +58,15 @@ describe('JavaScript-1 practice', () => {
     expect(graded).toEqual([...Array.from({ length: 24 }, (_, index) => index + 1), 30]);
     for (const lesson of scheduled) expect(lesson.questions.length, lesson.id).toBeGreaterThanOrEqual(3);
     expect(js.files).toEqual([]);
+  });
+});
+
+describe('JavaScript-2 practice', () => {
+  it('auto-grades the code-only days and keeps three questions per day', async () => {
+    const js = JSON.parse((await courses()).find(course => course.id === 'javascript-2')!.text);
+    const scheduled = js.lessons.filter((lesson: { day?: number }) => lesson.day);
+    const graded = scheduled.filter((lesson: { practice: { execution?: unknown } }) => lesson.practice.execution).map((lesson: { day: number }) => lesson.day);
+    expect(graded).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 27, 30]);
+    for (const lesson of scheduled) expect(lesson.questions.length, lesson.id).toBeGreaterThanOrEqual(3);
   });
 });
