@@ -1,3 +1,5 @@
+
+import { PageTransition } from '@/components/layout/page-transition';
 import {AssessmentHub} from '@/components/learning/assessment-hub';
 import {CourseWorkspace} from '@/components/courses/course-workspace';
 import {isCourseId} from '@/lib/courses/ids';
@@ -12,7 +14,7 @@ export default async function Page({searchParams}:{searchParams:Promise<Record<s
   if(Array.isArray(params.day))notFound();
   const day=params.day!==undefined?Number(params.day):undefined;
   if(day!==undefined&&(!Number.isInteger(day)||day<1||day>coursePublishedDays(params.course)))notFound();
-  return <CourseWorkspace key={params.course+day} courseId={params.course} section="tests" day={day} initialContent={courseAccessTier(params.course)==='starter'?await loadCourseContent(params.course):undefined}/>;
+  return <PageTransition><CourseWorkspace key={params.course+day} courseId={params.course} section="tests" day={day} initialContent={courseAccessTier(params.course)==='starter'?await loadCourseContent(params.course):undefined}/></PageTransition>;
  }
- return <AssessmentHub params={params}/>;
+ return <PageTransition><AssessmentHub params={params}/></PageTransition>;
 }

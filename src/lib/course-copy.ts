@@ -1,5 +1,9 @@
 import type { InterfaceLocale } from './locale';
 
+export const COURSE_MATERIAL_LABEL:Record<InterfaceLocale,string> = {
+  ru:'Материал', uk:'Матеріал', en:'Material', tg:'Мавод', ja:'教材', ko:'자료',
+};
+
 export function courseDayCount(count:number,locale:InterfaceLocale){
   const plural=new Intl.PluralRules(locale).select(count);
   if(locale==='ru')return `${count} ${plural==='one'?'день':plural==='few'?'дня':'дней'}`;

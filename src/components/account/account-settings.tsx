@@ -56,9 +56,9 @@ export function AccountSettings() {
       await account.syncNow();setMessage('guestImported');
     } catch {setError('guestImportError');}
   }
-  if (!account.user) return <section className="panel account-panel"><div className="section-heading"><h2>{copy.account}</h2><span className="account-badge">{copy.guestMode}</span></div><p>{copy.guestDescription}</p><Link className="button primary" href="/login">{copy.guestLogin}</Link></section>;
+  if (!account.user) return <section id="account-profile" className="panel account-panel"><div className="section-heading"><h2>{copy.account}</h2><span className="account-badge">{copy.guestMode}</span></div><p>{copy.guestDescription}</p><Link className="button primary" href="/login">{copy.guestLogin}</Link></section>;
   return <>
-    <section className="panel account-panel"><div className="section-heading"><h2>{copy.profile}</h2><span className="account-badge">{copy.account}</span></div>
+    <section id="account-profile" className="panel account-panel"><div className="section-heading"><h2>{copy.profile}</h2><span className="account-badge">{copy.account}</span></div>
       <div className="account-profile"><AccountAvatar/><div><strong>{account.profile?.displayName}</strong><p>{account.user.email}</p></div></div>
       <form className="account-form profile-form" onSubmit={save}><label>{copy.name}<input autoComplete="name" required minLength={2} maxLength={60} value={name} onChange={e=>setName(e.target.value)}/></label><button className="button primary" disabled={busy || name.trim().length<2}>{copy.saveName}</button></form>
       <div className="button-row"><label className={'button subtle upload-button '+(busy ? 'is-disabled':'')}><Camera size={17}/>{busy ? copy.wait:copy.addPhoto}<input type="file" aria-label={copy.addPhoto} accept="image/jpeg,image/png,image/webp" disabled={busy} onChange={e=>{void upload(e.target.files?.[0]);e.target.value='';}}/></label>{account.profile?.avatarPath && <button className="button subtle" disabled={busy} onClick={removePhoto}>{copy.removePhoto}</button>}</div><p className="account-hint">{copy.photoHint}</p>

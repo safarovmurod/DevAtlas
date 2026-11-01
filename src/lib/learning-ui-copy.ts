@@ -2,6 +2,15 @@ import type { InterfaceLocale } from './locale';
 import { JAPANESE_LEARNING_COPY } from './locales/ja';
 import { KOREAN_LEARNING_COPY } from './locales/ko';
 
+export const COPY_CODE_ERROR:Record<InterfaceLocale,string> = {
+  ru:'Не удалось скопировать. Выделите код вручную.',
+  en:'Could not copy. Select the code manually.',
+  tg:'Нусхабардорӣ нашуд. Кодро дастӣ интихоб кунед.',
+  uk:'Не вдалося скопіювати. Виділіть код вручну.',
+  ja:'コピーできませんでした。コードを手動で選択してください。',
+  ko:'복사하지 못했습니다. 코드를 직접 선택해 주세요.',
+};
+
 // Interface text is independent of the language selected for authored lessons
 // and Tutor replies. This dictionary does not imply course translation coverage.
 const ru = {
