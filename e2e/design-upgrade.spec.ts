@@ -23,6 +23,10 @@ test('landing exposes the real catalog and usable navigation on desktop and mobi
       return {tag:element.tagName,className:String(element.className),left:Math.round(rect.left),right:Math.round(rect.right),position:style.position,overflow:style.overflow};
     }).filter(item=>item.right>innerWidth+1).slice(0,30)}));
     expect(layout.width,JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);
+    if(width===320) {
+      await expect(page.locator('.public-header').getByRole('link',{name:'Начать обучение',exact:true})).toBeInViewport({ratio:1});
+      await expect(page.locator('.public-header').getByRole('button',{name:'Открыть меню'})).toBeInViewport({ratio:1});
+    }
   }
   await page.setViewportSize({width:390,height:844});
   const trigger=page.getByRole('button',{name:'Открыть меню'});

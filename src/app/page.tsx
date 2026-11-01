@@ -31,7 +31,7 @@ export default async function Page() {
   const copy=PUBLIC_COPY[locale], studio=STUDIO_COPY[locale], landing=LANDING_COPY[locale], membership=MEMBERSHIP_COPY[locale];
   // Match the catalog: JavaScript's second month is reached through its first card.
   const courses=COURSE_CATALOG.filter(course=>course.id!=='javascript-2');
-  const headerCopy={directions:landing.directions,how:landing.how,plans:landing.plans,questions:landing.questions,signIn:landing.signIn,openMenu:landing.openMenu,closeMenu:landing.closeMenu,start:copy.start,platform:landing.footerPlatform};
+  const headerCopy={directions:landing.directions,how:landing.how,plans:landing.plans,questions:landing.questions,signIn:landing.signIn,openMenu:landing.openMenu,closeMenu:landing.closeMenu,start:copy.start,startShort:landing.startShort,platform:landing.footerPlatform};
   return <PageTransition><main className="public-home">
     <PublicHeader copy={headerCopy}/>
     <div className="public-hero-layout"><section className="public-hero">
