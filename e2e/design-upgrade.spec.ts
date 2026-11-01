@@ -18,7 +18,11 @@ test('landing exposes the real catalog and usable navigation on desktop and mobi
   }
   for(const width of [320,360,390,600,860,1100,1280,1440]) {
     await page.setViewportSize({width,height:900});
-    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    const layout=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth,overflowing:Array.from(document.querySelectorAll('*')).map(element=>{
+      const rect=element.getBoundingClientRect(),style=getComputedStyle(element);
+      return {tag:element.tagName,className:String(element.className),left:Math.round(rect.left),right:Math.round(rect.right),position:style.position,overflow:style.overflow};
+    }).filter(item=>item.right>innerWidth+1).slice(0,30)}));
+    expect(layout.width,JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);
   }
   await page.setViewportSize({width:390,height:844});
   const trigger=page.getByRole('button',{name:'Открыть меню'});
@@ -80,6 +84,8 @@ test('typed sidebar navigation starts a view transition when the browser support
   await expect(page.locator('.sidebar')).toBeVisible();
   const supported=await page.evaluate(()=>typeof document.startViewTransition==='function');
   test.skip(!supported,'The browser does not provide the View Transitions API.');
+  const openMenu=page.getByRole('button',{name:'Открыть меню'});
+  if(await openMenu.isVisible())await openMenu.click();
   await page.evaluate(()=>{(window as Window & {devatlasTransitions?:number}).devatlasTransitions=0;});
   await page.locator('.sidebar').getByRole('link',{name:'Практика',exact:true}).click();
   await expect(page).toHaveURL('/practice');
