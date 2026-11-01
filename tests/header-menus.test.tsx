@@ -3,6 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { LanguageMenu } from '@/components/layout/language-menu';
 import { AccountMenu } from '@/components/layout/account-menu';
 import { COPY } from '@/lib/i18n';
+import { ACCOUNT_COPY } from '@/lib/account-copy';
 import { useLearningStore } from '@/stores/learning-store';
 
 const mocks=vi.hoisted(()=>({signOut:vi.fn(),user:{id:'account'}}));
@@ -25,7 +26,7 @@ it('changes the interface language and returns focus to its trigger',()=>{
 
 it('closes the account menu on Escape and keeps sign out in the account menu',()=>{
   render(<AccountMenu/>);
-  const trigger=screen.getByRole('button',{name:'Профиль'});
+  const trigger=screen.getByRole('button',{name:ACCOUNT_COPY.ru.profile});
   fireEvent.click(trigger);
   expect(screen.getByRole('menuitem',{name:'Личный профиль'})).toHaveFocus();
   fireEvent.keyDown(screen.getByRole('menu'),{key:'Escape'});

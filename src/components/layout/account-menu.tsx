@@ -16,7 +16,7 @@ export function AccountMenu() {
   const container=useRef<HTMLDivElement>(null);
   const trigger=useRef<HTMLButtonElement>(null);
   const menu=useRef<HTMLDivElement>(null);
-  const profileLabel=({ru:'Профиль',en:'Profile',tg:'Профил',uk:'Профіль',ja:'プロフィール',ko:'프로필'})[language];
+  const profileLabel=copy.profile;
   const close=()=>{setOpen(false);trigger.current?.focus();};
 
   useEffect(()=>{

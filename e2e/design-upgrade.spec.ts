@@ -6,6 +6,8 @@ test('landing exposes the real catalog and usable navigation on desktop and mobi
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.setViewportSize({width:1366,height:768});
   await page.goto('/');
+  const motion=await page.evaluate(()=>document.getAnimations().map(animation=>animation.effect?.getComputedTiming().duration).filter(duration=>typeof duration==='number'&&duration>1));
+  expect(motion).toEqual([]);
   await expect(page.locator('.public-direction-card')).toHaveCount(COURSE_CATEGORIES.length);
   await expect(page.locator('.public-facts')).toContainText(String(COURSE_CATALOG.filter(course=>course.id!=='javascript-2').length));
   await expect(page.locator('.public-actions .button.subtle')).toHaveAttribute('href','#directions');
@@ -70,6 +72,32 @@ test('the mobile drawer scrolls as one layer above the assistant',async({page})=
   await answers.scrollIntoViewIfNeeded();await expect(answers).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button',{name:'Открыть меню'})).toBeFocused();
+});
+
+test('header menus support keyboard focus and changing the interface language',async({page})=>{
+  await page.goto('/home');
+  const language=page.locator('.language-link');
+  await language.click();
+  const languages=page.locator('#language-menu-options');
+  await expect(languages.getByRole('menuitemradio')).toHaveCount(6);
+  await page.keyboard.press('Escape');
+  await expect(language).toBeFocused();
+  await language.click();
+  await languages.getByRole('menuitemradio',{name:/English/}).click();
+  await expect(language).toHaveText('EN');
+  await expect(page.locator('html')).toHaveAttribute('lang','en');
+  const account=page.locator('.header-profile');
+  await account.click();
+  await expect(page.locator('#account-menu-options').getByRole('menuitem')).toHaveCount(3);
+  await page.keyboard.press('Escape');
+  await expect(account).toBeFocused();
+});
+
+test('the stored dark theme is applied before application scripts hydrate',async({page})=>{
+  await page.addInitScript(()=>{localStorage.setItem('devatlas-theme','dark');});
+  await page.route(/\/_next\/static\/.*\.js(?:\?.*)?$/,route=>route.abort());
+  await page.goto('/login',{waitUntil:'domcontentloaded'});
+  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
 });
 
 test('typed sidebar navigation starts a view transition when the browser supports it',async({page})=>{
