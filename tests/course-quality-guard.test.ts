@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
  * Courses still awaiting a rewrite are listed explicitly; remove an id from
  * this list when its rewrite lands so the guard covers it from then on.
  */
-const AWAITING_REWRITE = new Set(['git', 'cpp']);
+const AWAITING_REWRITE = new Set(['cpp']);
 const MARKERS = [
   'Как объяснить тему',
   'Достаточно скопировать код, не проверяя результат',
@@ -68,5 +68,20 @@ describe('JavaScript-2 practice', () => {
     const graded = scheduled.filter((lesson: { practice: { execution?: unknown } }) => lesson.practice.execution).map((lesson: { day: number }) => lesson.day);
     expect(graded).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 27, 30]);
     for (const lesson of scheduled) expect(lesson.questions.length, lesson.id).toBeGreaterThanOrEqual(3);
+  });
+});
+
+describe('Git course', () => {
+  it('has thirty distinct real topics with three questions and terminal practice each day', async () => {
+    const git = JSON.parse((await courses()).find(course => course.id === 'git')!.text);
+    const scheduled = git.lessons.filter((lesson: { day?: number }) => lesson.day);
+    expect(scheduled).toHaveLength(30);
+    expect(new Set(scheduled.map((lesson: { title: { ru: string } }) => lesson.title.ru)).size).toBe(30);
+    for (const lesson of scheduled) {
+      expect(lesson.questions.length, lesson.id).toBeGreaterThanOrEqual(3);
+      expect(lesson.sections.length, lesson.id).toBeGreaterThanOrEqual(4);
+    }
+    const graded = scheduled.filter((lesson: { practice: { execution?: unknown } }) => lesson.practice.execution).map((lesson: { day: number }) => lesson.day);
+    expect(graded).toEqual([4, 15, 27]);
   });
 });
