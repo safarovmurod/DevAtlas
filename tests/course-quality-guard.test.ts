@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
  * Courses still awaiting a rewrite are listed explicitly; remove an id from
  * this list when its rewrite lands so the guard covers it from then on.
  */
-const AWAITING_REWRITE = new Set(['cpp']);
+const AWAITING_REWRITE = new Set<string>();
 const MARKERS = [
   'Как объяснить тему',
   'Достаточно скопировать код, не проверяя результат',
@@ -83,5 +83,19 @@ describe('Git course', () => {
     }
     const graded = scheduled.filter((lesson: { practice: { execution?: unknown } }) => lesson.practice.execution).map((lesson: { day: number }) => lesson.day);
     expect(graded).toEqual([4, 15, 27]);
+  });
+});
+
+describe('C++ course', () => {
+  it('has thirty distinct days with compiled-style solutions and no screenshot files', async () => {
+    const cpp = JSON.parse((await courses()).find(course => course.id === 'cpp')!.text);
+    const scheduled = cpp.lessons.filter((lesson: { day?: number }) => lesson.day);
+    expect(scheduled).toHaveLength(30);
+    expect(new Set(scheduled.map((lesson: { title: { ru: string } }) => lesson.title.ru)).size).toBe(30);
+    for (const lesson of scheduled) {
+      expect(lesson.questions.length, lesson.id).toBeGreaterThanOrEqual(3);
+      expect(lesson.practice.solution, lesson.id).toContain('int main');
+    }
+    expect(cpp.files.some((file: { title: string }) => file.title.startsWith('Превью Telegram'))).toBe(false);
   });
 });
