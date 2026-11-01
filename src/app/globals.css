@@ -156,15 +156,16 @@
   --primary-soft: #edf2ff;
   --brand-gradient: linear-gradient(135deg, #365be7, #6d5cf0);
   --cat-programming: #365be7; --cat-programming-tint: #edf2ff;
-  --cat-design: #9b56bd; --cat-design-tint: #f5ebfb;
-  --cat-marketing: #c56635; --cat-marketing-tint: #fff0e5;
-  --cat-analytics: #21876e; --cat-analytics-tint: #e7f6ef;
+  --cat-ai: #365be7; --cat-ai-tint: #edf2ff;
+  --cat-design: #9050b0; --cat-design-tint: #f5ebfb;
+  --cat-marketing: #a9582e; --cat-marketing-tint: #fff0e5;
+  --cat-analytics: #1e7c65; --cat-analytics-tint: #e7f6ef;
   --cat-business: #386aaf; --cat-business-tint: #edf3fc;
-  --cat-soft-skills: #bc5f87; --cat-soft-skills-tint: #fcecf3;
-  --cat-content: #8c6bb7; --cat-content-tint: #f2ecfa;
-  --cat-languages: #397e9f; --cat-languages-tint: #eaf5fb;
-  --cat-kids: #b68a2a; --cat-kids-tint: #fff7df;
-  --cat-lifestyle: #64894c; --cat-lifestyle-tint: #edf5e9;
+  --cat-soft-skills: #a25274; --cat-soft-skills-tint: #fcecf3;
+  --cat-content: #7b5ea1; --cat-content-tint: #f2ecfa;
+  --cat-languages: #357594; --cat-languages-tint: #eaf5fb;
+  --cat-kids: #8c6a20; --cat-kids-tint: #fff7df;
+  --cat-lifestyle: #577742; --cat-lifestyle-tint: #edf5e9;
   --success: #10b981;
   --success-soft: #ecfdf5;
   --success-border: #a7f3d0;
@@ -929,7 +930,7 @@ select { cursor: pointer; }
 .active-time {background:#f7f9fc;border-color:#e8edf5;font-size:12px;}
 .sidebar {padding:24px 14px 16px;gap:12px;background:#fff;}
 .sidebar-top {display:flex;padding:0 12px 8px;min-height:20px;}
-.sidebar-top .eyebrow {font-size:11px;letter-spacing:.14em;color:#8a95a8;}
+.sidebar-top .eyebrow {font-size:11px;letter-spacing:.14em;color:var(--text-muted);}
 .sidebar-top .mobile-menu {display:none;}
 .course-switch {border:1px solid var(--border);min-height:58px;height:auto;margin-bottom:4px;}
 .course-switch svg {color:var(--primary);}
@@ -970,7 +971,7 @@ select { cursor: pointer; }
 .course-card h2 {font-size:22px;letter-spacing:-.035em;}
 .course-card p {color:var(--text-muted);font-size:13px;line-height:1.75;}
 .course-card .course-symbol {background:#edf2ff;color:var(--accent-solid);border:1px solid #dfe7fb;border-radius:14px;font-size:17px;}
-.course-card[data-course=html] .course-symbol {background:#fff1e9;border-color:#ffe4d3;color:#b65327;}
+.course-card[data-course=html] .course-symbol {background:#fff1e9;border-color:#ffe4d3;color:#b25126;}
 .course-card[data-course=javascript-1] .course-symbol {background:#fff9dc;border-color:#f4e8b0;color:#876518;}
 .course-card[data-course=react] .course-symbol {background:#eaf9ff;border-color:#d0effc;color:#167896;}
 .course-card[data-course=python] .course-symbol {background:#eff9f1;border-color:#d9efdf;color:#2f7b45;}
@@ -1215,6 +1216,7 @@ select { cursor: pointer; }
 .category-text small {font-size:12px;line-height:1.5;color:var(--text-muted);}
 .category-chevron {position:absolute;top:21px;right:12px;color:var(--border-strong);}
 .category-card.is-active .category-chevron {color:var(--category-color);}
+[data-category=ai] {--category-color:var(--cat-ai);--category-tint:var(--cat-ai-tint);}
 [data-category=design] {--category-color:var(--cat-design);--category-tint:var(--cat-design-tint);}
 [data-category=marketing] {--category-color:var(--cat-marketing);--category-tint:var(--cat-marketing-tint);}
 [data-category=analytics] {--category-color:var(--cat-analytics);--category-tint:var(--cat-analytics-tint);}
@@ -1759,4 +1761,12 @@ h1, h2, h3 { text-wrap: balance; }
 @keyframes nav-back-in { from { opacity:0; transform:translateX(-24px); } }
 @media (prefers-reduced-motion:reduce) {
   ::view-transition-old(*), ::view-transition-new(*), ::view-transition-group(*) { animation-duration:0s !important; animation-delay:0s !important; }
+}
+
+@media (max-width:860px) {
+  :is(.brand,.public-brand,.auth-brand,.back-link,.text-link,.button,.auth-tabs button,.auth-links button,.header-popover button,.header-popover a,.practice-course-tabs a,.category-reset,.setting-row select,.course-materials a,.track-stage a,.public-policy > a,.agent-chips button,.agent-links a,.course-access-filters button,.catalog-search input,.public-footer-column a,summary,.course-options label,.assessment-choice,.checklist label,.topic-picks label) { min-height:44px; }
+  :is(.track-stage a,.public-policy > a,.agent-links a,.public-footer-column a) { display:inline-flex; align-items:center; }
+  :is(.public-menu-close,.password-input .icon-button,.agent-tools .icon-button,.tutor-heading .icon-button) { width:44px; height:44px; }
+  .course-practice-studio .editor-footer .button { min-height:44px; }
+  .button { min-width:44px; }
 }

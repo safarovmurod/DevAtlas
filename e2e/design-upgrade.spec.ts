@@ -35,6 +35,12 @@ test('landing exposes the real catalog and usable navigation on desktop and mobi
   await trigger.click();
   const menu=page.getByRole('dialog',{name:'Открыть меню'});
   await expect(menu.getByRole('link',{name:'Направления'})).toHaveAttribute('href','#directions');
+  const closeMenu=menu.getByRole('button',{name:'Закрыть меню'});
+  await expect(closeMenu).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(menu.getByRole('link',{name:'Войти'})).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(closeMenu).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(menu).toHaveCount(0);await expect(trigger).toBeFocused();
 });
@@ -62,11 +68,44 @@ test('plans and avatars remain readable in both themes and learning has no infin
   expect(await page.evaluate(()=>document.getAnimations().filter(animation=>animation.effect?.getComputedTiming().iterations===Infinity).length)).toBe(0);
 });
 
+test('catalog symbols have readable contrast in both themes',async({page})=>{
+  for(const theme of ['light','dark'] as const) {
+    await page.goto('/settings');
+    await page.getByRole('combobox',{name:'Оформление',exact:true}).selectOption(theme);
+    await page.goto('/courses');
+    const symbols=page.locator('.course-card .course-symbol');
+    await expect(symbols.first()).toBeVisible();
+    const failures=await symbols.evaluateAll(elements=>elements.flatMap(element=>{
+      const parse=(value:string)=>{
+        const values=value.match(/[\d.]+/g)?.map(Number)??[];
+        if(values.length<3)throw new Error(`Unsupported color: ${value}`);
+        if(values.length>3&&values[3]<.999)throw new Error(`Catalog symbol color is not opaque: ${value}`);
+        return values.slice(0,3).map(channel=>value.startsWith('color(srgb')?channel:channel/255);
+      };
+      const luminance=(value:string)=>{
+        const [r,g,b]=parse(value).map(channel=>channel<=.04045?channel/12.92:((channel+.055)/1.055)**2.4);
+        return .2126*r+.7152*g+.0722*b;
+      };
+      const style=getComputedStyle(element);
+      const foreground=luminance(style.color),background=luminance(style.backgroundColor);
+      const ratio=(Math.max(foreground,background)+.05)/(Math.min(foreground,background)+.05);
+      return ratio<4.5?[{symbol:element.textContent,ratio:Math.round(ratio*100)/100,foreground:style.color,background:style.backgroundColor,image:style.backgroundImage}]:[];
+    }));
+    expect(failures,theme).toEqual([]);
+  }
+});
+
 test('the mobile drawer scrolls as one layer above the assistant',async({page})=>{
   await page.setViewportSize({width:360,height:568});await page.goto('/home');
   await page.getByRole('button',{name:'Открыть меню'}).click();
   const drawer=page.getByRole('dialog',{name:'Навигация по курсу'});
   await expect(drawer).toBeVisible();
+  const close=drawer.getByRole('button',{name:'Закрыть меню'});
+  await expect(close).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(drawer.locator('.profile-row')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(close).toBeFocused();
   await expect(page.locator('.agent-bubble')).toBeHidden();
   const answers=drawer.getByRole('link',{name:'Ответы и интервью',exact:true});
   await answers.scrollIntoViewIfNeeded();await expect(answers).toBeVisible();
@@ -79,7 +118,15 @@ test('header menus support keyboard focus and changing the interface language',a
   const language=page.locator('.language-link');
   await language.click();
   const languages=page.locator('#language-menu-options');
-  await expect(languages.getByRole('menuitemradio')).toHaveCount(6);
+  const languageItems=languages.getByRole('menuitemradio');
+  await expect(languageItems).toHaveCount(6);
+  await expect(languageItems.first()).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(languageItems.last()).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(languageItems.first()).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(languageItems.last()).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(language).toBeFocused();
   await language.click();
@@ -88,7 +135,13 @@ test('header menus support keyboard focus and changing the interface language',a
   await expect(page.locator('html')).toHaveAttribute('lang','en');
   const account=page.locator('.header-profile');
   await account.click();
-  await expect(page.locator('#account-menu-options').getByRole('menuitem')).toHaveCount(3);
+  const accountItems=page.locator('#account-menu-options').getByRole('menuitem');
+  await expect(accountItems).toHaveCount(3);
+  await expect(accountItems.first()).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(accountItems.last()).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(accountItems.first()).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(account).toBeFocused();
 });
@@ -108,6 +161,7 @@ test('key screens fit the requested widths in both themes without infinite learn
   const routes=['/','/login','/home','/courses','/courses/html/home','/courses/html/plan','/practice','/settings','/plans','/community','/answers','/notes','/revision','/weak-topics','/study','/tests','/privacy','/terms'];
   const widths=[320,360,390,600,860,1100,1280,1440];
   const failures:Array<{theme:string;route:string;viewport:number;width:number;overflowing:string[]}>=[];
+  const targetFailures:Array<{theme:string;route:string;targets:string[]}>=[];
   for(const theme of ['light','dark'] as const) {
     await page.goto('/settings');
     await page.getByRole('combobox',{name:'Оформление',exact:true}).selectOption(theme);
@@ -116,6 +170,7 @@ test('key screens fit the requested widths in both themes without infinite learn
       await page.goto(route);
       await expect(page.locator('html')).toHaveAttribute('data-theme',theme);
       await expect(page.locator('h1').first()).toBeVisible();
+      await page.waitForLoadState('networkidle',{timeout:5000}).catch(()=>{});
       const infiniteAnimations=await page.evaluate(()=>document.getAnimations().filter(animation=>animation.effect?.getComputedTiming().iterations===Infinity).map(animation=>animation instanceof CSSAnimation?animation.animationName:'unknown'));
       if(route==='/') expect(infiniteAnimations.length,`${theme} ${route}: ${infiniteAnimations.join(', ')}`).toBeLessThanOrEqual(2);
       else expect(infiniteAnimations,`${theme} ${route}`).toEqual([]);
@@ -123,10 +178,23 @@ test('key screens fit the requested widths in both themes without infinite learn
         await page.setViewportSize({width,height:900});
         const layout=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth,overflowing:Array.from(document.querySelectorAll('*')).filter(element=>element.getBoundingClientRect().right>innerWidth+1).slice(0,8).map(element=>`${element.tagName}.${String(element.className)}`)}));
         if(layout.width>layout.viewport)failures.push({theme,route,...layout});
+        if(width===390) {
+          const targets=await page.evaluate(()=>Array.from(document.querySelectorAll<HTMLElement>('a[href],button,select,summary,input:not([type=hidden])')).flatMap(element=>{
+            const rect=element.getBoundingClientRect(),style=getComputedStyle(element);
+            if(style.display==='none'||style.visibility==='hidden'||Number(style.opacity)===0||!rect.width||!rect.height||element.closest('[inert],[aria-hidden=true]')||element.matches(':disabled,[aria-disabled=true]'))return [];
+            if(element instanceof HTMLInputElement&&['radio','checkbox'].includes(element.type)) {
+              const label=element.labels?.[0]?.getBoundingClientRect();
+              if(label&&label.width>=44&&label.height>=44)return [];
+            }
+            return rect.width<44||rect.height<44?[`${element.tagName}.${String(element.className)}: ${Math.round(rect.width)}×${Math.round(rect.height)}`]:[];
+          }));
+          if(targets.length)targetFailures.push({theme,route,targets});
+        }
       }
     }
   }
   expect(failures).toEqual([]);
+  expect(targetFailures).toEqual([]);
 });
 
 test('typed sidebar navigation starts a view transition when the browser supports it',async({page})=>{
@@ -151,4 +219,19 @@ test('typed sidebar navigation starts a view transition when the browser support
   await page.locator('.sidebar').getByRole('link',{name:'Практика',exact:true}).click();
   await expect(page).toHaveURL('/practice');
   await expect.poll(()=>page.evaluate(()=>(window as Window & {devatlasTransitions?:number}).devatlasTransitions??0)).toBeGreaterThan(0);
+});
+
+test('sidebar navigation works when view transitions are unavailable',async({page})=>{
+  await page.addInitScript(()=>{
+    Object.defineProperty(document,'startViewTransition',{value:undefined,configurable:true});
+  });
+  const errors:string[]=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/home');
+  const openMenu=page.getByRole('button',{name:'Открыть меню'});
+  if(await openMenu.isVisible())await openMenu.click();
+  await page.locator('.sidebar').getByRole('link',{name:'Практика',exact:true}).click();
+  await expect(page).toHaveURL('/practice');
+  await expect(page.getByRole('heading',{level:1})).toBeVisible();
+  expect(errors).toEqual([]);
 });
