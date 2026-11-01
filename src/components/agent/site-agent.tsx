@@ -143,7 +143,10 @@ function SiteAgentSession({owner}:{owner:string|null}) {
         const response = await fetch('/api/tutor', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
-          body: JSON.stringify({ action: 'ask', courseId, userText: text.trim(), isDeep: false, language: uiLanguage === 'uk' ? 'ru' : uiLanguage === 'ja' || uiLanguage === 'ko' ? 'en' : uiLanguage }),
+          body: JSON.stringify({ action: 'ask', courseId, userText: text.trim(), isDeep: false,
+            history:(messages??[]).filter(message=>message.id!=='greeting' && message.kind!=='error' && message.kind!=='notice')
+              .slice(-4).map(message=>({role:message.sender==='assistant'?'assistant':'user',content:message.text.slice(0,600)})),
+            language: uiLanguage === 'uk' ? 'ru' : uiLanguage === 'ja' || uiLanguage === 'ko' ? 'en' : uiLanguage }),
           signal: AbortSignal.any([request.signal,AbortSignal.timeout(50000)]),
         });
         const data = await response.json();
