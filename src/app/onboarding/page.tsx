@@ -1,2 +1,2 @@
-import { redirect } from 'next/navigation';
-export default function Page() { redirect('/home'); }
+import { OnboardingQuiz } from '@/components/onboarding/onboarding-quiz';
+export default function OnboardingPage() { return <OnboardingQuiz />; }

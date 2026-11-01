@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Editor, { loader, type BeforeMount, type OnMount, type Monaco } from '@monaco-editor/react';
 import type { CodeEditorProps } from './code-editor';
 import { useLearningStore } from '@/stores/learning-store';
-import { EDITOR_COPY } from '@/lib/editor-copy';
+import { EDITOR_COPY, PRACTICE_PASTE_LIMIT } from '@/lib/editor-copy';
 
 type EditorWindow = Window & {
   DevAtlasMonaco?: Monaco;
@@ -70,20 +70,42 @@ const configure: BeforeMount = monaco => {
   }
 };
 
-export default function MonacoCodeEditor({ value, onChange, path = 'solution.ts', language, label, height = 380 }: CodeEditorProps) {
+export default function MonacoCodeEditor({ value, onChange, path = 'solution.ts', language, label, height = 380, pasteGuard = false, emmet }: CodeEditorProps) {
   const copy=EDITOR_COPY[useLearningStore(state=>state.language)];
   const [status, setStatus] = useState<'loading' | 'initialized' | 'ready' | 'failed'>('loading');
+  const [pasteNotice, setPasteNotice] = useState(false);
+  const cleanup = useRef<Array<() => void>>([]);
+  useEffect(() => () => { cleanup.current.forEach(dispose => dispose()); cleanup.current = []; }, []);
   useEffect(() => {
     let active = true;
     const timeout = window.setTimeout(() => { if (active) setStatus(previous => previous === 'ready' ? previous : 'failed'); }, 12000);
     loadLocalEditor().then(() => { if (active) setStatus(previous => previous === 'failed' ? previous : 'initialized'); }).catch(() => { if (active) setStatus('failed'); });
     return () => { active = false; window.clearTimeout(timeout); };
   }, []);
-  const mount: OnMount = editor => {
+  const mount: OnMount = (editor, monaco) => {
     setStatus('ready');
     editor.updateOptions({ ariaLabel: label });
+    if (pasteGuard) {
+      // Practice is typed by hand: a large paste is undone, short snippets stay.
+      const listener = editor.onDidPaste(event => {
+        const pasted = editor.getModel()?.getValueInRange(event.range) ?? '';
+        if (pasted.replace(/\s/g, '').length <= PRACTICE_PASTE_LIMIT) return;
+        editor.trigger('practice-paste-guard', 'undo', null);
+        setPasteNotice(true);
+      });
+      cleanup.current.push(() => listener.dispose());
+    }
+    const lang = editorLanguage(path, language);
+    if (emmet && (lang === 'html' || lang === 'css')) {
+      import('emmet-monaco-es').then(module => {
+        const dispose = lang === 'html' ? module.emmetHTML(monaco, ['html']) : module.emmetCSS(monaco, ['css']);
+        cleanup.current.push(dispose);
+      }).catch(() => undefined);
+    }
   };
   if (status === 'failed') return <div className="editor-fallback"><p role="status">{copy.unavailable}</p><textarea className="code-editor" aria-label={label} value={value} spellCheck={false} onChange={event => onChange(event.target.value)} /></div>;
   if (status === 'loading') return <div className="code-editor-loading" role="status">{copy.loading}</div>;
-  return <Editor height={height} path={path} language={editorLanguage(path, language)} value={value} theme="vs-dark" beforeMount={configure} onMount={mount} onChange={next => onChange(next ?? '')} loading={<div className="code-editor-loading" role="status">{copy.loading}</div>} options={{ ariaLabel: label, automaticLayout: true, minimap: { enabled: false }, fontSize: 14, lineHeight: 23, tabSize: 2, insertSpaces: true, scrollBeyondLastLine: false, wordWrap: 'on', padding: { top: 16, bottom: 16 }, suggestOnTriggerCharacters: true, quickSuggestions: true, formatOnPaste: true, renderValidationDecorations: 'on', accessibilitySupport: 'on', bracketPairColorization: { enabled: true } }} />;
+  const lang = editorLanguage(path, language);
+  const emmetNotice = emmet === undefined || (lang !== 'html' && lang !== 'css') ? null : <p className="small muted editor-notice">{emmet ? copy.emmetOn : copy.emmetOff}</p>;
+  return <>{emmetNotice}{pasteNotice && <p className="warning-text small editor-notice" role="status">{copy.pasteBlocked}</p>}<Editor height={height} path={path} language={editorLanguage(path, language)} value={value} theme="vs-dark" beforeMount={configure} onMount={mount} onChange={next => onChange(next ?? '')} loading={<div className="code-editor-loading" role="status">{copy.loading}</div>} options={{ ariaLabel: label, automaticLayout: true, minimap: { enabled: false }, fontSize: 14, lineHeight: 23, tabSize: 2, insertSpaces: true, scrollBeyondLastLine: false, wordWrap: 'on', padding: { top: 16, bottom: 16 }, suggestOnTriggerCharacters: true, quickSuggestions: true, formatOnPaste: true, renderValidationDecorations: 'on', accessibilitySupport: 'on', bracketPairColorization: { enabled: true } }} /></>;
 }

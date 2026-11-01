@@ -1,4 +1,5 @@
 'use client';
+import { OnboardingBanner } from '@/components/onboarding/onboarding-banner';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, BookOpen, CheckCircle2, Search, Terminal, Compass, Code2, Palette, Megaphone, ChartNoAxesCombined, BriefcaseBusiness, MessagesSquare, Clapperboard, Languages, Shapes, Heart, ChevronRight, Sparkles } from 'lucide-react';
@@ -134,6 +135,7 @@ export function CourseCatalog() {
   }
   return <section className="course-catalog">
     <div className="course-intro"><span className="eyebrow"><Compass size={16}/>{labels.eyebrow}</span><h1>{labels.title}</h1><p>{labels.intro}</p></div>
+    <OnboardingBanner/>
     <section className="catalog-categories" aria-labelledby="catalog-categories-heading"><div className="catalog-section-heading"><h2 id="catalog-categories-heading">{browse.categories}</h2><button type="button" className={'category-reset '+(category==='all'?'is-active':'')} aria-pressed={category==='all'} onClick={()=>selectCategory('all')}>{browse.all}<ArrowRight size={15}/></button></div>
       <div className="category-grid">{categories.map(id=>{const Icon=CATEGORY_ICONS[id];const total=catalogCourses.filter(course=>course.category===id).length;return <button key={id} type="button" className={'category-card '+(category===id?'is-active':'')} data-category={id} aria-label={categoryLabel(id,language)+' · '+courseCountLabel(total,language)} aria-pressed={category===id} onClick={()=>selectCategory(id)}><span className="category-icon"><Icon size={23}/></span><span className="category-text"><strong>{categoryLabel(id,language)}</strong><small>{courseCountLabel(total,language)}</small></span><ChevronRight size={15} className="category-chevron"/></button>;})}</div>
     </section>

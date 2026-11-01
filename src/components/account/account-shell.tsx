@@ -22,7 +22,7 @@ export function AccountShell({children}:{children:React.ReactNode}) {
   const [tutorMounted,setTutorMounted]=useState(false);
   if(tutorOpen&&!tutorMounted)setTutorMounted(true);
   // Public pages must remain readable without Supabase, guest mode or login.
-  if (pathname==='/' || pathname==='/privacy' || pathname==='/terms') return <>{children}</>;
+  if (pathname==='/' || pathname==='/privacy' || pathname==='/terms' || pathname==='/onboarding') return <>{children}</>;
   if (account.loading) return <div className="account-screen"><p role="status">{copy.opening}</p></div>;
   if (account.restoreFailed) return <div className="account-screen"><section className="auth-card"><h1>{copy.restoring}</h1><p role="alert">{copy[accountErrorKey(account.error,'restoreError')]}</p><button className="button primary" onClick={account.reload}>{copy.retry}</button></section></div>;
   if (account.needsMfa) return <MfaChallengeScreen/>;

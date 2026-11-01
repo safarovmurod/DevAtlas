@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { Bot, X, Send, Volume2, VolumeX, Trash2 } from 'lucide-react';
+import { Bot, X, Send, Volume2, VolumeX, Trash2, Mic, MicOff } from 'lucide-react';
 import { useLearningStore } from '@/stores/learning-store';
 import { useAppStore } from '@/stores/app-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
@@ -15,13 +15,31 @@ import {LEARNING_UI_COPY,tutorErrorKey} from '@/lib/learning-ui-copy';
 function speak(text: string, language: InterfaceLocale) {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
   const utterance = new SpeechSynthesisUtterance(text.replace(/https?:\/\/\S+/g, '').slice(0, 600));
-  const locale = language === 'ru' ? 'ru-RU' : language === 'tg' ? 'tg-TG' : language === 'uk' ? 'uk-UA' : language === 'ja' ? 'ja-JP' : language === 'ko' ? 'ko-KR' : 'en-US';
+  const locale = language === 'ru' ? 'ru-RU' : language === 'tg' ? 'tg-TJ' : language === 'uk' ? 'uk-UA' : language === 'ja' ? 'ja-JP' : language === 'ko' ? 'ko-KR' : 'en-US';
   utterance.lang = locale;
   const voice = window.speechSynthesis.getVoices().find(candidate => candidate.lang.toLowerCase().startsWith(locale.slice(0, 2)));
   if (voice) utterance.voice = voice;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
 }
+
+/** Browser speech-to-text. Chrome/Edge/Safari support it; Firefox does not, so the mic is hidden there. */
+type Recognition = { lang: string; interimResults: boolean; continuous: boolean; start(): void; stop(): void; onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null; onerror: ((event: { error: string }) => void) | null; onend: (() => void) | null };
+function recognitionConstructor(): (new () => Recognition) | null {
+  if (typeof window === 'undefined') return null;
+  const scope = window as unknown as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
+  return scope.SpeechRecognition ?? scope.webkitSpeechRecognition ?? null;
+}
+const noSubscription = () => () => undefined;
+const SPEECH_LOCALE: Record<InterfaceLocale, string> = { ru: 'ru-RU', tg: 'tg-TJ', uk: 'uk-UA', ja: 'ja-JP', ko: 'ko-KR', en: 'en-US' };
+const MIC_COPY: Record<InterfaceLocale, { start: string; stop: string; listening: string; unsupported: string; denied: string }> = {
+  ru: { start: 'Сказать голосом', stop: 'Остановить запись', listening: 'Слушаю… говорите вопрос.', unsupported: 'Браузер не распознаёт этот язык. Переключите язык интерфейса на русский или английский или напишите текстом.', denied: 'Нет доступа к микрофону. Разрешите его в настройках браузера.' },
+  tg: { start: 'Бо овоз гуфтан', stop: 'Қатъи сабт', listening: 'Гӯш мекунам… саволро гӯед.', unsupported: 'Браузер забони тоҷикиро бо овоз намешиносад. Саволро бо русӣ ё англисӣ гӯед (забони интерфейсро иваз кунед) ё нависед.', denied: 'Ба микрофон иҷозат нест. Онро дар танзимоти браузер фаъол кунед.' },
+  en: { start: 'Ask by voice', stop: 'Stop recording', listening: 'Listening… say your question.', unsupported: 'Your browser cannot recognise this language. Switch the interface to English or Russian, or type instead.', denied: 'Microphone access is blocked. Allow it in your browser settings.' },
+  uk: { start: 'Сказати голосом', stop: 'Зупинити запис', listening: 'Слухаю… скажіть запитання.', unsupported: 'Браузер не розпізнає цю мову. Перемкніть інтерфейс на англійську чи російську або напишіть текстом.', denied: 'Немає доступу до мікрофона. Дозвольте його в налаштуваннях браузера.' },
+  ja: { start: '音声で質問', stop: '録音を停止', listening: '聞いています… 質問をどうぞ。', unsupported: 'このブラウザーはこの言語を認識できません。文字で入力してください。', denied: 'マイクへのアクセスがブロックされています。ブラウザーの設定で許可してください。' },
+  ko: { start: '음성으로 질문', stop: '녹음 중지', listening: '듣고 있어요… 질문을 말하세요.', unsupported: '브라우저가 이 언어를 인식하지 못합니다. 텍스트로 입력하세요.', denied: '마이크 접근이 차단되었습니다. 브라우저 설정에서 허용하세요.' },
+};
 
 export function SiteAgent() {
   const {user}=useAccount();
@@ -40,6 +58,11 @@ function SiteAgentSession({owner}:{owner:string|null}) {
     try{return typeof window!=='undefined'&&localStorage.getItem(agentStorageKey(owner,'voice'))==='on';}catch{return false;}
   });
   const [messages, setMessages] = useState<AgentMsg[] | null>(null);
+  const [listening, setListening] = useState(false);
+  const [micNotice, setMicNotice] = useState('');
+  const micSupported = useSyncExternalStore(noSubscription, () => recognitionConstructor() !== null, () => false);
+  const recognition = useRef<Recognition | null>(null);
+  useEffect(() => () => recognition.current?.stop(), []);
   const sending = useRef(false);
   const pending = useRef<AbortController|null>(null);
   const list = useRef<HTMLDivElement>(null);
@@ -94,6 +117,24 @@ function SiteAgentSession({owner}:{owner:string|null}) {
     setVoice(next);
     try { localStorage.setItem(agentStorageKey(owner,'voice'), next ? 'on' : 'off'); } catch { /* preference is cosmetic */ }
     if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+  }
+
+  function toggleMic() {
+    const mic = MIC_COPY[uiLanguage];
+    if (listening) { recognition.current?.stop(); return; }
+    const Constructor = recognitionConstructor();
+    if (!Constructor) return;
+    const next = new Constructor();
+    next.lang = SPEECH_LOCALE[uiLanguage];
+    next.interimResults = true;
+    next.continuous = false;
+    // The transcript lands in the input for review instead of being sent blindly.
+    next.onresult = event => setInput(Array.from(event.results).map(result => result[0]?.transcript ?? '').join(' ').slice(0, 800));
+    next.onerror = event => setMicNotice(event.error === 'not-allowed' || event.error === 'service-not-allowed' ? mic.denied : event.error === 'language-not-supported' ? mic.unsupported : '');
+    next.onend = () => { setListening(false); inputRef.current?.focus(); };
+    recognition.current = next;
+    setMicNotice('');
+    try { next.start(); setListening(true); } catch { setListening(false); }
   }
 
   function push(message: AgentMsg) {
@@ -215,8 +256,10 @@ function SiteAgentSession({owner}:{owner:string|null}) {
             onChange={event => setInput(event.target.value)}
             onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); void ask(input); } }}
             placeholder={uiLanguage === 'ru' ? 'Спросите про платформу или тему урока…' : uiLanguage === 'tg' ? 'Дар бораи платформа ё мавзӯъ пурсед…' : 'Ask about the platform or a lesson topic…'}/>
+          {micSupported && <button type="button" className={'icon-button' + (listening ? ' is-active' : '')} onClick={toggleMic} disabled={loading} aria-pressed={listening} aria-label={listening ? MIC_COPY[uiLanguage].stop : MIC_COPY[uiLanguage].start} title={listening ? MIC_COPY[uiLanguage].stop : MIC_COPY[uiLanguage].start}>{listening ? <MicOff size={17}/> : <Mic size={17}/>}</button>}
           <button className="button primary" type="submit" disabled={loading || !input.trim()} aria-label={uiLanguage === 'ru' ? 'Отправить' : uiLanguage === 'tg' ? 'Фиристодан' : 'Send'}><Send size={16}/></button>
         </form>
+        {(listening || micNotice) && <p className={'agent-footnote' + (micNotice ? ' warning-text' : '')} role="status">{micNotice || MIC_COPY[uiLanguage].listening}</p>}
         <p className="agent-footnote">{uiLanguage === 'ru' ? 'Гид отвечает по устройству платформы; вопросы по урокам — из проверенных материалов курса. Без выдумок.' : uiLanguage === 'tg' ? 'Роҳнамо сохтори платформаро мефаҳмонад; саволҳои дарсӣ аз материалҳои санҷидашуда. Бе дурӯғ.' : 'The guide explains the platform; lesson questions come from reviewed course materials. No inventions.'}</p>
       </div>
     </aside>}

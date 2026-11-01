@@ -31,7 +31,7 @@ export default async function Page() {
       <p className="public-eyebrow">{copy.eyebrow}</p>
       <h1>{copy.heroLead} <span>{copy.heroEmphasis}</span> {copy.heroEnd}</h1>
       <p>{copy.heroDescription}</p>
-      <div className="public-actions"><Link href="/login" className="button primary">{copy.start} <ArrowRight size={18}/></Link><Link href="/home" className="button subtle">{copy.seePlatform}</Link></div>
+      <div className="public-actions"><Link href="/onboarding" className="button primary">{copy.start} <ArrowRight size={18}/></Link><Link href="/home" className="button subtle">{copy.seePlatform}</Link></div>
       <small>{copy.heroNote}</small>
       <p className="public-tracks">{studio.tracks}</p>
     </section>
