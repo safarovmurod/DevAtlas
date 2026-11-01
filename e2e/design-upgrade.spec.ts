@@ -103,18 +103,27 @@ test('the stored dark theme is applied before application scripts hydrate',async
   await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(13, 20, 34)');
 });
 
-test('key screens fit the requested widths without horizontal page overflow',async({page})=>{
-  test.setTimeout(180000);
+test('key screens fit the requested widths in both themes without infinite learning animations',async({page})=>{
+  test.setTimeout(300000);
   const routes=['/','/login','/home','/courses','/courses/html/home','/courses/html/plan','/practice','/settings','/plans','/community','/answers','/notes','/revision','/weak-topics','/study','/tests','/privacy','/terms'];
   const widths=[320,360,390,600,860,1100,1280,1440];
-  const failures:Array<{route:string;viewport:number;width:number;overflowing:string[]}>=[];
-  for(const route of routes) {
-    await page.goto(route);
-    await expect(page.locator('h1').first()).toBeVisible();
-    for(const width of widths) {
-      await page.setViewportSize({width,height:900});
-      const layout=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth,overflowing:Array.from(document.querySelectorAll('*')).filter(element=>element.getBoundingClientRect().right>innerWidth+1).slice(0,8).map(element=>`${element.tagName}.${String(element.className)}`)}));
-      if(layout.width>layout.viewport)failures.push({route,...layout});
+  const failures:Array<{theme:string;route:string;viewport:number;width:number;overflowing:string[]}>=[];
+  for(const theme of ['light','dark'] as const) {
+    await page.goto('/settings');
+    await page.getByRole('combobox',{name:'Оформление',exact:true}).selectOption(theme);
+    await expect(page.locator('html')).toHaveAttribute('data-theme',theme);
+    for(const route of routes) {
+      await page.goto(route);
+      await expect(page.locator('html')).toHaveAttribute('data-theme',theme);
+      await expect(page.locator('h1').first()).toBeVisible();
+      const infiniteAnimations=await page.evaluate(()=>document.getAnimations().filter(animation=>animation.effect?.getComputedTiming().iterations===Infinity).map(animation=>animation instanceof CSSAnimation?animation.animationName:'unknown'));
+      if(route==='/') expect(infiniteAnimations.length,`${theme} ${route}: ${infiniteAnimations.join(', ')}`).toBeLessThanOrEqual(2);
+      else expect(infiniteAnimations,`${theme} ${route}`).toEqual([]);
+      for(const width of widths) {
+        await page.setViewportSize({width,height:900});
+        const layout=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth,overflowing:Array.from(document.querySelectorAll('*')).filter(element=>element.getBoundingClientRect().right>innerWidth+1).slice(0,8).map(element=>`${element.tagName}.${String(element.className)}`)}));
+        if(layout.width>layout.viewport)failures.push({theme,route,...layout});
+      }
     }
   }
   expect(failures).toEqual([]);
