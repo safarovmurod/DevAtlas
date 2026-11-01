@@ -87,3 +87,19 @@ test('catalog filters by start level and course length', async ({ page }, testIn
   await expect(page.locator('.course-card')).toHaveCount(expected);
   await page.locator('.course-extra-filters').screenshot({ path: testInfo.outputPath('catalog-filters.png') });
 });
+
+test('JavaScript-1 practice runs real function tests in the browser', async ({ page }) => {
+  await page.goto('/courses/javascript-1/practice?day=1');
+  await expect(page.locator('.monaco-editor').first()).toBeVisible({ timeout: 30000 });
+  const setCode = (code: string) => page.evaluate(value => {
+    const models = (window as unknown as { monaco: { editor: { getModels: () => { setValue: (v: string) => void }[] } } }).monaco.editor.getModels();
+    models[models.length - 1].setValue(value);
+  }, code);
+  const run = page.getByRole('button', { name: 'Тестҳои функсияро иҷро кунед' });
+  await setCode('function describeUser(name, age) { return name + age; }');
+  await run.click();
+  await expect(page.locator('.function-practice [role=status]')).not.toHaveText('Тестҳои маҳаллӣ гузаштанд.', { timeout: 15000 });
+  await setCode('function describeUser(name, age) {\n  return `${name}, ${age}`;\n}');
+  await run.click();
+  await expect(page.locator('.function-practice [role=status]')).toHaveText('Тестҳои маҳаллӣ гузаштанд.', { timeout: 15000 });
+});

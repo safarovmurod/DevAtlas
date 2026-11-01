@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
  * Courses still awaiting a rewrite are listed explicitly; remove an id from
  * this list when its rewrite lands so the guard covers it from then on.
  */
-const AWAITING_REWRITE = new Set(['javascript-1', 'javascript-2', 'git', 'cpp']);
+const AWAITING_REWRITE = new Set(['javascript-2', 'git', 'cpp']);
 const MARKERS = [
   'Как объяснить тему',
   'Достаточно скопировать код, не проверяя результат',
@@ -47,5 +47,16 @@ describe('course quality guard', () => {
       for (const section of lesson.sections) for (const locale of ['ru', 'tg', 'en']) expect(section.body[locale]?.trim().length, lesson.id + ' ' + locale).toBeGreaterThan(80);
     }
     expect(html.files.some((file: { title: string }) => file.title.startsWith('Превью Telegram'))).toBe(false);
+  });
+});
+
+describe('JavaScript-1 practice', () => {
+  it('auto-grades days 1–24 and 30 with real function tests', async () => {
+    const js = JSON.parse((await courses()).find(course => course.id === 'javascript-1')!.text);
+    const scheduled = js.lessons.filter((lesson: { day?: number }) => lesson.day);
+    const graded = scheduled.filter((lesson: { practice: { execution?: unknown } }) => lesson.practice.execution).map((lesson: { day: number }) => lesson.day);
+    expect(graded).toEqual([...Array.from({ length: 24 }, (_, index) => index + 1), 30]);
+    for (const lesson of scheduled) expect(lesson.questions.length, lesson.id).toBeGreaterThanOrEqual(3);
+    expect(js.files).toEqual([]);
   });
 });
