@@ -2,6 +2,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { courseContentSchema } from '@/lib/courses/schema';
 
 /**
  * Generated placeholder lessons ("How would you explain topic X?", identical
@@ -47,6 +48,62 @@ describe('course quality guard', () => {
       for (const section of lesson.sections) for (const locale of ['ru', 'tg', 'en']) expect(section.body[locale]?.trim().length, lesson.id + ' ' + locale).toBeGreaterThan(80);
     }
     expect(html.files.some((file: { title: string }) => file.title.startsWith('Превью Telegram'))).toBe(false);
+  });
+});
+
+describe('Go course', () => {
+  const loadGo = async () => courseContentSchema.parse(JSON.parse((await courses()).find(course => course.id === 'go')!.text));
+
+  it('keeps thirty translated lessons with specific criteria and independent native practice', async () => {
+    const go = await loadGo();
+    expect(go.lessons.map(lesson => lesson.day)).toEqual(Array.from({ length: 30 }, (_, index) => index + 1));
+    for (const locale of ['ru', 'tg', 'en'] as const) {
+      expect(new Set(go.lessons.map(lesson => lesson.title[locale])).size).toBe(30);
+    }
+    for (const lesson of go.lessons) {
+      expect(lesson.sections, lesson.id).toHaveLength(4);
+      expect(lesson.questions, lesson.id).toHaveLength(3);
+      expect(lesson.practice?.criteria, lesson.id).toHaveLength(3);
+      expect(lesson.practice?.hints, lesson.id).toHaveLength(2);
+      expect(lesson.practice?.hint, lesson.id).toEqual(lesson.practice?.hints?.[0]);
+      expect(lesson.practice?.execution, lesson.id).toBeUndefined();
+      expect(lesson.practice?.solution, lesson.id).toContain('\n// Output:\n');
+      for (const section of lesson.sections) {
+        if (section.code) expect(section.code, lesson.id).not.toBe(lesson.practice?.solution);
+        for (const locale of ['ru', 'tg', 'en'] as const) {
+          expect(section.body[locale]?.trim().length, lesson.id + ' ' + locale).toBeGreaterThanOrEqual(250);
+          expect(section.body[locale]?.trim().length, lesson.id + ' ' + locale).toBeLessThanOrEqual(700);
+        }
+      }
+      for (const locale of ['ru', 'tg', 'en'] as const) {
+        expect(new Set(lesson.practice!.criteria.map(criterion => criterion[locale])).size, lesson.id).toBe(3);
+        for (const criterion of lesson.practice!.criteria) expect(criterion[locale]?.length, lesson.id).toBeGreaterThan(12);
+      }
+    }
+  });
+
+  it('balances correct positions and gives every question a usable hint without length clues', async () => {
+    const go = await loadGo();
+    const positions = [0, 0, 0];
+    const longest = { ru: 0, tg: 0, en: 0 };
+    for (const lesson of go.lessons) {
+      expect(lesson.questions.map(question => question.correctIndex).sort(), lesson.id).toEqual([0, 1, 2]);
+      for (const question of lesson.questions) {
+        expect(question.options, question.id).toHaveLength(3);
+        expect(question.answer, question.id).toEqual(question.options[question.correctIndex!]);
+        expect(question.relatedSection, question.id).toBeGreaterThanOrEqual(0);
+        expect(question.relatedSection, question.id).toBeLessThan(lesson.sections.length);
+        positions[question.correctIndex!]++;
+        for (const locale of ['ru', 'tg', 'en'] as const) {
+          expect(question.hint?.[locale]?.trim().length, question.id).toBeGreaterThan(15);
+          const lengths = question.options!.map(option => option[locale]!.length);
+          expect(Math.max(...lengths) / Math.min(...lengths), question.id + ' ' + locale).toBeLessThanOrEqual(1.8);
+          if (lengths.indexOf(Math.max(...lengths)) === question.correctIndex) longest[locale]++;
+        }
+      }
+    }
+    expect(positions).toEqual([30, 30, 30]);
+    for (const count of Object.values(longest)) expect(count / 90).toBeLessThanOrEqual(0.45);
   });
 });
 
