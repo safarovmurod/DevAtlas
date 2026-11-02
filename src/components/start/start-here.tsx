@@ -24,7 +24,7 @@ export function StartHere() {
       <h3>{section.title[locale]}</h3>
       <p className="preserve-lines">{section.body[locale]}</p>
       {section.steps && <ol className="start-steps" aria-label={ui.steps}>{section.steps.map((step, index) => <li key={index}>{step[locale]}</li>)}</ol>}
-      {section.code && <pre><code>{section.code}</code></pre>}
+      {section.code && <pre tabIndex={0}><code>{section.code}</code></pre>}
     </section>)}
     <section className="panel start-check" aria-labelledby="start-check">
       <h3 id="start-check">{ui.check}</h3>
