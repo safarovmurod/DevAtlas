@@ -41,7 +41,7 @@ export function LanguageMenu() {
   }
 
   return <div className="language-menu" ref={container}>
-    <button ref={trigger} type="button" className="language-link" aria-label={COPY[language].interfaceLanguage} aria-haspopup="menu" aria-expanded={open} aria-controls="language-menu-options" onClick={()=>setOpen(value=>!value)}>{language.toUpperCase()}</button>
+    <button ref={trigger} type="button" className="language-link" aria-label={COPY[language].interfaceLanguage} aria-haspopup="menu" aria-expanded={open} aria-controls={open?'language-menu-options':undefined} onClick={()=>setOpen(value=>!value)}>{language.toUpperCase()}</button>
     {open&&<div id="language-menu-options" className="header-popover" role="menu" aria-label={COPY[language].interfaceLanguage} ref={menu} onKeyDown={handleKey}>
       {INTERFACE_LOCALES.map(locale=><button type="button" role="menuitemradio" aria-checked={locale===language} key={locale} onClick={()=>{setPreferences({language:locale});setOpen(false);trigger.current?.focus();}}>{INTERFACE_LANGUAGE_NAMES[locale]} <span>{locale.toUpperCase()}</span></button>)}
     </div>}

@@ -16,7 +16,7 @@ function AnswerCodeBlock({code,language}:{code:string;language:InterfaceLocale})
     try { await navigator.clipboard.writeText(code);setStatus('copied'); }
     catch { setStatus('error'); }
   }
-  return <div className="answer-code"><div className="answer-code-toolbar"><button type="button" className="button subtle" onClick={copyCode}><Copy size={15}/>{status==='copied'?COPY[language].copied:COPY[language].copy}</button></div><pre><code>{code}</code></pre>{status==='error'&&<p role="alert">{COPY_CODE_ERROR[language]}</p>}</div>;
+  return <div className="answer-code"><div className="answer-code-toolbar"><button type="button" className="button subtle" onClick={copyCode}><Copy size={15}/>{status==='copied'?COPY[language].copied:COPY[language].copy}</button></div><pre tabIndex={0}><code>{code}</code></pre>{status==='error'&&<p role="alert">{COPY_CODE_ERROR[language]}</p>}</div>;
 }
 
 function ReadingQuestion({ question, index, topic }: { question: AnswerQuestion; index: number; topic: AnswerTopic }) {

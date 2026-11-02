@@ -45,7 +45,7 @@ export function AccountMenu() {
   }
 
   return <div className="account-menu" ref={container}>
-    <button ref={trigger} type="button" className="header-profile" aria-label={profileLabel} aria-haspopup="menu" aria-expanded={open} aria-controls="account-menu-options" onClick={()=>setOpen(value=>!value)}><AccountAvatar/></button>
+    <button ref={trigger} type="button" className="header-profile" aria-label={profileLabel} aria-haspopup="menu" aria-expanded={open} aria-controls={open?'account-menu-options':undefined} onClick={()=>setOpen(value=>!value)}><AccountAvatar/></button>
     {open&&<div id="account-menu-options" className="header-popover" role="menu" aria-label={profileLabel} ref={menu} onKeyDown={handleKey}>
       <Link role="menuitem" href="/settings#account-profile" onClick={close}>{copy.profile}</Link>
       <Link role="menuitem" href="/settings" onClick={close}>{COPY[language].settings}</Link>
