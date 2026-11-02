@@ -116,19 +116,14 @@ describe('programming course examples', () => {
     }
     expect(verified).toBeGreaterThanOrEqual(26);
   }, 180000);
-  it.skipIf(!hasGo)('Go course: every executable day compiles and runs with the real toolchain', () => {
-    // A fresh CI runner must compile the standard library before these examples.
-    // Retain bounded subprocesses and exact-output checks while allowing a cold cache.
-    let verified = 0;
-    for (const lesson of load('go').lessons) {
-      if (lesson.practice!.kind !== 'code') continue;
-      const section = lesson.sections.find(item => item.output?.en !== undefined);
-      if (!section) continue;
-      writeFileSync(path.join(root, 'main.go'), lesson.practice!.solution);
-      expect(runTrusted('go', ['run', 'main.go'], undefined, 40000).replace(/\r/g, ''), lesson.id).toBe(section.output!.en);
-      verified++;
-    }
-    expect(verified).toBeGreaterThanOrEqual(26);
+  it.skipIf(!hasGo || !hasPython)('Go course: all independent solutions and examples run with their own expected output', () => {
+    // Practice deliberately differs from the teaching example. The shared
+    // verifier reads each solution's output and supports real multi-file modules.
+    const output = runTrusted(python!.command, [
+      ...python!.prefixArgs, '-I',
+      path.join(process.cwd(), 'scripts/course-authoring/verify_go.py'),
+    ], undefined, 280000);
+    expect(output).toContain('checked 30 solutions, 30 examples, 0 problems');
   }, 300000);
   // SDKs/database are not installed/configured in this cloud instance. Keep
   // unexecuted examples visible as skipped, not silently counted as passing.
