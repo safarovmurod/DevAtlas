@@ -1,7 +1,10 @@
 # Go: ҳисоботи ислоҳи курс
 
-Сана: 2026-11-02. Branch: `content/go`, аз `feature/course-quality` дар
-`959dc9b176109879549b9e195de1960f375c1333`. Кор барои commit-и локалӣ аст; push иҷро нашуд.
+Сана: 2026-11-02. Branch: `content/go`; base-и PR: `main`.
+`origin/main` дар `a420d976f7dfbfcc9cc19f54c657a44488dc14e4` бо commit-и `98aa73b`
+бе ихтилоф merge шуд. Ҳамаи тағйироти main нигоҳ дошта шуданд.
+Baseline-и audit аз `959dc9b176109879549b9e195de1960f375c1333` аст;
+файли Go дар main бо он baseline айнан якхела буд.
 
 Ҳамаи 30 рӯз таҳрир шуданд. `id`, `day`, `prerequisiteDays`, `sourceIds`, манбаъҳо,
 файлҳои курс ва ID-и саволҳои мавҷуда нигоҳ дошта шуданд.
@@ -105,7 +108,7 @@ Vitest-и Go ҳамин verifier-ро истифода мебарад. Ҳалл�
 - Рӯзҳои 24–26: `go run -race main.go` бо баромади интизорӣ гузашт;
   race ё паёми хато ёфт нашуд.
 
-## Санҷиши лоиҳа ва браузер
+## Санҷиши лоиҳа ва браузер пеш аз merge-и main
 
 - `npm test -- --maxWorkers=2`: **493 гузашт, 8 skip**, 83 файли тест.
 - Санҷиши такрории verifier ва guard баъди такмили UTF-8: **15 гузашт, 6 skip**.
@@ -120,6 +123,33 @@ Vitest-и Go ҳамин verifier-ро истифода мебарад. Ҳалл�
   рӯзи 1 ва лоиҳаи рӯзи 30 ба ҳар се забон санҷида шуданд.
 - `node scripts/course-authoring/verify_js.mjs src/content/courses/go.json`:
   `checked 0 executable lessons, 0 problems`. Ин натиҷа тасдиқи иҷрои Go ҳисоб намешавад.
+
+## Санҷиш баъди merge-и main
+
+Санҷишҳо дар commit-и merge `98aa73b` аз нав иҷро шуданд. Танҳо ҳамин ҳисобот баъд
+нав шуд; коди санҷидашуда дигар нашуд.
+
+| Санҷиш | Натиҷа |
+| --- | --- |
+| `npm run typecheck` | Гузашт |
+| `npm run lint` | 0 error, 1 warning-и мавҷудаи main |
+| `npm test -- --maxWorkers=2` бо Go дар PATH | 534 passed, 8 skipped; 88 файл |
+| `npm run build` | Гузашт |
+| `python3 -I scripts/course-authoring/audit.py go` | Ҳамон натиҷаи сутуни «Баъд» |
+| `python3 -I scripts/course-authoring/verify_go.py` | 30 solution, 30 мисол, 0 мушкил |
+| Playwright desktop/mobile, 7 spec-и вобаста | 73 passed, 1 skipped |
+
+Warning-и lint: `completionSchema` дар `src/app/api/tutor/route.ts:37` истифода
+нашудааст. Ин файл аз main бетағйир гирифта шуд.
+Skip-и E2E ба санҷиши махсуси mobile дар project-и desktop тааллуқ дорад;
+ҳамон санҷиш дар mobile гузашт. Ҳамаи 6 ҳолати E2E-и Go гузаштанд.
+
+```bash
+PLAYWRIGHT_PROD_SERVER=true npm run test:e2e -- \
+  e2e/go-course.spec.ts e2e/courses.spec.ts e2e/lesson-flow.spec.ts \
+  e2e/catalog-platform.spec.ts e2e/learning-experience.spec.ts \
+  e2e/design-upgrade.spec.ts e2e/server-smoke.spec.ts
+```
 
 ## Хатоҳои ислоҳшуда ва маҳдудиятҳо
 
@@ -136,7 +166,8 @@ Vitest-и Go ҳамин verifier-ро истифода мебарад. Ҳалл�
 8 skip ба Go тааллуқ надоранд: C#, Rust, PHP, Ruby, MongoDB, Swift, Kotlin ва
 санҷиши PowerShell. Windows ва дигар системаҳо дар ин муҳити Linux иҷро нашуданд;
 mobile дар Chromium-и тақлидшуда санҷида шуд, на дастгоҳи ҷисмонӣ.
-Deploy, push ва тамоми pipeline-и сервери CI иҷро нашуданд.
+Deploy ва merge-и PR иҷро нашуданд. Натиҷаҳои маҳаллӣ тасдиқи тамоми pipeline-и
+сервери CI нестанд.
 
 Манбаъҳои санҷиши мафҳумҳо: [Go specification](https://go.dev/ref/spec),
 [Effective Go](https://go.dev/doc/effective_go), ҳуҷҷат ва коди стандартии
