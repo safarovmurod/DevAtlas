@@ -45,6 +45,41 @@ test('landing exposes the real catalog and usable navigation on desktop and mobi
   await expect(menu).toHaveCount(0);await expect(trigger).toBeFocused();
 });
 
+test('the white preview text stays readable in both themes and screen sizes',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  for(const theme of ['light','dark'] as const) {
+    await page.goto('/settings');
+    await page.getByRole('combobox',{name:'Оформление',exact:true}).selectOption(theme);
+    for(const viewport of [{width:390,height:844},{width:1440,height:900}]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+      await expect(page.locator('html')).toHaveAttribute('data-theme',theme);
+      await expect(page.locator('.studio-result')).toBeVisible();
+      const result=await page.evaluate(()=>{
+        const block=document.querySelector('.studio-result')!;
+        const luminance=(value:string)=>{
+          const channels=value.match(/[\d.]+/g)?.slice(0,3).map(Number);
+          if(!channels||channels.length!==3)throw new Error(`Unsupported color: ${value}`);
+          const [r,g,b]=channels.map(n=>n/255).map(n=>n<=.04045?n/12.92:((n+.055)/1.055)**2.4);
+          return .2126*r+.7152*g+.0722*b;
+        };
+        const background=getComputedStyle(block).backgroundColor,bg=luminance(background);
+        const texts=['span','p'].map(selector=>{
+          const element=block.querySelector(selector)!;const style=getComputedStyle(element),fg=luminance(style.color);
+          return {selector,size:parseFloat(style.fontSize),ratio:(Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05)};
+        });
+        return {background,texts,width:document.documentElement.scrollWidth,viewport:innerWidth};
+      });
+      expect(result.background).toBe('rgb(255, 255, 255)');
+      for(const text of result.texts) {
+        expect(text.size,`${theme} ${viewport.width} ${text.selector}`).toBeGreaterThanOrEqual(12);
+        expect(text.ratio,`${theme} ${viewport.width} ${text.selector}`).toBeGreaterThanOrEqual(4.5);
+      }
+      expect(result.width).toBeLessThanOrEqual(result.viewport);
+    }
+  }
+});
+
 test('plans and avatars remain readable in both themes and learning has no infinite animation',async({page})=>{
   await page.goto('/plans');
   await expect(page.getByRole('heading',{name:'Ваш путь в разработку'})).toBeVisible();

@@ -25,8 +25,8 @@ function download(token?:string){return attachment(new Request('https://example.
 beforeEach(()=>{
  vi.resetAllMocks();
  mocks.authenticatedUser.mockResolvedValue({id:'verified-user'});
- mocks.courseAnswer.mockResolvedValue({reply:'PAID_SECTION_SECRET',source:{title:'private'}});
- mocks.projectAnswer.mockReturnValue({reply:'FREE_REACT_REFERENCE'});
+ mocks.courseAnswer.mockResolvedValue({reply:'PAID_SECTION_SECRET',source:{title:'private',questionId:'premium-q1'}});
+ mocks.projectAnswer.mockReturnValue({reply:'FREE_REACT_REFERENCE',source:{questionId:'premium-q1'}});
  mocks.load.mockImplementation(async(id:string)=>({files:id==='javascript-pro'?[file]:[]}));
  mocks.readFile.mockResolvedValue(bytes);
 });
@@ -42,9 +42,14 @@ describe('premium local tutor reference protection',()=>{
  it('allows paid references only after membership verification and sets no-store',async()=>{
   db('expert');const response=await ask('javascript-pro','verified');expect(response.status).toBe(200);expect(await response.text()).toContain('PAID_SECTION_SECRET');expect(response.headers.get('cache-control')).toBe('private, no-store');
  });
+ it('does not return a different source when the requested reference is missing',async()=>{
+  db('expert');mocks.courseAnswer.mockResolvedValueOnce({reply:'PAID_SECTION_SECRET',source:{questionId:'different-question'}});
+  const response=await ask('javascript-pro','verified');expect(response.status).toBe(200);expect(await response.text()).not.toContain('PAID_SECTION_SECRET');expect(response.headers.get('cache-control')).toBe('private, no-store');
+ });
  it('preserves public React and ordinary-course local references with no auth dependency',async()=>{
-  expect((await ask('react')).status).toBe(200);expect(mocks.projectAnswer).toHaveBeenCalled();
-  expect((await ask('html')).status).toBe(200);expect(mocks.courseAnswer).toHaveBeenCalledWith('html',expect.any(String),expect.any(Object));
+  const react=await ask('react');expect(react.status).toBe(200);expect(await react.text()).toContain('FREE_REACT_REFERENCE');expect(mocks.projectAnswer).toHaveBeenCalled();
+  mocks.courseAnswer.mockResolvedValueOnce({reply:'FREE_COURSE_REFERENCE',source:{questionId:'premium-q1'}});
+  const html=await ask('html');expect(html.status).toBe(200);expect(await html.text()).toContain('FREE_COURSE_REFERENCE');expect(mocks.courseAnswer).toHaveBeenCalledWith('html',expect.any(String),expect.any(Object));
   expect(mocks.authenticatedUser).not.toHaveBeenCalled();expect(mocks.serverClient).not.toHaveBeenCalled();
  });
 });

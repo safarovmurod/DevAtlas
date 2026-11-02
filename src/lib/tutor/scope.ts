@@ -1,3 +1,5 @@
+import { isDeepFollowUp } from './shared';
+
 // Local, fail-closed topic gate. This is a conservative first boundary, not a
 // guarantee of semantic classification or a replacement for the system prompt.
 export type TutorScope = 'allowed' | 'greeting' | 'outside';
@@ -20,7 +22,7 @@ export function tutorScope(query: string, previousUserQuestion?: string, codeCon
   if (overrideInstructions.test(text)) return 'outside';
   if (courseTopics.test(text)) return 'allowed';
   if (codeContext && /(?:\b(?:const|let|var|function|class|def|import|return|if|for|while|SELECT|CREATE)\b|=>|<\/?[a-z][^>]*>|\{[^{}]{1,120}\})/i.test(codeContext)) return 'allowed';
-  if (followUp.test(text) && previousUserQuestion && tutorScope(previousUserQuestion) === 'allowed') return 'allowed';
+  if ((followUp.test(text) || isDeepFollowUp(text)) && previousUserQuestion && tutorScope(previousUserQuestion) === 'allowed') return 'allowed';
   return 'outside';
 }
 

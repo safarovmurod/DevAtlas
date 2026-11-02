@@ -26,6 +26,9 @@ describe('DevAtlas topic guard',()=>{
     expect(tutorScope('why?', 'What is React state?')).toBe('allowed');
     expect(tutorScope('why?', 'What is the weather?')).toBe('outside');
     expect(tutorScope('why?')).toBe('outside');
+    expect(tutorScope('Чуқур фаҳмон', 'What is React state?')).toBe('allowed');
+    expect(tutorScope('Чукур фахмон', 'What is the weather?')).toBe('outside');
+    expect(tutorScope('Чуқур фаҳмон')).toBe('outside');
   });
   it('allows pasted source code for code explanations',()=>{
     expect(tutorScope('Explain',undefined,'const count = 0;')).toBe('allowed');
