@@ -56,7 +56,8 @@ test('placement check measures knowledge and sets level and course', async ({ pa
 
 test('placement check can be skipped and then uses the self-estimate', async ({ page }) => {
   await page.goto('/onboarding');
-  for (let index = 0; index < 15; index++) await page.locator('.answer-option').nth(index === 3 ? 2 : 0).click();
+  // computer = «normal» (option 2), coded = «regularly» (option 3), everything else the first option.
+  for (let index = 0; index < 15; index++) await page.locator('.answer-option').nth(index === 2 ? 1 : index === 3 ? 2 : 0).click();
   await page.getByRole('button', { name: 'Гузаштан бе санҷиш' }).click();
   await expect(page.getByText('Сатҳ аз рӯи ҷавобҳои шумо муайян шуд', { exact: false })).toBeVisible();
   await expect(page.locator('.level-badge')).toContainText('Миёна');
