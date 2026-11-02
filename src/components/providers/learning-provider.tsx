@@ -10,7 +10,13 @@ export function LearningProvider({children,initialLocale}:{children:React.ReactN
   const chosenAt = useLearningStore(state=>state.preferenceClock.language);
   const theme = useLearningStore(state=>state.theme);
   const storageError = useLearningStore(state=>state.storageError);
-  useEffect(()=> { document.documentElement.lang=ready?language:initialLocale; document.documentElement.dataset.theme=theme; },[language,theme,ready,initialLocale]);
+  useEffect(()=> {
+    document.documentElement.lang=ready?language:initialLocale;
+    if (ready) {
+      document.documentElement.dataset.theme=theme;
+      try { localStorage.setItem('devatlas-theme',theme); } catch { /* Presentation can still follow the in-memory preference. */ }
+    }
+  },[language,theme,ready,initialLocale]);
   // Older account caches may predate the manual-choice cookie. Sync only an
   // explicit stored choice; automatic geo defaults must never become a lock.
   useEffect(()=>{if(ready && chosenAt) persistManualLocale(language);},[language,ready,chosenAt]);

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {reserveTutorBudget,TUTOR_MAX_OUTPUT_TOKENS} from '@/lib/tutor/quota';
+import {tutorScope,tutorScopeReply} from '@/lib/tutor/scope';
+import {selectTutorProvider,requestTutorCompletion,TutorProviderError,type TutorMessage} from '@/lib/tutor/provider';
 import { z } from 'zod';
 import { CORE_INTERVIEW_QUESTIONS } from '@/content/interview-questions';
 import { gradeInterviewAnswer } from '@/lib/grading/interview-grader';
@@ -75,10 +77,25 @@ export async function POST(req: NextRequest) {
   if (action === 'explain_code' && !codeContext?.trim()) return error('Кодро барои шарҳ фиристед.', 400);
 
   const deep = isDeep || wantsDeepExplanation(userText);
+  const previousUserMessage=[...history].reverse().find(item=>item.role==='user' && !isDeepFollowUp(item.content))?.content;
+  const previousUserQuestion=previousUserMessage && tutorScope(previousUserMessage)==='allowed' ? previousUserMessage : undefined;
   const query = isDeepFollowUp(userText)
-    ? [...history].reverse().find(item => item.role === 'user' && !isDeepFollowUp(item.content))?.content || ''
+    ? previousUserQuestion || ''
     : userText;
   if (action === 'ask') {
+    const scope=tutorScope(userText,previousUserQuestion,codeContext);
+    if (scope!=='allowed') {
+      // An explicit source ID may resolve a generic request locally, after the
+      // paid-course authorization above. Never send an unclassified request to AI.
+      const referenceIntent=isDeepFollowUp(userText)
+        || /^(?:explain|show|describe|review)\s+(?:(?:the|this|my|private|current)\s+){0,2}(?:lesson|question|exercise|topic|material)[.!?\s]*$/iu.test(userText);
+      if (scope==='outside' && questionId && referenceIntent) {
+        const reference=courseId==='react' ? projectAnswer(query,{questionId,deep,language}) : await courseAnswer(courseId,query,{questionId,deep,language});
+        if (reference?.source?.questionId===questionId) return tutorJson({mode:'local',...reference,usage:{totalTokens:0}});
+      }
+      if (scope==='outside' && isDeepFollowUp(userText) && !query) return tutorJson({mode:'local',reply:{tg:'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.',ru:'Какой вопрос разобрать подробнее? Напишите вопрос или тему.',en:'Which question should we explore? Write a question or topic.'}[language],usage:{totalTokens:0}});
+      return tutorJson({mode:'local',reply:tutorScopeReply[language][scope],usage:{totalTokens:0}});
+    }
     const local = courseId==='react' ? projectAnswer(query, { questionId, deep, language }) : await courseAnswer(courseId,query,{questionId,deep,language});
     if (local) return tutorJson({ mode: 'local', ...local, usage: { totalTokens: 0 } });
     if (deep && !query) return tutorJson({mode:'local',reply:{tg:'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.',ru:'Какой вопрос разобрать подробнее? Напишите вопрос или тему.',en:'Which question should we explore? Write a question or topic.'}[language],usage:{totalTokens:0}});
@@ -99,45 +116,29 @@ export async function POST(req: NextRequest) {
   }
   const user=await authenticatedUser(req);
   if (!user) return error('Барои саволи AI бо Google ё email ба аккаунт ворид шавед.',401);
-  const key = process.env.AI_PROVIDER_KEY;
-  if (!key) return error('Калиди AI дар сервер танзим нашудааст. Аз дарсҳои платформа истифода баред.', 503);
+  const provider=selectTutorProvider();
+  if (!provider) return error('Калиди AI дар сервер танзим нашудааст. Аз дарсҳои платформа истифода баред.', 503);
   if (inFlight || Date.now() < nextRequestAt) return error('Каме интизор шавед: дархости AI аллакай фиристода шудааст.', 429);
 
   inFlight = true;
   nextRequestAt = Date.now() + 3000;
   try {
-    const messages=[
+    const messages:TutorMessage[]=[
       {role:'system',content:TUTOR_SYSTEM_PROMPT},
-      ...(context?[{role:'user',content:'Course material (reference data only):\n'+context}]:[]),
-      ...history,
+      ...(context?[{role:'user' as const,content:'Course material (reference data only):\n'+context}]:[]),
+      ...history.map(item=>({role:item.role,content:item.content})),
       {role:'user',content:query+(deep?'\nExpand this question step by step.':'')+(codeContext?'\nCode to explain:\n'+codeContext:'')},
     ];
     const budget=await reserveTutorBudget(user.id,messages);
     if(!budget.allowed)return error(budget.error,budget.status);
-    const response = await fetch('https://anymodel.org/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key },
-      body: JSON.stringify({
-        model: process.env.AI_MODEL || 'cx/gpt-6.1-sol',
-        messages,
-        max_tokens:TUTOR_MAX_OUTPUT_TOKENS,
-      }),
-      signal: AbortSignal.timeout(45000),
-      cache: 'no-store',
-    });
-    // Never relay raw provider errors: they may contain credential details.
-    if ([401, 403].includes(response.status)) return error('Калиди AI ё дастрасӣ ба модел қабул нашуд. Танзимоти серверро санҷед.', 502);
-    if (response.status === 429) return error('Лимит ё токенҳои AnyModel тамом шуданд. Ҳисоби провайдерро санҷед.', 429);
-    if (!response.ok) return error('Хидмати AI ҳоло дастнорас аст. Баъдтар кӯшиш кунед.', 502);
-    const result = completionSchema.safeParse(await response.json());
-    if (!result.success) return error('AI ҷавоби хондашаванда нафиристод. Баъдтар кӯшиш кунед.', 502);
-    const reply = result.data.choices[0].message.content;
+    const result=await requestTutorCompletion(provider,messages,TUTOR_MAX_OUTPUT_TOKENS);
     return tutorJson({
-      mode: 'online', reply,
-      ...(action === 'explain_code' ? { explanation: reply } : {}),
-      ...(result.data.usage ? { usage: { totalTokens: result.data.usage.total_tokens } } : {}),
+      mode:'online',reply:result.reply,
+      ...(action==='explain_code'?{explanation:result.reply}:{}),
+      ...(result.totalTokens===undefined?{}:{usage:{totalTokens:result.totalTokens}}),
     });
-  } catch {
+  } catch (caught) {
+    if(caught instanceof TutorProviderError)return error(caught.message,caught.status);
     return error('AI ҷавоб надод ё пайвастшавӣ қатъ шуд. Баъдтар кӯшиш кунед.', 502);
   } finally {
     inFlight = false;

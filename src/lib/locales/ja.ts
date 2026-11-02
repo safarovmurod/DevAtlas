@@ -51,7 +51,8 @@ export const JAPANESE_LEARNING_COPY = {
 export const JAPANESE_AUTH_COPY = {
   signupTitle:'一緒に学びましょう', resetTitle:'アカウントを復旧', loginTitle:'学びの続きを始めましょう', intro:'進捗・ノート・演習をパソコンでもスマートフォンでも。',
   unavailable:'ログインと登録はまだ設定されていません。教材と解説はアカウントなしでも利用できます。AIにはアカウントが必要です。',
-  guest:'ゲストとして続ける', google:'Googleで続ける', recommended:'おすすめ', orEmail:'またはメールで', name:'お名前', password:'パスワード',
+  guest:'ゲストとして続ける', google:'Googleで続ける', recommended:'おすすめ', orEmail:'またはメールで', name:'お名前', email:'メールアドレス', password:'パスワード', showPassword:'パスワードを表示', hidePassword:'パスワードを非表示', passwordHint:'8文字以上',
+  loginTab:'ログイン', panelTitle:'自分のペースで、一歩ずつ。', panelBenefits:['日ごとに整理されたレッスン','演習と結果の確認','進捗とノートをひとつに'], panelFlow:'レッスン → コード → 確認',
   creating:'作成中…', saveWait:'お待ちください…', signUp:'アカウントを作成', sendLink:'リンクを送信', signIn:'メールでログイン', existing:'アカウントをお持ちですか？ログイン',
   createAccount:'アカウントを作成', forgot:'パスワードを忘れた場合', backToLogin:'ログインに戻る', security:'Googleまたはメール · 無料アカウント',
   googleError:'Googleログインを利用できません。メールを使うか、後でもう一度お試しください。', resetSent:'登録済みのメールアドレスには、パスワード再設定リンクが送信されます。', confirmEmail:'メールのリンクでアドレスを確認してからログインしてください。',

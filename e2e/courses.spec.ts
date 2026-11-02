@@ -74,7 +74,12 @@ test('returning learner opens only the current lesson, preserves manual practice
  await page.goto('/courses/html/tests?day=15');const lesson=html.lessons.find(l=>l.id==='html-day-15')!;const tests=page.locator('.course-question').first();await tests.getByRole('radio',{name:lesson.questions[0].options[lesson.questions[0].correctIndex].tg,exact:true}).check();await tests.getByRole('button',{name:'Проверить',exact:true}).click();await expect(tests.getByRole('status')).toHaveText('Верно');
  await expect(page.getByRole('heading',{name:'1. Тесты'})).toBeVisible();await expect(page.getByRole('heading',{name:'2. Интервью'})).toBeVisible();await page.reload();await expect(page.locator('.course-question').first().getByRole('status')).toHaveText('Верно');
  const state=await page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);expect(state.courses.html.awards).toMatchObject({'lesson:html-day-15':5,'practice:html-day-15':4,['test:'+lesson.questions[0].id]:10});expect(state.awards).toEqual({});
- await page.goto('/courses/html/plan?day=15');await expect(page.locator('.day-card.is-done')).toHaveCount(15);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path: testInfo.outputPath('plan.png')});expect(errors).toEqual([]);
+ await page.goto('/courses/html/plan?day=15');await expect(page.locator('.day-card.is-done')).toHaveCount(15);
+ const layout=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth,overflowing:Array.from(document.querySelectorAll('*')).map(element=>{
+  const rect=element.getBoundingClientRect(),style=getComputedStyle(element);
+  return {tag:element.tagName,className:String(element.className),left:Math.round(rect.left),right:Math.round(rect.right),position:style.position,overflow:style.overflow};
+ }).filter(item=>item.right>innerWidth+1).slice(0,30)}));
+ expect(layout.width,JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);await page.screenshot({path: testInfo.outputPath('plan.png')});expect(errors).toEqual([]);
 });
 test('CSS is a full standalone course and the Sass library lessons stay readable',async ({page})=>{
   await page.goto('/courses');

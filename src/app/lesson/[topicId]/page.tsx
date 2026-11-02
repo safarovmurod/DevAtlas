@@ -1,3 +1,5 @@
+
+import { PageTransition } from '@/components/layout/page-transition';
 import { notFound, redirect } from 'next/navigation';
 import { getTopic } from '@/content/course';
 import { LessonView } from '@/components/learning/lesson-view';
@@ -6,5 +8,5 @@ export default async function LessonPage({params}:{params:Promise<{topicId:strin
  const topic=getTopic(topicId);
  if(!topic)notFound();
  if(topic.month===3)redirect('/courses/nextjs/plan');
- return <LessonView topicId={topicId}/>;
+ return <PageTransition><LessonView topicId={topicId}/></PageTransition>;
 }

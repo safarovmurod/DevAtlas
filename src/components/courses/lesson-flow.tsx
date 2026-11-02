@@ -1,7 +1,9 @@
 'use client';
-import {useState} from 'react';
+import {useState,useSyncExternalStore} from 'react';
 import Link from 'next/link';
+import {CheckCircle2} from 'lucide-react';
 import {useLearningStore} from '@/stores/learning-store';
+import {COPY} from '@/lib/i18n';
 import {courseText,type CourseText} from '@/lib/courses/schema';
 import {LEARNING_FLOW_STAGES,type LearningFlow} from '@/lib/courses/learning-flow';
 import type {InterfaceLocale} from '@/lib/locale';
@@ -32,10 +34,14 @@ function useFlowText(){
 }
 const assessmentHref=(flow:LearningFlow,lessonId:string,practiceHref:string)=>flow.assessmentMode==='local-only'?practiceHref.replace('/practice','/tests'):`${practiceHref}#${lessonId}-assessment`;
 const anchor=(id:string,stage:string)=>`${id}-flow-${stage}`;
-export function LessonFlowIntro({flow,lessonId,practiceHref}:{flow:LearningFlow;lessonId:string;practiceHref:string}){
- const {text,label}=useFlowText();
+const subscribeHash=(notify:()=>void)=>{window.addEventListener('hashchange',notify);return()=>window.removeEventListener('hashchange',notify);};
+const currentHash=()=>{try{return decodeURIComponent(window.location.hash.slice(1));}catch{return '';}};
+export function LessonFlowIntro({flow,lessonId,practiceHref,studied,practiced}:{flow:LearningFlow;lessonId:string;practiceHref:string;studied:boolean;practiced:boolean}){
+ const {text,label,ui}=useFlowText();
+ const hash=useSyncExternalStore(subscribeHash,currentHash,()=> '');
+ const current=LEARNING_FLOW_STAGES.find(stage=>hash===anchor(lessonId,stage)) || 'learn';
  return <div className="lesson-flow-intro" id={anchor(lessonId,'learn')}>
-  <nav className="learning-flow-nav" aria-label={label('route')}>{LEARNING_FLOW_STAGES.map(stage=><Link key={stage} href={stage==='test'?assessmentHref(flow,lessonId,practiceHref):`#${anchor(lessonId,stage)}`}>{label(stage)}</Link>)}</nav>
+  <nav className="learning-flow-nav" aria-label={label('route')}>{LEARNING_FLOW_STAGES.map((stage,index)=>{const done=(stage==='learn'&&studied)||(stage==='practice'&&practiced);return <Link key={stage} href={stage==='test'?assessmentHref(flow,lessonId,practiceHref):`#${anchor(lessonId,stage)}`} aria-current={stage===current?'step':undefined} aria-label={label(stage)+(done?` · ${COPY[ui].completed}`:'')}><span className="flow-step-number" aria-hidden="true">{done?<CheckCircle2 size={15}/>:index+1}</span>{label(stage)}</Link>;})}</nav>
   <h3>{label('goals')}</h3><ul>{flow.objectives.map((objective,index)=><li key={index}>{text(objective)}</li>)}</ul>
   <h3>{label('real')}</h3><p>{text(flow.realWorld)}</p>
  </div>;

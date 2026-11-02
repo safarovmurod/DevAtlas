@@ -1,3 +1,5 @@
+
+import { PageTransition } from '@/components/layout/page-transition';
 import { courseAccessTier } from '@/lib/courses/access';
 import { notFound } from 'next/navigation';
 import { isCourseId } from '@/lib/courses/ids';
@@ -15,5 +17,5 @@ export default async function CoursePage({params,searchParams}:{params:Promise<{
   if(day!==undefined&&(!Number.isInteger(day)||day<0||day>coursePublishedDays(courseId))) notFound();
   if(day===0)redirect(`/courses/${courseId}/${section}?day=1`);
   if(section==='interview') redirect(`/courses/${courseId}/tests${day!==undefined?'?day='+day:''}`);
-  return <CourseWorkspace key={courseId+section+day} courseId={courseId} section={section} day={day} initialContent={courseAccessTier(courseId)==='starter'?await loadCourseContent(courseId):undefined}/>;
+  return <PageTransition><CourseWorkspace key={courseId+section+day} courseId={courseId} section={section} day={day} initialContent={courseAccessTier(courseId)==='starter'?await loadCourseContent(courseId):undefined}/></PageTransition>;
 }
