@@ -275,7 +275,10 @@ test('typed sidebar navigation starts a view transition when the browser support
   const supported=await page.evaluate(()=>typeof document.startViewTransition==='function');
   test.skip(!supported,'The browser does not provide the View Transitions API.');
   const openMenu=page.getByRole('button',{name:'Открыть меню'});
-  if(await openMenu.isVisible())await openMenu.click();
+  if(await page.evaluate(()=>matchMedia('(max-width: 860px)').matches)) {
+    await openMenu.click();
+    await expect(page.locator('.sidebar')).toHaveClass(/\bis-open\b/);
+  }
   await page.evaluate(()=>{(window as Window & {devatlasTransitions?:number}).devatlasTransitions=0;});
   await page.locator('.sidebar').getByRole('link',{name:'Практика',exact:true}).click();
   await expect(page).toHaveURL('/practice');
@@ -290,7 +293,10 @@ test('sidebar navigation works when view transitions are unavailable',async({pag
   page.on('pageerror',error=>errors.push(error.message));
   await page.goto('/home');
   const openMenu=page.getByRole('button',{name:'Открыть меню'});
-  if(await openMenu.isVisible())await openMenu.click();
+  if(await page.evaluate(()=>matchMedia('(max-width: 860px)').matches)) {
+    await openMenu.click();
+    await expect(page.locator('.sidebar')).toHaveClass(/\bis-open\b/);
+  }
   await page.locator('.sidebar').getByRole('link',{name:'Практика',exact:true}).click();
   await expect(page).toHaveURL('/practice');
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
