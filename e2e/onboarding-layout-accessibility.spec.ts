@@ -14,7 +14,7 @@ test('catalog filter labels are readable on both themes and screen sizes', async
         await expect(labels).toHaveCount(2);
         const ratios = await labels.evaluateAll(elements => elements.map(element => {
           const color = (value: string) => {
-            const channels = value.match(/[\\d.]+/g)?.map(Number);
+            const channels = value.match(/[\d.]+/g)?.map(Number);
             if (!channels || channels.length < 3) throw new Error(`Unsupported color: ${value}`);
             return channels;
           };
