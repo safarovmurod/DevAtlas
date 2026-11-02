@@ -1,4 +1,5 @@
 'use client';
+import { OnboardingBanner } from '@/components/onboarding/onboarding-banner';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, BookOpen, CheckCircle2, Search, Terminal, Compass, ChevronRight } from 'lucide-react';
@@ -19,6 +20,13 @@ type CatalogCopy = {
   jsDescription:string;after:string;alongside:string;fromZero:string;
   ready:(count:number)=>string;wait:string;unavailable:string;checking:string;choose:string;continue:string;
   descriptions:Record<string,string>;
+};
+/** Duration buckets match the published programs: 2-day intros, 14-day tracks, 30-day months, 44+ day full paths. */
+export function courseLengthBucket(days:number):'short'|'month'|'long'{return days<=14?'short':days<=30?'month':'long';}
+const EXTRA_FILTER_COPY={
+  tg:{start:'Оғоз',length:'Давомнокӣ',starts:{all:'Ҳама',zero:'Аз сифр',next:'Баъд аз курси дигар'},lengths:{all:'Ҳама',short:'То 14 рӯз',month:'30 рӯз',long:'44+ рӯз'}},
+  ru:{start:'Старт',length:'Длительность',starts:{all:'Все',zero:'С нуля',next:'После другого курса'},lengths:{all:'Все',short:'До 14 дней',month:'30 дней',long:'44+ дней'}},
+  en:{start:'Start',length:'Length',starts:{all:'All',zero:'From zero',next:'After another course'},lengths:{all:'All',short:'Up to 14 days',month:'30 days',long:'44+ days'}},
 };
 const CATALOG_UI:Record<'ru'|'en'|'tg'|'uk'|'ja'|'ko',CatalogCopy>={
   ru:{
@@ -89,6 +97,9 @@ export function CourseCatalog() {
   const [category, setCategory] = useState<CategoryId|'all'>('all');
   const [subtrack, setSubtrack] = useState<SubtrackId|'all'>('all');
   const [access,setAccess]=useState<CourseAccessTier|'all'>('all');
+  const [start,setStart]=useState<'all'|'zero'|'next'>('all');
+  const [length,setLength]=useState<'all'|'short'|'month'|'long'>('all');
+  const extra=EXTRA_FILTER_COPY[language==='tg'||language==='ru'||language==='en'?language:language==='uk'?'ru':'en'];
   const premium=PREMIUM_COPY[language];
   const browse=BROWSE_COPY[language];
   const searchLabel=({ru:'Найти курс',en:'Find a course',tg:'Ҷустуҷӯи курс',uk:'Знайти курс',ja:'コースを検索',ko:'강좌 검색'})[language];
@@ -114,9 +125,9 @@ export function CourseCatalog() {
   const catalogCourses=COURSE_CATALOG.filter(course=>course.id!=='javascript-2');
   const categories=COURSE_CATEGORIES.map(entry=>entry.id as CategoryId);
   const tracks=PROGRAMMING_SUBTRACKS.map(entry=>entry.id as SubtrackId);
-  const visibleCourses=catalogCourses.filter(course=>access==='all'||(course.accessTier??'starter')===access).filter(course=>category==='all'||course.category===category).filter(course=>subtrack==='all'||course.category!=='programming'||course.subtrack===subtrack).filter(course=>[course.name,courseDisplayName(course.id,language),course.ru,course.en,courseDescription(course.id,language),categoryLabel(course.category,language),course.subtrack?subtrackLabel(course.subtrack,language):''].join(' ').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
+  const visibleCourses=catalogCourses.filter(course=>access==='all'||(course.accessTier??'starter')===access).filter(course=>start==='all'||(start==='zero'?!course.prerequisite:!!course.prerequisite)).filter(course=>length==='all'||courseLengthBucket(course.publishedDays??0)===length).filter(course=>category==='all'||course.category===category).filter(course=>subtrack==='all'||course.category!=='programming'||course.subtrack===subtrack).filter(course=>[course.name,courseDisplayName(course.id,language),course.ru,course.en,courseDescription(course.id,language),categoryLabel(course.category,language),course.subtrack?subtrackLabel(course.subtrack,language):''].join(' ').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
   const groups:{key:string;category:CategoryId;subtrack:SubtrackId|null;courses:typeof catalogCourses}[]=categories.flatMap<{key:string;category:CategoryId;subtrack:SubtrackId|null;courses:typeof catalogCourses}>(id=>id==='programming'?tracks.map(track=>({key:id+'-'+track,category:id,subtrack:track,courses:visibleCourses.filter(course=>course.category===id&&course.subtrack===track)})):[{key:id,category:id,subtrack:null,courses:visibleCourses.filter(course=>course.category===id)}]).filter(group=>group.courses.length>0);
-  function resetFilters(){setCategory('all');setSubtrack('all');setAccess('all');setQuery('');}
+  function resetFilters(){setCategory('all');setSubtrack('all');setAccess('all');setStart('all');setLength('all');setQuery('');}
   function selectCategory(id:CategoryId|'all'){setCategory(id);setSubtrack('all');}
   function renderCourse(course:typeof COURSE_CATALOG[number]) {
     const javascript=course.id==='javascript-1';
@@ -134,12 +145,17 @@ export function CourseCatalog() {
   }
   return <section className="course-catalog">
     <div className="course-intro"><span className="eyebrow"><Compass size={16}/>{labels.eyebrow}</span><h1>{labels.title}</h1><p>{labels.intro}</p></div>
+    <OnboardingBanner/>
     <section className="catalog-categories" aria-labelledby="catalog-categories-heading"><div className="catalog-section-heading"><h2 id="catalog-categories-heading">{browse.categories}</h2><button type="button" className={'category-reset '+(category==='all'?'is-active':'')} aria-pressed={category==='all'} onClick={()=>selectCategory('all')}>{browse.all}<ArrowRight size={15}/></button></div>
       <div className="category-grid">{categories.map(id=>{const Icon=CATEGORY_ICONS[id];const total=catalogCourses.filter(course=>course.category===id).length;return <button key={id} type="button" className={'category-card '+(category===id?'is-active':'')} data-category={id} aria-label={categoryLabel(id,language)+' · '+courseCountLabel(total,language)} aria-pressed={category===id} onClick={()=>selectCategory(id)}><span className="category-icon"><Icon size={23}/></span><span className="category-text"><strong>{categoryLabel(id,language)}</strong><small>{courseCountLabel(total,language)}</small></span><ChevronRight size={15} className="category-chevron"/></button>;})}</div>
     </section>
     {(category==='all'||category==='programming')&&<section className="programming-filters" aria-label={browse.programming}><span>{browse.programming}</span><div className="subtrack-filters"><button type="button" aria-pressed={subtrack==='all'} onClick={()=>setSubtrack('all')}>{browse.allTracks}</button>{tracks.map(track=><button key={track} type="button" aria-pressed={subtrack===track} onClick={()=>{setSubtrack(track);setCategory('programming');}}>{subtrackLabel(track,language)}</button>)}</div></section>}
     {category==='programming'&&subtrack==='frontend'&&<div className="course-route panel"><span className="route-icon"><Terminal size={23}/></span><div><strong>{labels.route}</strong><p className="learning-route-steps"><span>HTML + CSS</span><ArrowRight size={15}/><span>JavaScript</span><ArrowRight size={15}/><span>React</span><ArrowRight size={15}/><span>Next.js</span></p><span>{labels.routeNote}</span></div></div>}
     <nav className="course-access-filters" aria-label={premium.all}>{(['all','starter','pro','expert'] as const).map(tier=><button type="button" key={tier} aria-pressed={access===tier} onClick={()=>setAccess(tier)}>{tier==='all'?premium.all:tier==='starter'?premium.starter:tier==='pro'?'Pro':'Expert'}</button>)}</nav>
+    <div className="course-extra-filters">
+      <nav className="course-access-filters" aria-label={extra.start}><span>{extra.start}</span>{(['all','zero','next'] as const).map(value=><button type="button" key={value} aria-pressed={start===value} onClick={()=>setStart(value)}>{extra.starts[value]}</button>)}</nav>
+      <nav className="course-access-filters" aria-label={extra.length}><span>{extra.length}</span>{(['all','short','month','long'] as const).map(value=><button type="button" key={value} aria-pressed={length===value} onClick={()=>setLength(value)}>{extra.lengths[value]}</button>)}</nav>
+    </div>
     <div className="catalog-toolbar"><div><h2><BookOpen size={19}/>{browse.browse}</h2><span className="catalog-result-count" aria-live="polite">{courseCountLabel(visibleCourses.length,language)}</span></div><label className="catalog-search"><Search size={17}/><input aria-label={searchLabel} placeholder={browse.search} value={query} onChange={event=>{setQuery(event.target.value);setCategory('all');setSubtrack('all');setAccess('all');}}/></label></div>
     <div className="catalog-groups">{groups.map(group=>{const Icon=CATEGORY_ICONS[group.category];return <section className="catalog-course-group" key={group.key} aria-labelledby={'catalog-group-'+group.key}><div className="catalog-group-heading"><span className="group-category-icon" data-category={group.category}><Icon size={18}/></span><div>{group.subtrack&&<span className="group-parent-category">{categoryLabel(group.category,language)}</span>}<h2 id={'catalog-group-'+group.key}>{group.subtrack?subtrackLabel(group.subtrack,language):categoryLabel(group.category,language)}</h2></div><span className="group-course-count">{courseCountLabel(group.courses.length,language)}</span></div><div className="course-grid">{group.courses.map(renderCourse)}</div></section>;})}</div>
     {visibleCourses.length===0&&<div role="status" className="catalog-empty"><Search size={25}/><p>{query?noResults:browse.empty}</p><button className="button subtle" onClick={resetFilters}>{browse.reset}</button></div>}
