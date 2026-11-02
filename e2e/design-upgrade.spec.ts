@@ -80,6 +80,26 @@ test('the white preview text stays readable in both themes and screen sizes',asy
   }
 });
 
+test('lesson code can be scrolled by keyboard and locked days have a name',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.setViewportSize({width:320,height:844});
+  await page.goto('/courses/html/home');
+  const locked=page.locator('.day-strip .locked-day').first();
+  await expect(locked).toBeDisabled();
+  await expect(locked).toHaveAccessibleName(/День 2/);
+  const code=page.locator('#html-day-01-section-1 pre');
+  await code.scrollIntoViewIfNeeded();
+  const dimensions=await code.evaluate(element=>({width:element.clientWidth,scrollWidth:element.scrollWidth}));
+  expect(dimensions.scrollWidth).toBeGreaterThan(dimensions.width);
+  await page.keyboard.press('Tab');
+  await code.focus();
+  await expect(code).toBeFocused();
+  const outline=await code.evaluate(element=>({style:getComputedStyle(element).outlineStyle,width:parseFloat(getComputedStyle(element).outlineWidth)}));
+  expect(outline.style).not.toBe('none');expect(outline.width).toBeGreaterThan(0);
+  await page.keyboard.press('ArrowRight');
+  await expect.poll(()=>code.evaluate(element=>element.scrollLeft)).toBeGreaterThan(0);
+});
+
 test('plans and avatars remain readable in both themes and learning has no infinite animation',async({page})=>{
   await page.goto('/plans');
   await expect(page.getByRole('heading',{name:'Ваш путь в разработку'})).toBeVisible();
@@ -151,7 +171,9 @@ test('the mobile drawer scrolls as one layer above the assistant',async({page})=
 test('header menus support keyboard focus and changing the interface language',async({page})=>{
   await page.goto('/home');
   const language=page.locator('.language-link');
+  await expect(language).not.toHaveAttribute('aria-controls');
   await language.click();
+  await expect(language).toHaveAttribute('aria-controls','language-menu-options');
   const languages=page.locator('#language-menu-options');
   const languageItems=languages.getByRole('menuitemradio');
   await expect(languageItems).toHaveCount(6);
@@ -164,12 +186,15 @@ test('header menus support keyboard focus and changing the interface language',a
   await expect(languageItems.last()).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(language).toBeFocused();
+  await expect(language).not.toHaveAttribute('aria-controls');
   await language.click();
   await languages.getByRole('menuitemradio',{name:/English/}).click();
   await expect(language).toHaveText('EN');
   await expect(page.locator('html')).toHaveAttribute('lang','en');
   const account=page.locator('.header-profile');
+  await expect(account).not.toHaveAttribute('aria-controls');
   await account.click();
+  await expect(account).toHaveAttribute('aria-controls','account-menu-options');
   const accountItems=page.locator('#account-menu-options').getByRole('menuitem');
   await expect(accountItems).toHaveCount(3);
   await expect(accountItems.first()).toBeFocused();
@@ -179,6 +204,7 @@ test('header menus support keyboard focus and changing the interface language',a
   await expect(accountItems.first()).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(account).toBeFocused();
+  await expect(account).not.toHaveAttribute('aria-controls');
 });
 
 test('the stored dark theme is applied before application scripts hydrate',async({page})=>{

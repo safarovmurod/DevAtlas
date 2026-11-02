@@ -77,7 +77,7 @@ function HtmlDocumentExplorer({demo}:{demo:Extract<LearningFlow['demo'],{kind:'h
   <label className="dom-text-input">{label('node')}: {selected}<input aria-label={`${label('node')}: ${selected}`} maxLength={160} value={values[selected]} onChange={event=>setValues(old=>({...old,[selected]:event.target.value}))}/></label>
   <p className="demo-browser-tab">{label('tab')}: <strong>{values.title}</strong></p>
   <iframe className="html-preview" title={label('preview')} sandbox="" referrerPolicy="no-referrer" srcDoc={code}/>
-  <details open><summary>{label('code')}</summary><pre><code>{code}</code></pre></details>
+  <details open><summary>{label('code')}</summary><pre tabIndex={0}><code>{code}</code></pre></details>
  </div>;
 }
 
@@ -90,5 +90,5 @@ const traceCopy={
 };
 function CodeTrace({demo}:{demo:Extract<LearningFlow['demo'],{kind:'code-trace'}>}){
  const {text,ui}=useFlowText();const [index,setIndex]=useState(0);const step=demo.steps[index];
- return <div className="code-trace"><p>{traceCopy.note[ui]}</p><pre><code>{demo.code.split('\n').map((line,i)=><span key={i} aria-current={step.line===i+1?'step':undefined} style={{display:'block',background:step.line===i+1?'var(--accent-soft, #3155aa30)':undefined}}>{i+1}. {line||' '}</span>)}</code></pre><div aria-live="polite"><p>{index+1} / {demo.steps.length}: {text(step.explanation)}</p><pre><code>{step.values}</code></pre></div><div className="button-row"><button type="button" className="button subtle" disabled={index===0} onClick={()=>setIndex(value=>value-1)}>{traceCopy.previous[ui]}</button><button type="button" className="button subtle" disabled={index===demo.steps.length-1} onClick={()=>setIndex(value=>value+1)}>{traceCopy.next[ui]}</button></div></div>;
+ return <div className="code-trace"><p>{traceCopy.note[ui]}</p><pre tabIndex={0}><code>{demo.code.split('\n').map((line,i)=><span key={i} aria-current={step.line===i+1?'step':undefined} style={{display:'block',background:step.line===i+1?'var(--accent-soft, #3155aa30)':undefined}}>{i+1}. {line||' '}</span>)}</code></pre><div aria-live="polite"><p>{index+1} / {demo.steps.length}: {text(step.explanation)}</p><pre tabIndex={0}><code>{step.values}</code></pre></div><div className="button-row"><button type="button" className="button subtle" disabled={index===0} onClick={()=>setIndex(value=>value-1)}>{traceCopy.previous[ui]}</button><button type="button" className="button subtle" disabled={index===demo.steps.length-1} onClick={()=>setIndex(value=>value+1)}>{traceCopy.next[ui]}</button></div></div>;
 }

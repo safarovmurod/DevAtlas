@@ -16,6 +16,6 @@ export function SourcePractice() {
  <div className="tabs" role="tablist" aria-label={copy.files}>{lesson.blocks.map((item,index)=><button role="tab" aria-selected={fileIndex===index} key={item.path} onClick={()=>setFileIndex(index)}>{item.path}</button>)}</div>
  {block&&<PracticeWorkspace key={active+'-'+fileIndex} exercise={{id:'source-'+active+'-'+fileIndex,title:lesson.title,task:lesson.intro,starter:block.practiceCode,solution:block.code,hint:block.hintCode||'',files:[block.path],criteria:lesson.steps.map(step=>step[2])}}/>}
  {lesson.concepts&&<details className="panel"><summary>{language==='ru'?'Что делает каждая часть кода':'What each part of the code does'}</summary><div className="concept-grid">{lesson.concepts.map((concept,index)=><section key={index}><h3>{concept[0]}</h3><p lang="tg">{concept.slice(1).join(' · ')}</p></section>)}</div></details>}
- {group in source.fullFiles&&<details className="panel"><summary>{copy.files} · {group}</summary>{(source.fullFiles[group as keyof typeof source.fullFiles]).map((file)=><details key={file.path} className="code-disclosure"><summary>{file.path}</summary><pre><code>{file.code}</code></pre></details>)}</details>}
+ {group in source.fullFiles&&<details className="panel"><summary>{copy.files} · {group}</summary>{(source.fullFiles[group as keyof typeof source.fullFiles]).map((file)=><details key={file.path} className="code-disclosure"><summary>{file.path}</summary><pre tabIndex={0}><code>{file.code}</code></pre></details>)}</details>}
  </section>;
 }

@@ -31,5 +31,5 @@ export function PracticeWorkspace({exercise}:{exercise:PracticeExercise}) {
  <div className="editor-footer"><span>{state.drafts[exercise.id]!==undefined?copy.saved:'TypeScript / React'}</span>{exercise.tests&&<button className="button primary" disabled={busy} onClick={handleRun}><Play size={16}/>{busy?copy.loading:copy.run}</button>}</div>
  {error&&<p className="error-message" role="alert">{error}</p>}
  {results.length>0&&<div className="test-results" aria-live="polite">{results.map((result,index)=><div className={result.passed?'success-text':'warning-text'} key={index}><strong>{result.passed?'✓':'×'} {result.name}</strong>{!result.passed&&<p>{result.error||'Expected: '+JSON.stringify(result.expected)+' · Actual: '+JSON.stringify(result.actual)}</p>}</div>)}</div>}
- <details className="solution"><summary>{copy.solution}</summary><pre><code>{exercise.solution}</code></pre></details></section></div></>;
+ <details className="solution"><summary>{copy.solution}</summary><pre tabIndex={0}><code>{exercise.solution}</code></pre></details></section></div></>;
 }
