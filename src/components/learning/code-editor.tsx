@@ -11,6 +11,10 @@ export interface CodeEditorProps {
   language?: string;
   label: string;
   height?: number;
+  /** Undo large pastes so practice code is typed by hand. */
+  pasteGuard?: boolean;
+  /** VS Code-like Emmet abbreviations for HTML/CSS. undefined = no Emmet notice. */
+  emmet?: boolean;
 }
 
 function EditorLoading() {

@@ -6,6 +6,7 @@ import { COURSE_CATALOG } from '@/content/courses/catalog';
 import { CodeEditor } from '@/components/learning/code-editor';
 import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
+import { EMMET_FROM_DAY } from '@/lib/editor-copy';
 import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import { courseText, type CourseLesson } from '@/lib/courses/schema';
 import type { ImportedCourseId } from '@/lib/courses/ids';
@@ -115,7 +116,7 @@ export function CoursePractice({ courseId, lesson }: { courseId: ImportedCourseI
   return <div className="course-practice-studio">
     <details className="practice-instructions" open><summary>{labels.instructions}</summary><p className="preserve-lines">{courseText(practice.task, state.contentLanguage)}</p>{(practice.hints??[practice.hint]).map((hint,index)=><details key={index} className="practice-hint"><summary>{copy.hint}{practice.hints?` ${index+1}`:null}</summary><p className="preserve-lines">{courseText(hint, state.contentLanguage)}</p></details>)}</details>
     {written?<div className="written-practice"><label htmlFor={lesson.id+'-answer'}>{copy.yourAnswer}</label><textarea id={lesson.id+'-answer'} rows={10} value={code} onChange={event=>update(event.target.value)} maxLength={100000}/><p className="small muted">{copy.saved}</p></div>:<div className="editor-panel"><div className="editor-header"><span><FileCode2 size={16} />{filename}</span><span>{language}</span></div>
-      <CodeEditor path={courseId + '/' + lesson.id + '/' + filename} language={language} label={ui.yourCode} value={code} onChange={update} />
+      <CodeEditor path={courseId + '/' + lesson.id + '/' + filename} language={language} label={ui.yourCode} value={code} onChange={update} pasteGuard emmet={courseId === 'html' || courseId === 'css' ? (lesson.day ?? 0) >= EMMET_FROM_DAY : undefined} />
       <div className="editor-footer"><span>{copy.saved}</span><div className="button-row">{courseId === 'html' && <button className="button subtle" disabled={!code.trim()} onClick={() => setPreview(code)}><Eye size={16} />{ui.showHtml}</button>}{automatic && <button className="button primary" disabled={!code.trim() || submitting} onClick={verify}><Play size={16} />{submitting ? copy.loading : labels.verify}</button>}</div></div>
     </div>}
     {courseId === 'html' && preview !== null && <iframe title={ui.htmlResult} className="html-preview" sandbox="" referrerPolicy="no-referrer" srcDoc={safeHtmlPreview(preview)} />}
