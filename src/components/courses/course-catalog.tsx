@@ -2,7 +2,8 @@
 import { OnboardingBanner } from '@/components/onboarding/onboarding-banner';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, BookOpen, CheckCircle2, Search, Terminal, Compass, Code2, Palette, Megaphone, ChartNoAxesCombined, BriefcaseBusiness, MessagesSquare, Clapperboard, Languages, Shapes, Heart, ChevronRight, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, CheckCircle2, Search, Terminal, Compass, ChevronRight } from 'lucide-react';
+import { CATEGORY_ICONS } from './category-icons';
 import { PREMIUM_COPY } from '@/lib/premium-copy';
 import type { CourseAccessTier } from '@/lib/courses/access';
 import { courseTopicCount } from '@/lib/course-copy';
@@ -68,7 +69,6 @@ const CATALOG_UI:Record<'ru'|'en'|'tg'|'uk'|'ja'|'ko',CatalogCopy>={
   },
 };
 
-const CATEGORY_ICONS = {programming:Code2,ai:Sparkles,design:Palette,marketing:Megaphone,analytics:ChartNoAxesCombined,business:BriefcaseBusiness,'soft-skills':MessagesSquare,content:Clapperboard,languages:Languages,kids:Shapes,lifestyle:Heart};
 const BROWSE_COPY = {
   ru:{categories:'Направления обучения',all:'Все направления',allTracks:'Все специализации',browse:'Каталог курсов',programming:'Специализации в программировании',results:'Найдено',reset:'Сбросить фильтры',empty:'В этом направлении пока нет подходящих курсов. Выберите другое или измените поиск.',step:'Начните с первого дня',intro:'Вводный модуль',search:'Название курса или навык'},
   en:{categories:'Explore learning paths',all:'All categories',allTracks:'All specializations',browse:'Course catalog',programming:'Programming specializations',results:'Found',reset:'Reset filters',empty:'No matching courses in this category yet. Choose another category or change your search.',step:'Start with day one',intro:'Introductory module',search:'Course name or skill'},
@@ -118,7 +118,7 @@ export function CourseCatalog() {
   function choose(id:CourseId) {
     useLearningStore.getState().chooseCourse(id);
     useAppStore.setState({sidebarOpen:false,tutorDrawerOpen:false,tutorQuestion:null});
-    router.push(id === 'react' ? '/courses/react' : `/courses/${id}/plan`);
+    router.push(id === 'react' ? '/courses/react' : `/courses/${id}/plan`,{transitionTypes:['nav-fade']});
   }
   // JavaScript month 2 is reached through the month tabs on the JS1 card;
   // CSS is a full standalone course again and keeps its own card.

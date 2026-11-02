@@ -1,13 +1,23 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, NotebookPen, ArrowRight, BookOpen } from 'lucide-react';
+import { CheckCircle2, Copy, NotebookPen, ArrowRight, BookOpen } from 'lucide-react';
 import type { AnswerTopic, AnswerQuestion, SourceAnswerQuestion } from '@/content/answers';
 import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
 import { tr } from '@/lib/translate';
 import type { InterfaceLocale } from '@/lib/locale';
 import { PageHeading } from './page-heading';
+import { COPY_CODE_ERROR } from '@/lib/learning-ui-copy';
+
+function AnswerCodeBlock({code,language}:{code:string;language:InterfaceLocale}) {
+  const [status,setStatus]=useState<'idle'|'copied'|'error'>('idle');
+  async function copyCode() {
+    try { await navigator.clipboard.writeText(code);setStatus('copied'); }
+    catch { setStatus('error'); }
+  }
+  return <div className="answer-code"><div className="answer-code-toolbar"><button type="button" className="button subtle" onClick={copyCode}><Copy size={15}/>{status==='copied'?COPY[language].copied:COPY[language].copy}</button></div><pre tabIndex={0}><code>{code}</code></pre>{status==='error'&&<p role="alert">{COPY_CODE_ERROR[language]}</p>}</div>;
+}
 
 function ReadingQuestion({ question, index, topic }: { question: AnswerQuestion; index: number; topic: AnswerTopic }) {
   const language = useLearningStore(state => state.language);
@@ -33,7 +43,7 @@ function ReadingQuestion({ question, index, topic }: { question: AnswerQuestion;
         {variant.context && <p className="preserve-lines">{translate(variant.context)}</p>}
         <AnswerContent question={variant} language={language} contentLanguage={contentLanguage}/>
         {variant.topicExplanation.map((section, i) => <section key={i}><h3>{translate(section.title)}</h3><p className="preserve-lines">{translate(section.text)}</p></section>)}
-        {variant.topicCode.map((code, i) => <pre key={i}><code>{code}</code></pre>)}
+        {variant.topicCode.map((code, i) => <AnswerCodeBlock key={i} code={code} language={language}/>)}
         {variant.flow.length > 0 && <Flow steps={variant.flow} language={contentLanguage}/>}
         <p className="source-line">{copy.source}: {variant.topicSources.join(' + ')} · {variant.topicSourceId} · {variant.sourceId}</p>
       </section>)}
@@ -47,7 +57,7 @@ function AnswerContent({ question, language, contentLanguage }: { question: Sour
   return <div className="answer-content-block">
     <h3>{copy.answer}</h3><p className="preserve-lines">{translate(question.answer)}</p>
     {question.deeper.length > 0 && <section className="answer-deeper"><h3>{translate(question.deeperTitle)}</h3><ul>{question.deeper.map((point, i) => <li key={i}>{translate(point)}</li>)}</ul></section>}
-    {question.code.map((code, i) => <section key={i}><h3>{translate(question.codeLabel) || copy.code}</h3><pre><code>{code}</code></pre></section>)}
+    {question.code.map((code, i) => <section key={i}><h3>{translate(question.codeLabel) || copy.code}</h3><AnswerCodeBlock code={code} language={language}/></section>)}
     {question.explanation && <section><h3>{language === 'ru' ? 'Что произошло и почему' : 'What happened and why'}</h3><p className="preserve-lines">{translate(question.explanation)}</p></section>}
     {question.diagrams.map((diagram, i) => <section key={i}><h3>{translate(diagram.title)}</h3><Flow steps={diagram.steps} language={contentLanguage}/></section>)}
   </div>;
@@ -80,7 +90,7 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
       <article className="panel lesson-article" lang={contentLanguage}>
         {topic.context && <section className="answer-context"><h2>{ru ? 'Контекст задачи' : 'Task context'}</h2><p className="preserve-lines">{translate(topic.context)}</p></section>}
         {topic.explanation.map((section, index) => <section key={index}><h2>{translate(section.title)}</h2><p className="preserve-lines">{translate(section.text)}</p></section>)}
-        {topic.code.map((code, index) => <section key={index}><h2>{copy.code} {topic.code.length > 1 ? index + 1 : ''}</h2><pre><code>{code}</code></pre></section>)}
+        {topic.code.map((code, index) => <section key={index}><h2>{copy.code} {topic.code.length > 1 ? index + 1 : ''}</h2><AnswerCodeBlock code={code} language={language}/></section>)}
         <section>{topic.questions.length > 0 && <div className="section-heading"><h2>{copy.questions} · {topic.questions.length}</h2></div>}
           {topic.questions.length > 5 && <input className="search-input" aria-label={copy.search} placeholder={copy.search} value={query} onChange={event => setQuery(event.target.value)}/>}
           <div className="answer-reading-list">{filtered.map(question => <ReadingQuestion key={question.id} question={question} topic={topic} index={topic.questions.indexOf(question)}/>)}</div>
@@ -90,7 +100,7 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
         {topic.relatedQuestions.length > 0 && <section className="answer-related"><h2>{ru ? 'Общие ответы по теме' : 'Shared answers for this topic'}</h2><p>{ru ? 'Все объяснения собраны в одном ответе.' : 'All explanations are collected in one answer.'}</p>{topic.relatedQuestions.map(reference => <Link id={reference.id} className="answer-related-link" key={reference.id} href={'/answers/' + reference.topicId + '#' + reference.questionId}><span>{translate(reference.question)}</span><ArrowRight size={16}/></Link>)}</section>}
         <p className="source-line">{copy.source}: {topic.sources.map(source => source === 'deep' ? 'react_deep_understanding.html' : source === 'quiz' ? 'react_quiz.html' : 'react-interview.html').join(' + ')} · {topic.sourceId}</p>
       </article>
-      <aside className="lesson-aside">{topic.flow.length > 0 && <section className="panel"><h2>{copy.flow}</h2><Flow steps={topic.flow} language={contentLanguage}/></section>}
+      <aside className="lesson-aside">{topic.questions.length>0&&<nav className="panel answer-toc" aria-label={copy.questions}><h2>{copy.questions}</h2><ol>{topic.questions.map(question=><li key={question.id}><a href={'#'+question.id} onClick={()=>{const target=document.getElementById(question.id);if(target instanceof HTMLDetailsElement)target.open=true;}}>{translate(question.question)}</a></li>)}</ol></nav>}{topic.flow.length > 0 && <section className="panel"><h2>{copy.flow}</h2><Flow steps={topic.flow} language={contentLanguage}/></section>}
         {topic.lessonId && <section className="panel answers-next-step"><h3>{ru ? 'Закрепить тему' : 'Practice this topic'}</h3><p>{ru ? 'После чтения попробуйте ответить без подсказки.' : 'After reading, try answering without a hint.'}</p><Link className="button primary full-width" href={(topic.sources.includes('interview') ? '/interview?topic=' : '/tests?topic=') + topic.lessonId}>{topic.sources.includes('interview') ? copy.interview : copy.tests}<ArrowRight size={16}/></Link><Link className="button subtle full-width" href={'/lesson/' + topic.lessonId}>{copy.openLesson}</Link></section>}
         <Link className="button subtle full-width" href="/answers">{ru ? 'Все ответы' : 'All answers'}</Link>
       </aside>

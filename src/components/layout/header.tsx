@@ -1,12 +1,13 @@
 'use client';
 import Link from 'next/link';
-import { Compass, Menu, Settings2, Clock3, Sparkles, ChevronRight } from 'lucide-react';
+import { Menu, Settings2, Clock3, Sparkles, ChevronRight } from 'lucide-react';
 import { useAppStore } from '@/stores/app-store';
 import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
-import { AccountAvatar } from '@/components/account/account-avatar';
 import { courseName } from '@/content/courses/catalog';
-import { BRAND_NAME } from '@/lib/brand';
+import { Brand } from './brand';
+import { LanguageMenu } from './language-menu';
+import { AccountMenu } from './account-menu';
 
 export function Header() {
   const toggleSidebar = useAppStore(state=>state.toggleSidebar);
@@ -17,12 +18,11 @@ export function Header() {
   const course = useLearningStore(state=>state.selectedCourse);
   const copy = COPY[language];
   const openMenu=({ru:'Открыть меню',en:'Open menu',tg:'Кушодани меню',uk:'Відкрити меню',ja:'メニューを開く',ko:'메뉴 열기'})[language];
-  const profileLabel=({ru:'Профиль',en:'Profile',tg:'Профил',uk:'Профіль',ja:'プロフィール',ko:'프로필'})[language];
   return <header className="app-header">
     <div className="header-brand"><button className="icon-button mobile-menu" onClick={toggleSidebar} aria-label={openMenu} aria-expanded={sidebarOpen} aria-controls="learning-sidebar"><Menu size={21}/></button>
-      <Link href="/courses" className="brand" aria-label={BRAND_NAME}><span className="brand-icon"><Compass size={23}/></span><span>Dev<span className="brand-light">Atlas</span></span></Link>
+      <Brand/>
     </div>
     <span className="header-caption"><ChevronRight size={15}/>{courseName(course)}</span>
-    <div className="header-tools"><button className="icon-button" onClick={()=>setTutorDrawerOpen(true)} aria-label="AI Tutor"><Sparkles size={19}/></button><span className="active-time"><Clock3 size={16}/>{Math.floor(seconds/60)}:{String(seconds%60).padStart(2,'0')}</span><Link href="/settings" className="language-link">{language.toUpperCase()}</Link><Link href="/settings" className="icon-button header-settings" aria-label={copy.settings}><Settings2 size={19}/></Link><Link href="/settings" className="header-profile" aria-label={profileLabel}><AccountAvatar/></Link></div>
+    <div className="header-tools"><button className="icon-button" onClick={()=>setTutorDrawerOpen(true)} aria-label="AI Tutor"><Sparkles size={19}/></button><span className="active-time"><Clock3 size={16}/>{Math.floor(seconds/60)}:{String(seconds%60).padStart(2,'0')}</span><LanguageMenu/><Link href="/settings" transitionTypes={['nav-fade']} className="icon-button header-settings" aria-label={copy.settings}><Settings2 size={19}/></Link><AccountMenu/></div>
   </header>;
 }

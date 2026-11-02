@@ -51,7 +51,8 @@ export const KOREAN_LEARNING_COPY = {
 export const KOREAN_AUTH_COPY = {
   signupTitle:'함께 학습해요', resetTitle:'계정 복구', loginTitle:'학습을 계속하세요', intro:'진도, 노트, 실습을 컴퓨터와 휴대전화에서 이어가세요.',
   unavailable:'로그인과 가입이 아직 설정되지 않았습니다. 강의와 해설은 계정 없이 이용할 수 있으며 AI에는 계정이 필요합니다.',
-  guest:'게스트로 계속', google:'Google로 계속', recommended:'추천', orEmail:'또는 이메일로', name:'이름', password:'비밀번호',
+  guest:'게스트로 계속', google:'Google로 계속', recommended:'추천', orEmail:'또는 이메일로', name:'이름', email:'이메일 주소', password:'비밀번호', showPassword:'비밀번호 표시', hidePassword:'비밀번호 숨기기', passwordHint:'8자 이상',
+  loginTab:'로그인', panelTitle:'나의 속도로 한 걸음씩 배우세요.', panelBenefits:['하루 단위로 정리된 수업','실습과 결과 확인','진도와 노트를 한곳에서'], panelFlow:'수업 → 코드 → 확인',
   creating:'생성 중…', saveWait:'잠시 기다려 주세요…', signUp:'계정 만들기', sendLink:'링크 보내기', signIn:'이메일로 로그인', existing:'이미 계정이 있나요? 로그인',
   createAccount:'계정 만들기', forgot:'비밀번호를 잊으셨나요?', backToLogin:'로그인으로 돌아가기', security:'Google 또는 이메일 · 무료 계정',
   googleError:'Google 로그인을 사용할 수 없습니다. 이메일을 이용하거나 나중에 다시 시도하세요.', resetSent:'등록된 이메일 주소라면 비밀번호 재설정 링크가 전송됩니다.', confirmEmail:'이메일의 링크로 주소를 인증한 후 로그인하세요.',

@@ -54,8 +54,9 @@ test('Backend flow has keyboard-controlled code traces, local-only assessment co
  await question.getByRole('radio').nth(first.correctIndex).check();await question.getByRole('button',{name:'Проверить',exact:true}).click();
  await expect(question.getByRole('status')).not.toContainText('Неверно');
  await expect(question).toContainText(first.answer.ru);
- await page.goto('/courses/backend/plan');const download=page.getByRole('link',{name:/Backend local Node.js laboratory/});
+ await page.goto('/courses/backend/plan');const download=page.getByRole('link',{name:'Материал 1 · ZIP',exact:true});
  await expect(download).toHaveAttribute('href',course.files[0].url);
+ await expect(download).toHaveAttribute('title',course.files[0].title);
  const response=await request.get(course.files[0].url);expect(response.status()).toBe(200);expect((await response.body()).length).toBe(course.files[0].bytes);
 });
 test('Backend day 14 grades UTF-8 boundaries in the browser and final day exposes the complete local project contract',async({page,request})=>{

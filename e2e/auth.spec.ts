@@ -64,7 +64,7 @@ async function mockBackend(page:Page,signupFailure=false,previous?:MockServerSta
   return {profiles,progress,factors,uploads,signups,tokenGrants,oauth:()=>oauth};
 }
 async function login(page:Page,email='a@example.com') {
-  await page.getByLabel('Email',{exact:true}).fill(email);await page.getByLabel('Пароль',{exact:true}).fill('test-password-123');await page.getByRole('button',{name:'Войти с email',exact:true}).click();
+  await page.getByLabel('Электронная почта',{exact:true}).fill(email);await page.getByLabel('Пароль',{exact:true}).fill('test-password-123');await page.getByRole('button',{name:'Войти с email',exact:true}).click();
 }
 async function firstName(page:Page,name:string) {
   await expect(page.getByRole('heading',{name:'Как вас называть?'})).toBeVisible();await page.getByLabel('Ваше имя',{exact:true}).fill(name);await page.getByRole('button',{name:'Начать обучение',exact:true}).click();await expect(page.locator('.header-tools .avatar')).toHaveAttribute('aria-label',name);
@@ -83,9 +83,9 @@ test('email signup sends the name and callback, then asks for email confirmation
   const backend=await mockBackend(page);await page.goto('/login');
   await page.getByRole('button',{name:'Создать аккаунт',exact:true}).click();
   await page.getByLabel('Ваше имя',{exact:true}).fill('Одина');
-  await page.getByLabel('Email',{exact:true}).fill('new@example.com');
+  await page.getByLabel('Электронная почта',{exact:true}).fill('new@example.com');
   await page.getByLabel('Пароль',{exact:true}).fill('test-password-123');
-  await page.getByRole('button',{name:'Создать аккаунт',exact:true}).first().click();
+  await page.locator('.account-form').getByRole('button',{name:'Создать аккаунт',exact:true}).click();
   await expect(page.getByRole('status')).toContainText('Проверьте email и подтвердите адрес');
   expect(backend.signups).toEqual([{email:'new@example.com',data:{full_name:'Одина'},redirect:'http://127.0.0.1:3101/auth/callback'}]);
 });
@@ -95,11 +95,11 @@ test('signup explains a temporary email quota and allows retry (mock backend)',a
   await mockBackend(page,true);await page.goto('/login');
   await page.getByRole('button',{name:'Создать аккаунт',exact:true}).click();
   await page.getByLabel('Ваше имя',{exact:true}).fill('Одина');
-  await page.getByLabel('Email',{exact:true}).fill('new@example.com');
+  await page.getByLabel('Электронная почта',{exact:true}).fill('new@example.com');
   await page.getByLabel('Пароль',{exact:true}).fill('test-password-123');
-  await page.getByRole('button',{name:'Создать аккаунт',exact:true}).first().click();
+  await page.locator('.account-form').getByRole('button',{name:'Создать аккаунт',exact:true}).click();
   await expect(page.locator('.auth-card').getByRole('alert')).toContainText('Лимит отправки писем');
-  await expect(page.getByRole('button',{name:'Создать аккаунт',exact:true}).first()).toBeEnabled();
+  await expect(page.locator('.account-form').getByRole('button',{name:'Создать аккаунт',exact:true})).toBeEnabled();
 });
 
 test('first name, private notes and profile survive login, account switching and reload (mock backend)',async ({page})=>{

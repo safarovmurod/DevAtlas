@@ -1,7 +1,9 @@
 'use client';
-import {useState} from 'react';
+import {useState,useSyncExternalStore} from 'react';
 import Link from 'next/link';
+import {CheckCircle2} from 'lucide-react';
 import {useLearningStore} from '@/stores/learning-store';
+import {COPY} from '@/lib/i18n';
 import {courseText,type CourseText} from '@/lib/courses/schema';
 import {LEARNING_FLOW_STAGES,type LearningFlow} from '@/lib/courses/learning-flow';
 import type {InterfaceLocale} from '@/lib/locale';
@@ -32,10 +34,14 @@ function useFlowText(){
 }
 const assessmentHref=(flow:LearningFlow,lessonId:string,practiceHref:string)=>flow.assessmentMode==='local-only'?practiceHref.replace('/practice','/tests'):`${practiceHref}#${lessonId}-assessment`;
 const anchor=(id:string,stage:string)=>`${id}-flow-${stage}`;
-export function LessonFlowIntro({flow,lessonId,practiceHref}:{flow:LearningFlow;lessonId:string;practiceHref:string}){
- const {text,label}=useFlowText();
+const subscribeHash=(notify:()=>void)=>{window.addEventListener('hashchange',notify);return()=>window.removeEventListener('hashchange',notify);};
+const currentHash=()=>{try{return decodeURIComponent(window.location.hash.slice(1));}catch{return '';}};
+export function LessonFlowIntro({flow,lessonId,practiceHref,studied,practiced}:{flow:LearningFlow;lessonId:string;practiceHref:string;studied:boolean;practiced:boolean}){
+ const {text,label,ui}=useFlowText();
+ const hash=useSyncExternalStore(subscribeHash,currentHash,()=> '');
+ const current=LEARNING_FLOW_STAGES.find(stage=>hash===anchor(lessonId,stage)) || 'learn';
  return <div className="lesson-flow-intro" id={anchor(lessonId,'learn')}>
-  <nav className="learning-flow-nav" aria-label={label('route')}>{LEARNING_FLOW_STAGES.map(stage=><Link key={stage} href={stage==='test'?assessmentHref(flow,lessonId,practiceHref):`#${anchor(lessonId,stage)}`}>{label(stage)}</Link>)}</nav>
+  <nav className="learning-flow-nav" aria-label={label('route')}>{LEARNING_FLOW_STAGES.map((stage,index)=>{const done=(stage==='learn'&&studied)||(stage==='practice'&&practiced);return <Link key={stage} href={stage==='test'?assessmentHref(flow,lessonId,practiceHref):`#${anchor(lessonId,stage)}`} aria-current={stage===current?'step':undefined} aria-label={label(stage)+(done?` · ${COPY[ui].completed}`:'')}><span className="flow-step-number" aria-hidden="true">{done?<CheckCircle2 size={15}/>:index+1}</span>{label(stage)}</Link>;})}</nav>
   <h3>{label('goals')}</h3><ul>{flow.objectives.map((objective,index)=><li key={index}>{text(objective)}</li>)}</ul>
   <h3>{label('real')}</h3><p>{text(flow.realWorld)}</p>
  </div>;
@@ -71,7 +77,7 @@ function HtmlDocumentExplorer({demo}:{demo:Extract<LearningFlow['demo'],{kind:'h
   <label className="dom-text-input">{label('node')}: {selected}<input aria-label={`${label('node')}: ${selected}`} maxLength={160} value={values[selected]} onChange={event=>setValues(old=>({...old,[selected]:event.target.value}))}/></label>
   <p className="demo-browser-tab">{label('tab')}: <strong>{values.title}</strong></p>
   <iframe className="html-preview" title={label('preview')} sandbox="" referrerPolicy="no-referrer" srcDoc={code}/>
-  <details open><summary>{label('code')}</summary><pre><code>{code}</code></pre></details>
+  <details open><summary>{label('code')}</summary><pre tabIndex={0}><code>{code}</code></pre></details>
  </div>;
 }
 
@@ -84,5 +90,5 @@ const traceCopy={
 };
 function CodeTrace({demo}:{demo:Extract<LearningFlow['demo'],{kind:'code-trace'}>}){
  const {text,ui}=useFlowText();const [index,setIndex]=useState(0);const step=demo.steps[index];
- return <div className="code-trace"><p>{traceCopy.note[ui]}</p><pre><code>{demo.code.split('\n').map((line,i)=><span key={i} aria-current={step.line===i+1?'step':undefined} style={{display:'block',background:step.line===i+1?'var(--accent-soft, #3155aa30)':undefined}}>{i+1}. {line||' '}</span>)}</code></pre><div aria-live="polite"><p>{index+1} / {demo.steps.length}: {text(step.explanation)}</p><pre><code>{step.values}</code></pre></div><div className="button-row"><button type="button" className="button subtle" disabled={index===0} onClick={()=>setIndex(value=>value-1)}>{traceCopy.previous[ui]}</button><button type="button" className="button subtle" disabled={index===demo.steps.length-1} onClick={()=>setIndex(value=>value+1)}>{traceCopy.next[ui]}</button></div></div>;
+ return <div className="code-trace"><p>{traceCopy.note[ui]}</p><pre tabIndex={0}><code>{demo.code.split('\n').map((line,i)=><span key={i} aria-current={step.line===i+1?'step':undefined} style={{display:'block',background:step.line===i+1?'var(--accent-soft, #3155aa30)':undefined}}>{i+1}. {line||' '}</span>)}</code></pre><div aria-live="polite"><p>{index+1} / {demo.steps.length}: {text(step.explanation)}</p><pre tabIndex={0}><code>{step.values}</code></pre></div><div className="button-row"><button type="button" className="button subtle" disabled={index===0} onClick={()=>setIndex(value=>value-1)}>{traceCopy.previous[ui]}</button><button type="button" className="button subtle" disabled={index===demo.steps.length-1} onClick={()=>setIndex(value=>value+1)}>{traceCopy.next[ui]}</button></div></div>;
 }

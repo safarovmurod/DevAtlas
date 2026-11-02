@@ -37,7 +37,7 @@ describe('general course catalog navigation',()=>{
     expect(designCard).toBeInTheDocument();
     fireEvent.click(within(designCard).getByRole('button',{name:'Выбрать '+courseDisplayName('ux-design','ru')}));
     expect(mocks.chooseCourse).toHaveBeenCalledWith('ux-design');
-    expect(mocks.push).toHaveBeenCalledWith('/courses/ux-design/plan');
+    expect(mocks.push).toHaveBeenCalledWith('/courses/ux-design/plan',{transitionTypes:['nav-fade']});
     expect(mocks.setState).toHaveBeenCalledWith({sidebarOpen:false,tutorDrawerOpen:false,tutorQuestion:null});
     await waitFor(()=>expect(screen.queryByText('Проверяем материалы…')).not.toBeInTheDocument());
   });

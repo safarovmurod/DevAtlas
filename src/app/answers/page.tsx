@@ -1,3 +1,5 @@
+
+import { PageTransition } from '@/components/layout/page-transition';
 import { AnswersLibrary } from '@/components/learning/answers-library';
 import { ANSWER_COUNT, ANSWER_PROGRESS_IDS, answerSummary, filterAnswerTopics, type AnswerSource } from '@/content/answers';
 
@@ -12,5 +14,5 @@ export default async function AnswersPage({ searchParams }: { searchParams: Prom
   const page = Math.min(pageCount, Math.max(1, Number.isInteger(Number(params.page)) ? Number(params.page) : 1));
   const groups = [1,2,3].map(id => ({ id, count: filterAnswerTopics(source, id, '').reduce((sum, topic) => sum + topic.questions.length, 0) }));
   const deepAnswers = filterAnswerTopics('deep', 0, '').reduce((sum, topic) => sum + topic.questions.length, 0);
-  return <AnswersLibrary topics={topics.slice((page - 1) * 18, page * 18).map(answerSummary)} source={source} group={group} query={query} page={page} pageCount={pageCount} totalTopics={topics.length} totalAnswers={ANSWER_COUNT} deepAnswers={deepAnswers} progressIds={ANSWER_PROGRESS_IDS} groups={groups}/>;
+  return <PageTransition><AnswersLibrary topics={topics.slice((page - 1) * 18, page * 18).map(answerSummary)} source={source} group={group} query={query} page={page} pageCount={pageCount} totalTopics={topics.length} totalAnswers={ANSWER_COUNT} deepAnswers={deepAnswers} progressIds={ANSWER_PROGRESS_IDS} groups={groups}/></PageTransition>;
 }

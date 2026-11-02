@@ -7,12 +7,16 @@ Downloaded over verified HTTPS from the official `google/fonts` repository:
 - `https://raw.githubusercontent.com/google/fonts/main/ofl/inter/Inter%5Bopsz,wght%5D.ttf`
 - `https://raw.githubusercontent.com/google/fonts/main/ofl/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf`
 
-SHA-256 of the bundled files (recorded after download):
+Inter is the same downloaded variable font, converted losslessly from TTF to WOFF2 to reduce transfer size. It uses `font-display: optional` so a slow first visit keeps its fallback for that page instead of shifting content when Inter arrives; cached or fast loads can use Inter immediately. No font family was added.
+
+SHA-256 of the bundled files:
 
 ```text
-29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031  Inter.ttf
+f45042ef1e286a1f01559386ee04a3e10285c601b56f4fc88045c33e478a33c7  Inter.woff2
 48715a42ec242c21e9f02692891e147d022299a52e48d5e413e1a942193ffeda  JetBrainsMono.ttf
 ```
+
+The original downloaded Inter TTF had SHA-256 `29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031`.
 
 ## Actual glyph coverage (26 October 2026)
 

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { AuthScreen, FirstProfileScreen, MfaChallengeScreen, PasswordRecoveryScreen } from '@/components/account/auth-screen';
 import { AccountSettings } from '@/components/account/account-settings';
@@ -149,9 +149,9 @@ it('translates an auth provider quota error after submission without exposing it
   mocked.account!.user=null;render(<AuthScreen/>);
   fireEvent.click(screen.getByRole('button',{name:'Создать аккаунт'}));
   fireEvent.change(screen.getByLabelText('Ваше имя'),{target:{value:'Одина'}});
-  fireEvent.change(screen.getByLabelText('Email'),{target:{value:'a@example.com'}});
+  fireEvent.change(screen.getByLabelText('Электронная почта'),{target:{value:'a@example.com'}});
   fireEvent.change(screen.getByLabelText('Пароль'),{target:{value:'password-123'}});
-  fireEvent.click(screen.getAllByRole('button',{name:'Создать аккаунт'})[0]);
+  fireEvent.click(within(document.querySelector('form.account-form')!).getByRole('button',{name:'Создать аккаунт'}));
   await screen.findByRole('alert');
   for (const locale of locales) {changeLanguage(locale);expect(screen.getByRole('alert')).toHaveTextContent(labels[locale].quota);}
   expect(document.body.textContent).not.toContain('private backend trace');
