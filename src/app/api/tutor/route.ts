@@ -77,15 +77,25 @@ export async function POST(req: NextRequest) {
   if (action === 'explain_code' && !codeContext?.trim()) return error('Кодро барои шарҳ фиристед.', 400);
 
   const deep = isDeep || wantsDeepExplanation(userText);
+  const previousUserMessage=[...history].reverse().find(item=>item.role==='user' && !isDeepFollowUp(item.content))?.content;
+  const previousUserQuestion=previousUserMessage && tutorScope(previousUserMessage)==='allowed' ? previousUserMessage : undefined;
   const query = isDeepFollowUp(userText)
-    ? [...history].reverse().find(item => item.role === 'user' && !isDeepFollowUp(item.content))?.content || ''
+    ? previousUserQuestion || ''
     : userText;
   if (action === 'ask') {
-    const previousUserQuestion=[...history].reverse().find(item=>item.role==='user' && tutorScope(item.content)==='allowed')?.content;
     const scope=tutorScope(userText,previousUserQuestion,codeContext);
-    if (scope!=='allowed') return tutorJson({
-      mode:'local',reply:tutorScopeReply[language][scope],usage:{totalTokens:0},
-    });
+    if (scope!=='allowed') {
+      // An explicit source ID may resolve a generic request locally, after the
+      // paid-course authorization above. Never send an unclassified request to AI.
+      const referenceIntent=isDeepFollowUp(userText)
+        || /^(?:explain|show|describe|review)\s+(?:(?:the|this|my|private|current)\s+){0,2}(?:lesson|question|exercise|topic|material)[.!?\s]*$/iu.test(userText);
+      if (scope==='outside' && questionId && referenceIntent) {
+        const reference=courseId==='react' ? projectAnswer(query,{questionId,deep,language}) : await courseAnswer(courseId,query,{questionId,deep,language});
+        if (reference?.source?.questionId===questionId) return tutorJson({mode:'local',...reference,usage:{totalTokens:0}});
+      }
+      if (scope==='outside' && isDeepFollowUp(userText) && !query) return tutorJson({mode:'local',reply:{tg:'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.',ru:'Какой вопрос разобрать подробнее? Напишите вопрос или тему.',en:'Which question should we explore? Write a question or topic.'}[language],usage:{totalTokens:0}});
+      return tutorJson({mode:'local',reply:tutorScopeReply[language][scope],usage:{totalTokens:0}});
+    }
     const local = courseId==='react' ? projectAnswer(query, { questionId, deep, language }) : await courseAnswer(courseId,query,{questionId,deep,language});
     if (local) return tutorJson({ mode: 'local', ...local, usage: { totalTokens: 0 } });
     if (deep && !query) return tutorJson({mode:'local',reply:{tg:'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.',ru:'Какой вопрос разобрать подробнее? Напишите вопрос или тему.',en:'Which question should we explore? Write a question or topic.'}[language],usage:{totalTokens:0}});

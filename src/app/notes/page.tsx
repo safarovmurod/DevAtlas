@@ -1,4 +1,6 @@
 'use client';
+import { PageTransition } from '@/components/layout/page-transition';
+
 import { useState } from 'react';
 import { Plus, Pencil, Trash2, NotebookPen } from 'lucide-react';
 import { useLearningStore } from '@/stores/learning-store';
@@ -7,7 +9,7 @@ import { PageHeading } from '@/components/learning/page-heading';
 import { courseName } from '@/content/courses/catalog';
 export default function NotesPage() {
  const course=useLearningStore(state=>state.selectedCourse);
- return <NotesWorkspace key={course}/>;
+ return <PageTransition><NotesWorkspace key={course}/></PageTransition>;
 }
 function NotesWorkspace() {
  const state=useLearningStore();const course=state.selectedCourse;const notes=course==='react'?state.notes:state.courses[course]?.notes || [];const saveNote=(note:typeof state.notes[number])=>course==='react'?state.saveNote(note):state.saveCourseNote(course,note);const deleteNote=(id:string)=>course==='react'?state.deleteNote(id):state.deleteCourseNote(course,id);const copy=COPY[state.language];const [editing,setEditing]=useState<string|null>(null);const [title,setTitle]=useState('');const [content,setContent]=useState('');const [deleted,setDeleted]=useState<(typeof state.notes)[number]|null>(null);

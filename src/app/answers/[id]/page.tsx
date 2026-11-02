@@ -1,3 +1,5 @@
+
+import { PageTransition } from '@/components/layout/page-transition';
 import { notFound } from 'next/navigation';
 import { AnswerReader } from '@/components/learning/answer-reader';
 import { getAnswerTopic } from '@/content/answers';
@@ -11,5 +13,5 @@ export default async function AnswerPage({ params }: { params: Promise<{ id: str
   const { id } = await params;
   const topic = getAnswerTopic(id);
   if (!topic) notFound();
-  return <AnswerReader topic={topic}/>;
+  return <PageTransition><AnswerReader topic={topic}/></PageTransition>;
 }

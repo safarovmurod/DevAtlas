@@ -51,6 +51,7 @@ test('phone header controls never overlap and the menu scrolls, traps focus and 
   await expect.poll(async()=>Math.round((await drawer.boundingBox())!.x)).toBe(0);
   await expect(drawer.getByRole('button',{name:'Закрыть меню'})).toBeFocused();
   expect(await page.evaluate(()=>document.body.style.overflow)).toBe('hidden');
+  await drawer.locator('.profile-row').scrollIntoViewIfNeeded();
   const profile=await drawer.locator('.profile-row').boundingBox();expect(profile!.y+profile!.height).toBeLessThanOrEqual(568);
   await drawer.locator('.profile-row').focus();await page.keyboard.press('Tab');
   await expect(drawer.getByRole('button',{name:'Закрыть меню'})).toBeFocused();
@@ -71,7 +72,7 @@ test('unconfigured registration explains the blocker and offers usable guest acc
     await page.setViewportSize({width,height:740});await page.goto('/login');
     await expect(page.getByRole('status')).toContainText('Вход и регистрация пока не подключены');
     await expect(page.getByRole('button',{name:'Продолжить с Google',exact:true})).toBeDisabled();
-    await expect(page.getByLabel('Email',{exact:true})).toBeDisabled();
+    await expect(page.getByLabel('Электронная почта',{exact:true})).toBeDisabled();
     await expect(page.getByRole('button',{name:'Продолжить как гость',exact:true})).toBeInViewport();
     const google=await page.locator('.google-button').boundingBox();const label=await page.locator('.google-button > span:last-child').boundingBox();
     expect(label!.x+label!.width).toBeLessThanOrEqual(google!.x+google!.width);

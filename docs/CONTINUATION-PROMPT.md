@@ -2,7 +2,7 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `99dee7c7b85cd1dbad89e16b1af80d8904dea9cd`. Фактический каталог: 43 IDs, 38 направлений, 1118 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29`. Фактический каталог: 43 IDs, 38 направлений, 1118 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
