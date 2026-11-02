@@ -30,6 +30,38 @@ test('15-question onboarding builds a beginner plan and a daily schedule', async
   expect(errors).toEqual([]);
 });
 
+test('placement check measures knowledge and sets level and course', async ({ page }, testInfo) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/onboarding');
+  // First option everywhere (frontend, tg), except question 4 «have you coded?» → «a little».
+  for (let index = 0; index < 15; index++) await page.locator('.answer-option').nth(index === 3 ? 1 : 0).click();
+  await expect(page.getByRole('heading', { name: 'Санҷиши кӯтоҳи дониш' })).toBeVisible();
+  await page.getByRole('button', { name: /Сар кардан/ }).click();
+  await expect(page.getByText('Савол 1 аз 6')).toBeVisible();
+  // Tier 1 right (HTML <a>, flex row), everything after «I don't know».
+  await page.getByRole('button', { name: '<a>', exact: true }).click();
+  await page.locator('.answer-option').first().click();
+  await expect(page.locator('.placement-code')).toContainText('nums.map');
+  for (let index = 0; index < 4; index++) await page.getByRole('button', { name: 'Намедонам' }).click();
+  await expect(page.getByRole('heading', { name: /JavaScript · JS1/ })).toBeVisible();
+  await expect(page.locator('.level-badge')).toContainText('Миёна');
+  await expect(page.locator('.onboarding-level')).toContainText('2 / 6');
+  await page.screenshot({ path: testInfo.outputPath('placement-result.png'), fullPage: true });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
+  await page.goto('/courses');
+  await expect(page.locator('.onboarding-banner')).toContainText('Миёна');
+  expect(errors).toEqual([]);
+});
+
+test('placement check can be skipped and then uses the self-estimate', async ({ page }) => {
+  await page.goto('/onboarding');
+  for (let index = 0; index < 15; index++) await page.locator('.answer-option').nth(index === 3 ? 2 : 0).click();
+  await page.getByRole('button', { name: 'Гузаштан бе санҷиш' }).click();
+  await expect(page.getByText('Сатҳ аз рӯи ҷавобҳои шумо муайян шуд', { exact: false })).toBeVisible();
+  await expect(page.locator('.level-badge')).toContainText('Миёна');
+});
+
 test('Day 0 explains VS Code and the console and checks understanding', async ({ page }, testInfo) => {
   await page.goto('/start');
   await expect(page.getByRole('heading', { name: 'Рӯзи 0: аз ин ҷо сар кунед' })).toBeVisible();
