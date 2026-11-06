@@ -5,17 +5,16 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export const isSupabaseAdminConfigured = Boolean(
-  supabaseUrl &&
-  serviceRoleKey &&
-  supabaseUrl.startsWith('http') &&
-  serviceRoleKey.length > 10
+  supabaseUrl && serviceRoleKey && supabaseUrl.startsWith('http') && serviceRoleKey.length > 10,
 );
 
 let adminClient: SupabaseClient | null = null;
 
 export function getSupabaseAdminClient(): SupabaseClient | null {
   if (typeof window !== 'undefined') {
-    throw new Error('SECURITY VIOLATION: Supabase Admin Client must never be called in the browser!');
+    throw new Error(
+      'SECURITY VIOLATION: Supabase Admin Client must never be called in the browser!',
+    );
   }
   if (!isSupabaseAdminConfigured) {
     return null;

@@ -1,10 +1,4 @@
-import {
-  StudyEvent,
-  TopicMastery,
-  CourseProgress,
-  StreakInfo,
-  DailyPlan,
-} from '@/types';
+import { StudyEvent, TopicMastery, CourseProgress, StreakInfo, DailyPlan } from '@/types';
 import { TOPICS } from '@/content/topics';
 
 export interface ProgressCalculationResult {
@@ -23,7 +17,7 @@ export function calculateTopicMastery(topicId: string, events: StudyEvent[]): To
   const topicEvents = events.filter((e) => e.topicId === topicId);
 
   const practiceEvents = topicEvents.filter(
-    (e) => e.eventType === 'practice_passed' || e.eventType === 'practice_failed'
+    (e) => e.eventType === 'practice_passed' || e.eventType === 'practice_failed',
   );
   const quizEvents = topicEvents.filter((e) => e.eventType === 'quiz_answered');
   const interviewEvents = topicEvents.filter((e) => e.eventType === 'interview_answered');
@@ -42,9 +36,9 @@ export function calculateTopicMastery(topicId: string, events: StudyEvent[]): To
 
   // Default weights
   const defaultWeights = {
-    practice: 0.40,
+    practice: 0.4,
     quiz: 0.25,
-    interview: 0.20,
+    interview: 0.2,
     revision: 0.15,
   };
 
@@ -66,7 +60,7 @@ export function calculateTopicMastery(topicId: string, events: StudyEvent[]): To
   }
 
   const mistakesCount = topicEvents.filter(
-    (e) => e.correct === false || e.eventType === 'practice_failed'
+    (e) => e.correct === false || e.eventType === 'practice_failed',
   ).length;
 
   return {
@@ -88,7 +82,7 @@ export function calculateTopicMastery(topicId: string, events: StudyEvent[]): To
  */
 export function calculateCourseProgress(
   topicMasteries: Record<string, TopicMastery>,
-  completedTopicIds: Set<string>
+  completedTopicIds: Set<string>,
 ): CourseProgress {
   const totalTopics = TOPICS.length;
   const completedCount = completedTopicIds.size;
@@ -100,11 +94,11 @@ export function calculateCourseProgress(
   const avgMastery =
     touchedMasteries.length > 0
       ? Math.round(
-          touchedMasteries.reduce((sum, m) => sum + m.masteryScore, 0) / touchedMasteries.length
+          touchedMasteries.reduce((sum, m) => sum + m.masteryScore, 0) / touchedMasteries.length,
         )
       : 0;
 
-  const totalProgressPct = Math.round(coveragePct * 0.60 + avgMastery * 0.40);
+  const totalProgressPct = Math.round(coveragePct * 0.6 + avgMastery * 0.4);
 
   return {
     coveragePct,
@@ -118,10 +112,7 @@ export function calculateCourseProgress(
 /**
  * Calculates timezone-safe streak and active study minutes
  */
-export function calculateStreak(
-  events: StudyEvent[],
-  activeSecondsToday: number
-): StreakInfo {
+export function calculateStreak(events: StudyEvent[], activeSecondsToday: number): StreakInfo {
   const todayKey = new Date().toISOString().slice(0, 10);
   const minutesToday = Math.round(activeSecondsToday / 60);
 
@@ -167,16 +158,16 @@ export function calculateStreak(
  */
 export function generateDailyPlan(
   dailyTimeMinutes: number,
-  topicMasteries: Record<string, TopicMastery>
+  topicMasteries: Record<string, TopicMastery>,
 ): DailyPlan {
   const targetTime = dailyTimeMinutes || 60;
 
   // Split time: 15% Revision, 40% Practice, 25% Lesson, 20% Interview
   const allocated = {
     revision: Math.round(targetTime * 0.15),
-    practice: Math.round(targetTime * 0.40),
+    practice: Math.round(targetTime * 0.4),
     lesson: Math.round(targetTime * 0.25),
-    interview: Math.round(targetTime * 0.20),
+    interview: Math.round(targetTime * 0.2),
   };
 
   // Find weak topics sorted by mistake count desc

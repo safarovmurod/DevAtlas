@@ -105,7 +105,7 @@ export interface TopicMastery {
 
 export interface CourseProgress {
   coveragePct: number; // % of required topics completed
-  masteryPct: number;  // weighted average of attempts
+  masteryPct: number; // weighted average of attempts
   totalProgressPct: number; // Coverage * 0.60 + Mastery * 0.40
   completedTopicsCount: number;
   totalTopicsCount: number;
@@ -137,7 +137,16 @@ export interface DailyPlan {
 export interface Topic {
   id: string;
   title: string;
-  category: 'js' | 'react_basics' | 'hooks' | 'forms' | 'routing' | 'api' | 'state_mgmt' | 'typescript' | 'advanced';
+  category:
+    | 'js'
+    | 'react_basics'
+    | 'hooks'
+    | 'forms'
+    | 'routing'
+    | 'api'
+    | 'state_mgmt'
+    | 'typescript'
+    | 'advanced';
   stage: number;
   description: string;
   weight: number;
@@ -190,7 +199,18 @@ export interface PracticeTestCase {
 export interface PracticeTask {
   id: string;
   topicId: string;
-  operation: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'INFO' | 'SEARCH' | 'FILTER' | 'PAGINATION' | 'IMAGE_ADD' | 'FORM_SUBMIT';
+  operation:
+    | 'GET'
+    | 'POST'
+    | 'PUT'
+    | 'PATCH'
+    | 'DELETE'
+    | 'INFO'
+    | 'SEARCH'
+    | 'FILTER'
+    | 'PAGINATION'
+    | 'IMAGE_ADD'
+    | 'FORM_SUBMIT';
   stateManager: StateManagerType;
   level: PracticeLevel;
   prompt: string;

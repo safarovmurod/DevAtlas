@@ -6,7 +6,7 @@ import { InterviewQuestion, InterviewGradeResult } from '@/types';
 export function gradeInterviewAnswer(
   question: InterviewQuestion,
   userAnswer: string,
-  isStrict: boolean = false
+  isStrict: boolean = false,
 ): InterviewGradeResult {
   const normalized = userAnswer.toLowerCase().trim();
 
@@ -26,9 +26,7 @@ export function gradeInterviewAnswer(
   const { requiredConcepts, forbiddenContradictions, keyTerms } = question.rubric;
 
   // Check matched key terms & concepts
-  const matchedTerms = keyTerms.filter((term) =>
-    normalized.includes(term.toLowerCase())
-  );
+  const matchedTerms = keyTerms.filter((term) => normalized.includes(term.toLowerCase()));
   const matchedConcepts = requiredConcepts.filter((concept) => {
     const parts = concept.toLowerCase().split(' ');
     // Check if key words of concept are mentioned
@@ -37,18 +35,18 @@ export function gradeInterviewAnswer(
 
   // Check contradictions
   const foundContradictions = (forbiddenContradictions || []).filter((contra) => {
-    const parts = contra.toLowerCase().split(' ').filter((p) => p.length >= 3);
+    const parts = contra
+      .toLowerCase()
+      .split(' ')
+      .filter((p) => p.length >= 3);
     return parts.length > 0 && parts.every((p) => normalized.includes(p));
   });
 
   // Concept coverage percentage
-  const conceptCoverage = requiredConcepts.length > 0
-    ? matchedConcepts.length / requiredConcepts.length
-    : 1;
+  const conceptCoverage =
+    requiredConcepts.length > 0 ? matchedConcepts.length / requiredConcepts.length : 1;
 
-  const termCoverage = keyTerms.length > 0
-    ? matchedTerms.length / keyTerms.length
-    : 1;
+  const termCoverage = keyTerms.length > 0 ? matchedTerms.length / keyTerms.length : 1;
 
   let score = Math.round(conceptCoverage * 60 + termCoverage * 40);
 

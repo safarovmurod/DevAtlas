@@ -61,7 +61,7 @@ export function ActivityTracker() {
       if (isDocumentVisibleRef.current && idleMillis < fiveMinutes) {
         incrementActiveSeconds(1);
         pendingSecondsRef.current++;
-        if (pendingSecondsRef.current>=15) flush();
+        if (pendingSecondsRef.current >= 15) flush();
       } else if (idleMillis >= fiveMinutes) {
         setIsIdle(true);
       }

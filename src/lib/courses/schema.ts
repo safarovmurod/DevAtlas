@@ -1,65 +1,197 @@
 import { z } from 'zod';
 import { COURSE_IDS } from './ids';
-import {learningFlowSchema} from './learning-flow';
-import {writtenRubricSchema} from '@/lib/practice/written-review';
+import { learningFlowSchema } from './learning-flow';
+import { writtenRubricSchema } from '@/lib/practice/written-review';
 
 const text = z.object({ tg: z.string().min(1), ru: z.string().min(1), en: z.string().optional() });
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]{0,119}$/);
-const source = z.object({ id, title: z.string().min(1), url: z.string().url().refine(url => new URL(url).protocol === 'https:'), page: z.number().int().positive().optional() });
-function completeTranslations(value:unknown):boolean{
-  if(Array.isArray(value))return value.every(completeTranslations);
-  if(!value||typeof value!=='object')return true;
-  const fields=value as Record<string,unknown>;
-  if('ru' in fields&&'tg' in fields&&['ru','tg','en'].some(locale=>typeof fields[locale]!=='string'||!(fields[locale] as string).trim()))return false;
+const source = z.object({
+  id,
+  title: z.string().min(1),
+  url: z
+    .string()
+    .url()
+    .refine((url) => new URL(url).protocol === 'https:'),
+  page: z.number().int().positive().optional(),
+});
+function completeTranslations(value: unknown): boolean {
+  if (Array.isArray(value)) return value.every(completeTranslations);
+  if (!value || typeof value !== 'object') return true;
+  const fields = value as Record<string, unknown>;
+  if (
+    'ru' in fields &&
+    'tg' in fields &&
+    ['ru', 'tg', 'en'].some(
+      (locale) => typeof fields[locale] !== 'string' || !(fields[locale] as string).trim(),
+    )
+  )
+    return false;
   return Object.values(fields).every(completeTranslations);
 }
-export const courseContentSchema = z.object({
-  courseId: z.enum(COURSE_IDS).exclude(['react']),
-  sources: z.array(source),
-  files: z.array(z.object({ id, title: z.string().min(1), url: z.string().regex(/^\/course-files\/[a-f0-9]{64}\.[a-z0-9]+$/), bytes: z.number().int().nonnegative(), sha256: z.string().regex(/^[a-f0-9]{64}$/), sourceIds: z.array(id).min(1) })),
-  lessons: z.array(z.object({
-    id, day: z.number().int().min(0).max(120).optional(), prerequisiteDays: z.array(z.number().int().min(0).max(120)).optional(), title: text, summary: text, level: z.enum(['beginner', 'intermediate']), sourceIds: z.array(id).min(1),
-    sections: z.array(z.object({ title: text, body: text, code: z.string().optional(), language: z.string().optional(), output: text.optional() })).min(1),
-    questions: z.array(z.object({ id, question: text, answer: text, hint:text.optional(), relatedSection:z.number().int().nonnegative().optional(), options: z.array(text).min(2).max(6), correctIndex: z.number().int().nonnegative() })),
-    practice: z.object({ kind: z.enum(['code','written']).optional(), execution: z.object({kind:z.literal('javascript-function'),functionName:z.string().regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/),starter:z.string().min(1).max(50000),tests:z.array(z.object({args:z.array(z.unknown()),expected:z.unknown()})).min(3).max(20)}).optional(), referenceAnswer: text.optional(), task: text, hint: text, hints:z.array(text).min(2).max(4).optional(), solution: z.string(), criteria: z.array(text).min(1),rubric:writtenRubricSchema.optional() }).optional(),
-    learningFlow:learningFlowSchema.optional(),
-  })),
-}).superRefine((course, ctx) => {
-  const sourceIds = new Set(course.sources.map(source => source.id));
-  if (sourceIds.size !== course.sources.length) ctx.addIssue({ code: 'custom', message: 'Duplicate source ID' });
-  const lessonIds = new Set<string>(), questionIds = new Set<string>(), fileIds = new Set<string>();
-  const scheduled=course.lessons.filter(lesson=>lesson.day!==undefined).sort((a,b)=>a.day!-b.day!);
-  const route=scheduled.length?scheduled:course.lessons;
-  for (const lesson of course.lessons) {
-    if (lessonIds.has(lesson.id)) ctx.addIssue({ code: 'custom', message: 'Duplicate lesson ID' });
-    lessonIds.add(lesson.id);
-    if((lesson.learningFlow||lesson.practice?.rubric)&&!completeTranslations(lesson))ctx.addIssue({code:'custom',message:'Structured lesson requires complete RU/TG/EN translations: '+lesson.id});
-    if(lesson.practice?.execution&&(lesson.practice.kind!=='code'||lesson.practice.execution.tests.some(test=>!Object.prototype.hasOwnProperty.call(test,'expected'))))ctx.addIssue({code:'custom',message:'Executable practice needs code and explicit expected results'});
-    if(lesson.practice?.rubric&&(lesson.practice.kind!=='written'||lesson.practice.rubric.criteria.length!==lesson.practice.criteria.length))ctx.addIssue({code:'custom',message:'Written rubric must match written practice criteria'});
-    if(lesson.learningFlow){
-      if(!lesson.practice)ctx.addIssue({code:'custom',message:'Learning flow needs independent practice'});
-      if(lesson.learningFlow.walkthroughSections.some(index=>index>=lesson.sections.length))ctx.addIssue({code:'custom',message:'Missing walkthrough section'});
-      const nextId=lesson.learningFlow.nextLessonId,position=route.findIndex(item=>item.id===lesson.id);
-      if(nextId===null){
-        if(position!==route.length-1)ctx.addIssue({code:'custom',message:'Only the final scheduled lesson may end the course'});
-      }else if(!course.lessons.some(next=>next.id===nextId))ctx.addIssue({code:'custom',message:'Missing next lesson'});
-      else if(position>=0&&route[position+1]?.id!==nextId)ctx.addIssue({code:'custom',message:'Next lesson must follow the published sequence'});
+export const courseContentSchema = z
+  .object({
+    courseId: z.enum(COURSE_IDS).exclude(['react']),
+    sources: z.array(source),
+    files: z.array(
+      z.object({
+        id,
+        title: z.string().min(1),
+        url: z.string().regex(/^\/course-files\/[a-f0-9]{64}\.[a-z0-9]+$/),
+        bytes: z.number().int().nonnegative(),
+        sha256: z.string().regex(/^[a-f0-9]{64}$/),
+        sourceIds: z.array(id).min(1),
+      }),
+    ),
+    lessons: z.array(
+      z.object({
+        id,
+        day: z.number().int().min(0).max(120).optional(),
+        prerequisiteDays: z.array(z.number().int().min(0).max(120)).optional(),
+        title: text,
+        summary: text,
+        level: z.enum(['beginner', 'intermediate']),
+        sourceIds: z.array(id).min(1),
+        sections: z
+          .array(
+            z.object({
+              title: text,
+              body: text,
+              code: z.string().optional(),
+              language: z.string().optional(),
+              output: text.optional(),
+            }),
+          )
+          .min(1),
+        questions: z.array(
+          z.object({
+            id,
+            question: text,
+            answer: text,
+            hint: text.optional(),
+            relatedSection: z.number().int().nonnegative().optional(),
+            options: z.array(text).min(2).max(6),
+            correctIndex: z.number().int().nonnegative(),
+          }),
+        ),
+        practice: z
+          .object({
+            kind: z.enum(['code', 'written']).optional(),
+            execution: z
+              .object({
+                kind: z.literal('javascript-function'),
+                functionName: z.string().regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/),
+                starter: z.string().min(1).max(50000),
+                tests: z
+                  .array(z.object({ args: z.array(z.unknown()), expected: z.unknown() }))
+                  .min(3)
+                  .max(20),
+              })
+              .optional(),
+            referenceAnswer: text.optional(),
+            task: text,
+            hint: text,
+            hints: z.array(text).min(2).max(4).optional(),
+            solution: z.string(),
+            criteria: z.array(text).min(1),
+            rubric: writtenRubricSchema.optional(),
+          })
+          .optional(),
+        learningFlow: learningFlowSchema.optional(),
+      }),
+    ),
+  })
+  .superRefine((course, ctx) => {
+    const sourceIds = new Set(course.sources.map((source) => source.id));
+    if (sourceIds.size !== course.sources.length)
+      ctx.addIssue({ code: 'custom', message: 'Duplicate source ID' });
+    const lessonIds = new Set<string>(),
+      questionIds = new Set<string>(),
+      fileIds = new Set<string>();
+    const scheduled = course.lessons
+      .filter((lesson) => lesson.day !== undefined)
+      .sort((a, b) => a.day! - b.day!);
+    const route = scheduled.length ? scheduled : course.lessons;
+    for (const lesson of course.lessons) {
+      if (lessonIds.has(lesson.id))
+        ctx.addIssue({ code: 'custom', message: 'Duplicate lesson ID' });
+      lessonIds.add(lesson.id);
+      if ((lesson.learningFlow || lesson.practice?.rubric) && !completeTranslations(lesson))
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Structured lesson requires complete RU/TG/EN translations: ' + lesson.id,
+        });
+      if (
+        lesson.practice?.execution &&
+        (lesson.practice.kind !== 'code' ||
+          lesson.practice.execution.tests.some(
+            (test) => !Object.prototype.hasOwnProperty.call(test, 'expected'),
+          ))
+      )
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Executable practice needs code and explicit expected results',
+        });
+      if (
+        lesson.practice?.rubric &&
+        (lesson.practice.kind !== 'written' ||
+          lesson.practice.rubric.criteria.length !== lesson.practice.criteria.length)
+      )
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Written rubric must match written practice criteria',
+        });
+      if (lesson.learningFlow) {
+        if (!lesson.practice)
+          ctx.addIssue({ code: 'custom', message: 'Learning flow needs independent practice' });
+        if (
+          lesson.learningFlow.walkthroughSections.some((index) => index >= lesson.sections.length)
+        )
+          ctx.addIssue({ code: 'custom', message: 'Missing walkthrough section' });
+        const nextId = lesson.learningFlow.nextLessonId,
+          position = route.findIndex((item) => item.id === lesson.id);
+        if (nextId === null) {
+          if (position !== route.length - 1)
+            ctx.addIssue({
+              code: 'custom',
+              message: 'Only the final scheduled lesson may end the course',
+            });
+        } else if (!course.lessons.some((next) => next.id === nextId))
+          ctx.addIssue({ code: 'custom', message: 'Missing next lesson' });
+        else if (position >= 0 && route[position + 1]?.id !== nextId)
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Next lesson must follow the published sequence',
+          });
+      }
+      for (const question of lesson.questions) {
+        if (
+          (question.hint === undefined) !== (question.relatedSection === undefined) ||
+          (question.relatedSection !== undefined &&
+            question.relatedSection >= lesson.sections.length)
+        )
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Question feedback needs a matching theory section',
+          });
+        if (questionIds.has(question.id) || question.correctIndex >= question.options.length)
+          ctx.addIssue({ code: 'custom', message: 'Invalid question ID or correct option' });
+        questionIds.add(question.id);
+      }
     }
-    for (const question of lesson.questions) {
-      if((question.hint===undefined)!==(question.relatedSection===undefined)||question.relatedSection!==undefined&&question.relatedSection>=lesson.sections.length)ctx.addIssue({code:'custom',message:'Question feedback needs a matching theory section'});
-      if (questionIds.has(question.id) || question.correctIndex >= question.options.length) ctx.addIssue({ code: 'custom', message: 'Invalid question ID or correct option' });
-      questionIds.add(question.id);
+    for (const file of course.files) {
+      if (fileIds.has(file.id) || !file.url.startsWith('/course-files/' + file.sha256 + '.'))
+        ctx.addIssue({ code: 'custom', message: 'Invalid file ID or digest' });
+      fileIds.add(file.id);
     }
-  }
-  for (const file of course.files) {
-    if (fileIds.has(file.id) || !file.url.startsWith('/course-files/' + file.sha256 + '.')) ctx.addIssue({ code: 'custom', message: 'Invalid file ID or digest' });
-    fileIds.add(file.id);
-  }
-  for (const item of [...course.lessons, ...course.files]) for (const sourceId of item.sourceIds) {
-    if (!sourceIds.has(sourceId)) ctx.addIssue({ code: 'custom', message: 'Missing source reference: ' + sourceId });
-  }
-});
+    for (const item of [...course.lessons, ...course.files])
+      for (const sourceId of item.sourceIds) {
+        if (!sourceIds.has(sourceId))
+          ctx.addIssue({ code: 'custom', message: 'Missing source reference: ' + sourceId });
+      }
+  });
 export type CourseContent = z.infer<typeof courseContentSchema>;
 export type CourseLesson = CourseContent['lessons'][number];
 export type CourseText = CourseLesson['title'];
-export function courseText(value: CourseText, language: 'tg' | 'ru' | 'en') { return value[language] || value.ru; }
+export function courseText(value: CourseText, language: 'tg' | 'ru' | 'en') {
+  return value[language] || value.ru;
+}

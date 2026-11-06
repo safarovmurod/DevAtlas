@@ -32,10 +32,7 @@ export function generatePairCode(secretPepper: string = 'react-mentor-pepper'): 
  */
 export function hashPairCode(code: string, secretPepper: string = 'react-mentor-pepper'): string {
   const cleanCode = code.replace(/\s+/g, '').trim();
-  return crypto
-    .createHash('sha256')
-    .update(`${cleanCode}:${secretPepper}`)
-    .digest('hex');
+  return crypto.createHash('sha256').update(`${cleanCode}:${secretPepper}`).digest('hex');
 }
 
 /**

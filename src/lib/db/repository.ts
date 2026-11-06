@@ -1,12 +1,6 @@
 import { localDb } from './dexie-db';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
-import type {
-  UserProfile,
-  ResumeSession,
-  StudyEvent,
-  NoteItem,
-  DataMode,
-} from '@/types';
+import type { UserProfile, ResumeSession, StudyEvent, NoteItem, DataMode } from '@/types';
 
 /**
  * Unified Repository managing Local (IndexedDB) and Global (Supabase) data isolation
@@ -207,7 +201,10 @@ export class MentorRepository {
    * Idempotent migration from Local to Global
    * Merges without duplicate events, duplicate XP, or repeated completions
    */
-  static async migrateLocalToGlobal(workspaceId: string, userId: string): Promise<{ migratedCount: number }> {
+  static async migrateLocalToGlobal(
+    workspaceId: string,
+    userId: string,
+  ): Promise<{ migratedCount: number }> {
     const supabase = getSupabaseBrowserClient();
     if (!supabase) {
       throw new Error('Supabase танзим нашудааст');
@@ -234,7 +231,7 @@ export class MentorRepository {
           idempotency_key: evt.idempotencyKey,
           created_at: evt.createdAt,
         },
-        { onConflict: 'idempotency_key' }
+        { onConflict: 'idempotency_key' },
       );
 
       if (!error) {

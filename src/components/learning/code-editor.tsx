@@ -18,8 +18,13 @@ export interface CodeEditorProps {
 }
 
 function EditorLoading() {
-  const copy=EDITOR_COPY[useLearningStore(state=>state.language)];
-  return <div className="code-editor-loading" role="status"><span className="editor-loading-dot" />{copy.loading}</div>;
+  const copy = EDITOR_COPY[useLearningStore((state) => state.language)];
+  return (
+    <div className="code-editor-loading" role="status">
+      <span className="editor-loading-dot" />
+      {copy.loading}
+    </div>
+  );
 }
 
 const MonacoCodeEditor = dynamic(() => import('./monaco-code-editor'), {
@@ -29,5 +34,9 @@ const MonacoCodeEditor = dynamic(() => import('./monaco-code-editor'), {
 
 /** Loaded only inside a practice workspace; dashboards do not download Monaco. */
 export function CodeEditor(props: CodeEditorProps) {
-  return <div className="learning-code-editor"><MonacoCodeEditor {...props} /></div>;
+  return (
+    <div className="learning-code-editor">
+      <MonacoCodeEditor {...props} />
+    </div>
+  );
 }

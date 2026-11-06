@@ -1,10 +1,15 @@
 /** Locale negotiation is UI personalization, never an authorization signal. */
 export const LOCALE_COOKIE = 'react-mentor-locale';
 export const INTERFACE_LOCALES = ['ru', 'uk', 'en', 'tg', 'ja', 'ko'] as const;
-export type InterfaceLocale = typeof INTERFACE_LOCALES[number];
+export type InterfaceLocale = (typeof INTERFACE_LOCALES)[number];
 export type ContentLocale = 'ru' | 'en' | 'tg';
 export const INTERFACE_LANGUAGE_NAMES: Record<InterfaceLocale, string> = {
-  ru:'Русский', uk:'Українська', en:'English', tg:'Тоҷикӣ', ja:'日本語', ko:'한국어',
+  ru: 'Русский',
+  uk: 'Українська',
+  en: 'English',
+  tg: 'Тоҷикӣ',
+  ja: '日本語',
+  ko: '한국어',
 };
 
 export function isInterfaceLocale(value: unknown): value is InterfaceLocale {
@@ -18,19 +23,27 @@ export function contentLocaleFor(locale: InterfaceLocale): ContentLocale {
 }
 
 const countryLocales: Record<string, InterfaceLocale> = {
-  RU: 'ru', UA: 'uk', US: 'en', TJ: 'tg', JP: 'ja', KR: 'ko',
+  RU: 'ru',
+  UA: 'uk',
+  US: 'en',
+  TJ: 'tg',
+  JP: 'ja',
+  KR: 'ko',
 };
 
 /** q=0 entries must not be selected. Unsupported languages fall through. */
 export function localeFromAcceptLanguage(value: string | null | undefined): InterfaceLocale {
   if (!value) return 'en';
-  const preferred = value.split(',').map((item, index) => {
-    const [tag, ...parts] = item.trim().split(';');
-    const qPart = parts.find(part => /^q=/i.test(part.trim()));
-    const q = qPart ? Number(qPart.trim().slice(2)) : 1;
-    const language = tag?.trim().toLowerCase().split('-')[0];
-    return { index, language, q };
-  }).filter(item => Number.isFinite(item.q) && item.q > 0 && item.q <= 1)
+  const preferred = value
+    .split(',')
+    .map((item, index) => {
+      const [tag, ...parts] = item.trim().split(';');
+      const qPart = parts.find((part) => /^q=/i.test(part.trim()));
+      const q = qPart ? Number(qPart.trim().slice(2)) : 1;
+      const language = tag?.trim().toLowerCase().split('-')[0];
+      return { index, language, q };
+    })
+    .filter((item) => Number.isFinite(item.q) && item.q > 0 && item.q <= 1)
     .sort((a, b) => b.q - a.q || a.index - b.index);
   for (const item of preferred) {
     if (isInterfaceLocale(item.language)) return item.language;
@@ -54,7 +67,10 @@ export function negotiateLocale(input: {
 
 export function getManualLocale(): InterfaceLocale | null {
   if (typeof document === 'undefined') return null;
-  const found = document.cookie.split(';').map(part => part.trim()).find(part => part.startsWith(LOCALE_COOKIE + '='));
+  const found = document.cookie
+    .split(';')
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(LOCALE_COOKIE + '='));
   const value = found?.slice(LOCALE_COOKIE.length + 1) || null;
   return isInterfaceLocale(value) ? value : null;
 }

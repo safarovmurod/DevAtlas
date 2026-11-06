@@ -61,13 +61,13 @@ export function analyzeProjectCode(files: FileToAnalyze[]): CodingProfile {
     if (text.includes('try {') || text.includes('try{')) tryCatchCount++;
 
     // State managers
-    if (text.includes('from \'zustand\'') || text.includes('from "zustand"')) {
+    if (text.includes("from 'zustand'") || text.includes('from "zustand"')) {
       foundManagers.add('zustand');
     }
     if (text.includes('@reduxjs/toolkit') || text.includes('react-redux')) {
       foundManagers.add('redux_toolkit');
     }
-    if (text.includes('from \'jotai\'') || text.includes('from "jotai"')) {
+    if (text.includes("from 'jotai'") || text.includes('from "jotai"')) {
       foundManagers.add('jotai');
     }
     if (text.includes('useState(')) {
@@ -75,10 +75,8 @@ export function analyzeProjectCode(files: FileToAnalyze[]): CodingProfile {
     }
   });
 
-  const apiClient =
-    axiosCount > fetchCount ? 'axios' : fetchCount > axiosCount ? 'fetch' : 'mixed';
-  const asyncStyle =
-    asyncAwaitCount >= promiseThenCount ? 'async_await' : 'promises';
+  const apiClient = axiosCount > fetchCount ? 'axios' : fetchCount > axiosCount ? 'fetch' : 'mixed';
+  const asyncStyle = asyncAwaitCount >= promiseThenCount ? 'async_await' : 'promises';
   const errorHandling = tryCatchCount > 0 ? 'try_catch' : 'none';
 
   // Confidence calculation
@@ -100,7 +98,8 @@ export function analyzeProjectCode(files: FileToAnalyze[]): CodingProfile {
     apiClient,
     asyncStyle,
     namingStyle: 'camelCase',
-    stateManagers: Array.from(foundManagers).length > 0 ? Array.from(foundManagers) : ['react_local'],
+    stateManagers:
+      Array.from(foundManagers).length > 0 ? Array.from(foundManagers) : ['react_local'],
     errorHandling,
     confidence,
     sampleFilesCount: filtered.length,

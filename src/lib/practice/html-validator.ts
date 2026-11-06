@@ -4,14 +4,21 @@ import type { PracticeCheck } from './types';
 type Node = DefaultTreeAdapterTypes.Node;
 type Element = DefaultTreeAdapterTypes.Element;
 const element = (node: Node): node is Element => 'tagName' in node;
-const attr = (node: Element | undefined, name: string) => node?.attrs.find(item => item.name === name)?.value ?? '';
+const attr = (node: Element | undefined, name: string) =>
+  node?.attrs.find((item) => item.name === name)?.value ?? '';
 
 function descendants(root: Node | undefined, tag: string): Element[] {
   if (!root) return [];
-  const found: Element[] = [], queue: Node[] = [root];
+  const found: Element[] = [],
+    queue: Node[] = [root];
   while (queue.length) {
     const node = queue.pop()!;
-    if (element(node) && node.tagName === tag && node.namespaceURI === 'http://www.w3.org/1999/xhtml') found.push(node);
+    if (
+      element(node) &&
+      node.tagName === tag &&
+      node.namespaceURI === 'http://www.w3.org/1999/xhtml'
+    )
+      found.push(node);
     if ('childNodes' in node) queue.push(...node.childNodes);
   }
   return found;
@@ -56,17 +63,40 @@ export function validateFirstHtmlLesson(code: string): PracticeCheck[] {
   const mainElements = mainContent(body);
   const metas = descendants(head, 'meta');
   return [
-    { id: 'doctype', passed: document.childNodes.some(node => node.nodeName === '#documentType' && 'name' in node && node.name.toLowerCase() === 'html') },
+    {
+      id: 'doctype',
+      passed: document.childNodes.some(
+        (node) =>
+          node.nodeName === '#documentType' && 'name' in node && node.name.toLowerCase() === 'html',
+      ),
+    },
     { id: 'language', passed: Boolean(attr(html, 'lang').trim()) },
-    { id: 'encoding', passed: metas.some(meta => /^utf-?8$/i.test(attr(meta, 'charset').trim())) },
-    { id: 'viewport', passed: metas.some(meta => attr(meta, 'name').toLowerCase() === 'viewport' && /(?:^|,)\s*width\s*=\s*device-width\s*(?:,|$)/i.test(attr(meta, 'content'))) },
+    {
+      id: 'encoding',
+      passed: metas.some((meta) => /^utf-?8$/i.test(attr(meta, 'charset').trim())),
+    },
+    {
+      id: 'viewport',
+      passed: metas.some(
+        (meta) =>
+          attr(meta, 'name').toLowerCase() === 'viewport' &&
+          /(?:^|,)\s*width\s*=\s*device-width\s*(?:,|$)/i.test(attr(meta, 'content')),
+      ),
+    },
     { id: 'title', passed: descendants(head, 'title').some(hasText) },
-    { id: 'heading', passed: mainElements.some(node => node.tagName === 'h1' && hasText(node)) },
-    { id: 'paragraph', passed: mainElements.some(node => node.tagName === 'p' && hasText(node)) },
-    { id: 'link', passed: mainElements.some(link => {
-      if (link.tagName !== 'a') return false;
-      if (!hasText(link)) return false;
-      try { return new URL(attr(link, 'href')).protocol === 'https:'; } catch { return false; }
-    }) },
+    { id: 'heading', passed: mainElements.some((node) => node.tagName === 'h1' && hasText(node)) },
+    { id: 'paragraph', passed: mainElements.some((node) => node.tagName === 'p' && hasText(node)) },
+    {
+      id: 'link',
+      passed: mainElements.some((link) => {
+        if (link.tagName !== 'a') return false;
+        if (!hasText(link)) return false;
+        try {
+          return new URL(attr(link, 'href')).protocol === 'https:';
+        } catch {
+          return false;
+        }
+      }),
+    },
   ];
 }

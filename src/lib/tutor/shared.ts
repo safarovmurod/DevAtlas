@@ -8,8 +8,11 @@ export interface TutorSource {
 }
 
 export function isDeepFollowUp(text: string): boolean {
-  return /^(?:ч[уқукӯ]+ур(?:тар)?\s*(?:фаҳмон|фахмон)?|глубже|подробнее|объясни подробнее|deeper|explain more|expand)[.!?\s]*$/i.test(text.trim())
-    || /^саволи пешинаро(?:\s|$)/i.test(text.trim());
+  return (
+    /^(?:ч[уқукӯ]+ур(?:тар)?\s*(?:фаҳмон|фахмон)?|глубже|подробнее|объясни подробнее|deeper|explain more|expand)[.!?\s]*$/i.test(
+      text.trim(),
+    ) || /^саволи пешинаро(?:\s|$)/i.test(text.trim())
+  );
 }
 
 export function wantsDeepExplanation(text: string): boolean {
