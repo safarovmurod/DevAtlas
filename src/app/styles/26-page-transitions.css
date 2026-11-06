@@ -1,0 +1,151 @@
+/* Typed page transitions and mobile shell. */
+/* Typed navigation keeps the surrounding learning shell still. */
+.page-transition {
+  min-width: 0;
+}
+.app-header {
+  view-transition-name: app-header;
+}
+.sidebar {
+  view-transition-name: app-sidebar;
+}
+.agent-bubble {
+  view-transition-name: site-agent;
+}
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-group(app-header),
+::view-transition-group(app-sidebar),
+::view-transition-group(site-agent) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(app-header),
+::view-transition-old(app-sidebar),
+::view-transition-old(site-agent) {
+  display: none;
+}
+::view-transition-new(app-header),
+::view-transition-new(app-sidebar),
+::view-transition-new(site-agent) {
+  animation: none;
+}
+::view-transition-old(.nav-fade) {
+  animation: nav-fade-out 120ms var(--ease-out) both;
+}
+::view-transition-new(.nav-fade) {
+  animation: nav-fade-in 200ms var(--ease-out) both;
+}
+::view-transition-old(.nav-forward) {
+  animation: nav-forward-out 200ms var(--ease-in-out) both;
+}
+::view-transition-new(.nav-forward) {
+  animation: nav-forward-in 320ms var(--ease-out) both;
+}
+::view-transition-old(.nav-back) {
+  animation: nav-back-out 200ms var(--ease-in-out) both;
+}
+::view-transition-new(.nav-back) {
+  animation: nav-back-in 320ms var(--ease-out) both;
+}
+@keyframes nav-fade-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes nav-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes nav-forward-out {
+  to {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+@keyframes nav-forward-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes nav-back-out {
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes nav-back-in {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+@media (max-width: 860px) {
+  :is(
+    .brand,
+    .public-brand,
+    .auth-brand,
+    .back-link,
+    .text-link,
+    .button,
+    .auth-tabs button,
+    .auth-links button,
+    .header-popover button,
+    .header-popover a,
+    .practice-course-tabs a,
+    .category-reset,
+    .setting-row select,
+    .course-materials a,
+    .track-stage a,
+    .public-policy > a,
+    .agent-chips button,
+    .agent-links a,
+    .course-access-filters button,
+    .catalog-search input,
+    .public-footer-column a,
+    summary,
+    .course-options label,
+    .assessment-choice,
+    .checklist label,
+    .topic-picks label,
+    .month-tabs a,
+    .month-tabs button,
+    .exercise-tabs button,
+    .filters select
+  ) {
+    min-height: 44px;
+  }
+  :is(.track-stage a, .public-policy > a, .agent-links a, .public-footer-column a) {
+    display: inline-flex;
+    align-items: center;
+  }
+  :is(
+    .public-menu-close,
+    .password-input .icon-button,
+    .agent-tools .icon-button,
+    .tutor-heading .icon-button
+  ) {
+    width: 44px;
+    height: 44px;
+  }
+  .course-practice-studio .editor-footer .button {
+    min-height: 44px;
+  }
+  .button {
+    min-width: 44px;
+  }
+}

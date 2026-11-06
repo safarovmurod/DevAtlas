@@ -1,0 +1,393 @@
+/* Quiet workspace refresh of header, sidebar and courses. */
+/* DevAtlas — a quiet workspace around a focused coding studio. */
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+}
+:where(a, button, input, select, textarea, summary, pre[tabindex]):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+.app-header {
+  height: var(--header-height);
+}
+.header-brand {
+  width: calc(var(--sidebar-width) - 20px);
+  flex: none;
+}
+.brand {
+  font-size: 20px;
+  letter-spacing: -0.055em;
+  gap: 10px;
+}
+.brand-icon {
+  background: var(--accent-solid);
+  border-radius: 11px;
+  box-shadow: var(--shadow-1);
+}
+.header-caption {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  text-align: left;
+}
+.header-caption svg {
+  color: var(--text-muted);
+  flex: none;
+}
+.header-tools {
+  gap: 9px;
+}
+.active-time {
+  background: var(--control-hover);
+  border-color: var(--border);
+  font-size: 12px;
+}
+.sidebar {
+  padding: 24px 14px 16px;
+  gap: 12px;
+  background: var(--card);
+}
+.sidebar-top {
+  display: flex;
+  padding: 0 12px 8px;
+  min-height: 20px;
+}
+.sidebar-top .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+}
+.sidebar-top .mobile-menu {
+  display: none;
+}
+.course-switch {
+  border: 1px solid var(--border);
+  min-height: 58px;
+  height: auto;
+  margin-bottom: 4px;
+}
+.course-switch svg {
+  color: var(--primary);
+}
+.course-switch span {
+  font-size: 12px;
+}
+.course-switch small {
+  font-size: 12px;
+  color: var(--text);
+  font-weight: 650;
+}
+.nav-item {
+  height: 42px;
+  font-size: 13px;
+  border-radius: 10px;
+  gap: 11px;
+}
+.nav-item svg {
+  flex: none;
+  stroke-width: 1.7;
+}
+.nav-item.active {
+  background: var(--primary-soft);
+  color: var(--accent);
+}
+.sidebar-extra {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 13px;
+  margin-top: 3px;
+}
+.sidebar-progress {
+  background: var(--emphasis-surface);
+  border-color: var(--emphasis-border);
+  padding: 15px;
+  border-radius: 13px;
+}
+.sidebar-progress .progress-track {
+  height: 5px;
+}
+.profile-row {
+  padding-top: 11px;
+  border-top: 1px solid var(--border-subtle);
+}
+.page-container {
+  padding: 36px 24px 64px;
+  max-width: 1240px;
+}
+.panel {
+  border-color: var(--border);
+  box-shadow: var(--shadow-1);
+}
+.page-heading h1,
+.dashboard-heading h1 {
+  letter-spacing: -0.03em;
+}
+.button {
+  font-weight: 600;
+  min-height: 40px;
+  transition: none;
+}
+.button.primary {
+  box-shadow: var(--shadow-1);
+}
+.button.primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-2);
+}
+.eyebrow {
+  letter-spacing: 0.09em;
+}
+.course-intro {
+  max-width: 750px;
+  margin-bottom: 28px;
+}
+.course-intro h1 {
+  font-size: clamp(29px, 3.1vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.05em;
+  margin: 15px 0 13px;
+}
+.course-intro p {
+  max-width: 620px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.course-route {
+  border-color: var(--emphasis-border);
+  background: var(--emphasis-surface);
+  padding: 24px;
+  gap: 18px;
+  margin-bottom: 34px;
+}
+.route-icon {
+  display: grid;
+  place-items: center;
+  height: 48px;
+  width: 48px;
+  flex: none;
+  background: var(--well);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--primary);
+}
+.course-route strong {
+  font-size: 14px;
+}
+.course-route .learning-route-steps {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex-wrap: wrap;
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--text-2);
+  margin: 12px 0;
+}
+.learning-route-steps svg {
+  color: var(--text-muted);
+  flex: none;
+}
+.catalog-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.catalog-toolbar h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+}
+.catalog-toolbar h2 svg {
+  color: var(--primary);
+}
+.catalog-search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0 12px;
+  max-width: 270px;
+  min-width: 0;
+  color: var(--text-muted);
+}
+.catalog-search input {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  outline: none;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  color: var(--text);
+}
+.catalog-search:focus-within {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.course-grid {
+  gap: 18px;
+}
+.course-card {
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  transition: none;
+}
+.course-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-2);
+}
+.course-card.course-selected {
+  border-color: var(--accent);
+  box-shadow: inset 0 3px 0 var(--primary);
+}
+.course-card h2 {
+  font-size: 22px;
+  letter-spacing: -0.035em;
+}
+.course-card p {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+.course-card .course-symbol {
+  background: var(--primary-soft);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  font-size: 17px;
+}
+.course-card[data-course='html'] .course-symbol {
+  background: var(--course-html-bg);
+  border-color: var(--course-html-border);
+  color: var(--course-html-text);
+}
+.course-card[data-course='javascript-1'] .course-symbol {
+  background: var(--course-js-bg);
+  border-color: var(--course-js-border);
+  color: var(--course-js-text);
+}
+.course-card[data-course='react'] .course-symbol {
+  background: var(--course-react-bg);
+  border-color: var(--course-react-border);
+  color: var(--course-react-text);
+}
+.course-card[data-course='python'] .course-symbol {
+  background: var(--course-python-bg);
+  border-color: var(--course-python-border);
+  color: var(--course-python-text);
+}
+.course-card[data-course='backend'] .course-symbol {
+  background: var(--course-backend-bg);
+  border-color: var(--course-backend-border);
+  color: var(--course-backend-text);
+}
+.course-card[data-course='mobile'] .course-symbol {
+  background: var(--course-mobile-bg);
+  border-color: var(--course-mobile-border);
+  color: var(--course-mobile-text);
+}
+.course-card[data-course='cpp'] .course-symbol {
+  background: var(--course-cpp-bg);
+  border-color: var(--course-cpp-border);
+  color: var(--course-cpp-text);
+}
+.course-card .course-status {
+  margin-top: 2px;
+}
+.course-card .button {
+  border-radius: 9px;
+  font-size: 12px;
+}
+.course-card .badge {
+  background: var(--primary-soft);
+  color: var(--accent);
+  padding: 5px 8px;
+  line-height: 1.4;
+}
+.catalog-empty {
+  padding: 32px;
+  text-align: center;
+  border: 1px dashed var(--border-strong);
+  border-radius: 14px;
+  background: var(--card);
+}
+.day-card.is-locked {
+  opacity: 1;
+  box-shadow: none;
+  background: var(--locked-surface);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+.day-strip [aria-disabled='true'] {
+  color: var(--text-muted);
+  background: var(--well);
+  border-color: var(--border-strong);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+.course-lesson {
+  padding: 30px;
+}
+.course-lesson h2 {
+  font-size: 22px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+.course-lesson .day-explanation h3 {
+  font-size: 17px;
+}
+.course-lesson p {
+  max-width: 80ch;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.day-confirmation {
+  padding: 20px;
+  border: 1px solid var(--emphasis-border);
+  border-radius: 14px;
+  background: var(--emphasis-surface);
+  margin-top: 24px;
+}
+.day-confirmation p {
+  font-size: 14px;
+  margin: 8px 0 16px;
+}
+.public-home {
+  background: var(--landing-surface);
+  padding: 0 max(24px, calc((100vw - 1200px) / 2));
+}
+.public-header {
+  border-bottom-color: var(--border);
+}
+.public-brand {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  letter-spacing: -0.055em;
+  gap: 0;
+  white-space: nowrap;
+}
+.public-brand .brand-icon {
+  width: 39px;
+  height: 39px;
+  margin-right: 10px;
+  color: var(--text-on-accent);
+}
+.public-hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 64px;
+  padding: 48px 0 72px;
+}
+.public-hero {
+  padding: 0;
+  max-width: none;
+  min-width: 0;
+}

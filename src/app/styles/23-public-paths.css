@@ -1,0 +1,343 @@
+/* Public learning paths and navigation. */
+/* Public learning paths and navigation. */
+.public-home {
+  position: relative;
+  isolation: isolate;
+}
+.public-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  min-height: 72px;
+  background: color-mix(in srgb, var(--canvas) 90%, transparent);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.public-nav,
+.public-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.public-nav a,
+.public-sign-in {
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.public-nav a:hover,
+.public-sign-in:hover {
+  color: var(--accent);
+}
+.public-header-actions {
+  gap: 12px;
+}
+.public-start {
+  white-space: nowrap;
+}
+.public-start-short {
+  display: none;
+}
+.public-menu-toggle {
+  display: none;
+}
+.public-mobile-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: min(300px, calc(100vw - 32px));
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  box-shadow: var(--shadow-3);
+}
+.public-mobile-panel nav {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+}
+.public-header .public-mobile-panel nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: var(--radius-control);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.public-mobile-panel nav a:hover {
+  background: var(--well);
+}
+.public-menu-close {
+  display: flex;
+  margin-left: auto;
+}
+.public-actions .button.primary,
+.public-start {
+  background: var(--brand-gradient);
+}
+.public-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 28px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.public-facts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.public-facts span:not(:first-child)::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+.public-section {
+  padding: 48px 0;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 88px;
+}
+.public-section-heading {
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+.public-section-heading h2 {
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.public-section-heading p {
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.public-direction-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.public-direction-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 82px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform var(--dur-1) var(--ease-out);
+}
+.public-direction-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-2);
+}
+.public-direction-card > span:nth-child(2) {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
+}
+.public-direction-card strong {
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.public-direction-card small {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.public-direction-card > svg {
+  color: var(--text-muted);
+  flex: none;
+}
+.public-direction-icon,
+.public-step-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: var(--radius-control);
+  background: var(--primary-soft);
+  color: var(--accent);
+}
+.public-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.public-steps li {
+  position: relative;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+}
+.public-step-number {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.public-steps h3 {
+  margin-top: 18px;
+  font-size: 16px;
+}
+.public-steps p {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.public-features {
+  padding: 48px 0;
+}
+.public-capabilities {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.public-capabilities li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  color: var(--text-2);
+}
+.public-capabilities svg {
+  flex: none;
+  color: var(--accent);
+}
+.public-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.public-plan-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+}
+.public-plan-card strong {
+  font-size: 18px;
+}
+.public-plan-card span {
+  color: var(--accent);
+  font-weight: 600;
+}
+.public-plan-card small {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.public-plans-link {
+  margin-top: 20px;
+}
+.public-faq {
+  max-width: 820px;
+  border-top: 1px solid var(--border);
+}
+.public-faq details {
+  border-bottom: 1px solid var(--border);
+}
+.public-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 60px;
+  padding: 14px 0;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.public-faq summary::-webkit-details-marker {
+  display: none;
+}
+.public-faq summary svg {
+  flex: none;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.public-faq details[open] summary svg {
+  transform: rotate(180deg);
+}
+.public-faq p {
+  max-width: 70ch;
+  padding: 0 0 20px;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+.public-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 36px;
+  margin-top: 64px;
+  padding: 40px 0 48px;
+  border-top: 1px solid var(--border);
+}
+.public-footer .public-footer-brand,
+.public-footer .public-footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.public-footer-brand p {
+  max-width: 40ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.public-footer-brand small {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.public-footer-column strong {
+  color: var(--text);
+  font-size: 13px;
+}
+.public-footer-column a {
+  color: var(--text-muted);
+  font-size: 13px;
+  text-decoration: none;
+}
+.public-footer-column a:hover {
+  color: var(--accent);
+}

@@ -1,0 +1,198 @@
+/* Compact course navigation and answer workspace. */
+/* Compact course navigation and a readable answer workspace. */
+.track-stages {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--well);
+  scrollbar-width: thin;
+}
+.track-stage {
+  flex: 1 0 170px;
+  gap: 5px;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: transparent;
+}
+.track-stage.is-here {
+  border-color: var(--border);
+  background: var(--card);
+  box-shadow: var(--shadow-1);
+}
+.track-stage:not(.is-here):hover {
+  transform: none;
+}
+.track-stage small {
+  font-size: 12px;
+}
+.day-strip a,
+.day-strip .locked-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex-basis: 44px;
+  height: 44px;
+}
+.day-strip .locked-day {
+  color: var(--text-muted);
+  border-color: var(--border);
+  background: var(--well);
+}
+.learning-flow-nav a {
+  gap: 8px;
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.learning-flow-nav a[aria-current='step'] {
+  border-color: var(--accent);
+  background: var(--primary-soft);
+  color: var(--accent);
+}
+.flow-step-number {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--well);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.learning-flow-nav a[aria-current='step'] .flow-step-number {
+  background: var(--accent-solid);
+  color: var(--text-on-accent);
+}
+.course-materials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.answer-reader-grid .lesson-article p,
+.answer-reader-grid .lesson-article li {
+  font-size: 16px;
+  line-height: 1.75;
+}
+.answer-reader-grid .lesson-aside {
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  max-height: calc(100dvh - var(--header-height) - 40px);
+  overflow-y: auto;
+}
+.answer-code {
+  min-width: 0;
+}
+.answer-code-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+.answer-code-toolbar .button {
+  min-height: 44px;
+}
+.answer-code [role='alert'] {
+  color: var(--danger-text);
+  margin-top: 8px;
+}
+.answer-toc ol {
+  display: grid;
+  gap: 10px;
+  max-height: 45dvh;
+  overflow-y: auto;
+  margin: 0;
+  padding-left: 20px;
+}
+.answer-toc a {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.answer-toc a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.course-option-letter {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 6px;
+  background: var(--well);
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 600;
+}
+.course-options label:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--primary-soft);
+}
+.loading-state {
+  display: grid;
+  gap: 14px;
+  color: var(--text-muted);
+}
+.loading-placeholder {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+}
+.loading-placeholder span {
+  display: block;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--well);
+}
+.loading-placeholder span:nth-child(1) {
+  width: 42%;
+}
+.loading-placeholder span:nth-child(2) {
+  width: 88%;
+}
+.loading-placeholder span:nth-child(3) {
+  width: 64%;
+}
+@media (max-width: 1100px) {
+  .answer-reader-grid .lesson-aside {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+@media (max-width: 650px) {
+  .learning-flow-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+  .learning-flow-nav a {
+    flex: none;
+  }
+  .subtrack-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
+  .subtrack-filters button {
+    flex: none;
+  }
+  .studio-code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
