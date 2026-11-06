@@ -13,8 +13,6 @@ import {
   NotebookPen,
   Settings2,
   X,
-  ArrowUpRight,
-  Layers,
   Crown,
   MessagesSquare,
 } from 'lucide-react';
@@ -27,6 +25,8 @@ import { useAccount } from '@/components/account/account-provider';
 import { AccountAvatar } from '@/components/account/account-avatar';
 import { courseDisplayName } from '@/lib/catalog-copy';
 import { COURSE_CATALOG } from '@/content/courses/catalog';
+import { CourseIcon } from '@/components/courses/course-icon';
+import { Progress } from '@/components/ui/progress';
 const items = [
   { key: 'plan', href: '/plan', icon: Route },
   { key: 'home', href: '/home', icon: CalendarCheck },
@@ -190,6 +190,12 @@ export function Sidebar() {
   const count = LEARNING_TOPICS.filter(
     (topic) => topic.month === reactMonth && completed.includes(topic.id),
   ).length;
+  // React counts studied topics of the current month; other courses count confirmed days.
+  const done = course === 'react' ? count : courseCount;
+  const goal = course === 'react' ? total : courseTotal;
+  const progressPercent = goal ? (done / goal) * 100 : 0;
+  const progressLabel =
+    (course === 'react' ? copy.month + ' ' + reactMonth + ' · ' : '') + done + ' / ' + goal;
   return (
     <>
       {open && (
@@ -226,10 +232,18 @@ export function Sidebar() {
           className={'nav-item course-switch ' + (pathname === '/courses' ? 'active' : '')}
           onClick={() => setOpen(false)}
         >
-          <Layers size={18} />
-          <span>
-            {labels.choose}
-            <small>{courseDisplayName(course, language)}</small>
+          <span className="flex w-full min-w-0 flex-col gap-2">
+            <span className="flex items-center gap-2.5">
+              <CourseIcon courseId={course} size={32} className="rounded-lg" />
+              <span className="grid min-w-0">
+                <small className="text-xs font-medium text-muted-foreground">{labels.choose}</small>
+                <strong className="truncate text-sm font-semibold text-foreground">
+                  {courseDisplayName(course, language)}
+                </strong>
+              </span>
+            </span>
+            <Progress value={progressPercent} label={progressLabel} />
+            <small className="font-mono text-xs text-muted-foreground">{progressLabel}</small>
           </span>
         </Link>
         <nav>
@@ -296,30 +310,6 @@ export function Sidebar() {
           </Link>
         </nav>
         <div className="sidebar-bottom">
-          <div className="sidebar-progress">
-            <div className="between">
-              <span>
-                {course === 'react'
-                  ? copy.month + ' ' + reactMonth
-                  : courseDisplayName(course, language)}
-              </span>
-              <ArrowUpRight size={16} />
-            </div>
-            <strong>
-              {course === 'react' ? count : courseCount}
-              <span>{' / ' + (course === 'react' ? total : courseTotal)}</span>
-            </strong>
-            <div className="progress-track">
-              <span
-                style={{
-                  width:
-                    (course === 'react' && total
-                      ? (count / total) * 100
-                      : (courseCount / courseTotal) * 100) + '%',
-                }}
-              />
-            </div>
-          </div>
           <Link
             transitionTypes={['nav-fade']}
             href="/settings"

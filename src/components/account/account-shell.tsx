@@ -10,6 +10,7 @@ import {
 } from './auth-screen';
 import { Header } from '@/components/layout/header';
 import { Sidebar } from '@/components/layout/sidebar';
+import { MobileTabBar } from '@/components/layout/mobile-tab-bar';
 import { ActivityTracker } from '@/components/providers/activity-tracker';
 import dynamic from 'next/dynamic';
 import { useAppStore } from '@/stores/app-store';
@@ -97,6 +98,7 @@ export function AccountShell({ children }: { children: React.ReactNode }) {
           </Suspense>
         </div>
       </main>
+      <MobileTabBar />
       <SiteAgent key={'agent:' + (account.user?.id || 'guest') + course} />
       {tutorMounted && <TutorDrawer key={'tutor:' + (account.user?.id || 'guest') + course} />}
     </>

@@ -17,7 +17,7 @@ export type CourseStatus = { id: CourseId; ready: boolean; lessons: number; file
 
 const TIER_STYLE = {
   starter: 'bg-success-soft text-success',
-  pro: 'bg-primary-soft text-link',
+  pro: 'bg-primary-soft text-brand',
   expert: 'bg-[var(--tier-expert-bg)] text-[var(--tier-expert-text)]',
 } as const;
 
@@ -79,7 +79,7 @@ export function CourseCard({
         <span className="course-symbol rounded-xl bg-muted text-foreground">
           <CourseIcon courseId={course.id} size={48} />
         </span>
-        <div className="course-badges flex flex-wrap justify-end gap-1.5">
+        <div className="course-badges flex flex-wrap items-start justify-end gap-1.5">
           <span
             className={cn(
               'course-tier rounded-full px-2.5 py-1 text-xs font-semibold',
@@ -105,7 +105,7 @@ export function CourseCard({
       <div className="grid gap-1">
         <h3 className="text-base font-semibold text-foreground">{name}</h3>
         {course.publishedDays ? (
-          <span className="font-mono text-xs text-link">
+          <span className="font-mono text-xs text-brand">
             {courseDayCount(course.publishedDays, language)} · {tierLabel}
           </span>
         ) : null}

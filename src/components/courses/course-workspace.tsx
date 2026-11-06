@@ -1,12 +1,11 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { FileText, Layers } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { LoadingState } from '@/components/learning/loading-state';
 import { coursePublishedDays } from '@/content/courses/catalog';
 import { emptyCourseProgress } from '@/lib/account/progress';
-import { courseDisplayName } from '@/lib/catalog-copy';
-import { COURSE_MATERIAL_LABEL, courseDayCount } from '@/lib/course-copy';
+import { COURSE_MATERIAL_LABEL } from '@/lib/course-copy';
 import { courseAccessTier } from '@/lib/courses/access';
 import { fetchCourseContent } from '@/lib/courses/fetch-course';
 import type { ImportedCourseId } from '@/lib/courses/ids';
@@ -19,6 +18,7 @@ import { useAppStore } from '@/stores/app-store';
 import { useLearningStore } from '@/stores/learning-store';
 import { CourseAnswers } from './course-answers';
 import { CourseDay } from './course-day';
+import { CourseHeader } from './course-header';
 import { JavaScriptMonths, TrackStages } from './course-navigation';
 import { CoursePlan } from './course-plan';
 import { CourseReview } from './course-review';
@@ -292,20 +292,14 @@ export function CourseWorkspace({
 
   return (
     <section className="course-workspace">
-      <Link href="/courses" className="back-link" transitionTypes={['nav-back']}>
-        <Layers size={16} />
-        {ui.allCourses}
-      </Link>
-      <div className="page-heading">
-        <div>
-          <span className="eyebrow">
-            {courseDisplayName(courseId, state.language)} ·{' '}
-            {courseDayCount(plan.length, state.language)}
-          </span>
-          <h1>{titles[section]}</h1>
-          <p>{section === 'plan' ? ui.planIntro : ui.dayIntro}</p>
-        </div>
-      </div>
+      <CourseHeader
+        courseId={courseId}
+        section={section}
+        title={titles[section]}
+        day={day}
+        totalDays={plan.length}
+        doneDays={statuses.days.filter((item) => item.status === 'done').length}
+      />
       <TrackStages courseId={courseId} language={state.language} />
       {translationNotice && <p role="note">{translationNotice}</p>}
       <JavaScriptMonths courseId={courseId} language={state.language} />
