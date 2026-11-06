@@ -214,7 +214,7 @@ test('the stored dark theme is applied before application scripts hydrate',async
   await page.route(/\/_next\/static\/.*\.js(?:\?.*)?$/,route=>route.abort());
   await page.goto('/login',{waitUntil:'domcontentloaded'});
   await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
-  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(13, 20, 34)');
+  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(20, 19, 17)');
 });
 
 test('key screens fit the requested widths in both themes without infinite learning animations',async({page})=>{

@@ -1,0 +1,51 @@
+/* Landing hero from the ZIP mockup (devatlas_desktop): centered text, calm
+   heading size, the editor preview below it. Loaded last on purpose. */
+.public-hero-layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+  padding: 72px 0 80px;
+}
+.public-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
+.public-hero h1 {
+  font-size: clamp(32px, 4.4vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.public-hero h1 span {
+  color: inherit;
+}
+.public-hero > p:not(.public-eyebrow) {
+  max-width: 600px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+.public-actions,
+.public-facts {
+  justify-content: center;
+}
+.studio-preview {
+  width: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
+  transform: none;
+}
+@media (max-width: 860px) {
+  .public-hero-layout {
+    padding: 40px 0 56px;
+    gap: 32px;
+  }
+  .public-hero > p:not(.public-eyebrow) {
+    font-size: 15px;
+  }
+}
+/* The design system has no shadows or glows. */
+.public-actions .button {
+  box-shadow: none;
+}
