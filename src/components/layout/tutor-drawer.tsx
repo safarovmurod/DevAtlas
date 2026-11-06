@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppStore } from '@/stores/app-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { getSessionWithTimeout } from '@/lib/supabase/session';
 import { X, Send, Sparkles, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { useLearningStore } from '@/stores/learning-store';
@@ -137,7 +138,8 @@ export function TutorDrawer() {
     if (!deep) setInput('');
     try {
       const topicId = window.location.pathname.match(/^\/lesson\/([^/]+)$/)?.[1];
-      const session = await getSupabaseBrowserClient()?.auth.getSession();
+      const client = getSupabaseBrowserClient();
+      const session = client ? await getSessionWithTimeout(client) : null;
       const token = session?.data.session?.access_token;
       const response = await fetch('/api/tutor', {
         method: 'POST',

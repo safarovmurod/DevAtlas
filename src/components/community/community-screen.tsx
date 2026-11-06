@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAccount } from '@/components/account/account-provider';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { getSessionWithTimeout } from '@/lib/supabase/session';
 import { useLearningStore } from '@/stores/learning-store';
 import { MEMBERSHIP_COPY, type MembershipCopy } from '@/lib/billing/copy';
 import styles from './membership.module.css';
@@ -29,7 +30,7 @@ function errorKey(status: number): ErrorKey {
 async function request(userId: string, body?: { kind: string; text?: string }) {
   const client = getSupabaseBrowserClient();
   if (!client) throw new Error('login');
-  const { data, error } = await client.auth.getSession();
+  const { data, error } = await getSessionWithTimeout(client);
   if (error || !data.session || data.session.user.id !== userId) throw new Error('login');
   const response = await fetch('/api/community', {
     method: body ? 'POST' : 'GET',
