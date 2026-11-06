@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Compass } from 'lucide-react';
+import { Code } from 'lucide-react';
 import { BRAND_NAME } from '@/lib/brand';
 
 export function Brand({ variant = 'app' }: { variant?: 'app' | 'public' | 'auth' }) {
@@ -13,7 +13,7 @@ export function Brand({ variant = 'app' }: { variant?: 'app' | 'public' | 'auth'
       aria-label={BRAND_NAME}
     >
       <span className="brand-icon">
-        <Compass size={variant === 'public' ? 24 : 23} />
+        <Code size={variant === 'public' ? 22 : 20} strokeWidth={2.2} aria-hidden="true" />
       </span>
       <span>
         Dev<span className="brand-light">Atlas</span>

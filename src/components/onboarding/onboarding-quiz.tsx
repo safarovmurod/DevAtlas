@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, type ReactNode } from 'react';
-import { ArrowLeft, ArrowRight, Compass } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Code } from 'lucide-react';
 import {
   ONBOARDING_QUESTIONS,
   buildPlan,
@@ -31,7 +31,7 @@ function OnboardingShell({ children }: { children: ReactNode }) {
     <main className="onboarding">
       <Link href="/" className="public-brand">
         <span className="brand-icon">
-          <Compass size={22} />
+          <Code size={20} strokeWidth={2.2} aria-hidden="true" />
         </span>
         Dev<span>Atlas</span>
       </Link>

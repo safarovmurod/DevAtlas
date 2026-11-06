@@ -1,8 +1,10 @@
 /* Quiet workspace refresh of header, sidebar and courses. */
 /* DevAtlas — a quiet workspace around a focused coding studio. */
-::selection {
-  background: var(--selection-bg);
-  color: var(--selection-text);
+@layer base {
+  ::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+  }
 }
 :where(a, button, input, select, textarea, summary, pre[tabindex]):focus-visible {
   outline: 3px solid var(--focus-ring);
@@ -16,14 +18,14 @@
   flex: none;
 }
 .brand {
-  font-size: 20px;
-  letter-spacing: -0.055em;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   gap: 10px;
 }
 .brand-icon {
   background: var(--accent-solid);
-  border-radius: 11px;
-  box-shadow: var(--shadow-1);
+  border-radius: 8px;
 }
 .header-caption {
   display: flex;
@@ -229,87 +231,7 @@
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
-.course-grid {
-  gap: 18px;
-}
-.course-card {
-  padding: 25px;
-  position: relative;
-  overflow: hidden;
-  transition: none;
-}
-.course-card:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-2);
-}
-.course-card.course-selected {
-  border-color: var(--accent);
-  box-shadow: inset 0 3px 0 var(--primary);
-}
-.course-card h2 {
-  font-size: 22px;
-  letter-spacing: -0.035em;
-}
-.course-card p {
-  color: var(--text-muted);
-  font-size: 13px;
-  line-height: 1.75;
-}
-.course-card .course-symbol {
-  background: var(--primary-soft);
-  color: var(--accent);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  font-size: 17px;
-}
-.course-card[data-course='html'] .course-symbol {
-  background: var(--course-html-bg);
-  border-color: var(--course-html-border);
-  color: var(--course-html-text);
-}
-.course-card[data-course='javascript-1'] .course-symbol {
-  background: var(--course-js-bg);
-  border-color: var(--course-js-border);
-  color: var(--course-js-text);
-}
-.course-card[data-course='react'] .course-symbol {
-  background: var(--course-react-bg);
-  border-color: var(--course-react-border);
-  color: var(--course-react-text);
-}
-.course-card[data-course='python'] .course-symbol {
-  background: var(--course-python-bg);
-  border-color: var(--course-python-border);
-  color: var(--course-python-text);
-}
-.course-card[data-course='backend'] .course-symbol {
-  background: var(--course-backend-bg);
-  border-color: var(--course-backend-border);
-  color: var(--course-backend-text);
-}
-.course-card[data-course='mobile'] .course-symbol {
-  background: var(--course-mobile-bg);
-  border-color: var(--course-mobile-border);
-  color: var(--course-mobile-text);
-}
-.course-card[data-course='cpp'] .course-symbol {
-  background: var(--course-cpp-bg);
-  border-color: var(--course-cpp-border);
-  color: var(--course-cpp-text);
-}
-.course-card .course-status {
-  margin-top: 2px;
-}
-.course-card .button {
-  border-radius: 9px;
-  font-size: 12px;
-}
-.course-card .badge {
-  background: var(--primary-soft);
-  color: var(--accent);
-  padding: 5px 8px;
-  line-height: 1.4;
-}
+
 .catalog-empty {
   padding: 32px;
   text-align: center;

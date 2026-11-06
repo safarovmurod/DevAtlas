@@ -5,17 +5,19 @@
    Only transform/opacity are animated (compositor-friendly, no repaint).
    Content stays readable: cards/panels keep their opaque backgrounds, and
    the effect is intentionally faint on learning screens. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: -18vmax;
-  z-index: -2;
-  pointer-events: none;
-  background:
-    radial-gradient(36% 30% at 16% 10%, var(--aurora-1) 0%, transparent 68%),
-    radial-gradient(32% 28% at 84% 6%, var(--aurora-2) 0%, transparent 66%),
-    radial-gradient(30% 26% at 62% 92%, var(--aurora-3) 0%, transparent 64%);
-  opacity: var(--aurora-opacity);
+@layer base {
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -18vmax;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      radial-gradient(36% 30% at 16% 10%, var(--aurora-1) 0%, transparent 68%),
+      radial-gradient(32% 28% at 84% 6%, var(--aurora-2) 0%, transparent 66%),
+      radial-gradient(30% 26% at 62% 92%, var(--aurora-3) 0%, transparent 64%);
+    opacity: var(--aurora-opacity);
+  }
 }
 /* Landing hero: layered glow behind the headline and two floating orbs.
    Scoped to the public home so learning screens stay visually quiet. */
@@ -91,8 +93,10 @@ body::before {
   }
 }
 @media (max-width: 650px) {
-  body::after {
-    display: none;
+  @layer base {
+    body::after {
+      display: none;
+    }
   }
   .public-hero::before {
     left: -40px;
@@ -147,14 +151,18 @@ body::before {
    nothing animates layout properties (transform/opacity only). */
 
 /* --- Crisper text rendering everywhere --- */
-body {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+@layer base {
+  body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 }
-h1,
-h2,
-h3 {
-  text-wrap: balance;
+@layer base {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
 }
 
 /* --- Landing: oversized display type --- */

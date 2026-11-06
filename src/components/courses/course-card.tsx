@@ -1,14 +1,25 @@
 'use client';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import type { CourseCatalogEntry } from '@/content/courses/catalog';
 import { courseDescription, courseDisplayName } from '@/lib/catalog-copy';
+import { courseDayCount } from '@/lib/course-copy';
 import type { CourseId } from '@/lib/courses/ids';
 import { PREMIUM_COPY } from '@/lib/premium-copy';
+import { cn } from '@/lib/utils';
 import { useLearningStore } from '@/stores/learning-store';
 import { BROWSE_COPY, CATALOG_UI } from './course-catalog-copy';
+import { CourseIcon } from './course-icon';
 
 /** How many lessons the server has ready for a course. */
 export type CourseStatus = { id: CourseId; ready: boolean; lessons: number; files: number };
+
+const TIER_STYLE = {
+  starter: 'bg-success-soft text-success',
+  pro: 'bg-primary-soft text-link',
+  expert: 'bg-[var(--tier-expert-bg)] text-[var(--tier-expert-text)]',
+} as const;
 
 /** One course in the catalog. JavaScript months 1 and 2 share a single card. */
 export function CourseCard({
@@ -56,37 +67,67 @@ export function CourseCard({
 
   return (
     <article
-      className={'panel course-card ' + (isSelected ? 'course-selected' : '')}
+      className={cn(
+        'course-card flex min-w-0 flex-col gap-3 rounded-lg border bg-card p-5 transition-colors hover:border-primary',
+        isSelected ? 'course-selected border-primary' : 'border-border',
+      )}
       data-course={course.id}
       data-category={course.category}
       data-access-tier={tier}
     >
-      <div className="between">
-        <span className="course-symbol">{course.symbol}</span>
-        <div className="course-badges">
-          <span className={'course-tier tier-' + tier}>{tierLabel}</span>
+      <div className="flex items-start justify-between gap-3">
+        <span className="course-symbol rounded-xl bg-muted text-foreground">
+          <CourseIcon courseId={course.id} size={48} />
+        </span>
+        <div className="course-badges flex flex-wrap justify-end gap-1.5">
+          <span
+            className={cn(
+              'course-tier rounded-full px-2.5 py-1 text-xs font-semibold',
+              `tier-${tier}`,
+              TIER_STYLE[tier],
+            )}
+          >
+            {tierLabel}
+          </span>
           {isSelected ? (
-            <span className="badge">
-              <CheckCircle2 size={14} />
+            <Badge variant="active">
+              <CheckCircle2 size={14} aria-hidden="true" />
               {labels.selected}
-            </span>
+            </Badge>
           ) : course.id === 'html' ? (
-            <span className="badge">{labels.recommended}</span>
+            <Badge variant="active">{labels.recommended}</Badge>
           ) : course.introductoryDays ? (
-            <span className="badge intro-badge">{browse.intro}</span>
+            <Badge className="intro-badge">{browse.intro}</Badge>
           ) : null}
         </div>
       </div>
-      <h3>{name}</h3>
-      <p>{isJavaScript ? labels.jsDescription : courseDescription(course.id, language)}</p>
-      <span className="course-prerequisite">
-        {course.prerequisite
-          ? labels.after + courseDisplayName(course.prerequisite, language)
-          : labels.fromZero}
-      </span>
-      <span className={'course-status ' + (status?.ready ? 'course-ready' : '')}>{statusText}</span>
-      <button
-        className={'button ' + (isSelected ? 'primary' : 'subtle')}
+
+      <div className="grid gap-1">
+        <h3 className="text-base font-semibold text-foreground">{name}</h3>
+        {course.publishedDays ? (
+          <span className="font-mono text-xs text-link">
+            {courseDayCount(course.publishedDays, language)} · {tierLabel}
+          </span>
+        ) : null}
+      </div>
+      <p className="flex-1 text-sm leading-6 text-muted-foreground">
+        {isJavaScript ? labels.jsDescription : courseDescription(course.id, language)}
+      </p>
+
+      <div className="grid gap-1 border-t border-border pt-3 text-xs text-muted-foreground">
+        <span className="course-prerequisite">
+          {course.prerequisite
+            ? labels.after + courseDisplayName(course.prerequisite, language)
+            : labels.fromZero}
+        </span>
+        <span className={cn('course-status', status?.ready && 'course-ready text-success')}>
+          {statusText}
+        </span>
+      </div>
+
+      <Button
+        variant={isSelected ? 'default' : 'secondary'}
+        className="w-full justify-between"
         aria-pressed={isSelected}
         onClick={() =>
           // Continue month 2 if the learner is already studying it.
@@ -95,8 +136,8 @@ export function CourseCard({
         aria-label={labels.choose + ' ' + name}
       >
         {isSelected ? labels.continue : labels.choose}
-        <ArrowRight size={17} />
-      </button>
+        <ArrowRight size={17} aria-hidden="true" />
+      </Button>
     </article>
   );
 }

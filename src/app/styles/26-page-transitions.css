@@ -12,24 +12,32 @@
 .agent-bubble {
   view-transition-name: site-agent;
 }
-::view-transition {
-  pointer-events: none;
+@layer base {
+  ::view-transition {
+    pointer-events: none;
+  }
 }
-::view-transition-group(app-header),
-::view-transition-group(app-sidebar),
-::view-transition-group(site-agent) {
-  animation: none;
-  z-index: 100;
+@layer base {
+  ::view-transition-group(app-header),
+  ::view-transition-group(app-sidebar),
+  ::view-transition-group(site-agent) {
+    animation: none;
+    z-index: 100;
+  }
 }
-::view-transition-old(app-header),
-::view-transition-old(app-sidebar),
-::view-transition-old(site-agent) {
-  display: none;
+@layer base {
+  ::view-transition-old(app-header),
+  ::view-transition-old(app-sidebar),
+  ::view-transition-old(site-agent) {
+    display: none;
+  }
 }
-::view-transition-new(app-header),
-::view-transition-new(app-sidebar),
-::view-transition-new(site-agent) {
-  animation: none;
+@layer base {
+  ::view-transition-new(app-header),
+  ::view-transition-new(app-sidebar),
+  ::view-transition-new(site-agent) {
+    animation: none;
+  }
 }
 ::view-transition-old(.nav-fade) {
   animation: nav-fade-out 120ms var(--ease-out) both;
@@ -86,11 +94,13 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(*),
-  ::view-transition-new(*),
-  ::view-transition-group(*) {
-    animation-duration: 0s !important;
-    animation-delay: 0s !important;
+  @layer base {
+    ::view-transition-old(*),
+    ::view-transition-new(*),
+    ::view-transition-group(*) {
+      animation-duration: 0s !important;
+      animation-delay: 0s !important;
+    }
   }
 }
 
