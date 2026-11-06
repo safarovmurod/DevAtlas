@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useAccount } from '@/components/account/account-provider';
 import { useLearningStore } from '@/stores/learning-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { getSessionWithTimeout } from '@/lib/supabase/session';
 import { ASSESSMENT_COPY } from '@/lib/practice/assessment-copy';
 import type {
   AssessmentAnswer,
@@ -16,19 +17,9 @@ async function tokenFor(actor: string) {
   if (actor === 'guest') return undefined;
   const client = getSupabaseBrowserClient();
   if (!client) throw new Error('Session unavailable');
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  try {
-    const { data, error } = await Promise.race([
-      client.auth.getSession(),
-      new Promise<never>((_, reject) => {
-        timer = setTimeout(() => reject(new Error('Session timeout')), 12000);
-      }),
-    ]);
-    if (error || data.session?.user.id !== actor) throw new Error('Session changed');
-    return data.session.access_token;
-  } finally {
-    clearTimeout(timer);
-  }
+  const { data, error } = await getSessionWithTimeout(client);
+  if (error || data.session?.user.id !== actor) throw new Error('Session changed');
+  return data.session.access_token;
 }
 interface Draft {
   version: number;
