@@ -1,10 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
 import { useAccount } from '@/components/account/account-provider';
 import { useLearningStore } from '@/stores/learning-store';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
-import { getSessionWithTimeout } from '@/lib/supabase/session';
 import { ASSESSMENT_COPY } from '@/lib/practice/assessment-copy';
 import type {
   AssessmentAnswer,
@@ -12,56 +9,16 @@ import type {
   AssessmentSubmission,
   AssessmentView,
 } from '@/lib/practice/assessment';
+import { AssessmentQuestionField } from './assessment-question';
+import { readDraft, saveDraft, tokenFor } from './assessment-storage';
 
-async function tokenFor(actor: string) {
-  if (actor === 'guest') return undefined;
-  const client = getSupabaseBrowserClient();
-  if (!client) throw new Error('Session unavailable');
-  const { data, error } = await getSessionWithTimeout(client);
-  if (error || data.session?.user.id !== actor) throw new Error('Session changed');
-  return data.session.access_token;
-}
-interface Draft {
-  version: number;
-  variantId: string;
-  answers: Record<string, AssessmentAnswer>;
-}
-function readDraft(key: string): { draft: Draft | null; corrupt: boolean } {
-  if (typeof window === 'undefined') return { draft: null, corrupt: false };
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return { draft: null, corrupt: false };
-    const value = JSON.parse(raw);
-    const answerValid = (answer: unknown) =>
-      typeof answer === 'string'
-        ? answer.length <= 500
-        : Array.isArray(answer)
-          ? answer.length <= 6 &&
-            answer.every((item) => typeof item === 'string' && item.length <= 120)
-          : answer !== null &&
-            typeof answer === 'object' &&
-            Object.keys(answer).length <= 6 &&
-            Object.values(answer).every((item) => typeof item === 'string' && item.length <= 120);
-    if (
-      !value ||
-      !Number.isInteger(value.version) ||
-      typeof value.variantId !== 'string' ||
-      !value.answers ||
-      typeof value.answers !== 'object' ||
-      Array.isArray(value.answers) ||
-      Object.keys(value.answers).length > 10 ||
-      !Object.values(value.answers).every(answerValid)
-    )
-      return { draft: null, corrupt: true };
-    return {
-      draft: { version: value.version, variantId: value.variantId, answers: value.answers },
-      corrupt: false,
-    };
-  } catch {
-    return { draft: null, corrupt: true };
-  }
-}
+const LOAD_TIMEOUT_MS = 15_000;
+const SUBMIT_TIMEOUT_MS = 20_000;
 
+/**
+ * Server-graded lesson assessment: quiz questions plus the learner's code.
+ * Each account gets its own session, so switching accounts starts fresh.
+ */
 export function LessonAssessment(props: {
   courseId: string;
   lessonId: string;
@@ -92,18 +49,19 @@ function AssessmentSession({
   actor: string;
   onPracticePassed?: (code: string) => void;
 }) {
-  const uiLanguage = useLearningStore((state) => state.language),
-    language = useLearningStore((state) => state.contentLanguage);
+  const uiLanguage = useLearningStore((state) => state.language);
+  const language = useLearningStore((state) => state.contentLanguage);
   const label = (key: keyof typeof ASSESSMENT_COPY) => ASSESSMENT_COPY[key][uiLanguage];
   const storageKey = `devatlas-assessment-draft-v1:${actor}:${courseId}:${lessonId}`;
   const [restored] = useState(() => readDraft(storageKey));
   const [view, setView] = useState<AssessmentView | null>(null);
   const [answers, setAnswers] = useState<Record<string, AssessmentAnswer>>({});
   const [hints, setHints] = useState<Record<string, number>>({});
-  const [exclude, setExclude] = useState(''),
-    [reload, setReload] = useState(0);
-  const [error, setError] = useState(false),
-    [busy, setBusy] = useState(false);
+  // A retry asks for a different question variant than the one just answered.
+  const [exclude, setExclude] = useState('');
+  const [reload, setReload] = useState(0);
+  const [error, setError] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [ledger, setLedger] = useState<
     { attempt_id: string; lesson_version: number; mastered: boolean }[]
   >([]);
@@ -112,8 +70,10 @@ function AssessmentSession({
     answers: typeof answers;
     code: string;
   } | null>(null);
-  const request = useRef<AbortController | null>(null),
-    sending = useRef(false);
+  const request = useRef<AbortController | null>(null);
+  const sending = useRef(false);
+  // The same answers are resent with the same attempt id, so a retry after a
+  // network error is never counted twice.
   const pending = useRef<{
     payload: AssessmentSubmission;
     answers: typeof answers;
@@ -130,7 +90,7 @@ function AssessmentSession({
         else if (restored.draft) params.set('variantId', restored.draft.variantId);
         const response = await fetch('/api/assessments?' + params, {
           headers: token ? { Authorization: 'Bearer ' + token } : {},
-          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]),
+          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(LOAD_TIMEOUT_MS)]),
           cache: 'no-store',
         });
         if (!response.ok) throw new Error('Assessment unavailable');
@@ -151,7 +111,7 @@ function AssessmentSession({
               '/api/assessments/progress?' + new URLSearchParams({ courseId, lessonId }),
               {
                 headers: { Authorization: 'Bearer ' + token },
-                signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]),
+                signal: AbortSignal.any([controller.signal, AbortSignal.timeout(LOAD_TIMEOUT_MS)]),
                 cache: 'no-store',
               },
             );
@@ -177,15 +137,8 @@ function AssessmentSession({
   function update(id: string, answer: AssessmentAnswer) {
     const next = { ...answers, [id]: answer };
     setAnswers(next);
-    if (view && !restored.corrupt)
-      try {
-        localStorage.setItem(
-          storageKey,
-          JSON.stringify({ version: view.version, variantId: view.variantId, answers: next }),
-        );
-      } catch {
-        /* Keep working in memory without deleting the original draft. */
-      }
+    // A corrupt draft is kept untouched so it can still be inspected.
+    if (view && !restored.corrupt) saveDraft(storageKey, view, next);
   }
   async function submit() {
     if (!view || sending.current) return;
@@ -194,8 +147,8 @@ function AssessmentSession({
     setError(false);
     const controller = new AbortController();
     request.current = controller;
-    const snapshot = answers,
-      submittedCode = code;
+    const snapshot = answers;
+    const submittedCode = code;
     if (
       !pending.current ||
       pending.current.answers !== answers ||
@@ -227,7 +180,7 @@ function AssessmentSession({
           ...(token ? { Authorization: 'Bearer ' + token } : {}),
         },
         body: JSON.stringify(payload),
-        signal: AbortSignal.any([controller.signal, AbortSignal.timeout(20000)]),
+        signal: AbortSignal.any([controller.signal, AbortSignal.timeout(SUBMIT_TIMEOUT_MS)]),
         cache: 'no-store',
       });
       if (!response.ok) throw new Error('Assessment failed');
@@ -265,6 +218,7 @@ function AssessmentSession({
     setResult(null);
     pending.current = null;
   }
+  // A result is shown only while the answers and code are still the ones that were graded.
   const active = result?.answers === answers && result.code === code ? result.response : null;
   if (!view)
     return (
@@ -305,115 +259,24 @@ function AssessmentSession({
         </p>
       )}
       {view.questions.map((question, index) => {
-        const current = answers[question.id],
-          feedback = active?.grade.feedback.find((item) => item.questionId === question.id);
-        const options = 'options' in question ? question.options : null;
+        const feedback = active?.grade.feedback.find((item) => item.questionId === question.id);
         return (
-          <fieldset
+          <AssessmentQuestionField
             key={`${view.variantId}:${question.id}`}
-            className="assessment-question"
+            question={question}
+            number={index + 1}
+            variantId={view.variantId}
+            answer={answers[question.id]}
+            feedback={feedback}
+            hintsShown={hints[question.id] ?? 0}
             disabled={busy}
-          >
-            <legend>
-              {index + 1}. {question.prompt[language]}{' '}
-              {question.critical && <strong>({label('critical')})</strong>}
-            </legend>
-            {options ? (
-              options.map((option) => (
-                <label className="assessment-choice" key={option.id}>
-                  <input
-                    type={question.kind === 'multiple-choice' ? 'checkbox' : 'radio'}
-                    name={`${view.variantId}:${question.id}`}
-                    value={option.id}
-                    checked={
-                      question.kind === 'multiple-choice'
-                        ? Array.isArray(current) && current.includes(option.id)
-                        : current === option.id
-                    }
-                    onChange={(event) =>
-                      question.kind === 'multiple-choice'
-                        ? update(
-                            question.id,
-                            event.target.checked
-                              ? [...(Array.isArray(current) ? current : []), option.id]
-                              : (Array.isArray(current) ? current : []).filter(
-                                  (id) => id !== option.id,
-                                ),
-                          )
-                        : update(question.id, option.id)
-                    }
-                  />
-                  {option.text[language]}
-                </label>
-              ))
-            ) : question.kind === 'matching' ? (
-              question.left.map((left) => (
-                <label className="assessment-match" key={left.id}>
-                  {left.text[language]}
-                  <select
-                    aria-label={`${question.prompt[language]} — ${left.text[language]}`}
-                    value={
-                      current && typeof current === 'object' && !Array.isArray(current)
-                        ? (current[left.id] ?? '')
-                        : ''
-                    }
-                    onChange={(event) =>
-                      update(question.id, {
-                        ...(current && typeof current === 'object' && !Array.isArray(current)
-                          ? current
-                          : {}),
-                        [left.id]: event.target.value,
-                      })
-                    }
-                  >
-                    <option value="">{label('choose')}</option>
-                    {question.right.map((right) => (
-                      <option value={right.id} key={right.id}>
-                        {right.text[language]}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              ))
-            ) : (
-              <input
-                className="assessment-text"
-                aria-label={question.prompt[language]}
-                autoComplete="off"
-                maxLength={500}
-                value={typeof current === 'string' ? current : ''}
-                onChange={(event) => update(question.id, event.target.value)}
-              />
-            )}
-            <button
-              className="text-link"
-              type="button"
-              disabled={(hints[question.id] ?? 0) >= question.hints.length}
-              onClick={() =>
-                setHints((old) => ({ ...old, [question.id]: (old[question.id] ?? 0) + 1 }))
-              }
-            >
-              {label('hint')}
-            </button>
-            {question.hints.slice(0, hints[question.id] ?? 0).map((hint, index) => (
-              <p className="small muted" key={index}>
-                {hint[language]}
-              </p>
-            ))}
-            {feedback && (
-              <div className={feedback.passed ? 'success-text' : 'warning-text'}>
-                <p>
-                  {feedback.passed ? label('correct') : label('needsReview')}:{' '}
-                  {feedback.explanation[language]}
-                </p>
-                <Link
-                  href={`/courses/${courseId}/home?day=1#${lessonId}-section-${feedback.relatedSection}`}
-                >
-                  {label('review')}
-                </Link>
-              </div>
-            )}
-          </fieldset>
+            language={language}
+            reviewHref={`/courses/${courseId}/home?day=1#${lessonId}-section-${feedback?.relatedSection}`}
+            onAnswer={(answer) => update(question.id, answer)}
+            onHint={() =>
+              setHints((old) => ({ ...old, [question.id]: (old[question.id] ?? 0) + 1 }))
+            }
+          />
         );
       })}
       <div className="button-row">
