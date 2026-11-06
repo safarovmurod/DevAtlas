@@ -5,6 +5,7 @@ import type { AnswerSource, AnswerSummary } from '@/content/answers';
 import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
 import { tr } from '@/lib/translate';
+import { ANSWERS_LIBRARY_COPY } from './answers-library-copy';
 import { PageHeading } from './page-heading';
 
 type Props = {
@@ -40,7 +41,7 @@ export function AnswersLibrary(props: Props) {
   const studiedIds = new Set(studied);
   const learnedCount = progressIds.filter((ids) => ids.some((id) => studiedIds.has(id))).length;
   const copy = COPY[language];
-  const ru = language === 'ru';
+  const text = ANSWERS_LIBRARY_COPY[language];
   function href(values: { source?: AnswerSource; group?: number; page?: number; q?: string }) {
     const params = new URLSearchParams();
     const selectedSource = values.source ?? source;
@@ -54,17 +55,10 @@ export function AnswersLibrary(props: Props) {
   }
   return (
     <>
-      <PageHeading
-        title={language === 'ru' ? 'Ответы и интервью' : 'Answers & interview'}
-        subtitle={
-          ru
-            ? 'Вопросы интервью, понятные ответы и примеры кода. Учитесь объяснять решение своими словами.'
-            : 'Answers from all three files: explanations, examples and React mechanics.'
-        }
-      >
+      <PageHeading title={text.title} subtitle={text.subtitle}>
         <a className="button subtle" href="/answers/export" download>
           <Download size={17} />
-          {ru ? 'Скачать общий HTML' : 'Download combined HTML'}
+          {text.download}
         </a>
       </PageHeading>
       <section className="panel answers-recommendation">
@@ -73,30 +67,24 @@ export function AnswersLibrary(props: Props) {
             <BookOpen size={14} />
             {copy.recommended}
           </span>
-          <h2>Как готовиться к интервью</h2>
-          <p>
-            {ru
-              ? 'Сначала поймите тему, затем прочитайте ответ, объясните его своими словами и проверьте себя.'
-              : 'Start with the deep explanation: understand the mechanism, read the answer, then check yourself in a test.'}
-          </p>
+          <h2>{text.prepareTitle}</h2>
+          <p>{text.prepareText}</p>
           <span className="source-line">
-            react_deep_understanding.html · 79 {ru ? 'тем' : 'topics'} · {deepAnswers}{' '}
-            {copy.questionsOf}
+            react_deep_understanding.html · 79 {text.topics} · {deepAnswers} {copy.questionsOf}
           </span>
         </div>
         <Link className="button primary" href="/answers/deep-1">
-          {ru ? 'Начать читать' : 'Start reading'}
+          {text.startReading}
           <ArrowRight size={17} />
         </Link>
       </section>
       <div className="answers-intro">
         <span>
-          {totalAnswers} {ru ? 'вопроса без повторов' : 'questions without duplicates'} · 3{' '}
-          {ru ? 'источника' : 'sources'}
+          {totalAnswers} {text.uniqueQuestions} · 3 {text.sources}
         </span>
         <span>
           <CheckCircle2 size={15} />
-          {learnedCount} {copy.learned.toLowerCase()} · 0 {ru ? 'токенов' : 'tokens'}
+          {learnedCount} {copy.learned.toLowerCase()} · 0 {text.tokens}
         </span>
       </div>
       <nav className="answers-source-filters" aria-label={copy.source}>
@@ -110,9 +98,7 @@ export function AnswersLibrary(props: Props) {
             {value === 'all'
               ? copy.all
               : value === 'deep'
-                ? ru
-                  ? 'Deep · рекомендуется'
-                  : 'Deep · recommended'
+                ? text.deepRecommended
                 : value === 'quiz'
                   ? copy.tests
                   : copy.interview}
@@ -147,16 +133,14 @@ export function AnswersLibrary(props: Props) {
             name="q"
             type="search"
             defaultValue={query}
-            placeholder={
-              ru ? 'Поиск по вопросу, ответу или коду…' : 'Search questions, answers or code…'
-            }
+            placeholder={text.searchPlaceholder}
             maxLength={200}
           />
           <input type="hidden" name="source" value={source} />
           <input type="hidden" name="group" value={group} />
           <button className="button primary" type="submit">
             <Search size={16} />
-            {ru ? 'Найти' : 'Search'}
+            {text.searchButton}
           </button>
         </form>
         <div className="section-heading">
@@ -164,9 +148,7 @@ export function AnswersLibrary(props: Props) {
             {copy.topics} <span className="count">{totalTopics}</span>
           </h2>
           {(group > 0 || query) && (
-            <Link href={href({ group: 0, q: '' })}>
-              {ru ? 'Сбросить фильтры' : 'Reset filters'}
-            </Link>
+            <Link href={href({ group: 0, q: '' })}>{text.resetFilters}</Link>
           )}
         </div>
         <div className="answers-topic-grid">
@@ -191,19 +173,15 @@ export function AnswersLibrary(props: Props) {
                 {topic.count
                   ? topic.count + ' ' + copy.questionsOf
                   : topic.relatedCount
-                    ? ru
-                      ? 'Общий ответ'
-                      : 'Shared answer'
-                    : ru
-                      ? 'Пример архитектуры'
-                      : 'Architecture example'}
+                    ? text.sharedAnswer
+                    : text.architectureExample}
                 <ArrowRight size={16} />
               </span>
             </Link>
           ))}
         </div>
         {!topics.length && <p role="status">{copy.empty}</p>}
-        <nav className="answers-pagination" aria-label={ru ? 'Страницы ответов' : 'Answer pages'}>
+        <nav className="answers-pagination" aria-label={text.pages}>
           {page > 1 && (
             <Link className="button subtle" href={href({ page: page - 1 })}>
               {copy.previous}
