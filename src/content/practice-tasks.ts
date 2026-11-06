@@ -9,7 +9,8 @@ export const PRACTICE_TASKS: PracticeTask[] = [
     operation: 'DELETE',
     stateManager: 'react_local',
     level: 1,
-    prompt: 'Функсияи `deleteTodo(items, id)`-ро навис, ки элементи бо ҳамин `id` бударо аз массив нест мекунад ва массиви навро бармегардонад.',
+    prompt:
+      'Функсияи `deleteTodo(items, id)`-ро навис, ки элементи бо ҳамин `id` бударо аз массив нест мекунад ва массиви навро бармегардонад.',
     starterCode: `// deleteTodo элементи мувофиқро бо filter нест мекунад
 export function deleteTodo(items: { id: number; text: string }[], id: number) {
   // Кодро инҷо навис:
@@ -25,8 +26,28 @@ export function deleteTodo(items: { id: number; text: string }[], id: number) {
       'Бо return натиҷаи filter-ро баргардон.',
     ],
     testCases: [
-      { id: 'tc1', description: 'Нест кардани элементи id=2 аз [1, 2, 3]', input: { items: [{ id: 1, text: 'A' }, { id: 2, text: 'B' }, { id: 3, text: 'C' }], id: 2 }, expected: [{ id: 1, text: 'A' }, { id: 3, text: 'C' }] },
-      { id: 'tc2', description: 'Агар id ёфт нашавад, ҳамаи массив бетағйир мемонад', input: { items: [{ id: 1, text: 'A' }], id: 99 }, expected: [{ id: 1, text: 'A' }] },
+      {
+        id: 'tc1',
+        description: 'Нест кардани элементи id=2 аз [1, 2, 3]',
+        input: {
+          items: [
+            { id: 1, text: 'A' },
+            { id: 2, text: 'B' },
+            { id: 3, text: 'C' },
+          ],
+          id: 2,
+        },
+        expected: [
+          { id: 1, text: 'A' },
+          { id: 3, text: 'C' },
+        ],
+      },
+      {
+        id: 'tc2',
+        description: 'Агар id ёфт нашавад, ҳамаи массив бетағйир мемонад',
+        input: { items: [{ id: 1, text: 'A' }], id: 99 },
+        expected: [{ id: 1, text: 'A' }],
+      },
     ],
     recommendedTimeMinutes: 10,
   },
@@ -38,7 +59,8 @@ export function deleteTodo(items: { id: number; text: string }[], id: number) {
     operation: 'DELETE',
     stateManager: 'react_local',
     level: 2,
-    prompt: 'Функсияи асинхронии `handleDeleteWithLoading(items, id, apiDeleteFn)`-ро бо try/catch ва нишон додани loading/error status навис.',
+    prompt:
+      'Функсияи асинхронии `handleDeleteWithLoading(items, id, apiDeleteFn)`-ро бо try/catch ва нишон додани loading/error status навис.',
     starterCode: `export async function handleDeleteWithLoading(
   items: { id: number; text: string }[],
   id: number,
@@ -72,7 +94,12 @@ export function deleteTodo(items: { id: number; text: string }[], id: number) {
       'Дар catch хатогиро дастгир карда `{ success: false, error, newItems: items }` баргардон.',
     ],
     testCases: [
-      { id: 'tc1', description: 'Муваффақият: нест кардан ва баргардонидани success=true', input: { items: [{ id: 10, text: 'Test' }], id: 10 }, expected: { success: true } },
+      {
+        id: 'tc1',
+        description: 'Муваффақият: нест кардан ва баргардонидани success=true',
+        input: { items: [{ id: 10, text: 'Test' }], id: 10 },
+        expected: { success: true },
+      },
     ],
     recommendedTimeMinutes: 20,
   },
@@ -84,7 +111,8 @@ export function deleteTodo(items: { id: number; text: string }[], id: number) {
     operation: 'DELETE',
     stateManager: 'zustand',
     level: 1,
-    prompt: 'Функсияи `removeTodoAction(set, id)`-ро барои Zustand навис, ки бо `set(...)` state-ро нав мекунад.',
+    prompt:
+      'Функсияи `removeTodoAction(set, id)`-ро барои Zustand навис, ки бо `set(...)` state-ро нав мекунад.',
     starterCode: `// removeTodoAction бо ёрии set() ҳолати todos-ро филтр мекунад
 export function removeTodoAction(set: any, id: number) {
   // set((state) => ({ todos: ... }))
@@ -101,7 +129,12 @@ export function removeTodoAction(set: any, id: number) {
       'Дар даруни объект `todos: state.todos.filter(t => t.id !== id)` навис.',
     ],
     testCases: [
-      { id: 'tc1', description: 'set() бояд функсияро бо state.todos даъват карда филтр кунад', input: { initialTodos: [{ id: 1 }, { id: 2 }], removeId: 1 }, expected: [{ id: 2 }] },
+      {
+        id: 'tc1',
+        description: 'set() бояд функсияро бо state.todos даъват карда филтр кунад',
+        input: { initialTodos: [{ id: 1 }, { id: 2 }], removeId: 1 },
+        expected: [{ id: 2 }],
+      },
     ],
     recommendedTimeMinutes: 15,
   },
@@ -113,7 +146,8 @@ export function removeTodoAction(set: any, id: number) {
     operation: 'DELETE',
     stateManager: 'redux_toolkit',
     level: 1,
-    prompt: 'Дар Redux Toolkit reducer-и `todoRemoved(state, action)`-ро навис, ки элементро бо `action.payload` нест мекунад.',
+    prompt:
+      'Дар Redux Toolkit reducer-и `todoRemoved(state, action)`-ро навис, ки элементро бо `action.payload` нест мекунад.',
     starterCode: `// state.items дорои массив аст, action.payload id-и нестшаванда мебошад
 export function todoRemovedReducer(state: { items: { id: number; text: string }[] }, action: { payload: number }) {
   // Кодро инҷо навис:
@@ -127,7 +161,12 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
       'Дар RTK бо Immer метавон навишт: `state.items = state.items.filter(item => item.id !== action.payload)`',
     ],
     testCases: [
-      { id: 'tc1', description: 'Reducer бояд элементро мувофиқи payload нест кунад', input: { state: { items: [{ id: 5, text: 'A' }] }, action: { payload: 5 } }, expected: [] },
+      {
+        id: 'tc1',
+        description: 'Reducer бояд элементро мувофиқи payload нест кунад',
+        input: { state: { items: [{ id: 5, text: 'A' }] }, action: { payload: 5 } },
+        expected: [],
+      },
     ],
     recommendedTimeMinutes: 15,
   },
@@ -139,7 +178,8 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
     operation: 'DELETE',
     stateManager: 'jotai',
     level: 1,
-    prompt: 'Функсияи write atom-и Jotai `deleteItemFromAtom(get, set, itemsAtom, id)`-ро навис, ки элементро нест мекунад.',
+    prompt:
+      'Функсияи write atom-и Jotai `deleteItemFromAtom(get, set, itemsAtom, id)`-ро навис, ки элементро нест мекунад.',
     starterCode: `export function deleteItemFromAtom(get: any, set: any, itemsAtom: any, id: number) {
   // 1. const current = get(itemsAtom);
   // 2. set(itemsAtom, current.filter(...));
@@ -155,7 +195,12 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
       'Баъд бо `set(itemsAtom, filtered)` рӯйхати навро сабт кун.',
     ],
     testCases: [
-      { id: 'tc1', description: 'Jotai setter бояд массиви навро гузорад', input: { current: [{ id: 1 }, { id: 2 }], removeId: 2 }, expected: [{ id: 1 }] },
+      {
+        id: 'tc1',
+        description: 'Jotai setter бояд массиви навро гузорад',
+        input: { current: [{ id: 1 }, { id: 2 }], removeId: 2 },
+        expected: [{ id: 1 }],
+      },
     ],
     recommendedTimeMinutes: 15,
   },
@@ -168,7 +213,8 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
     operation: 'POST',
     stateManager: 'react_local',
     level: 1,
-    prompt: 'Функсияи `addTodo(items, newText)`-ро навис, ки объекти нави `{ id: Date.now(), text: newText }`-ро бе мутатсия ба аввали массив илова мекунад.',
+    prompt:
+      'Функсияи `addTodo(items, newText)`-ро навис, ки объекти нави `{ id: Date.now(), text: newText }`-ро бе мутатсия ба аввали массив илова мекунад.',
     starterCode: `export function addTodo(items: { id: number; text: string }[], newText: string) {
   // Навиштани объекти нав бо spread:
   
@@ -183,7 +229,12 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
       'Бо spread оператор `[newItem, ...items]` баргардон.',
     ],
     testCases: [
-      { id: 'tc1', description: 'Илова кардани матни нав ба массив', input: { items: [{ id: 1, text: 'A' }], text: 'B' }, expectedLength: 2 },
+      {
+        id: 'tc1',
+        description: 'Илова кардани матни нав ба массив',
+        input: { items: [{ id: 1, text: 'A' }], text: 'B' },
+        expectedLength: 2,
+      },
     ],
     recommendedTimeMinutes: 10,
   },
@@ -195,7 +246,8 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
     operation: 'POST',
     stateManager: 'zustand',
     level: 1,
-    prompt: 'Action-и `addTodoAction(set, text)`-ро барои Zustand навис, ки элементро ба массиви `todos` илова мекунад.',
+    prompt:
+      'Action-и `addTodoAction(set, text)`-ро барои Zustand навис, ки элементро ба массиви `todos` илова мекунад.',
     starterCode: `export function addTodoAction(set: any, text: string) {
   // set((state) => ({ todos: [...] }))
   
@@ -206,11 +258,14 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
   }));
 }`,
     miniHint: 'set + spread',
-    hints: [
-      'Дар даруни set: `todos: [...state.todos, { id: Date.now(), text }]` навис.',
-    ],
+    hints: ['Дар даруни set: `todos: [...state.todos, { id: Date.now(), text }]` навис.'],
     testCases: [
-      { id: 'tc1', description: 'Zustand action бояд элементи навро ба охири массив гузорад', input: { current: [] }, expectedAdded: true },
+      {
+        id: 'tc1',
+        description: 'Zustand action бояд элементи навро ба охири массив гузорад',
+        input: { current: [] },
+        expectedAdded: true,
+      },
     ],
     recommendedTimeMinutes: 15,
   },
@@ -222,7 +277,8 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
     operation: 'SEARCH',
     stateManager: 'react_local',
     level: 1,
-    prompt: 'Функсияи `filterTodosByQuery(items, query)`-ро навис, ки сабтҳоро аз рӯи `query` (case-insensitive) меҷӯяд.',
+    prompt:
+      'Функсияи `filterTodosByQuery(items, query)`-ро навис, ки сабтҳоро аз рӯи `query` (case-insensitive) меҷӯяд.',
     starterCode: `export function filterTodosByQuery(items: { id: number; text: string }[], query: string) {
   // Кодро инҷо навис:
   
@@ -239,7 +295,18 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
       'Дар filter тафтиш кун: `item.text.toLowerCase().includes(q)`.',
     ],
     testCases: [
-      { id: 'tc1', description: 'Ҷустуҷӯи калимаи "react" дар матн', input: { items: [{ id: 1, text: 'Омӯзиши React' }, { id: 2, text: 'CSS дарс' }], query: 'react' }, expected: [{ id: 1, text: 'Омӯзиши React' }] },
+      {
+        id: 'tc1',
+        description: 'Ҷустуҷӯи калимаи "react" дар матн',
+        input: {
+          items: [
+            { id: 1, text: 'Омӯзиши React' },
+            { id: 2, text: 'CSS дарс' },
+          ],
+          query: 'react',
+        },
+        expected: [{ id: 1, text: 'Омӯзиши React' }],
+      },
     ],
     recommendedTimeMinutes: 10,
   },
@@ -249,8 +316,30 @@ export function todoRemovedReducer(state: { items: { id: number; text: string }[
 export function getAllPracticeTasks(): PracticeTask[] {
   const result: PracticeTask[] = [...PRACTICE_TASKS];
   const managers: StateManagerType[] = ['react_local', 'zustand', 'redux_toolkit', 'jotai'];
-  const operations: ('GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'INFO' | 'SEARCH' | 'FILTER' | 'PAGINATION' | 'IMAGE_ADD' | 'FORM_SUBMIT')[] = [
-    'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'INFO', 'SEARCH', 'FILTER', 'PAGINATION', 'IMAGE_ADD', 'FORM_SUBMIT'
+  const operations: (
+    | 'GET'
+    | 'POST'
+    | 'PUT'
+    | 'PATCH'
+    | 'DELETE'
+    | 'INFO'
+    | 'SEARCH'
+    | 'FILTER'
+    | 'PAGINATION'
+    | 'IMAGE_ADD'
+    | 'FORM_SUBMIT'
+  )[] = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'INFO',
+    'SEARCH',
+    'FILTER',
+    'PAGINATION',
+    'IMAGE_ADD',
+    'FORM_SUBMIT',
   ];
   const levels: PracticeLevel[] = [1, 2, 3, 4];
 
@@ -258,7 +347,7 @@ export function getAllPracticeTasks(): PracticeTask[] {
     managers.forEach((mgr) => {
       levels.forEach((lvl) => {
         const id = `task_${op.toLowerCase()}_${mgr}_lvl${lvl}`;
-        if (!result.find(t => t.id === id)) {
+        if (!result.find((t) => t.id === id)) {
           let recTime = 15;
           if (lvl === 1) recTime = 12;
           if (lvl === 2) recTime = 22;
@@ -267,7 +356,14 @@ export function getAllPracticeTasks(): PracticeTask[] {
 
           result.push({
             id,
-            topicId: op === 'DELETE' ? 'api_crud_delete' : op === 'POST' ? 'api_crud_post' : op === 'SEARCH' ? 'search_filter_pagination' : 'api_crud_get',
+            topicId:
+              op === 'DELETE'
+                ? 'api_crud_delete'
+                : op === 'POST'
+                  ? 'api_crud_post'
+                  : op === 'SEARCH'
+                    ? 'search_filter_pagination'
+                    : 'api_crud_get',
             operation: op,
             stateManager: mgr,
             level: lvl,
@@ -283,13 +379,25 @@ export function handle${op}_${mgr}_Lvl${lvl}(data: any, payload: any) {
   }
   return { success: true, payload };
 }`,
-            miniHint: mgr === 'zustand' ? 'set + action' : mgr === 'redux_toolkit' ? 'dispatch + payload' : mgr === 'jotai' ? 'atom + set' : 'useState + update',
+            miniHint:
+              mgr === 'zustand'
+                ? 'set + action'
+                : mgr === 'redux_toolkit'
+                  ? 'dispatch + payload'
+                  : mgr === 'jotai'
+                    ? 'atom + set'
+                    : 'useState + update',
             hints: [
               `Барои ${mgr} сохтори дурусти навсозиро риоя намо.`,
               `Дар сатҳи ${lvl} назорати хатогиҳо ва тозагии маълумот талаб карда мешавад.`,
             ],
             testCases: [
-              { id: 'tc1', description: `Санҷиши кори функсияи ${op} барои ${mgr}`, input: { data: [{ id: 1 }, { id: 2 }], payload: 1 }, expected: [{ id: 2 }] },
+              {
+                id: 'tc1',
+                description: `Санҷиши кори функсияи ${op} барои ${mgr}`,
+                input: { data: [{ id: 1 }, { id: 2 }], payload: 1 },
+                expected: [{ id: 2 }],
+              },
             ],
             recommendedTimeMinutes: recTime,
           });

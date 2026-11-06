@@ -7,15 +7,23 @@ export const LESSONS: Lesson[] = [
     title: 'useState — Идоракунии State дар React',
     orderNum: 1,
     content: {
-      whyNeeded: 'Дар JavaScript-и оддӣ вақте переменная-ро иваз мекунӣ, экран (UI) худаш аз нав намекашад. Дар React мо бояд ба система хабар диҳем, ки маълумот тағйир ёфт ва экранро бояд нав кард.',
-      meaning: 'useState — ин hook-ест, ки дар хотираи компонент як қиматро маҳкам нигоҳ медорад ва ба мо функсия медиҳад барои иваз кардани ҳамон қимат бо огоҳ кардани React.',
-      whatDoesItDo: 'Маълумотро ҳифз мекунад, ҳангоми даъвати setState қимати навро мегузорад ва ба React мегӯяд, ки ҳамин компонентро re-render кунад.',
-      trigger: 'Trigger (чизе ки процесс-а сар мекна) — пахш шудани тугма (onClick), ворид кардани матн (onChange), ё таймер.',
+      whyNeeded:
+        'Дар JavaScript-и оддӣ вақте переменная-ро иваз мекунӣ, экран (UI) худаш аз нав намекашад. Дар React мо бояд ба система хабар диҳем, ки маълумот тағйир ёфт ва экранро бояд нав кард.',
+      meaning:
+        'useState — ин hook-ест, ки дар хотираи компонент як қиматро маҳкам нигоҳ медорад ва ба мо функсия медиҳад барои иваз кардани ҳамон қимат бо огоҳ кардани React.',
+      whatDoesItDo:
+        'Маълумотро ҳифз мекунад, ҳангоми даъвати setState қимати навро мегузорад ва ба React мегӯяд, ки ҳамин компонентро re-render кунад.',
+      trigger:
+        'Trigger (чизе ки процесс-а сар мекна) — пахш шудани тугма (onClick), ворид кардани матн (onChange), ё таймер.',
       startLocation: 'Аз худи ҳамон компоненте, ки useState дар дарунаш эълон шудааст.',
-      callingFunction: 'Функсияи dispatcher (масалан setCount ё setUser), ки useState ба ту баргардонида буд.',
-      whereDataGoes: 'Ба даруни Fiber tree (хотираи дохилии худи React), ки баъдан дар render-и оянда ҳамчун қимати нав ба компонент бармегардад.',
-      whatRerenders: 'Худи ҳамин компонент ва тамоми child-компонентҳое, ки дар зери он қарор доранд.',
-      whatHappensIfDeleted: 'Агар useState-ро нест кунӣ ва переменнаяи оддӣ (let count = 0) монӣ, count иваз мешавад, лекин экрани user ҳеҷ гоҳ нав намешавад.',
+      callingFunction:
+        'Функсияи dispatcher (масалан setCount ё setUser), ки useState ба ту баргардонида буд.',
+      whereDataGoes:
+        'Ба даруни Fiber tree (хотираи дохилии худи React), ки баъдан дар render-и оянда ҳамчун қимати нав ба компонент бармегардад.',
+      whatRerenders:
+        'Худи ҳамин компонент ва тамоми child-компонентҳое, ки дар зери он қарор доранд.',
+      whatHappensIfDeleted:
+        'Агар useState-ро нест кунӣ ва переменнаяи оддӣ (let count = 0) монӣ, count иваз мешавад, лекин экрани user ҳеҷ гоҳ нав намешавад.',
       codeExample: `import { useState } from 'react';
 
 export function Counter() {
@@ -43,11 +51,24 @@ export function Counter() {
         'Гузоштани useState дар даруни if ё for loop (қоидаи Hooks-ро вайрон мекунад!).',
         'Интизор шудани қимати фаврӣ: баъди setCount(count + 1) фавран console.log(count) қимати пешинаро нишон медиҳад, чунки state асинхронӣ batch мешавад.',
       ],
-      interviewTip: 'Дар interview бгӯ: "useState ба компонент имкон медиҳад ҳолати худро нигоҳ дорад. Барои навсозии state мо setState-ро истифода мебарем, ки он component-ро re-render мекунад. Барои state-ҳои вобаста ба ҳолати пешина бояд функсия-updater (prev => prev + 1) истифода шавад."',
+      interviewTip:
+        'Дар interview бгӯ: "useState ба компонент имкон медиҳад ҳолати худро нигоҳ дорад. Барои навсозии state мо setState-ро истифода мебарем, ки он component-ро re-render мекунад. Барои state-ҳои вобаста ба ҳолати пешина бояд функсия-updater (prev => prev + 1) истифода шавад."',
       microTerms: [
-        { term: 'Hook', explanation: 'Функсияи махсуси React, ки бо номи use сар мешавад ва ба хусусиятҳои дохилии React пайваст мешавад.' },
-        { term: 'State', explanation: 'Хотираи зиндаи компонент, ки ҳангоми тағйир ёфтан UI-ро аз сари нав мекашад.' },
-        { term: 'Re-render', explanation: 'Аз нав хонда шудани коди функсияи компонент барои ёфтани тағйирот дар Virtual DOM.' },
+        {
+          term: 'Hook',
+          explanation:
+            'Функсияи махсуси React, ки бо номи use сар мешавад ва ба хусусиятҳои дохилии React пайваст мешавад.',
+        },
+        {
+          term: 'State',
+          explanation:
+            'Хотираи зиндаи компонент, ки ҳангоми тағйир ёфтан UI-ро аз сари нав мекашад.',
+        },
+        {
+          term: 'Re-render',
+          explanation:
+            'Аз нав хонда шудани коди функсияи компонент барои ёфтани тағйирот дар Virtual DOM.',
+        },
       ],
     },
   },
@@ -57,15 +78,22 @@ export function Counter() {
     title: 'useEffect — Пайвастшавӣ ба ҷаҳони беруна (Side Effects)',
     orderNum: 2,
     content: {
-      whyNeeded: 'React бояд вазифаи асосиаш — сохтани UI-ро зуд иҷро кунад. Агар дар мобайни render мо API request кунем ё таймер монем, экран мечаспад. useEffect барои иҷрои корҳоест, ки пас аз кашида шудани экран бояд кор кунанд.',
-      meaning: 'useEffect — ин hook барои Side Effects (амалҳои иловагӣ: fetch маълумот, event listeners, timers, localStorage) аст.',
-      whatDoesItDo: 'Коди дарунашро пас аз он ки React экранро дар DOM нақш кард (commit phase) иҷро мекунад.',
-      trigger: 'Trigger — анҷоми аввалин render (mount) ё тағйир ёфтани ягон қимат дар даруни Dependency Array.',
+      whyNeeded:
+        'React бояд вазифаи асосиаш — сохтани UI-ро зуд иҷро кунад. Агар дар мобайни render мо API request кунем ё таймер монем, экран мечаспад. useEffect барои иҷрои корҳоест, ки пас аз кашида шудани экран бояд кор кунанд.',
+      meaning:
+        'useEffect — ин hook барои Side Effects (амалҳои иловагӣ: fetch маълумот, event listeners, timers, localStorage) аст.',
+      whatDoesItDo:
+        'Коди дарунашро пас аз он ки React экранро дар DOM нақш кард (commit phase) иҷро мекунад.',
+      trigger:
+        'Trigger — анҷоми аввалин render (mount) ё тағйир ёфтани ягон қимат дар даруни Dependency Array.',
       startLocation: 'Аз функсияе, ки ба даруни useEffect ҳамчун параметри аввал дода шудааст.',
       callingFunction: 'Худи React Runtime баъди ба итмом расидани раванди кашидани DOM.',
-      whereDataGoes: 'Одатан data аз сервер гирифта мешавад ва тавассути setState ба state-и маҳаллӣ ё store меравад.',
-      whatRerenders: 'Агар дар даруни useEffect мо setState кунем, компонент re-render мешавад ва маълумоти омадаро дар экран нишон медиҳад.',
-      whatHappensIfDeleted: 'Агар барои API request истифода нашавад ва мустақиман дар бадани компонент нависӣ, дар ҳар re-render беохир ба сервер запрос меравад (Infinite Loop!).',
+      whereDataGoes:
+        'Одатан data аз сервер гирифта мешавад ва тавассути setState ба state-и маҳаллӣ ё store меравад.',
+      whatRerenders:
+        'Агар дар даруни useEffect мо setState кунем, компонент re-render мешавад ва маълумоти омадаро дар экран нишон медиҳад.',
+      whatHappensIfDeleted:
+        'Агар барои API request истифода нашавад ва мустақиман дар бадани компонент нависӣ, дар ҳар re-render беохир ба сервер запрос меравад (Infinite Loop!).',
       codeExample: `import { useState, useEffect } from 'react';
 
 export function UserList() {
@@ -111,11 +139,24 @@ export function UserList() {
         'Нусха набардоштани cleanup: агар корбар пеш аз омадани ҷавоб саҳифаро пӯшад, memory leak мешавад.',
         'Объекти навро бе useMemo ба dependency додан, ки loop-и беохир месозад.',
       ],
-      interviewTip: 'Дар interview фаҳмон: "useEffect барои side-effects мебошад. Массиви dependency назорат мекунад, ки effect кай кор кунад: [] — фақат mount ва unmount, [id] — вақте id иваз шуд, бе массив — дар ҳар як render. Cleanup function ҳангоми unmount ё пеш аз иҷрои навбатии effect барои тозакунии захираҳо кор мекунад."',
+      interviewTip:
+        'Дар interview фаҳмон: "useEffect барои side-effects мебошад. Массиви dependency назорат мекунад, ки effect кай кор кунад: [] — фақат mount ва unmount, [id] — вақте id иваз шуд, бе массив — дар ҳар як render. Cleanup function ҳангоми unmount ё пеш аз иҷрои навбатии effect барои тозакунии захираҳо кор мекунад."',
       microTerms: [
-        { term: 'Side Effect', explanation: 'Ҳар коре, ки берун аз ҳисобкунии худи UI аст (масалан шабака, DOM-и беруна, таймер).' },
-        { term: 'Dependency Array', explanation: 'Рӯйхати чизҳое, ки useEffect онҳоро назорат мекунад ва ҳангоми тағйирашон аз нав кор мекунад.' },
-        { term: 'Cleanup', explanation: 'Функсияи тозакунанда, ки ҳангоми нест шудани компонент таймерҳо ва обунаҳоро қатъ мекунад.' },
+        {
+          term: 'Side Effect',
+          explanation:
+            'Ҳар коре, ки берун аз ҳисобкунии худи UI аст (масалан шабака, DOM-и беруна, таймер).',
+        },
+        {
+          term: 'Dependency Array',
+          explanation:
+            'Рӯйхати чизҳое, ки useEffect онҳоро назорат мекунад ва ҳангоми тағйирашон аз нав кор мекунад.',
+        },
+        {
+          term: 'Cleanup',
+          explanation:
+            'Функсияи тозакунанда, ки ҳангоми нест шудани компонент таймерҳо ва обунаҳоро қатъ мекунад.',
+        },
       ],
     },
   },
@@ -125,15 +166,23 @@ export function UserList() {
     title: 'Zustand — State Management-и Сабук ва Қулай',
     orderNum: 3,
     content: {
-      whyNeeded: 'Вақте ки дар лоиҳа маълумотро бояд байни даҳҳо саҳифаву компонент тақсим кунем, props-ро аз қабатҳои зиёд гузаронидан (Prop Drilling) душвор мешавад. Zustand имкон медиҳад, ки як Store-и умумӣ дошта бошем ва ҳар компонент мустақиман онро хонад.',
-      meaning: 'Zustand — ин китобхонаи хурд ва замонавӣ барои нигоҳдории Global State дар берун аз дарахти React мебошад, ки ба Provider ниёз надорад.',
-      whatDoesItDo: 'Store месозад, ки дар он ҳам худи маълумот (state) ва ҳам функсияҳои тағйирдиҳандаи он (actions) нигоҳ дошта мешаванд.',
-      trigger: 'Trigger — даъват кардани ягон action-и store аз тарафи компонент (масалан addTodo, removeTodo).',
+      whyNeeded:
+        'Вақте ки дар лоиҳа маълумотро бояд байни даҳҳо саҳифаву компонент тақсим кунем, props-ро аз қабатҳои зиёд гузаронидан (Prop Drilling) душвор мешавад. Zustand имкон медиҳад, ки як Store-и умумӣ дошта бошем ва ҳар компонент мустақиман онро хонад.',
+      meaning:
+        'Zustand — ин китобхонаи хурд ва замонавӣ барои нигоҳдории Global State дар берун аз дарахти React мебошад, ки ба Provider ниёз надорад.',
+      whatDoesItDo:
+        'Store месозад, ки дар он ҳам худи маълумот (state) ва ҳам функсияҳои тағйирдиҳандаи он (actions) нигоҳ дошта мешаванд.',
+      trigger:
+        'Trigger — даъват кардани ягон action-и store аз тарафи компонент (масалан addTodo, removeTodo).',
       startLocation: 'Аз ҷое, ки action даъват шуд (масалан тугмаи "Нест кардан").',
-      callingFunction: 'Функсияи action дар дохили store, ки худаш дар охир set()-ро фарёд мекунад.',
-      whereDataGoes: 'Ба даруни store-и Zustand, ва баъд ба ҳамаи компонентҳое, ки ҳамин қисми store-ро бо selector интихоб кардаанд.',
-      whatRerenders: 'ТАНҲО ҳамон компонентҳое, ки маҳз ҳамон қисми интихобкардаашон (selector) иваз шудааст. Компонентҳои дигар беҳуда re-render намешаванд!',
-      whatHappensIfDeleted: 'Агар Zustand-ро партофта React Context ё Prop Drilling истифода барӣ, тамоми компонентҳо ҳангоми як тағйироти майда аз сари нав render мешаванд ё код беҳад печида мешавад.',
+      callingFunction:
+        'Функсияи action дар дохили store, ки худаш дар охир set()-ро фарёд мекунад.',
+      whereDataGoes:
+        'Ба даруни store-и Zustand, ва баъд ба ҳамаи компонентҳое, ки ҳамин қисми store-ро бо selector интихоб кардаанд.',
+      whatRerenders:
+        'ТАНҲО ҳамон компонентҳое, ки маҳз ҳамон қисми интихобкардаашон (selector) иваз шудааст. Компонентҳои дигар беҳуда re-render намешаванд!',
+      whatHappensIfDeleted:
+        'Агар Zustand-ро партофта React Context ё Prop Drilling истифода барӣ, тамоми компонентҳо ҳангоми як тағйироти майда аз сари нав render мешаванд ё код беҳад печида мешавад.',
       codeExample: `import { create } from 'zustand';
 
 interface TodoStore {
@@ -164,10 +213,18 @@ export const useTodoStore = create<TodoStore>((set) => ({
         'Истифода набурдани Selector: const store = useTodoStore() — ин боис мешавад, ки ҳангоми дилхоҳ тағйирот дар store компонент re-render шавад!',
         'Мустақиман мутатсия кардан: state.todos.push(...) ба ҷои сохтани массиви нав бо spread ё filter.',
       ],
-      interviewTip: 'Дар interview гӯй: "Zustand як store-и соддаву тез бе Provider мебошад. Он Selector-ҳоро дастгирӣ мекунад, бинобар ин танҳо компонентҳое re-render мешаванд, ки маълумоти интихобкардаашон тағйир ёфтааст. Амалиётҳои асинхрониро низ мустақиман дар дохили actions бе middlewares метавон навишт."',
+      interviewTip:
+        'Дар interview гӯй: "Zustand як store-и соддаву тез бе Provider мебошад. Он Selector-ҳоро дастгирӣ мекунад, бинобар ин танҳо компонентҳое re-render мешаванд, ки маълумоти интихобкардаашон тағйир ёфтааст. Амалиётҳои асинхрониро низ мустақиман дар дохили actions бе middlewares метавон навишт."',
       microTerms: [
-        { term: 'Store', explanation: 'Ҷои ягонаи нигоҳдории тамоми маълумот ва функсияҳои идоракунии он.' },
-        { term: 'Selector', explanation: 'Функсияи хурд (state => state.todos), ки танҳо қисми зарурии store-ро ба компонент меорад.' },
+        {
+          term: 'Store',
+          explanation: 'Ҷои ягонаи нигоҳдории тамоми маълумот ва функсияҳои идоракунии он.',
+        },
+        {
+          term: 'Selector',
+          explanation:
+            'Функсияи хурд (state => state.todos), ки танҳо қисми зарурии store-ро ба компонент меорад.',
+        },
         { term: 'set()', explanation: 'Функсияи дохилии Zustand барои нав кардани state-и store.' },
       ],
     },
@@ -178,15 +235,19 @@ export const useTodoStore = create<TodoStore>((set) => ({
     title: 'Redux Toolkit — Сохтори createSlice ва Actions',
     orderNum: 4,
     content: {
-      whyNeeded: 'Дар лоиҳаҳои бузурги корхонавӣ (Enterprise) лозим меояд, ки ҳар як амалиёт (Action) пешакӣ маълум бошад, пайгирӣ (Trace/DevTools) шавад ва қонуни ягонаи тағйири додаҳо риоя шавад.',
-      meaning: 'Redux Toolkit (RTK) — ин тарзи расмӣ ва соддакардашудаи навиштани Redux мебошад, ки бойлерплейтро нест мекунад ва Immer-ро дар худ дорад.',
-      whatDoesItDo: 'Слайсҳо (createSlice) месозад, ки action creators ва reducers-ро худкор якҷоя мекунанд.',
+      whyNeeded:
+        'Дар лоиҳаҳои бузурги корхонавӣ (Enterprise) лозим меояд, ки ҳар як амалиёт (Action) пешакӣ маълум бошад, пайгирӣ (Trace/DevTools) шавад ва қонуни ягонаи тағйири додаҳо риоя шавад.',
+      meaning:
+        'Redux Toolkit (RTK) — ин тарзи расмӣ ва соддакардашудаи навиштани Redux мебошад, ки бойлерплейтро нест мекунад ва Immer-ро дар худ дорад.',
+      whatDoesItDo:
+        'Слайсҳо (createSlice) месозад, ки action creators ва reducers-ро худкор якҷоя мекунанд.',
       trigger: 'Trigger — dispatch кардани action: dispatch(todoAdded("Матн")).',
       startLocation: 'Аз компоненте, ки useDispatch-ро истифода мебарад.',
       callingFunction: 'Reducer-и мувофиқ дар дохили slice.',
       whereDataGoes: 'Ба маркази Redux Store меравад ва дар он ҷо state нав мешавад.',
       whatRerenders: 'Компонентҳое, ки ҳамон қисматро бо useSelector интихоб кардаанд.',
-      whatHappensIfDeleted: 'Дар лоиҳаҳои азим пайгирии хатогиҳо ва таърихи тағйироти state бе Redux DevTools ниҳоят мушкил мешавад.',
+      whatHappensIfDeleted:
+        'Дар лоиҳаҳои азим пайгирии хатогиҳо ва таърихи тағйироти state бе Redux DevTools ниҳоят мушкил мешавад.',
       codeExample: `import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Todo {
@@ -228,12 +289,27 @@ export default todosSlice.reducer;`,
         'Фаромӯш кардани ба қайд гирифтани reducer дар configureStore.',
         'Гузоштани маълумоти ғайрисериализатсияшаванда (масалан функсия ё class instance) дар дохили payload.',
       ],
-      interviewTip: 'Дар interview гӯй: "Redux Toolkit навиштани Redux-ро осон кард. Бо createSlice мо reducers ва action creators-ро дар як ҷо месозем. Immer имкон медиҳад, ки коди мутатсиямонанд нависем, вале дар асл immutable update мешавад. Барои асинхронӣ бошад createAsyncThunk истифода мешавад."',
+      interviewTip:
+        'Дар interview гӯй: "Redux Toolkit навиштани Redux-ро осон кард. Бо createSlice мо reducers ва action creators-ро дар як ҷо месозем. Immer имкон медиҳад, ки коди мутатсиямонанд нависем, вале дар асл immutable update мешавад. Барои асинхронӣ бошад createAsyncThunk истифода мешавад."',
       microTerms: [
-        { term: 'Dispatch', explanation: 'Ирсолкунанда — функсияе, ки Action-ро ба Store мефиристад.' },
-        { term: 'Action', explanation: 'Объект бо майдони type ва payload, ки хабар медиҳад чи кор бояд кард.' },
-        { term: 'Payload', explanation: 'Маълумоти иловагие, ки ҳамроҳи action фиристода мешавад (масалан id ё матн).' },
-        { term: 'Reducer', explanation: 'Функсияи холис, ки state-и ҳозира ва action-ро гирифта state-и навро ҳисоб мекунад.' },
+        {
+          term: 'Dispatch',
+          explanation: 'Ирсолкунанда — функсияе, ки Action-ро ба Store мефиристад.',
+        },
+        {
+          term: 'Action',
+          explanation: 'Объект бо майдони type ва payload, ки хабар медиҳад чи кор бояд кард.',
+        },
+        {
+          term: 'Payload',
+          explanation:
+            'Маълумоти иловагие, ки ҳамроҳи action фиристода мешавад (масалан id ё матн).',
+        },
+        {
+          term: 'Reducer',
+          explanation:
+            'Функсияи холис, ки state-и ҳозира ва action-ро гирифта state-и навро ҳисоб мекунад.',
+        },
       ],
     },
   },
@@ -243,15 +319,19 @@ export default todosSlice.reducer;`,
     title: 'Jotai — Ҳолати Атомӣ (Atomic State)',
     orderNum: 5,
     content: {
-      whyNeeded: 'Дар баъзе барномаҳо мо намехоҳем як Store-и калони марказӣ дошта бошем, балки мехоҳем ҳар як майдон ё қисм мустақилона мисли useState кор кунад, вале байни компонентҳо тақсим шавад.',
-      meaning: 'Jotai — ин китобхонаи Bottom-Up (аз поён ба боло) мебошад, ки state-ро ба қисмҳои хурди тақсимнашаванда — Атомҳо (Atoms) ҷудо мекунад.',
-      whatDoesItDo: 'Атом месозад. Компонент бо useAtom(myAtom) онро мехонад ва иваз мекунад, айнан мисли useState, вале барои ҳама дастрас.',
+      whyNeeded:
+        'Дар баъзе барномаҳо мо намехоҳем як Store-и калони марказӣ дошта бошем, балки мехоҳем ҳар як майдон ё қисм мустақилона мисли useState кор кунад, вале байни компонентҳо тақсим шавад.',
+      meaning:
+        'Jotai — ин китобхонаи Bottom-Up (аз поён ба боло) мебошад, ки state-ро ба қисмҳои хурди тақсимнашаванда — Атомҳо (Atoms) ҷудо мекунад.',
+      whatDoesItDo:
+        'Атом месозад. Компонент бо useAtom(myAtom) онро мехонад ва иваз мекунад, айнан мисли useState, вале барои ҳама дастрас.',
       trigger: 'Trigger — setAtom(newValue).',
       startLocation: 'Аз ҷое, ки setAtom даъват шуд.',
       callingFunction: 'Функсияи нависандаи atom (write function).',
       whereDataGoes: 'Ба дохили ҳамон атоми мушаххас.',
       whatRerenders: 'Танҳо компонентҳое, ки маҳз ҳамон атомро обуна шудаанд.',
-      whatHappensIfDeleted: 'State бояд ё ба боло (lifting state) бурда шавад ё ба context партофта шавад, ки боиси re-render-и зиёд мегардад.',
+      whatHappensIfDeleted:
+        'State бояд ё ба боло (lifting state) бурда шавад ё ба context партофта шавад, ки боиси re-render-и зиёд мегардад.',
       codeExample: `import { atom, useAtom } from 'jotai';
 
 // Эълони атомҳо дар сатҳи модул
@@ -278,10 +358,14 @@ export function Counter() {
       commonErrors: [
         'Сохтани atom() дар даруни худи функсияи компонент (дар ҳар render атоми нав сохта шуда state гум мешавад!). Офаридани атом бояд берун аз компонент бошад.',
       ],
-      interviewTip: 'Дар interview гӯй: "Jotai модели атомиро (Atomic State) пешниҳод мекунад. Бар хилофи Redux/Zustand, ки monolithic store доранд, дар Jotai шумо атомҳои хурд месозед ва метавонед derived atom-ҳо дошта бошед. Синтаксиси он ба useState хеле наздик аст."',
+      interviewTip:
+        'Дар interview гӯй: "Jotai модели атомиро (Atomic State) пешниҳод мекунад. Бар хилофи Redux/Zustand, ки monolithic store доранд, дар Jotai шумо атомҳои хурд месозед ва метавонед derived atom-ҳо дошта бошед. Синтаксиси он ба useState хеле наздик аст."',
       microTerms: [
         { term: 'Atom', explanation: 'Воҳиди хурди тақсимнашавандаи state дар Jotai.' },
-        { term: 'Derived Atom', explanation: 'Атоме, ки қимати худро аз дигар атомҳо ҳисоб мекунад.' },
+        {
+          term: 'Derived Atom',
+          explanation: 'Атоме, ки қимати худро аз дигар атомҳо ҳисоб мекунад.',
+        },
       ],
     },
   },
@@ -291,15 +375,20 @@ export function Counter() {
     title: 'DELETE Request бо Axios ва Навсозии UI',
     orderNum: 6,
     content: {
-      whyNeeded: 'Вақте корбар сабтеро аз рӯйхат нест кардан мехоҳад, мо бояд ҳам ба сервер хабар диҳем, ки онро аз база нест кунад, ва ҳам фавран UI-ро нав созем, то корбар натиҷаро бинад.',
-      meaning: 'DELETE Request — ин методи HTTP мебошад, ки барои нест кардани маълумот дар сервер истифода мешавад, маъмулан бо нишон додани ID дар охири URL (масалан /api/items/42).',
-      whatDoesItDo: 'Дархости HTTP DELETE мефиристад, ва пас аз муваффақият state-ро бо ёрии filter((item) => item.id !== id) нав мекунад.',
-      trigger: 'Trigger — пахш шудани тугмаи "Нест кардан" (onClick={() => handleDelete(item.id)}).',
+      whyNeeded:
+        'Вақте корбар сабтеро аз рӯйхат нест кардан мехоҳад, мо бояд ҳам ба сервер хабар диҳем, ки онро аз база нест кунад, ва ҳам фавран UI-ро нав созем, то корбар натиҷаро бинад.',
+      meaning:
+        'DELETE Request — ин методи HTTP мебошад, ки барои нест кардани маълумот дар сервер истифода мешавад, маъмулан бо нишон додани ID дар охири URL (масалан /api/items/42).',
+      whatDoesItDo:
+        'Дархости HTTP DELETE мефиристад, ва пас аз муваффақият state-ро бо ёрии filter((item) => item.id !== id) нав мекунад.',
+      trigger:
+        'Trigger — пахш шудани тугмаи "Нест кардан" (onClick={() => handleDelete(item.id)}).',
       startLocation: 'Аз тугмаи несткунӣ дар сатри элемент.',
       callingFunction: 'Функсияи handleDelete(id).',
       whereDataGoes: 'Ба сервер тавассути шабака (Network request).',
       whatRerenders: 'Компоненти рӯйхат пас аз setItems(prev => prev.filter(...)).',
-      whatHappensIfDeleted: 'Агар сатри несткуниро фаромӯш кунӣ ё UI-ро нав накунӣ, корбар гумон мекунад, ки тугма кор накард ва чанд бор пахш мекунад.',
+      whatHappensIfDeleted:
+        'Агар сатри несткуниро фаромӯш кунӣ ё UI-ро нав накунӣ, корбар гумон мекунад, ки тугма кор накард ва чанд бор пахш мекунад.',
       codeExample: `import { useState } from 'react';
 
 export function TodoList() {
@@ -354,10 +443,19 @@ export function TodoList() {
         'Нафиристодани ID ба URL: масалан axios.delete("/api/todos") ба ҷои axios.delete("/api/todos/" + id).',
         'Набудани нишондиҳандаи боршавӣ (loading), ки боиси пахши дубора мешавад.',
       ],
-      interviewTip: 'Дар interview гӯй: "Барои DELETE request мо методи HTTP DELETE-ро бо ID-и сабт равон мекунем. Пас аз гирифтани ҷавоби мусбат, state-и React-ро бо функсияи пок (масалан filter) нав мекунем, то сабт аз рӯйхат хориҷ шавад. Ҳамчунин муҳим аст, ки хатогиҳо бо try/catch қабул карда шаванд ва тугма ҳангоми рафти дархост хомӯш (disabled) бошад."',
+      interviewTip:
+        'Дар interview гӯй: "Барои DELETE request мо методи HTTP DELETE-ро бо ID-и сабт равон мекунем. Пас аз гирифтани ҷавоби мусбат, state-и React-ро бо функсияи пок (масалан filter) нав мекунем, то сабт аз рӯйхат хориҷ шавад. Ҳамчунин муҳим аст, ки хатогиҳо бо try/catch қабул карда шаванд ва тугма ҳангоми рафти дархост хомӯш (disabled) бошад."',
       microTerms: [
-        { term: 'filter()', explanation: 'Методи массив, ки элементи нолозимро партофта, массиви нави тоза бармегардонад.' },
-        { term: 'Optimistic Update', explanation: 'Усуле, ки аввал экранро фавран нав мекунад ва баъд ба сервер мефиристад, то корбар интизор нашавад.' },
+        {
+          term: 'filter()',
+          explanation:
+            'Методи массив, ки элементи нолозимро партофта, массиви нави тоза бармегардонад.',
+        },
+        {
+          term: 'Optimistic Update',
+          explanation:
+            'Усуле, ки аввал экранро фавран нав мекунад ва баъд ба сервер мефиристад, то корбар интизор нашавад.',
+        },
       ],
     },
   },
