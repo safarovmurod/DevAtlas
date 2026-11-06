@@ -114,6 +114,13 @@ export const KOREAN_COPY = {
   noCloud: '이 브라우저에만 저장',
   select: '선택',
   selected: '선택됨',
+  noteDeleted: '노트를 삭제했습니다.',
+  undo: '실행 취소',
+  questionBank: '문제 은행',
+  functionTests: '함수: 테스트',
+  codeFromHtml: '내 HTML의 코드',
+  copyManually: '텍스트를 선택해 직접 복사하세요.',
+  checkUnavailable: '확인할 수 없습니다. 다시 시도하세요.',
 };
 
 export const KOREAN_LEARNING_COPY = {

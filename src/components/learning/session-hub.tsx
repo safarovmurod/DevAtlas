@@ -34,7 +34,7 @@ export function SessionHub({
         <ArrowRight size={22} />
       </Link>
       <div className="section-heading">
-        <h2>{state.language === 'ru' ? 'Банк вопросов' : 'Question bank'}</h2>
+        <h2>{copy.questionBank}</h2>
         <span>
           {bank.length} {copy.questionsOf}
         </span>

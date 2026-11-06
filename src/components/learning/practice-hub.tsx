@@ -66,11 +66,7 @@ export function PracticeHub({
       setCopied(true);
       setCopyError('');
     } catch {
-      setCopyError(
-        state.language === 'ru'
-          ? 'Выделите текст и скопируйте вручную.'
-          : 'Select the text and copy it manually.',
-      );
+      setCopyError(copy.copyManually);
     }
   }
   return (
@@ -115,12 +111,12 @@ export function PracticeHub({
               setExerciseIndex(0);
             }}
           >
-            {state.language === 'ru' ? 'Функции: тесты' : 'Functions: tests'}
+            {copy.functionTests}
           </button>
         )}
         {month === 2 && (
           <button role="tab" aria-selected={tab === 'source'} onClick={() => setTab('source')}>
-            {state.language === 'ru' ? 'Код из вашего HTML' : 'Code from your HTML'}
+            {copy.codeFromHtml}
           </button>
         )}
       </div>

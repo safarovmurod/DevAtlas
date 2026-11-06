@@ -113,6 +113,13 @@ export const JAPANESE_COPY = {
   noCloud: 'このブラウザーのみ',
   select: '選択',
   selected: '選択済み',
+  noteDeleted: 'ノートを削除しました。',
+  undo: '元に戻す',
+  questionBank: '問題バンク',
+  functionTests: '関数：テスト',
+  codeFromHtml: 'あなたのHTMLのコード',
+  copyManually: 'テキストを選択して手動でコピーしてください。',
+  checkUnavailable: '確認できませんでした。もう一度お試しください。',
 };
 
 export const JAPANESE_LEARNING_COPY = {

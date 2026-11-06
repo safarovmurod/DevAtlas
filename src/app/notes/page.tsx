@@ -76,7 +76,7 @@ function NotesWorkspace() {
       )}
       {deleted && (
         <div className="notice" role="status">
-          {state.language === 'ru' ? 'Заметка удалена.' : 'Note deleted.'}
+          {copy.noteDeleted}
           <button
             className="text-button"
             onClick={() => {
@@ -84,7 +84,7 @@ function NotesWorkspace() {
               setDeleted(null);
             }}
           >
-            {state.language === 'ru' ? 'Отменить' : 'Undo'}
+            {copy.undo}
           </button>
         </div>
       )}

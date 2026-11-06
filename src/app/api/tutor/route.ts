@@ -44,13 +44,6 @@ const schema = z.object({
     .default([]),
 });
 
-const completionSchema = z.object({
-  choices: z
-    .array(z.object({ message: z.object({ content: z.string().trim().min(1).max(20000) }) }))
-    .min(1),
-  usage: z.object({ total_tokens: z.number().int().nonnegative() }).optional(),
-});
-
 // Cheap process-local backpressure supplements the durable per-user/global
 // reservation below; it never substitutes for persistent cost/rate enforcement.
 let inFlight = false;

@@ -114,6 +114,13 @@ export const COPY_EN = {
   noCloud: 'This browser only',
   select: 'Select',
   selected: 'Selected',
+  noteDeleted: 'Note deleted.',
+  undo: 'Undo',
+  questionBank: 'Question bank',
+  functionTests: 'Functions: tests',
+  codeFromHtml: 'Code from your HTML',
+  copyManually: 'Select the text and copy it manually.',
+  checkUnavailable: 'Check unavailable. Please retry.',
 };
 
 export const COPY_TG = {
@@ -230,6 +237,13 @@ export const COPY_TG = {
   noCloud: 'Фақат ҳамин браузер',
   select: 'Интихоб',
   selected: 'Интихоб шудааст',
+  noteDeleted: 'Ёддошт нест карда шуд.',
+  undo: 'Бекор кардан',
+  questionBank: 'Бонки саволҳо',
+  functionTests: 'Функсияҳо: санҷишҳо',
+  codeFromHtml: 'Код аз HTML-и шумо',
+  copyManually: 'Матнро интихоб карда, дастӣ нусха гиред.',
+  checkUnavailable: 'Санҷиш дастрас нест. Боз кӯшиш кунед.',
 };
 
 export const COPY_UK = {
@@ -347,4 +361,11 @@ export const COPY_UK = {
   noCloud: 'Лише цей браузер',
   select: 'Обрати',
   selected: 'Обрано',
+  noteDeleted: 'Нотатку видалено.',
+  undo: 'Скасувати',
+  questionBank: 'Банк запитань',
+  functionTests: 'Функції: тести',
+  codeFromHtml: 'Код із вашого HTML',
+  copyManually: 'Виділіть текст і скопіюйте вручну.',
+  checkUnavailable: 'Перевірка недоступна. Спробуйте ще раз.',
 };

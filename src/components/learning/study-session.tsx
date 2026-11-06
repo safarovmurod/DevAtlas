@@ -104,12 +104,7 @@ export function StudySession({ config }: { config: SessionConfig }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ questionId: question.id, answer: selection }),
       });
-      if (!response.ok)
-        throw new Error(
-          state.language === 'ru'
-            ? 'Проверка недоступна. Попробуйте ещё раз.'
-            : 'Check unavailable. Please retry.',
-        );
+      if (!response.ok) throw new Error(copy.checkUnavailable);
       const result = await response.json();
       state.recordAnswer(question, config.mode, result.correct, selection, today);
       setShown(true);
