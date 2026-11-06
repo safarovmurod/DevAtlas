@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-44",
+  "day": 44,
+  "prerequisiteDays": [
+    43
+  ],
+  "title": {
+    "ru": "Итоги: демонстрация и ретроспектива",
+    "tg": "Натиҷаҳо: намоиш ва баргардонидани таҷриба",
+    "en": "Wrap-up: demo and retrospective"
+  },
+  "summary": {
+    "ru": "Соберите итоговый экран, честно перечислите ограничения и ответьте на вопросы ретроспективы.",
+    "tg": "Экрани ниҳоиро созед, маҳдудиятҳоро рӯбарӯ номбар карда, ба саволҳои баргардонидан ҷавоб диҳед.",
+    "en": "Assemble the final screen, list the limits honestly and answer the retrospective questions."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Проект завершён — что именно сделано",
+        "tg": "Лоиҳа тамом шуд — дақиқ чӣ анҷом ёфт",
+        "en": "The project is done — what exactly was done"
+      },
+      "body": {
+        "ru": "Финальный экран — итог всего курса Beginner: версия, количество записей, честный список ограничений и вопросы ретроспективы. Ограничения названы прямо: сборка APK и IPA не выполнялась, синхронизации с сервером нет, учебный API — чужой тестовый сервис, уведомления не реализованы. Отметка «Завершить курс» в решении — Self Reviewed: вы сами прошли сценарии, сами проверили доступность и хранение, и отметка означает ровно это — не больше. Ретроспектива переводит опыт в знания: самый трудный день, проверенный лично сценарий, идеи для версии 2. Ответы на три вопроса — лучшее резюме сорока четырёх дней.",
+        "tg": "Экрани ниҳоӣ — натиҷаи тамоми курси Beginner: версия, шумораи сабтҳо, рӯйхати рӯбарӯи маҳдудиятҳо ва саволҳои баргардонидан. Маҳдудиятҳо рӯст номбар мешаванд: сохтмони APK ва IPA анҷом наёфтааст, синхронизатсия бо сервер нест, API-и таълимӣ хадамоти санҷишии дигарон аст, огоҳиномаҳо амалӣ нашудаанд. Аломатаи «Курсро анҷом додан» дар ҳалл — Self Reviewed: шумо худ сенарияҳоро гузаронидед, худ дастрасӣ ва нигоҳдориро месанҷед ва аломат дақиқ ҳаминро мефаҳмонад — на бештар. Баргардонидани таҷриба малумаатро ба дониш табдил медиҳад: вазнинтарин рӯз, сенарияи шахсан санҷидашуда, идеяларо барои версияи 2. Ҷавоб ба се савол беҳтарин ҷамъбасти чилу чор рӯз аст.",
+        "en": "The final screen sums up the whole Beginner course: the version, the record count, the honest limits list and the retrospective questions. The limits are named straight: no APK or IPA build, no server synchronization, the learning API is a foreign test service, notifications are not implemented. The «Завершить курс» mark in the solution is Self Reviewed: you walked the scenarios yourself, checked accessibility and storage yourself, and the mark means exactly that — no more. The retrospective turns experience into knowledge: the hardest day, the personally verified scenario, ideas for version 2. Answers to the three questions are the best summary of forty-four days."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Экран читает список из хранилища и показывает счётчик записей — данные проекта работают до последнего дня. limits перечисляет четыре ограничения, retrospective — три вопроса. В решении функция summaryLine считает суммарные минуты плана — маленький отчёт из данных, а кнопка «Завершить курс» отмечает прохождение локально и подписывает его честно: Self Reviewed, не аттестация. Пройдите демонстрацию: откройте все экраны приложения, назовите вслух каждое ограничение и запишите ответы на три вопроса. Этот отчёт — ваш результат курса.",
+        "tg": "Экран рӯйхатро аз нигоҳдорӣ мехонад ва шумораи сабтҳоро нишон медиҳад — маълумоти лоиҳа то рӯзи охирин кор мекунанд. limits чор маҳдудиятро, retrospective се саволро номбар мекунад. Дар ҳалл функсияи summaryLine дақиқаҳои умумии нақшаро ҳисоб мекунад — ҳисоботи хурд аз маълумот ва тугмаи «Курсро анҷом додан» гузаштаро маҳаллӣ аломат карда, онро рӯбарӯ имзо мекунад: Self Reviewed, на аттестатсия. Намоишро гузаронед: ҳамаи экранҳои барномаро кушоед, ҳар маҳдудиятро бо овоз номбар кунед ва ҷавобҳо ба се саволро сабт кунед. Ин ҳисобот натиҷаи курси шумост.",
+        "en": "The screen reads the list from the store and shows the record count — the project data works to the last day. limits lists four restrictions, retrospective — three questions. In the solution the summaryLine function totals the plan minutes — a tiny report from data — and the «Завершить курс» button marks completion locally and labels it honestly: Self Reviewed, not an attestation. Walk the demo: open every app screen, name each limit aloud and write the answers to the three questions. This report is your course result."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\nexport const APP_VERSION = '1.0.0-учебная';\n\nconst limits = [\n  'Сборка APK и IPA не выполнялась: проверка только через Expo Go и Metro.',\n  'Синхронизации с сервером нет: данные одного устройства.',\n  'Учебный API — чужой тестовый сервис, личные данные не отправляются.',\n  'Уведомления и напоминания не реализованы.',\n];\n\nconst retrospective = [\n  'Какой день модуля оказался самым трудным и почему?',\n  'Какой сценарий приложения вы проверили лично?',\n  'Что вы добавили бы в версию 2?',\n];\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем итоговый экран…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Планировщик: итоги</Text>\n      <Text>Версия: {APP_VERSION}. Записей в плане: {tasks.length}.</Text>\n      <Text accessibilityRole=\"header\" style={styles.subheader}>Честные ограничения</Text>\n      {limits.map((limit, index) => <Text key={index}>• {limit}</Text>)}\n      <Text accessibilityRole=\"header\" style={styles.subheader}>Ретроспектива</Text>\n      {retrospective.map((question, index) => <Text key={index}>{index + 1}. {question}</Text>)}\n      <Text>\n        Проект завершён на уровне курса Beginner: сценарии, хранение, сеть с\n        откатом и доступность проверены вами на устройстве.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 10, padding: 24 },\n  subheader: { fontSize: 17, fontWeight: '600', marginTop: 8 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-44-q1",
+      "question": {
+        "ru": "Что означает отметка «Завершить курс»?",
+        "tg": "Аломатаи «Курсро анҷом додан» чӣ маъно дорад?",
+        "en": "What does the completion mark mean?"
+      },
+      "options": [
+        {
+          "ru": "Self Reviewed: вы сами прошли сценарии и проверки",
+          "tg": "Self Reviewed: шумо худ сенарияҳо ва санҷишҳоро гузаронидед",
+          "en": "Self Reviewed: you walked the scenarios and checks yourself"
+        },
+        {
+          "ru": "Сервер подтвердил освоение",
+          "tg": "Сервер эҷодиро тасдиқ кард",
+          "en": "A server confirmed mastery"
+        },
+        {
+          "ru": "Сертификат платформы",
+          "tg": "Сертификати платформа",
+          "en": "A platform certificate"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Отметка честна настолько, насколько честны ваши проверки.",
+        "tg": "Аломат он қадар рӯст, ки санҷишҳои шумо рӯстанд.",
+        "en": "The mark is as honest as your checks are."
+      },
+      "hint": {
+        "ru": "Найдите в решении подпись под отметкой.",
+        "tg": "Дар ҳалл имзои зери аломатро ёбед.",
+        "en": "Find the label under the mark in the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-44-q2",
+      "question": {
+        "ru": "Почему ограничения названы прямо?",
+        "tg": "Маҳдудиятҳо барои чӣ рӯст номбар мешаванд?",
+        "en": "Why are the limits named straight?"
+      },
+      "options": [
+        {
+          "ru": "Так отчет короче",
+          "tg": "Ҳисобот кӯтоҳтар мешавад",
+          "en": "The report gets shorter"
+        },
+        {
+          "ru": "Пользователь и будущий вы должны знать реальные границы",
+          "tg": "Корбар ва шумои оянда бояд ҳудуди воқеиро донанд",
+          "en": "The user and future you must know the real borders"
+        },
+        {
+          "ru": "Ограничений на самом деле нет",
+          "tg": "Дар воқеъ маҳдудият нест",
+          "en": "There are actually no limits"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Неназванная граница превращается в чужую неожиданность.",
+        "tg": "Маҳдудияти номбарнашуда ба ғоибии дигарон табдил меёбад.",
+        "en": "An unnamed border becomes somebody else surprise."
+      },
+      "hint": {
+        "ru": "Перечитайте список limits в примере.",
+        "tg": "Рӯйхати limits-ро дар мисол аз нав хонед.",
+        "en": "Re-read the limits list in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-44-q3",
+      "question": {
+        "ru": "Что считает summaryLine?",
+        "tg": "summaryLine чӣ ҳисоб мекунад?",
+        "en": "What does summaryLine compute?"
+      },
+      "options": [
+        {
+          "ru": "Версию приложения",
+          "tg": "Версияи барнома",
+          "en": "The app version"
+        },
+        {
+          "ru": "Количество экранов",
+          "tg": "Шумораи экранҳо",
+          "en": "The screen count"
+        },
+        {
+          "ru": "Сумму минут всех записей плана",
+          "tg": "Маҷмуи дақиқаҳои ҳамаи сабтҳои нақша",
+          "en": "The total minutes of all plan records"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Маленький отчёт из данных проекта — приём, который пригодится в Pro.",
+        "tg": "Ҳисоби хурд аз маълумоти лоиҳа — усули муфид барои Pro.",
+        "en": "A tiny report from project data — a trick that serves you in Pro."
+      },
+      "hint": {
+        "ru": "Найдите reduce внутри summaryLine.",
+        "tg": "reduce-ро дар дохили summaryLine ёбед.",
+        "en": "Find the reduce inside summaryLine."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-44-q4",
+      "question": {
+        "ru": "Зачем ретроспектива в конце курса?",
+        "tg": "Баргаштани таҷриба дар охири курс барои чист?",
+        "en": "What is the end-of-course retrospective for?"
+      },
+      "options": [
+        {
+          "ru": "Превратить опыт в осознанные выводы и планы",
+          "tg": "Таҷрибаро ба хулосаҳои огоҳона ва нақшаҳо табдил додан",
+          "en": "Turn experience into conscious conclusions and plans"
+        },
+        {
+          "ru": "Заполнить страницу сайта",
+          "tg": "Саҳифаи сайтро пур кардан",
+          "en": "Fill a website page"
+        },
+        {
+          "ru": "Увеличить счётчик XP",
+          "tg": "Шумораи XP-ро зиёд кардан",
+          "en": "Grow the XP counter"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Три письменных ответа фиксируют прогресс лучше любой галочки.",
+        "tg": "Се ҷавоби навишташуда пешрафтро беҳтар аз ҳар аломат сабт мекунанд.",
+        "en": "Three written answers fix the progress better than any checkmark."
+      },
+      "hint": {
+        "ru": "Прочитайте три вопроса ретроспективы на экране.",
+        "tg": "Се саволи баргардониданро дар экран хонед.",
+        "en": "Read the three retrospective questions on the screen."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-44-q5",
+      "question": {
+        "ru": "Что логично изучать после этого курса?",
+        "tg": "Баъди ин курс чӣ омӯхтан мантиқист?",
+        "en": "What is logical to study after this course?"
+      },
+      "options": [
+        {
+          "ru": "Ничего, всё изучено",
+          "tg": "Ҳеҷ чиз, ҳама омӯхта шуд",
+          "en": "Nothing, everything is learned"
+        },
+        {
+          "ru": "Pro-уровень: реальные сборки, сервер и синхронизация",
+          "tg": "Сатҳи Pro: сохтмонҳои воқеӣ, сервер ва синхронизатсия",
+          "en": "Pro level: real builds, a server and synchronization"
+        },
+        {
+          "ru": "Другой язык без практики",
+          "tg": "Забони дигар бе машқ",
+          "en": "Another language without practice"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Ограничения этого дня — готовая программа следующего уровня.",
+        "tg": "Маҳдудиятҳои ин рӯз барномаи омодаи сатҳи ояндаанд.",
+        "en": "This day limits are the ready syllabus of the next level."
+      },
+      "hint": {
+        "ru": "Сопоставьте ограничения с программой Pro.",
+        "tg": "Маҳдудиятҳоро бо барномаи Pro муқоиса кунед.",
+        "en": "Match the limits with the Pro syllabus."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и пройдите демонстрацию всего приложения на устройстве: список, форма, детали, шаблоны, итоги. Соберите решение с summaryLine и отметкой завершения. Запишите отчёт: что проверено лично, какие ограничения подтверждены, ответы на три вопроса. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва намоиши тамоми барномаро дар дастгоҳ гузаронед: рӯйхат, шакл, тафсилот, қолабҳо, натиҷаҳо. Ҳаллро бо summaryLine ва аломати тамомшавӣ созед. Ҳисоботро сабт кунед: чӣ шахсан месанҷед, кадом маҳдудиятҳо тасдиқ шуданд, ҷавобҳо ба се савол. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and walk the whole app demo on a device: list, form, details, templates, wrap-up. Build the solution with summaryLine and the completion mark. Record the report: what you verified personally, which limits are confirmed, the three answers. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "summaryLine использует reduce по minutes; отметка завершения — состояние finished, а не запись в базе.",
+      "tg": "summaryLine reduce-ро аз рӯи minutes истифода мебарад; аломати тамомшавӣ ҳолати finished аст, на сабти дар база.",
+      "en": "summaryLine uses a reduce over minutes; the completion mark is the finished state, not a database record."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\nexport const APP_VERSION = '1.0.0-учебная';\n\nconst limits = [\n  'Сборка APK и IPA не выполнялась: проверка только через Expo Go и Metro.',\n  'Синхронизации с сервером нет: данные одного устройства.',\n  'Учебный API — чужой тестовый сервис, личные данные не отправляются.',\n  'Уведомления и напоминания не реализованы.',\n];\n\nconst retrospective = [\n  'Какой день модуля оказался самым трудным и почему?',\n  'Какой сценарий приложения вы проверили лично?',\n  'Что вы добавили бы в версию 2?',\n];\n\nexport function summaryLine(tasks: Task[]): string {\n  const total = tasks.reduce((sum, task) => sum + task.minutes, 0);\n  return `Записей: ${tasks.length}, запланировано ${total} минут практики.`;\n}\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [finished, setFinished] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем итоговый экран…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Планировщик: итоги</Text>\n      <Text>Версия: {APP_VERSION}. {summaryLine(tasks)}</Text>\n      <Text accessibilityRole=\"header\" style={styles.subheader}>Честные ограничения</Text>\n      {limits.map((limit, index) => <Text key={index}>• {limit}</Text>)}\n      <Text accessibilityRole=\"header\" style={styles.subheader}>Ретроспектива</Text>\n      {retrospective.map((question, index) => <Text key={index}>{index + 1}. {question}</Text>)}\n      <Text>\n        Проект завершён на уровне курса Beginner: сценарии, хранение, сеть с\n        откатом и доступность проверены вами на устройстве.\n      </Text>\n      {finished ? (\n        <Text accessibilityLiveRegion=\"polite\">\n          Отметка о завершении сохранена локально. Это Self Reviewed, не аттестация.\n        </Text>\n      ) : (\n        <Pressable\n          accessibilityRole=\"button\"\n          accessibilityLabel=\"Отметить проект завершённым на уровне курса\"\n          onPress={() => setFinished(true)}\n          style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n        >\n          <Text style={styles.buttonText}>Завершить курс</Text>\n        </Pressable>\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 10, padding: 24 },\n  subheader: { fontSize: 17, fontWeight: '600', marginTop: 8 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center', marginTop: 8 },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Демонстрация пройдена целиком с записью наблюдений.",
+        "tg": "Намоиш тамоман гузаронида, бо сабти мушоҳидаҳо.",
+        "en": "The demo walked fully with recorded observations."
+      },
+      {
+        "ru": "Отчёт содержит личные проверки, подтверждённые ограничения и ответы на ретроспективу.",
+        "tg": "Ҳисобот санҷишҳои шахсӣ, маҳдудиятҳои тасдиқшуда ва ҷавобҳои баргардониданро дорад.",
+        "en": "The report holds personal checks, confirmed limits and the retrospective answers."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Собрать итоговый экран с данными, ограничениями и ретроспективой.",
+        "tg": "Экрани ниҳоиро бо маълумот, маҳдудиятҳо ва баргардонидан созед.",
+        "en": "Assemble the final screen with data, limits and retrospective."
+      },
+      {
+        "ru": "Честно подписать своё освоение как Self Reviewed.",
+        "tg": "Эҷоди худро рӯбарӯ ҳамчун Self Reviewed имзо кунед.",
+        "en": "Label your mastery honestly as Self Reviewed."
+      }
+    ],
+    "realWorld": {
+      "ru": "Команда завершает релиз демонстрацией, отчётом об ограничениях и ретроспективой.",
+      "tg": "Гурӯҳ нашрро бо намоиш, ҳисоботи маҳдудиятҳо ва баргардонидани таҷриба тамом мекунад.",
+      "en": "A team closes a release with a demo, a limits report and a retrospective."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Почему ограничения названы прямо?",
+        "tg": "Маҳдудиятҳо барои чӣ рӯст номбар мешаванд?",
+        "en": "Why are the limits named straight?"
+      },
+      "options": [
+        {
+          "ru": "Так отчет короче",
+          "tg": "Ҳисобот кӯтоҳтар мешавад",
+          "en": "The report gets shorter"
+        },
+        {
+          "ru": "Пользователь и будущий вы должны знать реальные границы",
+          "tg": "Корбар ва шумои оянда бояд ҳудуди воқеиро донанд",
+          "en": "The user and future you must know the real borders"
+        },
+        {
+          "ru": "Ограничений на самом деле нет",
+          "tg": "Дар воқеъ маҳдудият нест",
+          "en": "There are actually no limits"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Перечитайте список limits в примере.",
+        "tg": "Рӯйхати limits-ро дар мисол аз нав хонед.",
+        "en": "Re-read the limits list in the example."
+      },
+      "explanation": {
+        "ru": "Неназванная граница превращается в чужую неожиданность.",
+        "tg": "Маҳдудияти номбарнашуда ба ғоибии дигарон табдил меёбад.",
+        "en": "An unnamed border becomes somebody else surprise."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\nexport const APP_VERSION = '1.0.0-учебная';\n\nconst limits = [\n  'Сборка APK и IPA не выполнялась: проверка только через Expo Go и Metro.',\n  'Синхронизации с сервером нет: данные одного устройства.',\n  'Учебный API — чужой тестовый сервис, личные данные не отправляются.',\n  'Уведомления и напоминания не реализованы.',\n];\n\nconst retrospective = [\n  'Какой день модуля оказался самым трудным и почему?',\n  'Какой сценарий приложения вы проверили лично?',\n  'Что вы добавили бы в версию 2?',\n];\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем итоговый экран…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Планировщик: итоги</Text>\n      <Text>Версия: {APP_VERSION}. Записей в плане: {tasks.length}.</Text>\n      <Text accessibilityRole=\"header\" style={styles.subheader}>Честные ограничения</Text>\n      {limits.map((limit, index) => <Text key={index}>• {limit}</Text>)}\n      <Text accessibilityRole=\"header\" style={styles.subheader}>Ретроспектива</Text>\n      {retrospective.map((question, index) => <Text key={index}>{index + 1}. {question}</Text>)}\n      <Text>\n        Проект завершён на уровне курса Beginner: сценарии, хранение, сеть с\n        откатом и доступность проверены вами на устройстве.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 10, padding: 24 },\n  subheader: { fontSize: 17, fontWeight: '600', marginTop: 8 },\n});\n",
+      "steps": [
+        {
+          "line": 23,
+          "explanation": {
+            "ru": "Счётчик записей берётся из хранилища.",
+            "tg": "Шумораи сабтҳо аз нигоҳдорӣ гирифта мешавад.",
+            "en": "The record count comes from the store."
+          },
+          "values": "tasks.length"
+        },
+        {
+          "line": 25,
+          "explanation": {
+            "ru": "Ограничения перечислены без смягчений.",
+            "tg": "Маҳдудиятҳо бе нозуки номбар мешаванд.",
+            "en": "Limits are listed without softening."
+          },
+          "values": "4 ограничения"
+        },
+        {
+          "line": 28,
+          "explanation": {
+            "ru": "Ретроспектива превращает опыт в планы.",
+            "tg": "Баргардонидан таҷрибаро ба нақшаҳо табдил медиҳад.",
+            "en": "The retrospective turns experience into plans."
+          },
+          "values": "3 вопроса"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Откройте итоговый экран и прочитайте вслух все четыре ограничения.",
+          "tg": "Экрани ниҳоиро кушода, ҳар чор маҳдудиятро бо овоз хонед.",
+          "en": "Open the final screen and read all four limits aloud."
+        },
+        {
+          "ru": "Запишите письменные ответы на три вопроса ретроспективы.",
+          "tg": "Ҷавобҳои навишташуда ба се саволи баргардониданро сабт кунед.",
+          "en": "Write down the answers to the three retrospective questions."
+        }
+      ],
+      "hint": {
+        "ru": "summaryLine использует reduce по minutes; отметка завершения — состояние finished, а не запись в базе.",
+        "tg": "summaryLine reduce-ро аз рӯи minutes истифода мебарад; аломати тамомшавӣ ҳолати finished аст, на сабти дар база.",
+        "en": "summaryLine uses a reduce over minutes; the completion mark is the finished state, not a database record."
+      },
+      "success": {
+        "ru": "Итоговый экран показывает проект, ограничения и ваши письменные выводы.",
+        "tg": "Экрани ниҳоӣ лоиҳа, маҳдудиятҳо ва хулосаҳои навиштаи шуморо нишон медиҳад.",
+        "en": "The final screen shows the project, the limits and your written conclusions."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и пройдите демонстрацию всего приложения на устройстве: список, форма, детали, шаблоны, итоги. Соберите решение с summaryLine и отметкой завершения. Запишите отчёт: что проверено лично, какие ограничения подтверждены, ответы на три вопроса. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва намоиши тамоми барномаро дар дастгоҳ гузаронед: рӯйхат, шакл, тафсилот, қолабҳо, натиҷаҳо. Ҳаллро бо summaryLine ва аломати тамомшавӣ созед. Ҳисоботро сабт кунед: чӣ шахсан месанҷед, кадом маҳдудиятҳо тасдиқ шуданд, ҷавобҳо ба се савол. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and walk the whole app demo on a device: list, form, details, templates, wrap-up. Build the solution with summaryLine and the completion mark. Record the report: what you verified personally, which limits are confirmed, the three answers. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Демонстрация пройдена целиком с записью наблюдений.",
+          "tg": "Намоиш тамоман гузаронида, бо сабти мушоҳидаҳо.",
+          "en": "The demo walked fully with recorded observations."
+        },
+        {
+          "ru": "Отчёт содержит личные проверки, подтверждённые ограничения и ответы на ретроспективу.",
+          "tg": "Ҳисобот санҷишҳои шахсӣ, маҳдудиятҳои тасдиқшуда ва ҷавобҳои баргардониданро дорад.",
+          "en": "The report holds personal checks, confirmed limits and the retrospective answers."
+        }
+      ],
+      "example": {
+        "ru": "Строка «Записей: 4, запланировано 95 минут практики.» подтверждает данные проекта.",
+        "tg": "Сатри «Сабтҳо: 4, 95 дақиқаи машқи дархастшуда.» маълумоти лоиҳаро тасдиқ мекунад.",
+        "en": "The «Записей: 4, запланировано 95 минут практики.» line confirms the project data."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Курс Beginner завершён: от первого экрана до планировщика.",
+        "tg": "Курси Beginner тамом шуд: аз аввалин экран то барномасоз.",
+        "en": "The Beginner course is complete: from the first screen to the planner."
+      },
+      {
+        "ru": "Ограничения сегодняшнего дня — программа уровня Pro.",
+        "tg": "Маҳдудиятҳои имрӯза барномаи сатҳи Pro аст.",
+        "en": "Today limits are the Pro-level syllabus."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что означает отметка «Завершить курс»?",
+        "tg": "Аломатаи «Курсро анҷом додан» чӣ маъно дорад?",
+        "en": "What does the completion mark mean?"
+      },
+      {
+        "ru": "Почему ограничения названы прямо?",
+        "tg": "Маҳдудиятҳо барои чӣ рӯст номбар мешаванд?",
+        "en": "Why are the limits named straight?"
+      }
+    ],
+    "nextLessonId": null
+  }
+}

@@ -1,0 +1,43 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Button, Text, View } from 'react-native';
+
+const lessons = [
+  { id: 'a1', title: 'Первый шаг' },
+  { id: 'a2', title: 'Повторение' },
+  { id: 'a3', title: 'Списки' },
+];
+
+function ListScreen({ navigation }: { navigation: { navigate: (name: string, params?: { id: string }) => void } }) {
+  return (
+    <View style={{ flex: 1, padding: 24, gap: 12 }}>
+      <Text>Занятий: {lessons.length}</Text>
+      {lessons.map(lesson => (
+        <Button key={lesson.id} title={lesson.title} onPress={() => navigation.navigate('Details', { id: lesson.id })} />
+      ))}
+    </View>
+  );
+}
+
+function DetailsScreen({ route }: { route: { params?: { id?: string } } }) {
+  const lesson = lessons.find(item => item.id === route.params?.id);
+  return (
+    <View style={{ flex: 1, padding: 24, gap: 12 }}>
+      <Text accessibilityRole="header">{lesson ? lesson.title : 'Занятие не найдено'}</Text>
+      {lesson ? <Text>Изучите тему этого занятия.</Text> : <Text>Вернитесь и выберите занятие.</Text>}
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="List" component={ListScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

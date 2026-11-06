@@ -1,0 +1,31 @@
+import { StyleSheet, Text, View } from 'react-native';
+
+type Status = 'loading' | 'done' | 'error';
+
+type FeedProps = { status: Status; items: string[] };
+
+export function LessonFeed({ status, items }: FeedProps) {
+  return (
+    <View>
+      {status === 'loading' ? <Text>Загрузка…</Text> : null}
+      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}
+      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}
+      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Три состояния ленты</Text>
+      <LessonFeed status="loading" items={[]} />
+      <LessonFeed status="done" items={['Экран', 'Стили']} />
+      <LessonFeed status="error" items={[]} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 16, padding: 24 },
+});

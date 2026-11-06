@@ -1,0 +1,54 @@
+import { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export type Task = { id: string; title: string; minutes: number; createdAt: number };
+export const STORAGE_KEY = 'devatlas-planner';
+export const APP_VERSION = '1.0.0-учебная';
+
+const limits = [
+  'Сборка APK и IPA не выполнялась: проверка только через Expo Go и Metro.',
+  'Синхронизации с сервером нет: данные одного устройства.',
+  'Учебный API — чужой тестовый сервис, личные данные не отправляются.',
+  'Уведомления и напоминания не реализованы.',
+];
+
+const retrospective = [
+  'Какой день модуля оказался самым трудным и почему?',
+  'Какой сценарий приложения вы проверили лично?',
+  'Что вы добавили бы в версию 2?',
+];
+
+export default function App() {
+  const [tasks, setTasks] = useState<Task[] | null>(null);
+
+  useEffect(() => {
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))
+      .catch(() => setTasks([]));
+  }, []);
+
+  if (tasks === null) {
+    return <View style={styles.screen}><Text>Открываем итоговый экран…</Text></View>;
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Планировщик: итоги</Text>
+      <Text>Версия: {APP_VERSION}. Записей в плане: {tasks.length}.</Text>
+      <Text accessibilityRole="header" style={styles.subheader}>Честные ограничения</Text>
+      {limits.map((limit, index) => <Text key={index}>• {limit}</Text>)}
+      <Text accessibilityRole="header" style={styles.subheader}>Ретроспектива</Text>
+      {retrospective.map((question, index) => <Text key={index}>{index + 1}. {question}</Text>)}
+      <Text>
+        Проект завершён на уровне курса Beginner: сценарии, хранение, сеть с
+        откатом и доступность проверены вами на устройстве.
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 10, padding: 24 },
+  subheader: { fontSize: 17, fontWeight: '600', marginTop: 8 },
+});

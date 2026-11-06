@@ -1,0 +1,390 @@
+/* Mastery states and the floating site agent. */
+/* ============ Mastery states (§8 self-learning) ============ */
+.mastery-badge {
+  color: var(--success-text);
+  background: var(--success-soft);
+  border-color: var(--success-border);
+  font-size: 12px;
+}
+.mastery-status {
+  font-size: 13px;
+  color: var(--text-2);
+  margin: 4px 0 10px;
+}
+
+/* ============ Site agent (floating assistant) ============ */
+.agent-bubble {
+  position: fixed;
+  right: max(22px, env(safe-area-inset-right));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  z-index: var(--z-agent);
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--text-on-accent);
+  background: var(--brand-gradient);
+  box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--primary) 70%, transparent);
+  transition: transform 0.2s ease;
+}
+.agent-bubble:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 16px 34px -10px color-mix(in srgb, var(--primary) 80%, transparent);
+}
+.agent-bubble.is-open {
+  transform: none;
+}
+.agent-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--primary) 55%, transparent);
+  animation: agent-ping 2.6s ease-out 2 both;
+  pointer-events: none;
+}
+@keyframes agent-ping {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+.agent-panel {
+  position: fixed;
+  right: 22px;
+  bottom: 90px;
+  z-index: var(--z-panel);
+  width: min(380px, calc(100vw - 32px));
+  height: min(560px, calc(100dvh - 120px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-3);
+  animation: agent-in 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes agent-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.agent-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--primary-soft);
+}
+.agent-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+.agent-heading p {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+.agent-tools {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+.agent-tools .icon-button.is-active {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.agent-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.agent-message {
+  max-width: 94%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--canvas);
+  font-size: 13px;
+  align-self: flex-start;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.agent-message.user {
+  align-self: flex-end;
+  background: var(--accent-solid);
+  color: var(--text-on-accent);
+  border-color: var(--accent-solid);
+}
+.agent-message p {
+  margin: 0;
+}
+.agent-kind {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.agent-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.agent-links a {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+.agent-links a:hover {
+  border-color: var(--primary);
+}
+.agent-loading {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.agent-composer {
+  border-top: 1px solid var(--border);
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--card);
+}
+.agent-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.agent-chips button {
+  font-size: 12px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-2);
+  cursor: pointer;
+}
+.agent-chips button:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.agent-composer form {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.agent-composer textarea {
+  flex: 1;
+  resize: none;
+  max-height: 96px;
+  background: var(--canvas);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font: inherit;
+}
+.agent-footnote {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+@media (max-width: 650px) {
+  .agent-bubble {
+    right: 14px;
+    bottom: 14px;
+    width: 50px;
+    height: 50px;
+  }
+  .agent-panel {
+    right: 8px;
+    left: 8px;
+    bottom: 74px;
+    width: auto;
+    height: min(72dvh, 560px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .agent-bubble,
+  .agent-panel,
+  .agent-pulse {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.lesson-assessment {
+  margin-block: 24px;
+  min-width: 0;
+}
+.lesson-assessment h3,
+.lesson-assessment h4 {
+  margin-block: 12px;
+}
+.assessment-question {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-block: 18px;
+  min-width: 0;
+}
+.assessment-question legend {
+  padding-inline: 6px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.assessment-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding-block: 8px;
+  overflow-wrap: anywhere;
+}
+.assessment-choice input {
+  flex: none;
+  margin-top: 5px;
+}
+.assessment-match {
+  display: grid;
+  gap: 6px;
+  margin-block: 12px;
+}
+.assessment-match select,
+.assessment-text {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 10px;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
+.assessment-result {
+  margin-top: 20px;
+  padding: 16px;
+  border-left: 3px solid var(--primary);
+  background: var(--primary-soft);
+  overflow-wrap: anywhere;
+}
+.learning-flow-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block: 20px;
+}
+.learning-flow-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.lesson-flow-intro h3,
+.lesson-flow-activities h3 {
+  margin-block: 20px 12px;
+}
+.lesson-flow-activities > section {
+  margin-block: 28px;
+  scroll-margin-top: 90px;
+}
+.lesson-flow-activities li {
+  margin-block: 10px;
+}
+.dom-element-tree ul {
+  margin-left: 20px;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+}
+.dom-element-tree button[aria-pressed='true'] {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+.dom-text-input {
+  display: grid;
+  gap: 8px;
+  margin-block: 16px;
+}
+.dom-text-input input {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  padding: 12px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.demo-browser-tab {
+  padding: 12px;
+  background: var(--primary-soft);
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+.sqlite-practice {
+  min-width: 0;
+  margin-block: 24px;
+}
+.sqlite-result li {
+  margin-block: 16px;
+}
+.sqlite-result code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.written-rubric-review {
+  min-width: 0;
+  margin-block: 24px;
+}
+.written-rubric-review > label {
+  display: grid;
+  gap: 8px;
+  margin-block: 16px;
+}
+.written-rubric-review textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  font: inherit;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.written-rubric-review > button {
+  max-width: 100%;
+  white-space: normal;
+  height: auto;
+  min-height: 44px;
+}

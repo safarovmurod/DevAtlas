@@ -1,0 +1,131 @@
+// @vitest-environment node
+import { afterAll, describe, expect, it } from 'vitest';
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { courseContentSchema } from '@/lib/courses/schema';
+import {findPython} from '../scripts/lib/python-runtime.mjs';
+
+const load = (id: string) => courseContentSchema.parse(JSON.parse(readFileSync(path.join(process.cwd(), 'src/content/courses', id + '.json'), 'utf8')));
+const root = mkdtempSync(path.join(tmpdir(), 'devatlas-trusted-examples-'));
+afterAll(() => rmSync(root, { recursive: true, force: true }));
+const probe = (command: string, args: string[], pattern?: RegExp) => {
+  const result = spawnSync(command, args, { encoding: 'utf8', timeout: 5000 });
+  return result.status === 0 && (!pattern || pattern.test(result.stdout + result.stderr));
+};
+const hasJava = probe('java', ['--list-modules'], /jdk\.compiler@/);
+const hasGo = probe('go', ['version'], /^go version go/);
+const python=findPython();
+const hasPython=python!==null;
+const bashCandidates=['bash',...([process.env.ProgramFiles,process.env.LOCALAPPDATA?path.join(process.env.LOCALAPPDATA,'Programs'):undefined].filter((value):value is string=>!!value).map(directory=>path.join(directory,'Git/bin/bash.exe')))];
+const bashCommand=bashCandidates.find(command=>probe(command,['--version'],/GNU bash/));
+const hasBash=!!bashCommand;
+const hasNode = probe(process.execPath, ['--version'], /^v\d+/);
+
+// These subprocesses execute only reviewed, repository-owned examples. This is
+// not a submission runner and must never receive learner-controlled source.
+function runTrusted(command: string, args: string[], input?: string, timeout = 20000) {
+  const result = spawnSync(command, args, { cwd: root, input, encoding: 'utf8', timeout, maxBuffer: 200000 });
+  expect(result.error, result.error?.message).toBeUndefined();
+  expect(result.status, result.stderr).toBe(0);
+  return result.stdout.replace(/\r\n/g,'\n').trim();
+}
+
+describe('programming course examples', () => {
+  it('Kotlin has thirty ordered, sourced RU/TG/EN lessons with aligned solutions', () => {
+    const course = load('kotlin');
+    expect(course.courseId).toBe('kotlin');
+    expect(course.lessons.map(lesson => lesson.day)).toEqual(Array.from({length:30},(_,index)=>index+1));
+    expect(course.lessons[0].prerequisiteDays).toEqual([]);
+    expect(course.lessons[1].prerequisiteDays).toEqual([1]);
+    expect(course.sources[0].url).toMatch(/^https:\/\//);
+    for (const lesson of course.lessons) {
+      expect(lesson.id).toBe(`kotlin-day-${String(lesson.day).padStart(2,'0')}`);
+      expect(lesson.prerequisiteDays).toEqual(lesson.day===1?[]:[lesson.day!-1]);
+      expect(lesson.practice?.solution).toBe(lesson.sections[0].code);
+      expect(lesson.sections[0].output?.en).toBeTruthy();
+      expect(lesson.questions.length).toBeGreaterThanOrEqual(lesson.day! <= 2 ? 1 : 2);
+      for(const question of lesson.questions) expect(question.options[question.correctIndex]).toEqual(question.answer);
+      for (const locale of ['ru', 'tg', 'en'] as const) {
+        expect(lesson.title[locale]?.length).toBeGreaterThan(8);
+        expect(lesson.sections[0].body[locale]?.length).toBeGreaterThan(90);
+        expect(lesson.practice?.task[locale]?.length).toBeGreaterThan(60);
+        expect(lesson.practice?.criteria.every(criterion => Boolean(criterion[locale]))).toBe(true);
+      }
+    }
+  });
+
+  it.skipIf(!hasJava)('Java course: every executable day runs with the real JDK and matches its recorded output', () => {
+    let verified = 0;
+    for (const lesson of load('java').lessons) {
+      if (lesson.practice!.kind !== 'code') continue;
+      const section = lesson.sections.find(item => item.output?.en !== undefined);
+      if (!section) continue;
+      writeFileSync(path.join(root, 'Main.java'), lesson.practice!.solution);
+      // Java println uses the platform separator; course JSON stores LF.
+      expect(runTrusted('java', ['Main.java']).replace(/\r/g, ''), lesson.id).toBe(section.output!.en);
+      verified++;
+    }
+    expect(verified).toBeGreaterThanOrEqual(27);
+  }, 300000);
+  it.skipIf(!hasNode)('Node course: every executable day runs and matches its recorded output', () => {
+    let verified = 0;
+    for (const lesson of load('nodejs').lessons) {
+      if (lesson.practice!.kind !== 'code') continue;
+      const section = lesson.sections.find(item => item.output?.en !== undefined);
+      if (!section) continue;
+      const extension = /require\(/.test(lesson.practice!.solution) && !/import /.test(lesson.practice!.solution) ? 'main.cjs' : 'main.mjs';
+      writeFileSync(path.join(root, extension), lesson.practice!.solution);
+      expect(runTrusted(process.execPath, [extension]).replace(/\r/g, ''), lesson.id).toBe(section.output!.en);
+      verified++;
+    }
+    expect(verified).toBeGreaterThanOrEqual(26);
+    const day2 = load('nodejs').lessons[1].practice!.solution;
+    writeFileSync(path.join(root, 'main.mjs'), day2.replace('price * quantity', 'price + quantity'));
+    const broken = spawnSync(process.execPath, ['main.mjs'], { cwd: root, encoding: 'utf8', timeout: 5000 });
+    expect(broken.status).not.toBe(0);
+    expect(broken.stderr).toContain('AssertionError');
+  }, 120000);
+  it.skipIf(!hasBash)('Bash course: every executable day runs and the day-2 validation still rejects nonnumeric input', () => {
+    let verified = 0;
+    for (const lesson of load('bash').lessons) {
+      if (lesson.practice!.kind !== 'code') continue;
+      const section = lesson.sections.find(item => item.output?.en !== undefined);
+      if (!section) continue;
+      writeFileSync(path.join(root, 'main.sh'), lesson.practice!.solution);
+      expect(runTrusted(bashCommand!, ['main.sh']).replace(/\r/g, ''), lesson.id).toBe(section.output!.en);
+      verified++;
+    }
+    expect(verified).toBeGreaterThanOrEqual(26);
+    const solution = load('bash').lessons[1].practice!.solution;
+    writeFileSync(path.join(root, 'main.sh'), solution + '\ntotal 07 02\nif total 12 abc; then exit 99; fi\n');
+    expect(runTrusted(bashCommand!, ['main.sh'])).toBe('36\n0\nInvalid input rejected\n14');
+  }, 180000);
+  it.skipIf(!hasPython)('SQL course: every executable day runs in real SQLite and matches its recorded output', () => {
+    const sqlite = 'import sqlite3, sys\nc=sqlite3.connect(":memory:")\nbuffer=""\nfor line in sys.stdin:\n buffer+=line\n if sqlite3.complete_statement(buffer):\n  cursor=c.execute(buffer)\n  if cursor.description:\n   for row in cursor.fetchall(): print("|".join(str(value) for value in row))\n  buffer=""\n';
+    let verified = 0;
+    for (const lesson of load('sql').lessons) {
+      if (lesson.practice!.kind !== 'code') continue;
+      const section = lesson.sections.find(item => item.output?.en !== undefined);
+      if (!section) continue;
+      // Windows pipes CRLF; course JSON stores LF like a Linux CI.
+      const out = runTrusted(python!.command, [...python!.prefixArgs, '-c', sqlite], lesson.practice!.solution).replace(/\r/g, '');
+      expect(out, lesson.id).toBe(section.output!.en);
+      verified++;
+    }
+    expect(verified).toBeGreaterThanOrEqual(26);
+  }, 180000);
+  it.skipIf(!hasGo || !hasPython)('Go course: all independent solutions and examples run with their own expected output', () => {
+    // Practice deliberately differs from the teaching example. The shared
+    // verifier reads each solution's output and supports real multi-file modules.
+    const output = runTrusted(python!.command, [
+      ...python!.prefixArgs, '-I',
+      path.join(process.cwd(), 'scripts/course-authoring/verify_go.py'),
+    ], undefined, 280000);
+    expect(output).toContain('checked 30 solutions, 30 examples, 0 problems');
+  }, 300000);
+  // SDKs/database are not installed/configured in this cloud instance. Keep
+  // unexecuted examples visible as skipped, not silently counted as passing.
+  it.skip.each(['csharp', 'rust', 'php', 'ruby', 'mongodb', 'swift'])('%s compiler/interpreter/database examples await an available local runtime', () => {});
+});

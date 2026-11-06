@@ -1,0 +1,2328 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "19fa357033cc8e9392c89c0012f1b874e9e96a83",
+  "date": "2026-10-26",
+  "allowedStatuses": [
+    "DONE",
+    "PARTIAL",
+    "BLOCKED",
+    "TODO"
+  ],
+  "inventory": {
+    "files": 422,
+    "path": "docs/audits/2026-10-26-baseline-files.json",
+    "scope": "Every tracked baseline file indexed; semantic and editorial review explicitly incomplete"
+  },
+  "tasks": [
+    {
+      "id": "audit-all-files",
+      "priority": "P1",
+      "title": "Semantic audit of every tracked area",
+      "status": "PARTIAL",
+      "evidence": [
+        "422 baseline files indexed with SHA-256; original and generated curricula scanned by actual loaders",
+        "docs/audits/2026-10-26-baseline-files.json"
+      ],
+      "acceptance": "Record source review and executed behavior checks by area; do not equate inventory/hash/typecheck with an editorial/security audit",
+      "validation": []
+    },
+    {
+      "id": "agent-account-history",
+      "priority": "P0",
+      "title": "Prevent chat disclosure between accounts",
+      "status": "DONE",
+      "evidence": [
+        "src/components/agent/site-agent.tsx: unscoped devatlas-agent-chat-v1"
+      ],
+      "acceptance": "Owner-scoped validated storage; preserve ambiguous legacy history without assigning it; cross-account/guest, corrupted data, cancellation and late-response regressions",
+      "changedFiles": [
+        "src/components/agent/site-agent.tsx",
+        "src/lib/agent/private-history.ts",
+        "tests/agent-privacy.test.tsx",
+        "e2e/review-and-agent.spec.ts"
+      ],
+      "validation": [
+        "452 unit/integration passed, including six privacy/cancellation/accessibility/attribution regressions",
+        "Six targeted review/Agent desktop/mobile E2E passed; live account/provider verification remains BLOCKED separately",
+        "Final actual service notice/source attribution and Light/Dark user-message contrast >=4.5:1 checked in desktop/mobile follow-up2 passed; generated replies cannot claim course-material origin"
+      ]
+    },
+    {
+      "id": "ai-durable-costs",
+      "priority": "P0",
+      "title": "Durable per-user quotas and deployment cost caps",
+      "status": "DONE",
+      "evidence": [
+        "src/app/api/tutor/route.ts: process-local global inFlight/nextRequestAt only"
+      ],
+      "acceptance": "Atomic persistent reservations, bounded token and cost budgets, multi-instance rate control; fail closed before any provider call when quota storage/configuration unavailable",
+      "changedFiles": [
+        "src/lib/tutor/quota.ts",
+        "src/app/api/tutor/route.ts",
+        "supabase/migrations/20261026010000_tutor_budgets.sql",
+        "tests/tutor-budget-database.test.ts",
+        "tests/tutor-quota.test.ts",
+        "tests/tutor-api.test.ts"
+      ],
+      "validation": [
+        "452 unit/integration passed; real local PostgreSQL migration tests cover rate, global/user caps, rollback and privileges",
+        "Provider transport is mocked in API tests; no provider call on denied quota. Live migration/provider activation remains BLOCKED separately"
+      ]
+    },
+    {
+      "id": "terminal-learning-flow",
+      "priority": "P1",
+      "title": "Allow a truthful final lesson and prevent cyclic progression",
+      "status": "DONE",
+      "evidence": [
+        "src/lib/courses/learning-flow.ts: nextLessonId mandatory string",
+        "src/lib/courses/schema.ts: existence only"
+      ],
+      "acceptance": "Explicit terminal state only on final scheduled day; reject self/back/skip links; preserve legacy lessons and show completion guidance without awarding mastery",
+      "changedFiles": [
+        "src/lib/courses/learning-flow.ts",
+        "src/lib/courses/schema.ts",
+        "src/components/courses/lesson-flow.tsx",
+        "tests/learning-flow.test.ts"
+      ],
+      "validation": [
+        "Four learning-flow tests passed as part of 449; valid final-null, nonfinal-null denial, invalid prediction/translation/reference and loop/skip denial",
+        "No additional capstone lesson is claimed; this closes the schema obstruction only"
+      ]
+    },
+    {
+      "id": "legacy-readiness-status",
+      "priority": "P1",
+      "title": "Show existing study activity without certifying mastery",
+      "status": "PARTIAL",
+      "evidence": [
+        "src/lib/courses/plan.ts: legacy completion shown as Not Started"
+      ],
+      "acceptance": "Model corrected; full learning-state UI and protected evidence integration across curricula remain part of the interactive rollout, so this requirement is not marked DONE.",
+      "changedFiles": [
+        "src/lib/courses/plan.ts",
+        "tests/course-day-plan.test.ts"
+      ],
+      "validation": [
+        "452 unit/integration passed; legacy Studying/Practicing model tested without granting mastery"
+      ]
+    },
+    {
+      "id": "weak-topics-and-revision",
+      "priority": "P1",
+      "title": "Replace broken weak-topic/revision redirects with functional review",
+      "status": "DONE",
+      "evidence": [
+        "src/app/weak-topics/page.tsx",
+        "src/app/revision/page.tsx",
+        "src/app/courses/[courseId]/[section]/page.tsx: redirects to plan"
+      ],
+      "acceptance": "Use real answers and due dates, handle empty/unstarted state, link to actual theory/questions, run review without skipping questions when due dates update",
+      "changedFiles": [
+        "src/app/revision/page.tsx",
+        "src/app/weak-topics/page.tsx",
+        "src/app/courses/[courseId]/[section]/page.tsx",
+        "src/components/courses/course-workspace.tsx",
+        "src/components/learning/study-session.tsx",
+        "src/components/learning/react-review.tsx",
+        "src/components/learning/review-board.tsx",
+        "src/lib/progress/review-plan.ts",
+        "tests/review-session.test.tsx",
+        "tests/review-plan.test.ts",
+        "e2e/review-and-agent.spec.ts"
+      ],
+      "validation": [
+        "452 unit/integration passed including stable queue and actual-attempt planner regressions",
+        "Six targeted review/Agent E2E passed: imported revision records choice/schedule/5 XP without mastery, React processes both queued questions, 320px no overflow",
+        "Final full desktop/mobile108 passed after replacing obsolete redirect assertions with actual working-review assertions; isolated mock-auth12 passed"
+      ]
+    },
+    {
+      "id": "explanatory-routing",
+      "priority": "P1",
+      "title": "Route lesson questions to course answers rather than XP guide",
+      "status": "DONE",
+      "evidence": [
+        "src/lib/agent/site-agent.ts: unbounded xps? matches Explain and experience"
+      ],
+      "acceptance": "English lesson explanation queries reach course material; XP navigation still works",
+      "changedFiles": [
+        "src/lib/agent/site-agent.ts",
+        "tests/site-agent.test.ts",
+        "e2e/review-and-agent.spec.ts",
+        "src/app/api/tutor/route.ts",
+        "tests/tutor-api.test.ts"
+      ],
+      "validation": [
+        "Six guide-brain tests passed in full suite; Explain/experience do not trigger the XP guide",
+        "Actual local /api/tutor request and stored guest reply verified in desktop/mobile E2E",
+        "Unknown offline answers and follow-up clarification follow RU/TG/EN without registration/provider tokens; 452-test final full suite passed"
+      ]
+    },
+    {
+      "id": "beginner-theory",
+      "priority": "P1",
+      "title": "Deepen existing HTML/JS1/JS2/Git/C++ and additional thin curricula",
+      "status": "TODO",
+      "evidence": [
+        "docs/SELF_LEARNING_CONTENT_AUDIT.md: thin theory also React/Next.js"
+      ],
+      "acceptance": "Review every scheduled day, define prerequisites and terms, worked examples/changed input/errors/independent reasoning in RU/TG/EN; word count alone insufficient",
+      "validation": []
+    },
+    {
+      "id": "learning-flow-rollout",
+      "priority": "P1",
+      "title": "Complete interactive learning flow across published days",
+      "status": "PARTIAL",
+      "evidence": [
+        "HTML day 1 pilot only"
+      ],
+      "acceptance": "Goals, explanation, worked example/demo, prediction, guided/independent practice, hints, check, feedback, quiz, mini challenge, summary/review/next step for each appropriate lesson",
+      "validation": []
+    },
+    {
+      "id": "practice-runtimes",
+      "priority": "P1",
+      "title": "Real practice checking across relevant subjects",
+      "status": "PARTIAL",
+      "evidence": [
+        "HTML day 1 parse validator; SQLite day 1 WASM; existing React worker; written rubric pilot"
+      ],
+      "acceptance": "Real sandbox and multiple cases/edge cases/feedback; no fake compilers, no unisolated server execution; non-code rubrics and deliverables",
+      "validation": []
+    },
+    {
+      "id": "assessment-rollout",
+      "priority": "P1",
+      "title": "Versioned multi-type quizzes and honest mastery",
+      "status": "PARTIAL",
+      "evidence": [
+        "src/content/assessments/html-first-page.ts; protected ledger migration"
+      ],
+      "acceptance": "5–10 meaningful checks for most full days, variants/retries/theory feedback, 80% plus all critical and assessed practice; no checkbox verification",
+      "validation": []
+    },
+    {
+      "id": "subject-visualizers",
+      "priority": "P1",
+      "title": "Subject-specific interactive visualizers",
+      "status": "PARTIAL",
+      "evidence": [
+        "HTML DOM pilot; existing React practice"
+      ],
+      "acceptance": "JavaScript, React, CSS, algorithms, backend, AI and non-code subject simulations with accurate models, touch/keyboard controls",
+      "validation": []
+    },
+    {
+      "id": "mentor-conversations",
+      "priority": "P1",
+      "title": "Shared persistent multi-chat for existing two assistants",
+      "status": "PARTIAL",
+      "evidence": [
+        "TutorDrawer: ephemeral conversation; Site Agent: local one chat",
+        "Owner-scoped validated local Agent history and cancellation implemented; still one conversation, not shared server multi-chat"
+      ],
+      "acceptance": "New/rename/delete/search conversations, local guest mode, owner-isolated server history, lesson/code context, retry/cancel/errors; do not create third assistant",
+      "validation": []
+    },
+    {
+      "id": "personal-roadmap",
+      "priority": "P1",
+      "title": "Placement and personalized roadmap",
+      "status": "TODO",
+      "evidence": [
+        "/roadmap redirects to /plan; no objective placement workflow"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "daily-challenges",
+      "priority": "P1",
+      "title": "Daily challenges and coding challenges",
+      "status": "PARTIAL",
+      "evidence": [
+        "existing React daily question sets are not a full cross-course challenge system"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "weekly-review",
+      "priority": "P1",
+      "title": "Weekly review and learning statistics",
+      "status": "PARTIAL",
+      "evidence": [
+        "existing saved answers/reviews/study seconds; full weekly view unverified"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "portfolio",
+      "priority": "P1",
+      "title": "Capstone deliverables and portfolio",
+      "status": "TODO",
+      "evidence": [
+        "No portfolio route or completed deliverable workflow found"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "bookmarks",
+      "priority": "P1",
+      "title": "Learning bookmarks",
+      "status": "TODO",
+      "evidence": [
+        "Notes/drafts exist; bookmarks not found"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "guided-debugging",
+      "priority": "P1",
+      "title": "Guided debugging and AI interview",
+      "status": "PARTIAL",
+      "evidence": [
+        "Existing interview self-review does not fulfill all guided modes"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "community-groups",
+      "priority": "P1",
+      "title": "Discussions and study groups",
+      "status": "PARTIAL",
+      "evidence": [
+        "Paid community chat exists; study group lifecycle absent"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "completion-records",
+      "priority": "P1",
+      "title": "Honest completion records/achievements",
+      "status": "PARTIAL",
+      "evidence": [
+        "Local quiz/XP is not independently verified course mastery"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "progress-sync",
+      "priority": "P1",
+      "title": "Progress, XP, account boundaries and conflict handling",
+      "status": "PARTIAL",
+      "evidence": [
+        "Existing store/sync tests; live Supabase not verified"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "ui-all-screens",
+      "priority": "P2",
+      "title": "UI, responsive layout, contrast, motion and six-language coverage",
+      "status": "PARTIAL",
+      "evidence": [
+        "Existing Aurora, sidebar and mobile tests; full surface-by-surface audit pending",
+        "Agent fullscreen phone layout/focus/Escape, real Light/Dark message contrast and source labels fixed; complete all-screen design/accessibility audit remains PARTIAL."
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "font-coverage",
+      "priority": "P2",
+      "title": "Licensed fonts and actual RU/TG/EN/UK/JA/KO glyph/fallback rendering",
+      "status": "PARTIAL",
+      "evidence": [
+        "Local Inter/JetBrains OFL; glyph and CJK fallback audit pending",
+        "FontTools cmap checked; per-character Chromium platform-font inspection confirms bundled Inter fallback for ҳ қ ҷ ғ, and shaping of ӣ/ӯ. Four route/font E2E passed on desktop/mobile. CJK/full comparison remains PARTIAL."
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "sources",
+      "priority": "P1",
+      "title": "Official-source/version/license review for all new lessons",
+      "status": "PARTIAL",
+      "evidence": [
+        "Twelve draft blueprints have partial source review only"
+      ],
+      "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
+      "validation": []
+    },
+    {
+      "id": "live-auth",
+      "priority": "P0",
+      "title": "Production Supabase Auth/RLS/MFA/profiles/progress",
+      "status": "BLOCKED",
+      "evidence": [
+        "No ready Supabase secrets/runtime bindings in current environment"
+      ],
+      "acceptance": "Securely configure approved Supabase public URL/key and server role, apply/review migrations in test project, provide authorized test accounts and verify live providers",
+      "blocker": "No ready Supabase secrets/runtime bindings in current environment",
+      "validation": []
+    },
+    {
+      "id": "payments",
+      "priority": "P0",
+      "title": "Real billing lifecycle",
+      "status": "BLOCKED",
+      "evidence": [
+        "No configured provider/approved prices/webhook credentials"
+      ],
+      "acceptance": "Keep billing_not_configured; configure provider/prices/currency/verified webhooks and test subscription lifecycle",
+      "blocker": "No configured provider/approved prices/webhook credentials",
+      "validation": []
+    },
+    {
+      "id": "live-online-ai",
+      "priority": "P1",
+      "title": "Actual online AI provider verification",
+      "status": "BLOCKED",
+      "evidence": [
+        "No provider credentials or approved live budget"
+      ],
+      "acceptance": "Secure provider setup, apply/test 20261026010000_tutor_budgets.sql, approve nonzero budgets and verify tokenizer/max_tokens billing bounds before enabling; run actual authorized provider test.",
+      "blocker": "No provider credentials or approved live budget",
+      "validation": []
+    },
+    {
+      "id": "production-browser",
+      "priority": "P1",
+      "title": "Production HTTP and browser smoke",
+      "status": "BLOCKED",
+      "evidence": [
+        "Direct production request repeated 2026-10-26: curl exit 56, CONNECT proxy 403; no application HTTP response"
+      ],
+      "acceptance": "Use an approved network environment or supported destination configuration; verify public HTTP, auth and primary flows",
+      "blocker": "Current CONNECT proxy denies production host with 403; no direct application response",
+      "validation": []
+    },
+    {
+      "id": "external-runners",
+      "priority": "P1",
+      "title": "Production isolated native-language runtimes",
+      "status": "BLOCKED",
+      "evidence": [
+        "No verified isolated production runner infrastructure"
+      ],
+      "acceptance": "Use browser/WASM where available; provision and prove isolation/limits before enabling other runtimes",
+      "blocker": "No verified isolated production runner infrastructure",
+      "validation": []
+    },
+    {
+      "id": "expand-backend",
+      "priority": "P1",
+      "title": "Finish short course: backend",
+      "status": "DONE",
+      "evidence": [
+        "44 authored published days in working branch; original 1–9 IDs/progress retained; 220 RU/TG/EN questions",
+        "Actual local Node examples, daily learner-file graders, real SQLite constraints and learner-supplied API capstone phase gates; local checks are not server Mastered"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": [
+        "Targeted Vitest: 11 passed",
+        "35 authored Node examples exact stdout; 30 solutions pass and 30 unfinished starters rejected",
+        "Capstone reference eight groups pass; intentionally unfinished and owner-mutated candidates rejected",
+        "Exact implementation commit 1fa08df11897481b328620a4c6b92de865631093: GitHub run https://github.com/safarovmurod/react-mentor/actions/runs/40411429950: Ubuntu and Windows PowerShell 5.1/7 with Node 22/24 all passed",
+        "Post-review targeted tests: 11 Vitest, 12 Node lab groups and 6 desktop/mobile Backend Playwright passed; complete local browser suite 114 and 12 mock-auth scenarios passed before the final curriculum/CLI follow-up",
+        "Main CI for merge 1b1f0d0 failed in Windows PowerShell 5.1/Node 22: Monaco model was read before initialization; follow-up pending.",
+        "Monaco reload follow-up: six targeted desktop/mobile Playwright tests and TypeScript typecheck passed locally; GitHub and post-merge main CI still required.",
+        "Fix PR #21 passed all Linux/Windows CI; corrected main d5ed179 GitHub run 40462852429 passed all five jobs. Production Vercel deployment reports success; direct HTTP blocked by proxy."
+      ],
+      "changedFiles": [
+        "src/content/courses/backend.json",
+        "src/content/courses/catalog.ts",
+        "src/components/courses/function-practice.tsx",
+        "content/backend-lab/reference/server.mjs",
+        "content/backend-lab/test/backend.test.mjs",
+        "tests/backend-course.test.ts",
+        "src/app/tests/page.tsx",
+        "src/components/courses/course-boundary.tsx",
+        "content/backend-lab/check-day.mjs",
+        "content/backend-lab/check-project.mjs",
+        "content/backend-lab/test/project.test.mjs",
+        "content/backend-lab/test/curriculum.test.mjs",
+        "content/backend-lab/project/README.md",
+        "e2e/backend-practice.spec.ts"
+      ],
+      "commit": "1fa08df11897481b328620a4c6b92de865631093",
+      "pullRequest": "https://github.com/safarovmurod/react-mentor/pull/20"
+    },
+    {
+      "id": "expand-mobile",
+      "priority": "P1",
+      "title": "Finish short course: mobile",
+      "status": "PARTIAL",
+      "evidence": [
+        "44 published days matching the 44-day draft target; RU/TG/EN explanations, learning flows, five questions and practice on every day; historical day 1-2 quiz identities and options preserved and locked by tests.",
+        "Stage B corrections: correct answers spread across option positions (98% at index 0 before), per-question hints replace the single shared hint on days 1-7.",
+        "Stage C: 35 new days follow the six-module design (basic elements, screens and flow, data and network, mobile quality, planner capstone) with Expo examples and worked solutions."
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": [
+        "Days 1-9 examples and worked solutions passed TypeScript and Metro Android JavaScript bundling in Expo 58 / React Native 0.88; not native-device proof.",
+        "Component logic under a simulated React Native host: days 2, 4, 6, 8, 9 verified earlier; checker support added for days 14, 16, 21, 22, 26, 30, 35, 40, 41 but not yet executed in an Expo environment.",
+        "All 44 drafts pass the zod course schema; examples/solutions match the lab files via tests; catalog shows 44 days; UX is not started. Native device/emulator verification and an Expo-environment pass over days 10-44 remain BLOCKED/awaiting the learner-side project.",
+        "455 unit/integration tests passed, typecheck and lint clean; delivery report regenerated (978 scheduled days)."
+      ],
+      "changedFiles": [
+        "content/mobile-lab/README.md",
+        "content/mobile-lab/component-tests/day-02.test.cjs",
+        "content/mobile-lab/component-tests/day-04.test.cjs",
+        "content/mobile-lab/component-tests/day-06.test.cjs",
+        "content/mobile-lab/component-tests/day-08.test.cjs",
+        "content/mobile-lab/component-tests/day-09.test.cjs",
+        "content/mobile-lab/component-tests/day-14.test.cjs",
+        "content/mobile-lab/component-tests/day-16.test.cjs",
+        "content/mobile-lab/component-tests/day-21.test.cjs",
+        "content/mobile-lab/component-tests/day-22.test.cjs",
+        "content/mobile-lab/component-tests/day-26.test.cjs",
+        "content/mobile-lab/component-tests/day-30.test.cjs",
+        "content/mobile-lab/component-tests/day-35.test.cjs",
+        "content/mobile-lab/component-tests/day-40.test.cjs",
+        "content/mobile-lab/component-tests/day-41.test.cjs",
+        "content/mobile-lab/drafts/day-01.json",
+        "content/mobile-lab/drafts/day-02.json",
+        "content/mobile-lab/drafts/day-03.json",
+        "content/mobile-lab/drafts/day-04.json",
+        "content/mobile-lab/drafts/day-05.json",
+        "content/mobile-lab/drafts/day-06.json",
+        "content/mobile-lab/drafts/day-07.json",
+        "content/mobile-lab/drafts/day-08.json",
+        "content/mobile-lab/drafts/day-09.json",
+        "content/mobile-lab/drafts/day-10.json",
+        "content/mobile-lab/drafts/day-11.json",
+        "content/mobile-lab/drafts/day-12.json",
+        "content/mobile-lab/drafts/day-13.json",
+        "content/mobile-lab/drafts/day-14.json",
+        "content/mobile-lab/drafts/day-15.json",
+        "content/mobile-lab/drafts/day-16.json",
+        "content/mobile-lab/drafts/day-17.json",
+        "content/mobile-lab/drafts/day-18.json",
+        "content/mobile-lab/drafts/day-19.json",
+        "content/mobile-lab/drafts/day-20.json",
+        "content/mobile-lab/drafts/day-21.json",
+        "content/mobile-lab/drafts/day-22.json",
+        "content/mobile-lab/drafts/day-23.json",
+        "content/mobile-lab/drafts/day-24.json",
+        "content/mobile-lab/drafts/day-25.json",
+        "content/mobile-lab/drafts/day-26.json",
+        "content/mobile-lab/drafts/day-27.json",
+        "content/mobile-lab/drafts/day-28.json",
+        "content/mobile-lab/drafts/day-29.json",
+        "content/mobile-lab/drafts/day-30.json",
+        "content/mobile-lab/drafts/day-31.json",
+        "content/mobile-lab/drafts/day-32.json",
+        "content/mobile-lab/drafts/day-33.json",
+        "content/mobile-lab/drafts/day-34.json",
+        "content/mobile-lab/drafts/day-35.json",
+        "content/mobile-lab/drafts/day-36.json",
+        "content/mobile-lab/drafts/day-37.json",
+        "content/mobile-lab/drafts/day-38.json",
+        "content/mobile-lab/drafts/day-39.json",
+        "content/mobile-lab/drafts/day-40.json",
+        "content/mobile-lab/drafts/day-41.json",
+        "content/mobile-lab/drafts/day-42.json",
+        "content/mobile-lab/drafts/day-43.json",
+        "content/mobile-lab/drafts/day-44.json",
+        "content/mobile-lab/examples/day-01.tsx.txt",
+        "content/mobile-lab/examples/day-02.tsx.txt",
+        "content/mobile-lab/examples/day-03.tsx.txt",
+        "content/mobile-lab/examples/day-04.tsx.txt",
+        "content/mobile-lab/examples/day-05.tsx.txt",
+        "content/mobile-lab/examples/day-06.tsx.txt",
+        "content/mobile-lab/examples/day-07.tsx.txt",
+        "content/mobile-lab/examples/day-08.tsx.txt",
+        "content/mobile-lab/examples/day-09.tsx.txt",
+        "content/mobile-lab/examples/day-10.tsx.txt",
+        "content/mobile-lab/examples/day-11.tsx.txt",
+        "content/mobile-lab/examples/day-12.tsx.txt",
+        "content/mobile-lab/examples/day-13.tsx.txt",
+        "content/mobile-lab/examples/day-14.tsx.txt",
+        "content/mobile-lab/examples/day-15.tsx.txt",
+        "content/mobile-lab/examples/day-16.tsx.txt",
+        "content/mobile-lab/examples/day-17.tsx.txt",
+        "content/mobile-lab/examples/day-18.tsx.txt",
+        "content/mobile-lab/examples/day-19.tsx.txt",
+        "content/mobile-lab/examples/day-20.tsx.txt",
+        "content/mobile-lab/examples/day-21.tsx.txt",
+        "content/mobile-lab/examples/day-22.tsx.txt",
+        "content/mobile-lab/examples/day-23.tsx.txt",
+        "content/mobile-lab/examples/day-24.tsx.txt",
+        "content/mobile-lab/examples/day-25.tsx.txt",
+        "content/mobile-lab/examples/day-26.tsx.txt",
+        "content/mobile-lab/examples/day-27.tsx.txt",
+        "content/mobile-lab/examples/day-28.tsx.txt",
+        "content/mobile-lab/examples/day-29.tsx.txt",
+        "content/mobile-lab/examples/day-30.tsx.txt",
+        "content/mobile-lab/examples/day-31.tsx.txt",
+        "content/mobile-lab/examples/day-32.tsx.txt",
+        "content/mobile-lab/examples/day-33.tsx.txt",
+        "content/mobile-lab/examples/day-34.tsx.txt",
+        "content/mobile-lab/examples/day-35.tsx.txt",
+        "content/mobile-lab/examples/day-36.tsx.txt",
+        "content/mobile-lab/examples/day-37.tsx.txt",
+        "content/mobile-lab/examples/day-38.tsx.txt",
+        "content/mobile-lab/examples/day-39.tsx.txt",
+        "content/mobile-lab/examples/day-40.tsx.txt",
+        "content/mobile-lab/examples/day-41.tsx.txt",
+        "content/mobile-lab/examples/day-42.tsx.txt",
+        "content/mobile-lab/examples/day-43.tsx.txt",
+        "content/mobile-lab/examples/day-44.tsx.txt",
+        "content/mobile-lab/manifest.json",
+        "content/mobile-lab/solutions/day-01.tsx.txt",
+        "content/mobile-lab/solutions/day-02.tsx.txt",
+        "content/mobile-lab/solutions/day-03.tsx.txt",
+        "content/mobile-lab/solutions/day-04.tsx.txt",
+        "content/mobile-lab/solutions/day-05.tsx.txt",
+        "content/mobile-lab/solutions/day-06.tsx.txt",
+        "content/mobile-lab/solutions/day-07.tsx.txt",
+        "content/mobile-lab/solutions/day-08.tsx.txt",
+        "content/mobile-lab/solutions/day-09.tsx.txt",
+        "content/mobile-lab/solutions/day-10.tsx.txt",
+        "content/mobile-lab/solutions/day-11.tsx.txt",
+        "content/mobile-lab/solutions/day-12.tsx.txt",
+        "content/mobile-lab/solutions/day-13.tsx.txt",
+        "content/mobile-lab/solutions/day-14.tsx.txt",
+        "content/mobile-lab/solutions/day-15.tsx.txt",
+        "content/mobile-lab/solutions/day-16.tsx.txt",
+        "content/mobile-lab/solutions/day-17.tsx.txt",
+        "content/mobile-lab/solutions/day-18.tsx.txt",
+        "content/mobile-lab/solutions/day-19.tsx.txt",
+        "content/mobile-lab/solutions/day-20.tsx.txt",
+        "content/mobile-lab/solutions/day-21.tsx.txt",
+        "content/mobile-lab/solutions/day-22.tsx.txt",
+        "content/mobile-lab/solutions/day-23.tsx.txt",
+        "content/mobile-lab/solutions/day-24.tsx.txt",
+        "content/mobile-lab/solutions/day-25.tsx.txt",
+        "content/mobile-lab/solutions/day-26.tsx.txt",
+        "content/mobile-lab/solutions/day-27.tsx.txt",
+        "content/mobile-lab/solutions/day-28.tsx.txt",
+        "content/mobile-lab/solutions/day-29.tsx.txt",
+        "content/mobile-lab/solutions/day-30.tsx.txt",
+        "content/mobile-lab/solutions/day-31.tsx.txt",
+        "content/mobile-lab/solutions/day-32.tsx.txt",
+        "content/mobile-lab/solutions/day-33.tsx.txt",
+        "content/mobile-lab/solutions/day-34.tsx.txt",
+        "content/mobile-lab/solutions/day-35.tsx.txt",
+        "content/mobile-lab/solutions/day-36.tsx.txt",
+        "content/mobile-lab/solutions/day-37.tsx.txt",
+        "content/mobile-lab/solutions/day-38.tsx.txt",
+        "content/mobile-lab/solutions/day-39.tsx.txt",
+        "content/mobile-lab/solutions/day-40.tsx.txt",
+        "content/mobile-lab/solutions/day-41.tsx.txt",
+        "content/mobile-lab/solutions/day-42.tsx.txt",
+        "content/mobile-lab/solutions/day-43.tsx.txt",
+        "content/mobile-lab/solutions/day-44.tsx.txt",
+        "content/mobile-lab/test/verify-component.test.mjs",
+        "content/mobile-lab/verify-component.mjs",
+        "docs/curriculum-design/short-courses.draft.json",
+        "src/components/courses/lesson-flow.tsx",
+        "src/content/courses/catalog.ts",
+        "src/content/courses/mobile.json",
+        "src/lib/catalog-copy.ts",
+        "tests/introductory-tracks.test.ts",
+        "tests/mobile-draft.test.ts",
+        "tests/mobile-flow.test.tsx",
+        "tests/stage-coverage.test.ts"
+      ]
+    },
+    {
+      "id": "expand-ux-design",
+      "priority": "P1",
+      "title": "Finish short course: ux-design",
+      "status": "DONE",
+      "evidence": [
+        "30 authored published days; original day-01/02 IDs and their original quiz questions retained; 150 RU/TG/EN questions (5 per day)",
+        "Full learning flow on every day (objectives, prediction, guided practice, mini challenge, review); written practice with reference answers on all 30 days",
+        "Blueprint docs/curriculum-design/short-courses.draft.json followed: research/ethics days 1-9, synthesis days 10-16, prototype days 17-23, testing and final case days 24-30",
+        "8 verified https sources (W3C WAI x2, Nielsen Norman Group x4, Usability.gov); local checks are honest Self Reviewed, no automated design attestation claimed"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": [
+        "Targeted Vitest: tests/ux-design-course.test.ts (2), general-course-content (5), catalog-copy (3) passed; full suite 457 passed / 9 skipped",
+        "Schema validation via courseContentSchema: 30 lessons OK; RU theory words avg 187 (min 153); questions/day 5.0; stale-copy scan: 0 hits",
+        "npm typecheck, lint and build passed; coverage-matrix and delivery-report --check pass at 1006 published days",
+        "PR #23 passed all Linux/Windows CI; merge commit 8bc531a main CI passed all five jobs: https://github.com/safarovmurod/react-mentor/actions/runs/40926156670"
+      ],
+      "changedFiles": [
+        "src/content/courses/ux-design.json",
+        "src/content/courses/catalog.ts",
+        "src/lib/catalog-copy.ts",
+        "tests/ux-design-course.test.ts",
+        "tests/general-course-content.test.ts",
+        "tests/learning-flow.test.ts",
+        "tests/stage-coverage.test.ts",
+        "docs/coverage-matrix.json",
+        "docs/SELF_LEARNING_CONTENT_AUDIT.md",
+        "docs/delivery-state.json"
+      ],
+      "commit": "486906ed9e4168f5a5d24c97bd945c1fff1490bf",
+      "pullRequest": "https://github.com/safarovmurod/react-mentor/pull/23"
+    },
+    {
+      "id": "expand-digital-marketing",
+      "priority": "P1",
+      "title": "Finish short course: digital-marketing",
+      "status": "DONE",
+      "evidence": [
+        "30 authored published days; original day-01/02 IDs and their original quiz questions retained; 150 RU/TG/EN questions (5 per day)",
+        "5 executable Auto Verified days (funnel rates, UTM builder, KPI completion, campaign costs CPC/CPM/CPA/ROAS, A/B comparison) with 34 declared cases including zero-denominator and invalid-input edges; 25 written Self Reviewed days",
+        "Full learning flow on every day; running fictional library scenario; 7 verified https sources (Google Analytics/Ads, GA URL Builder, Search Central, OpenStax CC BY-NC-SA as research reference, EU data protection, Mailchimp)",
+        "No real ad spending and no personal-data collection; ROAS of a free event reported honestly as 0; attribution labeled a last-touch model"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": [
+        "Targeted Vitest: tests/digital-marketing-course.test.ts (3), general-course-content (5), catalog-copy (3), course-taxonomy (8), learning-flow, stage-coverage passed",
+        "Reference solutions of all 5 executable days verified against their declared cases; schema validation via courseContentSchema: 30 lessons OK; RU theory avg 206 words (min 179); questions/day 5.0; stale-copy 0",
+        "PR #24 CI: after stabilizing the legacy browser regressions (production-server e2e in CI, per-file expect waits, init-script seeding, CI retries), all six checks passed on head dfa4474: https://github.com/safarovmurod/DevAtlas/pull/24",
+        "Merged as 8437b3b; two Windows Node 22 jobs flaked on the same marginal assertion and the init-script seeding fix landed on main as 8214281 with a fully green main CI run (5/5 jobs)",
+        "Local verification: full Vitest 459 passed/9 skipped; Playwright e2e 114/114 twice (dev and production server); mock-auth 12/12"
+      ],
+      "changedFiles": [
+        "src/content/courses/digital-marketing.json",
+        "src/content/courses/catalog.ts",
+        "src/lib/catalog-copy.ts",
+        "tests/digital-marketing-course.test.ts",
+        "tests/general-course-content.test.ts",
+        "tests/learning-flow.test.ts",
+        "tests/stage-coverage.test.ts",
+        "docs/coverage-matrix.json",
+        "docs/SELF_LEARNING_CONTENT_AUDIT.md",
+        "docs/delivery-state.json"
+      ],
+      "commit": "8437b3bdb20f78eb2fed142f07f3a45de4de6ff1 (merge); follow-up test fix 8214281",
+      "pullRequest": "https://github.com/safarovmurod/DevAtlas/pull/24"
+    },
+    {
+      "id": "expand-data-analytics",
+      "priority": "P1",
+      "title": "Finish short course: data-analytics",
+      "status": "DONE",
+      "evidence": [
+        "30 authored published days; original day-01/02 IDs and their original quiz questions retained; 150 RU/TG/EN questions (5 per day)",
+        "5 executable Auto Verified days (shares, centralMeasures, spread, kpiMetrics, cohortRetention) with 34 declared cases including zero-denominator and invalid-input edges; 5 local-SQL workflow days (SELECT/WHERE, GROUP BY, JOIN, NULL, dates) with one reconciled canonical cafeteria dataset (11 rows, 1125 revenue, 455/210/460 per day, 495/365/265 per category); 20 written Self Reviewed days",
+        "Full learning flow on every day (objectives, prediction, code-trace or html-document demo, guided practice, mini challenge, review); assessmentMode local-only; final day ends the course with nextLessonId null",
+        "Statistics are computed, not asserted: pinned day-2 mean 30/5=6 vs median 3 preserved; quartiles verified in real SQLite (python sqlite3) for the SQL days; no real personal data anywhere"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": [
+        "Targeted Vitest: tests/data-analytics-course.test.ts (4), general-course-content (5), stage-coverage, learning-flow passed; 78 test files, 464 tests green locally",
+        "Reference solutions of all 5 executable days verified against their declared cases in Node (34/34); typecheck, lint, production build, coverage-matrix/delivery-report/audit-backlog all clean; snapshot 1034 -> 1062 published days",
+        "PR #25 CI: all six checks passed on head 1160d94 (https://github.com/safarovmurod/DevAtlas/pull/25); merged as 3c41a2a",
+        "Main CI on 3c41a2a: one Windows pwsh Node 24 job flaked on the legacy written-business-practice navigation (default 5s toHaveURL after a client-side link click), fixed systemically by PR #26 (20s navigation waits, 90s body budget, no assertion weakened); merged as 30a26e7",
+        "Main CI green on 30a26e7: all five CI jobs success (Lint/Typecheck/Test/Build + four Windows browser jobs)"
+      ],
+      "changedFiles": [
+        "src/content/courses/data-analytics.json",
+        "src/content/courses/catalog.ts",
+        "src/lib/catalog-copy.ts",
+        "tests/data-analytics-course.test.ts",
+        "tests/general-course-content.test.ts",
+        "tests/stage-coverage.test.ts",
+        "docs/coverage-matrix.json",
+        "docs/SELF_LEARNING_CONTENT_AUDIT.md",
+        "docs/delivery-state.json"
+      ],
+      "commit": "1160d94 (PR head); merge 3c41a2a; flake fix 1e747b0, main merge 30a26e7",
+      "pullRequest": "https://github.com/safarovmurod/DevAtlas/pull/25; stabilization https://github.com/safarovmurod/DevAtlas/pull/26"
+    },
+    {
+      "id": "expand-business-foundations",
+      "priority": "P1",
+      "title": "Finish short course: business-foundations",
+      "status": "DONE",
+      "evidence": [
+        "30 authored published days delivered to main 1ddc7fc by direct push per the owner's explicit permission (PR #27 auto-marked merged by GitHub: head commits became ancestors of main); original day-01/02 IDs, practices and quiz concepts preserved (pinned day-2 price-15 model)",
+        "150 RU/TG/EN questions (5 per day); 4 executable Auto Verified days (contribution, breakEven, unitEconomics, monthSalesNeeded) with 28 declared cases verified against reference solutions in Node including zero-margin and invalid-input edges; 26 written Self Reviewed days on one canonical fictional scenario (margin 3.5, break-even 1 sale, the 4/10 price pair, plan [13,13,13] for three months); no real payments or personal data anywhere",
+        "Full learning flow on every day, assessmentMode local-only; day 30 ends the course with nextLessonId null; stale two-day copy removed from day-01 summaries (course-audit stale-copy scan)",
+        "Local verification measured on the delivered tree: typecheck 0 errors, lint 0 errors, 79 test files / 467 unit tests passed, production build passed, Playwright E2E 114/114, mock-auth regressions 12/12, coverage-matrix/delivery-report/audit-backlog clean; snapshot 1062->1090 published days; one marginal test-stability fix (tutor-api 5s->10s under full parallel load, no assertion weakened)",
+        "GitHub Actions CI remains BLOCKED (external billing): 'The job was not started because recent account payments have failed or your spending limit needs to be increased' on every job (run 41138158064 attempts 1-2); CI is NOT claimed green; local verification above is the recorded evidence base"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": [
+        "Targeted Vitest: tests/business-foundations-course.test.ts (3), general-course-content (5), stage-coverage, learning-flow, course-audit, tutor-api passed",
+        "Reference solutions of all 4 executable days verified against their declared cases in Node (28/28); schema validation via courseContentSchema: 30 lessons OK",
+        "Full local battery on the delivered tree: typecheck 0, lint 0, 79 test files / 467 tests passed, production build passed, Playwright E2E 114/114, mock-auth 12/12",
+        "Direct push to main verified via GitHub API: branch main at 1ddc7fc0 contains business-foundations.json with 30 lessons / 150 questions / catalog publishedDays 30; PR #27 auto-closed as merged (merge_commit 6381c71b)",
+        "GitHub Actions CI BLOCKED (billing): not claimed green; recorded as the externally blocked check per the owner's direct-push authorization"
+      ],
+      "changedFiles": [
+        "src/content/courses/business-foundations.json",
+        "src/content/courses/catalog.ts",
+        "src/lib/catalog-copy.ts",
+        "tests/business-foundations-course.test.ts",
+        "tests/general-course-content.test.ts",
+        "tests/stage-coverage.test.ts",
+        "tests/tutor-api.test.ts",
+        "docs/coverage-matrix.json",
+        "docs/delivery-state.json"
+      ],
+      "commit": "branch head 00a147d; merge commit 1ddc7fc on main (direct push per owner permission)",
+      "pullRequest": "https://github.com/safarovmurod/DevAtlas/pull/27 (auto-marked merged by the direct push)"
+    },
+    {
+      "id": "expand-communication",
+      "priority": "P1",
+      "title": "Finish short course: communication",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 authored days complete locally on branch feat/communication-beginner-course (PR #29, head 40669c0): 150 RU/TG/EN questions (5 per day); original day-01/02 IDs, quiz concepts and the day-01 written rubric preserved; day-01 summary rewritten to drop stale two-day wording (course-audit scan)",
+        "30 written Self Reviewed days on one canonical fictional club scenario (Friday 19:00 slot, Anya/Mark names, no personality labels); full learning flow every day, assessmentMode local-only; day 30 ends the course with nextLessonId null",
+        "Local gates measured green: typecheck 0, lint 0, 80 test files / 469 unit tests, production build, Playwright E2E 114/114, mock-auth 12/12, coverage-matrix/delivery-report/audit-backlog --check; snapshot 1090->1118; lessonCount 192->220",
+        "tutor-api paid-AI guard timeout 10s->15s under full parallel load (recurrence of the parallel-load flake; no assertion weakened)",
+        "CI BLOCKED (external): GitHub Actions billing failure persists on the account (see expand-business-foundations evidence); main push of locally verified work authorized by the owner; GitHub Actions CI remains blocked (billing) and is NOT claimed green"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": [],
+      "commit": "course 3206635 (cherry-pick of 40669c0); register 5f5cfc5",
+      "pullRequest": "PR #29 closed: work delivered directly to main per owner authorization (no PR merge mechanism used)"
+    },
+    {
+      "id": "expand-content-creation",
+      "priority": "P1",
+      "title": "Finish short course: content-creation",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; draft target 30 days; not a completed curriculum"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": []
+    },
+    {
+      "id": "expand-english-foundations",
+      "priority": "P1",
+      "title": "Finish short course: english-foundations",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; draft target 42 days; not a completed curriculum"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": []
+    },
+    {
+      "id": "expand-digital-literacy",
+      "priority": "P1",
+      "title": "Finish short course: digital-literacy",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; draft target 30 days; not a completed curriculum"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": []
+    },
+    {
+      "id": "expand-personal-productivity",
+      "priority": "P1",
+      "title": "Finish short course: personal-productivity",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; draft target 22 days; not a completed curriculum"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": []
+    },
+    {
+      "id": "expand-management-foundations",
+      "priority": "P1",
+      "title": "Finish short course: management-foundations",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; draft target 30 days; not a completed curriculum"
+      ],
+      "acceptance": "Original complete RU/TG/EN lessons, individual practice/feedback/5–10 checks where appropriate, mini projects/capstone, reviewed sources and real examples; catalog matches actual publication",
+      "validation": []
+    },
+    {
+      "id": "deepen-typescript",
+      "priority": "P1",
+      "title": "Extend and review: typescript",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days"
+      ],
+      "acceptance": "Review days 1–14, fill missing concepts, author coherent continuation and practical capstone without duplicated days",
+      "validation": []
+    },
+    {
+      "id": "deepen-algorithms",
+      "priority": "P1",
+      "title": "Extend and review: algorithms",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days"
+      ],
+      "acceptance": "Review days 1–14, fill missing concepts, author coherent continuation and practical capstone without duplicated days",
+      "validation": []
+    },
+    {
+      "id": "deepen-ai-fundamentals",
+      "priority": "P1",
+      "title": "Extend and review: ai-fundamentals",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days"
+      ],
+      "acceptance": "Review days 1–14, fill missing concepts, author coherent continuation and practical capstone without duplicated days",
+      "validation": []
+    },
+    {
+      "id": "deepen-context-engineering",
+      "priority": "P1",
+      "title": "Extend and review: context-engineering",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days"
+      ],
+      "acceptance": "Review days 1–14, fill missing concepts, author coherent continuation and practical capstone without duplicated days",
+      "validation": []
+    },
+    {
+      "id": "deepen-agent-harness",
+      "priority": "P1",
+      "title": "Extend and review: agent-harness",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days"
+      ],
+      "acceptance": "Review days 1–14, fill missing concepts, author coherent continuation and practical capstone without duplicated days",
+      "validation": []
+    },
+    {
+      "id": "stage-html-beginner",
+      "priority": "P1",
+      "title": "HTML + CSS / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: html",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-html-pro",
+      "priority": "P1",
+      "title": "HTML + CSS / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-html-expert",
+      "priority": "P1",
+      "title": "HTML + CSS / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-css-beginner",
+      "priority": "P1",
+      "title": "CSS / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: css",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-css-pro",
+      "priority": "P1",
+      "title": "CSS / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-css-expert",
+      "priority": "P1",
+      "title": "CSS / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-javascript-beginner",
+      "priority": "P1",
+      "title": "JavaScript / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "60 published days; courses: javascript-1, javascript-2",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-javascript-pro",
+      "priority": "P1",
+      "title": "JavaScript / pro",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: javascript-pro",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-javascript-expert",
+      "priority": "P1",
+      "title": "JavaScript / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-typescript-beginner",
+      "priority": "P1",
+      "title": "TypeScript / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days; courses: typescript",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-typescript-pro",
+      "priority": "P1",
+      "title": "TypeScript / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-typescript-expert",
+      "priority": "P1",
+      "title": "TypeScript / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-react-beginner",
+      "priority": "P1",
+      "title": "React / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "60 published days; courses: react",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-react-pro",
+      "priority": "P1",
+      "title": "React / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-react-expert",
+      "priority": "P1",
+      "title": "React / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-nextjs-beginner",
+      "priority": "P1",
+      "title": "Next.js / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "20 published days; courses: nextjs",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-nextjs-pro",
+      "priority": "P1",
+      "title": "Next.js / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-nextjs-expert",
+      "priority": "P1",
+      "title": "Next.js / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-python-beginner",
+      "priority": "P1",
+      "title": "Python / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: python",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-python-pro",
+      "priority": "P1",
+      "title": "Python / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-python-expert",
+      "priority": "P1",
+      "title": "Python / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-algorithms-beginner",
+      "priority": "P1",
+      "title": "Algorithms / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days; courses: algorithms",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-algorithms-pro",
+      "priority": "P1",
+      "title": "Algorithms / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-algorithms-expert",
+      "priority": "P1",
+      "title": "Algorithms / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-cpp-beginner",
+      "priority": "P1",
+      "title": "C++ / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: cpp",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-cpp-pro",
+      "priority": "P1",
+      "title": "C++ / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-cpp-expert",
+      "priority": "P1",
+      "title": "C++ / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-java-beginner",
+      "priority": "P1",
+      "title": "Java / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: java",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-java-pro",
+      "priority": "P1",
+      "title": "Java / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-java-expert",
+      "priority": "P1",
+      "title": "Java / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-csharp-beginner",
+      "priority": "P1",
+      "title": "C# / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: csharp",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-csharp-pro",
+      "priority": "P1",
+      "title": "C# / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-csharp-expert",
+      "priority": "P1",
+      "title": "C# / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-go-beginner",
+      "priority": "P1",
+      "title": "Go / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: go",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-go-pro",
+      "priority": "P1",
+      "title": "Go / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-go-expert",
+      "priority": "P1",
+      "title": "Go / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-rust-beginner",
+      "priority": "P1",
+      "title": "Rust / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: rust",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-rust-pro",
+      "priority": "P1",
+      "title": "Rust / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-rust-expert",
+      "priority": "P1",
+      "title": "Rust / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-php-beginner",
+      "priority": "P1",
+      "title": "PHP / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: php",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-php-pro",
+      "priority": "P1",
+      "title": "PHP / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-php-expert",
+      "priority": "P1",
+      "title": "PHP / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-ruby-beginner",
+      "priority": "P1",
+      "title": "Ruby / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: ruby",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-ruby-pro",
+      "priority": "P1",
+      "title": "Ruby / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-ruby-expert",
+      "priority": "P1",
+      "title": "Ruby / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-backend-beginner",
+      "priority": "P1",
+      "title": "Backend / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "9 authored published foundation days in the working branch, 45 original RU/TG/EN questions, 6 browser-executable function labs; days 10–44 and complete Backend assessment/capstone teaching remain unfinished",
+        "Working separate Node.js reference API and learner starter/tests; reference success is not learner mastery"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": [
+        "Targeted Vitest: 10 passed (trusted Node examples; all declared pure-function cases; red/green learner starters)",
+        "Actual Node HTTP/SQLite reference laboratory: 4 test groups passed",
+        "Targeted Playwright: 4 passed on desktop/mobile after routing fix, including wrong-answer feedback, retry, exact day navigation and ZIP download"
+      ],
+      "changedFiles": [
+        "src/content/courses/backend.json",
+        "src/content/courses/catalog.ts",
+        "src/components/courses/function-practice.tsx",
+        "content/backend-lab/reference/server.mjs",
+        "content/backend-lab/test/backend.test.mjs",
+        "tests/backend-course.test.ts",
+        "src/app/tests/page.tsx",
+        "src/components/courses/course-boundary.tsx"
+      ]
+    },
+    {
+      "id": "stage-backend-pro",
+      "priority": "P1",
+      "title": "Backend / pro",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: backend-pro",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-backend-expert",
+      "priority": "P1",
+      "title": "Backend / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-nodejs-beginner",
+      "priority": "P1",
+      "title": "Node.js / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: nodejs",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-nodejs-pro",
+      "priority": "P1",
+      "title": "Node.js / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-nodejs-expert",
+      "priority": "P1",
+      "title": "Node.js / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-sql-beginner",
+      "priority": "P1",
+      "title": "SQL / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: sql",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-sql-pro",
+      "priority": "P1",
+      "title": "SQL / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-sql-expert",
+      "priority": "P1",
+      "title": "SQL / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-mongodb-beginner",
+      "priority": "P1",
+      "title": "MongoDB / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: mongodb",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-mongodb-pro",
+      "priority": "P1",
+      "title": "MongoDB / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-mongodb-expert",
+      "priority": "P1",
+      "title": "MongoDB / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-bash-beginner",
+      "priority": "P1",
+      "title": "Bash / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: bash",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-bash-pro",
+      "priority": "P1",
+      "title": "Bash / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-bash-expert",
+      "priority": "P1",
+      "title": "Bash / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-git-beginner",
+      "priority": "P1",
+      "title": "Git / GitHub / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: git",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-git-pro",
+      "priority": "P1",
+      "title": "Git / GitHub / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-git-expert",
+      "priority": "P1",
+      "title": "Git / GitHub / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-mobile-beginner",
+      "priority": "P1",
+      "title": "Mobile / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; courses: mobile",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-mobile-pro",
+      "priority": "P1",
+      "title": "Mobile / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-mobile-expert",
+      "priority": "P1",
+      "title": "Mobile / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-swift-beginner",
+      "priority": "P1",
+      "title": "Swift / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: swift",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-swift-pro",
+      "priority": "P1",
+      "title": "Swift / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-swift-expert",
+      "priority": "P1",
+      "title": "Swift / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-kotlin-beginner",
+      "priority": "P1",
+      "title": "Kotlin / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: kotlin",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-kotlin-pro",
+      "priority": "P1",
+      "title": "Kotlin / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-kotlin-expert",
+      "priority": "P1",
+      "title": "Kotlin / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-ai-fundamentals-beginner",
+      "priority": "P1",
+      "title": "AI Fundamentals / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days; courses: ai-fundamentals",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-ai-fundamentals-pro",
+      "priority": "P1",
+      "title": "AI Fundamentals / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-ai-fundamentals-expert",
+      "priority": "P1",
+      "title": "AI Fundamentals / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-context-engineering-beginner",
+      "priority": "P1",
+      "title": "Context Engineering / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days; courses: context-engineering",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-context-engineering-pro",
+      "priority": "P1",
+      "title": "Context Engineering / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-context-engineering-expert",
+      "priority": "P1",
+      "title": "Context Engineering / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-agent-harness-beginner",
+      "priority": "P1",
+      "title": "Agent Harness / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "14 published days; courses: agent-harness",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-agent-harness-pro",
+      "priority": "P1",
+      "title": "Agent Harness / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-agent-harness-expert",
+      "priority": "P1",
+      "title": "Agent Harness / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-ux-beginner",
+      "priority": "P1",
+      "title": "UX/UI Design / beginner",
+      "status": "DONE",
+      "evidence": [
+        "30 published days; course: ux-design; beginner stage published with full curriculum",
+        "docs/coverage-matrix.json (publishedDays 2 -> 30; repo total 978 -> 1006)"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": [
+        "Full suite 457 passed / 9 skipped; stage-coverage strict test updated to 1006 published days and passes",
+        "Local-only flow gate: 30 UX lessons carry local-only assessment mode with written practice and no code sections",
+        "Verified on main after PR #23 merge (8bc531a): five CI jobs passed."
+      ],
+      "changedFiles": [
+        "src/content/courses/ux-design.json",
+        "src/content/courses/catalog.ts",
+        "docs/coverage-matrix.json",
+        "tests/stage-coverage.test.ts",
+        "tests/ux-design-course.test.ts"
+      ]
+    },
+    {
+      "id": "stage-ux-pro",
+      "priority": "P1",
+      "title": "UX/UI Design / pro",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: ux-pro",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-ux-expert",
+      "priority": "P1",
+      "title": "UX/UI Design / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-digital-marketing-beginner",
+      "priority": "P1",
+      "title": "Digital Marketing / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: digital-marketing",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-digital-marketing-pro",
+      "priority": "P1",
+      "title": "Digital Marketing / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-digital-marketing-expert",
+      "priority": "P1",
+      "title": "Digital Marketing / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-data-analytics-beginner",
+      "priority": "P1",
+      "title": "Data Analytics / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: data-analytics",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-data-analytics-pro",
+      "priority": "P1",
+      "title": "Data Analytics / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-data-analytics-expert",
+      "priority": "P1",
+      "title": "Data Analytics / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-business-beginner",
+      "priority": "P1",
+      "title": "Business / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; courses: business-foundations",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-business-pro",
+      "priority": "P1",
+      "title": "Business / pro",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: business-pro",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-business-expert",
+      "priority": "P1",
+      "title": "Business / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-management-beginner",
+      "priority": "P1",
+      "title": "Management / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; courses: management-foundations",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-management-pro",
+      "priority": "P1",
+      "title": "Management / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-management-expert",
+      "priority": "P1",
+      "title": "Management / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-communication-beginner",
+      "priority": "P1",
+      "title": "Communication / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; courses: communication",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-communication-pro",
+      "priority": "P1",
+      "title": "Communication / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-communication-expert",
+      "priority": "P1",
+      "title": "Communication / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-content-creation-beginner",
+      "priority": "P1",
+      "title": "Content Creation / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; courses: content-creation",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-content-creation-pro",
+      "priority": "P1",
+      "title": "Content Creation / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-content-creation-expert",
+      "priority": "P1",
+      "title": "Content Creation / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-english-beginner",
+      "priority": "P1",
+      "title": "English / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; courses: english-foundations",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-english-pro",
+      "priority": "P1",
+      "title": "English / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-english-expert",
+      "priority": "P1",
+      "title": "English / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-digital-literacy-beginner",
+      "priority": "P1",
+      "title": "Digital Literacy / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; courses: digital-literacy",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-digital-literacy-pro",
+      "priority": "P1",
+      "title": "Digital Literacy / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-digital-literacy-expert",
+      "priority": "P1",
+      "title": "Digital Literacy / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-personal-productivity-beginner",
+      "priority": "P1",
+      "title": "Personal Productivity / beginner",
+      "status": "PARTIAL",
+      "evidence": [
+        "2 published days; courses: personal-productivity",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "stage-personal-productivity-pro",
+      "priority": "P1",
+      "title": "Personal Productivity / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-personal-productivity-expert",
+      "priority": "P1",
+      "title": "Personal Productivity / expert",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-architecture-beginner",
+      "priority": "P1",
+      "title": "Software Architecture / beginner",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-architecture-pro",
+      "priority": "P1",
+      "title": "Software Architecture / pro",
+      "status": "TODO",
+      "evidence": [
+        "0 published days; courses: none",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review",
+      "validation": []
+    },
+    {
+      "id": "stage-architecture-expert",
+      "priority": "P1",
+      "title": "Software Architecture / expert",
+      "status": "PARTIAL",
+      "evidence": [
+        "30 published days; courses: architecture-expert",
+        "docs/coverage-matrix.json"
+      ],
+      "acceptance": "Complete distinct stage curriculum, assessments/projects, prerequisites, separate progress, RU/TG/EN content; Beginner free and advanced bodies authorized on server; content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation",
+      "validation": []
+    },
+    {
+      "id": "independent-final-audit",
+      "priority": "P1",
+      "title": "Repeat requirements audit independently of implementation claims",
+      "status": "TODO",
+      "evidence": [],
+      "acceptance": "Recalculate coverage from source, rerun typecheck/lint/unit/integration/build/desktop/mobile, inspect real behavior and every outstanding requirement; do not mark project complete with TODO/PARTIAL requirements",
+      "validation": []
+    },
+    {
+      "id": "current-reporting",
+      "priority": "P2",
+      "title": "Correct stale current-vs-historical reporting",
+      "status": "DONE",
+      "evidence": [
+        "launch-checklist.md described 8 October as current; state still awaited merged PR #18"
+      ],
+      "acceptance": "Preserve historical evidence but point current claims to generated source reports and the retained requirement register; CI checks all requirement IDs and report freshness.",
+      "changedFiles": [
+        "docs/launch-checklist.md",
+        "docs/delivery-state.json",
+        "README.md",
+        "scripts/audit-backlog.mjs",
+        "scripts/delivery-report.mjs",
+        ".github/workflows/ci.yml",
+        "scripts/test-platform.ps1"
+      ],
+      "validation": [
+        "node scripts/audit-backlog.mjs --check, coverage-matrix.mjs --check, delivery-report.mjs --check passed at checkpoint",
+        "Historical launch checklist explicitly labeled; baseline422 files/hash inventory and163 retained task records; no draft-to-lesson inflation"
+      ]
+    }
+  ]
+}

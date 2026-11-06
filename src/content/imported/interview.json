@@ -1,0 +1,1514 @@
+[
+  {
+    "id": "topic1",
+    "title": "Props ва children",
+    "questions": [
+      {
+        "id": "interview-q1",
+        "sourceId": "q1",
+        "question": "Props чист ва барои чӣ даркорай?",
+        "answer": "Props маълумотест, ки parent (компоненти боло) ба child (компоненти дарунаш) медиҳад. Бо як компонент чанд маҳсулоти гуногун нишон дода метонем.",
+        "code": [
+          "function Product({ name }) {\n  return <p>{name}</p>;\n}\n<Product name=\"Телефон\" />\n<Product name=\"Ноутбук\" />"
+        ],
+        "codeLabel": "Мисоли JSX: Product ва ду ҷойи истифодааш.",
+        "explanation": "Product якум «Телефон», дуюм «Ноутбук» мегира. Компонент якто, маълумоти додагиамон гуногунай.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q2",
+        "sourceId": "q2",
+        "question": "Props-ро дар child иваз карда метонем?",
+        "answer": "Props-ро танҳо мехонем. Агар child тағйир даркор дошта бошад, функцияи аз parent омадаро ҷеғ мезана; parent state-и худашро нав мекна.",
+        "code": [
+          "// Parent: state ва callback медиҳад\nconst [count, setCount] = useState(0);\n<Counter count={count} onAdd={() => setCount(count + 1)} />\n// Counter.jsx: дар JSX-и child\n<button onClick={onAdd}>{count}</button>"
+        ],
+        "codeLabel": "Порчаҳо. Parent: import { useState } from \"react\". Counter props-и count ва onAdd мегира.",
+        "explanation": "Child onAdd-ро ҷеғ мезана → parent count-ро нав мекна → props-и нав ба child мерасад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q3",
+        "sourceId": "q3",
+        "question": "children чист? Аз props чӣ фарқ дорад?",
+        "answer": "children ҳам props аст. Чизе, ки байни теги кушодаю пӯшидаи компонент менависӣ, ба children мерава.",
+        "code": [
+          "function Card({ children }) {\n  return <section>{children}</section>;\n}\n<Card>\n  <p>Нарх: 50 сомонӣ</p>\n</Card>"
+        ],
+        "codeLabel": "Мисоли JSX: Card ва ҷойи истифодааш.",
+        "explanation": "Параграфи нарх ба children мерава. Card онро дар section нишон мета. Ҳамин Card бо матн ё кнопкаи дигар ҳам истифода мешавад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic2",
+    "title": "Lists ва keys",
+    "questions": [
+      {
+        "id": "interview-q4",
+        "sourceId": "q4",
+        "question": "Чиба дар map key мемонем?",
+        "answer": "Key ба React мефаҳмона, ки кадом элемент кадомаш аст, ҳатто агар ҷояш иваз шавад. Key бояд байни элементҳои ҳамсоя ягона ва барои ҳамон item устувор бошад.",
+        "code": [
+          "const users = [{ id: 7, name: \"Али\" }];\nconst list = users.map((user) => (\n  <p key={user.id}>{user.name}</p>\n));"
+        ],
+        "codeLabel": "Порча дар компонент; list-ро дар return нишон медиҳем.",
+        "explanation": "React ин параграфро аз рӯйи id-и 7 мешиноса. Иваз шудани ҷояш маънои user-и дигар шудан надора.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q5",
+        "sourceId": "q5",
+        "question": "Чиба key={index} баъзан проблема медиҳад?",
+        "answer": "Index ҷойи элемент аст, шахсияташ нест. Агар аввалин item удалит шавад, index-ҳои баъдӣ иваз мешаванд ва React метавонад state-и input-ро ба item-и дигар пайваст кунад.",
+        "code": [
+          "// Пеш: Али index=0, Валӣ index=1\n// Али удалит шуд: Валӣ index=0\n// Барои рӯйхати тағйирёбанда:\nusers.map((user) => <Row key={user.id} user={user} />);"
+        ],
+        "codeLabel": "Порча. users массиви дорои id; Row компоненти қабулкунандаи user аст.",
+        "explanation": "Валӣ пешу баъд ҳамон id дорад. Барои рӯйхати воқеан доимӣ index худ аз худ ошибка нест.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q6",
+        "sourceId": "q6",
+        "question": "Чиба random key намемонем? Key ба props мерава?",
+        "answer": "Key-и тасодуфӣ ҳар render дигар мешавад: React компонентро аз нав месозад ва state-и дохилаш гум шуда метавонад. Худи key ба props дода намешавад; агар id даркор бошад, алоҳида медиҳем.",
+        "code": [
+          "// Нодуруст: key ҳар render нав мешавад\n<Row key={Math.random()} />\n// Дуруст: id-и устувор\n<Row key={user.id} id={user.id} />"
+        ],
+        "codeLabel": "Муқоисаи ду JSX. user ва Row дар ҳамин рӯйхат мавҷуданд.",
+        "explanation": "Дар Row props.id мехонӣ, на props.key. Key барои кори дохилии React аст.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic3",
+    "title": "Render ва re-render",
+    "questions": [
+      {
+        "id": "interview-q7",
+        "sourceId": "q7",
+        "question": "Render чист? Re-render чӣ?",
+        "answer": "Render — React функцияи компонентро ҷеғ мезана, то фаҳмад чӣ бояд нишон диҳад. Re-render — ҳамин ҳисоб аз нав. Ин маънои аз нав сохтани тамоми саҳифаро надора.",
+        "code": [
+          "function Price({ amount }) {\n  console.log(\"Компонент ҳисоб шуд\");\n  return <p>{amount} сомонӣ</p>;\n}"
+        ],
+        "codeLabel": "Компоненти Price.jsx. amount аз props меояд.",
+        "explanation": "amount аз 10 ба 15 рафт → React натиҷаи навро ҳисоб кард → матни нархро нав кард.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q8",
+        "sourceId": "q8",
+        "question": "Render, commit ва paint чӣ фарқ доранд?",
+        "answer": "Render натиҷаро ҳисоб мекна. Commit тағйироти лозимро ба DOM мегузорад; DOM — элементҳои воқеии саҳифа дар браузер. Paint — браузер ҳамин натиҷаро дар экран мекашад.",
+        "code": [
+          "// JSX-и пешина\n<p>10</p>\n// JSX-и нав\n<p>15</p>"
+        ],
+        "codeLabel": "Ду натиҷаи муқоисавӣ, на ду параграфи як саҳифа.",
+        "explanation": "React фарқи матнро меёбад ва онро нав мекна. Ҳар render ҳатман тағйири DOM намедиҳад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q9",
+        "sourceId": "q9",
+        "question": "Чӣ сабаби re-render мешавад?",
+        "answer": "Нав шудани state, render-и parent ва тағйири context-и хондашаванда метавонанд компонентро аз нав render кунанд. Ref-ро иваз кардан худаш сабаби render нест.",
+        "code": [
+          "const [count, setCount] = useState(0);\nfunction handleClick() {\n  setCount(count + 1);\n}"
+        ],
+        "codeLabel": "Дар Counter.jsx; import { useState } from \"react\"; handler ба onClick дода мешавад.",
+        "explanation": "Click → state-и нав → render-и нав. Parent ҳам render шавад, child-и одӣ одатан боз render мешавад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q10",
+        "sourceId": "q10",
+        "question": "Чиба баъди setCount console ҳоло ҳам қимати кӯҳнаро мебина?",
+        "answer": "Ҳар render нусхаи қиматҳои ҳамон лаҳзаро дорад. Setter навсозиро барои render-и баъдӣ мегузорад; count-и ҳамин handler-ро дар ҷояш иваз намекна.",
+        "code": [
+          "// Дар ҳамин render: count = 0\nfunction handleClick() {\n  setCount(count + 1);\n  console.log(count); // 0\n}"
+        ],
+        "codeLabel": "Порча дар Counter.jsx бо state-и count.",
+        "explanation": "Console дар ҳамин handler 0 мебинад. Render-и нав count-и 1 мегира. Setter Promise нест; await setCount роҳи интизор шудан нест.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic4",
+    "title": "Reconciliation",
+    "questions": [
+      {
+        "id": "interview-q11",
+        "sourceId": "q11",
+        "question": "Reconciliation чист? Tree ва diff чӣ маъно доранд?",
+        "answer": "Reconciliation — React натиҷаи пешина ва навро муқоиса карда, қарор мегира чиро нигоҳ дораю чиро иваз кунад. Tree — сохтори компонентҳои даруни ҳамдигар; diff — ёфтани фарқи ду натиҷа.",
+        "code": [
+          "// Сохтор: App → Shop → Product\n// Пеш\n<Product price={10} />\n// Баъд\n<Product price={15} />"
+        ],
+        "codeLabel": "Ду ҳолати JSX. Product компоненти якхела аст.",
+        "explanation": "Ҳамон Product дар ҳамон ҷой монд, props-и нарх нав шуд. React метавонад state-и дохилии онро нигоҳ дорад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q12",
+        "sourceId": "q12",
+        "question": "Кай state-и компонент нигоҳ дошта мешава, кай reset?",
+        "answer": "Одатан ҳамон навъи компонент дар ҳамон ҷой ва бо ҳамон key бошад, state мемонад. Компонент бардошта шавад ё type/key дигар шавад, state метавонад аз нав сар шавад.",
+        "code": [
+          "// userId аз 5 ба 8 гузашт\n<EditForm key={userId} userId={userId} />"
+        ],
+        "codeLabel": "JSX-и parent; EditForm компонент ва userId параметри интихобшуда аст.",
+        "explanation": "Key аз 5 ба 8 дигар шуд → EditForm аз нав сохта шуд → state-и форма аз аввал. Ин барои формаи user-и дигар қасдан фоида дорад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic5",
+    "title": "Batching",
+    "questions": [
+      {
+        "id": "interview-q13",
+        "sourceId": "q13",
+        "question": "Batching чист?",
+        "answer": "Batching — React чанд навсозии state-ро гурӯҳ мекунад, то барои ҳар setter render-и ҷудо накунад. Дар handler аввал код тамом мешавад, баъд навсозиҳо коркард мешаванд.",
+        "code": [
+          "function handleSave() {\n  setName(\"Али\");\n  setAge(25);\n  setOpen(false);\n}"
+        ],
+        "codeLabel": "Дар Form.jsx; name, age ва open state-ҳои мавҷуданд.",
+        "explanation": "Се setter маънои ҳатман се render надора. React онҳоро якҷо коркард карда метавонад; click-ҳои ҷудогона event-ҳои ҷудоанд.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q14",
+        "sourceId": "q14",
+        "question": "Чиба се бор setCount(count + 1) ҳамагӣ +1 мешавад?",
+        "answer": "Дар як handler count қимати ҳамон render аст. Агар count=0 бошад, се бор ҳам «1 гузор» мегӯӣ. Барои се зиёдкунии пайдарҳам updater менависем.",
+        "code": [
+          "// count = 0; ин ду сатр натиҷаи 1 медиҳанд\nsetCount(count + 1);\nsetCount(count + 1);\n// Ин ду сатрро БАҶОЯШ навис: натиҷа 2\nsetCount((prev) => prev + 1);\nsetCount((prev) => prev + 1);"
+        ],
+        "codeLabel": "Ду варианти handler дар Counter.jsx.",
+        "explanation": "prev қимати навбатии дар навбат ҳисобшударо мегира: 0 → 1 → 2. Ду ҷуфтро якҷо иҷро накун; ин муқоиса аст.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic6",
+    "title": "Immutability",
+    "questions": [
+      {
+        "id": "interview-q15",
+        "sourceId": "q15",
+        "question": "Immutability чист? Чиба массивро push намекнем?",
+        "answer": "Immutability яъне state-и пешинара дар ҷояш тағйир намедиҳем; нусхаи нав месозем. Бо ҳамин React ва код метавонанд пешинаю навро фарқ кунанд.",
+        "code": [
+          "// Ба ҷойи users.push(newUser)\nsetUsers((prev) => [...prev, newUser]);\n// Удалит\nsetUsers((prev) => prev.filter((user) => user.id !== id));"
+        ],
+        "codeLabel": "Дар Users.jsx; users state, newUser объект ва id-и удалит муайянанд.",
+        "explanation": "Массиви пешина мемонад, массиви нав ба setter меравад. Ҳамин объектро mutate карда боз диҳӣ, React метавонад навсозиро гузаронад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q16",
+        "sourceId": "q16",
+        "question": "Объектро чӣ хел дуруст нав мекунем?",
+        "answer": "Аввал майдонҳои пешинаро мегирем, баъд майдони навро менависем. Spread (...) танҳо як қабатро нусха мекунад; барои объекти дарунӣ он қабатро ҳам нав мекунем.",
+        "code": [
+          "setUser((prev) => ({\n  ...prev,\n  address: {\n    ...prev.address,\n    city: \"Душанбе\",\n  },\n}));"
+        ],
+        "codeLabel": "Дар Profile.jsx; user state дорои address аст.",
+        "explanation": "User ва address объектҳои нав шуданд. Майдонҳои дигари онҳо нигоҳ дошта шуданд.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic7",
+    "title": "Hooks",
+    "questions": [
+      {
+        "id": "interview-q17",
+        "sourceId": "q17",
+        "question": "Hook чист ва дар куҷо ҷеғ мезанем?",
+        "answer": "Hook функцияи React аст, ки ба компонент имконият медиҳад state, effect ва дигар хусусиятҳоро истифода барад. Hook-ҳои маъмулро дар аввали function component ё custom hook ҷеғ мезанем.",
+        "code": [
+          "import { useState } from \"react\";\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  return <p>{count}</p>;\n}"
+        ],
+        "codeLabel": "Counter.jsx; мисоли соддаи компонент.",
+        "explanation": "Ҳар нусхаи Counter state-и худашро дорад. Hook-и useState-ро дар event handler ҷеғ намезанем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q18",
+        "sourceId": "q18",
+        "question": "Чиба hook-ро дар if ё loop намемонем?",
+        "answer": "React барои hook-ҳои маъмул ба тартиби ҷеғ задан такя мекунад. Агар як render hook бошаду дар дигар render набошад, пайвастагии state-ҳо вайрон мешавад.",
+        "code": [
+          "// Дуруст: hook пеш аз return-и шартӣ\nconst [name, setName] = useState(\"\");\nif (!user) return null;\nreturn <p>{name}</p>;"
+        ],
+        "codeLabel": "Порча дар Profile.jsx; useState import шудааст, user аз props меояд.",
+        "explanation": "Ҳар render аввал useState ҷеғ мешавад, баъд шарт месанҷад. useState/useEffect-ро дохили if нагузор.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic8",
+    "title": "Custom Hooks",
+    "questions": [
+      {
+        "id": "interview-q19",
+        "sourceId": "q19",
+        "question": "Custom hook чист? Фақат номи функцияро use монем бас?",
+        "answer": "Custom hook функцияи бо use саршавандаест, ки logic-и hook-ҳоро такроран истифода мебаранд. Фақат номгузорӣ state намесозад; hook-ҳои дохили он корро мекунанд.",
+        "code": [
+          "// src/hooks/useCounter.js\nimport { useState } from \"react\";\nexport function useCounter() {\n  const [count, setCount] = useState(0);\n  function increase() { setCount((prev) => prev + 1); }\n  return { count, increase };\n}"
+        ],
+        "codeLabel": "Файли hook пурра; истифода дар Counter.jsx дохили компонент аст.",
+        "explanation": "Дар компонент import { useCounter } from \"../hooks/useCounter\"; баъд const { count, increase } = useCounter(). Increase-ро ба onClick медиҳем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q20",
+        "sourceId": "q20",
+        "question": "Ду компонент як custom hook-ро гиранд, state умумӣ мешавад?",
+        "answer": "Не. Custom hook logic-ро мубодила мекунад, на ҳатман state-ро. Ҳар ҷеғзании useState дар ҳар нусха state-и худро месозад.",
+        "code": [
+          "// Дар CounterA\nconst first = useCounter();\n// Дар CounterB\nconst second = useCounter();"
+        ],
+        "codeLabel": "Ду порча дар ду компонент; useCounter аз файли саволи боло import мешавад.",
+        "explanation": "first.increase() count-и first-ро зиёд мекна. second тағйир намеёбад. Барои state-и умумӣ parent, context ё store лозим мешавад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic9",
+    "title": "Side effect",
+    "questions": [
+      {
+        "id": "interview-q21",
+        "sourceId": "q21",
+        "question": "Side effect чист, барои чӣ даркорай?",
+        "answer": "Side effect корест, ки берун аз ҳисоб кардани JSX таъсир мерасонад: запрос, навиштан ба localStorage, timer ё тағйири document.title. Ин корҳоро вобаста ба сабаб дар handler ё effect мегузорем.",
+        "code": [
+          "function handleSave() {\n  localStorage.setItem(\"draft\", text);\n}"
+        ],
+        "codeLabel": "Дар Editor.jsx; text state аст, handleSave ба onClick дода мешавад.",
+        "explanation": "Пахши «Сохранить» матнро дар браузер нигоҳ медора. Ин ҳисоб кардани намуди саҳифа нест, кори берунӣ аст.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q22",
+        "sourceId": "q22",
+        "question": "Чиба side effect-ро рост ҳангоми render намекнем?",
+        "answer": "Render бояд натиҷаро ҳисоб кунад. React метавонад онро такрор ё қатъ кунад; агар дар render запрос ё навиштан бошад, кори берунӣ бе click ҳам такрор шуда метавонад.",
+        "code": [
+          "// Нодуруст: ҳангоми ҳисоб кардани компонент\nlocalStorage.setItem(\"draft\", text);\n// Агар нигоҳдорӣ аз click бошад:\nfunction handleSave() {\n  localStorage.setItem(\"draft\", text);\n}"
+        ],
+        "codeLabel": "Муқоиса дар Editor.jsx; text state аст.",
+        "explanation": "Варианти боло ҳар render менависад. Handler танҳо ҳангоми амал кардани корбар ҷеғ мешавад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic10",
+    "title": "useEffect ва getData",
+    "questions": [
+      {
+        "id": "interview-q23",
+        "sourceId": "q23",
+        "question": "Чиба getData()-ро дар useEffect ҷеғ мезанем?",
+        "answer": "Вақте маълумот барои mount ё тағйири id даркор бошад, effect вақти гирифтани онро ба ҳамин ҳолатҳо мепайвандад. GetData запрос мекна; useEffect худаш API нест.",
+        "code": [
+          "useEffect(() => {\n  async function getData() {\n    const response = await fetch(`/api/users/${id}`);\n    const data = await response.json();\n    setUser(data);\n  }\n  getData().catch(console.error);\n}, [id]);"
+        ],
+        "codeLabel": "UserDetail.jsx: порча, useEffect import; id props/URL, setUser setter. /api/users/:id шартӣ; cleanup ва HTTP error дар саволҳои поён.",
+        "explanation": "id=5 → user-и 5 гирифта мешавад. id=8 → effect аз нав, запрос барои 8. Mount — ба саҳифа илова шудани компонент.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q24",
+        "sourceId": "q24",
+        "question": "Худи getData ҳатман даруни effect сохта шавад?",
+        "answer": "Не. Муҳим кай ҷеғ заданаш аст. Агар функция берун аз компонент бошад ва props/state-ро нахонад, метавонем онро import карда, дар effect истифода барем.",
+        "code": [
+          "// data/api.js — endpoint-и шартӣ\nexport async function getData() {\n  const response = await fetch(\"/api/users\");\n  if (!response.ok) throw new Error(\"HTTP error\");\n  return response.json();\n}"
+        ],
+        "codeLabel": "Функсияи data/api.js пурра; намунаи пайвастшавӣ дар шарҳ аст.",
+        "explanation": "Дар Users.jsx: import { getData } from \"../data/api\". Дар effect getData().then(setUsers).catch(console.error). Функсияи дохили компонент бошад, dependencies-ашро ҳам месанҷем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q25",
+        "sourceId": "q25",
+        "question": "Чаро useEffect «ҷои ҳар код баъди render» нест?",
+        "answer": "Effect барои мувофиқ кардани компонент бо системаи берунӣ аст. Агар қиматро аз state/props ҳисоб карда тавонӣ, рост ҳангоми render ҳисоб кун; state ва effect-и иловагӣ лозим нест.",
+        "code": [
+          "// Барои fullName effect лозим нест\nconst fullName = firstName + \" \" + lastName;\n// Ҳангоми render аз қиматҳои ҳозира ҳисоб мешавад\nreturn <p>{fullName}</p>;"
+        ],
+        "codeLabel": "Дар Profile.jsx; firstName ва lastName state ё props мебошанд.",
+        "explanation": "Ном иваз шуд → render → fullName-и нав. Effect + setFullName як render-и иловагӣ ва нигоҳдории маълумоти такрорӣ меорад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q26",
+        "sourceId": "q26",
+        "question": "Запросро дар onClick мемонем ё useEffect?",
+        "answer": "Аз сабабаш вобастай. Кушодани саҳифа ё id-и нав маълумот талаб кунад — effect. Амали аниқи корбар, мисли «Сохранить» — handler.",
+        "code": [
+          "async function handleSave() {\n  try {\n    await saveUser(form);\n  } catch (error) {\n    console.error(error);\n  }\n}"
+        ],
+        "codeLabel": "Edit.jsx: порча. saveUser функцияи API-и лоиҳа, form state; handler ба onSubmit/onClick пайваст мешавад.",
+        "explanation": "Click → handler → як амали save. Тағйири ягон state-и дигар набояд худ аз худ user-ро сабт кунад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q27",
+        "sourceId": "q27",
+        "question": "Чиба callback-и useEffect-ро async намекнем?",
+        "answer": "Effect бояд чизе барнагардонад ё функцияи cleanup баргардонад. Async function Promise (объекти натиҷаи кори асинхронӣ)-ро бармегардонад, барои ҳамин async-ро дар функцияи дохилӣ менависем.",
+        "code": [
+          "useEffect(() => {\n  async function load() {\n    const data = await getData();\n    setUsers(data);\n  }\n  load().catch(console.error);\n}, []);"
+        ],
+        "codeLabel": "Users.jsx: getData аз data/api import, setUsers setter; мисол фақат ҷойи async-ро нишон медиҳад.",
+        "explanation": "Callback-и effect async нест; load async аст. Cleanup-ро баъд бо return () => ... илова карда метавонем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic11",
+    "title": "Dependency Array",
+    "questions": [
+      {
+        "id": "interview-q28",
+        "sourceId": "q28",
+        "question": "Dependency array чист? [], [id] ва бе массив чӣ фарқ доранд?",
+        "answer": "Ин рӯйхати қиматҳои reactive аст: props/state ва қиматҳое, ки дар компонент сохта шуда, effect мехонад. React қиматҳои пешинаю навро бо Object.is муқоиса мекунад.",
+        "code": [
+          "useEffect(() => { console.log(\"Ҳар commit\"); });\nuseEffect(() => { console.log(\"Mount\"); }, []);\nuseEffect(() => { console.log(id); }, [id]);"
+        ],
+        "codeLabel": "Се мисоли муқоисавӣ дар компонент; useEffect import, id props аст.",
+        "explanation": "Якум баъди ҳар commit; дуюм барои ҳар mount; сеюм mount + тағйири id. StrictMode дар development даври иловагии санҷишӣ дошта метавонад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q29",
+        "sourceId": "q29",
+        "question": "Чиба dependency-ро барои хомӯш кардани warning намегирем?",
+        "answer": "Агар effect id-ро мехонаду дар dependencies нест, баъди тағйири id метавонад маълумоти кӯҳнаро нигоҳ дорад. Массивро аз рӯйи қиматҳои воқеан хондашаванда месозем.",
+        "code": [
+          "// Камбудӣ: id хонда мешавад, вале нест\nuseEffect(() => { console.log(id); }, []);\n// Дуруст\nuseEffect(() => { console.log(id); }, [id]);"
+        ],
+        "codeLabel": "Ду варианти як effect; онҳоро якҷо гузоштан лозим нест.",
+        "explanation": "id аз 5 ба 8 гузашт: якум дигар log намекна; дуюм 8-ро мебинад. Барои хомӯш кардани warning сабабро ислоҳ мекунем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q30",
+        "sourceId": "q30",
+        "question": "Чиба объект ё функция дар dependencies effect-ро зиёд ҷеғ мезана?",
+        "answer": "Объект ва функцияи дар танаи компонент сохташуда ҳар render ссылкаи нав доранд. Мазмунашон якхела бошад ҳам, React онҳоро дигар мебинад.",
+        "code": [
+          "// Ба ҷойи options-и нав дар ҳар render:\nuseEffect(() => {\n  const options = { roomId };\n  const connection = connect(options);\n  return () => connection.disconnect();\n}, [roomId]);"
+        ],
+        "codeLabel": "Chat.jsx: roomId props, connect функцияи берунии importшуда, useEffect аз react.",
+        "explanation": "Объект дар effect сохта шуд. Ҳоло тағйири roomId effect-ро такрор мекунад. Connect/disconnect API-и шартии пайвастшавӣ аст.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic12",
+    "title": "Cleanup",
+    "questions": [
+      {
+        "id": "interview-q31",
+        "sourceId": "q31",
+        "question": "Cleanup кай кор мекна? Фақат вақти аз саҳифа баромадан?",
+        "answer": "Не. Cleanup пеш аз setup-и нав бо dependencies-и нав ва ҳангоми unmount иҷро мешавад. Unmount — аз сохтори саҳифа гирифта шудани компонент.",
+        "code": [
+          "useEffect(() => {\n  const timer = setInterval(() => {\n    console.log(\"Як сония гузашт\");\n  }, 1000);\n  return () => clearInterval(timer);\n}, []);"
+        ],
+        "codeLabel": "Timer.jsx: порча дар компонент; useEffect аз react.",
+        "explanation": "Mount → timer сар шуд. Unmount → clearInterval онро қатъ кард. Бе cleanup timer метавонад баъди баромадан ҳам кор кунад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q32",
+        "sourceId": "q32",
+        "question": "Event listener-ро чӣ хел cleanup мекунем?",
+        "answer": "Ҳамон функцияеро, ки ба addEventListener додем, ба removeEventListener медиҳем. Функсияи нави монанд ҳамон listener нест.",
+        "code": [
+          "useEffect(() => {\n  function handleResize() {\n    console.log(window.innerWidth);\n  }\n  window.addEventListener(\"resize\", handleResize);\n  return () => window.removeEventListener(\"resize\", handleResize);\n}, []);"
+        ],
+        "codeLabel": "WindowSize.jsx: порча, useEffect аз react.",
+        "explanation": "Ҳангоми тағйири андозаи тиреза bar log мешавад. Cleanup listener-и гузоштаи ҳамин effect-ро мегирад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q33",
+        "sourceId": "q33",
+        "question": "Запросро чӣ хел дар cleanup қатъ мекунем?",
+        "answer": "AbortController signal медиҳад. Онро ба fetch пайваст мекунем ва дар cleanup abort ҷеғ мезанем. Cleanup худ аз худ ҳамаи запросҳоро бекор намекна.",
+        "code": [
+          "useEffect(() => {\n  const controller = new AbortController();\n  loadUser(id, controller.signal).then(setUser).catch((error) => {\n    if (error.name !== \"AbortError\") console.error(error);\n  });\n  return () => controller.abort();\n}, [id]);"
+        ],
+        "codeLabel": "UserDetail.jsx: порча. loadUser import-и API, id параметр, setUser setter.",
+        "explanation": "loadUser бояд signal-ро ба fetch(url, { signal }) диҳад. id дигар шуд ё unmount → интизории запрос қатъ мешавад; кори аллакай дар сервер анҷомшударо барнамегардонад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic13",
+    "title": "Effect Problems",
+    "questions": [
+      {
+        "id": "interview-q34",
+        "sourceId": "q34",
+        "question": "Чиба бе массив запрос метавонад беохир равад?",
+        "answer": "Бе массив effect баъди ҳар commit кор мекна. Агар ҳар запрос state-и нав гузорад, ҳамин state боз render меорад ва effect боз запрос медиҳад. Бе массив будан ТАНҲО худаш даври беохирро кафолат намедиҳад.",
+        "code": [
+          "// Проблема: getData ҳар дафъа массиви нав медиҳад\nuseEffect(() => {\n  getData().then(setUsers).catch(console.error);\n});"
+        ],
+        "codeLabel": "Users.jsx: getData import-и берунии устувор, setUsers setter. Ин код мисоли проблема аст.",
+        "explanation": "1) Effect запрос дод. 2) Ҷавоб массиви нав дод. 3) setUsers → render. 4) Effect боз кор кард. Барои mount-only бо getData-и importшуда [] лозим; барои id — [id].",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q35",
+        "sourceId": "q35",
+        "question": "Агар getData()-ро рост дар компонент ҷеғ занем, чӣ мешавад?",
+        "answer": "Танаи компонент ҳар render иҷро мешавад. Запрос дар он ҷо ҳар render сар мешавад; агар ҷавоб state-ро нав кунад, боз render меояд. Ин side effect дар render аст.",
+        "code": [
+          "function Users() {\n  const [users, setUsers] = useState([]);\n  getData().then(setUsers).catch(console.error); // Проблема\n  return <p>{users.length}</p>;\n}"
+        ],
+        "codeLabel": "Мисоли НОДУРУСТ: useState аз react; getData аз API import мешавад.",
+        "explanation": "Render → запрос → массиви нав → setter → render → запрос. Запроси вобаста ба mount/id-ро ба effect мегузаронем, амали click-ро ба handler.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q36",
+        "sourceId": "q36",
+        "question": "Чиба effect бо [count] ҳам беохир шуда метавонад?",
+        "answer": "Агар effect ҳар дафъа ҳамон dependency-ро ба қимати дигар гузорад, худаш сабаби такрори худаш мешавад. Ин ҳалқа аст: count → effect → count.",
+        "code": [
+          "// Проблема\nuseEffect(() => {\n  setCount(count + 1);\n}, [count]);\n// Агар зиёдкунӣ аз click бошад, ба handler гузор:\nfunction handleAdd() { setCount((prev) => prev + 1); }"
+        ],
+        "codeLabel": "Counter.jsx: муқоисаи коди проблема ва handler-и дуруст.",
+        "explanation": "0 → effect → 1 → effect → 2… Барои click effect лозим нест. Танҳо [] мондан бе фаҳмидани мақсад ҳалли умумӣ нест.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q37",
+        "sourceId": "q37",
+        "question": "Чиба бо [] ду запрос мебинам? StrictMode ошибка аст?",
+        "answer": "Дар development (вақти сохтани проект) StrictMode setup → cleanup → setup-и иловагӣ мекунад, то cleanup-и нодурустро ёбад. Ин сабаби эҳтимолист; remount (аз нав mount шудан) ё ду нусхаи компонент ҳам запроси иловагӣ меоранд.",
+        "code": [
+          "useEffect(() => {\n  console.log(\"setup\");\n  return () => console.log(\"cleanup\");\n}, []);"
+        ],
+        "codeLabel": "Порчаи санҷишӣ дар компоненти мавриди назар.",
+        "explanation": "Аввал log, React DevTools ва Network-ро месанҷем. Ду запросро бе далел «ҳалқаи беохир» намегӯем; StrictMode-ро барои пинҳон кардани проблема намегирем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q38",
+        "sourceId": "q38",
+        "question": "Ҷавоби кӯҳна чиба маълумоти навро зер мекунад?",
+        "answer": "Race condition яъне натиҷа ба тартиби расидани ҷавобҳо вобаста шуд. User-и 5-ро кушодӣ, баъд 8; ҷавоби 5 дер омад ва state-и 8-ро зер кард. Ҷавоби effect-и кӯҳнаро нодида мегирем.",
+        "code": [
+          "useEffect(() => {\n  let ignore = false;\n  getUser(id).then((data) => {\n    if (!ignore) setUser(data);\n  }).catch(console.error);\n  return () => { ignore = true; };\n}, [id]);"
+        ],
+        "codeLabel": "UserDetail.jsx: getUser import-и API, id параметр, setUser setter.",
+        "explanation": "id дигар шуд → cleanup-и effect-и пешина ignore=true кард. Ҷавоби кӯҳна биёяд, дигар setUser намекунад. Ин версия запросро қатъ намекна, фақат натиҷаашро нодида мегира.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic14",
+    "title": "Debugging",
+    "questions": [
+      {
+        "id": "interview-q39",
+        "sourceId": "q39",
+        "question": "Debugging-ро аз куҷо сар мекунем?",
+        "answer": "Аввал дақиқ мегӯем чӣ бояд мешуд ва чӣ шуд. Баъд Console (хатою log), Network (запросу ҷавоб) ва state/props-ро месанҷем. Кодро бе далел иваз намекнем.",
+        "code": [
+          "console.log(\"id:\", id);\nconsole.log(\"users:\", users);\nconsole.count(\"Users render\");"
+        ],
+        "codeLabel": "Сатрҳои муваққатӣ дар Users.jsx; баъди debug мегирем.",
+        "explanation": "id нодуруст бошад, аввал роҳи пайдо шудани id-ро мебинем. Запрос дурусту экран холӣ бошад, response ва JSX-ро месанҷем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q40",
+        "sourceId": "q40",
+        "question": "Fetch бо 404 чаро ба catch нарафт?",
+        "answer": "Fetch одатан барои HTTP 404/500 Promise-ро reject намекна. Response.ok-ро худамон месанҷем ва error мепартоем. Network error бошад метавонад худаш reject шавад.",
+        "code": [
+          "async function getUser(id) {\n  const response = await fetch(`/api/users/${id}`);\n  if (!response.ok) {\n    throw new Error(`HTTP ${response.status}`);\n  }\n  return response.json();\n}"
+        ],
+        "codeLabel": "data/api.js: функция; ҷеғзананда try/catch ё .catch дорад.",
+        "explanation": "404 → response.ok=false → throw → catch-и ҷеғзананда. /api/users/:id дар ин мисол endpoint-и шартӣ аст.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q41",
+        "sourceId": "q41",
+        "question": "data ё data.data? Аз куҷо мефаҳмем?",
+        "answer": "Аз response-и воқеӣ ё документация. Axios response.data ҷисми ҷавоб аст; даруни он data-и дигар буданаш аз API вобаста аст. Аз рӯйи ном тахмин намекнем.",
+        "code": [
+          "// API якум: [{ id: 1 }]\nsetUsers(response.data);\n// API дуюм: { data: [{ id: 1 }] }\nsetUsers(response.data.data);"
+        ],
+        "codeLabel": "Муқоиса: response натиҷаи axios.get аст. Ду setter-ро якҷо истифода набар.",
+        "explanation": "Ҳар ду вариант метавонад дуруст бошад, лекин барои ду response-и гуногун. Дар Network → Response месанҷем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic15",
+    "title": "useRef",
+    "questions": [
+      {
+        "id": "interview-q42",
+        "sourceId": "q42",
+        "question": "useState аз useRef чӣ фарқ дорад?",
+        "answer": "Ҳарду байни render-ҳо қиматро нигоҳ медоранд. Setter-и state бо қимати нав render дархост мекунад; тағйири ref.current худаш render намеорад.",
+        "code": [
+          "const [count, setCount] = useState(0);\nconst clicks = useRef(0);\nfunction handleClick() {\n  clicks.current += 1;\n  setCount((prev) => prev + 1);\n}"
+        ],
+        "codeLabel": "Counter.jsx: useState ва useRef аз react; handleClick ба кнопка.",
+        "explanation": "Дар ин handler ref ва state ҳарду зиёд шуданд, лекин сабаби render setter аст. Setter-ро гирӣ, ref зиёд мешавад, экран аз ҳамин кор нав намешавад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q43",
+        "sourceId": "q43",
+        "question": "Агар render нашавад, ref чӣ хел иваз мешавад?",
+        "answer": "Иваз кардани қимати JavaScript ва нав кардани экран ду кори ҷудоанд. ref.current дар хотира иваз мешавад; React барои он render сар намекунад.",
+        "code": [
+          "const clicks = useRef(0);\nfunction handleClick() {\n  clicks.current += 1;\n  console.log(clicks.current);\n}"
+        ],
+        "codeLabel": "Counter.jsx: useRef import шудааст; console дар handler қимати навро мехонад.",
+        "explanation": "Се click → console 1, 2, 3. Ref global нест; ба ҳамон нусхаи компонент тааллуқ дорад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q44",
+        "sourceId": "q44",
+        "question": "Ref барои input focus чӣ хел истифода мешавад?",
+        "answer": "Ref ба элементи воқеии DOM дастрасӣ медиҳад. Баъди mount current ҳамон input аст, барои ҳамин focus-ашро ҷеғ зада метонем.",
+        "code": [
+          "const inputRef = useRef(null);\nfunction handleFocus() {\n  inputRef.current.focus();\n}\n<input ref={inputRef} />\n<button onClick={handleFocus}>Ба input гузар</button>"
+        ],
+        "codeLabel": "Порчаи компонент: useRef аз react; ду элементи охир дар return мебошанд.",
+        "explanation": "Аввал current=null. Input сохта шуд → React онро ба current пайваст кард. Click → input курсор мегира.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q45",
+        "sourceId": "q45",
+        "question": "Ref-ро дар render хонда ё зиёд карда метонем?",
+        "answer": "Барои кори одӣ ref.current-ро дар handler ё effect мехонему менависем. Дар render зиёд кардани он ҳисобро нопок мекунад: React render-ро такрор кунад, ҳисоб ҳам тағйир меёбад.",
+        "code": [
+          "// Дар handler дуруст:\nfunction handleClick() {\n  clicks.current += 1;\n}\n// Дар танаи render инро нанавис:\n// clicks.current += 1;"
+        ],
+        "codeLabel": "Порча дар компонент; clicks = useRef(0).",
+        "explanation": "Барои ҳисоб кардани render-ҳо Profiler ё log-и debug истифода мебарем. Қимате, ки бояд UI-ро идора кунад, одатан state аст.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic16",
+    "title": "useLayoutEffect",
+    "questions": [
+      {
+        "id": "interview-q46",
+        "sourceId": "q46",
+        "question": "useLayoutEffect аз useEffect чӣ фарқ дорад?",
+        "answer": "Ҳарду баъди тағйири DOM кор мекунанд. useLayoutEffect пеш аз paint (кашидани натиҷа дар экран) иҷро шуда, paint-ро нигоҳ медорад. Барои чен кардан ё дуруст кардани ҷойи элемент пеш аз намоиш аст.",
+        "code": [
+          "useLayoutEffect(() => {\n  const size = boxRef.current.getBoundingClientRect();\n  setWidth(size.width);\n}, []);"
+        ],
+        "codeLabel": "Measure.jsx: useLayoutEffect import; boxRef ба элемент пайваст, setWidth setter.",
+        "explanation": "DOM омода → бар чен шуд → state нав → браузер натиҷаро нишон дод. Ин порча resize-и баъдиро пайгирӣ намекна.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q47",
+        "sourceId": "q47",
+        "question": "Чиба ҳама effect-ро useLayoutEffect намекнем?",
+        "answer": "Чун кори он намоиши браузерро нигоҳ медорад. Барои запрос одатан лозим нест. useEffect одатан баъди paint кор мекунад, вале «ҳамеша баъди paint» қоидаи мутлақ нест.",
+        "code": [
+          "// Ҳисоби одии унвони саҳифа\nuseEffect(() => {\n  document.title = title;\n}, [title]);"
+        ],
+        "codeLabel": "Page.jsx: title props, useEffect аз react.",
+        "explanation": "Барои title ченкунии пеш аз намоиш даркор нест. useLayoutEffect-ро вақте мегирем, ки дер чен кардан тағйири ҷойро ба чашм намоён кунад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic17",
+    "title": "Memoization",
+    "questions": [
+      {
+        "id": "interview-q48",
+        "sourceId": "q48",
+        "question": "Memoization чист?",
+        "answer": "Memoization — натиҷаи пешина ё ссылкаеро нигоҳ дорем, то барои маълумоти тағйирнаёфта кори такрорӣ кам шавад. Ин state ё кафолати дурустии код нест; воситаи оптимизатсия аст.",
+        "code": [
+          "const total = useMemo(() => {\n  return prices.reduce((sum, price) => sum + price, 0);\n}, [prices]);"
+        ],
+        "codeLabel": "Total.jsx: useMemo аз react, prices props аст.",
+        "explanation": "prices ҳамон ссылка монд → натиҷаи пешина истифода мешавад. prices нав шуд → ҳисоб нав мешавад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q49",
+        "sourceId": "q49",
+        "question": "Чаро memoization-ро автоматӣ ба ҳар ҷо намемонем?",
+        "answer": "Муқоисаи dependencies, хотира ва мураккабии код ҳам хароҷот доранд. Барои ҳисоби арзон фоидааш кам аст. Аввал сустиро чен мекунем, баъд ҷои лозимро оптимизатсия мекунем.",
+        "code": [
+          "// Ин ҳисоб арзон аст\nconst fullName = firstName + \" \" + lastName;\n// Одатан useMemo даркор нест"
+        ],
+        "codeLabel": "Profile.jsx: firstName ва lastName props/state.",
+        "explanation": "React Compiler агар дар проект фаъол бошад, бисёр memoization-ро автоматӣ мекунад. Фаъол буданашро аз setup месанҷем; аз рӯйи версия тахмин намекнем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic18",
+    "title": "React.memo",
+    "questions": [
+      {
+        "id": "interview-q50",
+        "sourceId": "q50",
+        "question": "React.memo чӣ кор мекна?",
+        "answer": "Memo компонентро мепечонад. Parent render шаваю props-и child якхела монанд, React метавонад render-и child-ро гузаронад. Ин оптимизатсия аст, кафолати render нашудан нест.",
+        "code": [
+          "import { memo } from \"react\";\nfunction Price({ amount }) {\n  return <p>{amount} сомонӣ</p>;\n}\nexport default memo(Price);"
+        ],
+        "codeLabel": "components/Price.jsx пурра. Parent: import Price from \"./components/Price\"; истифода: <Price amount={50} />.",
+        "explanation": "Parent input-и дигарро нав кард, amount ҳамон 50 монд → Price метавонад аз нав ҳисоб нашавад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q51",
+        "sourceId": "q51",
+        "question": "Компоненти memo чаро боз render шуд?",
+        "answer": "State-и худаш ё context-и хондагиаш иваз шавад, memo онро манъ намекна. Props-и объект/функсияи нав ҳам аз пешина дигар ҳисоб мешавад.",
+        "code": [
+          "// Ҳар render объекти нав\n<Card user={{ name: \"Али\" }} />\n// Props-и сода устувортаранд\n<Name name=\"Али\" />"
+        ],
+        "codeLabel": "JSX-и parent. Card ва Name компонентҳои props-қабулкунандаанд.",
+        "explanation": "Ду объекти { name: \"Али\" } ссылкаҳои гуногун доранд. Аввал сабаби воқеии render-ро месанҷем, баъд memo/useMemo интихоб мекунем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic19",
+    "title": "useCallback",
+    "questions": [
+      {
+        "id": "interview-q52",
+        "sourceId": "q52",
+        "question": "useCallback чист ва кай даркор мешавад?",
+        "answer": "useCallback то тағйир наёфтани dependencies ҳамон ссылкаи функцияро бармегардонад. Масалан, вақте handler ба child-и memo дода мешавад, ин props-ро устувор нигоҳ медорад.",
+        "code": [
+          "const handleAdd = useCallback(() => {\n  setCount((prev) => prev + 1);\n}, []);\n<AddButton onAdd={handleAdd} />"
+        ],
+        "codeLabel": "Parent.jsx: useCallback import; setCount setter-и useState; AddButton компоненти memo аст.",
+        "explanation": "Parent барои state-и дигар render шуд → handleAdd ҳамон ссылка монд → memo метавонад child-ро гузаронад. Функсия ҳар click боз иҷро мешавад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q53",
+        "sourceId": "q53",
+        "question": "Чиба id-ро дар dependencies-и callback мемонем?",
+        "answer": "Callback қиматҳои render-и сохта шуданашро мебинад. Агар id-ро истифода бараду dependency набошад, баъди тағйири id метавонад бо id-и кӯҳна кор кунад.",
+        "code": [
+          "const handleSelect = useCallback(() => {\n  setSelected(id);\n}, [id, setSelected]);"
+        ],
+        "codeLabel": "Row.jsx: id ва setSelected props; useCallback аз react.",
+        "explanation": "id=5 → callback 5-ро медонад. id=8 → callback-и нав сохта мешавад. Агар setSelected setter-и useState бошад, ссылкааш устувор аст.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic20",
+    "title": "useMemo",
+    "questions": [
+      {
+        "id": "interview-q54",
+        "sourceId": "q54",
+        "question": "useMemo чӣ нигоҳ медорад?",
+        "answer": "Натиҷаи иҷрои функцияро. Масалан, рӯйхати filterшуда: то items ва query тағйир наёбанд, метавонад натиҷаи пешинаро баргардонад.",
+        "code": [
+          "const filtered = useMemo(() => {\n  return items.filter((item) => {\n    return item.name.includes(query);\n  });\n}, [items, query]);"
+        ],
+        "codeLabel": "List.jsx: useMemo import; items props, query state.",
+        "explanation": "Query нав → filter-и нав. State-и modal нав, items/query ҳамон → натиҷаи пешина. Барои рӯйхати хурд useMemo ҳатман лозим нест.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q55",
+        "sourceId": "q55",
+        "question": "memo, useMemo ва useCallback-ро чӣ хел фарқ кунам?",
+        "answer": "Memo барои компонент аст; useMemo натиҷаи ҳисоб; useCallback ссылкаи функция. Ҳеҷ кадомаш ҷойи ислоҳ кардани logic-и вайрон нест.",
+        "code": [
+          "const total = useMemo(() => price * count, [price, count]);\nconst onBuy = useCallback(() => buy(id), [id, buy]);\nconst FastCard = memo(Card);"
+        ],
+        "codeLabel": "Се намунаи муқоисавӣ; hook-ҳо дар компонент, memo(Card) берун. buy ва id props; Card importшуда.",
+        "explanation": "Якум қимат медиҳад, дуюм функция медиҳад, сеюм версияи memo-и компонент. FastCard-ро дар сатҳи module месозем, на дар render.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic21",
+    "title": "Performance Reasoning",
+    "questions": [
+      {
+        "id": "interview-q56",
+        "sourceId": "q56",
+        "question": "Аз куҷо медонем проблема performance аст?",
+        "answer": "Performance — суръати кор. Аввал interaction-и сустро такрор мекунем ва чен мекунем: render суст аст, запрос дер аст ё рӯйхат калон? Ҳар сустӣ бо memo ҳал намешавад.",
+        "code": [
+          "console.time(\"filter\");\nconst result = items.filter((item) => item.active);\nconsole.timeEnd(\"filter\");"
+        ],
+        "codeLabel": "Сатрҳои муваққатӣ дар List.jsx; items массив.",
+        "explanation": "Вақти filter-ро мебинӣ. Барои render React DevTools Profiler, барои запрос Network-ро мебинем. Log дар development натиҷаи тахминӣ аст.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q57",
+        "sourceId": "q57",
+        "question": "Рӯйхати 10 ҳазор item суст бошад, аввал чӣ мекунем?",
+        "answer": "Аввал мебинем чӣ қадар элемент дар DOM ҳаст ва кадом ҳисоб дер аст. Агар ҳазорҳо элемент кашида шаванд, pagination ё virtualization (танҳо қисми намоёнро кашидан) метавонад бештар фоида диҳад.",
+        "code": [
+          "const pageSize = 20;\nconst start = (page - 1) * pageSize;\nconst visible = items.slice(start, start + pageSize);"
+        ],
+        "codeLabel": "List.jsx: items массив, page state аз 1 сар мешавад.",
+        "explanation": "page=2 → index 20 то 39 нишон дода мешавад. Ин фақат рӯйхати гирифташударо тақсим мекунад; аз сервер камтар гирифтан query-и API талаб мекунад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic22",
+    "title": "State: local / global / server / URL",
+    "questions": [
+      {
+        "id": "interview-q58",
+        "sourceId": "q58",
+        "question": "Чӣ local state мешавад?",
+        "answer": "Маълумоте, ки фақат як компонент ё қисми хурди саҳифа истифода мебарад. Масалан, modal кушода аст ё не. State-ро ба ҷои истифодааш наздик нигоҳ медорем.",
+        "code": [
+          "const [open, setOpen] = useState(false);\nfunction handleOpen() {\n  setOpen(true);\n}"
+        ],
+        "codeLabel": "ModalButton.jsx: useState аз react, open барои шарт ё modal истифода мешавад.",
+        "explanation": "Modal-и ҳамин саҳифа кушода шуд. Ба тамоми приложение ин маълумот лозим нест.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q59",
+        "sourceId": "q59",
+        "question": "Чӣ global state мешавад?",
+        "answer": "Маълумоте, ки чанд қисми дур аз ҳам истифода мебаранд: theme, user-и воридшуда ё корзина. Global будан маънои ҳатман Redux/Zustand гирифтан надора.",
+        "code": [
+          "// State дар parent-и умумӣ\nconst [theme, setTheme] = useState(\"light\");\n<Header theme={theme} />\n<Page theme={theme} />"
+        ],
+        "codeLabel": "Порчаи parent: useState import; Header ва Page компонентҳои мавҷуданд.",
+        "explanation": "Header ва Page як state-ро мегиранд. Бисёр сатҳҳо шавад, context истифода бурдан мумкин. Redux танҳо яке аз роҳҳост.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q60",
+        "sourceId": "q60",
+        "question": "Чӣ server state мешавад?",
+        "answer": "Маълумоте, ки соҳиби асосиаш сервер аст: рӯйхати user-ҳо, нархи маҳсулот ё фармоишҳо. Дар браузер нусхаи он дорем; он метавонад кӯҳна шавад.",
+        "code": [
+          "async function refreshUsers() {\n  const users = await getUsers();\n  setUsers(users);\n}"
+        ],
+        "codeLabel": "Users.jsx: getUsers import-и API, setUsers setter; handler бояд error-ро ҳам коркард кунад.",
+        "explanation": "Шахси дигар дар сервер user илова кард → нусхаи мо худ аз худ нав нашуд. Барои ҳамин refresh, cache ва ҳолати loading муҳиманд.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q61",
+        "sourceId": "q61",
+        "question": "Чӣ URL state мешавад?",
+        "answer": "Маълумоте, ки дар адрес нигоҳ доштанаш фоида дорад: page, search, filter ё id. Link-ро фиристӣ ё F5 кунӣ, ҳамон интихобро аз URL барқарор карда метавонем.",
+        "code": [
+          "const [params, setParams] = useSearchParams();\nconst page = params.get(\"page\") || \"1\";\nfunction nextPage() {\n  setParams({ page: \"2\" });\n}"
+        ],
+        "codeLabel": "Products.jsx: useSearchParams аз react-router-dom; порча барои React Router 6.4+.",
+        "explanation": "URL ?page=2 мешавад. Аз нав кушоӣ, page аз URL хонда мешавад. Дар ин мисол фақат як query parameter дорем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic23",
+    "title": "Server State",
+    "questions": [
+      {
+        "id": "interview-q62",
+        "sourceId": "q62",
+        "question": "Server state аз client state чӣ фарқ дорад?",
+        "answer": "Client state интихоби дохилии UI аст: modal, draft, tab. Server state аз сервер меояд ва барои дуруст нигоҳ доштан запрос, error, cache ва навсозӣ дорад. Дар useState нигоҳ доштанаш онро client-owned намекунад.",
+        "code": [
+          "const [open, setOpen] = useState(false); // UI\nconst [users, setUsers] = useState([]);   // Нусхаи API"
+        ],
+        "codeLabel": "Дар компонент; useState аз react.",
+        "explanation": "Ҳарду дар useState ҳастанд, вале соҳиби маълумот фарқ мекунад. Open-ро худат муайян мекунӣ; users бояд бо сервер мувофиқ бошад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q63",
+        "sourceId": "q63",
+        "question": "Cache, stale ва refetch чӣ маъно доранд?",
+        "answer": "Cache — нусхаи нигоҳдоштаи маълумот. Stale — маълумоте, ки дигар нав буданаш кафолат надорад. Refetch — аз сервер боз пурсидан. Cache мондан маънои абадан нав мондан нест.",
+        "code": [
+          "// getUsers — endpoint-и тайёр дар RTK Query\nconst { data, isFetching, refetch } = useGetUsersQuery();\n<button onClick={() => refetch()}>Нав кун</button>"
+        ],
+        "codeLabel": "Users.jsx: порча бо hook-и аз api.js exportшуда; JSX дар return.",
+        "explanation": "Hook data-и cache-ро истифода бурда метавонад. Click → refetch → маълумоти нав. Hook танҳо баъди сохтани API ва пайвастани store кор мекунад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic24",
+    "title": "State Management",
+    "questions": [
+      {
+        "id": "interview-q64",
+        "sourceId": "q64",
+        "question": "State management чист?",
+        "answer": "Муайян кардан аст: state дар куҷо бошад, кӣ онро хонад, кӣ иваз кунад ва маълумоти такрорӣ насозем. Ин фақат номи библиотека нест.",
+        "code": [
+          "const [count, setCount] = useState(1);\nconst price = 10;\nconst total = count * price;"
+        ],
+        "codeLabel": "Cart.jsx: useState аз react.",
+        "explanation": "Count-ро нигоҳ медорем. Total-ро ҳисоб мекунем, на state-и дуюм. Count=2 → total=20, чизе аз ҳам қафо намемонад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q65",
+        "sourceId": "q65",
+        "question": "Чаро global state автоматӣ Redux/Zustand нест?",
+        "answer": "Global мегӯяд маълумот ба чанд ҷой лозим аст; Redux/Zustand мегӯяд онро бо кадом восита идора мекунем. State-и parent + props ё Context ҳам метавонад кофӣ бошад.",
+        "code": [
+          "const [user, setUser] = useState(null);\n<UserContext.Provider value={{ user, setUser }}>\n  <App />\n</UserContext.Provider>"
+        ],
+        "codeLabel": "Root.jsx: порча; UserContext аз createContext, App import, useState import.",
+        "explanation": "State дар Provider-и умумӣ аст. Компонентҳои поён метавонанд онро хонанд; библиотекаи store ҳанӯз нест.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q66",
+        "sourceId": "q66",
+        "question": "Чиба як маълумотро дар ду state нигоҳ надорем?",
+        "answer": "Агар як қимат аз дигараш ҳисоб шавад, нусхаи дуюм метавонад кӯҳна монад. Як манбаи асосӣ нигоҳ дошта, дигарро аз он ҳисоб мекунем.",
+        "code": [
+          "const [products, setProducts] = useState([]);\nconst count = products.length;\n// Барои count useState-и дигар лозим нест"
+        ],
+        "codeLabel": "Products.jsx: useState аз react.",
+        "explanation": "Маҳсулот удалит шуд → length худ ба худ дар render-и нав дигар шуд. setCount-ро фаромӯш кардан дигар проблема намешавад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic25",
+    "title": "reducer ва useReducer",
+    "questions": [
+      {
+        "id": "interview-q67",
+        "sourceId": "q67",
+        "question": "Reducer чист? Action ва dispatch чӣ?",
+        "answer": "Reducer функцияест, ки state ва action мегира, state-и нав медиҳад. Action хабар аст, ки чӣ рӯй дод. Dispatch ҳамон action-ро ба React/store мефиристад.",
+        "code": [
+          "function reducer(state, action) {\n  if (action.type === \"add\") {\n    return { count: state.count + 1 };\n  }\n  return state;\n}"
+        ],
+        "codeLabel": "counterReducer.js: функсияи reducer; export карда ба файлҳои лозим import мекунем.",
+        "explanation": "state={count:0}, action={type:\"add\"} → натиҷа {count:1}. Reducer запрос намекна ва state-и кӯҳнаро мустақим вайрон намекна.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q68",
+        "sourceId": "q68",
+        "question": "useReducer аз reducer чӣ фарқ дорад?",
+        "answer": "Reducer функсияи қоида аст. useReducer hook-и React аст, ки ҳамин қоидаро бо state пайваст карда, state ва dispatch медиҳад.",
+        "code": [
+          "const [state, dispatch] = useReducer(reducer, { count: 0 });\nfunction handleAdd() {\n  dispatch({ type: \"add\" });\n}"
+        ],
+        "codeLabel": "Counter.jsx: useReducer аз react, reducer аз counterReducer.js; state.count дар JSX.",
+        "explanation": "Click → dispatch → reducer → state-и нав → render. Барои чанд тағйироти вобаста reducer метавонад қоидаҳоро дар як ҷо равшан кунад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic26",
+    "title": "useContext + useReducer",
+    "questions": [
+      {
+        "id": "interview-q69",
+        "sourceId": "q69",
+        "question": "Context ва useReducer якҷоя чӣ мекунанд?",
+        "answer": "UseReducer state-ро идора мекунад. Provider онро бо dispatch ба поён медиҳад. UseContext ҳамон value-ро мехонад; худаш state намесозад.",
+        "code": [
+          "// CounterProvider.jsx — дар дохили компонент\nconst [state, dispatch] = useReducer(reducer, { count: 0 });\nreturn (\n  <CounterContext.Provider value={{ state, dispatch }}>\n    {children}\n  </CounterContext.Provider>\n);"
+        ],
+        "codeLabel": "Порчаи CounterProvider: children props; useReducer import, reducer ва CounterContext import. createContext аз react.",
+        "explanation": "counterContext.js: export const CounterContext = createContext(null). Provider онро import мекунад. Дар main.jsx <CounterProvider><App /></CounterProvider> мемонем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q70",
+        "sourceId": "q70",
+        "question": "Child state ва dispatch-ро аз куҷо мегира?",
+        "answer": "Бо useContext аз наздиктарин Provider-и ҳамон context, ки болотар истодааст. Ҳар file бояд ҳамон context-и exportшударо import кунад, на createContext-и нав созад.",
+        "code": [
+          "import { useContext } from \"react\";\nimport { CounterContext } from \"../context/counterContext\";\n// Дар Counter.jsx, дохили компонент\nconst { state, dispatch } = useContext(CounterContext);\nfunction handleAdd() { dispatch({ type: \"add\" }); }"
+        ],
+        "codeLabel": "Порча; Counter бояд зери CounterProvider аз саволи боло render шавад.",
+        "explanation": "Context-и якхела → Provider-и боло → ҳамон state ва dispatch. Click аз child state-и Provider-ро нав мекунад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic27",
+    "title": "Context vs State Management",
+    "questions": [
+      {
+        "id": "interview-q71",
+        "sourceId": "q71",
+        "question": "Context + reducer аз Redux чӣ фарқ дорад?",
+        "answer": "Context ва useReducer дар худи React ҳастанд. Redux store-и алоҳида, subscriptions (огоҳӣ аз тағйир), middleware ва DevTools дорад. Middleware — қабате барои кори иловагӣ ҳангоми dispatch; DevTools барои дидани action ва state аст.",
+        "code": [
+          "// Context\nconst { state, dispatch } = useContext(CounterContext);\n// React Redux\nconst count = useSelector((state) => state.counter.count);"
+        ],
+        "codeLabel": "Ду варианти ҷудо: useContext аз react, useSelector аз react-redux; Provider-ҳои мувофиқ лозиманд.",
+        "explanation": "Якум value-и Provider-ро мехонад. Дуюм қисми интихобшудаи store-ро. Ҳарду қоидаи хуби state мехоҳанд; Redux худаш ҳамаи logic-ро намесозад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q72",
+        "sourceId": "q72",
+        "question": "Context чӣ дора, ки Redux надора?",
+        "answer": "Бартарии асосӣ дар ин муқоиса: дар худи React ҳаст, библиотекаи дигар намехоҳад. Ин маънои «коре карда метавонад, ки Redux натавонад»-ро надорад. Барои кори сода метавонад кофӣ бошад.",
+        "code": [
+          "const [theme, setTheme] = useState(\"light\");\n<ThemeContext.Provider value={{ theme, setTheme }}>\n  <Page />\n</ThemeContext.Provider>"
+        ],
+        "codeLabel": "Root.jsx: ThemeContext createContext-и importшуда; useState ва Page import.",
+        "explanation": "Барои theme-и умумӣ ҳамин метавонад бас бошад. Барои state-и мураккаб воситаҳои бештар шояд фоида диҳанд.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q73",
+        "sourceId": "q73",
+        "question": "Чаро Context ҳамеша Redux/Zustand-ро иваз намекна?",
+        "answer": "Ҳангоми дигар шудани value-и Provider, consumer-ҳои он context огоҳ шуда render мекунанд. Context худаш selector-и майдонҳо, таърихи action ё cache-и запрос намедиҳад. Барои state-и зиёд ва зудтағйир library метавонад қулайтар бошад.",
+        "code": [
+          "<AppContext.Provider value={{ user, theme }}>\n  <Profile />\n  <ThemeButton />\n</AppContext.Provider>"
+        ],
+        "codeLabel": "JSX-и Provider; user ва theme state, ду child аз AppContext мехонанд.",
+        "explanation": "Theme дигар шуд → value-и умумӣ нав → Profile ҳам, агар ҳамин context-ро мехонад, render мешавад. Context-ҳои user/theme-ро ҷудо кардан яке аз роҳҳост.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic28",
+    "title": "Zustand",
+    "questions": [
+      {
+        "id": "interview-q74",
+        "sourceId": "q74",
+        "question": "Zustand чист ва store чӣ хел месозем?",
+        "answer": "Zustand библиотекаи идора кардани state аст. Store — ҷои state ва функцияҳои тағйир додани он. Дар тарзи одии create hook мегирем, ки компонент аз он мехонад.",
+        "code": [
+          "// store/useCounterStore.js\nimport { create } from \"zustand\";\nexport const useCounterStore = create((set) => ({\n  count: 0,\n  increase: () => set((state) => ({ count: state.count + 1 })),\n}));"
+        ],
+        "codeLabel": "Файли store пурра; дар компонент useCounterStore-ро аз ҳамин файл import мекунем.",
+        "explanation": "set қимати store-ро нав мекунад. Барои ҳамин store-и одӣ Provider лозим нест.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q75",
+        "sourceId": "q75",
+        "question": "Selector дар Zustand чӣ фоида дорад?",
+        "answer": "Selector функцияест, ки қисми лозими state-ро интихоб мекунад. Компонент танҳо count-ро гирад, тағйири қисми дигар худаш аз ҳамин subscription render намеорад.",
+        "code": [
+          "import { useCounterStore } from \"../store/useCounterStore\";\n// Дохили Counter.jsx\nconst count = useCounterStore((state) => state.count);\nconst increase = useCounterStore((state) => state.increase);"
+        ],
+        "codeLabel": "Порчаи Counter.jsx; store аз саволи боло.",
+        "explanation": "Count-ро дар JSX нишон медиҳем, increase-ро ба onClick медиҳем. Selector тамоми store-ро гирифтанро кам мекунад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q76",
+        "sourceId": "q76",
+        "question": "Чиба Zustand чанд store сохта метона, Redux якто?",
+        "answer": "Redux ҳам чанд store сохта метона. Лекин тарзи маъмули тавсияшудааш як store бо чанд slice аст. Zustand store-ҳои мустақил сохтанро сода мекунад; як store доштанаш ҳам мумкин.",
+        "code": [
+          "const useCartStore = create(() => ({ items: [] }));\nconst useThemeStore = create(() => ({ theme: \"light\" }));"
+        ],
+        "codeLabel": "Ду таърифи store; create аз zustand. Барои истифодаи файлҳои дигар export мекунем.",
+        "explanation": "Ин ду store ҷудоанд. Redux бошад cart ва theme-ро ба ду slice дар як store ҷудо карда метавонад. Як store маънои як файл надора.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic29",
+    "title": "Redux Toolkit",
+    "questions": [
+      {
+        "id": "interview-q77",
+        "sourceId": "q77",
+        "question": "Redux Toolkit чист? Аз Redux чӣ фарқ дорад?",
+        "answer": "Redux системаи store, action ва reducer аст. Redux Toolkit роҳи тавсияшудаи навиштани Redux бо код ва настройкаи камтар аст: configureStore, createSlice ва дигар воситаҳо медиҳад.",
+        "code": [
+          "const counterSlice = createSlice({\n  name: \"counter\",\n  initialState: { count: 0 },\n  reducers: {\n    increase(state) { state.count += 1; },\n  },\n});"
+        ],
+        "codeLabel": "store/counterSlice.js: порча; import { createSlice } from \"@reduxjs/toolkit\".",
+        "explanation": "CreateSlice reducer ва action creator-ро якҷо месозад. State-и draft-ро бо ёрии Immer нав мекунад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q78",
+        "sourceId": "q78",
+        "question": "Slice-ро чӣ хел ба store пайваст мекунем?",
+        "answer": "Slice як қисми state ва қоидаҳои он аст. Reducer-и slice-ро export карда, ба configureStore медиҳем. Калиди reducer номи роҳ дар state мешавад.",
+        "code": [
+          "// counterSlice.js — баъди createSlice\nexport const { increase } = counterSlice.actions;\nexport default counterSlice.reducer;\nimport { configureStore } from \"@reduxjs/toolkit\";\nimport counterReducer from \"./counterSlice\";\nexport const store = configureStore({ reducer: {\n  counter: counterReducer,\n} });"
+        ],
+        "codeLabel": "Ду порчаи пайдарҳам: export дар counterSlice.js ва store.js-и пурра.",
+        "explanation": "State-и умумӣ ҳоло state.counter дорад. Count дар state.counter.count аст. Slice-ҳои дигарро ҳам ба ҳамин reducer object илова мекунем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q79",
+        "sourceId": "q79",
+        "question": "Provider, useSelector ва useDispatch чӣ мекунанд?",
+        "answer": "Provider store-ро ба компонентҳои поён дастрас мекунад. UseSelector state мехонад. UseDispatch функцияи фиристодани action-ро медиҳад.",
+        "code": [
+          "// main.jsx — атрофи App\n<Provider store={store}><App /></Provider>\n// Counter.jsx — дохили компонент\nconst count = useSelector((state) => state.counter.count);\nconst dispatch = useDispatch();\nfunction handleAdd() { dispatch(increase()); }"
+        ],
+        "codeLabel": "Provider/useSelector/useDispatch аз react-redux; store аз store.js; increase аз counterSlice.js; App import.",
+        "explanation": "Click → increase action месозад → dispatch мефиристад → reducer count-ро нав мекунад → selector қимати нав мегирад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q80",
+        "sourceId": "q80",
+        "question": "Action creator ва action як чизанд?",
+        "answer": "Не. Action объектест, ки чӣ рӯй додро мегӯяд. Action creator функцияест, ки он объектро месозад. Барои иҷро кардани тағйир action-ро dispatch мекунем.",
+        "code": [
+          "const action = increase();\n// { type: \"counter/increase\" }\ndispatch(action);"
+        ],
+        "codeLabel": "Дар Counter.jsx; increase action creator аз slice, dispatch аз useDispatch.",
+        "explanation": "Танҳо increase() навиштан store-ро нав намекунад: объект месозад. Dispatch онро ба ҷараёни Redux мефиристад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic30",
+    "title": "Immer",
+    "questions": [
+      {
+        "id": "interview-q81",
+        "sourceId": "q81",
+        "question": "Immer чист? Чиба дар createSlice push мумкин аст?",
+        "answer": "Immer тағйироти draft-ро пайгирӣ карда, state-и нав месозад. Draft — версияи кории state. Дар reducer-и createSlice код мисли mutation менамояд, лекин state-и пешина вайрон намешавад.",
+        "code": [
+          "// Дар reducers-и createSlice\naddUser(state, action) {\n  state.users.push(action.payload);\n}"
+        ],
+        "codeLabel": "Порча дар usersSlice.js; initialState дорои users: [] аст.",
+        "explanation": "Payload user-и нав аст. Immer массиви навшуда месозад ва қисмҳои тағйирнаёфтаро нигоҳ медорад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q82",
+        "sourceId": "q82",
+        "question": "Immer дар useState ва useReducer ҳам автоматӣ ҳаст?",
+        "answer": "Не. React худаш дар useState/useReducer Immer намегузорад. Он ҷо массиву объекти нав месозем, агар алоҳида Immer насозем.",
+        "code": [
+          "// Дар useState\nsetUsers((prev) => [...prev, newUser]);\n// Дар reducer-и одии React\nreturn { ...state, users: [...state.users, action.payload] };"
+        ],
+        "codeLabel": "Ду мисоли ҷудо: Users.jsx ва usersReducer.js.",
+        "explanation": "CreateSlice аз Redux Toolkit Immer дорад. Reducer-и одии худамон бошад ҳамин тавр навсозии бе mutation мекунад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q83",
+        "sourceId": "q83",
+        "question": "Чиба state = action.payload дар reducer-и Immer кофӣ нест?",
+        "answer": "Бо ин танҳо variable-и маҳаллии state-ро ба чизи дигар ишора медиҳӣ. Барои иваз кардани тамоми state натиҷаи навро return мекунем; барои як майдон draft-ро иваз мекунем.",
+        "code": [
+          "// Тамоми state массив бошад:\nreplaceUsers(state, action) {\n  return action.payload;\n}\n// Агар state объект бошад: state.users = action.payload;"
+        ],
+        "codeLabel": "Порча дар reducers-и createSlice; payload массиви нав аст.",
+        "explanation": "Як reducer ё draft-ро тағйир медиҳад ё state-и дигар return мекунад. Ҳардуяшро барои як навсозӣ омехта намекнем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic31",
+    "title": "Async Redux",
+    "questions": [
+      {
+        "id": "interview-q84",
+        "sourceId": "q84",
+        "question": "Async Redux чист? Запросро дар reducer мекунем?",
+        "answer": "Async — коре, ки ҷавобаш баъдтар меояд. Reducer бояд state-и навро ҳисоб кунад; запросро дар thunk ё воситаи запрос мекунем. Thunk функцияи logic аст, ки метавонад dispatch ва getState истифода барад.",
+        "code": [
+          "export const getUsers = createAsyncThunk(\"users/get\", async () => {\n  const response = await fetch(\"/api/users\");\n  if (!response.ok) throw new Error(\"HTTP error\");\n  return response.json();\n});"
+        ],
+        "codeLabel": "store/usersThunks.js: import { createAsyncThunk } from \"@reduxjs/toolkit\". Endpoint/response-и /api/users шартӣ.",
+        "explanation": "Дар компонент dispatch(getUsers()) мекунем. Redux Toolkit action-ҳои pending, fulfilled ё rejected мефиристад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q85",
+        "sourceId": "q85",
+        "question": "pending, fulfilled ва rejected чист?",
+        "answer": "Pending — запрос сар шуд; fulfilled — бо натиҷа тамом шуд; rejected — бо error ё радшавӣ тамом шуд. Дар extraReducers state-и loading, data ва error-ро мувофиқ нав мекунем.",
+        "code": [
+          "extraReducers: (builder) => {\n  builder.addCase(getUsers.pending, (state) => {\n    state.loading = true;\n  });\n  builder.addCase(getUsers.fulfilled, (state, action) => {\n    state.loading = false; state.users = action.payload;\n  });\n}"
+        ],
+        "codeLabel": "Порчаи createSlice. getUsers аз usersThunks import; initialState дорои users, loading ва error.",
+        "explanation": "Ин порча ду ҳолатро нишон медиҳад. Барои rejected ҳам loading=false ва error мегузорем, вагарна spinner баъди хато монда метавонад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q86",
+        "sourceId": "q86",
+        "question": "RTK Query аз createAsyncThunk чӣ фарқ дорад?",
+        "answer": "RTK Query барои гирифтани маълумот ва cache-и сервер воситаи махсус аст. CreateAsyncThunk ҷараёни async-и умумӣ медиҳад; cache-ро худ аз худ ташкил намекунад.",
+        "code": [
+          "// Users.jsx — API аллакай танзим шудааст\nconst { data = [], isLoading, error } = useGetUsersQuery();\nif (isLoading) return <p>Интизор шав...</p>;\nif (error) return <p>Маълумот гирифта нашуд</p>;\nreturn data.map((user) => <p key={user.id}>{user.name}</p>);"
+        ],
+        "codeLabel": "Порчаи Users.jsx: hook аз store/api.js import. Шартан response массиви user-ҳо аст.",
+        "explanation": "UseGetUsersQuery аз endpoint-и createApi сохта мешавад. Api reducer ва middleware бояд ба store пайваст бошанд; ин hook аз ҳаво намеояд.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic32",
+    "title": "Atomic State",
+    "questions": [
+      {
+        "id": "interview-q87",
+        "sourceId": "q87",
+        "question": "Atomic state чист? Atom чӣ маъно дорад?",
+        "answer": "Ин равиш state-ро ба қисмҳои хурд — atom-ҳо — ҷудо мекунад. Масалан, Jotai: atom таърифи як қимат аст, қимати воқеӣ дар store нигоҳ дошта мешавад.",
+        "code": [
+          "// store/atoms.js\nimport { atom } from \"jotai\";\nexport const countAtom = atom(0);\nexport const doubledAtom = atom((get) => get(countAtom) * 2);"
+        ],
+        "codeLabel": "Файли atoms.js; atom-ҳоро берун аз render месозем.",
+        "explanation": "Count=3 → doubled=6. Get вобастагиро пайгирӣ мекунад, барои doubled setter-и алоҳида лозим нест.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q88",
+        "sourceId": "q88",
+        "question": "Atom-ро дар компонент чӣ хел истифода мекунем?",
+        "answer": "UseAtom қимат ва setter медиҳад. Ду компонент ҳамон atom-ро дар ҳамон store гиранд, ба ҳамон қимат пайвастанд.",
+        "code": [
+          "import { useAtom } from \"jotai\";\nimport { countAtom } from \"../store/atoms\";\n// Дохили Counter.jsx\nconst [count, setCount] = useAtom(countAtom);\nfunction handleAdd() { setCount((prev) => prev + 1); }"
+        ],
+        "codeLabel": "Порчаи Counter.jsx; count дар JSX ва handleAdd дар onClick.",
+        "explanation": "Click → atom нав → хонандагони ҳамин atom огоҳ мешаванд. Atom-ҳои бевобастаро тағйир додан шарт нест.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic33",
+    "title": "Routing ва React Router",
+    "questions": [
+      {
+        "id": "interview-q89",
+        "sourceId": "q89",
+        "question": "Routing чист? React Router чист?",
+        "answer": "Routing интихоби саҳифа аз рӯйи URL аст. React Router библиотекаест, ки route, гузаштан ва параметрҳоро дар React идора мекунад. URL — адреси саҳифа.",
+        "code": [
+          "// Ду route-и намунавӣ\n{ path: \"/\", element: <Home /> }\n{ path: \"/products\", element: <Products /> }"
+        ],
+        "codeLabel": "Ду объекти ҷудо аз рӯйхати routes. Home ва Products import мешаванд; намунаҳо React Router 6.4+ мебошанд.",
+        "explanation": "/ → Home, /products → Products. Route-ҳоро router мувофиқ мекунад, на номи файли компонент.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q90",
+        "sourceId": "q90",
+        "question": "createBrowserRouter ва RouterProvider чӣ мекунанд?",
+        "answer": "CreateBrowserRouter аз таърифи route-ҳо router месозад ва бо адресу history (таърихи гузаштан байни адресҳо) кор мекунад. RouterProvider ҳамон router-ро ба React мепайвандад.",
+        "code": [
+          "import { createBrowserRouter, RouterProvider } from \"react-router-dom\";\nconst router = createBrowserRouter([\n  { path: \"/\", element: <Home /> },\n]);\nexport default function App() {\n  return <RouterProvider router={router} />;\n}"
+        ],
+        "codeLabel": "App.jsx: порчаи router, танҳо import-и Home нишон дода нашудааст; React Router 6.4+.",
+        "explanation": "Home аз pages/Home import мешавад. Main.jsx App-ро render мекунад. Дар гирди RouterProvider боз BrowserRouter-и дигар намемонем.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q91",
+        "sourceId": "q91",
+        "question": "Layout ва Outlet барои чӣ даркоранд?",
+        "answer": "Layout қисми умумӣ, мисли Header/Footer-ро як ҷо нигоҳ медорад. Outlet ҷойест, ки child route-и мувофиқ дар он нишон дода мешавад.",
+        "code": [
+          "import { Outlet } from \"react-router-dom\";\nexport default function Layout() {\n  return <>\n    <header>Меню</header>\n    <Outlet />\n    <footer>Поёни сайт</footer>\n  </>;\n}"
+        ],
+        "codeLabel": "layout/Layout.jsx пурра; parent route Layout-ро import мекунад.",
+        "explanation": "Route-и parent element: <Layout /> мегирад ва children дорад. Child иваз шавад, дар Outlet саҳифаи дигар мебарояд.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q92",
+        "sourceId": "q92",
+        "question": "Link, NavLink ва useNavigate чӣ фарқ доранд?",
+        "answer": "Link барои гузаштан бо link. NavLink ҳолати фаъол ҳам медиҳад. UseNavigate барои гузаштан аз код, масалан баъди login-и муваффақ.",
+        "code": [
+          "<Link to=\"/products\">Маҳсулот</Link>\n<NavLink to=\"/\" end>Асосӣ</NavLink>\n// Дар компонент:\nconst navigate = useNavigate();\n// Дар handler, баъди login-и муваффақ:\nnavigate(\"/profile\");"
+        ],
+        "codeLabel": "Порчаҳои ҷудо; Link, NavLink, useNavigate аз react-router-dom.",
+        "explanation": "Барои тугмаи одии навигатсия Link фаҳмотар аст. End барои / намегузорад, ки дар ҳамаи адресҳои поён фаъол монад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q93",
+        "sourceId": "q93",
+        "question": "Панҷ қадами сохтани routing кадоманд?",
+        "answer": "Саҳифаҳо → таърифи route-ҳо → RouterProvider → Layout/Outlet → link ва параметрҳо. Ин панҷ қадами омӯзишист, на номи расмии марҳалаҳои React.",
+        "code": [
+          "const router = createBrowserRouter([\n  { path: \"/\", element: <Layout />, children: [\n    { index: true, element: <Home /> },\n    { path: \"users/:id\", element: <UserDetail /> },\n  ] },\n]);"
+        ],
+        "codeLabel": "App.jsx: порча; createBrowserRouter ва се компонент import шудаанд.",
+        "explanation": "Агар «React Router 5» маънои версияи 5 бошад, API-и он дигар аст: createBrowserRouter аз 6.4 омадааст. Дар проект package.json-ро месанҷем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic34",
+    "title": "useParams ва URL",
+    "questions": [
+      {
+        "id": "interview-q94",
+        "sourceId": "q94",
+        "question": "useParams чӣ кор мекна? Худаш запрос медиҳад?",
+        "answer": "UseParams параметрҳои динамикии route-и мувофиқро мехонад. Запрос намекунад. Бо id-и гирифташуда метавонем алоҳида маълумот пурсем.",
+        "code": [
+          "// Route: /users/:id; URL: /users/5\nconst { id } = useParams();\nconsole.log(id); // \"5\""
+        ],
+        "codeLabel": "UserDetail.jsx: import { useParams } from \"react-router-dom\".",
+        "explanation": "Номи :id бо номи гирифтаамон id якхела аст. Агар route :userId бошад, userId мегирем. Қимат дар ин мисол string аст.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q95",
+        "sourceId": "q95",
+        "question": "Чиба detail баъди F5 холӣ мешавад?",
+        "answer": "Агар маълумот фақат аз state-и саҳифаи пешина гирифта шавад, кушодани мустақими URL метавонад онро надошта бошад. Detail бояд аз id-и URL маълумоташро гирифта тавонад.",
+        "code": [
+          "const { id } = useParams();\nuseEffect(() => {\n  getUser(id).then(setUser).catch(console.error);\n}, [id]);"
+        ],
+        "codeLabel": "Detail.jsx: порча; useParams/useEffect import, getUser API import, setUser setter.",
+        "explanation": "F5 → id ҳоло ҳам дар URL ҳаст → запрос маълумотро барқарор мекунад. Дар версияи пурра cleanup/ҷавоби кӯҳна ва loading/error ҳам коркард мешаванд.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q96",
+        "sourceId": "q96",
+        "question": "F5 дар /users/5 чиба дар hosting 404 медиҳад?",
+        "answer": "Агар сервер барои адреси SPA файли index.html-ро барнагардонад, пеш аз оғоз шудани React 404 меояд. Ин метавонад настройкаи hosting бошад, на ошибкаи useParams.",
+        "code": [
+          "// Қоидаи маъноӣ барои hosting-и SPA:\n// Файл/endpoint ҳаст → ҳамонро диҳад\n// Route-и frontend аст → index.html диҳад"
+        ],
+        "codeLabel": "Ин схема аст, конфиги тайёр нест. SPA — приложениее, ки саҳифаҳоро дар браузер иваз мекунад.",
+        "explanation": "Дархости Document-и Network-ро месанҷем. Роҳи fallback аз hosting вобаста аст; як конфиги умумиро ба ҳама сервер намегузорем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic35",
+    "title": "Protected Routes",
+    "questions": [
+      {
+        "id": "interview-q97",
+        "sourceId": "q97",
+        "question": "Protected Route чист ва чӣ хел кор мекунад?",
+        "answer": "Ин route аст, ки пеш аз нишон додани саҳифа ҳолати login-ро месанҷад. Санҷиш ҳоло рафта истода бошад, интизор мешавад; user набошад, ба login мегузаронад.",
+        "code": [
+          "import { Navigate, Outlet } from \"react-router-dom\";\nexport default function ProtectedRoute({ user, loading }) {\n  if (loading) return <p>Интизор шав...</p>;\n  if (!user) return <Navigate to=\"/login\" replace />;\n  return <Outlet />;\n}"
+        ],
+        "codeLabel": "ProtectedRoute.jsx пурра; user/loading аз санҷиши воқеии auth меоянд.",
+        "explanation": "Дар route-и parent ProtectedRoute мегузорем; Profile child мешавад. Replace сабти ҳозираи history-ро иваз мекунад, то Back ба redirect-и нодаркор нагардад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q98",
+        "sourceId": "q98",
+        "question": "Protected Route API-ро ҳам муҳофизат мекунад?",
+        "answer": "Не. Ин назорати интерфейс аст. Server бояд token/session ва иҷозатро худаш санҷад, чун запросро берун аз UI ҳам фиристода мешавад.",
+        "code": [
+          "// Ҷараёни зарурӣ\n// UI → санҷиши user → саҳифа\n// API → санҷиши session/token → иҷозати амал"
+        ],
+        "codeLabel": "Схемаи фаҳмондан, на коди auth-и пурра.",
+        "explanation": "Дар localStorage user ҳаст гуфтан далели иҷозати сервер нест. Login-и воқеӣ ва иҷозатро backend тасдиқ мекунад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic36",
+    "title": "Code Splitting",
+    "questions": [
+      {
+        "id": "interview-q99",
+        "sourceId": "q99",
+        "question": "Code splitting чист? lazy ва Suspense барои чӣ?",
+        "answer": "Code splitting коди приложение-ро ба қисмҳо ҷудо мекунад. Lazy компонентро вақти лозим бор мекунад. Suspense дар вақти интизории коди он fallback — намуди муваққатӣ — нишон медиҳад.",
+        "code": [
+          "import { lazy, Suspense } from \"react\";\nconst About = lazy(() => import(\"./pages/About\"));\nfunction AboutScreen() {\n  return <Suspense fallback={<p>Бор шуда истодааст...</p>}>\n    <About />\n  </Suspense>;\n}"
+        ],
+        "codeLabel": "App.jsx: порча. pages/About.jsx компоненти default export дорад.",
+        "explanation": "About.jsx бояд default export дошта бошад. Lazy-ро берун аз render менависем. Suspense ин ҷо интизори коди компонент аст, на худ аз худ интизори ҳар fetch.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q100",
+        "sourceId": "q100",
+        "question": "Code splitting аз memo чӣ фарқ дорад?",
+        "answer": "Code splitting барои миқдори коди ҳозир боршаванда аст. Memo барои кори render-и компоненти аллакай боршуда аст. Инҳо ду проблема ва ду воситаи ҷудоанд.",
+        "code": [
+          "// Бор кардани дертар\nconst Report = lazy(() => import(\"./Report\"));\n// Кам кардани render-и такрорӣ\nconst FastRow = memo(Row);"
+        ],
+        "codeLabel": "Ду таърифи сатҳи module; lazy/memo аз react, Row import; Report зери Suspense истифода мешавад.",
+        "explanation": "Коди калон дертар бор шавад — lazy. Row бо props-и якхела зиёд render шавад — memo метавонад ёрӣ диҳад. Аввал чен мекунем.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic37",
+    "title": "Render Problem",
+    "questions": [
+      {
+        "id": "interview-q101",
+        "sourceId": "q101",
+        "question": "Render problem-ро аз куҷо мешиносем?",
+        "answer": "Компонент бе зарурат зиёд ҳисоб мешавад, state-и input reset мешавад ё item-ҳо state-ро омехта мегиранд. Сабабро аз parent, context, type ва key месанҷем.",
+        "code": [
+          "// Проблемаи эҳтимолии reset\n<EditForm key={Math.random()} />\n// Key-и устувор\n<EditForm key={user.id} />"
+        ],
+        "codeLabel": "Муқоисаи JSX-и parent; user.id устувор аст.",
+        "explanation": "Key-и нав → компонент аз аввал → input холӣ. Инро бо memo часпондан сабабро ҳал намекунад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic38",
+    "title": "State Problem",
+    "questions": [
+      {
+        "id": "interview-q102",
+        "sourceId": "q102",
+        "question": "State problem чӣ гуна мешавад?",
+        "answer": "Маълумот нодуруст аст: state-ро дар ҷояш вайрон кардем, ду нусха сохтем ё функция қимати кӯҳнаро дар ёд дорад. Аввал дурустии state-ро ислоҳ мекунем, баъд суръатро.",
+        "code": [
+          "// State-и такрорӣ лозим нест\nconst [items, setItems] = useState([]);\nconst totalItems = items.length;"
+        ],
+        "codeLabel": "List.jsx: useState аз react.",
+        "explanation": "Як item илова шуд → totalItems худ дар render ҳисоб мешавад. Ду state-и ҷудо дошта бошӣ, яке нав шудаву дигаре кӯҳна монда метавонад.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic39",
+    "title": "Performance Problem",
+    "questions": [
+      {
+        "id": "interview-q103",
+        "sourceId": "q103",
+        "question": "Render, state ва performance problem-ро чӣ хел ҷудо кунам?",
+        "answer": "State problem: қимат нодуруст. Render problem: компонент кай ё чӣ хел нав мешавад/reset мешавад. Performance problem: натиҷа дуруст, вале амал дер мешавад. Онҳо метавонанд ба ҳам вобаста бошанд.",
+        "code": [
+          "// Санҷиш барои як click:\n// 1. State дуруст шуд?\n// 2. Кадом компонент render шуд?\n// 3. Вақт дар render рафт ё запрос?"
+        ],
+        "codeLabel": "Чеклисти кӯтоҳ барои debug, на коди иҷроӣ.",
+        "explanation": "Network 3 сония интизор бошад, memo серверро тез намекунад. Input reset шавад, аввал key/type-ро санҷ. Filter дер бошад, ҳисобро чен кун.",
+        "diagrams": []
+      }
+    ]
+  },
+  {
+    "id": "topic40",
+    "title": "Саволҳои иловагии интервью",
+    "questions": [
+      {
+        "id": "interview-q104",
+        "sourceId": "q104",
+        "question": "onClick={handleAdd} ва onClick={handleAdd()} чӣ фарқ доранд?",
+        "answer": "Якум функцияро медиҳад, то вақти click иҷро шавад. Дуюм ҳозир, вақти render, функцияро иҷро мекунад ва натиҷаашро ба onClick медиҳад.",
+        "code": [
+          "// Дуруст\n<button onClick={handleAdd}>Илова</button>\n// Бо аргумент\n<button onClick={() => handleDelete(id)}>Удалит</button>"
+        ],
+        "codeLabel": "Порчаи JSX; handler-ҳо ва id дар компонент муайянанд.",
+        "explanation": "Агар handleAdd() ҳангоми render state-ро иваз кунад, render-и нав меояд ва метавонад «Too many re-renders» шавад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q105",
+        "sourceId": "q105",
+        "question": "Controlled input чист?",
+        "answer": "Input-е, ки value-аш аз state меояд ва onChange state-ро нав мекунад. React қимати намоёни input-ро идора мекунад.",
+        "code": [
+          "const [name, setName] = useState(\"\");\n<input\n  value={name}\n  onChange={(event) => setName(event.target.value)}\n/>"
+        ],
+        "codeLabel": "Form.jsx: useState аз react; input дар return.",
+        "explanation": "A навиштӣ → event.target.value=\"A\" → state=\"A\" → input ҳамонро нишон медиҳад. Value диҳию onChange набошад, input-и таҳриршаванда дуруст кор намекунад.",
+        "diagrams": []
+      },
+      {
+        "id": "interview-q106",
+        "sourceId": "q106",
+        "question": "Чиба функцияи компонентро даруни компоненти дигар насозем?",
+        "answer": "Дар ҳар render таърифи функцияи дохилӣ нав мешавад. React метавонад онро type-и дигар шуморад ва state-и он child-ро reset кунад. Компонентро одатан дар сатҳи module месозем.",
+        "code": [
+          "function Child() {\n  return <input />;\n}\nfunction Parent() {\n  return <Child />;\n}"
+        ],
+        "codeLabel": "Ду компонент дар як файл; намунаи дуруст.",
+        "explanation": "Child берун аз Parent аст, type-аш байни render-ҳои Parent устувор мемонад.",
+        "diagrams": []
+      }
+    ]
+  }
+]

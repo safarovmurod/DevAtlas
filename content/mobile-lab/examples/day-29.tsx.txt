@@ -1,0 +1,42 @@
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type Task = { id: string; title: string };
+
+const KEY = 'devatlas-tasks';
+
+export default function App() {
+  const [tasks, setTasks] = useState<Task[] | null>(null);
+
+  useEffect(() => {
+    AsyncStorage.getItem(KEY)
+      .then(raw => {
+        setTasks(raw ? (JSON.parse(raw) as Task[]) : []);
+      })
+      .catch(() => setTasks([]));
+  }, []);
+
+  if (tasks === null) {
+    return (
+      <View style={styles.screen}>
+        <Text>Открываем сохранённые занятия…</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Мои занятия</Text>
+      {tasks.length === 0 ? (
+        <Text>Сохранённых занятий нет. Это первый запуск.</Text>
+      ) : (
+        tasks.map(task => <Text key={task.id}>{task.title}</Text>)
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+});

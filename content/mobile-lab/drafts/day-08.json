@@ -1,0 +1,416 @@
+{
+  "id": "mobile-day-08",
+  "day": 8,
+  "prerequisiteDays": [
+    7
+  ],
+  "title": {
+    "ru": "Состояние и последовательные обновления",
+    "tg": "Ҳолат ва навсозии пайдарпай",
+    "en": "State and sequential updates"
+  },
+  "summary": {
+    "ru": "Проследите два обновления state и не допускайте отрицательного счётчика.",
+    "tg": "Ду навсозии state-ро пайгирӣ ва ҳисобкунаки манфиро пешгирӣ кунед.",
+    "en": "Trace two state updates and prevent a negative counter."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Состояние и последовательные обновления",
+        "tg": "Ҳолат ва навсозии пайдарпай",
+        "en": "State and sequential updates"
+      },
+      "body": {
+        "ru": "На втором дне мы впервые использовали useState; теперь разберём последовательные обновления. Состояние принадлежит экземпляру компонента и сохраняется между его рендерами. На каждом рендере переменная completed отражает снимок состояния для этого вызова функции. Два вызова setCompleted(completed + 1) внутри одного обработчика используют один и тот же снимок, поэтому не гарантируют увеличение на два. Функциональная форма setCompleted(previous => previous + 1) получает предыдущее значение из очереди обновлений. Если поставить две такие функции подряд, при старте 0 итог будет 2. Обновляющая функция должна быть чистой: не отправляйте из неё запросы и не меняйте внешние данные. State этого примера находится в памяти и исчезает при перезапуске.",
+        "tg": "Рӯзи дуюм useState-ро дидем; ҳоло навсозии пайдарпайро меомӯзем. Ҳолат ба нусхаи компонент тааллуқ дошта, байни render-ҳо мемонад. Дар ҳар render тағйирёбандаи completed сурати ҳолат барои ҳамон даъвати функсия аст. Ду setCompleted(completed + 1) дар як коркардкунанда ҳамон суратро мегиранд ва афзоиши дутоиро кафолат намедиҳанд. Шакли функсионалии setCompleted(previous => previous + 1) қимати пешинаро аз навбати навсозӣ мегирад. Ду чунин функсия аз 0 натиҷаи 2 медиҳанд. Функсияи навсозӣ бояд пок бошад: аз он дархост нафиристед ва додаи берунаро дигар накунед. State-и мисол дар хотира аст ва баъди оғози нав нест мешавад.",
+        "en": "On day 2 we first used useState; now examine sequential updates. State belongs to a component instance and persists between its renders. In each render completed is a state snapshot for that function call. Two setCompleted(completed + 1) calls in one handler use the same snapshot, so they do not guarantee an increase of two. The functional form setCompleted(previous => previous + 1) receives the preceding value from the update queue. Two such functions starting at zero yield two. An updater must be pure: do not send requests or mutate external data inside it. This example’s state lives in memory and is lost on restart."
+      }
+    },
+    {
+      "title": {
+        "ru": "От снимка к очереди",
+        "tg": "Аз сурат то навбат",
+        "en": "From snapshot to queue"
+      },
+      "body": {
+        "ru": "useState(0) задаёт начальное значение completed и функцию setCompleted. После нажатия completeTwo ставит в очередь две чистые функции. Первая получает 0 и возвращает 1, вторая получает 1 и возвращает 2. Затем React обновляет экран с «Готово: 2». Кнопка передаёт onPress={completeTwo}, не вызывая обработчик во время рендера. В самостоятельном задании добавьте функцию отмены с setCompleted(previous => Math.max(0, previous - 1)): Math.max выбирает большее из двух чисел, поэтому результат не опускается ниже нуля. Проверьте 0 → 2 → 1 → 0 → 0. При отсутствии устройства запишите предсказание и запустите доступные локальные проверки, но не утверждайте проверку касаний на телефоне.",
+        "tg": "useState(0) қимати аввалини completed ва функсияи setCompleted медиҳад. Баъди пахш completeTwo ду функсияи покро ба навбат мегузорад. Якум 0 гирифта 1 медиҳад, дуюм 1 гирифта 2 медиҳад. Баъд React экранро бо «Готово: 2» нав мекунад. Тугма onPress={completeTwo} медиҳад ва коркардкунандаро ҳангоми render намехонад. Дар машқи мустақил бекоркуниро бо setCompleted(previous => Math.max(0, previous - 1)) илова кунед: Math.max аз ду адад калонтарашро мегирад, пас натиҷа аз сифр поён намеравад. 0 → 2 → 1 → 0 → 0-ро санҷед. Бе дастгоҳ пешгӯӣ ва санҷиши маҳаллиро нависед, вале санҷиши ламси телефонро тасдиқ накунед.",
+        "en": "useState(0) provides initial completed and setCompleted. After a press, completeTwo queues two pure functions. The first receives 0 and returns 1; the second receives 1 and returns 2. React then updates the screen to “Готово: 2”. The button passes onPress={completeTwo}, without calling it during render. In independent practice add undo using setCompleted(previous => Math.max(0, previous - 1)): Math.max selects the larger number, so the result never drops below zero. Test 0 → 2 → 1 → 0 → 0. Without a device, record predictions and run available local checks, but do not claim a phone touch test."
+      },
+      "code": "import { useState } from 'react';\nimport { Button, Text, View } from 'react-native';\n\nexport default function App() {\n  const [completed, setCompleted] = useState(0);\n\n  function completeTwo() {\n    setCompleted(previous => previous + 1);\n    setCompleted(previous => previous + 1);\n  }\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text>Готово: {completed}</Text>\n      <Button title=\"Завершить два\" onPress={completeTwo} />\n    </View>\n  );\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-08-q1",
+      "question": {
+        "ru": "Исходное состояние 0; после одного completeTwo что покажет экран?",
+        "tg": "Ҳолати аввал 0; баъди як completeTwo экран чӣ нишон медиҳад?",
+        "en": "Starting at 0, what does the screen show after one completeTwo?"
+      },
+      "options": [
+        {
+          "ru": "2",
+          "tg": "2",
+          "en": "2"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Две функции обновления получают последовательные значения 0 и 1.",
+        "tg": "Ду функсияи навсозӣ қиматҳои пайдарпайи 0 ва 1 мегиранд.",
+        "en": "The two updaters receive consecutive values 0 and 1."
+      },
+      "hint": {
+        "ru": "Проследите оба обновления состояния, начиная с нуля.",
+        "tg": "Ҳар ду навсозии ҳолатро аз сифр пайгирӣ кунед.",
+        "en": "Trace both state updates, starting from zero."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-08-q2",
+      "question": {
+        "ru": "Что получает второй функциональный updater?",
+        "tg": "Updater-и функсионалии дуюм чӣ мегирад?",
+        "en": "What does the second functional updater receive?"
+      },
+      "options": [
+        {
+          "ru": "Результат предыдущего обновления.",
+          "tg": "Натиҷаи навсозии пешина.",
+          "en": "The result of the previous update."
+        },
+        {
+          "ru": "Всегда исходный 0.",
+          "tg": "Ҳамеша 0-и аввал.",
+          "en": "Always the original 0."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "React применяет функции из очереди последовательно.",
+        "tg": "React функсияҳои навбатро пайдарпай истифода мебарад.",
+        "en": "React applies queued updater functions in order."
+      },
+      "hint": {
+        "ru": "Вспомните, какое значение React передаёт следующей функции обновления.",
+        "tg": "Ба ёд оред, ки React ба функсияи навбатии навсозӣ кадом арзишро медиҳад.",
+        "en": "Recall which value React passes to the next updater function."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-08-q3",
+      "question": {
+        "ru": "Чему равен Math.max(0, -1)?",
+        "tg": "Math.max(0, -1) чанд аст?",
+        "en": "What is Math.max(0, -1)?"
+      },
+      "options": [
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "-1",
+          "tg": "-1",
+          "en": "-1"
+        },
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Math.max выбирает большее число.",
+        "tg": "Math.max адади калонтарро мегирад.",
+        "en": "Math.max selects the larger number."
+      },
+      "hint": {
+        "ru": "Math.max выбирает большее из двух чисел: сравните 0 и -1.",
+        "tg": "Math.max калонтарини ду ададро интихоб мекунад: 0 ва -1-ро муқоиса кунед.",
+        "en": "Math.max selects the larger of two numbers: compare 0 and -1."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-08-q4",
+      "question": {
+        "ru": "Нужно отправлять сетевой запрос внутри updater?",
+        "tg": "Дар updater дархости шабака фиристем?",
+        "en": "Should an updater send a network request?"
+      },
+      "options": [
+        {
+          "ru": "Нет, updater должен быть чистым.",
+          "tg": "Не, updater бояд пок бошад.",
+          "en": "No, an updater should be pure."
+        },
+        {
+          "ru": "Да, при каждом вычислении.",
+          "tg": "Бале, дар ҳар ҳисоб.",
+          "en": "Yes, on every calculation."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Побочные действия не относятся к вычислению следующего state.",
+        "tg": "Амали иловагӣ ба ҳисобкунии state-и нав тааллуқ надорад.",
+        "en": "Side effects do not belong in the state calculation."
+      },
+      "hint": {
+        "ru": "Функция обновления должна вычислять состояние; подумайте о повторном вызове.",
+        "tg": "Функсияи навсозӣ бояд ҳолатро ҳисоб кунад; такроран хондани онро ба назар гиред.",
+        "en": "An updater should calculate state; consider what a repeated call could do."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-08-q5",
+      "question": {
+        "ru": "Сохранится ли этот счётчик после перезапуска?",
+        "tg": "Оё ҳисобкунак баъди оғози нав мемонад?",
+        "en": "Does this counter survive an app restart?"
+      },
+      "options": [
+        {
+          "ru": "Да, автоматически в облаке.",
+          "tg": "Бале, худкор дар абр.",
+          "en": "Yes, automatically in the cloud."
+        },
+        {
+          "ru": "Нет, постоянное хранение не создано.",
+          "tg": "Не, нигоҳдории доимӣ сохта нашудааст.",
+          "en": "No, persistence has not been implemented."
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Обычный state хранится в памяти экземпляра.",
+        "tg": "State-и оддӣ дар хотираи нусха аст.",
+        "en": "Ordinary state lives in the instance memory."
+      },
+      "hint": {
+        "ru": "Найдите в примере сохранение состояния за пределами памяти приложения.",
+        "tg": "Дар мисол нигоҳдории ҳолатро берун аз хотираи барнома ҷустуҷӯ кунед.",
+        "en": "Look for storage outside the app’s in-memory state in the example."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Добавьте кнопку «Отменить одно» и отдельный обработчик, уменьшающий completed на 1, но не ниже 0. Проверьте последовательность 0 → 2 → 1 → 0 → 0 и объясните, почему две функции обновления дают 2. Запишите результат; запуск на устройстве отмечайте только если он действительно выполнен. Локально можно проверить своё решение: node verify-component.mjs 08 <ваш-файл.tsx> <путь-к-expo-проекту>. Это React-тест с mock-компонентами, не нативный запуск и не Mastered.",
+      "tg": "Тугмаи «Отменить одно» ва коркардкунандаи ҷудо илова кунед: completed якто кам, вале аз 0 поён нашавад. 0 → 2 → 1 → 0 → 0-ро санҷида, чаро ду функсия 2 медиҳад фаҳмонед. Натиҷаро нависед; иҷрои дастгоҳ танҳо баъди иҷрои воқеӣ тасдиқ шавад. Ҳалли худро маҳаллӣ санҷидан мумкин: node verify-component.mjs 08 <файли-худ.tsx> <роҳи-expo-проект>. Ин React-тест бо mock-компонент аст, на иҷрои нативӣ ё Mastered.",
+      "en": "Add an “Отменить одно” button and a separate handler decrementing completed by one, but not below zero. Check 0 → 2 → 1 → 0 → 0 and explain why two updater functions produce 2. Record the result; claim a device run only if actually performed. You can check your own solution locally: node verify-component.mjs 08 <your-file.tsx> <expo-project-path>. This React test uses mocked components; it is not a native run or Mastered."
+    },
+    "hint": {
+      "ru": "В обработчике отмены вызовите setCompleted(previous => Math.max(0, previous - 1)) и передайте функцию в onPress.",
+      "tg": "Дар коркардкунандаи бекоркунӣ setCompleted(previous => Math.max(0, previous - 1)) хонед ва функсияро ба onPress диҳед.",
+      "en": "In the undo handler call setCompleted(previous => Math.max(0, previous - 1)) and pass the handler to onPress."
+    },
+    "solution": "import { useState } from 'react';\nimport { Button, Text, View } from 'react-native';\n\nexport default function App() {\n  const [completed, setCompleted] = useState(0);\n\n  function completeTwo() {\n    setCompleted(previous => previous + 1);\n    setCompleted(previous => previous + 1);\n  }\n\n  function undo() {\n    setCompleted(previous => Math.max(0, previous - 1));\n  }\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text>Готово: {completed}</Text>\n      <Button title=\"Завершить два\" onPress={completeTwo} />\n      <Button title=\"Отменить одно\" onPress={undo} />\n    </View>\n  );\n}\n",
+    "criteria": [
+      {
+        "ru": "Отмена снижает число не ниже нуля и результаты последовательности записаны.",
+        "tg": "Бекоркунӣ ададро аз сифр поён намебарад ва натиҷаи пайдарпай сабт аст.",
+        "en": "Undo never reduces the count below zero and the sequence is recorded."
+      },
+      {
+        "ru": "Объяснены updater и границы локального состояния; устройство подтверждено только после реального запуска.",
+        "tg": "Updater ва ҳудуди ҳолати маҳаллӣ шарҳ шуд; дастгоҳ танҳо баъди иҷрои воқеӣ тасдиқ аст.",
+        "en": "Updater and local-state limits are explained; device verification is claimed only after execution."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить снимок состояния и очередь updater-функций.",
+        "tg": "Сурати ҳолат ва навбати updater-ро фаҳмонед.",
+        "en": "Explain state snapshots and queued updaters."
+      },
+      {
+        "ru": "Проверить границу счётчика при отмене.",
+        "tg": "Ҳудуди ҳисобкунак ҳангоми бекоркуниро санҷед.",
+        "en": "Check the counter boundary when undoing."
+      }
+    ],
+    "realWorld": {
+      "ru": "Счётчик выполненных занятий не должен уменьшаться ниже нуля.",
+      "tg": "Ҳисобкунаки машғулият аз сифр кам нашавад.",
+      "en": "A completed-lesson counter must not fall below zero."
+    },
+    "walkthroughSections": [
+      0,
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Исходное состояние 0; после одного completeTwo что покажет экран?",
+        "tg": "Ҳолати аввал 0; баъди як completeTwo экран чӣ нишон медиҳад?",
+        "en": "Starting at 0, what does the screen show after one completeTwo?"
+      },
+      "options": [
+        {
+          "ru": "2",
+          "tg": "2",
+          "en": "2"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Проследите оба обновления состояния, начиная с нуля.",
+        "tg": "Ҳар ду навсозии ҳолатро аз сифр пайгирӣ кунед.",
+        "en": "Trace both state updates, starting from zero."
+      },
+      "explanation": {
+        "ru": "Две функции обновления получают последовательные значения 0 и 1.",
+        "tg": "Ду функсияи навсозӣ қиматҳои пайдарпайи 0 ва 1 мегиранд.",
+        "en": "The two updaters receive consecutive values 0 and 1."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { Button, Text, View } from 'react-native';\n\nexport default function App() {\n  const [completed, setCompleted] = useState(0);\n\n  function completeTwo() {\n    setCompleted(previous => previous + 1);\n    setCompleted(previous => previous + 1);\n  }\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text>Готово: {completed}</Text>\n      <Button title=\"Завершить два\" onPress={completeTwo} />\n    </View>\n  );\n}\n",
+      "steps": [
+        {
+          "line": 5,
+          "explanation": {
+            "ru": "Первый рендер получает начальный ноль.",
+            "tg": "Render-и аввал сифри ибтидоиро мегирад.",
+            "en": "The first render receives initial zero."
+          },
+          "values": "completed = 0"
+        },
+        {
+          "line": 8,
+          "explanation": {
+            "ru": "Первый updater возвращает один.",
+            "tg": "Updater-и аввал як медиҳад.",
+            "en": "The first updater returns one."
+          },
+          "values": "0 → 1"
+        },
+        {
+          "line": 9,
+          "explanation": {
+            "ru": "Второй updater получает результат первого; разбор не выполняет приложение.",
+            "tg": "Updater-и дуюм натиҷаи аввалро мегирад; шарҳ барномаро иҷро намекунад.",
+            "en": "The second updater receives the first result; the walkthrough does not run the app."
+          },
+          "values": "1 → 2"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Проследите обе функции обновления, начиная с нуля.",
+          "tg": "Ҳар ду функсияи навсозиро аз сифр пайгирӣ кунед.",
+          "en": "Trace both updater functions from zero."
+        },
+        {
+          "ru": "Предскажите итог и при наличии устройства проверьте одно нажатие.",
+          "tg": "Натиҷаро пешгӯӣ ва бо дастгоҳ як пахшро санҷед.",
+          "en": "Predict the result and check one press if a device is available."
+        }
+      ],
+      "hint": {
+        "ru": "Запишите промежуточное значение после первого обновления и передайте его второму.",
+        "tg": "Арзиши мобайниро баъди навсозии аввал навишта, ба дуюм гузаронед.",
+        "en": "Write down the intermediate value after the first update and pass it to the second."
+      },
+      "success": {
+        "ru": "После одного нажатия ожидается 2.",
+        "tg": "Баъди як пахш 2 интизор аст.",
+        "en": "After one press expect 2."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Добавьте кнопку «Отменить одно» и отдельный обработчик, уменьшающий completed на 1, но не ниже 0. Проверьте последовательность 0 → 2 → 1 → 0 → 0 и объясните, почему две функции обновления дают 2. Запишите результат; запуск на устройстве отмечайте только если он действительно выполнен. Локально можно проверить своё решение: node verify-component.mjs 08 <ваш-файл.tsx> <путь-к-expo-проекту>. Это React-тест с mock-компонентами, не нативный запуск и не Mastered.",
+        "tg": "Тугмаи «Отменить одно» ва коркардкунандаи ҷудо илова кунед: completed якто кам, вале аз 0 поён нашавад. 0 → 2 → 1 → 0 → 0-ро санҷида, чаро ду функсия 2 медиҳад фаҳмонед. Натиҷаро нависед; иҷрои дастгоҳ танҳо баъди иҷрои воқеӣ тасдиқ шавад. Ҳалли худро маҳаллӣ санҷидан мумкин: node verify-component.mjs 08 <файли-худ.tsx> <роҳи-expo-проект>. Ин React-тест бо mock-компонент аст, на иҷрои нативӣ ё Mastered.",
+        "en": "Add an “Отменить одно” button and a separate handler decrementing completed by one, but not below zero. Check 0 → 2 → 1 → 0 → 0 and explain why two updater functions produce 2. Record the result; claim a device run only if actually performed. You can check your own solution locally: node verify-component.mjs 08 <your-file.tsx> <expo-project-path>. This React test uses mocked components; it is not a native run or Mastered."
+      },
+      "criteria": [
+        {
+          "ru": "Отмена снижает число не ниже нуля и результаты последовательности записаны.",
+          "tg": "Бекоркунӣ ададро аз сифр поён намебарад ва натиҷаи пайдарпай сабт аст.",
+          "en": "Undo never reduces the count below zero and the sequence is recorded."
+        },
+        {
+          "ru": "Объяснены updater и границы локального состояния; устройство подтверждено только после реального запуска.",
+          "tg": "Updater ва ҳудуди ҳолати маҳаллӣ шарҳ шуд; дастгоҳ танҳо баъди иҷрои воқеӣ тасдиқ аст.",
+          "en": "Updater and local-state limits are explained; device verification is claimed only after execution."
+        }
+      ],
+      "example": {
+        "ru": "После 2 две отмены дают 0, третья оставляет 0.",
+        "tg": "Баъди 2 ду бекоркунӣ 0, сеюм боз 0 медиҳад.",
+        "en": "Starting at 2, two undos give 0 and a third stays at 0."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Updater получает предыдущее значение из очереди.",
+        "tg": "Updater қимати пешинаро аз навбат мегирад.",
+        "en": "An updater receives the previous queued value."
+      },
+      {
+        "ru": "Math.max защищает нижнюю границу счётчика.",
+        "tg": "Math.max ҳудуди поёнии ҳисобкунакро ҳифз мекунад.",
+        "en": "Math.max enforces the lower counter boundary."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Чему равен Math.max(0, -1)?",
+        "tg": "Math.max(0, -1) чанд аст?",
+        "en": "What is Math.max(0, -1)?"
+      },
+      {
+        "ru": "Сохранится ли этот счётчик после перезапуска?",
+        "tg": "Оё ҳисобкунак баъди оғози нав мемонад?",
+        "en": "Does this counter survive an app restart?"
+      }
+    ],
+    "nextLessonId": "mobile-day-09"
+  }
+}

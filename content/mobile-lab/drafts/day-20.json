@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-20",
+  "day": 20,
+  "prerequisiteDays": [
+    19
+  ],
+  "title": {
+    "ru": "Возврат и несохранённый ввод",
+    "tg": "Баргашт ва вуруди нигоҳнашуда",
+    "en": "Going back and unsaved input"
+  },
+  "summary": {
+    "ru": "Убедитесь, что черновик живёт, пока экран в стеке, и сохраните заметку осознанно.",
+    "tg": "Боварӣ ҳосил кунед, ки лоиҳа то зинда будани экран дар стек мемонад ва қайдро огоҳона нигоҳ доред.",
+    "en": "Confirm a draft survives while its screen stays in the stack and save the note deliberately."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Экран в стеке не умирает",
+        "tg": "Экран дар стек намемирад",
+        "en": "A screen in the stack does not die"
+      },
+      "body": {
+        "ru": "В стеке навигации предыдущий экран не уничтожается при переходе вперёд: он остаётся смонтированным под верхним экраном. Поэтому состояние черновика — TextInput и его текст — сохраняется, пока пользователь читает подсказку на соседнем экране и возвращается. Это важно понимать честно: черновик живёт только пока приложение не закрыто и экран не вытеснен из стека. Настоящее сохранение на диск — тема дня 28. Для осознанного сохранения в этом дне используется кнопка: пользователь сам решает, что текст стал заметкой. Если экран закрыть совсем (например, уйти со стека), несохранённый ввод будет потерян — именно поэтому в интерфейсе пишут подсказки и используют кнопки сохранения.",
+        "tg": "Дар стаки навигатсия экрани қаблӣ ҳангоми гузариш ба пеш нобуд намешавад: он зери экрани болоӣ монтаҷ мемонад. Барои ин ҳолати лоиҳа — TextInput ва матни он — нигоҳ дошта мешавад, то корбар дар экрани ҳамсоя маслиҳатро хонда, баргардад. Инро рӯбарӯ фаҳмидан муҳим аст: лоиҳа то бастан нашудани барнома ва набаромадани экран аз стек зинда аст. Нигоҳдории воқеӣ ба диск мавзӯи рӯзи 28 аст. Барои нигоҳдории огоҳона дар ин рӯз тугма истифода мешавад: корбар худ қазия мекунад, ки матн қайд шуд. Агар экран пурра баста шавад (масалан, аз хориҷ шудан аз стек), вуруди нигоҳнашуда гум мешавад — бинобар ин дар интерфейс маслиҳатҳо менависанд ва тугмаҳои нигоҳдориро истифода мебаранд.",
+        "en": "In a navigation stack the previous screen is not destroyed on a forward transition: it stays mounted under the top screen. That is why the draft state — the TextInput and its text — survives while the user reads a hint on the neighbor screen and comes back. Be honest about this: the draft lives only while the app is not closed and the screen is not pushed out of the stack. Real on-disk persistence is the day-28 topic. Deliberate saving in this day uses a button: the user decides the text became a note. If the screen is closed entirely, unsaved input is lost — which is exactly why interfaces show hints and use save buttons."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "ListScreen владеет двумя состояниями: draft для текущего ввода и saved для списка сохранённых заметок. Проверьте на устройстве: введите текст, откройте Help, вернитесь — текст в поле на месте, потому что ListScreen никуда не делся. Кнопка «Сохранить черновик» проверяет trim: пустые и пробельные строки не сохраняются, текст добавляется в saved копированием массива, поле очищается. Сохранённые заметки выводятся через map с индексными ключами — для неизменяемого списка это допустимо, для изменяемого лучше стабильные id. В решении на Help добавлена кнопка «Назад» через goBack, чтобы возврат не зависел от платформы.",
+        "tg": "ListScreen ду ҳолат дорад: draft барои вуруди ҷорӣ ва saved барои рӯйхати қайдҳои нигоҳдоришуда. Дар дастгоҳ санҷед: матнро ворид кунед, Help-ро кушоед, баргардед — матн дар майдон ҳаст, чунки ListScreen ҳеҷ ҷо намеравад. Тугмаи «Нигоҳ доштани лоиҳа» trim-ро месанҷад: сатрҳои холӣ ва фосиладор нигоҳ дошта намешаванд, матн бо нусхабардории массив ба saved илова ва майдон тоза мешавад. Қайдҳои нигоҳдоришуда тавассути map бо калидҳои индексӣ мебароранд — барои рӯйхати тағйирнашаванда ин ҷоиз аст, барои тағйирёбанда калидҳои устувори беҳтаранд. Дар ҳалл ба Help тугмаи «Ба ақиб» бо goBack илова шудааст, то баргашт аз платформа вобаста набошад.",
+        "en": "ListScreen owns two states: draft for the current input and saved for the list of stored notes. Check on a device: type text, open Help, return — the text is still in the field, because ListScreen never went away. The «Сохранить черновик» button checks trim: empty and whitespace-only strings are not stored, the text is appended to saved by copying the array, and the field clears. Stored notes render through map with index keys — acceptable for an immutable list, mutable ones deserve stable ids. The solution adds a «Назад» button on Help through goBack so returning does not depend on the platform."
+      },
+      "code": "import { useState } from 'react';\nimport { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, StyleSheet, Text, TextInput, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  const [draft, setDraft] = useState('');\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Черновик заметки</Text>\n      <TextInput\n        value={draft}\n        onChangeText={setDraft}\n        placeholder=\"Пишите здесь\"\n        style={styles.input}\n      />\n      <Button title=\"Открыть подсказку\" onPress={() => navigation.navigate('Help')} />\n      <Text>Черновик останется, пока экран в стеке.</Text>\n    </View>\n  );\n}\n\nfunction HelpScreen() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Подсказка</Text>\n      <Text>Вернитесь назад системной кнопкой и найдите черновик.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Help\" component={HelpScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-20-q1",
+      "question": {
+        "ru": "Почему черновик живёт после перехода на Help?",
+        "tg": "Барои чӣ лоиҳа баъди гузариш ба Help мемонад?",
+        "en": "Why does the draft survive a transition to Help?"
+      },
+      "options": [
+        {
+          "ru": "ListScreen остаётся смонтированным в стеке",
+          "tg": "ListScreen дар стек монтаҷ мемонад",
+          "en": "ListScreen stays mounted in the stack"
+        },
+        {
+          "ru": "Текст записан в файл",
+          "tg": "Матн ба файл навишта шудааст",
+          "en": "The text is written to a file"
+        },
+        {
+          "ru": "Help запоминает его",
+          "tg": "Help онро дар ёд дорад",
+          "en": "Help remembers it"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Состояние принадлежит ListScreen, который никуда не делся.",
+        "tg": "Ҳолат аз они ListScreen аст, ки ҳеҷ ҷо намеравад.",
+        "en": "The state belongs to ListScreen, which never went away."
+      },
+      "hint": {
+        "ru": "Перечитайте первый раздел о предыдущем экране в стеке.",
+        "tg": "Бахши аввал дар бораи экрани қаблии дар стекро аз нав хонед.",
+        "en": "Re-read the first section about the previous screen in the stack."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-20-q2",
+      "question": {
+        "ru": "Когда несохранённый ввод всё же потеряется?",
+        "tg": "Вуруди нигоҳнашуда ҳангоми чӣ бар ҳар ҳол гум мешавад?",
+        "en": "When is unsaved input still lost?"
+      },
+      "options": [
+        {
+          "ru": "Никогда",
+          "tg": "Ҳеҷ гоҳ",
+          "en": "Never"
+        },
+        {
+          "ru": "При закрытии приложения или вытеснении экрана из стека",
+          "tg": "Ҳангоми бастан ё баромадани экран аз стек",
+          "en": "When the app closes or the screen leaves the stack"
+        },
+        {
+          "ru": "Только при поломке интернета",
+          "tg": "Танҳо ҳангоми вайрони интернет",
+          "en": "Only when the internet breaks"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Черновик живёт в памяти: закрыли приложение — потеряли.",
+        "tg": "Лоиҳа дар хотира аст: барномаро пӯшед — гум мекунед.",
+        "en": "The draft lives in memory: close the app and it is gone."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе слова о границах этого поведения.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи ҳудуди ин рафторро ёбед.",
+        "en": "Find the first-section words about the limits of this behavior."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-20-q3",
+      "question": {
+        "ru": "Что проверяет кнопка сохранения перед добавлением?",
+        "tg": "Тугмаи нигоҳдорӣ пеш аз илова чиро месанҷад?",
+        "en": "What does the save button check before appending?"
+      },
+      "options": [
+        {
+          "ru": "Что заметка короче 100 символов",
+          "tg": "Он ки қайд аз 100 аломат кӯтоҳ аст",
+          "en": "That the note is under 100 characters"
+        },
+        {
+          "ru": "Что интернет включён",
+          "tg": "Он ки интернет фаъол аст",
+          "en": "That the internet is on"
+        },
+        {
+          "ru": "Что строка не пустая после trim",
+          "tg": "Он ки сатр баъди trim холӣ нест",
+          "en": "That the string is not empty after trim"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Пустые и пробельные строки не становятся заметками.",
+        "tg": "Сатрҳои холӣ ва фосиладор қайд намешаванд.",
+        "en": "Empty and whitespace-only strings do not become notes."
+      },
+      "hint": {
+        "ru": "Посмотрите на условие внутри onPress кнопки сохранения.",
+        "tg": "Ба шарти дар дохили onPress-и тугмаи нигоҳдорӣ нигоҳ кунед.",
+        "en": "Look at the condition inside the save button onPress."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-20-q4",
+      "question": {
+        "ru": "Почему массив saved копируют перед добавлением?",
+        "tg": "Барои чӣ массиви saved-ро пеш аз илова нусхабардорӣ мекунанд?",
+        "en": "Why is the saved array copied before appending?"
+      },
+      "options": [
+        {
+          "ru": "Чтобы React увидел новое состояние",
+          "tg": "То React ҳолати навро бинад",
+          "en": "So React sees a new state"
+        },
+        {
+          "ru": "Чтобы массив стал длиннее",
+          "tg": "То массив дарозтар шавад",
+          "en": "To make the array longer"
+        },
+        {
+          "ru": "Чтобы сэкономить память",
+          "tg": "То хотира сарфа шавад",
+          "en": "To save memory"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Функциональное обновление создаёт новый массив из предыдущего.",
+        "tg": "Навсозии функсионалӣ массиви навро аз қаблӣ месозад.",
+        "en": "The functional update builds a new array from the previous one."
+      },
+      "hint": {
+        "ru": "Сравните обработчик с функциональными обновлениями дня 8.",
+        "tg": "Обработчикро бо навсозиҳои функсионалии рӯзи 8 муқоиса кунед.",
+        "en": "Compare the handler with the day-8 functional updates."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-20-q5",
+      "question": {
+        "ru": "Что добавляет решение на экране Help?",
+        "tg": "Дар ҳалл ба экрани Help чӣ илова шудааст?",
+        "en": "What does the solution add on Help?"
+      },
+      "options": [
+        {
+          "ru": "Сохранение на диск",
+          "tg": "Нигоҳдорӣ ба диск",
+          "en": "Disk persistence"
+        },
+        {
+          "ru": "Кнопку «Назад» через goBack",
+          "tg": "Тугмаи «Ба ақиб» бо goBack",
+          "en": "A «Назад» button through goBack"
+        },
+        {
+          "ru": "Новый маршрут Details",
+          "tg": "Масири нави Details",
+          "en": "A new Details route"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Возврат перестаёт зависеть только от системной кнопки.",
+        "tg": "Баргашт танҳо ба тугмаи системавӣ вобаста намемонад.",
+        "en": "Returning no longer depends only on the system button."
+      },
+      "hint": {
+        "ru": "Сравните HelpScreen примера и решения.",
+        "tg": "HelpScreen-и мисол ва ҳаллро муқоиса кунед.",
+        "en": "Compare HelpScreen in the example and the solution."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте на устройстве: ввод, переход на Help, возврат, сохранение. Добавьте в Help кнопку «Назад» через goBack и запишите, что происходит с черновиком и заметками после каждого шага. Затем полностью закройте приложение и опишите честно, что пропало. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва дар дастгоҳ санҷед: вурӯд, гузариш ба Help, баргашт, нигоҳдорӣ. Ба Help тугмаи «Ба ақиб» бо goBack илова карда, сабт кунед, ки баъди ҳар қадам бо лоиҳа ва қайдҳо чӣ мешавад. Баъд барномаро пурра пӯшеда, рӯбарӯ тавсиф диҳед, ки чӣ нопадид. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check on a device: input, Help transition, return, save. Add a «Назад» button on Help through goBack and record what happens to the draft and notes after each step. Then close the app fully and describe honestly what disappeared. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Добавьте проп navigation в HelpScreen и кнопку с navigation.goBack(); закройте приложение из меню системы, а не сворачиванием.",
+      "tg": "Пропи navigation-ро ба HelpScreen ва тугма бо navigation.goBack() илова кунед; барномаро аз менюи система пӯшед, на бо тарқиш.",
+      "en": "Add the navigation prop to HelpScreen and a button with navigation.goBack(); close the app from the system menu, not by minimizing."
+    },
+    "solution": "import { useState } from 'react';\nimport { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, StyleSheet, Text, TextInput, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  const [draft, setDraft] = useState('');\n  const [saved, setSaved] = useState<string[]>([]);\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Черновик заметки</Text>\n      <TextInput\n        value={draft}\n        onChangeText={setDraft}\n        placeholder=\"Пишите здесь\"\n        style={styles.input}\n      />\n      <Button\n        title=\"Сохранить черновик\"\n        onPress={() => {\n          if (draft.trim()) {\n            setSaved(current => [...current, draft.trim()]);\n            setDraft('');\n          }\n        }}\n      />\n      <Button title=\"Открыть подсказку\" onPress={() => navigation.navigate('Help')} />\n      {saved.map((note, index) => <Text key={index}>Сохранено: {note}</Text>)}\n      <Text>Черновик останется, пока экран в стеке.</Text>\n    </View>\n  );\n}\n\nfunction HelpScreen({ navigation }: { navigation: { goBack: () => void } }) {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Подсказка</Text>\n      <Button title=\"Назад\" onPress={() => navigation.goBack()} />\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Help\" component={HelpScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Черновик переживает переход и возврат, а сохранённые заметки остаются.",
+        "tg": "Лоиҳа гузариш ва баргаштро мегузарад ва қайдҳои нигоҳдоришуда мемонанд.",
+        "en": "The draft survives the transition and return, stored notes remain."
+      },
+      {
+        "ru": "Честно записано, что пропадает после полного закрытия приложения.",
+        "tg": "Рӯбарӯ сабт шудааст, ки баъди пурра пӯшидани барнома чӣ нопадид.",
+        "en": "What disappears after fully closing the app is recorded honestly."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить, почему состояние экрана переживает переход вперёд.",
+        "tg": "Шарҳ диҳед, ки чаро ҳолати экран гузариш ба пешро мегузарад.",
+        "en": "Explain why screen state survives a forward transition."
+      },
+      {
+        "ru": "Сохранять заметку осознанным действием пользователя.",
+        "tg": "Қайдро бо амали огоҳонаи корбар нигоҳ доред.",
+        "en": "Store a note through a deliberate user action."
+      }
+    ],
+    "realWorld": {
+      "ru": "Черновик сообщения в мессенджере не исчезает, пока вы читаете другой чат.",
+      "tg": "Лоиҳаи паём дар паёмгӯй нопадид намешавад, то дигар чатро мехонед.",
+      "en": "A message draft does not vanish while you read another chat."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Когда несохранённый ввод всё же потеряется?",
+        "tg": "Вуруди нигоҳнашуда ҳангоми чӣ бар ҳар ҳол гум мешавад?",
+        "en": "When is unsaved input still lost?"
+      },
+      "options": [
+        {
+          "ru": "Никогда",
+          "tg": "Ҳеҷ гоҳ",
+          "en": "Never"
+        },
+        {
+          "ru": "При закрытии приложения или вытеснении экрана из стека",
+          "tg": "Ҳангоми бастан ё баромадани экран аз стек",
+          "en": "When the app closes or the screen leaves the stack"
+        },
+        {
+          "ru": "Только при поломке интернета",
+          "tg": "Танҳо ҳангоми вайрони интернет",
+          "en": "Only when the internet breaks"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Найдите в первом разделе слова о границах этого поведения.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи ҳудуди ин рафторро ёбед.",
+        "en": "Find the first-section words about the limits of this behavior."
+      },
+      "explanation": {
+        "ru": "Черновик живёт в памяти: закрыли приложение — потеряли.",
+        "tg": "Лоиҳа дар хотира аст: барномаро пӯшед — гум мекунед.",
+        "en": "The draft lives in memory: close the app and it is gone."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useState } from 'react';\nimport { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, StyleSheet, Text, TextInput, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  const [draft, setDraft] = useState('');\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Черновик заметки</Text>\n      <TextInput\n        value={draft}\n        onChangeText={setDraft}\n        placeholder=\"Пишите здесь\"\n        style={styles.input}\n      />\n      <Button title=\"Открыть подсказку\" onPress={() => navigation.navigate('Help')} />\n      <Text>Черновик останется, пока экран в стеке.</Text>\n    </View>\n  );\n}\n\nfunction HelpScreen() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Подсказка</Text>\n      <Text>Вернитесь назад системной кнопкой и найдите черновик.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Help\" component={HelpScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
+      "steps": [
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "Черновик — состояние ListScreen.",
+            "tg": "Лоиҳа ҳолати ListScreen аст.",
+            "en": "The draft is ListScreen state."
+          },
+          "values": "draft = ''"
+        },
+        {
+          "line": 8,
+          "explanation": {
+            "ru": "saved хранит осознанно сохранённые заметки.",
+            "tg": "saved қайдҳои огоҳона нигоҳдоришударо медорад.",
+            "en": "saved holds deliberately stored notes."
+          },
+          "values": "saved = []"
+        },
+        {
+          "line": 19,
+          "explanation": {
+            "ru": "Подсказка объясняет границы черновика.",
+            "tg": "Маслиҳат ҳудуди лоиҳаро фаҳмонад.",
+            "en": "The hint explains the draft limits."
+          },
+          "values": "in-memory"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Введите текст, откройте Help и вернитесь: найдите черновик на месте.",
+          "tg": "Матнро ворид кунед, Help-ро кушоед ва баргардед: лоиҳаро дар ҷояш ёбед.",
+          "en": "Type text, open Help and return: find the draft intact."
+        },
+        {
+          "ru": "Нажмите «Сохранить черновик» и убедитесь, что поле очистилось, а заметка появилась.",
+          "tg": "«Нигоҳ доштани лоиҳа»-ро пахш карда, боварӣ ҳосил кунед, ки майдон тоза ва қайд пайдо шуд.",
+          "en": "Press «Сохранить черновик» and confirm the field cleared and the note appeared."
+        }
+      ],
+      "hint": {
+        "ru": "Добавьте проп navigation в HelpScreen и кнопку с navigation.goBack(); закройте приложение из меню системы, а не сворачиванием.",
+        "tg": "Пропи navigation-ро ба HelpScreen ва тугма бо navigation.goBack() илова кунед; барномаро аз менюи система пӯшед, на бо тарқиш.",
+        "en": "Add the navigation prop to HelpScreen and a button with navigation.goBack(); close the app from the system menu, not by minimizing."
+      },
+      "success": {
+        "ru": "Черновик возвращается из Help нетронутым, а сохранённая заметка остаётся в списке.",
+        "tg": "Лоиҳа аз Help дастнорасида бармегардад ва қайди нигоҳдоришуда дар рӯйхат мемонад.",
+        "en": "The draft returns from Help untouched and the stored note stays in the list."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте на устройстве: ввод, переход на Help, возврат, сохранение. Добавьте в Help кнопку «Назад» через goBack и запишите, что происходит с черновиком и заметками после каждого шага. Затем полностью закройте приложение и опишите честно, что пропало. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва дар дастгоҳ санҷед: вурӯд, гузариш ба Help, баргашт, нигоҳдорӣ. Ба Help тугмаи «Ба ақиб» бо goBack илова карда, сабт кунед, ки баъди ҳар қадам бо лоиҳа ва қайдҳо чӣ мешавад. Баъд барномаро пурра пӯшеда, рӯбарӯ тавсиф диҳед, ки чӣ нопадид. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check on a device: input, Help transition, return, save. Add a «Назад» button on Help through goBack and record what happens to the draft and notes after each step. Then close the app fully and describe honestly what disappeared. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Черновик переживает переход и возврат, а сохранённые заметки остаются.",
+          "tg": "Лоиҳа гузариш ва баргаштро мегузарад ва қайдҳои нигоҳдоришуда мемонанд.",
+          "en": "The draft survives the transition and return, stored notes remain."
+        },
+        {
+          "ru": "Честно записано, что пропадает после полного закрытия приложения.",
+          "tg": "Рӯбарӯ сабт шудааст, ки баъди пурра пӯшидани барнома чӣ нопадид.",
+          "en": "What disappears after fully closing the app is recorded honestly."
+        }
+      ],
+      "example": {
+        "ru": "После полного закрытия и повторного запуска список заметок пуст — об этом сказано в отчёте.",
+        "tg": "Баъди пурра пӯшидан ва аз нав оғоз рӯйхати қайдҳо холӣ аст — дар ҳисобот ин навишта шудааст.",
+        "en": "After fully closing and reopening, the note list is empty — the report says so."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Экран в стеке сохраняет состояние, пока не закрыт или не вытеснен.",
+        "tg": "Экрани дар стек ҳолатро нигоҳ медорад, то пӯшида ё аз стек набарояд.",
+        "en": "A screen in the stack keeps its state until closed or evicted."
+      },
+      {
+        "ru": "Сохранение — осознанное действие; диск появляется в дне 28.",
+        "tg": "Нигоҳдорӣ амали огоҳона аст; диск дар рӯзи 28 меояд.",
+        "en": "Saving is deliberate; the disk arrives in day 28."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Когда несохранённый ввод всё же потеряется?",
+        "tg": "Вуруди нигоҳнашуда ҳангоми чӣ бар ҳар ҳол гум мешавад?",
+        "en": "When is unsaved input still lost?"
+      },
+      {
+        "ru": "Почему массив saved копируют перед добавлением?",
+        "tg": "Барои чӣ массиви saved-ро пеш аз илова нусхабардорӣ мекунанд?",
+        "en": "Why is the saved array copied before appending?"
+      }
+    ],
+    "nextLessonId": "mobile-day-21"
+  }
+}

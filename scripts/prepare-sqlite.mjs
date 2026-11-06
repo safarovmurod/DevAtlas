@@ -1,0 +1,13 @@
+import {mkdir,cp,readFile,writeFile} from 'node:fs/promises';
+import {build} from 'esbuild';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const source=path.join(root,'node_modules/sql.js'),output=path.join(root,'public/sqlite');
+await mkdir(output,{recursive:true});
+for(const [from,to] of [['dist/sql-wasm.js','sql-wasm.js'],['dist/sql-wasm.wasm','sql-wasm.wasm'],['LICENSE','SQLJS-LICENSE'],['AUTHORS','SQLJS-AUTHORS']])await cp(path.join(source,from),path.join(output,to));
+await build({entryPoints:[path.join(root,'src/lib/practice/sqlite-worker.ts')],outfile:path.join(output,'practice.worker.js'),bundle:true,platform:'browser',format:'iife',target:'es2022',minify:true,legalComments:'eof'});
+const pkg=JSON.parse(await readFile(path.join(source,'package.json'),'utf8')),files={};
+for(const name of ['sql-wasm.js','sql-wasm.wasm','practice.worker.js'])files[name]=createHash('sha256').update(await readFile(path.join(output,name))).digest('hex');
+await writeFile(path.join(output,'manifest.json'),JSON.stringify({sqlJsVersion:pkg.version,license:pkg.license,files},null,2)+'\n');

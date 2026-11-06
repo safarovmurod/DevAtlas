@@ -1,0 +1,2457 @@
+{
+  "groups": [
+    [
+      "Redux",
+      [
+        "r-setup",
+        "r-get",
+        "r-post",
+        "r-put",
+        "r-delete",
+        "r-add-img",
+        "r-info",
+        "r-search",
+        "r-pagination",
+        "r-delete-img"
+      ]
+    ],
+    [
+      "Zustand",
+      [
+        "z-setup",
+        "z-get",
+        "z-post",
+        "z-put",
+        "z-delete",
+        "z-add-img",
+        "z-info",
+        "z-search",
+        "z-pagination",
+        "z-delete-img"
+      ]
+    ],
+    [
+      "Jotai",
+      [
+        "j-setup",
+        "j-get",
+        "j-post",
+        "j-put",
+        "j-delete",
+        "j-add-img",
+        "j-info",
+        "j-search",
+        "j-pagination",
+        "j-delete-img"
+      ]
+    ],
+    [
+      "Кори умумӣ ва шаклҳо",
+      [
+        "common-dialog-add",
+        "common-dialog-edit",
+        "common-info"
+      ]
+    ]
+  ],
+  "lessons": {
+    "r-setup": {
+      "group": "Redux",
+      "title": "Файлҳои асосии Redux",
+      "method": "SETUP",
+      "files": [
+        "src/store/store.ts",
+        "src/store/counterSlice.ts"
+      ],
+      "intro": "Танзимоти асосии Redux Toolkit: файли store.ts ва counterSlice.ts. Ҳамаи амалиётҳои лоиҳаи ту (гет, инфо, удалить, эдит, расм ва extraReducers) дар ҳамин ҷо оварда шудаанд.",
+      "blocks": [
+        {
+          "path": "src/store/store.ts",
+          "kind": "store",
+          "code": "import { configureStore } from \"@reduxjs/toolkit\"\nimport todoReducer from \"./counterSlice\"\n\nexport const store = configureStore({\n  reducer: {\n    todo: todoReducer,\n  },\n})",
+          "practiceCode": "import { configureStore } from \"@reduxjs/toolkit\"\nimport todoReducer from \"./counterSlice\"\n\nexport const store = configureStore({\n  \n})",
+          "hintCode": "import { configureStore } from \"@reduxjs/toolkit\"\nimport todoReducer from \"./counterSlice\"\n\nexport const store = configureStore({\n  // Шаг 1: reducer объекти асосиро кушо\n  // Шаг 2: todoReducer-ро аз counterSlice пайваст намо:\n  // reducer: {\n  //   todo: todoReducer,\n  // }\n})"
+        },
+        {
+          "path": "src/store/counterSlice.ts",
+          "kind": "slice",
+          "code": "import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'\nimport axios from \"axios\";\nimport { img_URL } from \"../pages/Redux\";\nlet api = 'https://to-dos-api.softclub.tj/api/to-dos'\n\n//гет\nexport const getData = createAsyncThunk(\"todo/getData\", async (params = {}) => {\n    const search = params?.search || \"\"\n    const page = params?.page || 1\n    try {\n        const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n        return data.data\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n//инфо\nexport const getByIdData = createAsyncThunk(\"todo/getByIdData\", async (id) => {\n    try {\n        const { data } = await axios.get(`${api}/${id}`)\n        return data.data\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n//удалить\nexport const deleteData = createAsyncThunk(\"todo/deleteData\", async (id, { dispatch }) => {\n    try {\n        await axios.delete(`${api}?id=${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n//удалить img\nexport const deleteImgData = createAsyncThunk(\"todo/deleteImgData\", async (id, { dispatch }) => {\n    try {\n        await axios.delete(`${api}/images/${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n//эдит\nexport const EditData = createAsyncThunk(\"todo/EditData\", async (user, { dispatch }) => {\n    try {\n        await axios.put(api, user)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n//checkbox\nexport const isCompleted = createAsyncThunk(\"todo/isComplete\", async (id, { dispatch }) => {\n    try {\n        await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n//добавить\nexport const AddData = createAsyncThunk(\"todo/AddData\", async (user, { dispatch }) => {\n    try {\n        await axios.post(api, user)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n//добавить img\nexport const AddImgData = createAsyncThunk(\"todo/AddImgData\", async ({ id, file }, { dispatch }) => {\n    const formData = new FormData()\n    for (let i = 0; i < file.length; i++) {\n        formData.append(\"Images\", file[i])\n    }\n    try {\n        await axios.post(`${api}/${id}/images`, formData)\n        dispatch(getByIdData(id))\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n//тодослайс\nexport const TodaSlice = createSlice({\n  name: 'counter',\n  initialState: {\n    data: [],\n    isLoading: false,\n    todoinfo: null\n  },\n  reducers: {},\n  //эустра редусер\n  extraReducers: (builder) => {\n    builder.addCase(getData.pending, (state) => {\n        state.isLoading = true\n    })\n    builder.addCase(getData.fulfilled, (state, action) => {\n        state.data = action.payload\n        state.isLoading = false\n    })\n    builder.addCase(getByIdData.fulfilled, (state, action) => {\n        state.todoinfo = action.payload\n        state.isLoading = false\n    })\n  },\n})\n\n//экспорт \nexport const { increment, decrement, incrementByAmount } = TodaSlice.actions\n\nexport default TodaSlice.reducer",
+          "practiceCode": "import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'\nimport axios from \"axios\";\nimport { img_URL } from \"../pages/Redux\";\nlet api = 'https://to-dos-api.softclub.tj/api/to-dos'\n\n//гет\n\n//инфо\n\n//удалить\n\n//удалить img\n\n//эдит\n\n//checkbox\n\n//добавить\n\n//добавить img\n\n//тодослайс\nexport const TodaSlice = createSlice({\n  name: 'counter',\n  initialState:{\n    data:[],\n    isLoading:false,\n    todoinfo:null\n  },\n  reducers: {\n},\n//эустра редусер\nextraReducers:(builder)=>{\n  \n    // инфо буилдер\n    \n},\n\n})\n//экспорт \nexport const { increment, decrement, incrementByAmount } = TodaSlice.actions\n\nexport default TodaSlice.reducer",
+          "hintCode": "import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'\nimport axios from \"axios\";\nimport { img_URL } from \"../pages/Redux\";\nlet api = 'https://to-dos-api.softclub.tj/api/to-dos'\n\n//гет\n// 1. export const getData = createAsyncThunk(\"todo/getData\", async (params = {}) => {\n// 2.   const search = params?.search || \"\", page = params?.page || 1\n// 3.   const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n// 4.   return data.data\n// 5. })\n\n//инфо\n// 1. export const getByIdData = createAsyncThunk(\"todo/getByIdData\", async (id) => {\n// 2.   const { data } = await axios.get(`${api}/${id}`)\n// 3.   return data.data\n// 4. })\n\n//удалить\n// 1. export const deleteData = createAsyncThunk(\"todo/deleteData\", async (id, { dispatch }) => {\n// 2.   await axios.delete(`${api}?id=${id}`)\n// 3.   dispatch(getData())\n// 4. })\n\n//удалить img\n// 1. export const deleteImgData = createAsyncThunk(\"todo/deleteImgData\", async (id, { dispatch }) => {\n// 2.   await axios.delete(`${api}/images/${id}`)\n// 3.   dispatch(getData())\n// 4. })\n\n//эдит\n// 1. export const EditData = createAsyncThunk(\"todo/EditData\", async (user, { dispatch }) => {\n// 2.   await axios.put(api, user)\n// 3.   dispatch(getData())\n// 4. })\n\n//checkbox\n// 1. export const isCompleted = createAsyncThunk(\"todo/isComplete\", async (id, { dispatch }) => {\n// 2.   await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n// 3.   dispatch(getData())\n// 4. })\n\n//добавить\n// 1. export const AddData = createAsyncThunk(\"todo/AddData\", async (user, { dispatch }) => {\n// 2.   await axios.post(api, user)\n// 3.   dispatch(getData())\n// 4. })\n\n//добавить img\n// 1. export const AddImgData = createAsyncThunk(\"todo/AddImgData\", async ({ id, file }, { dispatch }) => {\n// 2.   const formData = new FormData()\n// 3.   for (let i = 0; i < file.length; i++) { formData.append(\"Images\", file[i]) }\n// 4.   await axios.post(`${api}/${id}/images`, formData)\n// 5.   dispatch(getByIdData(id))\n// 6. })\n\n//тодослайс\nexport const TodaSlice = createSlice({\n  name: 'counter',\n  initialState:{\n    data:[],\n    isLoading:false,\n    todoinfo:null\n  },\n  reducers: {\n},\n//эустра редусер\nextraReducers:(builder)=>{\n    // 1. builder.addCase(getData.pending, (state) => { state.isLoading = true })\n    // 2. builder.addCase(getData.fulfilled, (state, action) => { state.data = action.payload; state.isLoading = false; })\n    // 3. builder.addCase(getByIdData.fulfilled, (state, action) => { state.todoinfo = action.payload; state.isLoading = false; })\n},\n\n})\n//экспорт \nexport const { increment, decrement, incrementByAmount } = TodaSlice.actions\n\nexport default TodaSlice.reducer"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "store.ts",
+          "configureStore бо reducer: { todo: todoReducer } сохта мешавад.",
+          "configureStore({ reducer: { todo: todoReducer } })"
+        ],
+        [
+          "2",
+          "counterSlice.ts",
+          "Тамоми createAsyncThunk ва extraReducers дар ин ҷо ҷойгиранд.",
+          "createSlice({ name: 'counter', ... })"
+        ],
+        [
+          "3",
+          "Provider дар main.tsx",
+          "Дар main.tsx <Provider store={store}> гузошта шудааст.",
+          "<Provider store={store}>"
+        ]
+      ],
+      "memory": "store.ts → reducer.todo: counterSlice → Provider.",
+      "practice": "Включи «Практика»: файл холӣ мешавад ва фақат сохтори асосӣ мемонад.",
+      "concepts": [
+        [
+          "configureStore",
+          "Аз @reduxjs/toolkit",
+          "Redux Toolkit",
+          "Барои сохтани маркази асосии store",
+          "Бе ин store сохта намешавад."
+        ],
+        [
+          "createSlice",
+          "Аз @reduxjs/toolkit",
+          "Redux Toolkit",
+          "Барои муттаҳид кардани reducers ва extraReducers",
+          "Бе ин slice сохта намешавад."
+        ],
+        [
+          "createAsyncThunk",
+          "Аз @reduxjs/toolkit",
+          "Redux Toolkit",
+          "Барои иҷрои запросҳои асинхронӣ бо axios",
+          "Reducer худаш асинхрон кор карда наметавонад."
+        ]
+      ],
+      "relationNote": "store.ts аз counterSlice.ts ворид мекунад ва ба main.tsx дода мешавад."
+    },
+    "r-get": {
+      "group": "Redux",
+      "title": "GET · getData",
+      "method": "GET",
+      "files": [
+        "src/store/counterSlice.ts",
+        "src/store/store.ts",
+        "src/pages/Redux.tsx"
+      ],
+      "intro": "getData — createAsyncThunk барои дарёфти рӯйхати todo-ҳо бо параметрҳои search ва page. Ҳолати pending loading-ро фаъол мекунад ва fulfilled маълумотро ба state.data сабт менамояд.",
+      "blocks": [
+        {
+          "path": "src/store/counterSlice.ts · thunk ва extraReducers",
+          "kind": "operation",
+          "code": "export const getData = createAsyncThunk(\"todo/getData\", async (params = {}) => {\n    const search = params?.search || \"\"\n    const page = params?.page || 1\n    try {\n        const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n        return data.data\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n// extraReducers дар дохили createSlice:\nbuilder.addCase(getData.pending, (state) => {\n    state.isLoading = true\n})\nbuilder.addCase(getData.fulfilled, (state, action) => {\n    state.data = action.payload\n    state.isLoading = false\n})",
+          "practiceCode": "export const getData = createAsyncThunk(\"todo/getData\", async (params = {}) => {\n  \n})\n\n// extraReducers дар дохили createSlice:\nbuilder.addCase(getData.pending, (state) => {\n  \n})\nbuilder.addCase(getData.fulfilled, (state, action) => {\n  \n})",
+          "hintCode": "export const getData = createAsyncThunk(\"todo/getData\", async (params = {}) => {\n    // 1. search ва page-ро бо default қиматҳо гир: const search = params?.search || \"\", page = params?.page || 1\n    // 2. const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n    // 3. return data.data кун\n})\n\n// extraReducers дар дохили createSlice:\nbuilder.addCase(getData.pending, (state) => {\n    // state.isLoading = true\n})\nbuilder.addCase(getData.fulfilled, (state, action) => {\n    // state.data = action.payload\n    // state.isLoading = false\n})"
+        },
+        {
+          "path": "src/store/store.ts · пайваст кардани reducer",
+          "kind": "store",
+          "code": "import { configureStore } from \"@reduxjs/toolkit\"\nimport todoReducer from \"./counterSlice\"\n\nexport const store = configureStore({\n  reducer: {\n    todo: todoReducer,\n  },\n})",
+          "practiceCode": "import { configureStore } from \"@reduxjs/toolkit\"\nimport todoReducer from \"./counterSlice\"\n\nexport const store = configureStore({\n  \n})",
+          "hintCode": "import { configureStore } from \"@reduxjs/toolkit\"\nimport todoReducer from \"./counterSlice\"\n\nexport const store = configureStore({\n  // Шаг 1: reducer объекти асосиро кушо\n  // Шаг 2: todoReducer-ро аз counterSlice пайваст намо:\n  // reducer: {\n  //   todo: todoReducer,\n  // }\n})"
+        },
+        {
+          "path": "src/pages/Redux.tsx (ё App.tsx) · истифодаи dispatch ва useSelector",
+          "kind": "usage",
+          "code": "import { useEffect } from \"react\"\nimport { useDispatch, useSelector } from \"react-redux\"\nimport { getData } from \"../store/counterSlice\"\n\nconst Redux = () => {\n  const dispatch = useDispatch()\n  const { data, isLoading } = useSelector((store: any) => store.todo)\n\n  useEffect(() => {\n    dispatch(getData({ search: \"\", page: 1 }))\n  }, [dispatch])\n\n  if (isLoading && (!data || data.length === 0)) {\n    return <h1>Loading...</h1>\n  }\n\n  return (\n    <div>\n      <h1>Redux To-Do</h1>\n      <div className=\"grid\">\n        {data?.map((el: any) => (\n          <div key={el.id} className=\"card\">\n            <h2>{el.name}</h2>\n            <p>{el.description}</p>\n          </div>\n        ))}\n      </div>\n    </div>\n  )\n}\n\nexport default Redux",
+          "practiceCode": "import { useEffect } from \"react\"\nimport { useDispatch, useSelector } from \"react-redux\"\nimport { getData } from \"../store/counterSlice\"\n\nconst Redux = () => {\n  \n  return (\n    <div>\n      \n    </div>\n  )\n}\n\nexport default Redux",
+          "hintCode": "import { useEffect } from \"react\"\nimport { useDispatch, useSelector } from \"react-redux\"\nimport { getData } from \"../store/counterSlice\"\n\nconst Redux = () => {\n  // 1. const dispatch = useDispatch()\n  // 2. const { data, isLoading } = useSelector((store: any) => store.todo)\n  // 3. useEffect(() => { dispatch(getData({ search: \"\", page: 1 })) }, [dispatch])\n\n  return (\n    <div>\n      {/* 4. data?.map((el: any) => <div key={el.id}>{el.name}</div>) */}\n    </div>\n  )\n}\n\nexport default Redux"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Redux.tsx",
+          "code": "const dispatch = useDispatch()\nconst { data, isLoading } = useSelector((store) => store.todo)\n\nuseEffect(() => {\n  dispatch(getData({ search, page }))\n}, [dispatch, search, page])",
+          "practiceCode": "const dispatch = useDispatch()\nconst { data, isLoading } = useSelector((store) => store.todo)\n\nuseEffect(() => {\n  // STEP: dispatch getData бо search ва page\n  dispatch(getData({ search, page }))\n}, [dispatch, search, page])"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "dispatch(getData())",
+          "Дар useEffect саҳифа thunk бо search ва page даъват мешавад.",
+          "dispatch(getData({ search, page }))"
+        ],
+        [
+          "2",
+          "pending",
+          "Redux Toolkit isLoading-ро true мекунад.",
+          "builder.addCase(getData.pending)"
+        ],
+        [
+          "3",
+          "axios.get",
+          "Запрос ба сервер рафта рӯйхатро бармегардонад.",
+          "axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)"
+        ],
+        [
+          "4",
+          "fulfilled",
+          "action.payload ба state.data сабт шуда, isLoading = false мешавад.",
+          "state.data = action.payload"
+        ],
+        [
+          "5",
+          "useSelector",
+          "Component data-ро гирифта, бо .map() нишон медиҳад.",
+          "useSelector((store) => store.todo)"
+        ]
+      ],
+      "memory": "dispatch(getData) → axios.get → fulfilled → state.data = action.payload → useSelector.",
+      "practice": "Ба тугмаи «Практика» клик кун ва баданаи thunk ва extraReducers-ро аз хотира навис.",
+      "concepts": [
+        [
+          "createAsyncThunk",
+          "@reduxjs/toolkit",
+          "Redux Toolkit",
+          "Барои сохтани асинхрон thunk ва запросҳои API",
+          "Бе ин Redux асинхрон кор намекунад."
+        ],
+        [
+          "builder",
+          "extraReducers",
+          "Redux Toolkit",
+          "Объект барои пайваст кардани action-ҳои асинхрон ба state",
+          "Бе builder ҳолатҳои thunk ба slice пайваст намешаванд."
+        ],
+        [
+          "addCase",
+          "builder.addCase",
+          "Redux Toolkit",
+          "Метод барои муайян кардани рафтори як case-и мушаххас",
+          "Бе ин наметавонӣ pending ё fulfilled-ро гӯш кунӣ."
+        ],
+        [
+          "fulfilled",
+          "getData.fulfilled",
+          "Redux Toolkit",
+          "Ҳолати бомуваффақият анҷом ёфтани запрос",
+          "Бе ин маълумоти сервер ба state дохил намешавад."
+        ],
+        [
+          "action.payload",
+          "Параметри action дар callback",
+          "Redux Toolkit",
+          "Маълумоте, ки аз return data.data баргашт",
+          "Бе ин маълумоти омада гум мешавад."
+        ]
+      ],
+      "relationNote": "Дар Redux.tsx useEffect ба dispatch, search, ва page вобаста аст."
+    },
+    "r-post": {
+      "group": "Redux",
+      "title": "POST · AddData",
+      "method": "POST",
+      "files": [
+        "src/store/counterSlice.ts",
+        "src/pages/Redux.tsx",
+        "src/components/dialog/DialogAdd.tsx"
+      ],
+      "intro": "AddData вазифаи навро ба воситаи axios.post ба сервер мефиристад ва пас аз он бо dispatch(getData()) рӯйхати навро дубора боргирӣ менамояд.",
+      "blocks": [
+        {
+          "path": "src/store/counterSlice.ts · AddData thunk",
+          "kind": "operation",
+          "code": "export const AddData = createAsyncThunk(\"todo/AddData\", async (user, { dispatch }) => {\n    try {\n        await axios.post(api, user)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})",
+          "practiceCode": "export const AddData = createAsyncThunk(\"todo/AddData\", async (user, { dispatch }) => {\n  \n})",
+          "hintCode": "export const AddData = createAsyncThunk(\"todo/AddData\", async (user, { dispatch }) => {\n    // 1. await axios.post(api, user)\n    // 2. dispatch(getData()) — барои нав кардани рӯйхат\n})"
+        },
+        {
+          "path": "src/pages/Redux.tsx · тугмаи + Add Task ва кушодани модал",
+          "kind": "usage",
+          "code": "import { useState } from \"react\"\nimport DialogAdd from \"../components/dialog/DialogAdd\"\n\n// Дар дохили компоненти Redux:\nconst [add, setAdd] = useState(false)\n\nreturn (\n  <div>\n    <button onClick={() => setAdd(true)}>\n      + Add Task\n    </button>\n\n    <DialogAdd user={add} setUser={setAdd} />\n  </div>\n)",
+          "practiceCode": "import { useState } from \"react\"\nimport DialogAdd from \"../components/dialog/DialogAdd\"\n\n// Дар дохили компоненти Redux:\nconst [add, setAdd] = useState(false)\n\nreturn (\n  <div>\n    \n  </div>\n)",
+          "hintCode": "import { useState } from \"react\"\nimport DialogAdd from \"../components/dialog/DialogAdd\"\n\n// Дар дохили компоненти Redux:\nconst [add, setAdd] = useState(false)\n\nreturn (\n  <div>\n    {/* 1. <button onClick={() => setAdd(true)}>+ Add Task</button> */}\n    {/* 2. <DialogAdd user={add} setUser={setAdd} /> */}\n  </div>\n)"
+        },
+        {
+          "path": "src/components/dialog/DialogAdd.tsx · форма ва фиристодани FormData",
+          "kind": "dialog",
+          "code": "import { useDispatch } from \"react-redux\"\nimport { AddData } from \"../../store/counterSlice\"\n\nconst DialogAdd = ({ user, setUser }: any) => {\n  const dispatch = useDispatch()\n\n  function AddUser(e: any) {\n    e.preventDefault()\n    const formData = new FormData()\n    formData.append(\"Name\", e.target.name.value)\n    formData.append(\"Description\", e.target.description.value)\n    for (const el of e.target.images.files) {\n      formData.append(\"Images\", el)\n    }\n    dispatch(AddData(formData))\n    setUser(null)\n  }\n\n  if (!user) return null\n\n  return (\n    <div className=\"fixed inset-0 bg-black/50 flex items-center justify-center\">\n      <form onSubmit={AddUser}>\n        <input name=\"name\" required placeholder=\"Title\" />\n        <input name=\"description\" required placeholder=\"Description\" />\n        <input type=\"file\" name=\"images\" multiple />\n        <button type=\"submit\">Add</button>\n        <button type=\"button\" onClick={() => setUser(null)}>Cancel</button>\n      </form>\n    </div>\n  )\n}\n\nexport default DialogAdd",
+          "practiceCode": "import { useDispatch } from \"react-redux\"\nimport { AddData } from \"../../store/counterSlice\"\n\nconst DialogAdd = ({ user, setUser }: any) => {\n  const dispatch = useDispatch()\n\n  function AddUser(e: any) {\n    e.preventDefault()\n    \n  }\n\n  if (!user) return null\n\n  return (\n    <div>\n      \n    </div>\n  )\n}\n\nexport default DialogAdd",
+          "hintCode": "import { useDispatch } from \"react-redux\"\nimport { AddData } from \"../../store/counterSlice\"\n\nconst DialogAdd = ({ user, setUser }: any) => {\n  const dispatch = useDispatch()\n\n  function AddUser(e: any) {\n    e.preventDefault()\n    // 1. const formData = new FormData()\n    // 2. formData.append(\"Name\", e.target.name.value)\n    // 3. formData.append(\"Description\", e.target.description.value)\n    // 4. for (const el of e.target.images.files) formData.append(\"Images\", el)\n    // 5. dispatch(AddData(formData))\n    // 6. setUser(null)\n  }\n\n  if (!user) return null\n\n  return (\n    <div className=\"fixed inset-0 bg-black/50 flex items-center justify-center\">\n      {/* формаи input name, description, images ва submit button */}\n    </div>\n  )\n}\n\nexport default DialogAdd"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/components/dialog/DialogAdd.tsx",
+          "code": "function AddUser(e) {\n  e.preventDefault()\n  const formData = new FormData()\n  formData.append(\"Name\", e.target.name.value)\n  formData.append(\"Description\", e.target.description.value)\n  for (const el of e.target.images.files) {\n    formData.append(\"Images\", el)\n  }\n  dispatch(AddData(formData))\n  setUser(null)\n}",
+          "practiceCode": "function AddUser(e) {\n  e.preventDefault()\n  // STEP 1: new FormData() соз ва Name, Description, Images-ро append кун\n  const formData = new FormData()\n  formData.append(\"Name\", e.target.name.value)\n  formData.append(\"Description\", e.target.description.value)\n  for (const el of e.target.images.files) {\n    formData.append(\"Images\", el)\n  }\n  // STEP 2: dispatch(AddData(formData))\n  dispatch(AddData(formData))\n  setUser(null)\n}"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Форма submit",
+          "DialogAdd.tsx маълумоти корбарро ба FormData мебандад.",
+          "new FormData() + append"
+        ],
+        [
+          "2",
+          "dispatch(AddData)",
+          "FormData ба thunk-и AddData фиристода мешавад.",
+          "dispatch(AddData(formData))"
+        ],
+        [
+          "3",
+          "axios.post",
+          "Запрос ба сервер меравад.",
+          "await axios.post(api, user)"
+        ],
+        [
+          "4",
+          "dispatch(getData())",
+          "Пас аз сабт, рӯйхати нав фавран хонда мешавад.",
+          "dispatch(getData())"
+        ]
+      ],
+      "memory": "FormData → dispatch(AddData) → axios.post → dispatch(getData()).",
+      "practice": "Реҷаи «Практика»-ро фаъол карда, баданаи AddData ва AddUser-ро аз нав навис.",
+      "concepts": [
+        [
+          "FormData",
+          "Web API-и Браузер",
+          "Browser",
+          "Барои фиристодани файлҳо ва матнҳо дар як multipart дархост",
+          "Бе FormData расмҳо ба сервер боргузорӣ намешаванд."
+        ],
+        [
+          "{ dispatch } дар thunk",
+          "thunkAPI",
+          "Redux Toolkit",
+          "Барои он ки мустақиман аз даруни thunk дигар action-ро даъват кунем",
+          "Бе ин бояд component алоҳида дубора getData-ро даъват мекард."
+        ]
+      ],
+      "relationNote": "DialogAdd.tsx мустақиман AddData-ро dispatch мекунад ва равзана пӯшида мешавад."
+    },
+    "r-put": {
+      "group": "Redux",
+      "title": "PUT · EditData & isCompleted",
+      "method": "PUT",
+      "files": [
+        "src/store/counterSlice.ts",
+        "src/pages/Redux.tsx",
+        "src/components/dialog/DialogEdit.tsx"
+      ],
+      "intro": "Ду намуди таҳрир: EditData барои тағйири ному тавсиф ва isCompleted барои чекбокси иҷрошавӣ (online/offline). Ҳарду бо axios.put кор мекунанд ва рӯйхатро бо dispatch(getData()) нав мекунанд.",
+      "blocks": [
+        {
+          "path": "src/store/counterSlice.ts · EditData ва isCompleted thunks",
+          "kind": "operation",
+          "code": "export const EditData = createAsyncThunk(\"todo/EditData\", async (user, { dispatch }) => {\n    try {\n        await axios.put(api, user)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n\nexport const isCompleted = createAsyncThunk(\"todo/isComplete\", async (id, { dispatch }) => {\n    try {\n        await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})",
+          "practiceCode": "export const EditData = createAsyncThunk(\"todo/EditData\", async (user, { dispatch }) => {\n  \n})\n\nexport const isCompleted = createAsyncThunk(\"todo/isComplete\", async (id, { dispatch }) => {\n  \n})",
+          "hintCode": "export const EditData = createAsyncThunk(\"todo/EditData\", async (user, { dispatch }) => {\n    // 1. await axios.put(api, user)\n    // 2. dispatch(getData())\n})\n\nexport const isCompleted = createAsyncThunk(\"todo/isComplete\", async (id, { dispatch }) => {\n    // 1. await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n    // 2. dispatch(getData())\n})"
+        },
+        {
+          "path": "src/pages/Redux.tsx · тугмаи Edit, чекбокс ва кушодани модал",
+          "kind": "usage",
+          "code": "import { useState } from \"react\"\nimport { useDispatch } from \"react-redux\"\nimport { isCompleted } from \"../store/counterSlice\"\nimport DialogEdit from \"../components/dialog/DialogEdit\"\n\n// Дар дохили компоненти Redux:\nconst dispatch = useDispatch()\nconst [edit, setEdit] = useState<any>(null)\n\nreturn (\n  <div>\n    {/* Тугмаи таҳрир */}\n    <button onClick={() => setEdit(el)}>\n      Edit\n    </button>\n\n    {/* Чекбокси ба итмом расидан */}\n    <input\n      type=\"checkbox\"\n      checked={el.isCompleted}\n      onChange={() => dispatch(isCompleted(el.id))}\n    />\n\n    <DialogEdit user={edit} setUser={setEdit} />\n  </div>\n)",
+          "practiceCode": "// Дар дохили компоненти Redux:\nconst dispatch = useDispatch()\nconst [edit, setEdit] = useState<any>(null)\n\nreturn (\n  <div>\n    \n  </div>\n)",
+          "hintCode": "// Дар дохили компоненти Redux:\nconst dispatch = useDispatch()\nconst [edit, setEdit] = useState<any>(null)\n\nreturn (\n  <div>\n    {/* 1. <button onClick={() => setEdit(el)}>Edit</button> */}\n    {/* 2. <input type=\"checkbox\" checked={el.isCompleted} onChange={() => dispatch(isCompleted(el.id))} /> */}\n    {/* 3. <DialogEdit user={edit} setUser={setEdit} /> */}\n  </div>\n)"
+        },
+        {
+          "path": "src/components/dialog/DialogEdit.tsx · таҳрири маълумот",
+          "kind": "dialog",
+          "code": "import { useDispatch } from \"react-redux\"\nimport { EditData } from \"../../store/counterSlice\"\n\nconst DialogEdit = ({ user, setUser }: any) => {\n  const dispatch = useDispatch()\n\n  function EditUser(e: any) {\n    e.preventDefault()\n    const editobj = {\n      id: user.id,\n      name: e.target.name.value,\n      description: e.target.description.value,\n    }\n    dispatch(EditData(editobj))\n    setUser(null)\n  }\n\n  if (!user) return null\n\n  return (\n    <div className=\"fixed inset-0 bg-black/50 flex items-center justify-center\">\n      <form onSubmit={EditUser}>\n        <input name=\"name\" defaultValue={user.name} placeholder=\"Title\" />\n        <input name=\"description\" defaultValue={user.description} placeholder=\"Description\" />\n        <button type=\"submit\">Save</button>\n        <button type=\"button\" onClick={() => setUser(null)}>Cancel</button>\n      </form>\n    </div>\n  )\n}\n\nexport default DialogEdit",
+          "practiceCode": "import { useDispatch } from \"react-redux\"\nimport { EditData } from \"../../store/counterSlice\"\n\nconst DialogEdit = ({ user, setUser }: any) => {\n  const dispatch = useDispatch()\n\n  function EditUser(e: any) {\n    e.preventDefault()\n    \n  }\n\n  if (!user) return null\n\n  return (\n    <div>\n      \n    </div>\n  )\n}\n\nexport default DialogEdit",
+          "hintCode": "import { useDispatch } from \"react-redux\"\nimport { EditData } from \"../../store/counterSlice\"\n\nconst DialogEdit = ({ user, setUser }: any) => {\n  const dispatch = useDispatch()\n\n  function EditUser(e: any) {\n    e.preventDefault()\n    // 1. const editobj = { id: user.id, name: e.target.name.value, description: e.target.description.value }\n    // 2. dispatch(EditData(editobj))\n    // 3. setUser(null)\n  }\n\n  if (!user) return null\n\n  return (\n    <div className=\"fixed inset-0 bg-black/50 flex items-center justify-center\">\n      {/* input name ва description бо defaultValue={user.name} */}\n    </div>\n  )\n}\n\nexport default DialogEdit"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/components/dialog/DialogEdit.tsx",
+          "code": "function EditUser(e) {\n  e.preventDefault()\n  const editobj = {\n    id: user.id,\n    name: e.target.name.value,\n    description: e.target.description.value,\n  }\n  dispatch(EditData(editobj))\n  setUser(null)\n}",
+          "practiceCode": "function EditUser(e) {\n  e.preventDefault()\n  // STEP: editobj соз ва dispatch(EditData(editobj)) кун\n  const editobj = { id: user.id, name: e.target.name.value, description: e.target.description.value }\n  dispatch(EditData(editobj))\n  setUser(null)\n}"
+        },
+        {
+          "path": "src/pages/Redux.tsx · чекбокс",
+          "code": "<input\n  type=\"checkbox\"\n  checked={el.isCompleted}\n  onChange={() => dispatch(isCompleted(el.id))}\n/>",
+          "practiceCode": "<input\n  type=\"checkbox\"\n  checked={el.isCompleted}\n  onChange={() => dispatch(isCompleted(el.id))}\n/>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Форма / Чекбокс",
+          "Корбар матнро таҳрир мекунад ё чекбоксро мепарронад.",
+          "EditUser ё onChange"
+        ],
+        [
+          "2",
+          "dispatch(EditData / isCompleted)",
+          "Маълумоти нав ба thunk меравад.",
+          "dispatch(EditData(editobj))"
+        ],
+        [
+          "3",
+          "axios.put",
+          "Дархости PUT ба сервери API ирсол мешавад.",
+          "axios.put(...)"
+        ],
+        [
+          "4",
+          "dispatch(getData())",
+          "Рӯйхат аз нав боргирӣ шуда, UI фавран нав мешавад.",
+          "dispatch(getData())"
+        ]
+      ],
+      "memory": "editobj → axios.put → dispatch(getData()) → UI нав мешавад.",
+      "practice": "Фарқи байни EditData ва isCompleted-ро назар андоз ва кӯшиш кун ҳардуро худат нависӣ.",
+      "concepts": [
+        [
+          "axios.put",
+          "HTTP PUT",
+          "axios",
+          "Барои навсозии маълумоти аллакай вуҷуддошта дар сервер",
+          "Бе PUT тағйирот дар сервер сабт намешавад."
+        ]
+      ],
+      "relationNote": "Дар Redux.tsx ҳам модали DialogEdit ва ҳам чекбокси мустақими isCompleted кор мекунанд."
+    },
+    "r-delete": {
+      "group": "Redux",
+      "title": "DELETE · deleteData",
+      "method": "DELETE",
+      "files": [
+        "src/store/counterSlice.ts",
+        "src/pages/Redux.tsx"
+      ],
+      "intro": "deleteData вазифаро аз рӯйи id бо axios.delete(`${api}?id=${id}`) нест мекунад ва сипас бо dispatch(getData()) кортро аз экран мебардорад.",
+      "blocks": [
+        {
+          "path": "src/store/counterSlice.ts · deleteData thunk",
+          "kind": "operation",
+          "code": "export const deleteData = createAsyncThunk(\"todo/deleteData\", async (id, { dispatch }) => {\n    try {\n        await axios.delete(`${api}?id=${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})",
+          "practiceCode": "export const deleteData = createAsyncThunk(\"todo/deleteData\", async (id, { dispatch }) => {\n  \n})",
+          "hintCode": "export const deleteData = createAsyncThunk(\"todo/deleteData\", async (id, { dispatch }) => {\n    // 1. await axios.delete(`${api}?id=${id}`)\n    // 2. dispatch(getData()) — барои нав шудани рӯйхат\n})"
+        },
+        {
+          "path": "src/pages/Redux.tsx · тугмаи Delete ва dispatch",
+          "kind": "usage",
+          "code": "import { useDispatch } from \"react-redux\"\nimport { deleteData } from \"../store/counterSlice\"\n\n// Дар дохили .map() ҳар як корти todo:\n<button\n  onClick={() => dispatch(deleteData(el.id))}\n  className=\"px-3 py-1 bg-red-50 text-red-600 rounded-lg\"\n>\n  Delete\n</button>",
+          "practiceCode": "// Дар дохили .map() ҳар як корти todo:\n<button onClick={() => {}}>\n  Delete\n</button>",
+          "hintCode": "// 1. onClick={() => dispatch(deleteData(el.id))}"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Redux.tsx",
+          "code": "<button onClick={() => dispatch(deleteData(el.id))}>\n  Delete\n</button>",
+          "practiceCode": "<button onClick={() => dispatch(deleteData(el.id))}>\n  Delete\n</button>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Клик ба Delete",
+          "Корбар тугмаи Delete-ро пахш мекунад.",
+          "dispatch(deleteData(el.id))"
+        ],
+        [
+          "2",
+          "axios.delete",
+          "Запрос ба сервер меравад ва сабт тоза мешавад.",
+          "axios.delete(`${api}?id=${id}`)"
+        ],
+        [
+          "3",
+          "dispatch(getData())",
+          "Рӯйхати тозашуда боз аз нав хонда мешавад.",
+          "dispatch(getData())"
+        ]
+      ],
+      "memory": "el.id → dispatch(deleteData) → axios.delete → dispatch(getData()).",
+      "practice": "Барои санҷиши хотира реҷаи «Практика»-ро фаъол намо.",
+      "concepts": [
+        [
+          "axios.delete",
+          "HTTP DELETE",
+          "axios",
+          "Барои нест кардани маълумот дар сервери backend",
+          "Бе ин маълумот танҳо дар UI нест мешуд ва бо refresh бозмегашт."
+        ]
+      ],
+      "relationNote": "Ҳар як корти todo дар Redux.tsx тугмаи Delete дорад."
+    },
+    "r-add-img": {
+      "group": "Redux",
+      "title": "ADD IMG · AddImgData",
+      "method": "ADD IMG",
+      "files": [
+        "src/store/counterSlice.ts",
+        "src/pages/Redux.tsx"
+      ],
+      "intro": "AddImgData расмҳои интихобшударо бо FormData гирифта, бо POST ба ${api}/${id}/images мефиристад ва баъд dispatch(getByIdData(id)) мекунад.",
+      "blocks": [
+        {
+          "path": "src/store/counterSlice.ts · AddImgData thunk",
+          "kind": "operation",
+          "code": "export const AddImgData = createAsyncThunk(\"todo/AddImgData\", async ({ id, file }, { dispatch }) => {\n    const formData = new FormData()\n    for (let i = 0; i < file.length; i++) {\n        formData.append(\"Images\", file[i])\n    }\n    try {\n        await axios.post(`${api}/${id}/images`, formData)\n        dispatch(getByIdData(id))\n    } catch (error) {\n        console.error(error);\n    }\n})",
+          "practiceCode": "export const AddImgData = createAsyncThunk(\"todo/AddImgData\", async ({ id, file }, { dispatch }) => {\n  \n})",
+          "hintCode": "export const AddImgData = createAsyncThunk(\"todo/AddImgData\", async ({ id, file }, { dispatch }) => {\n    // 1. const formData = new FormData()\n    // 2. for (let i = 0; i < file.length; i++) formData.append(\"Images\", file[i])\n    // 3. await axios.post(`${api}/${id}/images`, formData)\n    // 4. dispatch(getByIdData(id))\n})"
+        },
+        {
+          "path": "src/pages/Redux.tsx · инпути интихоби файл ва dispatch",
+          "kind": "usage",
+          "code": "import { useDispatch } from \"react-redux\"\nimport { AddImgData } from \"../store/counterSlice\"\n\n<input\n  type=\"file\"\n  onChange={(e) =>\n    dispatch(AddImgData({ id: el.id, file: e.target.files }))\n  }\n/>",
+          "practiceCode": "<input\n  type=\"file\"\n  onChange={(e) => {}}\n/>",
+          "hintCode": "// dispatch(AddImgData({ id: el.id, file: e.target.files }))"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Redux.tsx",
+          "code": "<input\n  type=\"file\"\n  onChange={(e) =>\n    dispatch(AddImgData({ id: el.id, file: e.target.files }))\n  }\n/>",
+          "practiceCode": "<input\n  type=\"file\"\n  onChange={(e) =>\n    dispatch(AddImgData({ id: el.id, file: e.target.files }))\n  }\n/>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Интихоби файл",
+          "Корбар дар корт файлро интихоб мекунад.",
+          "e.target.files"
+        ],
+        [
+          "2",
+          "dispatch(AddImgData)",
+          "ID ва файлҳо ба thunk фиристода мешаванд.",
+          "dispatch(AddImgData({ id: el.id, file }))"
+        ],
+        [
+          "3",
+          "axios.post",
+          "Расмҳо ба ${api}/${id}/images боргузорӣ мешаванд.",
+          "axios.post(url, formData)"
+        ],
+        [
+          "4",
+          "dispatch(getByIdData(id))",
+          "Маълумоти вазифа бо расмҳои нав аз нав навсозӣ мешавад.",
+          "dispatch(getByIdData(id))"
+        ]
+      ],
+      "memory": "file → FormData.append('Images') → axios.post → dispatch(getByIdData).",
+      "practice": "Бо истифода аз «Практика» мантиқи loop-и файлҳоро аз хотира навис.",
+      "concepts": [
+        [
+          "formData.append('Images')",
+          "FormData",
+          "Browser",
+          "Сервер майдони Images-ро дар шакли массив интизор аст",
+          "Агар номи калид Images набошад, backend қабул намекунад."
+        ]
+      ],
+      "relationNote": "Дар Redux.tsx дар дохили ҳар як корт input-и type='file' мавҷуд аст."
+    },
+    "r-info": {
+      "group": "Redux",
+      "title": "INFO · getByIdData",
+      "method": "INFO",
+      "files": [
+        "src/store/counterSlice.ts",
+        "src/pages/Redux.tsx",
+        "src/pages/Info.tsx"
+      ],
+      "intro": "getByIdData вазифаро бо тамоми тафсилоташ аз рӯйи ID мегирад ва дар state.todoinfo сабт мекунад. Дар саҳифаи Info.tsx он бо useSelector хонда мешавад.",
+      "blocks": [
+        {
+          "path": "src/store/counterSlice.ts · getByIdData thunk ва extraReducers",
+          "kind": "operation",
+          "code": "export const getByIdData = createAsyncThunk(\"todo/getByIdData\", async (id) => {\n    try {\n        const { data } = await axios.get(`${api}/${id}`)\n        return data.data\n    } catch (error) {\n        console.error(error);\n    }\n})\n\n// extraReducers:\nbuilder.addCase(getByIdData.fulfilled, (state, action) => {\n    state.todoinfo = action.payload\n    state.isLoading = false\n})",
+          "practiceCode": "export const getByIdData = createAsyncThunk(\"todo/getByIdData\", async (id) => {\n  \n})\n\n// extraReducers:\nbuilder.addCase(getByIdData.fulfilled, (state, action) => {\n  \n})",
+          "hintCode": "export const getByIdData = createAsyncThunk(\"todo/getByIdData\", async (id) => {\n    // 1. const { data } = await axios.get(`${api}/${id}`)\n    // 2. return data.data\n})\n\n// extraReducers:\nbuilder.addCase(getByIdData.fulfilled, (state, action) => {\n    // state.todoinfo = action.payload\n    // state.isLoading = false\n})"
+        },
+        {
+          "path": "src/pages/Redux.tsx · клики info ва navigate",
+          "kind": "usage",
+          "code": "import { useDispatch } from \"react-redux\"\nimport { useNavigate } from \"react-router\"\nimport { getByIdData } from \"../store/counterSlice\"\n\nconst dispatch = useDispatch()\nconst navigate = useNavigate()\n\nconst handleInfo = (id: any) => {\n  dispatch(getByIdData(id))\n  navigate(\"/info\")\n}\n\n<button onClick={() => handleInfo(el.id)}>\n  Info\n</button>",
+          "practiceCode": "const handleInfo = (id: any) => {\n  \n}\n\n<button onClick={() => handleInfo(el.id)}>\n  Info\n</button>",
+          "hintCode": "const handleInfo = (id: any) => {\n  // 1. dispatch(getByIdData(id))\n  // 2. navigate(\"/info\")\n}"
+        },
+        {
+          "path": "src/pages/Info.tsx · гирифтани todoinfo ва намоиши маълумот",
+          "kind": "usage",
+          "code": "import { useSelector } from \"react-redux\"\nimport { useNavigate } from \"react-router\"\n\nconst Info = () => {\n  const navigate = useNavigate()\n  const { todoinfo, isLoading } = useSelector((store: any) => store.todo)\n\n  if (isLoading) return <h1>Loading...</h1>\n  if (!todoinfo) return <p>Ягон todo интихоб нашудааст</p>\n\n  return (\n    <div>\n      <button onClick={() => navigate(-1)}>&larr; Баргаштан</button>\n      <h1>{todoinfo.name}</h1>\n      <p>{todoinfo.description}</p>\n      <div>\n        {todoinfo.images?.map((img: any) => (\n          <img key={img.id} src={\"https://to-dos-api.softclub.tj/images/\" + img.imageName} alt=\"\" />\n        ))}\n      </div>\n    </div>\n  )\n}\n\nexport default Info",
+          "practiceCode": "const Info = () => {\n  const { todoinfo, isLoading } = useSelector((store: any) => store.todo)\n  \n  return (\n    <div>\n      \n    </div>\n  )\n}\n\nexport default Info",
+          "hintCode": "// 1. const { todoinfo, isLoading } = useSelector((store: any) => store.todo)\n// 2. if (isLoading) return <h1>Loading...</h1>\n// 3. todoinfo.name, todoinfo.description, todoinfo.images?.map(...)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Redux.tsx",
+          "code": "const handleInfo = (id) => {\n  dispatch(getByIdData(id))\n  navigate(\"/info\")\n}\n\n<button onClick={() => handleInfo(el.id)}>info</button>",
+          "practiceCode": "const handleInfo = (id) => {\n  // STEP: dispatch getByIdData ва navigate ба /info\n  dispatch(getByIdData(id))\n  navigate(\"/info\")\n}"
+        },
+        {
+          "path": "src/pages/Info.tsx",
+          "code": "const { todoinfo, isLoading } = useSelector((store) => store.todo)\nconst todo = todoinfo\n\nreturn (\n  <div>\n    <h1>{todo.name}</h1>\n    <p>{todo.description}</p>\n  </div>\n)",
+          "practiceCode": "const { todoinfo, isLoading } = useSelector((store) => store.todo)\nconst todo = todoinfo"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "handleInfo(id)",
+          "Клик ба тугмаи info: getByIdData dispatch мешавад.",
+          "dispatch(getByIdData(id))"
+        ],
+        [
+          "2",
+          "navigate('/info')",
+          "Корбар ба саҳифаи Info мегузарад.",
+          "navigate('/info')"
+        ],
+        [
+          "3",
+          "axios.get(`${api}/${id}`)",
+          "Сервер маълумоти пурраи ҳамон todo-ро мефиристад.",
+          "axios.get(...)"
+        ],
+        [
+          "4",
+          "state.todoinfo",
+          "extraReducers маълумотро ба todoinfo мегузорад.",
+          "state.todoinfo = action.payload"
+        ],
+        [
+          "5",
+          "Info.tsx",
+          "Саҳифа маълумотро аз todoinfo мехонад ва render мекунад.",
+          "useSelector((store) => store.todo)"
+        ]
+      ],
+      "memory": "id → dispatch(getByIdData) → fulfilled → state.todoinfo → Info.tsx.",
+      "practice": "Пайвастшавии handleInfo ва хондани todoinfo-ро дар Info.tsx практика кун.",
+      "concepts": [
+        [
+          "todoinfo",
+          "initialState дар counterSlice",
+          "Кодгузор",
+          "Майдон барои нигоҳдории як вазифаи интихобшуда",
+          "Агар набошад, саҳифаи Info намедонад кадом маълумотро нишон диҳад."
+        ]
+      ],
+      "relationNote": "Redux.tsx navigate('/info') мекунад ва Info.tsx todoinfo-ро мехонад."
+    },
+    "r-search": {
+      "group": "Redux",
+      "title": "SEARCH · Ҷустуҷӯ",
+      "method": "SEARCH",
+      "files": [
+        "src/pages/Redux.tsx",
+        "src/store/counterSlice.ts"
+      ],
+      "intro": "Ҷустуҷӯ ба воситаи параметри query дар URL-и API кор мекунад. Дар Redux.tsx state-и search мавҷуд буда, ба thunk-и getData({ search, page }) дода мешавад.",
+      "blocks": [
+        {
+          "path": "src/pages/Redux.tsx · инпути ҷустуҷӯ ва state",
+          "kind": "usage",
+          "code": "const [search, setSearch] = useState(\"\")\nconst [page, setPage] = useState(1)\n\n<input\n  type=\"text\"\n  value={search}\n  onChange={(e) => {\n    setSearch(e.target.value)\n    setPage(1)\n  }}\n  placeholder=\"Search...\"\n/>\n\nuseEffect(() => {\n  dispatch(getData({ search, page }))\n}, [dispatch, search, page])",
+          "practiceCode": "const [search, setSearch] = useState(\"\")\nconst [page, setPage] = useState(1)\n\n<input\n  type=\"text\"\n  value={search}\n  onChange={(e) => {}}\n/>",
+          "hintCode": "// 1. setSearch(e.target.value)\n// 2. setPage(1) — ҷустуҷӯро аз саҳифаи 1 сар кардан"
+        },
+        {
+          "path": "src/store/counterSlice.ts · истифодаи search дар query URL",
+          "kind": "operation",
+          "code": "export const getData = createAsyncThunk(\"todo/getData\", async (params = {}) => {\n    const search = params?.search || \"\"\n    const page = params?.page || 1\n    const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n    return data.data\n})",
+          "practiceCode": "export const getData = createAsyncThunk(\"todo/getData\", async (params = {}) => {\n  \n})",
+          "hintCode": "// axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Redux.tsx",
+          "code": "const [search, setSearch] = useState(\"\")\n\n<input\n  type=\"text\"\n  value={search}\n  onChange={(e) => {\n    setSearch(e.target.value)\n    setPage(1)\n  }}\n  placeholder=\"Search...\"\n/>\n\nuseEffect(() => {\n  dispatch(getData({ search, page }))\n}, [dispatch, search, page])",
+          "practiceCode": "// STEP: setSearch(e.target.value) ва setPage(1)\n<input\n  type=\"text\"\n  value={search}\n  onChange={(e) => {\n    setSearch(e.target.value)\n    setPage(1)\n  }}\n/>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Инпут тағйир меёбад",
+          "Корбар дар инпут менависад: setSearch ва setPage(1).",
+          "setSearch(e.target.value)"
+        ],
+        [
+          "2",
+          "useEffect",
+          "search дар dependency аст, бинобар ин dispatch даъват мешавад.",
+          "dispatch(getData({ search, page }))"
+        ],
+        [
+          "3",
+          "API Query",
+          "Сервер бо калимаи ҷустуҷӯшаванда натиҷаҳоро филтр мекунад.",
+          "?query=${search}"
+        ]
+      ],
+      "memory": "setSearch → useEffect → dispatch(getData({ search })) → ?query=${search}.",
+      "practice": "Мантиқи setPage(1)-ро дар хотир гир ва дар амал санҷ.",
+      "concepts": [
+        [
+          "setPage(1)",
+          "useState",
+          "React",
+          "Ҳангоми ҷустуҷӯ саҳифаро ба саҳифаи 1 бармегардонад",
+          "Агар ин набошад, натиҷаҳо дар саҳифаҳои холӣ мемонанд."
+        ]
+      ],
+      "relationNote": "Ҷустуҷӯ мустақиман дар дохили thunk-и асосии getData иҷро мешавад."
+    },
+    "r-pagination": {
+      "group": "Redux",
+      "title": "PAGINATION · Саҳифабандӣ",
+      "method": "PAGINATION",
+      "files": [
+        "src/pages/Redux.tsx",
+        "src/store/counterSlice.ts"
+      ],
+      "intro": "Саҳифабандӣ бо ?PageNumber=${page}&PageSize=4 кор мекунад. Дар Redux.tsx тугмаҳои Prev ва Next рақами page-ро иваз мекунанд.",
+      "blocks": [
+        {
+          "path": "src/pages/Redux.tsx · тугмаҳои саҳифабандӣ",
+          "kind": "usage",
+          "code": "const [page, setPage] = useState(1)\n\n<div className=\"flex items-center gap-2\">\n  <button onClick={() => setPage((p) => Math.max(1, p - 1))}>\n    Ба қафо\n  </button>\n  <span>Саҳифа: {page}</span>\n  <button onClick={() => setPage((p) => p + 1)}>\n    Ба пеш\n  </button>\n</div>",
+          "practiceCode": "const [page, setPage] = useState(1)\n\n<div>\n  \n</div>",
+          "hintCode": "// 1. setPage(p => Math.max(1, p - 1))\n// 2. setPage(p => p + 1)"
+        },
+        {
+          "path": "src/store/counterSlice.ts · PageNumber дар axios.get",
+          "kind": "operation",
+          "code": "const page = params?.page || 1\nconst { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)",
+          "practiceCode": "//",
+          "hintCode": "// PageNumber=${page}&PageSize=4"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Redux.tsx",
+          "code": "const [page, setPage] = useState(1)\n\n<button\n  disabled={page <= 1}\n  onClick={() => setPage((p) => Math.max(1, p - 1))}\n>\n  &larr; Prev\n</button>\n<span>Page {page}</span>\n<button\n  disabled={!data || data.length < 4}\n  onClick={() => setPage((p) => p + 1)}\n>\n  Next &rarr;\n</button>",
+          "practiceCode": "// STEP: Тугмаҳои Prev ва Next бо шартҳои disabled\n<button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</button>\n<button disabled={!data || data.length < 4} onClick={() => setPage((p) => p + 1)}>Next</button>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Клик ба Next / Prev",
+          "Қимати page зиёд ё кам мешавад.",
+          "setPage((p) => p + 1)"
+        ],
+        [
+          "2",
+          "useEffect",
+          "Азбаски page нав шуд, getData бо саҳифаи нав dispatch мешавад.",
+          "dispatch(getData({ search, page }))"
+        ],
+        [
+          "3",
+          "PageNumber дар API",
+          "Сервер 4 дона вазифаи саҳифаи навшударо мефиристад.",
+          "&PageNumber=${page}&PageSize=4"
+        ]
+      ],
+      "memory": "setPage → useEffect → dispatch(getData({ page })) → PageNumber=${page}.",
+      "practice": "Шарти disabled={!data || data.length < 4}-ро таҳлил кун.",
+      "concepts": [
+        [
+          "PageSize=4",
+          "Query Param",
+          "API",
+          "Дар як саҳифа на зиёда аз 4 вазифа мефиристад",
+          "Бе ин ҳамаи маълумот якбора омада метавонад."
+        ]
+      ],
+      "relationNote": "Саҳифабандӣ ва ҷустуҷӯ якҷоя дар thunk-и getData кор мекунанд."
+    },
+    "r-delete-img": {
+      "group": "Redux",
+      "title": "DELETE IMG · deleteImgData",
+      "method": "DELETE IMG",
+      "files": [
+        "src/store/counterSlice.ts",
+        "src/pages/Redux.tsx"
+      ],
+      "intro": "deleteImgData расмро бо axios.delete(`${api}/images/${id}`) нест мекунад ва фавран бо dispatch(getData()) рӯйхатро нав месозад.",
+      "blocks": [
+        {
+          "path": "src/store/counterSlice.ts · deleteImgData thunk",
+          "kind": "operation",
+          "code": "export const deleteImgData = createAsyncThunk(\"todo/deleteImgData\", async (id, { dispatch }) => {\n    try {\n        await axios.delete(`${api}/images/${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})",
+          "practiceCode": "export const deleteImgData = createAsyncThunk(\"todo/deleteImgData\", async (id, { dispatch }) => {\n  \n})",
+          "hintCode": "export const deleteImgData = createAsyncThunk(\"todo/deleteImgData\", async (id, { dispatch }) => {\n    // 1. await axios.delete(`${api}/images/${id}`)\n    // 2. dispatch(getData())\n})"
+        },
+        {
+          "path": "src/pages/Redux.tsx · тугмаи нест кардани расм",
+          "kind": "usage",
+          "code": "import { useDispatch } from \"react-redux\"\nimport { deleteImgData } from \"../store/counterSlice\"\n\n<button\n  onClick={() => dispatch(deleteImgData(img.id))}\n  className=\"bg-red-600 text-white text-xs px-2.5 py-1 rounded\"\n>\n  Delete\n</button>",
+          "practiceCode": "<button onClick={() => {}}>\n  Delete\n</button>",
+          "hintCode": "// onClick={() => dispatch(deleteImgData(img.id))}"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Redux.tsx",
+          "code": "<button onClick={() => dispatch(deleteImgData(img.id))}>\n  Delete\n</button>",
+          "practiceCode": "<button onClick={() => dispatch(deleteImgData(img.id))}>\n  Delete\n</button>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Клик дар расм",
+          "Корбар тугмаи Delete-и аксро пахш мекунад.",
+          "dispatch(deleteImgData(img.id))"
+        ],
+        [
+          "2",
+          "axios.delete",
+          "Файл аз сервер пок мешавад.",
+          "axios.delete(`${api}/images/${id}`)"
+        ],
+        [
+          "3",
+          "dispatch(getData())",
+          "Рӯйхат нав мешавад.",
+          "dispatch(getData())"
+        ]
+      ],
+      "memory": "img.id → axios.delete(/images/id) → dispatch(getData()).",
+      "practice": "Дар реҷаи «Практика» баданаи ин thunk-ро худат навис.",
+      "concepts": [
+        [
+          "img.id",
+          "Массиви images дар todo",
+          "Сервер",
+          "ID-и шахсии худи акс (на ID-и todo)",
+          "Агар ID-и акс набошад, сервер намедонад кадом расмро нест кунад."
+        ]
+      ],
+      "relationNote": "Ҳар як расм дар корт тугмаи алоҳидаи Delete дорад."
+    },
+    "z-setup": {
+      "group": "Zustand",
+      "title": "Файли асосии Zustand",
+      "method": "SETUP",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx"
+      ],
+      "intro": "Store-и ягонаи Zustand бо create((set, get) => ({ ... })) сохта шудааст. Ҳамаи амалиётҳо дар як ҷо қарор доранд.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · сохтани store бо create",
+          "kind": "store",
+          "code": "import { create } from \"zustand\"\nimport axios from \"axios\"\n\nlet api = \"https://to-dos-api.softclub.tj/api/to-dos\"\n\nexport const useTodoStore = create((set, get) => ({\n  data: [],\n  isLoading: false,\n  infoUser: null,\n  \n  getData: async (params = {}) => {\n    set({ isLoading: true })\n    const search = params?.search || \"\"\n    const page = params?.page || 1\n    const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n    set({ data: data.data, isLoading: false })\n  },\n}))",
+          "practiceCode": "import { create } from \"zustand\"\nimport axios from \"axios\"\n\nexport const useTodoStore = create((set, get) => ({\n  \n}))",
+          "hintCode": "import { create } from \"zustand\"\nimport axios from \"axios\"\n\nexport const useTodoStore = create((set, get) => ({\n  // 1. data: [], isLoading: false, infoUser: null\n  // 2. getData: async (params = {}) => { ... }\n}))"
+        },
+        {
+          "path": "src/pages/Zustand.tsx · истифодаи хуки useTodoStore",
+          "kind": "usage",
+          "code": "import { useEffect } from \"react\"\nimport { useTodoStore } from \"../store/useTodoStore\"\n\nconst Zustand = () => {\n  const { data, isLoading, getData } = useTodoStore()\n\n  useEffect(() => {\n    getData({ search: \"\", page: 1 })\n  }, [])\n\n  return (\n    <div>\n      <h1>Zustand To-Do</h1>\n      {data?.map((el: any) => (\n        <div key={el.id}>{el.name}</div>\n      ))}\n    </div>\n  )\n}\n\nexport default Zustand",
+          "practiceCode": "const Zustand = () => {\n  \n  return (\n    <div>\n      \n    </div>\n  )\n}\n\nexport default Zustand",
+          "hintCode": "// 1. const { data, isLoading, getData } = useTodoStore()\n// 2. useEffect(() => { getData() }, [])\n// 3. data?.map((el) => ...)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "create((set, get))",
+          "Zustand hook месозад: set барои update ва get барои хондан.",
+          "create((set, get) => ({ ... }))"
+        ],
+        [
+          "2",
+          "State",
+          "data: [] ва infoUser: null.",
+          "data: [], infoUser: null"
+        ],
+        [
+          "3",
+          "Методҳо",
+          "Ҳамаи функсияҳои API мустақиман дар дохили ҳамин як store ҳастанд.",
+          "getData, addData, deleteData..."
+        ]
+      ],
+      "memory": "create((set, get)) → state + actions дар як ҷо.",
+      "practice": "Сохтори create((set, get) => ({ ... }))-ро аз хотира навис.",
+      "concepts": [
+        [
+          "create",
+          "zustand",
+          "Zustand",
+          "Функсияи сохтани custom hook барои store",
+          "Бе create наметавонӣ store-и Zustand созӣ."
+        ],
+        [
+          "set",
+          "create callback",
+          "Zustand",
+          "Барои нав кардани state",
+          "Бе set ҳолати store-ро иваз карда наметавонӣ."
+        ],
+        [
+          "get",
+          "create callback",
+          "Zustand",
+          "Барои хондани state ва даъвати дигар функсияҳо",
+          "Бе get наметавонӣ get().getData() кунӣ."
+        ]
+      ],
+      "relationNote": "Дар Zustand ягон Provider лозим нест, hook дар ҳар компонент мустақиман даъват мешавад."
+    },
+    "z-get": {
+      "group": "Zustand",
+      "title": "GET · getData",
+      "method": "GET",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx"
+      ],
+      "intro": "getData дар Zustand бо axios.get маълумотро гирифта, бо set({ data: data.data }) state-ро нав мекунад.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · getData ва set",
+          "kind": "operation",
+          "code": "getData: async (params = {}) => {\n  set({ isLoading: true })\n  const search = params?.search || \"\"\n  const page = params?.page || 1\n  try {\n    const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n    set({ data: data.data, isLoading: false })\n  } catch (error) {\n    console.error(error)\n    set({ isLoading: false })\n  }\n}",
+          "practiceCode": "getData: async (params = {}) => {\n  \n}",
+          "hintCode": "getData: async (params = {}) => {\n  // 1. set({ isLoading: true })\n  // 2. const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n  // 3. set({ data: data.data, isLoading: false })\n}"
+        },
+        {
+          "path": "src/pages/Zustand.tsx · даъвати getData ва намоиш",
+          "kind": "usage",
+          "code": "import { useEffect } from \"react\"\nimport { useTodoStore } from \"../store/useTodoStore\"\n\nconst { data, getData, isLoading } = useTodoStore()\n\nuseEffect(() => {\n  getData({ search, page })\n}, [search, page])\n\nreturn (\n  <div>\n    {data?.map((el: any) => (\n      <div key={el.id}>\n        <h2>{el.name}</h2>\n        <p>{el.description}</p>\n      </div>\n    ))}\n  </div>\n)",
+          "practiceCode": "const { data, getData } = useTodoStore()\n\nuseEffect(() => {\n  \n}, [])",
+          "hintCode": "// 1. const { data, getData } = useTodoStore()\n// 2. useEffect(() => { getData({ search, page }) }, [search, page])\n// 3. data?.map(...)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Zustand.tsx",
+          "code": "const { data, getData } = useTodoStore()\n\nuseEffect(() => {\n  getData({ search, page })\n}, [search, page])",
+          "practiceCode": "const { data, getData } = useTodoStore()\n\nuseEffect(() => {\n  getData({ search, page })\n}, [search, page])"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "useTodoStore()",
+          "Component мустақиман data ва getData-ро мегирад.",
+          "const { data, getData } = useTodoStore()"
+        ],
+        [
+          "2",
+          "getData({ search, page })",
+          "Дар useEffect бо параметрҳо даъват мешавад.",
+          "getData({ search, page })"
+        ],
+        [
+          "3",
+          "axios.get",
+          "Дархост ба сервер фиристода мешавад.",
+          "axios.get(...)"
+        ],
+        [
+          "4",
+          "set({ data: data.data })",
+          "State нав мешавад ва React экрани корбарро нав мекунад.",
+          "set({ data: data.data })"
+        ]
+      ],
+      "memory": "useTodoStore → getData → axios.get → set({ data: data.data }).",
+      "practice": "Дар реҷаи «Практика» getData-ро навис.",
+      "concepts": [
+        [
+          "set({ data })",
+          "Zustand setter",
+          "Zustand",
+          "Фақат майдони data-ро иваз мекунад ва боқимондаро нигоҳ медорад",
+          "Бе ин наметавонӣ маълумотро ба store нависӣ."
+        ]
+      ],
+      "relationNote": "Zustand.tsx мустақиман { data, getData }-ро аз useTodoStore мегирад."
+    },
+    "z-post": {
+      "group": "Zustand",
+      "title": "POST · addData",
+      "method": "POST",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx",
+        "src/components/dialogZustand/DialogAddZustand.tsx"
+      ],
+      "intro": "addData вазифаи навро бо axios.post(api, newTodo) сабт карда, фавран бо get().getData() рӯйхатро нав мекунад.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · addData функсия",
+          "kind": "operation",
+          "code": "addData: async (user) => {\n  try {\n    await axios.post(api, user)\n    get().getData()\n  } catch (error) {\n    console.error(error)\n  }\n}",
+          "practiceCode": "addData: async (user) => {\n  \n}",
+          "hintCode": "addData: async (user) => {\n  // 1. await axios.post(api, user)\n  // 2. get().getData() — аз дохили худи store рӯйхатро нав мекунад!\n}"
+        },
+        {
+          "path": "src/pages/Zustand.tsx · тугмаи + Add Task",
+          "kind": "usage",
+          "code": "const [add, setAdd] = useState(false)\n\n<button onClick={() => setAdd(true)}>\n  + Add Task\n</button>\n\n<DialogAddZustand user={add} setUser={setAdd} />",
+          "practiceCode": "<button onClick={() => {}}>\n  + Add Task\n</button>",
+          "hintCode": "// onClick={() => setAdd(true)}"
+        },
+        {
+          "path": "src/components/dialogZustand/DialogAddZustand.tsx · FormData ва даъвати addData",
+          "kind": "dialog",
+          "code": "import { useTodoStore } from \"../../store/useTodoStore\"\n\nconst DialogAddZustand = ({ user, setUser }: any) => {\n  const addData = useTodoStore((state) => state.addData)\n\n  function AddUser(e: any) {\n    e.preventDefault()\n    const formData = new FormData()\n    formData.append(\"Name\", e.target.name.value)\n    formData.append(\"Description\", e.target.description.value)\n    for (const el of e.target.images.files) {\n      formData.append(\"Images\", el)\n    }\n    addData(formData)\n    setUser(null)\n  }\n\n  if (!user) return null\n\n  return (\n    <div className=\"modal\">\n      <form onSubmit={AddUser}>\n        <input name=\"name\" required placeholder=\"Title\" />\n        <input name=\"description\" required placeholder=\"Description\" />\n        <input type=\"file\" name=\"images\" multiple />\n        <button type=\"submit\">Add</button>\n      </form>\n    </div>\n  )\n}\n\nexport default DialogAddZustand",
+          "practiceCode": "const DialogAddZustand = ({ user, setUser }: any) => {\n  const addData = useTodoStore((state) => state.addData)\n\n  function AddUser(e: any) {\n    e.preventDefault()\n    \n  }\n\n  if (!user) return null\n  return <div></div>\n}",
+          "hintCode": "// 1. const formData = new FormData()\n// 2. append Name, Description, Images\n// 3. addData(formData)\n// 4. setUser(null)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/components/dialogZustand/DialogAddZustand.tsx",
+          "code": "const addData = useTodoStore((state) => state.addData)\n\nfunction AddUser(e) {\n  e.preventDefault()\n  const formData = new FormData()\n  formData.append(\"Name\", e.target.name.value)\n  formData.append(\"Description\", e.target.description.value)\n  for (const el of e.target.images.files) {\n    formData.append(\"Images\", el)\n  }\n  addData(formData)\n  setUser(null)\n}",
+          "practiceCode": "const addData = useTodoStore((state) => state.addData)\n\nfunction AddUser(e) {\n  e.preventDefault()\n  // STEP: FormData соз ва addData(formData) даъват кун\n  const formData = new FormData()\n  formData.append(\"Name\", e.target.name.value)\n  formData.append(\"Description\", e.target.description.value)\n  for (const el of e.target.images.files) {\n    formData.append(\"Images\", el)\n  }\n  addData(formData)\n  setUser(null)\n}"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Форма submit",
+          "Маълумот ба FormData зам мешавад.",
+          "new FormData()"
+        ],
+        [
+          "2",
+          "addData(formData)",
+          "Функсияи store даъват мешавад.",
+          "addData(formData)"
+        ],
+        [
+          "3",
+          "axios.post",
+          "Запрос ба сервер фиристода мешавад.",
+          "await axios.post(api, newTodo)"
+        ],
+        [
+          "4",
+          "get().getData()",
+          "Рӯйхат аз нав бор мешавад.",
+          "get().getData()"
+        ]
+      ],
+      "memory": "newTodo → axios.post → get().getData().",
+      "practice": "Selector pattern: useTodoStore((state) => state.addData)-ро назар андоз.",
+      "concepts": [
+        [
+          "get().getData()",
+          "Zustand getter",
+          "Zustand",
+          "Аз дохили як функсия дигар функсияи store-ро даъват мекунад",
+          "Бе get наметавонӣ getData-ро аз даруни addData даъват кунӣ."
+        ]
+      ],
+      "relationNote": "DialogAddZustand.tsx барои сабуктар кор кардан аз selector истифода мебарад."
+    },
+    "z-put": {
+      "group": "Zustand",
+      "title": "PUT · editData & isCompleted",
+      "method": "PUT",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx",
+        "src/components/dialogZustand/DialogEditZustand.tsx"
+      ],
+      "intro": "editData барои таҳрири матн ва isCompleted барои чекбокс. Ҳарду бо axios.put маълумотро ба сервер расонида, бо get().getData() рӯйхатро нав месозанд.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · editData ва isCompleted",
+          "kind": "operation",
+          "code": "editData: async (user) => {\n  try {\n    await axios.put(api, user)\n    get().getData()\n  } catch (error) {\n    console.error(error)\n  }\n},\n\nisCompleted: async (id) => {\n  try {\n    await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n    get().getData()\n  } catch (error) {\n    console.error(error)\n  }\n}",
+          "practiceCode": "editData: async (user) => {\n  \n},\nisCompleted: async (id) => {\n  \n}",
+          "hintCode": "// 1. await axios.put(api, user); get().getData()\n// 2. await axios.put(`.../completed?id=${id}`); get().getData()"
+        },
+        {
+          "path": "src/pages/Zustand.tsx · тугмаи Edit ва чекбокс",
+          "kind": "usage",
+          "code": "const { isCompleted } = useTodoStore()\nconst [edit, setEdit] = useState(null)\n\n<button onClick={() => setEdit(el)}>Edit</button>\n\n<input\n  type=\"checkbox\"\n  checked={el.isCompleted}\n  onChange={() => isCompleted(el.id)}\n/>\n\n<DialogEditZustand user={edit} setUser={setEdit} />",
+          "practiceCode": "//",
+          "hintCode": "// 1. setEdit(el)\n// 2. isCompleted(el.id)"
+        },
+        {
+          "path": "src/components/dialogZustand/DialogEditZustand.tsx · таҳрири маълумот",
+          "kind": "dialog",
+          "code": "import { useTodoStore } from \"../../store/useTodoStore\"\n\nconst DialogEditZustand = ({ user, setUser }: any) => {\n  const editData = useTodoStore((state) => state.editData)\n\n  function EditUser(e: any) {\n    e.preventDefault()\n    const editobj = {\n      id: user.id,\n      name: e.target.name.value,\n      description: e.target.description.value,\n    }\n    editData(editobj)\n    setUser(null)\n  }\n\n  if (!user) return null\n\n  return (\n    <div className=\"modal\">\n      <form onSubmit={EditUser}>\n        <input name=\"name\" defaultValue={user.name} />\n        <input name=\"description\" defaultValue={user.description} />\n        <button type=\"submit\">Save</button>\n      </form>\n    </div>\n  )\n}\n\nexport default DialogEditZustand",
+          "practiceCode": "function EditUser(e: any) {\n  e.preventDefault()\n  \n}",
+          "hintCode": "// 1. const editobj = { id: user.id, name: ..., description: ... }\n// 2. editData(editobj)\n// 3. setUser(null)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/components/dialogZustand/DialogEditZustand.tsx",
+          "code": "const editData = useTodoStore((state) => state.editData)\n\nfunction EditUser(e) {\n  e.preventDefault()\n  const editobj = {\n    id: user.id,\n    name: e.target.name.value,\n    description: e.target.description.value,\n  }\n  editData(editobj)\n  setUser(null)\n}",
+          "practiceCode": "const editData = useTodoStore((state) => state.editData)\n// editData(editobj)"
+        },
+        {
+          "path": "src/pages/Zustand.tsx · чекбокс",
+          "code": "<input\n  type=\"checkbox\"\n  checked={el.isCompleted}\n  onChange={() => isCompleted(el.id)}\n/>",
+          "practiceCode": "<input type=\"checkbox\" checked={el.isCompleted} onChange={() => isCompleted(el.id)} />"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Таҳрир ё Чекбокс",
+          "Корбар тугмаи Save ё чекбоксро пахш мекунад.",
+          "editData ё isCompleted"
+        ],
+        [
+          "2",
+          "axios.put",
+          "Запрос ба сервер меравад.",
+          "axios.put(...)"
+        ],
+        [
+          "3",
+          "get().getData()",
+          "Рӯйхат нав мешавад.",
+          "get().getData()"
+        ]
+      ],
+      "memory": "user → axios.put → get().getData().",
+      "practice": "Дар «Практика» мантиқи ҳарду функсияро навис.",
+      "concepts": [
+        [
+          "isCompleted(id)",
+          "useTodoStore action",
+          "Zustand",
+          "Барои ивази зуди ҳолати онлайн/офлайн бе фиристодани тамоми форма",
+          "Ин корро тезтар ва содатар мекунад."
+        ]
+      ],
+      "relationNote": "Zustand.tsx мустақиман isCompleted-ро даъват мекунад."
+    },
+    "z-delete": {
+      "group": "Zustand",
+      "title": "DELETE · deleteData",
+      "method": "DELETE",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx"
+      ],
+      "intro": "deleteData вазифаро аз рӯйи ID нест мекунад ва get().getData() мекунад.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · deleteData",
+          "kind": "operation",
+          "code": "deleteData: async (id) => {\n  try {\n    await axios.delete(`${api}?id=${id}`)\n    get().getData()\n  } catch (error) {\n    console.error(error)\n  }\n}",
+          "practiceCode": "deleteData: async (id) => {\n  \n}",
+          "hintCode": "// 1. await axios.delete(`${api}?id=${id}`)\n// 2. get().getData()"
+        },
+        {
+          "path": "src/pages/Zustand.tsx · тугмаи Delete",
+          "kind": "usage",
+          "code": "const { deleteData } = useTodoStore()\n\n<button onClick={() => deleteData(el.id)}>\n  Delete\n</button>",
+          "practiceCode": "<button onClick={() => {}}>Delete</button>",
+          "hintCode": "// onClick={() => deleteData(el.id)}"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Zustand.tsx",
+          "code": "<button onClick={() => deleteData(el.id)}>\n  Delete\n</button>",
+          "practiceCode": "<button onClick={() => deleteData(el.id)}>Delete</button>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Клик ба Delete",
+          "Корбар тугмаро пахш мекунад.",
+          "deleteData(el.id)"
+        ],
+        [
+          "2",
+          "axios.delete",
+          "Сабт тоза мешавад.",
+          "axios.delete(...)"
+        ],
+        [
+          "3",
+          "get().getData()",
+          "Рӯйхат фавран нав мешавад.",
+          "get().getData()"
+        ]
+      ],
+      "memory": "id → axios.delete → get().getData().",
+      "practice": "Машқ кун, ки чӣ тавр бо get() дигар методҳоро даъват кунӣ.",
+      "concepts": [
+        [
+          "deleteData",
+          "Store action",
+          "Zustand",
+          "Вазифаро бо ID нест мекунад",
+          "Бе ин маълумот дар сервер боқӣ мемонад."
+        ]
+      ],
+      "relationNote": "Тугмаи Delete дар кортҳои Zustand.tsx қарор дорад."
+    },
+    "z-add-img": {
+      "group": "Zustand",
+      "title": "ADD IMG · addImgData",
+      "method": "ADD IMG",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx"
+      ],
+      "intro": "addImgData файлҳои интихобшударо ба FormData гузошта, бо POST ба сервер боргузорӣ мекунад ва get().getData() менамояд.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · методи addImgData",
+          "kind": "operation",
+          "code": "addImgData: async ({ id, file }) => {\n  try {\n    const formData = new FormData()\n    for (let i = 0; i < file.length; i++) {\n      formData.append(\"Images\", file[i])\n    }\n    await axios.post(`${api}/${id}/images`, formData)\n    get().getData()\n  } catch (error) {\n    console.error(error)\n  }\n},",
+          "practiceCode": "addImgData: async ({ id, file }) => {\n  try {\n    // STEP: FormData соз ва файлҳоро append кун\n    const formData = new FormData()\n    for (let i = 0; i < file.length; i++) {\n      formData.append(\"Images\", file[i])\n    }\n    await axios.post(`${api}/${id}/images`, formData)\n    get().getData()\n  } catch (error) {\n    console.error(error)\n  }\n},"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Zustand.tsx",
+          "code": "<input\n  type=\"file\"\n  onChange={(e) =>\n    addImgData({ id: el.id, file: e.target.files })\n  }\n/>",
+          "practiceCode": "<input type=\"file\" onChange={(e) => addImgData({ id: el.id, file: e.target.files })} />"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Интихоби файл",
+          "onChange e.target.files-ро ба функсия мегузаронад.",
+          "addImgData({ id, file })"
+        ],
+        [
+          "2",
+          "FormData",
+          "Файлҳо ба калиди Images зам мешаванд.",
+          "formData.append('Images', file[i])"
+        ],
+        [
+          "3",
+          "axios.post",
+          "Боргузорӣ ба ${api}/${id}/images.",
+          "axios.post(...)"
+        ],
+        [
+          "4",
+          "get().getData()",
+          "Рӯйхат нав мешавад.",
+          "get().getData()"
+        ]
+      ],
+      "memory": "file → FormData → axios.post → get().getData().",
+      "practice": "Баданаи addImgData-ро дар «Практика» бинавис.",
+      "concepts": [
+        [
+          "addImgData",
+          "Zustand Action",
+          "Zustand",
+          "Боргузории расмҳо ба вазифа",
+          "Бе ин файлҳо фиристода намешаванд."
+        ]
+      ],
+      "relationNote": "Ҳар як корт дар Zustand.tsx инпути file дорад."
+    },
+    "z-info": {
+      "group": "Zustand",
+      "title": "INFO · getInfo",
+      "method": "INFO",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx",
+        "src/pages/Info.tsx"
+      ],
+      "intro": "getInfo вазифаро аз рӯйи ID мегирад ва бо set({ infoUser: data.data }) сабт мекунад. Дар саҳифаи Info.tsx он бо selector хонда мешавад.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · getInfo функсия",
+          "kind": "operation",
+          "code": "getInfo: async (id) => {\n  try {\n    const { data } = await axios.get(`${api}/${id}`)\n    set({ infoUser: data.data })\n  } catch (error) {\n    console.error(error)\n  }\n}",
+          "practiceCode": "getInfo: async (id) => {\n  \n}",
+          "hintCode": "// 1. const { data } = await axios.get(`${api}/${id}`)\n// 2. set({ infoUser: data.data })"
+        },
+        {
+          "path": "src/pages/Zustand.tsx · клики info ва navigate",
+          "kind": "usage",
+          "code": "const { getInfo } = useTodoStore()\nconst navigate = useNavigate()\n\nconst handleInfo = (id: any) => {\n  getInfo(id)\n  navigate(\"/info\")\n}\n\n<button onClick={() => handleInfo(el.id)}>\n  Info\n</button>",
+          "practiceCode": "const handleInfo = (id: any) => {\n  \n}",
+          "hintCode": "// 1. getInfo(id)\n// 2. navigate(\"/info\")"
+        },
+        {
+          "path": "src/pages/Info.tsx · хондани infoUser аз Zustand",
+          "kind": "usage",
+          "code": "import { useTodoStore } from \"../store/useTodoStore\"\n\nconst infoZustand = useTodoStore((s) => s.infoUser)\n\nreturn (\n  <div>\n    <h1>{infoZustand?.name}</h1>\n    <p>{infoZustand?.description}</p>\n  </div>\n)",
+          "practiceCode": "const infoZustand = useTodoStore((s) => s.infoUser)",
+          "hintCode": "// useTodoStore((s) => s.infoUser)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Zustand.tsx",
+          "code": "const { getInfo } = useTodoStore()\nconst navigate = useNavigate()\n\nconst handleInfo = (id) => {\n  getInfo(id)\n  navigate(\"/info\")\n}\n\n<button onClick={() => handleInfo(el.id)}>info</button>",
+          "practiceCode": "const handleInfo = (id) => {\n  getInfo(id)\n  navigate(\"/info\")\n}"
+        },
+        {
+          "path": "src/pages/Info.tsx",
+          "code": "const infoZustand = useTodoStore((s) => s.infoUser)\nconst todo = infoZustand\n\nreturn (\n  <div>\n    <h1>{todo.name}</h1>\n    <p>{todo.description}</p>\n  </div>\n)",
+          "practiceCode": "const infoZustand = useTodoStore((s) => s.infoUser)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "handleInfo(id)",
+          "getInfo(id) даъват шуда, navigate('/info') мешавад.",
+          "getInfo(id) → navigate('/info')"
+        ],
+        [
+          "2",
+          "axios.get",
+          "Маълумоти вазифа аз рӯйи ID гирифта мешавад.",
+          "axios.get(`${api}/${id}`)"
+        ],
+        [
+          "3",
+          "set({ infoUser })",
+          "State-и infoUser нав мешавад.",
+          "set({ infoUser: data.data })"
+        ],
+        [
+          "4",
+          "Info.tsx",
+          "Саҳифа infoUser-ро хонда, ному шарҳро нишон медиҳад.",
+          "useTodoStore((s) => s.infoUser)"
+        ]
+      ],
+      "memory": "id → getInfo → set({ infoUser }) → useTodoStore((s) => s.infoUser).",
+      "practice": "Дар «Практика» мантиқи getInfo ва infoUser-ро навис.",
+      "concepts": [
+        [
+          "infoUser",
+          "Zustand State",
+          "Zustand",
+          "Нигоҳдории вазифаи интихобшуда",
+          "Бе ин саҳифаи Info чизе нишон дода наметавонад."
+        ]
+      ],
+      "relationNote": "Zustand.tsx navigate мекунад ва Info.tsx infoUser-ро мехонад."
+    },
+    "z-search": {
+      "group": "Zustand",
+      "title": "SEARCH · Ҷустуҷӯ",
+      "method": "SEARCH",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx"
+      ],
+      "intro": "Ҷустуҷӯ дар Zustand: параметри search аз component ба getData({ search, page }) меравад.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · search query",
+          "kind": "operation",
+          "code": "const search = params?.search || \"\"\nconst { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)",
+          "practiceCode": "const search = params?.search || \"\""
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Zustand.tsx",
+          "code": "const [search, setSearch] = useState(\"\")\n\n<input\n  type=\"text\"\n  value={search}\n  onChange={(e) => {\n    setSearch(e.target.value)\n    setPage(1)\n  }}\n  placeholder=\"Search...\"\n/>\n\nuseEffect(() => {\n  getData({ search, page })\n}, [search, page])",
+          "practiceCode": "// setSearch(e.target.value) ва setPage(1)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Инпут тағйир меёбад",
+          "setSearch ва setPage(1) даъват мешаванд.",
+          "setSearch(e.target.value)"
+        ],
+        [
+          "2",
+          "useEffect",
+          "getData({ search, page }) дубора ба кор медарояд.",
+          "getData({ search, page })"
+        ],
+        [
+          "3",
+          "API",
+          "Сервер натиҷаҳоро филтр мекунад.",
+          "?query=${search}"
+        ]
+      ],
+      "memory": "setSearch → useEffect → getData({ search }) → ?query=${search}.",
+      "practice": "Шарти useEffect-ро таҳлил кун.",
+      "concepts": [
+        [
+          "search state",
+          "useState",
+          "React",
+          "Матни инпутро нигоҳ медорад",
+          "Бе ин ҷустуҷӯ имконнопазир аст."
+        ]
+      ],
+      "relationNote": "Дар Zustand ҳам ҷустуҷӯ мустақиман дар дохили getData аст."
+    },
+    "z-pagination": {
+      "group": "Zustand",
+      "title": "PAGINATION · Саҳифабандӣ",
+      "method": "PAGINATION",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx"
+      ],
+      "intro": "Саҳифабандӣ дар Zustand: page дар useEffect вобаста буда, ба getData({ search, page }) равон мешавад.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · page param",
+          "kind": "operation",
+          "code": "const page = params?.page || 1\nconst { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)",
+          "practiceCode": "const page = params?.page || 1"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Zustand.tsx",
+          "code": "const [page, setPage] = useState(1)\n\n<button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</button>\n<span>Page {page}</span>\n<button disabled={!data || data.length < 4} onClick={() => setPage((p) => p + 1)}>Next</button>",
+          "practiceCode": "// Prev / Next buttons"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Next / Prev",
+          "setPage рақамро иваз мекунад.",
+          "setPage((p) => p + 1)"
+        ],
+        [
+          "2",
+          "useEffect",
+          "getData бо саҳифаи нав даъват мешавад.",
+          "getData({ search, page })"
+        ],
+        [
+          "3",
+          "API",
+          "Сервер саҳифаи навро мефиристад.",
+          "PageNumber=${page}"
+        ]
+      ],
+      "memory": "setPage → useEffect → getData({ page }) → PageNumber=${page}.",
+      "practice": "Мантиқи Math.max(1, p - 1)-ро таҳлил кун.",
+      "concepts": [
+        [
+          "PageNumber",
+          "Query Param",
+          "API",
+          "Рақами саҳифа дар сервер",
+          "Бе ин ҳамеша фақат саҳифаи 1 меояд."
+        ]
+      ],
+      "relationNote": "Саҳифабандӣ бо ҷустуҷӯ дар getData муттаҳид аст."
+    },
+    "z-delete-img": {
+      "group": "Zustand",
+      "title": "DELETE IMG · deleteImgData",
+      "method": "DELETE IMG",
+      "files": [
+        "src/store/useTodoStore.ts",
+        "src/pages/Zustand.tsx"
+      ],
+      "intro": "deleteImgData(imageId) бо axios.delete(`${api}/images/${imageId}`) расмро нест мекунад ва get().getData() мекунад.",
+      "blocks": [
+        {
+          "path": "src/store/useTodoStore.ts · методи deleteImgData",
+          "kind": "operation",
+          "code": "deleteImgData: async (imageId) => {\n  try {\n    await axios.delete(`${api}/images/${imageId}`)\n    get().getData()\n  } catch (error) {\n    console.error(error)\n  }\n},",
+          "practiceCode": "deleteImgData: async (imageId) => {\n  try {\n    // STEP: await axios.delete(`${api}/images/${imageId}`) ва get().getData()\n    await axios.delete(`${api}/images/${imageId}`)\n    get().getData()\n  } catch (error) {\n    console.error(error)\n  }\n},"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Zustand.tsx",
+          "code": "<button onClick={() => deleteImgData(img.id)}>\n  Delete\n</button>",
+          "practiceCode": "<button onClick={() => deleteImgData(img.id)}>Delete</button>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Клик ба Delete",
+          "Корбар тугмаи Delete-ро дар расм пахш мекунад.",
+          "deleteImgData(img.id)"
+        ],
+        [
+          "2",
+          "axios.delete",
+          "Расм аз сервер нест мешавад.",
+          "axios.delete(...)"
+        ],
+        [
+          "3",
+          "get().getData()",
+          "Рӯйхат нав мешавад.",
+          "get().getData()"
+        ]
+      ],
+      "memory": "imageId → axios.delete(/images/id) → get().getData().",
+      "practice": "Дар «Практика» ин функсияро навис.",
+      "concepts": [
+        [
+          "imageId",
+          "Параметри функсия",
+          "Zustand",
+          "ID-и акс",
+          "Бе ин сервер намедонад кадом расмро нест кунад."
+        ]
+      ],
+      "relationNote": "Расмҳо дар Zustand.tsx кортҳои алоҳида доранд."
+    },
+    "j-setup": {
+      "group": "Jotai",
+      "title": "Файли асосии Jotai",
+      "method": "SETUP",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx"
+      ],
+      "intro": "Сохтори атомҳои Jotai: searchAtom, pageAtom, getDataAtom (atomWithRefresh), атомҳои амалиётӣ ва Suspense дар Jotai.tsx.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · атомҳои асосӣ",
+          "kind": "store",
+          "code": "import { atom } from \"jotai\"\nimport { atomWithRefresh } from \"jotai/utils\"\nimport axios from \"axios\"\n\nlet api = \"https://to-dos-api.softclub.tj/api/to-dos\"\n\nexport const searchAtom = atom(\"\")\nexport const pageAtom = atom(1)\n\nexport const getDataAtom = atomWithRefresh(async (get) => {\n  const search = get(searchAtom)\n  const page = get(pageAtom)\n  const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n  return data.data\n})",
+          "practiceCode": "import { atom } from \"jotai\"\nimport { atomWithRefresh } from \"jotai/utils\"\n\nexport const searchAtom = atom(\"\")\nexport const pageAtom = atom(1)\n\nexport const getDataAtom = atomWithRefresh(async (get) => {\n  \n})",
+          "hintCode": "// 1. const search = get(searchAtom), page = get(pageAtom)\n// 2. const { data } = await axios.get(...)\n// 3. return data.data"
+        },
+        {
+          "path": "src/pages/Jotai.tsx · хондани getDataAtom бо useAtomValue",
+          "kind": "usage",
+          "code": "import { useAtomValue } from \"jotai\"\nimport { getDataAtom } from \"../store/jotaiStore\"\n\nconst Jotai = () => {\n  const data = useAtomValue(getDataAtom)\n\n  return (\n    <div>\n      <h1>Jotai To-Do</h1>\n      {data?.map((el: any) => (\n        <div key={el.id}>{el.name}</div>\n      ))}\n    </div>\n  )\n}\n\nexport default Jotai",
+          "practiceCode": "const Jotai = () => {\n  \n  return (\n    <div>\n      \n    </div>\n  )\n}\n\nexport default Jotai",
+          "hintCode": "// 1. const data = useAtomValue(getDataAtom)\n// 2. data?.map((el) => ...)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Атомҳои ҳолат",
+          "searchAtom ва pageAtom бо atom() сохта мешаванд.",
+          "atom(''), atom(1)"
+        ],
+        [
+          "2",
+          "getDataAtom",
+          "Бо atomWithRefresh сохта мешавад, то бо set(getDataAtom) refresh шавад.",
+          "atomWithRefresh(...)"
+        ],
+        [
+          "3",
+          "Action atoms",
+          "Атомҳои write-only: atom(null, async (get, set, arg) => ...).",
+          "atom(null, async ...)"
+        ],
+        [
+          "4",
+          "Suspense",
+          "Дар Jotai.tsx component дар дохили <Suspense> печонида шудааст.",
+          "<Suspense fallback={...}>"
+        ]
+      ],
+      "memory": "atom (state) + atomWithRefresh (GET) + atom(null, write) + Suspense.",
+      "practice": "Фарқи байни atom() ва atomWithRefresh-ро таҳлил кун.",
+      "concepts": [
+        [
+          "atom",
+          "jotai",
+          "Jotai",
+          "Воҳиди алоҳидаи state",
+          "Бе atom state дар Jotai вуҷуд надорад."
+        ],
+        [
+          "atomWithRefresh",
+          "jotai/utils",
+          "Jotai Utils",
+          "Атоми асинхрон, ки худашро refresh карда метавонад",
+          "Бе ин пас аз POST/DELETE наметавонӣ рӯйхатро нав кунӣ."
+        ],
+        [
+          "Suspense",
+          "react",
+          "React",
+          "Ҳангоми боргирии атоми асинхрон fallback нишон медиҳад",
+          "Бе ин React хатогӣ медиҳад."
+        ]
+      ],
+      "relationNote": "JotaiContent дар дохили Suspense render мешавад."
+    },
+    "j-get": {
+      "group": "Jotai",
+      "title": "GET · getDataAtom",
+      "method": "GET",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx"
+      ],
+      "intro": "getDataAtom ба воситаи atomWithRefresh қиматҳои searchAtom ва pageAtom-ро бо get() мехонад ва axios.get мекунад. Дар Jotai.tsx бо useAtomValue хонда мешавад.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · getDataAtom бо atomWithRefresh",
+          "kind": "operation",
+          "code": "export const getDataAtom = atomWithRefresh(async (get) => {\n  const search = get(searchAtom)\n  const page = get(pageAtom)\n  try {\n    const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n    return data.data\n  } catch (error) {\n    console.error(error)\n    return []\n  }\n})",
+          "practiceCode": "export const getDataAtom = atomWithRefresh(async (get) => {\n  \n})",
+          "hintCode": "export const getDataAtom = atomWithRefresh(async (get) => {\n  // 1. const search = get(searchAtom), page = get(pageAtom)\n  // 2. const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n  // 3. return data.data\n})"
+        },
+        {
+          "path": "src/pages/Jotai.tsx · истифодаи useAtomValue ва search/page",
+          "kind": "usage",
+          "code": "import { useAtom, useAtomValue } from \"jotai\"\nimport { getDataAtom, searchAtom, pageAtom } from \"../store/jotaiStore\"\n\nconst [search, setSearch] = useAtom(searchAtom)\nconst [page, setPage] = useAtom(pageAtom)\nconst data = useAtomValue(getDataAtom)\n\nreturn (\n  <div>\n    <input value={search} onChange={(e) => setSearch(e.target.value)} />\n    {data?.map((el: any) => (\n      <div key={el.id}>{el.name}</div>\n    ))}\n  </div>\n)",
+          "practiceCode": "const data = useAtomValue(getDataAtom)",
+          "hintCode": "// 1. const [search, setSearch] = useAtom(searchAtom)\n// 2. const data = useAtomValue(getDataAtom)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Jotai.tsx",
+          "code": "const data = useAtomValue(getDataAtom)\n\nreturn (\n  <div>\n    {data?.map((el) => (\n      <div key={el.id}>{el.name}</div>\n    ))}\n  </div>\n)",
+          "practiceCode": "const data = useAtomValue(getDataAtom)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "useAtomValue(getDataAtom)",
+          "Component қимати getDataAtom-ро мехонад.",
+          "useAtomValue(getDataAtom)"
+        ],
+        [
+          "2",
+          "get(searchAtom), get(pageAtom)",
+          "Атом худаш ин ду атомро dependency мегирад.",
+          "get(searchAtom)"
+        ],
+        [
+          "3",
+          "axios.get",
+          "Дархост ба сервер меравад.",
+          "axios.get(...)"
+        ],
+        [
+          "4",
+          "return data.data",
+          "Маълумот ба component мерасад.",
+          "return data.data"
+        ]
+      ],
+      "memory": "get(searchAtom) → axios.get → return data.data → useAtomValue(getDataAtom).",
+      "practice": "Дар «Практика» getDataAtom-ро навис.",
+      "concepts": [
+        [
+          "useAtomValue",
+          "jotai",
+          "Jotai",
+          "Hook барои танҳо хондани қимати атом (read-only)",
+          "Беҳтарин барои пешгирӣ аз re-render-ҳои нолозим."
+        ],
+        [
+          "get() дар атом",
+          "getter callback",
+          "Jotai",
+          "Қимати дигар атомҳоро мехонад ва онҳоро худкор dependency месозад",
+          "Бе ин бояд useEffect менавиштӣ."
+        ]
+      ],
+      "relationNote": "Вақте searchAtom ё pageAtom тағйир меёбанд, Jotai худаш getDataAtom-ро дубора даъват мекунад."
+    },
+    "j-post": {
+      "group": "Jotai",
+      "title": "POST · AddDataAtom",
+      "method": "POST",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx",
+        "src/components/dialogJotai/DialogAddJotai.tsx"
+      ],
+      "intro": "AddDataAtom вазифаи навро бо axios.post(api, user) сабт карда, бо set(getDataAtom) рӯйхатро refresh мекунад.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · AddDataAtom бо set(getDataAtom)",
+          "kind": "operation",
+          "code": "export const AddDataAtom = atom(null, async (get, set, user) => {\n  try {\n    await axios.post(api, user)\n    set(getDataAtom) // atomWithRefresh-ро маҷбур мекунад аз сари нав request кунад!\n  } catch (error) {\n    console.error(error)\n  }\n})",
+          "practiceCode": "export const AddDataAtom = atom(null, async (get, set, user) => {\n  \n})",
+          "hintCode": "export const AddDataAtom = atom(null, async (get, set, user) => {\n  // 1. await axios.post(api, user)\n  // 2. set(getDataAtom) — бе ягон useEffect рӯйхатро нав мекунад!\n})"
+        },
+        {
+          "path": "src/pages/Jotai.tsx · тугмаи + Add Task",
+          "kind": "usage",
+          "code": "const [add, setAdd] = useState(false)\n\n<button onClick={() => setAdd(true)}>\n  + Add Task\n</button>\n\n<DialogAddJotai user={add} setUser={setAdd} />",
+          "practiceCode": "<button onClick={() => {}}>+ Add Task</button>",
+          "hintCode": "// onClick={() => setAdd(true)}"
+        },
+        {
+          "path": "src/components/dialogJotai/DialogAddJotai.tsx · useSetAtom ва FormData",
+          "kind": "dialog",
+          "code": "import { useSetAtom } from \"jotai\"\nimport { AddDataAtom } from \"../../store/jotaiStore\"\n\nconst DialogAddJotai = ({ user, setUser }: any) => {\n  const addData = useSetAtom(AddDataAtom)\n\n  function AddUser(e: any) {\n    e.preventDefault()\n    const formData = new FormData()\n    formData.append(\"Name\", e.target.name.value)\n    formData.append(\"Description\", e.target.description.value)\n    for (const el of e.target.images.files) {\n      formData.append(\"Images\", el)\n    }\n    addData(formData)\n    setUser(null)\n  }\n\n  if (!user) return null\n\n  return (\n    <div className=\"modal\">\n      <form onSubmit={AddUser}>\n        <input name=\"name\" required placeholder=\"Title\" />\n        <input name=\"description\" required placeholder=\"Description\" />\n        <input type=\"file\" name=\"images\" multiple />\n        <button type=\"submit\">Add</button>\n      </form>\n    </div>\n  )\n}\n\nexport default DialogAddJotai",
+          "practiceCode": "function AddUser(e: any) {\n  e.preventDefault()\n  \n}",
+          "hintCode": "// 1. const formData = new FormData()\n// 2. formData.append(\"Name\", e.target.name.value)\n// 3. addData(formData)\n// 4. setUser(null)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/components/dialogJotai/DialogAddJotai.tsx",
+          "code": "const addData = useSetAtom(AddDataAtom)\n\nfunction AddUser(e) {\n  e.preventDefault()\n  const formData = new FormData()\n  formData.append(\"Name\", e.target.name.value)\n  formData.append(\"Description\", e.target.description.value)\n  for (const el of e.target.images.files) {\n    formData.append(\"Images\", el)\n  }\n  addData(formData)\n  setUser(null)\n}",
+          "practiceCode": "const addData = useSetAtom(AddDataAtom)\n// addData(formData)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "useSetAtom(AddDataAtom)",
+          "Setter hook гирифта мешавад.",
+          "useSetAtom(AddDataAtom)"
+        ],
+        [
+          "2",
+          "addData(formData)",
+          "FormData ба атом меравад.",
+          "addData(formData)"
+        ],
+        [
+          "3",
+          "axios.post",
+          "Запрос ба сервер меравад.",
+          "axios.post(api, user)"
+        ],
+        [
+          "4",
+          "set(getDataAtom)",
+          "Jotai getDataAtom-ро аз нав ҳисоб мекунад.",
+          "set(getDataAtom)"
+        ]
+      ],
+      "memory": "user → axios.post → set(getDataAtom) → рӯйхат нав мешавад.",
+      "practice": "Истифодаи set(getDataAtom)-ро дар хотир гир.",
+      "concepts": [
+        [
+          "useSetAtom",
+          "jotai",
+          "Jotai",
+          "Hook барои гирифтани функсияи нависандаи атом (setter)",
+          "Имкон медиҳад, ки бе re-render action-ро даъват кунӣ."
+        ],
+        [
+          "set(getDataAtom)",
+          "Jotai Refresh",
+          "Jotai Utils",
+          "getDataAtom-ро водор мекунад, ки аз нав боргирӣ кунад",
+          "Бе ин рӯйхат нав намешавад."
+        ]
+      ],
+      "relationNote": "DialogAddJotai.tsx useSetAtom(AddDataAtom)-ро истифода мебарад."
+    },
+    "j-put": {
+      "group": "Jotai",
+      "title": "PUT · EditDataAtom & IsCompletedAtom",
+      "method": "PUT",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx",
+        "src/components/dialogJotai/DialogEditJotai.tsx"
+      ],
+      "intro": "EditDataAtom барои таҳрири матн ва IsCompletedAtom барои чекбокс. Ҳарду axios.put мекунанд ва set(getDataAtom) менамоянд.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · EditDataAtom ва IsCompletedAtom",
+          "kind": "operation",
+          "code": "export const EditDataAtom = atom(null, async (get, set, user) => {\n  try {\n    await axios.put(api, user)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})\n\nexport const IsCompletedAtom = atom(null, async (get, set, id) => {\n  try {\n    await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})",
+          "practiceCode": "export const EditDataAtom = atom(null, async (get, set, user) => {\n  \n})\n\nexport const IsCompletedAtom = atom(null, async (get, set, id) => {\n  \n})",
+          "hintCode": "// 1. await axios.put(api, user); set(getDataAtom)\n// 2. await axios.put(`.../completed?id=${id}`); set(getDataAtom)"
+        },
+        {
+          "path": "src/pages/Jotai.tsx · тугмаи Edit ва чекбокс",
+          "kind": "usage",
+          "code": "import { useSetAtom } from \"jotai\"\nimport { IsCompletedAtom } from \"../store/jotaiStore\"\nimport DialogEditJotai from \"../components/dialogJotai/DialogEditJotai\"\n\nconst isCompleted = useSetAtom(IsCompletedAtom)\nconst [edit, setEdit] = useState(null)\n\n<button onClick={() => setEdit(el)}>Edit</button>\n\n<input\n  type=\"checkbox\"\n  checked={el.isCompleted}\n  onChange={() => isCompleted(el.id)}\n/>\n\n<DialogEditJotai user={edit} setUser={setEdit} />",
+          "practiceCode": "//",
+          "hintCode": "// 1. setEdit(el)\n// 2. isCompleted(el.id)"
+        },
+        {
+          "path": "src/components/dialogJotai/DialogEditJotai.tsx · сабти таҳрир",
+          "kind": "dialog",
+          "code": "import { useSetAtom } from \"jotai\"\nimport { EditDataAtom } from \"../../store/jotaiStore\"\n\nconst DialogEditJotai = ({ user, setUser }: any) => {\n  const editData = useSetAtom(EditDataAtom)\n\n  function EditUser(e: any) {\n    e.preventDefault()\n    const editobj = {\n      id: user.id,\n      name: e.target.name.value,\n      description: e.target.description.value,\n    }\n    editData(editobj)\n    setUser(null)\n  }\n\n  if (!user) return null\n\n  return (\n    <div className=\"modal\">\n      <form onSubmit={EditUser}>\n        <input name=\"name\" defaultValue={user.name} />\n        <input name=\"description\" defaultValue={user.description} />\n        <button type=\"submit\">Save</button>\n      </form>\n    </div>\n  )\n}\n\nexport default DialogEditJotai",
+          "practiceCode": "function EditUser(e: any) {\n  e.preventDefault()\n  \n}",
+          "hintCode": "// 1. const editobj = { id: user.id, name: ..., description: ... }\n// 2. editData(editobj)\n// 3. setUser(null)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/components/dialogJotai/DialogEditJotai.tsx",
+          "code": "const editData = useSetAtom(EditDataAtom)\n\nfunction EditUser(e) {\n  e.preventDefault()\n  const editobj = {\n    id: user.id,\n    name: e.target.name.value,\n    description: e.target.description.value,\n  }\n  editData(editobj)\n  setUser(null)\n}",
+          "practiceCode": "const editData = useSetAtom(EditDataAtom)\n// editData(editobj)"
+        },
+        {
+          "path": "src/pages/Jotai.tsx · чекбокс",
+          "code": "const isCompleted = useSetAtom(IsCompletedAtom)\n\n<input\n  type=\"checkbox\"\n  checked={el.isCompleted}\n  onChange={() => isCompleted(el.id)}\n/>",
+          "practiceCode": "<input type=\"checkbox\" checked={el.isCompleted} onChange={() => isCompleted(el.id)} />"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Таҳрир ё Чекбокс",
+          "Корбар тугмаи Save ё чекбоксро пахш мекунад.",
+          "editData ё isCompleted"
+        ],
+        [
+          "2",
+          "axios.put",
+          "Запрос ба сервер меравад.",
+          "axios.put(...)"
+        ],
+        [
+          "3",
+          "set(getDataAtom)",
+          "Рӯйхат ба таври худкор нав мешавад.",
+          "set(getDataAtom)"
+        ]
+      ],
+      "memory": "user → axios.put → set(getDataAtom).",
+      "practice": "Ҳарду атомро дар «Практика» аз нав навис.",
+      "concepts": [
+        [
+          "Action Atom",
+          "Jotai pattern",
+          "Jotai",
+          "atom(null, async (get, set, arg) => ...)",
+          "Барои иҷрои амалиётҳои асинхрон бе нигоҳдории state-и алоҳида."
+        ]
+      ],
+      "relationNote": "Jotai.tsx чекбокси IsCompletedAtom-ро бо useSetAtom даъват мекунад."
+    },
+    "j-delete": {
+      "group": "Jotai",
+      "title": "DELETE · DeleteDataAtom",
+      "method": "DELETE",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx"
+      ],
+      "intro": "DeleteDataAtom вазифаро бо axios.delete(`${api}?id=${id}`) нест мекунад ва set(getDataAtom) менамояд.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · DeleteDataAtom",
+          "kind": "operation",
+          "code": "export const DeleteDataAtom = atom(null, async (get, set, id) => {\n  try {\n    await axios.delete(`${api}?id=${id}`)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})",
+          "practiceCode": "export const DeleteDataAtom = atom(null, async (get, set, id) => {\n  \n})",
+          "hintCode": "// 1. await axios.delete(`${api}?id=${id}`)\n// 2. set(getDataAtom)"
+        },
+        {
+          "path": "src/pages/Jotai.tsx · тугмаи Delete бо useSetAtom",
+          "kind": "usage",
+          "code": "import { useSetAtom } from \"jotai\"\nimport { DeleteDataAtom } from \"../store/jotaiStore\"\n\nconst deleteData = useSetAtom(DeleteDataAtom)\n\n<button onClick={() => deleteData(el.id)}>\n  Delete\n</button>",
+          "practiceCode": "<button onClick={() => {}}>Delete</button>",
+          "hintCode": "// onClick={() => deleteData(el.id)}"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Jotai.tsx",
+          "code": "const deleteData = useSetAtom(DeleteDataAtom)\n\n<button onClick={() => deleteData(el.id)}>\n  Delete\n</button>",
+          "practiceCode": "const deleteData = useSetAtom(DeleteDataAtom)\n// deleteData(el.id)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Клик ба Delete",
+          "useSetAtom(DeleteDataAtom) даъват мешавад.",
+          "deleteData(el.id)"
+        ],
+        [
+          "2",
+          "axios.delete",
+          "Запрос ба сервер меравад.",
+          "axios.delete(...)"
+        ],
+        [
+          "3",
+          "set(getDataAtom)",
+          "getDataAtom refresh мешавад.",
+          "set(getDataAtom)"
+        ]
+      ],
+      "memory": "id → axios.delete → set(getDataAtom).",
+      "practice": "Бо реҷаи «Практика» ин атомро машқ кун.",
+      "concepts": [
+        [
+          "DeleteDataAtom",
+          "Write Atom",
+          "Jotai",
+          "Барои нест кардан ва refresh-и автоматӣ",
+          "Бе ин рӯйхат нав намешавад."
+        ]
+      ],
+      "relationNote": "Тугмаи Delete дар кортҳои Jotai.tsx истифода шудааст."
+    },
+    "j-add-img": {
+      "group": "Jotai",
+      "title": "ADD IMG · AddImgAtom",
+      "method": "ADD IMG",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx"
+      ],
+      "intro": "AddImgAtom файлҳоро ба FormData гузошта, бо POST ба ${api}/${id}/images мефиристад ва set(getDataAtom) мекунад.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · AddImgAtom",
+          "kind": "operation",
+          "code": "export const AddImgAtom = atom(null, async (get, set, { id, file }) => {\n  try {\n    const formData = new FormData()\n    for (let i = 0; i < file.length; i++) {\n      formData.append(\"Images\", file[i])\n    }\n    await axios.post(`${api}/${id}/images`, formData)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})",
+          "practiceCode": "export const AddImgAtom = atom(null, async (get, set, { id, file }) => {\n  try {\n    // STEP: FormData соз ва axios.post + set(getDataAtom)\n    const formData = new FormData()\n    for (let i = 0; i < file.length; i++) {\n      formData.append(\"Images\", file[i])\n    }\n    await axios.post(`${api}/${id}/images`, formData)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Jotai.tsx",
+          "code": "const addImgData = useSetAtom(AddImgAtom)\n\n<input\n  type=\"file\"\n  onChange={(e) =>\n    addImgData({ id: el.id, file: e.target.files })\n  }\n/>",
+          "practiceCode": "<input type=\"file\" onChange={(e) => addImgData({ id: el.id, file: e.target.files })} />"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Интихоби файл",
+          "onChange e.target.files-ро ба addImgData мегузаронад.",
+          "addImgData({ id, file })"
+        ],
+        [
+          "2",
+          "FormData",
+          "Файлҳо ба калиди Images зам мешаванд.",
+          "formData.append('Images', file[i])"
+        ],
+        [
+          "3",
+          "axios.post",
+          "Боргузорӣ ба ${api}/${id}/images.",
+          "axios.post(...)"
+        ],
+        [
+          "4",
+          "set(getDataAtom)",
+          "Рӯйхат нав мешавад.",
+          "set(getDataAtom)"
+        ]
+      ],
+      "memory": "file → FormData → axios.post → set(getDataAtom).",
+      "practice": "Сохтори loop ва FormData-ро машқ кун.",
+      "concepts": [
+        [
+          "AddImgAtom",
+          "Write Atom",
+          "Jotai",
+          "Боргузории расмҳо ба вазифа",
+          "Бе ин аксҳо сабт намешаванд."
+        ]
+      ],
+      "relationNote": "Инпути type='file' дар Jotai.tsx қарор дорад."
+    },
+    "j-info": {
+      "group": "Jotai",
+      "title": "INFO · GetInfoAtom & infoUserAtom",
+      "method": "INFO",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx",
+        "src/pages/Info.tsx"
+      ],
+      "intro": "GetInfoAtom маълумоти вазифаро бо axios.get(`${api}/${id}`) гирифта, бо set(infoUserAtom, data.data) дар атоми infoUserAtom сабт мекунад. Саҳифаи Info.tsx онро бо useAtomValue мехонад.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · GetInfoAtom ва infoUserAtom",
+          "kind": "operation",
+          "code": "export const infoUserAtom = atom(null)\n\nexport const GetInfoAtom = atom(null, async (get, set, id) => {\n  try {\n    const { data } = await axios.get(`${api}/${id}`)\n    set(infoUserAtom, data.data)\n  } catch (error) {\n    console.error(error)\n  }\n})",
+          "practiceCode": "export const infoUserAtom = atom(null)\n\nexport const GetInfoAtom = atom(null, async (get, set, id) => {\n  \n})",
+          "hintCode": "// 1. const { data } = await axios.get(`${api}/${id}`)\n// 2. set(infoUserAtom, data.data)"
+        },
+        {
+          "path": "src/pages/Jotai.tsx · клики info ва navigate",
+          "kind": "usage",
+          "code": "import { useSetAtom } from \"jotai\"\nimport { GetInfoAtom } from \"../store/jotaiStore\"\nimport { useNavigate } from \"react-router\"\n\nconst getInfo = useSetAtom(GetInfoAtom)\nconst navigate = useNavigate()\n\nconst handleInfo = (id: any) => {\n  getInfo(id)\n  navigate(\"/info\")\n}\n\n<button onClick={() => handleInfo(el.id)}>\n  Info\n</button>",
+          "practiceCode": "const handleInfo = (id: any) => {\n  \n}",
+          "hintCode": "// 1. getInfo(id)\n// 2. navigate(\"/info\")"
+        },
+        {
+          "path": "src/pages/Info.tsx · хондани infoUserAtom бо useAtomValue",
+          "kind": "usage",
+          "code": "import { useAtomValue } from \"jotai\"\nimport { infoUserAtom } from \"../store/jotaiStore\"\n\nconst infoJotai = useAtomValue(infoUserAtom)\n\nreturn (\n  <div>\n    <h1>{infoJotai?.name}</h1>\n    <p>{infoJotai?.description}</p>\n  </div>\n)",
+          "practiceCode": "const infoJotai = useAtomValue(infoUserAtom)",
+          "hintCode": "// useAtomValue(infoUserAtom)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Jotai.tsx",
+          "code": "const getInfo = useSetAtom(GetInfoAtom)\nconst navigate = useNavigate()\n\nconst handleInfo = (id) => {\n  getInfo(id)\n  navigate(\"/info\")\n}\n\n<button onClick={() => handleInfo(el.id)}>info</button>",
+          "practiceCode": "const handleInfo = (id) => {\n  getInfo(id)\n  navigate(\"/info\")\n}"
+        },
+        {
+          "path": "src/pages/Info.tsx",
+          "code": "const infoJotai = useAtomValue(infoUserAtom)\nconst todo = infoJotai\n\nreturn (\n  <div>\n    <h1>{todo.name}</h1>\n    <p>{todo.description}</p>\n  </div>\n)",
+          "practiceCode": "const infoJotai = useAtomValue(infoUserAtom)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "handleInfo(id)",
+          "getInfo(id) даъват шуда, ба /info мегузарад.",
+          "getInfo(id) → navigate('/info')"
+        ],
+        [
+          "2",
+          "axios.get",
+          "Маълумоти вазифа аз рӯйи ID гирифта мешавад.",
+          "axios.get(...)"
+        ],
+        [
+          "3",
+          "set(infoUserAtom)",
+          "Атоми infoUserAtom нав мешавад.",
+          "set(infoUserAtom, data.data)"
+        ],
+        [
+          "4",
+          "Info.tsx",
+          "Саҳифа infoUserAtom-ро бо useAtomValue мехонад.",
+          "useAtomValue(infoUserAtom)"
+        ]
+      ],
+      "memory": "id → GetInfoAtom → set(infoUserAtom) → useAtomValue(infoUserAtom).",
+      "practice": "Фарқи байни GetInfoAtom (write) ва infoUserAtom (read)-ро таҳлил кун.",
+      "concepts": [
+        [
+          "infoUserAtom",
+          "State Atom",
+          "Jotai",
+          "Нигоҳдории объекти вазифаи интихобшуда",
+          "Бе ин саҳифаи Info маълумотро намеёбад."
+        ]
+      ],
+      "relationNote": "Jotai.tsx GetInfoAtom-ро даъват мекунад ва Info.tsx infoUserAtom-ро мехонад."
+    },
+    "j-search": {
+      "group": "Jotai",
+      "title": "SEARCH · Ҷустуҷӯ",
+      "method": "SEARCH",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx"
+      ],
+      "intro": "Ҷустуҷӯ дар Jotai бо searchAtom сохта шудааст. Чун getDataAtom дар дохили худ get(searchAtom) дорад, бо тағйири searchAtom, худи Jotai ба таври реактивӣ getDataAtom-ро дубора ҳисоб мекунад!",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · searchAtom & get()",
+          "kind": "operation",
+          "code": "export const searchAtom = atom(\"\")\n\nexport const getDataAtom = atomWithRefresh(async (get) => {\n  const search = get(searchAtom)\n  const page = get(pageAtom)\n  const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n  return data.data || []\n})",
+          "practiceCode": "export const searchAtom = atom(\"\")\n// const search = get(searchAtom)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Jotai.tsx",
+          "code": "const [search, setSearch] = useAtom(searchAtom)\n\n<input\n  type=\"text\"\n  value={search}\n  onChange={(e) => {\n    setSearch(e.target.value)\n    setPage(1)\n  }}\n  placeholder=\"Search...\"\n/>",
+          "practiceCode": "const [search, setSearch] = useAtom(searchAtom)\n// setSearch(e.target.value) ва setPage(1)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "useAtom(searchAtom)",
+          "[search, setSearch] мисли useState кор мекунад.",
+          "useAtom(searchAtom)"
+        ],
+        [
+          "2",
+          "setSearch(value)",
+          "Корбар дар инпут менависад.",
+          "setSearch(e.target.value)"
+        ],
+        [
+          "3",
+          "Реактивии худкор",
+          "Jotai мебинад, ки searchAtom нав шуд ва getDataAtom-ро аз нав даъват мекунад!",
+          "get(searchAtom)"
+        ],
+        [
+          "4",
+          "UI нав мешавад",
+          "Саҳифа рӯйхати филтршударо нишон медиҳад.",
+          "Suspense → useAtomValue"
+        ]
+      ],
+      "memory": "useAtom(searchAtom) → get(searchAtom) → худкор getDataAtom нав мешавад.",
+      "practice": "Фаҳм, ки чиба дар Jotai барои ҷустуҷӯ useEffect лозим нест.",
+      "concepts": [
+        [
+          "get(searchAtom)",
+          "Jotai Dependency",
+          "Jotai",
+          "Атоми search-ро автоматикӣ пайваст мекунад",
+          "Аз ин сабаб ҳоҷат ба useEffect-и дастӣ нест."
+        ]
+      ],
+      "relationNote": "Ҷустуҷӯ дар Jotai комилан реактивӣ ва бе useEffect кор мекунад."
+    },
+    "j-pagination": {
+      "group": "Jotai",
+      "title": "PAGINATION · Саҳифабандӣ",
+      "method": "PAGINATION",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx"
+      ],
+      "intro": "Саҳифабандӣ бо pageAtom сохта шудааст. Вақте setPage даъват мешавад, getDataAtom бо get(pageAtom) ба таври худкор саҳифаи навро мехонад.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · pageAtom",
+          "kind": "operation",
+          "code": "export const pageAtom = atom(1)\n\nexport const getDataAtom = atomWithRefresh(async (get) => {\n  const search = get(searchAtom)\n  const page = get(pageAtom)\n  const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n  return data.data || []\n})",
+          "practiceCode": "export const pageAtom = atom(1)\n// const page = get(pageAtom)"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Jotai.tsx",
+          "code": "const [page, setPage] = useAtom(pageAtom)\n\n<button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</button>\n<span>Page {page}</span>\n<button disabled={!data || data.length < 4} onClick={() => setPage((p) => p + 1)}>Next</button>",
+          "practiceCode": "// Prev / Next бо useAtom(pageAtom)"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "useAtom(pageAtom)",
+          "Қимати рақами саҳифа хонда мешавад.",
+          "useAtom(pageAtom)"
+        ],
+        [
+          "2",
+          "setPage",
+          "Тугмаҳои Prev ва Next қимати page-ро тағйир медиҳанд.",
+          "setPage((p) => p + 1)"
+        ],
+        [
+          "3",
+          "get(pageAtom)",
+          "getDataAtom саҳифаи навро мегирад.",
+          "get(pageAtom) → API"
+        ]
+      ],
+      "memory": "setPage → get(pageAtom) → getDataAtom ба таври худкор нав мешавад.",
+      "practice": "Дар «Практика» мантиқи pageAtom-ро навис.",
+      "concepts": [
+        [
+          "pageAtom",
+          "State Atom",
+          "Jotai",
+          "Нигоҳдории рақами саҳифа",
+          "Имкон медиҳад саҳифабандӣ реактивӣ кор кунад."
+        ]
+      ],
+      "relationNote": "Ҳарду атомҳои searchAtom ва pageAtom дар getDataAtom пайвастанд."
+    },
+    "j-delete-img": {
+      "group": "Jotai",
+      "title": "DELETE IMG · DeleteImgAtom",
+      "method": "DELETE IMG",
+      "files": [
+        "src/store/jotaiStore.ts",
+        "src/pages/Jotai.tsx"
+      ],
+      "intro": "DeleteImgAtom расмро бо axios.delete(`${api}/images/${imageId}`) нест мекунад ва set(getDataAtom) менамояд.",
+      "blocks": [
+        {
+          "path": "src/store/jotaiStore.ts · DeleteImgAtom",
+          "kind": "operation",
+          "code": "export const DeleteImgAtom = atom(null, async (get, set, imageId) => {\n  try {\n    await axios.delete(`${api}/images/${imageId}`)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})",
+          "practiceCode": "export const DeleteImgAtom = atom(null, async (get, set, imageId) => {\n  try {\n    // STEP: await axios.delete(`${api}/images/${imageId}`) ва set(getDataAtom)\n    await axios.delete(`${api}/images/${imageId}`)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})"
+        }
+      ],
+      "usage": [
+        {
+          "path": "src/pages/Jotai.tsx",
+          "code": "const deleteImgData = useSetAtom(DeleteImgAtom)\n\n<button onClick={() => deleteImgData(img.id)}>\n  Delete\n</button>",
+          "practiceCode": "<button onClick={() => deleteImgData(img.id)}>Delete</button>"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Клик дар расм",
+          "useSetAtom(DeleteImgAtom) даъват мешавад.",
+          "deleteImgData(img.id)"
+        ],
+        [
+          "2",
+          "axios.delete",
+          "Файл аз сервер нест мешавад.",
+          "axios.delete(...)"
+        ],
+        [
+          "3",
+          "set(getDataAtom)",
+          "getDataAtom refresh мешавад.",
+          "set(getDataAtom)"
+        ]
+      ],
+      "memory": "imageId → axios.delete(/images/id) → set(getDataAtom).",
+      "practice": "Дар «Практика» баданаи ин атомро навис.",
+      "concepts": [
+        [
+          "DeleteImgAtom",
+          "Write Atom",
+          "Jotai",
+          "Барои нест кардани акс ва refresh-и рӯйхат",
+          "Бе ин расмҳо тоза намешаванд."
+        ]
+      ],
+      "relationNote": "Тугмаи Delete дар болои ҳар як расм дар Jotai.tsx қарор дорад."
+    },
+    "common-dialog-add": {
+      "group": "Кори умумӣ ва шаклҳо",
+      "title": "Формаи иловакунӣ (DialogAdd)",
+      "method": "FORM",
+      "files": [
+        "src/components/dialog/DialogAdd.tsx",
+        "src/components/dialogZustand/DialogAddZustand.tsx",
+        "src/components/dialogJotai/DialogAddJotai.tsx"
+      ],
+      "intro": "Чӣ тавр дар ҳамаи 3 state manager маълумоти Title, Description ва Images бо истифодаи FormData ҷамъ карда мешавад.",
+      "blocks": [
+        {
+          "path": "src/components/dialog/DialogAdd.tsx",
+          "kind": "component",
+          "code": "function AddUser(e) {\n  e.preventDefault()\n  const formData = new FormData()\n  formData.append(\"Name\", e.target.name.value)\n  formData.append(\"Description\", e.target.description.value)\n  for (const el of e.target.images.files) {\n    formData.append(\"Images\", el)\n  }\n  dispatch(AddData(formData))\n  setUser(null)\n}",
+          "practiceCode": "// FormData сохтан ва append кардани Name, Description, Images"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "e.preventDefault()",
+          "Пешгирӣ аз refresh-и саҳифа.",
+          "e.preventDefault()"
+        ],
+        [
+          "2",
+          "new FormData()",
+          "Объекти ҷамъоварии файл ва матнҳо.",
+          "new FormData()"
+        ],
+        [
+          "3",
+          "append(Name, Description, Images)",
+          "Иловаи майдонҳо ва расмҳо.",
+          "formData.append(...)"
+        ],
+        [
+          "4",
+          "Ирсол ба Store",
+          "Redux: dispatch(AddData), Zustand: addData, Jotai: addData.",
+          "dispatch / action call"
+        ]
+      ],
+      "memory": "new FormData() → append → dispatch / call → setUser(null).",
+      "practice": "Сохтори FormData-ро дар «Практика» машқ намо.",
+      "concepts": [
+        [
+          "multipart/form-data",
+          "HTTP Format",
+          "Web Standard",
+          "Формат барои фиристодани файлҳо ва матнҳо якҷоя",
+          "Бе ин файлҳо дуруст ирсол намешаванд."
+        ]
+      ],
+      "relationNote": "Дар ҳар 3 state manager сохтори ҷамъоварии FormData як хел аст, танҳо тарзи ирсол фарқ мекунад."
+    },
+    "common-dialog-edit": {
+      "group": "Кори умумӣ ва шаклҳо",
+      "title": "Формаи таҳрир (DialogEdit)",
+      "method": "FORM",
+      "files": [
+        "src/components/dialog/DialogEdit.tsx",
+        "src/components/dialogZustand/DialogEditZustand.tsx",
+        "src/components/dialogJotai/DialogEditJotai.tsx"
+      ],
+      "intro": "Чӣ тавр объекти таҳрир { id, name, description } сохта мешавад ва ба Redux (EditData), Zustand (editData) ва Jotai (EditDataAtom) дода мешавад.",
+      "blocks": [
+        {
+          "path": "src/components/dialog/DialogEdit.tsx",
+          "kind": "component",
+          "code": "function EditUser(e) {\n  e.preventDefault()\n  const editobj = {\n    id: user.id,\n    name: e.target.name.value,\n    description: e.target.description.value,\n  }\n  dispatch(EditData(editobj))\n  setUser(null)\n}",
+          "practiceCode": "// editobj: { id, name, description }"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "ID-и пешина",
+          "id аз props гирифта мешавад: user.id.",
+          "id: user.id"
+        ],
+        [
+          "2",
+          "Қиматҳои нав",
+          "name ва description аз майдонҳои input гирифта мешаванд.",
+          "e.target.name.value"
+        ],
+        [
+          "3",
+          "Ирсол ба Store",
+          "Redux: dispatch(EditData), Zustand: editData, Jotai: editData.",
+          "Edit action call"
+        ],
+        [
+          "4",
+          " setUser(null)",
+          "Равзана пӯшида мешавад.",
+          "setUser(null)"
+        ]
+      ],
+      "memory": "user.id + inputs → editobj → edit action → setUser(null).",
+      "practice": "Дар «Практика» интихоби defaultValue ва сохтани editobj-ро санҷ.",
+      "concepts": [
+        [
+          "editobj",
+          "JavaScript Object",
+          "Кодгузор",
+          "Объекти дар бар гирандаи маълумоти нави вазифа",
+          "Бе ин маълумоти нав ба сервер намерасад."
+        ]
+      ],
+      "relationNote": "Дар ҳамаи се мудир сохтори editobj якхела мебошад."
+    },
+    "common-info": {
+      "group": "Кори умумӣ ва шаклҳо",
+      "title": "Саҳифаи муфассал (Info.tsx)",
+      "method": "NAV",
+      "files": [
+        "src/pages/Info.tsx"
+      ],
+      "intro": "Саҳифаи Info.tsx маълумоти интихобшударо аз ҳар кадом мудир (todoinfo аз Redux, infoUser аз Zustand, infoUserAtom аз Jotai) мегирад ва намоиш медиҳад.",
+      "blocks": [
+        {
+          "path": "src/pages/Info.tsx",
+          "kind": "component",
+          "code": "const { todoinfo, isLoading } = useSelector((store) => store.todo)\nconst infoZustand = useTodoStore((s) => s.infoUser)\nconst infoJotai = useAtomValue(infoUserAtom)\nconst todo = todoinfo || infoZustand || infoJotai\n\nif (isLoading) return <div>Loading...</div>\nif (!todo) return <div>Ягон todo интихоб нашудааст</div>\n\nreturn (\n  <div>\n    <button onClick={() => navigate(-1)}>&larr; Баргаштан</button>\n    <h1>{todo.name}</h1>\n    <p>{todo.description}</p>\n    {todo.images?.map((img) => (\n      <img key={img.id} src={\"https://to-dos-api.softclub.tj/images/\" + img.imageName} alt=\"\" />\n    ))}\n  </div>\n)",
+          "practiceCode": "const todo = todoinfo || infoZustand || infoJotai"
+        }
+      ],
+      "steps": [
+        [
+          "1",
+          "Хондани Store",
+          "Info.tsx якбора аз Redux, Zustand ва Jotai маълумотро месанҷад.",
+          "todoinfo || infoZustand || infoJotai"
+        ],
+        [
+          "2",
+          "Тафтиши мавҷудият",
+          "Агар холӣ бошад, паёми «Ягон todo интихоб нашудааст» мебарояд.",
+          "!todo"
+        ],
+        [
+          "3",
+          "Намоиш",
+          "Ном, шарҳ, статус ва галереяи расмҳо намоиш дода мешаванд.",
+          "todo.images.map(...)"
+        ]
+      ],
+      "memory": "todoinfo || infoZustand || infoJotai → render.",
+      "practice": "Чӣ тавр пайваст шудани як саҳифа ба 3 state manager-ро омӯз.",
+      "concepts": [
+        [
+          "navigate(-1)",
+          "react-router",
+          "React Router",
+          "Баргаштан ба саҳифаи пешина",
+          "Корбарро ба рӯйхат бармегардонад."
+        ]
+      ],
+      "relationNote": "Саҳифаи ягонаи Info.tsx ба ҳар се мудири ҳолат хидмат мерасонад."
+    }
+  },
+  "fullFiles": {
+    "Redux": [
+      {
+        "path": "src/store/counterSlice.ts",
+        "code": "import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'\nimport axios from \"axios\";\nimport { img_URL } from \"../pages/Redux\";\nlet api = 'https://to-dos-api.softclub.tj/api/to-dos'\n\n//гет\nexport const getData = createAsyncThunk(\"todo/getData\", async (params = {}) => {\n    const search = params?.search || \"\"\n    const page = params?.page || 1\n    try {\n        const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n        return data.data\n    } catch (error) {\n        console.error(error);\n    }\n})\n//инфо\nexport const getByIdData = createAsyncThunk(\"todo/getByIdData\",async(id)=>{\n    try {\n        const {data} = await axios.get(`${api}/${id}`)\n        return data.data\n    } catch (error) {\n        console.error(error);\n    }\n})\n//удалить\nexport const deleteData = createAsyncThunk(\"todo/deleteData\",async(id,{dispatch})=>{\n    try {\n        await axios.delete(`${api}?id=${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n//удалить img\nexport const deleteImgData = createAsyncThunk(\"todo/deleteImgData\",async(id,{dispatch})=>{\n    try {\n        await axios.delete(`${api}/images/${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n//эдит\nexport const isCompleted = createAsyncThunk(\"todo/isComplete\",async(id,{dispatch})=>{\n    try {\n        await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\nexport const EditData = createAsyncThunk(\"todo/EditData\",async(user,{dispatch})=>{\n    try {\n        await axios.put(api,user)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n//добавить\nexport const AddData = createAsyncThunk(\"todo/AddData\",async(user,{dispatch})=>{\n    try {\n        await axios.post(api,user)\n        dispatch(getData())\n    } catch (error) {\n        console.error(error);\n    }\n})\n//добавить img\nexport const AddImgData = createAsyncThunk(\"todo/AddImgData\",async({id,file},{dispatch})=>{\n    const formData = new FormData()\n    for (let i = 0; i < file.length; i++) {\n        formData.append(\"Images\",file[i])\n    }\n    try {\n       await axios.post(`${api}/${id}/images`, formData)\n        dispatch(getByIdData(id))\n    } catch (error) {\n        console.error(error);\n    }\n})\n//тодослайс\nexport const TodaSlice = createSlice({\n  name: 'counter',\n  initialState:{\n    data:[],\n    isLoading:false,\n    todoinfo:null\n  },\n  reducers: {},\n  extraReducers:(builder)=>{\n    builder.addCase(getData.pending,(state)=>{\n        state.isLoading= true\n    })\n    builder.addCase(getData.fulfilled,(state,action)=>{\n        state.data=action.payload\n        state.isLoading= false\n    })\n    builder.addCase(getByIdData.fulfilled,(state,action)=>{\n        state.todoinfo=action.payload\n        state.isLoading= false\n    })\n  },\n})\n\nexport const { increment, decrement, incrementByAmount } = TodaSlice.actions\nexport default TodaSlice.reducer"
+      },
+      {
+        "path": "src/store/store.ts",
+        "code": "import { configureStore } from \"@reduxjs/toolkit\"\nimport todoReducer from \"./counterSlice\"\n\nexport const store = configureStore({\n  reducer: {\n    todo: todoReducer,\n  },\n})"
+      },
+      {
+        "path": "src/pages/Redux.tsx",
+        "code": "import { useDispatch, useSelector } from \"react-redux\"\nimport { deleteData, getData, getByIdData, AddImgData, deleteImgData, isCompleted } from \"../store/counterSlice\"\nimport { useEffect, useState } from \"react\"\nimport { useNavigate } from \"react-router\"\nimport DialogEdit from \"../components/dialog/DialogEdit\"\nimport DialogAdd from \"../components/dialog/DialogAdd\"\n\nexport const img_URL = \"https://to-dos-api.softclub.tj/images/\"\n\nconst Redux = () => {\n  const dispatch = useDispatch()\n  const navigate = useNavigate()\n  const [edit, setEdit] = useState()\n  const [add, setAdd] = useState()\n  const [search, setSearch] = useState(\"\")\n  const [page, setPage] = useState(1)\n  const { data, isLoading } = useSelector((store) => store.todo)\n\n  useEffect(() => {\n    dispatch(getData({ search, page }))\n  }, [dispatch, search, page])\n\n  const handleInfo = (id) => {\n    dispatch(getByIdData(id))\n    navigate(\"/info\")\n  }\n\n  return (\n    <div>\n      {/* DialogAdd, DialogEdit, search input, list map, pagination */}\n    </div>\n  )\n}\n\nexport default Redux"
+      }
+    ],
+    "Zustand": [
+      {
+        "path": "src/store/useTodoStore.ts",
+        "code": "import axios from \"axios\"\nimport { create } from \"zustand\"\n\nconst api = \"https://to-dos-api.softclub.tj/api/to-dos\"\n\nexport const useTodoStore = create((set, get) => ({\n  data: [],\n  infoUser: null,\n\n  // 1. Get ҳамаи todo-ҳо (бо search ва pagination)\n  getData: async (params = {}) => {\n    const search = params?.search || \"\"\n    const page = params?.page || 1\n    try {\n      const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n      set({ data: data.data })\n    } catch (error) {\n      console.error(error)\n    }\n  },\n\n  // 2. Delete todo\n  deleteData: async (id) => {\n    try {\n      await axios.delete(`${api}?id=${id}`)\n      get().getData()\n    } catch (error) {\n      console.error(error)\n    }\n  },\n\n  // 3. Add todo\n  addData: async (newTodo) => {\n    try {\n      await axios.post(api, newTodo)\n      get().getData()\n    } catch (error) {\n      console.error(error)\n    }\n  },\n\n  // 4. Edit todo\n  editData: async (user) => {\n    try {\n      await axios.put(api, user)\n      get().getData()\n    } catch (error) {\n      console.error(error)\n    }\n  },\n\n  // 5. Checkbox (completed)\n  isCompleted: async (id) => {\n    try {\n      await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n      get().getData()\n    } catch (error) {\n      console.error(error)\n    }\n  },\n\n  // 6. Get Info бо id\n  getInfo: async (id) => {\n    try {\n      const { data } = await axios.get(`${api}/${id}`)\n      set({ infoUser: data.data })\n    } catch (error) {\n      console.error(error)\n    }\n  },\n\n  // 7. Add расм\n  addImgData: async ({ id, file }) => {\n    try {\n      const formData = new FormData()\n      for (let i = 0; i < file.length; i++) {\n        formData.append(\"Images\", file[i])\n      }\n      await axios.post(`${api}/${id}/images`, formData)\n      get().getData()\n    } catch (error) {\n      console.error(error)\n    }\n  },\n\n  // 8. Delete расм\n  deleteImgData: async (imageId) => {\n    try {\n      await axios.delete(`${api}/images/${imageId}`)\n      get().getData()\n    } catch (error) {\n      console.error(error)\n    }\n  },\n}))"
+      },
+      {
+        "path": "src/pages/Zustand.tsx",
+        "code": "import { useEffect, useState } from \"react\"\nimport { useNavigate } from \"react-router\"\nimport { useTodoStore } from \"../store/useTodoStore\"\n\nexport const img_URL = \"https://to-dos-api.softclub.tj/images/\"\n\nconst Zustand = () => {\n  const [search, setSearch] = useState(\"\")\n  const [page, setPage] = useState(1)\n  const { data, getData, deleteData, isCompleted, addImgData, deleteImgData, getInfo } = useTodoStore()\n\n  useEffect(() => {\n    getData({ search, page })\n  }, [search, page])\n\n  return (<div>{/* components */}</div>)\n}\n\nexport default Zustand"
+      }
+    ],
+    "Jotai": [
+      {
+        "path": "src/store/jotaiStore.ts",
+        "code": "import axios from \"axios\"\nimport { atom } from \"jotai\"\nimport { atomWithRefresh } from \"jotai/utils\"\n\nconst api = \"https://to-dos-api.softclub.tj/api/to-dos\"\n\n// Atoms барои Search ва Page\nexport const searchAtom = atom(\"\")\nexport const pageAtom = atom(1)\n\n// 1. Get ҳамаи todo-ҳо (бо search ва pagination)\nexport const getDataAtom = atomWithRefresh(async (get) => {\n  const search = get(searchAtom)\n  const page = get(pageAtom)\n  try {\n    const { data } = await axios.get(`${api}?query=${search}&PageNumber=${page}&PageSize=4`)\n    return data.data || []\n  } catch (error) {\n    console.error(error)\n    return []\n  }\n})\n\n// 2. Delete todo\nexport const DeleteDataAtom = atom(null, async (get, set, id) => {\n  try {\n    await axios.delete(`${api}?id=${id}`)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})\n\n// 3. Add todo\nexport const AddDataAtom = atom(null, async (get, set, user) => {\n  try {\n    await axios.post(api, user)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})\n\n// 4. Edit todo\nexport const EditDataAtom = atom(null, async (get, set, user) => {\n  try {\n    await axios.put(api, user)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})\n\n// 5. Checkbox (completed)\nexport const IsCompletedAtom = atom(null, async (get, set, id) => {\n  try {\n    await axios.put(`https://to-dos-api.softclub.tj/completed?id=${id}`)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})\n\n// 6. Get Info бо id\nexport const infoUserAtom = atom(null)\nexport const GetInfoAtom = atom(null, async (get, set, id) => {\n  try {\n    const { data } = await axios.get(`${api}/${id}`)\n    set(infoUserAtom, data.data)\n  } catch (error) {\n    console.error(error)\n  }\n})\n\n// 7. Add расм\nexport const AddImgAtom = atom(null, async (get, set, { id, file }) => {\n  try {\n    const formData = new FormData()\n    for (let i = 0; i < file.length; i++) {\n      formData.append(\"Images\", file[i])\n    }\n    await axios.post(`${api}/${id}/images`, formData)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})\n\n// 8. Delete расм\nexport const DeleteImgAtom = atom(null, async (get, set, imageId) => {\n  try {\n    await axios.delete(`${api}/images/${imageId}`)\n    set(getDataAtom)\n  } catch (error) {\n    console.error(error)\n  }\n})"
+      },
+      {
+        "path": "src/pages/Jotai.tsx",
+        "code": "import { Suspense, useState } from \"react\"\nimport { useNavigate } from \"react-router\"\nimport { useAtom, useAtomValue, useSetAtom } from \"jotai\"\nimport { getDataAtom, DeleteDataAtom, IsCompletedAtom, AddImgAtom, DeleteImgAtom, GetInfoAtom, searchAtom, pageAtom } from \"../store/jotaiStore\"\n\nexport const img_URL = \"https://to-dos-api.softclub.tj/images/\"\n\nconst JotaiContent = () => {\n  const [search, setSearch] = useAtom(searchAtom)\n  const [page, setPage] = useAtom(pageAtom)\n  const data = useAtomValue(getDataAtom)\n  const deleteData = useSetAtom(DeleteDataAtom)\n  const isCompleted = useSetAtom(IsCompletedAtom)\n  const addImgData = useSetAtom(AddImgAtom)\n  const deleteImgData = useSetAtom(DeleteImgAtom)\n  const getInfo = useSetAtom(GetInfoAtom)\n  // ...\n}\n\nconst Jotai = () => (\n  <Suspense fallback={<div>Loading Jotai...</div>}>\n    <JotaiContent />\n  </Suspense>\n)\n\nexport default Jotai"
+      }
+    ]
+  },
+  "meta": {
+    "knownPaths": [
+      "src/main.tsx",
+      "src/App.tsx",
+      "src/store/store.ts",
+      "src/store/counterSlice.ts",
+      "src/store/useTodoStore.ts",
+      "src/store/jotaiStore.ts",
+      "src/pages/Redux.tsx",
+      "src/pages/Zustand.tsx",
+      "src/pages/Jotai.tsx",
+      "src/pages/Info.tsx",
+      "src/components/dialog/DialogAdd.tsx",
+      "src/components/dialog/DialogEdit.tsx",
+      "src/components/dialogZustand/DialogAddZustand.tsx",
+      "src/components/dialogZustand/DialogEditZustand.tsx",
+      "src/components/dialogJotai/DialogAddJotai.tsx",
+      "src/components/dialogJotai/DialogEditJotai.tsx",
+      "src/Layout/Layout.tsx"
+    ],
+    "analyzedFileCount": 17,
+    "technologies": [
+      "React 19 / TypeScript",
+      "Axios",
+      "Redux Toolkit (@reduxjs/toolkit)",
+      "Zustand 5",
+      "Jotai 3",
+      "React Router 8"
+    ],
+    "tree": "src/\n├── App.tsx\n├── Layout/\n│   └── Layout.tsx\n├── components/\n│   ├── dialog/\n│   │   ├── DialogAdd.tsx\n│   │   └── DialogEdit.tsx\n│   ├── dialogZustand/\n│   │   ├── DialogAddZustand.tsx\n│   │   └── DialogEditZustand.tsx\n│   └── dialogJotai/\n│       ├── DialogAddJotai.tsx\n│       └── DialogEditJotai.tsx\n├── pages/\n│   ├── Info.tsx\n│   ├── Jotai.tsx\n│   ├── Redux.tsx\n│   └── Zustand.tsx\n└── store/\n    ├── counterSlice.ts\n    ├── jotaiStore.ts\n    ├── store.ts\n    └── useTodoStore.ts"
+  }
+}

@@ -1,0 +1,112 @@
+import { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export type Task = { id: string; title: string; minutes: number; createdAt: number };
+export const STORAGE_KEY = 'devatlas-planner';
+
+export function validateTitle(title: string): string | null {
+  const value = title.trim();
+  if (value.length < 3) return 'Название короче трёх символов';
+  if (value.length > 40) return 'Название длиннее сорока символов';
+  return null;
+}
+
+export default function App() {
+  const [tasks, setTasks] = useState<Task[] | null>(null);
+  const [title, setTitle] = useState('');
+  const [error, setError] = useState('');
+  const [screen, setScreen] = useState<'list' | 'add'>('list');
+
+  useEffect(() => {
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))
+      .catch(() => setTasks([]));
+  }, []);
+
+  async function persist(next: Task[]) {
+    setTasks(next);
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch {
+      setError('Не удалось сохранить: данные видны только до перезапуска');
+    }
+  }
+
+  function addTask() {
+    const problem = validateTitle(title);
+    if (problem) {
+      setError(problem);
+      return;
+    }
+    setError('');
+    const task: Task = { id: `t${Date.now()}`, title: title.trim(), minutes: 20, createdAt: Date.now() };
+    void persist([...tasks ?? [], task]);
+    setTitle('');
+    setScreen('list');
+  }
+
+  if (tasks === null) {
+    return <View style={styles.screen}><Text>Открываем планировщик…</Text></View>;
+  }
+
+  return (
+    <View style={styles.screen}>
+      {screen === 'list' ? (
+        <>
+          <Text accessibilityRole="header">Мои занятия</Text>
+          {tasks.length === 0 ? (
+            <Text>Пока занятий нет. Добавьте первое.</Text>
+          ) : (
+            tasks.map(task => (
+              <View key={task.id} style={styles.item}>
+                <Text>{task.title} — {task.minutes} мин.</Text>
+              </View>
+            ))
+          )}
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Перейти к форме нового занятия"
+            onPress={() => setScreen('add')}
+            style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+          >
+            <Text style={styles.buttonText}>Добавить</Text>
+          </Pressable>
+        </>
+      ) : (
+        <>
+          <Text accessibilityRole="header">Новое занятие</Text>
+          <TextInput value={title} onChangeText={setTitle} placeholder="Название" style={styles.input} />
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Сохранить занятие"
+            onPress={addTask}
+            style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+          >
+            <Text style={styles.buttonText}>Сохранить</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Вернуться к списку без сохранения"
+            onPress={() => { setError(''); setScreen('list'); }}
+            style={({ pressed }) => [styles.button, styles.cancel, pressed && styles.pressed]}
+          >
+            <Text style={styles.buttonText}>Отмена</Text>
+          </Pressable>
+        </>
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },
+  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },
+  error: { color: '#dc2626', fontSize: 14 },
+  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },
+  cancel: { backgroundColor: '#64748b' },
+  pressed: { opacity: 0.7 },
+  buttonText: { color: '#ffffff', fontSize: 16 },
+});

@@ -1,0 +1,1 @@
+export function solve(input,db){db.exec('BEGIN IMMEDIATE');try{const stmt=db.prepare('INSERT INTO tasks(title) VALUES(?)');for(const title of input.titles)stmt.run(title);db.exec('COMMIT');return input.titles.length;}catch(error){db.exec('ROLLBACK');throw error;}}

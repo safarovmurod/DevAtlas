@@ -1,0 +1,77 @@
+// @vitest-environment node
+import {describe,expect,it} from 'vitest';
+import {COURSE_CATEGORIES,PROGRAMMING_SUBTRACKS,categoryLabel,subtrackLabel} from '@/content/course-categories';
+import {COURSE_CATALOG,LEARNING_TRACKS,courseTrack,coursePublishedDays} from '@/content/courses/catalog';
+import {COURSE_IDS} from '@/lib/courses/ids';
+import {INTERFACE_LOCALES} from '@/lib/locale';
+
+describe('published course taxonomy',()=>{
+ it('declares one catalog entry per course ID with valid prerequisites and categories',()=>{
+  expect(new Set(COURSE_CATALOG.map(course=>course.id)).size).toBe(COURSE_CATALOG.length);
+  expect(new Set(COURSE_CATALOG.map(course=>course.id))).toEqual(new Set(COURSE_IDS));
+  for(const course of COURSE_CATALOG){
+   expect(COURSE_CATEGORIES.some(category=>category.id===course.category)).toBe(true);
+   if(course.prerequisite)expect(COURSE_IDS).toContain(course.prerequisite);
+   expect(course.publishedDays).toBeGreaterThan(0);
+   expect(Number.isInteger(course.publishedDays)).toBe(true);
+  }
+ });
+ it('provides every category and programming subtrack label in all supported interface languages',()=>{
+  expect(COURSE_CATEGORIES).toHaveLength(11);expect(PROGRAMMING_SUBTRACKS).toHaveLength(7);
+  for(const locale of INTERFACE_LOCALES){
+   for(const category of COURSE_CATEGORIES)expect(categoryLabel(category.id,locale).trim().length).toBeGreaterThan(0);
+   for(const subtrack of PROGRAMMING_SUBTRACKS)expect(subtrackLabel(subtrack.id,locale).trim().length).toBeGreaterThan(0);
+  }
+ });
+ it('organizes every course into exactly one learning track whose stage matches its access tier',()=>{
+  const seen=new Set<string>();
+  for(const trackItem of LEARNING_TRACKS){
+   expect(new Set(trackItem.courses.map(entry=>entry.course)).size).toBe(trackItem.courses.length);
+   for(const entry of trackItem.courses){
+    expect(seen.has(entry.course)).toBe(false);
+    seen.add(entry.course);
+    const course=COURSE_CATALOG.find(item=>item.id===entry.course);
+    expect(course,entry.course).toBeTruthy();
+    const tier=course?.accessTier??'starter';
+    expect(entry.stage).toBe(tier==='starter'?'beginner':tier);
+   }
+  }
+  expect([...seen].sort()).toEqual([...COURSE_IDS].sort());
+ });
+ it('keeps every published beginner stage free inside each track',()=>{
+  for(const trackItem of LEARNING_TRACKS){
+   for(const entry of trackItem.courses.filter(entry=>entry.stage==='beginner')){
+    expect(COURSE_CATALOG.find(item=>item.id===entry.course)?.accessTier).toBeUndefined();
+   }
+   expect(courseTrack(trackItem.courses[0].course)?.id).toBe(trackItem.id);
+  }
+ });
+ it('groups programming subjects by actual track instead of mixing languages and tools',()=>{
+  const tracks={frontend:['html','css','javascript-1','javascript-2','react','nextjs','javascript-pro','typescript'],backend:['backend','nodejs','php','java','csharp','backend-pro','architecture-expert'],languages:['python','go','rust','ruby','cpp'],mobile:['mobile','swift','kotlin'],databases:['sql','mongodb'],tools:['bash','git'],algorithms:['algorithms']};
+  for(const [subtrack,ids] of Object.entries(tracks))for(const id of ids)expect(COURSE_CATALOG.find(course=>course.id===id)).toMatchObject({category:'programming',subtrack});
+ });
+ it('keeps non-technical courses separate from runtime and code editor claims',()=>{
+  for(const course of COURSE_CATALOG.filter(course=>course.category!=='programming'&&course.category!=='ai')){
+   expect(course.subtrack).toBeUndefined();expect(course.editorLanguage).toBeUndefined();expect(course.runtime).toBeUndefined();
+  }
+ });
+ it('publishes the AI engineering direction as free fourteen-day beginner courses',()=>{
+  const aiCourses={'ai-fundamentals':null,'context-engineering':'ai-fundamentals','agent-harness':'context-engineering'} as const;
+  for(const [id,prerequisite] of Object.entries(aiCourses)){
+   const course=COURSE_CATALOG.find(course=>course.id===id);
+   expect(course).toMatchObject({category:'ai',publishedDays:14,prerequisite});
+   expect(course?.accessTier).toBeUndefined();
+   expect(course?.introductoryDays).toBeUndefined();
+   expect(course?.subtrack).toBeUndefined();
+   expect(['javascript','typescript']).toContain(course?.editorLanguage);
+  }
+ });
+ it('marks distinct Pro and Expert modules with their actual published scope',()=>{
+  const tiers={'javascript-pro':'pro','backend-pro':'pro','architecture-expert':'expert','ux-pro':'pro','business-pro':'pro'};
+  const days:Record<string,number>={'javascript-pro':30,'backend-pro':30,'architecture-expert':30,'ux-pro':30,'business-pro':30};
+  for(const [id,accessTier] of Object.entries(tiers))expect(COURSE_CATALOG.find(course=>course.id===id)).toMatchObject({accessTier,publishedDays:days[id]});
+  expect(COURSE_CATALOG.find(course=>course.id==='css')?.publishedDays).toBe(30);
+  expect(COURSE_CATALOG.find(course=>course.id==='nextjs')?.publishedDays).toBe(20);
+  expect(COURSE_CATALOG.find(course=>course.id==='mongodb')?.editorLanguage).toBe('javascript');
+ });
+});

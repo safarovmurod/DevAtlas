@@ -1,0 +1,73 @@
+{
+  "name": "devatlas",
+  "version": "1.0.0",
+  "private": true,
+  "bin": {
+    "react-scripts": "./bin/react-scripts.js"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint src/",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:auth": "playwright test --config playwright.auth.config.ts",
+    "predev": "node scripts/prepare-editor.mjs && node scripts/prepare-sqlite.mjs",
+    "prebuild": "node scripts/prepare-editor.mjs && node scripts/prepare-sqlite.mjs"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "5.9.2",
+    "@monaco-editor/react": "^4.7.0",
+    "@radix-ui/react-slot": "1.5.0",
+    "@supabase/supabase-js": "^2.117.2",
+    "@tanstack/react-query": "^5.104.0",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "dexie": "^4.4.6",
+    "emmet-monaco-es": "^5.7.0",
+    "jszip": "^3.10.2",
+    "lucide-react": "^1.49.0",
+    "monaco-editor": "^0.57.0",
+    "next": "16.4.2",
+    "parse5": "^8.0.1",
+    "qrcode": "^1.5.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-hook-form": "7.91.0",
+    "sql.js": "1.15.1",
+    "tailwind-merge": "3.7.0",
+    "zod": "^4.6.6",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/jszip": "^3.4.0",
+    "@types/node": "^24.19.0",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/sql.js": "1.4.11",
+    "esbuild": "^0.28.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
+    "jsdom": "^30.1.1",
+    "prettier": "3.9.10",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^5.0.3"
+  },
+  "overrides": {
+    "dompurify": "3.4.17",
+    "undici": "8.12.2",
+    "vite": "8.3.5"
+  }
+}

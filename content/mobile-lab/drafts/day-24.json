@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-24",
+  "day": 24,
+  "prerequisiteDays": [
+    23
+  ],
+  "title": {
+    "ru": "Promise и жизненный цикл загрузки",
+    "tg": "Promise ва даври боркунӣ",
+    "en": "Promise and the loading lifecycle"
+  },
+  "summary": {
+    "ru": "Покажите три состояния экрана: загрузка, готово и ошибка — на управляемой загрузке.",
+    "tg": "Се ҳолати экранро нишон диҳед: боркунӣ, омода ва хато — дар боркунии идорашаванда.",
+    "en": "Show the three screen states: loading, done and error — on a controllable load."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Экран ждёт данные",
+        "tg": "Экран интизори маълумот аст",
+        "en": "The screen waits for data"
+      },
+      "body": {
+        "ru": "Данные редко приходят мгновенно: между запросом и ответом экран обязан что-то показывать. Promise — обещание результата: функция возвращает не данные, а объект с методом then, который вызовется позже. Жизненный цикл описывают тремя состояниями: loading — запрос идёт, done — данные получены, error — что-то сломалось. useEffect с пустым массивом зависимостей запускает загрузку один раз после первого рендера. Важно честно показывать каждый экран состояния: пользователь видит, что происходит, а не застывший интерфейс. В примере источник данных — таймер: он имитирует задержку сети, не требуя интернета, и его нельзя выдать за настоящий сетевой запрос.",
+        "tg": "Маълумот камвақт фавран меояд: байни дархост ва ҷавоб экран чизе нишон доданаш лозим. Promise — ваъдаи натиҷа: функсия маълумот нестан, объект бо усули then бармегардонад, ки баъдтар даъват мешавад. Даври зиндагиро бо се ҳолат менависанд: loading — дархост равон аст, done — маълумот омад, error — чизе вайрон шуд. useEffect бо массиви холии вобастагӣ боркуниро як маротиба баъди аввалин render оғоз мекунад. Ҳар ҳолати экранро рӯбарӯ нишон додан муҳим аст: корбар мебинад, ки чӣ рӯй дорад, на интерфейси яхкардашуда. Дар мисол манбаи маълумот таймер аст: таъхири шабакаро таклид мекунад, бе интернет кор мекунад ва набояд онро дархости шабакавии воқеӣ ҳисоб кард.",
+        "en": "Data rarely arrives instantly: between the request and the response the screen must show something. A Promise is a promise of a result: the function returns not data but an object with a then method that fires later. The lifecycle is described with three states: loading — the request runs, done — data arrived, error — something broke. useEffect with an empty dependency array starts the load once after the first render. Show every state honestly: the user sees what is happening instead of a frozen interface. The example data source is a timer: it imitates network delay without the internet and must not be presented as a real network request."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "loadLessons возвращает Promise, который через полторы секунды разрешается массивом из трёх строк. Состояние status начинается с loading. useEffect запускается после первого рендера: then получает массив, сохраняет его и переводит статус в done; catch ловит любой сбой и ставит error. Три блока в JSX показывают ровно один экран состояния. Запустите пример: полторы секунды видна загрузка, потом список. В решении добавлен переключатель ошибки и повторная загрузка: статус возвращается в loading перед каждым запросом, поэтому экран не врёт о происходящем.",
+        "tg": "loadLessons Promise-ро бармегардонад, ки баъди нима сон бо массиви се сатр ҳал мешавад. Ҳолати status аз loading оғоз мешавад. useEffect баъди аввалин render оғоз мешавад: then массивро мегирад, нигоҳ медорад ва статусро ба done мегузаронад; catch ҳар хаторо мегирад ва error мегузорад. Се блок дар JSX тамоман як ҳолати экранро нишон медиҳанд. Мисолро иҷро кунед: нима сон боркунӣ дида мешавад, баъд рӯйхат. Дар ҳалл калидгузари хато ва боркунии такрорӣ илова шудааст: статус пеш аз ҳар дархост ба loading бармегардад, бинобар ин экран дар бораи рафтор дуруст гап мезанад.",
+        "en": "loadLessons returns a Promise that resolves after one and a half seconds with a three-string array. The status state starts at loading. useEffect runs after the first render: then receives the array, stores it and moves the status to done; catch catches any failure and sets error. Three JSX blocks show exactly one state screen. Run the example: for a second and a half you see loading, then the list. The solution adds an error toggle and reloading: the status returns to loading before every request, so the screen does not lie about what is happening."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\nfunction loadLessons(): Promise<string[]> {\n  return new Promise(resolve => {\n    setTimeout(() => resolve(['Экран', 'Стили', 'Flexbox']), 1500);\n  });\n}\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [items, setItems] = useState<string[]>([]);\n\n  useEffect(() => {\n    loadLessons()\n      .then(result => {\n        setItems(result);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-24-q1",
+      "question": {
+        "ru": "Что возвращает функция загрузки вместо данных?",
+        "tg": "Функсияи боркунӣ ба ҷои маълумот чӣ бармегардонад?",
+        "en": "What does a load function return instead of data?"
+      },
+      "options": [
+        {
+          "ru": "Готовый список сразу",
+          "tg": "Рӯйхати тайёр фавран",
+          "en": "A ready list at once"
+        },
+        {
+          "ru": "Promise — обещание будущего результата",
+          "tg": "Promise — ваъдаи натиҷаи оянда",
+          "en": "A Promise — a promise of a future result"
+        },
+        {
+          "ru": "Номер ошибки",
+          "tg": "Рақами хато",
+          "en": "An error number"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "then получит данные, когда они появятся.",
+        "tg": "then маълумотро мегирад, ки онҳо пайдо мешаванд.",
+        "en": "then receives the data when it appears."
+      },
+      "hint": {
+        "ru": "Перечитайте первое предложение первого раздела.",
+        "tg": "Ҷумлаи аввали бахши аввалро аз нав хонед.",
+        "en": "Re-read the first sentence of the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-24-q2",
+      "question": {
+        "ru": "Сколько состояний у жизненного цикла загрузки?",
+        "tg": "Даври боркунӣ чанд ҳолат дорад?",
+        "en": "How many states does the loading lifecycle have?"
+      },
+      "options": [
+        {
+          "ru": "Одно: готово",
+          "tg": "Як: омода",
+          "en": "One: done"
+        },
+        {
+          "ru": "Два: открыто и закрыто",
+          "tg": "Ду: кушода ва пӯшида",
+          "en": "Two: open and closed"
+        },
+        {
+          "ru": "Три: loading, done и error",
+          "tg": "Се: loading, done ва error",
+          "en": "Three: loading, done and error"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Экран ожидания, экран данных и экран сбоя.",
+        "tg": "Экрани интизорӣ, экрани маълумот ва экрани хатогӣ.",
+        "en": "A waiting screen, a data screen and a failure screen."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе перечисление состояний.",
+        "tg": "Дар бахши аввал номбаркунии ҳолатҳоро ёбед.",
+        "en": "Find the state list in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-24-q3",
+      "question": {
+        "ru": "Когда выполнится useEffect с пустым массивом зависимостей?",
+        "tg": "useEffect бо массиви холии вобастагӣ ҳангоми чӣ иҷро мешавад?",
+        "en": "When does useEffect with an empty dependency array run?"
+      },
+      "options": [
+        {
+          "ru": "Один раз после первого рендера",
+          "tg": "Як маротиба баъди аввалин render",
+          "en": "Once after the first render"
+        },
+        {
+          "ru": "После каждого нажатия",
+          "tg": "Баъди ҳар пахш",
+          "en": "After every press"
+        },
+        {
+          "ru": "Никогда",
+          "tg": "Ҳеҷ гоҳ",
+          "en": "Never"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Пустые зависимости означают «не повторять при изменениях».",
+        "tg": "Вобастагии холӣ маънои «ҳангоми тағйир такрор накун»-ро дорад.",
+        "en": "Empty dependencies mean \"do not repeat on changes\"."
+      },
+      "hint": {
+        "ru": "Посмотрите на второй аргумент useEffect в примере.",
+        "tg": "Ба аргументи дуюми useEffect дар мисол нигоҳ кунед.",
+        "en": "Look at the second useEffect argument in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-24-q4",
+      "question": {
+        "ru": "Что делает catch в цепочке загрузки?",
+        "tg": "catch дар занҷири боркунӣ чӣ мекунад?",
+        "en": "What does catch do in the load chain?"
+      },
+      "options": [
+        {
+          "ru": "Повторяет запрос вечно",
+          "tg": "Дархостро беохир такрор мекунад",
+          "en": "Retries the request forever"
+        },
+        {
+          "ru": "Переводит экран в состояние ошибки",
+          "tg": "Экранро ба ҳолати хато мегузаронад",
+          "en": "Moves the screen to the error state"
+        },
+        {
+          "ru": "Скрывает данные",
+          "tg": "Маълумотро маҳкум мекунад",
+          "en": "Hides the data"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Пользователь видит честный сбой вместо зависания.",
+        "tg": "Корбар ба ҷои ях кардан хатои рӯбарӯ мебинад.",
+        "en": "The user sees an honest failure instead of a freeze."
+      },
+      "hint": {
+        "ru": "Найдите блок error в JSX примера.",
+        "tg": "Блоки error-ро дар JSX-и мисол ёбед.",
+        "en": "Find the error block in the example JSX."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-24-q5",
+      "question": {
+        "ru": "Чем является таймер в примере?",
+        "tg": "Таймер дар мисол чист?",
+        "en": "What is the timer in the example?"
+      },
+      "options": [
+        {
+          "ru": "Базой данных",
+          "tg": "Пойгоҳи додаҳо",
+          "en": "A database"
+        },
+        {
+          "ru": "Настоящим сервером",
+          "tg": "Сервери воқеӣ",
+          "en": "A real server"
+        },
+        {
+          "ru": "Имитацией задержки, а не настоящей сетью",
+          "tg": "Таклиди таъхир, на шабакаи воқеӣ",
+          "en": "An imitation of delay, not a real network"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Он помогает изучить цикл без интернета и не выдаётся за сеть.",
+        "tg": "Ӯ даврро бе интернет меомӯзонад ва ҳамчун шабака пешкаш намешавад.",
+        "en": "It teaches the cycle without the internet and is not presented as the network."
+      },
+      "hint": {
+        "ru": "Перечитайте последний предложение первого раздела.",
+        "tg": "Ҷумлаи охирини бахши аввалро аз нав хонед.",
+        "en": "Re-read the last sentence of the first section."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и пронаблюдайте цикл загрузки на устройстве. Соберите решение: добавьте переключатель ошибки и повторную загрузку со сбросом статуса в loading. Запишите, что видно в каждом из трёх состояний. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва даври боркуниро дар дастгоҳ пайгирӣ кунед. Ҳаллро созед: калидгузари хато ва боркунии такрорӣ бо баргардонидани статус ба loading илова кунед. Сабт кунед, ки дар ҳар се ҳолат чӣ дида мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and watch the load cycle on a device. Build the solution: add the error toggle and a reload that resets the status to loading. Record what is visible in each of the three states. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Добавьте состояние fail и включите его в массив зависимостей useEffect; ставьте loading в начале эффекта.",
+      "tg": "Ҳолати fail илова карда, онро ба массиви вобастагии useEffect дохил кунед; дар оғози эффект loading гузоред.",
+      "en": "Add a fail state and include it in the useEffect dependency array; set loading at the effect start."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\nfunction loadLessons(fail: boolean): Promise<string[]> {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      if (fail) reject(new Error('Сеть недоступна'));\n      else resolve(['Экран', 'Стили', 'Flexbox']);\n    }, 1500);\n  });\n}\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [items, setItems] = useState<string[]>([]);\n  const [fail, setFail] = useState(false);\n\n  useEffect(() => {\n    setStatus('loading');\n    loadLessons(fail)\n      .then(result => {\n        setItems(result);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, [fail]);\n\n  return (\n    <View style={styles.screen}>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n      <Text\n        accessibilityRole=\"button\"\n        onPress={() => setFail(value => !value)}\n        style={styles.toggle}\n      >\n        {fail ? 'Включить успешную загрузку' : 'Включить ошибку'}\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  toggle: { color: '#2563eb' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Все три состояния показаны и записаны с устройства.",
+        "tg": "Ҳамаи се ҳолат нишон дода, аз дастгоҳ сабт шудаанд.",
+        "en": "All three states are shown and recorded from the device."
+      },
+      {
+        "ru": "Повторная загрузка начинается с loading, а не с зависшего экрана.",
+        "tg": "Боркунии такрорӣ аз loading оғоз мешавад, на аз экрани яхкарда.",
+        "en": "A reload starts at loading, not a frozen screen."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Описать три состояния загрузки и связать их с Promise.",
+        "tg": "Се ҳолати боркуниро тавсиф карда, бо Promise пайваст кунед.",
+        "en": "Describe the three loading states and tie them to Promise."
+      },
+      {
+        "ru": "Запустить загрузку один раз через useEffect.",
+        "tg": "Боркуниро як маротиба тавассути useEffect оғоз кунед.",
+        "en": "Start the load once through useEffect."
+      }
+    ],
+    "realWorld": {
+      "ru": "Каждый ленточный экран сперва показывает «Загрузка…», потом данные или сбой.",
+      "tg": "Ҳар экрани лента аввал «Боркунӣ…», баъд маълумот ё хаторо нишон медиҳад.",
+      "en": "Every feed screen first shows \"Загрузка…\", then data or a failure."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Сколько состояний у жизненного цикла загрузки?",
+        "tg": "Даври боркунӣ чанд ҳолат дорад?",
+        "en": "How many states does the loading lifecycle have?"
+      },
+      "options": [
+        {
+          "ru": "Одно: готово",
+          "tg": "Як: омода",
+          "en": "One: done"
+        },
+        {
+          "ru": "Два: открыто и закрыто",
+          "tg": "Ду: кушода ва пӯшида",
+          "en": "Two: open and closed"
+        },
+        {
+          "ru": "Три: loading, done и error",
+          "tg": "Се: loading, done ва error",
+          "en": "Three: loading, done and error"
+        }
+      ],
+      "correctIndex": 2,
+      "hint": {
+        "ru": "Найдите в первом разделе перечисление состояний.",
+        "tg": "Дар бахши аввал номбаркунии ҳолатҳоро ёбед.",
+        "en": "Find the state list in the first section."
+      },
+      "explanation": {
+        "ru": "Экран ожидания, экран данных и экран сбоя.",
+        "tg": "Экрани интизорӣ, экрани маълумот ва экрани хатогӣ.",
+        "en": "A waiting screen, a data screen and a failure screen."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\nfunction loadLessons(): Promise<string[]> {\n  return new Promise(resolve => {\n    setTimeout(() => resolve(['Экран', 'Стили', 'Flexbox']), 1500);\n  });\n}\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [items, setItems] = useState<string[]>([]);\n\n  useEffect(() => {\n    loadLessons()\n      .then(result => {\n        setItems(result);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+      "steps": [
+        {
+          "line": 6,
+          "explanation": {
+            "ru": "Promise разрешится через полторы секунды.",
+            "tg": "Promise баъди нима сон ҳал мешавад.",
+            "en": "The Promise resolves after one and a half seconds."
+          },
+          "values": "3 строки"
+        },
+        {
+          "line": 13,
+          "explanation": {
+            "ru": "useEffect стартует после первого рендера.",
+            "tg": "useEffect баъди аввалин render оғоз мешавад.",
+            "en": "useEffect starts after the first render."
+          },
+          "values": "status = loading"
+        },
+        {
+          "line": 15,
+          "explanation": {
+            "ru": "then сохраняет данные и переводит статус.",
+            "tg": "then маълумотро нигоҳ карда, статусро мегузаронад.",
+            "en": "then stores the data and moves the status."
+          },
+          "values": "status = done"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере три блока отображения и объясните, когда виден каждый.",
+          "tg": "Дар мисол се блоки нишондиҳандаро ёфта, шарҳ диҳед, ки ҳар яке ҳангоми чӣ дида мешавад.",
+          "en": "Find the three display blocks and explain when each is visible."
+        },
+        {
+          "ru": "Запустите пример и наблюдайте переход загрузка → список.",
+          "tg": "Мисолро иҷро карда, гузариш аз боркунӣ ба рӯйхатро пайгирӣ кунед.",
+          "en": "Run the example and watch the loading → list transition."
+        }
+      ],
+      "hint": {
+        "ru": "Добавьте состояние fail и включите его в массив зависимостей useEffect; ставьте loading в начале эффекта.",
+        "tg": "Ҳолати fail илова карда, онро ба массиви вобастагии useEffect дохил кунед; дар оғози эффект loading гузоред.",
+        "en": "Add a fail state and include it in the useEffect dependency array; set loading at the effect start."
+      },
+      "success": {
+        "ru": "Экран показывает загрузку, затем список, и ни одно состояние не пропущено.",
+        "tg": "Экран боркуниро, баъд рӯйхатро нишон медиҳад ва ягон ҳолат нагузаштааст.",
+        "en": "The screen shows loading then the list with no state skipped."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и пронаблюдайте цикл загрузки на устройстве. Соберите решение: добавьте переключатель ошибки и повторную загрузку со сбросом статуса в loading. Запишите, что видно в каждом из трёх состояний. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва даври боркуниро дар дастгоҳ пайгирӣ кунед. Ҳаллро созед: калидгузари хато ва боркунии такрорӣ бо баргардонидани статус ба loading илова кунед. Сабт кунед, ки дар ҳар се ҳолат чӣ дида мешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and watch the load cycle on a device. Build the solution: add the error toggle and a reload that resets the status to loading. Record what is visible in each of the three states. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Все три состояния показаны и записаны с устройства.",
+          "tg": "Ҳамаи се ҳолат нишон дода, аз дастгоҳ сабт шудаанд.",
+          "en": "All three states are shown and recorded from the device."
+        },
+        {
+          "ru": "Повторная загрузка начинается с loading, а не с зависшего экрана.",
+          "tg": "Боркунии такрорӣ аз loading оғоз мешавад, на аз экрани яхкарда.",
+          "en": "A reload starts at loading, not a frozen screen."
+        }
+      ],
+      "example": {
+        "ru": "Кнопка переключает сбой: экран показывает ошибку, потом снова загрузку и список.",
+        "tg": "Тугма хаторо иваз мекунад: экран хаторо, баъд боркунию рӯйхатро нишон медиҳад.",
+        "en": "The toggle flips the failure: the screen shows the error, then loading and the list again."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Promise и три состояния описывают ожидание честно.",
+        "tg": "Promise ва се ҳолат интизориро рӯбарӯ менависанд.",
+        "en": "Promise and three states describe waiting honestly."
+      },
+      {
+        "ru": "useEffect с пустыми зависимостями грузит один раз.",
+        "tg": "useEffect бо вобастагии холӣ як маротиба бор мекунад.",
+        "en": "useEffect with empty dependencies loads once."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что делает catch в цепочке загрузки?",
+        "tg": "catch дар занҷири боркунӣ чӣ мекунад?",
+        "en": "What does catch do in the load chain?"
+      },
+      {
+        "ru": "Чем является таймер в примере?",
+        "tg": "Таймер дар мисол чист?",
+        "en": "What is the timer in the example?"
+      }
+    ],
+    "nextLessonId": "mobile-day-25"
+  }
+}

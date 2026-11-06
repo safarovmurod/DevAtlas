@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-25",
+  "day": 25,
+  "prerequisiteDays": [
+    24
+  ],
+  "title": {
+    "ru": "Запрос к учебному API",
+    "tg": "Дархост ба API-и таълимӣ",
+    "en": "A request to a learning API"
+  },
+  "summary": {
+    "ru": "Получите реальные данные через fetch, проверьте ответ и добавьте кнопку повтора.",
+    "tg": "Маълумоти воқеиро тавассути fetch гиред, ҷавобро санҷед ва тугмаи такрор илова кунед.",
+    "en": "Fetch real data, check the response and add a retry button."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "fetch и честная проверка ответа",
+        "tg": "fetch ва санҷиши рӯбарӯи ҷавоб",
+        "en": "fetch and an honest response check"
+      },
+      "body": {
+        "ru": "fetch — встроенный способ обратиться к сети: он принимает адрес и возвращает Promise с ответом. Ответ не обязан быть успешным: сервер может вернуть 404 или 500, поэтому статус проверяют явно — response.ok истинно только для ответов 200–299. response.json() тоже Promise: он разбирает тело ответа. Учебный сервис jsonplaceholder.typicode.com создан для практики: он бесплатный и отдаёт тестовые записи, но это чужой сервер — не отправляйте туда личные данные и не считайте его частью продукта. Ошибки сети — нет интернета, тайм-аут, отказ сервера — ловит catch; экран в этом состоянии предлагает повторить запрос.",
+        "tg": "fetch тарзи дарунсохти муроҷиат ба шабака аст: он суроғаро мегирад ва Promise бо ҷавоб бармегардонад. ҷавоб ҳатман муваффақ нест: сервер метавонад 404 ё 500 баргардонад, бинобар ин статусро ошкоро месанҷанд — response.ok танҳо барои ҷавобҳои 200–299 ҳақиқӣ аст. response.json() ҳам Promise аст: он бадани ҷавобро таҳлил мекунад. Хадамоти таълимии jsonplaceholder.typicode.com барои машқ сохта шудааст: ройгон аст ва сабтҳои санҷишӣ медиҳад, вале ин сервери дигарон аст — маълумоти шахсиро нафиристед ва онро қисми маҳсулот ҳисоб накунед. Хатоҳои шабака — набудани интернет, таъхири дароз, дастдории сервер — catch мегирад; экран дар ин ҳолат такрори дархостро пешниҳод мекунад.",
+        "en": "fetch is the built-in way to reach the network: it takes an address and returns a Promise with the response. The response is not automatically successful: a server may return 404 or 500, so the status is checked explicitly — response.ok is true only for 200–299. response.json() is also a Promise: it parses the body. The learning service jsonplaceholder.typicode.com exists for practice: it is free and serves test records, but it is someone else server — do not send personal data there and do not treat it as part of the product. Network errors — no internet, timeout, server refusal — are caught by catch; the screen in that state offers a retry."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Тип Todo описывает две строки из ответа: id и title. fetch получает пять записей через параметр _limit=5. Первый then проверяет response.ok: при неудаче выбрасывается ошибка, и цепочка уходит в catch — статус error. Второй then разбирает JSON и сохраняет массив. Список рисуется по id, как в дне 16. Отключите интернет и запустите пример: вы увидите сообщение о недоступности сети, а не зависание. В решении добавлена кнопка «Повторить»: состояние attempt меняется, useEffect запускается снова, потому что attempt входит в массив зависимостей.",
+        "tg": "Типи Todo ду сатри аз ҷавобро тавсиф медиҳад: id ва title. fetch панҷ сабтро тавассути параметри _limit=5 мегирад. Avvalin then response.ok-ро месанҷад: ҳангоми нокомӣ хато партофта мешавад ва занҷир ба catch меравад — статуси error. Дуюмин then JSON-ро таҳлил карда, массивро нигоҳ медорад. Рӯйхат аз рӯи id мекашад, мисли рӯзи 16. Интернетро хомӯш карда, мисолро иҷро кунед: паёми дастрасии нестӣ мебинед, на ях кардан. Дар ҳалл тугмаи «Такрор» илова шудааст: ҳолати attempt тағйир меёбад, useEffect боз оғоз мешавад, чунки attempt ба массиви вобастагӣ дохил аст.",
+        "en": "The Todo type describes two strings from the response: id and title. fetch receives five records through the _limit=5 parameter. The first then checks response.ok: on failure an error is thrown and the chain falls into catch — the error status. The second then parses JSON and stores the array. The list renders by id, as in day 16. Turn the internet off and run the example: you see the unavailable-network message, not a freeze. The solution adds a «Повторить» button: the attempt state changes, useEffect runs again, because attempt is in the dependency array."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [todos, setTodos] = useState<Todo[]>([]);\n\n  useEffect(() => {\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')\n      .then(response => {\n        if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n        return response.json();\n      })\n      .then((data: Todo[]) => {\n        setTodos(data);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия из учебного API</Text>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? todos.map(todo => <Text key={todo.id}>{todo.title}</Text>) : null}\n      {status === 'error' ? <Text>Сеть недоступна. Проверьте интернет и откройте экран снова.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-25-q1",
+      "question": {
+        "ru": "Когда response.ok истинно?",
+        "tg": "response.ok ҳангоми чӣ ҳақиқӣ аст?",
+        "en": "When is response.ok true?"
+      },
+      "options": [
+        {
+          "ru": "Только для POST-запросов",
+          "tg": "Танҳо барои дархостҳои POST",
+          "en": "Only for POST requests"
+        },
+        {
+          "ru": "Всегда",
+          "tg": "Ҳамеша",
+          "en": "Always"
+        },
+        {
+          "ru": "Для статусов 200–299",
+          "tg": "Барои статусҳои 200–299",
+          "en": "For statuses 200–299"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Успешные ответы — от 200 до 299.",
+        "tg": "Ҷавобҳои муваффақ аз 200 то 299.",
+        "en": "Successful responses are 200 through 299."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе слова про 404 и 500.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи 404 ва 500-ро ёбед.",
+        "en": "Find the first-section words about 404 and 500."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-25-q2",
+      "question": {
+        "ru": "Что возвращает response.json()?",
+        "tg": "response.json() чӣ бармегардонад?",
+        "en": "What does response.json() return?"
+      },
+      "options": [
+        {
+          "ru": "Promise с разобранным телом",
+          "tg": "Promise бо бадани таҳлилшуда",
+          "en": "A Promise with the parsed body"
+        },
+        {
+          "ru": "Готовый массив сразу",
+          "tg": "Массиви тайёр фавран",
+          "en": "A ready array at once"
+        },
+        {
+          "ru": "Статус сервера",
+          "tg": "Статуси сервер",
+          "en": "The server status"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Разбор тела тоже асинхронен и продолжается в then.",
+        "tg": "Таҳлили бадан ҳам асинхронӣ аст ва дар then идома меёбад.",
+        "en": "Body parsing is asynchronous too and continues in then."
+      },
+      "hint": {
+        "ru": "Посмотрите на цепочку then в примере.",
+        "tg": "Ба занҷири then дар мисол нигоҳ кунед.",
+        "en": "Look at the then chain in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-25-q3",
+      "question": {
+        "ru": "Что такое jsonplaceholder в этом курсе?",
+        "tg": "jsonplaceholder дар ин курс чист?",
+        "en": "What is jsonplaceholder in this course?"
+      },
+      "options": [
+        {
+          "ru": "База паролей курса",
+          "tg": "Пойгоҳи паролҳои курс",
+          "en": "The course password database"
+        },
+        {
+          "ru": "Учебный сервис с тестовыми данными",
+          "tg": "Хадамоти таълимӣ бо маълумоти санҷишӣ",
+          "en": "A learning service with test data"
+        },
+        {
+          "ru": "Собственный сервер DevAtlas",
+          "tg": "Сервери шахсии DevAtlas",
+          "en": "The DevAtlas own server"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Он существует ради практики; личные данные туда не отправляют.",
+        "tg": "Ӯ барои машқ вуҷуд дорад; маълумоти шахсӣ ба он намефиристанд.",
+        "en": "It exists for practice; personal data is not sent there."
+      },
+      "hint": {
+        "ru": "Перечитайте середину первого раздела про чужой сервер.",
+        "tg": "Миёнаи бахши аввал дар бораи сервери дигаронро аз нав хонед.",
+        "en": "Re-read the middle of the first section about a foreign server."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-25-q4",
+      "question": {
+        "ru": "Как заставить useEffect загрузить данные повторно?",
+        "tg": "useEffect-ро чӣ тавр ба боркунии такрорӣ водор кардан мумкин?",
+        "en": "How do you make useEffect load data again?"
+      },
+      "options": [
+        {
+          "ru": "Удалить catch",
+          "tg": "catch-ро нест кунед",
+          "en": "Remove catch"
+        },
+        {
+          "ru": "Переименовать функцию",
+          "tg": "Функсияро аз нав номгузорӣ кунед",
+          "en": "Rename the function"
+        },
+        {
+          "ru": "Изменить значение из массива зависимостей",
+          "tg": "Қиматро аз массиви вобастагӣ тағйир диҳед",
+          "en": "Change a value from the dependency array"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Новый attempt снова запускает эффект.",
+        "tg": "attempt-и нав эффектро боз оғоз мекунад.",
+        "en": "A new attempt starts the effect again."
+      },
+      "hint": {
+        "ru": "Вспомните, что вошло в массив зависимостей решения.",
+        "tg": "Ёд оред, ки ба массиви вобастагии ҳалл чӣ дохил шуд.",
+        "en": "Recall what entered the solution dependency array."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-25-q5",
+      "question": {
+        "ru": "Что видит пользователь при отключённом интернете?",
+        "tg": "Ҳангоми хомӯш будани интернет корбар чӣ мебинад?",
+        "en": "What does the user see with the internet off?"
+      },
+      "options": [
+        {
+          "ru": "Сообщение об ошибке и кнопку повтора",
+          "tg": "Паёми хато ва тугмаи такрор",
+          "en": "An error message and a retry button"
+        },
+        {
+          "ru": "Вечную загрузку",
+          "tg": "Боркунии беохир",
+          "en": "Endless loading"
+        },
+        {
+          "ru": "Пустой экран без объяснений",
+          "tg": "Экрани холӣ бе шарҳ",
+          "en": "A blank screen without explanation"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Сбой ловится и объясняется, повтор доступен одной кнопкой.",
+        "tg": "Хато мегиранд ва фаҳмонанд; такрор бо як тугма дастрас аст.",
+        "en": "The failure is caught and explained; a retry is one button away."
+      },
+      "hint": {
+        "ru": "Найдите в примере блок error и кнопку решения.",
+        "tg": "Дар мисол блоки error ва тугмаи ҳаллро ёбед.",
+        "en": "Find the error block and the solution button."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и убедитесь, что записи приходят на устройстве. Добавьте кнопку «Повторить» из решения и проверьте оба сценария: успешную загрузку и загрузку без сети. Запишите статус ответа, который вы видели при сбое, если он доступен в выводе. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва боварӣ ҳосил кунед, ки сабтҳо дар дастгоҳ меоянд. Тугмаи «Такрор»-ро аз ҳалл илова карда, ҳарду сценариро санҷед: боркунии муваффақ ва боркунӣ бе шабака. Статуси ҷавоби дар ҳангоми хато дидашударо сабт кунед, агар дар натиҷа дастрас бошад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and confirm records arrive on the device. Add the «Повторить» button from the solution and check both scenarios: a successful load and a load without network. Record the response status you saw on failure, if visible in the output. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Состояние attempt и массив зависимостей [attempt] из решения делают повтор одной строкой onPress.",
+      "tg": "Ҳолати attempt ва массиви вобастагии [attempt] аз ҳалл такрорро бо як сатри onPress месозанд.",
+      "en": "The attempt state and the [attempt] dependency array from the solution make a retry one onPress line."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [todos, setTodos] = useState<Todo[]>([]);\n  const [attempt, setAttempt] = useState(0);\n\n  useEffect(() => {\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')\n      .then(response => {\n        if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n        return response.json();\n      })\n      .then((data: Todo[]) => {\n        setTodos(data);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, [attempt]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия из учебного API</Text>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? todos.map(todo => <Text key={todo.id}>{todo.title}</Text>) : null}\n      {status === 'error' ? <Text>Сеть недоступна. Проверьте интернет и повторите.</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Повторить запрос\"\n        onPress={() => setAttempt(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Повторить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Успешная загрузка показывает пять записей.",
+        "tg": "Боркунии муваффақ панҷ сабтро нишон медиҳад.",
+        "en": "A successful load shows five records."
+      },
+      {
+        "ru": "Отказ сети показывает сообщение и повтор работает.",
+        "tg": "Нокомии шабака паём нишон медиҳад ва такрор кор мекунад.",
+        "en": "A network refusal shows a message and the retry works."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Получить данные через fetch и проверить response.ok.",
+        "tg": "Маълумотро тавассути fetch гирифта, response.ok-ро санҷед.",
+        "en": "Fetch data and check response.ok."
+      },
+      {
+        "ru": "Добавить повтор запроса через зависимость useEffect.",
+        "tg": "Такрори дархостро тавассути вобастагии useEffect илова кунед.",
+        "en": "Add a request retry through a useEffect dependency."
+      }
+    ],
+    "realWorld": {
+      "ru": "Приложение погоды грузит данные при старте и повторяет запрос после сбоя сети.",
+      "tg": "Барномаи обҳавоӣ ҳангоми оғоз маълумот мегирад ва баъди хатои шабака такрор мекунад.",
+      "en": "A weather app loads data at start and retries after a network failure."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что возвращает response.json()?",
+        "tg": "response.json() чӣ бармегардонад?",
+        "en": "What does response.json() return?"
+      },
+      "options": [
+        {
+          "ru": "Promise с разобранным телом",
+          "tg": "Promise бо бадани таҳлилшуда",
+          "en": "A Promise with the parsed body"
+        },
+        {
+          "ru": "Готовый массив сразу",
+          "tg": "Массиви тайёр фавран",
+          "en": "A ready array at once"
+        },
+        {
+          "ru": "Статус сервера",
+          "tg": "Статуси сервер",
+          "en": "The server status"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Посмотрите на цепочку then в примере.",
+        "tg": "Ба занҷири then дар мисол нигоҳ кунед.",
+        "en": "Look at the then chain in the example."
+      },
+      "explanation": {
+        "ru": "Разбор тела тоже асинхронен и продолжается в then.",
+        "tg": "Таҳлили бадан ҳам асинхронӣ аст ва дар then идома меёбад.",
+        "en": "Body parsing is asynchronous too and continues in then."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [todos, setTodos] = useState<Todo[]>([]);\n\n  useEffect(() => {\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')\n      .then(response => {\n        if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n        return response.json();\n      })\n      .then((data: Todo[]) => {\n        setTodos(data);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия из учебного API</Text>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? todos.map(todo => <Text key={todo.id}>{todo.title}</Text>) : null}\n      {status === 'error' ? <Text>Сеть недоступна. Проверьте интернет и откройте экран снова.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+      "steps": [
+        {
+          "line": 12,
+          "explanation": {
+            "ru": "fetch запрашивает пять записей.",
+            "tg": "fetch панҷ сабтро мехоҳад.",
+            "en": "fetch requests five records."
+          },
+          "values": "_limit=5"
+        },
+        {
+          "line": 14,
+          "explanation": {
+            "ru": "Неуспешный статус выбрасывает ошибку в catch.",
+            "tg": "Статуси нокомӣ хаторо ба catch мепартояд.",
+            "en": "A failed status throws into catch."
+          },
+          "values": "ok | throw"
+        },
+        {
+          "line": 18,
+          "explanation": {
+            "ru": "Разобранный массив сохраняется в состояние.",
+            "tg": "Массиви таҳлилшуда ба ҳолат нигоҳ дошта мешавад.",
+            "en": "The parsed array is stored in state."
+          },
+          "values": "5 todos"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере проверку response.ok и объясните, что она защищает.",
+          "tg": "Дар мисол санҷиши response.ok-ро ёфта, шарҳ диҳед, ки аз чӣ ҳимоя мекунад.",
+          "en": "Find the response.ok check and explain what it guards."
+        },
+        {
+          "ru": "Отключите сеть, откройте экран и запишите, что показал экран ошибки.",
+          "tg": "Шабакаро хомӯш карда, экранро кушоед ва сабт кунед, ки экрани хато чӣ нишон дод.",
+          "en": "Turn the network off, open the screen and record what the error screen showed."
+        }
+      ],
+      "hint": {
+        "ru": "Состояние attempt и массив зависимостей [attempt] из решения делают повтор одной строкой onPress.",
+        "tg": "Ҳолати attempt ва массиви вобастагии [attempt] аз ҳалл такрорро бо як сатри onPress месозанд.",
+        "en": "The attempt state and the [attempt] dependency array from the solution make a retry one onPress line."
+      },
+      "success": {
+        "ru": "Список из пяти записей открывается, а сбой сети превращается в понятное сообщение с повтором.",
+        "tg": "Рӯйхати панҷ сабт кушода мешавад ва хатои шабака ба паёми фаҳмо бо такрор табдил меёбад.",
+        "en": "A five-record list opens and a network failure becomes a clear message with a retry."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и убедитесь, что записи приходят на устройстве. Добавьте кнопку «Повторить» из решения и проверьте оба сценария: успешную загрузку и загрузку без сети. Запишите статус ответа, который вы видели при сбое, если он доступен в выводе. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва боварӣ ҳосил кунед, ки сабтҳо дар дастгоҳ меоянд. Тугмаи «Такрор»-ро аз ҳалл илова карда, ҳарду сценариро санҷед: боркунии муваффақ ва боркунӣ бе шабака. Статуси ҷавоби дар ҳангоми хато дидашударо сабт кунед, агар дар натиҷа дастрас бошад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and confirm records arrive on the device. Add the «Повторить» button from the solution and check both scenarios: a successful load and a load without network. Record the response status you saw on failure, if visible in the output. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Успешная загрузка показывает пять записей.",
+          "tg": "Боркунии муваффақ панҷ сабтро нишон медиҳад.",
+          "en": "A successful load shows five records."
+        },
+        {
+          "ru": "Отказ сети показывает сообщение и повтор работает.",
+          "tg": "Нокомии шабака паём нишон медиҳад ва такрор кор мекунад.",
+          "en": "A network refusal shows a message and the retry works."
+        }
+      ],
+      "example": {
+        "ru": "После нажатия «Повторить» экран снова показывает «Загрузка…», затем данные.",
+        "tg": "Баъди пахши «Такрор» экран боз «Боркунӣ…», баъд маълумотро нишон медиҳад.",
+        "en": "Pressing «Повторить» shows «Загрузка…» again, then the data."
+      }
+    },
+    "summary": [
+      {
+        "ru": "fetch требует явной проверки response.ok.",
+        "tg": "fetch санҷиши ошкорои response.ok-ро талаб мекунад.",
+        "en": "fetch requires an explicit response.ok check."
+      },
+      {
+        "ru": "Учебный API — для практики, а не для личных данных.",
+        "tg": "API-и таълимӣ барои машқ аст, на барои маълумоти шахсӣ.",
+        "en": "A learning API is for practice, not personal data."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что возвращает response.json()?",
+        "tg": "response.json() чӣ бармегардонад?",
+        "en": "What does response.json() return?"
+      },
+      {
+        "ru": "Как заставить useEffect загрузить данные повторно?",
+        "tg": "useEffect-ро чӣ тавр ба боркунии такрорӣ водор кардан мумкин?",
+        "en": "How do you make useEffect load data again?"
+      }
+    ],
+    "nextLessonId": "mobile-day-26"
+  }
+}

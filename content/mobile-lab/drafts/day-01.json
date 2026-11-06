@@ -1,0 +1,416 @@
+{
+  "id": "mobile-day-01",
+  "day": 1,
+  "prerequisiteDays": [],
+  "title": {
+    "ru": "Mobile: первый экран React Native",
+    "tg": "Mobile: экрани аввалини React Native",
+    "en": "Mobile: your first React Native screen"
+  },
+  "summary": {
+    "ru": "Разбираем первый экран и проверяем его на доступном устройстве.",
+    "tg": "Экрани аввалро омӯхта, дар дастгоҳи дастрас санҷед.",
+    "en": "Understand a first screen and verify it on an available device."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Как это работает",
+        "tg": "Чӣ тавр кор мекунад",
+        "en": "How it works"
+      },
+      "body": {
+        "ru": "Приложение на телефоне состоит из экранов. React Native позволяет описать экран на JavaScript и React, а затем создаёт компоненты платформы. Компонент — повторно используемая часть интерфейса. Начнём с готового примера: функция App возвращает JSX, похожую на разметку запись дерева элементов. View группирует части экрана, Text выводит текст. Импорт подключает их из пакета react-native. Expo предоставляет инструменты для запуска и разработки; браузер этого сайта не является мобильным эмулятором. Для выполнения понадобится проект Expo и устройство с Expo Go либо настроенный эмулятор. Если их нет, вы всё равно можете разобрать код и предсказать результат, но не отмечайте запуск как выполненный.",
+        "tg": "Барномаи телефон аз экранҳо иборат аст. React Native экранро бо JavaScript ва React тавсиф карда, ҷузъҳои платформаро месозад. Компонент қисми такроран истифодашавандаи интерфейс аст. Аз мисоли тайёр оғоз мекунем: функсияи App JSX, яъне навишти дарахти унсурҳои ба нишонагузорӣ монандро медиҳад. View қисмҳоро гурӯҳ ва Text матнро нишон медиҳад. Import онҳоро аз бастаи react-native мегирад. Expo воситаҳои оғозу таҳия медиҳад; браузери ин сайт эмулятори мобилӣ нест. Барои иҷро лоиҳаи Expo ва дастгоҳ бо Expo Go ё эмулятори танзимшуда лозим. Агар набошад, кодро шарҳ дода, натиҷаро пешгӯӣ кунед, вале иҷрои дастгоҳро тасдиқ накунед.",
+        "en": "A phone application consists of screens. React Native describes a screen using JavaScript and React and creates platform components. A component is a reusable part of an interface. Start with a worked example: the App function returns JSX, a markup-like representation of a tree of elements. View groups screen content and Text displays text. The import obtains them from the react-native package. Expo supplies development and launch tools; this website’s browser is not a mobile emulator. Running requires an Expo project and a device with Expo Go or a configured emulator. Without either, you can still explain the code and predict its result, but do not claim a device run."
+      },
+      "code": "import { View, Text, StyleSheet } from 'react-native';\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\" style={styles.title}>My first app</Text>\n      <Text>I am learning to build mobile screens.</Text>\n    </View>\n  );\n}\nconst styles = StyleSheet.create({\n  screen: { flex: 1, justifyContent: 'center', padding: 24 },\n  title: { fontSize: 28, fontWeight: '700', marginBottom: 12 },\n});",
+      "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор кода",
+        "tg": "Шарҳи қадамии рамз",
+        "en": "Step-by-step code walkthrough"
+      },
+      "body": {
+        "ru": "import получает View, Text и StyleSheet. export default делает App доступным как основной экран выбранного проекта. return возвращает JSX: у View два дочерних Text. Атрибут accessibilityRole=\"header\" обозначает заголовок для вспомогательных технологий; его качество проверяют на устройстве. style={styles.screen} передаёт объект настроек: flex: 1 занимает доступное пространство родителя, justifyContent: center размещает содержимое по главной оси, padding добавляет внутренний отступ. StyleSheet.create группирует имена стилей; fontSize: 28 задаёт размер, marginBottom: 12 — отступ снизу. Поменяйте заголовок и проверьте перенос при крупном системном шрифте. Стиль — JavaScript-объект, поэтому здесь fontSize, а не web-свойство font-size.",
+        "tg": "import View, Text ва StyleSheet-ро мегирад. export default App-ро ҳамчун экрани асосии лоиҳа дастрас мекунад. return JSX медиҳад: View ду фарзанди Text дорад. accessibilityRole=\"header\" сарлавҳаро барои технологияҳои ёрирасон нишон медиҳад; сифати онро дар дастгоҳ месанҷанд. style={styles.screen} объекти танзим медиҳад: flex: 1 фазои дастраси волидро мегирад, justifyContent: center муҳтаворо дар меҳвари асосӣ ҷой медиҳад, padding фосилаи дохилӣ месозад. StyleSheet.create номҳои услубро гурӯҳ мекунад; fontSize: 28 андоза ва marginBottom: 12 фосилаи поёниро медиҳад. Сарлавҳаро иваз ва бо ҳуруфи калони система санҷед. Услуб объекти JavaScript аст, бинобар ин fontSize аст, на font-size-и web.",
+        "en": "import obtains View, Text and StyleSheet. export default exposes App as the chosen project’s root screen. return supplies JSX: View contains two Text children. accessibilityRole=\"header\" identifies a heading for assistive technologies; verify its actual behavior on a device. style={styles.screen} supplies settings: flex: 1 fills available parent space, justifyContent: center positions content on the main axis, and padding creates internal spacing. StyleSheet.create groups style names; fontSize: 28 sets text size and marginBottom: 12 adds space below. Change the heading and check wrapping with a large system font. Styles are JavaScript objects, so the property is fontSize rather than web CSS font-size."
+      }
+    },
+    {
+      "title": {
+        "ru": "Запуск и проверка",
+        "tg": "Иҷро ва санҷиш",
+        "en": "Run and verify"
+      },
+      "body": {
+        "ru": "Шаг 1. Подготовьте Expo-проект по официальной инструкции docs.expo.dev/get-started/create-a-project/.\nШаг 2. В стартовом экране проекта разместите пример (в blank-шаблоне App.tsx, в Router-шаблоне обычно app/index.tsx или src/app/index.tsx).\nШаг 3. Запустите npx expo start и откройте проект на устройстве или эмуляторе.\nШаг 4. Измените заголовок и размер шрифта. Проверьте, что текст не обрезается при увеличенном системном шрифте.",
+        "tg": "Қадами 1. Лоиҳаи Expo-ро аз рӯи docs.expo.dev/get-started/create-a-project/ омода кунед.\nҚадами 2. Мисолро дар экрани аввали лоиҳа ҷойгир кунед (дар blank-қолаб App.tsx, дар Router одатан app/index.tsx ё src/app/index.tsx).\nҚадами 3. npx expo start-ро иҷро карда, лоиҳаро дар дастгоҳ ё эмулятор кушоед.\nҚадами 4. Сарлавҳа ва андозаи ҳуруфро иваз кунед. Ҳангоми калон кардани ҳуруфи система матн набояд бурида шавад.",
+        "en": "Step 1. Prepare an Expo project using docs.expo.dev/get-started/create-a-project/.\nStep 2. Put the example in the starting screen (App.tsx in the blank template, usually app/index.tsx or src/app/index.tsx in the Router template).\nStep 3. Run npx expo start and open the project on a device or emulator.\nStep 4. Change the heading and font size. Check that larger system text is not clipped."
+      },
+      "output": {
+        "ru": "Экран с заголовком My first app и описанием.",
+        "tg": "Экран бо сарлавҳаи My first app ва шарҳ.",
+        "en": "A screen with the heading My first app and a description."
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-01-q",
+      "question": {
+        "ru": "Какой компонент выводит текст?",
+        "tg": "Кадом ҷузъ матнро нишон медиҳад?",
+        "en": "Which component displays text?"
+      },
+      "answer": {
+        "ru": "Text. View группирует элементы и управляет раскладкой.",
+        "tg": "Text. View унсурҳоро гурӯҳбандӣ карда, ҷойгиршавиро идора мекунад.",
+        "en": "Text. View groups elements and controls layout."
+      },
+      "options": [
+        {
+          "ru": "Text",
+          "tg": "Text",
+          "en": "Text"
+        },
+        {
+          "ru": "div",
+          "tg": "div",
+          "en": "div"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Перечитайте разбор импорта: один компонент группирует содержимое, другой показывает текст.",
+        "tg": "Импортро аз нав хонед: як компонент мазмунро гурӯҳ мекунад, дигарӣ матн нишон медиҳад.",
+        "en": "Re-read the import walkthrough: one component groups content, the other displays text."
+      },
+      "relatedSection": 0
+    },
+    {
+      "id": "mobile-day-01-q1",
+      "question": {
+        "ru": "Какая часть объединяет два Text на экране?",
+        "tg": "Кадом қисм ду Text-ро гурӯҳ мекунад?",
+        "en": "Which element groups the two Text components?"
+      },
+      "options": [
+        {
+          "ru": "Button",
+          "tg": "Button",
+          "en": "Button"
+        },
+        {
+          "ru": "View",
+          "tg": "View",
+          "en": "View"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "View выступает контейнером.",
+        "tg": "View контейнер аст.",
+        "en": "View is the container."
+      },
+      "hint": {
+        "ru": "Найдите внешний элемент в дереве JSX и вспомните, для чего нужна кнопка Button.",
+        "tg": "Дар дарахти JSX унсури берунаро ёбед ва ёд оред, ки тугмаи Button барои чӣ аст.",
+        "en": "Find the outer element in the JSX tree and recall what the Button component is for."
+      },
+      "relatedSection": 0
+    },
+    {
+      "id": "mobile-day-01-q2",
+      "question": {
+        "ru": "Что обозначает accessibilityRole=\"header\"?",
+        "tg": "accessibilityRole=\"header\" чӣ нишон медиҳад?",
+        "en": "What does accessibilityRole=\"header\" identify?"
+      },
+      "options": [
+        {
+          "ru": "Заголовок для вспомогательных технологий.",
+          "tg": "Сарлавҳа барои технологияи ёрирасон.",
+          "en": "A heading for assistive technology."
+        },
+        {
+          "ru": "Пароль пользователя.",
+          "tg": "Пароли корбар.",
+          "en": "A user password."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Роль описывает назначение элемента, а не проверяет пароль.",
+        "tg": "Нақш мақсади унсурро мегӯяд, на паролро.",
+        "en": "The role describes the element; it does not verify credentials."
+      },
+      "hint": {
+        "ru": "Посмотрите на атрибут внутри первого Text и на слова разбора о вспомогательных технологиях.",
+        "tg": "Ба атрибути дархости аввали Text ва ба гуфтаҳои шарҳ дар бораи технологияҳои ёрирасон нигоҳ кунед.",
+        "en": "Look at the attribute inside the first Text and at what the walkthrough says about assistive technology."
+      },
+      "relatedSection": 0
+    },
+    {
+      "id": "mobile-day-01-q3",
+      "question": {
+        "ru": "Что делает padding?",
+        "tg": "padding чӣ мекунад?",
+        "en": "What does padding add?"
+      },
+      "options": [
+        {
+          "ru": "Сетевой запрос.",
+          "tg": "Дархости шабака.",
+          "en": "A network request."
+        },
+        {
+          "ru": "Внутренний отступ.",
+          "tg": "Фосилаи дохилӣ.",
+          "en": "Internal spacing."
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Отступ задаётся в объекте стиля.",
+        "tg": "Фосила дар объекти услуб дода мешавад.",
+        "en": "Spacing belongs to the style object."
+      },
+      "hint": {
+        "ru": "Сравните padding и marginBottom в объекте стилей: какой из них создаёт отступ внутри границ экрана?",
+        "tg": "padding ва marginBottom-ро дар объекти услуб муқоиса кунед: кадомаш фосиларо дар дохили ҳошияҳо месозад?",
+        "en": "Compare padding and marginBottom in the style object: which one creates space inside the screen edges?"
+      },
+      "relatedSection": 0
+    },
+    {
+      "id": "mobile-day-01-q4",
+      "question": {
+        "ru": "Браузер этого курса — нативный эмулятор?",
+        "tg": "Браузери курс эмулятори нативист?",
+        "en": "Is this course browser a native emulator?"
+      },
+      "options": [
+        {
+          "ru": "Нет.",
+          "tg": "Не.",
+          "en": "No."
+        },
+        {
+          "ru": "Да.",
+          "tg": "Бале.",
+          "en": "Yes."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Нужны устройство или настроенный эмулятор.",
+        "tg": "Дастгоҳ ё эмулятори танзимшуда лозим.",
+        "en": "Use a device or configured emulator."
+      },
+      "hint": {
+        "ru": "Вспомните первый раздел: что даёт браузер сайта и что нужно для реального запуска.",
+        "tg": "Бахши аввалро ёд оред: браузери сайт чӣ медиҳад ва барои иҷрои воқеӣ чӣ лозим аст.",
+        "en": "Recall the first section: what the website browser provides and what a real run requires."
+      },
+      "relatedSection": 0
+    }
+  ],
+  "practice": {
+    "task": {
+      "ru": "Шаг 1. Подготовьте Expo-проект по официальной инструкции docs.expo.dev/get-started/create-a-project/.\nШаг 2. В стартовом экране проекта разместите пример (в blank-шаблоне App.tsx, в Router-шаблоне обычно app/index.tsx или src/app/index.tsx).\nШаг 3. Запустите npx expo start и откройте проект на устройстве или эмуляторе.\nШаг 4. Измените заголовок и размер шрифта. Проверьте, что текст не обрезается при увеличенном системном шрифте.",
+      "tg": "Қадами 1. Лоиҳаи Expo-ро аз рӯи docs.expo.dev/get-started/create-a-project/ омода кунед.\nҚадами 2. Мисолро дар экрани аввали лоиҳа ҷойгир кунед (дар blank-қолаб App.tsx, дар Router одатан app/index.tsx ё src/app/index.tsx).\nҚадами 3. npx expo start-ро иҷро карда, лоиҳаро дар дастгоҳ ё эмулятор кушоед.\nҚадами 4. Сарлавҳа ва андозаи ҳуруфро иваз кунед. Ҳангоми калон кардани ҳуруфи система матн набояд бурида шавад.",
+      "en": "Step 1. Prepare an Expo project using docs.expo.dev/get-started/create-a-project/.\nStep 2. Put the example in the starting screen (App.tsx in the blank template, usually app/index.tsx or src/app/index.tsx in the Router template).\nStep 3. Run npx expo start and open the project on a device or emulator.\nStep 4. Change the heading and font size. Check that larger system text is not clipped."
+    },
+    "hint": {
+      "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+      "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+      "en": "Return to the walkthrough and trace the data passed to the component."
+    },
+    "solution": "import { View, Text, StyleSheet } from 'react-native';\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\" style={styles.title}>Мой первый экран</Text>\n      <Text>I am learning to build mobile screens.</Text>\n    </View>\n  );\n}\nconst styles = StyleSheet.create({\n  screen: { flex: 1, justifyContent: 'center', padding: 24 },\n  title: { fontSize: 32, fontWeight: '700', marginBottom: 12 },\n});",
+    "criteria": [
+      {
+        "ru": "Ожидаемый результат и действия записаны; запуск на устройстве подтверждён только если выполнен.",
+        "tg": "Натиҷаи интизор ва амалҳо сабтанд; иҷрои дастгоҳ танҳо баъди иҷро тасдиқ мешавад.",
+        "en": "Expected behavior and steps are recorded; claim a device run only if performed."
+      },
+      {
+        "ru": "Изменённые данные проверены и результат объяснён самостоятельно; это Self Reviewed.",
+        "tg": "Додаи дигар санҷида ва натиҷа мустақил шарҳ шуд; ин Self Reviewed аст.",
+        "en": "Changed inputs were checked and explained independently; this is Self Reviewed."
+      }
+    ],
+    "kind": "code"
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить назначение примера и его компонентов.",
+        "tg": "Мақсади мисол ва компонентҳояшро фаҳмонед.",
+        "en": "Explain the example and its components."
+      },
+      {
+        "ru": "Предсказать результат и проверить доступным способом.",
+        "tg": "Натиҷаро пешгӯӣ ва бо усули дастрас санҷед.",
+        "en": "Predict the result and verify it with an available method."
+      }
+    ],
+    "realWorld": {
+      "ru": "Мобильный учебный экран должен быть понятен пользователю и доступен для чтения.",
+      "tg": "Экрани омӯзишии мобилӣ бояд барои корбар фаҳмо ва хонданбоб бошад.",
+      "en": "A mobile learning screen should be understandable and readable."
+    },
+    "walkthroughSections": [
+      0,
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Какая часть объединяет два Text на экране?",
+        "tg": "Кадом қисм ду Text-ро гурӯҳ мекунад?",
+        "en": "Which element groups the two Text components?"
+      },
+      "options": [
+        {
+          "ru": "Button",
+          "tg": "Button",
+          "en": "Button"
+        },
+        {
+          "ru": "View",
+          "tg": "View",
+          "en": "View"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "explanation": {
+        "ru": "View выступает контейнером.",
+        "tg": "View контейнер аст.",
+        "en": "View is the container."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { View, Text, StyleSheet } from 'react-native';\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\" style={styles.title}>My first app</Text>\n      <Text>I am learning to build mobile screens.</Text>\n    </View>\n  );\n}\nconst styles = StyleSheet.create({\n  screen: { flex: 1, justifyContent: 'center', padding: 24 },\n  title: { fontSize: 28, fontWeight: '700', marginBottom: 12 },\n});",
+      "steps": [
+        {
+          "line": 1,
+          "explanation": {
+            "ru": "Подключаем компоненты из импортируемого пакета.",
+            "tg": "Компонентҳоро аз бастаи воридшуда мегирем.",
+            "en": "Import components from the package."
+          },
+          "values": ""
+        },
+        {
+          "line": 4,
+          "explanation": {
+            "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+            "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+            "en": "Return to the walkthrough and trace the data passed to the component."
+          },
+          "values": ""
+        },
+        {
+          "line": 8,
+          "explanation": {
+            "ru": "Этот разбор показывает ход примера, но не запускает мобильное приложение.",
+            "tg": "Ин шарҳ ҷараёни мисолро нишон медиҳад, вале барномаи мобилиро иҷро намекунад.",
+            "en": "This walkthrough explains the example but does not execute a mobile app."
+          },
+          "values": ""
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Прочитайте пример и найдите импорт и возвращаемый JSX.",
+          "tg": "Мисолро хонда import ва JSX-и баргашта ёбед.",
+          "en": "Read the example and locate its imports and returned JSX."
+        },
+        {
+          "ru": "Предскажите результат, а при наличии устройства проверьте его в Expo.",
+          "tg": "Натиҷаро пешгӯӣ ва бо дастгоҳ дар Expo санҷед.",
+          "en": "Predict the outcome and check it in Expo if a device is available."
+        }
+      ],
+      "hint": {
+        "ru": "Вернитесь к разбору и проследите, какие данные получает компонент.",
+        "tg": "Ба шарҳ баргашта бинед, компонент кадом дода мегирад.",
+        "en": "Return to the walkthrough and trace the data passed to the component."
+      },
+      "success": {
+        "ru": "Экран с заголовком My first app и описанием.",
+        "tg": "Экран бо сарлавҳаи My first app ва шарҳ.",
+        "en": "A screen with the heading My first app and a description."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Шаг 1. Подготовьте Expo-проект по официальной инструкции docs.expo.dev/get-started/create-a-project/.\nШаг 2. В стартовом экране проекта разместите пример (в blank-шаблоне App.tsx, в Router-шаблоне обычно app/index.tsx или src/app/index.tsx).\nШаг 3. Запустите npx expo start и откройте проект на устройстве или эмуляторе.\nШаг 4. Измените заголовок и размер шрифта. Проверьте, что текст не обрезается при увеличенном системном шрифте.",
+        "tg": "Қадами 1. Лоиҳаи Expo-ро аз рӯи docs.expo.dev/get-started/create-a-project/ омода кунед.\nҚадами 2. Мисолро дар экрани аввали лоиҳа ҷойгир кунед (дар blank-қолаб App.tsx, дар Router одатан app/index.tsx ё src/app/index.tsx).\nҚадами 3. npx expo start-ро иҷро карда, лоиҳаро дар дастгоҳ ё эмулятор кушоед.\nҚадами 4. Сарлавҳа ва андозаи ҳуруфро иваз кунед. Ҳангоми калон кардани ҳуруфи система матн набояд бурида шавад.",
+        "en": "Step 1. Prepare an Expo project using docs.expo.dev/get-started/create-a-project/.\nStep 2. Put the example in the starting screen (App.tsx in the blank template, usually app/index.tsx or src/app/index.tsx in the Router template).\nStep 3. Run npx expo start and open the project on a device or emulator.\nStep 4. Change the heading and font size. Check that larger system text is not clipped."
+      },
+      "criteria": [
+        {
+          "ru": "Ожидаемый результат и действия записаны; запуск на устройстве подтверждён только если выполнен.",
+          "tg": "Натиҷаи интизор ва амалҳо сабтанд; иҷрои дастгоҳ танҳо баъди иҷро тасдиқ мешавад.",
+          "en": "Expected behavior and steps are recorded; claim a device run only if performed."
+        },
+        {
+          "ru": "Изменённые данные проверены и результат объяснён самостоятельно; это Self Reviewed.",
+          "tg": "Додаи дигар санҷида ва натиҷа мустақил шарҳ шуд; ин Self Reviewed аст.",
+          "en": "Changed inputs were checked and explained independently; this is Self Reviewed."
+        }
+      ],
+      "example": {
+        "ru": "Экран с заголовком My first app и описанием.",
+        "tg": "Экран бо сарлавҳаи My first app ва шарҳ.",
+        "en": "A screen with the heading My first app and a description."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Mobile: первый экран React Native",
+        "tg": "Mobile: экрани аввалини React Native",
+        "en": "Mobile: your first React Native screen"
+      },
+      {
+        "ru": "import получает View, Text и StyleSheet. export default делает App доступным как основной экран выбранного проекта. return возвращает JSX: у View два дочерних Text. Атрибут accessibilityRole=\"header\" обозначает заголовок для вспомогательных технологий; его качество проверяют на устройстве. style={styles.screen} передаёт объект настроек: flex: 1 занимает доступное пространство родителя, justifyContent: center размещает содержимое по главной оси, padding добавляет внутренний отступ. StyleSheet.create группирует имена стилей; fontSize: 28 задаёт размер, marginBottom: 12 — отступ снизу. Поменяйте заголовок и проверьте перенос при крупном системном шрифте. Стиль — JavaScript-объект, поэтому здесь fontSize, а не web-свойство font-size.",
+        "tg": "import View, Text ва StyleSheet-ро мегирад. export default App-ро ҳамчун экрани асосии лоиҳа дастрас мекунад. return JSX медиҳад: View ду фарзанди Text дорад. accessibilityRole=\"header\" сарлавҳаро барои технологияҳои ёрирасон нишон медиҳад; сифати онро дар дастгоҳ месанҷанд. style={styles.screen} объекти танзим медиҳад: flex: 1 фазои дастраси волидро мегирад, justifyContent: center муҳтаворо дар меҳвари асосӣ ҷой медиҳад, padding фосилаи дохилӣ месозад. StyleSheet.create номҳои услубро гурӯҳ мекунад; fontSize: 28 андоза ва marginBottom: 12 фосилаи поёниро медиҳад. Сарлавҳаро иваз ва бо ҳуруфи калони система санҷед. Услуб объекти JavaScript аст, бинобар ин fontSize аст, на font-size-и web.",
+        "en": "import obtains View, Text and StyleSheet. export default exposes App as the chosen project’s root screen. return supplies JSX: View contains two Text children. accessibilityRole=\"header\" identifies a heading for assistive technologies; verify its actual behavior on a device. style={styles.screen} supplies settings: flex: 1 fills available parent space, justifyContent: center positions content on the main axis, and padding creates internal spacing. StyleSheet.create groups style names; fontSize: 28 sets text size and marginBottom: 12 adds space below. Change the heading and check wrapping with a large system font. Styles are JavaScript objects, so the property is fontSize rather than web CSS font-size."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что делает padding?",
+        "tg": "padding чӣ мекунад?",
+        "en": "What does padding add?"
+      },
+      {
+        "ru": "Браузер этого курса — нативный эмулятор?",
+        "tg": "Браузери курс эмулятори нативист?",
+        "en": "Is this course browser a native emulator?"
+      }
+    ],
+    "nextLessonId": "mobile-day-02"
+  }
+}

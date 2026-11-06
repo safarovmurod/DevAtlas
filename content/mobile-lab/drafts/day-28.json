@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-28",
+  "day": 28,
+  "prerequisiteDays": [
+    27
+  ],
+  "title": {
+    "ru": "Локальное хранение обычных данных",
+    "tg": "Нигоҳдории маҳаллии маълумоти оддӣ",
+    "en": "Local storage of plain data"
+  },
+  "summary": {
+    "ru": "Сохраните заметки в AsyncStorage и честно обработайте недоступное хранилище.",
+    "tg": "Қайдҳоро дар AsyncStorage нигоҳ дода, нигоҳдории дастраснаро рӯбарӯ бароред.",
+    "en": "Store notes in AsyncStorage and handle an unavailable store honestly."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Данные переживают перезапуск",
+        "tg": "Маълумот аз нав оғозро мегузаронанд",
+        "en": "Data survives a restart"
+      },
+      "body": {
+        "ru": "AsyncStorage — простое хранилище устройства для пар «ключ — значение»: записываете строку по ключу, читаете её после перезапуска. Оно подходит для небольших данных — заметок, настроек, черновиков — и не заменяет базу данных: больших массивов, поиска и связей там нет. Ставится пакет: npx expo install @react-native-async-storage/async-storage. Сложные структуры сохраняют как JSON: JSON.stringify перед записью, JSON.parse после чтения. Хранилище может отказать — место кончилось, права ограничены: тогда catch объясняет пользователю, что заметка видна только до перезапуска. Пароли и банковские данные сюда не кладут: хранилище не шифровано, для секретов существуют отдельные механизмы.",
+        "tg": "AsyncStorage нигоҳдорӣ соддаи дастгоҳ барои ҷуфтҳои «калид — қимат» аст: сатрро бо калид менависед, баъди аз нав оғоз мехонед. Барои маълумоти хурд мувофиқ аст — қайдҳо, танзимот, лоиҳаҳо — ва ҷойи пойгоҳи додаҳоро намегирад: массивҳои калон, ҷустуҷӯ ва пайвандҳо дар он нест. Пакет насб мешавад: npx expo install @react-native-async-storage/async-storage. Сохторҳои мураккабро ҳамчун JSON нигоҳ медоранд: JSON.stringify пеш аз навиштан, JSON.parse баъди хондан. Нигоҳдорӣ метавонад даст диҳад — ҷо тамом шуд, ҳуқуқҳо маҳдуд: он гоҳ catch ба корбар мефаҳмонад, ки қайд то аз нав оғоз дида мешавад. Паролҳо ва маълумоти банковиро ин ҷо намегузоранд: нигоҳдорӣ рамзгузорӣ нест, барoi сирҳо механизмҳои алоҳида ҳастанд.",
+        "en": "AsyncStorage is a simple device store for key-value pairs: write a string by key, read it after a restart. It fits small data — notes, settings, drafts — and does not replace a database: no large arrays, search or relations. The package installs with npx expo install @react-native-async-storage/async-storage. Complex structures are stored as JSON: JSON.stringify before writing, JSON.parse after reading. The store can refuse — out of space, restricted permissions: then catch explains to the user that the note is visible only until a restart. Passwords and banking data do not go here: the store is unencrypted, secrets deserve separate mechanisms."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Ключ devatlas-notes — константа: имя ключа пишут один раз, чтобы не опечататься. При запуске useEffect читает ключ: getItem возвращает строку или null, пустой null означает первый запуск без заметок. saveNote собирает новый массив копированием, сохраняет его в состояние и в хранилище через await AsyncStorage.setItem, а savedOnce подтверждает запись. Установка пакета обязательна: без него сборка упадёт с сообщением о недостающем модуле. Проверьте на устройстве: сохраните заметку, полностью закройте приложение, откройте снова — заметка на месте. В решении добавлены валидация длины, ошибочное состояние и стабильные id вместо индексов.",
+        "tg": "Калиди devatlas-notes доимӣ аст: номи калидро як бор менависанд, то хатои чопӣ набошад. Ҳангоми оғоз useEffect калидро мехонад: getItem сатр ё null бармегардонад, null-и холӣ маънои оғози аввал бе қайдҳост. saveNote массиви навро бо нусхабардорӣ месозад, онро ба ҳолат ва ба нигоҳдорӣ тавассути await AsyncStorage.setItem нигоҳ медорад ва savedOnce навиштанро тасдиқ мекунад. Насби пакет ҳатмист: бе он сохтмон бо паёми набудани модул меафтад. Дар дастгоҳ санҷед: қайдро нигоҳ доред, барномаро пурра пӯшед, аз нав кушоед — қайд дар ҷояш аст. Дар ҳалл санҷиши дарозӣ, ҳолати хато ва id-ҳои устувор ба ҷои индексҳо илова шудаанд.",
+        "en": "The devatlas-notes key is a constant: the key name is written once to avoid typos. At startup useEffect reads the key: getItem returns a string or null, a null means the first launch without notes. saveNote assembles the new array by copying, stores it in state and in the store through await AsyncStorage.setItem, and savedOnce confirms the write. Installing the package is mandatory: without it the build fails with a missing-module message. Check on a device: save a note, close the app fully, reopen — the note is there. The solution adds length validation, an error state and stable ids instead of indexes."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst KEY = 'devatlas-notes';\n\nexport default function App() {\n  const [draft, setDraft] = useState('');\n  const [notes, setNotes] = useState<string[]>([]);\n  const [savedOnce, setSavedOnce] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (raw) setNotes(JSON.parse(raw) as string[]);\n      })\n      .catch(() => {});\n  }, []);\n\n  async function saveNote() {\n    const value = draft.trim();\n    if (!value) return;\n    const next = [...notes, value];\n    setNotes(next);\n    setDraft('');\n    await AsyncStorage.setItem(KEY, JSON.stringify(next));\n    setSavedOnce(true);\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Заметки с хранением</Text>\n      <TextInput value={draft} onChangeText={setDraft} placeholder=\"Новая заметка\" style={styles.input} />\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сохранить заметку\"\n        onPress={saveNote}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сохранить</Text>\n      </Pressable>\n      {notes.length === 0 ? <Text>Заметок пока нет.</Text> : notes.map((note, index) => <Text key={index}>{note}</Text>)}\n      {savedOnce ? <Text>Заметка сохранена на устройстве.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-28-q1",
+      "question": {
+        "ru": "Для каких данных подходит AsyncStorage?",
+        "tg": "AsyncStorage барои кадом маълумот мувофиқ аст?",
+        "en": "What data fits AsyncStorage?"
+      },
+      "options": [
+        {
+          "ru": "Большие таблицы с поиском",
+          "tg": "Ҷадвалҳои калон бо ҷустуҷӯ",
+          "en": "Large tables with search"
+        },
+        {
+          "ru": "Пароли и банковские карты",
+          "tg": "Паролҳо ва кортҳои банковӣ",
+          "en": "Passwords and bank cards"
+        },
+        {
+          "ru": "Небольшие заметки и настройки",
+          "tg": "Қайдҳои хурд ва танзимот",
+          "en": "Small notes and settings"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Простое хранилище ключ-значение без шифрования и поиска.",
+        "tg": "Нигоҳдорӣ соддаи калид-қимат бе рамзгузорӣ ва ҷустуҷӯ.",
+        "en": "A plain key-value store without encryption or search."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе слова о том, что оно не заменяет.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи он ки чиро иваз намекунад, ёбед.",
+        "en": "Find the first-section words about what it does not replace."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-28-q2",
+      "question": {
+        "ru": "Что вернёт getItem для ключа, которого нет?",
+        "tg": "getItem барои калиди вуҷуднадошта чӣ бармегардонад?",
+        "en": "What does getItem return for a missing key?"
+      },
+      "options": [
+        {
+          "ru": "null — это первый запуск",
+          "tg": "null — ин оғози аввал аст",
+          "en": "null — it is the first launch"
+        },
+        {
+          "ru": "Пустую строку",
+          "tg": "Сатри холӣ",
+          "en": "An empty string"
+        },
+        {
+          "ru": "Ошибку приложения",
+          "tg": "Хатои барнома",
+          "en": "An app error"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Отсутствие записи — нормальная ситуация, а не сбой.",
+        "tg": "Набудани сабт ҳолати муқаррарист, на хатогӣ.",
+        "en": "A missing record is a normal situation, not a failure."
+      },
+      "hint": {
+        "ru": "Посмотрите на проверку raw в useEffect.",
+        "tg": "Ба санҷиши raw дар useEffect нигоҳ кунед.",
+        "en": "Look at the raw check in useEffect."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-28-q3",
+      "question": {
+        "ru": "Как хранят массив заметок в AsyncStorage?",
+        "tg": "Массиви қайдҳоро дар AsyncStorage чӣ тавр нигоҳ медоранд?",
+        "en": "How is a notes array stored in AsyncStorage?"
+      },
+      "options": [
+        {
+          "ru": "Каждый элемент отдельным файлом",
+          "tg": "Ҳар унсур файли алоҳида",
+          "en": "Each element as a separate file"
+        },
+        {
+          "ru": "JSON.stringify перед записью и JSON.parse после чтения",
+          "tg": "JSON.stringify пеш аз навиштан ва JSON.parse баъди хондан",
+          "en": "JSON.stringify before writing and JSON.parse after reading"
+        },
+        {
+          "ru": "Никак, массивы не поддерживаются",
+          "tg": "Ҳеҷ, массивҳо дастгирӣ намешаванд",
+          "en": "Not at all, arrays are unsupported"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Хранилище принимает строки, сложные структуры превращают в JSON.",
+        "tg": "Нигоҳдорӣ сатр мепазирад, сохторҳои мураккабро ба JSON табдил медиҳанд.",
+        "en": "The store takes strings; complex structures become JSON."
+      },
+      "hint": {
+        "ru": "Найдите setItem и getItem в примере.",
+        "tg": "setItem ва getItem-ро дар мисол ёбед.",
+        "en": "Find setItem and getItem in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-28-q4",
+      "question": {
+        "ru": "Что говорит пользователю catch при отказе хранилища?",
+        "tg": "catch ҳангоми даст додани нигоҳдорӣ ба корбар чӣ мегӯяд?",
+        "en": "What does catch tell the user when the store refuses?"
+      },
+      "options": [
+        {
+          "ru": "Что нужно переустановить телефон",
+          "tg": "Он ки телефонро аз нав насб кунед",
+          "en": "That the phone must be reinstalled"
+        },
+        {
+          "ru": "Ничего, ошибка молчит",
+          "tg": "Ҳеҷ чиз, хато хомӯш аст",
+          "en": "Nothing, the error is silent"
+        },
+        {
+          "ru": "Заметка видна только до перезапуска",
+          "tg": "Қайд танҳо то аз нав оғоз дида мешавад",
+          "en": "The note is visible only until a restart"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Пользователь знает реальные границы сохранности.",
+        "tg": "Корбар ҳудуди воқеии нигоҳдориро медонад.",
+        "en": "The user knows the real persistence limits."
+      },
+      "hint": {
+        "ru": "Найдите в решении сообщение об ошибке сохранения.",
+        "tg": "Дар ҳалл паёми хатои нигоҳдориро ёбед.",
+        "en": "Find the save error message in the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-28-q5",
+      "question": {
+        "ru": "Почему в решении id вместо индексов?",
+        "tg": "Дар ҳалл id барои чӣ ба ҷои индекс аст?",
+        "en": "Why does the solution use ids instead of indexes?"
+      },
+      "options": [
+        {
+          "ru": "Стабильные ключи не зависят от порядка списка",
+          "tg": "Калидҳои устувор аз тартиби рӯйхат вобаста нестанд",
+          "en": "Stable keys do not depend on list order"
+        },
+        {
+          "ru": "id короче",
+          "tg": "id кӯтоҳтар аст",
+          "en": "ids are shorter"
+        },
+        {
+          "ru": "Индексы запрещены AsyncStorage",
+          "tg": "Индексҳо дар AsyncStorage мамнӯъанд",
+          "en": "Indexes are forbidden in AsyncStorage"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Тот же принцип stable key, что и в дне 9 и 16.",
+        "tg": "Ҳамон принсипи калиди устувор, ки дар рӯзҳои 9 ва 16 буд.",
+        "en": "The same stable-key principle as days 9 and 16."
+      },
+      "hint": {
+        "ru": "Сравните key={index} примера и key={note.id} решения.",
+        "tg": "key={index}-и мисол ва key={note.id}-и ҳаллро муқоиса кунед.",
+        "en": "Compare the example key={index} and the solution key={note.id}."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Установите AsyncStorage командой из первого раздела, соберите пример и проверьте перезапуск на устройстве. Соберите решение с валидацией и ошибками хранения и запишите, что происходит при короткой заметке. Проверьте второй запуск без закрытия приложения — что изменилось? Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "AsyncStorage-ро бо фармони аз бахши аввал насб карда, мисолро созед ва аз нав оғозро дар дастгоҳ санҷед. Ҳаллро бо санҷиш ва хатоҳои нигоҳдорӣ созед ва сабт кунед, ки ҳангоми қайди кӯтоҳ чӣ мешавад. Оғози дуюмро бе пӯшидани барнома санҷед — чӣ тағйир ёфт? Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Install AsyncStorage with the first-section command, build the example and check a restart on a device. Build the solution with validation and store errors and record what happens for a short note. Check a second run without closing the app — what changed? This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Валидация из дня 22: text.trim().length < 3 перед сохранением.",
+      "tg": "Санҷиш аз рӯзи 22: text.trim().length < 3 пеш аз нигоҳдорӣ.",
+      "en": "The day-22 validation: text.trim().length < 3 before saving."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst KEY = 'devatlas-notes-v2';\n\ntype Note = { id: string; text: string };\n\nexport default function App() {\n  const [draft, setDraft] = useState('');\n  const [notes, setNotes] = useState<Note[]>([]);\n  const [error, setError] = useState('');\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (raw) setNotes(JSON.parse(raw) as Note[]);\n      })\n      .catch(() => setError('Хранилище недоступно, заметки не загружены'));\n  }, []);\n\n  async function saveNote() {\n    const text = draft.trim();\n    if (text.length < 3) {\n      setError('Заметка короче трёх символов');\n      return;\n    }\n    setError('');\n    const next: Note[] = [...notes, { id: String(Date.now()), text }];\n    setNotes(next);\n    setDraft('');\n    try {\n      await AsyncStorage.setItem(KEY, JSON.stringify(next));\n    } catch {\n      setError('Не удалось сохранить: заметка видна только до перезапуска');\n    }\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Заметки с хранением</Text>\n      <TextInput value={draft} onChangeText={setDraft} placeholder=\"Новая заметка\" style={styles.input} />\n      {error ? <Text style={styles.error}>{error}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сохранить заметку\"\n        onPress={saveNote}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сохранить</Text>\n      </Pressable>\n      {notes.length === 0 ? <Text>Заметок пока нет.</Text> : notes.map(note => <Text key={note.id}>{note.text}</Text>)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Заметка осталась после полного перезапуска приложения.",
+        "tg": "Қайд баъди аз нав оғози пурраи барнома монд.",
+        "en": "The note remained after fully restarting the app."
+      },
+      {
+        "ru": "Короткая заметка и отказ хранилища показывают понятные сообщения.",
+        "tg": "Қайди кӯтоҳ ва даст додани нигоҳдорӣ паёмҳои фаҳмо нишон медиҳанд.",
+        "en": "A short note and a store refusal show clear messages."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Сохранить и прочитать заметки через AsyncStorage.",
+        "tg": "Қайдҳоро тавассути AsyncStorage нигоҳ дода, баргардонед.",
+        "en": "Store and read notes through AsyncStorage."
+      },
+      {
+        "ru": "Честно объяснить границы хранилища.",
+        "tg": "Ҳудуди нигоҳдориро рӯбарӯ фаҳмонед.",
+        "en": "Explain the store limits honestly."
+      }
+    ],
+    "realWorld": {
+      "ru": "Настройки темы и черновики сообщений в приложениях живут именно в таком хранилище.",
+      "tg": "Танзимоти мавзӯъ ва лоиҳаҳои паём дар барномаҳо дар ҳамон нигоҳдорӣ ҳастанд.",
+      "en": "Theme settings and message drafts in apps live in exactly such a store."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что вернёт getItem для ключа, которого нет?",
+        "tg": "getItem барои калиди вуҷуднадошта чӣ бармегардонад?",
+        "en": "What does getItem return for a missing key?"
+      },
+      "options": [
+        {
+          "ru": "null — это первый запуск",
+          "tg": "null — ин оғози аввал аст",
+          "en": "null — it is the first launch"
+        },
+        {
+          "ru": "Пустую строку",
+          "tg": "Сатри холӣ",
+          "en": "An empty string"
+        },
+        {
+          "ru": "Ошибку приложения",
+          "tg": "Хатои барнома",
+          "en": "An app error"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Посмотрите на проверку raw в useEffect.",
+        "tg": "Ба санҷиши raw дар useEffect нигоҳ кунед.",
+        "en": "Look at the raw check in useEffect."
+      },
+      "explanation": {
+        "ru": "Отсутствие записи — нормальная ситуация, а не сбой.",
+        "tg": "Набудани сабт ҳолати муқаррарист, на хатогӣ.",
+        "en": "A missing record is a normal situation, not a failure."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst KEY = 'devatlas-notes';\n\nexport default function App() {\n  const [draft, setDraft] = useState('');\n  const [notes, setNotes] = useState<string[]>([]);\n  const [savedOnce, setSavedOnce] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (raw) setNotes(JSON.parse(raw) as string[]);\n      })\n      .catch(() => {});\n  }, []);\n\n  async function saveNote() {\n    const value = draft.trim();\n    if (!value) return;\n    const next = [...notes, value];\n    setNotes(next);\n    setDraft('');\n    await AsyncStorage.setItem(KEY, JSON.stringify(next));\n    setSavedOnce(true);\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Заметки с хранением</Text>\n      <TextInput value={draft} onChangeText={setDraft} placeholder=\"Новая заметка\" style={styles.input} />\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сохранить заметку\"\n        onPress={saveNote}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сохранить</Text>\n      </Pressable>\n      {notes.length === 0 ? <Text>Заметок пока нет.</Text> : notes.map((note, index) => <Text key={index}>{note}</Text>)}\n      {savedOnce ? <Text>Заметка сохранена на устройстве.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 6,
+          "explanation": {
+            "ru": "Ключ хранилища объявлен один раз.",
+            "tg": "Калиди нигоҳдорӣ як бор эълон шудааст.",
+            "en": "The store key is declared once."
+          },
+          "values": "devatlas-notes"
+        },
+        {
+          "line": 15,
+          "explanation": {
+            "ru": "getItem возвращает строку или null.",
+            "tg": "getItem сатр ё null бармегардонад.",
+            "en": "getItem returns a string or null."
+          },
+          "values": "raw | null"
+        },
+        {
+          "line": 30,
+          "explanation": {
+            "ru": "setItem записывает JSON после состояния.",
+            "tg": "setItem JSON-ро баъди ҳолат менависад.",
+            "en": "setItem writes the JSON after the state."
+          },
+          "values": "notes saved"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере, где читается и где пишется хранилище.",
+          "tg": "Дар мисол ёбед, ки нигоҳдорӣ дар куҷо хонда ва дар куҷо навишта мешавад.",
+          "en": "Find where the store is read and where it is written."
+        },
+        {
+          "ru": "Сохраните заметку, закройте приложение полностью и найдите её после запуска.",
+          "tg": "Қайдро нигоҳ доред, барномаро пурра пӯшед ва баъди оғоз ӯро ёбед.",
+          "en": "Save a note, close the app fully and find it after a restart."
+        }
+      ],
+      "hint": {
+        "ru": "Валидация из дня 22: text.trim().length < 3 перед сохранением.",
+        "tg": "Санҷиш аз рӯзи 22: text.trim().length < 3 пеш аз нигоҳдорӣ.",
+        "en": "The day-22 validation: text.trim().length < 3 before saving."
+      },
+      "success": {
+        "ru": "Заметка переживает полный перезапуск, а пустое хранилище показывается как первый запуск.",
+        "tg": "Қайд аз нав оғози пурраро мегузарад ва нигоҳдории холӣ ҳамчун оғози аввал нишон дода мешавад.",
+        "en": "A note survives a full restart and an empty store shows as the first launch."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Установите AsyncStorage командой из первого раздела, соберите пример и проверьте перезапуск на устройстве. Соберите решение с валидацией и ошибками хранения и запишите, что происходит при короткой заметке. Проверьте второй запуск без закрытия приложения — что изменилось? Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "AsyncStorage-ро бо фармони аз бахши аввал насб карда, мисолро созед ва аз нав оғозро дар дастгоҳ санҷед. Ҳаллро бо санҷиш ва хатоҳои нигоҳдорӣ созед ва сабт кунед, ки ҳангоми қайди кӯтоҳ чӣ мешавад. Оғози дуюмро бе пӯшидани барнома санҷед — чӣ тағйир ёфт? Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Install AsyncStorage with the first-section command, build the example and check a restart on a device. Build the solution with validation and store errors and record what happens for a short note. Check a second run without closing the app — what changed? This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Заметка осталась после полного перезапуска приложения.",
+          "tg": "Қайд баъди аз нав оғози пурраи барнома монд.",
+          "en": "The note remained after fully restarting the app."
+        },
+        {
+          "ru": "Короткая заметка и отказ хранилища показывают понятные сообщения.",
+          "tg": "Қайди кӯтоҳ ва даст додани нигоҳдорӣ паёмҳои фаҳмо нишон медиҳанд.",
+          "en": "A short note and a store refusal show clear messages."
+        }
+      ],
+      "example": {
+        "ru": "После закрытия и запуска приложения список заметок восстанавливается из хранилища.",
+        "tg": "Баъди пӯшидан ва оғози барнома рӯйхати қайдҳо аз нигоҳдорӣ барқарор мешавад.",
+        "en": "After closing and opening the app the note list restores from the store."
+      }
+    },
+    "summary": [
+      {
+        "ru": "AsyncStorage хранит ключ-значение строками и переживает перезапуск.",
+        "tg": "AsyncStorage калид-қиматро ҳамчун сатр нигоҳ дошта, аз нав оғозро мегузарад.",
+        "en": "AsyncStorage stores key-value as strings and survives a restart."
+      },
+      {
+        "ru": "Хранилище может отказать — пользователь узнаёт об этом словами.",
+        "tg": "Нигоҳдорӣ метавонад даст диҳад — корбар инро бо калимаҳо медонад.",
+        "en": "The store can refuse — the user learns it in words."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что вернёт getItem для ключа, которого нет?",
+        "tg": "getItem барои калиди вуҷуднадошта чӣ бармегардонад?",
+        "en": "What does getItem return for a missing key?"
+      },
+      {
+        "ru": "Для каких данных подходит AsyncStorage?",
+        "tg": "AsyncStorage барои кадом маълумот мувофиқ аст?",
+        "en": "What data fits AsyncStorage?"
+      }
+    ],
+    "nextLessonId": "mobile-day-29"
+  }
+}

@@ -1,0 +1,128 @@
+/* Catalog responsive rules and access tiers. */
+@media (max-width: 1250px) {
+  .category-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1050px) {
+  .category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .catalog-categories {
+    margin-top: 24px;
+  }
+  .catalog-section-heading {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .catalog-section-heading h2 {
+    font-size: 16px;
+  }
+  .category-reset {
+    font-size: 12px;
+    padding: 4px 0;
+    text-align: right;
+    gap: 5px;
+  }
+  .category-reset svg {
+    flex: none;
+  }
+  .category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+  .category-card {
+    padding: 15px 13px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+  .category-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+  }
+  .category-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .category-text strong {
+    font-size: 12px;
+  }
+  .category-text small {
+    font-size: 12px;
+  }
+  .category-chevron {
+    right: 10px;
+    top: 18px;
+    width: 13px;
+  }
+  .programming-filters {
+    padding: 16px 13px;
+    margin-bottom: 25px;
+  }
+  .subtrack-filters {
+    gap: 5px;
+  }
+  .subtrack-filters button {
+    font-size: 12px;
+    padding: 8px;
+    min-height: 44px;
+  }
+  .catalog-toolbar > div {
+    gap: 10px;
+  }
+  .catalog-result-count {
+    font-size: 12px;
+    padding-left: 10px;
+  }
+  .catalog-groups {
+    gap: 27px;
+  }
+  .catalog-group-heading {
+    gap: 9px;
+    margin-bottom: 13px;
+  }
+  .catalog-group-heading h2 {
+    font-size: 16px;
+  }
+  .group-course-count {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .category-card {
+    transition: none;
+  }
+}
+
+.course-access-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 12px;
+}
+.course-access-filters button {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 15px;
+  color: var(--text);
+  background: var(--card);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.course-access-filters button[aria-pressed='true'] {
+  color: var(--text-on-accent);
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
+}
+
+.course-access-gate {
+  padding: 28px;
+}
+.practice-tier {
+  font-size: 12px;
+  opacity: 0.8;
+}

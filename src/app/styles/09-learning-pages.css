@@ -1,0 +1,266 @@
+/* Dashboard, month plan, lesson and dark code surfaces. */
+/* ============ Dashboard (Мой день) ============ */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dashboard-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.dashboard-heading h1 {
+  font-size: 28px;
+}
+.dashboard-heading p {
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  color: var(--primary);
+}
+.stat span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+.stat strong {
+  display: block;
+  color: var(--text);
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.stat strong small {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ============ Months / plan ============ */
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.month-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.month-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-1);
+  padding: 16px;
+  text-decoration: none;
+}
+.month-card:hover {
+  border-color: var(--primary);
+}
+.month-card.selected {
+  border-color: var(--primary);
+  box-shadow:
+    0 0 0 1px var(--primary),
+    var(--shadow-1);
+}
+.month-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-control);
+  background: var(--indigo-well);
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.month-card h3 {
+  font-size: 15px;
+}
+.month-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.month-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.supplemental {
+  margin-top: 16px;
+}
+.supplemental h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============ Lesson ============ */
+.lesson-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 16px;
+  align-items: start;
+}
+.lesson-article {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lesson-article section h2 {
+  margin-bottom: 6px;
+}
+.source-line {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.lesson-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.flow-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.flow-steps li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--indigo-well);
+  border: 1px solid var(--indigo-well-2);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+}
+.flow-steps li > span {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  flex: none;
+  background: var(--card);
+  border: 1px solid var(--indigo-well-2);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+.flow-steps p {
+  font-size: 13px;
+  color: var(--text-2);
+}
+.question-list {
+  display: flex;
+  flex-direction: column;
+}
+.question-list details {
+  border-top: 1px solid var(--border-subtle);
+}
+.question-list summary {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 10px 4px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+.question-list summary::-webkit-details-marker {
+  display: none;
+}
+.question-list summary:hover {
+  color: var(--primary);
+}
+.practice-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--primary);
+}
+.practice-intro h2 {
+  color: var(--text);
+}
+.code-disclosure summary,
+.code-detail summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.code-disclosure summary:hover,
+.code-detail summary:hover {
+  color: var(--text);
+}
+.code-detail {
+  margin-top: 8px;
+}
+
+/* Dark code surfaces */
+.code-disclosure pre,
+.code-detail pre,
+.solution pre,
+.prompt-output,
+.code-editor {
+  background: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid var(--code-header);
+  border-radius: var(--radius-control);
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre;
+}
+.code-disclosure,
+.code-detail,
+.solution {
+  margin-top: 8px;
+}
+.solution summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.solution summary:hover {
+  color: var(--text);
+}
+
+/* Lesson code trace: one code line per row, the current step is highlighted. */
+.code-trace-line {
+  display: block;
+}
+.code-trace-line[aria-current='step'] {
+  background: var(--code-highlight);
+}

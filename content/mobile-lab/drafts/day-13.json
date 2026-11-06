@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-13",
+  "day": 13,
+  "prerequisiteDays": [
+    12
+  ],
+  "title": {
+    "ru": "Flexbox и небольшие экраны",
+    "tg": "Flexbox ва экранҳои хурд",
+    "en": "Flexbox and small screens"
+  },
+  "summary": {
+    "ru": "Расположите две панели в строке, задайте им пропорции и проверьте раскладку на узком экране.",
+    "tg": "Ду панелро дар як сатр ҷойгир кунед, нисбатҳои онҳоро таъин намуда, дар экрани танг санҷед.",
+    "en": "Place two panels in a row, give them proportions and check the layout on a narrow screen."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Строки, колонки и пропорции",
+        "tg": "Сатрҳо, сутунҳо ва нисбатҳо",
+        "en": "Rows, columns and proportions"
+      },
+      "body": {
+        "ru": "Flexbox описывает, как дети контейнера занимают место. Главное отличие от веба: направление по умолчанию — колонка, поэтому без дополнительных стилей элементы идут сверху вниз. Свойство flexDirection: 'row' выстраивает детей в строку. flex: 1, flex: 2 задают пропорции свободного места: если две панели имеют flex 1 и 2, вторая получит две трети ширины. justifyContent распределяет детей по главной оси, alignItems — по поперечной. На узком экране в строке остаётся меньше места: проверяйте раскладку и в вертикальном, и в горизонтальном положении, а важный контент не прячьте в узкой колонке. Это раскладка в памяти: поворот экрана меняет доступное место, но не сохраняет состояние.",
+        "tg": "Flexbox тавсиф медиҳад, ки кӯдакони контейнер чӣ тавр ҷо мегиранд. Фарқи асосӣ аз веб: самти пешфрӯз сутун аст, бинобар ин бе услубҳои иловагӣ унсурҳо аз боло ба поён мераванд. Хосияти flexDirection: 'row' кӯдаконро ба сатр мешорад. flex: 1 ва flex: 2 нисбатҳои ҷои холиро муайян мекунанд: агар ду панел flex 1 ва 2 дошта бошанд, дуюм ду сеяки паҳниро мегирад. justifyContent кӯдаконро дар самти асосӣ тақсим мекунад, alignItems — дар самтиokuaacross. Дар экрани танг дар сатр ҷои камтар мемонад: ороишро ҳам дар ҳолати амудӣ ҳам уфуқӣ санҷед ва мазмуни муҳимро дар сутуни танг маҳкум накунед. Ин ороиш дар хотира аст: гардиши экран ҷои дастрасро иваз мекунад, вале ҳолатро нигоҳ намедорад.",
+        "en": "Flexbox describes how a container children take space. The main difference from the web: the default direction is a column, so elements stack top to bottom without extra styles. flexDirection: 'row' lines the children up in a row. flex: 1 and flex: 2 set proportions of the free space: with two panels at flex 1 and 2, the second gets two thirds of the width. justifyContent distributes children along the main axis, alignItems across it. A narrow screen leaves less room in a row: check the layout in both orientations and do not hide important content in a narrow column. This layout lives in memory: rotating the screen changes the available space but stores nothing."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Экран занимает flex: 1, а row описывает строку высотой 120 с flexDirection: 'row' и зазором gap: 12 между панелями. partOne имеет flex: 1, partTwo — flex: 2: свободная ширина делится на три части, поэтому «Прогресс» вдвое шире «Плана». Фон каждой панели свой, чтобы пропорции были видны. Нижний Text объясняет, что раскладку надо проверить при повороте. Попробуйте поменять пропорции на 1:1 — панели сравняются. Затем уменьшите height строки и посмотрите, что текст не обрезается при большом системном шрифте. Скопируйте пример в App.tsx и проверьте на устройстве в двух ориентациях.",
+        "tg": "Экран flex: 1 мегирад, row сатри бо баландии 120, flexDirection: 'row' ва фосилаи gap: 12-и байни панелҳоро тавсиф медиҳад. partOne flex: 1 дорад, partTwo — flex: 2: паҳнии холӣ ба се қисм тақсим мешавад, бинобар ин «Пешрафт» аз «Нақша» ду бор паҳнтар аст. Заминаи ҳар панел алоҳида аст, то нисбатҳо дида шаванд. Text-и поёнӣ мефаҳмонад, ки ороишро ҳангоми гардиш санҷидан лозим аст. Нисбатҳоро ба 1:1 иваз кунед — панелҳо баробар мешаванд. Баъд баландии сатрро кам кунед ва бинед, ки матн бо ҳуруфи калони система бурида намешавад. Мисолро ба App.tsx гузошта, дар дастгоҳ дар ду самт санҷед.",
+        "en": "The screen takes flex: 1, and row describes a 120-tall line with flexDirection: 'row' and a gap: 12 between the panels. partOne has flex: 1, partTwo flex: 2: the free width splits into three parts, so \"Прогресс\" is twice as wide as \"План\". Each panel has its own background so the proportions are visible. The bottom Text explains that the layout must be checked when rotating. Change the proportions to 1:1 — the panels equalize. Then reduce the row height and see that text is not clipped with a large system font. Copy the example into App.tsx and check on a device in both orientations."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.row}>\n        <View style={styles.partOne}>\n          <Text>План</Text>\n        </View>\n        <View style={styles.partTwo}>\n          <Text>Прогресс</Text>\n        </View>\n      </View>\n      <Text>Поверните экран и проверьте раскладку.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 12 },\n  row: { flexDirection: 'row', height: 120, gap: 12 },\n  partOne: { flex: 1, backgroundColor: '#bfdbfe', padding: 12 },\n  partTwo: { flex: 2, backgroundColor: '#bbf7d0', padding: 12 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-13-q1",
+      "question": {
+        "ru": "Как дети контейнера расположены по умолчанию?",
+        "tg": "Кӯдакони контейнер бо пешфрӯз чӣ тавр ҷойгир мешаванд?",
+        "en": "How are container children arranged by default?"
+      },
+      "options": [
+        {
+          "ru": "В строку слева направо",
+          "tg": "Дар сатр аз чап ба рост",
+          "en": "In a row left to right"
+        },
+        {
+          "ru": "По кругу",
+          "tg": "Даврзанона",
+          "en": "In a circle"
+        },
+        {
+          "ru": "В колонку сверху вниз",
+          "tg": "Дар сутун аз боло ба поён",
+          "en": "In a column top to bottom"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Основное направление по умолчанию — колонка, не как в вебе.",
+        "tg": "Самти асосии пешфрӯз сутун аст, на мисли веб.",
+        "en": "The default main axis is a column, unlike the web."
+      },
+      "hint": {
+        "ru": "Вспомните первое отличие от веба из первого раздела.",
+        "tg": "Фарқи аввал аз вебро аз бахши аввал ёд оред.",
+        "en": "Recall the first web difference from the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-13-q2",
+      "question": {
+        "ru": "Панели имеют flex: 1 и flex: 2. Какая доля ширины у второй?",
+        "tg": "Панелҳо flex: 1 ва flex: 2 доранд. Дуюм чанде аз паҳниро мегирад?",
+        "en": "Panels have flex: 1 and flex: 2. What share of the width does the second take?"
+      },
+      "options": [
+        {
+          "ru": "Две трети",
+          "tg": "Ду сеяк",
+          "en": "Two thirds"
+        },
+        {
+          "ru": "Одну треть",
+          "tg": "Як сеяк",
+          "en": "One third"
+        },
+        {
+          "ru": "Всю ширину",
+          "tg": "Тамоми паҳнӣ",
+          "en": "The whole width"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Свободное место делится на три части: 1 + 2.",
+        "tg": "Ҷои холӣ ба се қисм тақсим мешавад: 1 + 2.",
+        "en": "The free space splits into three parts: 1 + 2."
+      },
+      "hint": {
+        "ru": "Сложите значения flex и посчитайте долю второй панели.",
+        "tg": "Қиматҳои flex-ро ҷамъ карда, саҳми панели дуюмро ҳисоб кунед.",
+        "en": "Add the flex values and compute the second panel share."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-13-q3",
+      "question": {
+        "ru": "Что делает flexDirection: 'row'?",
+        "tg": "flexDirection: 'row' чӣ мекунад?",
+        "en": "What does flexDirection: 'row' do?"
+      },
+      "options": [
+        {
+          "ru": "Скрывает лишние элементы",
+          "tg": "Унсурҳои изофаро маҳкум мекунад",
+          "en": "Hides extra elements"
+        },
+        {
+          "ru": "Выстраивает детей в строку",
+          "tg": "Кӯдаконро ба сатр мешорад",
+          "en": "Lines the children up in a row"
+        },
+        {
+          "ru": "Включает тёмную тему",
+          "tg": "Мавзӯъи торикро фаъол мекунад",
+          "en": "Enables dark mode"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Свойство меняет главную ось на горизонтальную.",
+        "tg": "Хосият самти асосиро ба уфуқӣ иваз мекунад.",
+        "en": "The property switches the main axis to horizontal."
+      },
+      "hint": {
+        "ru": "Найдите в разборе описание свойства row.",
+        "tg": "Дар шарҳ тавсифи хосияти row-ро ёбед.",
+        "en": "Find the row property description in the walkthrough."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-13-q4",
+      "question": {
+        "ru": "Что означает gap: 12 в стиле строки?",
+        "tg": "gap: 12 дар услуби сатр чӣ маъно дорад?",
+        "en": "What does gap: 12 mean in the row style?"
+      },
+      "options": [
+        {
+          "ru": "Задержку перед нажатием",
+          "tg": "Таъхир пеш аз пахш",
+          "en": "A delay before a press"
+        },
+        {
+          "ru": "Размер шрифта внутри панелей",
+          "tg": "Андозаи ҳуруф дар дохили панелҳо",
+          "en": "Font size inside the panels"
+        },
+        {
+          "ru": "Отступ между соседними панелями",
+          "tg": "Фосилаи байни панелҳои ҳамсоя",
+          "en": "Spacing between neighboring panels"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "gap задаёт зазор между детьми контейнера.",
+        "tg": "gap фосилаи байни кӯдакони контейнерро муайян мекунад.",
+        "en": "gap sets the spacing between container children."
+      },
+      "hint": {
+        "ru": "Посмотрите на примере, где остаются 12 единиц пустого места.",
+        "tg": "Дар мисол бинед, ки 12 воҳиди ҷои холӣ куҷо мемонад.",
+        "en": "Look at the example where the 12 empty units remain."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-13-q5",
+      "question": {
+        "ru": "Зачем проверять раскладку при повороте экрана?",
+        "tg": "Барои чӣ ороишро ҳангоми гардиши экран санҷидан лозим?",
+        "en": "Why check the layout when the screen rotates?"
+      },
+      "options": [
+        {
+          "ru": "Поворот меняет доступное место для панелей",
+          "tg": "Гардиш ҷои дастраси панелҳоро иваз мекунад",
+          "en": "Rotation changes the space available to the panels"
+        },
+        {
+          "ru": "Поворот удаляет стили",
+          "tg": "Гардиш услубҳоро нест мекунад",
+          "en": "Rotation deletes styles"
+        },
+        {
+          "ru": "Поворот не влияет на раскладку",
+          "tg": "Гардиш ба ороиш таъсир намерасонад",
+          "en": "Rotation does not affect layout"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "В горизонтальном положении ширина и высота меняются местами.",
+        "tg": "Дар ҳолати уфуқӣ паҳнӣ ва баландӣ ҷой иваз мекунанд.",
+        "en": "In landscape the width and height swap."
+      },
+      "hint": {
+        "ru": "Вспомните слова примера про поворот и узкие экраны.",
+        "tg": "Калимаҳои мисол дар бораи гардиш ва экранҳои тангро ёд оред.",
+        "en": "Recall the example words about rotation and narrow screens."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте его на устройстве в вертикальном и горизонтальном положении. Затем добавьте вторую строку из двух равных панелей flex: 1 и запишите, чем она отличается от первой. Проверьте, что текст панелей не обрезается при увеличенном системном шрифте. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва дар дастгоҳ дар ҳолатҳои амудию уфуқӣ санҷед. Баъд сатри дуюми аз ду панели баробари flex: 1 илова карда, сабт кунед, ки аз сатри аввал чӣ фарқ дорад. Санҷед, ки матни панелҳо бо ҳуруфи калони система бурида намешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check it on a device in portrait and landscape. Then add a second row of two equal flex: 1 panels and record how it differs from the first. Check that panel text is not clipped with a larger system font. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Вторая строка — тот же flexDirection: 'row' с двумя дочерними View, у каждого flex: 1.",
+      "tg": "Сатри дуюм — ҳамон flexDirection: 'row' бо ду View-и кӯдак, ки ҳар яке flex: 1 дорад.",
+      "en": "The second row is the same flexDirection: 'row' with two child Views, each with flex: 1."
+    },
+    "solution": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.row}>\n        <View style={styles.partOne}>\n          <Text>План</Text>\n        </View>\n        <View style={styles.partTwo}>\n          <Text>Прогресс</Text>\n        </View>\n      </View>\n      <View style={styles.secondRow}>\n        <View style={styles.equal}>\n          <Text>Поровну</Text>\n        </View>\n        <View style={styles.equal}>\n          <Text>Поровну</Text>\n        </View>\n      </View>\n      <Text>Поверните экран и проверьте раскладку.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 12 },\n  row: { flexDirection: 'row', height: 120, gap: 12 },\n  partOne: { flex: 1, backgroundColor: '#bfdbfe', padding: 12 },\n  partTwo: { flex: 2, backgroundColor: '#bbf7d0', padding: 12 },\n  secondRow: { flexDirection: 'row', height: 80, gap: 12 },\n  equal: { flex: 1, backgroundColor: '#fde68a', padding: 12 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Вторая строка содержит две равные панели с разными фонами.",
+        "tg": "Сатри дуюм ду панели баробар бо заминаҳои гуногун дорад.",
+        "en": "The second row has two equal panels with different backgrounds."
+      },
+      {
+        "ru": "Записаны результаты проверки в двух ориентациях и при увеличенном шрифте.",
+        "tg": "Натиҷаҳои санҷиш дар ду самт ва бо ҳуруфи калон сабт шудаанд.",
+        "en": "The results of checks in both orientations and with a larger font are recorded."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Построить строку из панелей с пропорциями flex.",
+        "tg": "Сатри аз панелҳо бо нисбатҳои flex созед.",
+        "en": "Build a row of panels with flex proportions."
+      },
+      {
+        "ru": "Проверить раскладку в двух ориентациях экрана.",
+        "tg": "Ороишро дар ду самти экран санҷед.",
+        "en": "Check the layout in both screen orientations."
+      }
+    ],
+    "realWorld": {
+      "ru": "Экран статистики: панель плана и панель прогресса рядом, вторая вдвое шире.",
+      "tg": "Экрани омора: панели нақша ва панели пешрафт дар паҳлуи ҳам, дуюм ду бор паҳнтар.",
+      "en": "A statistics screen: a plan panel and a progress panel side by side, the second twice as wide."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Панели имеют flex: 1 и flex: 2. Какая доля ширины у второй?",
+        "tg": "Панелҳо flex: 1 ва flex: 2 доранд. Дуюм чанде аз паҳниро мегирад?",
+        "en": "Panels have flex: 1 and flex: 2. What share of the width does the second take?"
+      },
+      "options": [
+        {
+          "ru": "Две трети",
+          "tg": "Ду сеяк",
+          "en": "Two thirds"
+        },
+        {
+          "ru": "Одну треть",
+          "tg": "Як сеяк",
+          "en": "One third"
+        },
+        {
+          "ru": "Всю ширину",
+          "tg": "Тамоми паҳнӣ",
+          "en": "The whole width"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Сложите значения flex и посчитайте долю второй панели.",
+        "tg": "Қиматҳои flex-ро ҷамъ карда, саҳми панели дуюмро ҳисоб кунед.",
+        "en": "Add the flex values and compute the second panel share."
+      },
+      "explanation": {
+        "ru": "Свободное место делится на три части: 1 + 2.",
+        "tg": "Ҷои холӣ ба се қисм тақсим мешавад: 1 + 2.",
+        "en": "The free space splits into three parts: 1 + 2."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.row}>\n        <View style={styles.partOne}>\n          <Text>План</Text>\n        </View>\n        <View style={styles.partTwo}>\n          <Text>Прогресс</Text>\n        </View>\n      </View>\n      <Text>Поверните экран и проверьте раскладку.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 12 },\n  row: { flexDirection: 'row', height: 120, gap: 12 },\n  partOne: { flex: 1, backgroundColor: '#bfdbfe', padding: 12 },\n  partTwo: { flex: 2, backgroundColor: '#bbf7d0', padding: 12 },\n});\n",
+      "steps": [
+        {
+          "line": 21,
+          "explanation": {
+            "ru": "row включает горизонтальное направление.",
+            "tg": "row самти уфуқиро фаъол мекунад.",
+            "en": "row enables the horizontal direction."
+          },
+          "values": "flexDirection row, gap 12"
+        },
+        {
+          "line": 22,
+          "explanation": {
+            "ru": "partOne получает одну часть из трёх.",
+            "tg": "partOne як қисм аз се мегирад.",
+            "en": "partOne takes one part of three."
+          },
+          "values": "flex 1"
+        },
+        {
+          "line": 23,
+          "explanation": {
+            "ru": "partTwo получает две части — вдвое шире соседа.",
+            "tg": "partTwo ду қисм мегирад — аз ҳамсоя ду бор паҳнтар.",
+            "en": "partTwo takes two parts — twice as wide as its neighbor."
+          },
+          "values": "flex 2"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере, где заданы flexDirection и пропорции flex.",
+          "tg": "Дар мисол ёбед, ки flexDirection ва нисбатҳои flex дар куҷо таъин шудаанд.",
+          "en": "Find where flexDirection and the flex proportions are set in the example."
+        },
+        {
+          "ru": "Измените пропорции на 1:1 и сравните панели на устройстве.",
+          "tg": "Нисбатҳоро ба 1:1 иваз карда, панелҳоро дар дастгоҳ муқоиса кунед.",
+          "en": "Change the proportions to 1:1 and compare the panels on a device."
+        }
+      ],
+      "hint": {
+        "ru": "Вторая строка — тот же flexDirection: 'row' с двумя дочерними View, у каждого flex: 1.",
+        "tg": "Сатри дуюм — ҳамон flexDirection: 'row' бо ду View-и кӯдак, ки ҳар яке flex: 1 дорад.",
+        "en": "The second row is the same flexDirection: 'row' with two child Views, each with flex: 1."
+      },
+      "success": {
+        "ru": "Панели стали равными при flex 1:1 и вернулись к 1:2 после возврата значений.",
+        "tg": "Панелҳо дар flex 1:1 баробар шуданд ва баъди баргардонидани қиматҳо ба 1:2 баргаштанд.",
+        "en": "The panels became equal at flex 1:1 and returned to 1:2 after restoring the values."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте его на устройстве в вертикальном и горизонтальном положении. Затем добавьте вторую строку из двух равных панелей flex: 1 и запишите, чем она отличается от первой. Проверьте, что текст панелей не обрезается при увеличенном системном шрифте. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва дар дастгоҳ дар ҳолатҳои амудию уфуқӣ санҷед. Баъд сатри дуюми аз ду панели баробари flex: 1 илова карда, сабт кунед, ки аз сатри аввал чӣ фарқ дорад. Санҷед, ки матни панелҳо бо ҳуруфи калони система бурида намешавад. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check it on a device in portrait and landscape. Then add a second row of two equal flex: 1 panels and record how it differs from the first. Check that panel text is not clipped with a larger system font. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Вторая строка содержит две равные панели с разными фонами.",
+          "tg": "Сатри дуюм ду панели баробар бо заминаҳои гуногун дорад.",
+          "en": "The second row has two equal panels with different backgrounds."
+        },
+        {
+          "ru": "Записаны результаты проверки в двух ориентациях и при увеличенном шрифте.",
+          "tg": "Натиҷаҳои санҷиш дар ду самт ва бо ҳуруфи калон сабт шудаанд.",
+          "en": "The results of checks in both orientations and with a larger font are recorded."
+        }
+      ],
+      "example": {
+        "ru": "Две панели с flex: 1 делят ширину второй строки ровно пополам.",
+        "tg": "Ду панели flex: 1 паҳнии сатри дуюмро дақиқ нисф тақсим мекунанд.",
+        "en": "Two flex: 1 panels split the second row width exactly in half."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Основное направление по умолчанию — колонка; row выстраивает детей в строку.",
+        "tg": "Самти асосии пешфрӯз сутун аст; row кӯдаконро ба сатр мешорад.",
+        "en": "The default main axis is a column; row lines children up horizontally."
+      },
+      {
+        "ru": "flex задает пропорции свободного места между панелями.",
+        "tg": "flex нисбатҳои ҷои холи байни панелҳоро муайян мекунад.",
+        "en": "flex sets the proportions of free space between panels."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Панели имеют flex: 1 и flex: 2. Какая доля ширины у второй?",
+        "tg": "Панелҳо flex: 1 ва flex: 2 доранд. Дуюм чанде аз паҳниро мегирад?",
+        "en": "Panels have flex: 1 and flex: 2. What share of the width does the second take?"
+      },
+      {
+        "ru": "Зачем проверять раскладку при повороте экрана?",
+        "tg": "Барои чӣ ороишро ҳангоми гардиши экран санҷидан лозим?",
+        "en": "Why check the layout when the screen rotates?"
+      }
+    ],
+    "nextLessonId": "mobile-day-14"
+  }
+}

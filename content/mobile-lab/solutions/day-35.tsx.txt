@@ -1,0 +1,32 @@
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+
+export function decrement(current: number): number {
+  return Math.max(0, current - 1);
+}
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Что проверяет тест</Text>
+      <Text>Счётчик: {count}</Text>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Уменьшить счётчик, но не ниже нуля"
+        onPress={() => setCount(decrement)}
+        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      >
+        <Text style={styles.buttonText}>Уменьшить</Text>
+      </Pressable>
+      <Text>decrement(2) равен 1, decrement(0) остаётся 0 — это проверяет тест.</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 12, padding: 24 },
+  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },
+  pressed: { opacity: 0.7 },
+  buttonText: { color: '#ffffff', fontSize: 16 },
+});

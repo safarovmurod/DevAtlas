@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-29",
+  "day": 29,
+  "prerequisiteDays": [
+    28
+  ],
+  "title": {
+    "ru": "Восстановление состояния после запуска",
+    "tg": "Барқароркунии ҳолат баъди оғоз",
+    "en": "Restoring state after launch"
+  },
+  "summary": {
+    "ru": "Покажите экран загрузки, пока хранилище читается, и различите первый запуск от повторного.",
+    "tg": "То хондани нигоҳдорӣ экрани боркуниро нишон диҳед ва оғози аввалро аз такрорӣ фарқ кунед.",
+    "en": "Show a loading screen while the store reads and tell a first launch from a repeat."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "null как признак ожидания",
+        "tg": "null ҳамчун нишонаи интизорӣ",
+        "en": "null as the waiting sign"
+      },
+      "body": {
+        "ru": "При запуске хранилище читается асинхронно: между открытием приложения и данными проходит время. Отличайте «ещё не прочитано» от «прочитано и пусто»: для этого состояние начинают с null и переводят в массив после чтения. null означает «мы не знаем» — экран показывает загрузку. Пустой массив — честный ответ: данных нет, это первый запуск. Восстановленные данные рисуют так же, как созданные в этом сеансе: пользователь не должен угадывать источник. Важно проверять форму данных из хранилища: там могло оказаться что-то другое после сбоя записи или старой версии приложения — неподходящие данные отбрасывают честным сообщением, а не падением.",
+        "tg": "Ҳангоми оғоз нигоҳдорӣ асинхронӣ хонда мешавад: байни кушодани барнома ва маълумот вақт мегузарад. «Ҳоло хонда нашуд»-ро аз «хонда шуд ва холист» фарқ кунед: барои ин ҳолатро аз null оғоз карда, баъди хондан ба массив мегузаронанд. null маънои «намедонем»-ро дорад — экран боркуниро нишон медиҳад. Массиви холӣ ҷавоби рӯбарӯ аст: маълумот нест, ин оғози аввал аст. Маълумоти барқароршуда ҳамон тавр мекашанд, ки дар ҳамин сессия сохташуда: корбар набояд манбаъро дарёфт кунад. Санҷидани шакли маълумот аз нигоҳдорӣ муҳим аст: баъди хатои навиштан ё версияи куҳнаи барнома он ҷо чизи дигар буда метавонад — маълумоти номувофиқро бо паёми рӯбарӯ партофтан мумкин, на бо фурӯпоши.",
+        "en": "At launch the store reads asynchronously: time passes between opening the app and the data. Distinguish \"not read yet\" from \"read and empty\": the state starts as null and becomes an array after reading. null means \"we do not know\" — the screen shows loading. An empty array is an honest answer: no data, it is the first launch. Restored data renders the same way as data created in this session: the user must not guess the source. Validate the shape of store data: after a failed write or an older app version something else could be there — unsuitable data is dropped with an honest message, not a crash."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "Состояние tasks начинается с null: тип Task[] | null описывает оба периода. Пока tasks — null, экран показывает «Открываем сохранённые занятия…». useEffect читает ключ: строка разбирается в массив, null превращается в пустой массив — первый запуск. catch тоже ставит пустой массив: отказ хранилища не должен оставить вечную загрузку. Запустите пример после дня 28 или с ручной записью — список восстановится. В решении добавлена проверка формы: каждая запись обязана иметь строковые id и title и число minutes; неподходящие данные отбрасываются с сообщением о том, что список показан пустым.",
+        "tg": "Ҳолати tasks аз null оғоз мешавад: типи Task[] | null ҳарду даврро тавсиф медиҳад. То tasks null бошад, экран «Кушода истодаем, машғулиятҳои нигоҳдоришуда…»-ро нишон медиҳад. useEffect калидро мехонад: сатр ба массив таҳлил мешавад, null ба массиви холӣ табдил меёбад — оғози аввал. catch низ массиви холӣ мегузорад: даст додани нигоҳдорӣ набояд боркунии беохир гузорад. Мисолро баъди рӯзи 28 ё бо навишти дастӣ иҷро кунед — рӯйхат барқарор мешавад. Дар ҳалл санҷиши шакл илова шудааст: ҳар сабт бояд id ва title-и сатрӣ ва minutes-и ададӣ дошта бошад; маълумоти номувофиқ бо паёми он ки рӯйхат холӣ нишон дода шуд, партофта мешавад.",
+        "en": "The tasks state starts as null: the Task[] | null type covers both periods. While tasks is null the screen shows «Открываем сохранённые занятия…». useEffect reads the key: a string parses into an array, null becomes an empty array — the first launch. catch also sets an empty array: a store refusal must not leave endless loading. Run the example after day 28 or with a manual write — the list restores. The solution adds a shape check: every record must have string id and title and a numeric minutes; unsuitable data is dropped with a message that the list is shown empty."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Task = { id: string; title: string };\n\nconst KEY = 'devatlas-tasks';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        setTasks(raw ? (JSON.parse(raw) as Task[]) : []);\n      })\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return (\n      <View style={styles.screen}>\n        <Text>Открываем сохранённые занятия…</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      {tasks.length === 0 ? (\n        <Text>Сохранённых занятий нет. Это первый запуск.</Text>\n      ) : (\n        tasks.map(task => <Text key={task.id}>{task.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-29-q1",
+      "question": {
+        "ru": "Что означает состояние null до чтения хранилища?",
+        "tg": "Ҳолати null пеш аз хондани нигоҳдорӣ чӣ маъно дорад?",
+        "en": "What does the null state before reading mean?"
+      },
+      "options": [
+        {
+          "ru": "Данные ещё не прочитаны: экран показывает загрузку",
+          "tg": "Маълумот ҳоло хонда нашудааст: экран боркуниро нишон медиҳад",
+          "en": "Data is not read yet: the screen shows loading"
+        },
+        {
+          "ru": "Данных нет совсем",
+          "tg": "Маълумот тамоман нест",
+          "en": "There is no data at all"
+        },
+        {
+          "ru": "Произошла ошибка сети",
+          "tg": "Хатои шабака рух додааст",
+          "en": "A network error happened"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "«Не знаем» и «знаем, что пусто» — разные состояния.",
+        "tg": "«Намедонем» ва «медонем, ки холист» — ҳолатҳои гуногун.",
+        "en": "\"Do not know\" and \"know it is empty\" are different states."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе различие двух периодов.",
+        "tg": "Дар бахши аввал фарқи ду даврро ёбед.",
+        "en": "Find the two-period distinction in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-29-q2",
+      "question": {
+        "ru": "Какое состояние означает первый запуск?",
+        "tg": "Кадом ҳолат оғози аввалро мефаҳмонад?",
+        "en": "Which state means the first launch?"
+      },
+      "options": [
+        {
+          "ru": "Значение null",
+          "tg": "Қимати null",
+          "en": "The null value"
+        },
+        {
+          "ru": "Прочитанный пустой массив",
+          "tg": "Массиви холии хондашуда",
+          "en": "A read empty array"
+        },
+        {
+          "ru": "Ошибка чтения",
+          "tg": "Хатои хондан",
+          "en": "A read error"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Хранилище ответило честно: записей нет.",
+        "tg": "Нигоҳдорӣ рӯбарӯ ҷавоб дод: сабтҳо нестанд.",
+        "en": "The store answered honestly: no records."
+      },
+      "hint": {
+        "ru": "Сравните сообщения для null и пустого массива в примере.",
+        "tg": "Паёмҳои null ва массиви холиро дар мисол муқоиса кунед.",
+        "en": "Compare the messages for null and an empty array in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-29-q3",
+      "question": {
+        "ru": "Почему catch тоже ставит пустой массив?",
+        "tg": "catch низ барои чӣ массиви холӣ мегузорад?",
+        "en": "Why does catch also set an empty array?"
+      },
+      "options": [
+        {
+          "ru": "Так требует AsyncStorage",
+          "tg": "AsyncStorage инро талаб мекунад",
+          "en": "AsyncStorage requires it"
+        },
+        {
+          "ru": "Чтобы удалить заметки пользователя",
+          "tg": "То қайдҳои корбар нест шаванд",
+          "en": "To delete user notes"
+        },
+        {
+          "ru": "Чтобы отказ хранилища не оставил вечную загрузку",
+          "tg": "То даст додани нигоҳдорӣ боркунии беохир нагузорад",
+          "en": "So a store refusal does not leave endless loading"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Экран обязан выйти из загрузки в любом исходе.",
+        "tg": "Экран бояд аз боркунӣ дар ҳар натиҷа барояд.",
+        "en": "The screen must leave loading in every outcome."
+      },
+      "hint": {
+        "ru": "Вспомните правило дня 26 о честных состояниях.",
+        "tg": "Қоидаи рӯзи 26 дар бораи ҳолатҳои рӯбарӯро ёд оред.",
+        "en": "Recall the day-26 rule about honest states."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-29-q4",
+      "question": {
+        "ru": "Зачем проверять форму данных из хранилища?",
+        "tg": "Шакли маълумоти аз нигоҳдорӣ барои чӣ месанҷанд?",
+        "en": "Why validate the shape of stored data?"
+      },
+      "options": [
+        {
+          "ru": "После сбоя записи или старой версии там может быть другое",
+          "tg": "Баъди хатои навиштан ё версияи куҳна он ҷо чизи дигар метавонад бошад",
+          "en": "After a failed write or an older version something else could be there"
+        },
+        {
+          "ru": "Чтобы ускорить чтение",
+          "tg": "То хондан тез шавад",
+          "en": "To speed up reading"
+        },
+        {
+          "ru": "AsyncStorage шифрует данные",
+          "tg": "AsyncStorage маълумотро рамзгузорӣ мекунад",
+          "en": "AsyncStorage encrypts data"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Неподходящие данные отбрасывают с сообщением, а не падением.",
+        "tg": "Маълумоти номувофиқро бо паём партофтан мумкин, на бо фурӯпоши.",
+        "en": "Unsuitable data is dropped with a message, not a crash."
+      },
+      "hint": {
+        "ru": "Перечитайте конец первого раздела про форму данных.",
+        "tg": "Охири бахши аввал дар бораи шакли маълумотро аз нав хонед.",
+        "en": "Re-read the end of the first section about data shape."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-29-q5",
+      "question": {
+        "ru": "Как выглядят восстановленные записи для пользователя?",
+        "tg": "Сабтҳои барқароршуда барои корбар чӣ гуна менамоянд?",
+        "en": "How do restored records look to the user?"
+      },
+      "options": [
+        {
+          "ru": "Другим цветом с пометкой «из хранилища»",
+          "tg": "Бо ранги дигар ва аломати «аз нигоҳдорӣ»",
+          "en": "In another color with a \"from store\" mark"
+        },
+        {
+          "ru": "Так же, как созданные в этом сеансе",
+          "tg": "Мисли дар ҳамин сессия сохташуда",
+          "en": "Like ones created in this session"
+        },
+        {
+          "ru": "Они скрыты до нажатия кнопки",
+          "tg": "Онҳо то пахши тугма маҳкуманд",
+          "en": "They stay hidden until a button press"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Источник данных не обязан быть видимым; важно, что список вернулся.",
+        "tg": "Манбаи маълумот бояд дида нашавад; муҳим он ки рӯйхат баргашт.",
+        "en": "The data source need not be visible; what matters is the list returned."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова про источник.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи манбаъро ёбед.",
+        "en": "Find the first-section words about the source."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте оба запуска на устройстве: первый пустой и повторный с данными из дня 28. Соберите решение с проверкой формы данных и запишите, что происходит при неподходящих данных — для этого временно запишите в ключ строку вроде not-json. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва ҳарду оғозро дар дастгоҳ санҷед: аввалин холӣ ва такрорӣ бо маълумоти рӯзи 28. Ҳаллро бо санҷиши шакли маълумот созед ва сабт кунед, ки ҳангоми маълумоти номувофиқ чӣ мешавад — барои ин муваққатан ба калид сатри монанди not-json нависед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check both launches on a device: the first empty and a repeat with day-28 data. Build the solution with the data shape check and record what happens for unsuitable data — temporarily write a string like not-json into the key. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "В решении JSON.parse обёрнут в try: исключение переводит список в пустой с сообщением broken.",
+      "tg": "Дар ҳалл JSON.parse дар try аст: истисно рӯйхатро бо паёми broken ба холӣ мегузорад.",
+      "en": "The solution wraps JSON.parse in try: an exception turns the list empty with the broken message."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst KEY = 'devatlas-tasks-v2';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [broken, setBroken] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (!raw) {\n          setTasks([]);\n          return;\n        }\n        try {\n          const parsed = JSON.parse(raw) as Task[];\n          const valid = Array.isArray(parsed) && parsed.every(task => typeof task.id === 'string' && typeof task.title === 'string' && typeof task.minutes === 'number');\n          setTasks(valid ? parsed : []);\n          setBroken(!valid);\n        } catch {\n          setTasks([]);\n          setBroken(true);\n        }\n      })\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return (\n      <View style={styles.screen}>\n        <Text>Открываем сохранённые занятия…</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      {broken ? <Text>Сохранённые данные не распознаны, показан пустой список.</Text> : null}\n      {tasks.length === 0 ? (\n        <Text>Сохранённых занятий нет. Это первый запуск.</Text>\n      ) : (\n        tasks.map(task => <Text key={task.id}>{task.title} — {task.minutes} мин.</Text>)\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Повторный запуск возвращает сохранённые записи.",
+        "tg": "Оғози такрорӣ сабтҳои нигоҳдоришударо бармегардонад.",
+        "en": "A repeat launch returns the stored records."
+      },
+      {
+        "ru": "Повреждённые данные показывают сообщение вместо падения.",
+        "tg": "Маълумоти вайрошуда паём нишон медиҳад, на фурӯпоши.",
+        "en": "Corrupted data shows a message instead of a crash."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Различить ожидание чтения и честную пустоту.",
+        "tg": "Интизории хондан ва холии рӯбарӯро фарқ кунед.",
+        "en": "Tell the reading wait from an honest emptiness."
+      },
+      {
+        "ru": "Восстановить список и проверить форму данных.",
+        "tg": "Рӯйхатро барқарор карда, шакли маълумотро санҷед.",
+        "en": "Restore a list and validate the data shape."
+      }
+    ],
+    "realWorld": {
+      "ru": "Приложение заметок при каждом запуске молча возвращает сохранённое — как будто ничего не закрывалось.",
+      "tg": "Барномаи қайдҳо ҳар оғоз бе овоз нигоҳдоришударо бармегардонад — мисли он ки ҳеҷ чиз пӯшида нашуд.",
+      "en": "A notes app silently restores saved data at every launch — as if nothing closed."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Какое состояние означает первый запуск?",
+        "tg": "Кадом ҳолат оғози аввалро мефаҳмонад?",
+        "en": "Which state means the first launch?"
+      },
+      "options": [
+        {
+          "ru": "Значение null",
+          "tg": "Қимати null",
+          "en": "The null value"
+        },
+        {
+          "ru": "Прочитанный пустой массив",
+          "tg": "Массиви холии хондашуда",
+          "en": "A read empty array"
+        },
+        {
+          "ru": "Ошибка чтения",
+          "tg": "Хатои хондан",
+          "en": "A read error"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Сравните сообщения для null и пустого массива в примере.",
+        "tg": "Паёмҳои null ва массиви холиро дар мисол муқоиса кунед.",
+        "en": "Compare the messages for null and an empty array in the example."
+      },
+      "explanation": {
+        "ru": "Хранилище ответило честно: записей нет.",
+        "tg": "Нигоҳдорӣ рӯбарӯ ҷавоб дод: сабтҳо нестанд.",
+        "en": "The store answered honestly: no records."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Task = { id: string; title: string };\n\nconst KEY = 'devatlas-tasks';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        setTasks(raw ? (JSON.parse(raw) as Task[]) : []);\n      })\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return (\n      <View style={styles.screen}>\n        <Text>Открываем сохранённые занятия…</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      {tasks.length === 0 ? (\n        <Text>Сохранённых занятий нет. Это первый запуск.</Text>\n      ) : (\n        tasks.map(task => <Text key={task.id}>{task.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
+      "steps": [
+        {
+          "line": 12,
+          "explanation": {
+            "ru": "tasks начинается с null — состояние неизвестно.",
+            "tg": "tasks аз null оғоз мешавад — ҳолат маълум нест.",
+            "en": "tasks starts as null — the state is unknown."
+          },
+          "values": "null"
+        },
+        {
+          "line": 14,
+          "explanation": {
+            "ru": "Чтение превращает null в массив.",
+            "tg": "Хондан null-ро ба массив табдил медиҳад.",
+            "en": "Reading turns null into an array."
+          },
+          "values": "Task[]"
+        },
+        {
+          "line": 24,
+          "explanation": {
+            "ru": "Экран загрузки виден только пока null.",
+            "tg": "Экрани боркунӣ танҳо то null дида мешавад.",
+            "en": "The loading screen shows only while null."
+          },
+          "values": "tasks === null"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в примере, где различаются null и пустой массив.",
+          "tg": "Дар мисол ёбед, ки null ва массиви холӣ дар куҷо фарқ мекунанд.",
+          "en": "Find where null and an empty array differ in the example."
+        },
+        {
+          "ru": "Запустите пример после сохранения в дне 28 и убедитесь, что записи вернулись.",
+          "tg": "Мисолро баъди нигоҳдории рӯзи 28 иҷро карда, боварӣ ҳосил кунед, ки сабтҳо баргаштанд.",
+          "en": "Run the example after the day-28 save and confirm the records returned."
+        }
+      ],
+      "hint": {
+        "ru": "В решении JSON.parse обёрнут в try: исключение переводит список в пустой с сообщением broken.",
+        "tg": "Дар ҳалл JSON.parse дар try аст: истисно рӯйхатро бо паёми broken ба холӣ мегузорад.",
+        "en": "The solution wraps JSON.parse in try: an exception turns the list empty with the broken message."
+      },
+      "success": {
+        "ru": "Первый запуск показывает честную пустоту, повторный — восстановленные записи.",
+        "tg": "Оғози аввал холии рӯбарӯро нишон медиҳад, такрорӣ — сабтҳои барқароршуда.",
+        "en": "The first launch shows an honest emptiness, a repeat — restored records."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте оба запуска на устройстве: первый пустой и повторный с данными из дня 28. Соберите решение с проверкой формы данных и запишите, что происходит при неподходящих данных — для этого временно запишите в ключ строку вроде not-json. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва ҳарду оғозро дар дастгоҳ санҷед: аввалин холӣ ва такрорӣ бо маълумоти рӯзи 28. Ҳаллро бо санҷиши шакли маълумот созед ва сабт кунед, ки ҳангоми маълумоти номувофиқ чӣ мешавад — барои ин муваққатан ба калид сатри монанди not-json нависед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check both launches on a device: the first empty and a repeat with day-28 data. Build the solution with the data shape check and record what happens for unsuitable data — temporarily write a string like not-json into the key. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Повторный запуск возвращает сохранённые записи.",
+          "tg": "Оғози такрорӣ сабтҳои нигоҳдоришударо бармегардонад.",
+          "en": "A repeat launch returns the stored records."
+        },
+        {
+          "ru": "Повреждённые данные показывают сообщение вместо падения.",
+          "tg": "Маълумоти вайрошуда паём нишон медиҳад, на фурӯпоши.",
+          "en": "Corrupted data shows a message instead of a crash."
+        }
+      ],
+      "example": {
+        "ru": "Ключ с текстом not-json приводит к пустому списку и сообщению о нераспознанных данных.",
+        "tg": "Калиди бо матни not-json ба рӯйхати холӣ ва паёми маълумоти ношинохта меоварад.",
+        "en": "A key with the text not-json leads to an empty list and an unrecognized-data message."
+      }
+    },
+    "summary": [
+      {
+        "ru": "null — «не знаем», пустой массив — «знаем, что пусто».",
+        "tg": "null — «намедонем», массиви холӣ — «медонем, ки холист».",
+        "en": "null — \"unknown\", an empty array — \"known empty\"."
+      },
+      {
+        "ru": "Форму восстановленных данных проверяют, чтобы не падать.",
+        "tg": "Шакли маълумоти барқароршударо месанҷанд, то наафтанд.",
+        "en": "Restored data shape is checked to avoid crashes."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что означает состояние null до чтения хранилища?",
+        "tg": "Ҳолати null пеш аз хондани нигоҳдорӣ чӣ маъно дорад?",
+        "en": "What does the null state before reading mean?"
+      },
+      {
+        "ru": "Зачем проверять форму данных из хранилища?",
+        "tg": "Шакли маълумоти аз нигоҳдорӣ барои чӣ месанҷанд?",
+        "en": "Why validate the shape of stored data?"
+      }
+    ],
+    "nextLessonId": "mobile-day-30"
+  }
+}

@@ -1,0 +1,51 @@
+import { defineConfig, devices } from '@playwright/test';
+import { existsSync } from 'node:fs';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+
+const systemChromium = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+  || (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined);
+
+export default defineConfig({
+  testDir: './e2e',
+  testIgnore:'auth.spec.ts',
+  outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR || path.join(tmpdir(),'devatlas-playwright','results'),
+  fullyParallel: false,
+  workers: 1,
+  // A failing CI job stops at its first real failure for prompt diagnostics.
+  // A green job still executes the entire configured desktop/mobile suite.
+  maxFailures: process.env.GITHUB_ACTIONS ? 1 : 0,
+  // Legacy multi-page regressions are marginally timed on slower CI runners:
+  // a real break fails every retry, a runner hiccup passes on the second try.
+  retries: process.env.GITHUB_ACTIONS ? 2 : 0,
+  timeout: 30000,
+  reporter: process.env.GITHUB_ACTIONS ? [['list'],['./e2e/github-failure-reporter.ts']] : 'list',
+  use: {
+    baseURL: 'http://127.0.0.1:3100',
+    // Old regression flows use the Russian UI; new locale tests override this per request.
+    extraHTTPHeaders: {'x-vercel-ip-country':'RU'},
+    launchOptions: { executablePath: systemChromium },
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure',
+  },
+  projects: [
+    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 900 } } },
+    { name: 'mobile', use: { ...devices['Pixel 7'] } },
+  ],
+  webServer: {
+    // CI builds production right before e2e; serving that build removes
+    // dev-mode compile slowness that made Windows runners flake mid-suite.
+    command: process.env.PLAYWRIGHT_PROD_SERVER === 'true'
+      ? 'npm run start -- --hostname 127.0.0.1 --port 3100'
+      : 'npm run dev -- --hostname 127.0.0.1 --port 3100',
+    url: 'http://127.0.0.1:3100/home',
+    reuseExistingServer: process.env.PLAYWRIGHT_REUSE_SERVER === 'true',
+    timeout: 120000,
+    env: {
+      AI_TUTOR_ENABLED: 'false',
+      NEXT_PUBLIC_SUPABASE_URL: '',
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: '',
+      SUPABASE_SERVICE_ROLE_KEY: '',
+    },
+  },
+});

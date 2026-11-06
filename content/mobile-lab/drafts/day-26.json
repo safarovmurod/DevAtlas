@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-26",
+  "day": 26,
+  "prerequisiteDays": [
+    25
+  ],
+  "title": {
+    "ru": "Loading, empty и error",
+    "tg": "Loading, empty ва error",
+    "en": "Loading, empty and error"
+  },
+  "summary": {
+    "ru": "Соберите компонент ленты, который честно показывает все четыре состояния списка.",
+    "tg": "Компоненти лента созед, ки ҳамаи чор ҳолати рӯйхатро рӯбарӯ нишон медиҳад.",
+    "en": "Build a feed component that shows all four list states honestly."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Четыре состояния, а не два",
+        "tg": "Чор ҳолат, на ду",
+        "en": "Four states, not two"
+      },
+      "body": {
+        "ru": "Частая ошибка новичка — экран с двумя ветками: «данные есть» и «данные не пришли». На деле состояний четыре: загрузка идёт, данные пришли и их нет, данные пришли и они есть, сеть сломалась. Пустой список — не ошибка: сервер честно вернул пустой массив. Смешивать их нельзя: пользователь, увидев «Пока занятий нет» во время загрузки, решит, что записей действительно нет. Компонент ленты получает status и items через props — так его можно показать в любом состоянии без сети, а поведение проверить автоматическим тестом компонента. Это тот же принцип честных состояний, что и в дне 24, доведённый до отдельной детали интерфейса.",
+        "tg": "Хатои маъмулии навомӯз — экрани ду шоха: «маълумот ҳаст» ва «маълумот наомад». Дар воқеъ чор ҳолат ҳаст: боркунӣ идома дорад, маълумот омад ва нестан, маълумот омад ва ҳастанд, шабака вайрон шуд. Рӯйхати холӣ хато нест: сервер рӯбарӯ массиви холиро баргардондааст. Омехтани онҳо мумкин нест: корбар, ки ҳангоми боркунӣ «То ҳол машғулият нест»-ро мебинад, фаҳмидан мекунад, ки сабтҳо воқеан нестан. Компоненти лента status ва items-ро тавассути props мегирад — чунин онро дар ҳар ҳолате бе шабака нишон додан мумкин ва рафторро бо санҷиши худкори компонент месанҷанд. Ин ҳамон принсипи ҳолатҳои рӯбарӯи рӯзи 24 аст, ки ба як қисми алоҳидаи интерфейс оварда шудааст.",
+        "en": "A common beginner mistake is a two-branch screen: \"data exists\" and \"data did not come\". In reality there are four states: loading, data arrived and empty, data arrived and present, and the network broke. An empty list is not an error: the server honestly returned an empty array. Mixing them is harmful: a user who sees \"no lessons yet\" during loading believes there are truly no records. The feed component takes status and items through props — you can show it in any state without the network and check the behavior with an automated component test. It is the same honest-states principle as day 24, brought down to one interface part."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "LessonFeed получает status и items и рисует ровно одну ветку: loading — «Загрузка…», done без элементов — «Пока занятий нет.», done с элементами — строки списка, error — понятное сообщение. App показывает три ленты одновременно с разными props — это учебная страница, где все состояния видны сразу и их удобно сравнить. Обратите внимание на порядок условий: пустой список проверяется до отрисовки элементов, иначе ноль записей выглядел бы как ошибка. В решении в error-ветку добавлена необязательная кнопка «Повторить» через проп onRetry. Проверьте пример на устройстве и сверьте каждую ленту с её подписью.",
+        "tg": "LessonFeed status ва items мегирад ва тамоман як шохаро мекашад: loading — «Боркунӣ…», done бе унсурҳо — «То ҳол машғулият нест.», done бо унсурҳо — сатрҳои рӯйхат, error — паёми фаҳмо. App се лентаро якбоя бо props-и гуногун нишон медиҳад — ин саҳифаи таълимист, ки ҳамаи ҳолатҳо фавран дида мешаванд ва муқоисашон осон аст. Ба тартиби шартҳо диққат диҳед: рӯйхати холӣ пеш аз кашидани унсурҳо месанҷанд, вагарна сифр сабт ҳамчун хато менамуд. Дар ҳалл ба шохаи error тугмаи ихтиёрии «Такрор» тавассути пропи onRetry илова шудааст. Мисолро дар дастгоҳ санҷед ва ҳар лентаро бо матни худ мувофиқ кунед.",
+        "en": "LessonFeed takes status and items and renders exactly one branch: loading — «Загрузка…», done without items — «Пока занятий нет.», done with items — list rows, error — a clear message. App shows three feeds at once with different props — a teaching page where all states are visible immediately and easy to compare. Note the condition order: the empty list is checked before rendering items, otherwise zero records would look like a failure. The solution adds an optional «Повторить» button in the error branch through the onRetry prop. Check the example on a device and match each feed to its label."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\ntype FeedProps = { status: Status; items: string[] };\n\nexport function LessonFeed({ status, items }: FeedProps) {\n  return (\n    <View>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}\n      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Три состояния ленты</Text>\n      <LessonFeed status=\"loading\" items={[]} />\n      <LessonFeed status=\"done\" items={['Экран', 'Стили']} />\n      <LessonFeed status=\"error\" items={[]} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-26-q1",
+      "question": {
+        "ru": "Сколько состояний у честной ленты?",
+        "tg": "Лентаи рӯбарӯ чанд ҳолат дорад?",
+        "en": "How many states does an honest feed have?"
+      },
+      "options": [
+        {
+          "ru": "Четыре",
+          "tg": "Чор",
+          "en": "Four"
+        },
+        {
+          "ru": "Два",
+          "tg": "Ду",
+          "en": "Two"
+        },
+        {
+          "ru": "Сколько придумает дизайнер",
+          "tg": "Чанде, ки тарроҳ ихтироъ кунад",
+          "en": "As many as the designer invents"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Загрузка, пусто, есть данные, ошибка.",
+        "tg": "Боркунӣ, холӣ, маълумот ҳаст, хато.",
+        "en": "Loading, empty, data present, error."
+      },
+      "hint": {
+        "ru": "Найдите в первом разделе перечисление состояний.",
+        "tg": "Дар бахши аввал номбаркунии ҳолатҳоро ёбед.",
+        "en": "Find the state list in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-26-q2",
+      "question": {
+        "ru": "Чем пустой список отличается от ошибки?",
+        "tg": "Рӯйхати холӣ аз хато чӣ фарқ дорад?",
+        "en": "How is an empty list different from an error?"
+      },
+      "options": [
+        {
+          "ru": "Ничем, это одно и то же",
+          "tg": "Ҳеҷ, ин як чиз аст",
+          "en": "Nothing, they are the same"
+        },
+        {
+          "ru": "Сервер успешно вернул пустой массив",
+          "tg": "Сервер рӯбарӯ массиви холиро баргардондааст",
+          "en": "The server successfully returned an empty array"
+        },
+        {
+          "ru": "Пустой список ломает приложение",
+          "tg": "Рӯйхати холӣ барномаро меканад",
+          "en": "An empty list breaks the app"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Пусто — честный ответ, ошибка — сбой доставки.",
+        "tg": "Холӣ — ҷавоби рӯбарӯ, хато — нокомии расонидан.",
+        "en": "Empty is an honest answer, an error is a delivery failure."
+      },
+      "hint": {
+        "ru": "Перечитайте про «Пока занятий нет» в первом разделе.",
+        "tg": "Дар бахши аввал дар бораи «То ҳол машғулият нест» аз нав хонед.",
+        "en": "Re-read about «Пока занятий нет» in the first section."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-26-q3",
+      "question": {
+        "ru": "Почему смешивать состояния вредно?",
+        "tg": "Омехтани ҳолатҳо барои чӣ зарарнок аст?",
+        "en": "Why is mixing states harmful?"
+      },
+      "options": [
+        {
+          "ru": "Приложение замедлится",
+          "tg": "Барнома суст мешавад",
+          "en": "The app slows down"
+        },
+        {
+          "ru": "Код станет длиннее",
+          "tg": "Рамз дарозтар мешавад",
+          "en": "The code gets longer"
+        },
+        {
+          "ru": "Пользователь поверит, что данных нет, во время загрузки",
+          "tg": "Корбар ҳангоми боркунӣ бовар мекунад, ки маълумот нест",
+          "en": "The user believes data is missing during loading"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Каждое состояние отвечает на свой вопрос пользователя.",
+        "tg": "Ҳар ҳолат ба саволи алоҳидаи корбар ҷавоб медиҳад.",
+        "en": "Each state answers its own user question."
+      },
+      "hint": {
+        "ru": "Вспомните пример с «Пока занятий нет» во время загрузки.",
+        "tg": "Мисоли «То ҳол машғулият нест» ҳангоми боркуниро ёд оред.",
+        "en": "Recall the \"no lessons yet\" during loading case."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-26-q4",
+      "question": {
+        "ru": "Зачем лента получает status и items через props?",
+        "tg": "Лента status ва items-ро барои чӣ тавассути props мегирад?",
+        "en": "Why does the feed receive status and items through props?"
+      },
+      "options": [
+        {
+          "ru": "Её можно показать и проверить в любом состоянии без сети",
+          "tg": "Онро дар ҳар ҳолате бе шабака нишон додан ва санҷидан мумкин",
+          "en": "It can be shown and checked in any state without the network"
+        },
+        {
+          "ru": "Так быстрее интернет",
+          "tg": "Интернет тезтар мешавад",
+          "en": "The internet gets faster"
+        },
+        {
+          "ru": "props шифруют данные",
+          "tg": "props маълумотро рамзгузорӣ мекунад",
+          "en": "props encrypt data"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Чистый компонент от состояния сети — основа проверки.",
+        "tg": "Компоненти соф аз ҳолати шабака асоси санҷиш аст.",
+        "en": "A network-independent component is the basis of testing."
+      },
+      "hint": {
+        "ru": "Посмотрите, как App использует три ленты в примере.",
+        "tg": "Бинед, ки App дар мисол се лентаро чӣ тавр истифода мебарад.",
+        "en": "See how App uses three feeds in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-26-q5",
+      "question": {
+        "ru": "Что добавляет решение в состояние ошибки?",
+        "tg": "Дар ҳолати хато ҳалл чӣ илова мекунад?",
+        "en": "What does the solution add to the error state?"
+      },
+      "options": [
+        {
+          "ru": "Автоскрытие ошибки через минуту",
+          "tg": "Худпокидашавии хато баъди як дақиқа",
+          "en": "Auto-hiding the error after a minute"
+        },
+        {
+          "ru": "Необязательную кнопку «Повторить»",
+          "tg": "Тугмаи ихтиёрии «Такрор»",
+          "en": "An optional «Повторить» button"
+        },
+        {
+          "ru": "Новый цвет фона",
+          "tg": "Ранги нави замина",
+          "en": "A new background color"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Повтор передаётся пропом onRetry и появляется, только если он передан.",
+        "tg": "Такрор бо пропи onRetry мегузарад ва танҳо ҳангоми гузоштан пайдо мешавад.",
+        "en": "A retry passes through onRetry and appears only when provided."
+      },
+      "hint": {
+        "ru": "Сравните ветку error в примере и решении.",
+        "tg": "Шохаи error-ро дар мисол ва ҳалл муқоиса кунед.",
+        "en": "Compare the error branch in the example and the solution."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и проверьте три ленты на устройстве. Добавьте кнопку «Повторить» в решение через проп onRetry и убедитесь, что она появляется только в ошибке. Запишите, как выглядит каждый из четырёх состояний. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва се лентаро дар дастгоҳ санҷед. Тугмаи «Такрор»-ро дар ҳалл тавассути пропи onRetry илова карда, боварӣ ҳосил кунед, ки он танҳо дар хато пайдо мешавад. Сабт кунед, ки ҳар яке аз чор ҳолат чӣ гуна менамояд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and check the three feeds on a device. Add the «Повторить» button in the solution through the onRetry prop and confirm it appears only on error. Record what each of the four states looks like. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "onRetry — необязательный проп: условие onRetry ? кнопка : null внутри ветки error.",
+      "tg": "onRetry пропи ихтиёрист: шарти onRetry ? тугма : null дар дохили шохаи error.",
+      "en": "onRetry is an optional prop: the onRetry ? button : null condition inside the error branch."
+    },
+    "solution": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\ntype FeedProps = { status: Status; items: string[]; onRetry?: () => void };\n\nexport function LessonFeed({ status, items, onRetry }: FeedProps) {\n  return (\n    <View>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}\n      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? (\n        <View>\n          <Text>Не удалось загрузить. Попробуйте позже.</Text>\n          {onRetry ? (\n            <Text accessibilityRole=\"button\" onPress={onRetry} style={styles.retry}>\n              Повторить\n            </Text>\n          ) : null}\n        </View>\n      ) : null}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Три состояния ленты</Text>\n      <LessonFeed status=\"loading\" items={[]} />\n      <LessonFeed status=\"done\" items={['Экран', 'Стили']} />\n      <LessonFeed status=\"error\" items={[]} onRetry={() => {}} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  retry: { color: '#2563eb' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Все четыре состояния показаны и записаны.",
+        "tg": "Ҳамаи чор ҳолат нишон дода, сабт шудаанд.",
+        "en": "All four states are shown and recorded."
+      },
+      {
+        "ru": "Кнопка повтора видна только при ошибке.",
+        "tg": "Тугмаи такрор танҳо ҳангоми хато дида мешавад.",
+        "en": "The retry button is visible only on error."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Различать все четыре состояния списка.",
+        "tg": "Ҳамаи чор ҳолати рӯйхатро фарқ кунед.",
+        "en": "Distinguish all four list states."
+      },
+      {
+        "ru": "Собрать ленту, независимую от сети.",
+        "tg": "Лентаи аз шабака мустақилро созед.",
+        "en": "Build a network-independent feed."
+      }
+    ],
+    "realWorld": {
+      "ru": "Лента соцсети показывает спиннер, «пока пусто» или сообщение о сбое — каждое на своём месте.",
+      "tg": "Лентаи шабакаи иҷтимоӣ спиннер, «то ҳол холӣ» ё паёми хаторо нишон медиҳад — ҳар яке дар ҷои худ.",
+      "en": "A social feed shows a spinner, \"nothing yet\" or a failure message — each in its place."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Чем пустой список отличается от ошибки?",
+        "tg": "Рӯйхати холӣ аз хато чӣ фарқ дорад?",
+        "en": "How is an empty list different from an error?"
+      },
+      "options": [
+        {
+          "ru": "Ничем, это одно и то же",
+          "tg": "Ҳеҷ, ин як чиз аст",
+          "en": "Nothing, they are the same"
+        },
+        {
+          "ru": "Сервер успешно вернул пустой массив",
+          "tg": "Сервер рӯбарӯ массиви холиро баргардондааст",
+          "en": "The server successfully returned an empty array"
+        },
+        {
+          "ru": "Пустой список ломает приложение",
+          "tg": "Рӯйхати холӣ барномаро меканад",
+          "en": "An empty list breaks the app"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Перечитайте про «Пока занятий нет» в первом разделе.",
+        "tg": "Дар бахши аввал дар бораи «То ҳол машғулият нест» аз нав хонед.",
+        "en": "Re-read about «Пока занятий нет» in the first section."
+      },
+      "explanation": {
+        "ru": "Пусто — честный ответ, ошибка — сбой доставки.",
+        "tg": "Холӣ — ҷавоби рӯбарӯ, хато — нокомии расонидан.",
+        "en": "Empty is an honest answer, an error is a delivery failure."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\ntype FeedProps = { status: Status; items: string[] };\n\nexport function LessonFeed({ status, items }: FeedProps) {\n  return (\n    <View>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}\n      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Три состояния ленты</Text>\n      <LessonFeed status=\"loading\" items={[]} />\n      <LessonFeed status=\"done\" items={['Экран', 'Стили']} />\n      <LessonFeed status=\"error\" items={[]} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n});\n",
+      "steps": [
+        {
+          "line": 10,
+          "explanation": {
+            "ru": "Первый блок отвечает за ожидание.",
+            "tg": "Блоки аввал барои интизорӣ ҷавобгар аст.",
+            "en": "The first block covers waiting."
+          },
+          "values": "status=loading"
+        },
+        {
+          "line": 11,
+          "explanation": {
+            "ru": "Пустой список проверен до отрисовки элементов.",
+            "tg": "Рӯйхати холӣ пеш аз кашидани унсурҳо месанҷанд.",
+            "en": "The empty list is checked before rendering items."
+          },
+          "values": "items.length===0"
+        },
+        {
+          "line": 13,
+          "explanation": {
+            "ru": "Ошибка объясняет сбой словами.",
+            "tg": "Хато нокомиро бо калимаҳо фаҳмонад.",
+            "en": "The error explains the failure in words."
+          },
+          "values": "status=error"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Найдите в LessonFeed все четыре ветки и их условия.",
+          "tg": "Дар LessonFeed ҳамаи чор шоха ва шартҳои онҳоро ёбед.",
+          "en": "Find all four branches and their conditions in LessonFeed."
+        },
+        {
+          "ru": "Сравните три ленты на устройстве и убедитесь, что подписи совпадают.",
+          "tg": "Се лентаро дар дастгоҳ муқоиса карда, боварӣ ҳосил кунед, ки матнҳо мутобиқанд.",
+          "en": "Compare the three feeds on a device and confirm the labels match."
+        }
+      ],
+      "hint": {
+        "ru": "onRetry — необязательный проп: условие onRetry ? кнопка : null внутри ветки error.",
+        "tg": "onRetry пропи ихтиёрист: шарти onRetry ? тугма : null дар дохили шохаи error.",
+        "en": "onRetry is an optional prop: the onRetry ? button : null condition inside the error branch."
+      },
+      "success": {
+        "ru": "Каждая лента показывает ровно одно состояние, и подписи не путаются.",
+        "tg": "Ҳар лента тамоман як ҳолатро нишон медиҳад ва матнҳо омехта намешаванд.",
+        "en": "Each feed shows exactly one state and the labels never mix."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и проверьте три ленты на устройстве. Добавьте кнопку «Повторить» в решение через проп onRetry и убедитесь, что она появляется только в ошибке. Запишите, как выглядит каждый из четырёх состояний. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва се лентаро дар дастгоҳ санҷед. Тугмаи «Такрор»-ро дар ҳалл тавассути пропи onRetry илова карда, боварӣ ҳосил кунед, ки он танҳо дар хато пайдо мешавад. Сабт кунед, ки ҳар яке аз чор ҳолат чӣ гуна менамояд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and check the three feeds on a device. Add the «Повторить» button in the solution through the onRetry prop and confirm it appears only on error. Record what each of the four states looks like. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Все четыре состояния показаны и записаны.",
+          "tg": "Ҳамаи чор ҳолат нишон дода, сабт шудаанд.",
+          "en": "All four states are shown and recorded."
+        },
+        {
+          "ru": "Кнопка повтора видна только при ошибке.",
+          "tg": "Тугмаи такрор танҳо ҳангоми хато дида мешавад.",
+          "en": "The retry button is visible only on error."
+        }
+      ],
+      "example": {
+        "ru": "Третья лента показывает сбой и «Повторить», первые две — загрузку и данные.",
+        "tg": "Лентаи сеюм хато ва «Такрор»-ро нишон медиҳад, ду аввал — боркунию маълумотро.",
+        "en": "The third feed shows the failure and «Повторить», the first two — loading and data."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Четыре состояния ленты: загрузка, пусто, данные, ошибка.",
+        "tg": "Чор ҳолати лента: боркунӣ, холӣ, маълумот, хато.",
+        "en": "Four feed states: loading, empty, data, error."
+      },
+      {
+        "ru": "Компонент без сети — основа честной проверки.",
+        "tg": "Компоненти бе шабака асоси санҷиши рӯбарӯ аст.",
+        "en": "A network-free component is the basis of honest checking."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Чем пустой список отличается от ошибки?",
+        "tg": "Рӯйхати холӣ аз хато чӣ фарқ дорад?",
+        "en": "How is an empty list different from an error?"
+      },
+      {
+        "ru": "Что добавляет решение в состояние ошибки?",
+        "tg": "Дар ҳолати хато ҳалл чӣ илова мекунад?",
+        "en": "What does the solution add to the error state?"
+      }
+    ],
+    "nextLessonId": "mobile-day-27"
+  }
+}

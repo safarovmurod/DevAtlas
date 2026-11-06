@@ -1,0 +1,416 @@
+{
+  "id": "mobile-day-09",
+  "day": 9,
+  "prerequisiteDays": [
+    8
+  ],
+  "title": {
+    "ru": "Условие и список занятий",
+    "tg": "Шарт ва рӯйхати машғулият",
+    "en": "Conditions and a lesson list"
+  },
+  "summary": {
+    "ru": "Покажите пустое состояние или список с устойчивыми ключами.",
+    "tg": "Ҳолати холӣ ё рӯйхат бо калидҳои устувор нишон диҳед.",
+    "en": "Display an empty state or a list with stable keys."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Условие и список занятий",
+        "tg": "Шарт ва рӯйхати машғулият",
+        "en": "Conditions and a lesson list"
+      },
+      "body": {
+        "ru": "Экран должен объяснять отсутствие данных, а не оставаться пустым. Условное выражение condition ? first : second выбирает один из двух результатов: при true первый, иначе второй. В примере lessons.length === 0 проверяет пустой массив. Для непустого массива map вызывает функцию для каждого элемента и возвращает массив JSX-элементов. Каждый элемент списка получает key — устойчивый идентификатор, помогающий React сопоставлять элементы при изменении порядка. Используйте уникальный id данных, а не случайное число при каждом рендере. Компонент получает список через props, поэтому родитель может передать пустой или заполненный массив. Это учебный небольшой список: для длинных списков позже изучим FlatList. Данные примера заданы в памяти и не загружаются с сервера.",
+        "tg": "Экран бояд набудани додаҳоро шарҳ диҳад, на холӣ монад. Ифодаи шартии condition ? first : second яке аз ду натиҷаро интихоб мекунад: бо true якум, вагарна дуюм. Дар мисол lessons.length === 0 массиви холиро месанҷад. Барои массиви пур map функсияро барои ҳар унсур хонда, массиви JSX медиҳад. Ҳар унсур key — идентификатори устувор мегирад, ки ба React ҳангоми тағйири тартиб мувофиқсозӣ мекунад. id-и ягонаи додаҳоро гиред, на адади тасодуфии ҳар render. Компонент рӯйхатро бо props мегирад, пас волид массиви холӣ ё пур дода метавонад. Ин рӯйхати хурди омӯзишист: барои дарозҳо баъд FlatList меомӯзем. Дода дар хотира аст, аз сервер гирифта намешавад.",
+        "en": "A screen should explain missing data rather than remain blank. The conditional expression condition ? first : second selects the first result when true, otherwise the second. Here lessons.length === 0 detects an empty array. For a nonempty array, map calls a function for each item and returns an array of JSX elements. Each list item gets a key: a stable identifier helping React match items as order changes. Use a unique data id rather than a random number on every render. The component receives its list through props, so a parent can pass empty or populated arrays. This is a small teaching list; we will study FlatList for longer lists later. Example data lives in memory and is not fetched from a server."
+      }
+    },
+    {
+      "title": {
+        "ru": "Разбор списка",
+        "tg": "Шарҳи рӯйхат",
+        "en": "Walk through the list"
+      },
+      "body": {
+        "ru": "type Lesson описывает объект со строковыми id и title. export function LessonList делает компонент доступным для локальных тестов; параметр { lessons } извлекает массив из props. В return View содержит условие. Если length равен 0, Text показывает «Пока занятий нет». Иначе lessons.map для каждого lesson создаёт Text с key={lesson.id} и выводит title. App создаёт два объекта и передаёт массив как lessons={lessons}. Попробуйте []: появится пустое состояние. В самостоятельном задании добавьте необязательный showCount и показывайте «Всего: N» только при true; пустое состояние должно остаться видимым при N=0.",
+        "tg": "type Lesson объекти id ва title-и сатриро тавсиф мекунад. export function LessonList компонентро барои тестҳои маҳаллӣ дастрас мекунад; параметри { lessons } массивро аз props мегирад. Дар return View шарт дорад. Агар length 0 бошад, Text «Пока занятий нет» медиҳад. Вагарна lessons.map барои ҳар lesson Text бо key={lesson.id} месозад ва title нишон медиҳад. App ду объект сохта, массивро бо lessons={lessons} медиҳад. []-ро санҷед: ҳолати холӣ мебинед. Дар машқи мустақил showCount-и ихтиёрӣ илова ва «Всего: N»-ро танҳо бо true нишон диҳед; ҳолати холӣ бо N=0 ҳам намоён монад.",
+        "en": "type Lesson describes an object with string id and title. export function LessonList makes the component available to local tests; the { lessons } parameter extracts the array from props. In return, View contains a condition. When length is zero, Text shows “Пока занятий нет”. Otherwise lessons.map creates a Text for every lesson using key={lesson.id} and displays title. App creates two objects and passes the array as lessons={lessons}. Try [] to see the empty state. In independent practice add an optional showCount and show “Всего: N” only when true; the empty state must remain visible at N=0."
+      },
+      "code": "import { Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nexport function LessonList({ lessons }: { lessons: Lesson[] }) {\n  return (\n    <View>\n      {lessons.length === 0 ? (\n        <Text>Пока занятий нет</Text>\n      ) : (\n        lessons.map(lesson => <Text key={lesson.id}>{lesson.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nexport default function App() {\n  const lessons = [\n    { id: 'one', title: 'Первый шаг' },\n    { id: 'two', title: 'Повторение' },\n  ];\n  return <LessonList lessons={lessons} />;\n}\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-09-q1",
+      "question": {
+        "ru": "Что покажет исходный LessonList при []?",
+        "tg": "LessonList-и аввал бо [] чӣ нишон медиҳад?",
+        "en": "What does the original LessonList display for []?"
+      },
+      "options": [
+        {
+          "ru": "Первый шаг",
+          "tg": "Первый шаг",
+          "en": "Первый шаг"
+        },
+        {
+          "ru": "Пока занятий нет",
+          "tg": "Пока занятий нет",
+          "en": "Пока занятий нет"
+        },
+        {
+          "ru": "undefined",
+          "tg": "undefined",
+          "en": "undefined"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Длина 0 выбирает первую ветку условия.",
+        "tg": "Дарозии 0 шохаи якуми шартро мегирад.",
+        "en": "Length zero selects the first conditional branch."
+      },
+      "hint": {
+        "ru": "Найдите проверку длины массива и выберите ветку для нуля.",
+        "tg": "Санҷиши дарозии массивро ёфта, шохаи сифрро интихоб кунед.",
+        "en": "Find the array length check and follow the branch for zero."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-09-q2",
+      "question": {
+        "ru": "Сколько Text с названиями создаёт map для двух занятий?",
+        "tg": "map барои ду машғулият чанд Text-и номдор месозад?",
+        "en": "How many title Text elements does map create for two lessons?"
+      },
+      "options": [
+        {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        {
+          "ru": "1",
+          "tg": "1",
+          "en": "1"
+        },
+        {
+          "ru": "2",
+          "tg": "2",
+          "en": "2"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "map обрабатывает каждый из двух элементов.",
+        "tg": "map ҳар ду унсурро коркард мекунад.",
+        "en": "map processes both items."
+      },
+      "hint": {
+        "ru": "Вспомните, сколько раз map вызывает функцию для двух элементов.",
+        "tg": "Ба ёд оред, ки map функсияро барои ду унсур чанд бор мехонад.",
+        "en": "Recall how many times map calls its function for two items."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-09-q3",
+      "question": {
+        "ru": "Какой key подходит при изменении порядка?",
+        "tg": "Ҳангоми ивази тартиб кадом key мувофиқ аст?",
+        "en": "Which key is suitable when order changes?"
+      },
+      "options": [
+        {
+          "ru": "Уникальный стабильный id записи.",
+          "tg": "id-и ягонаи устувори сабт.",
+          "en": "The item’s unique stable id."
+        },
+        {
+          "ru": "Новое случайное число при каждом рендере.",
+          "tg": "Адади тасодуфии нав дар ҳар render.",
+          "en": "A new random number on each render."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Стабильный id помогает сопоставлять записи между рендерами.",
+        "tg": "id-и устувор сабтҳоро байни render мувофиқ мекунад.",
+        "en": "A stable id helps match records between renders."
+      },
+      "hint": {
+        "ru": "Ключ должен оставаться связанным с одной записью даже после перестановки.",
+        "tg": "Калид бояд ҳатто баъди ивази тартиб ба ҳамон сабт вобаста монад.",
+        "en": "A key should stay associated with the same record after reordering."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-09-q4",
+      "question": {
+        "ru": "Что означает вопросительный знак в condition ? a : b?",
+        "tg": "Аломати савол дар condition ? a : b чӣ маъно дорад?",
+        "en": "What does the question mark in condition ? a : b mean?"
+      },
+      "options": [
+        {
+          "ru": "Сетевой запрос.",
+          "tg": "Дархости шабака.",
+          "en": "A network request."
+        },
+        {
+          "ru": "Выбор между двумя выражениями по условию.",
+          "tg": "Интихоби ду ифода аз рӯи шарт.",
+          "en": "Selection between two expressions based on a condition."
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "При true выбирается первая ветка.",
+        "tg": "Бо true шохаи аввал интихоб мешавад.",
+        "en": "The first branch is selected when true."
+      },
+      "hint": {
+        "ru": "Сравните выражения до и после двоеточия и значение условия.",
+        "tg": "Ифодаҳои пешу паси дунуқта ва арзиши шартро муқоиса кунед.",
+        "en": "Compare the expressions before and after the colon with the condition."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-09-q5",
+      "question": {
+        "ru": "Доказан ли запуск на телефоне только после Metro export?",
+        "tg": "Оё Metro export танҳо кори телефонро исбот мекунад?",
+        "en": "Does Metro export alone prove a phone run?"
+      },
+      "options": [
+        {
+          "ru": "Нет.",
+          "tg": "Не.",
+          "en": "No."
+        },
+        {
+          "ru": "Да.",
+          "tg": "Бале.",
+          "en": "Yes."
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Бандл и запуск на устройстве — разные проверки.",
+        "tg": "Бандл ва иҷрои дастгоҳ санҷишҳои ҷудоянд.",
+        "en": "Bundling and device execution are separate checks."
+      },
+      "hint": {
+        "ru": "Подумайте, создаёт ли сборка JavaScript работающую нативную установку на телефоне.",
+        "tg": "Фикр кунед, ки оё ҷамъкунии JavaScript худ барномаи нативиро дар телефон иҷро мекунад.",
+        "en": "Consider whether bundling JavaScript installs and runs a native app on a phone."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Добавьте в LessonList необязательный boolean-prop showCount со значением по умолчанию false. При true показывайте «Всего: N», при false не показывайте этот текст. Сохраните пустое состояние и отображение названий. Проверьте пустой, один и два элемента, а также переключение showCount. Выполните проверку на устройстве только при его наличии. Для локальной проверки своего решения используйте node verify-component.mjs 09 <ваш-файл.tsx> <путь-к-expo-проекту>. Проверяется поведение React с mock-компонентами, не нативное устройство и не Mastered.",
+      "tg": "Ба LessonList boolean-prop-и ихтиёрии showCount бо пешфарзи false илова кунед. Бо true «Всего: N» нишон диҳед, бо false ин матнро не. Ҳолати холӣ ва номҳоро нигоҳ доред. Массиви холӣ, як ва ду унсур ва ивази showCount-ро санҷед. Дастгоҳро танҳо дар сурати доштани он санҷед. Барои санҷиши маҳаллии ҳалли худ node verify-component.mjs 09 <файли-худ.tsx> <роҳи-expo-проект> гиред. Рафтори React бо mock-компонент санҷида мешавад, на дастгоҳи нативӣ ё Mastered.",
+      "en": "Add an optional boolean showCount prop to LessonList, defaulting to false. When true show “Всего: N”; when false omit it. Preserve the empty state and titles. Test zero, one and two items as well as changing showCount. Run a device check only if a device is available. To check your own solution locally use node verify-component.mjs 09 <your-file.tsx> <expo-project-path>. This checks React behavior with mocked components, not a native device or Mastered."
+    },
+    "hint": {
+      "ru": "Расширьте тип props полем showCount?: boolean, задайте showCount = false и добавьте условный Text, не заменяя условие пустого списка.",
+      "tg": "Ба навъи props showCount?: boolean илова, showCount = false гузоред ва Text-и шартӣ созед; шарти рӯйхати холиро иваз накунед.",
+      "en": "Add showCount?: boolean to the props type, default showCount = false, and add a conditional Text without replacing the empty-list condition."
+    },
+    "solution": "import { Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nexport function LessonList({ lessons, showCount = false }: { lessons: Lesson[]; showCount?: boolean }) {\n  return (\n    <View>\n      {showCount ? <Text>Всего: {lessons.length}</Text> : null}\n      {lessons.length === 0 ? (\n        <Text>Пока занятий нет</Text>\n      ) : (\n        lessons.map(lesson => <Text key={lesson.id}>{lesson.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nexport default function App() {\n  const lessons = [\n    { id: 'one', title: 'Первый шаг' },\n    { id: 'two', title: 'Повторение' },\n  ];\n  return <LessonList lessons={lessons} />;\n}\n",
+    "criteria": [
+      {
+        "ru": "Проверены ноль, один и два элемента с showCount=true и false.",
+        "tg": "Сифр, як ва ду унсур бо showCount=true ва false санҷида шуданд.",
+        "en": "Zero, one and two items were checked with showCount true and false."
+      },
+      {
+        "ru": "Объяснены ключи и границы локальной проверки; запуск на устройстве указан только после реального запуска.",
+        "tg": "Калид ва ҳудуди санҷиши маҳаллӣ шарҳ шуд; иҷрои дастгоҳ танҳо баъди иҷрои воқеӣ зикр аст.",
+        "en": "Keys and local-check limits are explained; device execution is claimed only after a real run."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Объяснить условный вывод и map.",
+        "tg": "Намоиши шартӣ ва map-ро шарҳ диҳед.",
+        "en": "Explain conditional rendering and map."
+      },
+      {
+        "ru": "Проверить пустой и заполненный списки.",
+        "tg": "Рӯйхати холӣ ва пурро санҷед.",
+        "en": "Check empty and populated lists."
+      }
+    ],
+    "realWorld": {
+      "ru": "Планировщик должен сообщать, когда занятий ещё нет.",
+      "tg": "Нақшасоз бояд набудани машғулиятро хабар диҳад.",
+      "en": "A planner should explain when no lessons exist."
+    },
+    "walkthroughSections": [
+      0,
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что покажет исходный LessonList при []?",
+        "tg": "LessonList-и аввал бо [] чӣ нишон медиҳад?",
+        "en": "What does the original LessonList display for []?"
+      },
+      "options": [
+        {
+          "ru": "Первый шаг",
+          "tg": "Первый шаг",
+          "en": "Первый шаг"
+        },
+        {
+          "ru": "Пока занятий нет",
+          "tg": "Пока занятий нет",
+          "en": "Пока занятий нет"
+        },
+        {
+          "ru": "undefined",
+          "tg": "undefined",
+          "en": "undefined"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Найдите проверку длины массива и выберите ветку для нуля.",
+        "tg": "Санҷиши дарозии массивро ёфта, шохаи сифрро интихоб кунед.",
+        "en": "Find the array length check and follow the branch for zero."
+      },
+      "explanation": {
+        "ru": "Длина 0 выбирает первую ветку условия.",
+        "tg": "Дарозии 0 шохаи якуми шартро мегирад.",
+        "en": "Length zero selects the first conditional branch."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nexport function LessonList({ lessons }: { lessons: Lesson[] }) {\n  return (\n    <View>\n      {lessons.length === 0 ? (\n        <Text>Пока занятий нет</Text>\n      ) : (\n        lessons.map(lesson => <Text key={lesson.id}>{lesson.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nexport default function App() {\n  const lessons = [\n    { id: 'one', title: 'Первый шаг' },\n    { id: 'two', title: 'Повторение' },\n  ];\n  return <LessonList lessons={lessons} />;\n}\n",
+      "steps": [
+        {
+          "line": 7,
+          "explanation": {
+            "ru": "View содержит условный результат.",
+            "tg": "View натиҷаи шартӣ дорад.",
+            "en": "View contains a conditional result."
+          },
+          "values": ""
+        },
+        {
+          "line": 8,
+          "explanation": {
+            "ru": "При пустом массиве выбирается первая ветка.",
+            "tg": "Бо массиви холӣ шохаи аввал интихоб мешавад.",
+            "en": "An empty array selects the first branch."
+          },
+          "values": "length = 0"
+        },
+        {
+          "line": 11,
+          "explanation": {
+            "ru": "Иначе map создаёт Text для каждого элемента; разбор не запускает приложение.",
+            "tg": "Вагарна map барои ҳар унсур Text месозад; шарҳ барномаро иҷро намекунад.",
+            "en": "Otherwise map creates a Text per item; the walkthrough does not run the app."
+          },
+          "values": "2 items → 2 Text"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Проследите условие для [] и для двух объектов.",
+          "tg": "Шартро барои [] ва ду объект пайгирӣ кунед.",
+          "en": "Trace the condition for [] and for two objects."
+        },
+        {
+          "ru": "Предскажите заголовки, затем проверьте локально и на устройстве при наличии.",
+          "tg": "Номҳоро пешгӯӣ, баъд маҳаллӣ ва бо дастгоҳ санҷед.",
+          "en": "Predict titles, then check locally and on an available device."
+        }
+      ],
+      "hint": {
+        "ru": "Сначала вычислите lessons.length, затем проследите выбранную ветку и вызовы map.",
+        "tg": "Аввал lessons.length-ро ҳисоб кунед, баъд шохаи интихобшуда ва даъватҳои map-ро пайгирӣ кунед.",
+        "en": "First calculate lessons.length, then trace the selected branch and map calls."
+      },
+      "success": {
+        "ru": "[] показывает пустое состояние, два объекта — два названия.",
+        "tg": "[] ҳолати холӣ, ду объект ду ном медиҳад.",
+        "en": "[] shows the empty state; two objects show two titles."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Добавьте в LessonList необязательный boolean-prop showCount со значением по умолчанию false. При true показывайте «Всего: N», при false не показывайте этот текст. Сохраните пустое состояние и отображение названий. Проверьте пустой, один и два элемента, а также переключение showCount. Выполните проверку на устройстве только при его наличии. Для локальной проверки своего решения используйте node verify-component.mjs 09 <ваш-файл.tsx> <путь-к-expo-проекту>. Проверяется поведение React с mock-компонентами, не нативное устройство и не Mastered.",
+        "tg": "Ба LessonList boolean-prop-и ихтиёрии showCount бо пешфарзи false илова кунед. Бо true «Всего: N» нишон диҳед, бо false ин матнро не. Ҳолати холӣ ва номҳоро нигоҳ доред. Массиви холӣ, як ва ду унсур ва ивази showCount-ро санҷед. Дастгоҳро танҳо дар сурати доштани он санҷед. Барои санҷиши маҳаллии ҳалли худ node verify-component.mjs 09 <файли-худ.tsx> <роҳи-expo-проект> гиред. Рафтори React бо mock-компонент санҷида мешавад, на дастгоҳи нативӣ ё Mastered.",
+        "en": "Add an optional boolean showCount prop to LessonList, defaulting to false. When true show “Всего: N”; when false omit it. Preserve the empty state and titles. Test zero, one and two items as well as changing showCount. Run a device check only if a device is available. To check your own solution locally use node verify-component.mjs 09 <your-file.tsx> <expo-project-path>. This checks React behavior with mocked components, not a native device or Mastered."
+      },
+      "criteria": [
+        {
+          "ru": "Проверены ноль, один и два элемента с showCount=true и false.",
+          "tg": "Сифр, як ва ду унсур бо showCount=true ва false санҷида шуданд.",
+          "en": "Zero, one and two items were checked with showCount true and false."
+        },
+        {
+          "ru": "Объяснены ключи и границы локальной проверки; запуск на устройстве указан только после реального запуска.",
+          "tg": "Калид ва ҳудуди санҷиши маҳаллӣ шарҳ шуд; иҷрои дастгоҳ танҳо баъди иҷрои воқеӣ зикр аст.",
+          "en": "Keys and local-check limits are explained; device execution is claimed only after a real run."
+        }
+      ],
+      "example": {
+        "ru": "Для [] и showCount=true одновременно видны «Всего: 0» и пустое состояние.",
+        "tg": "Барои [] ва showCount=true «Всего: 0» ва ҳолати холӣ якҷоя намоёнанд.",
+        "en": "For [] and showCount=true both “Всего: 0” and the empty state are visible."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Условие выбирает одну ветку, map создаёт элементы списка.",
+        "tg": "Шарт як шоха ва map унсурҳои рӯйхат месозад.",
+        "en": "A condition selects a branch; map creates list elements."
+      },
+      {
+        "ru": "Устойчивый id помогает React сопоставить записи.",
+        "tg": "id-и устувор ба React барои мувофиқсозии сабтҳо ёрӣ медиҳад.",
+        "en": "A stable id helps React match records."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Какой key подходит при изменении порядка?",
+        "tg": "Ҳангоми ивази тартиб кадом key мувофиқ аст?",
+        "en": "Which key is suitable when order changes?"
+      },
+      {
+        "ru": "Доказан ли запуск на телефоне только после Metro export?",
+        "tg": "Оё Metro export танҳо кори телефонро исбот мекунад?",
+        "en": "Does Metro export alone prove a phone run?"
+      }
+    ],
+    "nextLessonId": "mobile-day-10"
+  }
+}

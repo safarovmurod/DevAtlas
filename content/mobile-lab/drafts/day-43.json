@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-43",
+  "day": 43,
+  "prerequisiteDays": [
+    42
+  ],
+  "title": {
+    "ru": "Мобильная и доступная проверка",
+    "tg": "Санҷиши мобилӣ ва дастрасӣ",
+    "en": "Mobile and accessibility pass"
+  },
+  "summary": {
+    "ru": "Пройдите проект через доступность: подписи, подсказки и живые области.",
+    "tg": "Лоиҳаро тавассути дастрасӣ гузаронед: матнҳо, маслиҳатҳо ва минтақаҳои зинда.",
+    "en": "Take the project through accessibility: labels, hints and live regions."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Доступность — часть качества",
+        "tg": "Дастрасӣ қисми сифат аст",
+        "en": "Accessibility is part of quality"
+      },
+      "body": {
+        "ru": "Проект собирает всё, что курс говорил о доступности: роли объясняют назначение, подписи собираются из данных, hint говорит о последствиях, а accessibilityLiveRegion объявляет изменения — ошибки и подтверждения — диктору без перерисовки экрана. Живая область важна для состояний, которые меняются без нажатия: сохранение, ошибка хранилища, загрузка. Проверка проходит с включённым TalkBack или VoiceOver: каждый элемент объявляется одной фразой, ошибка читается сразу. Отдельно проверяется крупный шрифт: поля и кнопки растягиваются, а не обрезаются. Отметки о доступности попадают в финальный отчёт как часть критериев дня 38.",
+        "tg": "Лоиҳа ҳамаи он чизеро, ки курс дар бораи дастрасӣ гуфт, ҷамъ меорад: нақшҳо мақсадро мефаҳмонанд, матнҳо аз маълумот сохта мешаванд, hint оқибатҳоро мегӯяд ва accessibilityLiveRegion тағйиротро — хатоҳо ва тасдиқҳоро — ба хонанда бе кашидани нави экран эълон мекунад. Минтақаи зинда барои ҳолатҳое муҳим аст, ки бе пахш иваз мешаванд: нигоҳдорӣ, хатои нигоҳдорӣ, боркунӣ. Санҷиш бо TalkBack ё VoiceOver мегузарад: ҳар элемент бо як ҷумла эълон мешавад, хато фавран хонда мешавад. Ҳуруфи калон ҳам алоҳида месанҷанд: майдонҳо ва тугмаҳо кашида мешаванд, на бурида. Аломатҳои дастрасӣ ба ҳисоботи ниҳоӣ ҳамчун қисми меъёрҳои рӯзи 38 даромада, гузашта мераванд.",
+        "en": "The project gathers everything the course said about accessibility: roles explain the purpose, labels build from data, the hint says the consequences, and accessibilityLiveRegion announces changes — errors and confirmations — to the reader without a screen redraw. A live region matters for states that change without a press: saving, a store error, loading. The pass runs with TalkBack or VoiceOver on: every element announces as one phrase and an error reads immediately. The large font is checked separately: fields and buttons stretch, not clip. Accessibility marks go into the final report as part of the day-38 criteria."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "TextInput получил accessibilityLabel — диктор скажет «Название нового занятия», а не прочитает placeholder вслепую. Ошибка помечена accessibilityLiveRegion=\"assertive\": TalkBack прерывает и читает её сразу. Подтверждение сохранения — polite: объявляется, когда диктор свободен. Кнопка получила label и hint. Экран ожидания тоже озвучен. В решении строки списка стали доступными элементами: accessible собирает их в один фокус, а подпись строит функция taskA11yLabel из данных записи. Пройдите экран с диктором: введите короткое название и послушайте, как читается ошибка.",
+        "tg": "TextInput accessibilityLabel гирифт — хонанда мегӯяд «Номи машғулияти нав», на placeholder-ро нобино мехонад. Хато бо accessibilityLiveRegion=\"assertive\" ишора шудааст: TalkBreak қатъ карда, фавран мехонад. Тасдиқи нигоҳдорӣ — polite: ҳангоми холӣ будани хонанда эълон мешавад. Тугма label ва hint гирифт. Экрани интизорӣ ҳам овознок шуд. Дар ҳалл сатрҳои рӯйхат элементҳои дастрас шуданд: accessible онҳоро ба як фокус ҷамъ мекунад ва матнро функсияи taskA11yLabel аз маълумоти сабт месозад. Экранро бо хонанда гузаронед: номи кӯтоҳро ворид карда, гӯш кунед, ки хато чӣ тавр хонда мешавад.",
+        "en": "TextInput gained accessibilityLabel — the reader says «Название нового занятия» instead of blindly reading the placeholder. The error is marked accessibilityLiveRegion=\"assertive\": TalkBack interrupts and reads it right away. The save confirmation is polite: announced when the reader is free. The button gained a label and a hint. The waiting screen is voiced too. In the solution the list rows became accessible elements: accessible gathers them into one focus and the label builds through the taskA11yLabel function from record data. Walk the screen with the reader: type a short title and hear how the error reads."
+      },
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [title, setTitle] = useState('');\n  const [error, setError] = useState('');\n  const [saved, setSaved] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function addTask() {\n    const value = title.trim();\n    if (value.length < 3) {\n      setError('Название короче трёх символов');\n      setSaved(false);\n      return;\n    }\n    setError('');\n    const next: Task[] = [...tasks ?? [], { id: `t${Date.now()}`, title: value, minutes: 20, createdAt: Date.now() }];\n    setTasks(next);\n    setTitle('');\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n      setSaved(true);\n    } catch {\n      setSaved(false);\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text accessibilityLiveRegion=\"polite\">Открываем планировщик…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <TextInput\n        value={title}\n        onChangeText={text => { setTitle(text); setSaved(false); }}\n        placeholder=\"Название занятия\"\n        accessibilityLabel=\"Название нового занятия\"\n        style={styles.input}\n      />\n      {error ? (\n        <Text accessibilityLiveRegion=\"assertive\" style={styles.error}>{error}</Text>\n      ) : null}\n      {saved ? (\n        <Text accessibilityLiveRegion=\"polite\">Занятие сохранено.</Text>\n      ) : null}\n      {tasks.length === 0 ? (\n        <Text>Пока занятий нет. Добавьте первое.</Text>\n      ) : (\n        tasks.map(task => (\n          <View key={task.id} style={styles.item}>\n            <Text>{task.title} — {task.minutes} мин.</Text>\n          </View>\n        ))\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Добавить занятие в план\"\n        accessibilityHint=\"Сохраняет запись на устройстве\"\n        onPress={addTask}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Добавить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-43-q1",
+      "question": {
+        "ru": "Что сообщает accessibilityLiveRegion?",
+        "tg": "accessibilityLiveRegion чиро хабар медиҳад?",
+        "en": "What does accessibilityLiveRegion report?"
+      },
+      "options": [
+        {
+          "ru": "Порядок вкладок",
+          "tg": "Тартиби варақаҳо",
+          "en": "The tab order"
+        },
+        {
+          "ru": "Размер шрифта",
+          "tg": "Андозаи ҳуруф",
+          "en": "The font size"
+        },
+        {
+          "ru": "Изменение текста диктору без перерисовки экрана",
+          "tg": "Тағйири матнро ба хонанда бе кашидани нави экран",
+          "en": "A text change to the reader without a screen redraw"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Ошибки и подтверждения читаются сами, без поиска пальцем.",
+        "tg": "Хатоҳо ва тасдиқҳо худ хонда мешаванд, бе ҷустуҷӯи ангушт.",
+        "en": "Errors and confirmations read themselves, no finger hunt."
+      },
+      "hint": {
+        "ru": "Найдите две живые области в примере.",
+        "tg": "Ду минтақаи зиндро дар мисол ёбед.",
+        "en": "Find the two live regions in the example."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-43-q2",
+      "question": {
+        "ru": "Чем assertive отличается от polite?",
+        "tg": "assertive аз polite чӣ фарқ дорад?",
+        "en": "How does assertive differ from polite?"
+      },
+      "options": [
+        {
+          "ru": "Assertive прерывает диктора, polite ждёт паузы",
+          "tg": "Assertive хонандаро қатъ мекунад, polite интизори танаффус аст",
+          "en": "Assertive interrupts the reader, polite waits for a pause"
+        },
+        {
+          "ru": "Ничем",
+          "tg": "Ҳеҷ чиз",
+          "en": "Nothing"
+        },
+        {
+          "ru": "Polite громче",
+          "tg": "Polit баландтар аст",
+          "en": "Polite is louder"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Ошибке положено прерывание, подтверждению — очередь.",
+        "tg": "Хато қатъ карданро талаб мекунад, тасдиқ — навбат.",
+        "en": "An error deserves interruption, a confirmation a queue."
+      },
+      "hint": {
+        "ru": "Сравните две живые области примера.",
+        "tg": "Ду минтақаи зиндаи мисолро муқоиса кунед.",
+        "en": "Compare the two example live regions."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-43-q3",
+      "question": {
+        "ru": "Почему подписи собираются из данных?",
+        "tg": "Матнҳо барои чӣ аз маълумот сохта мешаванд?",
+        "en": "Why do labels build from data?"
+      },
+      "options": [
+        {
+          "ru": "Так код короче",
+          "tg": "Рамз кӯтоҳтар мешавад",
+          "en": "The code is shorter"
+        },
+        {
+          "ru": "Изменённые записи объявляются правильно без ручной правки",
+          "tg": "Сабтҳои тағйирёфта бе тағйири дастӣ дуруст эълон мешаванд",
+          "en": "Changed records announce correctly without manual edits"
+        },
+        {
+          "ru": "Диктор не читает константы",
+          "tg": "Хонанда доимиҳоро намехонад",
+          "en": "The reader cannot read constants"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "taskA11yLabel берёт название и минуты из самой записи.",
+        "tg": "taskA11yLabel ном ва дақиқаҳоро аз худи сабт мегирад.",
+        "en": "taskA11yLabel takes the title and minutes from the record itself."
+      },
+      "hint": {
+        "ru": "Найдите taskA11yLabel в решении.",
+        "tg": "taskA11yLabel-ро дар ҳалл ёбед.",
+        "en": "Find taskA11yLabel in the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-43-q4",
+      "question": {
+        "ru": "Что проверяют с крупным шрифтом?",
+        "tg": "Бо ҳуруфи калон чиро месанҷанд?",
+        "en": "What is checked with a large font?"
+      },
+      "options": [
+        {
+          "ru": "Экран темнеет",
+          "tg": "Экран торик мешавад",
+          "en": "The screen darkens"
+        },
+        {
+          "ru": "Приложение падает",
+          "tg": "Барнома меафтад",
+          "en": "The app crashes"
+        },
+        {
+          "ru": "Поля и кнопки растягиваются, а не обрезаются",
+          "tg": "Майдонҳо ва тугмаҳо кашида мешаванд, на бурида",
+          "en": "Fields and buttons stretch, not clip"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Тот же принцип дня 33, применённый к проекту.",
+        "tg": "Ҳамон принсипи рӯзи 33, ки ба лоиҳа татбиқ шудааст.",
+        "en": "The day-33 principle applied to the project."
+      },
+      "hint": {
+        "ru": "Вспомните день 33 про maxFontSizeMultiplier.",
+        "tg": "Рӯзи 33-ро дар бораи maxFontSizeMultiplier ёд оред.",
+        "en": "Recall day 33 about maxFontSizeMultiplier."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-43-q5",
+      "question": {
+        "ru": "Куда попадают отметки доступности?",
+        "tg": "Аломатҳои дастрасӣ ба куҷо мераванд?",
+        "en": "Where do accessibility marks go?"
+      },
+      "options": [
+        {
+          "ru": "В финальный отчёт как часть критериев дня 38",
+          "tg": "Ба ҳисоботи ниҳоӣ ҳамчун қисми меъёрҳои рӯзи 38",
+          "en": "Into the final report as part of the day-38 criteria"
+        },
+        {
+          "ru": "В исходники диктора",
+          "tg": "Ба манобаъҳои хонанда",
+          "en": "Into the reader sources"
+        },
+        {
+          "ru": "Никуда",
+          "tg": "Ҳеҷ ҷо",
+          "en": "Nowhere"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Доступность — приёмочный критерий проекта, а не пожелание.",
+        "tg": "Дастрасӣ меёри қабули лоиҳа аст, на орзу.",
+        "en": "Accessibility is an acceptance criterion, not a wish."
+      },
+      "hint": {
+        "ru": "Найдите в разбор слова про отчёт.",
+        "tg": "Дар шарҳ калимаҳои дар бораи ҳисоботро ёбед.",
+        "en": "Find the walkthrough words about the report."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и пройдите его с диктором: ошибка, подтверждение, пустой список. Соберите решение с taskA11yLabel и убедитесь, что строки читаются одной фразой. Проверьте крупный шрифт из дня 33 на этом экране и запишите результат. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва онро бо хонанда гузаронед: хато, тасдиқ, рӯйхати холӣ. Ҳаллро бо taskA11yLabel созед ва боварӣ ҳосил кунед, ки сатрҳо бо як ҷумла хонда мешаванд. Ҳуруфи калони рӯзи 33-ро дар ҳамин экран месанҷед ва натиҷаро сабт кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and walk it with the reader: the error, the confirmation, the empty list. Build the solution with taskA11yLabel and confirm rows announce in one phrase. Check the day-33 large font on this screen and record the result. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Подпись строки — шаблон из названия и минут; accessible на View объединяет тексты.",
+      "tg": "Матни сатр қолаб аз ном ва дақиқаҳост; accessible дар View матнҳоро муттаҳид мекунад.",
+      "en": "The row label is a template of title and minutes; accessible on the View merges the texts."
+    },
+    "solution": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function taskA11yLabel(task: Task): string {\n  return `${task.title}, ${task.minutes} минут практики, записано в планировщик`;\n}\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [title, setTitle] = useState('');\n  const [error, setError] = useState('');\n  const [saved, setSaved] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function addTask() {\n    const value = title.trim();\n    if (value.length < 3) {\n      setError('Название короче трёх символов');\n      setSaved(false);\n      return;\n    }\n    setError('');\n    const next: Task[] = [...tasks ?? [], { id: `t${Date.now()}`, title: value, minutes: 20, createdAt: Date.now() }];\n    setTasks(next);\n    setTitle('');\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n      setSaved(true);\n    } catch {\n      setSaved(false);\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text accessibilityLiveRegion=\"polite\">Открываем планировщик…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <TextInput\n        value={title}\n        onChangeText={text => { setTitle(text); setSaved(false); }}\n        placeholder=\"Название занятия\"\n        accessibilityLabel=\"Название нового занятия\"\n        style={styles.input}\n      />\n      {error ? (\n        <Text accessibilityLiveRegion=\"assertive\" style={styles.error}>{error}</Text>\n      ) : null}\n      {saved ? (\n        <Text accessibilityLiveRegion=\"polite\">Занятие сохранено.</Text>\n      ) : null}\n      {tasks.length === 0 ? (\n        <Text>Пока занятий нет. Добавьте первое.</Text>\n      ) : (\n        tasks.map(task => (\n          <View key={task.id} style={styles.item} accessible accessibilityLabel={taskA11yLabel(task)}>\n            <Text>{task.title} — {task.minutes} мин.</Text>\n          </View>\n        ))\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Добавить занятие в план\"\n        accessibilityHint=\"Сохраняет запись на устройстве\"\n        onPress={addTask}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Добавить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+    "criteria": [
+      {
+        "ru": "Ошибка читается диктором сразу при assertive.",
+        "tg": "Хато ҳангоми assertive фавран аз тарафи хонанда хонда мешавад.",
+        "en": "The error reads immediately by the reader under assertive."
+      },
+      {
+        "ru": "Строки списка объявляются одной фразой из данных.",
+        "tg": "Сатрҳои рӯйхат бо як ҷумла аз маълумот эълон мешаванд.",
+        "en": "List rows announce as one phrase from the data."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Сделать каждый элемент проекта понятным диктору.",
+        "tg": "Ҳар элементи лоиҳаро барои хонанда фаҳмо созед.",
+        "en": "Make every project element readable by the screen reader."
+      },
+      {
+        "ru": "Объявлять ошибки и подтверждения через живые области.",
+        "tg": "Хатоҳо ва тасдиқҳоро тавассути минтақаҳои зинда эълон кунед.",
+        "en": "Announce errors and confirmations through live regions."
+      }
+    ],
+    "realWorld": {
+      "ru": "Пользователь VoiceOver добавляет запись в приложение, не глядя на экран.",
+      "tg": "Корбари VoiceOver бе нигоҳ ба экран сабтро ба барнома илова мекунад.",
+      "en": "A VoiceOver user adds a record without looking at the screen."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Чем assertive отличается от polite?",
+        "tg": "assertive аз polite чӣ фарқ дорад?",
+        "en": "How does assertive differ from polite?"
+      },
+      "options": [
+        {
+          "ru": "Assertive прерывает диктора, polite ждёт паузы",
+          "tg": "Assertive хонандаро қатъ мекунад, polite интизори танаффус аст",
+          "en": "Assertive interrupts the reader, polite waits for a pause"
+        },
+        {
+          "ru": "Ничем",
+          "tg": "Ҳеҷ чиз",
+          "en": "Nothing"
+        },
+        {
+          "ru": "Polite громче",
+          "tg": "Polit баландтар аст",
+          "en": "Polite is louder"
+        }
+      ],
+      "correctIndex": 0,
+      "hint": {
+        "ru": "Сравните две живые области примера.",
+        "tg": "Ду минтақаи зиндаи мисолро муқоиса кунед.",
+        "en": "Compare the two example live regions."
+      },
+      "explanation": {
+        "ru": "Ошибке положено прерывание, подтверждению — очередь.",
+        "tg": "Хато қатъ карданро талаб мекунад, тасдиқ — навбат.",
+        "en": "An error deserves interruption, a confirmation a queue."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n  const [title, setTitle] = useState('');\n  const [error, setError] = useState('');\n  const [saved, setSaved] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  async function addTask() {\n    const value = title.trim();\n    if (value.length < 3) {\n      setError('Название короче трёх символов');\n      setSaved(false);\n      return;\n    }\n    setError('');\n    const next: Task[] = [...tasks ?? [], { id: `t${Date.now()}`, title: value, minutes: 20, createdAt: Date.now() }];\n    setTasks(next);\n    setTitle('');\n    try {\n      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));\n      setSaved(true);\n    } catch {\n      setSaved(false);\n      setError('Не удалось сохранить: данные видны только до перезапуска');\n    }\n  }\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text accessibilityLiveRegion=\"polite\">Открываем планировщик…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <TextInput\n        value={title}\n        onChangeText={text => { setTitle(text); setSaved(false); }}\n        placeholder=\"Название занятия\"\n        accessibilityLabel=\"Название нового занятия\"\n        style={styles.input}\n      />\n      {error ? (\n        <Text accessibilityLiveRegion=\"assertive\" style={styles.error}>{error}</Text>\n      ) : null}\n      {saved ? (\n        <Text accessibilityLiveRegion=\"polite\">Занятие сохранено.</Text>\n      ) : null}\n      {tasks.length === 0 ? (\n        <Text>Пока занятий нет. Добавьте первое.</Text>\n      ) : (\n        tasks.map(task => (\n          <View key={task.id} style={styles.item}>\n            <Text>{task.title} — {task.minutes} мин.</Text>\n          </View>\n        ))\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Добавить занятие в план\"\n        accessibilityHint=\"Сохраняет запись на устройстве\"\n        onPress={addTask}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Добавить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  item: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
+      "steps": [
+        {
+          "line": 44,
+          "explanation": {
+            "ru": "Поле названо для диктора явно.",
+            "tg": "Майдон барои хонанда ошкоро номгузорӣ шудааст.",
+            "en": "The field is explicitly named for the reader."
+          },
+          "values": "a11yLabel"
+        },
+        {
+          "line": 47,
+          "explanation": {
+            "ru": "Ошибка прерывает диктора через assertive.",
+            "tg": "Хато хонандаро тавассути assertive қатъ мекунад.",
+            "en": "The error interrupts the reader through assertive."
+          },
+          "values": "live region"
+        },
+        {
+          "line": 59,
+          "explanation": {
+            "ru": "Кнопка объясняет действие и последствие.",
+            "tg": "Тугма амал ва оқибатро мефаҳмонад.",
+            "en": "The button explains the action and consequence."
+          },
+          "values": "label + hint"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Включите диктор и введите короткое название: ошибка читается сразу?",
+          "tg": "Хонандаро фаъол карда, номи кӯтоҳ ворид кунед: хато фавран хонда мешавад?",
+          "en": "Turn the reader on and type a short title: does the error read at once?"
+        },
+        {
+          "ru": "Сохраните корректную запись и услышите подтверждение.",
+          "tg": "Сабти дурустро нигоҳ доред ва тасдиқро гӯш кунед.",
+          "en": "Save a valid record and hear the confirmation."
+        }
+      ],
+      "hint": {
+        "ru": "Подпись строки — шаблон из названия и минут; accessible на View объединяет тексты.",
+        "tg": "Матни сатр қолаб аз ном ва дақиқаҳост; accessible дар View матнҳоро муттаҳид мекунад.",
+        "en": "The row label is a template of title and minutes; accessible on the View merges the texts."
+      },
+      "success": {
+        "ru": "Каждый элемент объявляется одной фразой, а ошибка и подтверждение читаются сами.",
+        "tg": "Ҳар элемент бо як ҷумла эълон мешавад ва хато ва тасдиқ худ мехонанд.",
+        "en": "Every element announces in one phrase and the error and confirmation read themselves."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и пройдите его с диктором: ошибка, подтверждение, пустой список. Соберите решение с taskA11yLabel и убедитесь, что строки читаются одной фразой. Проверьте крупный шрифт из дня 33 на этом экране и запишите результат. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва онро бо хонанда гузаронед: хато, тасдиқ, рӯйхати холӣ. Ҳаллро бо taskA11yLabel созед ва боварӣ ҳосил кунед, ки сатрҳо бо як ҷумла хонда мешаванд. Ҳуруфи калони рӯзи 33-ро дар ҳамин экран месанҷед ва натиҷаро сабт кунед. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and walk it with the reader: the error, the confirmation, the empty list. Build the solution with taskA11yLabel and confirm rows announce in one phrase. Check the day-33 large font on this screen and record the result. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Ошибка читается диктором сразу при assertive.",
+          "tg": "Хато ҳангоми assertive фавран аз тарафи хонанда хонда мешавад.",
+          "en": "The error reads immediately by the reader under assertive."
+        },
+        {
+          "ru": "Строки списка объявляются одной фразой из данных.",
+          "tg": "Сатрҳои рӯйхат бо як ҷумла аз маълумот эълон мешаванд.",
+          "en": "List rows announce as one phrase from the data."
+        }
+      ],
+      "example": {
+        "ru": "Диктор объявляет «Экран, 20 минут практики, записано в планировщик» одним фокусом.",
+        "tg": "Хонанда «Экран, 20 дақиқа машқ, дар барномасоз сабт шуд»-ро бо як фокус эълон мекунад.",
+        "en": "The reader announces the full row label and hint in one focus."
+      }
+    },
+    "summary": [
+      {
+        "ru": "Роли, подписи, hint и живые области — полный набор доступности.",
+        "tg": "Нақшҳо, матнҳо, hint ва минтақаҳои зинда — маҷмӯи пурраи дастрасӣ.",
+        "en": "Roles, labels, hints and live regions — the full accessibility set."
+      },
+      {
+        "ru": "Доступность — приёмочный критерий, а не украшение.",
+        "tg": "Дастрасӣ меёри қабул аст, на ороиш.",
+        "en": "Accessibility is an acceptance criterion, not decoration."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Чем assertive отличается от polite?",
+        "tg": "assertive аз polite чӣ фарқ дорад?",
+        "en": "How does assertive differ from polite?"
+      },
+      {
+        "ru": "Что проверяют с крупным шрифтом?",
+        "tg": "Бо ҳуруфи калон чиро месанҷанд?",
+        "en": "What is checked with a large font?"
+      }
+    ],
+    "nextLessonId": "mobile-day-44"
+  }
+}

@@ -1,0 +1,430 @@
+{
+  "id": "mobile-day-32",
+  "day": 32,
+  "prerequisiteDays": [
+    31
+  ],
+  "title": {
+    "ru": "Экранный диктор и подписи",
+    "tg": "Хонандаи экран ва матнҳо",
+    "en": "The screen reader and labels"
+  },
+  "summary": {
+    "ru": "Сделайте строку списка единым понятным элементом для TalkBack и VoiceOver.",
+    "tg": "Сатри рӯйхатро як унсури фаҳмо барои TalkBack ва VoiceOver созед.",
+    "en": "Make a list row one understandable element for TalkBack and VoiceOver."
+  },
+  "level": "beginner",
+  "sourceIds": [
+    "mobile-docs",
+    "expo-docs"
+  ],
+  "sections": [
+    {
+      "title": {
+        "ru": "Диктор читает то, что вы сказали",
+        "tg": "Хонанда он чиро мехонад, ки шумо гуфтед",
+        "en": "The reader reads what you said"
+      },
+      "body": {
+        "ru": "Пользователь с нарушением зрения проводит пальцем по экрану, и диктор объявляет элемент за элементом. Если строка списка состоит из двух отдельных Text, диктор читает их по отдельности и пользователь не понимает, что это одна карточка. Свойство accessible собирает детей в один фокус, accessibilityRole=\"button\" объясняет, что элемент нажимается, accessibilityLabel задаёт текст целиком, а accessibilityHint говорит, что произойдёт. Читаемый порядок и подписи проверяются только на устройстве с включённым TalkBack (Android) или VoiceOver (iOS) — браузер курса это не заменяет. Подпись должна быть короткой и понятной: не «View 3», а «Экран и структуры, 20 минут».",
+        "tg": "Корбари бо ҳусни дидани маҳдуд ангуштаро дар экран мегузаронад ва хонанда элемент ба элемент эълон мекунад. Агар сатри рӯйхат аз ду Text-и алоҳида иборат бошад, хонанда онҳоро ҷудо мехонад ва корбар нафаҳмад, ки ин як кортаст. Хосияти accessible кӯдакронро ба як фокус ҷамъ меорад, accessibilityRole=\"button\" мефаҳмонад, ки элемент пахш мешавад, accessibilityLabel матни пурраро муайян мекунад ва accessibilityHint мегӯяд, ки чӣ рух медиҳад. Тартиби хондан ва матнҳоро танҳо дар дастгоҳ бо TalkBack (Android) ё VoiceOver (iOS) месанҷанд — браузери курс онро иваз намекунад. Матн бояд кӯтоҳ ва фаҳмо бошад: на «View 3», балки «Экран ва сохторҳо, 20 дақиқа».",
+        "en": "A user with low vision swipes across the screen and the reader announces element after element. If a list row is two separate Text components, the reader reads them separately and the user cannot tell it is one card. The accessible property gathers the children into one focus, accessibilityRole=\"button\" explains the element is pressable, accessibilityLabel sets the text as a whole, and accessibilityHint says what happens. Reading order and labels are only checked on a device with TalkBack (Android) or VoiceOver (iOS) on — the course browser does not replace that. Keep the label short and meaningful: not \"View 3\" but \"Экран и структуры, 20 минут\"."
+      }
+    },
+    {
+      "title": {
+        "ru": "Пошаговый разбор",
+        "tg": "Шарҳи қадам ба қадам",
+        "en": "Step-by-step walkthrough"
+      },
+      "body": {
+        "ru": "TaskRow получает задачу через props и рисует два Text. В примере accessible только объединяет фокус — диктор всё ещё читает тексты подряд. В решении добавлены роль button, шаблонная подпись с названием и минутами и hint про подробности: строка объявляется одной фразой. Сравните оба варианта на устройстве с включённым диктором и запишите разницу. Обратите внимание: подпись собирается из данных записи — при изменении названия или минут диктор прочитает новое значение, дублировать текст вручную не нужно.",
+        "tg": "TaskRow вазифаро тавассути props мегирад ва ду Text мекашад. Дар мисол accessible танҳо фокусро муттаҳид мекунад — хонанда ҳамеле матнҳоро пайиҳам мехонад. Дар ҳалл нақши button, матни қолабӣ бо ном ва дақиқаҳо ва hint дар бораи тафсилот илова шудааст: сатр як ҷумла эълон мешавад. Ҳарду вариантро дар дастгоҳ бо фаъоли хонанда муқоиса карда, фарқро сабт кунед. Диққат диҳед: матн аз маълумоти сабт сохта мешавад — ҳангоми ивази ном ё дақиқаҳо хонанда қимати навро мехонад, дублиронидани матн лозим нест.",
+        "en": "TaskRow receives a task through props and renders two Text components. In the example accessible only merges the focus — the reader still reads the texts one by one. The solution adds the button role, a templated label with the title and minutes, and a hint about details: the row is announced as one phrase. Compare both variants on a device with the reader on and record the difference. Note: the label is built from the record data — change the title or minutes and the reader reads the new value, no manual duplication needed."
+      },
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = [\n  { id: 'a1', title: 'Экран и структуры', minutes: 20 },\n  { id: 'a2', title: 'Списки и ключи', minutes: 30 },\n];\n\nexport function TaskRow({ task }: { task: Task }) {\n  return (\n    <View accessible style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>\n        {task.minutes} минут. Двойное нажатие откроет подробности.\n      </Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия на сегодня</Text>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  title: { fontSize: 16, fontWeight: '600' },\n  minutes: { fontSize: 14, color: '#475569' },\n});\n",
+      "language": "tsx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "mobile-day-32-q1",
+      "question": {
+        "ru": "Что делает свойство accessible на View?",
+        "tg": "Хосияти accessible дар View чӣ мекунад?",
+        "en": "What does the accessible property do on a View?"
+      },
+      "options": [
+        {
+          "ru": "Собирает детей в один элемент фокуса",
+          "tg": "Кӯдакронро ба як унсури фокус ҷамъ мекунад",
+          "en": "Gathers children into one focus element"
+        },
+        {
+          "ru": "Скрывает элемент от диктора",
+          "tg": "Унсурро аз хонанда маҳкум мекунад",
+          "en": "Hides the element from the reader"
+        },
+        {
+          "ru": "Ускоряет рендер",
+          "tg": "Render-ро тез мекунад",
+          "en": "Speeds up rendering"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Диктор объявляет строку целиком, а не по частям.",
+        "tg": "Хонанда сатрро пурра эълон мекунад, на ба қисмҳо.",
+        "en": "The reader announces the row as a whole, not in pieces."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова про отдельные Text.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи Text-ҳои ҷудогонаро ёбед.",
+        "en": "Find the first-section words about separate Text components."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-32-q2",
+      "question": {
+        "ru": "Что сообщает accessibilityHint?",
+        "tg": "accessibilityHint чиро хабар медиҳад?",
+        "en": "What does accessibilityHint report?"
+      },
+      "options": [
+        {
+          "ru": "Цвет элемента",
+          "tg": "Ранги элемент",
+          "en": "The element color"
+        },
+        {
+          "ru": "Что произойдёт при активации",
+          "tg": "Ҳангоми фаъолияти чӣ рух медиҳад",
+          "en": "What happens on activation"
+        },
+        {
+          "ru": "Количество детей",
+          "tg": "Шумораи кӯдакон",
+          "en": "The children count"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Подпись говорит «что это», hint — «что будет».",
+        "tg": "Матн мегӯяд «ин чист», hint — «чӣ мешавад».",
+        "en": "The label says \"what it is\", the hint — \"what happens\"."
+      },
+      "hint": {
+        "ru": "Сравните label и hint в решении.",
+        "tg": "label ва hint-ро дар ҳалл муқоиса кунед.",
+        "en": "Compare label and hint in the solution."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-32-q3",
+      "question": {
+        "ru": "Почему подпись собирается из данных записи?",
+        "tg": "Матн барои чӣ аз маълумоти сабт сохта мешавад?",
+        "en": "Why is the label built from record data?"
+      },
+      "options": [
+        {
+          "ru": "Диктор не читает шаблоны",
+          "tg": "Хонанда қолабҳоро намехонад",
+          "en": "The reader cannot read templates"
+        },
+        {
+          "ru": "Так короче код",
+          "tg": "Рамз кӯтоҳтар мешавад",
+          "en": "The code is shorter"
+        },
+        {
+          "ru": "Изменённые данные автоматически читаются диктором",
+          "tg": "Маълумоти тағйирёфта худкор аз тарафи хонанда хонда мешавад",
+          "en": "Changed data is read by the reader automatically"
+        }
+      ],
+      "correctIndex": 2,
+      "answer": {
+        "ru": "Ручная копия текста устареет после первого изменения.",
+        "tg": "Нусхаи дастии матн баъди аввалин тағйир кӯҳна мешавад.",
+        "en": "A manual text copy goes stale after the first change."
+      },
+      "hint": {
+        "ru": "Перечитайте конец разбора про шаблонную подпись.",
+        "tg": "Охири шарҳ дар бораи матни қолабиро аз нав хонед.",
+        "en": "Re-read the walkthrough end about the templated label."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-32-q4",
+      "question": {
+        "ru": "Чем проверяют поведение диктора?",
+        "tg": "Рафтори хонандаро бо чӣ месанҷанд?",
+        "en": "How is the reader behavior checked?"
+      },
+      "options": [
+        {
+          "ru": "TalkBack на Android или VoiceOver на iOS",
+          "tg": "TalkBack дар Android ё VoiceOver дар iOS",
+          "en": "TalkBack on Android or VoiceOver on iOS"
+        },
+        {
+          "ru": "Браузером курса",
+          "tg": "Браузери курс",
+          "en": "The course browser"
+        },
+        {
+          "ru": "Консолью разработки",
+          "tg": "Консоли таҳия",
+          "en": "The development console"
+        }
+      ],
+      "correctIndex": 0,
+      "answer": {
+        "ru": "Настоящий диктор — часть системы устройства.",
+        "tg": "Хонандаи воқеӣ қисми системи дастгоҳ аст.",
+        "en": "The real reader is part of the device system."
+      },
+      "hint": {
+        "ru": "Найдите в первом раздел слова про проверку на устройстве.",
+        "tg": "Дар бахши аввал калимаҳои дар бораи санҷиш дар дастгоҳро ёбед.",
+        "en": "Find the first-section words about device checking."
+      },
+      "relatedSection": 1
+    },
+    {
+      "id": "mobile-day-32-q5",
+      "question": {
+        "ru": "Какая подпись хороша для диктора?",
+        "tg": "Кадом матн барои хонанда хуб аст?",
+        "en": "Which label is good for the reader?"
+      },
+      "options": [
+        {
+          "ru": "«View 3»",
+          "tg": "«View 3»",
+          "en": "«View 3»"
+        },
+        {
+          "ru": "«Экран и структуры, 20 минут»",
+          "tg": "«Экран ва сохторҳо, 20 дақиқа»",
+          "en": "«Экран и структуры, 20 минут»"
+        },
+        {
+          "ru": "«Нажмите сюда»",
+          "tg": "«Ин ҷо пахш кунед»",
+          "en": "«Нажмите сюда»"
+        }
+      ],
+      "correctIndex": 1,
+      "answer": {
+        "ru": "Подпись описывает содержимое, а не внешний вид.",
+        "tg": "Матн мазмунро тавсиф мекунад, на намудро.",
+        "en": "The label describes the content, not the looks."
+      },
+      "hint": {
+        "ru": "Сравните два варианта подписи из первого раздела.",
+        "tg": "Ду варианти матнро аз бахши аввал муқоиса кунед.",
+        "en": "Compare the two label variants from the first section."
+      },
+      "relatedSection": 1
+    }
+  ],
+  "practice": {
+    "kind": "code",
+    "task": {
+      "ru": "Соберите пример и пройдите его с диктором на устройстве. Соберите решение и сравните объявление строк до и после. Запишите обе версии объявлений дословно и проверьте, что подпись обновилась после изменения минут в данных. Это самостоятельная проверка, не автоматическая аттестация.",
+      "tg": "Мисолро созед ва онро бо хонанда дар дастгоҳ гузаред. Ҳаллро созед ва эълони сатрҳоро пеш аз баъд муқоиса кунед. Ҳарду версияи эълонро калима ба калима сабт карда, санҷед, ки матн баъди ивази дақиқаҳо нав шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+      "en": "Build the example and walk it with the reader on a device. Build the solution and compare the row announcements before and after. Record both announcement versions verbatim and check the label updated after changing the minutes in the data. This is self-review, not automated attestation."
+    },
+    "hint": {
+      "ru": "Подпись — шаблонная строка: `${task.title}, ${task.minutes} минут` внутри accessibilityLabel.",
+      "tg": "Матн сатри қолабист: `${task.title}, ${task.minutes} минут` дар дохили accessibilityLabel.",
+      "en": "The label is a template string: `${task.title}, ${task.minutes} минут` inside accessibilityLabel."
+    },
+    "solution": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = [\n  { id: 'a1', title: 'Экран и структуры', minutes: 20 },\n  { id: 'a2', title: 'Списки и ключи', minutes: 30 },\n];\n\nexport function TaskRow({ task }: { task: Task }) {\n  return (\n    <View\n      accessible\n      accessibilityRole=\"button\"\n      accessibilityLabel={`${task.title}, ${task.minutes} минут`}\n      accessibilityHint=\"Открывает подробности занятия\"\n      style={styles.row}\n    >\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} минут</Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия на сегодня</Text>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  title: { fontSize: 16, fontWeight: '600' },\n  minutes: { fontSize: 14, color: '#475569' },\n});\n",
+    "criteria": [
+      {
+        "ru": "Строка объявляется одной фразой, а не по частям.",
+        "tg": "Сатр бо як ҷумла эълон мешавад, на ба қисмҳо.",
+        "en": "The row announces as one phrase, not in pieces."
+      },
+      {
+        "ru": "Подпись обновилась после изменения данных.",
+        "tg": "Матн баъди тағйири маълумот нав шуд.",
+        "en": "The label updated after the data changed."
+      }
+    ]
+  },
+  "learningFlow": {
+    "version": 1,
+    "objectives": [
+      {
+        "ru": "Собрать строку списка в один элемент диктора.",
+        "tg": "Сатри рӯйхатро ба як элементи хонанда ҷамъ оваред.",
+        "en": "Assemble a list row into one reader element."
+      },
+      {
+        "ru": "Написать подпись и hint из данных записи.",
+        "tg": "Матн ва hint-ро аз маълумоти сабт нависед.",
+        "en": "Write the label and hint from record data."
+      }
+    ],
+    "realWorld": {
+      "ru": "Пользователь VoiceOver проходит список задач за секунды, если строки объявлены одной фразой.",
+      "tg": "Корбари VoiceOver рӯйхати вазифаҳоро дар сонияҳо мегузарад, агар сатрҳо як ҷумла эълон шаванд.",
+      "en": "A VoiceOver user walks a task list in seconds when rows announce as one phrase."
+    },
+    "walkthroughSections": [
+      1
+    ],
+    "prediction": {
+      "prompt": {
+        "ru": "Что сообщает accessibilityHint?",
+        "tg": "accessibilityHint чиро хабар медиҳад?",
+        "en": "What does accessibilityHint report?"
+      },
+      "options": [
+        {
+          "ru": "Цвет элемента",
+          "tg": "Ранги элемент",
+          "en": "The element color"
+        },
+        {
+          "ru": "Что произойдёт при активации",
+          "tg": "Ҳангоми фаъолияти чӣ рух медиҳад",
+          "en": "What happens on activation"
+        },
+        {
+          "ru": "Количество детей",
+          "tg": "Шумораи кӯдакон",
+          "en": "The children count"
+        }
+      ],
+      "correctIndex": 1,
+      "hint": {
+        "ru": "Сравните label и hint в решении.",
+        "tg": "label ва hint-ро дар ҳалл муқоиса кунед.",
+        "en": "Compare label and hint in the solution."
+      },
+      "explanation": {
+        "ru": "Подпись говорит «что это», hint — «что будет».",
+        "tg": "Матн мегӯяд «ин чист», hint — «чӣ мешавад».",
+        "en": "The label says \"what it is\", the hint — \"what happens\"."
+      }
+    },
+    "demo": {
+      "kind": "code-trace",
+      "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = [\n  { id: 'a1', title: 'Экран и структуры', minutes: 20 },\n  { id: 'a2', title: 'Списки и ключи', minutes: 30 },\n];\n\nexport function TaskRow({ task }: { task: Task }) {\n  return (\n    <View accessible style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>\n        {task.minutes} минут. Двойное нажатие откроет подробности.\n      </Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия на сегодня</Text>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  title: { fontSize: 16, fontWeight: '600' },\n  minutes: { fontSize: 14, color: '#475569' },\n});\n",
+      "steps": [
+        {
+          "line": 12,
+          "explanation": {
+            "ru": "accessible объединяет два Text в один фокус.",
+            "tg": "accessible ду Text-ро ба як фокус муттаҳид мекунад.",
+            "en": "accessible merges the two Text into one focus."
+          },
+          "values": "one element"
+        },
+        {
+          "line": 15,
+          "explanation": {
+            "ru": "Роль button объясняет нажимаемость.",
+            "tg": "Нақши button пахшшавандагиро мефаҳмонад.",
+            "en": "The button role explains pressability."
+          },
+          "values": "role=button"
+        },
+        {
+          "line": 16,
+          "explanation": {
+            "ru": "Подпись собирается из названия и минут.",
+            "tg": "Матн аз ном ва дақиқаҳо сохта мешавад.",
+            "en": "The label builds from the title and minutes."
+          },
+          "values": "title + minutes"
+        }
+      ]
+    },
+    "assessmentMode": "local-only",
+    "guidedPractice": {
+      "steps": [
+        {
+          "ru": "Включите диктор на устройстве и пройдите две строки примера.",
+          "tg": "Дар дастгоҳ хонандаро фаъол карда, ду сатри мисолро гузаред.",
+          "en": "Turn the reader on and walk the two example rows."
+        },
+        {
+          "ru": "Добавьте роль, подпись и hint из решения и сравните объявление.",
+          "tg": "Нақш, матн ва hint-ро аз ҳалл илова карда, эълонро муқоиса кунед.",
+          "en": "Add the role, label and hint from the solution and compare the announcement."
+        }
+      ],
+      "hint": {
+        "ru": "Подпись — шаблонная строка: `${task.title}, ${task.minutes} минут` внутри accessibilityLabel.",
+        "tg": "Матн сатри қолабист: `${task.title}, ${task.minutes} минут` дар дохили accessibilityLabel.",
+        "en": "The label is a template string: `${task.title}, ${task.minutes} минут` inside accessibilityLabel."
+      },
+      "success": {
+        "ru": "Каждая строка объявляется одной фразой с названием, минутами и подсказкой.",
+        "tg": "Ҳар сатр бо як ҷумлаи ном, дақиқаҳо ва маслиҳат эълон мешавад.",
+        "en": "Every row announces as one phrase with the title, minutes and a hint."
+      }
+    },
+    "independentPractice": "lesson-practice",
+    "assessmentVersion": 1,
+    "miniChallenge": {
+      "task": {
+        "ru": "Соберите пример и пройдите его с диктором на устройстве. Соберите решение и сравните объявление строк до и после. Запишите обе версии объявлений дословно и проверьте, что подпись обновилась после изменения минут в данных. Это самостоятельная проверка, не автоматическая аттестация.",
+        "tg": "Мисолро созед ва онро бо хонанда дар дастгоҳ гузаред. Ҳаллро созед ва эълони сатрҳоро пеш аз баъд муқоиса кунед. Ҳарду версияи эълонро калима ба калима сабт карда, санҷед, ки матн баъди ивази дақиқаҳо нав шуд. Ин худсанҷӣ аст, на аттестатсияи худкор.",
+        "en": "Build the example and walk it with the reader on a device. Build the solution and compare the row announcements before and after. Record both announcement versions verbatim and check the label updated after changing the minutes in the data. This is self-review, not automated attestation."
+      },
+      "criteria": [
+        {
+          "ru": "Строка объявляется одной фразой, а не по частям.",
+          "tg": "Сатр бо як ҷумла эълон мешавад, на ба қисмҳо.",
+          "en": "The row announces as one phrase, not in pieces."
+        },
+        {
+          "ru": "Подпись обновилась после изменения данных.",
+          "tg": "Матн баъди тағйири маълумот нав шуд.",
+          "en": "The label updated after the data changed."
+        }
+      ],
+      "example": {
+        "ru": "Диктор объявляет «Экран и структуры, 20 минут. Открывает подробности занятия.» одним фокусом.",
+        "tg": "Хонанда «Экран ва сохторҳо, 20 дақиқа. Тафсилоти машғулиятро мекушояд.»-ро бо як фокус эълон мекунад.",
+        "en": "The reader announces the full label and hint in one focus."
+      }
+    },
+    "summary": [
+      {
+        "ru": "accessible, роль, label и hint делают элемент понятным диктору.",
+        "tg": "accessible, нақш, label ва hint элементро барои хонанда фаҳмо мекунанд.",
+        "en": "accessible, role, label and hint make the element readable."
+      },
+      {
+        "ru": "Проверка диктора возможна только на устройстве.",
+        "tg": "Санҷиши хонанда танҳо дар дастгоҳ имконнопазир аст.",
+        "en": "Reader checking only happens on a device."
+      }
+    ],
+    "review": [
+      {
+        "ru": "Что сообщает accessibilityHint?",
+        "tg": "accessibilityHint чиро хабар медиҳад?",
+        "en": "What does accessibilityHint report?"
+      },
+      {
+        "ru": "Какая подпись хороша для диктора?",
+        "tg": "Кадом матн барои хонанда хуб аст?",
+        "en": "Which label is good for the reader?"
+      }
+    ],
+    "nextLessonId": "mobile-day-33"
+  }
+}

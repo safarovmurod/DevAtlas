@@ -1,0 +1,41 @@
+import { StyleSheet, Text, View } from 'react-native';
+
+type Status = 'loading' | 'done' | 'error';
+
+type FeedProps = { status: Status; items: string[]; onRetry?: () => void };
+
+export function LessonFeed({ status, items, onRetry }: FeedProps) {
+  return (
+    <View>
+      {status === 'loading' ? <Text>Загрузка…</Text> : null}
+      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}
+      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}
+      {status === 'error' ? (
+        <View>
+          <Text>Не удалось загрузить. Попробуйте позже.</Text>
+          {onRetry ? (
+            <Text accessibilityRole="button" onPress={onRetry} style={styles.retry}>
+              Повторить
+            </Text>
+          ) : null}
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <View style={styles.screen}>
+      <Text accessibilityRole="header">Три состояния ленты</Text>
+      <LessonFeed status="loading" items={[]} />
+      <LessonFeed status="done" items={['Экран', 'Стили']} />
+      <LessonFeed status="error" items={[]} onRetry={() => {}} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, gap: 16, padding: 24 },
+  retry: { color: '#2563eb' },
+});
