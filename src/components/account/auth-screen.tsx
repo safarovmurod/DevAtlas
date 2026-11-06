@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, Eye, EyeOff, Mail, ShieldCheck } from 'lucide-react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useAccount } from './account-provider';
@@ -8,6 +10,7 @@ import { AUTH_COPY } from '@/lib/auth-copy';
 import { ACCOUNT_COPY, accountErrorKey, localizedAuthError } from '@/lib/account-copy';
 import { GoogleMark } from './google-mark';
 import { Brand } from '@/components/layout/brand';
+import { authFormSchema, type AuthFormValues, type AuthMode } from '@/lib/account/form-schemas';
 
 export { FirstProfileScreen, MfaChallengeScreen, PasswordRecoveryScreen } from './account-gates';
 
@@ -16,11 +19,13 @@ export function AuthScreen() {
   const account = useAccount();
   const language = useLearningStore((state) => state.language);
   const copy = AUTH_COPY[language];
-  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('login');
+  const form = useForm<AuthFormValues>({
+    resolver: zodResolver(authFormSchema),
+    defaultValues: { mode: 'login', name: '', email: '', password: '' },
+  });
+  const mode = useWatch({ control: form.control, name: 'mode' });
+  const fieldErrors = form.formState.errors;
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<
     { kind: 'google' } | { kind: 'provider'; cause: unknown; mode: typeof mode } | null
@@ -33,11 +38,12 @@ export function AuthScreen() {
     : account.error
       ? ACCOUNT_COPY[language][accountErrorKey(account.error, 'openError')]
       : '';
-  function changeMode(next: 'login' | 'signup' | 'reset') {
-    setMode(next);
+  function changeMode(next: AuthMode) {
+    form.setValue('mode', next);
+    form.setValue('password', '');
+    form.clearErrors();
     setError(null);
     setMessage('');
-    setPassword('');
     setPasswordVisible(false);
   }
   function continueAsGuest() {
@@ -63,8 +69,8 @@ export function AuthScreen() {
       setBusy(false);
     }
   }
-  async function submit(event: React.FormEvent) {
-    event.preventDefault();
+  // Runs after the Zod check passed. The Supabase calls are the same as before.
+  async function submit({ mode, name, email, password }: AuthFormValues) {
     const client = getSupabaseBrowserClient();
     if (!client || busy) return;
     setBusy(true);
@@ -166,7 +172,7 @@ export function AuthScreen() {
           <span className="recommend-tag">{copy.recommended}</span>
         </div>
         <div className="auth-divider">{copy.orEmail}</div>
-        <form className="account-form" onSubmit={submit}>
+        <form className="account-form" onSubmit={form.handleSubmit(submit)}>
           <fieldset
             className="account-fields"
             disabled={busy || !account.configured}
@@ -177,8 +183,8 @@ export function AuthScreen() {
                 {copy.name}
                 <input
                   autoComplete="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  {...form.register('name')}
+                  aria-invalid={Boolean(fieldErrors.name)}
                   required
                   minLength={2}
                   maxLength={60}
@@ -190,8 +196,8 @@ export function AuthScreen() {
               <input
                 type="email"
                 autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...form.register('email')}
+                aria-invalid={Boolean(fieldErrors.email)}
                 required
                 maxLength={254}
               />
@@ -204,8 +210,8 @@ export function AuthScreen() {
                     id="auth-password"
                     type={passwordVisible ? 'text' : 'password'}
                     autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...form.register('password')}
+                    aria-invalid={Boolean(fieldErrors.password)}
                     required
                     minLength={mode === 'signup' ? 8 : 1}
                     maxLength={128}

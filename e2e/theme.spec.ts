@@ -11,18 +11,18 @@ test('appearance changes the shell and persists without loading Monaco on the ca
   const appearance=page.getByRole('combobox',{name:'Оформление',exact:true});
   await appearance.selectOption('dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
-  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(13, 20, 34)');
+  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(20, 19, 17)');
   await page.goto('/courses');
   await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
-  await expect(page.locator('h1')).toHaveCSS('color','rgb(237, 243, 253)');
-  await expect(page.locator('.course-card').first()).toHaveCSS('background-color','rgb(21, 31, 48)');
+  await expect(page.locator('h1')).toHaveCSS('color','rgb(237, 234, 228)');
+  await expect(page.locator('.course-card').first()).toHaveCSS('background-color','rgb(28, 27, 25)');
   expect(editorRequests).toEqual([]);
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
   await page.goto('/settings');
   await appearance.selectOption('light');
   await expect(page.locator('html')).toHaveAttribute('data-theme','light');
-  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(245, 247, 251)');
+  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(246, 244, 239)');
 });
 
 test('selected practice and course tier labels stay readable in both themes',async({page})=>{

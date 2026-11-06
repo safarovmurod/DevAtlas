@@ -1,8 +1,12 @@
 'use client';
 import { useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { ShieldCheck } from 'lucide-react';
 import { Brand } from '@/components/layout/brand';
 import { ACCOUNT_COPY, accountErrorKey, type AccountCopyKey } from '@/lib/account-copy';
+import { mfaCodeSchema, newPasswordSchema, profileNameSchema } from '@/lib/account/form-schemas';
 import { AUTH_COPY } from '@/lib/auth-copy';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useLearningStore } from '@/stores/learning-store';
@@ -15,13 +19,14 @@ export function FirstProfileScreen() {
   const account = useAccount();
   const language = useLearningStore((state) => state.language);
   const copy = AUTH_COPY[language];
-  const [name, setName] = useState(
-    String(account.user?.user_metadata?.full_name || '').slice(0, 60),
-  );
+  const form = useForm<z.infer<typeof profileNameSchema>>({
+    resolver: zodResolver(profileNameSchema),
+    defaultValues: { name: String(account.user?.user_metadata?.full_name || '').slice(0, 60) },
+  });
+  const name = useWatch({ control: form.control, name: 'name' });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<AccountCopyKey | ''>('');
-  async function submit(event: React.FormEvent) {
-    event.preventDefault();
+  async function submit({ name }: z.infer<typeof profileNameSchema>) {
     setBusy(true);
     setError('');
     try {
@@ -38,14 +43,13 @@ export function FirstProfileScreen() {
         <Brand variant="auth" />
         <h1>{copy.firstNameTitle}</h1>
         <p>{copy.firstNameDescription}</p>
-        <form className="account-form" onSubmit={submit}>
+        <form className="account-form" onSubmit={form.handleSubmit(submit)}>
           <label>
             {copy.name}
             <input
               autoFocus
               autoComplete="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              {...form.register('name')}
               minLength={2}
               maxLength={60}
               required
@@ -72,11 +76,14 @@ export function FirstProfileScreen() {
 export function MfaChallengeScreen() {
   const account = useAccount();
   const copy = ACCOUNT_COPY[useLearningStore((state) => state.language)];
-  const [code, setCode] = useState('');
+  const form = useForm<z.infer<typeof mfaCodeSchema>>({
+    resolver: zodResolver(mfaCodeSchema),
+    defaultValues: { code: '' },
+  });
+  const code = useWatch({ control: form.control, name: 'code' });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(false);
-  async function verify(event: React.FormEvent) {
-    event.preventDefault();
+  async function verify({ code }: z.infer<typeof mfaCodeSchema>) {
     setBusy(true);
     setError(false);
     try {
@@ -102,7 +109,7 @@ export function MfaChallengeScreen() {
         </span>
         <h1>{copy.challengeTitle}</h1>
         <p>{copy.challengeDescription}</p>
-        <form className="account-form" onSubmit={verify}>
+        <form className="account-form" onSubmit={form.handleSubmit(verify)}>
           <label>
             {copy.challengeCode}
             <input
@@ -112,8 +119,11 @@ export function MfaChallengeScreen() {
               autoComplete="one-time-code"
               pattern="[0-9]{6}"
               maxLength={6}
-              value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+              {...form.register('code', {
+                // Keep only digits, as before.
+                setValueAs: (value: string) => value.replace(/\D/g, ''),
+                onChange: (event) => form.setValue('code', event.target.value.replace(/\D/g, '')),
+              })}
               required
             />
           </label>
@@ -138,24 +148,28 @@ export function MfaChallengeScreen() {
 export function PasswordRecoveryScreen() {
   const account = useAccount();
   const copy = ACCOUNT_COPY[useLearningStore((state) => state.language)];
-  const [password, setPassword] = useState('');
-  const [confirm, setConfirm] = useState('');
-  const [error, setError] = useState<'passwordMismatch' | 'recoveryError' | ''>('');
+  const form = useForm<z.infer<typeof newPasswordSchema>>({
+    resolver: zodResolver(newPasswordSchema),
+    defaultValues: { password: '', confirm: '' },
+  });
+  const [failed, setFailed] = useState(false);
   const [busy, setBusy] = useState(false);
-  async function submit(event: React.FormEvent) {
-    event.preventDefault();
-    if (password !== confirm) {
-      setError('passwordMismatch');
-      return;
-    }
+  // A mismatch comes from the Zod check, a failed save from Supabase.
+  const error =
+    form.formState.errors.confirm?.message === 'passwordMismatch'
+      ? 'passwordMismatch'
+      : failed
+        ? 'recoveryError'
+        : '';
+  async function submit({ password }: z.infer<typeof newPasswordSchema>) {
     setBusy(true);
-    setError('');
+    setFailed(false);
     try {
       const result = await getSupabaseBrowserClient()?.auth.updateUser({ password });
       if (!result || result.error) throw new Error();
       await account.signOut();
     } catch {
-      setError('recoveryError');
+      setFailed(true);
     } finally {
       setBusy(false);
     }
@@ -165,7 +179,7 @@ export function PasswordRecoveryScreen() {
       <section className="auth-card">
         <h1>{copy.newPassword}</h1>
         <p>{copy.recoveryDescription}</p>
-        <form className="account-form" onSubmit={submit}>
+        <form className="account-form" onSubmit={form.handleSubmit(submit)}>
           <label>
             {copy.newPassword}
             <input
@@ -174,8 +188,7 @@ export function PasswordRecoveryScreen() {
               minLength={8}
               maxLength={128}
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...form.register('password')}
             />
           </label>
           <label>
@@ -184,8 +197,7 @@ export function PasswordRecoveryScreen() {
               type="password"
               autoComplete="new-password"
               required
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
+              {...form.register('confirm')}
             />
           </label>
           <button className="button primary" disabled={busy}>
