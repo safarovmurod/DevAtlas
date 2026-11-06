@@ -256,14 +256,12 @@ export function AccountProvider({
       throw new Error('Имя должно содержать от 2 до 60 символов.');
     const path = avatarPath === undefined ? profile?.avatarPath || null : avatarPath;
     if (path && !path.startsWith(active.user.id + '/')) throw new Error('Недопустимое фото.');
-    const { error: saveError } = await client
-      .from('react_mentor_profiles')
-      .upsert({
-        user_id: active.user.id,
-        display_name: trimmed,
-        avatar_path: path,
-        updated_at: new Date().toISOString(),
-      });
+    const { error: saveError } = await client.from('react_mentor_profiles').upsert({
+      user_id: active.user.id,
+      display_name: trimmed,
+      avatar_path: path,
+      updated_at: new Date().toISOString(),
+    });
     if (saveError) throw new Error('Не удалось сохранить профиль. Попробуйте ещё раз.');
     if (currentSession.current?.user.id === active.user.id) await reload();
   }

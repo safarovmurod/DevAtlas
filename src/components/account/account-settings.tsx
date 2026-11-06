@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Camera, Cloud, LogOut, RefreshCw, ShieldCheck, Smartphone } from 'lucide-react';
+import { Camera, Cloud, LogOut, RefreshCw, Smartphone } from 'lucide-react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { prepareAvatar } from '@/lib/account/avatar';
 import { accountStorageKey, mergeProgress, progressSnapshot } from '@/lib/account/progress';
@@ -9,15 +9,19 @@ import { useLearningStore } from '@/stores/learning-store';
 import { useAccount } from './account-provider';
 import { AccountAvatar } from './account-avatar';
 import { ACCOUNT_COPY, accountErrorKey, type AccountCopyKey } from '@/lib/account-copy';
+import { SecuritySettings } from './security-settings';
 
+const AVATAR_BUCKET = 'react-mentor-avatars';
+
+/** Settings → account: profile, photo, devices, two-factor security and sign-out. */
 export function AccountSettings() {
   const account = useAccount();
   const copy = ACCOUNT_COPY[useLearningStore((state) => state.language)];
 
   const [name, setName] = useState(account.profile?.displayName || '');
-  const [busy, setBusy] = useState(false),
-    [error, setError] = useState<AccountCopyKey | ''>(''),
-    [message, setMessage] = useState<AccountCopyKey | ''>('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<AccountCopyKey | ''>('');
+  const [message, setMessage] = useState<AccountCopyKey | ''>('');
   async function save(event: React.FormEvent) {
     event.preventDefault();
     setBusy(true);
@@ -32,6 +36,7 @@ export function AccountSettings() {
       setBusy(false);
     }
   }
+  /** Uploads a new photo, saves it on the profile, then deletes the old photo. */
   async function upload(file: File | undefined) {
     if (!file || !account.user || busy) return;
     setBusy(true);
@@ -45,16 +50,16 @@ export function AccountSettings() {
       const blob = await prepareAvatar(file);
       path = userId + '/' + crypto.randomUUID() + '.webp';
       const { error: uploadError } = await client.storage
-        .from('react-mentor-avatars')
+        .from(AVATAR_BUCKET)
         .upload(path, blob, { contentType: 'image/webp', upsert: false });
       if (uploadError) throw new Error(ACCOUNT_COPY.ru.photoUploadRetry);
       await account.saveProfile(account.profile!.displayName, path);
       if (account.profile?.avatarPath)
-        await client.storage.from('react-mentor-avatars').remove([account.profile.avatarPath]);
+        await client.storage.from(AVATAR_BUCKET).remove([account.profile.avatarPath]);
       setMessage('photoUploaded');
     } catch (cause) {
       // Clean up a new upload when saving its profile failed.
-      if (path && client) await client.storage.from('react-mentor-avatars').remove([path]);
+      if (path && client) await client.storage.from(AVATAR_BUCKET).remove([path]);
       setError(accountErrorKey(cause, 'photoUploadError'));
     } finally {
       setBusy(false);
@@ -67,7 +72,7 @@ export function AccountSettings() {
     try {
       const path = account.profile.avatarPath;
       await account.saveProfile(account.profile.displayName, null);
-      await getSupabaseBrowserClient()?.storage.from('react-mentor-avatars').remove([path]);
+      await getSupabaseBrowserClient()?.storage.from(AVATAR_BUCKET).remove([path]);
       setMessage('photoRemoved');
     } catch {
       setError('photoRemoveError');
@@ -75,6 +80,7 @@ export function AccountSettings() {
       setBusy(false);
     }
   }
+  /** Merges progress made as a guest in this browser into the account. */
   async function importGuest() {
     if (busy) return;
     setError('');
@@ -210,10 +216,11 @@ export function AccountSettings() {
   );
 }
 
+/** QR code that opens the sign-in page on a phone. It never contains credentials. */
 function PhoneQr() {
   const copy = ACCOUNT_COPY[useLearningStore((state) => state.language)];
-  const [image, setImage] = useState(''),
-    [error, setError] = useState(false);
+  const [image, setImage] = useState('');
+  const [error, setError] = useState(false);
   useEffect(() => {
     let active = true;
     import('qrcode')
@@ -243,206 +250,5 @@ function PhoneQr() {
         <img src={image} width={192} height={192} alt={copy.phoneAlt} />
       )}
     </div>
-  );
-}
-
-function SecuritySettings() {
-  const account = useAccount(),
-    copy = ACCOUNT_COPY[useLearningStore((state) => state.language)];
-  const [factors, setFactors] = useState<{ id: string; friendly_name?: string }[]>([]),
-    [loading, setLoading] = useState(true);
-  const [enrollment, setEnrollment] = useState<{ id: string; qr: string; secret: string } | null>(
-    null,
-  );
-  const [code, setCode] = useState(''),
-    [busy, setBusy] = useState(false),
-    [error, setError] = useState<AccountCopyKey | ''>(''),
-    [message, setMessage] = useState<AccountCopyKey | ''>('');
-  useEffect(() => {
-    let active = true;
-    const client = getSupabaseBrowserClient();
-    if (client)
-      client.auth.mfa.listFactors().then((result) => {
-        if (!active) return;
-        if (result.error) setError('factorCheckError');
-        else setFactors(result.data.totp);
-        setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
-  async function enroll() {
-    if (busy) return;
-    setBusy(true);
-    setError('');
-    setMessage('');
-    try {
-      const client = getSupabaseBrowserClient();
-      if (!client) throw new Error();
-      // Remove incomplete factors left by abandoned enrollment before starting.
-      const listed = await client.auth.mfa.listFactors();
-      if (listed.error) throw listed.error;
-      for (const factor of listed.data.all.filter(
-        (f) => f.factor_type === 'totp' && f.status === 'unverified',
-      )) {
-        const removed = await client.auth.mfa.unenroll({ factorId: factor.id });
-        if (removed.error) throw removed.error;
-      }
-      const result = await client.auth.mfa.enroll({
-        factorType: 'totp',
-        friendlyName: 'DevAtlas',
-        issuer: 'DevAtlas',
-      });
-      if (result.error) throw result.error;
-      const qr = result.data.totp.qr_code;
-      setEnrollment({
-        id: result.data.id,
-        qr: qr.startsWith('data:')
-          ? qr
-          : 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(qr),
-        secret: result.data.totp.secret,
-      });
-      setCode('');
-    } catch {
-      setError('enrollError');
-    } finally {
-      setBusy(false);
-    }
-  }
-  async function verify(event: React.FormEvent) {
-    event.preventDefault();
-    if (!enrollment || busy) return;
-    setBusy(true);
-    setError('');
-    try {
-      const result = await getSupabaseBrowserClient()?.auth.mfa.challengeAndVerify({
-        factorId: enrollment.id,
-        code,
-      });
-      if (!result || result.error) throw new Error();
-      setEnrollment(null);
-      setCode('');
-      await account.reload();
-    } catch {
-      setError('verifyError');
-    } finally {
-      setBusy(false);
-    }
-  }
-  async function cancel() {
-    if (!enrollment || busy) return;
-    setBusy(true);
-    setError('');
-    try {
-      const result = await getSupabaseBrowserClient()?.auth.mfa.unenroll({
-        factorId: enrollment.id,
-      });
-      if (!result || result.error) throw new Error();
-      setEnrollment(null);
-      setCode('');
-    } catch {
-      setError('cancelError');
-    } finally {
-      setBusy(false);
-    }
-  }
-  async function remove(id: string) {
-    if (busy) return;
-    setBusy(true);
-    setError('');
-    try {
-      const result = await getSupabaseBrowserClient()?.auth.mfa.unenroll({ factorId: id });
-      if (!result || result.error) throw new Error();
-      setFactors((items) => items.filter((f) => f.id !== id));
-      setMessage('factorRemoved');
-      await account.reload();
-    } catch {
-      setError('factorRemoveError');
-    } finally {
-      setBusy(false);
-    }
-  }
-  return (
-    <section className="panel account-panel">
-      <div className="section-heading">
-        <h2>
-          <ShieldCheck size={19} />
-          {copy.security}
-        </h2>
-        <span className="account-badge">
-          {loading ? copy.checking : factors.length ? copy.connected : copy.ordinaryLogin}
-        </span>
-      </div>
-      <p>{copy.securityDescription}</p>
-      {loading ? null : enrollment ? (
-        <div className="mfa-enrollment">
-          <p>
-            {copy.enrollScan}
-            <br />
-            {copy.enrollCode}
-          </p>
-          {
-            /* Sensitive enrollment QR stays in component memory only. */
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={enrollment.qr} alt={copy.enrollAlt} width={192} height={192} />
-          }
-          <details>
-            <summary>{copy.enrollManual}</summary>
-            <code className="mfa-secret">{enrollment.secret}</code>
-          </details>
-          <p className="account-hint">{copy.enrollHint}</p>
-          <form className="account-form" onSubmit={verify}>
-            <label>
-              {copy.appCode}
-              <input
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                pattern="[0-9]{6}"
-                maxLength={6}
-                required
-                value={code}
-                onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-              />
-            </label>
-            <div className="button-row">
-              <button className="button primary" disabled={busy || code.length !== 6}>
-                {copy.enableSecurity}
-              </button>
-              <button type="button" className="button subtle" disabled={busy} onClick={cancel}>
-                {copy.cancel}
-              </button>
-            </div>
-          </form>
-        </div>
-      ) : factors.length ? (
-        factors.map((factor) => (
-          <div className="setting-row" key={factor.id}>
-            <div>
-              <strong>{factor.friendly_name || 'Authenticator'}</strong>
-              <p>{copy.requiredCode}</p>
-            </div>
-            <button className="button subtle" disabled={busy} onClick={() => remove(factor.id)}>
-              {copy.disable}
-            </button>
-          </div>
-        ))
-      ) : (
-        <button className="button subtle" disabled={busy} onClick={enroll}>
-          <ShieldCheck size={17} />
-          {copy.enroll}
-        </button>
-      )}
-      {error && (
-        <p role="alert" className="error-message">
-          {copy[error]}
-        </p>
-      )}
-      {message && (
-        <p role="status" className="account-success">
-          {copy[message]}
-        </p>
-      )}
-    </section>
   );
 }
