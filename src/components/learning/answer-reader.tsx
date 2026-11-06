@@ -1,209 +1,23 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, Copy, NotebookPen, ArrowRight, BookOpen } from 'lucide-react';
-import type { AnswerTopic, AnswerQuestion, SourceAnswerQuestion } from '@/content/answers';
-import { useLearningStore } from '@/stores/learning-store';
+import { ArrowRight, BookOpen } from 'lucide-react';
+import type { AnswerTopic } from '@/content/answers';
 import { COPY } from '@/lib/i18n';
 import { tr } from '@/lib/translate';
-import type { InterfaceLocale } from '@/lib/locale';
+import { useLearningStore } from '@/stores/learning-store';
+import { AnswerCodeBlock, Flow, ReadingQuestion } from './answer-question';
+import { ANSWER_READER_COPY } from './answer-reader-copy';
 import { PageHeading } from './page-heading';
-import { COPY_CODE_ERROR } from '@/lib/learning-ui-copy';
 
-function AnswerCodeBlock({ code, language }: { code: string; language: InterfaceLocale }) {
-  const [status, setStatus] = useState<'idle' | 'copied' | 'error'>('idle');
-  async function copyCode() {
-    try {
-      await navigator.clipboard.writeText(code);
-      setStatus('copied');
-    } catch {
-      setStatus('error');
-    }
-  }
-  return (
-    <div className="answer-code">
-      <div className="answer-code-toolbar">
-        <button type="button" className="button subtle" onClick={copyCode}>
-          <Copy size={15} />
-          {status === 'copied' ? COPY[language].copied : COPY[language].copy}
-        </button>
-      </div>
-      <pre tabIndex={0}>
-        <code>{code}</code>
-      </pre>
-      {status === 'error' && <p role="alert">{COPY_CODE_ERROR[language]}</p>}
-    </div>
-  );
-}
+/** File name of the original React material an answer comes from. */
+const SOURCE_FILES: Record<string, string> = {
+  deep: 'react_deep_understanding.html',
+  quiz: 'react_quiz.html',
+};
+const sourceFile = (source: string) => SOURCE_FILES[source] ?? 'react-interview.html';
 
-function ReadingQuestion({
-  question,
-  index,
-  topic,
-}: {
-  question: AnswerQuestion;
-  index: number;
-  topic: AnswerTopic;
-}) {
-  const language = useLearningStore((state) => state.language);
-  const contentLanguage = useLearningStore((state) => state.contentLanguage);
-  const learned = useLearningStore((state) =>
-    question.aliases.some((id) => state.studied.includes(id)),
-  );
-  const noteExists = useLearningStore((state) =>
-    state.notes.some((note) => question.aliases.some((id) => note.id === 'answer:' + id)),
-  );
-  const markStudied = useLearningStore((state) => state.markStudied);
-  const saveNote = useLearningStore((state) => state.saveNote);
-  const copy = COPY[language];
-  const translate = (value: string) => tr(value, contentLanguage);
-  function save() {
-    const content = [
-      question.answer,
-      ...question.deeper,
-      question.explanation,
-      ...question.code,
-      ...question.diagrams.map((diagram) => diagram.steps.join(' → ')),
-      ...topic.explanation.map((section) => section.title + '\n' + section.text),
-      topic.flow.join(' → '),
-      ...topic.code,
-      ...question.variants.flatMap((variant) => [
-        variant.topicTitle,
-        variant.context,
-        variant.answer,
-        ...variant.deeper,
-        variant.explanation,
-        ...variant.code,
-        ...variant.diagrams.map((diagram) => diagram.steps.join(' → ')),
-        ...variant.topicExplanation.map((section) => section.title + '\n' + section.text),
-        variant.flow.join(' → '),
-        ...variant.topicCode,
-        'Источник: ' +
-          variant.topicSources.join(' + ') +
-          ' / ' +
-          variant.topicSourceId +
-          ' / ' +
-          variant.sourceId,
-      ]),
-      'Источник: ' + topic.sources.join(' + ') + ' / ' + topic.sourceId + ' / ' + question.sourceId,
-    ]
-      .filter(Boolean)
-      .join('\n\n');
-    saveNote({ id: 'answer:' + question.id, title: question.question, content });
-  }
-  return (
-    <details className="answer-reading-question" id={question.id} open={index === 0}>
-      <summary>
-        <span className="answer-number">{index + 1}</span>
-        <span lang={contentLanguage}>{translate(question.question)}</span>
-        {learned && <CheckCircle2 size={17} aria-label={copy.learned} />}
-      </summary>
-      <div className="answer-reading-body" lang={contentLanguage}>
-        <AnswerContent question={question} language={language} contentLanguage={contentLanguage} />
-        {question.variants.map((variant) => (
-          <section className="answer-variant" key={variant.id}>
-            <h3>
-              {language === 'ru' ? 'Дополнение' : 'Additional explanation'} ·{' '}
-              {translate(variant.topicTitle)}
-            </h3>
-            {variant.context && <p className="preserve-lines">{translate(variant.context)}</p>}
-            <AnswerContent
-              question={variant}
-              language={language}
-              contentLanguage={contentLanguage}
-            />
-            {variant.topicExplanation.map((section, i) => (
-              <section key={i}>
-                <h3>{translate(section.title)}</h3>
-                <p className="preserve-lines">{translate(section.text)}</p>
-              </section>
-            ))}
-            {variant.topicCode.map((code, i) => (
-              <AnswerCodeBlock key={i} code={code} language={language} />
-            ))}
-            {variant.flow.length > 0 && <Flow steps={variant.flow} language={contentLanguage} />}
-            <p className="source-line">
-              {copy.source}: {variant.topicSources.join(' + ')} · {variant.topicSourceId} ·{' '}
-              {variant.sourceId}
-            </p>
-          </section>
-        ))}
-        <div className="button-row">
-          <button
-            className="button primary"
-            disabled={learned}
-            onClick={() => markStudied(question.id)}
-          >
-            <CheckCircle2 size={16} />
-            {learned ? copy.learned : copy.markLearned}
-          </button>
-          <button className="button subtle" disabled={noteExists} onClick={save}>
-            <NotebookPen size={16} />
-            {noteExists ? copy.saved : language === 'ru' ? 'В заметки' : 'Save to notes'}
-          </button>
-        </div>
-      </div>
-    </details>
-  );
-}
-function AnswerContent({
-  question,
-  language,
-  contentLanguage,
-}: {
-  question: SourceAnswerQuestion;
-  language: InterfaceLocale;
-  contentLanguage: 'tg' | 'ru' | 'en';
-}) {
-  const copy = COPY[language];
-  const translate = (value: string) => tr(value, contentLanguage);
-  return (
-    <div className="answer-content-block">
-      <h3>{copy.answer}</h3>
-      <p className="preserve-lines">{translate(question.answer)}</p>
-      {question.deeper.length > 0 && (
-        <section className="answer-deeper">
-          <h3>{translate(question.deeperTitle)}</h3>
-          <ul>
-            {question.deeper.map((point, i) => (
-              <li key={i}>{translate(point)}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-      {question.code.map((code, i) => (
-        <section key={i}>
-          <h3>{translate(question.codeLabel) || copy.code}</h3>
-          <AnswerCodeBlock code={code} language={language} />
-        </section>
-      ))}
-      {question.explanation && (
-        <section>
-          <h3>{language === 'ru' ? 'Что произошло и почему' : 'What happened and why'}</h3>
-          <p className="preserve-lines">{translate(question.explanation)}</p>
-        </section>
-      )}
-      {question.diagrams.map((diagram, i) => (
-        <section key={i}>
-          <h3>{translate(diagram.title)}</h3>
-          <Flow steps={diagram.steps} language={contentLanguage} />
-        </section>
-      ))}
-    </div>
-  );
-}
-function Flow({ steps, language }: { steps: string[]; language: 'tg' | 'ru' | 'en' }) {
-  return (
-    <ol className="flow-steps">
-      {steps.map((step, index) => (
-        <li key={index}>
-          <span>{index + 1}</span>
-          <p lang={language}>{tr(step, language)}</p>
-        </li>
-      ))}
-    </ol>
-  );
-}
+/** One answers topic: explanation, code, questions with answers and a link to practice. */
 export function AnswerReader({ topic }: { topic: AnswerTopic }) {
   const language = useLearningStore((state) => state.language);
   const contentLanguage = useLearningStore((state) => state.contentLanguage);
@@ -219,7 +33,7 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
     return () => window.removeEventListener('hashchange', revealAnswer);
   }, [topic.id]);
   const copy = COPY[language];
-  const ru = language === 'ru';
+  const text = ANSWER_READER_COPY[language];
   const translate = (value: string) => tr(value, contentLanguage);
   const count = topic.questions.filter((question) =>
     question.aliases.some((id) => studied.includes(id)),
@@ -257,7 +71,7 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
         <article className="panel lesson-article" lang={contentLanguage}>
           {topic.context && (
             <section className="answer-context">
-              <h2>{ru ? 'Контекст задачи' : 'Task context'}</h2>
+              <h2>{text.context}</h2>
               <p className="preserve-lines">{translate(topic.context)}</p>
             </section>
           )}
@@ -304,21 +118,13 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
             </div>
             {!filtered.length && topic.questions.length > 0 && <p role="status">{copy.empty}</p>}
             {!topic.questions.length && !topic.relatedQuestions.length && (
-              <p>
-                {ru
-                  ? 'Это пример проектирования приложения. В исходном файле у него нет отдельных вопросов.'
-                  : 'This is an application design example. The source has no separate questions for it.'}
-              </p>
+              <p>{text.designExample}</p>
             )}
           </section>
           {topic.relatedQuestions.length > 0 && (
             <section className="answer-related">
-              <h2>{ru ? 'Общие ответы по теме' : 'Shared answers for this topic'}</h2>
-              <p>
-                {ru
-                  ? 'Все объяснения собраны в одном ответе.'
-                  : 'All explanations are collected in one answer.'}
-              </p>
+              <h2>{text.shared}</h2>
+              <p>{text.sharedIntro}</p>
               {topic.relatedQuestions.map((reference) => (
                 <Link
                   id={reference.id}
@@ -333,17 +139,7 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
             </section>
           )}
           <p className="source-line">
-            {copy.source}:{' '}
-            {topic.sources
-              .map((source) =>
-                source === 'deep'
-                  ? 'react_deep_understanding.html'
-                  : source === 'quiz'
-                    ? 'react_quiz.html'
-                    : 'react-interview.html',
-              )
-              .join(' + ')}{' '}
-            · {topic.sourceId}
+            {copy.source}: {topic.sources.map(sourceFile).join(' + ')} · {topic.sourceId}
           </p>
         </article>
         <aside className="lesson-aside">
@@ -375,12 +171,8 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
           )}
           {topic.lessonId && (
             <section className="panel answers-next-step">
-              <h3>{ru ? 'Закрепить тему' : 'Practice this topic'}</h3>
-              <p>
-                {ru
-                  ? 'После чтения попробуйте ответить без подсказки.'
-                  : 'After reading, try answering without a hint.'}
-              </p>
+              <h3>{text.practiceTitle}</h3>
+              <p>{text.practiceIntro}</p>
               <Link
                 className="button primary full-width"
                 href={
@@ -397,7 +189,7 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
             </section>
           )}
           <Link className="button subtle full-width" href="/answers">
-            {ru ? 'Все ответы' : 'All answers'}
+            {text.allAnswers}
           </Link>
         </aside>
       </div>
