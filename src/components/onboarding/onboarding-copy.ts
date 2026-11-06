@@ -1,0 +1,146 @@
+/** Text of the onboarding questions and the plan screen. */
+export const UI = {
+  tg: {
+    title: 'Роҳи омӯзиши худро ёбед',
+    subtitle: '15 саволи кӯтоҳ. Дар охир курси мувофиқ ва графики рӯзона тайёр мешавад.',
+    step: 'Савол',
+    of: 'аз',
+    back: 'Ақиб',
+    next: 'Минбаъда',
+    result: 'Нақшаи шумо',
+    course: 'Курси тавсияшуда',
+    perDay: 'дақиқа дар рӯз',
+    perWeek: 'рӯз дар ҳафта',
+    day: 'Як рӯзи омӯзиш',
+    theory: 'Назария ва мисол',
+    practice: 'Кодро бо даст навиштан',
+    review: 'Такрор, бозӣ ва тест',
+    finish: 'Тахминан тамом мешавад баъд аз',
+    weeks: 'ҳафта',
+    tight:
+      'Мӯҳлати интихобкардаатон кӯтоҳ аст. Вақти рӯзонаро зиёд кунед ё мӯҳлатро дарозтар гиред — шитоб ёддоштро суст мекунад.',
+    phone:
+      'Назария ва тестҳоро дар телефон хондан мумкин аст, аммо барои практикаи код компютер лозим мешавад.',
+    interview: 'Ҳар ҳафта як машқи интервью ба нақша гирифта шуд.',
+    start: 'Курсро сар кардан',
+    day0: 'Аввал Рӯзи 0: VS Code ва консол',
+    login: 'Ворид шавед, то пешрафт нигоҳ дошта шавад',
+    again: 'Аз нав ҷавоб додан',
+  },
+  ru: {
+    title: 'Найдите свой путь обучения',
+    subtitle: '15 коротких вопросов. В конце — подходящий курс и график на каждый день.',
+    step: 'Вопрос',
+    of: 'из',
+    back: 'Назад',
+    next: 'Далее',
+    result: 'Ваш план',
+    course: 'Рекомендованный курс',
+    perDay: 'минут в день',
+    perWeek: 'дней в неделю',
+    day: 'Один учебный день',
+    theory: 'Теория и пример',
+    practice: 'Писать код руками',
+    review: 'Повтор, игра и тест',
+    finish: 'Примерно закончите через',
+    weeks: 'нед.',
+    tight:
+      'Выбранный срок слишком короткий. Добавьте времени в день или возьмите срок длиннее — спешка мешает запоминанию.',
+    phone: 'Теорию и тесты можно проходить с телефона, но для практики кода понадобится компьютер.',
+    interview: 'Каждую неделю в плане есть тренировка собеседования.',
+    start: 'Начать курс',
+    day0: 'Сначала День 0: VS Code и консоль',
+    login: 'Войдите, чтобы сохранить прогресс',
+    again: 'Пройти заново',
+  },
+  en: {
+    title: 'Find your learning path',
+    subtitle: '15 short questions. At the end you get a matching course and a daily schedule.',
+    step: 'Question',
+    of: 'of',
+    back: 'Back',
+    next: 'Next',
+    result: 'Your plan',
+    course: 'Recommended course',
+    perDay: 'minutes a day',
+    perWeek: 'days a week',
+    day: 'One study day',
+    theory: 'Theory and example',
+    practice: 'Typing code by hand',
+    review: 'Review, game and quiz',
+    finish: 'Estimated finish in',
+    weeks: 'weeks',
+    tight: 'Your deadline is too short. Add daily time or allow longer — rushing hurts retention.',
+    phone: 'You can read theory and take quizzes on a phone, but code practice needs a computer.',
+    interview: 'A weekly interview practice is in your plan.',
+    start: 'Start the course',
+    day0: 'First, Day 0: VS Code and the console',
+    login: 'Sign in to keep your progress',
+    again: 'Answer again',
+  },
+};
+/** Text of the short knowledge check. */
+export const TEST_UI = {
+  tg: {
+    title: 'Санҷиши кӯтоҳи дониш',
+    intro:
+      '6 савол, тақрибан 3 дақиқа. Агар ҷавобро надонед, «Намедонам»-ро пахш кунед — ин ростқавлтарин роҳ барои ёфтани курси дуруст аст.',
+    start: 'Сар кардан',
+    skip: 'Гузаштан бе санҷиш',
+    step: 'Савол',
+    of: 'аз',
+    level: 'Сатҳи шумо',
+    score: 'Ҷавобҳои дуруст',
+    self: 'Сатҳ аз рӯи ҷавобҳои шумо муайян шуд (санҷиш гузаронида нашуд).',
+    lower:
+      'Шумо худро баландтар баҳо додед, аз он чи санҷиш нишон дод. Аз асос сар кардан баъдтар вақтро сарфа мекунад.',
+    higher:
+      'Санҷиш нишон дод, ки шумо аз он чи фикр мекардед, бештар медонед — курси мушкилтар пешниҳод шуд.',
+    pro: 'Ин курси Pro аст. Бепул метавонед аз курси пешинааш сар кунед:',
+  },
+  ru: {
+    title: 'Короткая проверка знаний',
+    intro:
+      '6 вопросов, примерно 3 минуты. Если не знаете ответ, нажмите «Не знаю» — так курс подберётся точнее всего.',
+    start: 'Начать',
+    skip: 'Пропустить проверку',
+    step: 'Вопрос',
+    of: 'из',
+    level: 'Ваш уровень',
+    score: 'Верных ответов',
+    self: 'Уровень определён по вашим ответам (проверка не проходилась).',
+    lower:
+      'Вы оценили себя выше, чем показала проверка. Начать с основ сейчас — значит сэкономить время потом.',
+    higher: 'Проверка показала, что вы знаете больше, чем думали, — предложен курс сложнее.',
+    pro: 'Это курс Pro. Бесплатно можно начать с предыдущего курса:',
+  },
+  en: {
+    title: 'Quick knowledge check',
+    intro:
+      '6 questions, about 3 minutes. If you do not know an answer, choose “I don’t know” — that finds the right course most accurately.',
+    start: 'Start',
+    skip: 'Skip the check',
+    step: 'Question',
+    of: 'of',
+    level: 'Your level',
+    score: 'Correct answers',
+    self: 'Level estimated from your answers (the check was skipped).',
+    lower:
+      'You rated yourself higher than the check showed. Starting with the basics now saves time later.',
+    higher: 'The check shows you know more than you thought — a harder course is suggested.',
+    pro: 'This is a Pro course. You can start free with the course before it:',
+  },
+};
+
+export const WEEKDAYS = {
+  tg: ['Дш', 'Сш', 'Чш', 'Пш', 'Ҷм', 'Шб', 'Яш'],
+  ru: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+  en: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+};
+/** Study days are spread through the week so rest days fall between them. */
+export const STUDY_DAYS: Record<number, number[]> = {
+  3: [0, 2, 4],
+  5: [0, 1, 2, 3, 4],
+  6: [0, 1, 2, 3, 4, 5],
+  7: [0, 1, 2, 3, 4, 5, 6],
+};
