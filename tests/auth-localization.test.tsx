@@ -85,6 +85,8 @@ it('translates recovery validation without losing passwords, then changes the pa
   fireEvent.change(screen.getByLabelText('Новый пароль'),{target:{value:'new-password-123'}});
   fireEvent.change(screen.getByLabelText('Повторите пароль'),{target:{value:'other-password'}});
   fireEvent.click(screen.getByRole('button',{name:'Сохранить пароль'}));
+  // React Hook Form validates asynchronously, so wait for the mismatch message.
+  await screen.findByRole('alert');
   expect(b.updateUser).not.toHaveBeenCalled();
   for (const locale of locales) {
     changeLanguage(locale);const text=labels[locale];
