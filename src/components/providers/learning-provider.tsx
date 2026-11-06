@@ -4,6 +4,16 @@ import { useEffect } from 'react';
 import { useLearningStore } from '@/stores/learning-store';
 import { persistManualLocale, type InterfaceLocale } from '@/lib/locale';
 
+/** Shown when saved progress in this browser could not be read. */
+const STORAGE_ERROR: Record<InterfaceLocale, string> = {
+  ru: 'Не удалось прочитать сохранённые данные. Не очищайте браузер.',
+  tg: 'Маълумоти нигоҳдошташуда хонда нашуд. Маълумоти браузерро тоза накунед.',
+  en: 'Saved data could not be read. Do not clear your browser data.',
+  uk: 'Не вдалося прочитати збережені дані. Не очищуйте браузер.',
+  ja: '保存されたデータを読み込めませんでした。ブラウザーのデータを消去しないでください。',
+  ko: '저장된 데이터를 읽지 못했습니다. 브라우저 데이터를 지우지 마세요.',
+};
+
 export function LearningProvider({
   children,
   initialLocale,
@@ -36,7 +46,7 @@ export function LearningProvider({
     <>
       {storageError && (
         <div role="alert" className="storage-alert">
-          {storageError}
+          {STORAGE_ERROR[language]}
         </div>
       )}
       {children}

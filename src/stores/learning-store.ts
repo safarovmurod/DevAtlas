@@ -10,28 +10,23 @@ import {
   emptyProgress,
   emptyCourseProgress,
   progressSnapshot,
+  type CourseProgress,
   type Progress,
 } from '@/lib/account/progress';
 import type { CourseId, ImportedCourseId } from '@/lib/courses/ids';
 import { courseDayProgress, courseDayReady, type CoursePlanDay } from '@/lib/courses/plan';
 import { contentLocaleFor, persistManualLocale, type InterfaceLocale } from '@/lib/locale';
+import { canConfirmReactDay } from './react-day-progress';
+import { flushPendingStudyTime } from './study-time';
 
-const studyTimeFlushes = new Set<() => void>();
+/** Saved progress could not be read; the provider shows a localized warning. */
+export const STORAGE_READ_FAILED = 'read-failed';
 
-/** Flush the mounted timer before its account or course scope changes. */
-export function registerStudyTimeFlush(flush: () => void) {
-  studyTimeFlushes.add(flush);
-  return () => {
-    studyTimeFlushes.delete(flush);
-  };
-}
-
-function flushPendingStudyTime() {
-  for (const flush of [...studyTimeFlushes]) flush();
-}
+export { registerStudyTimeFlush } from './study-time';
 
 interface LearningState extends Progress {
   ready: boolean;
+  /** Empty, or STORAGE_READ_FAILED when saved progress could not be read. */
   storageError: string;
   setPreferences: (
     values: Partial<
@@ -79,364 +74,277 @@ interface LearningState extends Progress {
 
 export const useLearningStore = create<LearningState>()(
   persist(
-    (set, get) => ({
-      ...emptyProgress(),
-      ready: false,
-      storageError: '',
-      setPreferences(values) {
-        if (values.language) persistManualLocale(values.language);
+    (set, get) => {
+      /** Progress of one course. A course that was never opened starts empty. */
+      const courseProgress = (courseId: ImportedCourseId) =>
+        get().courses[courseId] || emptyCourseProgress();
+      /** Saves changed fields of one course's progress. */
+      const updateCourse = (courseId: ImportedCourseId, changes: Partial<CourseProgress>) =>
         set({
-          ...values,
-          preferenceClock: {
-            ...get().preferenceClock,
-            ...Object.fromEntries(Object.keys(values).map((key) => [key, Date.now()])),
-          },
+          courses: { ...get().courses, [courseId]: { ...courseProgress(courseId), ...changes } },
         });
-      },
-      ensureDailySet(month, today = dateKey()) {
-        const key = `${today}-${month}`;
-        const current = get();
-        if (current.dailySets[key]) return current.dailySets[key];
-        const ids = chooseDailyQuestions(
-          learningIndex.questions,
-          month,
-          current.dailyLimit,
-          current.studied,
-          Object.values(current.reviews),
-          today,
-        );
-        set({ dailySets: { ...current.dailySets, [key]: ids } });
-        return ids;
-      },
-      markStudied(questionId) {
-        const current = get();
-        if (current.studied.includes(questionId)) return;
-        set({
-          studied: [...current.studied, questionId],
-          awards: { ...current.awards, [`learn:${questionId}`]: 2 },
-        });
-      },
-      recordAnswer(question, mode, correct, answer, today = dateKey()) {
-        const current = get();
-        const key = `${today}:${mode}:${question.id}`;
-        if (current.answers[key]) return;
-        const awards = { ...current.awards };
-        if (correct) awards[`${mode}:${question.id}`] = mode === 'test' ? 10 : 5;
-        set({
-          answers: {
-            ...current.answers,
-            [key]: {
-              questionId: question.id,
-              topicId: question.topicId,
-              mode,
-              correct,
-              answer,
-              date: today,
-            },
-          },
-          awards,
-          reviews: {
-            ...current.reviews,
-            [question.id]: nextReview(
-              current.reviews[question.id],
-              question.id,
-              question.topicId,
-              correct,
-              today,
-            ),
-          },
-          reviewClock: { ...current.reviewClock, [question.id]: Date.now() },
-        });
-      },
-      completeTopic(topicId) {
-        const current = get();
-        if (current.completedTopics.includes(topicId)) return;
-        set({
-          completedTopics: [...current.completedTopics, topicId],
-          awards: { ...current.awards, [`lesson:${topicId}`]: 5 },
-        });
-      },
-      completePractice(practiceId, verified) {
-        const current = get();
-        const points = verified ? 20 : 4;
-        if (
-          current.completedPractice.includes(practiceId) &&
-          (current.awards[`practice:${practiceId}`] || 0) >= points
-        )
-          return;
-        set({
-          completedPractice: [...new Set([...current.completedPractice, practiceId])],
-          awards: {
-            ...current.awards,
-            [`practice:${practiceId}`]: Math.max(
-              points,
-              current.awards[`practice:${practiceId}`] || 0,
-            ),
-          },
-        });
-      },
-      confirmCourseDay(courseId, day, plan) {
-        const state = get(),
-          progress = state.courses[courseId] || emptyCourseProgress();
-        const current = courseDayProgress(
-          plan,
-          progress.completedTopics,
-          progress.completedPractice,
-          progress.confirmedDays,
-        ).current;
-        if (
-          !current ||
-          current.day !== day ||
-          !courseDayReady(current, progress.completedTopics, progress.completedPractice)
-        )
-          return false;
-        set({
-          courses: {
-            ...state.courses,
-            [courseId]: { ...progress, confirmedDays: [...progress.confirmedDays, String(day)] },
-          },
-        });
-        return true;
-      },
-      confirmReactDay(month, day) {
-        if (month !== 1 && month !== 2) return false;
-        const state = get();
-        // Use the shared lightweight index, not the full React lesson corpus in this global store.
-        const dayReady = (targetMonth: number, targetDay: number) => {
-          const topics = learningIndex.topics.filter((topic) => topic.month === targetMonth);
-          const index = targetDay - 1;
-          const start = topics.length >= 30 ? Math.floor((index * topics.length) / 30) : index;
-          const end =
-            topics.length >= 30 ? Math.floor(((index + 1) * topics.length) / 30) : index + 1;
-          const learning = topics.slice(start, end);
-          const selected = learning.length
-            ? learning
-            : [topics[(index - topics.length) % topics.length]].filter(Boolean);
-          return (
-            selected.length > 0 &&
-            selected.every(
-              (topic) =>
-                (!learning.length || state.completedTopics.includes(topic.id)) &&
-                state.completedPractice.some(
-                  (id) =>
-                    id.startsWith(topic.id + '-exercise-') ||
-                    (topic.id === 'local-practice' && id.startsWith('local-project-')),
-                ),
-            )
-          );
-        };
-        if (
-          !Number.isInteger(day) ||
-          day < 1 ||
-          day > 30 ||
-          !dayReady(month, day) ||
-          state.confirmedDays.includes(`${month}:${day}`)
-        )
-          return false;
-        if (
-          month === 2 &&
-          Array.from({ length: 30 }, (_, index) => index + 1).some(
-            (previous) => !state.confirmedDays.includes(`1:${previous}`) || !dayReady(1, previous),
-          )
-        )
-          return false;
-        if (
-          Array.from({ length: day - 1 }, (_, index) => index + 1).some(
-            (previous) =>
-              !state.confirmedDays.includes(`${month}:${previous}`) || !dayReady(month, previous),
-          )
-        )
-          return false;
-        set({ confirmedDays: [...state.confirmedDays, `${month}:${day}`] });
-        return true;
-      },
-      saveDraft(id, code) {
-        set({
-          drafts: { ...get().drafts, [id]: code },
-          draftClock: { ...get().draftClock, [id]: Date.now() },
-        });
-      },
-      saveNote(note) {
-        set({
-          notes: [note, ...get().notes.filter((item) => item.id !== note.id)],
-          noteClock: { ...get().noteClock, [note.id]: Date.now() },
-        });
-      },
-      deleteNote(id) {
-        set({
-          notes: get().notes.filter((item) => item.id !== id),
-          deletedNotes: { ...get().deletedNotes, [id]: Date.now() },
-        });
-      },
-      addStudySeconds(seconds, courseId) {
-        const today = dateKey(),
-          state = get(),
-          course = courseId || state.selectedCourse,
-          updates = {
-            studySeconds: {
-              ...state.studySeconds,
-              [today]: (state.studySeconds[today] || 0) + seconds,
-            },
-          };
-        if (course === 'react') set(updates);
-        else {
-          const progress = state.courses[course] || emptyCourseProgress();
+
+      return {
+        ...emptyProgress(),
+        ready: false,
+        storageError: '',
+        setPreferences(values) {
+          if (values.language) persistManualLocale(values.language);
           set({
-            ...updates,
-            courses: {
-              ...state.courses,
-              [course]: {
-                ...progress,
-                studySeconds: {
-                  ...progress.studySeconds,
-                  [today]: (progress.studySeconds[today] || 0) + seconds,
-                },
-              },
+            ...values,
+            preferenceClock: {
+              ...get().preferenceClock,
+              ...Object.fromEntries(Object.keys(values).map((key) => [key, Date.now()])),
             },
           });
-        }
-      },
-      chooseCourse(selectedCourse) {
-        if (selectedCourse !== get().selectedCourse) flushPendingStudyTime();
-        set({
-          selectedCourse,
-          courseChosen: true,
-          preferenceClock: {
-            ...get().preferenceClock,
-            selectedCourse: Date.now(),
-            courseChosen: Date.now(),
-          },
-        });
-      },
-      saveCourseDraft(courseId, id, code) {
-        const courses = get().courses,
-          progress = courses[courseId] || emptyCourseProgress();
-        set({
-          courses: {
-            ...courses,
-            [courseId]: {
-              ...progress,
-              drafts: { ...progress.drafts, [id]: code },
-              draftClock: { ...progress.draftClock, [id]: Date.now() },
-            },
-          },
-        });
-      },
-      completeCourseLesson(courseId, lessonId) {
-        const courses = get().courses,
-          progress = courses[courseId] || emptyCourseProgress();
-        if (progress.completedTopics.includes(lessonId)) return;
-        set({
-          courses: {
-            ...courses,
-            [courseId]: {
-              ...progress,
-              completedTopics: [...progress.completedTopics, lessonId],
-              awards: { ...progress.awards, ['lesson:' + lessonId]: 5 },
-            },
-          },
-        });
-      },
-      recordCourseAnswer(courseId, question, mode, correct, answer) {
-        const courses = get().courses,
-          progress = courses[courseId] || emptyCourseProgress(),
-          today = dateKey(),
-          key = `${today}:${mode}:${question.id}`;
-        // A wrong answer never blocks a retry; once correct, the attempt is recorded.
-        if (progress.answers[key]?.correct) return;
-        set({
-          courses: {
-            ...courses,
-            [courseId]: {
-              ...progress,
-              answers: {
-                ...progress.answers,
-                [key]: {
-                  questionId: question.id,
-                  topicId: question.topicId,
-                  mode,
-                  correct,
-                  answer,
-                  date: today,
-                },
-              },
-              awards: correct
-                ? { ...progress.awards, [`${mode}:${question.id}`]: mode === 'test' ? 10 : 5 }
-                : progress.awards,
-              masteredQuestions:
-                mode === 'test' && correct && !progress.masteredQuestions.includes(question.id)
-                  ? [...progress.masteredQuestions, question.id]
-                  : progress.masteredQuestions,
-              reviews: {
-                ...progress.reviews,
-                [question.id]: nextReview(
-                  progress.reviews[question.id],
-                  question.id,
-                  question.topicId,
-                  correct,
-                  today,
-                ),
-              },
-              reviewClock: { ...progress.reviewClock, [question.id]: Date.now() },
-            },
-          },
-        });
-      },
-      saveCourseNote(courseId, note) {
-        const courses = get().courses,
-          progress = courses[courseId] || emptyCourseProgress();
-        set({
-          courses: {
-            ...courses,
-            [courseId]: {
-              ...progress,
-              notes: [note, ...progress.notes.filter((item) => item.id !== note.id)],
-              noteClock: { ...progress.noteClock, [note.id]: Date.now() },
-            },
-          },
-        });
-      },
-      deleteCourseNote(courseId, id) {
-        const courses = get().courses,
-          progress = courses[courseId] || emptyCourseProgress();
-        set({
-          courses: {
-            ...courses,
-            [courseId]: {
-              ...progress,
-              notes: progress.notes.filter((item) => item.id !== id),
-              deletedNotes: { ...progress.deletedNotes, [id]: Date.now() },
-            },
-          },
-        });
-      },
-      completeCoursePractice(courseId, lessonId, verified = false) {
-        const courses = get().courses,
-          progress = courses[courseId] || emptyCourseProgress();
-        const points = verified ? 20 : 4;
-        if (
-          progress.completedPractice.includes(lessonId) &&
-          (progress.awards['practice:' + lessonId] || 0) >= points
-        )
-          return;
-        set({
-          courses: {
-            ...courses,
-            [courseId]: {
-              ...progress,
-              completedPractice: [...new Set([...progress.completedPractice, lessonId])],
-              awards: {
-                ...progress.awards,
-                ['practice:' + lessonId]: Math.max(
-                  points,
-                  progress.awards['practice:' + lessonId] || 0,
-                ),
+        },
+        ensureDailySet(month, today = dateKey()) {
+          const key = `${today}-${month}`;
+          const current = get();
+          if (current.dailySets[key]) return current.dailySets[key];
+          const ids = chooseDailyQuestions(
+            learningIndex.questions,
+            month,
+            current.dailyLimit,
+            current.studied,
+            Object.values(current.reviews),
+            today,
+          );
+          set({ dailySets: { ...current.dailySets, [key]: ids } });
+          return ids;
+        },
+        markStudied(questionId) {
+          const current = get();
+          if (current.studied.includes(questionId)) return;
+          set({
+            studied: [...current.studied, questionId],
+            awards: { ...current.awards, [`learn:${questionId}`]: 2 },
+          });
+        },
+        recordAnswer(question, mode, correct, answer, today = dateKey()) {
+          const current = get();
+          const key = `${today}:${mode}:${question.id}`;
+          if (current.answers[key]) return;
+          const awards = { ...current.awards };
+          if (correct) awards[`${mode}:${question.id}`] = mode === 'test' ? 10 : 5;
+          set({
+            answers: {
+              ...current.answers,
+              [key]: {
+                questionId: question.id,
+                topicId: question.topicId,
+                mode,
+                correct,
+                answer,
+                date: today,
               },
             },
-          },
-        });
-      },
-    }),
+            awards,
+            reviews: {
+              ...current.reviews,
+              [question.id]: nextReview(
+                current.reviews[question.id],
+                question.id,
+                question.topicId,
+                correct,
+                today,
+              ),
+            },
+            reviewClock: { ...current.reviewClock, [question.id]: Date.now() },
+          });
+        },
+        completeTopic(topicId) {
+          const current = get();
+          if (current.completedTopics.includes(topicId)) return;
+          set({
+            completedTopics: [...current.completedTopics, topicId],
+            awards: { ...current.awards, [`lesson:${topicId}`]: 5 },
+          });
+        },
+        completePractice(practiceId, verified) {
+          const current = get();
+          const points = verified ? 20 : 4;
+          if (
+            current.completedPractice.includes(practiceId) &&
+            (current.awards[`practice:${practiceId}`] || 0) >= points
+          )
+            return;
+          set({
+            completedPractice: [...new Set([...current.completedPractice, practiceId])],
+            awards: {
+              ...current.awards,
+              [`practice:${practiceId}`]: Math.max(
+                points,
+                current.awards[`practice:${practiceId}`] || 0,
+              ),
+            },
+          });
+        },
+        confirmCourseDay(courseId, day, plan) {
+          // Only the current day can be confirmed, and only when its lesson and practice are done.
+          const progress = courseProgress(courseId);
+          const current = courseDayProgress(
+            plan,
+            progress.completedTopics,
+            progress.completedPractice,
+            progress.confirmedDays,
+          ).current;
+          if (
+            !current ||
+            current.day !== day ||
+            !courseDayReady(current, progress.completedTopics, progress.completedPractice)
+          )
+            return false;
+          updateCourse(courseId, { confirmedDays: [...progress.confirmedDays, String(day)] });
+          return true;
+        },
+        confirmReactDay(month, day) {
+          if (!canConfirmReactDay(get(), month, day)) return false;
+          set({ confirmedDays: [...get().confirmedDays, `${month}:${day}`] });
+          return true;
+        },
+        saveDraft(id, code) {
+          set({
+            drafts: { ...get().drafts, [id]: code },
+            draftClock: { ...get().draftClock, [id]: Date.now() },
+          });
+        },
+        saveNote(note) {
+          set({
+            notes: [note, ...get().notes.filter((item) => item.id !== note.id)],
+            noteClock: { ...get().noteClock, [note.id]: Date.now() },
+          });
+        },
+        deleteNote(id) {
+          set({
+            notes: get().notes.filter((item) => item.id !== id),
+            deletedNotes: { ...get().deletedNotes, [id]: Date.now() },
+          });
+        },
+        addStudySeconds(seconds, courseId) {
+          // Time counts for the whole profile and, except React, for the course itself.
+          const today = dateKey();
+          const state = get();
+          const course = courseId || state.selectedCourse;
+          const studySeconds = {
+            ...state.studySeconds,
+            [today]: (state.studySeconds[today] || 0) + seconds,
+          };
+          if (course === 'react') {
+            set({ studySeconds });
+            return;
+          }
+          const progress = courseProgress(course);
+          const courseSeconds = {
+            ...progress.studySeconds,
+            [today]: (progress.studySeconds[today] || 0) + seconds,
+          };
+          // One update, so the profile and the course time never disagree.
+          set({
+            studySeconds,
+            courses: { ...state.courses, [course]: { ...progress, studySeconds: courseSeconds } },
+          });
+        },
+        chooseCourse(selectedCourse) {
+          if (selectedCourse !== get().selectedCourse) flushPendingStudyTime();
+          set({
+            selectedCourse,
+            courseChosen: true,
+            preferenceClock: {
+              ...get().preferenceClock,
+              selectedCourse: Date.now(),
+              courseChosen: Date.now(),
+            },
+          });
+        },
+        saveCourseDraft(courseId, id, code) {
+          const progress = courseProgress(courseId);
+          updateCourse(courseId, {
+            drafts: { ...progress.drafts, [id]: code },
+            draftClock: { ...progress.draftClock, [id]: Date.now() },
+          });
+        },
+        completeCourseLesson(courseId, lessonId) {
+          const progress = courseProgress(courseId);
+          if (progress.completedTopics.includes(lessonId)) return;
+          updateCourse(courseId, {
+            completedTopics: [...progress.completedTopics, lessonId],
+            awards: { ...progress.awards, ['lesson:' + lessonId]: 5 },
+          });
+        },
+        recordCourseAnswer(courseId, question, mode, correct, answer) {
+          const progress = courseProgress(courseId);
+          const today = dateKey();
+          const key = `${today}:${mode}:${question.id}`;
+          // A wrong answer never blocks a retry; once correct, the attempt is recorded.
+          if (progress.answers[key]?.correct) return;
+          const masteredNow =
+            mode === 'test' && correct && !progress.masteredQuestions.includes(question.id);
+          updateCourse(courseId, {
+            answers: {
+              ...progress.answers,
+              [key]: {
+                questionId: question.id,
+                topicId: question.topicId,
+                mode,
+                correct,
+                answer,
+                date: today,
+              },
+            },
+            awards: correct
+              ? { ...progress.awards, [`${mode}:${question.id}`]: mode === 'test' ? 10 : 5 }
+              : progress.awards,
+            masteredQuestions: masteredNow
+              ? [...progress.masteredQuestions, question.id]
+              : progress.masteredQuestions,
+            reviews: {
+              ...progress.reviews,
+              [question.id]: nextReview(
+                progress.reviews[question.id],
+                question.id,
+                question.topicId,
+                correct,
+                today,
+              ),
+            },
+            reviewClock: { ...progress.reviewClock, [question.id]: Date.now() },
+          });
+        },
+        saveCourseNote(courseId, note) {
+          const progress = courseProgress(courseId);
+          updateCourse(courseId, {
+            notes: [note, ...progress.notes.filter((item) => item.id !== note.id)],
+            noteClock: { ...progress.noteClock, [note.id]: Date.now() },
+          });
+        },
+        deleteCourseNote(courseId, id) {
+          const progress = courseProgress(courseId);
+          updateCourse(courseId, {
+            notes: progress.notes.filter((item) => item.id !== id),
+            deletedNotes: { ...progress.deletedNotes, [id]: Date.now() },
+          });
+        },
+        completeCoursePractice(courseId, lessonId, verified = false) {
+          // Verified practice is worth 20 XP, self-checked practice 4; an upgrade replaces the lower award.
+          const progress = courseProgress(courseId);
+          const points = verified ? 20 : 4;
+          const awardKey = 'practice:' + lessonId;
+          if (
+            progress.completedPractice.includes(lessonId) &&
+            (progress.awards[awardKey] || 0) >= points
+          )
+            return;
+          updateCourse(courseId, {
+            completedPractice: [...new Set([...progress.completedPractice, lessonId])],
+            awards: {
+              ...progress.awards,
+              [awardKey]: Math.max(points, progress.awards[awardKey] || 0),
+            },
+          });
+        },
+      };
+    },
     {
       name: 'react-mentor-learning-v2',
       version: 2,
@@ -446,10 +354,7 @@ export const useLearningStore = create<LearningState>()(
         return progressSnapshot(state);
       },
       onRehydrateStorage: () => (_state, error) => {
-        if (error)
-          useLearningStore.setState({
-            storageError: 'Не удалось прочитать сохранённые данные. Не очищайте браузер.',
-          });
+        if (error) useLearningStore.setState({ storageError: STORAGE_READ_FAILED });
       },
     },
   ),
@@ -471,7 +376,7 @@ export function switchLearningAccount(userId: string | null, initialLocale?: Int
       hadSavedProgress = true;
     }
   } catch {
-    storageError = 'Не удалось прочитать сохранённые данные. Не очищайте браузер.';
+    storageError = STORAGE_READ_FAILED;
   }
   // Apply geo only to a genuinely new profile. Saved languages always win.
   if (!hadSavedProgress && !storageError) {
