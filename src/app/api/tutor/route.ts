@@ -149,7 +149,10 @@ export async function POST(req: NextRequest) {
       courseId === 'react'
         ? projectAnswer(query, { questionId, deep, language })
         : await courseAnswer(courseId, query, { questionId, deep, language });
-    if (local) return tutorJson({ mode: 'local', ...local, usage: { totalTokens: 0 } });
+    // A paid reference is returned only for the exact question requested.
+    const sourceMatches = !questionId || local?.source?.questionId === questionId;
+    if (local && sourceMatches)
+      return tutorJson({ mode: 'local', ...local, usage: { totalTokens: 0 } });
     if (deep && !query)
       return tutorJson({
         mode: 'local',
