@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/coverage-matrix.mjs`. Validate without writing: `node scripts/coverage-matrix.mjs --check`.
 
-38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1174 actual scheduled days.
+38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1181 actual scheduled days.
 
 Missing: 72 · Planned: 0 · In Progress: 0 · Published: 42 · Verified: 0
 
@@ -109,7 +109,7 @@ Published describes existing curriculum availability, not completion of the stri
 | Communication (communication) | beginner | Published | communication | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Communication (communication) | pro | Missing | — | 0 | communication-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Communication (communication) | expert | Missing | — | 0 | communication-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| Content Creation (content-creation) | beginner | Published | content-creation | 16 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| Content Creation (content-creation) | beginner | Published | content-creation | 23 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Content Creation (content-creation) | pro | Missing | — | 0 | content-creation-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Content Creation (content-creation) | expert | Missing | — | 0 | content-creation-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | English (english) | beginner | Published | english-foundations | 10 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
