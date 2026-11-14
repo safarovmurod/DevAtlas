@@ -3,6 +3,7 @@ import quizSource from './imported/quiz.json';
 import interviewSource from './imported/interview.json';
 import roadmapSource from './imported/roadmap.json';
 import { EXTRA_TOPICS, EXTRA_QUESTIONS } from './supplemental';
+import { reactTopicSections } from './supplemental-react';
 import { contentLocaleFor, type InterfaceLocale } from '@/lib/locale';
 import { tr } from '@/lib/translate';
 
@@ -117,6 +118,7 @@ export const LEARNING_TOPICS: LearningTopic[] = [
   ...deepSource.map((topic, index) => ({
     ...topic,
     id: `topic-${index + 1}`,
+    explanation: [...topic.explanation, ...reactTopicSections(`topic-${index + 1}`)],
     title: topic.title.replace(/^\d+\.\s*/, '').replaceAll('`', ''),
     titleRu: titlesRu[index],
     month: index < 35 ? 1 : index < 50 ? 2 : 3,

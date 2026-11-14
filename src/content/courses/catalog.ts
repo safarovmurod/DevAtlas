@@ -18,7 +18,7 @@ export interface CourseCatalogEntry {
   editorLanguage?: string;
   /** Execution setup guidance, not a claim that the site executes this runtime. */
   runtime?: 'browser' | 'local';
-  introductoryDays?: 2;
+  introductoryDays?: number;
   accessTier?: 'starter' | 'pro' | 'expert';
   /** Number of real scheduled days; library-only reference lessons are not counted. */
   publishedDays?: number;

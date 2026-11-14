@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29`. Фактический каталог: 43 IDs, 38 направлений, 1118 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29`. Фактический каталог: 43 IDs, 38 направлений, 1159 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Complete the remaining two-day Beginner courses in registry order: expand-communication (2->30) next, then content-creation, english-foundations (42), digital-literacy, personal-productivity (22), management-foundations. Preserve each course's original day-01/02 IDs, quizzes and progress.
+Следующее действие по сохранённому состоянию: Resume Personal Productivity at days 15–18 after its 14-day checkpoint. Reuse docs/curriculum-design/personal-productivity-days-15-17.draft.txt; author day 18 and review the full module, then finish days 19–22. Next unfinished modules start at day 10 for Content Creation, Digital Literacy and Management Foundations, and day 11 for English Foundations. Preserve existing lesson and quiz IDs, option order and learner progress. See AGENTS.md and docs/CURRICULUM-AUDIT-2026-11-15.md.
 
 ## Что сохранить
 
@@ -18,11 +18,11 @@ HTML day 1: optional learningFlow, восемь типов вопросов, д�
 
 ## Обязательные незавершённые программы
 
-- content-creation: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
-- english-foundations: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
-- digital-literacy: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
-- personal-productivity: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
-- management-foundations: сейчас 2 дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.
+- content-creation: в каталоге 9 из 30 запланированных дней. Осталось подготовить 21 дней, включая самостоятельную практику и итоговый проект.
+- english-foundations: в каталоге 10 из 42 запланированных дней. Осталось подготовить 32 дней, включая самостоятельную практику и итоговый проект.
+- digital-literacy: в каталоге 9 из 30 запланированных дней. Осталось подготовить 21 дней, включая самостоятельную практику и итоговый проект.
+- personal-productivity: в каталоге 14 из 22 запланированных дней. Осталось подготовить 8 дней, включая самостоятельную практику и итоговый проект.
+- management-foundations: в каталоге 9 из 30 запланированных дней. Осталось подготовить 21 дней, включая самостоятельную практику и итоговый проект.
 
 Углубить все 14-дневные курсы: typescript, algorithms, ai-fundamentals, context-engineering, agent-harness. Создать 34 Pro, 37 Expert и 1 отсутствующий Beginner, сохраняя отдельные программы и прогресс. Опубликованная карточка или Coming Soon не является готовым курсом.
 

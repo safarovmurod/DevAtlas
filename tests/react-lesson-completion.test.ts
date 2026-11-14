@@ -47,7 +47,7 @@ describe('completed React teaching material', () => {
   it('new explanations and flow steps have actual Russian and English translations rather than dictionary fallback', () => {
     for (const number of repaired) {
       const topic = LEARNING_TOPICS.find(item => item.id === `topic-${number}`)!;
-      expect(topic.explanation).toHaveLength(2);
+      expect(topic.explanation.length, topic.id).toBeGreaterThanOrEqual(2);
       for (const text of [...topic.explanation.flatMap(section => [section.title, section.text]), ...topic.flow]) {
         for (const locale of ['ru', 'en'] as const) {
           expect(tr(text, locale).trim(), `${topic.id} ${locale}`).not.toBe('');
