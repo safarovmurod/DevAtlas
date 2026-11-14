@@ -1,6 +1,7 @@
 import { COURSE_CATALOG } from '@/content/courses/catalog';
 import type { CourseId } from '@/lib/courses/ids';
 import type { InterfaceLocale } from '@/lib/locale';
+import { courseDayCount } from './course-copy';
 import { DESCRIPTIONS } from './course-descriptions';
 import { text, type LocalizedText } from './localized-text';
 
@@ -170,12 +171,12 @@ const DISPLAY_NAMES: Partial<Record<CourseId, LocalizedText>> = {
 };
 
 const INTRODUCTION = text(
-  'Вводный модуль · 2 дня.',
-  'Introductory module · 2 days.',
-  'Модули муқаддимавӣ · 2 рӯз.',
-  'Вступний модуль · 2 дні.',
-  '2日間の入門モジュール。',
-  '2일 입문 모듈.',
+  'Вводный модуль',
+  'Introductory module',
+  'Модули муқаддимавӣ',
+  'Вступний модуль',
+  '入門モジュール',
+  '입문 모듈',
 );
 
 export function courseDisplayName(id: CourseId, locale: InterfaceLocale): string {
@@ -187,7 +188,8 @@ export function courseDisplayName(id: CourseId, locale: InterfaceLocale): string
 
 export function courseDescription(id: CourseId, locale: InterfaceLocale): string {
   const description = DESCRIPTIONS[id][locale];
-  return COURSE_CATALOG.find((course) => course.id === id)?.introductoryDays === 2
-    ? `${INTRODUCTION[locale]} ${description}`
+  const introductoryDays = COURSE_CATALOG.find((course) => course.id === id)?.introductoryDays;
+  return introductoryDays
+    ? `${INTRODUCTION[locale]} · ${courseDayCount(introductoryDays, locale)}. ${description}`
     : description;
 }

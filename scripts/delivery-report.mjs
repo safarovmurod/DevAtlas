@@ -8,7 +8,13 @@ const {rows,tracks,matrix}=await loadAuditData();
 const state=JSON.parse(await readFile(path.join(root,'docs/delivery-state.json'),'utf8'));
 const total=rows.reduce((sum,row)=>sum+row.publishedDays,0),free=rows.filter(row=>row.tier==='starter'),paid=rows.filter(row=>row.tier!=='starter');
 const days=items=>items.reduce((sum,row)=>sum+row.publishedDays,0);
-const short=rows.filter(row=>row.publishedDays===2),fourteen=rows.filter(row=>row.publishedDays===14);
+const {courses:blueprints}=JSON.parse(await readFile(path.join(root,'docs/curriculum-design/short-courses.draft.json'),'utf8'));
+const short=blueprints.flatMap(plan=>{
+ const row=rows.find(course=>course.courseId===plan.courseId);
+ return row.publishedDays<plan.plannedTotalDays?[{...row,plannedDays:plan.plannedTotalDays}]:[];
+});
+const continuationCourses=new Set(state.phases.find(phase=>phase.id===5).courses);
+const fourteen=rows.filter(row=>row.publishedDays===14&&continuationCourses.has(row.courseId));
 const missing=matrix.filter(row=>row.status==='Missing');
 const stageCount=stage=>missing.filter(row=>row.stage===stage).length;
 const stale=rows.reduce((sum,row)=>sum+row.staleHits.length,0);
@@ -46,7 +52,7 @@ const delivery=[
  '',
  '## Required remaining work',
  '',
- `All ${short.length} two-day programs still require full authored expansion: ${short.map(row=>`\`${row.courseId}\``).join(', ')}.`,
+ `The short-course blueprints still have ${short.reduce((sum,row)=>sum+row.plannedDays-row.publishedDays,0)} days to author across ${short.length} courses: ${short.map(row=>`\`${row.courseId}\` (${row.publishedDays}/${row.plannedDays})`).join(', ')}. Counts show authored days in the local catalog against draft targets.`,
  '',
  `All ${fourteen.length} fourteen-day programs still require a reviewed continuation: ${fourteen.map(row=>`\`${row.courseId}\``).join(', ')}.`,
  '',
@@ -93,7 +99,7 @@ const continuation=[
  '',
  '## Обязательные незавершённые программы',
  '',
- ...short.map(row=>`- ${row.courseId}: сейчас ${row.publishedDays} дня; нужен полноценный beginner syllabus и оригинальные уроки, практика, feedback, тесты, мини-проекты и capstone.`),
+ ...short.map(row=>`- ${row.courseId}: в каталоге ${row.publishedDays} из ${row.plannedDays} запланированных дней. Осталось подготовить ${row.plannedDays-row.publishedDays} дней, включая самостоятельную практику и итоговый проект.`),
  '',
  `Углубить все 14-дневные курсы: ${fourteen.map(row=>row.courseId).join(', ')}. Создать ${stageCount('pro')} Pro, ${stageCount('expert')} Expert и ${stageCount('beginner')} отсутствующий Beginner, сохраняя отдельные программы и прогресс. Опубликованная карточка или Coming Soon не является готовым курсом.`,
  '',

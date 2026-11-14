@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { courseContentSchema } from '@/lib/courses/schema';
+import { COURSE_CATALOG } from '@/content/courses/catalog';
 import { courseMonthPlan } from '@/lib/courses/plan';
 
 const introductions = [
@@ -11,7 +12,13 @@ const introductions = [
 ] as const;
 const applied = ['ux-pro', 'business-pro'] as const;
 const appliedDays = { 'ux-pro': 30, 'business-pro': 30 } as Record<string, number>;
-const starterDays = { 'ux-design': 30, 'digital-marketing': 30, 'data-analytics': 30, 'business-foundations': 30, 'communication': 30 } as Record<string, number>;
+const starterDays = {
+  'ux-design': 30, 'digital-marketing': 30, 'data-analytics': 30, 'business-foundations': 30, 'communication': 30,
+  'content-creation': 9, 'english-foundations': 10, 'digital-literacy': 9, 'personal-productivity': 14, 'management-foundations': 9,
+} as Record<string, number>;
+const expandedIntroductions = new Set([
+  'content-creation', 'english-foundations', 'digital-literacy', 'personal-productivity', 'management-foundations',
+]);
 async function content(id: string) {
   const file = await readFile(path.join(process.cwd(), 'src/content/courses', `${id}.json`), 'utf8');
   return courseContentSchema.parse(JSON.parse(file));
@@ -25,7 +32,8 @@ describe('original general-education modules', () => {
     for (const id of [...introductions, ...applied]) {
       const course = await content(id);
       expect(course.courseId).toBe(id);
-      const count = appliedDays[id] ?? starterDays[id] ?? 2;
+      const count = appliedDays[id] ?? starterDays[id];
+      expect(COURSE_CATALOG.find(course => course.id === id)?.publishedDays).toBe(count);
       const plan = courseMonthPlan(course.lessons);
       expect(plan.map(item => item.day)).toEqual(Array.from({ length: count }, (_, index) => index + 1));
       expect(course.lessons).toHaveLength(count);
@@ -64,6 +72,19 @@ describe('original general-education modules', () => {
         }
         if (practice.kind === 'written') expect(practice.solution).toBe(practice.referenceAnswer!.ru);
         expect(lesson.questions.length).toBeGreaterThan(0);
+        if (expandedIntroductions.has(id)) {
+          expect(lesson.sections).toHaveLength(4);
+          expect(lesson.questions.length).toBeGreaterThanOrEqual(3);
+          for (const question of lesson.questions) {
+            expect(question.relatedSection).toBeDefined();
+            for (const locale of ['ru', 'tg', 'en'] as const) {
+              expect(question.hint?.[locale]?.trim()).toBeTruthy();
+            }
+          }
+          for (const locale of ['ru', 'tg', 'en'] as const) {
+            expect(lesson.sections.some(section => section.body[locale]?.includes(practice.referenceAnswer![locale]!))).toBe(false);
+          }
+        }
         for (const question of lesson.questions) {
           expect(questionIds.has(question.id)).toBe(false);
           questionIds.add(question.id);
@@ -76,7 +97,7 @@ describe('original general-education modules', () => {
         }
       }
     }
-    expect(lessonCount).toBe(220);
+    expect(lessonCount).toBe(261);
   });
 
   it('applied Pro cases are distinct from free introductions and include intermediate days', async () => {

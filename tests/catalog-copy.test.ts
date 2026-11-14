@@ -31,14 +31,15 @@ describe('localized course catalog', () => {
     expect(courseDisplayName('content-creation', 'ko')).toBe('콘텐츠 제작');
   });
 
-  it('keeps technology proper names and labels introductory modules with their real two-day scope', () => {
+  it('keeps technology proper names and labels introductory modules with their current scope', () => {
     for (const course of COURSE_CATALOG) {
       for (const locale of INTERFACE_LOCALES) {
         if (course.category === 'programming' && !course.accessTier && !['backend', 'mobile'].includes(course.id)) {
           expect(courseDisplayName(course.id, locale)).toBe(course.name);
         }
-        if (course.introductoryDays === 2) {
-          expect(courseDescription(course.id, locale)).toContain('2');
+        if (course.introductoryDays) {
+          expect(course.introductoryDays).toBe(course.publishedDays);
+          expect(courseDescription(course.id, locale)).toContain(String(course.introductoryDays));
           expect(courseDescription(course.id, locale)).not.toMatch(/сертификат|certificate|認定資格|자격증/i);
         }
       }

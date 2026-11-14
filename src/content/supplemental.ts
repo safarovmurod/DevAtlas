@@ -1,6 +1,6 @@
 import type { LearningTopic, LearningQuestion } from './course';
 import { NEXT_SEEDS } from './supplemental-next';
-import { REACT_SEEDS } from './supplemental-react';
+import { REACT_SEEDS, REACT_TOPIC_DETAILS, reactTopicSections } from './supplemental-react';
 
 /** Short source data from which one extra topic and its quiz question are built. */
 export interface ExtraSeed {
@@ -29,6 +29,7 @@ export const EXTRA_TOPICS: LearningTopic[] = seeds.map((seed) => ({
   explanation: [
     { title: 'Чӣ кор мекунад?', text: seed.why },
     { title: 'Аз чӣ оғоз мешавад?', text: seed.trigger },
+    ...reactTopicSections(seed.id),
   ],
   flow: seed.flow,
   code: [seed.code],
@@ -48,6 +49,23 @@ export const EXTRA_QUESTIONS: LearningQuestion[] = seeds.map((seed) => ({
   code: [seed.code],
   source: seed.source,
 }));
+
+const additionalReactQuestions = seeds.flatMap((seed): LearningQuestion[] => {
+  const detail = REACT_TOPIC_DETAILS[seed.id];
+  return (detail?.quiz ?? []).map((quiz) => ({
+    id: 'extra-' + seed.id + '-' + quiz.id,
+    sourceId: seed.id + '-' + quiz.id,
+    topicId: seed.id,
+    month: seed.month,
+    group: seed.month,
+    question: quiz.question[0],
+    answer: quiz.options[quiz.correctIndex][0],
+    options: quiz.options.map(([tg]) => tg),
+    explanation: quiz.explanation[0],
+    code: [],
+    source: detail?.source ?? seed.source,
+  }));
+});
 
 const typescriptQuestions = [
   [
@@ -126,3 +144,5 @@ typescriptQuestions.forEach((question, index) =>
     source: 'https://www.typescriptlang.org/docs/handbook/react.html',
   }),
 );
+
+EXTRA_QUESTIONS.push(...additionalReactQuestions);

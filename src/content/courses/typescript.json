@@ -76,7 +76,7 @@
       "tg": "Пеш аз иҷро TypeScript синфҳои муайяни хатоҳоро мегирад. Аввал, номувофиқии навъҳо: функсия адад интизор мешавад, вале матн меояд — чун дар даъвати дуюми makeLabel дар поён. Дуюм, хатоҳо дар номҳои майдонҳо ва методҳо: компилятор медонад, ки дар объект майдони statuz нест ва онро алоҳуда нишон медиҳад. Сеюм, майдонҳои фаромӯшшуда ё зиёдатӣ: агар объект бояд статус дошта бошад ва фаромӯш шуда бошад, tsc дар бораи он мегӯяд. Чорум, шумори нодурусти аргументҳои функсия. Аз ёфтани хатоҳо боз навъҳо маслиҳат медиҳанд: муҳаррир нишон медиҳад, ки кадом майдонҳо ва методҳо дастрасанд ва онҳоро худкор пур мекунад. Ин корро бо коди бегона ва китобхонаҳо зудтар мекунад: имзои функсия амалан ҳуҷҷат мегардад. Ниҳоят, навъҳо тағйиротро бехатар мекунанд: номи майдонро иваз кардед — компилятор ҳамаи ҷойҳои лозимиро рӯйхат кард. Дар скрипти хурд фоида намоён нест, вале дар лоиҳаи даҳҳо-файлӣ шартнома соатҳои отладкаро сарфа мекунад. Чунин хатоҳо дар JavaScript-и тоза танҳо ҳангоми иҷро ошкор мешаванд.",
       "en": "Before the program runs, TypeScript catches whole classes of mistakes. First, type mismatches: a function expects a number but receives a string, as in the second makeLabel call below. Second, typos in field and method names: the compiler knows the object has no statuz property and marks it. Third, missing or extra fields: if an object must carry a status and it was forgotten, tsc says so. Fourth, a wrong number of function arguments. Beyond finding bugs, types give hints: the editor shows which fields and methods exist and completes them for you. That speeds up work with other people’s code and with libraries — a function signature effectively becomes documentation. Finally, types make refactoring safer: rename a field, and the compiler lists every place that must be updated. In a tiny script the benefit is invisible, but across a project of dozens of files the contract saves hours of debugging. In plain JavaScript such errors appear only at runtime."
      },
-     "code": "function makeLabel(name: string, price: number): string {\n  return name + \" - \" + price + \" TJS\";\n}\n\nmakeLabel(\"chai\", 12);      // ok\nmakeLabel(\"chai\", \"12\");   // error: string is not a number\norder.statuz;              // error: property statuz does not exist",
+     "code": "function makeLabel(name: string, price: number): string {\n  return name + \" - \" + price + \" TJS\";\n}\n\nmakeLabel(\"chai\", 12);      // ok\nmakeLabel(\"chai\", \"12\");   // error: string is not a number\nconst order = { status: \"new\" };\norder.statuz;              // error: property statuz does not exist",
      "language": "typescript"
     },
     {
@@ -96,6 +96,18 @@
       "ru": "Hello, Mansur! Welcome to TypeScript.\ndays: 14 free: true\ntotal minutes: 420",
       "tg": "Hello, Mansur! Welcome to TypeScript.\ndays: 14 free: true\ntotal minutes: 420",
       "en": "Hello, Mansur! Welcome to TypeScript.\ndays: 14 free: true\ntotal minutes: 420"
+     }
+    },
+    {
+     "title": {
+      "ru": "Сначала проверьте результат",
+      "tg": "Аввал натиҷаро санҷед",
+      "en": "Check the result as well as the type"
+     },
+     "body": {
+      "ru": "Представьте, что мастерская назначает по 15 минут на велосипед. Для четырёх велосипедов это 60 минут. Если формулу по ошибке записать как 4 + 15, результат всё равно имеет тип number. Запустите программу и сравните число с ожидаемым. Затем проверьте, что tsc замечает передачу строки вместо числа.",
+      "tg": "Тасаввур кунед, ки устохона ба ҳар велосипед 15 дақиқа ҷудо мекунад. Барои чор велосипед 60 дақиқа мешавад. Агар ба хато 4 + 15 нависед, натиҷа боз ҳам навъи number дорад. Барномаро иҷро кунед ва қиматро бо натиҷаи чашмдошт муқоиса кунед. Баъд санҷед, ки tsc додани string-ро ба ҷои number мебинад.",
+      "en": "A workshop allows 15 minutes for each bike. Four bikes take 60 minutes. If the formula mistakenly uses 4 + 15, the result still has type number. Run the program and compare the actual value with the expected total. Then check that tsc catches a string passed in place of a number."
      }
     }
    ],
@@ -129,7 +141,13 @@
        "en": "TypeScript is a completely separate language unrelated to JavaScript"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Подумайте, какой инструмент читает аннотации до запуска.",
+      "tg": "Фикр кунед, ки кадом асбоб аннотатсияҳоро пеш аз иҷро мехонад.",
+      "en": "Think about which tool reads annotations before the program runs."
+     }
     },
     {
      "id": "typescript-day-01-q2",
@@ -160,7 +178,13 @@
        "en": "They are exported to a separate types.json file next to the program"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Представьте итоговый файл, который браузер исполняет как JavaScript.",
+      "tg": "Файли охиринро тасаввур кунед, ки браузер ҳамчун JavaScript иҷро мекунад.",
+      "en": "Picture the output file a browser runs as JavaScript."
+     }
     },
     {
      "id": "typescript-day-01-q3",
@@ -196,37 +220,43 @@
        "en": "A required field is forgotten when an object is created"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 2,
+     "hint": {
+      "ru": "Сравните ошибку в типе значения и ошибку в расчёте результата.",
+      "tg": "Хатои навъи қимат ва хатои ҳисобро муқоиса кунед.",
+      "en": "Compare a value's type with whether its calculation is correct."
+     }
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Проверьте, что Node.js установлен: node --version (подойдёт 18 или новее).\n2. Создайте файл main.ts и наберите программу из раздела выше: три константы с аннотациями и две функции.\n3. Проверьте типы локально: npx tsc --noEmit --strict main.ts — сообщений быть не должно.\n4. Запустите: npx esbuild main.ts --outfile=main.mjs --format=esm, затем node main.mjs.\n5. Сверьте три строки вывода: приветствие, «days: 14 free: true» и «total minutes: 420».",
-     "tg": "1. Санҷед, ки Node.js насб шудааст: node --version (18 ё навтар мувофиқ аст).\n2. Файли main.ts созед ва барномаи бахши болоро нависед: се константа бо аннотатсияҳо ва ду функсия.\n3. Навъҳоро маҳаллӣ санҷед: npx tsc --noEmit --strict main.ts — бояд хабаре набошад.\n4. Иҷро кунед: npx esbuild main.ts --outfile=main.mjs --format=esm, баъд node main.mjs.\n5. Се сатри натиҷаро бисанҷед: салом, «days: 14 free: true» ва «total minutes: 420».",
-     "en": "1. Check that Node.js is installed: node --version (18 or newer is fine).\n2. Create main.ts and type the program from the section above: three annotated constants and two functions.\n3. Check the types locally: npx tsc --noEmit --strict main.ts — there should be no messages.\n4. Run it: npx esbuild main.ts --outfile=main.mjs --format=esm, then node main.mjs.\n5. Compare the three output lines: the greeting, “days: 14 free: true” and “total minutes: 420”."
+     "ru": "1. В отдельной учебной папке выполните npm init -y и npm install --save-dev typescript esbuild. Создайте main.ts. Задайте shopName как string со значением Bike Lab, bikes как number со значением 4 и sameDay как boolean со значением true.\n2. Напишите estimateMinutes(count: number, minutesPerBike: number): number. Она должна считать общее число минут.\n3. Выведите три строки: Bike Lab, same day: true, total minutes: 60. Проверьте типы командой npx tsc --noEmit --strict --skipLibCheck main.ts.\n4. Запустите командой npx esbuild main.ts --outfile=main.mjs --format=esm, затем node main.mjs. Временно подставьте строку \"15\" вместо числа 15, посмотрите ошибку при проверке типов и верните число.",
+     "tg": "1. Дар папкаи алоҳидаи машқ npm init -y ва npm install --save-dev typescript esbuild иҷро кунед. main.ts созед. shopName-ро ҳамчун string бо қимати Bike Lab, bikes-ро ҳамчун number бо қимати 4 ва sameDay-ро ҳамчун boolean бо қимати true нависед.\n2. estimateMinutes(count: number, minutesPerBike: number): number нависед. Функсия шумораи умумии дақиқаҳоро ҳисоб кунад.\n3. Се сатр бароред: Bike Lab, same day: true, total minutes: 60. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck main.ts санҷед.\n4. npx esbuild main.ts --outfile=main.mjs --format=esm ва баъд node main.mjs-ро иҷро кунед. Ба ҷойи адади 15 муваққатан сатри \"15\" монед, хатои tsc-ро бинед ва ададро баргардонед.",
+     "en": "1. In a separate practice folder, run npm init -y and npm install --save-dev typescript esbuild. Create main.ts. Declare shopName as a string with the value Bike Lab, bikes as the number 4 and sameDay as the boolean true.\n2. Write estimateMinutes(count: number, minutesPerBike: number): number. It should calculate the total minutes.\n3. Print three lines: Bike Lab, same day: true, total minutes: 60. Run npx tsc --noEmit --strict --skipLibCheck main.ts to check types.\n4. Run npx esbuild main.ts --outfile=main.mjs --format=esm and then node main.mjs. Temporarily pass the string \"15\" instead of the number 15, read the type error and restore the number."
     },
     "hint": {
-     "ru": "Аннотация пишется после имени через двоеточие: const course: string = \"TypeScript\". Тип возвращаемого значения — после списка параметров: function greet(name: string): string. Платформа курса не исполняет TypeScript — запускайте локально.",
-     "tg": "Аннотатсия баъди ном бо ду нуқта навишта мешавад: const course: string = \"TypeScript\". Навъи натиҷа — баъди рӯйхати параметрҳо: function greet(name: string): string. Платформаи курс TypeScript-ро иҷро намекунад — маҳаллӣ иҷро кунед.",
-     "en": "The annotation goes after the name with a colon: const course: string = \"TypeScript\". The return type follows the parameter list: function greet(name: string): string. The course platform does not execute TypeScript — run it locally."
+     "ru": "Умножьте число велосипедов на минуты для одного велосипеда. Явно укажите типы обоих параметров и результата.",
+     "tg": "Шумораи велосипедҳоро ба дақиқаҳои як велосипед зарб кунед. Навъи ҳар ду параметр ва натиҷаро нависед.",
+     "en": "Multiply the number of bikes by the minutes per bike. Annotate both parameters and the return value."
     },
-    "solution": "const course: string = \"TypeScript\";\nconst days: number = 14;\nconst isFree: boolean = true;\n\nfunction greet(name: string): string {\n  return \"Hello, \" + name + \"! Welcome to \" + course + \".\";\n}\n\nfunction totalMinutes(minutesPerDay: number): number {\n  return minutesPerDay * days;\n}\n\nconsole.log(greet(\"Mansur\"));\nconsole.log(\"days:\", days, \"free:\", isFree);\nconsole.log(\"total minutes:\", totalMinutes(30));",
+    "solution": "const shopName: string = \"Bike Lab\";\nconst bikes: number = 4;\nconst sameDay: boolean = true;\n\nfunction estimateMinutes(count: number, minutesPerBike: number): number {\n  return count * minutesPerBike;\n}\n\nconsole.log(shopName);\nconsole.log(\"same day:\", sameDay);\nconsole.log(\"total minutes:\", estimateMinutes(bikes, 15));",
     "criteria": [
      {
-      "ru": "Программа проходит tsc --noEmit --strict без ошибок и запускается локально через esbuild и Node.js.",
-      "tg": "Барнома tsc --noEmit --strict-ро бехато мегузаронад ва маҳаллӣ бо esbuild ва Node.js иҷро мешавад.",
-      "en": "The program passes tsc --noEmit --strict with no errors and runs locally through esbuild and Node.js."
+      "ru": "Константы и функция имеют указанные типы, и tsc проходит с числом 15.",
+      "tg": "Константаҳо ва функсия навъҳои гуфташударо доранд ва tsc бо адади 15 мегузарад.",
+      "en": "Constants and function have the requested types and tsc passes with the number 15."
      },
      {
-      "ru": "Вывод совпадает покомпонентно: приветствие, строка «days: 14 free: true», строка «total minutes: 420».",
-      "tg": "Натиҷа ҷузъ ба ҷузъ мувофиқ аст: салом, сатри «days: 14 free: true», сатри «total minutes: 420».",
-      "en": "The output matches piece by piece: the greeting, the line “days: 14 free: true”, the line “total minutes: 420”."
+      "ru": "Программа выводит имя, признак same day и общее время 60 минут.",
+      "tg": "Барнома ном, ҳолати same day ва вақти умумии 60 дақиқаро мебарорад.",
+      "en": "The program prints the name, same-day flag and a total of 60 minutes."
      },
      {
-      "ru": "Могу показать, где в коде контракт, и объяснить, что останется после стирания типов.",
-      "tg": "Метавонам нишон диҳам, ки дар код шартнома кист, ва шарҳ диҳам, ки баъди несткунии навъҳо чӣ мемонад.",
-      "en": "I can point to the contract in the code and explain what remains after the types are erased."
+      "ru": "Замена числа строкой вызывает ошибку проверки типов. После возврата числа ошибка исчезает.",
+      "tg": "Иваз кардани адад бо сатр хатои навъ медиҳад. Баъди баргардондани адад хато нест мешавад.",
+      "en": "Replacing the number with a string produces a type error. Restoring the number clears it."
      }
     ]
    }
@@ -297,6 +327,18 @@
       "tg": "1) npm install --save-dev typescript\n2) npx tsc --init\n3) npx tsc main.ts\n4) node main.js\n5) npx esbuild main.ts --outfile=main.js --format=esm\nmain.ts compiles to main.js",
       "en": "1) npm install --save-dev typescript\n2) npx tsc --init\n3) npx tsc main.ts\n4) node main.js\n5) npx esbuild main.ts --outfile=main.js --format=esm\nmain.ts compiles to main.js"
      }
+    },
+    {
+     "title": {
+      "ru": "Из какого файла берутся настройки",
+      "tg": "Настройка аз кадом файл меояд",
+      "en": "Where compiler settings come from"
+     },
+     "body": {
+      "ru": "Положите tsconfig.json рядом с учебными файлами. Команда npx tsc --noEmit читает настройки проекта. Когда в команду передают конкретное имя файла, например totals.ts, она не читает tsconfig.json. Поэтому для проверки одного файла ниже явно указаны --strict и --noEmit.",
+      "tg": "tsconfig.json-ро назди файлҳои машқ монед. Командаи npx tsc --noEmit настройкаи проектро мехонад. Агар номи файлро рост диҳед, масалан totals.ts, команда tsconfig.json-ро намехонад. Барои ҳамин дар командаи як файл --strict ва --noEmit-ро алоҳида менависем.",
+      "en": "Place tsconfig.json by the exercise files. Running npx tsc --noEmit uses those project settings. Passing a file name such as totals.ts tells tsc to ignore tsconfig.json. For this single-file check, pass --strict and --noEmit explicitly."
+     }
     }
    ],
    "questions": [
@@ -334,7 +376,13 @@
        "en": "It creates a tsconfig.json file"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 2,
+     "hint": {
+      "ru": "В команде указан файл и нет флага --noEmit. Вспомните, что компилятор пишет на диск.",
+      "tg": "Дар команда номи файл ҳасту флаги --noEmit нест. Ба ёд оред, ки компилятор ба диск чӣ менависад.",
+      "en": "The command names a file and omits --noEmit. Think about what the compiler writes to disk."
+     }
     },
     {
      "id": "typescript-day-02-q2",
@@ -365,7 +413,13 @@
        "en": "It makes the compiled JavaScript run faster"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Вспомните, почему включая strict, можно получить сразу несколько разных проверок.",
+      "tg": "Ба ёд оред, ки чаро strict якбора якчанд санҷиши гуногунро фаъол мекунад.",
+      "en": "Recall why turning on strict can enable several different checks."
+     }
     },
     {
      "id": "typescript-day-02-q3",
@@ -396,37 +450,43 @@
        "en": "Node silently deletes the enum and everything that uses it"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 2,
+     "hint": {
+      "ru": "Спросите себя, достаточно ли удалить аннотации, чтобы получить рабочий JavaScript из enum.",
+      "tg": "Аз худ пурсед, ки барои ба JavaScript табдил додани enum нест кардани аннотатсияҳо басанда аст ё не.",
+      "en": "Ask whether just stripping annotations can turn an enum into working JavaScript."
+     }
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Проверьте node --version (18+) и npm --version.\n2. Создайте папку ts-day2, зайдите в неё и выполните npm init -y, затем npm install --save-dev typescript esbuild.\n3. Создайте steps.ts с программой из раздела выше; проверьте типы: npx tsc --noEmit --strict steps.ts.\n4. Запустите: npx esbuild steps.ts --outfile=steps.mjs --format=esm && node steps.mjs.\n5. Вывод — шесть строк: пять пронумерованных шагов и «main.ts compiles to main.js».",
-     "tg": "1. node --version (18+) ва npm --version-ро санҷед.\n2. Папкаи ts-day2 созед, ба он дароед ва npm init -y, баъд npm install --save-dev typescript esbuild-ро иҷро кунед.\n3. steps.ts-ро бо барномаи бахши боло созед; навъҳоро санҷед: npx tsc --noEmit --strict steps.ts.\n4. Иҷро кунед: npx esbuild steps.ts --outfile=steps.mjs --format=esm && node steps.mjs.\n5. Натиҷа — шаш сатр: панҷ қадами рақамдор ва «main.ts compiles to main.js».",
-     "en": "1. Check node --version (18+) and npm --version.\n2. Create a folder ts-day2, enter it and run npm init -y, then npm install --save-dev typescript esbuild.\n3. Create steps.ts with the program from the section above; check the types: npx tsc --noEmit --strict steps.ts.\n4. Run: npx esbuild steps.ts --outfile=steps.mjs --format=esm && node steps.mjs.\n5. The output is six lines: five numbered steps and “main.ts compiles to main.js”."
+     "ru": "1. В учебной папке создайте totals.ts. Для нового проекта сначала выполните npm init -y и npm install --save-dev typescript esbuild.\n2. Задайте список количеств 2 и 3, сложите числа. Сохраните сумму в переменной с типом number.\n3. Задайте цену 4 TJS за штуку и вычислите стоимость всей покупки.\n4. Напечатайте items: 5 и total: 20. Поменяйте цену на 5 и проверьте новый итог 25.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck totals.ts. Соберите и запустите: npx esbuild totals.ts --outfile=totals.mjs --format=esm, затем node totals.mjs.",
+     "tg": "1. Дар папкаи машқ totals.ts созед. Агар проект нав бошад, аввал npm init -y ва npm install --save-dev typescript esbuild иҷро кунед.\n2. Рӯйхати миқдорҳои 2 ва 3 созед ва ададҳоро ҷамъ кунед. Суммаро дар тағйирёбандаи навъи number монед.\n3. Нархи як донаро 4 TJS монед ва арзиши ҳамаи харидро ҳисоб кунед.\n4. items: 5 ва total: 20 бароред. Нархро 5 монда, натиҷаи нави 25-ро санҷед.\n5. Навъҳоро ин хел санҷед: npx tsc --noEmit --strict --skipLibCheck totals.ts. Баъд npx esbuild totals.ts --outfile=totals.mjs --format=esm ва node totals.mjs-ро иҷро кунед.",
+     "en": "1. In the practice folder, create totals.ts. For a new project, run npm init -y and npm install --save-dev typescript esbuild first.\n2. Add the quantities 2 and 3 and store the sum in a variable typed number.\n3. Set the unit price to 4 TJS and calculate the full cost.\n4. Print items: 5 and total: 20. Change the price to 5 and verify the new total is 25.\n5. Check the types with npx tsc --noEmit --strict --skipLibCheck totals.ts. Run npx esbuild totals.ts --outfile=totals.mjs --format=esm, then node totals.mjs."
     },
     "hint": {
-     "ru": "Если npx tsc пишет, что ничего не найдено, — TypeScript не установился: повторите npm install --save-dev typescript. replace(\".ts\", \".js\") просто меняет расширение в строке, это обычный метод JavaScript.",
-     "tg": "Агар npx tsc нависад, ки чизе ёфт нашуд — TypeScript насб нашуд: npm install --save-dev typescript-ро такрор кунед. replace(\".ts\", \".js\") танҳо васлшавиро дар сатр иваз мекунад, ин методи оддии JavaScript аст.",
-     "en": "If npx tsc says nothing was found, TypeScript did not install: repeat npm install --save-dev typescript. replace(\".ts\", \".js\") simply changes the extension inside a string — an ordinary JavaScript method."
+     "ru": "Количество и стоимость — разные переменные. Умножьте итоговое количество на цену.",
+     "tg": "Миқдор ва арзиш ду тағйирёбандаи ҷудо аст. Миқдори умумиро ба нарх зарб кунед.",
+     "en": "Quantity and cost are separate variables. Multiply the combined quantity by the unit price."
     },
-    "solution": "const fileName = \"main.ts\";\nconst jsFile = fileName.replace(\".ts\", \".js\");\n\nconst steps: string[] = [\n  \"npm install --save-dev typescript\",\n  \"npx tsc --init\",\n  \"npx tsc \" + fileName,\n  \"node \" + jsFile,\n  \"npx esbuild \" + fileName + \" --outfile=\" + jsFile + \" --format=esm\",\n];\n\nsteps.forEach((step, index) => {\n  console.log((index + 1) + \") \" + step);\n});\n\nconsole.log(fileName, \"compiles to\", jsFile);",
+    "solution": "const firstCount = 2;\nconst secondCount = 3;\nconst itemCount: number = firstCount + secondCount;\nconst unitPrice = 4;\n\nconsole.log(\"items:\", itemCount);\nconsole.log(\"total:\", itemCount * unitPrice);",
     "criteria": [
      {
-      "ru": "Команды установки выполнены локально, npx tsc --version печатает версию.",
-      "tg": "Фармонҳои насб маҳаллӣ иҷро шуданд, npx tsc --version версияро мебарорад.",
-      "en": "The install commands ran locally and npx tsc --version prints a version."
+      "ru": "Файл проходит tsc в strict-режиме и запускается локально.",
+      "tg": "Файл аз санҷиши strict-и tsc мегузарад ва маҳаллӣ иҷро мешавад.",
+      "en": "The file passes strict tsc checking and runs locally."
      },
      {
-      "ru": "Вывод программы совпадает с шестью строками из урока.",
-      "tg": "Натиҷаи барнома бо шаш сатри сабак мувофиқ аст.",
-      "en": "The program output matches the six lines from the lesson."
+      "ru": "Код обрабатывает оба заданных примера по описанным правилам.",
+      "tg": "Код ҳар ду мисоли додашударо аз рӯйи шартҳо иҷро мекунад.",
+      "en": "The code handles both specified cases according to the task."
      },
      {
-      "ru": "Могу объяснить роль tsc (проверка типов) и esbuild (быстрая трансляция) в этой цепочке.",
-      "tg": "Метавонам нақши tsc (санҷиши навъҳо) ва esbuild (табдили зуд)-ро дар ин занҷир шарҳ диҳам.",
-      "en": "I can explain the roles of tsc (type checking) and esbuild (fast translation) in this chain."
+      "ru": "Проверены строки вывода: items: 5 / total: 20.",
+      "tg": "Сатрҳои натиҷа санҷида шуданд: items: 5 / total: 20.",
+      "en": "The following output lines were checked: items: 5 / total: 20."
      }
     ]
    }
@@ -496,6 +556,18 @@
       "tg": "TypeScript 3 true\nstring - Day 3: primitives\nlength: 10 false",
       "en": "TypeScript 3 true\nstring - Day 3: primitives\nlength: 10 false"
      }
+    },
+    {
+     "title": {
+      "ru": "Цифры из поля ввода",
+      "tg": "Рақамҳо аз input",
+      "en": "Digits from an input field"
+     },
+     "body": {
+      "ru": "Значение из текстового поля приходит строкой. Например, \"12\" + \"3\" даёт \"123\". Для арифметики сначала преобразуйте допустимую строку в число и проверьте результат. Аннотация number у другой переменной сама по себе строку не преобразует.",
+      "tg": "Қимати text input string меояд. Масалан, \"12\" + \"3\" натиҷаи \"123\" медиҳад. Барои ҳисоб аввал сатри дурустро ба адад табдил диҳед ва натиҷаро бинед. Аннотатсияи number дар тағйирёбандаи дигар string-ро худкор табдил намедиҳад.",
+      "en": "A text field gives you a string. For example, \"12\" + \"3\" is \"123\". For arithmetic, convert valid input to a number and check the result. Putting a number annotation on a variable does not turn a string into a number."
+     }
     }
    ],
    "questions": [
@@ -528,7 +600,13 @@
        "en": "Error: values cannot be reassigned in let"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Тип score определяется по его исходному значению 10.",
+      "tg": "Навъи score аз қимати ибтидоии 10 бармеояд.",
+      "en": "The first value, 10, gives score its inferred type."
+     }
     },
     {
      "id": "typescript-day-03-q2",
@@ -559,37 +637,80 @@
        "en": "It switches off checks around the value, so errors slip through to runtime"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Подумайте, проверит ли компилятор существование метода у переменной с any.",
+      "tg": "Фикр кунед, ки компилятор будани методро дар тағйирёбандаи any месанҷад ё не.",
+      "en": "Think about whether the compiler checks if a method exists on a value typed any."
+     }
+    },
+    {
+     "id": "typescript-day-03-q3",
+     "question": {
+      "ru": "Какой тип получит переменная let inStock = false?",
+      "tg": "Тағйирёбандаи let inStock = false кадом навъро мегирад?",
+      "en": "What type is inferred for let inStock = false?"
+     },
+     "answer": {
+      "ru": "boolean",
+      "tg": "boolean",
+      "en": "boolean"
+     },
+     "options": [
+      {
+       "ru": "boolean",
+       "tg": "boolean",
+       "en": "boolean"
+      },
+      {
+       "ru": "string",
+       "tg": "string",
+       "en": "string"
+      },
+      {
+       "ru": "number",
+       "tg": "number",
+       "en": "number"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Посмотрите, записано исходное значение как логическое, текстовое или числовое.",
+      "tg": "Бинед, ки қимати аввал boolean аст, матн аст ё адад.",
+      "en": "Is the initial value a boolean, a string, or a number?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте primitives.ts и наберите решение целиком.\n2. Проверьте типы: npx tsc --noEmit --strict primitives.ts — ошибок нет.\n3. Запустите: npx esbuild primitives.ts --outfile=primitives.mjs --format=esm && node primitives.mjs.\n4. Сверьте вывод: «TypeScript 3 true», «string - Day 3: primitives», «length: 10 false».\n5. Измените условие isLong на «больше или равно 10» и до запуска предскажите последнюю строку.",
-     "tg": "1. primitives.ts созед ва ҳалро пурра нависед.\n2. Навъҳоро санҷед: npx tsc --noEmit --strict primitives.ts — хато нест.\n3. Иҷро кунед: npx esbuild primitives.ts --outfile=primitives.mjs --format=esm && node primitives.mjs.\n4. Натиҷаро бисанҷед: «TypeScript 3 true», «string - Day 3: primitives», «length: 10 false».\n5. Шарти isLong-ро ба «аз 10 зиёд ё баробар» иваз кунед ва пеш аз иҷро сатри охиринро пешгӯӣ намоед.",
-     "en": "1. Create primitives.ts and type the whole solution.\n2. Check the types: npx tsc --noEmit --strict primitives.ts — no errors.\n3. Run: npx esbuild primitives.ts --outfile=primitives.mjs --format=esm && node primitives.mjs.\n4. Verify the output: “TypeScript 3 true”, “string - Day 3: primitives”, “length: 10 false”.\n5. Change the isLong condition to “greater than or equal to 10” and predict the last line before running."
+     "ru": "1. Создайте stock.ts в папке практики.\n2. Создайте let label = \"First delivery\", let count = 3 и let available = false. Определите типы исходя из значений.\n3. Запишите в available выражение count > 0. Выведите label, count и available одной строкой.\n4. Если count меньше 4, выведите Restock today. Поставьте count = 4 и проверьте, что вторая строка исчезает.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck stock.ts. Соберите и запустите: npx esbuild stock.ts --outfile=stock.mjs --format=esm, затем node stock.mjs.",
+     "tg": "1. Дар папкаи машқ stock.ts созед.\n2. let label = \"First delivery\", let count = 3 ва let available = false созед. Навъҳоро аз қиматҳои аввал фаҳмед.\n3. Ба available ифодаи count > 0 монед. label, count ва available-ро дар як сатр бароред.\n4. Агар count аз 4 кам бошад, Restock today бароред. count = 4 монда бинед, ки сатри дуюм дигар намебарояд.\n5. Навъҳоро ин хел санҷед: npx tsc --noEmit --strict --skipLibCheck stock.ts. Баъд npx esbuild stock.ts --outfile=stock.mjs --format=esm ва node stock.mjs-ро иҷро кунед.",
+     "en": "1. Create stock.ts in your practice folder.\n2. Create let label = \"First delivery\", let count = 3 and let available = false. Identify their inferred types.\n3. Set available to the result of count > 0. Print label, count and available on one line.\n4. Print Restock today when count is below 4. Set count to 4 and verify the second line is gone.\n5. Check the types with npx tsc --noEmit --strict --skipLibCheck stock.ts. Run npx esbuild stock.ts --outfile=stock.mjs --format=esm, then node stock.mjs."
     },
     "hint": {
-     "ru": "Длина строки — это value.length, сравнение строгое: value.length > 10. После смены на >= строка «TypeScript» (10 символов) даст true, а первая часть вывода не изменится.",
-     "tg": "Дарозии матн — value.length аст, муқоиса қатъӣ: value.length > 10. Баъди иваз ба >= матни «TypeScript» (10 аломат) true медиҳад ва қисми аввали натиҷа тағйир намеёбад.",
-     "en": "String length is value.length, and the comparison is strict: value.length > 10. After switching to >=, the string “TypeScript” (10 characters) yields true, while the first part of the output stays the same."
+     "ru": "Вывод типов использует исходное значение let. Выражение count > 0 даёт boolean.",
+     "tg": "TypeScript навъи let-ро аз қимати аввал мегирад. count > 0 boolean медиҳад.",
+     "en": "Inference uses the initial value of let. The expression count > 0 produces a boolean."
     },
-    "solution": "let title: string = \"TypeScript\";\nlet day: number = 3;\nlet published: boolean = false;\npublished = true;\n\nlet headline = \"Day 3: primitives\";\n\nfunction describe(value: string): string {\n  return \"length: \" + value.length;\n}\n\nfunction isLong(value: string): boolean {\n  return value.length > 10;\n}\n\nconsole.log(title, day, published);\nconsole.log(typeof headline, \"-\", headline);\nconsole.log(describe(\"TypeScript\"), isLong(\"TypeScript\"));",
+    "solution": "let label = \"First delivery\";\nlet count = 3;\nlet available = false;\n\navailable = count > 0;\nconsole.log(label, count, available);\n\nif (count < 4) {\n  console.log(\"Restock today\");\n}",
     "criteria": [
      {
-      "ru": "tsc --noEmit --strict проходит без ошибок, вывод до символа совпадает с уроком.",
-      "tg": "tsc --noEmit --strict бехато мегузарад, натиҷа то аломат бо сабак мувофиқ аст.",
-      "en": "tsc --noEmit --strict passes without errors and the output matches the lesson to the symbol."
+      "ru": "Файл проходит tsc в strict-режиме и запускается локально.",
+      "tg": "Файл аз санҷиши strict-и tsc мегузарад ва маҳаллӣ иҷро мешавад.",
+      "en": "The file passes strict tsc checking and runs locally."
      },
      {
-      "ru": "После смены порога предсказание последней строки совпало с фактическим выводом.",
-      "tg": "Баъди ивази ошёна пешгӯии сатри охирин бо натиҷаи воқеӣ мувофиқ омад.",
-      "en": "After changing the threshold, the prediction of the last line matched the actual output."
+      "ru": "Код обрабатывает оба заданных примера по описанным правилам.",
+      "tg": "Код ҳар ду мисоли додашударо аз рӯйи шартҳо иҷро мекунад.",
+      "en": "The code handles both specified cases according to the task."
      },
      {
-      "ru": "Могу объяснить, какая проверка произошла до запуска, а какая — в typeof во время выполнения.",
-      "tg": "Метавонам шарҳ диҳам, ки кадом санҷиш пеш аз иҷро ва кадом дар typeof ҳангоми иҷро шуд.",
-      "en": "I can explain which check happened before the run and which one inside typeof at runtime."
+      "ru": "Проверены строки вывода: First delivery 3 true / Restock today.",
+      "tg": "Сатрҳои натиҷа санҷида шуданд: First delivery 3 true / Restock today.",
+      "en": "The following output lines were checked: First delivery 3 true / Restock today."
      }
     ]
    }
@@ -659,6 +780,18 @@
       "tg": "Dilnoza + Sitora avg: 8\nDilnoza 20 dilnoza@example.com",
       "en": "Dilnoza + Sitora avg: 8\nDilnoza 20 dilnoza@example.com"
      }
+    },
+    {
+     "title": {
+      "ru": "Пустой список и пропущенное поле",
+      "tg": "Рӯйхати холӣ ва майдони нонавишта",
+      "en": "An empty list and a missing field"
+     },
+     "body": {
+      "ru": "Количество партий и наличие полки проверяются отдельно. [] подходит для number[] и означает, что партий пока нет. Поле shelf?: string может полностью отсутствовать, поэтому при чтении возможен undefined. Значение по умолчанию для полки оставляет число товаров неизменным.",
+      "tg": "Миқдори партияҳо ва будани рафро алоҳида месанҷем. [] барои number[] дуруст аст ва мегӯяд, ки партия ҳоло нест. Майдони shelf?: string метавонад набошад, барои ҳамин ҳангоми хондан undefined ҳам мешавад. Қимати пешфарзи раф шумораи молро дигар намекунад.",
+      "en": "Batch count and shelf assignment are separate. An empty array satisfies number[] and means there are no batches yet. An optional shelf?: string may be absent, so reading it can yield undefined. A display fallback for the shelf does not change the stock count."
+     }
     }
    ],
    "questions": [
@@ -691,7 +824,13 @@
        "en": "The field is optional; reading it yields string | undefined"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Представьте объект, в котором ключ email совсем отсутствует.",
+      "tg": "Объектеро тасаввур кунед, ки калиди email надорад.",
+      "en": "Picture an object with the email key missing altogether."
+     }
     },
     {
      "id": "typescript-day-04-q2",
@@ -727,37 +866,80 @@
        "en": "{ age: 20 }"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Проверьте наличие обоих ключей и тип значения каждого из них.",
+      "tg": "Ҳар ду калид ва навъи қимати ҳар кадомро санҷед.",
+      "en": "Check for both required keys and the type of each value."
+     }
+    },
+    {
+     "id": "typescript-day-04-q3",
+     "question": {
+      "ru": "Какой из массивов подходит для scores: number[]?",
+      "tg": "Кадом массив ба scores: number[] мувофиқ аст?",
+      "en": "Which array is valid for scores: number[]?"
+     },
+     "answer": {
+      "ru": "[8, 10]",
+      "tg": "[8, 10]",
+      "en": "[8, 10]"
+     },
+     "options": [
+      {
+       "ru": "[8, \"10\"]",
+       "tg": "[8, \"10\"]",
+       "en": "[8, \"10\"]"
+      },
+      {
+       "ru": "[8, 10]",
+       "tg": "[8, 10]",
+       "en": "[8, 10]"
+      },
+      {
+       "ru": "[\"8\", \"10\"]",
+       "tg": "[\"8\", \"10\"]",
+       "en": "[\"8\", \"10\"]"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Кавычки превращают цифры в строку. Проверьте каждый элемент.",
+      "tg": "Рақам дар нохунак string аст. Ҳар элементро бинед.",
+      "en": "Digits in quotes are strings. Check each element."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте student.ts с решением из урока.\n2. Проверьте: npx tsc --noEmit --strict student.ts — ошибок нет.\n3. Запустите: npx esbuild student.ts --outfile=student.mjs --format=esm && node student.mjs.\n4. Сверьте вывод: «Dilnoza + Sitora avg: 8» и «Dilnoza 20 dilnoza@example.com».\n5. Добавьте в scores оценку 10, заранее посчитайте новое среднее и проверьте себя запуском.",
-     "tg": "1. student.ts-ро бо ҳали сабак созед.\n2. Санҷед: npx tsc --noEmit --strict student.ts — хато нест.\n3. Иҷро кунед: npx esbuild student.ts --outfile=student.mjs --format=esm && node student.mjs.\n4. Натиҷаро бисанҷед: «Dilnoza + Sitora avg: 8» ва «Dilnoza 20 dilnoza@example.com».\n5. Ба scores баҳои 10-ро илова кунед, миёнаи навро пешакӣ ҳисоб карда, бо иҷро худро санҷед.",
-     "en": "1. Create student.ts with the solution from the lesson.\n2. Check: npx tsc --noEmit --strict student.ts — no errors.\n3. Run: npx esbuild student.ts --outfile=student.mjs --format=esm && node student.mjs.\n4. Verify the output: “Dilnoza + Sitora avg: 8” and “Dilnoza 20 dilnoza@example.com”.\n5. Add the score 10 to scores, compute the new mean in advance and verify yourself by running it."
+     "ru": "1. Создайте inventory.ts в папке практики.\n2. Опишите Item с полями name: string, quantities: number[] и необязательным shelf?: string.\n3. Создайте Item[]: Bolts с партиями [2, 3] и полкой A2, Nuts с пустым списком и без полки.\n4. Для каждого товара сложите партии и выведите имя, сумму и номер полки. Если полки нет, выведите unassigned.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck inventory.ts. Соберите и запустите: npx esbuild inventory.ts --outfile=inventory.mjs --format=esm, затем node inventory.mjs.",
+     "tg": "1. Дар папкаи машқ inventory.ts созед.\n2. Item-ро бо name: string, quantities: number[] ва shelf?: string нависед.\n3. Item[] созед: Bolts бо партияҳои [2, 3] ва рафи A2, Nuts бо рӯйхати холӣ ва бе раф.\n4. Барои ҳар мол миқдори партияҳоро ҷамъ кунед ва ном, сумма ва рақами рафро бароред. Агар раф набошад, unassigned бароред.\n5. Навъҳоро ин хел санҷед: npx tsc --noEmit --strict --skipLibCheck inventory.ts. Баъд npx esbuild inventory.ts --outfile=inventory.mjs --format=esm ва node inventory.mjs-ро иҷро кунед.",
+     "en": "1. Create inventory.ts in your practice folder.\n2. Define Item with name: string, quantities: number[] and the optional shelf?: string.\n3. Create an Item[] with Bolts in batches [2, 3] on shelf A2 and Nuts with an empty batch list and no shelf.\n4. For each item, add the batches and print its name, total, and shelf. Use unassigned when the shelf is absent.\n5. Check the types with npx tsc --noEmit --strict --skipLibCheck inventory.ts. Run npx esbuild inventory.ts --outfile=inventory.mjs --format=esm, then node inventory.mjs."
     },
     "hint": {
-     "ru": "Среднее после добавления 10: (7 + 9 + 8 + 10) / 4 = 34 / 4 = 8.5 — первая строка вывода сменится на «avg: 8.5». Поле email опциональное, поэтому запись student.email = ... легальна в любой момент.",
-     "tg": "Миёна баъди илова кардани 10: (7 + 9 + 8 + 10) / 4 = 34 / 4 = 8.5 — сатри аввали натиҷа ба «avg: 8.5» иваз мешавад. Майдони email ихтиёрӣ аст, бинобар ин навиштани student.email = ... дар ҳар вақт қонунӣ аст.",
-     "en": "The mean after adding 10: (7 + 9 + 8 + 10) / 4 = 34 / 4 = 8.5 — the first output line becomes “avg: 8.5”. The email field is optional, so student.email = ... is legal at any moment."
+     "ru": "Начальное значение суммы — 0. Для полки проверьте отсутствие значения или используйте ??.",
+     "tg": "Қимати аввали сумма 0 аст. Барои раф набудани қиматро санҷед ё ?? монед.",
+     "en": "Start the total at zero. Check whether the shelf is missing or use ??."
     },
-    "solution": "const scores: number[] = [7, 9, 8];\nconst names: Array<string> = [\"Dilnoza\", \"Sitora\"];\n\ninterface Student {\n  name: string;\n  age: number;\n  email?: string;\n}\n\nconst student: Student = { name: \"Dilnoza\", age: 20 };\n\nfunction average(list: number[]): number {\n  let total = 0;\n  for (const value of list) {\n    total += value;\n  }\n  return total / list.length;\n}\n\nstudent.email = \"dilnoza@example.com\";\nconsole.log(names.join(\" + \"), \"avg:\", average(scores));\nconsole.log(student.name, student.age, student.email);",
+    "solution": "interface Item {\n  name: string;\n  quantities: number[];\n  shelf?: string;\n}\n\nconst items: Item[] = [\n  { name: \"Bolts\", quantities: [2, 3], shelf: \"A2\" },\n  { name: \"Nuts\", quantities: [] },\n];\n\nfor (const item of items) {\n  let total = 0;\n  for (const quantity of item.quantities) {\n    total += quantity;\n  }\n  console.log(item.name, \"·\", total, \"·\", item.shelf ?? \"unassigned\");\n}",
     "criteria": [
      {
-      "ru": "Программа проходит строгую проверку типов и запускается локально без ошибок.",
-      "tg": "Барнома санҷиши қатъии навъҳоро мегузаронад ва маҳаллӣ бехато иҷро мешавад.",
-      "en": "The program passes the strict type check and runs locally without errors."
+      "ru": "Файл проходит tsc в strict-режиме и запускается локально.",
+      "tg": "Файл аз санҷиши strict-и tsc мегузарад ва маҳаллӣ иҷро мешавад.",
+      "en": "The file passes strict tsc checking and runs locally."
      },
      {
-      "ru": "Вывод совпадает с уроком; после добавления оценки среднее предсказано и подтверждено запуском.",
-      "tg": "Натиҷа бо сабак мувофиқ аст; баъди илова кардани баҳо миёна пешгӯӣ ва бо иҷро тасдиқ шуд.",
-      "en": "The output matches the lesson; after adding the score, the mean was predicted and confirmed by a run."
+      "ru": "Код обрабатывает оба заданных примера по описанным правилам.",
+      "tg": "Код ҳар ду мисоли додашударо аз рӯйи шартҳо иҷро мекунад.",
+      "en": "The code handles both specified cases according to the task."
      },
      {
-      "ru": "Могу объяснить, почему email можно было задать после создания объекта.",
-      "tg": "Метавонам шарҳ диҳам, чаро email-ро баъди сохтани объект гузоштан мумкин буд.",
-      "en": "I can explain why email could be assigned after the object was created."
+      "ru": "Проверены строки вывода: Bolts · 5 · A2 / Nuts · 0 · unassigned.",
+      "tg": "Сатрҳои натиҷа санҷида шуданд: Bolts · 5 · A2 / Nuts · 0 · unassigned.",
+      "en": "The following output lines were checked: Bolts · 5 · A2 / Nuts · 0 · unassigned."
      }
     ]
    }
@@ -827,6 +1009,18 @@
       "tg": "[log] Hello, Alisher!\n[log] Salom, Zarina!\n42 READY!",
       "en": "[log] Hello, Alisher!\n[log] Salom, Zarina!\n42 READY!"
      }
+    },
+    {
+     "title": {
+      "ru": "Вернуть строку или вывести её",
+      "tg": "Сатрро баргардонем ё барорем",
+      "en": "Returning a string versus printing it"
+     },
+     "body": {
+      "ru": "Функцию, которая возвращает строку, можно проверить напрямую: сравнить result с ожидаемым текстом. Отдельная функция выводит этот результат на экран. Если формат и вывод написаны раздельно, один и тот же формат можно использовать и в журнале, и на странице.",
+      "tg": "Функсияе, ки сатрро бармегардонад, рост санҷида мешавад: result-ро бо матни чашмдошт муқоиса кунед. Функсияи дигар натиҷаро ба экран мебарорад. Агар формат ва баровардан ҷудо бошад, як форматро ҳам дар журнал ва ҳам дар саҳифа истифода мебаред.",
+      "en": "Test a formatter directly by comparing its returned string with the expected text. A separate function displays that result. Keeping the formatting and output separate lets you reuse the same text in both a log and a page."
+     }
     }
    ],
    "questions": [
@@ -859,7 +1053,13 @@
        "en": "The function may return any type"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Рассмотрите вызов log('ok'): нужна ли вызывающему коду полезная возвращаемая величина?",
+      "tg": "Вызови log('ok')-ро бинед: ба коди даъваткунанда қимати фоиданоки бозгашт даркор аст?",
+      "en": "Consider log('ok'). Does its caller get a useful return value?"
+     }
     },
     {
      "id": "typescript-day-05-q2",
@@ -890,37 +1090,80 @@
        "en": "None: both are defaulted"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Посмотрите, у какого параметра уже задано значение на случай пропуска.",
+      "tg": "Бинед, ки кадом параметр ҳангоми надодани аргумент қимати пешфарз дорад.",
+      "en": "Look for the parameter that already has a value to use when omitted."
+     }
+    },
+    {
+     "id": "typescript-day-05-q3",
+     "question": {
+      "ru": "Что следует вернуть из функции subtotal(price: number): number?",
+      "tg": "Функсияи subtotal(price: number): number бояд чӣ баргардонад?",
+      "en": "What should subtotal(price: number): number return?"
+     },
+     "answer": {
+      "ru": "return price * 2",
+      "tg": "return price * 2",
+      "en": "return price * 2"
+     },
+     "options": [
+      {
+       "ru": "return String(price)",
+       "tg": "return String(price)",
+       "en": "return String(price)"
+      },
+      {
+       "ru": "return Boolean(price)",
+       "tg": "return Boolean(price)",
+       "en": "return Boolean(price)"
+      },
+      {
+       "ru": "return price * 2",
+       "tg": "return price * 2",
+       "en": "return price * 2"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сравните тип результата каждого выражения с аннотацией после скобок.",
+      "tg": "Навъи натиҷаи ҳар ифодаро бо аннотатсияи баъди қавс муқоиса кунед.",
+      "en": "Compare each expression’s type with the annotation after the parameters."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте functions.ts и наберите решение полностью — все четыре функции.\n2. Проверьте: npx tsc --noEmit --strict functions.ts.\n3. Запустите: npx esbuild functions.ts --outfile=functions.mjs --format=esm && node functions.mjs.\n4. Сверьте три строки: два [log]-приветствия и «42 READY!».\n5. Смените дефолт \"Hello\" на \"Salom\" и до запуска предскажите первую строку вывода.",
-     "tg": "1. functions.ts созед ва ҳалро пурра нависед — ҳар чор функсия.\n2. Санҷед: npx tsc --noEmit --strict functions.ts.\n3. Иҷро кунед: npx esbuild functions.ts --outfile=functions.mjs --format=esm && node functions.mjs.\n4. Се сатрро бисанҷед: ду саломномаи [log] ва «42 READY!».\n5. Пешфарзи \"Hello\"-ро ба \"Salom\" иваз кунед ва пеш аз иҷро сатри якуми натиҷаро пешгӯӣ намоед.",
-     "en": "1. Create functions.ts and type the whole solution — all four functions.\n2. Check: npx tsc --noEmit --strict functions.ts.\n3. Run: npx esbuild functions.ts --outfile=functions.mjs --format=esm && node functions.mjs.\n4. Verify the three lines: two [log] greetings and “42 READY!”.\n5. Change the default \"Hello\" to \"Salom\" and predict the first output line before running."
+     "ru": "1. Создайте deliveries.ts в папке практики.\n2. Напишите formatDelivery(ticket: number, method: string = \"standard\"): string. Возвращайте строку вида ticket 7 standard.\n3. Добавьте printDelivery(text: string): void. Она выводит текст с префиксом [delivery].\n4. Проверьте заказ 7 без второго аргумента и заказ 8 с аргументом express.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck deliveries.ts. Соберите и запустите: npx esbuild deliveries.ts --outfile=deliveries.mjs --format=esm, затем node deliveries.mjs.",
+     "tg": "1. Дар папкаи машқ deliveries.ts созед.\n2. formatDelivery(ticket: number, method: string = \"standard\"): string нависед. Сатрро ба шакли ticket 7 standard баргардонед.\n3. printDelivery(text: string): void илова кунед. Функсия матнро бо пешванди [delivery] мебарорад.\n4. Фармоиши 7-ро бе аргументи дуюм ва фармоиши 8-ро бо express санҷед.\n5. Навъҳоро ин хел санҷед: npx tsc --noEmit --strict --skipLibCheck deliveries.ts. Баъд npx esbuild deliveries.ts --outfile=deliveries.mjs --format=esm ва node deliveries.mjs-ро иҷро кунед.",
+     "en": "1. Create deliveries.ts in your practice folder.\n2. Write formatDelivery(ticket: number, method: string = \"standard\"): string and return text such as ticket 7 standard.\n3. Add printDelivery(text: string): void. It prints the text with a [delivery] prefix.\n4. Try ticket 7 without the second argument and ticket 8 with express.\n5. Check the types with npx tsc --noEmit --strict --skipLibCheck deliveries.ts. Run npx esbuild deliveries.ts --outfile=deliveries.mjs --format=esm, then node deliveries.mjs."
     },
     "hint": {
-     "ru": "После смены дефолта первая строка станет «[log] Salom, Alisher!» — второй вызов передаёт \"Salom\" явно, поэтому не меняется. toUpperCase — обычный метод строки JavaScript, он работает и в TypeScript.",
-     "tg": "Баъди ивази пешфарз сатри якум «[log] Salom, Alisher!» мешавад — даъвати дуюм \"Salom\"-ро ошкоро медиҳад, барои ҳамин тағйир намеёбад. toUpperCase методи оддаи сатри JavaScript аст, он дар TypeScript низ кор мекунад.",
-     "en": "After changing the default, the first line becomes “[log] Salom, Alisher!” — the second call passes \"Salom\" explicitly, so it does not change. toUpperCase is an ordinary JavaScript string method; it works in TypeScript too."
+     "ru": "Сначала передайте результат formatDelivery в printDelivery. Значение standard назначьте в списке параметров.",
+     "tg": "Натиҷаи formatDelivery-ро ба printDelivery диҳед. standard-ро дар рӯйхати параметрҳо монед.",
+     "en": "Pass the value from formatDelivery into printDelivery. Put the standard default in the parameter list."
     },
-    "solution": "function makeGreeting(name: string, greeting: string = \"Hello\"): string {\n  return greeting + \", \" + name + \"!\";\n}\n\nfunction logLine(text: string): void {\n  console.log(\"[log] \" + text);\n}\n\nconst add = (a: number, b: number): number => a + b;\n\nconst shout = function (text: string): string {\n  return text.toUpperCase() + \"!\";\n};\n\nlogLine(makeGreeting(\"Alisher\"));\nlogLine(makeGreeting(\"Zarina\", \"Salom\"));\nconsole.log(add(19, 23), shout(\"ready\"));",
+    "solution": "function formatDelivery(ticket: number, method: string = \"standard\"): string {\n  return \"ticket \" + ticket + \" \" + method;\n}\n\nfunction printDelivery(text: string): void {\n  console.log(\"[delivery] \" + text);\n}\n\nprintDelivery(formatDelivery(7));\nprintDelivery(formatDelivery(8, \"express\"));",
     "criteria": [
      {
-      "ru": "Строгая проверка типов проходит, программа выполняется локально и вывод совпадает.",
-      "tg": "Санҷиши қатъии навъҳо мегузарад, барнома маҳаллӣ иҷро мешавад ва натиҷа мувофиқ аст.",
-      "en": "The strict type check passes, the program runs locally and the output matches."
+      "ru": "Файл проходит tsc в strict-режиме и запускается локально.",
+      "tg": "Файл аз санҷиши strict-и tsc мегузарад ва маҳаллӣ иҷро мешавад.",
+      "en": "The file passes strict tsc checking and runs locally."
      },
      {
-      "ru": "Вызов makeGreeting с одним аргументом работает благодаря значению по умолчанию.",
-      "tg": "Даъвати makeGreeting бо як аргумент ба шарофати қимати пешфарз кор мекунад.",
-      "en": "Calling makeGreeting with one argument works thanks to the default value."
+      "ru": "Код обрабатывает оба заданных примера по описанным правилам.",
+      "tg": "Код ҳар ду мисоли додашударо аз рӯйи шартҳо иҷро мекунад.",
+      "en": "The code handles both specified cases according to the task."
      },
      {
-      "ru": "Могу объяснить, почему результат logLine нельзя присвоить переменной.",
-      "tg": "Метавонам шарҳ диҳам, чаро натиҷаи logLine-ро ба тағйирёбанда гузоштан намешавад.",
-      "en": "I can explain why the result of logLine cannot be assigned to a variable."
+      "ru": "Проверены строки вывода: [delivery] ticket 7 standard / [delivery] ticket 8 express.",
+      "tg": "Сатрҳои натиҷа санҷида шуданд: [delivery] ticket 7 standard / [delivery] ticket 8 express.",
+      "en": "The following output lines were checked: [delivery] ticket 7 standard / [delivery] ticket 8 express."
      }
     ]
    }
@@ -991,6 +1234,18 @@
       "tg": "#501 -> paid\nAB-77 -> shipped",
       "en": "#501 -> paid\nAB-77 -> shipped"
      }
+    },
+    {
+     "title": {
+      "ru": "Ограниченный статус в карточке",
+      "tg": "Статуси маҳдуд дар карточка",
+      "en": "A fixed set of card statuses"
+     },
+     "body": {
+      "ru": "Когда карточка знает только waiting и collected, в редакторе видно оба разрешённых значения. Строка collectd перечёркивает этот контракт. Если статус пришёл извне, его нужно проверить перед использованием: тип помогает с кодом, который проверяет компилятор.",
+      "tg": "Вақте карточка фақат waiting ва collected-ро мешиносад, редактор ҳар ду қиматро нишон медиҳад. collectd ба ин қоида намефорад. Статусе, ки аз берун омад, пеш аз истифода санҷидан даркор. Навъ барои коде ёрӣ мекунад, ки компилятор мебинад.",
+      "en": "With only waiting and collected on a card, the editor can offer both values. The misspelling collectd violates that contract. If you get a status from outside the program, check it before use. Type checks apply to the code the compiler sees."
+     }
     }
    ],
    "questions": [
@@ -1023,7 +1278,13 @@
        "en": "The value holds both a string and a number at once"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Знак union показывает варианты, из которых подходит хотя бы один.",
+      "tg": "Нишонаи union вариантҳоро нишон медиҳад; яктоаш мувофиқ бошад, бас аст.",
+      "en": "A union lists the alternatives that a value can match."
+     }
     },
     {
      "id": "typescript-day-06-q2",
@@ -1054,37 +1315,80 @@
        "en": "The string silently becomes the closest literal \"paid\""
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Посимвольно сравните Payd с допустимыми строками.",
+      "tg": "Payd-ро ҳарф ба ҳарф бо сатрҳои иҷозатшуда муқоиса кунед.",
+      "en": "Compare Payd with the allowed strings character by character."
+     }
+    },
+    {
+     "id": "typescript-day-06-q3",
+     "question": {
+      "ru": "Для чего тип 'new' | 'paid' полезнее общего string в поле status?",
+      "tg": "Навъи 'new' | 'paid' барои status аз string-и умумӣ чӣ бартарӣ дорад?",
+      "en": "Why use 'new' | 'paid' instead of string for status?"
+     },
+     "answer": {
+      "ru": "Редактор может подсказать допустимые значения.",
+      "tg": "Редактор қиматҳои иҷозатшударо пешниҳод карда метавонад.",
+      "en": "The editor can suggest valid status values."
+     },
+     "options": [
+      {
+       "ru": "Редактор может подсказать допустимые значения.",
+       "tg": "Редактор қиматҳои иҷозатшударо пешниҳод карда метавонад.",
+       "en": "The editor can suggest valid status values."
+      },
+      {
+       "ru": "Любая строка автоматически становится статусом.",
+       "tg": "Ҳар string худкор статус мешавад.",
+       "en": "Any string automatically becomes a status."
+      },
+      {
+       "ru": "Компилятор добавляет статус во время выполнения.",
+       "tg": "Компилятор статусро вақти иҷро илова мекунад.",
+       "en": "The compiler supplies a status at runtime."
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните, что известно редактору об ограниченном наборе значений.",
+      "tg": "Ба ёд оред, ки редактор дар бораи рӯйхати маҳдуди қиматҳо чӣ медонад.",
+      "en": "Think about what an editor knows about a finite set of allowed values."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте labels.ts с решением из урока.\n2. Проверьте: npx tsc --noEmit --strict labels.ts — ошибок нет.\n3. Запустите: npx esbuild labels.ts --outfile=labels.mjs --format=esm && node labels.mjs.\n4. Сверьте вывод: «#501 -> paid» и «AB-77 -> shipped».\n5. Поменяйте статус второго заказа на \"new\" и намеренно допустите опечатку — убедитесь, что tsc её ловит, а потом исправьте.",
-     "tg": "1. labels.ts-ро бо ҳали сабак созед.\n2. Санҷед: npx tsc --noEmit --strict labels.ts — хато нест.\n3. Иҷро кунед: npx esbuild labels.ts --outfile=labels.mjs --format=esm && node labels.mjs.\n4. Натиҷаро бисанҷед: «#501 -> paid» ва «AB-77 -> shipped».\n5. Статси фармоиши дуюмро ба \"new\" иваз кунед ва ба қасд хатои имло ворид кунед — бовар шавед, ки tsc онро мегирад, баъд ислоҳ кунед.",
-     "en": "1. Create labels.ts with the solution from the lesson.\n2. Check: npx tsc --noEmit --strict labels.ts — no errors.\n3. Run: npx esbuild labels.ts --outfile=labels.mjs --format=esm && node labels.mjs.\n4. Verify the output: “#501 -> paid” and “AB-77 -> shipped”.\n5. Change the second order’s status to \"new\" and make a deliberate typo — confirm tsc catches it, then fix it."
+     "ru": "1. Создайте pickups.ts в учебной папке.\n2. Опишите PickupId как string или number, а PickupStatus как два значения: waiting и collected.\n3. Напишите pickupLabel(id: PickupId, status: PickupStatus): string. Перед числовым id добавляйте #, текстовый оставляйте как есть.\n4. Выведите метки для 12/waiting и CAB-7/collected. После успешной проверки попробуйте статус collectd и прочитайте диагностику.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck pickups.ts. Соберите и запустите: npx esbuild pickups.ts --outfile=pickups.mjs --format=esm, затем node pickups.mjs.",
+     "tg": "1. Дар папкаи машқ pickups.ts созед.\n2. PickupId-ро string ё number нависед. PickupStatus ду қимат дошта бошад: waiting ва collected.\n3. pickupLabel(id: PickupId, status: PickupStatus): string нависед. Пеш аз id-и ададӣ # монед, id-и матниро ҳамон хел монед.\n4. Барои 12/waiting ва CAB-7/collected label бароред. Баъди санҷиши дуруст collectd монед ва хатои tsc-ро хонед.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck pickups.ts санҷед. Баъд npx esbuild pickups.ts --outfile=pickups.mjs --format=esm ва node pickups.mjs-ро иҷро кунед.",
+     "en": "1. Create pickups.ts in the practice folder.\n2. Model PickupId as string or number and PickupStatus as waiting or collected.\n3. Write pickupLabel(id: PickupId, status: PickupStatus): string. Prefix numeric IDs with # and keep string IDs unchanged.\n4. Print labels for 12/waiting and CAB-7/collected. After a successful check, try the status collectd and read the diagnostic.\n5. Check with npx tsc --noEmit --strict --skipLibCheck pickups.ts. Run npx esbuild pickups.ts --outfile=pickups.mjs --format=esm and then node pickups.mjs."
     },
     "hint": {
-     "ru": "Сужение работает через typeof: в ветке «число» id имеет тип number, в else — string. Переменная idText объявлена как string и получает значение в обеих ветках — так компилятор уверен, что она инициализирована.",
-     "tg": "Маҳдудкунӣ тавассути typeof кор мекунад: дар шохаи «адад» id навъи number дорад, дар else — string. Тағйирёбандаи idText ҳамчун string эълон шуда, дар ҳар ду шоха қимат мегирад — бинобар ин компилятор ба инициализатсия итминон дорад.",
-     "en": "Narrowing works through typeof: in the number branch id has type number, in else — string. The idText variable is declared as string and receives a value in both branches — that is why the compiler is sure it is initialised."
+     "ru": "Проверка typeof id === 'number' различает две формы ID. Статус уже ограничен union-типом.",
+     "tg": "typeof id === 'number' ду шакли ID-ро фарқ мекунад. Union навъи статусро аллакай маҳдуд мекунад.",
+     "en": "A typeof id === 'number' check distinguishes the ID forms. The union already restricts the status."
     },
-    "solution": "type Status = \"new\" | \"paid\" | \"shipped\";\ntype OrderId = string | number;\n\ninterface Order {\n  id: OrderId;\n  status: Status;\n}\n\nfunction label(order: Order): string {\n  let idText: string;\n  if (typeof order.id === \"number\") {\n    idText = \"#\" + order.id;\n  } else {\n    idText = order.id;\n  }\n  return idText + \" -> \" + order.status;\n}\n\nconst first: Order = { id: 501, status: \"paid\" };\nconst second: Order = { id: \"AB-77\", status: \"shipped\" };\nconsole.log(label(first));\nconsole.log(label(second));",
+    "solution": "type PickupId = string | number;\ntype PickupStatus = \"waiting\" | \"collected\";\n\nfunction pickupLabel(id: PickupId, status: PickupStatus): string {\n  const label = typeof id === \"number\" ? \"#\" + id : id;\n  return label + \": \" + status;\n}\n\nconsole.log(pickupLabel(12, \"waiting\"));\nconsole.log(pickupLabel(\"CAB-7\", \"collected\"));",
     "criteria": [
      {
-      "ru": "Программа проходит строгую проверку и печатает ровно две строки из урока.",
-      "tg": "Барнома санҷиши қатъиро мегузаронад ва дақиқ ду сатри сабакро чоп мекунад.",
-      "en": "The program passes the strict check and prints exactly the two lines from the lesson."
+      "ru": "Типы всех полей и параметров совпадают с контрактом из задания.",
+      "tg": "Навъи ҳамаи майдонҳо ва параметрҳо ба шарти машқ мувофиқ аст.",
+      "en": "All fields and parameters match the requested types."
      },
      {
-      "ru": "Опечатка в литеральном статусе действительно поймана компилятором, а не «прошла молча».",
-      "tg": "Хатои имло дар статси литералӣ воқеан аз тарафи компилятор гирифта шуд, на бе хабо гузашт.",
-      "en": "A typo in a literal status was actually caught by the compiler rather than slipping through."
+      "ru": "Программа выводит #12: waiting / CAB-7: collected.",
+      "tg": "Барнома #12: waiting / CAB-7: collected мебарорад.",
+      "en": "The program prints #12: waiting / CAB-7: collected."
      },
      {
-      "ru": "Могу объяснить, какой тип у order.id в каждой из двух веток if.",
-      "tg": "Метавонам шарҳ диҳам, ки дар ҳар ду шохаи if навъи order.id чӣ аст.",
-      "en": "I can explain the type of order.id in each of the two if branches."
+      "ru": "Предложенное неверное значение даёт диагностику. После возврата рабочего варианта tsc проходит.",
+      "tg": "Қимати нодурусти дар машқ гуфташуда хато медиҳад. Баъди баргардондани варианти дуруст tsc мегузарад.",
+      "en": "The specified invalid example produces a diagnostic. Restore the valid program to pass tsc."
      }
     ]
    }
@@ -1154,6 +1458,18 @@
       "tg": "areas: 25, 12\ntext: kind number: 7 object: tag\nfalse",
       "en": "areas: 25, 12\ntext: kind number: 7 object: tag\nfalse"
      }
+    },
+    {
+     "title": {
+      "ru": "Метка открывает нужные поля",
+      "tg": "Метка майдонҳои дурустро мекушояд",
+      "en": "The tag reveals the relevant fields"
+     },
+     "body": {
+      "ru": "У посылки могут быть метки «самовывоз» и «доставка». У самовывоза есть номер пункта, у доставки — адрес. Проверка метки объясняет компилятору, какие поля допустимо читать в конкретной ветке. Общие поля, например номер заказа, доступны в обеих.",
+      "tg": "Посилка метавонад меткаи «худ мегирад» ё «расондан» дошта бошад. Барои худ гирифтан рақами нуқта ҳаст ва барои расондан адрес. Санҷиши метка ба компилятор мефаҳмонад, ки дар шохаи муайян кадом майдонро хондан мешавад. Майдони умумӣ, мисли рақами фармоиш, дар ҳарду ҳаст.",
+      "en": "A parcel may be tagged pickup or delivery. Pickup has a pickup-point number, and delivery has an address. Checking the tag tells TypeScript which fields are safe to read in that branch. Shared fields, such as an order number, are available in both."
+     }
     }
    ],
    "questions": [
@@ -1186,7 +1502,13 @@
        "en": "It becomes any inside the branch"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Ветка if выполняется только при совпадении результата typeof со значением string.",
+      "tg": "Қисми if фақат вақте иҷро мешавад, ки typeof қимати string диҳад.",
+      "en": "The if branch only runs when typeof reports string."
+     }
     },
     {
      "id": "typescript-day-07-q2",
@@ -1217,7 +1539,13 @@
        "en": "Without a literal an interface cannot be declared"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Представьте переключатель по kind: что компилятор узнаёт внутри определённой ветки?",
+      "tg": "Гузариш аз рӯйи kind-ро тасаввур кунед: компилятор дар дохили як шоха чиро мефаҳмад?",
+      "en": "Picture a branch based on kind. What does that branch tell the compiler?"
+     }
     },
     {
      "id": "typescript-day-07-q3",
@@ -1248,37 +1576,43 @@
        "en": "\"object\""
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "У typeof есть историческое исключение для null.",
+      "tg": "Барои null дар typeof як истиснои кӯҳна ҳаст.",
+      "en": "There is a historical quirk in typeof for null."
+     }
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте shapes.ts с решением из урока.\n2. Проверьте: npx tsc --noEmit --strict shapes.ts.\n3. Запустите: npx esbuild shapes.ts --outfile=shapes.mjs --format=esm && node shapes.mjs.\n4. Сверьте вывод: «areas: 25, 12», строка с describe и «false».\n5. Добавьте в shapes квадрат со стороной 10; до запуска предскажите новую строку «areas: …».",
-     "tg": "1. shapes.ts-ро бо ҳали сабак созед.\n2. Санҷед: npx tsc --noEmit --strict shapes.ts.\n3. Иҷро кунед: npx esbuild shapes.ts --outfile=shapes.mjs --format=esm && node shapes.mjs.\n4. Натиҷаро бисанҷед: «areas: 25, 12», сатри бо describe ва «false».\n5. Ба shapes квадрат бо тарафи 10 илова кунед; пеш аз иҷро сатри нави «areas: …»-ро пешгӯӣ намоед.",
-     "en": "1. Create shapes.ts with the solution from the lesson.\n2. Check: npx tsc --noEmit --strict shapes.ts.\n3. Run: npx esbuild shapes.ts --outfile=shapes.mjs --format=esm && node shapes.mjs.\n4. Verify the output: “areas: 25, 12”, the describe line and “false”.\n5. Add a square with side 10 to shapes; predict the new “areas: …” line before running."
+     "ru": "1. Создайте contact.ts в учебной папке.\n2. Опишите EmailContact с kind: 'email' и address, PhoneContact с kind: 'phone' и extension. Объедините их в Contact.\n3. Напишите describeContact(item: Contact): string. Ветка email читает address, ветка phone читает extension.\n4. Выведите два случая с learner@example.com и 1234. Проверьте, что чтение address до проверки kind даёт ошибку, потом верните рабочую версию.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck contact.ts. Соберите и запустите: npx esbuild contact.ts --outfile=contact.mjs --format=esm, затем node contact.mjs.",
+     "tg": "1. Дар папкаи машқ contact.ts созед.\n2. EmailContact бо kind: 'email' ва address, PhoneContact бо kind: 'phone' ва extension созед. Ҳар дуро дар Contact ҷамъ кунед.\n3. describeContact(item: Contact): string нависед. Шохаи email address-ро мехонад, шохаи phone extension-ро.\n4. Ду ҳолатро бо learner@example.com ва 1234 бароред. Бинед, ки хондани address пеш аз санҷиши kind хато медиҳад. Баъд версияи кориро баргардонед.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck contact.ts санҷед. Баъд npx esbuild contact.ts --outfile=contact.mjs --format=esm ва node contact.mjs-ро иҷро кунед.",
+     "en": "1. Create contact.ts in the practice folder.\n2. Define EmailContact with kind: 'email' and address, and PhoneContact with kind: 'phone' and extension. Combine them in Contact.\n3. Write describeContact(item: Contact): string. The email branch reads address and the phone branch reads extension.\n4. Print both cases with learner@example.com and 1234. Confirm that reading address before checking kind gives an error, then restore the working code.\n5. Check with npx tsc --noEmit --strict --skipLibCheck contact.ts. Run npx esbuild contact.ts --outfile=contact.mjs --format=esm and then node contact.mjs."
     },
     "hint": {
-     "ru": "Новая строка станет «areas: 25, 12, 100»: 10 × 10 = 100. Метка kind выбирается при создании объекта: { kind: \"square\", side: 10 } — просто добавьте элемент в массив.",
-     "tg": "Сатри нав «areas: 25, 12, 100» мешавад: 10 × 10 = 100. Нишонаи kind ҳангоми сохтани объект интихоб мешавад: { kind: \"square\", side: 10 } — танҳо элементро ба массив илова кунед.",
-     "en": "The new line becomes “areas: 25, 12, 100”: 10 × 10 = 100. The kind tag is chosen when the object is created: { kind: \"square\", side: 10 } — just add the element to the array."
+     "ru": "Сначала сравните item.kind с 'email'. Во второй ветке компилятор уже знает, что это телефон.",
+     "tg": "Аввал item.kind-ро бо 'email' муқоиса кунед. Дар шохаи дуюм компилятор аллакай медонад, ки phone аст.",
+     "en": "Compare item.kind with 'email' first. In the other branch the compiler already knows the contact is a phone."
     },
-    "solution": "type Square = { kind: \"square\"; side: number };\ntype Rect = { kind: \"rect\"; width: number; height: number };\ntype Shape = Square | Rect;\n\nfunction area(shape: Shape): number {\n  if (shape.kind === \"square\") {\n    return shape.side * shape.side;\n  }\n  return shape.width * shape.height;\n}\n\nfunction describe(value: string | number | { name: string }): string {\n  if (typeof value === \"string\") {\n    return \"text: \" + value;\n  }\n  if (typeof value === \"number\") {\n    return \"number: \" + value;\n  }\n  return \"object: \" + value.name;\n}\n\nconst shapes: Shape[] = [\n  { kind: \"square\", side: 5 },\n  { kind: \"rect\", width: 3, height: 4 },\n];\n\nconsole.log(\"areas:\", shapes.map(area).join(\", \"));\nconsole.log(describe(\"kind\"), describe(7), describe({ name: \"tag\" }));\nconsole.log(\"side\" in { width: 1, height: 2 });",
+    "solution": "type EmailContact = { kind: \"email\"; address: string };\ntype PhoneContact = { kind: \"phone\"; extension: number };\ntype Contact = EmailContact | PhoneContact;\n\nfunction describeContact(item: Contact): string {\n  if (item.kind === \"email\") {\n    return \"email: \" + item.address;\n  }\n  return \"phone: \" + item.extension;\n}\n\nconsole.log(describeContact({ kind: \"email\", address: \"learner@example.com\" }));\nconsole.log(describeContact({ kind: \"phone\", extension: 1234 }));",
     "criteria": [
      {
-      "ru": "Все три строки вывода совпадают с уроком; программа прошла строгую проверку типов.",
-      "tg": "Ҳар се сатри натиҷа бо сабак мувофиқ аст; барнома санҷиши қатъии навъҳоро гузашт.",
-      "en": "All three output lines match the lesson; the program passed the strict type check."
+      "ru": "Типы всех полей и параметров совпадают с контрактом из задания.",
+      "tg": "Навъи ҳамаи майдонҳо ва параметрҳо ба шарти машқ мувофиқ аст.",
+      "en": "All fields and parameters match the requested types."
      },
      {
-      "ru": "Новая фигура добавлена, строка areas предсказана и подтверждена запуском.",
-      "tg": "Шакли нав илова шуд, сатри areas пешгӯӣ ва бо иҷро тасдиқ карда шуд.",
-      "en": "A new shape was added; the areas line was predicted and confirmed by a run."
+      "ru": "Программа выводит email: learner@example.com / phone: 1234.",
+      "tg": "Барнома email: learner@example.com / phone: 1234 мебарорад.",
+      "en": "The program prints email: learner@example.com / phone: 1234."
      },
      {
-      "ru": "Могу объяснить, почему в каждой ветке area доступны именно свои поля.",
-      "tg": "Метавонам шарҳ диҳам, чаро дар ҳар шохаи area дақиқ майдонҳои худ дастрасанд.",
-      "en": "I can explain why exactly its own fields are available in each branch of area."
+      "ru": "Предложенное неверное значение даёт диагностику. После возврата рабочего варианта tsc проходит.",
+      "tg": "Қимати нодурусти дар машқ гуфташуда хато медиҳад. Баъди баргардондани варианти дуруст tsc мегузарад.",
+      "en": "The specified invalid example produces a diagnostic. Restore the valid program to pass tsc."
      }
     ]
    }
@@ -1349,6 +1683,18 @@
       "tg": "Farid from Kulob\nFarid from Kulob, salary 900\ntrue 6",
       "en": "Farid from Kulob\nFarid from Kulob, salary 900\ntrue 6"
      }
+    },
+    {
+     "title": {
+      "ru": "Форма важнее имени объявления",
+      "tg": "Шакл аз номи эълон муҳимтар аст",
+      "en": "Check the shape of the value"
+     },
+     "body": {
+      "ru": "Переменная с полями name и badge подходит функции, которой нужен только name. Лишнее поле не требуется этой функции, но остаётся в переменной. Если передавать литерал напрямую, TypeScript может дополнительно проверить незнакомое поле: так компилятор помогает заметить опечатку в новом объекте.",
+      "tg": "Тағйирёбанда бо name ва badge ба функсияе меравад, ки фақат name даркор дорад. badge ба ин функсия даркор нест, лекин дар тағйирёбанда мемонад. Агар объекти навро бевосита диҳед, TypeScript майдони ношиносро ҳам санҷида метавонад ва хатои навиштро нишон медиҳад.",
+      "en": "A variable with name and badge fits a function that only needs name. The extra field stays on the variable. Passing an object literal directly may trigger an extra-property check. This helps catch typos in a newly written object."
+     }
     }
    ],
    "questions": [
@@ -1381,7 +1727,13 @@
        "en": "A type with all Employee fields plus teamSize, all at once"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "В пересечении значение должно удовлетворить обеим формам.",
+      "tg": "Дар intersection қимат бояд ба ҳар ду шакл мувофиқ бошад.",
+      "en": "An intersection requires a value to satisfy both shapes."
+     }
     },
     {
      "id": "typescript-day-08-q2",
@@ -1412,37 +1764,80 @@
        "en": "Only with a manual cast through as"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Сверьте, сохранились ли обязательные поля Person в Employee.",
+      "tg": "Бинед, ки майдонҳои ҳатмии Person дар Employee ҳастанд ё не.",
+      "en": "Check whether Employee carries all of Person's required fields."
+     }
+    },
+    {
+     "id": "typescript-day-08-q3",
+     "question": {
+      "ru": "Person содержит name: string, Employee extends Person добавляет id: number. Что требуется в Employee?",
+      "tg": "Person дорои name: string аст. Employee extends Person ба он id: number илова мекунад. Дар Employee чӣ даркор?",
+      "en": "Person has name: string. Employee extends Person and adds id: number. What must Employee contain?"
+     },
+     "answer": {
+      "ru": "И name, и id.",
+      "tg": "Ҳам name ва ҳам id.",
+      "en": "Both name and id."
+     },
+     "options": [
+      {
+       "ru": "Только id.",
+       "tg": "Фақат id.",
+       "en": "Only id."
+      },
+      {
+       "ru": "И name, и id.",
+       "tg": "Ҳам name ва ҳам id.",
+       "en": "Both name and id."
+      },
+      {
+       "ru": "Одно из двух полей.",
+       "tg": "Яке аз ду майдон.",
+       "en": "Either field."
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "extends сохраняет поля базовой формы и добавляет указанные в новой.",
+      "tg": "extends майдонҳои шакли асосиро нигоҳ медорад ва майдонҳои навро илова мекунад.",
+      "en": "With extends, the new shape carries the base fields as well as its own."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте people.ts с решением из урока.\n2. Проверьте: npx tsc --noEmit --strict people.ts.\n3. Запустите: npx esbuild people.ts --outfile=people.mjs --format=esm && node people.mjs.\n4. Сверьте вывод: «Farid from Kulob», «Farid from Kulob, salary 900», «true 6».\n5. Добавьте к Manager поле bonus: number и «забудьте» его при создании boss — прочитайте ошибку компилятора; затем исправьте.",
-     "tg": "1. people.ts-ро бо ҳали сабак созед.\n2. Санҷед: npx tsc --noEmit --strict people.ts.\n3. Иҷро кунед: npx esbuild people.ts --outfile=people.mjs --format=esm && node people.mjs.\n4. Натиҷаро бисанҷед: «Farid from Kulob», «Farid from Kulob, salary 900», «true 6».\n5. Ба Manager майдони bonus: number илова кунед ва онро ҳангоми сохтани boss «фаромӯш» кунед — хатои компиляторро хонед; баъд ислоҳ кунед.",
-     "en": "1. Create people.ts with the solution from the lesson.\n2. Check: npx tsc --noEmit --strict people.ts.\n3. Run: npx esbuild people.ts --outfile=people.mjs --format=esm && node people.mjs.\n4. Verify the output: “Farid from Kulob”, “Farid from Kulob, salary 900”, “true 6”.\n5. Add a bonus: number field to Manager and “forget” it when creating boss — read the compiler error; then fix it."
+     "ru": "1. Создайте club.ts в учебной папке.\n2. Создайте interface Member с name: string и interface Volunteer extends Member с badge: string.\n3. Опишите ShiftVolunteer как Volunteer с дополнительным hours: number. Создайте объект Sitora, V-01, 3 часа.\n4. Передайте объект в функцию labelMember(member: Member), затем отдельно напечатайте значок и часы. Проверьте ошибку при пропуске badge.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck club.ts. Соберите и запустите: npx esbuild club.ts --outfile=club.mjs --format=esm, затем node club.mjs.",
+     "tg": "1. Дар папкаи машқ club.ts созед.\n2. interface Member бо name: string ва interface Volunteer extends Member бо badge: string созед.\n3. ShiftVolunteer-ро ҳамчун Volunteer бо hours: number нависед. Объектро бо Sitora, V-01 ва 3 соат созед.\n4. Объектро ба labelMember(member: Member) диҳед. Баъд badge ва соатро ҷудо бароред. Хаторо ҳангоми набудани badge санҷед.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck club.ts санҷед. Баъд npx esbuild club.ts --outfile=club.mjs --format=esm ва node club.mjs-ро иҷро кунед.",
+     "en": "1. Create club.ts in the practice folder.\n2. Create interface Member with name: string and interface Volunteer extends Member with badge: string.\n3. Define ShiftVolunteer as Volunteer combined with hours: number. Create an example with Sitora, V-01 and 3 hours.\n4. Pass that object to labelMember(member: Member), then print the badge and hours separately. Check the error when badge is missing.\n5. Check with npx tsc --noEmit --strict --skipLibCheck club.ts. Run npx esbuild club.ts --outfile=club.mjs --format=esm and then node club.mjs."
     },
     "hint": {
-     "ru": "Пересечение пишется амперсандом без ключевого слова: type Manager = Employee & { teamSize: number; bonus: number }. Ошибка будет похожа на «Property bonus is missing» — так компилятор напоминает про новый обязательный поле.",
-     "tg": "Буриш бо аломати & бе калимаи асосӣ навишта мешавад: type Manager = Employee & { teamSize: number; bonus: number }. Хато ба «Property bonus is missing» монанд мешавад — компилятор дар бораи майдони ҳатмии нав огоҳ мекунад.",
-     "en": "An intersection is written with the ampersand and no keyword: type Manager = Employee & { teamSize: number; bonus: number }. The error will look like “Property bonus is missing” — the compiler reminding you about the new required field."
+     "ru": "Объект ShiftVolunteer содержит все поля Member и Volunteer. Функция с параметром Member может использовать name.",
+     "tg": "Объекти ShiftVolunteer ҳамаи майдонҳои Member ва Volunteer-ро дорад. Функсияи параметри Member метавонад name-ро истифода барад.",
+     "en": "A ShiftVolunteer includes all Member and Volunteer fields. A function accepting Member can use name."
     },
-    "solution": "interface Person {\n  name: string;\n  city: string;\n}\n\ninterface Employee extends Person {\n  salary: number;\n}\n\ntype Manager = Employee & { teamSize: number };\n\nfunction introduce(person: Person): string {\n  return person.name + \" from \" + person.city;\n}\n\nfunction pay(employee: Employee): string {\n  return introduce(employee) + \", salary \" + employee.salary;\n}\n\nconst boss: Manager = { name: \"Farid\", city: \"Kulob\", salary: 900, teamSize: 6 };\nconsole.log(introduce(boss));\nconsole.log(pay(boss));\nconsole.log(\"teamSize\" in boss, boss.teamSize);",
+    "solution": "interface Member {\n  name: string;\n}\n\ninterface Volunteer extends Member {\n  badge: string;\n}\n\ntype ShiftVolunteer = Volunteer & { hours: number };\n\nfunction labelMember(member: Member): string {\n  return \"reader: \" + member.name;\n}\n\nconst volunteer: ShiftVolunteer = { name: \"Sitora\", badge: \"V-01\", hours: 3 };\nconsole.log(labelMember(volunteer));\nconsole.log(\"volunteer:\", volunteer.badge, \"·\", volunteer.hours, \"hours\");",
     "criteria": [
      {
-      "ru": "Цепочка Person → Employee → Manager собирается, строгая проверка проходит.",
-      "tg": "Занҷири Person → Employee → Manager ҷамъ мешавад, санҷиши қатъӣ мегузарад.",
-      "en": "The chain Person → Employee → Manager assembles and the strict check passes."
+      "ru": "Типы всех полей и параметров совпадают с контрактом из задания.",
+      "tg": "Навъи ҳамаи майдонҳо ва параметрҳо ба шарти машқ мувофиқ аст.",
+      "en": "All fields and parameters match the requested types."
      },
      {
-      "ru": "Вывод из трёх строк совпадает с уроком; подстановка Manager вместо Person и Employee объяснена.",
-      "tg": "Натиҷаи сесатрӣ бо сабак мувофиқ аст; ҷойгиркунии Manager ба ҷои Person ва Employee шарҳ дода шуд.",
-      "en": "The three output lines match the lesson; substituting Manager for Person and Employee is explained."
+      "ru": "Программа выводит reader: Sitora / volunteer: V-01 · 3 hours.",
+      "tg": "Барнома reader: Sitora / volunteer: V-01 · 3 hours мебарорад.",
+      "en": "The program prints reader: Sitora / volunteer: V-01 · 3 hours."
      },
      {
-      "ru": "Могу назвать, чем interface отличается от type и что выбираю для форм объектов.",
-      "tg": "Метавонам номбар кунам, ки interface аз type чӣ фарқ дорад ва барои шаклҳои объект чиро интихоб мекунам.",
-      "en": "I can say how interface differs from type and which one I pick for object shapes."
+      "ru": "Предложенное неверное значение даёт диагностику. После возврата рабочего варианта tsc проходит.",
+      "tg": "Қимати нодурусти дар машқ гуфташуда хато медиҳад. Баъди баргардондани варианти дуруст tsc мегузарад.",
+      "en": "The specified invalid example produces a diagnostic. Restore the valid program to pass tsc."
      }
     ]
    }
@@ -1512,6 +1907,18 @@
       "tg": "a undefined\n42 hi\ncoffee",
       "en": "a undefined\n42 hi\ncoffee"
      }
+    },
+    {
+     "title": {
+      "ru": "Тип остаётся связан с входом",
+      "tg": "Навъ ба вуруд вобаста мемонад",
+      "en": "The output type follows the input"
+     },
+     "body": {
+      "ru": "Если помощник получает массив названий, он возвращает название или undefined. Для массива цен результатом будет число или undefined. Параметр T связывает эти две части контракта, а проверка результата защищает случай пустого списка.",
+      "tg": "Агар функсия массиви номҳо гирад, ном ё undefined бармегардонад. Барои массиви нархҳо натиҷа адад ё undefined мешавад. Параметри T ин ду қисмро мепайвандад ва санҷиши натиҷа ҳолати рӯйхати холиро мепӯшонад.",
+      "en": "With an array of names, the helper returns a name or undefined. For an array of prices, the result is a number or undefined. The type parameter T connects the input and output, and a result check handles an empty list."
+     }
     }
    ],
    "questions": [
@@ -1544,7 +1951,13 @@
        "en": "T is a special “any value” type like any"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Сравните вызовы first([1]) и first(['a']): как меняется тип элемента?",
+      "tg": "first([1]) ва first(['a'])-ро муқоиса кунед: навъи элемент чӣ хел дигар мешавад?",
+      "en": "Compare first([1]) with first(['a']). How does the element type change?"
+     }
     },
     {
      "id": "typescript-day-09-q2",
@@ -1575,37 +1988,80 @@
        "en": "T inherits from number on every pass"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Посмотрите, какое поле функция сможет прочитать у любого T.",
+      "tg": "Бинед, ки функсия аз ҳар T кадом майдонро хонда метавонад.",
+      "en": "Look for the field the function can read from every T."
+     }
+    },
+    {
+     "id": "typescript-day-09-q3",
+     "question": {
+      "ru": "У first<T>(items: T[]): T | undefined какой тип результата для first(['a', 'b'])?",
+      "tg": "Барои first<T>(items: T[]): T | undefined навъи натиҷаи first(['a', 'b']) чӣ аст?",
+      "en": "What is the result type of first(['a', 'b']) for first<T>(items: T[]): T | undefined?"
+     },
+     "answer": {
+      "ru": "string | undefined",
+      "tg": "string | undefined",
+      "en": "string | undefined"
+     },
+     "options": [
+      {
+       "ru": "number | undefined",
+       "tg": "number | undefined",
+       "en": "number | undefined"
+      },
+      {
+       "ru": "string[]",
+       "tg": "string[]",
+       "en": "string[]"
+      },
+      {
+       "ru": "string | undefined",
+       "tg": "string | undefined",
+       "en": "string | undefined"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "T описывает один элемент массива. Проверьте также вторую часть возвращаемого типа.",
+      "tg": "T як элементи массивро тавсиф мекунад. Қисми дуюми навъи натиҷаро ҳам бинед.",
+      "en": "T describes one item. Check the other part of the return type too."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте generics.ts с решением из урока.\n2. Проверьте: npx tsc --noEmit --strict generics.ts.\n3. Запустите: npx esbuild generics.ts --outfile=generics.mjs --format=esm && node generics.mjs.\n4. Сверьте вывод: «a undefined», «42 hi», «coffee».\n5. Добавьте товар { name: \"nuts\", price: 30 } и предскажите имя победителя до запуска.",
-     "tg": "1. generics.ts-ро бо ҳали сабак созед.\n2. Санҷед: npx tsc --noEmit --strict generics.ts.\n3. Иҷро кунед: npx esbuild generics.ts --outfile=generics.mjs --format=esm && node generics.mjs.\n4. Натиҷаро бисанҷед: «a undefined», «42 hi», «coffee».\n5. Моли { name: \"nuts\", price: 30 }-ро илова кунед ва номи ғолибро пеш аз иҷро пешгӯӣ намоед.",
-     "en": "1. Create generics.ts with the solution from the lesson.\n2. Check: npx tsc --noEmit --strict generics.ts.\n3. Run: npx esbuild generics.ts --outfile=generics.mjs --format=esm && node generics.mjs.\n4. Verify the output: “a undefined”, “42 hi”, “coffee”.\n5. Add the product { name: \"nuts\", price: 30 } and predict the winner’s name before running."
+     "ru": "1. Создайте boxes.ts в учебной папке.\n2. Напишите last<T>(items: T[]): T | undefined. Возвращайте последний элемент или undefined.\n3. Вызовите last для ['Pens', 'Maps'] и для пустого массива строк. Для отсутствующего результата используйте слово empty.\n4. Добавьте getPrice<T extends { price: number }>(item: T): number, затем передайте объект с ценой 8 и отдельным названием.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck boxes.ts. Соберите и запустите: npx esbuild boxes.ts --outfile=boxes.mjs --format=esm, затем node boxes.mjs.",
+     "tg": "1. Дар папкаи машқ boxes.ts созед.\n2. last<T>(items: T[]): T | undefined нависед. Элементи охирин ё undefined-ро баргардонед.\n3. last-ро барои ['Pens', 'Maps'] ва массиви холии string даъват кунед. Агар натиҷа набошад, empty монед.\n4. getPrice<T extends { price: number }>(item: T): number илова кунед. Ба он объект бо нархи 8 ва номи алоҳида диҳед.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck boxes.ts санҷед. Баъд npx esbuild boxes.ts --outfile=boxes.mjs --format=esm ва node boxes.mjs-ро иҷро кунед.",
+     "en": "1. Create boxes.ts in the practice folder.\n2. Write last<T>(items: T[]): T | undefined. Return the last item or undefined.\n3. Call last with ['Pens', 'Maps'] and with an empty string array. Display empty for a missing result.\n4. Add getPrice<T extends { price: number }>(item: T): number. Pass an object with a price of 8 and a separate name.\n5. Check types with npx tsc --noEmit --strict --skipLibCheck boxes.ts. Run npx esbuild boxes.ts --outfile=boxes.mjs --format=esm, then node boxes.mjs."
     },
     "hint": {
-     "ru": "Победитель станет nuts: 30 больше 25. Выведенный тип products — { name: string; price: number }[], поэтому T при вызове pickBiggest(products) — это сам объект товара, и winner.name легален после проверки на undefined.",
-     "tg": "Ғолиб nuts мешавад: 30 аз 25 зиёд аст. Навъи хулосашудаи products { name: string; price: number }[] аст, бинобар ин T ҳангоми даъвати pickBiggest(products) худи объекти мол аст ва winner.name баъди санҷиши undefined қонунӣ аст.",
-     "en": "The winner becomes nuts: 30 beats 25. The inferred type of products is { name: string; price: number }[], so T at the pickBiggest(products) call is the product object itself, and winner.name is legal after the undefined check."
+     "ru": "Индекс последнего элемента равен length - 1. Для второго контракта поле price обязательно.",
+     "tg": "Индекси охирин length - 1 аст. Дар шарти дуюм майдони price ҳатмист.",
+     "en": "The last index is length - 1. The second function requires a price field."
     },
-    "solution": "function first<T>(items: T[]): T | undefined {\n  return items[0];\n}\n\nfunction wrap<T>(value: T): { value: T } {\n  return { value: value };\n}\n\nfunction pickBiggest<T extends { price: number }>(items: T[]): T | undefined {\n  let best: T | undefined = first(items);\n  for (const item of items) {\n    if (best === undefined || item.price > best.price) {\n      best = item;\n    }\n  }\n  return best;\n}\n\nconst products = [\n  { name: \"tea\", price: 12 },\n  { name: \"coffee\", price: 25 },\n  { name: \"juice\", price: 18 },\n];\n\nconst winner = pickBiggest(products);\nconsole.log(first([\"a\", \"b\", \"c\"]), first([]));\nconsole.log(wrap(42).value, wrap(\"hi\").value);\nconsole.log(winner === undefined ? \"none\" : winner.name);",
+    "solution": "function last<T>(items: T[]): T | undefined {\n  return items[items.length - 1];\n}\n\nfunction getPrice<T extends { price: number }>(item: T): number {\n  return item.price;\n}\n\nconsole.log(last([\"Pens\", \"Maps\"]), \"/\", last<string>([]) ?? \"empty\");\nconsole.log(\"price:\", getPrice({ name: \"Notebook\", price: 8 }));",
     "criteria": [
      {
-      "ru": "Три функции работают с разными типами без единого any; строгая проверка проходит.",
-      "tg": "Се функсия бо навъҳои гуногун бе ягон any кор мекунанд; санҷиши қатъӣ мегузарад.",
-      "en": "The three functions work across different types without a single any; the strict check passes."
+      "ru": "Типы параметров и данных соответствуют условию.",
+      "tg": "Навъи параметрҳо ва маълумот ба шарт мувофиқ аст.",
+      "en": "Parameter and data types match the task."
      },
      {
-      "ru": "Вывод совпадает: «a undefined», «42 hi», «coffee»; новый победитель предсказан и подтверждён.",
-      "tg": "Натиҷа мувофиқ аст: «a undefined», «42 hi», «coffee»; ғолиби нав пешгӯӣ ва тасдиқ шуд.",
-      "en": "The output matches: “a undefined”, “42 hi”, “coffee”; the new winner was predicted and confirmed."
+      "ru": "Запуск даёт строки Maps / empty / price: 8.",
+      "tg": "Иҷро сатрҳои Maps / empty / price: 8-ро мебарорад.",
+      "en": "Execution prints Maps / empty / price: 8."
      },
      {
-      "ru": "Могу объяснить, зачем в pickBiggest сравнение с undefined и почему winner проверяется перед name.",
-      "tg": "Метавонам шарҳ диҳам, чаро дар pickBiggest муқоиса бо undefined ҳаст ва чаро winner пеш аз name санҷида мешавад.",
-      "en": "I can explain why pickBiggest compares with undefined and why winner is checked before name."
+      "ru": "Проверены оба случая из задания, а итоговый код проходит tsc в strict-режиме.",
+      "tg": "Ҳар ду ҳолати машқ санҷида шуд ва коди охирин аз tsc дар strict мегузарад.",
+      "en": "Both task cases are checked, and the final code passes strict tsc."
      }
     ]
    }
@@ -1675,6 +2131,18 @@
       "tg": "Madina (Dushanbe)\nRustam - Kulob\ndraft fields: age\nDushanbe Tashkent",
       "en": "Madina (Dushanbe)\nRustam - Kulob\ndraft fields: age\nDushanbe Tashkent"
      }
+    },
+    {
+     "title": {
+      "ru": "Разные представления одного товара",
+      "tg": "Шаклҳои гуногуни як мол",
+      "en": "Different views of one item"
+     },
+     "body": {
+      "ru": "Для карточки товара иногда нужны только title и stock. Pick позволяет взять их из полной формы и оставить зависимость от исходных типов. Для правки достаточно тех полей, которые изменились, поэтому Partial подходит для объекта изменений. Record описывает объект с заранее известными ключами.",
+      "tg": "Ба карточкаи мол баъзан танҳо title ва stock даркор. Pick онҳоро аз шакли пурра мегирад ва навъҳоро ҳамон хел нигоҳ медорад. Барои навсозӣ фақат майдонҳои дигаршударо медиҳем, барои ҳамин Partial муносиб аст. Record объекти калидҳояш пешакӣ маълумро тавсиф мекунад.",
+      "en": "A product card may need only title and stock. Use Pick to select them while retaining their original types. A patch only needs the fields that changed, so Partial fits the update. Record describes a lookup object with known keys."
+     }
     }
    ],
    "questions": [
@@ -1707,7 +2175,13 @@
        "en": "It turns the fields readonly"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Представьте обновление профиля, в котором меняют только имя.",
+      "tg": "Навсозии профилро тасаввур кунед, ки фақат ном дигар мешавад.",
+      "en": "Imagine a profile update that changes only the name."
+     }
     },
     {
      "id": "typescript-day-10-q2",
@@ -1738,37 +2212,80 @@
        "en": "One string value per level: both a and b"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Выпишите все ключи из Level и проверьте тип значения для каждого.",
+      "tg": "Ҳамаи калидҳои Level-ро нависед ва навъи қимати ҳар кадомро санҷед.",
+      "en": "List every key in Level and check the value type for each."
+     }
+    },
+    {
+     "id": "typescript-day-10-q3",
+     "question": {
+      "ru": "У Product есть id, title и price. Как получить тип с одним id?",
+      "tg": "Product дорои id, title ва price аст. Навъро фақат бо id чӣ хел гирем?",
+      "en": "Product has id, title and price. Which type keeps only id?"
+     },
+     "answer": {
+      "ru": "Pick<Product, 'id'>",
+      "tg": "Pick<Product, 'id'>",
+      "en": "Pick<Product, 'id'>"
+     },
+     "options": [
+      {
+       "ru": "Pick<Product, 'id'>",
+       "tg": "Pick<Product, 'id'>",
+       "en": "Pick<Product, 'id'>"
+      },
+      {
+       "ru": "Partial<Product>",
+       "tg": "Partial<Product>",
+       "en": "Partial<Product>"
+      },
+      {
+       "ru": "Omit<Product, 'id'>",
+       "tg": "Omit<Product, 'id'>",
+       "en": "Omit<Product, 'id'>"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните, какой вспомогательный тип выбирает конкретное поле.",
+      "tg": "Ба ёд оред, ки кадом utility type майдони муайянро мегирад.",
+      "en": "Recall which utility type selects specific fields."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте utility.ts с решением из урока.\n2. Проверьте: npx tsc --noEmit --strict utility.ts.\n3. Запустите: npx esbuild utility.ts --outfile=utility.mjs --format=esm && node utility.mjs.\n4. Сверьте четыре строки вывода, включая «draft fields: age».\n5. Добавьте в draft поле name: \"Nigina\" и предскажите новую строку draft fields до запуска.",
-     "tg": "1. utility.ts-ро бо ҳали сабак созед.\n2. Санҷед: npx tsc --noEmit --strict utility.ts.\n3. Иҷро кунед: npx esbuild utility.ts --outfile=utility.mjs --format=esm && node utility.mjs.\n4. Чор сатри натиҷаро бисанҷед, аз ҷумла «draft fields: age».\n5. Ба draft майдони name: \"Nigina\" илова кунед ва пеш аз иҷро сатри нави draft fields-ро пешгӯӣ намоед.",
-     "en": "1. Create utility.ts with the solution from the lesson.\n2. Check: npx tsc --noEmit --strict utility.ts.\n3. Run: npx esbuild utility.ts --outfile=utility.mjs --format=esm && node utility.mjs.\n4. Verify the four output lines, including “draft fields: age”.\n5. Add name: \"Nigina\" to draft and predict the new draft fields line before running."
+     "ru": "1. Создайте book-stock.ts в учебной папке.\n2. Создайте Product с title: string, stock: number и supplier: string. Через Pick оставьте title и stock в типе ProductCard.\n3. Создайте карточку Desk lamp с остатком 1. Задайте patch: Partial<ProductCard> с остатком 2 и соберите обновлённую карточку.\n4. Через Record задайте остатки для pickup и delivery: 3 и 4. Выведите данные карточки и значение pickup.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck book-stock.ts. Соберите и запустите: npx esbuild book-stock.ts --outfile=book-stock.mjs --format=esm, затем node book-stock.mjs.",
+     "tg": "1. Дар папкаи машқ book-stock.ts созед.\n2. Product бо title: string, stock: number ва supplier: string созед. Бо Pick дар ProductCard фақат title ва stock монед.\n3. Карточкаи Desk lamp бо миқдори 1 созед. patch: Partial<ProductCard> бо stock: 2 монед ва карточкаро нав кунед.\n4. Бо Record барои pickup ва delivery миқдорҳои 3 ва 4 монед. Маълумоти карточка ва қимати pickup-ро бароред.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck book-stock.ts санҷед. Баъд npx esbuild book-stock.ts --outfile=book-stock.mjs --format=esm ва node book-stock.mjs-ро иҷро кунед.",
+     "en": "1. Create book-stock.ts in the practice folder.\n2. Define Product with title: string, stock: number and supplier: string. Use Pick to retain title and stock in ProductCard.\n3. Create a Desk lamp card with a stock of 1. Make a patch typed Partial<ProductCard> with a stock of 2 and apply it.\n4. Use Record for pickup and delivery quantities of 3 and 4. Print the updated card and the pickup value.\n5. Check types with npx tsc --noEmit --strict --skipLibCheck book-stock.ts. Run npx esbuild book-stock.ts --outfile=book-stock.mjs --format=esm, then node book-stock.mjs."
     },
     "hint": {
-     "ru": "Новая строка — «draft fields: age, name»: Object.keys возвращает ключи в порядке присваивания, а Partial разрешает заполнять любые поля. cities.TJ обращается к словарю как к обычному объекту.",
-     "tg": "Сатри нав — «draft fields: age, name»: Object.keys калидҳоро бо тартиби гузоштан бармегардонад ва Partial пур кардани ҳар майдонро иҷозат медиҳад. cities.TJ ба луғат ҳамчун объекти оддӣ муроҷиат мекунад.",
-     "en": "The new line is “draft fields: age, name”: Object.keys returns keys in assignment order, and Partial allows filling any fields. cities.TJ reaches into the dictionary like an ordinary object."
+     "ru": "Тип Partial касается полей объекта изменений. В развороте объекта положите patch после исходного значения.",
+     "tg": "Partial ба майдонҳои объекти тағйирот дахл дорад. Дар spread patch-ро баъди объекти аввал монед.",
+     "en": "Partial applies to the patch. Spread the patch after the original card."
     },
-    "solution": "interface Profile {\n  name: string;\n  city: string;\n  age: number;\n}\n\ntype Preview = Pick<Profile, \"name\" | \"city\">;\ntype NoAge = Omit<Profile, \"age\">;\ntype Draft = Partial<Profile>;\ntype Cities = Record<string, string>;\n\nconst preview: Preview = { name: \"Madina\", city: \"Dushanbe\" };\nconst neighbour: NoAge = { name: \"Rustam\", city: \"Kulob\" };\nconst draft: Draft = { age: 19 };\nconst cities: Cities = { TJ: \"Dushanbe\", UZ: \"Tashkent\" };\n\nfunction showPage(page: Preview): string {\n  return page.name + \" (\" + page.city + \")\";\n}\n\nconsole.log(showPage(preview));\nconsole.log(neighbour.name, \"-\", neighbour.city);\nconsole.log(\"draft fields:\", Object.keys(draft).join(\", \"));\nconsole.log(cities.TJ, cities.UZ);",
+    "solution": "type Product = { title: string; stock: number; supplier: string };\ntype ProductCard = Pick<Product, \"title\" | \"stock\">;\ntype Channel = \"pickup\" | \"delivery\";\n\nconst card: ProductCard = { title: \"Desk lamp\", stock: 1 };\nconst patch: Partial<ProductCard> = { stock: 2 };\nconst updated = { ...card, ...patch };\nconst quantities: Record<Channel, number> = { pickup: 3, delivery: 4 };\n\nconsole.log(updated.title, \"·\", updated.stock);\nconsole.log(\"pickup:\", quantities.pickup);",
     "criteria": [
      {
-      "ru": "Все четыре утилиты применены к одному Profile; строгая проверка проходит.",
-      "tg": "Ҳар чор утилита ба як Profile татбиқ шуданд; санҷиши қатъӣ мегузарад.",
-      "en": "All four utilities are applied to a single Profile; the strict check passes."
+      "ru": "Типы параметров и данных соответствуют условию.",
+      "tg": "Навъи параметрҳо ва маълумот ба шарт мувофиқ аст.",
+      "en": "Parameter and data types match the task."
      },
      {
-      "ru": "Четыре строки вывода совпадают с уроком; новая строка draft fields предсказана и подтверждена.",
-      "tg": "Чор сатри натиҷа бо сабак мувофиқ аст; сатри нави draft fields пешгӯӣ ва тасдиқ шуд.",
-      "en": "The four output lines match the lesson; the new draft fields line was predicted and confirmed."
+      "ru": "Запуск даёт строки Desk lamp · 2 / pickup: 3.",
+      "tg": "Иҷро сатрҳои Desk lamp · 2 / pickup: 3-ро мебарорад.",
+      "en": "Execution prints Desk lamp · 2 / pickup: 3."
      },
      {
-      "ru": "Могу объяснить разницу Pick и Omit и когда какая короче.",
-      "tg": "Метавонам фарқи Pick ва Omit-ро ва онро, ки кадомаш дар куҷо кӯтоҳтар аст, шарҳ диҳам.",
-      "en": "I can explain the difference between Pick and Omit and when each is shorter."
+      "ru": "Проверены оба случая из задания, а итоговый код проходит tsc в strict-режиме.",
+      "tg": "Ҳар ду ҳолати машқ санҷида шуд ва коди охирин аз tsc дар strict мегузарад.",
+      "en": "Both task cases are checked, and the final code passes strict tsc."
      }
     ]
    }
@@ -1839,6 +2356,18 @@
       "tg": "42 -> 0\nguest -> 42\nguest -> 0\nguest -> 0\nOdat -> 0\nguest -> 0",
       "en": "42 -> 0\nguest -> 42\nguest -> 0\nguest -> 0\nOdat -> 0\nguest -> 0"
      }
+    },
+    {
+     "title": {
+      "ru": "Как проверить данные из JSON",
+      "tg": "Маълумоти JSON-ро чӣ хел санҷем",
+      "en": "Validate values parsed from JSON"
+     },
+     "body": {
+      "ru": "Даже в корректном JSON поле count может быть строкой. После JSON.parse сохраните результат как unknown. Сначала проверьте, что это непустой объект с нужным полем, затем проверьте само число. Если JSON уже разобран, этот подход проверяет его содержимое отдельно от синтаксиса.",
+      "tg": "Ҳатто дар JSON-и дуруст count метавонад string бошад. Баъди JSON.parse натиҷаро ҳамчун unknown гиред. Аввал бинед, ки объект null нест ва майдони даркорӣ ҳаст. Баъд худи ададро санҷед. Ин қадамҳо мундариҷаро ҷудо аз синтаксис месанҷанд.",
+      "en": "Even valid JSON can contain a string in count. Store the parsed result as unknown. First check that it is a non-null object with the field. Then check the number itself. This validates the contents independently of whether the JSON syntax was valid."
+     }
     }
    ],
    "questions": [
@@ -1871,7 +2400,13 @@
        "en": "object — always a plain object"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Компилятор видит входную строку, но не может определить из неё форму результата.",
+      "tg": "Компилятор сатри воридиро мебинад, вале шакли натиҷаро аз он муайян карда наметавонад.",
+      "en": "The compiler sees an input string and cannot determine the shape of the parsed result."
+     }
     },
     {
      "id": "typescript-day-11-q2",
@@ -1902,37 +2437,80 @@
        "en": "unknown works only with numbers"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Попробуйте представить обращение value.name до проверки value.",
+      "tg": "Тасаввур кунед, ки пеш аз санҷиши value ба value.name муроҷиат мекунед.",
+      "en": "Picture reading value.name before checking value."
+     }
+    },
+    {
+     "id": "typescript-day-11-q3",
+     "question": {
+      "ru": "Как безопасно вызвать toUpperCase() у value: unknown?",
+      "tg": "Барои value: unknown toUpperCase()-ро чӣ хел бехатар даъват кунем?",
+      "en": "How can you safely call toUpperCase() on value: unknown?"
+     },
+     "answer": {
+      "ru": "Сначала проверить typeof value === 'string'.",
+      "tg": "Аввал typeof value === 'string'-ро санҷидан.",
+      "en": "First check typeof value === 'string'."
+     },
+     "options": [
+      {
+       "ru": "Проверить только value !== null.",
+       "tg": "Фақат value !== null-ро санҷидан.",
+       "en": "Check only value !== null."
+      },
+      {
+       "ru": "Сначала проверить typeof value === 'string'.",
+       "tg": "Аввал typeof value === 'string'-ро санҷидан.",
+       "en": "First check typeof value === 'string'."
+      },
+      {
+       "ru": "Присвоить value более короткое имя.",
+       "tg": "Ба value номи кӯтоҳтар додан.",
+       "en": "Assign value to a shorter variable name."
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Выберите проверку, которая подтверждает именно строку.",
+      "tg": "Санҷишеро интихоб кунед, ки string буданро тасдиқ мекунад.",
+      "en": "Choose the check that confirms the value is a string."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте boundary.ts с решением из урока.\n2. Проверьте: npx tsc --noEmit --strict boundary.ts.\n3. Запустите: npx esbuild boundary.ts --outfile=boundary.mjs --format=esm && node boundary.mjs.\n4. Сверьте шесть строк вывода; объясните себе, почему \"42\" дало 0, а 41.6 дало 42.\n5. Добавьте в rows значения \"\" и 0; предскажите их строки до запуска и проверьте.",
-     "tg": "1. boundary.ts-ро бо ҳали сабак созед.\n2. Санҷед: npx tsc --noEmit --strict boundary.ts.\n3. Иҷро кунед: npx esbuild boundary.ts --outfile=boundary.mjs --format=esm && node boundary.mjs.\n4. Шаш сатри натиҷаро бисанҷед; ба худатон шарҳ диҳед, чаро \"42\" 0 дод ва 41.6 — 42.\n5. Ба rows қиматҳои \"\" ва 0-ро илова кунед; сатрҳои онҳоро пеш аз иҷро пешгӯӣ карда, санҷед.",
-     "en": "1. Create boundary.ts with the solution from the lesson.\n2. Check: npx tsc --noEmit --strict boundary.ts.\n3. Run: npx esbuild boundary.ts --outfile=boundary.mjs --format=esm && node boundary.mjs.\n4. Verify the six output lines; explain to yourself why \"42\" gave 0 while 41.6 gave 42.\n5. Add the values \"\" and 0 to rows; predict their lines before running and verify."
+     "ru": "1. Создайте package-count.ts в учебной папке.\n2. Напишите packageCount(value: unknown): number | undefined. Принимайте объекты с целым неотрицательным полем count.\n3. Проверьте значения { count: 4 }, { count: '4' } и null. Для каждого выведите либо count: 4, либо invalid.\n4. Дополнительно проверьте { count: 0 } и убедитесь, что функция её принимает.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck package-count.ts. Соберите и запустите: npx esbuild package-count.ts --outfile=package-count.mjs --format=esm, затем node package-count.mjs.",
+     "tg": "1. Дар папкаи машқ package-count.ts созед.\n2. packageCount(value: unknown): number | undefined нависед. Танҳо объект бо майдони count-и бутун ва ғайриманфиро қабул кунед.\n3. Қиматҳои { count: 4 }, { count: '4' } ва null-ро санҷед. Барои ҳар кадом count: 4 ё invalid бароред.\n4. { count: 0 }-ро ҳам санҷед ва бинед, ки функсия онро қабул мекунад.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck package-count.ts санҷед. Баъд npx esbuild package-count.ts --outfile=package-count.mjs --format=esm ва node package-count.mjs-ро иҷро кунед.",
+     "en": "1. Create package-count.ts in the practice folder.\n2. Write packageCount(value: unknown): number | undefined. Accept objects with an integer count of zero or more.\n3. Check { count: 4 }, { count: '4' } and null. Print either count: 4 or invalid.\n4. Also try { count: 0 } and verify that the function accepts it.\n5. Check types with npx tsc --noEmit --strict --skipLibCheck package-count.ts. Run npx esbuild package-count.ts --outfile=package-count.mjs --format=esm, then node package-count.mjs."
     },
     "hint": {
-     "ru": "Пустая строка пройдёт length > 0? Нет — вернётся guest, а счёт будет 0: строка \"guest -> 0\". Ноль — неотрицательное число: строка \"guest -> 0\" тоже, потому что parseName(0) даёт guest. Math.round(41.6) — это 42, а Math.round(0) — 0.",
-     "tg": "Матни холӣ аз length > 0 мегузарад? Не — guest бармегардад ва ҳисоб 0 мешавад: сатри \"guest -> 0\". Сифр адади ғайриманфӣ аст: сатри \"guest -> 0\" низ, зеро parseName(0) guest медиҳад. Math.round(41.6) ин 42 аст, вале Math.round(0) — 0.",
-     "en": "Does the empty string pass length > 0? No — guest comes back and the count is 0: the line “guest -> 0”. Zero is a non-negative number: the line is “guest -> 0” as well, because parseName(0) yields guest. Math.round(41.6) is 42, and Math.round(0) is 0."
+     "ru": "Проверьте value !== null перед оператором in, а затем typeof value.count. Ноль проверяйте отдельно от undefined.",
+     "tg": "Пеш аз in аввал value !== null, баъд typeof value.count-ро санҷед. Сифрро аз undefined ҷудо бинед.",
+     "en": "Check value !== null before using in, then check typeof value.count. Distinguish zero from undefined."
     },
-    "solution": "function parseCount(raw: unknown): number {\n  if (typeof raw === \"number\" && raw >= 0) {\n    return Math.round(raw);\n  }\n  return 0;\n}\n\nfunction parseName(raw: unknown): string {\n  if (typeof raw === \"string\" && raw.length > 0) {\n    return raw.trim();\n  }\n  return \"guest\";\n}\n\nconst rows: unknown[] = [\"42\", 41.6, -3, null, \"  Odat  \", true];\n\nfor (const row of rows) {\n  const line = parseName(row) + \" -> \" + parseCount(row);\n  console.log(line);\n}",
+    "solution": "function packageCount(value: unknown): number | undefined {\n  if (typeof value !== \"object\" || value === null || !(\"count\" in value)) {\n    return undefined;\n  }\n  const count = value.count;\n  if (typeof count === \"number\" && Number.isInteger(count) && count >= 0) {\n    return count;\n  }\n  return undefined;\n}\n\nfor (const value of [{ count: 4 }, { count: \"4\" }, null]) {\n  const count = packageCount(value);\n  console.log(count === undefined ? \"invalid\" : \"count: \" + count);\n}",
     "criteria": [
      {
-      "ru": "Оба валидатора принимают unknown и возвращают точные типы; строгая проверка проходит.",
-      "tg": "Ҳар ду валидатор unknown мегиранд ва навъҳои дақиқ бармегардонанд; санҷиши қатъӣ мегузарад.",
-      "en": "Both validators accept unknown and return precise types; the strict check passes."
+      "ru": "Типы параметров и данных соответствуют условию.",
+      "tg": "Навъи параметрҳо ва маълумот ба шарт мувофиқ аст.",
+      "en": "Parameter and data types match the task."
      },
      {
-      "ru": "Шесть строк вывода совпадают с уроком; судьба \"42\" и 41.6 объяснена словами.",
-      "tg": "Шаш сатри натиҷа бо сабак мувофиқ аст; сарнавишти \"42\" ва 41.6 бо калимаҳо шарҳ дода шуд.",
-      "en": "The six output lines match the lesson; the fate of \"42\" and 41.6 is explained in words."
+      "ru": "Запуск даёт строки count: 4 / invalid / invalid.",
+      "tg": "Иҷро сатрҳои count: 4 / invalid / invalid-ро мебарорад.",
+      "en": "Execution prints count: 4 / invalid / invalid."
      },
      {
-      "ru": "Могу объяснить, почему у границы ставят unknown, а не any.",
-      "tg": "Метавонам шарҳ диҳам, чаро дар марз unknown мегузоранд, на any.",
-      "en": "I can explain why the boundary gets unknown rather than any."
+      "ru": "Проверены оба случая из задания, а итоговый код проходит tsc в strict-режиме.",
+      "tg": "Ҳар ду ҳолати машқ санҷида шуд ва коди охирин аз tsc дар strict мегузарад.",
+      "en": "Both task cases are checked, and the final code passes strict tsc."
      }
     ]
    }
@@ -2005,6 +2583,18 @@
       "tg": "move up 1 Down\ntrue false\n[++] medium\nbeginner | medium | hard",
       "en": "move up 1 Down\ntrue false\n[++] medium\nbeginner | medium | hard"
      }
+    },
+    {
+     "title": {
+      "ru": "Данные модуля и его типы",
+      "tg": "Маълумоти модул ва навъҳояш",
+      "en": "A module’s values and types"
+     },
+     "body": {
+      "ru": "Из отдельного файла можно экспортировать значение, которое нужно во время выполнения, и тип для проверки. Например, список вариантов доставки используется в коде, а тип выводится из его элементов. import type оставляет только ссылку для компилятора, поэтому не читает значение при запуске.",
+      "tg": "Аз файли алоҳида ҳам қимати вақти иҷро ва ҳам навъи санҷишро export кардан мешавад. Масалан, код рӯйхати роҳҳои расонданро истифода мебарад ва навъ аз элементҳои рӯйхат мебарояд. import type танҳо барои компилятор аст ва вақти иҷро қимат намехонад.",
+      "en": "A file can export both a runtime value and a type for the checker. For example, the code uses a list of delivery options, and the type comes from the list elements. An import type declaration only refers to the type and reads no runtime value."
+     }
     }
    ],
    "questions": [
@@ -2037,7 +2627,13 @@
        "en": "A real object: Direction.Up equals 0 and Direction[1] gives \"Down\""
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Определите, может ли JavaScript обратиться к Direction после компиляции.",
+      "tg": "Бинед, ки баъди компилятсия JavaScript ба Direction муроҷиат карда метавонад ё не.",
+      "en": "Decide whether JavaScript can access Direction after compilation."
+     }
     },
     {
      "id": "typescript-day-12-q2",
@@ -2068,37 +2664,80 @@
        "en": "The array elements turn into an enum"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 1,
+     "hint": {
+      "ru": "Сравните обычный string[] со списком, где тип хранит точное значение каждого элемента.",
+      "tg": "string[]-ро бо рӯйхате муқоиса кунед, ки навъ қимати аниқи ҳар элементро нигоҳ медорад.",
+      "en": "Compare a regular string[] with a list whose type keeps each exact element value."
+     }
+    },
+    {
+     "id": "typescript-day-12-q3",
+     "question": {
+      "ru": "Что делает export у функции, которую позже импортируют в другом файле?",
+      "tg": "export ба функсияе, ки дар файли дигар import мешавад, чӣ мекунад?",
+      "en": "What does export do for a function another file imports?"
+     },
+     "answer": {
+      "ru": "Делает функцию доступной для импорта.",
+      "tg": "Функсияро барои import дастрас мекунад.",
+      "en": "It makes the function available to import."
+     },
+     "options": [
+      {
+       "ru": "Вызывает функцию при чтении объявления.",
+       "tg": "Функсияро ҳангоми хондани эълон иҷро мекунад.",
+       "en": "It calls the function when its declaration is read."
+      },
+      {
+       "ru": "Копирует тело функции во все файлы проекта.",
+       "tg": "Бадани функсияро ба ҳамаи файлҳои проект нусха мекунад.",
+       "en": "It copies the function body into every project file."
+      },
+      {
+       "ru": "Делает функцию доступной для импорта.",
+       "tg": "Функсияро барои import дастрас мекунад.",
+       "en": "It makes the function available to import."
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Отдельно рассмотрите объявление, импорт и обычный вызов функции.",
+      "tg": "Эълон, import ва даъвати функсияро алоҳида бинед.",
+      "en": "Consider the declaration, the import, and an ordinary function call separately."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте enums.ts с решением из урока.\n2. Проверьте: npx tsc --noEmit --strict enums.ts.\n3. Запустите: npx esbuild enums.ts --outfile=enums.mjs --format=esm && node enums.mjs; сверьте четыре строки.\n4. Попробуйте node enums.ts — прочитайте отказ Node для enum; затем временно удалите enum и повторите: файл запустится.",
-     "tg": "1. enums.ts-ро бо ҳали сабак созед.\n2. Санҷед: npx tsc --noEmit --strict enums.ts.\n3. Иҷро кунед: npx esbuild enums.ts --outfile=enums.mjs --format=esm && node enums.mjs; чор сатрро бисанҷед.\n4. node enums.ts-ро санҷед — радшавии Node барои enum-ро хонед; баъд enum-ро муваққатан нест кунед ва такрор кунед: файл иҷро мешавад.",
-     "en": "1. Create enums.ts with the solution from the lesson.\n2. Check: npx tsc --noEmit --strict enums.ts.\n3. Run: npx esbuild enums.ts --outfile=enums.mjs --format=esm && node enums.mjs; verify the four lines.\n4. Try node enums.ts — read Node’s refusal for the enum; then temporarily remove the enum and repeat: the file runs."
+     "ru": "1. Создайте два файла для примера: tickets.ts и ticket-demo.ts.\n2. В tickets.ts экспортируйте массив ['normal', 'rush'] с as const и выведите из него тип TicketKind.\n3. В ticket-demo.ts импортируйте тип через import type и значение через обычный import. Создайте цены normal: 15 и rush: 8.\n4. Пройдите по массиву и напечатайте каждый вариант и цену. Сборка с --bundle должна включить оба файла.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck ticket-demo.ts. Соберите и запустите: npx esbuild ticket-demo.ts --bundle --outfile=ticket-demo.mjs --format=esm, затем node ticket-demo.mjs.",
+     "tg": "1. Барои мисол ду файл созед: tickets.ts ва ticket-demo.ts.\n2. Дар tickets.ts массиви ['normal', 'rush']-ро бо as const export кунед ва аз он навъи TicketKind гиред.\n3. Дар ticket-demo.ts навъро бо import type ва қиматро бо import гиред. Нархҳои normal: 15 ва rush: 8 созед.\n4. Аз массив гузаред ва ҳар вариантро бо нархаш бароред. Ҷамъкунӣ бо --bundle бояд ҳар ду файлро гирад.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck ticket-demo.ts санҷед. Баъд npx esbuild ticket-demo.ts --bundle --outfile=ticket-demo.mjs --format=esm ва node ticket-demo.mjs-ро иҷро кунед.",
+     "en": "1. Create two files for this example: tickets.ts and ticket-demo.ts.\n2. In tickets.ts, export ['normal', 'rush'] with as const and derive TicketKind from its elements.\n3. In ticket-demo.ts, use import type for the type and a regular import for the value. Set the prices to normal: 15 and rush: 8.\n4. Loop through the array and print each option and price. Bundle the entry point so both files are included.\n5. Check types with npx tsc --noEmit --strict --skipLibCheck ticket-demo.ts. Run npx esbuild ticket-demo.ts --bundle --outfile=ticket-demo.mjs --format=esm, then node ticket-demo.mjs."
     },
     "hint": {
-     "ru": "Обратная запись Direction[direction] превращает число в имя. Node.js со стиранием типов поддерживает только стираемый синтаксис: enum в него не входит. as const-часть продолжит работать и без enum.",
-     "tg": "Навишти баръакси Direction[direction] ададро ба ном мегардонад. Node.js бо несткунии навъҳо танҳо синтаксиси нестшавандаро дастгирӣ мекунад: enum ба он дохил нест. Қисми as const бе enum низ кор мекунад.",
-     "en": "The reverse lookup Direction[direction] turns the number into the name. Node.js with type stripping supports only erasable syntax: an enum is not part of it. The as const part keeps working even without the enum."
+     "ru": "Тип элемента можно записать как (typeof ticketKinds)[number]. Используйте его как набор ключей цен.",
+     "tg": "Навъи элемент (typeof ticketKinds)[number] мешавад. Онро барои калидҳои нарх истифода баред.",
+     "en": "Write the element type as (typeof ticketKinds)[number]. Use it as the set of price keys."
     },
-    "solution": "enum Direction {\n  Up,\n  Down,\n}\n\nconst LEVELS = [\"beginner\", \"medium\", \"hard\"] as const;\ntype Level = (typeof LEVELS)[number];\n\nfunction move(direction: Direction): string {\n  return \"move \" + Direction[direction].toLowerCase();\n}\n\nfunction canEnroll(level: Level): boolean {\n  return level === \"beginner\";\n}\n\nfunction showLevel(level: Level): string {\n  const icon: Record<Level, string> = {\n    beginner: \"[+]\",\n    medium: \"[++]\",\n    hard: \"[+++]\",\n  };\n  return icon[level] + \" \" + level;\n}\n\nconsole.log(move(Direction.Up), Direction.Down, Direction[1]);\nconsole.log(canEnroll(\"beginner\"), canEnroll(\"hard\"));\nconsole.log(showLevel(\"medium\"));\nconsole.log(LEVELS.join(\" | \"));",
+    "solution": "// tickets.ts\nexport const ticketKinds = [\"normal\", \"rush\"] as const;\nexport type TicketKind = (typeof ticketKinds)[number];\n\n// ticket-demo.ts\nimport { ticketKinds } from \"./tickets\";\nimport type { TicketKind } from \"./tickets\";\n\nconst prices: Record<TicketKind, number> = { normal: 15, rush: 8 };\nfor (const kind of ticketKinds) {\n  console.log(kind + \":\", prices[kind]);\n}",
     "criteria": [
      {
-      "ru": "Оба механизма работают в одной программе; строгая проверка и сборка esbuild проходят.",
-      "tg": "Ҳар ду механизм дар як барнома кор мекунанд; санҷиши қатъӣ ва ҷамъи esbuild мегузаранд.",
-      "en": "Both mechanisms work in one program; the strict check and the esbuild build pass."
+      "ru": "Типы параметров и данных соответствуют условию.",
+      "tg": "Навъи параметрҳо ва маълумот ба шарт мувофиқ аст.",
+      "en": "Parameter and data types match the task."
      },
      {
-      "ru": "Четыре строки вывода совпадают; отказ Node для enum воспроизведён и понят.",
-      "tg": "Чор сатри натиҷа мувофиқ аст; радшавии Node барои enum такрор ва фаҳмида шуд.",
-      "en": "The four output lines match; Node’s refusal for the enum was reproduced and understood."
+      "ru": "Запуск даёт строки normal: 15 / rush: 8.",
+      "tg": "Иҷро сатрҳои normal: 15 / rush: 8-ро мебарорад.",
+      "en": "Execution prints normal: 15 / rush: 8."
      },
      {
-      "ru": "Могу объяснить, что выбрать для нового кода: as const + union — и почему.",
-      "tg": "Метавонам шарҳ диҳам, ки барои коди нав чиро интихоб кунам: as const + union — ва чаро.",
-      "en": "I can say what to pick for new code — as const + union — and why."
+      "ru": "Проверены оба случая из задания, а итоговый код проходит tsc в strict-режиме.",
+      "tg": "Ҳар ду ҳолати машқ санҷида шуд ва коди охирин аз tsc дар strict мегузарад.",
+      "en": "Both task cases are checked, and the final code passes strict tsc."
      }
     ]
    }
@@ -2162,6 +2801,18 @@
       "tg": "Панҷ хатои мисол — панҷ вазъияти гуногунанд ва ислоҳашон ҳам гуногун аст, вале тартиби амал умумӣ аст. Қадами якум: фаҳмед, ки ваъда куҷост ва вайрон куҷост — паём ҳамеша ҳар ду навъро ном мебарад. Қадами дуюм: қарор кунед, ки чӣ нодуруст аст — қимат, аннотатсия ё санҷиши фаромӯшшуда. Агар маълумот самиман намуди дигар аст, аннотатсияро иваз кунед; агар қимат бояд адад бошад ва матн дар нохунак омад — нохунакҳоро бедор кунед; агар майдон ихтиёрӣ аст, пеш аз истифода санҷиш илова кунед. Қадами сеюм: хомӯш накардан. any ва @ts-ignore хаторо ислоҳ намекунанд — онҳоро аз компилятор пинҳон мекунанд ва он ба вақти иҷро бармегардад, ки он ҷо касе интизораш нест. Агар паём нофаҳмо бошад, онро аз охир такрор хонед; кодҳои TS дар ҷустуҷӯ устувор ёфт мешаванд ва пайвандҳои аввал қариб ҳамеша ба шарҳҳои фаҳмо бо мисолҳо мебаранд. Ва охирин: хатоҳои компилятор овоза нестанд, балши код-ревьюи ройгонанд, ки пеш аз иҷро кор мекунад. Ҳар чӣ оромтар онҳоро мехонед, ҳамон қадар зудтар менависед; ин рӯз маҳз ҳаминро машқ мекунад — таҳлили хаттии поён аз шумо мехоҳад ҳар панҷ паёмро бо калимаҳои худ шарҳ диҳед.",
       "en": "The five errors from the example are five different situations, fixed differently — but the order of actions is shared. Step one: understand where the promise is and where the violation is — the message always names both types. Step two: decide what is wrong — the value, the annotation, or a missing check. If the data is honestly of another kind, change the annotation; if the value must be a number and a quoted string arrived — remove the quotes; if the field is optional, add a check before use. Step three: do not silence. any and @ts-ignore do not fix an error — they hide it from the compiler, and it returns at runtime where nobody expects it. If a message is unclear, reread it from the end; TS codes search stably, and the first links almost always lead to clear explanations with examples. One last thing: compiler errors are not noise but a free code review that works before the run. The calmer you read them, the faster you write; this day trains exactly that — the written task below will ask you to explain all five messages in your own words."
      }
+    },
+    {
+     "title": {
+      "ru": "Первое сообщение задаёт следующий шаг",
+      "tg": "Хабари аввал қадами дигарро нишон медиҳад",
+      "en": "Read the first diagnostic before editing"
+     },
+     "body": {
+      "ru": "Если строка использует значение, которого может не быть, strict-режим указывает на это место. Перед исправлением определите допустимый результат для отсутствующего значения. Для необязательной подписи подойдёт слово по умолчанию, а для обязательного адреса нужно показать ошибку ввода.",
+      "tg": "Агар сатр қиматеро истифода барад, ки буданаш ҳатмӣ нест, strict ҳамон ҷоро нишон медиҳад. Пеш аз ислоҳ муайян кунед, ки ҳангоми набудан чӣ бармегардад. Барои label-и ихтиёрӣ қимати пешфарз мешавад. Барои адреси ҳатмӣ хатои input нишон диҳед.",
+      "en": "When a line uses a value that might be missing, strict mode points at it. Before editing, decide what should happen when the value is absent. An optional label can use a default. A required address should produce a form error."
+     }
     }
    ],
    "questions": [
@@ -2194,7 +2845,13 @@
        "en": "A twofold compilation speedup"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "У строгого режима есть отдельные правила и для null, и для неявного any.",
+      "tg": "Strict ҳам барои null ва ҳам барои any-и нонавишта қоидаҳои алоҳида дорад.",
+      "en": "Strict mode has separate rules for null and implicit any."
+     }
     },
     {
      "id": "typescript-day-13-q2",
@@ -2225,44 +2882,87 @@
        "en": "@ts-ignore deletes the line of code from the program"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "relatedSection": 2,
+     "hint": {
+      "ru": "Подумайте, меняет ли подавление диагностики значение, полученное во время выполнения.",
+      "tg": "Фикр кунед, ки хомӯш кардани хабар қимати вақти иҷроро дигар мекунад ё не.",
+      "en": "Consider whether suppressing a diagnostic changes a runtime value."
+     }
+    },
+    {
+     "id": "typescript-day-13-q3",
+     "question": {
+      "ru": "Почему strict жалуется на name.toUpperCase(), если name: string | undefined?",
+      "tg": "Агар name: string | undefined бошад, strict аз name.toUpperCase() барои чӣ хато медиҳад?",
+      "en": "Why does strict report an error for name.toUpperCase() when name: string | undefined?"
+     },
+     "answer": {
+      "ru": "name может оказаться undefined.",
+      "tg": "name метавонад undefined бошад.",
+      "en": "name could be undefined."
+     },
+     "options": [
+      {
+       "ru": "name может оказаться undefined.",
+       "tg": "name метавонад undefined бошад.",
+       "en": "name could be undefined."
+      },
+      {
+       "ru": "У строк отсутствует такой метод.",
+       "tg": "Гӯё string ҳамин методро надорад.",
+       "en": "Strings do not have that method."
+      },
+      {
+       "ru": "toUpperCase требует числовой аргумент.",
+       "tg": "toUpperCase аргументи ададиро талаб мекунад.",
+       "en": "toUpperCase requires a numeric argument."
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Проверьте, у всех ли вариантов name есть указанный метод.",
+      "tg": "Бинед, ки ҳамаи навъҳои мумкин барои name ин методро доранд ё не.",
+      "en": "Check whether every possible value of name has that method."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
     "kind": "written",
     "task": {
-     "ru": "1. Откройте файл tmp-errors.ts из второго раздела урока: в нём пять реальных ошибок tsc 5.9.3.\n2. Для каждого сообщения — TS2322, TS2551, TS7006, TS2345, TS18048 — напишите своими словами: а) что означает сообщение; б) причина в конкретной строке файла; в) минимальный способ исправления.\n3. В конце добавьте один абзац: как вы будете читать незнакомое сообщение — назовите свои шаги.\n4. Проверьте себя: запишите файл на диск и прогоните npx tsc --noEmit --strict tmp-errors.ts — ваши объяснения должны совпадать с настоящими сообщениями.",
-     "tg": "1. Файли tmp-errors.ts-ро аз бахши дуюми сабак кушоед: дар он панҷ хатои воқеии tsc 5.9.3 ҳаст.\n2. Барои ҳар паём — TS2322, TS2551, TS7006, TS2345, TS18048 — бо калимаҳои худ нависед: а) паём чӣ маъно дорад; б) сабаб дар сатри мушаххаси файл; в) роҳи ҳадди ақали ислоҳ.\n3. Дар охир як банд илова кунед: паёми ношинохтаро чӣ тавр мехонед — қадамҳои худро номбар кунед.\n4. Худро санҷед: файлро дар диск нависед ва npx tsc --noEmit --strict tmp-errors.ts-ро гузаронед — шарҳҳои шумо бояд бо паёмҳои воқеӣ мувофиқ бошанд.",
-     "en": "1. Open the tmp-errors.ts file from the second section of the lesson: it holds five real tsc 5.9.3 errors.\n2. For every message — TS2322, TS2551, TS7006, TS2345, TS18048 — write in your own words: a) what the message means; b) the cause in that particular line; c) the minimal fix.\n3. Finish with one paragraph: how you will read an unfamiliar message — name your steps.\n4. Check yourself: save the file to disk and run npx tsc --noEmit --strict tmp-errors.ts — your explanations must match the real messages."
+     "ru": "1. Создайте strict-check.ts в учебной папке.\n2. Создайте функцию shortLabel(label: string | undefined): string и верните label.toLowerCase().\n3. Запустите tsc в strict-режиме и запишите строку и смысл первой диагностики. Затем исправьте код, чтобы для undefined возвращалось reader.\n4. Выведите результат вызова с undefined. Дополнительно проверьте, что 'MEMBER' превращается в member.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck strict-check.ts. Соберите и запустите: npx esbuild strict-check.ts --outfile=strict-check.mjs --format=esm, затем node strict-check.mjs.\n6. Запишите результат, добавьте исправленный код и объясните, почему рабочая ветка может вызывать метод.",
+     "tg": "1. Дар папкаи машқ strict-check.ts созед.\n2. Функсияи shortLabel(label: string | undefined): string созед ва label.toLowerCase()-ро баргардонед.\n3. tsc-ро дар strict иҷро кунед ва сатру маънои хабари аввалро нависед. Баъд кодро ислоҳ кунед, то барои undefined reader баргардонад.\n4. Натиҷаи даъватро бо undefined бароред. Ҳам санҷед, ки 'MEMBER' ба member табдил меёбад.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck strict-check.ts санҷед. Баъд npx esbuild strict-check.ts --outfile=strict-check.mjs --format=esm ва node strict-check.mjs-ро иҷро кунед.\n6. Натиҷаро нависед, коди ислоҳшударо илова кунед ва фаҳмонед, ки дар шохаи корӣ барои чӣ методро даъват кардан мешавад.",
+     "en": "1. Create strict-check.ts in the practice folder.\n2. Create shortLabel(label: string | undefined): string and return label.toLowerCase().\n3. Run tsc in strict mode and record the first diagnostic’s line and meaning. Then fix the code so undefined produces reader.\n4. Print the result for undefined. Also check that 'MEMBER' becomes member.\n5. Check types with npx tsc --noEmit --strict --skipLibCheck strict-check.ts. Run npx esbuild strict-check.ts --outfile=strict-check.mjs --format=esm, then node strict-check.mjs.\n6. Record the output, include the repaired code and explain why the method call is safe in the remaining branch."
     },
     "hint": {
-     "ru": "Читайте каждое сообщение с конца: «что» не присваивается «чему». TS2551 даже подсказывает замену. В TS18048 виновата опциональность email?: string — при чтении это string | undefined. В TS7006 у параметра просто нет аннотации.",
-     "tg": "Ҳар паёмро аз охир хонед: «чӣ» ба «чӣ» гузошта намешавад. TS2551 боз ивазро маслиҳат медиҳад. Дар TS18048 гуноҳкорӣ ихтиёрии email?: string аст — ҳангоми хониш ин string | undefined мешавад. Дар TS7006 параметр танҳо аннотатсия надорад.",
-     "en": "Read each message from the end: “what” cannot be assigned “to what”. TS2551 even suggests a replacement. In TS18048 the culprit is the optionality of email?: string — reading it gives string | undefined. In TS7006 the parameter simply lacks an annotation."
+     "ru": "Проверьте label === undefined перед вызовом метода либо примените значение по умолчанию.",
+     "tg": "Пеш аз метод label === undefined-ро санҷед ё қимати пешфарз диҳед.",
+     "en": "Check label === undefined before calling the method, or supply a default first."
     },
-    "solution": "Разбор пяти сообщений tsc 5.9.3. Первый — error TS2322: Type 'string' is not assignable to type 'number'. на строке const price: number = \"120\";. Сообщение означает: слева обещано число, справа пришла строка. Причина — кавычки вокруг 120: значение честно строкового вида. Минимальное исправление — убрать кавычки и написать 120; если же текст и задуман, менять аннотацию на string. Второй — error TS2551: Property 'statuz' does not exist on type 'Order'. Did you mean 'status'? на строке console.log(order.statuz);. Компилятор не нашёл поля statuz у Order и сам предложил похожее имя. Причина — опечатка: поле называется status. Исправление — order.status; если поле действительно новое, его сначала добавляют в interface Order. Третий — error TS7006: Parameter 'value' implicitly has an 'any' type. на строке function double(value) {. Параметр без аннотации под strict не может молча стать any. Исправление — указать тип: function double(value: number), исходя из смысла функции. Четвёртый — error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'. на строке ship(\"501\");. Здесь речь об аргументе вызова: параметр id объявлен number, а передана строка. Исправление — передать число ship(501) или, если идентификатор текстовый, поменять аннотацию параметра на string. Пятый — error TS18048: 'student.email' is possibly 'undefined'. на строке console.log(student.email.length);. Поле email?: string опциональное, значит при чтении его тип string | undefined, а у undefined нет length. Исправление — проверить перед использованием: if (student.email) { console.log(student.email.length); } или гарантировать значение по умолчанию. Общий порядок чтения незнакомого сообщения: сначала посмотреть строку и столбец; затем прочитать текст с конца — что и чему не соответствует; затем открыть объявления обоих типов и решить, что неправильно — значение, аннотация или пропущенная проверка; и никогда не глушить ошибку через any или @ts-ignore.",
-    "referenceAnswer": {
-     "ru": "Разбор пяти сообщений tsc 5.9.3. Первый — error TS2322: Type 'string' is not assignable to type 'number'. на строке const price: number = \"120\";. Сообщение означает: слева обещано число, справа пришла строка. Причина — кавычки вокруг 120: значение честно строкового вида. Минимальное исправление — убрать кавычки и написать 120; если же текст и задуман, менять аннотацию на string. Второй — error TS2551: Property 'statuz' does not exist on type 'Order'. Did you mean 'status'? на строке console.log(order.statuz);. Компилятор не нашёл поля statuz у Order и сам предложил похожее имя. Причина — опечатка: поле называется status. Исправление — order.status; если поле действительно новое, его сначала добавляют в interface Order. Третий — error TS7006: Parameter 'value' implicitly has an 'any' type. на строке function double(value) {. Параметр без аннотации под strict не может молча стать any. Исправление — указать тип: function double(value: number), исходя из смысла функции. Четвёртый — error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'. на строке ship(\"501\");. Здесь речь об аргументе вызова: параметр id объявлен number, а передана строка. Исправление — передать число ship(501) или, если идентификатор текстовый, поменять аннотацию параметра на string. Пятый — error TS18048: 'student.email' is possibly 'undefined'. на строке console.log(student.email.length);. Поле email?: string опциональное, значит при чтении его тип string | undefined, а у undefined нет length. Исправление — проверить перед использованием: if (student.email) { console.log(student.email.length); } или гарантировать значение по умолчанию. Общий порядок чтения незнакомого сообщения: сначала посмотреть строку и столбец; затем прочитать текст с конца — что и чему не соответствует; затем открыть объявления обоих типов и решить, что неправильно — значение, аннотация или пропущенная проверка; и никогда не глушить ошибку через any или @ts-ignore.",
-     "tg": "Таҳлили панҷ паёми tsc 5.9.3. Якум — error TS2322: Type 'string' is not assignable to type 'number'. дар сатри const price: number = \"120\";. Паём маъноядор аст: чап воъ шуда адад, рост матн омад. Сабаб — нохунакҳои гирди 120: қимат самиман намуди матнӣ дорад. Ислоҳи ҳадди ақал — нохунакҳоро нест карда, 120 навиштан; агар матт мақсад буд, аннотатсияро ба string иваз кардан. Дуюм — error TS2551: Property 'statuz' does not exist on type 'Order'. Did you mean 'status'? дар сатри console.log(order.statuz);. Компилятор майдони statuz-ро дар Order наёфт ва худаш номи монандро пешниҳод кард. Сабаб — хатои имло: майдон status ном дорад. Ислоҳ — order.status; агар майдон воқеан нав бошад, аввал ба interface Order илова карда мешавад. Сеюм — error TS7006: Parameter 'value' implicitly has an 'any' type. дар сатри function double(value) {. Параметри бе аннотатсия дар зери strict бе хабар any намешавад. Ислоҳ — навъро нишон додан: function double(value: number), аз рӯи маънои функсия. Чорум — error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'. дар сатри ship(\"501\");. Ин дар бораи аргументи даъват аст: параметри id number эълон шуда, вале матн дода шудааст. Ислоҳ — адад додан ship(501) ё, агар муайянкунанда матнӣ бошад, аннотатсияи параметрро ба string иваз кардан. Панҷум — error TS18048: 'student.email' is possibly 'undefined'. дар сатри console.log(student.email.length);. Майдони email?: string ихтиёрӣ аст, яъне ҳангоми хониш навъаш string | undefined мешавад ва дар undefined length нест. Ислоҳ — пеш аз истифода санҷидан: if (student.email) { console.log(student.email.length); } ё қимати пешфарз кафолат додан. Тартиби умумии хониши паёми ношинохт: аввал сатр ва сутунро дидан; баъд матнро аз охир хондан — чӣ ба чӣ мувофиқ нест; баъд эълонҳои ҳар ду навъро кушодан ва қарор кардан, ки чӣ нодуруст аст — қимат, аннотатсия ё санҷиши фаромӯшшуда; ва ҳеҷ гоҳ хаторо тавассути any ё @ts-ignore хомӯш накардан.",
-     "en": "Analysis of the five tsc 5.9.3 messages. First — error TS2322: Type 'string' is not assignable to type 'number'. on the line const price: number = \"120\";. The message means: a number was promised on the left, a string arrived on the right. The cause is the quotes around 120: the value is honestly of string kind. The minimal fix is removing the quotes and writing 120; if a string was intended, change the annotation to string. Second — error TS2551: Property 'statuz' does not exist on type 'Order'. Did you mean 'status'? on the line console.log(order.statuz);. The compiler found no statuz field on Order and itself suggested a similar name. The cause is a typo: the field is called status. The fix is order.status; if the field is genuinely new, it is first added to the Order interface. Third — error TS7006: Parameter 'value' implicitly has an 'any' type. on the line function double(value) {. Under strict, a parameter without an annotation cannot silently become any. The fix is naming the type: function double(value: number), guided by the function’s meaning. Fourth — error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'. on the line ship(\"501\");. This one is about a call argument: the id parameter is declared number, yet a string is passed. The fix is passing the number ship(501) or, if the identifier is textual, changing the parameter annotation to string. Fifth — error TS18048: 'student.email' is possibly 'undefined'. on the line console.log(student.email.length);. The field email?: string is optional, so reading it yields string | undefined, and undefined has no length. The fix is checking before use: if (student.email) { console.log(student.email.length); } or guaranteeing a default value. The general order for reading an unfamiliar message: look at the line and column first; then read the text from the end — what does not match what; then open the declarations of both types and decide what is wrong — the value, the annotation, or a missing check; and never silence an error with any or @ts-ignore."
-    },
+    "solution": "Первая диагностика TS18048 указывает на строку return label.toLowerCase(): для undefined метода нет. Сначала проверяю label === undefined и возвращаю reader. Иначе label имеет тип string, поэтому toLowerCase() можно вызвать. После исправления tsc проходит, а Node.js выводит reader и member.\n\nfunction shortLabel(label: string | undefined): string {\n  if (label === undefined) {\n    return \"reader\";\n  }\n  return label.toLowerCase();\n}\n\nconsole.log(shortLabel(undefined));\nconsole.log(shortLabel(\"MEMBER\"));",
     "criteria": [
      {
-      "ru": "Все пять сообщений объяснены своими словами: смысл, причина в строке, минимальное исправление.",
-      "tg": "Ҳар панҷ паём бо калимаҳои худ шарҳ дода шуд: маъно, сабаб дар сатр, ислоҳи ҳадди ақал.",
-      "en": "All five messages are explained in your own words: meaning, cause in the line, minimal fix."
+      "ru": "Типы параметров и данных соответствуют условию.",
+      "tg": "Навъи параметрҳо ва маълумот ба шарт мувофиқ аст.",
+      "en": "Parameter and data types match the task."
      },
      {
-      "ru": "Проверка tsc --noEmit --strict локально совпала с вашими предсказаниями сообщений.",
-      "tg": "Санҷиши tsc --noEmit --strict маҳаллӣ бо пешгӯиҳои шумо дар бораи паёмҳо мувофиқ омад.",
-      "en": "A local tsc --noEmit --strict run matched your predictions of the messages."
+      "ru": "Запуск даёт строки reader / member.",
+      "tg": "Иҷро сатрҳои reader-ро мебарорад.",
+      "en": "Execution prints reader / member."
      },
      {
-      "ru": "Описан личный порядок чтения незнакомой ошибки — по шагам, без any и @ts-ignore.",
-      "tg": "Тартиби шахсии хониши хатои ношинохт қадам ба қадам тавсиф шуд — бе any ва @ts-ignore.",
-      "en": "A personal step-by-step order for reading an unfamiliar error is described — without any or @ts-ignore."
+      "ru": "Проверены оба случая из задания, а итоговый код проходит tsc в strict-режиме.",
+      "tg": "Ҳар ду ҳолати машқ санҷида шуд ва коди охирин аз tsc дар strict мегузарад.",
+      "en": "Both task cases are checked, and the final code passes strict tsc."
      }
-    ]
+    ],
+    "referenceAnswer": {
+     "ru": "Первая диагностика TS18048 указывает на строку return label.toLowerCase(): для undefined метода нет. Сначала проверяю label === undefined и возвращаю reader. Иначе label имеет тип string, поэтому toLowerCase() можно вызвать. После исправления tsc проходит, а Node.js выводит reader и member.\n\nfunction shortLabel(label: string | undefined): string {\n  if (label === undefined) {\n    return \"reader\";\n  }\n  return label.toLowerCase();\n}\n\nconsole.log(shortLabel(undefined));\nconsole.log(shortLabel(\"MEMBER\"));",
+     "tg": "Хабари аввали TS18048 сатри return label.toLowerCase()-ро нишон медиҳад: undefined ин методро надорад. Аввал label === undefined-ро месанҷам ва reader бармегардонам. Дар ҳолати дигар label навъи string дорад ва toLowerCase()-ро даъват кардан мешавад. Баъди ислоҳ tsc мегузарад ва Node.js reader ва member мебарорад.\n\nfunction shortLabel(label: string | undefined): string {\n  if (label === undefined) {\n    return \"reader\";\n  }\n  return label.toLowerCase();\n}\n\nconsole.log(shortLabel(undefined));\nconsole.log(shortLabel(\"MEMBER\"));",
+     "en": "The first diagnostic, TS18048, points at return label.toLowerCase(): undefined has no such method. I check label === undefined first and return reader. In the other branch label is a string, so toLowerCase() is safe. The repaired program passes tsc and Node.js prints reader and member.\n\nfunction shortLabel(label: string | undefined): string {\n  if (label === undefined) {\n    return \"reader\";\n  }\n  return label.toLowerCase();\n}\n\nconsole.log(shortLabel(undefined));\nconsole.log(shortLabel(\"MEMBER\"));"
+    }
    }
   },
   {
@@ -2331,6 +3031,18 @@
       "tg": "orders: 4\nrevenue: 165\npending: 80",
       "en": "orders: 4\nrevenue: 165\npending: 80"
      }
+    },
+    {
+     "title": {
+      "ru": "Минимальный тест отчёта",
+      "tg": "Санҷиши хурди ҳисобот",
+      "en": "A small report needs two test cases"
+     },
+     "body": {
+      "ru": "Сначала задайте точный результат для случая, когда есть записи разных типов. Затем передайте пустой список: обе суммы должны стать нулевыми. Если добавить новый статус, правила отчёта нужно пересмотреть. Тест вывода показывает поведение, отдельная проверка типов показывает, что модель принимает только нужные записи.",
+      "tg": "Аввал натиҷаи аниқро барои сабтҳои навъҳои гуногун муайян кунед. Баъд рӯйхати холӣ диҳед: ҳар ду шумора бояд сифр шавад. Агар статуси нав илова шавад, қоидаи ҳисоботро боз бинед. Тести натиҷа рафтори барномаро мебинад. Санҷиши навъ нишон медиҳад, ки шакл фақат сабтҳои лозимиро қабул мекунад.",
+      "en": "First set an expected result for a mix of record types. Then pass an empty list and expect both counts to be zero. Revisit the report’s rules if you add a status. The output test checks behavior. Type checking tells you whether the model accepts only the intended records."
+     }
     }
    ],
    "questions": [
@@ -2363,7 +3075,13 @@
        "en": "The tag narrows the type to the branch and unlocks its fields; a plain string cannot tell branches apart"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "relatedSection": 0,
+     "hint": {
+      "ru": "Сравните проверку status === 'paid' с полем произвольного текста.",
+      "tg": "Санҷиши status === 'paid'-ро бо майдони матни дилхоҳ муқоиса кунед.",
+      "en": "Compare checking status === 'paid' with a field that accepts arbitrary text."
+     }
     },
     {
      "id": "typescript-day-14-q2",
@@ -2394,37 +3112,80 @@
        "en": "It strips comments from the output"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "relatedSection": 2,
+     "hint": {
+      "ru": "Подумайте, хотите ли вы здесь увидеть диагностику или получить файл JS.",
+      "tg": "Фикр кунед, ки дар ин ҷо хабарҳои санҷиш даркор аст ё файли JS.",
+      "en": "Think about whether this step needs diagnostics or a new JavaScript file."
+     }
+    },
+    {
+     "id": "typescript-day-14-q3",
+     "question": {
+      "ru": "Как проверить, что сумма пустого списка заказов рассчитана верно?",
+      "tg": "Чӣ хел санҷем, ки суммаи рӯйхати холии фармоишҳо дуруст ҳисоб мешавад?",
+      "en": "How do you verify the total for an empty order list?"
+     },
+     "answer": {
+      "ru": "Вызвать summarize([]) и сверить нулевой итог.",
+      "tg": "summarize([])-ро даъват карда, натиҷаи сифрро санҷидан.",
+      "en": "Call summarize([]) and check that the total is zero."
+     },
+     "options": [
+      {
+       "ru": "Запустить только tsc --noEmit.",
+       "tg": "Фақат tsc --noEmit-ро иҷро кардан.",
+       "en": "Run only tsc --noEmit."
+      },
+      {
+       "ru": "Вызвать summarize([]) и сверить нулевой итог.",
+       "tg": "summarize([])-ро даъват карда, натиҷаи сифрро санҷидан.",
+       "en": "Call summarize([]) and check that the total is zero."
+      },
+      {
+       "ru": "Сравнить тип Order с типом number.",
+       "tg": "Навъи Order-ро бо number муқоиса кардан.",
+       "en": "Compare the Order type with number."
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Здесь нужно проверить реальное значение результата вызова.",
+      "tg": "Дар ин ҷо қимати воқеии натиҷаи функсияро санҷед.",
+      "en": "This check needs the value the call actually returns."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте report.ts и наберите программу целиком — типы, Summary и summarize.\n2. Докажите корректность: npx tsc --noEmit --strict report.ts — ни одного сообщения.\n3. Соберите и запустите: npx esbuild report.ts --outfile=report.mjs --format=esm && node report.mjs.\n4. Сверьте три строки: «orders: 4», «revenue: 165», «pending: 80».\n5. Добавьте пятый заказ { id: 5, status: \"refunded\", total: 30 } — предскажите вывод до запуска: первая строка «orders: 5», остальные без изменений.",
-     "tg": "1. report.ts созед ва барномаро пурра нависед — навъҳо, Summary ва summarize.\n2. Дурустиро исбот кунед: npx tsc --noEmit --strict report.ts — ягон паём набошад.\n3. Ҷамъ кунед ва иҷро кунед: npx esbuild report.ts --outfile=report.mjs --format=esm && node report.mjs.\n4. Се сатрро бисанҷед: «orders: 4», «revenue: 165», «pending: 80».\n5. Фармоиши панҷуми { id: 5, status: \"refunded\", total: 30 }-ро илова кунед — натиҷаро пеш аз иҷро пешгӯӣ кунед: сатри аввал «orders: 5», боқӣ бетағйир.",
-     "en": "1. Create report.ts and type the whole program — the types, Summary and summarize.\n2. Prove correctness: npx tsc --noEmit --strict report.ts — not a single message.\n3. Build and run: npx esbuild report.ts --outfile=report.mjs --format=esm && node report.mjs.\n4. Verify the three lines: “orders: 4”, “revenue: 165”, “pending: 80”.\n5. Add a fifth order { id: 5, status: \"refunded\", total: 30 } — predict the output before running: the first line “orders: 5”, the rest unchanged."
+     "ru": "1. Создайте borrow-report.ts в учебной папке.\n2. Опишите Borrowing с общим id и двумя статусами: active с dueDay и returned с returnedDay.\n3. Напишите summarizeBorrowing, чтобы она считала количество записей каждого статуса. Проверьте одну активную и одну возвращённую запись.\n4. Проверьте пустой список. Попробуйте создать returned без returnedDay, прочитайте ошибку и восстановите правильную запись.\n5. Проверьте типы: npx tsc --noEmit --strict --skipLibCheck borrow-report.ts. Соберите и запустите: npx esbuild borrow-report.ts --outfile=borrow-report.mjs --format=esm, затем node borrow-report.mjs.",
+     "tg": "1. Дар папкаи машқ borrow-report.ts созед.\n2. Borrowing-ро бо id-и умумӣ ва ду статус нависед: active бо dueDay ва returned бо returnedDay.\n3. summarizeBorrowing нависед, ки шумораи сабтҳоро барои ҳар статус ҳисоб кунад. Як сабти active ва якто returned-ро санҷед.\n4. Рӯйхати холиро санҷед. returned-ро бе returnedDay созед, хаторо хонед ва сабти дурустро баргардонед.\n5. Навъҳоро бо npx tsc --noEmit --strict --skipLibCheck borrow-report.ts санҷед. Баъд npx esbuild borrow-report.ts --outfile=borrow-report.mjs --format=esm ва node borrow-report.mjs-ро иҷро кунед.",
+     "en": "1. Create borrow-report.ts in the practice folder.\n2. Model Borrowing with a shared id and two statuses: active with dueDay, returned with returnedDay.\n3. Write summarizeBorrowing to count records in each status. Test one active borrowing and one returned borrowing.\n4. Test an empty list. Try a returned borrowing without returnedDay, read the error, then restore the valid record.\n5. Check types with npx tsc --noEmit --strict --skipLibCheck borrow-report.ts. Run npx esbuild borrow-report.ts --outfile=borrow-report.mjs --format=esm, then node borrow-report.mjs."
     },
     "hint": {
-     "ru": "Refunded-заказ увеличивает только count: ветки для него в денежных суммах нет. revenue остаётся 120 + 45 = 165, pending — 80. При добавлении pending-заказа на 20 строка станет «pending: 100» — проследите порядок: сначала предсказание, потом запуск.",
-     "tg": "Фармоиши refunded танҳо count-ро зиёд мекунад: барои он дар ҷамъҳои пулӣ шоха нест. revenue 120 + 45 = 165, pending — 80 мемонад. Бо илова кардани фармоиши pending бо 20 сатр ба «pending: 100» мешавад — тартибро пайгирӣ кунед: аввал пешгӯӣ, баъд иҷро.",
-     "en": "A refunded order raises only count: there is no branch for it in the money sums. revenue stays 120 + 45 = 165 and pending stays 80. Adding a pending order of 20 turns the line into “pending: 100” — keep the order: prediction first, run second."
+     "ru": "Создайте два счётчика с начальным значением 0 и меняйте только один при обработке записи.",
+     "tg": "Ду ҳисобкунакро бо қимати аввал 0 созед. Барои ҳар сабт фақат яктоашро дигар кунед.",
+     "en": "Start both counters at zero and update only one for each record."
     },
-    "solution": "type Paid = { id: number; status: \"paid\"; total: number };\ntype Pending = { id: number; status: \"pending\"; total: number };\ntype Refunded = { id: number; status: \"refunded\"; total: number };\ntype Order = Paid | Pending | Refunded;\n\ninterface Summary {\n  count: number;\n  revenue: number;\n  pending: number;\n}\n\nfunction summarize(orders: Order[]): Summary {\n  const summary: Summary = { count: orders.length, revenue: 0, pending: 0 };\n  for (const order of orders) {\n    if (order.status === \"paid\") {\n      summary.revenue += order.total;\n    } else if (order.status === \"pending\") {\n      summary.pending += order.total;\n    }\n  }\n  return summary;\n}\n\nconst orders: Order[] = [\n  { id: 1, status: \"paid\", total: 120 },\n  { id: 2, status: \"pending\", total: 80 },\n  { id: 3, status: \"paid\", total: 45 },\n  { id: 4, status: \"refunded\", total: 60 },\n];\n\nconst report = summarize(orders);\nconsole.log(\"orders:\", report.count);\nconsole.log(\"revenue:\", report.revenue);\nconsole.log(\"pending:\", report.pending);",
+    "solution": "type Borrowing =\n  | { id: number; status: \"active\"; dueDay: string }\n  | { id: number; status: \"returned\"; returnedDay: string };\n\nfunction summarizeBorrowing(entries: Borrowing[]) {\n  const totals = { active: 0, returned: 0 };\n  for (const entry of entries) {\n    totals[entry.status] += 1;\n  }\n  return totals;\n}\n\nconst result = summarizeBorrowing([\n  { id: 1, status: \"active\", dueDay: \"Monday\" },\n  { id: 2, status: \"returned\", returnedDay: \"Tuesday\" },\n]);\nconsole.log(\"active:\", result.active);\nconsole.log(\"returned:\", result.returned);\nconsole.log(\"empty active:\", summarizeBorrowing([]).active);",
     "criteria": [
      {
-      "ru": "Программа пройдена полным циклом: tsc --strict без сообщений, esbuild собрал, Node.js выполнил.",
-      "tg": "Барнома бо даври пурра гузашт: tsc --strict бе паём, esbuild ҷамъ кард, Node.js иҷро намуд.",
-      "en": "The program went through the full cycle: tsc --strict silent, esbuild built, Node.js executed."
+      "ru": "Типы параметров и данных соответствуют условию.",
+      "tg": "Навъи параметрҳо ва маълумот ба шарт мувофиқ аст.",
+      "en": "Parameter and data types match the task."
      },
      {
-      "ru": "Три строки вывода совпадают; после добавления пятого заказа предсказание подтвердилось.",
-      "tg": "Се сатри натиҷа мувофиқ аст; баъди илова кардани фармоиши панҷум пешгӯӣ тасдиқ шуд.",
-      "en": "The three output lines match; after adding the fifth order the prediction was confirmed."
+      "ru": "Запуск даёт строки active: 1 / returned: 1 / empty active: 0.",
+      "tg": "Иҷро сатрҳои active: 1 / returned: 1 / empty active: 0-ро мебарорад.",
+      "en": "Execution prints active: 1 / returned: 1 / empty active: 0."
      },
      {
-      "ru": "Могу объяснить каждую строку программы: почему union, зачем метка, как считаются итоги.",
-      "tg": "Метавонам ҳар сатри барномаро шарҳ диҳам: чаро union, нишона барои чӣ, ҷамъбаст чӣ тавр ҳисоб мешавад.",
-      "en": "I can explain every line of the program: why a union, what the tag is for, how the totals are computed."
+      "ru": "Проверены оба случая из задания, а итоговый код проходит tsc в strict-режиме.",
+      "tg": "Ҳар ду ҳолати машқ санҷида шуд ва коди охирин аз tsc дар strict мегузарад.",
+      "en": "Both task cases are checked, and the final code passes strict tsc."
      }
     ]
    }

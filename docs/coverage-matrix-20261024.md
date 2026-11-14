@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/coverage-matrix.mjs`. Validate without writing: `node scripts/coverage-matrix.mjs --check`.
 
-38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1118 actual scheduled days.
+38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1159 actual scheduled days.
 
 Missing: 72 · Planned: 0 · In Progress: 0 · Published: 42 · Verified: 0
 
@@ -103,22 +103,22 @@ Published describes existing curriculum availability, not completion of the stri
 | Business (business) | beginner | Published | business-foundations | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Business (business) | pro | Published | business-pro | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Business (business) | expert | Missing | — | 0 | business-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| Management (management) | beginner | Published | management-foundations | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| Management (management) | beginner | Published | management-foundations | 9 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Management (management) | pro | Missing | — | 0 | management-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Management (management) | expert | Missing | — | 0 | management-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Communication (communication) | beginner | Published | communication | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Communication (communication) | pro | Missing | — | 0 | communication-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Communication (communication) | expert | Missing | — | 0 | communication-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| Content Creation (content-creation) | beginner | Published | content-creation | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| Content Creation (content-creation) | beginner | Published | content-creation | 9 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Content Creation (content-creation) | pro | Missing | — | 0 | content-creation-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Content Creation (content-creation) | expert | Missing | — | 0 | content-creation-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| English (english) | beginner | Published | english-foundations | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| English (english) | beginner | Published | english-foundations | 10 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | English (english) | pro | Missing | — | 0 | english-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | English (english) | expert | Missing | — | 0 | english-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| Digital Literacy (digital-literacy) | beginner | Published | digital-literacy | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| Digital Literacy (digital-literacy) | beginner | Published | digital-literacy | 9 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Digital Literacy (digital-literacy) | pro | Missing | — | 0 | digital-literacy-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Digital Literacy (digital-literacy) | expert | Missing | — | 0 | digital-literacy-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| Personal Productivity (personal-productivity) | beginner | Published | personal-productivity | 2 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| Personal Productivity (personal-productivity) | beginner | Published | personal-productivity | 14 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Personal Productivity (personal-productivity) | pro | Missing | — | 0 | personal-productivity-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Personal Productivity (personal-productivity) | expert | Missing | — | 0 | personal-productivity-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Software Architecture (architecture) | beginner | Missing | — | 0 | architecture-foundations | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |

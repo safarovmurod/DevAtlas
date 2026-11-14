@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
+import { questionsForTopic } from '@/content/course';
 import { COURSE_CATALOG } from '@/content/courses/catalog';
 import { loadCourseContent } from '@/lib/courses/content';
 import { courseMonthPlan } from '@/lib/courses/plan';
@@ -33,6 +34,8 @@ describe('every published day contains a lesson and practice',()=>{
    expect(plan).toHaveLength(30);
    for(const day of plan){
     expect(day.topics.length).toBeGreaterThan(0);
+    const quiz = day.topics.flatMap(topic => questionsForTopic(topic.id).filter(question => question.options.length >= 2));
+    expect(new Set(quiz.map(question => question.id)).size, `React month ${month} day ${day.day}`).toBeGreaterThanOrEqual(3);
     for(const topic of day.topics){
      expect(topic.explanation.some(part=>part.text.trim()), `React month ${month} day ${day.day}: ${topic.id}`).toBe(true);
      const exercises=exercisesForTopic(topic,'ru');
@@ -44,6 +47,26 @@ describe('every published day contains a lesson and practice',()=>{
      }
     }
    }
+  }
+ });
+ it('TypeScript questions have targeted feedback and practice has its own solution', async () => {
+  const { lessons } = await loadCourseContent('typescript');
+  for (const lesson of lessons) {
+   expect(lesson.questions).toHaveLength(3);
+   expect(lesson.questions.every(question => question.hint?.en && question.hint.ru && question.hint.tg)).toBe(true);
+   expect(lesson.sections).toHaveLength(4);
+   expect(lesson.sections.some(section => section.code === lesson.practice?.solution)).toBe(false);
+  }
+ });
+
+ it('Next.js interview and capstone days link translated checks to complete theory', async () => {
+  const { lessons } = await loadCourseContent('nextjs');
+  for (const lesson of lessons.filter(({ day }) => day && day >= 13 && day <= 20)) {
+   expect(lesson.sections).toHaveLength(4);
+   expect(lesson.sections.every(section => section.title.en && section.body.en)).toBe(true);
+   expect(lesson.questions.length).toBeGreaterThanOrEqual(3);
+   expect(lesson.questions.every(question => question.hint?.en && question.relatedSection !== undefined)).toBe(true);
+   expect(lesson.practice?.task.en).toBeTruthy();
   }
  });
 });
