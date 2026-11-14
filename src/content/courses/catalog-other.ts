@@ -98,7 +98,7 @@ export const OTHER_COURSES: CourseCatalogEntry[] = [
   },
   {
     id: 'content-creation',
-    publishedDays: 13,
+    publishedDays: 16,
     name: 'Content Creation',
     symbol: 'Aa',
     ru: 'Определите аудиторию и цель, проверьте источники и соберите бриф для материала.',
@@ -106,7 +106,7 @@ export const OTHER_COURSES: CourseCatalogEntry[] = [
     route: 'tools',
     prerequisite: null,
     category: 'content',
-    introductoryDays: 13,
+    introductoryDays: 16,
   },
   {
     id: 'english-foundations',

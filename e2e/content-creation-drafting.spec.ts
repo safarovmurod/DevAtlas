@@ -17,7 +17,7 @@ test('content author can study drafting, learn from a wrong choice and retain an
   }, { ids: previous.map(lesson => lesson.id), days: previous.map(lesson => String(lesson.day)) });
 
   await page.goto('/courses/content-creation/plan');
-  await expect(page.locator('.day-card')).toHaveCount(13);
+  await expect(page.locator('.day-card')).toHaveCount(16);
   for (const lesson of course.lessons.filter(lesson => lesson.day >= endDay - 3 && lesson.day <= endDay)) {
     await page.goto(`/courses/content-creation/home?day=${lesson.day}`);
     await expect(page.locator('.course-lesson h2')).toHaveText(lesson.title.tg);
