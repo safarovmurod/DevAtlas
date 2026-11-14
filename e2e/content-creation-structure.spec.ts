@@ -17,7 +17,7 @@ test('author can study introductions, tone and a rubric-based drafting project',
   }, { ids: previous.map(lesson => lesson.id), days: previous.map(lesson => String(lesson.day)) });
 
   await page.goto('/courses/content-creation/plan');
-  await expect(page.locator('.day-card')).toHaveCount(23);
+  await expect(page.locator('.day-card')).toHaveCount(30);
   for (const lesson of course.lessons.filter(lesson => lesson.day >= endDay - 2 && lesson.day <= endDay)) {
     await page.goto(`/courses/content-creation/home?day=${lesson.day}`);
     await expect(page.locator('.course-lesson h2')).toHaveText(lesson.title.tg);
