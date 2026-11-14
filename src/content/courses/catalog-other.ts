@@ -134,7 +134,7 @@ export const OTHER_COURSES: CourseCatalogEntry[] = [
   },
   {
     id: 'personal-productivity',
-    publishedDays: 18,
+    publishedDays: 22,
     name: 'Personal Productivity',
     symbol: '☀',
     ru: 'Цели, приоритеты, план недели и работа с отвлечениями. Соберите выполнимый личный план.',
@@ -142,7 +142,7 @@ export const OTHER_COURSES: CourseCatalogEntry[] = [
     route: 'tools',
     prerequisite: null,
     category: 'lifestyle',
-    introductoryDays: 18,
+    introductoryDays: 22,
   },
   {
     id: 'management-foundations',
