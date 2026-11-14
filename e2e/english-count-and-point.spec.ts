@@ -17,7 +17,7 @@ test('learner studies count nouns and demonstratives, gets grammar feedback and 
   }, { ids: previous.map(lesson => lesson.id), days: previous.map(lesson => String(lesson.day)) });
 
   await page.goto('/courses/english-foundations/plan');
-  await expect(page.locator('.day-card')).toHaveCount(14);
+  await expect(page.locator('.day-card')).toHaveCount(42);
   for (const lesson of course.lessons.filter(lesson => lesson.day >= endDay - 3 && lesson.day <= endDay)) {
     await page.goto(`/courses/english-foundations/home?day=${lesson.day}`);
     await expect(page.locator('.course-lesson h2')).toHaveText(lesson.title.tg);

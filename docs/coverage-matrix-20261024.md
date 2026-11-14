@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/coverage-matrix.mjs`. Validate without writing: `node scripts/coverage-matrix.mjs --check`.
 
-38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1192 actual scheduled days.
+38 tracks × 3 stages = 114 stage requirements. 43 course IDs; 1220 actual scheduled days.
 
 Missing: 72 · Planned: 0 · In Progress: 0 · Published: 42 · Verified: 0
 
@@ -112,7 +112,7 @@ Published describes existing curriculum availability, not completion of the stri
 | Content Creation (content-creation) | beginner | Published | content-creation | 30 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | Content Creation (content-creation) | pro | Missing | — | 0 | content-creation-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Content Creation (content-creation) | expert | Missing | — | 0 | content-creation-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
-| English (english) | beginner | Published | english-foundations | 14 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
+| English (english) | beginner | Published | english-foundations | 42 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
 | English (english) | pro | Missing | — | 0 | english-pro | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | English (english) | expert | Missing | — | 0 | english-expert | authored-syllabus, complete-lessons, practice-and-capstone, assessment-and-feedback, ru-tg-en-review |
 | Digital Literacy (digital-literacy) | beginner | Published | digital-literacy | 9 | — | content-and-source-review, interactive-learning-flow, assessment-and-project-evidence, ru-tg-en-review, end-to-end-validation |
