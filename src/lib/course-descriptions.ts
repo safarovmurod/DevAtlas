@@ -292,12 +292,12 @@ export const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     '브리프부터 게시 패키지까지: 글쓰기, 퇴고, 접근성, 권리, 유용성 확인과 두 가지 형식의 최종 프로젝트를 다룹니다.',
   ),
   'english-foundations': text(
-    'Буквы, звуки, ударение и глагол be. Потренируйтесь представляться и вести короткий диалог.',
-    'Letters, sounds, stress and the verb be. Practice introducing yourself in a short conversation.',
-    'Ҳарф, овоз, зада ва феъли be. Дар гуфтугӯи кӯтоҳ худро шинос карданро машқ кунед.',
-    'Літери, звуки, наголос і дієслово be. Потренуйтеся представлятися в короткому діалозі.',
-    '文字、音、アクセント、be動詞を学び、短い会話で自己紹介を練習します。',
-    '글자, 소리, 강세와 be 동사를 배우고 짧은 대화로 자기소개를 연습합니다.',
+    'Буквы, звуки, be и описание предметов: артикли, множественное число, this/that/these/those. Письменная практика и диалоги.',
+    'Letters, sounds, be and naming objects: articles, plurals and this/that/these/those, with written practice and dialogues.',
+    'Ҳарф, овоз, be ва тавсифи ашё: артикл, ҷамъбандӣ ва this/that/these/those, бо машқи хаттӣ ва гуфтугӯ.',
+    'Літери, звуки, be й опис предметів: артиклі, множина та this/that/these/those. Письмові вправи й діалоги.',
+    '文字、音、be動詞と物の表し方。冠詞、複数形、this/that/these/thoseを、筆記練習と会話で学びます。',
+    '글자, 소리, be 동사와 사물 표현을 배웁니다. 관사, 복수형, this/that/these/those를 쓰기와 대화로 연습합니다.',
   ),
   'digital-literacy': text(
     'Устройства, файлы, папки, вкладки и загрузки. Потренируйтесь безопасно работать с браузером.',
