@@ -14,9 +14,9 @@ test('design principles are lesson text with feedback and a persistent written e
     } }));
   }, { ids: previous.map(l => l.id), days: previous.map(l => String(l.day)) });
   await page.goto('/courses/ux-design/home?day=19');
-  await expect(page.locator('.course-lesson h2')).toHaveText(lesson.title.tg);
-  await expect(page.locator('.day-explanation')).toHaveCount(15);
-  for (const section of lesson.sections.slice(3)) await expect(page.locator('.day-explanation').getByRole('heading', { name: section.title.tg, exact: true })).toBeVisible();
+  await expect(page.locator(`#${lesson.id} > header > h2`)).toHaveText(lesson.title.tg);
+  await expect(page.locator('[data-lesson-section]')).toHaveCount(15);
+  for (const section of lesson.sections.slice(3)) await expect(page.locator('[data-lesson-section] > summary').filter({ hasText: section.title.tg })).toHaveCount(1);
   await expect(page.locator('a[href$=".pdf"]')).toHaveCount(0);
   await page.goto('/courses/ux-design/tests?day=19');
   const question = page.locator('.course-question').nth(5);

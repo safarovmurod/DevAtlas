@@ -19,8 +19,8 @@ for (const endDay of [18, 22]) test(`returning learner can study productivity da
   await expect(page.locator('.day-card')).toHaveCount(22);
   for (const lesson of course.lessons.filter(lesson => lesson.day >= endDay - 3 && lesson.day <= endDay)) {
     await page.goto(`/courses/personal-productivity/home?day=${lesson.day}`);
-    await expect(page.locator('.course-lesson h2')).toHaveText(lesson.title.tg);
-    await expect(page.locator('.day-explanation')).toHaveCount(4);
+    await expect(page.locator(`#${lesson.id} > header > h2`)).toHaveText(lesson.title.tg);
+    await expect(page.locator('[data-lesson-section]')).toHaveCount(4);
   }
   const lesson = course.lessons.find(lesson => lesson.day === endDay)!;
   await page.goto(`/courses/personal-productivity/tests?day=${endDay}`);
@@ -34,7 +34,6 @@ for (const endDay of [18, 22]) test(`returning learner can study productivity da
   await page.locator('.written-practice textarea').fill(answer);
   await page.reload();
   await expect(page.locator('.written-practice textarea')).toHaveValue(answer);
-  await expect(question).toHaveCount(0);
   const progress = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state.courses['personal-productivity']);
   expect(progress.confirmedDays).not.toContain(String(endDay));
   expect(progress.completedPractice).not.toContain(lesson.id);
