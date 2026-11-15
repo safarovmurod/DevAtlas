@@ -7,7 +7,12 @@ vi.mock('@/lib/supabase/client', () => ({ getSupabaseBrowserClient: () => mocked
 
 import { DeleteDialog, PlanDialog } from '@/components/admin/admin-dialogs';
 import { UserRow } from '@/components/admin/user-row';
-import type { AdminUser } from '@/components/admin/admin-api';
+import {
+  PAYMENT_EXTEND_NOTE,
+  PAYMENT_WARNING,
+  revokeMessage,
+  type AdminUser,
+} from '@/components/admin/admin-api';
 import { NotificationToaster } from '@/components/account/notification-toaster';
 
 afterEach(() => {
@@ -133,6 +138,17 @@ describe('user row', () => {
     expect(screen.queryByRole('menu')).toBeNull();
   });
 
+  it('marks a plan that was paid for with a «Пардохт» badge and an admin plan without one', () => {
+    row(
+      { ...base, membership: { ...base.membership!, source: 'payment', grantedById: null } },
+      false,
+    );
+    expect(screen.getByText('Пардохт')).toBeInTheDocument();
+    cleanup();
+    row(base, false);
+    expect(screen.queryByText('Пардохт')).toBeNull();
+  });
+
   it('hides destructive actions for the owner and role actions for non-owners', () => {
     row({ ...base, isOwner: true, isAdmin: true }, true);
     openMenu();
@@ -184,6 +200,52 @@ describe('plan dialog', () => {
     expect(screen.getByText(/Санаи нави тамомшавӣ/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Додан' }));
     expect(onConfirm).toHaveBeenCalledWith('expert', 90);
+  });
+});
+
+describe('paid plans changed by an admin', () => {
+  const paidPlan = {
+    tier: 'pro' as const,
+    expiresAt: '2099-01-01T00:00:00Z',
+    active: true,
+    daysLeft: 20,
+    source: 'payment' as const,
+    grantedById: null,
+    grantedByEmail: null,
+    grantedAt: null,
+  };
+
+  it('warns that the provider keeps charging when a paid plan is cancelled here', () => {
+    expect(revokeMessage('a@b.test', paidPlan)).toContain(PAYMENT_WARNING);
+    expect(PAYMENT_WARNING).toContain('Dodo Payments');
+    expect(PAYMENT_WARNING).toContain('Идоракунии обуна');
+    expect(revokeMessage('a@b.test', { ...paidPlan, source: 'admin' })).not.toContain('Dodo');
+    expect(revokeMessage('a@b.test', null)).not.toContain('Dodo');
+  });
+
+  it('warns before shortening or extending a paid plan, but not before a new grant', () => {
+    const open = (mode: 'shorten' | 'extend' | 'grant', current = paidPlan) =>
+      render(
+        <PlanDialog
+          mode={mode}
+          email="a@b.test"
+          current={current}
+          busy={false}
+          onConfirm={vi.fn()}
+          onClose={vi.fn()}
+        />,
+      );
+    open('shorten');
+    expect(screen.getByRole('note')).toHaveTextContent(PAYMENT_WARNING);
+    cleanup();
+    open('extend');
+    expect(screen.getByRole('note')).toHaveTextContent(PAYMENT_EXTEND_NOTE);
+    cleanup();
+    open('grant');
+    expect(screen.queryByRole('note')).toBeNull();
+    cleanup();
+    open('shorten', { ...paidPlan, source: 'admin' as never });
+    expect(screen.queryByRole('note')).toBeNull();
   });
 });
 

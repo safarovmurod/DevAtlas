@@ -17,6 +17,13 @@ export function planForTier(tier: MembershipTier): PlanId {
   return tier === 'expert' ? 'ultra' : tier === 'pro' ? 'pro' : 'start';
 }
 
+/**
+ * Monthly price in USD shown on the plans page. It must match the price of the Dodo
+ * product in DODO_PRODUCT_PRO / DODO_PRODUCT_ULTRA: Dodo charges its own product price,
+ * this number is only the label. Change both together (see docs/BILLING.md).
+ */
+export const PLAN_PRICE_USD: Record<'pro' | 'ultra', number> = { pro: 5, ultra: 12 };
+
 /** Name shown to people. Use this instead of printing the stored tier. */
 export function planName(tier: MembershipTier): string {
   return { start: 'Start', pro: 'Pro', ultra: 'Ultra' }[planForTier(tier)];

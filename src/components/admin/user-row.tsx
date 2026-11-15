@@ -203,11 +203,16 @@ export const UserRow = memo(function UserRow({
       </td>
       <td>
         {membership ? (
-          <span
-            className={`${styles.badge} ${membership.active ? styles.badgePaid : styles.badgeWarn}`}
-          >
-            {TIER_NAME[membership.tier]}
-          </span>
+          <div className={styles.badges}>
+            <span
+              className={`${styles.badge} ${membership.active ? styles.badgePaid : styles.badgeWarn}`}
+            >
+              {TIER_NAME[membership.tier]}
+            </span>
+            {membership.source === 'payment' && (
+              <span className={`${styles.badge} ${styles.badgeAdmin}`}>Пардохт</span>
+            )}
+          </div>
         ) : (
           <span className={styles.subtle}>—</span>
         )}

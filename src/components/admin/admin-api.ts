@@ -62,6 +62,20 @@ export type Intent =
 
 export const TIER_NAME: Record<Tier, string> = { pro: 'Pro', expert: 'Ultra' };
 
+/**
+ * Shown before an admin cancels or shortens a plan that a customer paid for. The panel
+ * changes only our database; the subscription at the payment provider keeps renewing.
+ */
+export const PAYMENT_WARNING =
+  'Ин подписка бо пардохти воқеӣ аст. Агар шумо онро ин ҷо бекор ё кам кунед, Dodo Payments дар санаи навбатӣ боз пул мегирад ва подписка худаш барқарор мешавад, то даме ки худи муштарӣ онро дар «Идоракунии обуна» бекор кунад. Баргардонидани пулро дар Dodo Payments dashboard иҷро кунед.';
+/** The question shown before a plan is cancelled; a paid plan adds the provider warning. */
+export function revokeMessage(email: string, membership: Membership | null) {
+  const base = `Подпискаи ${email} ҳозир бекор шавад? Дастрасии пулакӣ дарҳол қатъ мешавад.`;
+  return membership?.source === 'payment' ? `${base} ${PAYMENT_WARNING}` : base;
+}
+export const PAYMENT_EXTEND_NOTE =
+  'Ин подписка бо пардохти воқеӣ аст: рӯзҳои иловашуда дар навсозии навбатии пардохт бо санаи худи провайдер иваз мешаванд.';
+
 export const ERRORS: Record<string, string> = {
   authentication_required: 'Аввал ба аккаунт ворид шавед.',
   admin_required: 'Ин саҳифа танҳо барои админ аст.',

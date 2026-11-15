@@ -1,8 +1,8 @@
 # Membership and community integration
 
-The `/plans` page distinguishes the free Starter experience from Pro/Expert access. Existing ordinary courses stay free; separately published premium courses require an active database membership. Checkout remains unconfigured: paid access can currently be provisioned only by a trusted administrator, never by choosing a plan in the browser.
+The `/plans` page distinguishes the free Starter experience from Pro/Expert access. Existing ordinary courses stay free; separately published premium courses require an active database membership. Paid access is provisioned only by a trusted administrator or by the verified Dodo Payments webhook (see `docs/BILLING.md`), never by choosing a plan in the browser.
 
-`POST /api/billing/checkout` accepts an authenticated request with `{"tier":"pro"}` or `{"tier":"expert"}` and returns HTTP 503 `billing_not_configured`. A payment provider, prices, webhook credentials and production callback URLs have not been selected. This endpoint never grants access. Future checkout integration must create provider checkout sessions server-side and grant membership only after a verified, replay-safe paid webhook; never trust a browser redirect or plan in user metadata.
+`POST /api/billing/checkout` accepts an authenticated request with `{"tier":"pro"}` or `{"tier":"expert"}` and creates a Dodo Payments checkout session server-side. Without the five `DODO_*` environment variables it returns HTTP 503 `billing_not_configured`. This endpoint never grants access: membership is granted only after the verified, replay-safe subscription webhook (`/api/billing/webhook`); the browser redirect and `metadata.tier` are never trusted, the plan comes from the product id.
 
 ## Database prerequisites
 

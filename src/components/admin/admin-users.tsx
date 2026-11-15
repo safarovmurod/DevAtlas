@@ -6,6 +6,7 @@ import {
   adminCall,
   ERRORS,
   errorText,
+  revokeMessage,
   TIER_NAME,
   type AdminUser,
   type Filter,
@@ -500,7 +501,7 @@ export function AdminUsers() {
       {dialog?.kind === 'revoke' && (
         <ConfirmDialog
           title="Бекор кардани подписка"
-          message={`Подпискаи ${dialogEmail} ҳозир бекор шавад? Дастрасии пулакӣ дарҳол қатъ мешавад.`}
+          message={revokeMessage(dialogEmail, dialog.user.membership)}
           confirmLabel="Бекор кардани подписка"
           danger
           busy={dialogBusy}

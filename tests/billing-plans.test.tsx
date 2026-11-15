@@ -68,7 +68,7 @@ describe('plans page', () => {
   beforeEach(() => useLearningStore.setState({ language: 'en' }));
   afterEach(cleanup);
 
-  it('shows Start, Pro and Ultra with their own features and honest payment state', () => {
+  it('shows Start, Pro and Ultra with their own features, prices and honest payment state', () => {
     render(<PlansScreen />);
     const copy = MEMBERSHIP_COPY.en;
     const cards = screen.getAllByRole('article');
@@ -105,6 +105,11 @@ describe('plans page', () => {
   });
 });
 
+vi.mock('@/components/account/account-provider', () => ({ useAccount: () => ({ user: null }) }));
+vi.mock('@/lib/billing/billing-client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/lib/billing/billing-client')>()),
+  billingFetch: vi.fn().mockResolvedValue({ configured: false, signedIn: false, membership: null }),
+}));
 vi.mock('next/link', () => ({
   default: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) => (
     <a href={href} {...rest}>

@@ -1,6 +1,14 @@
 'use client';
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
-import { day, TIER_NAME, type Membership, type PlanMode, type Tier } from './admin-api';
+import {
+  day,
+  PAYMENT_EXTEND_NOTE,
+  PAYMENT_WARNING,
+  TIER_NAME,
+  type Membership,
+  type PlanMode,
+  type Tier,
+} from './admin-api';
 import styles from './admin.module.css';
 
 const DAY_MS = 86_400_000;
@@ -64,6 +72,11 @@ export function PlanDialog({
               }`
             : 'Ҳозир подписка надорад.'}
         </p>
+        {current?.source === 'payment' && mode !== 'grant' && (
+          <p className={styles.dialogText} role="note">
+            {mode === 'shorten' ? PAYMENT_WARNING : PAYMENT_EXTEND_NOTE}
+          </p>
+        )}
         {mode === 'grant' && (
           <div className={styles.field}>
             <label htmlFor={tierId} className={styles.fieldLabel}>
