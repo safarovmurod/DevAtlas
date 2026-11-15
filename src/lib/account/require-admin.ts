@@ -6,7 +6,12 @@ export type AdminCheck =
   | {
       ok: false;
       status: 401 | 403 | 503;
-      error: 'authentication_required' | 'admin_required' | 'mfa_required' | 'unavailable';
+      error:
+        | 'authentication_required'
+        | 'admin_required'
+        | 'account_banned'
+        | 'mfa_required'
+        | 'unavailable';
     };
 
 /**
@@ -26,6 +31,10 @@ export async function requireAdmin(request: Request): Promise<AdminCheck> {
     const { data, error } = await client.auth.getUser(token);
     if (error || !data.user) return { ok: false, status: 401, error: 'authentication_required' };
     const user = data.user;
+    // A banned account is refused even while its last access token is still valid.
+    if (user.banned_until && new Date(user.banned_until).getTime() > Date.now()) {
+      return { ok: false, status: 403, error: 'account_banned' };
+    }
     if (user.is_anonymous || !user.email_confirmed_at || user.app_metadata?.app_role !== 'admin') {
       return { ok: false, status: 403, error: 'admin_required' };
     }

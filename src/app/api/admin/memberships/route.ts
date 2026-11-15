@@ -1,9 +1,15 @@
 import { z } from 'zod';
 import { requireAdmin } from '@/lib/account/require-admin';
-import { readBoundedJson, RequestBodyError } from '@/lib/security/request';
+import {
+  audit,
+  DAY_MS,
+  forbiddenReason,
+  json,
+  loadAdminUser,
+  MEMBERSHIPS,
+  parseBody,
+} from '@/lib/account/admin-users';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
-
-const DAY_MS = 86_400_000;
 
 // "expert" is stored for the Ultra plan.
 const Body = z.discriminatedUnion('action', [
@@ -21,25 +27,15 @@ const Body = z.discriminatedUnion('action', [
   z.object({ action: z.literal('revoke'), userId: z.string().uuid() }),
 ]);
 
-function json(data: unknown, status = 200) {
-  return Response.json(data, { status, headers: { 'Cache-Control': 'private, no-store' } });
-}
-
-/** Admin-only: give, extend or cancel a paid membership. Service role stays on the server. */
+/**
+ * Admin-only: give, extend or cancel a paid membership. Service role stays on the server.
+ * The response carries the updated user so the panel replaces just that row.
+ */
 export async function POST(request: Request) {
   const check = await requireAdmin(request);
   if (!check.ok) return json({ error: check.error }, check.status);
-
-  let parsed;
-  try {
-    parsed = Body.safeParse(await readBoundedJson(request, 1024));
-  } catch (error) {
-    return json(
-      { error: 'invalid_request' },
-      error instanceof RequestBodyError ? error.status : 400,
-    );
-  }
-  if (!parsed.success) return json({ error: 'invalid_request' }, 400);
+  const parsed = await parseBody(request, Body, 1024);
+  if (!parsed.ok) return parsed.response;
   const body = parsed.data;
 
   const admin = getSupabaseAdminClient();
@@ -47,48 +43,61 @@ export async function POST(request: Request) {
 
   const target = await admin.auth.admin.getUserById(body.userId);
   if (target.error || !target.data.user) return json({ error: 'user_not_found' }, 404);
+  const targetUser = target.data.user;
+  const action = `membership_${body.action}` as const;
+  const reason = forbiddenReason(check.user, targetUser, action);
+  if (reason) return json({ error: reason }, 403);
 
   const existing = await admin
-    .from('react_mentor_memberships')
+    .from(MEMBERSHIPS)
     .select('tier,expires_at')
     .eq('user_id', body.userId)
     .maybeSingle();
   if (existing.error) return json({ error: 'unavailable' }, 503);
 
+  const now = Date.now();
+  const stamp = new Date(now).toISOString();
+  let details: Record<string, unknown>;
   if (body.action === 'revoke') {
     if (!existing.data) return json({ error: 'no_membership' }, 404);
-    const removed = await admin
-      .from('react_mentor_memberships')
-      .delete()
-      .eq('user_id', body.userId);
+    const removed = await admin.from(MEMBERSHIPS).delete().eq('user_id', body.userId);
     if (removed.error) return json({ error: 'unavailable' }, 503);
-    console.info('admin membership revoke', { admin: check.user.id, target: body.userId });
-    return json({ membership: null });
-  }
-
-  const now = Date.now();
-  let tier: 'pro' | 'expert';
-  let base = now;
-  if (body.action === 'extend') {
+    details = { tier: existing.data.tier, expiresAt: existing.data.expires_at };
+  } else if (body.action === 'extend') {
     if (!existing.data) return json({ error: 'no_membership' }, 404);
-    tier = existing.data.tier === 'expert' ? 'expert' : 'pro';
     // Extending an active plan continues from its end, an expired one restarts from today.
-    base = Math.max(now, new Date(existing.data.expires_at).getTime());
+    const base = Math.max(now, new Date(existing.data.expires_at).getTime());
+    const expiresAt = new Date(base + body.days * DAY_MS).toISOString();
+    const saved = await admin
+      .from(MEMBERSHIPS)
+      .update({ expires_at: expiresAt, updated_at: stamp })
+      .eq('user_id', body.userId);
+    if (saved.error) return json({ error: 'unavailable' }, 503);
+    details = { tier: existing.data.tier, days: body.days, expiresAt };
   } else {
-    tier = body.tier;
-  }
-  const expiresAt = new Date(base + body.days * DAY_MS).toISOString();
-  const saved = await admin
-    .from('react_mentor_memberships')
-    .upsert(
-      { user_id: body.userId, tier, expires_at: expiresAt, updated_at: new Date().toISOString() },
+    // A new grant replaces any previous plan and records who gave it.
+    const expiresAt = new Date(now + body.days * DAY_MS).toISOString();
+    const saved = await admin.from(MEMBERSHIPS).upsert(
+      {
+        user_id: body.userId,
+        tier: body.tier,
+        expires_at: expiresAt,
+        updated_at: stamp,
+        source: 'admin',
+        granted_by: check.user.id,
+        granted_at: stamp,
+      },
       { onConflict: 'user_id' },
     );
-  if (saved.error) return json({ error: 'unavailable' }, 503);
-  console.info(`admin membership ${body.action}`, {
-    admin: check.user.id,
-    target: body.userId,
-    tier,
-  });
-  return json({ membership: { tier, expiresAt } });
+    if (saved.error) return json({ error: 'unavailable' }, 503);
+    details = { tier: body.tier, days: body.days, expiresAt };
+  }
+
+  await audit(admin, check.user, action, { id: targetUser.id, email: targetUser.email }, details);
+  try {
+    const user = await loadAdminUser(admin, body.userId, check.user);
+    return json({ user });
+  } catch {
+    return json({ user: null });
+  }
 }

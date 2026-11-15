@@ -1,5 +1,5 @@
 .wrap {
-  max-width: 960px;
+  max-width: 1040px;
 }
 .head h1 {
   font-size: clamp(1.6rem, 4vw, 2.2rem);
@@ -47,7 +47,6 @@
   background: var(--card);
   color: var(--text);
   padding: 0 14px;
-  margin-bottom: 16px;
 }
 .list {
   display: grid;
@@ -130,14 +129,238 @@
 .input {
   width: 84px;
 }
-.danger {
-  margin-left: auto;
-  color: var(--danger-text, var(--danger));
-}
 .pager {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 14px;
   margin-top: 18px;
+}
+
+.toolbar {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-2);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.chip:hover {
+  border-color: var(--border-strong, var(--border));
+}
+.chipActive {
+  background: var(--primary-soft);
+  border-color: transparent;
+  color: var(--primary);
+  font-weight: 600;
+}
+.notice {
+  color: var(--warning-text);
+  background: var(--warning-soft);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+}
+.empty {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-card);
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--text-muted);
+}
+.skeleton {
+  min-height: 132px;
+  background: var(--well);
+  border-color: transparent;
+}
+.stale {
+  opacity: 0.6;
+}
+.identity {
+  min-width: 0;
+}
+.you {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.badgeOwner {
+  background: var(--text);
+  color: var(--card);
+}
+.badgeDanger {
+  background: var(--danger-soft);
+  color: var(--danger-text);
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px 16px;
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--well);
+  border-radius: 10px;
+  font-size: 0.85rem;
+}
+.facts dt {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+.facts dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.ok {
+  color: var(--success-text);
+}
+.warn {
+  color: var(--warning-text);
+}
+.inputError {
+  border-color: var(--danger-text);
+}
+.warnButton {
+  color: var(--warning-text);
+}
+.dangerButton {
+  background: var(--danger);
+  color: #ffffff;
+  border-color: transparent;
+}
+.dangerButton:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+.sectionTitle {
+  font-size: 1.15rem;
+  margin: 0 0 10px;
+}
+.audit {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.auditList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.auditItem {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 4px 12px;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+.auditItem time {
+  color: var(--text-muted);
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(15, 14, 12, 0.55);
+}
+.dialog {
+  width: min(460px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 20px;
+}
+.dialogTitle {
+  font-size: 1.15rem;
+  margin: 0 0 12px;
+}
+.dialogText {
+  display: block;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+.dialogInput {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text);
+  padding: 0 12px;
+  font: inherit;
+}
+.textarea {
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 110px;
+}
+.counter {
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.dialogActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+.toasts {
+  position: fixed;
+  right: 16px;
+  bottom: 88px;
+  z-index: 1100;
+  display: grid;
+  gap: 8px;
+  width: min(380px, calc(100vw - 32px));
+  pointer-events: none;
+}
+.toast {
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+}
+.toastOk {
+  background: var(--success-soft);
+  color: var(--success-text);
+  border-color: transparent;
+}
+.toastError {
+  background: var(--danger-soft);
+  color: var(--danger-text);
+  border-color: transparent;
+}
+@media (max-width: 640px) {
+  .auditItem {
+    grid-template-columns: 1fr;
+  }
 }
