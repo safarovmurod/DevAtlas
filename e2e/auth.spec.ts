@@ -66,14 +66,18 @@ async function mockBackend(page:Page,signupFailure=false,previous?:MockServerSta
 async function login(page:Page,email='a@example.com') {
   await page.getByLabel('Электронная почта',{exact:true}).fill(email);await page.getByLabel('Пароль',{exact:true}).fill('test-password-123');await page.getByRole('button',{name:'Войти с email',exact:true}).click();
 }
+// Sign out lives in the profile menu of the header.
+async function signOut(page:Page) {
+  await page.getByRole('button',{name:'Личный профиль'}).click();await page.getByRole('menuitem',{name:'Выйти из аккаунта',exact:true}).click();
+}
 async function firstName(page:Page,name:string) {
   await expect(page.getByRole('heading',{name:'Как вас называть?'})).toBeVisible();await page.getByLabel('Ваше имя',{exact:true}).fill(name);await page.getByRole('button',{name:'Начать обучение',exact:true}).click();await expect(page.locator('.header-tools .avatar')).toHaveAttribute('aria-label',name);
   await expect(page.getByRole('heading',{name:'Навыки начинаются с практики.'})).toBeVisible();
-  await page.getByRole('button',{name:'Выбрать React',exact:true}).click();
+  await page.goto('/courses/category/programming');await page.getByRole('button',{name:'Выбрать React',exact:true}).click();
 }
 
-test('Google is recommended and starts a PKCE OAuth redirect (mock backend)',async ({page},info)=>{
-  const backend=await mockBackend(page);await page.goto('/home');await expect(page.getByText('Рекомендуем',{exact:true})).toBeVisible();
+test('Google sign-in is offered first and starts a PKCE OAuth redirect (mock backend)',async ({page},info)=>{
+  const backend=await mockBackend(page);await page.goto('/home');await expect(page.getByRole('button',{name:/Продолжить с Google/})).toBeVisible();
   await page.screenshot({path: info.outputPath('login.png')});
   await page.getByRole('button',{name:/Продолжить с Google/}).click();await expect.poll(()=>backend.oauth()).toContain('provider=google');
   const destination=new URL(backend.oauth());expect(destination.searchParams.get('redirect_to')).toBe('http://127.0.0.1:3101/auth/callback');expect(destination.searchParams.get('code_challenge')).toBeTruthy();
@@ -109,10 +113,10 @@ test('first name, private notes and profile survive login, account switching and
   await page.goto('/home');await expect(page.locator('.dashboard-heading p')).toContainText('Мансур');
   await page.goto('/notes');await page.getByRole('button',{name:'Новая заметка',exact:true}).click();await page.getByLabel('Название',{exact:true}).fill('Личная заметка A');await page.getByLabel('Текст',{exact:true}).fill('Только аккаунт A');await page.getByRole('button',{name:'Сохранить',exact:true}).click();
   await page.goto('/settings');await page.getByRole('button',{name:'Синхронизировать',exact:true}).click();await expect.poll(()=>backend.progress.get(ids.a)?.data.notes).toEqual([expect.objectContaining({title:'Личная заметка A'})]);
-  await page.getByRole('button',{name:'Выйти из аккаунта',exact:true}).click();await expect(page.getByRole('heading',{name:'Продолжите своё обучение'})).toBeVisible();await login(page,'b@example.com');
+  await signOut(page);await expect(page.getByRole('heading',{name:'Продолжите своё обучение'})).toBeVisible();await login(page,'b@example.com');
   // First profile is mandatory and must not reuse account A's name.
   await firstName(page,'Одина');await page.goto('/home');await expect(page.locator('.dashboard-heading p')).toContainText('Одина');await expect(page.locator('.dashboard-heading p')).not.toContainText('Мансур');await page.goto('/notes');await expect(page.getByText('Личная заметка A',{exact:true})).toHaveCount(0);await page.goto('/settings');
-  await page.getByRole('button',{name:'Выйти из аккаунта',exact:true}).click();await login(page);await page.goto('/notes');await expect(page.getByText('Личная заметка A',{exact:true})).toBeVisible();await page.reload();await expect(page.getByText('Личная заметка A',{exact:true})).toBeVisible();
+  await signOut(page);await login(page);await page.goto('/notes');await expect(page.getByText('Личная заметка A',{exact:true})).toBeVisible();await page.reload();await expect(page.getByText('Личная заметка A',{exact:true})).toBeVisible();
   const keys=await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('react-mentor-account-v1:')));expect(keys).toContain('react-mentor-account-v1:'+ids.a);expect(keys).toContain('react-mentor-account-v1:'+ids.b);
 });
 
@@ -145,7 +149,7 @@ test('remembered login survives closing the browser, refreshes expired access an
       const key=Object.keys(localStorage).find(key=>key.endsWith('-auth-token'))!;
       return JSON.parse(localStorage.getItem(key)!).expires_at>Math.floor(Date.now()/1000);
     })).toBe(true);
-    await resumed.page.goto('/settings');await resumed.page.getByRole('button',{name:'Выйти из аккаунта',exact:true}).click();
+    await resumed.page.goto('/settings');await signOut(resumed.page);
     await expect(resumed.page.getByRole('heading',{name:'Продолжите своё обучение'})).toBeVisible();
     await context!.close();context=undefined;
     const loggedOut=await open(first.backend);await loggedOut.page.goto('/home');
@@ -163,7 +167,7 @@ test('photo upload, phone QR and authenticator enrollment/challenge work (mock b
   await expect(page.getByText('Authenticator подключён',{exact:true})).toBeVisible();await expect(page.getByAltText('QR для приложения authenticator')).toHaveCount(0);
   expect(await page.evaluate(()=>JSON.stringify(localStorage))).not.toContain('TEST-ONLY-SECRET');
   await page.screenshot({path: info.outputPath('account-settings.png'),fullPage:true});
-  await page.getByRole('button',{name:'Выйти из аккаунта',exact:true}).click();await login(page);
+  await signOut(page);await login(page);
   await expect(page.getByRole('heading',{name:'Подтвердите вход'})).toBeVisible();await expect(page.getByRole('heading',{name:'Навыки начинаются с практики.'})).toHaveCount(0);
   await page.getByLabel('Код authenticator',{exact:true}).fill('123456');await page.getByRole('button',{name:'Подтвердить',exact:true}).click();await expect(page.getByRole('heading',{name:'Настройки',exact:true})).toBeVisible();
 });

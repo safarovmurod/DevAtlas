@@ -18,8 +18,8 @@ for (const [start, end] of [[15, 18], [19, 26], [27, 34], [35, 42]]) {
     await expect(page.locator('.day-card')).toHaveCount(42);
     for (const lesson of course.lessons.filter(l => l.day >= start && l.day <= end)) {
       await page.goto(`/courses/english-foundations/home?day=${lesson.day}`);
-      await expect(page.locator('.course-lesson h2')).toHaveText(lesson.title.tg);
-      await expect(page.locator('.day-explanation')).toHaveCount(4);
+      await expect(page.locator(`#${lesson.id} > header > h2`)).toHaveText(lesson.title.tg);
+      await expect(page.locator('[data-lesson-section]')).toHaveCount(4);
     }
     const lesson = course.lessons[end - 1];
     await page.goto(`/courses/english-foundations/tests?day=${end}`);
