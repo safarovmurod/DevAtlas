@@ -8,6 +8,9 @@ export async function authenticatedUser(request: Request) {
   try {
     const { data, error } = await client.auth.getUser(token);
     if (error || !data.user) return null;
+    // A banned account is refused even while its last access token is still valid.
+    if (data.user.banned_until && new Date(data.user.banned_until).getTime() > Date.now())
+      return null;
     // Check verified server-side token through the RLS helper, including MFA.
     const allowed = await client.rpc('react_mentor_session_allowed');
     if (allowed.error || allowed.data !== true) return null;

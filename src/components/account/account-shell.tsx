@@ -17,6 +17,10 @@ import { useAppStore } from '@/stores/app-store';
 const TutorDrawer = dynamic(() =>
   import('@/components/layout/tutor-drawer').then((module) => module.TutorDrawer),
 );
+const NotificationToaster = dynamic(
+  () => import('./notification-toaster').then((module) => module.NotificationToaster),
+  { ssr: false },
+);
 import { CourseBoundary } from '@/components/courses/course-boundary';
 import { useLearningStore } from '@/stores/learning-store';
 import { ACCOUNT_COPY, accountErrorKey } from '@/lib/account-copy';
@@ -113,6 +117,9 @@ export function AccountShell({
       <MobileTabBar />
       <SiteAgent key={'agent:' + (account.user?.id || 'guest') + course} />
       {tutorMounted && <TutorDrawer key={'tutor:' + (account.user?.id || 'guest') + course} />}
+      {account.user && !account.user.is_anonymous && (
+        <NotificationToaster key={'notes:' + account.user.id} userId={account.user.id} />
+      )}
     </>
   );
 }
