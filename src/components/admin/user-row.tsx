@@ -72,23 +72,43 @@ function ActionsMenu({
   busy: boolean;
   onPick: (intent: Intent) => void;
 }) {
-  const [open, setOpen] = useState(false);
+  // The menu is positioned against the viewport, so the table's scroll area never clips it.
+  const [place, setPlace] = useState<{ top: number; right: number } | null>(null);
+  const open = place !== null;
   const box = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
   const menuId = useId();
+  const close = () => setPlace(null);
+  function toggle() {
+    if (open || !trigger.current) return setPlace(null);
+    const rect = trigger.current.getBoundingClientRect();
+    // About 40px per item plus padding; open upwards when there is no room below.
+    const height = items.length * 40 + 24;
+    const below = rect.bottom + 6;
+    setPlace({
+      top: below + height > window.innerHeight ? Math.max(8, rect.top - height - 6) : below,
+      right: Math.max(8, window.innerWidth - rect.right),
+    });
+  }
   useEffect(() => {
     if (!open) return;
     function onDown(event: MouseEvent) {
-      if (!box.current?.contains(event.target as Node)) setOpen(false);
+      if (!box.current?.contains(event.target as Node)) setPlace(null);
     }
     function onKey(event: KeyboardEvent) {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') setPlace(null);
     }
+    const hide = () => setPlace(null);
     document.addEventListener('mousedown', onDown);
     document.addEventListener('keydown', onKey);
+    window.addEventListener('scroll', hide, true);
+    window.addEventListener('resize', hide);
     box.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
     return () => {
       document.removeEventListener('mousedown', onDown);
       document.removeEventListener('keydown', onKey);
+      window.removeEventListener('scroll', hide, true);
+      window.removeEventListener('resize', hide);
     };
   }, [open]);
 
@@ -96,18 +116,25 @@ function ActionsMenu({
     <div className={styles.menuBox} ref={box}>
       <button
         type="button"
+        ref={trigger}
         className={`button subtle ${styles.menuButton}`}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={open ? menuId : undefined}
         disabled={busy}
-        onClick={() => setOpen((value) => !value)}
+        onClick={toggle}
       >
         {busy ? 'Иҷро мешавад…' : 'Амалҳо'}
         <span aria-hidden="true"> ▾</span>
       </button>
-      {open && (
-        <div className={styles.menu} role="menu" id={menuId} aria-label="Амалҳо">
+      {place && (
+        <div
+          className={styles.menu}
+          style={{ top: place.top, right: place.right }}
+          role="menu"
+          id={menuId}
+          aria-label="Амалҳо"
+        >
           {items.map((item) => (
             <button
               key={item.label}
@@ -117,7 +144,7 @@ function ActionsMenu({
                 item.separated ? styles.menuSeparated : ''
               }`}
               onClick={() => {
-                setOpen(false);
+                close();
                 onPick(item.intent);
               }}
             >

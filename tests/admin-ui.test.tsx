@@ -144,6 +144,16 @@ describe('user row', () => {
     expect(items()[0]).toBe('Додани подписка…');
   });
 
+  it('places the menu against the viewport so the table cannot clip it', () => {
+    row(base, false);
+    openMenu();
+    const menu = screen.getByRole('menu');
+    expect(menu.style.top).toMatch(/px$/);
+    expect(menu.style.right).toMatch(/px$/);
+    fireEvent.scroll(window);
+    expect(screen.queryByRole('menu')).toBeNull();
+  });
+
   it('closes the menu with Escape without doing anything', () => {
     const onIntent = row(base, false);
     openMenu();
