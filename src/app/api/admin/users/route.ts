@@ -1,7 +1,50 @@
+import { z } from 'zod';
 import { requireAdmin } from '@/lib/account/require-admin';
+import { readBoundedJson, RequestBodyError } from '@/lib/security/request';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 
 const PER_PAGE = 50;
+const DeleteBody = z.object({
+  userId: z.string().uuid(),
+  confirmEmail: z.string().trim().min(3).max(320),
+});
+
+/**
+ * Permanently deletes an account and everything linked to it (all tables reference
+ * auth.users with ON DELETE CASCADE). It cannot be undone, so the caller must retype the
+ * account email. Admins, including the caller, cannot be deleted here.
+ */
+export async function DELETE(request: Request) {
+  const check = await requireAdmin(request);
+  if (!check.ok) return json({ error: check.error }, check.status);
+
+  let parsed;
+  try {
+    parsed = DeleteBody.safeParse(await readBoundedJson(request, 1024));
+  } catch (error) {
+    return json(
+      { error: 'invalid_request' },
+      error instanceof RequestBodyError ? error.status : 400,
+    );
+  }
+  if (!parsed.success) return json({ error: 'invalid_request' }, 400);
+  const { userId, confirmEmail } = parsed.data;
+  if (userId === check.user.id) return json({ error: 'cannot_delete_admin' }, 403);
+
+  const admin = getSupabaseAdminClient();
+  if (!admin) return json({ error: 'unavailable' }, 503);
+  const target = await admin.auth.admin.getUserById(userId);
+  if (target.error || !target.data.user) return json({ error: 'user_not_found' }, 404);
+  const user = target.data.user;
+  if (user.app_metadata?.app_role === 'admin') return json({ error: 'cannot_delete_admin' }, 403);
+  if (!user.email || user.email.toLowerCase() !== confirmEmail.toLowerCase())
+    return json({ error: 'email_mismatch' }, 400);
+
+  const removed = await admin.auth.admin.deleteUser(userId);
+  if (removed.error) return json({ error: 'unavailable' }, 503);
+  console.info('admin user delete', { admin: check.user.id, target: userId });
+  return json({ deleted: true });
+}
 
 function json(data: unknown, status = 200) {
   return Response.json(data, { status, headers: { 'Cache-Control': 'private, no-store' } });

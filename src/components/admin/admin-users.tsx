@@ -25,11 +25,13 @@ const ERRORS: Record<string, string> = {
   mfa_required: 'Барои админ 2FA лозим аст. Дар Settings онро фаъол кунед ва бо код ворид шавед.',
   user_not_found: 'Корбар ёфт нашуд.',
   no_membership: 'Ин корбар подписка надорад.',
+  cannot_delete_admin: 'Админро нест кардан мумкин нест.',
+  email_mismatch: 'Email мувофиқ нест. Корбар нест нашуд.',
   invalid_request: 'Маълумот нодуруст аст.',
   unavailable: 'Сервис ҳоло ҷавоб намедиҳад. Баъдтар кӯшиш кунед.',
 };
 
-async function call(path: string, init?: { method: 'POST'; body: unknown }) {
+async function call(path: string, init?: { method: 'POST' | 'DELETE'; body: unknown }) {
   const client = getSupabaseBrowserClient();
   if (!client) throw new Error('authentication_required');
   const { data, error } = await getSessionWithTimeout(client);
@@ -104,6 +106,27 @@ export function AdminUsers() {
             : action === 'extend'
               ? { action, userId: user.id, days: count }
               : { action, userId: user.id },
+      });
+      setVersion((value) => value + 1);
+    } catch (cause) {
+      setError(ERRORS[cause instanceof Error ? cause.message : ''] ?? ERRORS.unavailable);
+    } finally {
+      setBusyId('');
+    }
+  }
+
+  async function remove(user: AdminUser) {
+    if (!user.email) return;
+    const typed = window.prompt(
+      `Нест кардани аккаунт ҳамаи прогресс ва подпискаи ӯро якбора нест мекунад ва барнамегардад.\nБарои тасдиқ email-ро пурра нависед:\n${user.email}`,
+    );
+    if (typed === null) return;
+    setBusyId(user.id);
+    setError('');
+    try {
+      await call('/api/admin/users', {
+        method: 'DELETE',
+        body: { userId: user.id, confirmEmail: typed },
       });
       setVersion((value) => value + 1);
     } catch (cause) {
@@ -211,6 +234,15 @@ export function AdminUsers() {
                               onClick={() => act(user, 'grant')}
                             >
                               Додан
+                            </button>
+                          )}
+                          {!user.isAdmin && user.email && (
+                            <button
+                              type="button"
+                              disabled={busyId === user.id}
+                              onClick={() => remove(user)}
+                            >
+                              Нест кардани аккаунт
                             </button>
                           )}
                         </div>
