@@ -15,6 +15,7 @@ import {
   Crown,
   MessagesSquare,
   ChevronsUpDown,
+  ShieldCheck,
 } from 'lucide-react';
 import { useAppStore } from '@/stores/app-store';
 import { COPY } from '@/lib/i18n';
@@ -45,6 +46,7 @@ const TONES = {
   community: 'bg-pink-500/12 text-pink-600',
   plans: 'bg-yellow-500/15 text-yellow-600',
   settings: 'bg-slate-500/12 text-slate-600',
+  admin: 'bg-rose-500/12 text-rose-600',
 } as const;
 
 function NavIcon({
@@ -130,6 +132,7 @@ const EXTRA_NAV = {
   tg: { plans: 'Тарифҳо', community: 'Ҷомеа' },
   es: { plans: 'Planes', community: 'Comunidad' },
 };
+const ADMIN_LABEL = { ru: 'Админ', en: 'Admin', tg: 'Админ', es: 'Admin' };
 export function Sidebar() {
   const account = useAccount();
   const pathname = usePathname();
@@ -324,6 +327,19 @@ export function Sidebar() {
           </Link>
         </nav>
         <div className="sidebar-bottom">
+          {/* Only a shortcut for the owner. The server checks the role and 2FA on every request. */}
+          {account.user?.app_metadata?.app_role === 'admin' && (
+            <Link
+              transitionTypes={['nav-fade']}
+              href="/admin"
+              aria-current={pathname === '/admin' ? 'page' : undefined}
+              className={'nav-item group/nav gap-3 ' + (pathname === '/admin' ? 'active' : '')}
+              onClick={() => setOpen(false)}
+            >
+              <NavIcon icon={ShieldCheck} tone="admin" active={pathname === '/admin'} />
+              {ADMIN_LABEL[language]}
+            </Link>
+          )}
           <Link
             transitionTypes={['nav-fade']}
             href="/settings"
