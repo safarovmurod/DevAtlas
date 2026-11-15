@@ -58,7 +58,7 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 
 ## Implemented and bounded
 
-- Existing catalog, tracks, accounts, progress, notes, drafts, Monaco, themes, Aurora, sidebar and six UI languages are retained. Authored new lesson material requires RU/TG/EN. Older incomplete translations keep visible fallback.
+- Existing catalog, tracks, accounts, progress, notes, drafts, Monaco, themes, Aurora, sidebar and four UI languages (EN, RU, TG, ES) are retained. Authored new lesson material requires RU/TG/EN. Older incomplete translations keep visible fallback.
 - HTML day 1 has a compatible Learn → Understand → Watch → Try → Practice → Test → Review → Master pilot, real sandboxed HTML exploration and two authored eight-question assessment forms. Quiz result badges are distinct from full mastery. Wider lesson-flow rollout remains unfinished.
 - Mastered requires successful assessed practice, ≥80% and every critical question. Self review allows study continuation but cannot mint protected mastery. Late account results are isolated; legacy progress/XP is preserved. Readiness never grants or revokes paid content access.
 - The protected assessment ledger has server-derived grading, own-account/MFA reads and service-only idempotent writes. Its migration has PostgreSQL-compatible tests; live Supabase application is not verified. Missing configuration does not fabricate persistence.
