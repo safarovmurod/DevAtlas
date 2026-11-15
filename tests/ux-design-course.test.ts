@@ -51,3 +51,24 @@ it('the UX capstone is a real final case with honest review status and verified 
  const ethics=course.lessons[8].practice!.task.en;
  expect(ethics).toContain('how the participant can stop');
 });
+
+it('day 19 teaches all twelve visual principles in text with linked feedback and no PDF attachment',async()=>{
+ const course=await loadCourseContent('ux-design');
+ const lesson=course.lessons[18];
+ const principles=['Contrast:','Emphasis:','Hierarchy:','Proportion:','Balance:','Whitespace:','Unity:','Variety:','Repetition:','Pattern:','Rhythm:','Movement:'];
+ expect(lesson.id).toBe('ux-design-day-19');
+ expect(lesson.sections).toHaveLength(15);
+ expect(lesson.questions).toHaveLength(17);
+ for(const [index,principle] of principles.entries()){
+  expect(lesson.sections[index+3].title.en).toContain(principle);
+  expect(lesson.questions[index+5].relatedSection).toBe(index+3);
+  expect(lesson.questions[index+5].hint?.en).toBeTruthy();
+ }
+ expect(course.files.some(file=>file.url.endsWith('.pdf'))).toBe(false);
+ expect(lesson.practice!.task.en).toContain('all 12 principles');
+ expect(lesson.practice!.referenceAnswer!.en).toContain('contrast not measured');
+ const contrast=course.lessons[20].sections.at(-1)!.body.en!;
+ expect(contrast).toContain('4.5:1');
+ expect(contrast).toContain('18 pt');
+ expect(contrast).toContain('exceptions');
+});

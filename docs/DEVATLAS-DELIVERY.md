@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-Recorded main checkpoint: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29` (recorded 2026-10-31; historical audit baseline `d5ed179175d3f524ec1d14956ff44ff98164467e`). 43 course IDs; 38 tracks; 114 stage requirements; 1159 actual scheduled days (1009 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
+Recorded main checkpoint: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29` (recorded 2026-10-31; historical audit baseline `d5ed179175d3f524ec1d14956ff44ff98164467e`). 43 course IDs; 38 tracks; 114 stage requirements; 1220 actual scheduled days (1070 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
 
 42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
 
@@ -45,10 +45,10 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 | data-analytics | starter | 30 |
 | business-foundations | starter | 30 |
 | communication | starter | 30 |
-| content-creation | starter | 9 |
-| english-foundations | starter | 10 |
+| content-creation | starter | 30 |
+| english-foundations | starter | 42 |
 | digital-literacy | starter | 9 |
-| personal-productivity | starter | 14 |
+| personal-productivity | starter | 22 |
 | management-foundations | starter | 9 |
 | javascript-pro | pro | 30 |
 | backend-pro | pro | 30 |
@@ -71,7 +71,7 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 
 ## Required remaining work
 
-The short-course blueprints still have 103 days to author across 5 courses: `content-creation` (9/30), `english-foundations` (10/42), `digital-literacy` (9/30), `personal-productivity` (14/22), `management-foundations` (9/30). Counts show authored days in the local catalog against draft targets.
+The short-course blueprints still have 42 days to author across 2 courses: `digital-literacy` (9/30), `management-foundations` (9/30). Counts show authored days in the local catalog against draft targets.
 
 All 5 fourteen-day programs still require a reviewed continuation: `typescript`, `algorithms`, `ai-fundamentals`, `context-engineering`, `agent-harness`.
 

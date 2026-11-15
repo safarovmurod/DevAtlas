@@ -14,7 +14,7 @@ const applied = ['ux-pro', 'business-pro'] as const;
 const appliedDays = { 'ux-pro': 30, 'business-pro': 30 } as Record<string, number>;
 const starterDays = {
   'ux-design': 30, 'digital-marketing': 30, 'data-analytics': 30, 'business-foundations': 30, 'communication': 30,
-  'content-creation': 9, 'english-foundations': 10, 'digital-literacy': 9, 'personal-productivity': 14, 'management-foundations': 9,
+  'content-creation': 30, 'english-foundations': 42, 'digital-literacy': 9, 'personal-productivity': 22, 'management-foundations': 9,
 } as Record<string, number>;
 const expandedIntroductions = new Set([
   'content-creation', 'english-foundations', 'digital-literacy', 'personal-productivity', 'management-foundations',
@@ -97,7 +97,18 @@ describe('original general-education modules', () => {
         }
       }
     }
-    expect(lessonCount).toBe(261);
+    expect(lessonCount).toBe(322);
+  });
+
+  it('editing and media quizzes cannot be solved by a fixed answer position for each question number', async () => {
+    const course = await content('content-creation');
+    for (const startDay of [17, 24]) {
+      const module = course.lessons.filter(lesson => lesson.day! >= startDay && lesson.day! < startDay + 7);
+      expect(module).toHaveLength(7);
+      for (const questionIndex of [0, 1, 2]) {
+        expect(new Set(module.map(lesson => lesson.questions[questionIndex].correctIndex)).size).toBeGreaterThan(1);
+      }
+    }
   });
 
   it('applied Pro cases are distinct from free introductions and include intermediate days', async () => {
