@@ -47,7 +47,9 @@ export type AuditEntry = {
 };
 
 /** Everything a row can ask the panel to do. */
+export type PlanMode = 'grant' | 'extend' | 'shorten';
 export type Intent =
+  | { kind: 'plan'; user: AdminUser; mode: PlanMode }
   | { kind: 'grant'; user: AdminUser; tier: Tier; days: number }
   | { kind: 'extend'; user: AdminUser; days: number }
   | { kind: 'shorten'; user: AdminUser; days: number }

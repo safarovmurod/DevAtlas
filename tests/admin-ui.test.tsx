@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 const mocked = vi.hoisted(() => ({ client: null as SupabaseClient | null }));
 vi.mock('@/lib/supabase/client', () => ({ getSupabaseBrowserClient: () => mocked.client }));
 
-import { DeleteDialog } from '@/components/admin/admin-dialogs';
+import { DeleteDialog, PlanDialog } from '@/components/admin/admin-dialogs';
 import { UserRow } from '@/components/admin/user-row';
 import type { AdminUser } from '@/components/admin/admin-api';
 import { NotificationToaster } from '@/components/account/notification-toaster';
@@ -95,58 +95,85 @@ describe('user row', () => {
       grantedAt: '2026-11-01T00:00:00Z',
     },
   };
-  // The "+" / "−" signs are decorative (aria-hidden), so compare the spoken labels.
-  const names = () =>
-    screen
-      .getAllByRole('button')
-      .map((button) => (button.textContent ?? '').replace(/^[+−]\s/, ''));
-
-  it('shows membership status and the actions an admin may take', () => {
-    const onIntent = vi.fn();
+  function row(user: AdminUser, viewerIsOwner: boolean, onIntent = vi.fn()) {
     render(
-      <UserRow user={base} busy={false} viewerId="a1" viewerIsOwner={false} onIntent={onIntent} />,
+      <table>
+        <tbody>
+          <UserRow
+            user={user}
+            busy={false}
+            viewerId="a1"
+            viewerIsOwner={viewerIsOwner}
+            onIntent={onIntent}
+          />
+        </tbody>
+      </table>,
     );
-    expect(screen.getByText('Фаъол, 12 рӯз монд')).toBeInTheDocument();
-    expect(screen.getByText(/owner@example.test/)).toBeInTheDocument();
-    expect(names()).toEqual([
-      'Дароз кардан',
-      'Кам кардан',
-      'Бекор кардан',
-      'Паём фиристодан',
-      'Блок кардан',
-      'Нест кардани аккаунт',
+    return onIntent;
+  }
+  const openMenu = () => fireEvent.click(screen.getByRole('button', { name: /Амалҳо/ }));
+  const items = () => screen.getAllByRole('menuitem').map((item) => item.textContent);
+
+  it('shows plan and days left, and keeps all actions in one menu', () => {
+    const onIntent = row(base, false);
+    expect(screen.getByText('Ultra')).toBeInTheDocument();
+    expect(screen.getByText('12 рӯз монд')).toBeInTheDocument();
+    expect(screen.queryByRole('menu')).toBeNull();
+    openMenu();
+    expect(items()).toEqual([
+      'Дароз кардан…',
+      'Кам кардани рӯзҳо…',
+      'Бекор кардани подписка',
+      'Паём фиристодан…',
+      'Блок кардан…',
+      'Нест кардани аккаунт…',
     ]);
-    fireEvent.click(screen.getByRole('button', { name: 'Нест кардани аккаунт' }));
-    expect(onIntent).toHaveBeenCalledWith({ kind: 'delete', user: base });
-    fireEvent.click(screen.getByRole('button', { name: 'Кам кардан' }));
-    expect(onIntent).toHaveBeenCalledWith({ kind: 'shorten', user: base, days: 30 });
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Кам кардани рӯзҳо…' }));
+    expect(onIntent).toHaveBeenCalledWith({ kind: 'plan', user: base, mode: 'shorten' });
+    expect(screen.queryByRole('menu')).toBeNull();
   });
 
   it('hides destructive actions for the owner and role actions for non-owners', () => {
-    render(
-      <UserRow
-        user={{ ...base, isOwner: true, isAdmin: true }}
-        busy={false}
-        viewerId="a1"
-        viewerIsOwner
-        onIntent={vi.fn()}
-      />,
-    );
-    expect(names()).toEqual(['Дароз кардан', 'Паём фиристодан']);
+    row({ ...base, isOwner: true, isAdmin: true }, true);
+    openMenu();
+    expect(items()).toEqual(['Дароз кардан…', 'Паём фиристодан…']);
     cleanup();
-    render(<UserRow user={base} busy={false} viewerId="o1" viewerIsOwner onIntent={vi.fn()} />);
-    expect(names()).toContain('Админ кардан');
+    row({ ...base, membership: null }, true);
+    openMenu();
+    expect(items()).toContain('Админ кардан');
+    expect(items()[0]).toBe('Додани подписка…');
   });
 
-  it('rejects an invalid day count without calling the server', () => {
-    const onIntent = vi.fn();
-    render(
-      <UserRow user={base} busy={false} viewerId="a1" viewerIsOwner={false} onIntent={onIntent} />,
-    );
-    fireEvent.change(screen.getByLabelText('Шумораи рӯз'), { target: { value: '0' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Дароз кардан' }));
+  it('closes the menu with Escape without doing anything', () => {
+    const onIntent = row(base, false);
+    openMenu();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('menu')).toBeNull();
     expect(onIntent).not.toHaveBeenCalled();
-    expect(screen.getByLabelText('Шумораи рӯз')).toHaveAttribute('aria-invalid', 'true');
+  });
+});
+
+describe('plan dialog', () => {
+  it('grants the chosen tier for the chosen days and blocks an invalid count', () => {
+    const onConfirm = vi.fn();
+    render(
+      <PlanDialog
+        mode="grant"
+        email="a@b.test"
+        current={null}
+        busy={false}
+        onConfirm={onConfirm}
+        onClose={vi.fn()}
+      />,
+    );
+    const days = screen.getByLabelText('Шумораи рӯз');
+    fireEvent.change(days, { target: { value: '0' } });
+    expect(screen.getByRole('button', { name: 'Додан' })).toBeDisabled();
+    fireEvent.click(screen.getByRole('button', { name: '90 рӯз' }));
+    fireEvent.change(screen.getByLabelText('Тариф'), { target: { value: 'expert' } });
+    expect(screen.getByText(/Санаи нави тамомшавӣ/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Додан' }));
+    expect(onConfirm).toHaveBeenCalledWith('expert', 90);
   });
 });
 

@@ -1,6 +1,6 @@
 'use client';
-import { memo, useState } from 'react';
-import { banLabel, day, TIER_NAME, type AdminUser, type Intent, type Tier } from './admin-api';
+import { memo, useEffect, useId, useRef, useState } from 'react';
+import { banLabel, day, TIER_NAME, type AdminUser, type Intent } from './admin-api';
 import styles from './admin.module.css';
 
 type Props = {
@@ -11,8 +11,127 @@ type Props = {
   onIntent: (intent: Intent) => void;
 };
 
+type MenuItem = { label: string; intent: Intent; danger?: boolean; separated?: boolean };
+
+/** Every action an admin may take on this account. The server enforces the same rules. */
+function menuItems(user: AdminUser, viewerId: string, viewerIsOwner: boolean): MenuItem[] {
+  const self = user.id === viewerId;
+  const membership = user.membership;
+  const canTakePlan = !user.isOwner;
+  const canChangeRole = viewerIsOwner && !user.isOwner && !self;
+  const canBanOrDelete = !user.isOwner && !user.isAdmin && !self;
+  const items: MenuItem[] = [];
+
+  if (membership?.active) {
+    items.push({ label: 'Дароз кардан…', intent: { kind: 'plan', user, mode: 'extend' } });
+    if (canTakePlan)
+      items.push({ label: 'Кам кардани рӯзҳо…', intent: { kind: 'plan', user, mode: 'shorten' } });
+  } else {
+    items.push({
+      label: membership ? 'Подпискаи нав…' : 'Додани подписка…',
+      intent: { kind: 'plan', user, mode: 'grant' },
+    });
+  }
+  if (membership && canTakePlan)
+    items.push({ label: 'Бекор кардани подписка', intent: { kind: 'revoke', user } });
+
+  items.push({
+    label: 'Паём фиристодан…',
+    intent: { kind: 'notify', user },
+    separated: true,
+  });
+  if (canChangeRole)
+    items.push({
+      label: user.isAdmin ? 'Гирифтани нақши админ' : 'Админ кардан',
+      intent: { kind: 'role', user, grant: !user.isAdmin },
+    });
+  if (canBanOrDelete) {
+    items.push(
+      user.bannedUntil
+        ? { label: 'Аз блок баровардан', intent: { kind: 'unban', user } }
+        : { label: 'Блок кардан…', intent: { kind: 'ban', user } },
+    );
+    if (user.email)
+      items.push({
+        label: 'Нест кардани аккаунт…',
+        intent: { kind: 'delete', user },
+        danger: true,
+        separated: true,
+      });
+  }
+  return items;
+}
+
+/** A small accessible dropdown: Escape or a click outside closes it. */
+function ActionsMenu({
+  items,
+  busy,
+  onPick,
+}: {
+  items: MenuItem[];
+  busy: boolean;
+  onPick: (intent: Intent) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+  useEffect(() => {
+    if (!open) return;
+    function onDown(event: MouseEvent) {
+      if (!box.current?.contains(event.target as Node)) setOpen(false);
+    }
+    function onKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    box.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  return (
+    <div className={styles.menuBox} ref={box}>
+      <button
+        type="button"
+        className={`button subtle ${styles.menuButton}`}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={open ? menuId : undefined}
+        disabled={busy}
+        onClick={() => setOpen((value) => !value)}
+      >
+        {busy ? 'Иҷро мешавад…' : 'Амалҳо'}
+        <span aria-hidden="true"> ▾</span>
+      </button>
+      {open && (
+        <div className={styles.menu} role="menu" id={menuId} aria-label="Амалҳо">
+          {items.map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              role="menuitem"
+              className={`${styles.menuItem} ${item.danger ? styles.menuDanger : ''} ${
+                item.separated ? styles.menuSeparated : ''
+              }`}
+              onClick={() => {
+                setOpen(false);
+                onPick(item.intent);
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /**
- * One account card. Memoized: after an action only the changed user object is replaced,
+ * One table row. Memoized: after an action only the changed user object is replaced,
  * so the other rows keep their props and do not re-render.
  */
 export const UserRow = memo(function UserRow({
@@ -22,40 +141,26 @@ export const UserRow = memo(function UserRow({
   viewerIsOwner,
   onIntent,
 }: Props) {
-  const [tier, setTier] = useState<Tier>('pro');
-  const [days, setDays] = useState('30');
-  const [daysError, setDaysError] = useState(false);
   const self = user.id === viewerId;
   const membership = user.membership;
-  // The server enforces the same rules; hiding only keeps the card honest.
-  const canRevokeMembership = !user.isOwner;
-  const canChangeRole = viewerIsOwner && !user.isOwner && !self;
-  const canBanOrDelete = !user.isOwner && !user.isAdmin && !self;
-
-  function readDays() {
-    const count = Number(days);
-    const ok = Number.isInteger(count) && count >= 1 && count <= 3660;
-    setDaysError(!ok);
-    return ok ? count : null;
-  }
+  const grantedBy = membership
+    ? `Манбаъ: ${membership.source === 'payment' ? 'пардохт' : 'админ'}. Дод: ${
+        membership.grantedByEmail ?? (membership.grantedById ? 'админи нестшуда' : 'номаълум')
+      }${membership.grantedAt ? `, ${day(membership.grantedAt)}` : ''}`
+    : undefined;
 
   return (
-    <article className={styles.card} aria-busy={busy}>
-      <div className={styles.top}>
-        <div className={styles.identity}>
-          <div className={styles.email}>
-            {user.email ?? 'Бе email'}
-            {self && <span className={styles.you}> (шумо)</span>}
-          </div>
-          <div className={styles.meta}>
-            <span>Воридшавӣ: {user.providers.join(', ') || '—'}</span>
-            <span>Охирин вуруд: {day(user.lastSignInAt)}</span>
-            <span>Сабт: {day(user.createdAt)}</span>
-          </div>
+    <tr className={busy ? styles.rowBusy : undefined} aria-busy={busy}>
+      <td>
+        <div className={styles.email}>
+          {user.email ?? 'Бе email'}
+          {self && <span className={styles.you}> (шумо)</span>}
         </div>
         <div className={styles.badges}>
           {user.isOwner && <span className={`${styles.badge} ${styles.badgeOwner}`}>Соҳиб</span>}
-          {user.isAdmin && <span className={`${styles.badge} ${styles.badgeAdmin}`}>Админ</span>}
+          {user.isAdmin && !user.isOwner && (
+            <span className={`${styles.badge} ${styles.badgeAdmin}`}>Админ</span>
+          )}
           {user.bannedUntil && (
             <span className={`${styles.badge} ${styles.badgeDanger}`}>
               {banLabel(user.bannedUntil)}
@@ -64,176 +169,47 @@ export const UserRow = memo(function UserRow({
           {!user.emailConfirmed && (
             <span className={`${styles.badge} ${styles.badgeWarn}`}>Email тасдиқ нашуд</span>
           )}
-          {membership ? (
-            <span
-              className={`${styles.badge} ${membership.active ? styles.badgePaid : styles.badgeWarn}`}
-            >
-              {TIER_NAME[membership.tier]} · {membership.active ? 'фаъол' : 'тамом шуд'}
-            </span>
-          ) : (
-            <span className={styles.badge}>Бе подписка</span>
-          )}
+          <span className={styles.subtle}>
+            {user.providers.join(', ') || '—'} · сабт {day(user.createdAt)}
+          </span>
         </div>
-      </div>
-
-      {membership && (
-        <dl className={styles.facts}>
-          <div>
-            <dt>Тариф</dt>
-            <dd>{TIER_NAME[membership.tier]}</dd>
-          </div>
-          <div>
-            <dt>Ҳолат</dt>
-            <dd className={membership.active ? styles.ok : styles.warn}>
-              {membership.active ? `Фаъол, ${membership.daysLeft} рӯз монд` : 'Мӯҳлат гузашт'}
-            </dd>
-          </div>
-          <div>
-            <dt>{membership.active ? 'То' : 'Тамом шуд'}</dt>
-            <dd>{day(membership.expiresAt)}</dd>
-          </div>
-          <div>
-            <dt>Манбаъ</dt>
-            <dd>{membership.source === 'payment' ? 'Пардохт' : 'Админ'}</dd>
-          </div>
-          <div>
-            <dt>Кӣ дод</dt>
-            <dd>
-              {membership.grantedByEmail ??
-                (membership.grantedById ? 'Админ (нест шудааст)' : 'Номаълум')}
-              {membership.grantedAt ? `, ${day(membership.grantedAt)}` : ''}
-            </dd>
-          </div>
-        </dl>
-      )}
-
-      <div className={styles.row}>
-        <span className={styles.label}>Подписка:</span>
-        {(!membership || !membership.active) && (
-          <select
-            className={styles.select}
-            aria-label="Тариф"
-            value={tier}
-            onChange={(event) => setTier(event.target.value === 'expert' ? 'expert' : 'pro')}
+      </td>
+      <td>
+        {membership ? (
+          <span
+            className={`${styles.badge} ${membership.active ? styles.badgePaid : styles.badgeWarn}`}
           >
-            <option value="pro">Pro</option>
-            <option value="expert">Ultra</option>
-          </select>
-        )}
-        <input
-          className={`${styles.input} ${daysError ? styles.inputError : ''}`}
-          inputMode="numeric"
-          aria-label="Шумораи рӯз"
-          aria-invalid={daysError}
-          title="Аз 1 то 3660 рӯз"
-          value={days}
-          onChange={(event) => {
-            setDays(event.target.value);
-            setDaysError(false);
-          }}
-        />
-        <span className={styles.label}>рӯз</span>
-        {membership?.active ? (
-          <button
-            type="button"
-            className="button primary"
-            disabled={busy}
-            onClick={() => {
-              const count = readDays();
-              if (count !== null) onIntent({ kind: 'extend', user, days: count });
-            }}
-          >
-            <span aria-hidden="true">+ </span>Дароз кардан
-          </button>
+            {TIER_NAME[membership.tier]}
+          </span>
         ) : (
-          <button
-            type="button"
-            className="button primary"
-            disabled={busy}
-            onClick={() => {
-              const count = readDays();
-              if (count !== null) onIntent({ kind: 'grant', user, tier, days: count });
-            }}
-          >
-            {membership ? 'Подпискаи нав' : 'Додани подписка'}
-          </button>
+          <span className={styles.subtle}>—</span>
         )}
-        {membership?.active && canRevokeMembership && (
-          <button
-            type="button"
-            className="button subtle"
-            disabled={busy}
-            onClick={() => {
-              const count = readDays();
-              if (count !== null) onIntent({ kind: 'shorten', user, days: count });
-            }}
-          >
-            <span aria-hidden="true">− </span>Кам кардан
-          </button>
-        )}
-        {membership && canRevokeMembership && (
-          <button
-            type="button"
-            className="button subtle"
-            disabled={busy}
-            onClick={() => onIntent({ kind: 'revoke', user })}
-          >
-            Бекор кардан
-          </button>
-        )}
-      </div>
-
-      <div className={styles.row}>
-        <button
-          type="button"
-          className="button subtle"
-          disabled={busy}
-          onClick={() => onIntent({ kind: 'notify', user })}
-        >
-          Паём фиристодан
-        </button>
-        {canChangeRole && (
-          <button
-            type="button"
-            className="button subtle"
-            disabled={busy}
-            onClick={() => onIntent({ kind: 'role', user, grant: !user.isAdmin })}
-          >
-            {user.isAdmin ? 'Гирифтани нақши админ' : 'Админ кардан'}
-          </button>
-        )}
-        {canBanOrDelete &&
-          (user.bannedUntil ? (
-            <button
-              type="button"
-              className="button subtle"
-              disabled={busy}
-              onClick={() => onIntent({ kind: 'unban', user })}
-            >
-              Аз блок баровардан
-            </button>
+      </td>
+      <td title={grantedBy}>
+        {membership ? (
+          membership.active ? (
+            <>
+              <div className={styles.ok}>{membership.daysLeft} рӯз монд</div>
+              <div className={styles.subtle}>то {day(membership.expiresAt)}</div>
+            </>
           ) : (
-            <button
-              type="button"
-              className={`button subtle ${styles.warnButton}`}
-              disabled={busy}
-              onClick={() => onIntent({ kind: 'ban', user })}
-            >
-              Блок кардан
-            </button>
-          ))}
-        {canBanOrDelete && user.email && (
-          <button
-            type="button"
-            className={`button ${styles.dangerButton}`}
-            disabled={busy}
-            onClick={() => onIntent({ kind: 'delete', user })}
-          >
-            Нест кардани аккаунт
-          </button>
+            <>
+              <div className={styles.warn}>Тамом шуд</div>
+              <div className={styles.subtle}>{day(membership.expiresAt)}</div>
+            </>
+          )
+        ) : (
+          <span className={styles.subtle}>Бе подписка</span>
         )}
-        {busy && <span className={styles.label}>Иҷро мешавад…</span>}
-      </div>
-    </article>
+      </td>
+      <td className={styles.nowrap}>{day(user.lastSignInAt)}</td>
+      <td className={styles.actionsCell}>
+        <ActionsMenu
+          items={menuItems(user, viewerId, viewerIsOwner)}
+          busy={busy}
+          onPick={onIntent}
+        />
+      </td>
+    </tr>
   );
 });

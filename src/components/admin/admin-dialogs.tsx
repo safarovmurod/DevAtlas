@@ -1,6 +1,130 @@
 'use client';
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { day, TIER_NAME, type Membership, type PlanMode, type Tier } from './admin-api';
 import styles from './admin.module.css';
+
+const DAY_MS = 86_400_000;
+const PRESETS = [7, 30, 90, 365];
+const PLAN_TEXT: Record<PlanMode, { title: string; confirm: string }> = {
+  grant: { title: 'Додани подписка', confirm: 'Додан' },
+  extend: { title: 'Дароз кардани подписка', confirm: 'Дароз кардан' },
+  shorten: { title: 'Кам кардани рӯзҳо', confirm: 'Кам кардан' },
+};
+
+/** Give, extend or shorten a plan. Shows the new end date before anything is saved. */
+export function PlanDialog({
+  mode,
+  email,
+  current,
+  busy,
+  onConfirm,
+  onClose,
+}: {
+  mode: PlanMode;
+  email: string;
+  current: Membership | null;
+  busy: boolean;
+  onConfirm: (tier: Tier, days: number) => void;
+  onClose: () => void;
+}) {
+  const [tier, setTier] = useState<Tier>(current?.tier ?? 'pro');
+  const [days, setDays] = useState('30');
+  const tierId = useId();
+  const daysId = useId();
+  const count = Number(days);
+  const valid = Number.isInteger(count) && count >= 1 && count <= 3660;
+  // Date.now() is read during render only for a preview; the server computes the real date.
+  const [now] = useState(() => Date.now());
+  const end = current ? new Date(current.expiresAt).getTime() : now;
+  const newEnd = !valid
+    ? null
+    : mode === 'grant'
+      ? now + count * DAY_MS
+      : mode === 'extend'
+        ? Math.max(now, end) + count * DAY_MS
+        : Math.max(now, end - count * DAY_MS);
+  const text = PLAN_TEXT[mode];
+
+  return (
+    <Dialog title={text.title} busy={busy} onClose={onClose}>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (valid && !busy) onConfirm(tier, count);
+        }}
+      >
+        <p className={styles.dialogText}>
+          <strong>{email}</strong>
+          <br />
+          {current
+            ? `Ҳозир: ${TIER_NAME[current.tier]}, ${
+                current.active
+                  ? `${current.daysLeft} рӯз монд, то ${day(current.expiresAt)}`
+                  : 'мӯҳлат гузашт'
+              }`
+            : 'Ҳозир подписка надорад.'}
+        </p>
+        {mode === 'grant' && (
+          <div className={styles.field}>
+            <label htmlFor={tierId} className={styles.fieldLabel}>
+              Тариф
+            </label>
+            <select
+              id={tierId}
+              className={styles.dialogInput}
+              value={tier}
+              onChange={(event) => setTier(event.target.value === 'expert' ? 'expert' : 'pro')}
+            >
+              <option value="pro">Pro</option>
+              <option value="expert">Ultra</option>
+            </select>
+          </div>
+        )}
+        <div className={styles.field}>
+          <label htmlFor={daysId} className={styles.fieldLabel}>
+            Шумораи рӯз
+          </label>
+          <input
+            id={daysId}
+            className={`${styles.dialogInput} ${valid ? '' : styles.inputError}`}
+            inputMode="numeric"
+            aria-invalid={!valid}
+            value={days}
+            onChange={(event) => setDays(event.target.value.replace(/\D/g, '').slice(0, 4))}
+          />
+          <div className={styles.presets} role="group" aria-label="Интихоби тез">
+            {PRESETS.map((value) => (
+              <button
+                key={value}
+                type="button"
+                className={`${styles.chip} ${count === value ? styles.chipActive : ''}`}
+                aria-pressed={count === value}
+                onClick={() => setDays(String(value))}
+              >
+                {value} рӯз
+              </button>
+            ))}
+          </div>
+        </div>
+        <p className={styles.preview} aria-live="polite">
+          {newEnd === null
+            ? 'Аз 1 то 3660 рӯз нависед.'
+            : newEnd <= now
+              ? 'Подписка имрӯз тамом мешавад.'
+              : `Санаи нави тамомшавӣ: ${day(new Date(newEnd).toISOString())}`}
+        </p>
+        <div className={styles.dialogActions}>
+          <button type="button" className="button subtle" disabled={busy} onClick={onClose}>
+            Бекор
+          </button>
+          <button type="submit" className="button primary" disabled={!valid || busy}>
+            {busy ? 'Иҷро мешавад…' : text.confirm}
+          </button>
+        </div>
+      </form>
+    </Dialog>
+  );
+}
 
 /**
  * Modal shell: overlay, Escape and overlay click close it (unless an action is running),

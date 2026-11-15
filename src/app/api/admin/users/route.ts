@@ -48,10 +48,12 @@ export async function GET(request: Request) {
     ? (rawFilter as Filter)
     : 'all';
   const q = (params.get('q') ?? '').trim().toLowerCase().slice(0, 120);
+  // scope=users leaves admins out, so the panel can show them in their own table.
+  const usersOnly = params.get('scope') === 'users';
   const viewer = { id: check.user.id, isOwner: isOwnerUser(check.user) };
 
   try {
-    if (filter === 'all' && !q) {
+    if (filter === 'all' && !q && !usersOnly) {
       const listed = await admin.auth.admin.listUsers({ page, perPage: PER_PAGE });
       if (listed.error) return json({ error: 'unavailable' }, 503);
       const users = listed.data.users;
@@ -87,6 +89,7 @@ export async function GET(request: Request) {
       ? everyone.filter((user) => (user.email ?? '').toLowerCase().includes(q))
       : everyone;
     let rows: Map<string, MembershipRow> | null = null;
+    if (usersOnly) matched = matched.filter((user) => !isAdminUser(user));
     if (filter === 'admins') matched = matched.filter(isAdminUser);
     if (filter === 'banned') matched = matched.filter((user) => activeBan(user) !== null);
     if (filter === 'paid' || filter === 'expired') {

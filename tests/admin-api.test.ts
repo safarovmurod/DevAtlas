@@ -607,6 +607,17 @@ describe('user list', () => {
     expect((await list('?filter=everything')).filter).toBe('all');
     expect((await list('?q=helper')).viewer).toEqual({ id: ADMIN_ID, isOwner: false });
   });
+
+  it('scope=users never mixes admins into the users table', async () => {
+    signIn(owner);
+    seeded();
+    const ids = async (query: string) =>
+      (await list(query)).users.map((user: { id: string }) => user.id).sort();
+    expect(await ids('?scope=users')).toEqual([TARGET_ID, OTHER_ID].sort());
+    expect(await ids('?scope=users&q=example.test')).toEqual([TARGET_ID, OTHER_ID].sort());
+    expect(await ids('?scope=users&filter=paid')).toEqual([TARGET_ID]);
+    expect((await list('?scope=users')).total).toBe(2);
+  });
 });
 
 describe('account deletion', () => {

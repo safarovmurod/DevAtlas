@@ -28,19 +28,22 @@ const BanDialog = dynamic(() => import('./admin-dialogs').then((m) => m.BanDialo
 const NotifyDialog = dynamic(() => import('./admin-dialogs').then((m) => m.NotifyDialog), {
   ssr: false,
 });
+const PlanDialog = dynamic(() => import('./admin-dialogs').then((m) => m.PlanDialog), {
+  ssr: false,
+});
 const AuditLog = dynamic(() => import('./audit-log'), {
   ssr: false,
   loading: () => <p className={styles.muted}>Журнал бор мешавад…</p>,
 });
 
+// Filters for the users table. Admins always have their own table above it.
 const FILTERS: { value: Filter; label: string }[] = [
   { value: 'all', label: 'Ҳама' },
   { value: 'paid', label: 'Бо подписка' },
   { value: 'expired', label: 'Подписка тамом шуд' },
-  { value: 'admins', label: 'Админҳо' },
   { value: 'banned', label: 'Блокшудаҳо' },
 ];
-const NEEDS_DIALOG = new Set<Intent['kind']>(['revoke', 'ban', 'role', 'notify', 'delete']);
+const NEEDS_DIALOG = new Set<Intent['kind']>(['plan', 'revoke', 'ban', 'role', 'notify', 'delete']);
 
 type Toast = { id: number; text: string; tone: 'ok' | 'error' };
 type Extra = { email?: string; days?: number | null; message?: string };
@@ -50,6 +53,9 @@ function plan(intent: Intent, extra: Extra): Planned {
   const userId = intent.user.id;
   const who = intent.user.email ?? 'корбар';
   switch (intent.kind) {
+    case 'plan':
+      // Only opens a dialog; the dialog sends grant / extend / shorten.
+      throw new Error('invalid_request');
     case 'grant':
       return {
         path: '/api/admin/memberships',
@@ -116,6 +122,67 @@ function plan(intent: Intent, extra: Extra): Planned {
   }
 }
 
+function replaceUser(list: Listing | null, updated: AdminUser) {
+  return list
+    ? { ...list, users: list.users.map((user) => (user.id === updated.id ? updated : user)) }
+    : list;
+}
+function dropUser(list: Listing | null, id: string) {
+  if (!list || !list.users.some((user) => user.id === id)) return list;
+  return {
+    ...list,
+    total: Math.max(0, list.total - 1),
+    users: list.users.filter((user) => user.id !== id),
+  };
+}
+
+function Table({
+  caption,
+  users,
+  viewer,
+  busyIds,
+  onIntent,
+  stale,
+}: {
+  caption: string;
+  users: AdminUser[];
+  viewer: Listing['viewer'];
+  busyIds: ReadonlySet<string>;
+  onIntent: (intent: Intent) => void;
+  stale?: boolean;
+}) {
+  return (
+    <div className={`${styles.tableWrap} ${stale ? styles.stale : ''}`} aria-busy={stale}>
+      <table className={styles.table}>
+        <caption className={styles.srOnly}>{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Тариф</th>
+            <th scope="col">Мӯҳлат</th>
+            <th scope="col">Охирин вуруд</th>
+            <th scope="col" className={styles.actionsCell}>
+              <span className={styles.srOnly}>Амалҳо</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <UserRow
+              key={user.id}
+              user={user}
+              busy={busyIds.has(user.id)}
+              viewerId={viewer.id}
+              viewerIsOwner={viewer.isOwner}
+              onIntent={onIntent}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function AdminUsers() {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<Filter>('all');
@@ -123,6 +190,7 @@ export function AdminUsers() {
   const [q, setQ] = useState('');
   const [reloadKey, setReloadKey] = useState(0);
   const [listing, setListing] = useState<Listing | null>(null);
+  const [admins, setAdmins] = useState<Listing | null>(null);
   // The listing is "loading" while the shown data belongs to an older request.
   const [loadedKey, setLoadedKey] = useState('');
   const [error, setError] = useState('');
@@ -143,11 +211,22 @@ export function AdminUsers() {
     return () => clearTimeout(timer);
   }, [search, q]);
 
+  // Admins: their own small table, never mixed with ordinary users.
+  useEffect(() => {
+    const controller = new AbortController();
+    adminCall<Listing>('/api/admin/users?filter=admins', undefined, controller.signal)
+      .then(setAdmins)
+      .catch(() => {
+        if (!controller.signal.aborted) setAdmins(null);
+      });
+    return () => controller.abort();
+  }, [reloadKey]);
+
   const requestKey = `${page}|${filter}|${q}|${reloadKey}`;
   const loading = loadedKey !== requestKey;
   useEffect(() => {
     const controller = new AbortController();
-    const params = new URLSearchParams({ page: String(page), filter });
+    const params = new URLSearchParams({ page: String(page), filter, scope: 'users' });
     if (q) params.set('q', q);
     const key = `${page}|${filter}|${q}|${reloadKey}`;
     adminCall<Listing>(`/api/admin/users?${params}`, undefined, controller.signal)
@@ -191,27 +270,15 @@ export function AdminUsers() {
           body: step.body,
         });
         if (intent.kind === 'delete') {
-          setListing((old) =>
-            old
-              ? {
-                  ...old,
-                  total: Math.max(0, old.total - 1),
-                  users: old.users.filter((user) => user.id !== intent.user.id),
-                }
-              : old,
-          );
-        } else if (result.user) {
+          setListing((old) => dropUser(old, intent.user.id));
+          setAdmins((old) => dropUser(old, intent.user.id));
+        } else if (intent.kind === 'role' || !result.user) {
+          // A role change moves the account between the two tables.
+          if (intent.kind !== 'notify') setReloadKey((value) => value + 1);
+        } else {
           const updated = result.user;
-          setListing((old) =>
-            old
-              ? {
-                  ...old,
-                  users: old.users.map((user) => (user.id === updated.id ? updated : user)),
-                }
-              : old,
-          );
-        } else if (intent.kind !== 'notify') {
-          setReloadKey((value) => value + 1);
+          setListing((old) => replaceUser(old, updated));
+          setAdmins((old) => replaceUser(old, updated));
         }
         notify(step.done, 'ok');
         setAuditVersion((value) => value + 1);
@@ -236,12 +303,9 @@ export function AdminUsers() {
   const closeDialog = useCallback(() => setDialog(null), []);
 
   const users = listing?.users ?? [];
+  const viewer = listing?.viewer ?? admins?.viewer ?? { id: '', isOwner: false };
   const lastPage = listing ? Math.max(1, Math.ceil(listing.total / listing.perPage)) : 1;
-  const onPage = {
-    paid: users.filter((user) => user.membership?.active).length,
-    admins: users.filter((user) => user.isAdmin).length,
-    banned: users.filter((user) => user.bannedUntil).length,
-  };
+  const paidOnPage = users.filter((user) => user.membership?.active).length;
   const dialogBusy = dialog ? busyIds.has(dialog.user.id) : false;
   const dialogEmail = dialog?.user.email ?? dialog?.user.id ?? '';
 
@@ -250,9 +314,8 @@ export function AdminUsers() {
       <div className={styles.head}>
         <h1>Админ-панел</h1>
         <p className={styles.muted}>
-          Корбарон, подпискаҳо, нақшҳо, блок ва паёмҳо. Ҳар амал дар server санҷида мешавад ва дар
-          журнал навишта мешавад. «Ultra» дар база ҳамчун tier-и <code>expert</code> нигоҳ дошта
-          мешавад.
+          Корбарон, подпискаҳо, нақшҳо, блок ва паёмҳо. Ҳар амал дар server санҷида ва дар журнал
+          навишта мешавад.
         </p>
       </div>
 
@@ -278,112 +341,138 @@ export function AdminUsers() {
         <div className={styles.stats}>
           <div className={styles.stat}>
             <strong>{listing.total}</strong>
-            <span>{filter === 'all' && !q ? 'Ҳамаи корбарон' : 'Ёфт шуд'}</span>
+            <span>{filter === 'all' && !q ? 'Корбарон' : 'Ёфт шуд'}</span>
           </div>
           <div className={styles.stat}>
-            <strong>{onPage.paid}</strong>
-            <span>Подпискаи фаъол (дар саҳифа)</span>
+            <strong>{paidOnPage}</strong>
+            <span>Бо подписка (дар саҳифа)</span>
           </div>
           <div className={styles.stat}>
-            <strong>{onPage.admins}</strong>
-            <span>Админ (дар саҳифа)</span>
-          </div>
-          <div className={styles.stat}>
-            <strong>{onPage.banned}</strong>
-            <span>Блок (дар саҳифа)</span>
+            <strong>{admins?.users.length ?? '—'}</strong>
+            <span>Админҳо</span>
           </div>
         </div>
       )}
 
-      <div className={styles.toolbar}>
-        <input
-          className={styles.search}
-          type="search"
-          placeholder="Ҷустуҷӯ бо email (дар ҳамаи корбарон)"
-          aria-label="Ҷустуҷӯ бо email"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
-        <div className={styles.filters} role="group" aria-label="Филтр">
-          {FILTERS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              className={`${styles.chip} ${filter === option.value ? styles.chipActive : ''}`}
-              aria-pressed={filter === option.value}
-              onClick={() => {
-                setFilter(option.value);
-                setPage(1);
-              }}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {listing?.truncated && (
-        <p className={styles.notice}>
-          Ҷустуҷӯ танҳо дар 5000 корбари аввал гузаронида шуд. Email-ро дақиқтар нависед.
-        </p>
+      {admins && admins.users.length > 0 && (
+        <section className={styles.section} aria-labelledby="admins-title">
+          <h2 id="admins-title" className={styles.sectionTitle}>
+            Админҳо
+          </h2>
+          <Table
+            caption="Админҳо"
+            users={admins.users}
+            viewer={viewer}
+            busyIds={busyIds}
+            onIntent={onIntent}
+          />
+        </section>
       )}
 
-      {loading && !listing && !error && (
-        <div className={styles.list} aria-busy="true">
-          {[0, 1, 2].map((item) => (
-            <div key={item} className={`${styles.card} ${styles.skeleton}`} />
-          ))}
-        </div>
-      )}
-
-      {listing && (
-        <>
-          <div className={`${styles.list} ${loading ? styles.stale : ''}`} aria-busy={loading}>
-            {users.length === 0 && (
-              <div className={styles.empty}>
-                {q || filter !== 'all'
-                  ? 'Бо ин филтр ё ҷустуҷӯ корбар ёфт нашуд.'
-                  : 'Ҳоло корбар нест.'}
-              </div>
-            )}
-            {users.map((user) => (
-              <UserRow
-                key={user.id}
-                user={user}
-                busy={busyIds.has(user.id)}
-                viewerId={listing.viewer.id}
-                viewerIsOwner={listing.viewer.isOwner}
-                onIntent={onIntent}
-              />
+      <section className={styles.section} aria-labelledby="users-title">
+        <h2 id="users-title" className={styles.sectionTitle}>
+          Корбарон
+        </h2>
+        <div className={styles.toolbar}>
+          <input
+            className={styles.search}
+            type="search"
+            placeholder="Ҷустуҷӯ бо email"
+            aria-label="Ҷустуҷӯ бо email"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          <select
+            className={styles.select}
+            aria-label="Филтр"
+            value={filter}
+            onChange={(event) => {
+              setFilter(event.target.value as Filter);
+              setPage(1);
+            }}
+          >
+            {FILTERS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
             ))}
-          </div>
-          {lastPage > 1 && (
-            <div className={styles.pager}>
-              <button
-                type="button"
-                className="button subtle"
-                disabled={page <= 1 || loading}
-                onClick={() => setPage(page - 1)}
-              >
-                Пештар
-              </button>
-              <span>
-                {page} / {lastPage}
-              </span>
-              <button
-                type="button"
-                className="button subtle"
-                disabled={page >= lastPage || loading}
-                onClick={() => setPage(page + 1)}
-              >
-                Баъдӣ
-              </button>
-            </div>
-          )}
-          <AuditLog version={auditVersion} />
-        </>
-      )}
+          </select>
+        </div>
 
+        {listing?.truncated && (
+          <p className={styles.notice}>
+            Ҷустуҷӯ танҳо дар 5000 корбари аввал гузаронида шуд. Email-ро дақиқтар нависед.
+          </p>
+        )}
+
+        {loading && !listing && !error && (
+          <div className={`${styles.empty} ${styles.skeleton}`} aria-busy="true">
+            Бор мешавад…
+          </div>
+        )}
+
+        {listing &&
+          (users.length === 0 ? (
+            <div className={styles.empty}>
+              {q || filter !== 'all'
+                ? 'Бо ин филтр ё ҷустуҷӯ корбар ёфт нашуд.'
+                : 'Ҳоло корбар нест.'}
+            </div>
+          ) : (
+            <Table
+              caption="Корбарон"
+              users={users}
+              viewer={viewer}
+              busyIds={busyIds}
+              onIntent={onIntent}
+              stale={loading}
+            />
+          ))}
+
+        {listing && lastPage > 1 && (
+          <div className={styles.pager}>
+            <button
+              type="button"
+              className="button subtle"
+              disabled={page <= 1 || loading}
+              onClick={() => setPage(page - 1)}
+            >
+              Пештар
+            </button>
+            <span>
+              {page} / {lastPage}
+            </span>
+            <button
+              type="button"
+              className="button subtle"
+              disabled={page >= lastPage || loading}
+              onClick={() => setPage(page + 1)}
+            >
+              Баъдӣ
+            </button>
+          </div>
+        )}
+      </section>
+
+      {listing && <AuditLog version={auditVersion} />}
+
+      {dialog?.kind === 'plan' && (
+        <PlanDialog
+          mode={dialog.mode}
+          email={dialogEmail}
+          current={dialog.user.membership}
+          busy={dialogBusy}
+          onClose={closeDialog}
+          onConfirm={(tier, days) => {
+            const user = dialog.user;
+            void execute(
+              dialog.mode === 'grant'
+                ? { kind: 'grant', user, tier, days }
+                : { kind: dialog.mode, user, days },
+            );
+          }}
+        />
+      )}
       {dialog?.kind === 'delete' && dialog.user.email && (
         <DeleteDialog
           email={dialog.user.email}
