@@ -57,6 +57,9 @@ async function mockBackend(page:Page,signupFailure=false,previous?:MockServerSta
       const body=req.postDataJSON(),current=progress.get(id);expect(body.expected_revision).toBe(current?.revision || 0);
       const saved={data:body.progress_data,revision:(current?.revision || 0)+1};progress.set(id,saved);return json([saved]);
     }
+    // Admin messages: this account has none; the toaster polls and marks nothing.
+    if (url.pathname==='/rest/v1/react_mentor_notifications' && method==='GET') return json([]);
+    if (url.pathname==='/rest/v1/rpc/react_mentor_mark_notification_read') return json(null);
     if (url.pathname.startsWith('/storage/v1/object/sign/')) return json({signedURL:'/object/sign/react-mentor-avatars/'+id+'/photo.webp?token=public-test'});
     if (url.pathname.startsWith('/storage/v1/object/') && method==='POST') {expect(url.pathname).toContain(id);uploads.push(url.pathname);return json({Key:url.pathname});}
     throw new Error('Unexpected backend request: '+method+' '+url.pathname);
