@@ -77,6 +77,18 @@ export const REACT_CONCEPTS: Record<string, { title: LocalizedLine; body: Locali
       'Mutation changes the original object. Build a new state object, such as { ...product, price: 12 }. If you update a nested field, copy that nested object too.',
     ],
   },
+  'topic-14': {
+    title: [
+      'Hook чист ва чаро тартиб муҳим аст?',
+      'Что такое хук и зачем нужен порядок',
+      'What a Hook is and why order matters',
+    ],
+    body: [
+      'Hook функсияест, ки ба компонент имконияти React медиҳад. useState қиматро дар хотир нигоҳ медорад, useEffect бо чизе берун аз React ҳамоҳанг мешавад. Ин hook-ҳоро дар сатҳи болои компонент ё custom hook даъват кун, то тартиби онҳо дар render-ҳо як хел монад.',
+      'Хук открывает компоненту возможности React. useState хранит значение, useEffect синхронизирует компонент с внешней системой. Вызывайте эти хуки на верхнем уровне компонента или своего хука, чтобы порядок сохранялся между рендерами.',
+      'A Hook gives a component access to a React feature. useState remembers a value. useEffect synchronizes with an external system. Call these Hooks at the top level of a component or custom Hook so their order stays consistent.',
+    ],
+  },
   'topic-15': {
     title: [
       'Custom hook: истифодаи дубораи мантиқ',
@@ -87,6 +99,14 @@ export const REACT_CONCEPTS: Record<string, { title: LocalizedLine; body: Locali
       'Custom hook функсияи use… аст, ки зангҳои hook-ро ҷамъ мекунад. Ду компонент useOnlineStatus-ро истифода мебаранд, то як мантиқро такрор накунанд. Ҳар даъват state-и худашро мегирад.',
       'Свой хук — функция с именем use…, которая объединяет вызовы хуков. Два компонента могут вызвать useOnlineStatus вместо копирования подписки. Каждый вызов получает собственное состояние.',
       'A custom Hook is a use… function that packages Hook-based logic. Two components can call useOnlineStatus instead of copying subscription logic. Each call keeps its own state.',
+    ],
+  },
+  'topic-16': {
+    title: ['useEffect барои чӣ лозим аст?', 'Зачем нужен useEffect', 'What useEffect does'],
+    body: [
+      'useEffect ба компонент ёрӣ медиҳад, ки баъди commit бо чизе берун аз React мувофиқ шавад, мисли title-и вкладка, timer ё пайвасти чат. JSX намуди экранро аз қиматҳои мавҷуда ҳисоб мекунад. Агар амал фақат баъди клик лозим бошад, онро дар handler иҷро кун.',
+      'useEffect синхронизирует компонент с внешней системой после commit, например с заголовком вкладки, таймером или подключением к чату. JSX вычисляет вид экрана из текущих значений. Действие, которое нужно именно по клику, поместите в обработчик.',
+      'useEffect synchronizes with something outside React after a commit, such as a tab title, a timer, or a chat connection. JSX computes the screen from current values. Put actions that should happen specifically on click in the event handler.',
     ],
   },
   'topic-17': {
@@ -219,6 +239,26 @@ export const REACT_CONCEPTS: Record<string, { title: LocalizedLine; body: Locali
       'Code splitting барномаро ба қисмҳои боршавандаи ҷудо тақсим мекунад. Агар саҳифаи Reports танҳо баъзан даркор шавад, коди онро вақти кушодан бор кун. Барои интизорӣ ҳолат нишон деҳ.',
       'Разделение кода позволяет загружать редкие экраны отдельно. Если отчёты нужны только после перехода, их код можно загрузить при открытии. Пока файл идёт, покажите состояние загрузки.',
       'Code splitting loads some screens in separate chunks. A rarely opened reports screen can load when needed. Show a loading state while its code arrives.',
+    ],
+  },
+  'topic-36': {
+    title: ['Context ва Provider чист?', 'Context и Provider', 'Context and its provider'],
+    body: [
+      'Context қиматро аз provider ба компонентҳои даруни он мерасонад. Provider қимат медиҳад, useContext онро мехонад. Барои theme ин роҳ муфид аст, чун Header ва Settings қиматро аз ҳамон манбаъ мегиранд.',
+      'Context передаёт значение от provider вложенным компонентам. Provider задаёт значение, useContext его читает. Это удобно для темы, которую Header и Settings берут из одного источника.',
+      'Context passes a provider’s value to its descendants. The provider supplies the value and useContext reads it. A theme can be shared this way so Header and Settings read from the same source.',
+    ],
+  },
+  'topic-38': {
+    title: [
+      'Store ва selector дар Zustand',
+      'Store и selector в Zustand',
+      'Store and selector in Zustand',
+    ],
+    body: [
+      'Zustand китобхонаест барои state-и муштараки React. Store қиматҳо ва амалҳоро нигоҳ медорад. Selector функсияест, ки майдони лозимаро интихоб мекунад, масалан s => s.count. Компонент ба натиҷаи интихобаш обуна мешавад.',
+      'Zustand — библиотека для общего состояния React. Store хранит данные и действия. Selector — функция, которая выбирает нужную часть, например s => s.count. Компонент подписывается на результат выбора.',
+      'Zustand is a library for shared React state. A store holds values and actions. A selector picks the needed part, such as s => s.count. A component subscribes to that selected result.',
     ],
   },
   'topic-25': {

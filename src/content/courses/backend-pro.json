@@ -136,6 +136,18 @@
       "tg": "validateCreateTodo-ро бе таъсири тарафӣ созед. Танҳо title-и дарозияш 2–80 баъди trim қабул шавад; ownerId ва ҳар майдони зиёдатиро рад кунед. null, массив, JSON-и нодуруст, сатри холӣ ва зиёда аз 4096 байти UTF-8-ро санҷед. title-и дуруст набояд додаҳои дигари корбарро тағйир диҳад.",
       "en": "Implement validateCreateTodo without side effects. Accept only title with 2–80 characters after trim; reject ownerId and all extra fields. Test null, arrays, invalid JSON, an empty title and more than 4096 UTF-8 bytes. A valid title must not alter other user data."
      }
+    },
+    {
+     "title": {
+      "ru": "Вход от клиента и данные сервера",
+      "tg": "Додаи мизоҷ ва додаи сервер",
+      "en": "Client input and server-owned data"
+     },
+     "body": {
+      "ru": "В форме есть одно поле title. Пользователь отправляет текст, а владелец определяется на сервере по проверенной сессии. Контракт этой формы отклоняет лишние поля до записи. Сравните три случая: допустимое название, пустое после trim и объект с полем вне договора.",
+      "tg": "Дар форма як майдон аст: title. Корбар матн мефиристад ва сервер соҳибро аз сессияи тасдиқшуда мегирад. Қоидаи форма майдонҳои зиёдатиро пеш аз сабт рад мекунад. Се ҳолатро муқоиса кунед: номи дуруст, номи холӣ баъди trim ва объекти дорои майдони изофагӣ.",
+      "en": "The form supplies title. The user submits text and the server gets the owner from a verified session. The form contract rejects extra fields before writing. Compare a valid title, one that becomes empty after trimming, and an object with an out-of-contract field."
+     }
     }
    ],
    "interview": {
@@ -318,6 +330,18 @@
       "tg": "readOwnedTodo ва тестҳо барои ду корбар созед. Аввалӣ сабти худро мехонад, дуюмӣ 404 мегирад, бе title/ownerId дар ҷавоб. Меҳмон пеш аз дархости пойгоҳ 401 мегирад. id-и набуда ва нодурустро санҷед. session-ро аз JSON-и браузер надиҳед.",
       "en": "Create readOwnedTodo and two-user tests. The owner reads their record; another user receives 404 without title/ownerId. A guest receives 401 before the repository is queried. Test missing and invalid ids. Never build session from browser JSON."
      }
+    },
+    {
+     "title": {
+      "ru": "Вход, видимость и право изменения",
+      "tg": "Login, дидан ва ҳаққи тағйир",
+      "en": "Sign-in, visibility and permission to change"
+     },
+     "body": {
+      "ru": "У учебной задачи есть владелец. Для гостя и для другого вошедшего ученика могут быть разные ответы по контракту сервиса. В обоих отказах задача остаётся без изменений. В локальном тесте проверьте отказ, затем прочитайте запись разрешённой сессией и сравните title.",
+      "tg": "Вазифаи омӯзишӣ соҳиб дорад. Меҳмон ва корбари дигари воридшуда мувофиқи шартҳои сервис метавонанд ҷавобҳои гуногун гиранд. Дар ҳар ду рад вазифа пештара мемонад. Дар test-и локалӣ аввал радро бинед, баъд бо сессияи иҷозатдор сабтро хонда, title-ро муқоиса кунед.",
+      "en": "A learning task has an owner. The service contract can give different responses to a guest and to a different signed-in learner. The task stays unchanged in both denials. In the local test, check the refusal, read using the authorized session and compare the title."
+     }
     }
    ],
    "interview": {
@@ -497,6 +521,18 @@
       "ru": "Соберите и запустите стенд. Добавьте проверки: истёкшая сессия → 401, text/plain → 415, неизвестный путь → 404, title из пробелов → 400. Убедитесь, что rejected-запросы не добавляют запись. Намеренно замените отказ гостю на 200: тест должен упасть. Не публикуйте учебный сервер как готовую систему аккаунтов.",
       "tg": "Стендро ҷамъ карда иҷро кунед. Санҷишҳо илова кунед: сессияи гузашта → 401, text/plain → 415, роҳи номаълум → 404, title аз фосила → 400. Дархостҳои радшуда набояд сабт илова кунанд. Қасдан радкунии меҳмонро 200 кунед: тест бояд нагузарад. Сервери омӯзиширо ҳамчун низоми тайёри ҳисобҳо нашр накунед.",
       "en": "Build and run the fixture. Add checks for an expired session → 401, text/plain → 415, unknown path → 404 and whitespace-only title → 400. Rejected requests must not add records. Deliberately change guest rejection to 200: the test must fail. Do not publish this teaching server as a production account system."
+     }
+    },
+    {
+     "title": {
+      "ru": "Одна проверка функции и одна по HTTP",
+      "tg": "Як test-и функсия ва як test-и HTTP",
+      "en": "One function check and one HTTP check"
+     },
+     "body": {
+      "ru": "Вызов validateTitle может подтвердить, что пробелы отсеиваются. Интеграционный тест отправляет запрос на собственный локальный сервер и отдельно проверяет статус, заголовок и JSON. Тест функции не заметит неверно подключённый маршрут. Тест по HTTP также должен закрыть сервер после проверки.",
+      "tg": "Даъвати validateTitle метавонад рад шудани фосилаҳоро тасдиқ кунад. Test-и интегратсионӣ ба сервери локалии худи дарс дархост медиҳад ва status, header ва JSON-ро ҷудо месанҷад. Test-и функсия route-и нодурустро намебинад. Баъди санҷиши HTTP серверро пӯшед.",
+      "en": "Calling validateTitle may prove whitespace is rejected. An integration test calls the lesson's local server and checks the status, header and JSON separately. The function check cannot catch a miswired route. Close the HTTP server after the check."
      }
     }
    ],
@@ -690,6 +726,18 @@
       "tg": "Таснифгари усулҳо ва коркардкунандаи минималии захираро созед: 1) барои GET, HEAD, PUT, DELETE, POST ва PATCH хусусиятҳои safe ва idempotent-ро тавсиф кунед; 2) route(store, method, key, value)-ро ҷори кунед, ки барои GET 200/404, барои PUT-и аввал 201 ва дар такрор 200, барои DELETE 204/404 ва барои боқимонда 405 бо Allow медиҳад; 3) бо тестҳо исбот кунед, ки се бор PUT ҳамон арзишро мегузорад ва такрори DELETE 404 медиҳад. Натиҷаи интизорӣ: се сатр — хусусиятҳои усулҳо, идемпотентии POST/PATCH ва Allow барои 405.",
       "en": "Build a method classifier and a minimal resource handler: 1) describe safe and idempotent for GET, HEAD, PUT, DELETE, POST and PATCH; 2) implement route(store, method, key, value) giving 200/404 for GET, 201 on first PUT and 200 on repeat, 204/404 for DELETE and 405 with Allow otherwise; 3) prove with tests that triple PUT leaves the same value and a repeated DELETE yields 404. Expected result: three lines — method properties, POST/PATCH idempotency and Allow for 405."
      }
+    },
+    {
+     "title": {
+      "ru": "Повторный ответ и итоговое состояние",
+      "tg": "Ҷавоби такрорӣ ва ҳолати ниҳоӣ",
+      "en": "Repeat response and final state"
+     },
+     "body": {
+      "ru": "Два одинаковых DELETE /todos/7 могут дать 204, затем 404 по договору API. После каждого задача 7 отсутствует. В этом смысле действие идемпотентно: важен эффект на ресурсе, даже если ответы различаются. GET предназначен для чтения, а POST по умолчанию не обещает такой эффект при повторе.",
+      "tg": "Ду DELETE /todos/7 метавонанд аз рӯйи шарт аввал 204, баъд 404 диҳанд. Баъди ҳар ду вазифаи 7 нест. Амал аз ин рӯ идемпотентӣ аст: ба ҳолати захира нигоҳ мекунем, ҳатто агар ҷавобҳо фарқ кунанд. GET барои хондан аст ва POST чунин рафтори такрориро худ аз худ кафолат намедиҳад.",
+      "en": "Two identical DELETE /todos/7 requests may return 204 and then 404 under the contract. Task 7 is absent after both. That is idempotence: the resource effect matters even when responses differ. GET is intended for reading. POST has no general guarantee of the same effect on retry."
+     }
     }
    ],
    "questions": [
@@ -862,6 +910,18 @@
       "ru": "Постройте парсер маршрута и пагинацию: 1) требуйте префикс /v1 и ресурс todos, иначе 400; 2) ограничьте limit диапазоном 1–50 и page минимумом 1; 3) верните {status, page, total, items}, где items пуст за последней страницей; 4) проверьте, что limit=999 сжимается до 50. Ожидаемый результат: две строки JSON со страницами 1 и 3 из двенадцати задач.",
       "tg": "Парсери роҳ ва саҳифабандиро созед: 1) префикси /v1 ва захираи todos-ро талаб кунед, вагарна 400; 2) limit-ро дар диапазони 1–50 ва page-ро ақаллан 1 маҳдуд кунед; 3) {status, page, total, items}-ро баргардонед, ки items баъди саҳифаи охирин холӣ аст; 4) санҷед, ки limit=999 то 50 фишурда мешавад. Натиҷаи интизорӣ: ду сатри JSON бо саҳифаҳои 1 ва 3 аз дувоздаҳ вазифа.",
       "en": "Build a route parser with pagination: 1) require the /v1 prefix and the todos resource, else 400; 2) clamp limit to 1–50 and page to a minimum of 1; 3) return {status, page, total, items} with items empty past the last page; 4) verify limit=999 is squeezed to 50. Expected result: two JSON lines with pages 1 and 3 of twelve tasks."
+     }
+    },
+    {
+     "title": {
+      "ru": "Зачем договору стабильная страница",
+      "tg": "Чаро рӯйхат тартиби муайян мехоҳад",
+      "en": "Why a page needs stable ordering"
+     },
+     "body": {
+      "ru": "При limit=2 из последовательности id 1, 2, 3, 4 первая страница даёт 1 и 2, следующая — 3 и 4. Определите порядок перед ограничением. Одинаковые даты сортируют дополнительным уникальным ключом, иначе разные запросы могут дать непредсказуемые перестановки для равных строк.",
+      "tg": "Бо limit=2 ва id-ҳои 1, 2, 3, 4 саҳифаи аввал 1 ва 2, дуюм 3 ва 4 медиҳад. Пеш аз гирифтани limit тартибро муайян кунед. Барои санаҳои якхела калиди дуюми ягона гузоред, то сатрҳои баробар дар дархостҳои гуногун ҷойи номуайян нагиранд.",
+      "en": "With limit=2 and ordered ids 1, 2, 3, 4, the first page gives 1 and 2 and the next gives 3 and 4. Define ordering before limiting. Use a unique tie breaker for equal dates so tied records have a stable order."
      }
     }
    ],
@@ -1208,6 +1268,18 @@
       "ru": "Реализуйте иерархию AppError/ValidationError/NotFoundError и handle(error, log): 1) ожидаемые ошибки возвращают свой статус и {error: code}; 2) ValidationError добавляет details; 3) неожиданная ошибка даёт 500 с {error: \"internal_error\"} и запись в log; 4) докажите, что строка подключения к базе не попала в ответ, но есть в логе. Ожидаемый результат: тело 500 без внутренностей, тело 400 с details и строка «404 internal log entries: 1».",
       "tg": "Иерархияи AppError/ValidationError/NotFoundError ва handle(error, log)-ро ҷорӣ кунед: 1) хатоҳои интизорӣ статуси худ ва {error: code}-ро медиҳанд; 2) ValidationError details илова мекунад; 3) хатои номатлуб 500 бо {error: \"internal_error\"} ва сабт дар log медиҳад; 4) исбот кунед, ки сатри пайвасти база ба ҷавоб наомадааст, вале дар лог аст. Натиҷаи интизорӣ: баданаи 500 бе дохилият, баданаи 400 бо details ва сатри «404 internal log entries: 1».",
       "en": "Implement the AppError/ValidationError/NotFoundError hierarchy and handle(error, log): 1) expected errors return their status and {error: code}; 2) ValidationError adds details; 3) an unexpected error yields 500 with {error: \"internal_error\"} and a log entry; 4) prove the database connection string never reached the response but is in the log. Expected result: a 500 body without internals, a 400 body with details and the line \"404 internal log entries: 1\"."
+     }
+    },
+    {
+     "title": {
+      "ru": "Почему данные для экрана и журнала различаются",
+      "tg": "Чаро додаи экран ва журнал фарқ мекунад",
+      "en": "Why the screen and log carry different details"
+     },
+     "body": {
+      "ru": "Неизвестный id — обычная ветка обработчика и понятный статус по контракту. Сбой зависимости — техническая причина для журнала, а экрану достаточно общего уведомления и requestId. Дайте обоим случаям разные тесты. Для технической ветки убедитесь, что ответ не содержит внутренние сообщения.",
+      "tg": "id-и норасида шохаи муқаррарии handler аст ва аз рӯйи шарт status-и фаҳмо медиҳад. Нокомии вобастагӣ сабаби техникӣ барои журнал аст. Экран паёми умумӣ ва requestId мегирад. Барои ҳар ду test нависед. Дар ҳолати техникӣ санҷед, ки ҷавоб матни дохилӣ надорад.",
+      "en": "A missing id is a regular handler outcome with a clear status under the contract. A dependency failure has a technical cause for the log and a generic message with a requestId for the screen. Test the cases separately. Confirm the technical response contains no internal details."
      }
     }
    ],
@@ -1557,6 +1629,18 @@
       "tg": "sign ва verify-ро барои HS256 ҷорӣ кунед: 1) се қисм дар base64url; 2) verify аввал имзо, баъд бекоркунӣ аз рӯи jti, баъд exp-ро месанҷад; 3) ҳифзи tamper-ро бо тағйири охирин аломати имзо исбот кунед; 4) токени гузашта reason \"expired\" медиҳад. Натиҷаи интизорӣ: сарлавҳа ва payload-и чопшуда, 32 байти имзо ва се сабаби гуногуни рад.",
       "en": "Implement sign and verify for HS256: 1) three parts in base64url; 2) verify checks the signature first, then jti revocation, then exp; 3) prove tamper protection by changing the last signature character; 4) an expired token gives reason \"expired\". Expected result: the printed header and payload, 32 signature bytes and three distinct rejection reasons."
      }
+    },
+    {
+     "title": {
+      "ru": "Какие данные подтверждает проверка токена",
+      "tg": "Санҷиши token чиро тасдиқ мекунад",
+      "en": "What token validation proves"
+     },
+     "body": {
+      "ru": "Декодирование показывает, что написано в токене. Перед использованием этих данных проверяющая библиотека сверяет подпись и срок, а сервис проверяет нужные ему правила, например ожидаемого издателя и аудиторию. Даже действительный токен не даёт право читать любую запись: проверка ресурса остаётся отдельной.",
+      "tg": "Decode нишон медиҳад, ки дар token чӣ навишта шудааст. Пеш аз истифодаи дода китобхона имзо ва муҳлатро месанҷад. Сервис қоидаҳои худаш, масалан issuer ва audience-и интизорашро низ месанҷад. Token-и дуруст ҳам иҷозати хондани ҳар сабтро намедиҳад: ҳуқуқи захира алоҳида санҷида мешавад.",
+      "en": "Decoding displays token contents. Before trusting the values, a verification library checks the signature and expiration. The service applies its rules, such as the expected issuer and audience. A valid token still does not authorize every record. Check access to the resource separately."
+     }
     }
    ],
    "questions": [
@@ -1902,6 +1986,18 @@
       "ru": "Соберите sessionCookie и requestAllowed: 1) строка Set-Cookie с Path=/, HttpOnly, Secure, SameSite=Lax и Max-Age; 2) парсер заголовка Cookie, достающий sid из «a=1; sid=abc; theme=dark»; 3) правило: кросс-сайтовый POST блокируется, GET разрешён; 4) проверьте случай отсутствия сессии. Ожидаемый результат: полная строка Set-Cookie, sid «abc» и JSON-решения для трёх случаев.",
       "tg": "sessionCookie ва requestAllowed-ро созед: 1) сатри Set-Cookie бо Path=/, HttpOnly, Secure, SameSite=Lax ва Max-Age; 2) парсери сарлавҳаи Cookie, ки sid-ро аз «a=1; sid=abc; theme=dark» мегирад; 3) қоида: POST-и байнисайтӣ манъ, GET иҷозат; 4) ҳолати набудани сессияро санҷед. Натиҷаи интизорӣ: сатри пурраи Set-Cookie, sid-и «abc» ва қарорҳои JSON барои се ҳолат.",
       "en": "Build sessionCookie and requestAllowed: 1) a Set-Cookie line with Path=/, HttpOnly, Secure, SameSite=Lax and Max-Age; 2) a Cookie-header parser extracting sid from \"a=1; sid=abc; theme=dark\"; 3) the rule: a cross-site POST is blocked, GET allowed; 4) cover the no-session case. Expected result: the full Set-Cookie line, sid \"abc\" and JSON decisions for three cases."
+     }
+    },
+    {
+     "title": {
+      "ru": "Где cookie проходит проверку",
+      "tg": "Cookie дар куҷо санҷида мешавад",
+      "en": "Where the cookie is checked"
+     },
+     "body": {
+      "ru": "На входе сервер выдаёт cookie с настройками. На следующем подходящем запросе браузер передаёт значение. Обработчик проверяет, существует ли сессия и подходит ли вызывающему пользователю запрошенная запись. Флаги ограничивают поведение браузера. Они не сообщают серверу, что сессия действительна.",
+      "tg": "Ҳангоми login сервер cookie бо танзимот медиҳад. Дар дархости мувофиқи баъдӣ браузер қиматашро мефиристад. Handler месанҷад, сессия ҳаст ё не ва сабт ба корбар дастрас аст ё не. Flag-ҳо рафтори браузерро маҳдуд мекунанд. Онҳо дурустии сессияро барои сервер тасдиқ намекунанд.",
+      "en": "At sign-in the server issues a cookie with attributes. On the next matching request, the browser supplies the value. The handler checks whether the session exists and the caller may access the record. Attributes constrain browser behavior. They do not tell the server the session is valid."
      }
     }
    ],
@@ -2769,6 +2865,18 @@
       "tg": "fixedWindow({limit, windowMs})-ро бо калидҳо ва вақти интиқолшаванда ҷорӣ кунед: 1) се дархост мегузаранд, чорумин 429 медиҳад; 2) retryAfterMs то барқароршавии равзана ҳисоб мешавад; 3) корбари дигар таъсир намебинад; 4) баъди равзана лимит барқарор мешавад. Натиҷаи интизорӣ: JSON бо 429 ва Retry-After-и 60, баъд ду сатри true.",
       "en": "Implement fixedWindow({limit, windowMs}) with keys and injectable time: 1) three requests pass, the fourth yields 429; 2) retryAfterMs counts down to the window reset; 3) another user is untouched; 4) the limit renews after the window. Expected result: a JSON with 429 and Retry-After 60, then two true lines."
      }
+    },
+    {
+     "title": {
+      "ru": "Когда счётчик снова разрешает запросы",
+      "tg": "Ҳисобкунак кай боз иҷозат медиҳад",
+      "en": "When the counter allows requests again"
+     },
+     "body": {
+      "ru": "Окно открыто на 60 секунд и пропускает три запроса одного ключа. Четвёртый внутри того же окна получает 429. После перехода в новое окно проверьте, что запрос снова проходит. В тесте изменяйте переданное время, чтобы не ждать настоящую минуту.",
+      "tg": "Равзана 60 сония аст ва аз як калид се дархостро мегузаронад. Дархости чорум дар ҳамин равзана 429 мегирад. Баъди гузаштан ба равзанаи нав санҷед, ки дархост боз мегузарад. Дар test вақти додашударо иваз кунед, дақиқаи воқеиро интизор нашавед.",
+      "en": "A 60-second window allows three requests for one key. The fourth within that window receives 429. After moving into a new window, verify that a request can pass again. Pass time to the test rather than waiting for a real minute."
+     }
     }
    ],
    "questions": [
@@ -2941,6 +3049,18 @@
       "ru": "Реализуйте createCache с etagOf: 1) miss до первой записи; 2) hit с etag; 3) revalidated при совпавшем If-None-Match; 4) после записи новой версии etag меняется и клиент получает свежую копию; 5) после invalidate — снова miss. Ожидаемый результат: четыре строки про etag, revalidated, свежую копию и miss.",
       "tg": "createCache бо etagOf-ро ҷорӣ кунед: 1) miss то аввалин сабт; 2) hit бо etag; 3) revalidated ҳангоми мувофициати If-None-Match; 4) баъди сабти версияи нав etag тағйир ёфта, муштарӣ нусхаи тозаро мегирад; 5) баъди invalidate — боз miss. Натиҷаи интизорӣ: чор сатр дар бораи etag, revalidated, нусхаи тоза ва miss.",
       "en": "Implement createCache with etagOf: 1) miss before the first write; 2) a hit with an etag; 3) revalidated when If-None-Match matches; 4) after writing a new version the etag changes and the client receives the fresh copy; 5) after invalidate — a miss again. Expected result: four lines about the etag, revalidation, the fresh copy and the miss."
+     }
+    },
+    {
+     "title": {
+      "ru": "Кэш, версия и 304 по шагам",
+      "tg": "Cache, версия ва 304 қадам ба қадам",
+      "en": "Cache, version and 304 step by step"
+     },
+     "body": {
+      "ru": "Первый GET передаёт тело каталога и ETag. Пока копия свежая по правилам кэша, её можно использовать. При проверке клиент посылает этот ETag в If-None-Match. Если версия та же, ответ 304 не содержит нового тела. Если цена изменилась, клиент должен получить новую версию тела.",
+      "tg": "GET-и аввал body-и каталог ва ETag медиҳад. То вақте нусха аз рӯйи қоидаи cache тоза аст, онро истифода мебарем. Ҳангоми санҷиш мизоҷ ETag-ро дар If-None-Match мефиристад. Агар версия ҳамон бошад, 304 body-и нав надорад. Бо иваз шудани нарх body-и нав лозим мешавад.",
+      "en": "The first GET sends the catalog body and an ETag. The client can use the cached copy while it is fresh. To revalidate, send that ETag in If-None-Match. If the version still matches, 304 carries no new body. A changed price calls for the new representation."
      }
     }
    ],
@@ -3287,6 +3407,18 @@
       "ru": "Реализуйте migrate(db, from, to) с шагами expand+backfill, switch-reads и contract: 1) после каждого шага readUsers возвращает те же имена; 2) expand создаёт fullName, contract удаляет name; 3) неподдерживаемый переход бросает исключение. Ожидаемый результат: три строки о шагах и отсутствие старого поля в конце.",
       "tg": "migrate(db, from, to)-ро бо қадамҳои expand+backfill, switch-reads ва contract ҷорӣ кунед: 1) баъди ҳар қадам readUsers ҳамон номҳоро медиҳад; 2) expand fullName-ро месозад, contract name-ро нест мекунад; 3) гузариши дастгиринашуда истисно меафзонад. Натиҷаи интизорӣ: се сатр дар бораи қадамҳо ва набудани майдони кӯҳна дар охир.",
       "en": "Implement migrate(db, from, to) with the expand+backfill, switch-reads and contract steps: 1) after every step readUsers returns the same names; 2) expand creates fullName, contract removes name; 3) an unsupported transition throws. Expected result: three step lines and the old field absent at the end."
+     }
+    },
+    {
+     "title": {
+      "ru": "Что проверять между тремя изменениями схемы",
+      "tg": "Миёни се тағйири схема чиро бинем",
+      "en": "What to check between schema changes"
+     },
+     "body": {
+      "ru": "Старая версия читает name, новая — display_name. Сначала добавьте display_name так, чтобы чтение name продолжилось. Заполните и проверьте существующие записи. Продумайте обновления в период, когда обе версии ещё работают. Удаление name возможно только после перехода всех читателей и писателей.",
+      "tg": "Версияи кӯҳна name, версияи нав display_name мехонад. Аввал display_name-ро тавре илова кунед, ки хондани name идома кунад. Сабтҳои мавҷударо пур ва санҷед. Давраеро ба назар гиред, ки ҳар ду версия кор мекунанд. name танҳо баъди гузаштани ҳамаи хонанда ва нависандаҳо ҳазф мешавад.",
+      "en": "The old release reads name and the new one reads display_name. Add display_name without breaking readers of name. Fill and verify existing records. Account for writes while both releases are running. Remove name only once all readers and writers have switched."
      }
     }
    ],
@@ -3635,6 +3767,18 @@
       "tg": "mockFetch бо signal ва fetchWithTimeout-ро ҷорӣ кунед: 1) даъвати тез додаҳоро медиҳад ва job.finished === true аст; 2) даъвати суст бо сабаби «timeout after Nms» бурида мешавад; 3) баъди бекоркунӣ job.finished === false ва job.cancelled === true; 4) таймер дар finally озод мешавад. Натиҷаи интизорӣ: се сатр — натиҷа, сабаби таймаут ва ҳолати кори бекоршуда.",
       "en": "Implement mockFetch with a signal and fetchWithTimeout: 1) a fast call returns data with job.finished === true; 2) a slow call aborts with the reason \"timeout after Nms\"; 3) after cancellation job.finished === false and job.cancelled === true; 4) the timer is released in finally. Expected result: three lines — the result, the timeout reason and the cancelled job's state."
      }
+    },
+    {
+     "title": {
+      "ru": "Таймаут — предел ожидания",
+      "tg": "Timeout — ҳадди интизорӣ",
+      "en": "A timeout bounds the wait"
+     },
+     "body": {
+      "ru": "Экран ждёт данные 800 мс. Если зависимость заняла весь бюджет, обработчику не останется времени на ответ. Задайте ей меньший предел и обработайте отмену. Отдельно проверьте быстрый ответ и превышение предела. Для операций записи сначала выясните результат прошлой попытки перед повтором.",
+      "tg": "Экран додаҳоро 800 мс интизор мешавад. Агар вобастагӣ ҳамаи вақтро гирад, ба handler барои ҷавоб вақт намемонад. Ба вобастагӣ ҳадди кӯтоҳтар диҳед ва бекоркуниро коркард кунед. Ҷавоби зуд ва гузаштани ҳаддро ҷудо санҷед. Пеш аз такрори сабт натиҷаи кӯшиши аввалро муайян кунед.",
+      "en": "The screen waits 800 ms for data. If its dependency uses the whole budget, the handler has no time left to respond. Give that dependency a smaller limit and handle cancellation. Check fast completion and timeout separately. Before repeating a write, determine what happened to the previous attempt."
+     }
     }
    ],
    "questions": [
@@ -3807,6 +3951,18 @@
       "ru": "Реализуйте retry(operation, options): 1) повторяются только retryable-ошибки; 2) пауза растёт экспоненциально с фактором 2; 3) предел попыток ограничен; 4) не-retryable ошибка завершает работу после первой попытки; 5) delays возвращаются для проверки. Ожидаемый результат: три строки — успех с [5,10], фатал с одной попыткой и исчерпание с [5,10].",
       "tg": "retry(operation, options)-ро ҷорӣ кунед: 1) танҳо хатоҳои retryable такрор мешаванд; 2) танаффус бо фактери 2 экспоненсиалӣ афзуда мешавад; 3) ҳадди кӯшишҳо маҳдуд аст; 4) хатои retryable-набудан корро баъди аввалин кӯшиш тамом мекунад; 5) delays барои санҷиш баргардонида мешаванд. Натиҷаи интизорӣ: се сатр — муваффақият бо [5,10], фатал бо як кӯшиш ва истеъмол бо [5,10].",
       "en": "Implement retry(operation, options): 1) only retryable errors repeat; 2) the delay grows exponentially with factor 2; 3) the attempt limit is bounded; 4) a non-retryable error ends after the first attempt; 5) delays are returned for verification. Expected result: three lines — success with [5,10], a fatal with one attempt and exhaustion with [5,10]."
+     }
+    },
+    {
+     "title": {
+      "ru": "Сколько попыток займёт одна операция",
+      "tg": "Як амал чанд кӯшиш мегирад",
+      "en": "How many attempts one operation uses"
+     },
+     "body": {
+      "ru": "Если разрешены три попытки, первая выполняется сразу. После временного отказа есть пауза перед второй. Если третья тоже неудачна, операция заканчивается ошибкой. Считайте первый вызов как попытку и проверяйте общий срок, чтобы паузы не превратили короткий запрос в долгое ожидание.",
+      "tg": "Агар се кӯшиш иҷозат бошад, якум дарҳол иҷро мешавад. Баъди хатои муваққатӣ то дуюм фосила ҳаст. Агар сеюм ҳам ноком бошад, амал бо хато тамом мешавад. Дастаи аввалро ҳамчун кӯшиш ҳисоб кунед ва муҳлати умумиро бинед, то паузаҳо дархостро аз ҳад дароз накунанд.",
+      "en": "When three attempts are allowed, the first runs immediately. A temporary failure causes a delay before the second. If the third also fails, the operation ends in failure. Count the first call and enforce the overall deadline so delays do not turn a short request into a long wait."
      }
     }
    ],
@@ -3981,6 +4137,18 @@
       "tg": "createBreaker-ро ҷорӣ кунед: 1) ҳолати пӯшида хатоҳоро ҳисоб мекунад; 2) баъди остона — ҳолати кушода бо fast-fail-и фаврӣ; 3) half-open баъди равзанаи барқароршавӣ; 4) муваффақият дар half-open карабобро мепӯшонад. Натиҷаи интизорӣ: се сатр — «open», рад дар t=500 ва «recovered» бо ҳолати пӯшида.",
       "en": "Implement createBreaker: 1) the closed state counts failures; 2) past the threshold — an open state with instant fast-fail; 3) half-open after the recovery window; 4) success in half-open closes the breaker. Expected result: three lines — \"open\", a refusal at t=500 and \"recovered\" with the closed state."
      }
+    },
+    {
+     "title": {
+      "ru": "Что происходит после порога ошибок",
+      "tg": "Баъди ҳадди хатоҳо чӣ мешавад",
+      "en": "What happens after the failure threshold"
+     },
+     "body": {
+      "ru": "Установим порог три. Первые три обращения действительно доходят до зависимости и дают отказ. Затем открытый breaker отклоняет новый запрос без обращения к ней. После паузы разрешается пробный вызов. Успех возвращает обычный режим, отказ снова включает паузу.",
+      "tg": "Ҳаддро се монем. Се дархости аввал воқеан ба вобастагӣ мерасад ва ноком мешавад. Баъд breaker-и кушода дархости навро бе даъвати вобастагӣ рад мекунад. Пас аз танаффус як санҷиш мегузарад. Муваффақияташ режими одиро меорад, хатояш танаффуси нав медиҳад.",
+      "en": "Set the threshold to three. The first three calls reach the dependency and fail. The open breaker then refuses a new request before calling it. After a waiting period, allow a trial request. Success restores normal operation and failure opens another waiting period."
+     }
     }
    ],
    "questions": [
@@ -4154,6 +4322,18 @@
       "tg": "createQueue({maxAttempts})-ро бо drain(handle) ҷорӣ кунед: 1) супоришҳои муваффақ ба processed бо шумораи кӯшишҳо медароянд; 2) хатои поёни ҳад супоришро ба навбат бармегардонад; 3) дар ҳад — ба dead бо сабаб ва кӯшишҳо; 4) drain бо навбати холӣ тамом мешавад. Натиҷаи интизорӣ: ду сатри processed ва dead letter ва сатри «pending left: 0».",
       "en": "Implement createQueue({maxAttempts}) with drain(handle): 1) successful jobs land in processed with their attempt count; 2) an error below the limit requeues the job; 3) at the limit — into dead with the reason and attempts; 4) drain finishes with an empty queue. Expected result: the processed and dead-letter lines plus \"pending left: 0\"."
      }
+    },
+    {
+     "title": {
+      "ru": "Задание принято и задание выполнено",
+      "tg": "Кор қабул шуд ва кор иҷро шуд",
+      "en": "Accepted work and completed work"
+     },
+     "body": {
+      "ru": "Клиент запросил отчёт. 202 означает, что запрос принят в обработку. Готовый файл появится после работы worker. Если после последней попытки генерация не удалась, отметьте сбой задания отдельно. Экран должен показывать разные состояния для ожидания, готовности и ошибки.",
+      "tg": "Мизоҷ ҳисобот пурсид. 202 мегӯяд, ки дархост барои кор қабул шуд. Файли тайёр баъди кори worker меояд. Агар генерация баъди кӯшиши охир ноком шавад, хатои вазифаро ҷудо сабт кунед. Экран ҳолатҳои интизорӣ, тайёр ва хаторо фарқ мекунад.",
+      "en": "A client requests a report. 202 means the request was accepted for processing. The file appears after the worker finishes. If generation still fails after the last attempt, record that job failure separately. The screen distinguishes waiting, ready and failed states."
+     }
     }
    ],
    "questions": [
@@ -4326,6 +4506,18 @@
       "ru": "Реализуйте createMetrics и createServerMock({ready}): 1) каждый handle инкрементирует http_requests_total с меткой пути; 2) /health всегда 200; 3) /ready — 200 или 503 по ready(); 4) счётчики читаются через snapshot. Ожидаемый результат: health и обе версии ready в JSON, затем счётчики todos и ready-проверок.",
       "tg": "createMetrics ва createServerMock({ready})-ро ҷорӣ кунед: 1) ҳар handle http_requests_total-ро бо аломати роҳ афзуда мешавад; 2) /health ҳамеша 200; 3) /ready — 200 ё 503 аз рӯи ready(); 4) ҳисобкунакҳо тавассути snapshot хонда мешаванд. Натиҷаи интизорӣ: health ва ҳарду версии ready дар JSON, баъд ҳисобкунакҳои todos ва санҷишҳои ready.",
       "en": "Implement createMetrics and createServerMock({ready}): 1) every handle increments http_requests_total with a path label; 2) /health is always 200; 3) /ready — 200 or 503 per ready(); 4) counters read through a snapshot. Expected result: health and both ready versions in JSON, then the todos and ready-check counters."
+     }
+    },
+    {
+     "title": {
+      "ru": "Живой процесс с недоступной базой",
+      "tg": "Процесс зинда, база дастнорас",
+      "en": "A live process with unavailable storage"
+     },
+     "body": {
+      "ru": "Когда база временно недоступна, процесс может отвечать 200 на /health, но 503 на /ready. Диспетчер перестаёт отправлять к нему задачи до восстановления. В тесте переключите состояние базы и снова проверьте оба ответа. Покажите, какое решение принимает каждый из двух сигналов.",
+      "tg": "Вақте база муваққатан дастнорас аст, процесс ба /health 200, ба /ready 503 дода метавонад. Диспетчер то барқароршавӣ дигар ба он дархост намефиристад. Дар test ҳолати базаро иваз карда, ҳар ду ҷавобро бинед. Фаҳмонед, ҳар signal барои кадом қарор аст.",
+      "en": "When storage is briefly unavailable, the process may return 200 from /health and 503 from /ready. The traffic router stops assigning it work until recovery. Switch the database state in the test and check both responses again. Show which decision each signal drives."
      }
     }
    ],
@@ -4847,6 +5039,18 @@
       "tg": "createRepo-ро бо ҳисобкунакҳо, renderWithNPlusOne ва renderWithBatch ҷорӣ кунед: 1) N+1 ба ҳар элемент як дархост мекунад; 2) батч як дархост ва ҳамон натиҷаро медиҳад; 3) assert-и баробарии натиҷаҳо; 4) ҳарду рақами дархостҳоро чоп кунед. Натиҷаи интизорӣ: сатри рендер ва «N+1 queries: 4 batch queries: 1».",
       "en": "Implement createRepo with counters, renderWithNPlusOne and renderWithBatch: 1) N+1 makes one query per element; 2) the batch makes one query with the same result; 3) assert result equality; 4) print both query counts. Expected result: the render line and \"N+1 queries: 4 batch queries: 1\"."
      }
+    },
+    {
+     "title": {
+      "ru": "Откуда берётся число запросов",
+      "tg": "Шумораи query аз куҷо меояд",
+      "en": "Where the query count comes from"
+     },
+     "body": {
+      "ru": "Для списка из пяти заказов сначала читаем сами заказы. Если затем ищем клиента отдельно для каждой строки, получается 1 + 5 запросов. Один общий запрос для всех нужных клиентов может оставить два обращения. Сравните содержание ответа и счётчик до и после, иначе ускорение может скрыть ошибку.",
+      "tg": "Барои панҷ фармоиш аввал худи фармоишҳоро мехонем. Агар муштариро барои ҳар сатр ҷудо гирем, 1 + 5 query мешавад. Як query барои ҳамаи муштариёни лозим метавонад ҳамагӣ ду дархост диҳад. Мазмуни ҷавоб ва шумораро пешу баъд муқоиса кунед, то хато пинҳон нашавад.",
+      "en": "Read the five orders first. Looking up the customer separately for every order produces 1 + 5 queries. A combined lookup for all needed customers can reduce the total to two. Compare both response contents and query counts so a faster result does not hide a mistake."
+     }
     }
    ],
    "questions": [
@@ -5019,6 +5223,18 @@
       "ru": "Реализуйте createNode({sharedSessions}) и roundRobin: 1) два инстанса с локальной памятью создают две копии одной сессии; 2) инстансы с общим store — одну; 3) ответы round-robin одинаковы в обоих случаях; 4) выведите количество копий. Ожидаемый результат: три строки — ответы, «2 (state duplicated)» и «1».",
       "tg": "createNode({sharedSessions}) ва roundRobin-ро ҷорӣ кунед: 1) ду инстанс бо хотираи маҳаллӣ ду нусхаи як сессия месозанд; 2) инстансҳо бо шаред-стор — як нусха; 3) ҷавобҳои round-robin дар ҳарду ҳолат якхелаанд; 4) шумораи нусҳаро чоп кунед. Натиҷаи интизорӣ: се сатр — ҷавобҳо, «2 (state duplicated)» ва «1».",
       "en": "Implement createNode({sharedSessions}) and roundRobin: 1) two instances with local memory create two copies of one session; 2) instances with a shared store — one; 3) round-robin answers are identical in both cases; 4) print the copy count. Expected result: three lines — the answers, \"2 (state duplicated)\" and \"1\"."
+     }
+    },
+    {
+     "title": {
+      "ru": "Два процесса и один вход",
+      "tg": "Ду процесс ва як login",
+      "en": "Two processes and one sign-in"
+     },
+     "body": {
+      "ru": "Один экземпляр сервера принял вход, записав сессию в память. Следующий запрос попал в другой экземпляр и не нашёл эту сессию. Если выбран общий store, оба обращаются к одной записи. При проверке направьте последовательные тестовые запросы в два экземпляра и сравните результат.",
+      "tg": "Як нусхаи сервер login-ро қабул кард ва сессияро дар хотира монд. Дархости дигар ба нусхаи дуюм расид ва он сессияро наёфт. Бо store-и умумӣ ҳар ду як сабт мехонанд. Ду дархости омӯзишии пайдарҳамро ба ду instance равона карда, натиҷаро бинед.",
+      "en": "One server instance handled sign-in and saved its session in memory. The next request reached another instance and could not find it. With shared storage, both read the same record. Send sequential test requests to both instances and compare outcomes."
      }
     }
    ],
@@ -5193,6 +5409,18 @@
       "ru": "Соберите capstone: 1) маршруты GET/POST /todos и 404 для остальных путей; 2) порядок ответов 401 → 429 → 405 → 400 → 201; 3) лимит 5 на пользователя в окне 60 секунд с Retry-After; 4) сценарий из восьми шагов с точным выводом; 5) asserts на побочные эффекты. Ожидаемый результат: восемь строк сценария, начиная с «guest GET /nope -> 404».",
       "tg": "Capstone-ро созед: 1) роҳҳои GET/POST /todos ва 404 барои боқимондаи роҳҳо; 2) тартиби ҷавобҳо 401 → 429 → 405 → 400 → 201; 3) лимити 5 ба ҳар корбар дар равзанаи 60 сония бо Retry-After; 4) сенарияи ҳаштқадама бо натиҷаи дақиқ; 5) assert-ҳо барои таъсирҳои тарафӣ. Натиҷаи интизорӣ: ҳашт сатри сенария, аз «guest GET /nope -> 404» оғоз шуда.",
       "en": "Assemble the capstone: 1) GET/POST /todos routes and 404 for other paths; 2) the response order 401 → 429 → 405 → 400 → 201; 3) a limit of 5 per user in a 60-second window with Retry-After; 4) the eight-step scenario with exact output; 5) asserts on side effects. Expected result: eight scenario lines starting with \"guest GET /nope -> 404\"."
+     }
+    },
+    {
+     "title": {
+      "ru": "Проверка проекта по наблюдаемым шагам",
+      "tg": "Санҷиши проект бо қадамҳои намоён",
+      "en": "Project checks through observable steps"
+     },
+     "body": {
+      "ru": "Проследите минимум один успешный POST: вход подтверждён, название принято, сервер вернул 201, GET показывает новую запись. Затем проверьте отказ на пустом названии и неизменный список. Соберите результаты в порядке запроса, решения и записи. Это показывает, где именно остановился каждый сценарий.",
+      "tg": "Камаш як POST-и муваффақро бинед: login тасдиқ аст, ном қабул шуд, сервер 201 дод ва GET сабти навро нишон дод. Баъд бо номи холӣ рад ва рӯйхати пешинаро санҷед. Натиҷаҳоро бо тартиби дархост, қарор ва сабт ҷамъ кунед. Ҳамин тавр медонед, ҳар ҳолат дар куҷо истод.",
+      "en": "Trace one successful POST: the session is valid, the title passes, the server returns 201 and GET shows the new record. Then reject an empty title and confirm the list stayed the same. Record request, decision and storage outcome in order to show where each scenario stopped."
      }
     }
    ],

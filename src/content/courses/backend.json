@@ -1026,6 +1026,18 @@
             "tg": "false; 123; 15; false",
             "en": "false; 123; 15; false"
           }
+        },
+        {
+          "title": {
+            "ru": "Строка или число",
+            "tg": "Сатр ё адад",
+            "en": "String or number"
+          },
+          "body": {
+            "ru": "Форма присылает значение «3» строкой. Такую строку нельзя сравнивать с количеством как число, пока сервер не проверил формат и не преобразовал её. В учебном JSON число 3 уже число, а \"3\" остаётся строкой. Пропущенное поле, 0 и \"3\" — три разных случая.",
+            "tg": "Форма «3»-ро ҳамчун сатр фиристода метавонад. Сервер аввал формати онро месанҷад, баъд ба адад мегардонад. Дар JSON адади 3 ва сатри \"3\" ду қимати гуногунанд. Майдони норасида, 0 ва \"3\"-ро алоҳида санҷед.",
+            "en": "A form may send “3” as a string. The server checks its format before converting it for arithmetic. In JSON, the number 3 and the string \"3\" already have different types. Test a missing field, 0 and \"3\" separately."
+          }
         }
       ],
       "interview": {
@@ -1498,6 +1510,18 @@
             "tg": "850",
             "en": "850"
           }
+        },
+        {
+          "title": {
+            "ru": "Цена, количество и доставка",
+            "tg": "Нарх, миқдор ва расондан",
+            "en": "Price, count and delivery"
+          },
+          "body": {
+            "ru": "Магазин продаёт две вещи по 30 сомони. Выражение price * quantity даёт 60. Добавьте доставку 10 после умножения: итог 70. Если price пришёл строкой \"30\", проверьте тип и договор API перед вычислением, иначе сложение может склеить текст.",
+            "tg": "Дар мағоза ду мол ҳар кадом 30 сомонӣ аст. price * quantity натиҷаи 60 медиҳад. Нархи расондан 10 аст ва баъд илова мешавад: ҷамъ 70. Агар price сатри \"30\" бошад, қоидаи API ва типро пеш аз ҳисоб санҷед, то + матнро ба ҳам начаспонад.",
+            "en": "A shop sells two items at 30 each. The expression price * quantity yields 60. Add delivery of 10 afterward to get 70. If price arrives as the string \"30\", check the API contract and type before computing so addition cannot concatenate text."
+          }
         }
       ],
       "questions": [
@@ -1950,6 +1974,18 @@
             "tg": "22",
             "en": "22"
           }
+        },
+        {
+          "title": {
+            "ru": "Аргумент, return и вывод",
+            "tg": "Аргумент, return ва чоп",
+            "en": "Argument, return and output"
+          },
+          "body": {
+            "ru": "Представьте свободные места в автобусе: вместимость 12, занято 8. Функции передают числа 12 и 8, она возвращает 4. Другая часть программы может спросить, хватит ли мест для пятерых. console.log(4) только напечатает число, поэтому его нельзя подставить вместо return 4.",
+            "tg": "Автобус 12 ҷой дорад ва 8 ҷой банд аст. Ба функсия 12 ва 8 медиҳем, он 4 бармегардонад. Қисми дигар метавонад санҷад, ки барои панҷ кас ҷой ҳаст ё не. console.log(4) ададро танҳо чоп мекунад. Барои истифодаи натиҷа return 4 лозим аст.",
+            "en": "A bus has 12 seats and 8 are taken. The function receives 12 and 8 and returns 4. The caller can check whether a group of five fits. console.log(4) only displays the number. The caller needs return 4 to use the value."
+          }
         }
       ],
       "questions": [
@@ -2396,6 +2432,18 @@
             "ru": "allowed; blocked",
             "tg": "allowed; blocked",
             "en": "allowed; blocked"
+          }
+        },
+        {
+          "title": {
+            "ru": "Что меняет ранний return",
+            "tg": "return-и барвақт чӣ мекунад",
+            "en": "What early return changes"
+          },
+          "body": {
+            "ru": "Сначала счётчик показывает 2 использованные попытки из 3. Следующая разрешённая попытка доводит его до 3. При ещё одном запросе ранний return отдаёт отказ до записи. Граничное условие count >= limit проверяют именно при count = limit: эта точка ловит лишнюю попытку.",
+            "tg": "Аз 3 кӯшиш 2-то истифода шудааст. Кӯшиши навбатӣ иҷозат дорад ва ҳисоб 3 мешавад. Дархости баъдӣ пеш аз сабт бо return-и барвақт рад мешавад. Шартро маҳз дар count = limit санҷед, то кӯшиши изофагӣ нагузарад.",
+            "en": "Two of three attempts are used. The next allowed attempt increases the count to 3. On the following request, an early return rejects it before recording another attempt. Test count = limit exactly to catch an off-by-one allowance."
           }
         }
       ],
@@ -2864,6 +2912,18 @@
             "ru": "[{id:1,title:\"Read\"}]",
             "tg": "[{id:1,title:\"Read\"}]",
             "en": "[{id:1,title:\"Read\"}]"
+          }
+        },
+        {
+          "title": {
+            "ru": "Какие задачи вернутся",
+            "tg": "Кадом вазифаҳо бармегарданд",
+            "en": "Which tasks are returned"
+          },
+          "body": {
+            "ru": "В массиве две задачи: первая у владельца 7, вторая у 9. Для проверенного пользователя 7 фильтр оставит только первую. Из неё обработчик соберёт публичный объект с id и title. Если сначала вернуть весь массив и скрыть строку в интерфейсе, данные второй задачи уже попадут в браузер.",
+            "tg": "Массив ду вазифа дорад: якум аз соҳиби 7, дуюм аз 9. Барои корбари тасдиқшудаи 7 филтр танҳо якумро мемонад. Handler аз он объекти ҷавоб бо id ва title месозад. Агар сервер ҳар ду сабтро фиристад, пинҳон кардан дар UI додаҳои дуюмро аз браузер намегирад.",
+            "en": "Two tasks belong to users 7 and 9. Filtering for verified user 7 keeps the first task. The handler builds the response with its id and title. If the server sends both and the UI hides one, the second task's data has already reached the browser."
           }
         }
       ],
@@ -3350,6 +3410,18 @@
             "tg": "Checks passed",
             "en": "Checks passed"
           }
+        },
+        {
+          "title": {
+            "ru": "Где живёт вычисление",
+            "tg": "Ҳисоб дар кадом файл аст",
+            "en": "Where the calculation lives"
+          },
+          "body": {
+            "ru": "Пусть billing.mjs экспортирует функцию суммы, а main.mjs её импортирует. Два вызова с товарами на 30 и 60 проверяют одно правило в одном месте. Если переименовали export, исправьте имя в import. Если не найден файл, сначала проверьте ./ и расширение .mjs.",
+            "tg": "Масалан billing.mjs функсияи ҳисобро export мекунад ва main.mjs онро import мекунад. Ду даъват барои 30 ва 60 як қоидаро дар як ҷо месанҷанд. Агар номи export иваз шуд, ном дар import ҳам бояд мувофиқ бошад. Вақте файл ёфт нашуд, аввал ./ ва .mjs-ро бинед.",
+            "en": "Suppose billing.mjs exports a total function and main.mjs imports it. Calls for totals of 30 and 60 exercise one shared rule. When renaming the export, update the import name. If the module file cannot be found, check ./ and the .mjs extension first."
+          }
         }
       ],
       "questions": [
@@ -3803,6 +3875,18 @@
             "tg": "Amina; unavailable",
             "en": "Amina; unavailable"
           }
+        },
+        {
+          "title": {
+            "ru": "Когда имя ещё не пришло",
+            "tg": "Вақте ном ҳоло наомадааст",
+            "en": "When the name has not arrived"
+          },
+          "body": {
+            "ru": "Загрузка имени сначала даёт Promise. Если прочитать его как строку, вы получите объект ожидания вместо имени. await внутри async-функции даёт «Фирдавс» при успехе. Если загрузка завершилась ошибкой, управление переходит в catch, где можно выбрать понятный ответ.",
+            "tg": "Боркунии ном аввал Promise медиҳад. Агар онро ҳамчун сатр истифода баред, ба ҷойи ном объекти интизорӣ мегиред. Дар async-функсия await баъди муваффақият «Фирдавс» медиҳад. Агар боркунӣ хато диҳад, код ба catch мегузарад ва ҷавоби фаҳмо баргардонда метавонад.",
+            "en": "Loading a name first gives a Promise. Reading it as a string yields an object representing pending work instead of the name. Inside an async function, await returns “Firdaus” on success. A rejected load transfers control to catch, where the handler can choose a clear response."
+          }
         }
       ],
       "questions": [
@@ -4206,6 +4290,18 @@
             "ru": "{\"method\":\"POST\",\"path\":\"/notes\"}",
             "tg": "{\"method\":\"POST\",\"path\":\"/notes\"}",
             "en": "{\"method\":\"POST\",\"path\":\"/notes\"}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Как читать запрос по частям",
+            "tg": "Қисмҳои дархостро чӣ хел хонем",
+            "en": "Reading a request in parts"
+          },
+          "body": {
+            "ru": "В GET /tasks?done=true метод GET говорит «прочитать», /tasks называет ресурс, а done=true задаёт фильтр. Accept: application/json сообщает желаемый формат ответа. Если сделать POST на тот же путь, это уже другое действие. Заголовок Accept не описывает формат тела самого запроса.",
+            "tg": "Дар GET /tasks?done=true, GET «хондан» мегӯяд, /tasks номи захира аст ва done=true филтр медиҳад. Accept: application/json формати дилхоҳи ҷавобро мегӯяд. POST ба ҳамин роҳ амали дигар аст. Accept формати body-и худи дархостро нишон намедиҳад.",
+            "en": "In GET /tasks?done=true, GET means read, /tasks identifies the resource, and done=true filters it. Accept: application/json expresses the desired response format. POST to the same path is a different action. Accept does not describe the request body's format."
           }
         }
       ],
@@ -4676,6 +4772,18 @@
             "tg": "{\"status\":201,\"location\":\"/tasks/1\",\"body\":{\"id\":1,\"title\":\"Read\"}}",
             "en": "{\"status\":201,\"location\":\"/tasks/1\",\"body\":{\"id\":1,\"title\":\"Read\"}}"
           }
+        },
+        {
+          "title": {
+            "ru": "Как браузер читает ответ",
+            "tg": "Браузер ҷавобро чӣ хел мехонад",
+            "en": "How the browser reads a response"
+          },
+          "body": {
+            "ru": "При создании задачи сервер может вернуть 201 и JSON новой записи. Статус — итог операции, Content-Type — формат, тело — сама запись. Если сервер отправил JSON ошибки с 400, fetch обычно всё равно возвращает Response. Прежде чем показывать «сохранено», интерфейс проверяет response.ok.",
+            "tg": "Баъди сохтани вазифа сервер метавонад 201 ва JSON-и сабти навро диҳад. Статус натиҷаи амал, Content-Type формат ва body худи сабт аст. Агар сервер хатои JSON бо 400 диҳад, fetch одатан Response медиҳад. Пеш аз нишон додани «сабт шуд» UI response.ok-ро месанҷад.",
+            "en": "A task creation can return 201 and the record in JSON. The status describes the outcome, Content-Type describes the format, and the body carries the record. With a JSON error and 400, fetch usually still resolves to a Response. Check response.ok before showing a saved message."
+          }
         }
       ],
       "questions": [
@@ -5101,6 +5209,18 @@
             "ru": "{\"limit\":2,\"offset\":0}",
             "tg": "{\"limit\":2,\"offset\":0}",
             "en": "{\"limit\":2,\"offset\":0}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Путь, query и тип значения",
+            "tg": "Роҳ, query ва типи қимат",
+            "en": "Path, query and value type"
+          },
+          "body": {
+            "ru": "В /tasks/7?limit=10 идентификатор 7 находится в пути, а limit — в query. URL разбирает части, после чего searchParams.get('limit') даст строку \"10\". Для подсчёта сервер сам проверяет допустимый диапазон и преобразует значение. Отсутствующий параметр и пустое значение требуют отдельной проверки.",
+            "tg": "Дар /tasks/7?limit=10, 7 дар роҳ аст ва limit дар query. URL қисмҳоро ҷудо мекунад ва searchParams.get('limit') сатри \"10\" медиҳад. Барои ҳисоб сервер ҳудуди иҷозатшударо месанҷад ва қиматро ба адад мегардонад. Параметри норасида ва қимати холиро ҷудо кунед.",
+            "en": "In /tasks/7?limit=10, 7 is in the path while limit belongs to the query. URL separates the parts, and searchParams.get('limit') gives the string \"10\". The server validates the range before converting it for arithmetic. Check a missing parameter separately from an empty one."
           }
         }
       ],
@@ -5591,6 +5711,18 @@
             "tg": "{\"status\":200,\"body\":[]}",
             "en": "{\"status\":200,\"body\":[]}"
           }
+        },
+        {
+          "title": {
+            "ru": "Метод и путь образуют маршрут",
+            "tg": "Метод ва роҳ як route месозанд",
+            "en": "Method and path identify a route"
+          },
+          "body": {
+            "ru": "Три обращения часто путают. GET /tasks читает коллекцию, POST /tasks по контракту создаёт запись, а GET /missing обращается к другому адресу. Если путь /tasks известен, но конкретный метод для него не реализован, сервер отвечает 405 и указывает разрешённые методы в Allow. Не превращайте такой ответ в успешный список.",
+            "tg": "Се дархостро ҷудо кунед. GET /tasks рӯйхатро мехонад, POST /tasks мувофиқи шарт сабт месозад ва GET /missing ба суроғаи дигар меравад. Агар /tasks маълум бошад, вале метод дар он иҷозат надошта бошад, сервер 405 ва методҳои иҷозатшударо дар Allow медиҳад. Ин ҳолат ҷавоби рӯйхати муваффақ нест.",
+            "en": "Compare three requests. GET /tasks reads a collection, POST /tasks creates a record under the contract, and GET /missing targets another address. When /tasks exists but the method is unsupported there, return 405 with allowed methods in Allow. Do not return a successful list for that case."
+          }
         }
       ],
       "questions": [
@@ -6068,6 +6200,18 @@
             "ru": "{\"received\":{\"title\":\"Read\"}}",
             "tg": "{\"received\":{\"title\":\"Read\"}}",
             "en": "{\"received\":{\"title\":\"Read\"}}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Три проверки до разбора JSON",
+            "tg": "Се санҷиш пеш аз кор бо JSON",
+            "en": "Three checks before using JSON"
+          },
+          "body": {
+            "ru": "Клиент заявляет формат в Content-Type, а сервер читает байты тела. Тело может прийти в нескольких кусках. Неподдерживаемый формат даёт 415, слишком большой объём — 413, испорченный JSON — 400. Валидный JSON всё ещё может содержать пустой title, поэтому проверка полей идёт отдельно.",
+            "tg": "Мизоҷ форматро дар Content-Type мегӯяд ва сервер байтҳои body-ро мехонад. Body метавонад чанд қисм дошта бошад. Формати дигар 415, андозаи аз ҳад зиёд 413 ва JSON-и вайрон 400 медиҳад. JSON-и дуруст ҳам метавонад title-и холӣ дошта бошад, барои ҳамин майдонҳоро ҷудо санҷед.",
+            "en": "The client declares a format in Content-Type, and the server reads body bytes. The body can arrive in multiple chunks. Unsupported format gives 415, excess size gives 413, and malformed JSON gives 400. Valid JSON can still contain an empty title, so field validation is separate."
           }
         }
       ],
@@ -6560,6 +6704,18 @@
             "ru": "[{\"title\":\"Read\"},{\"status\":422}]",
             "tg": "[{\"title\":\"Read\"},{\"status\":422}]",
             "en": "[{\"title\":\"Read\"},{\"status\":422}]"
+          }
+        },
+        {
+          "title": {
+            "ru": "Разбор прошёл, запись отклонена",
+            "tg": "JSON дуруст, сабт рад шуд",
+            "en": "Parsed successfully, rejected for storage"
+          },
+          "body": {
+            "ru": "Тело {\"title\":\"   \"} — корректный JSON. После trim заголовок пустой, поэтому сервер не добавляет строку. Клиентская подсказка рядом с полем помогает, но запросы могут прийти из другого клиента. Сервер повторно применяет правила перед записью и возвращает ответ с конкретным полем.",
+            "tg": "Body-и {\"title\":\"   \"} JSON-и дуруст аст. Баъди trim сарлавҳа холӣ мешавад ва сервер сабтро илова намекунад. Паёми назди майдони форма ёрӣ медиҳад, лекин дархост аз барномаи дигар ҳам меояд. Сервер қоидаҳоро пеш аз сабт месанҷад ва майдони хатодорро дар ҷавоб мегӯяд.",
+            "en": "The body {\"title\":\"   \"} is valid JSON. Trimming leaves an empty title, so the server writes no row. Inline form feedback helps, but other clients can send the same request. The server applies the rules before writing and names the invalid field in its response."
           }
         }
       ],
@@ -7060,6 +7216,18 @@
             "ru": "{\"error\":{\"code\":404,\"message\":\"Not found\",\"requestId\":\"r-demo\"}}",
             "tg": "{\"error\":{\"code\":404,\"message\":\"Not found\",\"requestId\":\"r-demo\"}}",
             "en": "{\"error\":{\"code\":404,\"message\":\"Not found\",\"requestId\":\"r-demo\"}}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Один формат, разные причины",
+            "tg": "Як формат, сабабҳои гуногун",
+            "en": "One format with different causes"
+          },
+          "body": {
+            "ru": "Если title пустой, интерфейс может выделить это поле. Если база недоступна, подсветка поля бессмысленна: клиент получает общий 500 и requestId, а подробность идёт в журнал сервера. Один формат ошибок позволяет показать оба случая разными действиями, не разбирая текст SQL или stack trace.",
+            "tg": "Агар title холӣ бошад, UI метавонад майдонро нишон диҳад. Агар база дастнорас бошад, сурх кардани майдон ёрӣ намедиҳад: мизоҷ 500 ва requestId мегирад, сабаби муфассал ба журнали сервер меравад. Формати ягонаи хато ба UI имкон медиҳад, ки ҳар ҳолатро дуруст нишон диҳад.",
+            "en": "If title is empty, the UI can highlight that field. If storage is unavailable, highlighting the field cannot help: the client gets a generic 500 and a requestId, while details go to the server log. A shared error shape lets the UI handle both cases without parsing SQL or a stack trace."
           }
         }
       ],
@@ -7574,6 +7742,18 @@
             "tg": "[{\"id\":1,\"title\":\"Read\"}]",
             "en": "[{\"id\":1,\"title\":\"Read\"}]"
           }
+        },
+        {
+          "title": {
+            "ru": "Зачем строке отдельный ID",
+            "tg": "Чаро сабт ID-и ҷудо мехоҳад",
+            "en": "Why a row needs its own ID"
+          },
+          "body": {
+            "ru": "Две задачи могут называться «Купить чай». По названию вы не узнаете, какую завершил пользователь. Строки с id 7 и 8 различаются даже при одинаковом title. Сначала вставьте одну строку, затем прочитайте её SELECT и проверьте id. Вторая вставка такого же первичного ключа должна быть отклонена.",
+            "tg": "Ду вазифа метавонанд номи «Чой харидан» дошта бошанд. Бо ном маълум нест, корбар кадомашро иҷро кард. Сабтҳои id 7 ва 8 ҳатто бо title-и якхела фарқ мекунанд. Як сабтро илова карда, идро бо SELECT санҷед. Иловаи дуюм бо ҳамон primary key бояд рад шавад.",
+            "en": "Two tasks can both be called “Buy tea”. The title alone cannot tell you which one a user completed. Rows with id 7 and id 8 stay distinct. Insert a row, then use SELECT to verify its id. A second insertion with that primary key must be rejected."
+          }
         }
       ],
       "questions": [
@@ -7999,6 +8179,18 @@
             "ru": "[{\"title\":\"Read\"}]",
             "tg": "[{\"title\":\"Read\"}]",
             "en": "[{\"title\":\"Read\"}]"
+          }
+        },
+        {
+          "title": {
+            "ru": "Что остаётся после restart",
+            "tg": "Баъди restart чӣ мемонад",
+            "en": "What survives a restart"
+          },
+          "body": {
+            "ru": "Запишите задачу «Оплатить» и закройте соединение. При :memory: новое соединение начинает с пустой базы. При том же пути к файлу оно читает сохранённую запись. Успешный запрос в одном процессе не доказывает сохранность: нужен второй запуск с тем же файлом и явное чтение.",
+            "tg": "Вазифаи «Пардохт»-ро сабт карда, пайвастро пӯшед. Бо :memory: пайвасти нав аз базаи холӣ сар мекунад. Бо ҳамон роҳи файл сабти нигоҳдоштаро мехонад. Ҷавоби муваффақ дар як процесс кофӣ нест: файлро аз нав кушоеду сабтро бихонед.",
+            "en": "Write a task named “Pay” and close the connection. With :memory:, a new connection starts with an empty database. Opening the same database file reads the saved row. A successful response in one process does not prove persistence. Reopen the same file and explicitly read the result."
           }
         }
       ],
@@ -8426,6 +8618,18 @@
             "tg": "{\"id\":2,\"title\":\"Write\"}",
             "en": "{\"id\":2,\"title\":\"Write\"}"
           }
+        },
+        {
+          "title": {
+            "ru": "Один запрос, разные значения",
+            "tg": "Як query, қиматҳои гуногун",
+            "en": "One query, different values"
+          },
+          "body": {
+            "ru": "В WHERE id = ? знак ? ждёт одно значение. Для id 7 база ищет только запись 7, для id 99 может вернуть пустой результат. Текст команды при обоих вызовах одинаков. Пустой результат не является сбоем SQL: обработчик отдельно решает, вернуть пустой список или 404 для одной задачи.",
+            "tg": "Дар WHERE id = ? аломати ? як қимат мегирад. Бо id 7 база сабти 7-ро меҷӯяд, бо 99 шояд натиҷа набошад. Матни SQL дар ҳар ду даъват як аст. Натиҷаи холӣ хатои SQL нест: handler ҷудо қарор мекунад, рӯйхати холӣ диҳад ё барои як вазифа 404.",
+            "en": "The ? in WHERE id = ? takes one value. With id 7, the database looks for record 7. With id 99, no row may match. Both calls use identical SQL text. An empty result is a normal query outcome. The handler can return an empty list or 404 for an individual task."
+          }
         }
       ],
       "questions": [
@@ -8851,6 +9055,18 @@
             "ru": "{\"id\":1,\"rows\":[{\"title\":\"Read\"}]}",
             "tg": "{\"id\":1,\"rows\":[{\"title\":\"Read\"}]}",
             "en": "{\"id\":1,\"rows\":[{\"title\":\"Read\"}]}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Два барьера для плохого title",
+            "tg": "Ду санҷиш барои title-и нодуруст",
+            "en": "Two barriers for an invalid title"
+          },
+          "body": {
+            "ru": "Пустую строку можно отсеять в обработчике и показать понятную подсказку. CHECK в таблице защищает от той же ошибки, если другой обработчик забыл проверку. Сравните NOT NULL и CHECK: \"\" не равна NULL, поэтому NOT NULL сам по себе разрешает пустой текст. После отказа убедитесь, что новых строк нет.",
+            "tg": "Сатри холиро handler рад карда, паёми равшан медиҳад. CHECK дар ҷадвал ҳамон хаторо мегирад, агар handler-и дигар санҷишро фаромӯш кунад. \"\" ва NULL гуногунанд: NOT NULL худ аз худ матни холиро манъ намекунад. Баъди рад санҷед, ки сабти нав нест.",
+            "en": "The handler can reject an empty string with a helpful message. A table CHECK protects against the same mistake when another handler forgets validation. An empty string differs from NULL, so NOT NULL alone accepts empty text. After a rejected request, confirm that no new row exists."
           }
         }
       ],
@@ -9278,6 +9494,18 @@
             "tg": "{\"changes\":0,\"title\":\"Read\"}",
             "en": "{\"changes\":0,\"title\":\"Read\"}"
           }
+        },
+        {
+          "title": {
+            "ru": "Кого затронул UPDATE",
+            "tg": "UPDATE ба кадом сабт расид",
+            "en": "Which row did UPDATE affect?"
+          },
+          "body": {
+            "ru": "Пусть задача 7 принадлежит пользователю 1. Пользователь 2 обращается к тому же id. Условие из id и owner_id не находит строку, поэтому changes равен 0, а заголовок прежний. Проверьте это отдельным SELECT после UPDATE: один только код ответа не доказывает, что запись осталась цела.",
+            "tg": "Вазифаи 7 ба корбари 1 тааллуқ дорад. Корбари 2 ҳамон id-ро мефиристад. Шарти id ва owner_id сабтро намеёбад: changes = 0 ва title пештара мемонад. Баъди UPDATE бо SELECT санҷед, чун статус худ аз худ нигоҳ доштани сабтро исбот намекунад.",
+            "en": "Task 7 belongs to user 1. User 2 requests the same id. The id and owner_id predicate matches no row, so changes is 0 and the title stays the same. Confirm it with a separate SELECT after UPDATE. The response status alone does not prove the record survived."
+          }
         }
       ],
       "questions": [
@@ -9703,6 +9931,18 @@
             "ru": "[{\"title\":\"Keep\"}]",
             "tg": "[{\"title\":\"Keep\"}]",
             "en": "[{\"title\":\"Keep\"}]"
+          }
+        },
+        {
+          "title": {
+            "ru": "Откат после второй вставки",
+            "tg": "Откат баъди иловаи дуюм",
+            "en": "Rollback after the second insert"
+          },
+          "body": {
+            "ru": "Сначала таблица пуста. В транзакции первый title допустим, второй нарушает ограничение. До ROLLBACK первая вставка была частью незавершённой операции. После отката в таблице снова ноль строк. Сравните число записей до и после, а не только наличие ошибки.",
+            "tg": "Ҷадвал аввал холӣ аст. Дар транзаксия title-и якум дуруст, дуюм хилофи қоидаи ҷадвал аст. То ROLLBACK иловаи якум қисми амали нотамом аст. Баъди откат боз 0 сабт мемонад. Шумораи сабтҳоро пеш ва баъд муқоиса кунед.",
+            "en": "The table starts empty. Inside the transaction, the first title is valid and the second violates a constraint. The first insert belongs to unfinished work until commit. After rollback, there are zero rows again. Compare row counts before and after, as well as observing the error."
           }
         }
       ],
@@ -10130,6 +10370,18 @@
             "tg": "{\"version\":1,\"rows\":[{\"id\":1,\"title\":\"Keep\"}]}",
             "en": "{\"version\":1,\"rows\":[{\"id\":1,\"title\":\"Keep\"}]}"
           }
+        },
+        {
+          "title": {
+            "ru": "Проверка повторного запуска",
+            "tg": "Санҷиши кори такрорӣ",
+            "en": "Checking a second run"
+          },
+          "body": {
+            "ru": "Пустая учебная база начинает с user_version=0. Миграция создаёт таблицу и устанавливает 1. Запишите задачу и запустите миграцию повторно. При версии 1 задача должна остаться. Seed заполняет данные для занятия, поэтому его следует запускать отдельно от обновления структуры.",
+            "tg": "Базаи холии омӯзишӣ аз user_version=0 сар мекунад. Мигратсия ҷадвал месозад ва версияро 1 мегузорад. Вазифа сабт кунеду мигратсияро боз иҷро кунед. Дар версияи 1 сабт бояд монад. Seed барои додаҳои омӯзишист ва аз тағйири сохтор ҷудо иҷро мешавад.",
+            "en": "An empty learning database begins at user_version=0. The migration creates a table and records version 1. Save a task and run the migration again. At version 1 the task must remain. Seed data is for the exercise and runs separately from the schema change."
+          }
         }
       ],
       "questions": [
@@ -10555,6 +10807,18 @@
             "ru": "{\"valid\":true,\"invented\":true}",
             "tg": "{\"valid\":true,\"invented\":true}",
             "en": "{\"valid\":true,\"invented\":true}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Вошёл в аккаунт, а задача чужая",
+            "tg": "Ворид шуд, аммо вазифа аз дигар кас аст",
+            "en": "Signed in but the task belongs to someone else"
+          },
+          "body": {
+            "ru": "Представьте мастерскую: сотрудник прошёл вход по пропуску, но билет на ремонт всё равно относится к конкретному заказу. В API действующая сессия подтверждает личность. Проверка owner_id отдельно решает, можно ли открыть задачу. Проверьте три случая: гость, владелец, вошедший другой пользователь.",
+            "tg": "Дар устохона корманд бо иҷозатнома дохил мешавад, вале квитансияи таъмир ба фармоиши мушаххас тааллуқ дорад. Дар API сессияи амалкунанда корбарро муайян мекунад. Санҷиши owner_id алоҳида мегӯяд, ки вазифа дастрас ҳаст ё не. Меҳмон, соҳиб ва корбари дигарро санҷед.",
+            "en": "A workshop employee can enter with a badge, but a repair ticket still belongs to a specific order. In the API, a valid session identifies the caller. A separate owner_id check decides access to the task. Verify three cases: guest, owner and a different signed-in user."
           }
         }
       ],
@@ -11029,6 +11293,18 @@
             "ru": "{\"plainStored\":false,\"profile\":{\"id\":1,\"name\":\"Amina\"}}",
             "tg": "{\"plainStored\":false,\"profile\":{\"id\":1,\"name\":\"Amina\"}}",
             "en": "{\"plainStored\":false,\"profile\":{\"id\":1,\"name\":\"Amina\"}}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Что видит браузер в профиле",
+            "tg": "Браузер дар профил чиро мебинад",
+            "en": "What the browser sees in a profile"
+          },
+          "body": {
+            "ru": "В базе у тестового пользователя есть id, имя и хеш пароля. Странице профиля нужны только id и имя. Соберите новый объект из этих полей и проверьте сам JSON ответа. Если хеш присутствует в ответе, скрытие его на экране уже не защищает данные.",
+            "tg": "Дар базаи корбари омӯзишӣ id, ном ва hash-и пароль ҳаст. Ба саҳифаи профил танҳо id ва ном лозиманд. Аз онҳо объекти нав созед ва JSON-и ҷавобро бинед. Агар hash дар ҷавоб бошад, пинҳон кардан дар экран додаҳоро муҳофизат намекунад.",
+            "en": "A test user row has an id, a name and a password hash. The profile page needs only id and name. Build a new object with those fields and inspect the response JSON. If the hash is present there, hiding it on the screen cannot protect it."
           }
         }
       ],
@@ -11509,6 +11785,18 @@
             "tg": "{\"different\":true,\"correct\":true,\"wrong\":false}",
             "en": "{\"different\":true,\"correct\":true,\"wrong\":false}"
           }
+        },
+        {
+          "title": {
+            "ru": "Две отдельные проверки пароля",
+            "tg": "Ду санҷиши ҷудои пароль",
+            "en": "Two separate password checks"
+          },
+          "body": {
+            "ru": "Для тестовой записи сохраните случайную соль и результат библиотечного хеширования. При входе библиотека использует ту же соль с введённым паролем. Если результаты совпали, пароль прошёл проверку. Проверьте правильный и ошибочный учебный пароль, не записывая ни один из них в журнал.",
+            "tg": "Барои сабти омӯзишӣ salt-и тасодуфӣ ва hash-и китобхонаро нигоҳ доред. Ҳангоми login китобхона ҳамон salt-ро бо пароли воридшуда истифода мебарад. Агар натиҷа мувофиқ бошад, пароль санҷида шуд. Пароли дуруст ва хатои омӯзиширо санҷед ва онҳоро дар журнал нанависед.",
+            "en": "For the test account, store the random salt and the library's password hash. At login the library uses that salt with the entered password. Matching results verify the password. Check both a correct and an incorrect test password without writing either one to a log."
+          }
         }
       ],
       "questions": [
@@ -11935,6 +12223,18 @@
             "ru": "{\"httpOnly\":true,\"sameSite\":true,\"secure\":false}",
             "tg": "{\"httpOnly\":true,\"sameSite\":true,\"secure\":false}",
             "en": "{\"httpOnly\":true,\"sameSite\":true,\"secure\":false}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Кто сохраняет cookie",
+            "tg": "Кӣ cookie-ро нигоҳ медорад",
+            "en": "Who stores the cookie?"
+          },
+          "body": {
+            "ru": "При входе сервер создаёт сессию и отправляет Set-Cookie. Браузер сохраняет cookie и подставляет её в подходящий следующий запрос. Сервер по значению находит действующую сессию и её владельца. Наличие cookie в браузере не доказывает, что сессия не истекла на сервере.",
+            "tg": "Ҳангоми login сервер сессия месозад ва Set-Cookie мефиристад. Браузер cookie-ро нигоҳ дошта, дар дархости мувофиқ мефиристад. Сервер аз рӯйи қимат сессияи амалкунанда ва соҳиби онро меёбад. Дидани cookie дар браузер маънои зинда будани сессияро дар сервер надорад.",
+            "en": "On sign-in the server creates a session and sends Set-Cookie. The browser stores the cookie and includes it in the next matching request. The server looks up the active session and its owner using the value. A stored cookie does not prove that the server-side session remains active."
           }
         }
       ],
@@ -12397,6 +12697,18 @@
             "tg": "{\"before\":7,\"expired\":null,\"revoked\":null}",
             "en": "{\"before\":7,\"expired\":null,\"revoked\":null}"
           }
+        },
+        {
+          "title": {
+            "ru": "Что меняет logout",
+            "tg": "Logout чиро тағйир медиҳад",
+            "en": "What logout changes"
+          },
+          "body": {
+            "ru": "Пользователь вышел, а одна вкладка ещё показывает старые задачи. Успех выхода проверяется новым запросом после удаления сессии на сервере: прежний идентификатор больше не разрешает запрос. Очистка cookie убирает значение в браузере, аннулирование записи меняет решение сервера.",
+            "tg": "Корбар баромад, вале як tab вазифаҳои пешинаро нишон медиҳад. Баромадро бо дархости нав санҷед: баъди бекор кардани сессия идентификатори пешина дигар иҷозат намедиҳад. Тоза кардани cookie қиматро аз браузер мебарад, беэътибор кардани сессия қарори серверро дигар мекунад.",
+            "en": "A user signs out while one tab still shows the old tasks. Check logout with a new request after the server invalidates the session: the old identifier must no longer authorize it. Clearing the cookie removes the browser value. Invalidating the session changes the server's decision."
+          }
         }
       ],
       "questions": [
@@ -12822,6 +13134,18 @@
             "ru": "{\"foreign\":null,\"own\":{\"id\":1,\"title\":\"Private\"}}",
             "tg": "{\"foreign\":null,\"own\":{\"id\":1,\"title\":\"Private\"}}",
             "en": "{\"foreign\":null,\"own\":{\"id\":1,\"title\":\"Private\"}}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Проверка на чтении и записи",
+            "tg": "Санҷиш дар хондану навиштан",
+            "en": "Checking reads and writes"
+          },
+          "body": {
+            "ru": "Отдельно проверьте чтение, переименование и удаление. Если GET проверяет владельца, а PATCH забыл этот шаг, пользователь может менять то, чего не видит. В тесте используйте две учебные сессии и после отклонённого изменения прочитайте запись от имени её владельца.",
+            "tg": "Хондан, иваз кардани ном ва ҳазфро ҷудо санҷед. Агар GET соҳиби сабтро санҷад, вале PATCH ин қадамро гузаронад, корбар метавонад чизеро иваз кунад, ки намебинад. Ду сессияи омӯзишӣ истифода баред ва баъди тағйири радшуда сабтро бо сессияи соҳиб хонед.",
+            "en": "Check reading, renaming and deletion separately. If GET checks ownership but PATCH forgets that step, a user can modify a record they cannot see. Use two learning sessions in the test and read the record as its owner after a rejected change."
           }
         }
       ],
@@ -13249,6 +13573,18 @@
             "ru": "[true,true,false,true]",
             "tg": "[true,true,false,true]",
             "en": "[true,true,false,true]"
+          }
+        },
+        {
+          "title": {
+            "ru": "Разные проверки перед записью",
+            "tg": "Санҷишҳои гуногун пеш аз сабт",
+            "en": "Different checks before writing"
+          },
+          "body": {
+            "ru": "Вспомните три отдельных места решения: формат SQL-параметров при обращении к базе, серверная проверка источника изменяющего запроса и лимит попыток входа. Успешное прохождение одной проверки не отменяет остальные. Тестируйте только свой локальный учебный API и проверяйте отсутствие изменений после отказа.",
+            "tg": "Се ҷойи санҷиш ҷудоянд: параметрҳои SQL ҳангоми кор бо база, санҷиши манбаи дархости тағйирдиҳанда ва лимити кӯшишҳои login. Гузаштани як санҷиш дигаронро бекор намекунад. Дар API-и омӯзишии худатон санҷед ва бубинед, ки баъди рад сабте дигар нашуд.",
+            "en": "Keep three decisions separate: parameterized database access, server checks on the source of a write request, and sign-in attempt limits. Passing one check does not skip the others. Use the local learning API and verify that rejected requests cause no writes."
           }
         }
       ],
@@ -13728,6 +14064,18 @@
             "tg": "{\"checks\":3}",
             "en": "{\"checks\":3}"
           }
+        },
+        {
+          "title": {
+            "ru": "Ожидаемое значение и ошибка теста",
+            "tg": "Натиҷаи интизорӣ ва хатои test",
+            "en": "Expected value and test failure"
+          },
+          "body": {
+            "ru": "Если расчёт остатка для 5 и 2 должен вернуть 3, assertion сравнивает фактический результат с этим числом. Сначала проверьте, что правильная функция проходит, затем временно измените ожидание на 4 и увидьте красный результат. Верните 3. Такой опыт показывает, что проверка действительно замечает расхождение.",
+            "tg": "Агар аз 5 ва 2 бақия бояд 3 шавад, assertion натиҷаи воқеиро бо 3 месанҷад. Аввал гузаштани функсияи дурустро бинед. Баъд муваққатан 4-ро ҳамчун интизорӣ монда, хаторо бинед ва 3-ро баргардонед. Ҳамин тавр мефаҳмед, ки test фарқро мегирад.",
+            "en": "If the remaining stock for 5 and 2 should be 3, an assertion compares the real result with 3. First confirm the correct function passes. Temporarily expect 4 and see the failure, then restore 3. This shows the test actually notices a mismatch."
+          }
         }
       ],
       "questions": [
@@ -14153,6 +14501,18 @@
             "ru": "{\"health\":true}",
             "tg": "{\"health\":true}",
             "en": "{\"health\":true}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Что добавляет проверка по HTTP",
+            "tg": "Санҷиши HTTP чиро илова мекунад",
+            "en": "What an HTTP test adds"
+          },
+          "body": {
+            "ru": "Вызов функции может доказать, что список рассчитан правильно. HTTP-тест запускает ваш сервер на свободном локальном порту и проверяет, что клиент получает этот список как JSON с нужным статусом. После теста сервер закрывают. Так можно заметить ошибку маршрута или сериализации, которую тест одной функции не видит.",
+            "tg": "Даъвати функсия ҳисоб шудани рӯйхатро месанҷад. Test-и HTTP сервери шуморо дар порти холии локалӣ мекушояд ва мебинад, ки мизоҷ рӯйхатро ҳамчун JSON бо статус мегирад. Баъд сервер пӯшида мешавад. Хатои route ё табдили JSON бо ҳамин санҷиш намоён мешавад.",
+            "en": "A function call can prove the list was calculated correctly. An HTTP test starts your server on a free local port and checks that the client receives the list as JSON with the expected status. Close the server afterward. This catches routing and serialization problems outside the function."
           }
         }
       ],
@@ -14580,6 +14940,18 @@
             "tg": "{\"boundary\":120}",
             "en": "{\"boundary\":120}"
           }
+        },
+        {
+          "title": {
+            "ru": "Граница длины на четырёх строках",
+            "tg": "Ҳадди дарозӣ бо чор сатр",
+            "en": "A length boundary in four inputs"
+          },
+          "body": {
+            "ru": "Если название допускает длину от 1 до 80, проверьте 0, 1, 80 и 81. Пустая строка показывает ошибку нижней границы, 1 подтверждает её включение. То же для 80 и 81 у верхней границы. Добавьте строку из пробелов, чтобы проверить порядок trim и проверки длины.",
+            "tg": "Агар дарозии ном аз 1 то 80 бошад, 0, 1, 80 ва 81-ро санҷед. 0 рад шудани ҳадди поёнро нишон медиҳад, 1 гузаштани қимати аввалро. 80 ва 81 ҳаминро дар боло месанҷанд. Сатри танҳо аз фосиларо илова кунед, то тартиби trim ва ҳисоб равшан шавад.",
+            "en": "If a title may be between 1 and 80 characters, test 0, 1, 80 and 81. Zero exercises rejection below the lower bound and 1 checks inclusivity. Use 80 and 81 at the upper end. Add a whitespace-only value to check that trimming precedes length validation."
+          }
         }
       ],
       "questions": [
@@ -15006,6 +15378,18 @@
             "tg": "{\"status\":\"ok\",\"items\":[]}",
             "en": "{\"status\":\"ok\",\"items\":[]}"
           }
+        },
+        {
+          "title": {
+            "ru": "Одинаковый сбой в каждом тесте",
+            "tg": "Як хато дар ҳар санҷиш",
+            "en": "Reproducing the same failure in each test"
+          },
+          "body": {
+            "ru": "Хранилище — зависимость обработчика: он вызывает её, чтобы читать и писать данные. В тесте передайте учебную реализацию, которая каждый раз возвращает одну и ту же ошибку. Тогда вы проверяете ответ 500 и его структуру без настоящего отключения базы. При работающем хранилище та же ветка должна вернуть успех.",
+            "tg": "Хранилище вобастагии handler аст: тавассути он дода мехонад ва менависад. Дар test версияи омӯзиширо диҳед, ки ҳамеша ҳамон хаторо медиҳад. Ҷавоби 500 ва шаклашро бе хомӯш кардани база месанҷед. Бо хранилищаи коркунанда ҳамин route бояд муваффақ шавад.",
+            "en": "Storage is a handler dependency for reading and writing data. In a test, pass a learning implementation that fails in the same way every time. Check the 500 response shape without taking a database down. With a working implementation, that route should succeed."
+          }
         }
       ],
       "questions": [
@@ -15431,6 +15815,18 @@
             "ru": "[\"method\",\"requestId\",\"status\"]",
             "tg": "[\"method\",\"requestId\",\"status\"]",
             "en": "[\"method\",\"requestId\",\"status\"]"
+          }
+        },
+        {
+          "title": {
+            "ru": "Как связать ответ и журнал",
+            "tg": "Ҷавоб ва журналро чӣ хел пайвандем",
+            "en": "Matching a response to a log entry"
+          },
+          "body": {
+            "ru": "Клиент видит «Не удалось сохранить» и requestId rq-7. В журнале найдите ту же метку, метод, путь, время и итоговый статус 500. Так можно понять, какой запрос не прошёл, без публикации пароля или полного тела запроса. Тест проверьте и на наличие метки, и на отсутствие секрета.",
+            "tg": "Мизоҷ «Сабт нашуд» ва requestId rq-7 мебинад. Дар журнал ҳамон нишона, метод, роҳ, вақт ва статуси 500-ро ёбед. Ҳамин тавр дархости нокомро бе нишон додани пароль ё body-и пурра меёбед. Дар test ҳам будани нишона ва ҳам набудани сирро бинед.",
+            "en": "The client sees “Could not save” and requestId rq-7. Find that same label, the method, path, timing and status 500 in the log. You can identify the failed request without publishing a password or full body. Test for the label and check that no secret was included."
           }
         }
       ],
@@ -15911,6 +16307,18 @@
             "ru": "[{\"port\":3001},{\"error\":\"PORT\"}]",
             "tg": "[{\"port\":3001},{\"error\":\"PORT\"}]",
             "en": "[{\"port\":3001},{\"error\":\"PORT\"}]"
+          }
+        },
+        {
+          "title": {
+            "ru": "PORT приходит как текст",
+            "tg": "PORT ҳамчун матн меояд",
+            "en": "PORT arrives as text"
+          },
+          "body": {
+            "ru": "Переменная PORT=3001 приходит строкой \"3001\". На старте проверьте её формат и диапазон, затем получите число 3001. При «abc» сервер должен сообщить об ошибке до запуска. Иначе оператор увидит падение позже и будет искать проблему в маршруте, хотя неверна конфигурация.",
+            "tg": "PORT=3001 ҳамчун сатри \"3001\" меояд. Дар оғоз формат ва ҳудудашро санҷида, адади 3001 гиред. Бо «abc» сервер бояд пеш аз оғоз хаторо гӯяд. Вагарна оператор дертар мушкилро дар route меҷӯяд, ҳол он ки config нодуруст аст.",
+            "en": "PORT=3001 arrives as the string \"3001\". At startup, check its format and range, then convert it to the number 3001. With “abc” the server should report a configuration error before starting. Otherwise the operator may look for a routing problem long after the bad setting was loaded."
           }
         }
       ],
@@ -16413,6 +16821,18 @@
             "tg": "{\"status\":200,\"body\":{\"status\":\"ok\"}}",
             "en": "{\"status\":200,\"body\":{\"status\":\"ok\"}}"
           }
+        },
+        {
+          "title": {
+            "ru": "Слушает порт или готов отвечать?",
+            "tg": "Портро гӯш мекунад ё омода аст?",
+            "en": "Listening or ready to serve?"
+          },
+          "body": {
+            "ru": "Сообщение «сервер запущен» подтверждает начало работы процесса. Оно ещё не показывает, что база готова к чтению. Откройте локальный /health, проверьте статус, затем отдельно сделайте реальный запрос данных. Если даже /health не отвечает, начните с порта и процесса. Если сбоит только чтение, проверьте хранилище.",
+            "tg": "Паёми «сервер оғоз шуд» кори процессро нишон медиҳад. Он ҳанӯз намегӯяд, ки база хонда мешавад. /health-и локалиро кушоеду статусро бинед, баъд дархости воқеии додаҳоро диҳед. Агар /health ҳам кор накунад, порт ва процессро бинед. Агар танҳо хондан ноком шавад, хранилищаро санҷед.",
+            "en": "A “server started” line confirms that the process began running. It does not prove storage can be read. Check the local /health status, then request real lesson data separately. If /health fails too, start with the port and process. If only the data request fails, inspect storage first."
+          }
         }
       ],
       "questions": [
@@ -16892,6 +17312,18 @@
             "tg": "{\"create\":201,\"anonymous\":401,\"foreign\":404,\"invalid\":422}",
             "en": "{\"create\":201,\"anonymous\":401,\"foreign\":404,\"invalid\":422}"
           }
+        },
+        {
+          "title": {
+            "ru": "Как проверить пользовательскую историю",
+            "tg": "Талаби корбарро чӣ хел санҷем",
+            "en": "Making a user story testable"
+          },
+          "body": {
+            "ru": "«Я хочу добавить задачу» — цель пользователя. Сделайте из неё наблюдаемый тест: войти в учебный аккаунт, отправить title «Оплатить», получить 201 с id и прочитать по этому id тот же title. Второй учебный аккаунт ту же запись не видит. Такой договор можно проверить без чтения реализации.",
+            "tg": "«Мехоҳам вазифа илова кунам» ҳадафи корбар аст. Аз он санҷиш созед: ба аккаунти омӯзишӣ ворид шавед, title-и «Пардохт» фиристед, 201 бо id гиред ва аз рӯйи он ҳамон title-ро бихонед. Аккаунти дуюм сабтро намебинад. Натиҷа бе дидани коди дохилӣ санҷида мешавад.",
+            "en": "“I want to add a task” is a user goal. Turn it into an observable test: sign in to the learning app, send title “Pay”, receive 201 with an id and read the same title by that id. The second learning account cannot see it. This contract is testable without reading the implementation."
+          }
         }
       ],
       "questions": [
@@ -17361,6 +17793,18 @@
             "tg": "{\"version\":1,\"violations\":[]}",
             "en": "{\"version\":1,\"violations\":[]}"
           }
+        },
+        {
+          "title": {
+            "ru": "Связь задачи и пользователя",
+            "tg": "Пайванди вазифа ва корбар",
+            "en": "Linking a task to a user"
+          },
+          "body": {
+            "ru": "Пользователь 7 есть, а пользователя 99 нет. Задачу с owner_id=7 можно связать с первой строкой users. Для owner_id=99 схема с включёнными внешними ключами отклонит запись. Сравните эти две вставки в тестовой базе. Это проверка связи данных, а доступ пользователя к задаче проверяется отдельно.",
+            "tg": "Корбари 7 ҳаст, 99 нест. Вазифаи owner_id=7 ба сабти корбари аввал пайваст мешавад. Бо foreign key-и фаъол owner_id=99 рад мешавад. Дар базаи омӯзишӣ ду иловаи сабтро муқоиса кунед. Ин пайванди додаҳоро месанҷад, ҳуқуқи корбар ҷудо санҷида мешавад.",
+            "en": "User 7 exists and user 99 does not. A task with owner_id=7 links to the existing users row. With foreign-key enforcement on, owner_id=99 causes rejection. Compare the two inserts in a test database. This checks data consistency. Access by the caller is a separate decision."
+          }
         }
       ],
       "questions": [
@@ -17788,6 +18232,18 @@
             "ru": "{\"id\":1,\"title\":\"Read\"}",
             "tg": "{\"id\":1,\"title\":\"Read\"}",
             "en": "{\"id\":1,\"title\":\"Read\"}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Одна задача проходит все слои",
+            "tg": "Як вазифа аз ҳамаи қабатҳо мегузарад",
+            "en": "One task travels through every layer"
+          },
+          "body": {
+            "ru": "Проследите title «Встреча» от POST до ответа. Маршрут выбирает обработчик, сессия подтверждает владельца, валидация принимает title, SQL возвращает id. Ответ 201 строится только после успешной записи. Для пустого title повторите POST и проверьте, что число строк осталось прежним.",
+            "tg": "Title-и «Вохӯрӣ»-ро аз POST то ҷавоб бинед. Route ба handler мебарад, сессия соҳибро муайян мекунад, validation title-ро қабул мекунад ва SQL id медиҳад. 201 танҳо баъди сабти муваффақ меояд. Бо title-и холӣ POST-ро такрор кунед ва бубинед, ки шумораи сабтҳо тағйир накард.",
+            "en": "Follow title “Meeting” from POST to response. Routing selects a handler, the session identifies the owner, validation accepts the title, and SQL returns an id. Build the 201 response after the write succeeds. Try an empty title and confirm that the row count is unchanged."
           }
         }
       ],
@@ -18217,6 +18673,18 @@
             "tg": "{\"foreignUpdate\":false,\"page\":[{\"id\":2,\"title\":\"Two\"}]}",
             "en": "{\"foreignUpdate\":false,\"page\":[{\"id\":2,\"title\":\"Two\"}]}"
           }
+        },
+        {
+          "title": {
+            "ru": "CRUD по шагам на одной записи",
+            "tg": "CRUD қадам ба қадам бо як сабт",
+            "en": "CRUD step by step on one record"
+          },
+          "body": {
+            "ru": "Создание, чтение, изменение и удаление проверяйте на одном id. Сначала сохраните «Черновик», затем измените на «Готово» и прочитайте снова. После удаления чтение должно дать предусмотренный контрактом отказ. Если в чужой сессии PATCH отклонён, владелец должен увидеть прежний title.",
+            "tg": "Сохтан, хондан, тағйир ва ҳазфро бо як id санҷед. Аввал «Хома»-ро сабт кунед, баъд ба «Тайёр» иваз карда аз нав хонед. Пас аз ҳазф хондан бояд ҷавоби мувофиқи шартро диҳад. Агар PATCH бо сессияи каси дигар рад шавад, соҳиб title-и пешинаро мебинад.",
+            "en": "Check creating, reading, updating and deleting using one id. Save “Draft”, change it to “Ready” and read it again. After deletion, reading returns the contract's defined refusal. When PATCH from another session is rejected, the owner must still see the previous title."
+          }
         }
       ],
       "questions": [
@@ -18645,6 +19113,18 @@
             "tg": "{\"status\":404,\"error\":{\"code\":404,\"message\":\"Not found\"}}",
             "en": "{\"status\":404,\"error\":{\"code\":404,\"message\":\"Not found\"}}"
           }
+        },
+        {
+          "title": {
+            "ru": "Отказ и отсутствие побочного эффекта",
+            "tg": "Рад шуд, дода дигар нашуд",
+            "en": "Rejection without a side effect"
+          },
+          "body": {
+            "ru": "Если запрос отклонён, проверьте две вещи: ожидаемый статус и отсутствие новой строки или изменения старой. Напишите отдельные случаи для необрабатываемого формата, битого JSON и слишком большого тела. Запрос с внутренней ошибкой получает понятный ответ и requestId, а деталям ошибки место в журнале.",
+            "tg": "Агар дархост рад шавад, ду чизро бинед: статуси интизорӣ ва набудани сабти нав ё тағйири сабти пешина. Формати нодуруст, JSON-и вайрон ва body-и калонро ҷудо санҷед. Хатои дохилӣ ҷавоби фаҳмо бо requestId медиҳад ва тафсилот ба журнал меравад.",
+            "en": "For a rejected request, verify the expected status and confirm that no row was added or changed. Cover an unsupported format, malformed JSON and an oversized body separately. An internal failure returns a clear response with a requestId, while diagnostic details belong in the log."
+          }
         }
       ],
       "questions": [
@@ -19070,6 +19550,18 @@
             "ru": "[{\"id\":1,\"title\":\"Saved\"}]",
             "tg": "[{\"id\":1,\"title\":\"Saved\"}]",
             "en": "[{\"id\":1,\"title\":\"Saved\"}]"
+          }
+        },
+        {
+          "title": {
+            "ru": "Новый процесс, та же запись",
+            "tg": "Процесси нав, ҳамон сабт",
+            "en": "A new process and the same record"
+          },
+          "body": {
+            "ru": "Создайте задачу и запомните id. Остановите учебный сервер, запустите новый процесс с тем же файлом базы, войдите снова и прочитайте задачу. Этот опыт отличает сохранённую строку от старого состояния в памяти. Если файлы разные, результат уже не проверяет сохранность.",
+            "tg": "Вазифа созед ва id-ро нигоҳ доред. Сервери омӯзиширо қатъ кунед. Бо ҳамон файли база процесси навро сар кунед, дубора ворид шавед ва вазифаро хонед. Бо ин таҷриба сабти дискро аз ҳолати кӯҳнаи хотира ҷудо мекунед. Бо файли дигар санҷиш дуруст нест.",
+            "en": "Create a task and keep its id. Stop the learning server, start a new process with the same database file, sign in again and read the task. This distinguishes a durable record from old in-memory state. A different file would not test the same stored data."
           }
         }
       ],
@@ -19498,6 +19990,18 @@
             "ru": "{\"ownershipChecks\":2}",
             "tg": "{\"ownershipChecks\":2}",
             "en": "{\"ownershipChecks\":2}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Как показать два доказательства",
+            "tg": "Ду далелро чӣ хел нишон диҳем",
+            "en": "Showing two kinds of evidence"
+          },
+          "body": {
+            "ru": "На защите выберите один успешный и один отказанный запрос. Для успешного покажите статус и повторное чтение данных. Для отказанного покажите статус и убедитесь, что запись осталась прежней. Объясните, где код выбрал ответ и какой тест это воспроизводит. Вывод запуска полезен вместе с этими связями.",
+            "tg": "Дар ҳимоя як дархости муваффақ ва як дархости радшударо гиред. Дар якум статус ва хондани дубораро нишон диҳед. Дар дуюм статусро нишон дода, санҷед, ки сабт пештара аст. Гӯед, кадом қисми код ҷавобро интихоб кард ва кадом test онро такрор мекунад.",
+            "en": "For the final review, pick one successful request and one refused request. For success, show the status and read the saved data again. For refusal, show the status and verify that the record stayed unchanged. Explain which code chose the response and which test reproduces it."
           }
         }
       ],

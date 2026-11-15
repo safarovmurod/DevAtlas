@@ -1,6 +1,7 @@
 import type { ExtraSeed } from './supplemental';
 import { REACT_INTRO } from './react-intro';
 import { REACT_CONCEPTS } from './react-concepts';
+import { REACT_WALKTHROUGHS, REACT_WALKTHROUGH_TITLES } from './react-walkthroughs';
 
 /** Extra React topics for months 1 and 2: tooling, forms, TypeScript, data and auth. */
 export const REACT_SEEDS: ExtraSeed[] = [
@@ -1169,13 +1170,28 @@ export const REACT_TOPIC_DETAILS: Record<string, ReactTopicDetails | undefined> 
 };
 
 export function reactTopicSections(topicId: string) {
-  return REACT_TOPIC_DETAILS[topicId]?.sections.map(({ title, body }) => ({
+  const sections = REACT_TOPIC_DETAILS[topicId]?.sections ?? [];
+  const walkthrough = REACT_WALKTHROUGHS[topicId];
+  const walkthroughSections = walkthrough
+    ? [
+        { title: REACT_WALKTHROUGH_TITLES.example, body: walkthrough.example },
+        { title: REACT_WALKTHROUGH_TITLES.check, body: walkthrough.check },
+      ]
+    : [];
+  return [...sections, ...walkthroughSections].map(({ title, body }) => ({
     title: title[0],
     text: body[0],
-  })) ?? [];
+  }));
 }
 
 const authoredTranslations = new Map<string, LessonText>();
+for (const text of Object.values(REACT_WALKTHROUGH_TITLES)) {
+  authoredTranslations.set(text[0], text);
+}
+for (const { example, check } of Object.values(REACT_WALKTHROUGHS)) {
+  authoredTranslations.set(example[0], example);
+  authoredTranslations.set(check[0], check);
+}
 for (const concept of Object.values(REACT_CONCEPTS)) {
   authoredTranslations.set(concept.title[0], concept.title);
   authoredTranslations.set(concept.body[0], concept.body);

@@ -1,3 +1,117 @@
+const productPractice = `// app/api/products/route.ts
+import { DatabaseSync } from 'node:sqlite';
+
+export const runtime = 'nodejs';
+
+function openProducts() {
+  const db = new DatabaseSync('products.sqlite');
+  db.exec('CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, name TEXT NOT NULL)');
+  return db;
+}
+
+export function GET() {
+  const db = openProducts();
+  try {
+    const products = db.prepare('SELECT id, name FROM products ORDER BY id').all();
+    return Response.json(products);
+  } finally {
+    db.close();
+  }
+}
+
+export async function POST(request: Request) {
+  const body: unknown = await request.json().catch(() => null);
+  if (typeof body !== 'object' || body === null || !('name' in body) || typeof body.name !== 'string') {
+    return Response.json({ error: 'Enter a product name.' }, { status: 400 });
+  }
+  const name = body.name.trim();
+  if (!name || name.length > 60) {
+    return Response.json({ error: 'Use 1–60 characters.' }, { status: 400 });
+  }
+
+  const db = openProducts();
+  try {
+    const result = db.prepare('INSERT INTO products (name) VALUES (?)').run(name);
+    return Response.json({ id: Number(result.lastInsertRowid), name }, { status: 201 });
+  } finally {
+    db.close();
+  }
+}
+
+// app/products/page.tsx
+'use client';
+
+import { useEffect, useState, type FormEvent } from 'react';
+
+type Product = { id: number; name: string };
+
+export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const controller = new AbortController();
+    async function loadProducts() {
+      try {
+        const response = await fetch('/api/products', { signal: controller.signal });
+        if (!response.ok) throw new Error('Load failed');
+        const rows: Product[] = await response.json();
+        if (!controller.signal.aborted) setProducts(rows);
+      } catch {
+        if (!controller.signal.aborted) setError('Could not load products.');
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }
+    void loadProducts();
+    return () => controller.abort();
+  }, []);
+
+  async function saveProduct(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (loading || saving) return;
+    setSaving(true);
+    setError('');
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      if (!response.ok) {
+        setError(response.status === 400 ? 'Use 1–60 characters.' : 'Could not save.');
+        return;
+      }
+      const product: Product = await response.json();
+      setProducts((current) => [...current, product]);
+      setName('');
+    } catch {
+      setError('Could not save.');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <main>
+      <h1>Products</h1>
+      <form onSubmit={saveProduct}>
+        <label>
+          Product name
+          <input value={name} onChange={(event) => setName(event.target.value)} disabled={saving} />
+        </label>
+        <button type="submit" disabled={loading || saving}>Save</button>
+      </form>
+      {loading && <p role="status">Loading…</p>}
+      {error && <p role="alert">{error}</p>}
+      <ul>{products.map((product) => <li key={product.id}>{product.name}</li>)}</ul>
+    </main>
+  );
+}`;
+
 export const NEXTJS_FOUNDATIONS = {
   '4': {
     title: {
@@ -61,17 +175,44 @@ export const NEXTJS_FOUNDATIONS = {
       ],
     },
     practice: {
-      solution:
-        "// app/products/page.tsx\nasync function getData(url: string): Promise<unknown> {\n  const response = await fetch(url, { cache: 'no-store' });\n  if (!response.ok) throw new Error('Request failed');\n  return response.json();\n}\n\nexport default async function ProductsPage() {\n  const url = process.env.PRACTICE_API_URL;\n  if (!url) return <main><p>Set PRACTICE_API_URL to your practice API URL.</p></main>;\n  const data = await getData(url);\n  return <main><h1>Products</h1><pre>{JSON.stringify(data, null, 2)}</pre></main>;\n}\n\n// app/products/error.tsx\n'use client';\n\nexport default function ProductsError() {\n  return <p role=\"alert\">Could not load products. Check the practice API.</p>;\n}",
+      solution: `// scripts/inventory-fixture.mjs — local fixture
+import { createServer } from 'node:http';
+
+createServer((request, response) => {
+  const found = request.url === '/stock';
+  response.writeHead(found ? 200 : 404, { 'Content-Type': 'application/json' });
+  response.end(JSON.stringify(found ? { name: 'Tea', count: 2 } : { error: 'Not found' }));
+}).listen(3001, '127.0.0.1', () => console.log('Fixture running at http://127.0.0.1:3001/stock'));
+
+// app/inventory/page.tsx
+async function getData(url: string): Promise<unknown> {
+  const response = await fetch(url, { cache: 'no-store' });
+  if (!response.ok) throw new Error('Request failed');
+  return response.json();
+}
+
+export default async function InventoryPage() {
+  const url = process.env.PRACTICE_API_URL;
+  if (!url) return <main><p>Set PRACTICE_API_URL to your practice API URL.</p></main>;
+  const stock = await getData(url);
+  return <main><h1>Inventory</h1><pre>{JSON.stringify(stock, null, 2)}</pre></main>;
+}
+
+// app/inventory/error.tsx
+'use client';
+
+export default function InventoryError() {
+  return <p role="alert">Could not load stock. Check the practice API.</p>;
+}`,
       referenceAnswer: {
-        ru: 'Вызовите await getData(url) внутри async-функции страницы. При ответе 200 выведите поле полученного объекта, например name. Ответ 404 отклонит Promise функции getData. Покажите сообщение об ошибке, например через error.tsx, вместо вывода неполученных данных.',
-        tg: 'Дар функсияи async-и саҳифа await getData(url) зан. Барои 200 майдони object, мисли name, нишон деҳ. Ҷавоби 404 Promise-и getData-ро рад мекунад. error.tsx метавонад паёми хаторо нишон диҳад.',
-        en: 'Call await getData(url) inside the async page function. With 200, render a received field such as name. A 404 rejects getData, so show the error state, for example with error.tsx, rather than rendering missing data.',
+        ru: 'Разложите решение по трём файлам по комментариям. Запустите node scripts/inventory-fixture.mjs в отдельном терминале. В .env.local учебного Next.js проекта укажите PRACTICE_API_URL=http://127.0.0.1:3001/stock. После запуска npm run dev откройте /inventory. Для проверки 404 поменяйте в переменной /stock на /missing, перезапустите Next.js и откройте страницу снова.',
+        tg: 'Аз рӯйи comment коди ҷавобро ба се файл ҷудо кунед. Дар терминали алоҳида node scripts/inventory-fixture.mjs занед. Дар .env.local-и проекти омӯзишии Next.js PRACTICE_API_URL=http://127.0.0.1:3001/stock гузоред. Баъди npm run dev саҳифаи /inventory-ро кушоед. Барои 404 дар variable /stock-ро ба /missing иваз кунед. Next.js-ро restart карда, саҳифаро аз нав кушоед.',
+        en: 'Split the reference into the three files named in the comments. Run node scripts/inventory-fixture.mjs in a separate terminal. In the practice Next.js project’s .env.local, set PRACTICE_API_URL=http://127.0.0.1:3001/stock. Run npm run dev and open /inventory. To check 404, change /stock to /missing in the variable, restart Next.js, and reopen the page.',
       },
       task: {
-        ru: 'Возьмите getData из примера и вызовите её в серверной странице со своим учебным URL. Проверьте успешный ответ и URL с неподходящим статусом.',
-        tg: 'getData-и мисолро дар саҳифаи серверии худ бо URL-и озмоишӣ даъват кун. Ҷавоби дуруст ва URL-и статусаш хаторо санҷ.',
-        en: 'Call getData from a server page using a test URL you control. Check one successful response and one error status.',
+        ru: '1. Добавьте /inventory в учебный проект. Используйте свой тестовый API или локальный fixture из подсказки к решению.\n2. Вызовите getData только на серверной странице. Для 200 покажите название и остаток.\n3. Подставьте адрес, который ваш API обслуживает статусом 404. Проверьте сообщение из error.tsx.\n4. Верните правильный URL и убедитесь, что снова видите данные.',
+        tg: '1. Ба проекти омӯзишӣ /inventory илова кунед. API-и дарсии худ ё fixture-и маҳаллиро аз роҳнамо истифода баред.\n2. getData-ро дар саҳифаи сервер даъват кунед. Барои 200 ном ва захираро нишон диҳед.\n3. Адреси API-ро ба адресе, ки 404 медиҳад, иваз кунед. Паёми error.tsx-ро бинед.\n4. URL-и дурустро баргардонед ва санҷед, ки дода боз мебарояд.',
+        en: '1. Add /inventory to the practice project. Use a test API you already control or the local fixture described in the reference.\n2. Call getData on the server page. For 200, show the name and stock count.\n3. Use a URL that returns 404. Check the error.tsx message.\n4. Restore the working URL and confirm the data is visible again.',
       },
       hint: {
         ru: 'Начните со статуса: fetch сам по себе не выбрасывает ошибку на HTTP 404 или 500.',
@@ -237,26 +378,38 @@ export const NEXTJS_FOUNDATIONS = {
       ],
     },
     practice: {
+      solution: `// app/api/title/route.ts
+export async function POST(request: Request) {
+  const body: unknown = await request.json().catch(() => null);
+  if (typeof body !== 'object' || body === null || !('title' in body) || typeof body.title !== 'string') {
+    return Response.json({ error: 'Enter a title.' }, { status: 400 });
+  }
+  const title = body.title.trim();
+  if (!title || title.length > 40) {
+    return Response.json({ error: 'Use 1–40 characters.' }, { status: 400 });
+  }
+  return Response.json({ title });
+}`,
       referenceAnswer: {
-        ru: 'Для {"name":"  Ali  "} ожидайте 200 и {"name":"Ali"}. Для {"name":" "} ожидайте 400 и сообщение Name required. При неподходящем JSON обработчик тоже вернёт 400.',
-        tg: 'Барои {"name":"  Ali  "} натиҷаи 200 ва {"name":"Ali"} аст. Барои {"name":" "} натиҷаи 400 ва Name required. Барои JSON-и хонданашаванда ҳам 400 мебарояд.',
-        en: 'Expect 200 and {"name":"Ali"} for {"name":"  Ali  "}. Expect 400 and Name required for {"name":" "}. Unreadable JSON also receives 400.',
+        ru: 'Для {"title":"  Fix a chair  "} ожидайте 200 и {"title":"Fix a chair"}. Заголовок после trim длиной 41 символ, строка из пробелов и число вместо строки получают 400. Посмотрите status и body в Network.',
+        tg: 'Барои {"title":"  Fix a chair  "} натиҷа 200 ва {"title":"Fix a chair"} мешавад. Номе, ки пас аз trim 41 аломат дорад, сатри фақат пробел ва адад 400 мегиранд. Status ва body-ро дар Network бинед.',
+        en: 'Expect 200 and {"title":"Fix a chair"} for {"title":"  Fix a chair  "}. A 41-character trimmed title, a string of spaces, and a number each receive 400. Check the status and body in Network.',
       },
       task: {
-        ru: 'В локальном проекте отправьте POST на /api/echo с именем и с пустой строкой. Сравните JSON и статус ответов.',
-        tg: 'Дар проекти локалӣ ба /api/echo бо ном ва бо сатри холӣ POST фирист. JSON ва статусҳои ҷавобро муқоиса кун.',
-        en: 'In a local project, POST a name and then an empty string to /api/echo. Compare each response status and body.',
+        ru: '1. В учебном проекте создайте app/api/title/route.ts. Используйте echo как пример устройства обработчика.\n2. Примите поле title и обрежьте пробелы. Разрешите от 1 до 40 символов.\n3. Отправьте POST с заголовком, пробелами, числом и строкой из 41 символа.\n4. Сравните статус и JSON всех ответов. При 200 заголовок приходит без лишних пробелов.',
+        tg: '1. Дар проекти омӯзишӣ app/api/title/route.ts созед. Сохти echo-ро ҳамчун намуна гиред.\n2. Field-и title-ро қабул карда, пробелҳои атрофашро тоза кунед. Аз 1 то 40 аломат иҷозат диҳед.\n3. Бо ном, пробел, адад ва сатри 41-аломатӣ POST фиристед.\n4. Status ва JSON-и ҳар ҷавобро муқоиса кунед. Бо 200 ном бе пробели зиёдатӣ меояд.',
+        en: '1. Create app/api/title/route.ts in the practice project. Use echo to see how a handler is structured.\n2. Accept a title field, trim the spaces, and allow 1 to 40 characters.\n3. POST a title, spaces, a number, and a 41-character string.\n4. Compare the status and JSON. A 200 response returns the trimmed title.',
       },
       hint: {
-        ru: 'Обработчик принимает POST. Открытие URL в браузере обычно отправляет GET.',
-        tg: 'Handler request-и POST мегирад. Кушодани адрес дар браузер одатан GET мефиристад.',
-        en: 'The handler accepts POST. Opening its URL in the browser usually sends GET.',
+        ru: 'Откройте любую страницу своего локального проекта и отправьте запрос из консоли: fetch("/api/title", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({title:"  Fix a chair  "})}). Статус и тело ответа видны в Network.',
+        tg: 'Саҳифаи проекти маҳаллиро кушода аз console request фиристед: fetch("/api/title", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({title:"  Fix a chair  "})}). Status ва body дар Network намоёнанд.',
+        en: 'Open a page in your local practice project and send a request from its console: fetch("/api/title", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({title:"  Fix a chair  "})}). Inspect the status and body in Network.',
       },
       criteria: [
         {
-          ru: 'Корректное имя возвращается очищенным, пустое получает 400.',
-          tg: 'Номи дуруст тоза бармегардад, номи холӣ 400 мегирад.',
-          en: 'A valid name is trimmed and returned. An empty name receives 400.',
+          ru: 'Правильный title очищается и приходит со статусом 200. Все три неподходящих ввода получают 400.',
+          tg: 'Title-и дуруст тоза шуда бо 200 меояд. Ҳар се input-и нодуруст 400 мегирад.',
+          en: 'A valid title is trimmed and receives 200. All three invalid inputs receive 400.',
         },
       ],
     },
@@ -543,9 +696,9 @@ export const NEXTJS_FOUNDATIONS = {
           en: 'What full stack connects',
         },
         body: {
-          ru: 'При добавлении товара фронтенд берёт поля формы и отправляет POST. Backend проверяет вход и сохраняет запись в базе. API возвращает сохранённый объект, а интерфейс показывает его. Если что-то пошло не так, проверяйте, на каком шаге возникла ошибка.',
-          tg: 'Барои зам кардани мол frontend майдонҳои формаро бо POST мефиристад. Backend додаҳоро месанҷад ва ба база менависад. API сабти нигоҳдоштаро медиҳад ва UI онро нишон медиҳад. Дар ҳар қадам хатои худашро санҷ.',
-          en: 'To add a product, the frontend sends form values in a POST request. The backend validates them and writes a database record. The API returns the stored record and the UI shows it. Handle failures at the step where they occur.',
+          ru: 'Full stack означает работу с интерфейсом и сервером приложения, включая данные, которые они используют. Frontend — то, с чем человек работает в браузере. Backend принимает запросы и решает, какие операции выполнить. API задаёт, куда и в каком формате отправлять запрос и что ждать в ответ. База хранит записи, чтобы их можно было прочитать снова.',
+          tg: 'Full Stack кори қисми браузер ва сервери барномаро бо додаҳояшон якҷо меомӯзад. Frontend ҳамон қисмест, ки одам дар браузер мебинад ва истифода мебарад. Backend request-ро мегирад ва қарор мекунад, ки кадом амал иҷро шавад. API адрес, формати request ва ҷавоби интизориро муайян мекунад. База сабтҳоро нигоҳ медорад, то боз хонда шаванд.',
+          en: 'Full stack work spans the browser interface and the application server, including the data they use. The frontend is what the person uses in the browser. The backend receives requests and decides which work to do. The API specifies where a request goes, its format, and what the caller gets back. The database stores records for later reads.',
         },
       },
       {
@@ -586,15 +739,17 @@ export const NEXTJS_FOUNDATIONS = {
       ],
     },
     practice: {
+      kind: 'code' as const,
+      solution: productPractice,
       referenceAnswer: {
-        ru: 'Например, форма отправила {"name":"Tea"}. POST вернул сохранённую запись с id. Новый GET после перезапуска учебного сервера возвращает тот же id. Пустое имя должно дать понятную ошибку, сохранить ввод и не добавить запись.',
-        tg: 'Масалан форма {"name":"Tea"} фиристод. POST сабти нигоҳдоштаро бо id дод. GET-и нав пас аз restart-и сервери озмоишӣ ҳамон id-ро медиҳад. Номи холӣ хато медиҳад, воридот мемонад ва сабти нав намешавад.',
-        en: 'For example, the form sends {"name":"Tea"}. POST returns the stored record with an id. A new GET after restarting your practice server returns that same id. An empty name should show an error, preserve the input, and create no record.',
+        ru: 'Разложите код решения по двум файлам из комментариев. В учебной папке сервер сам создаст products.sqlite. Сначала GET возвращает список. После добавления Coffee POST возвращает 201 и строку с ID. Новый GET после перезапуска из той же папки находит этот ID. Пробелы дают 400, поле остаётся заполненным, список не увеличивается.',
+        tg: 'Коди ҷавобро ба ду файле, ки дар comment нишон дода шудаанд, ҷудо кунед. Сервер дар папкаи омӯзишӣ products.sqlite месозад. Аввал GET рӯйхат медиҳад. Баъди иловаи Coffee, POST бо 201 ва сатри ID-дор ҷавоб медиҳад. GET-и нав пас аз restart аз ҳамон папка ҳамин ID-ро меёбад. Пробелҳо 400 медиҳанд, input мемонад ва рӯйхат калон намешавад.',
+        en: 'Split the reference into the two files named in the comments. The local server creates products.sqlite in the practice directory. GET first returns a list. Adding Coffee gives a POST response of 201 and a row with its ID. After restarting from the same directory, a new GET returns that ID. Spaces receive 400, the input stays filled, and the list does not grow.',
       },
       task: {
-        ru: 'Выберите учебный сценарий Add с настроенной базой. Запишите поля запроса и ответа. Проверьте сохранение, новый GET после перезапуска учебного сервера и один неверный ввод.',
-        tg: 'Сенарияи Add-ро бо базаи тайёр гир. Майдонҳои request ва response-ро навис. Сабт, GET-и нав баъди restart-и сервери дарсӣ ва як додаи нодурустро санҷ.',
-        en: 'Choose a practice Add flow with a configured database. Name request and response fields. Check the write, a fresh GET after restarting the practice server, and one invalid input.',
+        ru: '1. В отдельном учебном проекте Next.js на Node.js 24 создайте app/api/products/route.ts и app/products/page.tsx. Используйте src/app, если так устроен проект.\n2. Сделайте GET и POST для локального products.sqlite. Примите name, обрежьте пробелы и разрешите от 1 до 60 символов.\n3. На /products добавьте Coffee через форму. В Network запишите статус и возвращённый ID. Затем отправьте только пробелы и сравните.\n4. Перезапустите учебный сервер из той же папки. Откройте /products и /api/products. Найдите Coffee с прежним ID.',
+        tg: '1. Дар проекти алоҳидаи Next.js бо Node.js 24 app/api/products/route.ts ва app/products/page.tsx созед. Агар проект src дошта бошад, аз src/app истифода баред.\n2. Барои products.sqlite-и маҳаллӣ GET ва POST созед. name-ро гиред, пробелҳои атрофро тоза кунед ва аз 1 то 60 аломат қабул кунед.\n3. Дар /products аз форма Coffee илова кунед. Дар Network status ва ID-ро нависед. Баъд фақат пробел фиристед ва муқоиса кунед.\n4. Серверро аз ҳамон папка restart кунед. /products ва /api/products-ро кушода, Coffee-ро бо ID-и пешина ёбед.',
+        en: '1. In a separate Next.js practice project on Node.js 24, create app/api/products/route.ts and app/products/page.tsx. Use src/app if the project has that layout.\n2. Add GET and POST for a local products.sqlite file. Accept name, trim the spaces, and allow 1 to 60 characters.\n3. Add Coffee through the form on /products. Record the status and ID in Network. Then submit only spaces and compare.\n4. Restart the practice server from the same folder. Open /products and /api/products and find Coffee with its original ID.',
       },
       hint: {
         ru: 'Для успешного сценария запишите возвращённый ID. Для ошибки проверьте поля и список отдельно.',
@@ -603,9 +758,19 @@ export const NEXTJS_FOUNDATIONS = {
       },
       criteria: [
         {
-          ru: 'Запись читается после перезапуска учебного сервера. Отказ оставляет ввод и не создаёт запись.',
-          tg: 'Сабт пас аз restart-и сервери дарсӣ хонда мешавад. Дар вақти радшавӣ воридот мемонад ва сабти нав намешавад.',
-          en: 'The record can be read after the practice server restarts. A rejected submission keeps input and creates no record.',
+          ru: 'Успешный POST возвращает 201, имя и ID, а форма показывает сохранённую строку.',
+          tg: 'POST-и дуруст 201, ном ва ID медиҳад ва форма сатри сабтшударо нишон медиҳад.',
+          en: 'A successful POST returns 201, the name, and the ID, and the form displays the stored row.',
+        },
+        {
+          ru: 'Пробелы дают 400, сохраняют ввод и не добавляют строку.',
+          tg: 'Пробелҳо 400 медиҳанд, input мемонад ва сатри нав илова намешавад.',
+          en: 'Spaces receive 400, keep the current input, and create no record.',
+        },
+        {
+          ru: 'После перезапуска GET возвращает тот же ID, а страница показывает Coffee.',
+          tg: 'Баъди restart, GET ҳамон ID-ро медиҳад ва саҳифа Coffee-ро нишон медиҳад.',
+          en: 'After restarting, GET returns the same ID and the page displays Coffee.',
         },
       ],
     },

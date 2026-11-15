@@ -55,9 +55,9 @@
             "en": "How HTTP connects a client and server"
           },
           "body": {
-            "ru": "HTTP — правила обмена запросами и ответами. Браузер спрашивает у API список товаров, сервер отвечает статусом и данными. Как хранить товары решает сервер.\n\nВ кафе вы (клиент) не идёте на кухню сами — вы говорите заказ официанту, он несёт его на кухню (сервер) и возвращает блюдо. HTTP — язык таких заказов. Запрос содержит адрес (URL), метод (что сделать), заголовки и иногда тело. Ответ содержит код статуса, заголовки и тело — обычно JSON.",
-            "tg": "HTTP қоидаи мубодилаи request ва response аст. Браузер аз API рӯйхати молро мегирад. Сервер статус ва маълумот медиҳад ва худаш ҳал мекунад, сабтҳо дар куҷо бошанд.\n\nДар қаҳвахона шумо (мизоҷ) худатон ба ошхона намеравед — фармоишро ба пешхизмат мегӯед, ӯ онро ба ошхона (сервер) мебарад ва таомро бармегардонад. HTTP — забони чунин фармоишҳост. Дархост суроға (URL), метод (чӣ кор кардан), сарлавҳаҳо ва баъзан бадан дорад. Ҷавоб рамзи статус, сарлавҳаҳо ва бадан — одатан JSON дорад.",
-            "en": "HTTP defines how requests and responses work. The browser asks an API for products, and the server returns a status and data. The server decides how to store the products.\n\nIn a cafe you (the client) do not walk into the kitchen — you give your order to a waiter who takes it to the kitchen (the server) and brings back the dish. HTTP is the language of such orders. A request has an address (URL), a method (what to do), headers and sometimes a body. A response has a status code, headers and a body — usually JSON."
+            "ru": "Клиент — программа, которая отправляет запрос. Сервер получает запрос и готовит ответ. API — согласованный набор адресов, действий и форматов для такого общения. Например, браузер отправляет GET /api/orders/7. Сервер ищет заказ 7 и отвечает 200 с данными или 404, если заказа нет. HTTP задаёт форму запроса и ответа. JSON — один из способов записать данные внутри сообщения.",
+            "tg": "Клиент барномаест, ки дархост мефиристад. Сервер дархостро мегирад ва ҷавоб медиҳад. API маҷмӯи суроғаҳо, амалҳо ва форматҳои мувофиқашуда барои ин гуфтугӯст. Масалан, браузер GET /api/orders/7 мефиристад. Сервер фармоиши 7-ро меҷӯяд ва бо 200 маълумот медиҳад ё, агар фармоиш нест, бо 404 ҷавоб медиҳад. HTTP сохти дархосту ҷавобро муайян мекунад. JSON яке аз форматҳо барои навиштани маълумоти дохили паём аст.",
+            "en": "A client is a program that sends a request. The server receives it and prepares a response. An API defines the addresses, actions and data formats they agree to use. For example, the browser sends GET /api/orders/7. The server looks up order 7 and returns 200 with data or 404 if the order is missing. HTTP defines the shape of requests and responses. JSON is one way to encode data inside a message."
           }
         },
         {
@@ -67,9 +67,9 @@
             "en": "2. Methods — what to do"
           },
           "body": {
-            "ru": "GET — получить (меню, список курсов). POST — создать новое (новый заказ). PUT — заменить целиком, PATCH — изменить часть (поменять адрес доставки). DELETE — удалить. Один и тот же адрес /api/orders с разными методами делает разные вещи.",
-            "tg": "GET — гирифтан (меню, рӯйхати курсҳо). POST — сохтани нав (фармоиши нав). PUT — пурра иваз кардан, PATCH — қисман иваз кардан (суроғаи расониданро иваз кардан). DELETE — нест кардан. Ҳамон як суроғаи /api/orders бо методҳои гуногун корҳои гуногун мекунад.",
-            "en": "GET fetches (a menu, a course list). POST creates something new (a new order). PUT replaces it entirely, PATCH changes part of it (the delivery address). DELETE removes it. The same address /api/orders does different things with different methods."
+            "ru": "В этом API метод GET читает список, POST создаёт заказ, PATCH меняет часть заказа, DELETE удаляет его. PUT передаёт полное новое представление записи. Метод отвечает на вопрос «что делать», путь — «с чем». В PATCH /api/orders/7 число 7 указывает заказ, а новый адрес передаётся в JSON-теле. Сервер сам решает, поддерживает ли он эту операцию.",
+            "tg": "Дар ин API методи GET рӯйхатро мехонад, POST фармоиш месозад, PATCH қисми онро иваз мекунад ва DELETE онро нест мекунад. PUT қиматҳои пурраи нави сабтро мефиристад. Метод мегӯяд «чӣ кор кун», роҳ мегӯяд «бо кадом сабт». Дар PATCH /api/orders/7 рақами 7 ID-и фармоиш аст. Суроғаи нави расондан дар бадани JSON меояд. Сервер муайян мекунад, ки ин амалро қабул мекунад ё не.",
+            "en": "In this API, GET reads a list, POST creates an order, PATCH changes part of one and DELETE removes it. PUT supplies a full replacement representation. The method tells the API what to do. The path tells it which resource to act on. In PATCH /api/orders/7, the 7 identifies the order. The new delivery address goes in the JSON body. The server decides whether it supports the operation."
           },
           "code": "GET    /api/orders      → список заказов\nPOST   /api/orders      → создать заказ\nPATCH  /api/orders/7    → изменить заказ 7\nDELETE /api/orders/7    → удалить заказ 7",
           "language": "text"
@@ -6239,14 +6239,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Чем Axios удобнее fetch",
-            "tg": "1. Axios аз fetch чӣ қулайтар аст",
-            "en": "1. Why Axios is handier than fetch"
+            "ru": "Что возвращает Axios",
+            "tg": "Axios чӣ бармегардонад",
+            "en": "What Axios returns"
           },
           "body": {
-            "ru": "Axios — библиотека для HTTP-запросов. Она даёт единый объект ответа: статус в response.status, данные в response.data. Для обычного объекта клиент готовит JSON, а JSON-ответ обычно разбирает автоматически. По умолчанию не-2xx статус приводит к отклонению Promise; это правило можно изменить настройкой validateStatus.",
-            "tg": "Axios китобхона барои HTTP request аст. Як объекти ҷавоб медиҳад: статус дар response.status, дода дар response.data. Барои объекти одӣ JSON тайёр мекунад ва ҷавоби JSON-ро одатан худаш мехонад. Бо танзими пешфарз статуси берун аз 2xx Promise-ро рад мекунад. validateStatus метавонад ин қоидаро иваз кунад.",
-            "en": "Axios is an HTTP client library. It returns a response object with response.status and response.data. It serializes a plain object to JSON and usually parses a JSON response for you. Statuses outside 2xx reject the promise by default; validateStatus can change that rule."
+            "ru": "Axios — библиотека для отправки HTTP-запросов. Если GET /courses получит 200 и JSON-массив курсов, response.status будет 200, а response.data — этим массивом. В fetch JSON нужно прочитать отдельно через response.json(). Axios по умолчанию отклоняет Promise при ответе 404, поэтому catch получит ошибку с error.response.status. Сравните ошибки и успех в Network.",
+            "tg": "Axios китобхона барои фиристодани HTTP-дархост аст. Агар GET /courses ҷавоби 200 ва массиви курсҳоро дар JSON гирад, response.status ба 200 баробар мешавад ва response.data ҳамон массив аст. Дар fetch JSON-ро бо response.json() алоҳида мехонем. Axios одатан бо ҷавоби 404 Promise-ро рад мекунад. Дар catch статусро аз error.response.status гиред ва дар Network муқоиса кунед.",
+            "en": "Axios is a library that sends HTTP requests. If GET /courses receives 200 and a JSON array of courses, response.status is 200 and response.data is that array. With fetch, read the JSON separately using response.json(). By default Axios rejects the promise on a 404, so catch receives an error with error.response.status. Compare both responses in Network."
           },
           "code": "import axios from \"axios\";\n\nconst response = await axios.get(\"http://localhost:3001/courses\", {\n  params: { level: \"beginner\" }, // сам соберёт ?level=beginner\n});\nconsole.log(response.data);",
           "language": "javascript"
@@ -6635,9 +6635,9 @@
       "practice": {
         "kind": "code",
         "task": {
-          "ru": "Шаг 1. Откройте практику с функцией getErrorMessage(error). error — объект, похожий на ошибку Axios.\nШаг 2. Если error.code === \"ECONNABORTED\" — верните \"Сервер не отвечает\".\nШаг 3. Если есть error.response: верните data.message, если это строка; иначе 404 → \"Не найдено\", 500+ → \"Ошибка сервера\", остальное → \"Ошибка запроса\". Если ответа нет, но есть error.request — \"Нет соединения с интернетом\", иначе \"Неизвестная ошибка\".\nШаг 4. Запустите тесты для всех веток.",
-          "tg": "Қадами 1. Практикаро бо функсияи getErrorMessage(error) кушоед. error — объекти монанд ба хатои Axios аст.\nҚадами 2. Агар error.code === \"ECONNABORTED\" бошад — \"Сервер не отвечает\" баргардонед.\nҚадами 3. Агар error.response бошад: data.message-ро баргардонед, агар сатр бошад; вагарна 404 → \"Не найдено\", 500+ → \"Ошибка сервера\", боқимонда → \"Ошибка запроса\". Агар ҷавоб набошад, вале error.request бошад — \"Нет соединения с интернетом\", вагарна \"Неизвестная ошибка\".\nҚадами 4. Тестҳоро барои ҳамаи шохаҳо иҷро кунед.",
-          "en": "Step 1. Open the practice with getErrorMessage(error). error is an object shaped like an Axios error.\nStep 2. If error.code === \"ECONNABORTED\" return \"Сервер не отвечает\".\nStep 3. If error.response exists: return data.message when it is a string; otherwise 404 → \"Не найдено\", 500+ → \"Ошибка сервера\", else \"Ошибка запроса\". With no response but error.request → \"Нет соединения с интернетом\", otherwise \"Неизвестная ошибка\".\nStep 4. Run the tests for every branch."
+          "ru": "Шаг 1. Откройте практику с функцией getErrorMessage(error). error — объект, похожий на ошибку Axios.\nШаг 2. Если error.code === \"ECONNABORTED\" || error.code === \"ETIMEDOUT\" — верните \"Сервер не отвечает\".\nШаг 3. Если есть error.response: верните data.message, если это строка; иначе 404 → \"Не найдено\", 500+ → \"Ошибка сервера\", остальное → \"Ошибка запроса\". Если ответа нет, но есть error.request — \"Ответ от сервера не получен\", иначе \"Неизвестная ошибка\".\nШаг 4. Запустите тесты для всех веток.",
+          "tg": "Қадами 1. Практикаро бо функсияи getErrorMessage(error) кушоед. error — объекти монанд ба хатои Axios аст.\nҚадами 2. Агар error.code === \"ECONNABORTED\" || error.code === \"ETIMEDOUT\" бошад — \"Сервер не отвечает\" баргардонед.\nҚадами 3. Агар error.response бошад: data.message-ро баргардонед, агар сатр бошад; вагарна 404 → \"Не найдено\", 500+ → \"Ошибка сервера\", боқимонда → \"Ошибка запроса\". Агар ҷавоб набошад, вале error.request бошад — \"Ответ от сервера не получен\", вагарна \"Неизвестная ошибка\".\nҚадами 4. Тестҳоро барои ҳамаи шохаҳо иҷро кунед.",
+          "en": "Step 1. Open the practice with getErrorMessage(error). error is an object shaped like an Axios error.\nStep 2. If error.code === \"ECONNABORTED\" || error.code === \"ETIMEDOUT\" return \"Сервер не отвечает\".\nStep 3. If error.response exists: return data.message when it is a string; otherwise 404 → \"Не найдено\", 500+ → \"Ошибка сервера\", else \"Ошибка запроса\". With no response but error.request → \"Ответ от сервера не получен\", otherwise \"Неизвестная ошибка\".\nStep 4. Run the tests for every branch."
         },
         "hint": {
           "ru": "Безопасно читать текст: error.response.data?.message.",
@@ -6656,7 +6656,7 @@
             "en": "Check order: timeout → response → request → otherwise."
           }
         ],
-        "solution": "function getErrorMessage(error) {\n  if (error.code === \"ECONNABORTED\") return \"Сервер не отвечает\";\n  if (error.response) {\n    const { status, data } = error.response;\n    if (typeof data?.message === \"string\") return data.message;\n    if (status === 404) return \"Не найдено\";\n    if (status >= 500) return \"Ошибка сервера\";\n    return \"Ошибка запроса\";\n  }\n  if (error.request) return \"Нет соединения с интернетом\";\n  return \"Неизвестная ошибка\";\n}",
+        "solution": "function getErrorMessage(error) {\n  if (error.code === \"ECONNABORTED\" || error.code === \"ETIMEDOUT\") return \"Сервер не отвечает\";\n  if (error.response) {\n    const { status, data } = error.response;\n    if (typeof data?.message === \"string\") return data.message;\n    if (status === 404) return \"Не найдено\";\n    if (status >= 500) return \"Ошибка сервера\";\n    return \"Ошибка запроса\";\n  }\n  if (error.request) return \"Ответ от сервера не получен\";\n  return \"Неизвестная ошибка\";\n}",
         "criteria": [
           {
             "ru": "Различаются ответ с ошибкой, отсутствие ответа и таймаут.",
@@ -6733,7 +6733,7 @@
                   "request": true
                 }
               ],
-              "expected": "Нет соединения с интернетом"
+              "expected": "Ответ от сервера не получен"
             },
             {
               "args": [
@@ -7628,14 +7628,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Что строим",
-            "tg": "1. Чӣ месозем",
-            "en": "1. What we build"
+            "ru": "CRUD и четыре действия",
+            "tg": "CRUD ва чор амал",
+            "en": "CRUD and its four actions"
           },
           "body": {
-            "ru": "Страница управления курсами на JSON Server: список с поиском, форма добавления, кнопка «Готово/Не готово» (PATCH), удаление с подтверждением. Это ваш первый проект, где фронтенд по-настоящему разговаривает с сервером, — его можно показать в портфолио.",
-            "tg": "Саҳифаи идоракунии курсҳо дар JSON Server: рӯйхат бо ҷустуҷӯ, формаи иловакунӣ, тугмаи «Тайёр/Тайёр нест» (PATCH), нест кардан бо тасдиқ. Ин аввалин лоиҳаи шумост, ки фронтенд воқеан бо сервер гуфтугӯ мекунад, — онро дар портфолио нишон додан мумкин.",
-            "en": "A course management page on JSON Server: a list with search, an add form, a Done/Not done toggle (PATCH) and delete with confirmation. It is your first project where the frontend genuinely talks to a server — portfolio material."
+            "ru": "CRUD означает создать, прочитать, изменить и удалить. Форма добавляет курс через POST /courses, GET /courses читает список, PATCH /courses/2 меняет отметку курса 2, DELETE /courses/2 удаляет его. Vite открывает интерфейс, JSON Server выдаёт учебное API и хранит записи в db.json. Поле поиска фильтрует уже загруженный список. В этом проекте не нужны аккаунты и настоящий сервис оплаты.",
+            "tg": "CRUD маънои сохтан, хондан, иваз кардан ва нест карданро дорад. Форма бо POST /courses курс илова мекунад. GET /courses рӯйхатро мехонад, PATCH /courses/2 ҳолати курси 2-ро иваз мекунад ва DELETE /courses/2 онро нест мекунад. Vite интерфейсро мекушояд. JSON Server API-и омӯзиширо медиҳад ва сабтҳоро дар db.json нигоҳ медорад. Ҷустуҷӯ рӯйхати боршударо филтр мекунад.",
+            "en": "CRUD means create, read, update and delete. The form adds a course through POST /courses. GET /courses reads the list, PATCH /courses/2 changes course 2, and DELETE /courses/2 removes it. Vite serves the interface. JSON Server provides a practice API and stores the records in db.json. Search filters the already-loaded list."
           }
         },
         {
@@ -7645,11 +7645,11 @@
             "en": "2. Order of work"
           },
           "body": {
-            "ru": "Сначала слой API (дни 23–25): client.js, courses.js с getCourses, createCourse, updateCourse, deleteCourse, errors.js. Потом экран: состояния загрузка / пусто / ошибка / данные (день 6). Потом действия по одному: создание (день 8), изменение (день 9), удаление (день 10). После каждого шага — проверка в Network.",
-            "tg": "Аввал қабати API (рӯзҳои 23–25): client.js, courses.js бо getCourses, createCourse, updateCourse, deleteCourse, errors.js. Баъд экран: ҳолатҳои боркунӣ / холӣ / хато / маълумот (рӯзи 6). Баъд амалҳо як-як: сохтан (рӯзи 8), тағйир (рӯзи 9), нест кардан (рӯзи 10). Баъди ҳар қадам — санҷиш дар Network.",
-            "en": "First the API layer (days 23–25): client.js, courses.js with getCourses, createCourse, updateCourse, deleteCourse, and errors.js. Then the screen: loading / empty / error / data states (day 6). Then actions one at a time: create (day 8), update (day 9), delete (day 10). Check Network after each step."
+            "ru": "Запустите JSON Server на порту 3001 и сначала откройте /courses по этому адресу. Должен появиться массив JSON. Интерфейс запускается в другом терминале через npm run dev. В courses.js поместите функции запросов, в main.js — экран и обработчики кнопок. Пустой массив после успешного GET показывает «Курсов пока нет». Без ответа сервера показываем ошибку.",
+            "tg": "JSON Server-ро дар порти 3001 оғоз кунед ва аввал /courses-ро аз ҳамон суроға кушоед. Бояд массиви JSON барояд. Интерфейсро дар терминали дигар бо npm run dev сар кунед. Функсияҳои дархост дар courses.js меистанд. Экран ва амали тугмаҳо дар main.js ҳастанд. Массиви холӣ баъди GET-и муваффақ «Ҳоло курс нест» нишон медиҳад. Агар ҷавоб наояд, хаторо нишон диҳед.",
+            "en": "Start JSON Server on port 3001 and open /courses there first. You should see a JSON array. In a second terminal, run npm run dev for the interface. Keep request functions in courses.js and screen events in main.js. An empty array from a successful GET shows “No courses yet”. A missing server response shows an error."
           },
-          "code": "// src/api/courses.js\nexport const getCourses = () => api.get(\"/courses\").then(r => r.data);\nexport const createCourse = (course) => api.post(\"/courses\", course).then(r => r.data);\nexport const updateCourse = (id, patch) => api.patch(`/courses/${id}`, patch).then(r => r.data);\nexport const deleteCourse = (id) => api.delete(`/courses/${id}`);",
+          "code": "// src/api/courses.js\nimport axios from \"axios\";\n\nconst api = axios.create({ baseURL: \"http://localhost:3001\", timeout: 5000 });\nexport async function getCourses() {\n  const { data } = await api.get(\"/courses\");\n  return data;\n}",
           "language": "javascript"
         },
         {
@@ -7659,9 +7659,9 @@
             "en": "3. Details that make a project good"
           },
           "body": {
-            "ru": "Кнопка отправки отключается во время запроса. Пустое название не отправляется. После создания запись появляется в списке без перезагрузки. Отметка «готово» работает оптимистично с откатом (день 17). Поиск с debounce (день 19). Ошибки — через getErrorMessage (день 24), а не alert.",
-            "tg": "Тугмаи фиристодан дар вақти дархост хомӯш мешавад. Номи холӣ фиристода намешавад. Баъди сохтан сабт бе аз нав боркунӣ дар рӯйхат пайдо мешавад. Қайди «тайёр» оптимистӣ бо баргардонидан кор мекунад (рӯзи 17). Ҷустуҷӯ бо debounce (рӯзи 19). Хатоҳо — тавассути getErrorMessage (рӯзи 24), на alert.",
-            "en": "The submit button is disabled during the request. Empty titles are not sent. New records appear without a reload. The Done tick is optimistic with rollback (day 17). Search uses debounce (day 19). Errors go through getErrorMessage (day 24), not alert."
+            "ru": "Когда пользователь отмечает курс, сначала обновите строку на экране, затем отправьте PATCH. Если запрос не удался, верните прежнюю отметку и покажите ошибку. Пока один запрос на запись не закончен, отключите кнопки изменения. Тогда откат не сотрёт результат другого запроса. Обновите страницу и проверьте, что успешное изменение сохранилось в db.json.",
+            "tg": "Вақте user курсро қайд мекунад, аввал сатрро дар экран нав кунед, баъд PATCH фиристед. Агар дархост нагузашт, ҳолати пешинаро баргардонед ва хаторо нишон диҳед. То анҷоми як дархости сабт тугмаҳои ивазкуниро ғайрифаъол кунед. Он гоҳ баргардондани ҳолат натиҷаи дархости дигарро намепартояд. Саҳифаро нав кунед ва бинед, ки тағйир дар db.json монд.",
+            "en": "When a learner toggles a course, update the row first and then send PATCH. If the request fails, restore the previous mark and show an error. Disable write buttons while one write is pending so a rollback cannot undo a second change. Reload and verify that a successful update persisted in db.json."
           }
         },
         {
@@ -7671,9 +7671,9 @@
             "en": "Common mistakes"
           },
           "body": {
-            "ru": "Перезагружать весь список после каждого действия вместо обновления одной записи. Забывать про состояние «пусто». Удалять без подтверждения. Смешивать запросы и рендер в одной огромной функции. Не проверять, что будет при выключенном JSON Server.",
-            "tg": "Баъди ҳар амал тамоми рӯйхатро аз нав бор кардан ба ҷои навсозии як сабт. Ҳолати «холӣ»-ро фаромӯш кардан. Бе тасдиқ нест кардан. Дархостҳо ва рендерро дар як функсияи бузург омехта кардан. Насанҷидан, ки ҳангоми хомӯш будани JSON Server чӣ мешавад.",
-            "en": "Reloading the whole list after every action instead of updating one record. Forgetting the empty state. Deleting without confirmation. Mixing requests and rendering in one huge function. Not checking what happens with JSON Server switched off."
+            "ru": "Список не отображается? Сравните запрос в Network с http://localhost:3001/courses. Ответ 404 обычно означает, что путь не совпадает с ключом courses в db.json. Если ответа нет, проверьте порт и запущен ли JSON Server. Если PATCH успешен, но после перезагрузки отметка пропала, откройте db.json и проверьте id и поле done у нужного курса.",
+            "tg": "Рӯйхат намебарояд? Дар Network суроғаи дархостро бо http://localhost:3001/courses муқоиса кунед. Ҷавоби 404 метавонад нишон диҳад, ки роҳ бо калиди courses дар db.json як хел нест. Агар ҷавоб наояд, порт ва кори JSON Server-ро санҷед. Агар PATCH гузашту баъди reload қайд нопадид шуд, дар db.json ID ва майдони done-и курси лозимиро бинед.",
+            "en": "If the list does not appear, compare the Network request with http://localhost:3001/courses. A 404 can mean the path does not match the courses key in db.json. With no response, check the port and whether JSON Server is running. If PATCH succeeds but the mark disappears on reload, look up that course by ID in db.json and inspect done."
           }
         }
       ],
@@ -7793,9 +7793,9 @@
       "practice": {
         "kind": "code",
         "task": {
-          "ru": "Шаг 1. Создайте проект Vite, установите axios и json-server; в db.json положите массив courses из 3 записей { id, title, done }.\nШаг 2. Сделайте src/api/client.js, courses.js и errors.js. Выведите список с состояниями загрузка / пусто / ошибка / данные.\nШаг 3. Добавьте форму создания (пустое название не отправляется, кнопка отключается во время запроса), переключатель done через PATCH с откатом и удаление с confirm.\nШаг 4. Выключите JSON Server и проверьте, что появляется понятное сообщение, а не белый экран. Код script.js вставьте в редактор практики.",
-          "tg": "Қадами 1. Лоиҳаи Vite созед, axios ва json-server-ро насб кунед; дар db.json массиви courses-ро аз 3 сабт { id, title, done } гузоред.\nҚадами 2. src/api/client.js, courses.js ва errors.js созед. Рӯйхатро бо ҳолатҳои боркунӣ / холӣ / хато / маълумот бароред.\nҚадами 3. Формаи сохтанро илова кунед (номи холӣ фиристода намешавад, тугма дар вақти дархост хомӯш мешавад), гузаргоҳи done тавассути PATCH бо баргардонидан ва нест кардан бо confirm.\nҚадами 4. JSON Server-ро хомӯш кунед ва санҷед, ки паёми фаҳмо пайдо мешавад, на экрани сафед. Коди script.js-ро ба муҳаррири практика гузоред.",
-          "en": "Step 1. Create a Vite project, install axios and json-server; put a courses array of 3 records { id, title, done } in db.json.\nStep 2. Build src/api/client.js, courses.js and errors.js. Render the list with loading / empty / error / data states.\nStep 3. Add a create form (empty titles are not sent, the button is disabled during the request), a done toggle via PATCH with rollback, and delete with confirm.\nStep 4. Stop JSON Server and check a clear message appears instead of a blank screen. Paste script.js into the practice editor."
+          "ru": "1. Создайте отдельный Vite-проект с шаблоном vanilla. Установите axios и json-server. Добавьте db.json с массивом courses из трёх записей: id, title и done.\n2. Запустите npx json-server db.json --port 3001. В другом терминале выполните npm run dev. Убедитесь, что GET /courses возвращает массив, затем выведите его на странице и добавьте поиск по названию.\n3. Сделайте добавление, переключение done с откатом и удаление после подтверждения. Пока запись сохраняется, не давайте начать вторую.\n4. Обновите страницу после успешного изменения. Остановите JSON Server и проверьте сообщение об ошибке. Сверяйтесь с эталоном после своей попытки.",
+          "tg": "1. Проекти алоҳидаи Vite бо шаблони vanilla созед. Axios ва json-server насб кунед. Ба db.json массиви courses бо се сабти id, title ва done гузоред.\n2. npx json-server db.json --port 3001-ро иҷро кунед. Дар терминали дигар npm run dev-ро сар кунед. Санҷед, ки GET /courses массив медиҳад. Баъд онро нишон диҳед ва ҷустуҷӯ аз рӯйи ном илова кунед.\n3. Илова кардан, иваз кардани done бо баргардондан ҳангоми хато ва нест кардан бо тасдиқро созед. То анҷоми сабти якум дуюмашро сар накунед.\n4. Баъди тағйири муваффақ саҳифаро нав кунед. JSON Server-ро боздошта, паёми хаторо бинед. Баъди кӯшиши худ ҷавоби намунавиро муқоиса кунед.",
+          "en": "1. Create a separate Vite project with the vanilla template. Install axios and json-server. Add db.json with a courses array of three records with id, title and done.\n2. Run npx json-server db.json --port 3001 and run npm run dev in a second terminal. Verify that GET /courses returns an array. Render it and add title search.\n3. Implement create, toggle done with rollback, and delete after confirmation. Allow one write at a time.\n4. Reload the page after a successful change. Stop JSON Server and check the error message. Compare with the reference after your own attempt."
         },
         "hint": {
           "ru": "Храните курсы в одной переменной courses и одну функцию render(), которая рисует всё по состоянию.",
@@ -7814,7 +7814,7 @@
             "en": "Start the server: npx json-server db.json --port 3001."
           }
         ],
-        "solution": "// src/main.js\nimport { getCourses, createCourse, updateCourse, deleteCourse } from \"./api/courses.js\";\nimport { getErrorMessage } from \"./api/errors.js\";\n\nconst list = document.querySelector(\"#list\");\nconst status = document.querySelector(\"#status\");\nconst form = document.querySelector(\"#form\");\nlet courses = [];\n\nfunction render() {\n  list.textContent = \"\";\n  status.textContent = courses.length === 0 ? \"Курсов пока нет\" : \"\";\n  for (const course of courses) {\n    const li = document.createElement(\"li\");\n    const title = document.createElement(\"span\");\n    title.textContent = course.done ? `✓ ${course.title}` : course.title;\n    const toggle = document.createElement(\"button\");\n    toggle.textContent = course.done ? \"Не готово\" : \"Готово\";\n    toggle.addEventListener(\"click\", () => toggleDone(course.id));\n    const remove = document.createElement(\"button\");\n    remove.textContent = \"Удалить\";\n    remove.addEventListener(\"click\", () => removeCourse(course.id));\n    li.append(title, toggle, remove);\n    list.append(li);\n  }\n}\n\nasync function load() {\n  status.textContent = \"Загрузка…\";\n  try {\n    courses = await getCourses();\n    render();\n  } catch (error) {\n    status.textContent = getErrorMessage(error);\n  }\n}\n\nform.addEventListener(\"submit\", async (event) => {\n  event.preventDefault();\n  const title = form.title.value.trim();\n  if (title === \"\") return;\n  form.submit.disabled = true;\n  try {\n    const created = await createCourse({ title, done: false });\n    courses = [...courses, created];\n    form.reset();\n    render();\n  } catch (error) {\n    status.textContent = getErrorMessage(error);\n  } finally {\n    form.submit.disabled = false;\n  }\n});\n\nasync function toggleDone(id) {\n  const previous = courses;\n  const target = courses.find(course => course.id === id);\n  courses = courses.map(course => (course.id === id ? { ...course, done: !course.done } : course));\n  render();\n  try {\n    await updateCourse(id, { done: !target.done });\n  } catch (error) {\n    courses = previous;\n    render();\n    status.textContent = getErrorMessage(error);\n  }\n}\n\nasync function removeCourse(id) {\n  if (!confirm(\"Удалить курс?\")) return;\n  try {\n    await deleteCourse(id);\n    courses = courses.filter(course => course.id !== id);\n    render();\n  } catch (error) {\n    status.textContent = getErrorMessage(error);\n  }\n}\n\nload();",
+        "solution": "// --- db.json ---\n{\n  \"courses\": [\n    {\n      \"id\": \"1\",\n      \"title\": \"HTML\",\n      \"done\": true\n    },\n    {\n      \"id\": \"2\",\n      \"title\": \"CSS\",\n      \"done\": false\n    },\n    {\n      \"id\": \"3\",\n      \"title\": \"JavaScript\",\n      \"done\": false\n    }\n  ]\n}\n\n<!-- --- index.html --- -->\n<!doctype html>\n<html lang=\"en\">\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Course tracker</title>\n<main>\n  <h1>Course tracker</h1>\n  <label>Search <input id=\"search\" type=\"search\"></label>\n  <form id=\"form\">\n    <label>Course title <input id=\"title\" required></label>\n    <button id=\"add\">Add</button>\n  </form>\n  <p id=\"status\" role=\"status\"></p>\n  <ul id=\"list\"></ul>\n</main>\n<script type=\"module\" src=\"/src/main.js\"></script>\n</html>\n\n// --- src/api/courses.js ---\nimport axios from \"axios\";\n\nconst api = axios.create({ baseURL: \"http://localhost:3001\", timeout: 5000 });\nexport async function getCourses() {\n  const { data } = await api.get(\"/courses\");\n  return data;\n}\nexport async function createCourse(title) {\n  const { data } = await api.post(\"/courses\", { title, done: false });\n  return data;\n}\nexport async function updateCourse(id, done) {\n  const { data } = await api.patch(\"/courses/\" + id, { done });\n  return data;\n}\nexport async function deleteCourse(id) {\n  await api.delete(\"/courses/\" + id);\n}\n\n// --- src/main.js ---\nimport { getCourses, createCourse, updateCourse, deleteCourse } from \"./api/courses.js\";\n\nconst list = document.querySelector(\"#list\");\nconst status = document.querySelector(\"#status\");\nconst search = document.querySelector(\"#search\");\nconst form = document.querySelector(\"#form\");\nconst title = document.querySelector(\"#title\");\nconst add = document.querySelector(\"#add\");\nlet courses = [];\nlet busy = false;\n\nfunction render() {\n  const term = search.value.trim().toLowerCase();\n  const visible = courses.filter(course => course.title.toLowerCase().includes(term));\n  list.replaceChildren();\n  add.disabled = busy;\n  if (!busy) status.textContent = courses.length === 0 ? \"No courses yet.\" : visible.length === 0 ? \"No matching courses.\" : \"\";\n  for (const course of visible) {\n    const row = document.createElement(\"li\");\n    const name = document.createElement(\"span\");\n    name.textContent = (course.done ? \"✓ \" : \"\") + course.title + \" \";\n    const toggle = document.createElement(\"button\");\n    toggle.textContent = course.done ? \"Mark incomplete\" : \"Complete\";\n    toggle.disabled = busy;\n    toggle.onclick = () => toggleCourse(course);\n    const remove = document.createElement(\"button\");\n    remove.textContent = \"Remove\";\n    remove.disabled = busy;\n    remove.onclick = () => removeCourse(course.id);\n    row.append(name, toggle, remove);\n    list.append(row);\n  }\n}\n\nasync function run(action, pendingMessage) {\n  if (busy) return;\n  busy = true;\n  status.textContent = pendingMessage;\n  render();\n  let message = \"\";\n  try {\n    await action();\n  } catch (error) {\n    const code = error.response?.status;\n    message = code ? \"Request failed (HTTP \" + code + \").\" : \"No response. Check JSON Server and try again.\";\n  } finally {\n    busy = false;\n    render();\n    if (message) status.textContent = message;\n  }\n}\n\nform.addEventListener(\"submit\", event => {\n  event.preventDefault();\n  const name = title.value.trim();\n  if (!name) { status.textContent = \"Enter a course title.\"; return; }\n  void run(async () => {\n    const created = await createCourse(name);\n    courses = [...courses, created];\n    form.reset();\n  }, \"Saving…\");\n});\n\nfunction toggleCourse(course) {\n  void run(async () => {\n    const previous = courses;\n    const done = !course.done;\n    courses = courses.map(item => item.id === course.id ? { ...item, done } : item);\n    render();\n    try {\n      const saved = await updateCourse(course.id, done);\n      courses = courses.map(item => item.id === saved.id ? saved : item);\n    } catch (error) {\n      courses = previous;\n      throw error;\n    }\n  }, \"Saving…\");\n}\n\nfunction removeCourse(id) {\n  if (!confirm(\"Remove this course?\")) return;\n  void run(async () => {\n    await deleteCourse(id);\n    courses = courses.filter(item => item.id !== id);\n  }, \"Removing…\");\n}\n\nsearch.addEventListener(\"input\", render);\nvoid run(async () => { courses = await getCourses(); }, \"Loading…\");",
         "criteria": [
           {
             "ru": "Работают загрузка, создание, изменение и удаление через слой API.",
@@ -7831,7 +7831,12 @@
             "tg": "Қайди done ҳангоми хато бармегардад, нест кардан тасдиқро талаб мекунад.",
             "en": "The done tick rolls back on error and delete asks for confirmation."
           }
-        ]
+        ],
+        "referenceAnswer": {
+          "ru": "Один блок ниже содержит четыре файла. Скопируйте каждую часть в файл с указанным именем. После npm create vite@latest courses-lab -- --template vanilla зайдите в courses-lab, выполните npm install и npm install axios@1.21.1 json-server@1.0.0-beta.15. Файлы показывают вариант на учебных данных. Не вводите реальные аккаунты или персональные данные.",
+          "tg": "Блоки поён чор файл дорад. Ҳар қисмро ба файле, ки номаш нишон дода шудааст, гузоред. Баъди npm create vite@latest courses-lab -- --template vanilla ба courses-lab дароед ва npm install, баъд npm install axios@1.21.1 json-server@1.0.0-beta.15-ро иҷро кунед. Барои машқ маълумоти намунавиро истифода баред.",
+          "en": "The block below contains four files. Save each part under its shown name. After npm create vite@latest courses-lab -- --template vanilla, enter courses-lab, run npm install, then npm install axios@1.21.1 json-server@1.0.0-beta.15. Use practice data in this app."
+        }
       }
     },
     {
@@ -8043,7 +8048,7 @@
             "en": "JSON Server may answer 201 to an unknown field — then check Response: title was not saved."
           }
         ],
-        "solution": "notes.txt\n\n1) Опечатка в адресе\nGET http://localhost:3001/cours → 404 Not Found\nResponse: {}\nПричина: неверный путь, должен быть /courses.\n\n2) Неверное поле\nPOST http://localhost:3001/courses → 201 Created\nPayload: {\"name\":\"React\",\"done\":false}\nResponse: {\"id\":\"4\",\"name\":\"React\",\"done\":false}\nПричина: отправили name вместо title — в списке пустое название.\n\n3) Сервер выключен\nGET http://localhost:3001/courses → (failed) net::ERR_CONNECTION_REFUSED\nПричина: сервер не запущен; на экране «Нет соединения с интернетом» от getErrorMessage.\n\nCopy as fetch: поменял name на title в body — запрос прошёл, курс появился.\nSlow 4G: «Загрузка…» видно около 2 секунд.",
+        "solution": "notes.txt\n\n1) Опечатка в адресе\nGET http://localhost:3001/cours → 404 Not Found\nResponse: {}\nПричина: неверный путь, должен быть /courses.\n\n2) Неверное поле\nPOST http://localhost:3001/courses → 201 Created\nPayload: {\"name\":\"React\",\"done\":false}\nResponse: {\"id\":\"4\",\"name\":\"React\",\"done\":false}\nПричина: отправили name вместо title — в списке пустое название.\n\n3) Сервер выключен\nGET http://localhost:3001/courses → (failed) net::ERR_CONNECTION_REFUSED\nПричина: сервер не запущен; на экране «No response. Check JSON Server and try again.».\n\nCopy as fetch: поменял name на title в body — запрос прошёл, курс появился.\nSlow 4G: «Загрузка…» видно около 2 секунд.",
         "criteria": [
           {
             "ru": "Для каждой из трёх поломок записаны метод, адрес, статус и причина.",

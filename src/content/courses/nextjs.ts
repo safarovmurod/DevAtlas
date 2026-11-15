@@ -1,6 +1,7 @@
 import { CURRICULUM, getTopic, questionsForTopic, type LearningTopic } from '@/content/course';
 import type { CourseContent } from '@/lib/courses/schema';
 import { NEXTJS_FOUNDATIONS } from './nextjs-foundations';
+import { NEXTJS_FOUNDATION_REVIEW } from './nextjs-foundation-review';
 
 
 type Lesson = CourseContent['lessons'][number];
@@ -1467,6 +1468,7 @@ const lessons: CourseContent['lessons'] = days.map((day, index) => {
     .map(getTopic)
     .filter((topic): topic is LearningTopic => Boolean(topic));
   const opening = startingLessons[dayNumber];
+  const review = NEXTJS_FOUNDATION_REVIEW[dayNumber];
   const sections: CourseContent['lessons'][number]['sections'] = topics.flatMap((topic) =>
     topic.explanation.map((part, partIndex) => ({
       title: localized(part.title || topic.titleRu),
@@ -1495,6 +1497,7 @@ const lessons: CourseContent['lessons'] = days.map((day, index) => {
       answer: copy?.options[correctIndex] ?? localized(question.answer),
       options: copy?.options ?? question.options.map(localized),
       correctIndex,
+      ...(questionIndex === 0 ? review?.firstQuestion : undefined),
     };
   });
   const practiceSteps = topics.flatMap((topic) => topic.flow).slice(0, 8);
@@ -1512,11 +1515,14 @@ const lessons: CourseContent['lessons'] = days.map((day, index) => {
     sourceIds: topics.some((topic) => topic.id.startsWith('topic-'))
       ? ['nextjs-docs', 'react-docs']
       : ['nextjs-docs'],
-    sections: sections.map((section, sectionIndex) => ({
-      ...section,
-      ...opening?.sections[sectionIndex],
-    })),
-    questions,
+    sections: [
+      ...sections.map((section, sectionIndex) => ({
+        ...section,
+        ...opening?.sections[sectionIndex],
+      })),
+      ...(review?.sections ?? []),
+    ],
+    questions: [...questions, ...(review?.questions ?? [])],
     interview: opening?.interview,
     practice: {
       task: localized(

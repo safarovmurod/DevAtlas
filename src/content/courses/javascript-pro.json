@@ -125,12 +125,12 @@
       "ru": "Зачем сохранять исходные данные",
       "tg": "Чаро додаҳои аслиро нигоҳ медорем?",
       "en": "Preserving the original data"
-    },
+     },
      "body": {
       "ru": "Иммутабельное обновление создаёт новый результат, сохраняя вход как был. Так можно сравнить старую и новую сводку. Копия массива через spread остаётся поверхностной: вложенные объекты нужно копировать отдельно при их изменении.\n\nКонтракт: массив задач с owner и done преобразуется в отсортированную сводку без изменения входных объектов. Map корректно хранит и имя __proto__, не смешивая его со свойствами прототипа. Новые объекты сводки создаются явно; замороженные входные данные помогают обнаружить случайную мутацию. Сортировка здесь сравнивает строки по кодовым единицам, а не по правилам языка. Форма поведенческих проверок вдохновлена прочитанными MIT-тестами javascript-algorithms; код и задача написаны заново.",
       "tg": "Навсозии бе mutation натиҷаи нав месозад ва додаи аввалро нигоҳ медорад. Ҳолати пешу баъдро муқоиса карда мешавад. Spread массивро рӯякӣ нусха мекунад, барои тағйир додани объекти дарунӣ он объектро ҳам нусха гир.\n\nШарт: массиви вазифаҳои дорои owner ва done ба ҷамъбасти тартибдода табдил меёбад, бе тағйири объектҳои вурудӣ. Map номи __proto__-ро ҳам бе омехтан бо прототип нигоҳ медорад. Объектҳои нави ҷамъбаст ошкор сохта мешаванд; додаҳои яхкардашуда тағйири тасодуфиро ошкор мекунанд. Тартибдиҳӣ дар ин ҷо сатрҳоро аз рӯйи воҳидҳои кодӣ муқоиса мекунад, на қоидаҳои забон. Шакли санҷишҳо аз тестҳои хондашудаи MIT-и javascript-algorithms илҳом гирифтааст; рамз ва вазифа нав навишта шудаанд.",
       "en": "An immutable update produces a new result while preserving the input. This makes old and new summaries comparable. Array spread is shallow; copy a nested object separately if you are updating it.\n\nContract: turn tasks with owner and done into a sorted summary without changing input objects. Map handles even the owner name __proto__ without prototype-property collisions. Build new summary objects explicitly; frozen input helps catch accidental mutation. Sorting compares UTF-16 code units here, not locale collation. Behavioral-test structure was informed by the reviewed MIT javascript-algorithms tests; this exercise and implementation are original."
-    }
+     }
     },
     {
      "title": {
@@ -165,21 +165,21 @@
     }
    ],
    "interview": {
-     "id": "javascript-pro-day-01-written",
-     "question": {
-       "ru": "Останется ли вложенный объект общим после копии массива через spread? Ответьте «да» или «нет».",
-       "tg": "Пас аз spread-и массив объекти дарунӣ муштарак мемонад? «Ҳа» ё «не» навис.",
-       "en": "After spreading an array, does a nested object remain shared? Answer yes or no."
-     },
-     "answer": {
-       "ru": "Да",
-       "tg": "Ҳа",
-       "en": "Yes"
-     },
-     "acceptedAnswers": [
-       "ҳа мемонад",
-       "yes it remains shared"
-     ]
+    "id": "javascript-pro-day-01-written",
+    "question": {
+     "ru": "Останется ли вложенный объект общим после копии массива через spread? Ответьте «да» или «нет».",
+     "tg": "Пас аз spread-и массив объекти дарунӣ муштарак мемонад? «Ҳа» ё «не» навис.",
+     "en": "After spreading an array, does a nested object remain shared? Answer yes or no."
+    },
+    "answer": {
+     "ru": "Да",
+     "tg": "Ҳа",
+     "en": "Yes"
+    },
+    "acceptedAnswers": [
+     "ҳа мемонад",
+     "yes it remains shared"
+    ]
    },
    "questions": [
     {
@@ -243,6 +243,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "javascript-pro-day-01-q-understanding",
+     "question": {
+      "ru": "Какие поля меняются у исходной задачи при создании сводки?",
+      "tg": "Кадом майдони вазифаи аслӣ ҳангоми ҷамъбаст иваз мешавад?",
+      "en": "Which fields on an original task change when making a summary?"
+     },
+     "answer": {
+      "ru": "Ни одно поле",
+      "tg": "Ҳеҷ майдон",
+      "en": "None"
+     },
+     "options": [
+      {
+       "ru": "Ни одно поле",
+       "tg": "Ҳеҷ майдон",
+       "en": "None"
+      },
+      {
+       "ru": "Только owner",
+       "tg": "Фақат owner",
+       "en": "Only owner"
+      },
+      {
+       "ru": "Только done",
+       "tg": "Фақат done",
+       "en": "Only done"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сводку можно создать отдельно от входного массива.",
+      "tg": "Ҷамъбастро аз массиви воридшуда ҷудо сохтан мумкин аст.",
+      "en": "A summary can be built separately from the input array."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -304,12 +341,12 @@
       "ru": "Статус HTTP и проверка данных",
       "tg": "HTTP status ва санҷиши маълумот",
       "en": "HTTP status and data validation"
-    },
+     },
      "body": {
       "ru": "fetch может вернуть ответ с ошибкой HTTP, например 503. Поэтому отдельно проверьте статус, разберите JSON и проверьте нужные поля. Даже 200 не обещает, что тело подходит приложению.\n\nfetch не отклоняет Promise только из-за статуса 503: отдельно проверяйте response.ok. Даже HTTP 200 не доказывает правильную форму JSON. Передайте fetcher как зависимость, чтобы проверить успех, HTTP-ошибку и сетевой отказ без внешнего сервиса. Здесь используются реальные Response и локальные тестовые функции: живой запрос не отправляется. В браузере адаптером может быть fetch; AbortSignal.timeout ограничивает запрос только если адаптер соблюдает signal. Отмена запроса не означает, что сервер отменил запись.",
       "tg": "fetch метавонад ҷавоби HTTP бо хатои 503 диҳад. Аввал статус, баъд JSON ва майдонҳои лозимро санҷ. Ҳатто 200 маънои мувофиқ будани маълумотро надорад.\n\nfetch танҳо аз сабаби ҳолати 503 Promise-ро рад намекунад: response.ok-ро алоҳида санҷед. HTTP 200 ҳам шакли дурусти JSON-ро исбот намекунад. fetcher-ро ҳамчун вобастагӣ диҳед, то муваффақият, хатои HTTP ва қатъи шабакаро бе хидмати беруна санҷед. Дар ин ҷо Response-и воқеӣ ва функсияҳои маҳаллии тестӣ истифода мешаванд; дархости зинда фиристода намешавад. Дар браузер fetch адаптер шуда метавонад; AbortSignal.timeout танҳо ҳангоми риояи signal кор мекунад. Қатъи дархост маънои бекор шудани навишти серверро надорад.",
       "en": "fetch can return an HTTP error response such as 503. Check the status, parse JSON, and validate the fields separately. A 200 does not guarantee a usable body.\n\nfetch does not reject merely because the status is 503: check response.ok separately. Even HTTP 200 does not prove the JSON shape is valid. Inject fetcher to test success, HTTP errors and network failure without an external service. These are real Response objects and local fixtures; no live request is made. Browser fetch can be the adapter; AbortSignal.timeout bounds a request only when the adapter honors signal. Aborting a request does not prove the server canceled a write."
-    }
+     }
     },
     {
      "title": {
@@ -344,22 +381,22 @@
     }
    ],
    "interview": {
-     "id": "javascript-pro-day-02-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какое свойство Response проверяет статус в диапазоне 200–299?",
-       "tg": "Кадом property-и Response статуси 200–299-ро месанҷад?",
-       "en": "Which Response property checks for a status from 200 to 299?"
-     },
-     "answer": {
-       "ru": "ok",
-       "tg": "ok",
-       "en": "ok"
-     },
-     "acceptedAnswers": [
-       "response.ok",
-       "Response.ok"
-     ]
+    "id": "javascript-pro-day-02-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какое свойство Response проверяет статус в диапазоне 200–299?",
+     "tg": "Кадом property-и Response статуси 200–299-ро месанҷад?",
+     "en": "Which Response property checks for a status from 200 to 299?"
+    },
+    "answer": {
+     "ru": "ok",
+     "tg": "ok",
+     "en": "ok"
+    },
+    "acceptedAnswers": [
+     "response.ok",
+     "Response.ok"
+    ]
    },
    "questions": [
     {
@@ -423,6 +460,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "javascript-pro-day-02-q-understanding",
+     "question": {
+      "ru": "Ответ 200 содержит lessons: null. Можно считать это пустым списком?",
+      "tg": "Дар ҷавоби 200 lessons: null аст. Ин рӯйхати холист?",
+      "en": "A 200 response contains lessons: null. Is that an empty list?"
+     },
+     "answer": {
+      "ru": "Нет, форма данных неверна",
+      "tg": "Не, сохти маълумот хато аст",
+      "en": "No, the data has the wrong shape"
+     },
+     "options": [
+      {
+       "ru": "Нет, форма данных неверна",
+       "tg": "Не, сохти маълумот хато аст",
+       "en": "No, the data has the wrong shape"
+      },
+      {
+       "ru": "Да, статус говорит, что список пуст",
+       "tg": "Ҳа, статус мегӯяд, ки рӯйхат холист",
+       "en": "Yes, the status says the list is empty"
+      },
+      {
+       "ru": "Да, null всегда равен []",
+       "tg": "Ҳа, null ҳамеша ба [] баробар аст",
+       "en": "Yes, null always equals []"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Статус отвечает за HTTP, форма данных проверяется отдельно.",
+      "tg": "Статус барои HTTP аст. Сохти маълумот алоҳида санҷида мешавад.",
+      "en": "HTTP status and data shape are separate checks."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -484,12 +558,12 @@
       "ru": "Что хранит localStorage и зачем версия",
       "tg": "localStorage чӣ мегирад ва версия барои чӣ лозим?",
       "en": "localStorage and storage versions"
-    },
+     },
      "body": {
       "ru": "localStorage сохраняет строки в браузере между открытиями страницы. Версия позволяет узнать, в каком формате записан объект. Старый, повреждённый или чужой формат проверяйте перед применением.\n\nlocalStorage — недоверенный кэш интерфейса, не доказательство подписки, личности или XP. JSON может быть повреждён, устареть или содержать лишние поля. Проверяйте версию, типы и границы; возвращайте новый объект только с разрешёнными полями. Доступ к хранилищу тоже может бросить ошибку. Адаптер memory делает пример исполняемым в Node; в браузере передайте localStorage. Нельзя хранить здесь секретные серверные ключи.",
       "tg": "localStorage сатрҳоро байни кушодани саҳифа нигоҳ медорад. Версия мегӯяд, объект бо кадом формат сабт шудааст. Формати кӯҳна, вайрон ё ношиносро пеш аз истифода санҷ.\n\nlocalStorage кеши беэътимоди интерфейс аст, на далели обуна, шахсият ё XP. JSON метавонад вайрон, кӯҳна ё дорои майдонҳои зиёдатӣ бошад. Версия, тип ва ҳудудҳоро санҷед; объекти навро танҳо бо майдонҳои иҷозатдода баргардонед. Дастрасӣ ба захира ҳам хато дода метавонад. Адаптери memory мисолро дар Node иҷрошаванда мекунад; дар браузер localStorage диҳед. Калидҳои махфии сервериро ин ҷо нигоҳ надоред.",
       "en": "localStorage keeps strings in the browser across page loads. A version identifies the record's format. Check old, broken, or unexpected data before using it.\n\nlocalStorage is an untrusted UI cache, not proof of subscription, identity or XP. JSON may be corrupt, outdated or contain extra fields. Validate version, types and ranges; return a new object containing only allowed fields. Storage access can also throw. The memory adapter runs this example in Node; pass localStorage in a browser. Never put secret server keys here."
-    }
+     }
     },
     {
      "title": {
@@ -524,23 +598,23 @@
     }
    ],
    "interview": {
-     "id": "javascript-pro-day-03-written",
-     "question": {
-       "ru": "В каком виде localStorage хранит значение: строка или объект JavaScript?",
-       "tg": "localStorage қиматро ҳамчун сатр нигоҳ медорад ё объекти JavaScript?",
-       "en": "Does localStorage store a value as a string or a JavaScript object?"
-     },
-     "answer": {
-       "ru": "Строка",
-       "tg": "Сатр",
-       "en": "String"
-     },
-     "acceptedAnswers": [
-       "текст",
-       "матн",
-       "строки",
-       "strings"
-     ]
+    "id": "javascript-pro-day-03-written",
+    "question": {
+     "ru": "В каком виде localStorage хранит значение: строка или объект JavaScript?",
+     "tg": "localStorage қиматро ҳамчун сатр нигоҳ медорад ё объекти JavaScript?",
+     "en": "Does localStorage store a value as a string or a JavaScript object?"
+    },
+    "answer": {
+     "ru": "Строка",
+     "tg": "Сатр",
+     "en": "String"
+    },
+    "acceptedAnswers": [
+     "текст",
+     "матн",
+     "строки",
+     "strings"
+    ]
    },
    "questions": [
     {
@@ -604,6 +678,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "javascript-pro-day-03-q-understanding",
+     "question": {
+      "ru": "В хранилище осталась строка с повреждённым JSON. Что должна сделать функция чтения?",
+      "tg": "Дар хотира сатри JSON-и вайрон монд. Функсияи хондан чӣ кор кунад?",
+      "en": "Storage contains a broken JSON string. What should the reader do?"
+     },
+     "answer": {
+      "ru": "Вернуть настройки по умолчанию",
+      "tg": "Танзимоти пешфарзро баргардонад",
+      "en": "Return default settings"
+     },
+     "options": [
+      {
+       "ru": "Вернуть настройки по умолчанию",
+       "tg": "Танзимоти пешфарзро баргардонад",
+       "en": "Return default settings"
+      },
+      {
+       "ru": "Довериться строке как объекту",
+       "tg": "Сатрро ҳамчун объект қабул кунад",
+       "en": "Treat the string as an object"
+      },
+      {
+       "ru": "Удалить все ключи localStorage",
+       "tg": "Ҳамаи калидҳои localStorage-ро нест кунад",
+       "en": "Delete every localStorage key"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сначала должна получиться проверенная структура настроек.",
+      "tg": "Аввал сохти танзимот бояд дуруст хонда шавад.",
+      "en": "A read must produce a validated settings object."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -670,7 +781,7 @@
       "ru": "Цикл событий выбирает, какой отложенный обработчик запустится, когда текущий код завершится. Стек вызовов показывает, какие функции сейчас выполняются. На одном потоке долгий синхронный расчёт задерживает и таймеры, и обработку событий. После освобождения стека реакции Promise и queueMicrotask выполняются в очереди микрозадач, прежде чем управление вернётся к обычным задачам, например таймеру. process.nextTick в Node.js имеет отдельную очередь; для логики приложения не полагайтесь на его порядок относительно Promise.",
       "tg": "Цикли рӯйдодҳо муайян мекунад, ки баъди анҷоми коди ҳозира кадом handler кор мекунад. Стек функсияҳои ҳоло иҷрошавандаро нишон медиҳад. Дар як ҷараён ҳисоби тӯлонии синхронӣ ҳам timer ва ҳам event-ро нигоҳ медорад. Вақте стек холӣ шуд, аксуламали Promise ва queueMicrotask аз навбати microtask мегузаранд, баъд вазифаи одӣ мисли timer мерасад. process.nextTick дар Node.js навбати ҷудо дорад; тартибашро бо Promise барои мантиқи барнома асос нагир.",
       "en": "The event loop chooses which queued handler runs after the current code finishes. The call stack records the active function calls. On one thread, a long synchronous calculation delays timers and event handlers. Once the stack clears, Promise reactions and queueMicrotask callbacks run as microtasks before ordinary tasks such as timers. Node.js has a separate nextTick queue; avoid relying on its order relative to promises in application logic."
-    }
+     }
     },
     {
      "title": {
@@ -679,16 +790,16 @@
       "en": "Runnable example"
      },
      "body": {
-      "ru": "Программа складывает метки в массив порядка вместо мгновенной печати, поэтому итоговый журнал — один детерминированный блок. Сохраните его как lesson.mjs и выполните node lesson.mjs (Node.js 22+); используются только стандартные API, сеть не затрагивается. Читайте вывод сверху вниз как временную шкалу: две синхронные метки, затем три метки микрозадач — включая вложенную реакцию, добавленную из другой реакции, — затем первый таймер, созданная им микрозадача, второй таймер и, наконец, таймер, запланированный внутри первого таймера. Утверждения в конце проверяют только те отношения, которые гарантирует спецификация: синхронный код раньше микрозадач, микрозадачи раньше таймеров, вложенные микрозадачи не обгоняют родительские, а контроль после каждого таймера осушает очередь заново. Отдельные детали, вроде относительного порядка process.nextTick в разных контекстах выполнения, сознательно не проверяются: они не являются контрактом. Запустите программу несколько раз — порядок строк не изменится: выполненные отношения гарантированы спецификацией, а не удачей.",
-      "tg": "Барнома нишонаҳоро ба сафи тартиб мегузорад ва фавран чоп намекунад, бинобар ин журнали ниҳоӣ як блоки детерминистӣ аст. Онро ҳамчун lesson.mjs сабт карда, node lesson.mjs-ро иҷро кунед (Node.js 22+); танҳо API-ҳои стандартӣ истифода мешаванд, шабака дахл намешавад. Хуруҷро аз боло ба поён ҳамчун хатти вақт хонед: ду нишонаи синхронӣ, баъд се нишонаи микровазифаҳо — аз ҷумла реаксияи лонаадор, ки аз реаксияи дигар илова шудааст, — баъд таймери аввал, микровазифае, ки он сохт, таймери дуввум ва ниҳоят таймере, ки дар дохили таймери аввал банақша гирифта шуд. Тасдиқҳои охирин танҳо муносибатҳоеро месанҷанд, ки спесификатсия кафолат медиҳад: коди синхронӣ пеш аз микровазифаҳо, микровазифаҳо пеш аз таймерҳо, микровазифаҳои лонаадор волидайнро пеш намегузаранд, назорат баъди ҳар таймер сафро боз холӣ мекунад. Ҷузъиёти алоҳида, монанди тартиби нисбии process.nextTick дар контекстҳои гуногун, дар тасдиқҳо навишта нашудаанд: онҳо шарт нестанд. Барномаро чанд бор иҷро кунед — тартиби сатрҳо тағйир намеёбад: муносибатҳои иҷрошуда аз ҷониби спесификатсия кафолат дода мешаванд, на аз тасодуф.",
-      "en": "The program pushes labels into an order array instead of printing immediately, so the final transcript is one deterministic block. Save it as lesson.mjs and run node lesson.mjs (Node.js 22+); only standard APIs are used and no network is involved. Read the output top to bottom as a timeline: two synchronous labels, then three microtask labels — including a nested reaction queued from inside another reaction — then the first timer, the microtask it schedules, the second timer, and finally the timer planned inside the first timer's callback. The assertions at the end check only the relations the specification guarantees: synchronous code before microtasks, microtasks before timers, nested microtasks not overtaking their parents, and the checkpoint after each timer draining the queue again. Deliberate details such as the relative order of process.nextTick across execution contexts are not asserted: they are not part of the contract. Run the program several times — the line order never changes: the executed relations are guaranteed by the specification, not by luck."
+      "ru": "Сначала скрипт печатает start и end. Пока он выполняется, обработчик Promise и таймер ждут. Когда текущий код завершится, очередь микрозадач выполнит then. После этого очередь задач запустит таймер. Сохраните код как lesson.mjs и выполните node lesson.mjs. Ожидаемый порядок: start, end, then, timer.",
+      "tg": "Аввал скрипт start ва end мебарорад. То иҷрои ҳамин код handler-и Promise ва timer интизор мешаванд. Баъди анҷоми блок навбати microtask then-ро иҷро мекунад. Баъдаш навбати task timer-ро сар мекунад. Кодро дар lesson.mjs монда, node lesson.mjs иҷро кунед. Тартиб: start, end, then, timer.",
+      "en": "The script first prints start and end. The promise handler and timer wait during this code. Once the current script finishes, the microtask queue runs then. After that, the task queue runs the timer. Save as lesson.mjs and run node lesson.mjs. Expect start, end, then, timer."
      },
-     "code": "import assert from \"node:assert/strict\";\n\nconst order = [];\nconst step = (label) => order.push(label);\n\nstep(\"sync:start\");\nPromise.resolve().then(() => {\n  step(\"microtask:then-1\");\n  Promise.resolve().then(() => step(\"microtask:nested-in-then-1\"));\n});\nqueueMicrotask(() => step(\"microtask:queued\"));\nsetTimeout(() => {\n  step(\"timer:1\");\n  Promise.resolve().then(() => step(\"microtask:after-timer-1\"));\n  setTimeout(() => {\n    step(\"timer:scheduled-inside-timer-1\");\n    setTimeout(() => {\n      step(\"timer:final\");\n      console.log(order.join(\"\\n\"));\n      assert.ok(order.indexOf(\"sync:start\") < order.indexOf(\"sync:end\"));\n      assert.ok(order.indexOf(\"sync:end\") < order.indexOf(\"microtask:then-1\"));\n      assert.ok(order.indexOf(\"microtask:then-1\") < order.indexOf(\"microtask:queued\"));\n      assert.ok(order.indexOf(\"microtask:queued\") < order.indexOf(\"microtask:nested-in-then-1\"));\n      assert.ok(order.indexOf(\"microtask:nested-in-then-1\") < order.indexOf(\"timer:1\"));\n      assert.ok(order.indexOf(\"timer:1\") < order.indexOf(\"microtask:after-timer-1\"));\n      assert.ok(order.indexOf(\"microtask:after-timer-1\") < order.indexOf(\"timer:2\"));\n      assert.ok(order.indexOf(\"timer:2\") < order.indexOf(\"timer:scheduled-inside-timer-1\"));\n      assert.ok(order.indexOf(\"timer:scheduled-inside-timer-1\") < order.indexOf(\"timer:final\"));\n      assert.equal(order.length, 10);\n    }, 0);\n  }, 0);\n}, 0);\nsetTimeout(() => step(\"timer:2\"), 0);\nstep(\"sync:end\");\n",
+     "code": "console.log(\"start\");\nsetTimeout(() => console.log(\"timer\"), 0);\nPromise.resolve().then(() => console.log(\"then\"));\nconsole.log(\"end\");",
      "language": "javascript",
      "output": {
-      "ru": "sync:start\nsync:end\nmicrotask:then-1\nmicrotask:queued\nmicrotask:nested-in-then-1\ntimer:1\nmicrotask:after-timer-1\ntimer:2\ntimer:scheduled-inside-timer-1\ntimer:final",
-      "tg": "sync:start\nsync:end\nmicrotask:then-1\nmicrotask:queued\nmicrotask:nested-in-then-1\ntimer:1\nmicrotask:after-timer-1\ntimer:2\ntimer:scheduled-inside-timer-1\ntimer:final",
-      "en": "sync:start\nsync:end\nmicrotask:then-1\nmicrotask:queued\nmicrotask:nested-in-then-1\ntimer:1\nmicrotask:after-timer-1\ntimer:2\ntimer:scheduled-inside-timer-1\ntimer:final"
+      "ru": "start\nend\nthen\ntimer",
+      "tg": "start\nend\nthen\ntimer",
+      "en": "start\nend\nthen\ntimer"
      }
     },
     {
@@ -739,33 +850,76 @@
     {
      "id": "javascript-pro-day-04-q2",
      "question": {
-      "ru": "Когда выполнится таймер с задержкой 0, созданный внутри колбэка другого таймера?",
-      "tg": "Таймери бо таъхири 0, ки дар дохили колбэки таймери дигар сохта шудааст, кай иҷро мешавад?",
-      "en": "When does a zero-delay timer created inside another timer's callback run?"
+      "ru": "Первый таймер поставил новый таймер и обработчик Promise. Кто из них выполнится раньше?",
+      "tg": "Timer-и якум timer-и нав ва handler-и Promise гузошт. Кадомаш пештар иҷро мешавад?",
+      "en": "The first timer queues another timer and a promise handler. Which runs first?"
      },
      "answer": {
-      "ru": "После таймеров, чей срок уже наступил к этому моменту",
-      "tg": "Баъди таймерҳое, ки муҳлаташон аллакай расидааст",
-      "en": "After the timers whose expiry was already due"
+      "ru": "Обработчик Promise, потому что очередь микрозадач проверяется после текущего таймера",
+      "tg": "Handler-и Promise, чун навбати microtask баъди timer-и ҷорӣ санҷида мешавад",
+      "en": "The promise handler, because microtasks drain after the current timer"
      },
      "options": [
       {
-       "ru": "Немедленно после возврата колбэка, до микрозадач",
-       "tg": "Фавран баъди баргашти колбэк, пеш аз микровазифаҳо",
-       "en": "Immediately after the callback returns, before microtasks"
+       "ru": "Новый таймер, потому что задержка равна нулю",
+       "tg": "Timer-и нав, чун таъхираш сифр аст",
+       "en": "The new timer because its delay is zero"
       },
       {
-       "ru": "После таймеров, чей срок уже наступил к этому моменту",
-       "tg": "Баъди таймерҳое, ки муҳлаташон аллакай расидааст",
-       "en": "After the timers whose expiry was already due"
+       "ru": "Обработчик Promise, потому что очередь микрозадач проверяется после текущего таймера",
+       "tg": "Handler-и Promise, чун навбати microtask баъди timer-и ҷорӣ санҷида мешавад",
+       "en": "The promise handler, because microtasks drain after the current timer"
       },
       {
-       "ru": "Никогда: вложенные таймеры игнорируются",
-       "tg": "Ҳеҷ гоҳ: таймерҳои лонаадор рад мешаванд",
-       "en": "Never: nested timers are ignored"
+       "ru": "Оба одновременно, потому что текущий таймер завершился",
+       "tg": "Ҳар ду як вақт, чун timer-и ҷорӣ тамом шуд",
+       "en": "Both at the same time because the current timer finished"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните then и timer в коротком примере.",
+      "tg": "Дар мисоли кӯтоҳ then ва timer-ро муқоиса кунед.",
+      "en": "Compare then and timer in the short example."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "javascript-pro-day-04-q-understanding",
+     "question": {
+      "ru": "Код печатает Start, ставит Promise.then и печатает End. Когда сработает обработчик Promise?",
+      "tg": "Код Start менависад, Promise.then мегузорад ва End менависад. Handler-и Promise кай иҷро мешавад?",
+      "en": "Code prints Start, queues Promise.then and prints End. When does the promise handler run?"
+     },
+     "answer": {
+      "ru": "После End",
+      "tg": "Баъди End",
+      "en": "After End"
+     },
+     "options": [
+      {
+       "ru": "До Start",
+       "tg": "Пеш аз Start",
+       "en": "Before Start"
+      },
+      {
+       "ru": "Между Start и End",
+       "tg": "Байни Start ва End",
+       "en": "Between Start and End"
+      },
+      {
+       "ru": "После End",
+       "tg": "Баъди End",
+       "en": "After End"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сначала посмотрите, какие вызовы уже стоят в стеке.",
+      "tg": "Аввал бинед, ки кадом даъватҳо ҳоло дар stack ҳастанд.",
+      "en": "Start with the calls already on the stack."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -832,7 +986,7 @@
       "ru": "Комбинатор собирает несколько промисов в один. Promise.all подходит, когда нужны все результаты: первый отказ отклоняет общий промис. allSettled ждёт исход каждой операции и сообщает, что выполнилось, а что отклонилось. race берёт первый исход, а any — первый успешный; если успехов нет, any отклоняется с AggregateError. Эти методы сами не отменяют операции. В цепочке catch может восстановить результат, вернув запасное значение, или сохранить отказ, выбросив ошибку.",
       "tg": "Комбинатор чанд Promise-ро ба як натиҷа ҷамъ мекунад. Promise.all вақте лозим аст, ки ҳамаи натиҷаҳо даркоранд: рад шудани яке Promise-и умумиро рад мекунад. allSettled ҳар амалро интизор мешавад ва ҳолати ҳар кадомро медиҳад. race натиҷаи аввалро мегирад, any натиҷаи муваффақи аввалро; бе муваффақият any бо AggregateError рад мешавад. Худ аз худ амалҳои монда бекор намешаванд. catch метавонад қимати эҳтиётӣ диҳад ё хаторо боз барорад.",
       "en": "A combinator combines promises into one result. Use Promise.all when all results are needed: the first rejection rejects the combined promise. allSettled waits for every outcome and reports each success or failure. race takes the first settlement; any takes the first fulfillment, rejecting with AggregateError if none fulfill. These methods do not cancel operations. A catch can recover with a fallback value or preserve rejection by throwing an error."
-    }
+     }
     },
     {
      "title": {
@@ -928,6 +1082,43 @@
       }
      ],
      "correctIndex": 2
+    },
+    {
+     "id": "javascript-pro-day-05-q-understanding",
+     "question": {
+      "ru": "Что получит следующий then, если catch вернул число 5?",
+      "tg": "Агар catch рақами 5 баргардонад, then-и баъдӣ чӣ мегирад?",
+      "en": "What does the next then receive if catch returns 5?"
+     },
+     "answer": {
+      "ru": "Значение 5",
+      "tg": "Қимати 5",
+      "en": "The value 5"
+     },
+     "options": [
+      {
+       "ru": "Значение 5",
+       "tg": "Қимати 5",
+       "en": "The value 5"
+      },
+      {
+       "ru": "Первую ошибку",
+       "tg": "Хатои аввалро",
+       "en": "The original error"
+      },
+      {
+       "ru": "Значение undefined",
+       "tg": "Қимати undefined",
+       "en": "The value undefined"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Обычный return и throw ведут цепочку по разным веткам.",
+      "tg": "Return-и одӣ ва throw занҷирро ба ду роҳ мебаранд.",
+      "en": "Returning and throwing move the chain down different paths."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -994,7 +1185,7 @@
       "ru": "Отмена кооперативная: AbortController передаёт сигнал, а операция должна на него отреагировать. Если сигнал уже отменён, остановитесь сразу; новое событие не придёт. При завершении уберите таймер и обработчик. AbortSignal.timeout даёт автоматический сигнал отмены после задержки. Для нового запуска создайте новый контроллер. Если сервер успел записать данные, отмена ожидания на клиенте запись не откатывает.",
       "tg": "Бекоркунӣ ҳамкорӣ мехоҳад: AbortController signal медиҳад ва амал бояд онро гӯш кунад. Агар signal аллакай бекор бошад, ҳозир ист; event-и нав намеояд. Баъди анҷом timer ва handler-ро тоза кун. AbortSignal.timeout баъди фосила signal-и бекоркунӣ медиҳад. Барои оғоз аз нав controller-и нав соз. Агар сервер аллакай сабт кард, истодани интизорӣ сабтро барнамегардонад.",
       "en": "Cancellation is cooperative. AbortController sends a signal, and an operation must respond to it. Stop immediately if the signal is already aborted; a new event will not arrive. Clear timers and listeners when the operation settles. AbortSignal.timeout supplies an automatic signal after a delay. Start a retry with a new controller. Canceling the client wait cannot undo a write the server already made."
-    }
+     }
     },
     {
      "title": {
@@ -1090,6 +1281,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "javascript-pro-day-06-q-understanding",
+     "question": {
+      "ru": "Операция завершилась без отмены. Что делать с обработчиком abort?",
+      "tg": "Амал бе бекоркунӣ тамом шуд. Handler-и abort-ро чӣ кор кунем?",
+      "en": "The operation finished without cancellation. What should happen to its abort listener?"
+     },
+     "answer": {
+      "ru": "Снять обработчик",
+      "tg": "Handler-ро ҷудо кардан",
+      "en": "Remove the listener"
+     },
+     "options": [
+      {
+       "ru": "Оставить до следующего запуска",
+       "tg": "То оғози нав мондан",
+       "en": "Keep it until the next run"
+      },
+      {
+       "ru": "Вызвать abort для других задач",
+       "tg": "Барои амалҳои дигар abort кардан",
+       "en": "Abort the other operations"
+      },
+      {
+       "ru": "Снять обработчик",
+       "tg": "Handler-ро ҷудо кардан",
+       "en": "Remove the listener"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ресурс освобождают при любом завершении.",
+      "tg": "Бо ҳар натиҷа ресурсро озод мекунанд.",
+      "en": "Release the resource on every completion path."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1156,7 +1384,7 @@
       "ru": "Retry — новая попытка после временного отказа. Backoff увеличивает паузу, например 1, 2 и 4 секунды, до заданного потолка. Jitter немного разносит время повторов, чтобы клиенты не пришли снова одновременно. Ограничьте число попыток и общее время отдельно. Повтор чтения обычно допустим, но для повторной записи сначала проверьте, как API предотвращает дубликаты.",
       "tg": "Retry кӯшиши нав баъди хатои муваққатӣ аст. Backoff фосиларо то ҳадди муайян калон мекунад, масалан 1, 2 ва 4 сония. Jitter лаҳзаи такрорро каме пароканда мекунад, то ҳамаи клиентҳо якбора боз наоянд. Шумораи кӯшиш ва вақти умумиро ҷудо маҳдуд кун. Хонданро одатан такрор мешавад, барои сабт аввал қоидаи пешгирии дубликатро дар API санҷ.",
       "en": "A retry is another attempt after a temporary failure. Backoff increases the delay, for example to 1, 2, and 4 seconds, up to a ceiling. Jitter spreads attempts out so clients do not retry in sync. Cap both the attempt count and the total time. Retrying reads is usually acceptable; check how an API prevents duplicate writes before retrying one."
-    }
+     }
     },
     {
      "title": {
@@ -1252,6 +1480,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "javascript-pro-day-07-q-understanding",
+     "question": {
+      "ru": "Лимит — три попытки, ошибка временная и повторилась в третий раз. Что дальше?",
+      "tg": "Лимит се кӯшиш аст ва хатои муваққатӣ бори сеюм омад. Баъд чӣ?",
+      "en": "The limit is three attempts and the third attempt has a temporary failure. What next?"
+     },
+     "answer": {
+      "ru": "Вернуть ошибку вызывающему коду",
+      "tg": "Хаторо ба коди даъваткунанда баргардондан",
+      "en": "Return the failure to the caller"
+     },
+     "options": [
+      {
+       "ru": "Подождать и запустить четвёртую",
+       "tg": "Каме интизор шуда, чорумро сар кардан",
+       "en": "Wait and start a fourth attempt"
+      },
+      {
+       "ru": "Сообщить об успехе без данных",
+       "tg": "Бе маълумот муваффақ гуфтан",
+       "en": "Report success without data"
+      },
+      {
+       "ru": "Вернуть ошибку вызывающему коду",
+       "tg": "Хаторо ба коди даъваткунанда баргардондан",
+       "en": "Return the failure to the caller"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Отдельно посчитайте попытки и ожидания между ними.",
+      "tg": "Кӯшишҳоро аз вақти интизории байни онҳо ҷудо ҳисоб кунед.",
+      "en": "Count attempts and the waits between attempts separately."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1414,6 +1679,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "javascript-pro-day-08-q-understanding",
+     "question": {
+      "ru": "Генератор отдаёт числа 1, 2, 3 и дальше. Сколько значений нужно взять, чтобы получить первые два?",
+      "tg": "Generator ададҳои 1, 2, 3 ва баъдиро медиҳад. Барои ду адади аввал чанд қимат гирифтан лозим?",
+      "en": "A generator yields 1, 2, 3 and so on. How many values do you need to pull to take the first two?"
+     },
+     "answer": {
+      "ru": "Два",
+      "tg": "Ду",
+      "en": "Two"
+     },
+     "options": [
+      {
+       "ru": "Три",
+       "tg": "Се",
+       "en": "Three"
+      },
+      {
+       "ru": "Два",
+       "tg": "Ду",
+       "en": "Two"
+      },
+      {
+       "ru": "Всю последовательность",
+       "tg": "Тамоми пайдарпайиро",
+       "en": "The entire sequence"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте лимит до очередного next().",
+      "tg": "Лимитро пеш аз next()-и дигар санҷед.",
+      "en": "Check the limit before another next() call."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1480,7 +1782,7 @@
       "ru": "Модуль ESM объявляет зависимости через import и публичные имена через export. Импорт видит текущее значение экспорта, а не отдельную копию. При цикле A → B → A чтение ещё не инициализированного const вызовет ReferenceError. Вынесите общие правила в отдельный модуль, если обе стороны действительно используют их. Статические импорты помогают сборщику убрать неиспользуемый код, но сами по себе этого не гарантируют.",
       "tg": "Модули ESM вобастагиро бо import ва номи дастрасро бо export нишон медиҳад. Import қимати ҳозираи export-ро мебинад, на нусхаи ҷудо. Дар цикли A → B → A хондани const-и ҳоло омоданашуда ReferenceError медиҳад. Агар ҳар ду қоидаи умумӣ доранд, онро ба модули ҷудо барор. Import-и статикӣ ба сборка барои гирифтани коди зиёдатӣ ёрӣ медиҳад, кафолат намедиҳад.",
       "en": "An ESM module declares dependencies with import and its public names with export. An import sees the current exported value rather than a separate copy. In an A → B → A cycle, reading a const before it initializes throws ReferenceError. Move truly shared rules into a separate module. Static imports help a bundler remove unused code, but do not guarantee removal."
-    }
+     }
     },
     {
      "title": {
@@ -1585,6 +1887,43 @@
       }
      ],
      "correctIndex": 2
+    },
+    {
+     "id": "javascript-pro-day-09-q-understanding",
+     "question": {
+      "ru": "Два модуля импортируют одну общую константу друг у друга. Как убрать цикл?",
+      "tg": "Ду модул як constant-ро аз якдигар import мекунанд. Чӣ хел cycle-ро гирем?",
+      "en": "Two modules import a shared constant from each other. How can you remove the cycle?"
+     },
+     "answer": {
+      "ru": "Вынести константу в третий модуль",
+      "tg": "Constant-ро ба модули сеюм гузарондан",
+      "en": "Move the constant into a third module"
+     },
+     "options": [
+      {
+       "ru": "Поменять порядок импортов",
+       "tg": "Тартиби import-ҳоро иваз кардан",
+       "en": "Reorder the imports"
+      },
+      {
+       "ru": "Переименовать константу",
+       "tg": "Номи constant-ро иваз кардан",
+       "en": "Rename the constant"
+      },
+      {
+       "ru": "Вынести константу в третий модуль",
+       "tg": "Constant-ро ба модули сеюм гузарондан",
+       "en": "Move the constant into a third module"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Нарисуйте стрелки импортов после изменения.",
+      "tg": "Баъди тағйир самти import-ҳоро кашед.",
+      "en": "Draw the import arrows after each change."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1656,7 +1995,7 @@
       "ru": "Утечка памяти возникает, когда данные уже не нужны, но на них всё ещё можно выйти по ссылке. Например, закрыли окно, а его обработчик остался подписан и держит старый список. Снимите подписку при закрытии; время освобождения памяти определит сборщик мусора.\n\nОбъект живёт, пока на него есть достижимая ссылка; утечка — это не поломка сборщика, а логика, которая держит ссылку дольше необходимого. Замыкание удерживает всю область видимости: подписка на событие держит колбэк, колбэк держит свои данные, шина держит колбэк — и страница растёт с каждым рендером. Классические источники: подписки без отписки, глобальные реестры, растущие кэши без потолка и инвалидации, таймеры, пережившие свой компонент. Инструменты различаются ролью: Map держит ключи вечно и пригоден там, где жизненный цикл управляется явно; WeakMap не препятствует сборке ключа и не даёт перечислить записи — правильно для метаданных узлов; ceiling-кэш выселяет старейшие записи и сохраняет размер предсказуемым. Честная граница урока: момент сборки ненаблюдаем детерминированно, поэтому учебный пример считает ссылки и подписки, а не заставляет GC. В реальной диагностике снимайте снимок кучи и сравнивайте удерживающие пути — но выводы те же: ищите, кто держит.",
       "tg": "Memory leak вақте мешавад, ки дода дигар даркор нест, аммо бо reference ҳоло дастрас аст. Масалан, тиреза пӯшида шуд, handler-и обунашуда рӯйхати кӯҳнаро нигоҳ медорад. Ҳангоми пӯшидан обунаро қатъ кун. Вақти озод шудани хотираро garbage collector муайян мекунад.\n\nОбъект зинда аст, то замоне ки ба ӯ истиноди дастрас ҳаст; талаф хота шикастани collector нест, балки мантиқест, ки истинодро аз ҳад зиёд дароз нигоҳ медорад. Клозур тамоми ҳудуди намоёни худро нигоҳ медорад: обуна ба ҳодиса колбэкро медорад, колбэк додаҳои худро медорад, шина колбэкро медорад — ва саҳифа бо ҳар render меафзояд. Сарчашмаҳои классикӣ: обунаҳо бе азобуна, реестрҳои глобалӣ, кэшҳои бе шифт ва invalidation, таймерҳое, ки аз компоненти худ дароз зиндагӣ мекунанд. Абзорҳо аз рӯйи нақш фарқ мекунанд: Map калидҳоро ҷовидон медорад ва дар ҷое мувофиқ аст, ки ҳаёт ба таври возеҳ идора мешавад; WeakMap ҷамъоварии калидро манъ намекунад ва имкон намедиҳад сабтҳоро шуморӣ кард — дуруст барои метадодаи гиреҳҳо; кэши бо шифт сабтҳои кӯҳнатаринро мебарорад ва андозаро пешгӯишаванда нигоҳ медорад. Ҳудуди ростии дарс: лаҳзаи ҷамъоварӣ детерминистӣ намоён нест, бинобар ин мисоли омӯзишӣ истинодҳо ва обунаҳоро месанҷад, на collector-ро маҷбур мекунад. Дар ташхиси воқеӣ сурати хотаро гирифта, роҳҳои нигоҳдорандаро муқоиса кунед — вале хулосаҳо ҳамонанд: ҷустужӯй кӣ медорад.",
       "en": "A memory leak occurs when the app no longer needs some data but a reference still keeps it reachable. A closed panel’s subscribed handler can retain its old list. Remove the subscription when the panel closes; the garbage collector decides when to reclaim memory.\n\nAn object lives as long as a reachable reference to it exists; a leak is not a broken collector but logic that holds a reference longer than necessary. A closure retains its whole scope: an event subscription holds the callback, the callback holds its data, the bus holds the callback — and the page grows with every render. Classic sources: subscriptions without unsubscribe, global registries, caches without a ceiling or invalidation, timers outliving their component. Tools differ in role: Map keeps keys forever and fits where lifetime is managed explicitly; WeakMap does not prevent key collection and offers no way to enumerate entries — right for per-node metadata; a capped cache evicts the oldest entries and keeps the size predictable. The honest boundary of this lesson: the collection moment is not deterministically observable, so the teaching example counts references and subscriptions instead of forcing the GC. In real diagnosis you snapshot the heap and compare retaining paths — but the conclusions are the same: find who holds."
-    }
+     }
     },
     {
      "title": {
@@ -1752,6 +2091,43 @@
       }
      ],
      "correctIndex": 2
+    },
+    {
+     "id": "javascript-pro-day-10-q-understanding",
+     "question": {
+      "ru": "Экран закрыли и открыли пять раз. Число активных подписок выросло с 1 до 5. Где искать причину?",
+      "tg": "Экранро панҷ бор кушоду маҳкам кардем. Обунаҳои фаъол аз 1 ба 5 расиданд. Сабабро дар куҷо бинем?",
+      "en": "A screen is reopened five times and active subscriptions grow from one to five. Where should you look?"
+     },
+     "answer": {
+      "ru": "В очистке подписки при закрытии",
+      "tg": "Дар қатъ кардани обуна ҳангоми маҳкамкунӣ",
+      "en": "In subscription cleanup when the screen closes"
+     },
+     "options": [
+      {
+       "ru": "В названии события",
+       "tg": "Дар номи event",
+       "en": "In the event name"
+      },
+      {
+       "ru": "В порядке строк списка",
+       "tg": "Дар тартиби сатрҳои рӯйхат",
+       "en": "In the list order"
+      },
+      {
+       "ru": "В очистке подписки при закрытии",
+       "tg": "Дар қатъ кардани обуна ҳангоми маҳкамкунӣ",
+       "en": "In subscription cleanup when the screen closes"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Проследите, что происходит с каждым подписчиком после закрытия экрана.",
+      "tg": "Бинед, ки баъди маҳкам шудани экран бо ҳар обуна чӣ мешавад.",
+      "en": "Trace what happens to each listener when the screen closes."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1914,6 +2290,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "javascript-pro-day-11-q-understanding",
+     "question": {
+      "ru": "Поиск должен запускаться один раз после паузы в наборе. Какой способ подходит?",
+      "tg": "Ҷустуҷӯ бояд баъди каме хомӯш мондани клавиатура як бор сар шавад. Кадом роҳ мувофиқ аст?",
+      "en": "Search should run once after the user pauses typing. Which approach fits?"
+     },
+     "answer": {
+      "ru": "Debounce",
+      "tg": "Debounce",
+      "en": "Debounce"
+     },
+     "options": [
+      {
+       "ru": "Debounce",
+       "tg": "Debounce",
+       "en": "Debounce"
+      },
+      {
+       "ru": "Throttle",
+       "tg": "Throttle",
+       "en": "Throttle"
+      },
+      {
+       "ru": "Memoization",
+       "tg": "Memoization",
+       "en": "Memoization"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "При каждом новом символе прежнее ожидание начинается заново.",
+      "tg": "Бо ҳар ҳарфи нав интизорӣ аз нав сар мешавад.",
+      "en": "Every keystroke restarts the waiting period."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1980,7 +2393,7 @@
       "ru": "Модуль node:test запускает проверки в Node.js. В одном тесте подготовьте данные, вызовите функцию и сравните фактический результат с ожидаемым. Таблица тестов повторяет эту схему для разных случаев: обычный ввод, пустой список и ошибочное значение. Назовите каждую строку, чтобы при сбое было видно, какой случай не прошёл.",
       "tg": "Модули node:test санҷишҳоро дар Node.js иҷро мекунад. Дар тест дода тайёр кун, функсияро даъват кун ва натиҷаи воқеиро бо чашмдошт муқоиса кун. Ҷадвали тест ҳамин корро барои ҳолатҳои гуногун такрор мекунад: вориди одӣ, рӯйхати холӣ ва қимати хато. Ба ҳар сатр ном деҳ, то ҳангоми хато ҳолат маълум шавад.",
       "en": "The node:test module runs tests in Node.js. Arrange the input, call the function, and assert that the actual result matches the expected one. A case table applies the same pattern to valid input, an empty list, and an invalid value. Name each case so a failure tells you what went wrong."
-    }
+     }
     },
     {
      "title": {
@@ -2076,6 +2489,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "javascript-pro-day-12-q-understanding",
+     "question": {
+      "ru": "Тесты передают только целые числа от 0 до 100. Как проверить ветку ошибки ввода?",
+      "tg": "Тестҳо танҳо ададҳои бутуни 0 то 100 медиҳанд. Шохаи хатои input-ро чӣ хел санҷем?",
+      "en": "Your tests pass only integers from 0 to 100. How do you test the input error branch?"
+     },
+     "answer": {
+      "ru": "Передать строку и проверить исключение",
+      "tg": "Сатр дода, exception-ро санҷидан",
+      "en": "Pass a string and assert the exception"
+     },
+     "options": [
+      {
+       "ru": "Взять ещё одно число из середины",
+       "tg": "Боз як адад аз миёна гирифтан",
+       "en": "Pick another number in the middle"
+      },
+      {
+       "ru": "Проверить только возвращаемый максимум",
+       "tg": "Фақат натиҷаи калонтаринро санҷидан",
+       "en": "Check only the maximum result"
+      },
+      {
+       "ru": "Передать строку и проверить исключение",
+       "tg": "Сатр дода, exception-ро санҷидан",
+       "en": "Pass a string and assert the exception"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Подберите вход, который не проходит проверку типа.",
+      "tg": "Input-еро ёбед, ки аз санҷиши тип намегузарад.",
+      "en": "Choose an input that fails the type check."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -2142,7 +2592,7 @@
       "ru": "Code review — чтение изменения перед публикацией. Сначала проверьте, что функция соблюдает обещанный формат и правильно обрабатывает пограничный случай. Замечание должно назвать наблюдаемый итог: «пустой список приводит к ошибке» полезнее оценки стиля.\n\nРевью отвечает на три вопроса: работает ли код, переживёт ли отказы и можно ли это поддерживать. Первое — корректность контракта: типы, границы, пустые значения, идемпотентность. Второе — устойчивость: проверен ли response.ok, есть ли таймаут и отмена, что происходит при отказе сети и повреждённом JSON, не мутирует ли код общие структуры. Третье — поддерживаемость: понятны ли имена, отделены ли слои, тестируем ли модуль без сети. Чек-лист дисциплинирует: без него ревью вырождается в придирки к стилю, а дефекты уровнем выше ускользают. Приоритет замечаний: сначала дефекты корректности и безопасности, потом устойчивость, потом читаемость; стилистические правки — работа линтера, а не человека. Формулировка замечания — инженерный текст: что наблюдаем, при каких входах, какой сценарий ломается, какое изменение предлагается. Ревью — про код, не про автора; вежливость здесь не украшение, а условие работы команды.",
       "tg": "Code review хондани тағйир пеш аз нашр аст. Аввал бин, ки функсия формати ваъдашударо нигоҳ медорад ва ҳолати сарҳадиро дуруст мегирад. Эзоҳ натиҷаи дидашавандаро гӯяд: «рӯйхати холӣ хато медиҳад» аз баҳси style фаҳмотар аст.\n\nРевюм се саволро ҷавоб медиҳад: оё код кор мекунад, оё носозиҳоро пас мегардонад ва оё онро нигоҳ доштан мумкин аст. Якум — дурустии шарт: типҳо, ҳудудҳо, қиматҳои холӣ, идемпотентӣ. Дуюм — устуворӣ: оё response.ok санҷида шудааст, оё таймаут ва бекоркунӣ ҳаст, бо радкунии шабака ва JSON-и вайрон чӣ мешавад, оё код сохторҳои умумиро тағйир намедиҳад. Сеюм — нигоҳдорӣ: оё номҳо фаҳмоанд, оё қабатҳо ҷудоанд, оё модулро бе шабака санҷидан мумкин аст. Рӯйхати санҷиш интизомро нигоҳ медорад: бе он ревюм ба танқиди услуб табдил меёбад ва нуқсонҳои сатҳи болотар мемонанд. Аввалияти нодурустиҳо: аввал нуқсонҳои дурустӣ ва бехатарӣ, баъд устуворӣ, баъд хонандаӣ; ислоҳҳои услубӣ — кори линтер, на инсона. Формулаи нодурустӣ — матни муҳандисӣ: чӣ мебинем, бо кадом вуруд, кадом сенария мешиканад, кадом тағйир пешниҳод мешавад. Ревюм дар бораи код аст, на муаллиф; эҳтиром ороиш нест, шарти кори даста аст.",
       "en": "Code review means reading a change before it ships. Check its promised input and output and how it handles an edge case. Point to an observable result: “an empty list throws an error” is more helpful than a judgment about style.\n\nA review answers three questions: does the code work, does it survive failures, and can it be maintained. First, contract correctness: types, boundaries, empty values, idempotency. Second, resilience: is response.ok checked, are timeouts and cancellation present, what happens on network failure and corrupt JSON, does the code mutate shared structures. Third, maintainability: are names clear, are layers separated, can the module be tested without a network. A checklist keeps the review disciplined: without one it degrades into style nitpicks while higher-level defects slip through. Prioritize findings: correctness and security defects first, then resilience, then readability; stylistic fixes are a linter's job, not a human's. Phrase each finding as engineering prose: what is observed, under which inputs, which scenario breaks, what change is proposed. Review the code, not the author; courtesy here is not decoration but a working condition for the team."
-    }
+     }
     },
     {
      "title": {
@@ -2245,6 +2695,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "javascript-pro-day-13-q-understanding",
+     "question": {
+      "ru": "Что помогает автору воспроизвести проблему в ревью?",
+      "tg": "Барои аз нав дидани мушкил дар code review ба муаллиф чӣ ёрӣ медиҳад?",
+      "en": "What helps an author reproduce a problem from a review?"
+     },
+     "answer": {
+      "ru": "Конкретный вход и полученный результат",
+      "tg": "Input-и аниқ ва натиҷаи баромада",
+      "en": "A concrete input and its observed result"
+     },
+     "options": [
+      {
+       "ru": "Только слово «сломано»",
+       "tg": "Фақат калимаи «вайрон»",
+       "en": "Only the word “broken”"
+      },
+      {
+       "ru": "Список файлов без сценария",
+       "tg": "Рӯйхати файлҳо бе сценария",
+       "en": "A file list without a scenario"
+      },
+      {
+       "ru": "Конкретный вход и полученный результат",
+       "tg": "Input-и аниқ ва натиҷаи баромада",
+       "en": "A concrete input and its observed result"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Проверьте, сможет ли автор повторить ваши действия.",
+      "tg": "Бинед, ки муаллиф қадамҳои шуморо такрор карда метавонад ё не.",
+      "en": "Check whether the author could repeat your steps."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -2316,7 +2803,7 @@
       "ru": "Пайплайн — цепочка этапов, где результат одного шага становится входом следующего. В этом проекте получаем ответ, повторяем временный сбой в отведённый срок, проверяем структуру и сводим только подходящие записи. Если проверка не прошла, этап обработки не должен считать испорченные данные. Фиксированный сценарий отказов помогает повторить результат теста.",
       "tg": "Pipeline занҷири қадамҳо аст: натиҷаи як қадам ба қадами дигар медарояд. Дар ин проект ҷавоб мегирем, хатои муваққатиро дар муҳлати иҷозат такрор мекунем, сохторро месанҷем ва сабтҳои мувофиқро ҷамъ мекунем. Агар санҷиш нагузашт, қадами ҳисоб набояд додаи вайронро гирад. Сенарияи муайяни хато санҷишро такроршаванда мекунад.",
       "en": "A pipeline passes each stage’s output into the next one. This project reads a response, retries temporary failures within a limit, validates the shape, and summarizes valid records. A rejected response must not reach the summarizer. Scripted failures make the test repeatable."
-    }
+     }
     },
     {
      "title": {
@@ -2412,6 +2899,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "javascript-pro-day-14-q-understanding",
+     "question": {
+      "ru": "Строка с суммой 12 прошла проверку, а следующая содержит пустую сумму. Что должно попасть в отчёт?",
+      "tg": "Сатри маблағаш 12 аз санҷиш гузашт. Маблағи сатри дигар холӣ аст. Ба ҳисобот чӣ меравад?",
+      "en": "A row with amount 12 passes validation and the next row has a missing amount. What belongs in the report?"
+     },
+     "answer": {
+      "ru": "Сумма 12 и причина отклонения второй строки",
+      "tg": "Маблағи 12 ва сабаби рад шудани сатри дуюм",
+      "en": "Total 12 and the reason the second row was rejected"
+     },
+     "options": [
+      {
+       "ru": "Только 12 без записи об ошибке",
+       "tg": "Фақат 12 бе сабти хато",
+       "en": "Only 12 with no rejection entry"
+      },
+      {
+       "ru": "Сумма 12 и причина отклонения второй строки",
+       "tg": "Маблағи 12 ва сабаби рад шудани сатри дуюм",
+       "en": "Total 12 and the reason the second row was rejected"
+      },
+      {
+       "ru": "Две успешные строки, вторая с нулём",
+       "tg": "Ду сатри дуруст, дуюм бо сифр",
+       "en": "Two accepted rows, the second with zero"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Валидатор передаёт два отдельных результата: принятые и отклонённые строки.",
+      "tg": "Санҷиш ду натиҷаи ҷудо медиҳад: сатрҳои қабулшуда ва радшуда.",
+      "en": "Validation emits separate accepted and rejected rows."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3829,7 +4353,7 @@
       "ru": "Поток передаёт данные порциями, поэтому не нужно держать целый файл в памяти. Readable отдаёт порции, writable принимает их, transform меняет их по пути. Backpressure означает, что медленный получатель просит источник притормозить. pipeline связывает этапы и передаёт ошибки. Настройка highWaterMark подсказывает, когда остановить накопление порций; это не жёсткий общий лимит памяти.",
       "tg": "Stream додаҳоро порсия-порсия медиҳад, барои ҳамин тамоми файлро дар хотира нигоҳ намедорӣ. Readable қисм медиҳад, writable мегирад, transform онро дар роҳ иваз мекунад. Backpressure вақте аст, ки қабулкунандаи суст аз манбаъ камтар суръат мехоҳад. pipeline қадамҳоро мепайвандад ва хаторо мерасонад. highWaterMark ҳадди дархости истодан аст, лимити қатъии тамоми хотира не.",
       "en": "A stream moves data in chunks instead of keeping a whole file in memory. A readable produces chunks, a writable receives them, and a transform changes them in transit. Backpressure lets a slower consumer slow its source. pipeline connects stages and forwards failures. highWaterMark helps decide when to stop buffering; it is not a total memory cap."
-    }
+     }
     },
     {
      "title": {
@@ -3838,28 +4362,28 @@
       "en": "Runnable example"
      },
      "body": {
-      "ru": "Сохраните пример как lesson.mjs и выполните node lesson.mjs (Node.js 22+) в отдельной учебной папке. Первый блок собирает полный конвейер: Readable.from по трём словам, Transform, поднимающий регистр, и Writable, собирающий чанки; pipeline() возвращает промис, результат печатается ALPHA|BETA|GAMMA, а deepEqual подтверждает точный набор. Второй блок читает тот же Readable через for await и собирает чанки с разделителем: ab-cd-ef. Третий блок — Transform в objectMode: он суммирует числа в поле total по мере прихода и в flush отдаёт итог одним объектом; pipeline над Readable.from([10,20,30,40]) печатает aggregated total: 100. Все стадии вызывают callback, поэтому конвейер не зависает; вывод детерминирован. Практическое замечание к выводу: чанки приходят ровно в том порядке, в каком их отдал источник, потому что конвейер связывает стадии попарно и не переупорядочивает данные. Если поднимете highWaterMark у Writable, вывод не изменится — изменится только момент приостановки источника.",
-      "tg": "Мисолро ҳамчун lesson.mjs сабт кунед ва дар папкаи алоҳидаи омӯзишӣ node lesson.mjs-ро иҷро кунед (Node.js 22+). Блоки авван конвейери пурра месозад: Readable.from аз рӯйи се калима, Transform-и баландкунандаи регистр ва Writable-и ҷамъкунандаи қисмҳо; pipeline() промис бармегардонад, натиҷа ALPHA|BETA|GAMMA чоп мешавад, ва deepEqual маҷмӯи дақиқро тасдиқ мекунад. Блоки дуюм ҳамин Readable-ро тавассути for await мехонад ва қисмҳоро бо ҷудокунанда ҷамъ мекунад: ab-cd-ef. Блоки сеюм — Transform дар objectMode: вай ададҳоро дар майдони total ҳамагон коркарди меорад ва дар flush натиҷаро бо як объект медиҳад; pipeline болои Readable.from([10,20,30,40]) aggregated total: 100-ро чоп мекунад. Ҳамаи марҳилаҳо callback фаро мехонанд, бинобар ин конвейер намемонад; натиҷа детерминистӣ аст. Мушоҳидаи амалӣ ба баромад: қисмҳо дақиқ бо тартибе меоянд, ки манбаъ додааст, чунки конвейер марҳилаҳоро ҷуфт-ҷуфт мепайвандад ва додаҳоро аз нав тартиб намедиҳад. Агар highWaterMark-и Writable-ро баланд бароред, баромад тағйир намеёбад — танҳо лаҳзаи таваққуфи манбаъ тағйир меёбад.",
-      "en": "Save the example as lesson.mjs and run node lesson.mjs (Node.js 22+) in a separate learning folder. The first block wires a full pipeline: Readable.from over three words, a Transform upper-casing them, and a Writable collecting chunks; pipeline() returns a promise, the result prints ALPHA|BETA|GAMMA, and deepEqual pins the exact set. The second block reads the same Readable through for await and joins the chunks with a separator: ab-cd-ef. The third block is an objectMode Transform: it sums numbers into a total field as they arrive and emits the total once in flush; pipeline over Readable.from([10,20,30,40]) prints aggregated total: 100. Every stage calls its callback, so the pipeline never stalls; the output is deterministic. A practical note on the output: chunks arrive exactly in the order the source emitted them, because the pipeline wires stages pairwise and does not reorder data. If you raise the Writable's highWaterMark, the output does not change — only the moment the source pauses does."
+      "ru": "Поток читает или пишет данные порциями. В примере из двух строк Readable отдаёт «tea» и «bread». Transform превращает каждую порцию в верхний регистр. Цикл читает результат. Это знакомит с ролями источника и преобразователя. В задании добавьте отдельный Writable и свяжите шаги через pipeline().",
+      "tg": "Stream маълумотро қисм-қисм мехонад ё менависад. Дар мисол Readable ду сатр медиҳад: «tea» ва «bread». Transform ҳар қисмро ба ҳарфи калон мегузаронад. Цикл натиҷаро мехонад. Ҳамин хел фарқи манбаъ ва табдилдиҳанда намоён мешавад. Дар машқ Writable ҳам илова карда, қадамҳоро бо pipeline() пайваст кунед.",
+      "en": "A stream reads or writes data in chunks. In this example Readable produces two strings, “tea” and “bread”. A Transform uppercases each chunk, and a loop reads the result. This shows the source and transformation roles. In practice, add a Writable and connect the stages with pipeline()."
      },
      "language": "javascript",
-     "code": "// Day 22 — Streams: an introduction.\n// Readable -> Transform -> Writable with pipeline(), and async iteration.\nimport assert from \"node:assert/strict\";\nimport { Readable, Transform, Writable } from \"node:stream\";\nimport { pipeline } from \"node:stream/promises\";\n\nconst collected = [];\nconst sink = new Writable({\n  write(chunk, encoding, callback) { collected.push(chunk.toString()); callback(); },\n});\n\nconst upper = new Transform({\n  transform(chunk, encoding, callback) {\n    this.push(chunk.toString().toUpperCase());\n    callback();\n  },\n});\n\nconst words = [\"alpha\", \"beta\", \"gamma\"];\nawait pipeline(Readable.from(words), upper, sink);\nconsole.log(\"pipeline result:\", collected.join(\"|\"));\nassert.deepEqual(collected, [\"ALPHA\", \"BETA\", \"GAMMA\"]);\n\n// Streams are async-iterable: for await pulls chunk by chunk.\nconst chunks = [];\nfor await (const chunk of Readable.from([\"ab\", \"cd\", \"ef\"])) chunks.push(chunk.toString());\nconsole.log(\"for await:\", chunks.join(\"-\"));\n\n// A transform can change granularity: three numbers become one aggregate.\nconst summing = new Transform({\n  objectMode: true,\n  transform(chunk, encoding, callback) {\n    this.total = (this.total ?? 0) + chunk;\n    callback();\n  },\n  flush(callback) { this.push(this.total); callback(); },\n});\nconst totals = [];\nawait pipeline(Readable.from([10, 20, 30, 40]), summing, new Writable({\n  objectMode: true,\n  write(chunk, encoding, callback) { totals.push(chunk); callback(); },\n}));\nconsole.log(\"aggregated total:\", totals.join(\",\"));\n",
+     "code": "import { Readable, Transform } from \"node:stream\";\n\nconst upper = new Transform({\n  objectMode: true,\n  transform(chunk, _encoding, done) {\n    done(null, chunk.toString().toUpperCase());\n  },\n});\n\nconst words = Readable.from([\"tea\", \"bread\"]);\nfor await (const chunk of words.pipe(upper)) {\n  console.log(chunk.toString());\n}\n// TEA, then BREAD",
      "output": {
-      "ru": "pipeline result: ALPHA|BETA|GAMMA\nfor await: ab-cd-ef\naggregated total: 100",
-      "tg": "pipeline result: ALPHA|BETA|GAMMA\nfor await: ab-cd-ef\naggregated total: 100",
-      "en": "pipeline result: ALPHA|BETA|GAMMA\nfor await: ab-cd-ef\naggregated total: 100"
+      "ru": "TEA\nBREAD",
+      "tg": "TEA\nBREAD",
+      "en": "TEA\nBREAD"
      }
     },
     {
      "title": {
-      "ru": "Выполните самостоятельно",
-      "tg": "Мустақилона иҷро кунед",
-      "en": "Try it yourself"
+      "ru": "Что ждёт медленный получатель",
+      "tg": "Қабулкунандаи суст чӣ кор мекунад?",
+      "en": "What a slow destination changes"
      },
      "body": {
-      "ru": "Соберите собственный конвейер и попробуйте границы. Шаги: 1) Readable из массива строк-логов; 2) Transform, разбирающий каждую строку в объект с уровнем и сообщением (objectMode); 3) Writable, считающий события по уровням; 4) печать итогов после pipeline; 5) эксперимент: Transform без callback — конвейер зависает, объясните почему; 6) генерация ошибки в середине и наблюдение её в catch pipeline. Полное задание — в блоке практики ниже. Продолжение: добавьте дуплексную стадию между разбором и подсчётом — например, фильтр уровней, который пропускает только WARN и ERROR. Замерьте количество чанков и объектов в каждой стадии, чтобы увидеть смену режима с байтов на объекты. И проверьте завещание pipeline: ошибка в середине конвейера должна закрыть и источник, и приёмник, а не оставить их висеть. Убедитесь, что фильтр не теряет ни одного чанка.",
-      "tg": "Конвейери худро созед ва ҳудудҳоро санҷед. Қадамҳо: 1) Readable аз массиви сатрҳои лог; 2) Transform, ки ҳар сатрро ба объект бо сатҳу паём таҳлил мекунад (objectMode); 3) Writable, ҳодисаҳоро аз рӯйи сатҳ ҳисоб мекунад; 4) чопи натиҷаҳо баъди pipeline; 5) таҷриба: Transform бе callback — конвейер меистад, баён кунед чаро; 6) тавлиди хато дар миёна ва мушоҳидаи он дар catch-и pipeline. Вазифаи пурра дар блоки амалияи поён аст. Идома: марҳилаи дуплексиро байни таҳлил ва ҳисоб илова кунед — масалан, филтри сатҳҳо, ки танҳо WARN ва ERROR-ро мегузаронад. Шумори қисмҳо ва объектҳоро дар ҳар марҳила чен кунед, то тағйири реҷим аз байтҳо ба объектҳо дида шавад. Ва васияти pipeline-ро санҷед: хато дар миёнаи конвейер бояд манбаъ ва гирефтандаро ҳам пӯшад, на онҳоро овезон гузорад.",
-      "en": "Build your own pipeline and probe its limits. Steps: 1) a Readable from an array of log lines; 2) a Transform parsing every line into an object with a level and a message (objectMode); 3) a Writable counting events per level; 4) printing the totals after pipeline; 5) an experiment: a Transform without callback — the pipeline stalls, explain why; 6) raising an error mid-stream and observing it in the pipeline catch. The full task is in the practice block below. Continue: add a duplex-style stage between parsing and counting — for example, a level filter passing only WARN and ERROR. Measure the number of chunks and objects at every stage to see the mode switch from bytes to objects. And check pipeline's promise: an error in the middle must close both the source and the sink rather than leave them hanging."
+      "ru": "Если источник выдаёт данные быстрее, чем получатель их записывает, очередь растёт. При ручной записи write() возвращает false, когда следует остановить отправку и дождаться события drain. pipeline() управляет паузами между потоками и передаёт ошибку вызывающему коду. Для второго чтения создайте новый Readable из того же массива, потому что первый уже исчерпан.",
+      "tg": "Агар манбаъ тезтар диҳад ва қабулкунанда сусттар нависад, навбат калон мешавад. Ҳангоми навишти дастӣ false аз write() мегӯяд, ки фиристоданро то event-и drain нигоҳ дорем. pipeline() таваққуфро байни stream-ҳо идора карда, хаторо ба коди даъваткунанда медиҳад. Барои хондани дуюм Readable-и нав аз ҳамон массив созед, чун якумаш тамом шуд.",
+      "en": "When a source produces faster than a destination writes, its queue grows. While writing manually, a false result from write() tells you to wait for drain. pipeline() manages the pace between streams and passes failures to the caller. For a second read, make a new Readable from the same array because the first stream is already exhausted."
      }
     }
    ],
@@ -3961,9 +4485,9 @@
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "Соберите конвейер потоков и докажите каждый результат. Шаги: 1) создайте Writable, собирающий чанки в массив; 2) добавьте Transform, поднимающий строки в верхний регистр; 3) проведите Readable.from по трём словам через pipeline() и напечатайте результат; 4) прочитайте тот же Readable через for await и соберите чанки с разделителем; 5) сделайте Transform в objectMode, суммирующий числа, с flush(), отдающим итог; 6) подтвердите результаты assert-ами и в комментарии объясните, кто управляет темпом при backpressure.",
-     "tg": "Конвейери ҷараёнҳоро созед ва ҳар натиҷаро исбот кунед. Қадамҳо: 1) Writable созед, ки қисмҳоро ба массив ҷамъ кунад; 2) Transform-и баландкунандаи регистри сатрҳоро илова кунед; 3) Readable.from-ро аз рӯйи се калима тавассути pipeline() гузаронда, натиҷаро чоп кунед; 4) ҳамин Readable-ро тавассути for await хонда, қисмҳоро бо ҷудокунанда ҷамъ кунед; 5) Transform дар objectMode созед, ки ададҳоро ҷамъбаст мекунад, бо flush(), ки натиҷаро медиҳад; 6) натиҷаҳоро бо assert-ҳо тасдиқ кунед ва дар шарҳ баён кунед, ки ҳангоми backpressure кӣ суръатро идора мекунад.",
-     "en": "Wire a stream pipeline and prove every result. Steps: 1) make a Writable collecting chunks into an array; 2) add a Transform upper-casing strings; 3) run Readable.from over three words through pipeline() and print the result; 4) read the same Readable through for await and join the chunks with a separator; 5) build an objectMode Transform summing numbers with a flush() that emits the total; 6) pin the results with asserts and explain in a comment who governs the pace under backpressure."
+     "ru": "Соберите конвейер потоков и докажите каждый результат. Шаги: 1) создайте Writable, собирающий чанки в массив; 2) добавьте Transform, поднимающий строки в верхний регистр; 3) проведите Readable.from по трём словам через pipeline() и напечатайте результат; 4) прочитайте новый Readable из тех же данных через for await и соберите чанки с разделителем; 5) сделайте Transform в objectMode, суммирующий числа, с flush(), отдающим итог; 6) подтвердите результаты assert-ами и в комментарии объясните, кто управляет темпом при backpressure.",
+     "tg": "Конвейери ҷараёнҳоро созед ва ҳар натиҷаро исбот кунед. Қадамҳо: 1) Writable созед, ки қисмҳоро ба массив ҷамъ кунад; 2) Transform-и баландкунандаи регистри сатрҳоро илова кунед; 3) Readable.from-ро аз рӯйи се калима тавассути pipeline() гузаронда, натиҷаро чоп кунед; 4) Readable-и навро аз ҳамон додаҳо тавассути for await хонда, қисмҳоро бо ҷудокунанда ҷамъ кунед; 5) Transform дар objectMode созед, ки ададҳоро ҷамъбаст мекунад, бо flush(), ки натиҷаро медиҳад; 6) натиҷаҳоро бо assert-ҳо тасдиқ кунед ва дар шарҳ баён кунед, ки ҳангоми backpressure кӣ суръатро идора мекунад.",
+     "en": "Wire a stream pipeline and prove every result. Steps: 1) make a Writable collecting chunks into an array; 2) add a Transform upper-casing strings; 3) run Readable.from over three words through pipeline() and print the result; 4) read a fresh Readable from the same data through for await and join the chunks with a separator; 5) build an objectMode Transform summing numbers with a flush() that emits the total; 6) pin the results with asserts and explain in a comment who governs the pace under backpressure."
     },
     "hint": {
      "ru": "Не забывайте callback() в transform и write — конвейер стоит без него. flush() вызывается один раз перед закрытием; итоговая сумма уходит через push.",

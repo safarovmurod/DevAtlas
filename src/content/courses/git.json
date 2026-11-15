@@ -4350,9 +4350,9 @@
             "en": "2. Look before pulling"
           },
           "body": {
-            "ru": "После fetch сравнивают: git log --oneline main..origin/main — коммиты, которые есть на GitHub, но нет у вас. git diff main origin/main — что изменится. Так вы не получите сюрприз посреди своей работы. git status «up to date» без fetch может врать — он помнит старое состояние origin.",
-            "tg": "Баъди fetch муқоиса мекунанд: git log --oneline main..origin/main — коммитҳое ки дар GitHub ҳастанд, вале дар шумо не. git diff main origin/main — чӣ иваз мешавад. Ҳамин тавр шумо дар мобайни кори худ ногаҳонӣ намегиред. git status «up to date» бе fetch метавонад дурӯғ гӯяд — вай ҳолати кӯҳнаи origin-ро дар хотир дорад.",
-            "en": "After fetch compare: git log --oneline main..origin/main lists commits on GitHub that you lack; git diff main origin/main shows what will change. No surprises mid-work. git status “up to date” without fetch can lie — it remembers origin's old state."
+            "ru": "Пусть ваша main стоит на коммите A, а коллега уже отправил коммит B. До fetch локальная origin/main может всё ещё указывать на A. После fetch origin/main указывает на B, а открытые файлы и main остаются на A. git log --oneline main..origin/main показывает B. Если у вас не было своих новых коммитов, git pull --ff-only передвинет main на B и обновит файлы.",
+            "tg": "Тасаввур кунед, main-и шумо дар commit-и A аст, ҳамкор бошад B-ро фиристод. Пеш аз fetch origin/main-и локалӣ метавонад ҳанӯз дар A бошад. Баъди fetch origin/main ба B мегузарад, вале main ва файлҳои кушода дар A мемонанд. git log --oneline main..origin/main commit-и B-ро нишон медиҳад. Агар commit-и нави худатон набошад, git pull --ff-only main-ро ба B мебарад ва файлҳоро нав мекунад.",
+            "en": "Suppose main is at commit A and a colleague has pushed B. Before fetch, your local origin/main can still point at A. After fetch, origin/main points at B while main and your working files stay at A. git log --oneline main..origin/main shows B. With no new local commits, git pull --ff-only advances main to B and updates the files."
           }
         },
         {
@@ -4391,21 +4391,21 @@
             "en": "How does git fetch differ from git pull?"
           },
           "answer": {
-            "ru": "fetch только скачивает, pull скачивает и вливает",
-            "tg": "fetch танҳо мегирад, pull мегирад ва ҳамроҳ мекунад",
-            "en": "fetch downloads, pull downloads and merges"
+            "ru": "fetch получает новые коммиты, pull ещё объединяет их с текущей веткой",
+            "tg": "fetch commit-ҳои навро мегирад, pull онҳоро ба branch-и ҷорӣ ҳам ҳамроҳ мекунад",
+            "en": "fetch downloads commits, while pull also integrates them into the current branch"
           },
           "hint": {
-            "ru": "pull = fetch + merge.",
-            "tg": "pull = fetch + merge.",
-            "en": "pull = fetch + merge."
+            "ru": "Вспомните оба шага git pull: загрузку и применение.",
+            "tg": "Ду кори git pull-ро ба ёд оред: гирифтан ва ба branch илова кардан.",
+            "en": "Recall the two parts of git pull: downloading and integrating."
           },
           "relatedSection": 0,
           "options": [
             {
-              "ru": "fetch только скачивает, pull скачивает и вливает",
-              "tg": "fetch танҳо мегирад, pull мегирад ва ҳамроҳ мекунад",
-              "en": "fetch downloads, pull downloads and merges"
+              "ru": "fetch получает новые коммиты, pull ещё объединяет их с текущей веткой",
+              "tg": "fetch commit-ҳои навро мегирад, pull онҳоро ба branch-и ҷорӣ ҳам ҳамроҳ мекунад",
+              "en": "fetch downloads commits, while pull also integrates them into the current branch"
             },
             {
               "ru": "Ничем",
@@ -4498,9 +4498,9 @@
       "practice": {
         "kind": "code",
         "task": {
-          "ru": "Шаг 1. Склонируйте git-practice во вторую папку git-practice-2 — это будет «компьютер коллеги».\nШаг 2. В git-practice-2 сделайте коммит в main и push.\nШаг 3. В первой папке выполните git fetch, git status (behind), git log --oneline main..origin/main и только потом git pull.\nШаг 4. Вставьте команды и вывод из обеих папок в редактор практики.",
-          "tg": "Қадами 1. git-practice-ро ба ҷузвдони дуюми git-practice-2 клон кунед — ин «компютери ҳамкор» мешавад.\nҚадами 2. Дар git-practice-2 дар main коммит кунед ва push кунед.\nҚадами 3. Дар ҷузвдони аввал git fetch, git status (behind), git log --oneline main..origin/main ва танҳо баъд git pull-ро иҷро кунед.\nҚадами 4. Фармонҳо ва натиҷаро аз ҳарду ҷузвдон ба муҳаррири практика гузоред.",
-          "en": "Step 1. Clone git-practice into a second folder, git-practice-2 — your “colleague's computer”.\nStep 2. In git-practice-2 commit to main and push.\nStep 3. In the first folder run git fetch, git status (behind), git log --oneline main..origin/main and only then git pull.\nStep 4. Paste commands and output from both folders into the practice editor."
+          "ru": "1. В новой учебной папке создайте общий bare-репозиторий (хранилище Git без рабочих файлов). Сделайте два его клона, first и second, с веткой main.\n2. В first создайте основу сайта и отправьте коммит в общий репозиторий. В second получите основу, добавьте news.html и отправьте второй коммит.\n3. В first запустите git fetch, затем git log --oneline main..origin/main. Проверьте, что коммит виден, но файла news.html ещё нет.\n4. Выполните git pull --ff-only. Проверьте появление файла и запишите, на каком шаге поменялись main и origin/main.",
+          "tg": "1. Дар ҷузвдони нави омӯзишӣ bare repository-и умумӣ созед. Он таърихи Git-ро бе файлҳои корӣ нигоҳ медорад. Ду clone созед, first ва second, бо branch-и main.\n2. Дар first файли аввали сайтро сохта, commit-ро ба repo-и умумӣ фиристед. Дар second онро гиред, news.html илова кунед ва commit-и дуюмро фиристед.\n3. Дар first git fetch ва баъд git log --oneline main..origin/main кунед. Commit бояд намоён шавад, аммо news.html ҳоло нест.\n4. git pull --ff-only иҷро кунед. Бинед, ки файл пайдо шуд. Нависед, ки main ва origin/main дар кадом қадам дигар шуданд.",
+          "en": "1. In a new practice directory, create a shared bare repository (Git storage without working files). Create two clones, first and second, using main.\n2. In first, commit and push the initial site. In second, pull it, add news.html and push another commit.\n3. In first, run git fetch and git log --oneline main..origin/main. Check that the commit is visible but news.html is absent.\n4. Run git pull --ff-only. Check that the file is present and note when main and origin/main each moved."
         },
         "hint": {
           "ru": "Две папки на одном компьютере — честная имитация двух разработчиков.",
@@ -4519,7 +4519,7 @@
             "en": "Before fetch git status may say “up to date” — stale data."
           }
         ],
-        "solution": "# папка коллеги\ncd ~/projects && git clone git@github.com:mansur/git-practice.git git-practice-2\ncd git-practice-2\necho \"<p>Новости</p>\" > news.html && git add news.html && git commit -m \"feat: add news page\"\ngit push\n\n# моя папка\ncd ~/projects/git-practice\ngit status            # up to date (старые данные!)\ngit fetch\ngit status\n# Your branch is behind 'origin/main' by 1 commit, and can be fast-forwarded.\ngit log --oneline main..origin/main\n# 8f9a0b1 feat: add news page\ngit pull\n# Fast-forward\n#  news.html | 1 +",
+        "solution": "# Run in a new empty practice directory (Git Bash).\ngit init --bare --initial-branch=main shared.git\ngit clone shared.git first\ncd first\nprintf \"<h1>Home</h1>\\n\" > index.html\ngit add index.html\ngit -c user.name=Learner -c user.email=learner@example.com commit -m \"Add home page\"\ngit push -u origin main\ncd ..\n\ngit clone shared.git second\ncd second\nprintf \"<h1>News</h1>\\n\" > news.html\ngit add news.html\ngit -c user.name=Colleague -c user.email=colleague@example.com commit -m \"Add news page\"\ngit push\ncd ../first\n\ngit status --short --branch\ngit fetch\ngit log --oneline main..origin/main # Add news page\ntest ! -f news.html\ngit pull --ff-only\ntest -f news.html",
         "criteria": [
           {
             "ru": "Изменения «коллеги» получены через fetch и pull.",
@@ -4532,9 +4532,9 @@
             "en": "What would arrive was reviewed before pulling."
           },
           {
-            "ru": "Показано, что status до fetch устаревший.",
-            "tg": "Нишон дода шуд, ки status пеш аз fetch кӯҳна аст.",
-            "en": "Status before fetch is shown to be stale."
+            "ru": "До pull файла news.html нет, после pull он появляется.",
+            "tg": "Пеш аз pull файли news.html нест, баъди pull пайдо мешавад.",
+            "en": "news.html is absent before pull and present afterwards."
           }
         ]
       }

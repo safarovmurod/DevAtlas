@@ -2235,9 +2235,9 @@
             "en": "What is an arrow function?"
           },
           "body": {
-            "ru": "Стрелочная функция записывается через =>. Короткое тело из одного выражения сразу даёт результат. Для встроенной функции в map это удобно. У стрелки нет собственного this и её нельзя вызывать как конструктор через new.\n\nСтрелочная функция — сокращённая запись: const square = (n) => n * n. Если тело — одно выражение без фигурных скобок, return пишется сам (неявный). Это как фирменный бланк вместо письма от руки: смысл тот же, писать меньше.",
-            "tg": "Arrow function бо => навишта мешавад. Агар бадан як ифода бошад, натиҷаро худаш медиҳад. Дар map функсияи кӯтоҳ қулай аст. Arrow this-и худаш надорад ва бо new сохта намешавад.\n\nФунксияи тирчадор — навишти кӯтоҳ аст: const square = (n) => n * n. Агар бадан як ифода бе қавсҳои фигурӣ бошад, return худаш навишта мешавад (ғайриошкоро). Ин мисли бланки ширкатӣ ба ҷои мактуби дастнавис аст: маъно ҳамон, навиштан камтар.",
-            "en": "An arrow function uses =>. A short expression body returns its value, which is useful for callbacks in map. Arrow functions have no own this and cannot be used as constructors with new.\n\nAn arrow function is a shorthand: const square = (n) => n * n. If the body is a single expression without braces, return is implied. Like a printed form instead of a handwritten letter: same meaning, less writing."
+            "ru": "Стрелочная функция — способ записать функцию через =>. В const square = (n) => n * n имя square хранит функцию, n принимает вход, а n * n вычисляет результат. При square(4) в n попадает 4, функция возвращает 16. Как и обычная функция, она ждёт вызова. Короткая запись полезна, когда нужно передать маленькое действие в map или filter.",
+            "tg": "Arrow function функсияест, ки бо => навишта мешавад. Дар const square = (n) => n * n номи square ба функсия ишора мекунад, n қимати воридшударо мегирад ва n * n натиҷаро ҳисоб мекунад. Вақте square(4) мегӯем, n ба 4 баробар мешавад ва функсия 16 бармегардонад. Функсия то даъват иҷро намешавад. Ин навишт барои амали кӯтоҳ дар map ва filter қулай аст.",
+            "en": "An arrow function is a function written with =>. In const square = (n) => n * n, square holds the function, n receives the input, and n * n computes the result. Calling square(4) puts 4 in n and returns 16. The function waits for a call. This form is convenient for a short action passed to map or filter."
           },
           "code": "function squareOld(n) {\n  return n * n;\n}\nconst square = (n) => n * n;\nconsole.log(square(4)); // 16",
           "language": "javascript"
@@ -2275,9 +2275,9 @@
             "en": "Common mistakes"
           },
           "body": {
-            "ru": "Фигурные скобки без return — функция возвращает undefined. Объект без круглых скобок: () => { ok: true } — JavaScript примет фигурные скобки за тело функции. Вызов стрелочной функции до её объявления через const — ошибка. Слишком длинные цепочки стрелок в одной строке.",
-            "tg": "Қавсҳои фигурӣ бе return — функсия undefined бармегардонад. Объект бе қавсҳои мудаввар: () => { ok: true } — JavaScript қавсҳои фигуриро бадани функсия меҳисобад. Даъвати функсияи тирчадор пеш аз эълони он тавассути const — хато. Занҷирҳои хеле дарози тирчаҳо дар як сатр.",
-            "en": "Braces without return — the function returns undefined. An object without parentheses: () => { ok: true } — JavaScript reads the braces as a function body. Calling a const arrow function before its declaration throws. Overlong arrow chains on one line."
+            "ru": "С фигурными скобками нужен явный return. Без него (n) => { n * 2 } при вызове с 5 вернёт undefined. Круглые скобки в () => ({ ok: true }) говорят, что фигурные скобки содержат объект. У стрелки нет собственного this. Для метода, которому нужен объект вызова как this, используйте обычный синтаксис метода.",
+            "tg": "Бо қавси {} натиҷаро бо return баргардонед. Бе return функсияи (n) => { n * 2 } барои 5 ба ҷойи 10 undefined медиҳад. Дар () => ({ ok: true }) қавси () нишон медиҳад, ки {} объект аст. Arrow function this-и худашро надорад. Барои методе, ки ҳангоми даъват ба this-и объект ниёз дорад, навишти одии методро истифода баред.",
+            "en": "A block body needs an explicit return. Calling (n) => { n * 2 } with 5 returns undefined. The parentheses in () => ({ ok: true }) make the braces part of an object expression. Arrow functions have no this of their own. Use method syntax for a method that relies on the receiving object as this."
           }
         }
       ],
@@ -5246,9 +5246,9 @@
             "en": "What spread copies"
           },
           "body": {
-            "ru": "Spread раскрывает элементы массива или свойства объекта в новом литерале. В { ...user, active: true } значение active из конца записи побеждает старое. Копируется только первый уровень, поэтому вложенные объекты остаются общими.\n\nКак и с массивами, const b = a для объекта — вторая табличка на ту же карточку. Чтобы сделать новую карточку, используют spread: const copy = { ...user }. Все поля переписываются в новый объект, оригинал остаётся нетронутым.",
-            "tg": "Spread элементҳои массив ё хосиятҳои объектро дар нав мекушояд. Дар { ...user, active: true } active-и охир қимати кӯҳнаро иваз мекунад. Фақат қабати аввал нусха мешавад, объектҳои дарунӣ муштарак мемонанд.\n\nМисли массивҳо, const b = a барои объект — лавҳаи дуюм ба ҳамон корт аст. Барои сохтани корти нав spread-ро истифода мебаранд: const copy = { ...user }. Ҳамаи майдонҳо ба объекти нав навишта мешаванд, аслӣ дахлнопазир мемонад.",
-            "en": "Spread expands array items or object properties into a new literal. In { ...user, active: true }, the later active value wins. It only copies the outer level, so nested objects remain shared.\n\nAs with arrays, const b = a for an object is a second label on the same card. To make a new card use spread: const copy = { ...user }. All fields are copied into a new object and the original stays untouched."
+            "ru": "Spread (...) переносит элементы массива или свойства объекта в новую запись. В { ...user, active: true } сначала копируются свойства user, потом active получает новое значение. Старые свойства верхнего уровня остаются у user. Вложенные объекты всё ещё общие: если user.address — объект, то { ...user }.address указывает на тот же адрес.",
+            "tg": "Spread (...) элементҳои массив ё хосиятҳои объектро ба навишти нав мегузорад. Дар { ...user, active: true } аввал хосиятҳои user нусха мешаванд, баъд active қимати нав мегирад. Хосиятҳои сатҳи болоии user бетағйир мемонанд. Объекти дохилӣ умумӣ мемонад: агар user.address объект бошад, { ...user }.address ба ҳамон объект ишора мекунад.",
+            "en": "Spread (...) puts array elements or object properties into a new literal. In { ...user, active: true }, the user properties are copied first and then active gets its new value. The top-level properties on user stay as they were. Nested objects remain shared: if user.address is an object, { ...user }.address points to that same object."
           },
           "code": "const user = { name: \"Сара\", city: \"Душанбе\" };\nconst copy = { ...user };\ncopy.city = \"Худжанд\";\nconsole.log(user.city); // \"Душанбе\" — оригинал цел",
           "language": "javascript"
@@ -5274,9 +5274,9 @@
             "en": "3. Why React needs this"
           },
           "body": {
-            "ru": "React узнаёт, что данные изменились, по новому объекту или массиву. Если сделать user.age = 21, объект тот же, и экран не обновится. Поэтому в React всегда пишут setUser({ ...user, age: 21 }) или setItems([...items, newItem]). Сегодняшний навык — основа работы с состоянием.",
-            "tg": "React аз рӯи объект ё массиви нав мефаҳмад, ки маълумот иваз шудааст. Агар user.age = 21 кунед, объект ҳамон аст ва экран нав намешавад. Барои ҳамин дар React ҳамеша setUser({ ...user, age: 21 }) ё setItems([...items, newItem]) менависанд. Малакаи имрӯза асоси кор бо ҳолат аст.",
-            "en": "React detects changes by receiving a new object or array. Doing user.age = 21 keeps the same object, so the screen does not update. That is why React code writes setUser({ ...user, age: 21 }) or setItems([...items, newItem]). Today's skill underpins state handling."
+            "ru": "State в React — данные, из которых компонент строит экран. Если изменить user.age и передать в setUser тот же объект, React сравнит ссылки и может пропустить обновление. Передайте setUser({ ...user, age: 21 }): теперь это новый объект. Чтобы изменить поле внутри address, создайте новый address тоже.",
+            "tg": "State дар React маълумотест, ки компонент аз он экранро месозад. Агар user.age-ро иваз карда, ба setUser ҳамон объектро диҳед, React истинодҳоро муқоиса мекунад ва метавонад навсозиро гузаронад. setUser({ ...user, age: 21 }) объекти нав медиҳад. Барои иваз кардани майдони дохили address худи address-ро ҳам аз нав созед.",
+            "en": "React state is the data a component uses to build the screen. If you edit user.age and pass the same object to setUser, React compares the references and can skip the update. Pass setUser({ ...user, age: 21 }) to provide a new object. When changing a field inside address, create a new address object too."
           }
         },
         {
@@ -7805,16 +7805,16 @@
         },
         {
           "title": {
-            "ru": "2. Добавление с id",
-            "tg": "2. Илова бо id",
-            "en": "2. Adding with an id"
+            "ru": "ID остаётся с задачей",
+            "tg": "ID бо вазифа мемонад",
+            "en": "An ID stays with the task"
           },
           "body": {
-            "ru": "Новой задаче нужен уникальный id. Простой надёжный способ — взять самый большой существующий id и прибавить 1 (для пустого списка — 1). Название обрезаем trim; пустое не добавляем. Функция возвращает новый массив, не трогая старый — тест проверит это.",
-            "tg": "Ба вазифаи нав id-и беназир лозим аст. Роҳи соддаи боэътимод — калонтарин id-и мавҷударо гирифта 1 илова кардан (барои рӯйхати холӣ — 1). Номро бо trim мебурем; холиро илова намекунем. Функсия массиви навро бе дахл ба кӯҳна бармегардонад — тест инро месанҷад.",
-            "en": "A new task needs a unique id. A simple reliable way is to take the largest existing id plus 1 (1 for an empty list). Trim the title and skip empty ones. The function returns a new array without touching the old one — the test checks this."
+            "ru": "У задач ID 1 и 3. При смене порядка индексы меняются, а ID остаётся у каждой задачи. Для новой записи найдите самый большой текущий ID и возьмите следующее число. Для пустого списка начните с 1. Если взять длину списка плюс один, получится 3, но этот ID уже занят.",
+            "tg": "Ду вазифа бо ID-и 1 ва 3 дорем. Агар тартиб дигар шавад, индексҳо иваз мешаванд, вале ID бо вазифа мемонад. Барои сабти нав ID-и калонтаринро ёфта, ба он 1 илова кунед. Агар рӯйхат холӣ бошад, аз 1 сар кунед. Дарозии рӯйхат плюс 1 ба 3 баробар мешавад, аммо ин ID аллакай истифода шудааст.",
+            "en": "The tasks have IDs 1 and 3. Reordering changes their indexes while each task keeps its ID. For a new record, find the largest current ID and use the next number. Start at 1 for an empty list. Using the list length plus one gives 3, which is already taken."
           },
-          "code": "function addTodo(todos, title) {\n  const clean = title.trim();\n  if (clean === \"\") return [...todos];\n  const nextId = todos.reduce((max, todo) => Math.max(max, todo.id), 0) + 1;\n  return [...todos, { id: nextId, title: clean, done: false }];\n}",
+          "code": "const tasks = [{ id: 1 }, { id: 3 }];\nconst ids = tasks.map(task => task.id);\nconsole.log(Math.max(...ids) + 1); // 4",
           "language": "javascript"
         },
         {

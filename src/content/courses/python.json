@@ -1964,9 +1964,9 @@
       "en": "Tuples and unpacking"
      },
      "body": {
-      "ru": "Зачем ограничивать себя? Затем, что неизменяемость — это защита. Координата точки, тройка «год, месяц, день», цвет в формате (r, g, b) — эти данные имеют фиксированный смысл, и случайное присваивание point[0] = 99 внесло бы в программу тихий хаос. Кортеж (tuple) выглядит как список, но записывается в круглых скобках и не разрешает менять элементы после создания. Вторая причина любить кортежи — распаковка: x, y = point сразу раскладывает пару по переменным, а обмен значений пишется элегантно: x, y = y, x — без временной переменной. Распаковка работает и с частичным захватом: first, *rest = (\"red\", \"green\", \"blue\") даёт first = \"red\" и rest = [\"green\", \"blue\"]. Третье: функции в Python возвращают сразу несколько значений именно через кортеж — об этом будет день 16, а сегодня познакомимся с самой структурой.\n\nЗапятая образует кортеж из одного элемента: (7,) — кортеж, а (7) — число. Кортеж фиксирует ссылки на свои элементы; если внутри лежит список, сам список всё ещё можно изменять.",
-      "tg": "Чаро худро маҳдуд кунем? Ба сабабе, ки тағйирнапазирӣ ҳифз аст. Координатаи нуқта, сегонаи «сол, моҳ, рӯз», ранг дар шакли (r, g, b) — ин маълумот маънои собит доранд ва қиматгузории тасодуфии point[0] = 99 ба барнома хосироти ором мебарад. Кортеж (tuple) ба рӯйхат монанд аст, вале дар қавсҳои мудаввар навишта мешавад ва баъди сохта шудан тағйир додани элементҳоро иҷозат намедиҳад. Сабаби дуюми дӯст доштани кортежҳо кушодан аст: x, y = point ҷуфтро фавран ба тағйирёбандаҳо мепахшад ва иваз кардани қиматҳо зебо навишта мешавад: x, y = y, x — бе тағйирёбандаи муваққатӣ. Кушодан бо гирифтани қисмӣ низ кор мекунад: first, *rest = (\"red\", \"green\", \"blue\") натиҷаи first = \"red\" ва rest = [\"green\", \"blue\"] медиҳад. Сеюм: функсияҳо дар Python чанд қиматро дар як вақт маҳз тавассути кортеж бармегардонанд — ин мавзӯи рӯзи 16 аст, вале имрӯз бо сохти худаш шинос мешавем.\n\nTuple-и якэлемента вергул дорад: (7,) tuple аст, (7) адад. Ишораҳои дохили tuple иваз намешаванд. Агар дар дохилаш рӯйхат бошад, худи рӯйхатро ҳоло ҳам иваз карда мешавад.",
-      "en": "Why limit yourself? Because immutability is protection. A point coordinate, the triple \"year, month, day\", a colour as (r, g, b) — such data has fixed meaning, and an accidental point[0] = 99 would bring quiet chaos into the program. A tuple looks like a list but is written in round brackets and forbids changing elements after creation. The second reason to love tuples is unpacking: x, y = point spreads the pair across variables at once, and swapping is written elegantly: x, y = y, x — no temporary variable. Unpacking also works with a partial capture: first, *rest = (\"red\", \"green\", \"blue\") gives first = \"red\" and rest = [\"green\", \"blue\"]. Third: functions in Python return several values at once precisely via a tuple — that is day 16; today we meet the structure itself.\n\nThe comma makes a one-item tuple: (7,) is a tuple and (7) is a number. A tuple fixes which items it refers to. A list stored inside the tuple can still change."
+      "ru": "Кортеж (tuple) — последовательность значений, позиции которой фиксированы после создания. В (2026, 11, 15) на первой позиции год, дальше месяц и день. Запись year, month, day = date раскладывает значения по трём переменным. Для одного элемента нужна запятая: (7,) — кортеж, (7) — число. Если элемент кортежа сам список, менять содержимое списка можно.",
+      "tg": "Tuple пайдарпайии қиматҳост. Баъди сохтан қиматро дар ҷойи худ бо қимати дигар иваз карда намешавад. Дар (2026, 11, 15) аввал сол, баъд моҳ ва рӯз меоянд. year, month, day = date қиматҳоро ба се тағйирёбанда ҷудо мекунад. Барои як элемент вергул даркор: (7,) tuple аст, (7) адад. Агар элементи дохилӣ рӯйхат бошад, дохили ҳамон рӯйхатро иваз кардан мумкин аст.",
+      "en": "A tuple is a sequence whose positions are fixed after creation. In (2026, 11, 15), the positions hold the year, month and day. The assignment year, month, day = date unpacks those values into three variables. A single element needs a comma: (7,) is a tuple and (7) is a number. A list inside a tuple can still change its contents."
      }
     },
     {
@@ -2043,7 +2043,13 @@
        "en": "TypeError"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посмотрите, где в записи есть запятая.",
+      "tg": "Бинед дар кадом навишт вергул ҳаст.",
+      "en": "Look for the comma in each expression."
+     },
+     "relatedSection": 0
     },
     {
      "id": "python-day-12-q2",
@@ -2074,7 +2080,50 @@
        "en": "swap(x, y)"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Правая часть вычисляется до присваивания левой.",
+      "tg": "Аввал тарафи рост ҳисоб мешавад, баъд тарафи чап қимат мегирад.",
+      "en": "Python evaluates the right-hand side before assigning the left."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "python-day-12-q-nested",
+     "question": {
+      "ru": "Внутри кортежа лежит список tags. Что можно изменить?",
+      "tg": "Дар дохили tuple рӯйхати tags ҳаст. Чиро иваз кардан мумкин?",
+      "en": "A tuple contains a list called tags. What can change?"
+     },
+     "answer": {
+      "ru": "Содержимое tags",
+      "tg": "Дохили tags",
+      "en": "The contents of tags"
+     },
+     "options": [
+      {
+       "ru": "Содержимое tags",
+       "tg": "Дохили tags",
+       "en": "The contents of tags"
+      },
+      {
+       "ru": "Сам элемент кортежа",
+       "tg": "Худи элементи tuple",
+       "en": "The tuple item itself"
+      },
+      {
+       "ru": "Длину кортежа",
+       "tg": "Дарозии tuple",
+       "en": "The tuple length"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Отдельно подумайте о позиции в кортеже и об объекте внутри неё.",
+      "tg": "Ҷойи элемент дар tuple ва объекти дар он бударо ҷудо фикр кунед.",
+      "en": "Consider the tuple position and the object it holds separately."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -4497,9 +4546,9 @@
       "en": "How it works"
      },
      "body": {
-      "ru": "Команда python -m venv .venv создаёт в папке проекта подпапку .venv с копией интерпретатора и пустым набором пакетов. Активация подключает окружение к текущему терминалу: в Windows (PowerShell) пишут .venv\\Scripts\\Activate.ps1 или .venv\\Scripts\\activate в cmd, в Linux и macOS — source .venv/bin/activate. Признак активации — префикс (.venv) в начале строки терминала; деактивация — команда deactivate. Теперь pip install requests ставит пакет именно в .venv, не трогая общий Python. Список установленного показывает pip list. Команда pip freeze > requirements.txt фиксирует точные версии всех пакетов в файл; коллега или сервер сборки восстанавливает окружение одной командой pip install -r requirements.txt. Внутри активированного окружения Python видит другой sys.prefix — маленькая проверка ниже показывает это.\nИмена окружений — на ваш вкус, но .venv стало стандартом де-факто: его узнают редакторы и коллеги.",
-      "tg": "Фармони python -m venv .venv дар папкаи лоиҳа зерпапкаи .venv-ро бо нусхаи тафсиракунанда ва маҷмӯи холии пакетҳо месозад. Фаъолкунӣ муҳитро ба терминали ҷорӣ мепайвандад: дар Windows (PowerShell) .venv\\Scripts\\Activate.ps1 ё .venv\\Scripts\\activate дар cmd нависанд, дар Linux ва macOS — source .venv/bin/activate. Нишонаи фаъолшавӣ — префикси (.venv) дар аввали сатри терминал; хомӯшкунӣ — фармони deactivate. Акнун pip install requests пакетро маҳз ба .venv мегузорад ва Python-и умумиро даст намезанад. Рӯйхати насбшударо pip list нишон медиҳад. Фармони pip freeze > requirements.txt намудҳои дақиқи ҳамаи пакетҳоро дар файл сабт мекунад; ҳамкор ё сервери созиш муҳитро бо як фармони pip install -r requirements.txt барқарор мекунад. Дар дохили муҳити фаъол Python sys.prefix-и дигар мебинад — санҷиши хурди поин инро нишон медиҳад.\nНомҳои муҳит ба завқи шумо, вале .venv стандарти де-факто шуд: онро муҳаррирҳо ва ҳамкорон мешиносанд.",
-      "en": "The command python -m venv .venv creates a .venv subfolder in your project with an interpreter copy and an empty set of packages. Activation connects the environment to the current terminal: on Windows (PowerShell) you write .venv\\Scripts\\Activate.ps1 or .venv\\Scripts\\activate in cmd; on Linux and macOS — source .venv/bin/activate. The sign of activation is the (.venv) prefix at the start of the terminal line; deactivation is the deactivate command. Now pip install requests installs the package into .venv, leaving the shared Python untouched. pip list shows what is installed. The command pip freeze > requirements.txt pins exact versions of all packages to a file; a colleague or a build server restores the environment with one command, pip install -r requirements.txt. Inside an activated environment Python sees a different sys.prefix — the small check below shows that."
+      "ru": "Создайте среду командой python -m venv .venv. В Git Bash на Windows выполните source .venv/Scripts/activate. На Linux и macOS путь — source .venv/bin/activate. Затем python -m pip --version покажет, к какому Python относится pip. Установите пакет через python -m pip install requests. Сохраните список через python -m pip freeze > requirements.txt. В новой среде коллега запустит python -m pip install -r requirements.txt.",
+      "tg": "Бо python -m venv .venv муҳит созед. Дар Git Bash-и Windows source .venv/Scripts/activate нависед. Дар Linux ва macOS роҳ source .venv/bin/activate аст. Баъд python -m pip --version нишон медиҳад, ки pip ба кадом Python тааллуқ дорад. Package-ро бо python -m pip install requests насб кунед. Рӯйхатро бо python -m pip freeze > requirements.txt сабт кунед. Ҳамкор дар муҳити наваш python -m pip install -r requirements.txt иҷро мекунад.",
+      "en": "Create the environment with python -m venv .venv. In Git Bash on Windows, run source .venv/Scripts/activate. On Linux or macOS, use source .venv/bin/activate. Run python -m pip --version to see where pip is installed. Install a package with python -m pip install requests. Save the list with python -m pip freeze > requirements.txt. A teammate can run python -m pip install -r requirements.txt in a new environment."
      },
      "code": "import sys\n\nprint(\"Python lives in:\", sys.prefix)",
      "language": "python"
@@ -4511,9 +4560,9 @@
       "en": "Common mistakes"
      },
      "body": {
-      "ru": "Ошибка первая: ставить пакеты в общий Python «на скорость» — потом проекты конфликтуют, а переустановка больно бьёт по всем сразу. Вторая: забыть активировать окружение — pip поставит пакет мимо .venv, и в проекте будет ImportError; всегда проверяйте префикс (.venv) в терминале. Третья: не фиксировать requirements.txt — через полгода «работало же!» не восстановить; после каждой смены пакетов обновляйте файл. Четвёртая: коммитить саму папку .venv в репозиторий — она большая и машинозависимая; в .gitignore ей место, а requirements.txt — в репозитории. Пятая: путать python и py в Windows — оба годятся, главное запускать их из активированного окружения, чтобы попадать в нужный интерпретатор.\nИ не путайте deactivate с удалением: окружение остаётся на диске, из терминала лишь выходит его активация. Прочитайте сообщение ошибки полностью — половина ответа обычно лежит в его тексте.",
-      "tg": "Хатои аввал: насб кардани пакетҳо ба Python-и умумӣ «барои суръат» — баъд лоиҳаҳо низо мекунанд ва аз нав насбкунӣ ба ҳама якбора сахт мехӯрад. Дуюм: фаромӯш кардани фаъолсозии муҳит — pip пакетро аз .venv канор гузошта меғонад ва дар лоиҳа ImportError мешавад; ҳамеша префикси (.venv)-ро дар терминал санҷед. Сеюм: сабт накардани requirements.txt — баъди ним сол «кор мекард-да!»-ро барқарор кардан ғайриимкон аст; баъди ҳар тағйири пакетҳо файлро нав кунед. Чорум: коммит кардани худи папкаи .venv ба репозитория — он калон ва аз мошин вобаста аст; ҷои он дар .gitignore аст, вале requirements.txt — дар репозитория. Панҷум: python ва py-ро дар Windows омехта накунед — ҳарду мувофиқанд, муҳим он ки аз муҳити фаъол иҷро шаванд, то ба тафсиракунандаи дуруст расед.\nВа deactivate-ро бо несткунӣ омехта накунед: муҳит дар диск мемонад, танҳо фаъолияти он аз терминал мебарояд.",
-      "en": "First mistake: installing packages into the shared Python \"for speed\" — later the projects conflict, and a reinstall hits everything at once. Second: forgetting to activate the environment — pip installs past .venv and the project gets ImportError; always check the (.venv) prefix in the terminal. Third: not pinning requirements.txt — in six months \"but it worked!\" cannot be restored; refresh the file after every package change. Fourth: committing the .venv folder itself to the repository — it is huge and machine-specific; it belongs in .gitignore, while requirements.txt belongs in the repository. Fifth: confusing python and py on Windows — both work; what matters is running them from the activated environment so you land in the right interpreter.\nDo not confuse deactivate with deletion: the environment stays on disk; only its activation leaves the terminal."
+      "ru": "Если импорт requests не работает, сравните python -c \"import sys; print(sys.executable)\" и путь из python -m pip --version. Оба должны относиться к выбранной .venv. Активировать среду необязательно, если вызываете её Python напрямую: .venv/Scripts/python.exe в Git Bash или .venv/bin/python в Linux и macOS. В Git сохраняют requirements.txt, а .venv создают заново на каждой машине.",
+      "tg": "Агар import requests кор накунад, роҳи python -c \"import sys; print(sys.executable)\" ва роҳи python -m pip --version-ро муқоиса кунед. Ҳар ду бояд аз .venv-и интихобшуда бошанд. Агар Python-и муҳитро мустақим кушоед, актив кардан шарт нест: .venv/Scripts/python.exe дар Git Bash ё .venv/bin/python дар Linux ва macOS. Дар Git requirements.txt сабт мешавад. .venv дар ҳар компютер аз нав сохта мешавад.",
+      "en": "If import requests fails, compare python -c \"import sys; print(sys.executable)\" with the path from python -m pip --version. Both should point to the chosen .venv. Activation is optional when you call its Python directly, using .venv/Scripts/python.exe in Git Bash or .venv/bin/python on Linux and macOS. Keep requirements.txt in Git and recreate .venv on each machine."
      }
     },
     {
@@ -4992,9 +5041,9 @@
       "en": "Turning a list of expenses into a summary"
      },
      "body": {
-      "ru": "Тридцать дней назад вы выводили 36 — произведение цены на количество. Сегодня вы пишете программу, которая делает то же, что реальные аналитические скрипты: берёт сырые данные (список покупок), считает обобщающие метрики и печатает отчёт, пригодный для решения. Общая сумма отвечает «сколько я потратил», максимум с ключом — «что самое дорогое», группировка по категориям — «куда уходят деньги». Каждый из этих трёх вопросов — отдельный приём: sum с генератором, max с key=lambda, словарь-аккумулятор с .get. Вместе они собираются в пятнадцать строк, которые вы теперь можете написать сами, понять в чужом коде и изменить под свою задачу — например, сгруппировать не расходы, а оценки учеников по предметам. Это и есть цель вводного курса: не выучить тридцать тем, а соединить их в рабочий инструмент.",
-      "tg": "Си рӯз пеш шумо 36-ро бароридед — ҳосили зарби нарх ба шумора. Имрӯз шумо барномае менависед, ки ҳамон кореро мекунад, ки скриптҳои воқеии таҳлилӣ: маълумоти хомро (рӯйхати харидҳо) мегирад, нишондиҳандаҳои умумикунандаро ҳисоб мекунад ва ҳисоботи барои қарор мувофиқ чоп мекунад. Маблағи умумӣ ба «чанд пулаам сарф кардам», максимум бо калид — ба «гаронтарин чӣ буд» ва гурӯҳбандӣ аз рӯи категорияҳо — ба «пул куҷо меравад» ҷавоб медиҳад. Ҳар яке аз ин се савол усули алоҳида аст: sum бо генератор, max бо key=lambda ва луғати-ҷамъкунак бо .get. Якҷоя онҳо ба понздаҳ сатре ҷамъ мешаванд, ки онҳоро акнун худатон навишта, дар коди дигарон фаҳмида ва барои вазифаи худ тағйир дода метавонед — масалан, на хароҷот, балки баҳоҳои шогирдонро аз рӯи фаннҳо гурӯҳбандӣ кардан. Ҳадафи курси шиносоӣ низ ҳамин аст: на си мавзӯъро азёд кардан, балки онҳоро ба асбоби корӣ муттаҳид кардан.",
-      "en": "Thirty days ago you printed 36 — the product of a price and a quantity. Today you write a program doing what real analytical scripts do: take raw data (a shopping list), compute summary metrics, and print a report fit for decisions. The grand total answers \"how much did I spend\", the keyed maximum \"what was the most expensive\", the category grouping \"where the money goes\". Each of the three questions is its own technique: sum with a generator, max with key=lambda, and an accumulator dictionary with .get. Together they fold into fifteen lines that you can now write yourself, recognise in other people's code, and adapt to your own task — grouping student grades by subject instead of expenses, say. That is the goal of an introductory course: not to memorise thirty topics but to join them into a working tool."
+      "ru": "Анализатор расходов получает список покупок и делает три итога: общую сумму, самую дорогую покупку и суммы по категориям. Покупка — кортеж (название, цена, категория). Например, хлеб за 15 и чай за 12 относятся к food. Вместе они дают food = 27. Программа считает и выводит отчёт в терминал. Оплату она не выполняет и покупки между запусками не хранит.",
+      "tg": "Анализатори хароҷот рӯйхати харидро мегирад ва се натиҷа медиҳад: маблағи умумӣ, хариди қиматтарин ва ҷамъ аз рӯйи категория. Як харид tuple-и (ном, нарх, категория) аст. Масалан нони 15-сомона ва чойи 12-сомона дар food ҳастанд. Ҳар ду якҷоя food = 27 мешаванд. Барнома ҳисоботро дар терминал мебарорад. Он пул намегирад ва харидро барои оғози дигар сабт намекунад.",
+      "en": "The expense analyzer reads a list of purchases and reports three things: the total, the most expensive purchase and the total by category. Each purchase is a tuple of name, price and category. Bread at 15 and tea at 12 both belong to food, so food totals 27. The program prints a terminal report. It does not process payments or save purchases between runs."
      }
     },
     {
@@ -5025,14 +5074,14 @@
     },
     {
      "title": {
-      "ru": "Запуск и проверка",
-      "tg": "Иҷро ва санҷиш",
-      "en": "Run and verify"
+      "ru": "Отчёт без покупок",
+      "tg": "Ҳисобот бе харид",
+      "en": "A report with no purchases"
      },
      "body": {
-      "ru": "Шаг 1. Наберите программу в main.py и запустите python3 main.py (в Windows: py main.py).\nШаг 2. Сверьте пять строк вывода: итог 88, максимум notebook 45, категории food 36 и school 52.\nШаг 3. Проверьте числа вручную: сложите цены карандашом и сравните с отчётом.\nШаг 4. Добавьте две свои покупки и предскажите все строки отчёта до запуска; затем выполните финальный прогон всего проекта.\nОжидаемый итог: пять строк отчёта — итог, максимум и две категории с мостиком в будущее. Сверьте каждую цифру руками: 15 + 9 + 12 = 36 для food, 45 + 7 = 52 для school, вместе 88; максимум 45 у notebook. В шаге 4 вы добавите свои покупки и вновь спрогнозируете отчёт — последний экзамен на способность читать данные глазами программы. Поздравляем: тридцать дней пройдены, инструмент в руках.",
-      "tg": "Қадами 1. Барномаро дар main.py нависед ва python3 main.py (дар Windows: py main.py)-ро иҷро кунед.\nҚадами 2. Панҷ сатри натиҷаро биҷӯед: ҷамъи 88, максимум notebook 45, категорияҳо food 36 ва school 52.\nҚадами 3. Ададҳоро бо даст санҷед: нархҳоро дастӣ ҷамъ карда бо ҳисобот муқоиса кунед.\nҚадами 4. Ду хариди худро илова кунед ва ҳамаи сатрҳои ҳисоботро пеш аз иҷро пешгӯӣ намоед; баъд иҷрои ниҳоии тамоми лоиҳаро карда бароред.\nНатиҷаи интизорӣ: панҷ сатри ҳисобот — ҷамъ, максимум ва ду категория бо пули ба оянда. Ҳар рақамро бо даст санҷед: 15 + 9 + 12 = 36 барои food, 45 + 7 = 52 барои school, якҷо 88; максимум 45 дар notebook. Дар қадами 4 харидҳои худро илова карда, ҳисоботро бори дигар пешгӯӣ мекунед — охирин имтиҳони хондани маълумот бо чашми барнома. Табрик: си рӯз гузашт, асбоб дар даст.",
-      "en": "Step 1. Type the program into main.py and run python3 main.py (Windows: py main.py).\nStep 2. Check the five output lines: total 88, maximum notebook 45, categories food 36 and school 52.\nStep 3. Verify the numbers by hand: add the prices with a pencil and compare with the report.\nStep 4. Add two purchases of your own and predict every report line before running; then do the final run of the whole project.\nThe expected result is five report lines — the total, the maximum and two categories plus a bridge to the future. Verify every number by hand: 15 + 9 + 12 = 36 for food, 45 + 7 = 52 for school, 88 together; the maximum 45 on notebook. In step 4 you add your own purchases and forecast the report once more — the final exam in reading data with the program's eyes. Congratulations: thirty days are done, the tool is in your hands."
+      "ru": "В примере всегда есть покупки. На пустом списке sum даст 0, а max без значения по умолчанию вызовет ValueError. Передайте max параметр default=None. Тогда отчёт честно покажет, что самой дорогой покупки нет. Словарь категорий останется пустым. Сначала проверьте расчёт на бумаге, потом сравните с Python.",
+      "tg": "Дар мисол ҳамеша харид ҳаст. Дар рӯйхати холӣ sum сифр медиҳад. max бе қимати пешфарз ValueError мебарорад. Ба max параметри default=None диҳед. Он вақт ҳисобот мегӯяд, ки хариди қиматтарин нест. Dictionary-и категорияҳо холӣ мемонад. Аввал бо даст ҳисоб кунед, баъд бо натиҷаи Python муқоиса кунед.",
+      "en": "The example always has purchases. On an empty list, sum returns zero and max raises ValueError without a default. Pass default=None to max. The report can then state that there is no most expensive purchase. The category dictionary stays empty. Predict each total by hand before comparing with Python."
      },
      "output": {
       "ru": "Total: 88\nMost expensive: notebook 45\nfood -> 36\nschool -> 52\nNext: functions, files, tests, own projects",
@@ -5103,36 +5152,73 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "python-day-30-q-empty",
+     "question": {
+      "ru": "Список покупок пуст. Что должен показать отчёт?",
+      "tg": "Рӯйхати харид холист. Ҳисобот чӣ нишон диҳад?",
+      "en": "The purchase list is empty. What should the report show?"
+     },
+     "answer": {
+      "ru": "Нулевой итог и отсутствие самой дорогой покупки",
+      "tg": "Ҷамъ сифр ва хариди қиматтарин нест",
+      "en": "Zero total and no most expensive purchase"
+     },
+     "options": [
+      {
+       "ru": "Итог 0 и первую покупку из списка",
+       "tg": "Ҷамъ 0 ва хариди аввал",
+       "en": "Zero total and the first purchase"
+      },
+      {
+       "ru": "Итог прошлой команды и пустые категории",
+       "tg": "Ҷамъи дафъаи гузашта ва категорияҳои холӣ",
+       "en": "The last run’s total and empty categories"
+      },
+      {
+       "ru": "Нулевой итог и отсутствие самой дорогой покупки",
+       "tg": "Ҷамъ сифр ва хариди қиматтарин нест",
+       "en": "Zero total and no most expensive purchase"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "У пустого списка нет элемента, который можно сравнить по цене.",
+      "tg": "Дар рӯйхати холӣ хариде нест, ки нархашро муқоиса кунем.",
+      "en": "There is no element whose price you can compare in an empty list."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "Шаг 1. Наберите программу в main.py и запустите python3 main.py (в Windows: py main.py).\nШаг 2. Сверьте пять строк вывода: итог 88, максимум notebook 45, категории food 36 и school 52.\nШаг 3. Проверьте числа вручную: сложите цены карандашом и сравните с отчётом.\nШаг 4. Добавьте две свои покупки и предскажите все строки отчёта до запуска; затем выполните финальный прогон всего проекта.\nОжидаемый итог: пять строк отчёта — итог, максимум и две категории с мостиком в будущее. Сверьте каждую цифру руками: 15 + 9 + 12 = 36 для food, 45 + 7 = 52 для school, вместе 88; максимум 45 у notebook. В шаге 4 вы добавите свои покупки и вновь спрогнозируете отчёт — последний экзамен на способность читать данные глазами программы. Поздравляем: тридцать дней пройдены, инструмент в руках.",
-     "tg": "Қадами 1. Барномаро дар main.py нависед ва python3 main.py (дар Windows: py main.py)-ро иҷро кунед.\nҚадами 2. Панҷ сатри натиҷаро биҷӯед: ҷамъи 88, максимум notebook 45, категорияҳо food 36 ва school 52.\nҚадами 3. Ададҳоро бо даст санҷед: нархҳоро дастӣ ҷамъ карда бо ҳисобот муқоиса кунед.\nҚадами 4. Ду хариди худро илова кунед ва ҳамаи сатрҳои ҳисоботро пеш аз иҷро пешгӯӣ намоед; баъд иҷрои ниҳоии тамоми лоиҳаро карда бароред.\nНатиҷаи интизорӣ: панҷ сатри ҳисобот — ҷамъ, максимум ва ду категория бо пули ба оянда. Ҳар рақамро бо даст санҷед: 15 + 9 + 12 = 36 барои food, 45 + 7 = 52 барои school, якҷо 88; максимум 45 дар notebook. Дар қадами 4 харидҳои худро илова карда, ҳисоботро бори дигар пешгӯӣ мекунед — охирин имтиҳони хондани маълумот бо чашми барнома. Табрик: си рӯз гузашт, асбоб дар даст.",
-     "en": "Step 1. Type the program into main.py and run python3 main.py (Windows: py main.py).\nStep 2. Check the five output lines: total 88, maximum notebook 45, categories food 36 and school 52.\nStep 3. Verify the numbers by hand: add the prices with a pencil and compare with the report.\nStep 4. Add two purchases of your own and predict every report line before running; then do the final run of the whole project.\nThe expected result is five report lines — the total, the maximum and two categories plus a bridge to the future. Verify every number by hand: 15 + 9 + 12 = 36 for food, 45 + 7 = 52 for school, 88 together; the maximum 45 on notebook. In step 4 you add your own purchases and forecast the report once more — the final exam in reading data with the program's eyes. Congratulations: thirty days are done, the tool is in your hands."
+     "ru": "1. Создайте main.py и список из трёх покупок: apples по цене 12 и bread по цене 8 в food, notebook по цене 25 в school.\n2. Напишите summarize(purchases), возвращающую общую сумму, самую дорогую покупку и словарь сумм по категориям.\n3. Напечатайте отчёт. Ожидаются 45 всего, notebook 25, food 20 и school 25.\n4. Проверьте пустой список. Итог 0, самой дорогой покупки нет, суммы по категориям пусты.",
+     "tg": "1. main.py ва рӯйхати се харид созед: apples бо нархи 12 ва bread бо нархи 8 дар food, notebook бо нархи 25 дар school.\n2. summarize(purchases) нависед, ки ҷамъ, хариди қиматтарин ва dictionary-и ҷамъ аз рӯйи категорияро баргардонад.\n3. Ҳисоботро чоп кунед. Натиҷа бояд ҷамъ 45, notebook 25, food 20 ва school 25 бошад.\n4. Рӯйхати холиро санҷед. Ҷамъ 0, хариди қиматтарин нест ва dictionary-и категорияҳо холист.",
+     "en": "1. Create main.py with three purchases: apples at 12 and bread at 8 in food, and notebook at 25 in school.\n2. Write summarize(purchases) to return the total, the priciest purchase and a dictionary of category totals.\n3. Print the report. Expect 45 total, notebook 25, food 20 and school 25.\n4. Check an empty list. Expect zero total, no maximum and an empty category dictionary."
     },
     "hint": {
-     "ru": "Данные — список кортежей (название, цена, категория). Общая сумма: sum(price for _, price, _ in purchases) складывает цены, а подчёркивания принимают ненужные поля. Самая дорогая покупка: max(purchases, key=lambda item: item[1]) — lambda создаёт маленькую функцию «взять цену» на лету. Группировка: словарь by_category наполняется циклом — by_category[category] = by_category.get(category, 0) + price. Печать идёт по sorted(by_category), чтобы категории шли в алфавитном и предсказуемом порядке: food 36, school 52. Разберите отчёт по строкам и убедитесь, что каждая цифра восстановима вручную.",
-     "tg": "Маълумот — рӯйхати кортежҳои (ном, нарх, категория) аст. Маблағи умумӣ: sum(price for _, price, _ in purchases) нархҳоро меҷамъад ва зерхатҳо майдонҳои нолозимро мегиранд. Гаронтарин харид: max(purchases, key=lambda item: item[1]) — lambda функсияи хурди «нархро гир»-ро дар ҷои кор месозад. Гурӯҳбандӣ: луғати by_category бо сикл пур мешавад — by_category[category] = by_category.get(category, 0) + price. Чоп аз рӯи sorted(by_category) меравад, то категорияҳо дар тартиби алифбоӣ ва пешгӯишаванда бошанд: food 36, school 52. Ҳисоботро аз рӯи сатрҳо таҳлил кунед ва боварӣ ҳосил кунед, ки ҳар рақам бо даст барқарор мешавад.",
-     "en": "The data is a list of tuples (name, price, category). The grand total: sum(price for _, price, _ in purchases) adds the prices, the underscores taking the unneeded fields. The most expensive purchase: max(purchases, key=lambda item: item[1]) — a lambda builds the tiny \"take the price\" function on the fly. Grouping: the by_category dictionary fills in a loop — by_category[category] = by_category.get(category, 0) + price. Printing goes over sorted(by_category) so the categories come in alphabetical, predictable order: food 36, school 52. Unpack the report line by line and make sure every number can be reproduced by hand."
+     "ru": "Обработайте пустой список, затем накапливайте цены по категориям. Проверьте возвращённые значения отдельно от печати.",
+     "tg": "Рӯйхати холиро санҷед ва нархҳоро аз рӯйи категория ҷамъ кунед. Қиматҳои баргаштаро аз чоп ҷудо санҷед.",
+     "en": "Handle the empty case and accumulate prices by category. Check the returned values separately from printing."
     },
-    "solution": "purchases = [\n    (\"bread\", 15, \"food\"),\n    (\"milk\", 9, \"food\"),\n    (\"notebook\", 45, \"school\"),\n    (\"tea\", 12, \"food\"),\n    (\"pen\", 7, \"school\"),\n]\n\ntotal = sum(price for _, price, _ in purchases)\nmost = max(purchases, key=lambda item: item[1])\nprint(\"Total:\", total)\nprint(\"Most expensive:\", most[0], most[1])\n\nby_category = {}\nfor _, price, category in purchases:\n    by_category[category] = by_category.get(category, 0) + price\nfor category in sorted(by_category):\n    print(category, \"->\", by_category[category])\nprint(\"Next: functions, files, tests, own projects\")",
+    "solution": "def summarize(purchases):\n    totals = {}\n    for _, price, category in purchases:\n        totals[category] = totals.get(category, 0) + price\n    most = max(purchases, key=lambda item: item[1], default=None)\n    return sum(totals.values()), most, totals\n\npurchases = [(\"apples\", 12, \"food\"), (\"bread\", 8, \"food\"), (\"notebook\", 25, \"school\")]\ntotal, most, categories = summarize(purchases)\nprint(\"Total:\", total)\nif most is not None:\n    print(\"Most expensive:\", most[0], most[1])\nelse:\n    print(\"No purchases\")\nfor category, amount in sorted(categories.items()):\n    print(category, amount)\n\nassert (total, most, categories) == (45, (\"notebook\", 25, \"school\"), {\"food\": 20, \"school\": 25})\nassert summarize([]) == (0, None, {})",
     "criteria": [
      {
-      "ru": "Программа запущена, пять строк вывода совпали; числа проверены вручную.",
-      "tg": "Барнома иҷро шуд, панҷ сатри натиҷа мувофиқ омаданд; ададҳо бо даст санҷида шуданд.",
-      "en": "The program ran and the five output lines matched; the numbers were verified by hand."
+      "ru": "Отчёт показывает 45, notebook 25, food 20 и school 25.",
+      "tg": "Ҳисобот 45, notebook 25, food 20 ва school 25 нишон медиҳад.",
+      "en": "The report shows 45, notebook 25, food 20 and school 25."
      },
      {
-      "ru": "Могу изменить программу под свои данные и объяснить каждую строку отчёта.",
-      "tg": "Барномаро дар зери маълумоти худ тағйир дода метавонам ва ҳар сатри ҳисоботро шарҳ медиҳам.",
-      "en": "I can adapt the program to my own data and explain every line of the report."
+      "ru": "summarize возвращает данные, которые можно проверить без чтения вывода.",
+      "tg": "Натиҷаи summarize-ро бе хондани чоп санҷидан мумкин аст.",
+      "en": "The return value from summarize can be checked independently of printing."
      },
      {
-      "ru": "Составил(а) личный план «куда дальше» на основе раздела о следующих шагах.",
-      "tg": "Нақшаи шахсии «ба куҷо баъдтар»-ро дар асоси бахши қадамҳои оянда тартиб додам.",
-      "en": "I drafted a personal \"where next\" plan based on the next-steps section."
+      "ru": "summarize([]) возвращает (0, None, {}).",
+      "tg": "summarize([]) қимати (0, None, {}) медиҳад.",
+      "en": "summarize([]) returns (0, None, {})."
      }
     ]
    }

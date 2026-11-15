@@ -58,10 +58,13 @@ it('checks both options and written responses in Course Answers, including retry
   const firstDay = lessons.find((lesson) => lesson.day === 1)!;
   render(<CourseAnswers courseId="html" lessons={lessons} initialDay={1} />);
   const card = screen.getByRole('article');
-  const choice = within(card).getAllByRole('radio');
+  const firstQuestion = within(card).getByRole('heading', {
+    name: firstDay.questions[0].question.en,
+  }).parentElement!;
+  const choice = within(firstQuestion).getAllByRole('radio');
   fireEvent.click(choice[firstDay.questions[0].correctIndex]);
-  fireEvent.click(within(card).getByRole('button', { name: 'Check' }));
-  expect(within(card).getByRole('status')).toHaveTextContent('Correct');
+  fireEvent.click(within(firstQuestion).getByRole('button', { name: 'Check' }));
+  expect(within(firstQuestion).getByRole('status')).toHaveTextContent('Correct');
 
   fireEvent.click(screen.getByRole('button', { name: 'Interview' }));
   const draft = within(card).getByRole('textbox', { name: 'Your answer' });

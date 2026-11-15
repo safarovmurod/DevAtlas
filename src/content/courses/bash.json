@@ -3686,6 +3686,18 @@
       "tg": "Хатои якум — омехта кардани тартиби зинаҳо: sort баъди uniq дигар ҳеҷ чизро ислоҳ намекунад, зеро такрорҳо пеш аз фарориш бояд ҳамсоя бошанд. Хатои дуюм — интизории натиҷаи мобайнӣ дар экран: дар дохили конвейер он намоён нест ва барои отладка занҷирро мебурананд, дар зинаи лозимӣ head илова мекунанд. Хатои сеюм — фаромӯш кардани нохунак гирди тамоми конвейер дар ҷойгузорӣ: дар мисол тамоми занҷир ба $( ) пурра гирифта шудааст. Машқ: натиҷаи дақиқи мисолро бароред; баъд шумораи сатрҳои сатҳи warn-ро ҳисоб кунед; баъд рӯйхати модулҳои тамоман бехаторо гиред — grep -v ва ҳамон тозакунии бо sort ва uniq кор меояд. Ҳама дар пясочникаи омӯзишии маҳаллӣ иҷро мешавад — сайт кодро иҷро намекунад, ҳар натиҷаро бо чашм месанҷед.",
       "en": "The first mistake is mixing up stage order: sort after uniq fixes nothing, because duplicates must be adjacent before collapsing. The second is expecting intermediate output on screen: inside a pipeline it is invisible, and for debugging you cut the chain, adding head at the needed stage. The third is forgetting quotes around the whole pipeline in a substitution: in the example the entire chain sits inside $( ). Practice: reproduce the exact output; then count the warn-level lines; after that get the list of modules with no errors at all — grep -v plus the same sort-and-uniq cleanup will help. Everything runs locally in your learning sandbox — this site does not execute code, and you verify each result with your eyes."
      }
+    },
+    {
+     "title": {
+      "ru": "Пустой ответ или ошибка чтения",
+      "tg": "Ҷавоби холӣ ё хатои хондан",
+      "en": "No matches or a read error"
+     },
+     "body": {
+      "ru": "В grep результат «ничего не найдено» имеет код 1. Если файла нет, grep печатает ошибку и возвращает другой ненулевой код. В обоих случаях wc -l может напечатать 0, потому что ему не пришло строк. Поэтому в отчёте важно проверять доступность входного файла до подсчёта. Так ноль совпадений не скроет проблему чтения.",
+      "tg": "Агар grep чизе наёбад, коди 1 медиҳад. Агар файл набошад, grep хато мебарорад ва коди дигари ғайрисифр медиҳад. Дар ҳар ду ҳолат wc -l метавонад 0 диҳад, чун ба он ягон сатр нарасид. Барои ҳамин пеш аз ҳисоб санҷед, ки файл хонда мешавад. Он гоҳ 0 аз рӯйи хатои файл баромада наметавонад.",
+      "en": "grep exits with status 1 when nothing matches. A missing file produces an error and a different nonzero status. In both cases wc -l may print 0 because it received no lines. Check whether the input file is readable before counting. This keeps zero matches distinct from a read failure."
+     }
     }
    ],
    "questions": [
@@ -4824,6 +4836,18 @@
       "tg": "Хатои якум — гузоштани равонакунӣ дар дохили блок барои ҳар фармон: он гоҳ файл чанд бор аз нав навишта мешавад ва танҳо порчаи охирин мемонад; як аломати зиёд баъди қавси пӯшанда истодааст. Хатои дуюм — фаромӯш кардани фосилаҳо гирди қавсҳои фигурӣ: ин синтаксиси блок аст, на танҳо аломатҳо. Хатои сеюм — ҳисоб кардани хатоҳо ва муваффақиятҳо бо як шарт ва тарҳ кардан: ду ҳисоби самимӣ аз як арифметика фаҳмотар аст. Машқ: натиҷаи дақиқи мисолро бароред; баъд ба журнал се сатр илова кунед ва пеш аз иҷро ҳисотро дастан аз нав ҳисоб кунед; баъд ба ҳисот бахши чорумро илова кунед — рӯйхати саҳифаҳои хатодор, ки бо grep ё awk интихоб мешаванд. Табрик барои тамом кардани курс: баъдтар — лоиҳаҳои шахсии шумо. Ҳама маҳаллан иҷро мешавад — сайт кодро иҷро намекунад.",
       "en": "The first mistake is putting the redirection inside the block on every command: the file is then overwritten several times and only the last piece survives; the single greater-than belongs after the closing brace. The second is forgetting the spaces around the braces: this is block syntax, not just characters. The third is counting errors and successes with one condition and subtracting: two honest counts read better than one arithmetic trick. Practice: reproduce the exact output; then add three lines to the log and recompute the report by hand before running; after that add a fourth section to the report — the list of error pages, selected with grep or awk. Congratulations on finishing the course: what comes next are your own projects. Everything runs locally — this site does not execute code."
      }
+    },
+    {
+     "title": {
+      "ru": "Какая строка участвует в отчёте",
+      "tg": "Кадом сатр ба ҳисоб меравад",
+      "en": "Which lines belong in the report"
+     },
+     "body": {
+      "ru": "В учебном файле каждая строка имеет путь и числовой HTTP-статус. Например, /store 200 относится к успехам, /store 503 — к ошибкам, /help 302 — к перенаправлениям. Строку без статуса нельзя считать запросом. Сначала отберите записи формата, затем посчитайте группы отдельно. Иначе перенаправление попадёт в успехи или ошибки просто по остатку.",
+      "tg": "Дар файли омӯзишӣ ҳар сатр роҳ ва HTTP status-и ададӣ дорад. /store 200 муваффақ, /store 503 хато, /help 302 redirect аст. Сатри бе статус ба шумораи дархостҳо намедарояд. Аввал сатрҳои дурустсохтро гиред, баъд гурӯҳҳоро ҷудо ҳисоб кунед. Redirect-ро аз рӯйи бақияи ҳисоб ба муваффақ ё хато напартоед.",
+      "en": "Each valid log line has a path and numeric HTTP status. /store 200 is a success, /store 503 an error and /help 302 a redirect. A line with no status is not a request record. Filter valid records first and count the groups separately, so a redirect does not fall into another group by subtraction."
+     }
     }
    ],
    "questions": [
@@ -4893,31 +4917,31 @@
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1. Создайте main.sh с примером из урока.\n2. Запустите из учебной папки: bash main.sh.\n3. Сверьте вывод:\n=== Log report ===\ntotal_requests=10\nerrors=3\nok=7\n--- top pages ---\n      4 /home\n      3 /about\n      1 /products\n4. Самостоятельно: добавьте в журнал три строки, пересчитайте отчёт руками до запуска и добавьте секцию ошибочных страниц.",
-     "tg": "1. main.sh бо мисоли дарсро созед.\n2. Аз папкаи омӯзишӣ иҷро кунед: bash main.sh.\n3. Натиҷаро санҷед:\n=== Log report ===\ntotal_requests=10\nerrors=3\nok=7\n--- top pages ---\n      4 /home\n      3 /about\n      1 /products\n4. Мустақилона: ба журнал се сатр илова кунед, ҳисотро пеш аз иҷро дастан ҳисоб кунед ва бахши саҳифаҳои хатодорро илова намоед.",
-     "en": "1. Create main.sh with the lesson example.\n2. Run from your learning folder: bash main.sh.\n3. Verify the output:\n=== Log report ===\ntotal_requests=10\nerrors=3\nok=7\n--- top pages ---\n      4 /home\n      3 /about\n      1 /products\n4. On your own: add three log lines, recompute the report by hand before running, and add an error-pages section."
+     "ru": "1. Создайте requests.txt с пятью строками: /store 200, /store 503, /help 302, /cart 404 и invalid line. Каждую запись поместите на отдельную строку.\n2. Напишите report.sh, который берёт имя файла первым аргументом и сообщает об ошибке, если файл недоступен.\n3. Выполните bash report.sh requests.txt. Ожидаются valid=4, ok=1, redirects=1, errors=2, skipped=1.\n4. Добавьте /cart 201 и пересчитайте результат. Проверьте, что входной файл не изменился от запуска.",
+     "tg": "1. requests.txt бо панҷ сатр созед: /store 200, /store 503, /help 302, /cart 404 ва invalid line. Ҳар сабт дар сатри алоҳида бошад.\n2. report.sh нависед, ки номи файлро ҳамчун аргументи якум гирад. Агар файл дастрас набошад, хато диҳад.\n3. bash report.sh requests.txt-ро иҷро кунед. Натиҷа valid=4, ok=1, redirects=1, errors=2, skipped=1 аст.\n4. /cart 201-ро илова кунед ва ҳисобро аз нав санҷед. Бинед, ки худи скрипт файли воридшударо иваз накард.",
+     "en": "1. Create requests.txt with five separate lines: /store 200, /store 503, /help 302, /cart 404 and invalid line.\n2. Write report.sh to take a file path as its first argument and report an error if it cannot read the file.\n3. Run bash report.sh requests.txt. Expect valid=4, ok=1, redirects=1, errors=2 and skipped=1.\n4. Add /cart 201 and recompute the result. Check that running the script did not alter the input file."
     },
     "hint": {
-     "ru": "Фигурные скобки объединяют команды; один > после блока пишет весь отчёт в файл. Внутри: wc -l для тоталов, awk с условием для ошибок и успехов, знакомый топ через sort | uniq -c | sort -rn | head -n 3.",
-     "tg": "Қавсҳои фигурӣ фармонҳоро якҷоя мекунанд; як > баъди блок тамоми ҳисотро ба файл менависад. Дар дохил: wc -l барои ҷамъбастьо, awk бо шарт барои хатоҳо ва муваффақиятҳо, топи шинохта бо sort | uniq -c | sort -rn | head -n 3.",
-     "en": "Braces join the commands; one > after the block writes the whole report to a file. Inside: wc -l for totals, awk with a condition for errors and successes, and the familiar top via sort | uniq -c | sort -rn | head -n 3."
+     "ru": "В awk используйте $1 для пути, $2 для статуса, NF для числа полей.",
+     "tg": "Дар awk $1 роҳ, $2 статус ва NF шумораи майдонҳост.",
+     "en": "In awk, use $1 for the path, $2 for the status and NF for the field count."
     },
-    "solution": "#!/usr/bin/env bash\nsandbox=day30_files\nrm -rf \"$sandbox\"\nmkdir -p \"$sandbox\"\nprintf '/home 200\\n/about 200\\n/home 404\\n/contact 200\\n/home 200\\n/about 500\\n/products 200\\n/login 404\\n/home 200\\n/about 200\\n' > \"$sandbox/access.log\"\nlog=\"$sandbox/access.log\"\nreport=\"$sandbox/report.txt\"\n{\n  printf '=== Log report ===\\n'\n  printf 'total_requests=%s\\n' \"$(wc -l < \"$log\")\"\n  printf 'errors=%s\\n' \"$(awk '$2 >= 400' \"$log\" | wc -l)\"\n  printf 'ok=%s\\n' \"$(awk '$2 < 400' \"$log\" | wc -l)\"\n  printf '%s\\n' '--- top pages ---'\n  awk '{ print $1 }' \"$log\" | sort | uniq -c | sort -rn | head -n 3\n} > \"$report\"\ncat \"$report\"\nrm -rf \"$sandbox\"\n",
+    "solution": "#!/usr/bin/env bash\nif [ \"$#\" -ne 1 ] || [ ! -f \"$1\" ] || [ ! -r \"$1\" ]; then\n  printf \"Usage: bash report.sh <readable log file>\\n\" >&2\n  exit 1\nfi\n\nawk '\n  NF != 2 || $1 !~ /^\\// || $2 !~ /^[1-5][0-9][0-9]$/ { skipped++; next }\n  { valid++ }\n  $2 >= 200 && $2 < 300 { ok++ }\n  $2 >= 300 && $2 < 400 { redirects++ }\n  $2 >= 400 && $2 < 600 { errors++ }\n  END {\n    printf \"valid=%d\\nok=%d\\nredirects=%d\\nerrors=%d\\nskipped=%d\\n\", valid, ok, redirects, errors, skipped\n  }\n' < \"$1\"",
     "criteria": [
      {
-      "ru": "Файл main.sh выполнен командой bash main.sh; вывод совпал с ожидаемым.",
-      "tg": "Файли main.sh бо фармони bash main.sh иҷро шуд; натиҷа ба интизорӣ мувофиқ аст.",
-      "en": "main.sh was run with bash main.sh; the output matched the expected result."
+      "ru": "Записи 2xx, 3xx и 4xx–5xx попадают в правильные группы.",
+      "tg": "Сабтҳои 2xx, 3xx ва 4xx–5xx ба гурӯҳҳои дуруст мераванд.",
+      "en": "2xx, 3xx and 4xx–5xx records go to the correct groups."
      },
      {
-      "ru": "Ручной пересчёт отчёта после изменения журнала совпал с выводом скрипта.",
-      "tg": "Ҳисоби дасти ҳисот баъди ивази журнал бо натиҷаи скрипт мувофиқ омад.",
-      "en": "The hand-recomputed report after changing the log matched the script output."
+      "ru": "Некорректная строка учитывается только в skipped.",
+      "tg": "Сатри нодуруст фақат дар skipped ҳисоб мешавад.",
+      "en": "The malformed line is counted only in skipped."
      },
      {
-      "ru": "Могу объяснить каждую строку отчёта и работу блока с перенаправлением.",
-      "tg": "Метавонам ҳар сатри ҳисот ва кори блокро бо равонакунӣ шарҳ диҳам.",
-      "en": "I can explain every report line and how the redirected block works."
+      "ru": "Недоступный файл даёт сообщение в stderr и ненулевой код.",
+      "tg": "Файли дастнорас ба stderr паём ва коди ғайрисифр медиҳад.",
+      "en": "An unreadable file produces a stderr message and nonzero exit status."
      }
     ]
    }

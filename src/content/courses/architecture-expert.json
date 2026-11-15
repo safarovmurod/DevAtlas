@@ -2292,15 +2292,27 @@
       "tg": "Olim бо системаи қадимаи кадрҳо интегратсия кард, ки дар он ментор майдонҳои бахш, рақами табелӣ се пардаш дорад. Версияи аввал тамоми ҷавобро ба ҷадвали худ менависид; вақте ки легасӣ майдони status бо луғати худ илова кард, интерфейс ЧЕРНОВИК_ГР нишон медод. Ҳал — қабати зиддифсод: тарҷумон ба домен танҳо { mentorId, displayName, canTeach } медиҳад. Даъватҳои ҳамзамон танҳо дар он ҷо монданд, ки бе онҳо намешавад: санҷиши имкони номнависӣ. Хатоҳои маъмул: клиенти тавлидшудаи API-и бегона ба домен мерезад; тайм-аут ҳамчун радкунӣ ҳисоб мешавад ва такрор идемпотентиро мешиканад; несткунии майдони ихтиёрӣ бе огоҳинома; ва ҳудудҳои API-и бегона, ки дар меъмории шумо инъикос наёфтанд. Баъди гузориши қабати зиддифсод луғати бегона аз база ғайб шуд ва коди домен забони софи худро гирифт, ки аз реҷаи кадрии легасӣ вобаста нест.",
       "en": "Olim integrated with a fictional legacy HR system whose mentor carried department, payroll number and three service flags. The first version simply stored the whole response in its table; when the legacy side added a status field with its own vocabulary, interface elements started showing DRAFT_HR. The fix — an anti-corruption layer: the translator hands the domain only { mentorId, displayName, canTeach }, and everything else settles at the boundary. Synchronous calls remained only where unavoidable: checking booking eligibility. Frequent mistakes: a generated client of a foreign API leaking into the domain; a timeout treated as refusal, triggering a retry that breaks idempotency; removal of an optional field without warning consumers; and foreign-API rate limits unreflected in your architecture — the first spike instantly exhausts them."
      }
+    },
+    {
+     "title": {
+      "ru": "Что теряется в цепочке",
+      "tg": "Дастрасии занҷир чӣ хел кам мешавад?",
+      "en": "Availability along a chain"
+     },
+     "body": {
+      "ru": "Если страница требует пять независимых успешных вызовов с доступностью 99,9% каждый, перемножьте 0,999 пять раз. Получится примерно 99,5%. Если все вызовы падают вместе из-за общего сервиса, это допущение ломается. Для реальной оценки нужны замеры пути пользователя и список общих зависимостей.",
+      "tg": "Агар барои саҳифа панҷ дархости мустақил бо дастрасии 99,9% даркор бошад, 0,999-ро панҷ бор зарб кунед. Қариб 99,5% мешавад. Агар ҳама аз як сервис вобаста бошанду якҷоя хато диҳанд, ин ҳисоб рост намеояд. Барои баҳодиҳӣ натиҷаи роҳи воқеии user ва сервисҳои умумиро бинед.",
+      "en": "If a page requires five independent successful calls at 99.9% availability each, multiply 0.999 five times to get about 99.5%. This assumption fails if the calls fail together through a shared service. Measure the user path and identify common dependencies to estimate actual availability."
+     }
     }
    ],
    "questions": [
     {
      "id": "architecture-expert-day-14-q1",
      "question": {
-      "ru": "Пять синхронных вызовов по цепочке, каждый доступен на 99,9%. Какова примерная доступность всей цепочки?",
-      "tg": "Панҷ даъвати ҳамзамон дар занҷир, ҳар як 99,9%. Дастрасии тақрибии тамоми занҷир чист?",
-      "en": "Five synchronous calls in a chain, each 99.9% available. The approximate chain availability is?"
+      "ru": "Цепочка успешна, только если успешны все пять независимых вызовов. Доступность каждого 99,9%. Чему примерно равна доступность цепочки?",
+      "tg": "Занҷир он вақт кор мекунад, ки ҳамаи панҷ дархости аз ҳам мустақил кор кунанд. Дастрасии ҳар яке 99,9% аст. Дастрасии ҳамаи занҷир чанд мешавад?",
+      "en": "The chain succeeds only if all five independent calls succeed. Each has 99.9% availability. What is the chain’s approximate availability?"
      },
      "answer": {
       "ru": "Около 99,5% — доступности перемножаются",
@@ -2324,7 +2336,13 @@
        "en": "100% — one call's failure is compensated"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Нужен одновременный успех пяти независимых вызовов.",
+      "tg": "Муваффақ шудани ҳамаи панҷ дархости мустақил даркор аст.",
+      "en": "All five independent calls must succeed together."
+     },
+     "relatedSection": 3
     },
     {
      "id": "architecture-expert-day-14-q2",
@@ -4875,6 +4893,18 @@
       "ru": "Типичные провалы повторяются из года в год. Решение без требований: рисуют шардинг и Kubernetes для системы на 5 000 пользователей — вопрос зачем остаётся без ответа. Схема вместо решений: таблицы есть, а структура, владение и trade-offs — нет; непонятно, что будет при падении провайдера. Молчание о согласованности: бронирование и оплата описаны как одна транзакция, хотя они в разных модулях; промежуточных состояний не существует. Отказы отсутствуют: система идеальна, пока ничего не падает; нет ни тайм-аутов, ни деградаций, ни ответа на вопрос о перегрузке. Миграции нет вообще или она — одна строка переехали; ни теневого прогона, ни отката, ни списка на вывод. Наконец, решения не записаны: три ADR нужны минимум — структура, владение данными, платёжный провайдер. Успешная работа — это компромиссы, сказанные вслух, границы, проведённые до деталей, и документ, который можно прочитать за двадцать минут.",
       "tg": "Сарнагуниҳои маъмулӣ такрор мешаванд. Ҳали бе талабот: барои системаи 5 000 нафар шардинг ва Kubernetes мекашанд — пурсиши барфи чаро бе ҷавоб мемонад. Схема ба ҷои қарорҳо: ҷадвалҳо ҳастанд, вале сохтор, соҳибӣ ва trade-offҳо не; номаълум, ки ҳангоми афти провайдер чӣ мешавад. Бесадоӣ дар мутобиқат: брон ва пардохт ҳамчун як транзаксия тавсиф шудаанд, ҳарчанд дар ду модуланд. Нокомиҳо вуҷуд надоранд: система то лагидани ҳеҷ чиз мукаммал аст. Мигратсия вуҷуд надорад ё як сатр аст; на гарди соя, на бозгашт, на рӯйхати хориҷкунӣ. Ниҳоят, қарорҳо сабт нашудаанд: се ADR ҳадди ақал — сохтор, соҳибии додаҳо, провайдери пардохт. Кори муваффақ — компромиссҳои баландгӯй, сарҳадҳои кашидашуда пеш аз тафсилот ва ҳуҷҷате, ки дар бист дақиқа хонда мешавад. Ҳамин чор хато 90 фоизи сарнагуниҳоро ташкл медиҳанд.",
       "en": "Typical failures repeat yearly. A solution without requirements: sharding and Kubernetes drawn for a 5,000-user system — the question why stays unanswered. Schema instead of decisions: tables exist, but structure, ownership and trade-offs do not; unclear what happens when the provider falls. Silence on consistency: booking and payment described as one transaction though they live in different modules; no intermediate states exist. Missing failures: the system is perfect until anything falls; no timeouts, no degradations, no overload answer. No migration at all or a one-line we moved; neither shadow runs, nor rollback, nor a decommission list. Finally, decisions unrecorded: three ADRs minimum — structure, data ownership, payment provider. A passing work is trade-offs spoken aloud, boundaries drawn before details, and a document readable in twenty minutes."
+     }
+    },
+    {
+     "title": {
+      "ru": "Место занято, платёж ещё проверяется",
+      "tg": "Вақт банд аст, пардохт ҳоло санҷида мешавад",
+      "en": "The slot is held while payment is pending"
+     },
+     "body": {
+      "ru": "При бронировании на 16:00 сервер создаёт запись pending. База гарантирует, что на слот действует одна активная бронь. Платёжный сервис отвечает отдельно. Если его ответ задержался, экран показывает «Проверяем платёж». Повтор от браузера относится к той же операции. Подтверждение приходит после сверки у платёжного сервиса. Потерянное письмо не меняет уже подтверждённую бронь.",
+      "tg": "Барои вақти 16:00 сервер сабти pending месозад. База иҷозат медиҳад, ки дар ин вақт фақат як брон фаъол бошад. Сервиси пардохт алоҳида ҷавоб медиҳад. Агар ҷавоб дер шавад, экран «Пардохт санҷида мешавад» мегӯяд. Такрори браузер ба ҳамон амалиёт тааллуқ дорад. Брон баъди санҷидани пардохт тасдиқ мешавад. Нарасидани email брони тасдиқшударо иваз намекунад.",
+      "en": "For a 16:00 booking, the server creates a pending record. The database ensures that only one active booking can hold the slot. The payment provider responds separately. If that response is late, the screen shows “Checking payment”. A browser retry refers to the same operation. Verify the outcome with the provider before confirming. A failed email delivery leaves the confirmed booking intact."
      }
     }
    ],

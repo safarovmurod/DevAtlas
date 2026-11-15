@@ -140,6 +140,18 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is an introductory module of 30 days. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Коллекция, документ и поле на одной записи",
+      "tg": "Collection, ҳуҷҷат ва майдон дар як сабт",
+      "en": "Collection, document and field in one record"
+     },
+     "body": {
+      "ru": "В коллекции products документ товара может содержать { name: \"Tea\", price: 12 }. Это одна запись, name и price — её поля. MongoDB хранит документы в формате BSON, поэтому команды shell похожи на JavaScript и поддерживают типы сверх обычного JSON. _id выделяет документ внутри коллекции.",
+      "tg": "Дар collection-и products ҳуҷҷати мол метавонад { name: \"Tea\", price: 12 } бошад. Ин як сабт аст, name ва price майдонҳои онанд. MongoDB ҳуҷҷатро ҳамчун BSON нигоҳ медорад. Командаҳои shell ба JavaScript монанданд ва типҳои бештар аз JSON доранд. _id сабтро дар collection ҷудо мекунад.",
+      "en": "The products collection can hold a document such as { name: \"Tea\", price: 12 }. That is one record, and name and price are fields. MongoDB stores documents as BSON. Shell commands resemble JavaScript and support types beyond ordinary JSON. The _id identifies the document within its collection."
+     }
     }
    ],
    "interview": {
@@ -317,6 +329,18 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is an introductory module of 30 days. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Две продажи за последний товар",
+      "tg": "Ду фурӯш барои моли охир",
+      "en": "Two sales for the last unit"
+     },
+     "body": {
+      "ru": "Если stock=1, фильтр обновления требует stock >= 1, а изменение уменьшает остаток на 1. После первой продажи stock=0. Следующая операция уже не находит совпадения. Смотрите matchedCount и остаток. Атомарность здесь относится к изменению одного документа.",
+      "tg": "Агар stock=1 бошад, филтр stock >= 1 талаб мекунад ва тағйир бақияро якто кам мекунад. Баъди фурӯши аввал stock=0 мешавад. Амали дуюм дигар сабти мувофиқ намеёбад. matchedCount ва бақияро бинед. Атомарӣ дар ин ҷо ба як ҳуҷҷат дахл дорад.",
+      "en": "If stock=1, the update filter requires stock >= 1 and the update decrements stock by one. After the first sale stock is 0. The next operation finds no match. Check matchedCount and stock. Atomicity here applies to a single document."
+     }
     }
    ],
    "interview": {
@@ -394,7 +418,13 @@
        "en": "A connection error occurred"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посмотрите, удовлетворяет ли документ фильтру в момент выполнения updateOne.",
+      "tg": "Бинед, ҳангоми иҷрои updateOne ҳуҷҷат ба филтр мувофиқ аст ё не.",
+      "en": "Check whether the document satisfies the filter when updateOne runs."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -674,6 +704,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\np9\n9\n\nХатоҳои маъмул: кӯшиши insertOne бо _id-и аллакай мавҷуд (мисолан p1) бо хатои калиди такрорӣ E11000 анҷом меёбад ва скриптро меистад — баъди таҷриба ин хатро нест кунед; фаромӯшии _id хато нест — MongoDB ObjectId месозад, вале он гоҳ қимати калиди гузошта пешакӣ маълум нест ва барои ҳадафҳои омӯзишӣ натиҷа устувор намемонад. Дар ёд доред: _id тағйирнашаванда аст, онро тавассути $set навсозӣ кардан мумкин нест. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт маълумотро аз нав месозад, бинобар ин бе нусхаҳои такрорӣ боз фиристодан мумкин аст.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\np9\n9\n\nCommon mistakes: calling insertOne with an _id that already exists (p1, for example) fails with duplicate key error E11000 and stops the script — remove that line after experimenting; omitting _id is not an error — MongoDB will mint an ObjectId, but then the inserted key is not known in advance and the output stops being stable for teaching purposes. Remember: _id is immutable and cannot be changed through $set. The site does not run the code — use your own learning mongosh; the script rebuilds its data, so it can be rerun without duplicates."
      }
+    },
+    {
+     "title": {
+      "ru": "_id и совпадающее название",
+      "tg": "_id ва номи якхела",
+      "en": "An id and a shared name"
+     },
+     "body": {
+      "ru": "Две карточки могут называться «Чай». Разные _id делают их разными документами. Если не указать _id, он обычно создаётся автоматически. Повторный insertOne с тем же _id приводит к ошибке уникальности, а не обновляет карточку. Для изменения существующего товара используйте updateOne с фильтром.",
+      "tg": "Ду карточка номи «Чой» дошта метавонанд. _id-и гуногун онҳоро ҷудо мекунад. Агар _id надиҳед, одатан худкор сохта мешавад. insertOne бо ҳамон _id хатои такрор медиҳад ва карточкаро иваз намекунад. Барои тағйири сабти мавҷуда updateOne бо филтр гиред.",
+      "en": "Two product cards can share the name “Tea”. Different _id values keep them distinct. If you omit _id, it is normally generated. A second insertOne with that id fails the uniqueness check. Use updateOne with a filter to change an existing product."
+     }
     }
    ],
    "questions": [
@@ -835,6 +877,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nKettle\nHoney: 460\nBread: 35\nChocolate: 95\n\nХатоҳои маъмул: проексияро бо филтр омехта кардан — филтр муайян мекунад, кадом ҳуҷҷатҳо занҷиравӣ шаванд, проексия — кадом майдонҳо дар онҳо нишон дода шаванд; бе зарурат 1 ва 0-ро омехта кардан (ғайр аз _id намешавад як вақт баъзе майдонҳоро фаъол ва дигаронро хомӯш кард); аз findOne массив интизор будан — он як объект ё null бармегардонад. Агар сатрҳо аз се зиёд шаванд, филтрро санҷед: категория ба регистр ҳассос аст, Food ва food қиматҳои гуногунанд. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт маълумотро аз нав месозад ва такроран иҷро мешавад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nKettle\nHoney: 460\nBread: 35\nChocolate: 95\n\nCommon mistakes: confusing the projection with the filter — the filter decides which documents match, the projection which fields of those documents appear; mixing 1 and 0 without need (you cannot include some fields while excluding others, except _id); expecting an array from findOne — it returns one object or null. If more than three lines appear, check the filter: category values are case-sensitive, Food and food are different. The site does not run the code — use your own learning mongosh; the script rebuilds its data and can be rerun."
      }
+    },
+    {
+     "title": {
+      "ru": "Фильтр решает «кто», проекция — «что показать»",
+      "tg": "Филтр «кадом сабт», projection «кадом майдон»",
+      "en": "The filter chooses records and the projection chooses fields"
+     },
+     "body": {
+      "ru": "Для find({ price: 12 }, { name: 1, _id: 0 }) первый объект выбирает документы с ценой 12, второй показывает только name. Документ в хранилище остаётся прежним. Курсор позволяет прочитать результаты, поэтому сразу после find вы ещё не получили массив имён.",
+      "tg": "Дар find({ price: 12 }, { name: 1, _id: 0 }) объекти аввал ҳуҷҷатҳои нархашон 12-ро интихоб мекунад. Дуюм танҳо name-ро нишон медиҳад. Сабти база тағйир намеёбад. Курсор барои хондани натиҷа аст ва худи find ҳанӯз массиви номҳоро намедиҳад.",
+      "en": "In find({ price: 12 }, { name: 1, _id: 0 }), the first object selects documents priced at 12. The second shows only name. Stored data stays the same. The cursor lets you consume results, so find has not given you an array of names yet."
+     }
     }
    ],
    "questions": [
@@ -867,7 +921,13 @@
        "en": "It searches for documents whose name equals 1"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый объект выбирает документы. Подумайте, что меняет второй объект только в результате.",
+      "tg": "Объекти аввал ҳуҷҷат интихоб мекунад. Бинед, объекти дуюм дар худи ҷавоб чиро дигар мекунад.",
+      "en": "The first object selects documents. Ask what the second changes in the returned result."
+     },
+     "relatedSection": 3
     },
     {
      "id": "mongodb-day-05-q2",
@@ -1640,15 +1700,27 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nTea\nCoffee\nMug\nKettle\n2\n\nХатоҳои маъмул: аз {tags:[\"kitchen\",\"gift\"]} рафтори «ҳар дуро дар бар мегирад» интизор будан — ин баробарии қатъии массив аст, на зермаҷмӯъ; баръакс, аз $all тартиби дақиқро интизор будан — барои $all тартиб бефарқ аст; ҳуҷҷатҳои бе майдонро фаромӯш кардан: онҳо на ба contains, на ба баробарии дақиқ, на ба $all мувофиқ меоянд. Агар Mug ё Kettle наёфт шаванд, тартиби унсурҳоро дар insertMany-и скрипт санҷед. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт маълумотро аз нав месозад, натиҷа такроршаванда аст.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nTea\nCoffee\nMug\nKettle\n2\n\nCommon mistakes: expecting {tags:[\"kitchen\",\"gift\"]} to behave like \"contains both\" — it is strict array equality, not a subset test; conversely, expecting exact order from $all — order is irrelevant to $all; forgetting documents without the field: they match neither contains, nor exact equality, nor $all. If Mug or Kettle went missing, check the element order in the script's insertMany. The site does not run the code — use your own learning mongosh; the script rebuilds its data and the output is reproducible."
      }
+    },
+    {
+     "title": {
+      "ru": "Один тег и точный массив",
+      "tg": "Як tag ва тамоми массив",
+      "en": "One tag and an exact array"
+     },
+     "body": {
+      "ru": "Товар 1 имеет теги [\"gift\", \"hot\"], товар 2 — [\"hot\"]. Фильтр {tags:\"hot\"} находит оба. Фильтр {tags:[\"hot\"]} находит товар 2 в этих данных. Если нужен набор разных тегов без учёта порядка, это третья задача и ей нужен соответствующий оператор.",
+      "tg": "Моли 1 tag-ҳои [\"gift\", \"hot\"], моли 2 — [\"hot\"] дорад. {tags:\"hot\"} ҳардуро меёбад. {tags:[\"hot\"]} дар ҳамин додаҳо танҳо моли 2-ро меёбад. Агар маҷмӯи tag-ҳо бе аҳамияти тартиб лозим бошад, он вазифаи дигар аст ва оператори мувофиқ мехоҳад.",
+      "en": "Product 1 has [\"gift\", \"hot\"] and product 2 has [\"hot\"]. The filter {tags:\"hot\"} finds both. The filter {tags:[\"hot\"]} finds product 2 in this dataset. Matching a set of required tags irrespective of order is a different task with a dedicated operator."
+     }
     }
    ],
    "questions": [
     {
      "id": "mongodb-day-10-q1",
      "question": {
-      "ru": "Что найдёт find({ tags: \"hot\" })?",
-      "tg": "find({ tags: \"hot\" }) чиро меёбад?",
-      "en": "What will find({ tags: \"hot\" }) match?"
+      "ru": "Если tags у рассматриваемых товаров массив, что найдёт find({ tags: \"hot\" })?",
+      "tg": "Агар tags дар молҳои мисол массив бошад, find({ tags: \"hot\" }) чиро меёбад?",
+      "en": "If tags is an array for the products being checked, what does find({ tags: \"hot\" }) match?"
      },
      "answer": {
       "ru": "Документы, у которых в массиве tags есть значение hot",
@@ -1703,7 +1775,13 @@
        "en": "That both tags are present in any order"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните значение фильтра с полным массивом тегов, включая порядок.",
+      "tg": "Қимати филтрро бо тамоми массиви tag ва тартибаш муқоиса кунед.",
+      "en": "Compare the filter value to the whole tags array, including element order."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1801,6 +1879,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nDilnoza\nNigina\nDilnoza\n\nДу хатти аввал — дархости сода (вай Нигинаро бо хато гирифт), сеюм — $elemMatch-и дуруст. Хатоҳои маъмул: истифодаи $elemMatch дар ҷое, ки як шарт аст — он зиён намебахшад, вале лозим нест; фаромӯш кардани ноҳунӣ дар \"items.sku\"; интизор будан, ки $elemMatch «ҳамаи унсурҳоро» месанҷад — вай мавҷудияти ҳадди ақал як унсури мувофиқро месанҷад. Муфид аст гуфтан: дархости сода ба саволи «оё чунин майдонҳо ҷое дар массив ҳастанд» ҷавоб медиҳад, $elemMatch — «оё як сатр ҳаст, ки пурра мувофиқ аст». Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт фармоишҳоро аз нав месозад, натиҷа устувор аст.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nDilnoza\nNigina\nDilnoza\n\nThe first two lines are the naive query (it wrongly captured Nigina), the third is the correct $elemMatch. Common mistakes: using $elemMatch when there is only one condition — harmless but unnecessary; forgetting the quotes in \"items.sku\"; expecting $elemMatch to check \"every element\" — it checks that at least one matching element exists. A helpful phrasing: the naive query answers \"do such fields exist anywhere in the array\", $elemMatch answers \"does one fully matching line exist\". The site does not run the code — use your own learning mongosh; the script rebuilds the orders, the output is stable."
      }
+    },
+    {
+     "title": {
+      "ru": "Один элемент должен выполнить оба условия",
+      "tg": "Як унсур бояд ҳар ду шартро гузарад",
+      "en": "One element must meet both conditions"
+     },
+     "body": {
+      "ru": "У заказа две строки: чай в количестве 1 и кофе в количестве 3. Ищем заказы с тремя единицами именно чая. Отдельные проверки по items.name и items.qty могут найти разные строки. $elemMatch объединяет условия внутри одной строки, поэтому этот заказ условию не отвечает.",
+      "tg": "Фармоиш ду сатр дорад: 1 чой ва 3 қаҳва. Мо маҳз 3 чой меҷӯем. Санҷишҳои ҷудои items.name ва items.qty метавонанд ду сатри гуногунро ёбанд. $elemMatch ҳар ду шартро дар як сатр месанҷад, барои ҳамин фармоиши мазкур намегузарад.",
+      "en": "An order has two lines: one tea and three coffees. Find orders with three units of tea. Separate conditions on items.name and items.qty can match different lines. $elemMatch requires them on the same line, so this order does not qualify."
+     }
     }
    ],
    "questions": [
@@ -1864,7 +1954,13 @@
        "en": "Because $gte cannot be applied to nested fields"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Разметьте, какой элемент массива отвечает за sku, а какой за qty.",
+      "tg": "Нишон диҳед, кадом унсури массив ба sku ва кадом ба qty ҷавоб медиҳад.",
+      "en": "Mark which array entry meets sku and which meets qty."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1962,6 +2058,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\n10\n5\n2\n7\n\nХатоҳои маъмул: фаромӯш кардани $set ва додани объекти қиматҳо мустақиман — mongosh дар бораи atomic operators хато хабар медиҳад; навиштани {\"supplier.rating\":5} бе ноҳунӣ; интизор будан, ки updateOne ҳамаи мувофиқатҳоро навсозӣ мекунад — вай танҳо якуминро мегирад. Таваҷҷӯҳ кунед: рейтингро ба 5 иваз кард ва шаҳр тағйир наёфт — $set-и нуқтадор дохиро дақиқ иваз мекунад. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт пеш аз навсозиҳо маълумотро аз нав месозад, бинобар ин натиҷа аз таърихи иҷроҳо вобаста нест.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\n10\n5\n2\n7\n\nCommon mistakes: forgetting $set and passing a plain value object — mongosh replies with an error about atomic operators; writing {\"supplier.rating\":5} without quotes; expecting updateOne to change every match — it takes only the first. Note: the kettle supplier's rating moved from 4 to 5 while the city stayed — dotted $set is surgical. The site does not run the code — use your own learning mongosh; the script rebuilds the data before updating, so the output never depends on run history."
      }
+    },
+    {
+     "title": {
+      "ru": "Найдено и изменено — два числа",
+      "tg": "Ёфт шуд ва тағйир ёфт — ду ҳисоб",
+      "en": "Matched and modified are separate counts"
+     },
+     "body": {
+      "ru": "У чая price уже 12. При $set price=12 документ найден, но значение не меняется. matchedCount равен 1, modifiedCount — 0. Сравните с фильтром по несуществующему _id, где совпадений ноль. Это разные причины отсутствия изменения.",
+      "tg": "Нархи чой аллакай 12 аст. Бо $set price=12 ҳуҷҷат ёфт мешавад, вале қимат намегардад. matchedCount = 1, modifiedCount = 0. Бо _id-и норасида бошад, мувофиқат ҳам 0 аст. Тағйир нашудан дар ин ду ҳолат сабаби гуногун дорад.",
+      "en": "Tea already costs 12. With $set price=12 the record matches but its value stays the same. matchedCount is 1 and modifiedCount is 0. Compare that with a filter for a missing _id, where zero records match. There are two distinct reasons for no change."
+     }
     }
    ],
    "questions": [
@@ -1994,7 +2102,13 @@
        "en": "It deletes the listed fields"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните указанные в $set поля со всеми полями, которые уже есть в документе.",
+      "tg": "Майдонҳои $set-ро бо ҳамаи майдонҳои ҳуҷҷати мавҷуда муқоиса кунед.",
+      "en": "Compare the fields listed in $set with all fields already in the document."
+     },
+     "relatedSection": 3
     },
     {
      "id": "mongodb-day-12-q2",
@@ -2284,6 +2398,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\n1\n0\n1\nSpoon\n\nХатоҳои маъмул: аз updateOne бе опциа upsert интизор будан — бе {upsert:true} мувофиқати холӣ оддан ҳеҷ кор намекунад; гузоштани майдонҳои «пурхоб» дар филтр — ҳангоми гузоштан онҳо ба ҳуҷҷати нав меафтанд; омехта кардани upsertedCount ва modifiedCount: 1/0 бар муқобили 0/1. Скриптро ду бор паи ҳам иҷро кунед — натиҷа тағйир намеёбад, зеро маълумот аз нав сохта мешавад ва upsert худаш идемпотентӣ аст. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\n1\n0\n1\nSpoon\n\nCommon mistakes: expecting upsert behavior without the option — without {upsert:true} an empty match simply does nothing; putting \"junk\" fields in the filter — they land in the created document on insert; mixing up upsertedCount and modifiedCount: 1/0 versus 0/1. Run the script twice in a row — the output will not change, because the data is rebuilt and the upsert itself is idempotent. The site does not run the code — use your own learning mongosh."
      }
+    },
+    {
+     "title": {
+      "ru": "Как увидеть ветку upsert",
+      "tg": "Шохаи upsert-ро чӣ хел бинем",
+      "en": "Reading the upsert outcome"
+     },
+     "body": {
+      "ru": "Обращаемся к товару по уникальному SKU. Если товар уже существует, операция обновляет совпавший документ. Если товара нет и upsert включён, операция вставляет новый. Сравните matchedCount и upsertedId, чтобы узнать, какой путь сработал. Уникальный индекс нужен, чтобы ключ не дублировался.",
+      "tg": "Молро аз рӯйи SKU-и ягона мегирем. Агар мол бошад, амалиёт ҳуҷҷати мувофиқро нав мекунад. Агар мол набошад ва upsert фаъол бошад, ҳуҷҷати нав месозад. matchedCount ва upsertedId-ро муқоиса кунед, то шохаро фаҳмед. Индекси unique такрори калидро манъ мекунад.",
+      "en": "Look up a product by its unique SKU. If it exists, the operation updates the matching document. If no record matches and upsert is enabled, the operation inserts one. Compare matchedCount and upsertedId to tell which branch ran. A unique index enforces key uniqueness."
+     }
     }
    ],
    "questions": [
@@ -2295,9 +2421,9 @@
       "en": "What does updateOne with { upsert: true } do when the filter matches nothing?"
      },
      "answer": {
-      "ru": "Создаёт новый документ из полей фильтра и $set",
-      "tg": "Ҳуҷҷати навро аз майдонҳои филтр ва $set месозад",
-      "en": "It creates a new document from the filter fields and $set"
+      "ru": "Вставляет новый документ по условиям равенства фильтра и указанным изменениям",
+      "tg": "Аз шартҳои баробарии филтр ва тағйироти додашуда ҳуҷҷати нав месозад",
+      "en": "It inserts a document using the filter's equality conditions and the specified changes"
      },
      "options": [
       {
@@ -2306,9 +2432,9 @@
        "en": "It returns a \"document not found\" error"
       },
       {
-       "ru": "Создаёт новый документ из полей фильтра и $set",
-       "tg": "Ҳуҷҷати навро аз майдонҳои филтр ва $set месозад",
-       "en": "It creates a new document from the filter fields and $set"
+       "ru": "Вставляет новый документ по условиям равенства фильтра и указанным изменениям",
+       "tg": "Аз шартҳои баробарии филтр ва тағйироти додашуда ҳуҷҷати нав месозад",
+       "en": "It inserts a document using the filter's equality conditions and the specified changes"
       },
       {
        "ru": "Удаляет все документы коллекции",
@@ -2321,14 +2447,14 @@
     {
      "id": "mongodb-day-14-q2",
      "question": {
-      "ru": "Что покажет upsertedCount при повторном запуске того же upsert-запроса?",
-      "tg": "upsertedCount дар такрори иҷрои ҳамон дархости upsert чиро нишон медиҳад?",
-      "en": "What will upsertedCount show when the same upsert query runs again?"
+      "ru": "В примере первый upsert создал документ с _id \"p9\". Что вернёт upsertedCount при повторе с тем же _id?",
+      "tg": "Дар мисол upsert-и аввал ҳуҷҷат сохт бо _id-и \"p9\". Бо ҳамон _id, upsertedCount чӣ медиҳад?",
+      "en": "The example's first upsert inserts a document with _id \"p9\". What is upsertedCount when you repeat it for that _id?"
      },
      "answer": {
-      "ru": "0: документ уже существует, произошло обычное обновление",
-      "tg": "0: ҳуҷҷат аллакай мавҷуд аст, навсозии оддӣ шуд",
-      "en": "0: the document already exists, an ordinary update happened"
+      "ru": "0: фильтр находит существующий документ, поэтому вставки нет",
+      "tg": "0: филтр ҳуҷҷати мавҷударо меёбад ва сабти нав нест",
+      "en": "0: the filter matches an existing document, so none is inserted"
      },
      "options": [
       {
@@ -2337,9 +2463,9 @@
        "en": "1 again: a second copy is created"
       },
       {
-       "ru": "0: документ уже существует, произошло обычное обновление",
-       "tg": "0: ҳуҷҷат аллакай мавҷуд аст, навсозии оддӣ шуд",
-       "en": "0: the document already exists, an ordinary update happened"
+       "ru": "0: фильтр находит существующий документ, поэтому вставки нет",
+       "tg": "0: филтр ҳуҷҷати мавҷударо меёбад ва сабти нав нест",
+       "en": "0: the filter matches an existing document, so none is inserted"
       },
       {
        "ru": "Отрицательное число",
@@ -2347,7 +2473,13 @@
        "en": "A negative number"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "После первой вставки проверьте, совпадает ли сохранённый _id с фильтром второго вызова.",
+      "tg": "Баъди сабти аввал бинед, ки _id-и сабтшуда ба филтри даъвати дуюм мувофиқ аст ё не.",
+      "en": "After the first insert, check whether its saved _id matches the second call's filter."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2605,6 +2737,18 @@
       "ru": "Сохраните main.js в отдельной учебной папке и выполните в её терминале:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nОжидаемый вывод:\nKettle: 890\nThermos: 720\nHoney: 460\nBread: 35\nChocolate: 95\n\nЧастые ошибки: ставить limit до sort в цепочке — порядок методов задаёт порядок операций, и обрезка до сортировки даст «случайные три»; сортировать по строковому полю и ждать числового порядка — \"120\" встанет раньше \"35\" по алфавиту; забывать про tie-breaker при равных значениях. Для устойчивости учебных выводов добавляйте второй ключ _id. Сайт не исполняет код — запускайте в своей учебной mongosh; скрипт пересоздаёт данные.",
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nKettle: 890\nThermos: 720\nHoney: 460\nBread: 35\nChocolate: 95\n\nХатоҳои маъмул: гузоштани limit пеш аз sort дар занҷир — тартиби методҳо тартиби амалиётҳоро муайян мекунад ва буридан пеш аз сорт «се-яки тасодуфӣ» медиҳад; сорт аз рӯи майдони сатрӣ ва интизори тартиби рақамӣ — \"120\" аз рӯи алифбо пеш аз \"35\" меистад; фаромӯш кардани tie-breaker ҳангоми қиматҳои баробар. Барои устувории натиҷаҳои омӯзишӣ калиди дуюми _id-ро илова кунед. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт маълумотро аз нав месозад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nKettle: 890\nThermos: 720\nHoney: 460\nBread: 35\nChocolate: 95\n\nCommon mistakes: putting limit before sort in the chain — method order defines operation order, and trimming before sorting yields \"three random ones\"; sorting on a string field and expecting numeric order — \"120\" lands before \"35\" alphabetically; forgetting a tie-breaker for equal values. Add the secondary _id key for stable teaching outputs. The site does not run the code — use your own learning mongosh; the script rebuilds its data."
+     }
+    },
+    {
+     "title": {
+      "ru": "Устойчивый порядок при равенстве",
+      "tg": "Тартиб ҳангоми қиматҳои баробар",
+      "en": "Stable ordering with ties"
+     },
+     "body": {
+      "ru": "Если несколько товаров стоят 12, сортировка только по price не задаёт их взаимный порядок. Добавьте уникальный _id вторым ключом, если нужен повторяемый порядок. Сначала определите, какие поля сортируют результат, затем попросите limit взять первые записи.",
+      "tg": "Агар чанд мол нархи 12 дошта бошад, sort танҳо аз рӯйи price тартиби байни онҳоро намегӯяд. Барои тартиби такроршаванда _id-и ягонаро калиди дуюм монед. Аввал майдонҳои sort-ро интихоб кунед, баъд бо limit сабтҳои аввалро гиред.",
+      "en": "When several products cost 12, sorting by price alone does not establish their relative order. Add the unique _id as a second key when order needs to repeat. Establish the sort first, then use limit to take the first entries."
      }
     }
    ],
@@ -3090,6 +3234,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\n_id_\nprice_1\n\nХатоҳои маъмул: интизори тағйири фаврии натиҷаи дархостҳо аз индекс — индекс роҳи ҷустуҷӯро иваз мекунад, на натиҷаҳоро; сохтани индекс барои ҳар майдон «барои эҳтиёт» — ҳар сабт гаронтар мешавад; фаромӯш кардан, ки _id_ аллакай индекс шудааст. Скриптро ду бор иҷро кунед — иҷрои дуюм ҳамон натиҷаро медиҳад: createIndex-и такрорӣ индексро дукарда намесозад ва намеафтад. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; маълумот аз нав сохта мешавад, индекс боқӣ мемонад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\n_id_\nprice_1\n\nCommon mistakes: expecting an index to change query results instantly — an index changes the search path, not the results; indexing every field \"for later\" — every write gets more expensive; forgetting that _id_ is already indexed. Run the script twice — the second run gives the same output: a repeated createIndex neither duplicates the index nor fails. The site does not run the code — use your own learning mongosh; the data is rebuilt, the index persists."
      }
+    },
+    {
+     "title": {
+      "ru": "Когда смотреть план запроса",
+      "tg": "Кай plan-и query-ро бинем",
+      "en": "When to inspect a query plan"
+     },
+     "body": {
+      "ru": "Если фильтр ищет один SKU, индекс по SKU может уменьшить число просмотренных документов. В маленькой коллекции разница по времени может быть незаметна. Смотрите explain для реального фильтра. Сам факт наличия индекса не доказывает его использование именно в этом запросе.",
+      "tg": "Агар филтр як SKU ҷӯяд, индекс аз рӯйи SKU метавонад шумораи ҳуҷҷатҳои хондашавандаро кам кунад. Дар collection-и хурд фарқи вақт намоён нашуданаш мумкин. explain-ро барои ҳамон филтр бинед. Будани индекс далели истифода шуданаш дар ин query нест.",
+      "en": "An SKU index can reduce the documents examined by a lookup for one SKU. Timing differences may be hard to see in a tiny collection. Use explain on the actual filter. Finding an index in the collection does not prove that this query uses it."
+     }
     }
    ],
    "questions": [
@@ -3245,6 +3401,18 @@
       "ru": "Сегодня практика письменная: код не запускается, проверяется ваше проектное решение. Сформулируйте для трёх сущностей магазина — строки заказа, товары каталога, имя и город покупателя — решение «встраивать или ссылаться» и обоснуйте каждый выбор одним-двумя предложениями с опорой на запросы приложения: что читается вместе, кому ещё нужны данные, что меняется само по себе. Затем сверьте свою работу с эталонным ответом: совпадение выводов важнее совпадения формулировок. Ориентир объёма — восемь-двенадцать предложений. Помните честную рамку курса: платформа не исполняет код и не проверяет эссе — оценку задаёте вы сами, сверяясь с эталоном;сомнения разрешаются перечитыванием дней 11 и 21. Такой день теории — якорь: к нему вы будете возвращаться перед каждым новым проектом схемы.",
       "tg": "Имрӯз практикаи хаттӣ аст: код иҷро намешавад, ҳалқи лоиҳавии шумо санҷида мешавад. Барои се воҳиди дукон — сатрҳои фармоиш, молҳои каталог, ном ва шаҳри харидор — ҳалқи «дарун сохтан ё истифода бурдан»-ро муайян кунед ва ҳар интихобро як-ду ҷумла бо такя ба дархостҳои барнома асосонед: чӣ якҷо хонда мешавад, ба ки дигар маълумот лозим аст, чӣ худ ба худ тағйир меёбад. Сипас кори худро бо ҷавоби намунавӣ муқоиса кунед: мувофиқати хулосаҳо аз мувофиқати ибораҳо муҳимтар аст. Оғози андоза — ҳашт-дувоздаҳ ҷумла. Чаҳорчӯбаи ростқавли курсро дар ёд доред: платформа кодро иҷро намекунад ва эссеро намесанҷад — баҳоро худатон бо муқоиса бо намуна медиҳед; шубҳаҳо бо аз нав хондани рӯзҳои 11 ва 21 ҳал мешаванд. Чунин рӯзи назария лангар аст: пеш аз ҳар лоиҳаи нави схема ба он бармегардед.",
       "en": "Today's practice is written: no code runs; your design decision is what gets checked. For three shop entities — order lines, catalog products, and the customer's name and city — state the \"embed or reference\" decision and justify each choice in one or two sentences grounded in the application's queries: what is read together, who else needs the data, what changes on its own. Then compare your work with the reference answer: matching conclusions matters more than matching wording. Aim for eight to twelve sentences. Keep the course's honest frame in mind: the platform runs no code and grades no essays — you assign your own score against the reference; doubts are resolved by rereading days 11 and 21. A theory day like this is an anchor you will return to before every new schema project."
+     }
+    },
+    {
+     "title": {
+      "ru": "Снимок цены и общая карточка товара",
+      "tg": "Нархи вақти харид ва карточкаи мол",
+      "en": "A purchase price and a shared product record"
+     },
+     "body": {
+      "ru": "Заказ должен сохранить цену на момент покупки. Текущая цена товара позже изменится, поэтому её не используют для пересчёта старого заказа. В строку заказа положите снимок цены, а идентификатор товара сохраните как ссылку на общую карточку. Решение зависит от вопроса, на который отвечают данные.",
+      "tg": "Фармоиш бояд нархи вақти харидро нигоҳ дорад. Нархи ҷорӣ дертар дигар мешавад ва бо он фармоиши кӯҳнаро аз нав ҳисоб намекунем. Нархи вақти харидро дар сатри фармоиш ва ID-и молро ҳамчун пайванд ба карточка монед. Интихоб аз мақсади маълумот вобаста аст.",
+      "en": "An order needs the price at purchase time. The current product price can change, so it cannot recalculate an old order. Store the sale price in the order line and keep the product id as a reference to the shared listing. Choose based on the question the data answers."
      }
     }
    ],
@@ -3573,6 +3741,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\npaid: 2\npending: 1\nshipped: 2\nDilnoza: 1\nNigina: 1\n\nХатоҳои маъмул: фаромӯш кардани ноҳунӣ ва аломати доллар дар калиди гурӯҳ — _id:\"$customer\", на _id:\"customer\" ва на _id:customer; омехта кардани {$sum:1} (шумора) бо {$sum:\"$total\"} (суммаи қиматҳо — мавзӯи фардо); гузоштани $group пеш аз $match, ки натиҷаҳои аллакай гурӯҳшуда филтр мешаванд. Худатонро санҷед: суммаи ададҳои се-якум ба панҷ — шумораи умумии фармоишҳо баробар аст. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; маълумот аз нав сохта мешавад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\npaid: 2\npending: 1\nshipped: 2\nDilnoza: 1\nNigina: 1\n\nCommon mistakes: forgetting the quotes and the dollar sign in the group key — _id:\"$customer\", not _id:\"customer\" and not _id:customer; mixing {$sum:1} (a count) with {$sum:\"$total\"} (a sum of values — tomorrow's topic); placing $group before $match, filtering already-grouped totals. Check yourself: the three counts in the first block add up to five — the total number of orders. The site does not run the code — use your own learning mongosh; the data is rebuilt."
      }
+    },
+    {
+     "title": {
+      "ru": "Что проходит через стадии конвейера",
+      "tg": "Аз марҳилаҳои pipeline чӣ мегузарад",
+      "en": "What passes between pipeline stages"
+     },
+     "body": {
+      "ru": "Пусть есть заказы paid на 20 и 30 и draft на 10. $match оставляет paid. $group получает две записи, суммирует их по статусу и создаёт один итог paid=50. Если перепутать порядок, после группировки исходных полей заказа может уже не быть.",
+      "tg": "Фармоишҳои paid бо 20 ва 30 ва draft бо 10 дорем. $match танҳо paid-ро мегузорад. $group ду сабт гирифта, аз рӯйи status ҷамъ мекунад ва paid=50 медиҳад. Агар тартибро дигар кунед, баъди гурӯҳбандӣ майдонҳои сабти аввал шояд дигар набошанд.",
+      "en": "Suppose paid orders are 20 and 30 and a draft is 10. $match keeps paid orders. $group receives two records, sums by status and emits paid=50. In the opposite order, the original order fields may already be gone after grouping."
+     }
     }
    ],
    "questions": [
@@ -3636,7 +3816,13 @@
        "en": "It makes the result contain more groups"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проследите, какие документы попадают в $group и какие поля у них ещё есть.",
+      "tg": "Бинед, кадом ҳуҷҷатҳо ба $group меоянд ва кадом майдонҳо ҳоло ҳастанд.",
+      "en": "Track which records reach $group and which fields they still have."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -3894,6 +4080,18 @@
       "ru": "Сохраните main.js в отдельной учебной папке и выполните в её терминале:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nОжидаемый вывод:\nFaridun 1730 2\nSitora 1365 2\nDilnoza 490 2\nDilnoza 460 1\nNigina 260 2\n\nЧастые ошибки: забывать _id:0 — ключ останется в выводе и сломает аккуратную таблицу; путать \"items\" и \"$items\": внутри выражений поле всегда со знаком доллара; ждать, что $project изменит коллекцию — он меняет только поток конвейера. Сверьте третью колонку с данными: у заказа o5 действительно одна позиция. Сайт не исполняет код — запускайте в своей учебной mongosh; скрипт пересоздаёт заказы.",
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nFaridun 1730 2\nSitora 1365 2\nDilnoza 490 2\nDilnoza 460 1\nNigina 260 2\n\nХатоҳои маъмул: фаромӯш кардани _id:0 — калид дар натиҷа мемонад ва ҷадвали мураттабро вайрон мекунад; омехта кардани \"items\" ва \"$items\": дар дохили ифодаҳо майдон ҳамеша бо аломати доллар; интизори тағйири маҷмуа аз $project — вай танҳо ҷории конвейерро иваз мекунад. Сутуни сеюмро бо маълумот санҷед: воқеан дар фармоиши o5 як мавқеъ ҳаст. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт фармоишҳоро аз нав месозад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nFaridun 1730 2\nSitora 1365 2\nDilnoza 490 2\nDilnoza 460 1\nNigina 260 2\n\nCommon mistakes: forgetting _id:0 — the key stays in the output and ruins the tidy table; confusing \"items\" with \"$items\": inside expressions the field always carries a dollar sign; expecting $project to change the collection — it changes only the pipeline stream. Check the third column against the data: order o5 really has one line. The site does not run the code — use your own learning mongosh; the script rebuilds the orders."
+     }
+    },
+    {
+     "title": {
+      "ru": "Какие поля доступны следующей стадии",
+      "tg": "Ба марҳилаи дигар кадом майдон мерасад",
+      "en": "Which fields reach the next stage"
+     },
+     "body": {
+      "ru": "Если $project оставляет только name, следующая стадия не может прочитать отброшенное price. Если расчёт требует цену, сохраните её до расчёта или делайте проекцию позже. Проверьте форму результата непосредственно после $project, прежде чем добавлять сортировку.",
+      "tg": "Агар $project танҳо name-ро монад, марҳилаи баъдӣ price-и партофташударо хонда наметавонад. Агар ҳисоб нарх хоҳад, то ҳисоб онро монед ё projection-ро дертар кунед. Пеш аз иловаи sort шакли ҷавобро баъди $project бинед.",
+      "en": "If $project keeps only name, the next stage cannot read the removed price. When a calculation needs price, preserve the field until that stage or project later. Inspect the shape just after $project before adding sorting."
      }
     }
    ],
@@ -4374,6 +4572,18 @@
       "tg": "Имрӯз практикаи хаттӣ аст: нақшаи худии насб ва санҷишро ҷамъ мекунед. Роҳро интихоб кунед — сервери маҳаллӣ ё Atlas — ва қадамҳоро сабт кунед: дистрибутивро аз куҷо гирифтан, чиро насб кардан, mongosh-ро бо сатри пайвастшавии худ чӣ тавр оғоз кардан, бо кадом фармон ҷавоби серверро санҷидан, чӣ тавр мутмаин шудан, ки пойгоҳи омӯзишии devatlas_learning бо скрипти ҳар рӯзи курс ҷавоб медиҳад. Оғози андоза — ҳашт-дувоздаҳ ҷумла. Сипас нақшаи худро бо ҷавоби намунавӣ муқоиса кунед: муҳим аст, ки дар он ҳарду ҷузъ — сервер ва mongosh — сатри мушаххаси пайвастшавӣ ва санҷиш тавассути ping ва скрипти омӯзишӣ бошанд. Дар ёд доред: платформаи курс насбро барои шумо намесанҷад — корӣ будани муҳитро иҷрои худатон тасдиқ мекунад. Ин нақша ҳамчун ёддошти шумо барои компютери нав мемонад.",
       "en": "Today's practice is written: you assemble your own installation and verification plan. Pick a path — local server or Atlas — and write down the steps: where to download the distribution, what to install, how to start mongosh with your connection string, which command checks the server's response, and how to confirm the devatlas_learning teaching database answers with any course day's script. Aim for eight to twelve sentences. Then compare your plan with the reference answer: it must contain both components — the server and mongosh — a concrete connection string, and a check via ping plus a teaching script. Remember: the course platform does not verify the installation for you — your own run confirms the environment works. The plan stays as your cheat sheet for a new computer."
      }
+    },
+    {
+     "title": {
+      "ru": "Сервер и shell проверяются отдельно",
+      "tg": "Сервер ва shell ҷудо санҷида мешаванд",
+      "en": "Checking the server separately from the shell"
+     },
+     "body": {
+      "ru": "mongosh — клиентская программа для команд, mongod — сервер базы. Открытие shell подтверждает, что клиент установлен. Для работающего соединения нужен запущенный сервер и правильный адрес. После подключения выполните учебный ping, а при отказе отдельно проверьте, что сервер слушает ожидаемый порт.",
+      "tg": "mongosh мизоҷ барои командаҳост, mongod сервери база аст. Кушодани shell танҳо насби мизоҷро нишон медиҳад. Барои пайваст сервери амалкунанда ва суроғаи дуруст лозим аст. Пас аз пайваст ping-и омӯзиширо иҷро кунед. Агар ноком шавад, порт ва процесси серверро ҷудо бинед.",
+      "en": "mongosh is the command client while mongod is the database server. Opening the shell confirms the client is installed. Connecting requires a running server and the right address. After connecting, run the learning ping. If it fails, check the server process and port separately."
+     }
     }
    ],
    "questions": [
@@ -4534,6 +4744,18 @@
       "tg": "Имрӯз кори хаттӣ бе код аст. Бо суханони худ шарҳ диҳед: реплика-сет чист ва ҳангоми афтодани primary чӣ мешавад; агар сабтҳо танҳо ба primary раванд, secondaries барои чӣ лозиманд; шардиронӣ аз репликатсия чӣ фарқ дорад ва кай лозим мешавад; чаро ба дукони омӯзишии курс як сервер кофист. Оғози андоза — ҳашт-дувоздаҳ ҷумла. Сипас ҷавобро бо намуна муқоиса кунед: асосӣ — не истилоҳот, балки занҷири дурусти «муаммо — механизм — натиҷа» аст. Чаҳорчӯбаи ростқавли курсро дар ёд доред: платформа чизеро барои шумо намесанҷад ва ин танзимот дар муҳити омӯзишии шумо нестанд — рӯз тамоман мафҳумист. Чунин донишҳо дар мусоҳибаҳо ва ҳангоми хондани ҳуҷҷатҳо, вақте лоиҳаи шумо калон шуд, баҳо медиҳанд.",
       "en": "Today is written work without code. Explain in your own words: what a replica set is and what happens when the primary falls; why secondaries are needed if writes go only to the primary; how sharding differs from replication and when it becomes necessary; why the course's teaching shop is fine with a single server. Aim for eight to twelve sentences. Then compare your answer with the reference: what matters is not terminology but a correct problem-mechanism-result chain. Remember the course's honest frame: the platform checks nothing for you, and these settings do not exist in your learning environment — the day is purely conceptual. Such knowledge pays off in interviews and in reading documentation once your project grows."
      }
+    },
+    {
+     "title": {
+      "ru": "Копии данных и разделение данных",
+      "tg": "Нусхаи дода ва тақсими дода",
+      "en": "Copies versus partitions of data"
+     },
+     "body": {
+      "ru": "В репликации несколько узлов хранят копии одних данных, чтобы сервис мог пережить часть отказов. При шардировании разные группы хранят разные части набора, чтобы распределить объём. Эти подходы могут использоваться вместе: у каждого шарда могут быть свои реплики.",
+      "tg": "Дар replication чанд node нусхаи ҳамон додаҳоро нигоҳ медорад, то хизмат баъзе қатъшавиҳоро гузаронад. Дар sharding гурӯҳҳои гуногун қисмҳои гуногуни додаҳоро мегиранд, то ҳаҷм тақсим шавад. Ҳар ду якҷо ҳам шуда метавонанд: ҳар shard нусхаҳои худро дорад.",
+      "en": "Replication keeps copies of the same data on several nodes to tolerate some failures. Sharding splits the dataset across groups to distribute volume. The two can be combined: each shard can have replicas of its own."
+     }
     }
    ],
    "questions": [
@@ -4545,9 +4767,9 @@
       "en": "Why does a replica set exist?"
      },
      "answer": {
-      "ru": "Для отказоустойчивости: копии данных и автоматический выбор нового primary при сбое",
-      "tg": "Барои боэътимодӣ: нусхаҳои маълумот ва интихоби худкори primary-и нав ҳангоми осиб",
-      "en": "For failover: copies of the data and an automatic election of a new primary on failure"
+      "ru": "Для устойчивости к отказам: узлы хранят копии, а подходящие участники могут выбрать новый primary",
+      "tg": "Барои тобоварӣ ба қатъшавӣ: node-ҳо нусха доранд ва иштирокчиёни мувофиқ primary-и нав интихоб карда метавонанд",
+      "en": "For failover: members keep copies and eligible members can elect a new primary"
      },
      "options": [
       {
@@ -4556,9 +4778,9 @@
        "en": "To speed up document inserts"
       },
       {
-       "ru": "Для отказоустойчивости: копии данных и автоматический выбор нового primary при сбое",
-       "tg": "Барои боэътимодӣ: нусхаҳои маълумот ва интихоби худкори primary-и нав ҳангоми осиб",
-       "en": "For failover: copies of the data and an automatic election of a new primary on failure"
+       "ru": "Для устойчивости к отказам: узлы хранят копии, а подходящие участники могут выбрать новый primary",
+       "tg": "Барои тобоварӣ ба қатъшавӣ: node-ҳо нусха доранд ва иштирокчиёни мувофиқ primary-и нав интихоб карда метавонанд",
+       "en": "For failover: members keep copies and eligible members can elect a new primary"
       },
       {
        "ru": "Чтобы хранить разные данные на разных серверах",
@@ -4576,9 +4798,9 @@
       "en": "How does sharding differ from replication?"
      },
      "answer": {
-      "ru": "Шардирование делит данные между серверами, репликация копирует их целиком на каждый",
-      "tg": "Шардиронӣ маълумотро байни серверҳо тақсим мекунад, репликатсия онро пурра ба ҳар яке нусхабардорӣ мекунад",
-      "en": "Sharding splits data across servers; replication copies it in full onto each one"
+      "ru": "Шарды делят набор данных, а узлы с данными в replica set хранят копии одной части",
+      "tg": "Shard-ҳо маҷмӯи додаҳоро ҷудо мекунанд ва node-ҳои додаӣ дар replica set нусхаҳои як қисмро нигоҳ медоранд",
+      "en": "Shards partition the dataset and data-bearing replica set members copy the same partition"
      },
      "options": [
       {
@@ -4587,9 +4809,9 @@
        "en": "In no way, they are the same thing"
       },
       {
-       "ru": "Шардирование делит данные между серверами, репликация копирует их целиком на каждый",
-       "tg": "Шардиронӣ маълумотро байни серверҳо тақсим мекунад, репликатсия онро пурра ба ҳар яке нусхабардорӣ мекунад",
-       "en": "Sharding splits data across servers; replication copies it in full onto each one"
+       "ru": "Шарды делят набор данных, а узлы с данными в replica set хранят копии одной части",
+       "tg": "Shard-ҳо маҷмӯи додаҳоро ҷудо мекунанд ва node-ҳои додаӣ дар replica set нусхаҳои як қисмро нигоҳ медоранд",
+       "en": "Shards partition the dataset and data-bearing replica set members copy the same partition"
       },
       {
        "ru": "Шардирование работает только без репликации",
@@ -4597,7 +4819,13 @@
        "en": "Sharding only works without replication"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Спросите, одинаковые данные лежат на узлах или разные части набора.",
+      "tg": "Бинед, node-ҳо ҳамон додаҳоро доранд ё қисмҳои гуногуни маҷмӯаро.",
+      "en": "Ask whether the nodes hold copies of the same data or different parts of the set."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {

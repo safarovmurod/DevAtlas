@@ -140,6 +140,18 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is a thirty-day introductory module. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Какой слой вы сейчас запускаете",
+      "tg": "Ҳоло кадом қабатро иҷро мекунед",
+      "en": "Identify the layer you are running"
+     },
+     "body": {
+      "ru": "Когда запускаете node main.mjs, результат появляется в терминале: браузер пока ничего не открыл. Для страницы понадобятся клиент и HTTP-сервер. npm — отдельный инструмент для пакетов и команд проекта. Сравните node --version, npm --version и запуск учебного файла: это три разных действия.",
+      "tg": "Бо node main.mjs натиҷа дар terminal пайдо мешавад. Браузер ҳоло кореро иҷро намекунад. Барои саҳифа мизоҷ ва сервери HTTP лозим мешаванд. npm барои пакетҳо ва командаҳои проект аст. node --version, npm --version ва иҷрои файл се амали ҷудоанд.",
+      "en": "Running node main.mjs prints a result in the terminal. No page has opened. A web page will involve a client and an HTTP server. npm is a separate tool for packages and project commands. Compare node --version, npm --version and running the lesson file. Each does something different."
+     }
     }
    ],
    "interview": {
@@ -499,6 +511,18 @@
       "tg": "Се хатои маъмулӣ. Якум: require('./math.cjs') ва require('math') чизҳои гуногунанд. Бе ./ Node.js бастаро дар байни модулҳои дарунсохт ва дар папкаи node_modules меҷӯяд, на дар канори файли шумо. Дуюм: фаромӯш кардани module.exports — он гоҳ require объекти холӣ бармегардонад ва даъвати add бо хатои TypeError: add is not a function меистад. Сеюм: омехта кардани системаҳо дар як файл — дар .cjs CommonJS зиндагӣ мекунад, дар .mjs ES-модулҳо, дар ин марҳала онҳоро рост ба ҳам пайвастан лозим нест. Барои кори мустақилона: файли calc.cjs бо функсияи subtract(a, b) созед, онро тавассути module.exports = { subtract } нашр кунед, баъд дар барномаи нави main2.cjs файлро пайваста, subtract(10, 4)-ро чоп кунед — бояд 6 чоп шавад. Баъди иҷро ба овози баланд шарҳ диҳед, ки агар сатри module.exports-ро аз calc.cjs хориҷ кунед, чӣ хато мебинед ва чаро.",
       "en": "Three common mistakes. First: require('./math.cjs') and require('math') are different things. Without ./ Node.js looks for a package among built-in modules and in node_modules, not next to your file. Second: forgetting module.exports — then require returns an empty object and the call to add fails with TypeError: add is not a function. Third: mixing systems inside one file — CommonJS lives in .cjs, ES modules live in .mjs, and at this stage you do not need to connect them directly. For independent work: create a file calc.cjs with a function subtract(a, b), publish it via module.exports = { subtract }, then in a new program main2.cjs require calc.cjs and print subtract(10, 4) — it should print 6. After running it, explain out loud what happens if you delete the module.exports line from calc.cjs: which error you will see and why."
      }
+    },
+    {
+     "title": {
+      "ru": "Что получает require",
+      "tg": "require чӣ мегирад",
+      "en": "What require receives"
+     },
+     "body": {
+      "ru": "Если calc.cjs содержит module.exports = { total }, require('./calc.cjs') вернёт объект. Тогда total можно достать как свойство. Если экспортировать одну функцию, require вернёт саму функцию. Ошибка «is not a function» часто означает, что вызвали целый объект, забыв выбрать его метод.",
+      "tg": "Агар calc.cjs дорои module.exports = { total } бошад, require('./calc.cjs') объект медиҳад ва total аз дохили он гирифта мешавад. Агар як функсия export шавад, require худи функсияро медиҳад. Хатои «is not a function» метавонад аз он бошад, ки ба ҷойи метод тамоми объектро даъват кардед.",
+      "en": "If calc.cjs uses module.exports = { total }, require('./calc.cjs') returns an object, and total is one of its properties. Exporting a single function returns the function instead. An “is not a function” error can mean the caller invoked the whole object without selecting its method."
+     }
     }
    ],
    "interview": {
@@ -548,7 +572,13 @@
        "en": "A list of all functions in the file"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сначала найдите присваивание module.exports в загружаемом файле.",
+      "tg": "Аввал қимати module.exports-ро дар файли боршаванда ёбед.",
+      "en": "Find the module.exports assignment in the loaded file first."
+     },
+     "relatedSection": 3
     },
     {
      "id": "nodejs-day-03-q2",
@@ -677,6 +707,18 @@
       "tg": "Се хатои маъмулӣ. Якум: фаромӯш кардани пасванд дар import барои файли худ — сатри import { add } from './util' дар ESM файлҳои util.mjs-ро наёбад; Node.js барои файлҳои худ роҳи пурра талаб мекунад. Дуюм: истифодаи якҷояи import ва require дар як файл — барои як файл як система интихоб кунед: .mjs барои ESM, .cjs барои CommonJS. Сеюм: омехта кардани export ва module.exports — дар ESM объекти умумии module.exports вуҷуд надорад ва дода шудани ба он ҳеҷ чиз нашр намекунад. Барои кори мустақилона: дар папкаи ҳозира файли tools.mjs-ро дастӣ созед — бо export function multiply(a, b) ва export const version = '1.0'; баъд main.mjs нависед, ки ҳарду арзишро бо import-и статикӣ мегирад ва multiply(3, 4) ва version-ро мебарорад. Интизор: 12 ва 1.0. Чунин шакли оддии import-ро мебинед, ки ҳар рӯз истифода хоҳед кард.",
       "en": "Three common mistakes. First: forgetting the extension in import for your own file — the line import { add } from './util' will not find util.mjs in ESM; Node.js requires the full path for your own files. Second: mixing import and require inside one file — choose one system per file: .mjs for ESM, .cjs for CommonJS. Third: confusing export and module.exports — in ESM the global module.exports does not exist, and assigning to it publishes nothing. For independent work: create a real file tools.mjs in your folder by hand — with export function multiply(a, b) and export const version = '1.0'; then write main.mjs with a static import of both values and print multiply(3, 4) and version. Expected: 12 and 1.0. This shows the ordinary, non-dynamic form of import that you will use every day."
      }
+    },
+    {
+     "title": {
+      "ru": "Как сопоставить export и import",
+      "tg": "export ва import-ро чӣ хел ҷуфт кунем",
+      "en": "Matching exports and imports"
+     },
+     "body": {
+      "ru": "Запись export function total объявляет именованный экспорт. В другом файле import { total } обращается к этому имени. При export default фигурные скобки не нужны и локальное имя можно выбрать. Если модуль найден, а экспорт нет, сначала сравните способ экспорта и импорта, затем написание имени.",
+      "tg": "export function total — export бо ном аст. Дар файли дигар import { total } ҳамин номро мегирад. Бо export default қавсҳои {} лозим нестанд ва номи маҳаллиро худатон интихоб мекунед. Агар файл ёфт шуду export не, аввал шакли export/import ва баъд навишти номро санҷед.",
+      "en": "The statement export function total declares a named export. The other file's import { total } requests that name. A default export uses an import without braces and allows a local name. If the module exists but the export cannot be found, check the export style and spelling first."
+     }
     }
    ],
    "questions": [
@@ -740,7 +782,13 @@
        "en": "The whole file gets imported"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните имя внутри фигурных скобок с именованными экспортами файла.",
+      "tg": "Номи даруни қавсҳои {}-ро бо export-ҳои номдори файл муқоиса кунед.",
+      "en": "Compare the name inside braces against the file's named exports."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -831,6 +879,18 @@
       "ru": "Частые ошибки новичков. Первая: править node_modules вручную — эти файлы пересоздаются при каждой установке, ваши изменения пропадут. Вторая: удалять package-lock.json, надеясь починить странности — он как раз фиксирует рабочие версии. Третья: писать секретные ключи прямо в package.json — этот файл уходит в репозиторий, и секреты увидят все. Скрипты — не магия: запись start: node main.mjs означает лишь, что npm запустит команду node main.mjs из папки проекта. Задание дня письменное, по шагам: 1) сформулируйте своими словами, зачем проекту package.json; 2) объясните, что описывают поля scripts и dependencies; 3) объясните, что означает запись ^1.2.3; 4) объясните, почему node_modules не хранят в репозитории, а package.json — хранят. Пишите не менее пяти-шести предложений и упомяните команду npm install. Ниже приведён образцовый ответ для самопроверки: сначала ответьте сами, потом сравните.",
       "tg": "Хатоҳои маъмулии навомадгон. Якум: тағйир додани node_modules дастӣ — ин файлҳо дар ҳар насбкунӣ аз нав сохта мешаванд, тағйироти шумо нест мешаванд. Дуюм: нест кардани package-lock.json бо умеди ислоҳи нофаҳомиҳо — ҳамин файл версияҳои кориро нигоҳ медорад. Сеюм: навиштани калидҳои сиррӣ рост дар package.json — ин файл ба репозиторий меравад ва сиррҳоро ҳама мебинанд. Скриптҳо ҷоду нестанд: навишти start: node main.mjs маънои онро дорад, ки npm фармони node main.mjs-ро аз папкаи лоиҳа иҷро мекунад. Вазифаи рӯз хаттӣ аст, қадам ба қадам: 1) бо суханони худ изҳор кунед, ки package.json барои лоиҳа барои чӣ лозим аст; 2) шарҳ диҳед, ки майдонҳои scripts ва dependencies чӣро тавсиф мекунанд; 3) шарҳ диҳед, ки навишти ^1.2.3 чӣ маъно дорад; 4) шарҳ диҳед, ки чаро node_modules-ро дар репозиторий нигоҳ намедоранд, вале package.json-ро медоранд. Ақаллан панҷ-шаш ҷумла нависед ва фармони npm install-ро ёд кунед. Дар зер ҷавоби намунавӣ барои худсанҷӣ омадааст: аввал худ ҷавоб диҳед, баъд муқоиса кунед.",
       "en": "Frequent beginner mistakes. First: editing node_modules by hand — those files are recreated on every install, so your changes vanish. Second: deleting package-lock.json hoping to fix odd behavior — that file is exactly what pins working versions. Third: writing secret keys straight into package.json — the file goes to the repository and everyone will see the secrets. Scripts are not magic: start: node main.mjs simply means npm runs the command node main.mjs from the project folder. The day's task is written, step by step: 1) state in your own words why a project needs package.json; 2) explain what the fields scripts and dependencies describe; 3) explain what the record ^1.2.3 means; 4) explain why node_modules is not kept in the repository while package.json is. Write at least five or six sentences and mention the npm install command. A model answer for self-checking is given below: answer first, then compare."
+     }
+    },
+    {
+     "title": {
+      "ru": "Рецепт проекта и точные версии",
+      "tg": "Дастури проект ва версияҳои аниқ",
+      "en": "Project instructions and resolved versions"
+     },
+     "body": {
+      "ru": "package.json описывает допустимые версии зависимостей и команды, а package-lock.json сохраняет выбранное дерево версий. Когда коллега запускает npm ci в проекте с согласованными файлами, он устанавливает версии из lock-файла. npm run start обращается к scripts.start и выполняет команду оттуда.",
+      "tg": "package.json ҳудуди версияҳо ва командаҳоро менависад. package-lock.json версияҳои интихобшуда ва вобастагиҳои онҳоро нигоҳ медорад. Агар ин ду файл мувофиқ бошанд, npm ci версияҳои lock-файлро насб мекунад. npm run start фармони scripts.start-ро иҷро мекунад.",
+      "en": "package.json describes dependency ranges and project commands. package-lock.json records the resolved dependency tree. With both files in sync, npm ci installs from the lockfile. npm run start looks up scripts.start and runs its command."
      }
     }
    ],
@@ -997,6 +1057,18 @@
       "ru": "Коды выхода проверяют другие программы и скрипты автоматизации: они не читают текст вывода, а смотрят число. Установите process.exitCode = 1 в ветке ошибки — и утилиты поймут, что операция провалилась. Частая ошибка — путать process.argv с argv функции: здесь речь всегда о командной строке, индексы 0 и 1 заняты, данные начинаются с индекса 2. Вторая ошибка — печатать значения process.env в логи: там могут оказаться ключи и пароли. Третья — рассчитывать, что переменная окружения всегда задана: обращайтесь с запасным значением, например Number(process.env.PORT) || 3000, — об этом подробнее в дне про конфигурацию. Для самостоятельной работы: напишите main.mjs, который при вызове node main.mjs sum 2 3 печатает 5, а при вызове без команды sum печатает Usage: pass a command и ставит process.exitCode = 1. Проверьте оба запуска и код выхода командой echo $?",
       "tg": "Рамзҳои баромадро барномаҳои дигар ва скриптҳои автоматония тафтиш мекунанд: онҳо матни натиҷаро нахонда, ададро мебинанд. Дар шохаи хато process.exitCode = 1 гузоред — ва абзорҳо мефаҳманд, ки амалиёт ноком шуд. Хатои маъмул — омехта кардани process.argv бо argv-и функсия: ин ҷо ҳамеша сатри фармон дар назар аст, индексҳои 0 ва 1 ишғол шудаанд, маълумот аз индекси 2 оғоз мешавад. Хатои дуюм — чоп кардани арзишҳои process.env дар логҳо: дар онҷо калидҳо ва паролҳо метавонанд бошанд. Хатои сеюм — интизорӣ будани он, ки тағйирёбандаи муҳит ҳамеша дода шудааст: бо қимати эҳтиёти кор кунед, масалан Number(process.env.PORT) || 3000 — дар рӯзи конфигуратсия муфассал меомӯзем. Барои кори мустақилона: main.mjs нависед, ки ҳангоми node main.mjs sum 2 3 адади 5-ро чоп кунад, ва бе фармони sum Usage: pass a command-ро чоп кунад ва process.exitCode = 1 гузорад. Ҳарду иҷроро ва рамзи баромадро бо фармони echo $? санҷед.",
       "en": "Exit codes are checked by other programs and automation scripts: they do not read the output text, they look at the number. Set process.exitCode = 1 in the error branch and utilities will understand the operation failed. A common mistake is confusing process.argv with a function's arguments: here we always mean the command line, indexes 0 and 1 are taken, and user data starts at index 2. The second mistake is printing process.env values into logs: keys and passwords may be there. The third is assuming an environment variable is always set: use a fallback such as Number(process.env.PORT) || 3000 — more on that in the configuration day. For independent work: write main.mjs that prints 5 for node main.mjs sum 2 3, and prints Usage: pass a command with process.exitCode = 1 when the sum command is missing. Check both runs and the exit code with echo $?"
+     }
+    },
+    {
+     "title": {
+      "ru": "Три разных сигнала из terminal",
+      "tg": "Се маълумоти гуногун аз terminal",
+      "en": "Three distinct terminal signals"
+     },
+     "body": {
+      "ru": "В node main.mjs Firdaus слово Firdaus приходит в process.argv. Настройка PORT приходит в process.env, если окружение её задало. process.exitCode сообщает вызывающей программе, завершилась ли команда успешно. Текст ошибки для человека сам по себе не меняет код завершения.",
+      "tg": "Дар node main.mjs Firdaus, Firdaus ба process.argv меояд. Танзими PORT ба process.env меояд, агар дар муҳит гузошта шуда бошад. process.exitCode ба барномаи даъваткунанда мегӯяд, команда гузашт ё не. Матни хато барои одам худ аз худ коди баромадро дигар намекунад.",
+      "en": "In node main.mjs Firdaus, the word Firdaus arrives in process.argv. PORT arrives in process.env when the environment sets it. process.exitCode reports success or failure to the calling program. Printing an error message for a person does not by itself set the exit code."
      }
     }
    ],
@@ -1481,6 +1553,18 @@
       "tg": "Се хатои маъмулӣ. Якум: омехта кардани папкаи файл ва папкаи ҷории терминал — node main.mjs, ки аз ҷои дигар оғоз шудааст, файлҳоро дар канори скрипт месозад на; вақте ки файлҳо бояд дар канори барнома бошанд, роҳро аз import.meta.dirname ё __dirname бароред. Дуюм: навиштани ҷудокунакҳо дастӣ: 'folder\\file' дар Linux мешиканад; ҳамеша path.join. Сеюм: фаромӯш кардани он, ки extname пасвандиро бо нуқта бармегардонад — '.jpeg', ва онро бо сатри 'jpeg' бе нуқта муқоиса кардан. Дар CommonJS __dirname бе импорт дастрас аст; дар ESM вай нест — танҳо import.meta.dirname. Барои кори мустақилона: main.mjs нависед, ки роҳи файли data/users.json-ро аз path.join(import.meta.dirname, 'data', 'users.json') мебарад, basename, extname ва dirname-и онро чоп кунад — охиринро чунин роҳи воқеии мошини худ мебинед; танҳо basename ва extname-ро бо users.json ва .json муқоиса кунед.",
       "en": "Three common mistakes. First: confusing the file's folder with the terminal's current folder — node main.mjs run from elsewhere will not create files next to the script; when files must live next to the program, build the path from import.meta.dirname or __dirname. Second: typing separators by hand: 'folder\\file' breaks on Linux; always use path.join. Third: forgetting that extname returns the extension with the dot — '.jpeg' — and comparing it to the string 'jpeg' without the dot. In CommonJS __dirname is available without an import; in ESM it does not exist — only import.meta.dirname. For independent work: write main.mjs that builds the path to data/users.json via path.join(import.meta.dirname, 'data', 'users.json'), prints its basename, extname and dirname — the last you will see as your machine's real path; check only basename and extname against the expected users.json and .json."
      }
+    },
+    {
+     "title": {
+      "ru": "Откуда считается относительный путь",
+      "tg": "Роҳи нисбӣ аз куҷо ҳисоб мешавад",
+      "en": "Where a relative path starts"
+     },
+     "body": {
+      "ru": "В CommonJS __dirname относится к папке файла модуля. process.cwd() относится к папке, из которой запустили программу. Запустите тот же файл из соседней папки и сравните: меняется cwd, а путь к самому модулю прежний. Это объясняет, почему относительный путь к данным иногда перестаёт находиться.",
+      "tg": "Дар CommonJS, __dirname ҷузвдони файли модул аст. process.cwd() ба ҷузвдоне ишора мекунад, ки барномаро аз он оғоз кардед. Ҳамон файлро аз ҷузвдони дигар иҷро кунед: cwd дигар мешавад, роҳи модул не. Аз ҳамин сабаб роҳи нисбии додаҳо баъзан кор намекунад.",
+      "en": "In CommonJS, __dirname is the module file's directory. process.cwd() is the current working directory of the process. Run the same file from a nearby folder and compare them: cwd changes while the module stays in the same place. That explains why a relative data path sometimes stops working."
+     }
     }
    ],
    "questions": [
@@ -1804,6 +1888,18 @@
       "tg": "Се хатои маъмулӣ. Якум: фаромӯш кардани if (error) ва фавран истифодаи аргументи дуюм — ҳангоми сабҳ дар он undefined мешавад ва барнома дар ҷои дигар, дур аз сабаб, меистад. Дуюм: даъвати callback ду маротиба — як бор бо хато, бори дигар бо натиҷа; коркардкунанда ҳарду бор кор мекунад. Бо худ як бор созиш кунед: ба ҳар амалиёт айнан як даъвати callback. Сеюм: тасаввур кардани он, ки колбэк фавран баъди оғози амалиёт иҷро мешавад — коди баъди даъвати findUser пеш аз колбэк иҷро мешавад, зеро амалиёт ҳанӯз идома дорад; дар мисоли мо тартиби сатрҳои барориш бо таймерҳо муқарар аст. Барои кори мустақилона: функсияи delay(ms, callback) нависед, ки баъди вақти зикршуда callback(null, 'done after ' + ms + ' ms')-ро даъват кунад; онро бо 10 ва 30 миллисекунд даъват кунед ва паёмҳоро дар колбэкҳо чоп кунед; боварӣ ҳосил кунед, ки паёмҳо бо тартиби даъват омаданд. Баъд вақти манфиро гузаронед ва хаторо дар колбэк коркард кунед.",
       "en": "Three common mistakes. First: forgetting if (error) and using the second argument right away — on failure it holds undefined, and the program crashes somewhere far from the cause. Second: calling the callback twice — once with an error and once with a result; the handler fires both times. Make an agreement with yourself once and forever: exactly one callback call per operation. Third: believing the callback runs immediately after the operation starts — the code after the findUser call runs before the callback, because the operation is still in progress; in our example the output order is pinned by timers. For independent work: write a function delay(ms, callback) that after the given time calls callback(null, 'done after ' + ms + ' ms'); call it with 10 and 30 milliseconds and print messages inside the callbacks; make sure the messages arrive in call order. Then pass a negative time and handle the error in the callback."
      }
+    },
+    {
+     "title": {
+      "ru": "Кто и когда вызывает callback",
+      "tg": "Callback-ро кӣ ва кай даъват мекунад",
+      "en": "Who calls a callback and when"
+     },
+     "body": {
+      "ru": "Колбэк — функция, которую передали другой функции для вызова. При чтении файла передаёте readFile функцию обработки результата. Сразу после вызова файла ещё может не быть в памяти. Когда чтение завершится, обработчик получает ошибку первым аргументом или результат вторым. Проверка err предшествует использованию данных.",
+      "tg": "Callback функсияест, ки ба функсияи дигар медиҳед, то баъд даъват кунад. Ба readFile функсияи коркарди натиҷаро медиҳед. Дарҳол баъди даъват файл ҳанӯз хонда нашуда метавонад. Баъди анҷом, handler хатогиро дар аргументи аввал ё натиҷаро дар дуюм мегирад. Пеш аз кор бо дода err-ро санҷед.",
+      "en": "A callback is a function given to another function to call. Pass readFile a handler for the result. Immediately afterward the file may still be unread. When reading finishes, the handler receives an error in the first argument or data in the second. Check err before using the data."
+     }
     }
    ],
    "questions": [
@@ -1964,6 +2060,18 @@
       "ru": "Три частые ошибки. Первая: смешивать стили в одном месте — не вставляйте Sync-функции внутрь промисных цепочек; выберите промисный модуль fs/promises и держитесь его. Вторая: забывать return внутри .then — следующий шаг получает undefined, и ошибка звучит загадочно: cannot read property of undefined. Третья: ставить .catch только в самом конце длинного кода и терять контекст ошибки; .catch в конце цепочки — норма, но убедитесь, что он есть вообще, иначе ошибка станет необработанной. Ещё одна тонкость: .then возвращает новый промис, поэтому можно продолжать цепочку бесконечно, не вкладывая ничего внутрь. Для самостоятельной работы: соберите цепочку из writeFile, readFile, appendFile (допишите строку через fs/promises), повторного readFile и unlink; печатайте текст после каждого чтения. Сломайте программу, передав число вместо текста в writeFile, — убедитесь, что .catch напечатал одно понятное сообщение.",
       "tg": "Се хатои маъмулӣ. Якум: омехта кардани услубҳо дар як ҷо — функсияҳои Sync-ро ба дохили занҷирҳои промисӣ дарор накунед; модули промисии fs/promises-ро интихоб карда, ба он вафо кунед. Дуюм: фаромӯш кардани return дар дохили .then — қадами оянда undefined мегирад ва хато маънои нофаҳом меёбад: cannot read property of undefined. Сеюм: гузоштани .catch танҳо дар охири коди дароз ва гум кардани заминаи хато; .catch дар охири занҷир оддӣ аст, вале боварӣ ҳосил кунед, ки вай умуман ҳаст, вагарна хато коркарднашуда мешавад. Як нозукии дигар: .then промиси нав бармегардонад, аз ин рӯз занҷирро бе ҳар гуна даруннависӣ то беҳад давом додан мумкин аст. Барои кори мустақилона: занҷири writeFile, readFile, appendFile (сатрро бо fs/promises илова кунед), readFile-и дуюм ва unlink-ро созед; баъди ҳар хондан матнро чоп кунед. Барномаро вайрон кунед, ҷои матн адад ба writeFile диҳед — боварӣ ҳосил кунед, ки .catch як паёми фаҳмо чоп мекунад.",
       "en": "Three common mistakes. First: mixing styles in one place — do not insert Sync functions into promise chains; pick the promise module fs/promises and stay with it. Second: forgetting return inside .then — the next step receives undefined, and the error sounds cryptic: cannot read property of undefined. Third: placing .catch only at the very end of long code and losing error context; a .catch at the end of the chain is normal, but make sure it exists at all, otherwise the error becomes unhandled. One more subtlety: .then returns a new promise, so a chain can continue indefinitely without nesting anything. For independent work: assemble a chain of writeFile, readFile, appendFile (add a line via fs/promises), a second readFile and unlink; print the text after each read. Break the program by passing a number instead of text to writeFile — make sure .catch printed one clear message."
+     }
+    },
+    {
+     "title": {
+      "ru": "Promise и следующий шаг",
+      "tg": "Promise ва қадами навбатӣ",
+      "en": "A promise and the next operation"
+     },
+     "body": {
+      "ru": "Чтение заметки возвращает Promise. В then приходит готовый текст. Если из then вернуть Promise записи, следующая ступень дождётся и записи. Если запись запустить без return, цепочка может пойти дальше раньше её завершения. При отказе чтения пропустите обработку текста и объясните ошибку.",
+      "tg": "Хондани ёддошт Promise медиҳад. Дар then матни тайёр меояд. Агар аз then Promise-и сабтро return кунед, қадами баъдӣ анҷоми сабтро ҳам интизор мешавад. Агар return набошад, занҷир метавонад пештар идома кунад. Агар хондан ноком шавад, матнро коркард накарда хаторо фаҳмонед.",
+      "en": "Reading a note returns a Promise. Its then handler receives the text. Return the write Promise from then so the next step waits for it too. When the write runs without being returned, the chain can continue before it finishes. Handle read failure before processing any text."
      }
     }
    ],
@@ -2126,6 +2234,18 @@
       "tg": "Се хатои маъмулӣ. Якум: навиштани await берунаи функсияи async дар скриптҳои оддии услуби кӯҳна; дар файлҳои .mjs-и мо await дар сатри аввал иҷроза аст, вале дар функсияи оддии бе async хатои синтаксӣ медиҳад. Дуюм: гузаронидани амалиётҳои мустақил пай бо await ва гум кардани вақт; қоида: ба ҳам вобаста бошанд — пай, мустақил бошанд — Promise.all. Сеюм: тасаввур кардани он, ки Promise.all худи амалиётҳоро тез мекунад; вай танҳо ба барнома иҷозат намедиҳад, ки байни онҳо бекор истад. Ҳамчунин дар ёд доред: агар ягон промиси Promise.all рад шавад, тамоми await хато мепартояд — онро бо try/catch коркард кунед. Барои кори мустақилона: функсияи async нависед, ки се файли пешакӣ сохташударо ҳамзамон бо Promise.all хонда, мазмунашонро бо join(' | ') дар як сатр чоп кунад; баъд яке аз файлҳоро вайрон кунед (нест кунед) ва боварӣ ҳосил кунед, ки try/catch паёми фаҳмо чоп мекунад, на фавтан.",
       "en": "Three common mistakes. First: writing await outside an async function in plain old-style scripts; in our .mjs files top-level await is allowed, but inside an ordinary function without async it is a syntax error. Second: running independent operations in a row with await and losing time; the rule: depend on each other — in a row, independent — Promise.all. Third: believing Promise.all makes the operations themselves faster; it only keeps the program from idling between them. Also remember: if one promise in Promise.all rejects, the whole await throws — handle it with try/catch. For independent work: write an async function that reads three pre-created files in parallel through Promise.all and prints their contents on one line via join(' | '); then break one of the files (delete it) and make sure try/catch prints a clear message instead of crashing."
      }
+    },
+    {
+     "title": {
+      "ru": "Какие задачи можно начать вместе",
+      "tg": "Кадом корҳоро якҷо оғоз кунем",
+      "en": "Which tasks can start together"
+     },
+     "body": {
+      "ru": "Чтобы показать имя и заказы, можно начать два независимых чтения вместе. Promise.all возвращает результаты в порядке входного списка. Но получить заказы по ещё неизвестному id нельзя: сначала ждём получение id, затем начинаем второе чтение. Отказ одного Promise не отменяет автоматически остальные задачи.",
+      "tg": "Барои нишон додани ному фармоишҳо ду хондани мустақилро якбора сар кардан мумкин. Promise.all натиҷаҳоро бо тартиби рӯйхати даромад медиҳад. Вале барои ёфтани фармоиш бо id аввал худи id-ро гирифтан лозим аст. Хатои як Promise дигар корҳоро худ аз худ қатъ намекунад.",
+      "en": "To display a name and orders, start two independent reads together. Promise.all returns values in input order. If the orders need an id that is still unknown, await the id first and start the second read afterward. One rejected Promise does not automatically cancel the other tasks."
+     }
     }
    ],
    "questions": [
@@ -2189,7 +2309,13 @@
        "en": "Never, await is always better"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Спросите, нужен ли результат первого чтения, чтобы начать второе.",
+      "tg": "Бинед, ки барои оғози хондани дуюм натиҷаи якум лозим аст ё не.",
+      "en": "Check whether the second read needs the first result before it can start."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2286,6 +2412,18 @@
       "ru": "Три частые ошибки. Первая: опечатка в имени события — подписка на 'order' не поймает emit('orders'), и никакой ошибки не будет: промолчали обе стороны; держите имена событий в константах. Вторая: подписаться после emit — подписчики уведомляются в момент отправки, поздняя подписка на прошлое не попадёт; это не история, а момент. Третья: удалить обработчик и забыть об этом: bus.removeListener(имя, функция) снимает подписку, но нужен именно тот же экземпляр функции, который подписывался; анонимные функции в переменную сохраняйте, если планируете снимать. Также знайте: если emit вызван для события без подписчиков, ничего не происходит — это нормально. Для самостоятельной работы: соберите счётчик кликов на EventEmitter: обработчик события 'click' увеличивает переменную и печатает Click N; отправьте emit четыре раза, а на пятом вызовите removeListener и проверьте, что счёт остановился на четырёх.",
       "tg": "Се хатои маъмулӣ. Якум: хатои имло дар номи рӯйдод — обуна ба 'order' emit('orders')-ро намегирад ва ягон хато намешавад: ҳарду тараф хомӯш мемонанд; номҳои рӯйдодҳоро дар доимагихон нигоҳ доред. Дуюм: обуна баъди emit — обунашудагон дар лаҳзаи фиристодан огоҳӣ мешаванд, обунаи дер кардана ба гузашта намерасад; ин таърих нест, лаҳза аст. Сеюм: хориҷ кардани коркардкунанда ва фаромӯшӣ: bus.removeListener(ном, функсия) обунаро мебарад, вале маҳз ҳамон намунаи функсия лозим аст, ки обуна шуда буд; функсияҳои беномаро ба тағйирёбанда нигоҳ доред, агар хориҷ кардан ба нақша бошад. Ҳамчунин донед: агар emit барои рӯйдоди бе обунашуда даъват шавад, ҳеҷ чиз намешавад — ин оддист. Барои кори мустақилона: ҳисобкунаки кликро дар EventEmitter созед: коркардкунандаи рӯйдоди 'click' тағйирёбандаро зиёд карда, Click N-ро чоп мекунад; emit-ро чор бор фиристед, баъд дар панҷумин removeListener-ро даъват кунед ва санҷед, ки ҳисоб дар чор истод.",
       "en": "Three common mistakes. First: a typo in the event name — a subscription to 'order' will not catch emit('orders'), and no error appears: both sides stay silent; keep event names in constants. Second: subscribing after emit — subscribers are notified at the moment of sending, a late subscription misses the past; events are a moment, not history. Third: removing a handler incorrectly: bus.removeListener(name, function) unsubscribes, but it needs exactly the same function instance that subscribed; keep anonymous functions in variables if you plan to remove them. Also know: emit for an event without subscribers does nothing — that is normal. For independent work: build a click counter on an EventEmitter: the 'click' handler increases a variable and prints Click N; emit four times, then call removeListener and check the counter stopped at four."
+     }
+    },
+    {
+     "title": {
+      "ru": "Момент события",
+      "tg": "Лаҳзаи рӯйдод",
+      "en": "When the event occurs"
+     },
+     "body": {
+      "ru": "Если кухня уведомляет «заказ готов», подписчик должен подписаться до уведомления. EventEmitter по умолчанию не хранит прошлые события для новых слушателей. Объявите два слушателя до emit и посмотрите, как они получат одинаковый номер заказа. Сравните on, который остаётся подписанным, и once, который срабатывает один раз.",
+      "tg": "Агар ошхона «фармоиш тайёр» гӯяд, шунаванда бояд пештар сабт шавад. EventEmitter рӯйдодҳои пешинаро барои шунавандаи нав нигоҳ намедорад. Пеш аз emit ду шунаванда гузореду бинед, ки рақами як фармоишро мегиранд. on мемонад, once як бор кор мекунад.",
+      "en": "If the kitchen announces “order ready”, a listener must subscribe before the announcement. EventEmitter does not replay past events for new listeners. Register two listeners before emit and see that both get the order number. Compare on, which stays subscribed, with once, which runs once."
      }
     }
    ],
@@ -2448,6 +2586,18 @@
       "tg": "Се хатои маъмулӣ. Якум: фаромӯш кардани end() — клиент ҷавобро то фаъолшавии таймаут беохир интизор мешавад; ҳар коркардкунанда вазифадор аст ҷавобро анҷом диҳад. Дуюм: фаромӯш кардани return баъди end() дар дохили шохаи роҳ — код идома меёбад ва кӯшиш мекунад ҷавобро бори дигар нависад, ки хато медиҳад. Сеюм: омехта кардани request.url бо суроғаи пурра — вай танҳо роҳ бо сатри дархост аст, масалан /about; барои таҷзияи суроғаҳо объекти URL ҳаст, дар рӯзҳои лоиҳавӣ вохӯрем. Усулро сахт санҷед: саҳифае, ки маълумотро тағйир медиҳад, набояд ба GET ҷавоб диҳад. Барои кори мустақилона: роҳи GET /health-ро илова кунед, ки 200 ва матни ok медиҳад, ва роҳи POST /notes, ки 201 ва матни note saved медиҳад; дархости сеюм — ба /health — ба барнома илова кунед ва боварӣ ҳосил кунед, ки барориш бо ду сатр пур шуд: Request: GET /health, Status: 200, Body: ok.",
       "en": "Three common mistakes. First: forgetting end() — the client waits for the answer forever until a timeout fires; every handler must finish the response. Second: forgetting return after end() inside a route branch — the code keeps running and tries to write the response a second time, which fails. Third: confusing request.url with the full address — it is only the path with the query string, for example /about; there is a URL object for parsing addresses, we meet it in the project days. Check the method strictly: a page that changes data must not answer GET. For independent work: add a route GET /health answering 200 with the text ok, and a route POST /notes answering 201 with the text note saved; append a third request — to /health — to the program and make sure the output gains two lines: Request: GET /health, Status: 200, Body: ok."
      }
+    },
+    {
+     "title": {
+      "ru": "Два условия для выбора обработчика",
+      "tg": "Ду шарт барои интихоби handler",
+      "en": "Two conditions select a handler"
+     },
+     "body": {
+      "ru": "GET /about и POST /about приходят на один путь, но метод меняется. Сначала определите путь, затем список методов, которые его обслуживают. Для /missing нет ресурса. Для существующего пути с неподдерживаемым методом предусмотрен другой ответ. Не сравнивайте путь вместе с query, если фильтр не часть маршрута.",
+      "tg": "GET /about ва POST /about як роҳ доранд, вале методашон фарқ мекунад. Аввал роҳро муайян кунед, баъд методҳои иҷозатшударо бинед. /missing захира надорад. Барои роҳи мавҷуда бо методе, ки дастгирӣ намешавад, ҷавоби дигар пешбинӣ мешавад. query-ро аз роҳ ҷудо кунед, агар он танҳо филтр бошад.",
+      "en": "GET /about and POST /about share a path but use different methods. First identify the path, then the methods it supports. /missing has no resource. An existing endpoint with an unsupported method has a separate outcome. Separate the query from routing when it is only a filter."
+     }
     }
    ],
    "questions": [
@@ -2609,6 +2759,18 @@
       "tg": "Се хатои маъмулӣ. Якум: ҷавоб додан пеш аз рӯйдоди end — тан ҳанӯз ҷамъ нашудааст, JSON.parse нисфи матнро мегирад ва меистад; ҳамаи коркард — танҳо дар end. Дуюм: бовар кардан ба маълумоти клиент: ном метавонад адад, массив ё 10 000 аломат бошад; ҳамеша намудҳо ва ҳудудҳои оқилонаро пеш аз истифода санҷед. Сеюм: ҷавоби 500 барои хатои клиент: JSON-и вайроншуда гуноҳи фиристанда аст ва ҷавоби рост — 400 бо шарҳи аник, ки чӣ нодуруст аст. Дар ёд доред: 'content-type': 'application/json' дар ҷавоб ба клиент мегӯяд, ки тан JSON аст, на матни тасодуфӣ. Барои кори мустақилона: роҳи /echo-ро васеъ кунед, ки объектро қабул кунад { name, age } ва age-ро талаб кунад — адади бутун аз 1 то 120; дар вайронӣ хатои аникро чоп кунед: age must be an integer between 1 and 120. Се дархостро санҷед: дуруст, бо name-и холӣ ва бо age 999 — интизор 201, 400 ва 400.",
       "en": "Three common mistakes. First: answering before the end event — the body has not fully arrived, JSON.parse gets half the text and crashes; all processing happens only on end. Second: trusting client data: the name may be a number, an array, or 10,000 characters long; always check types and sane limits before use. Third: answering 500 for a client's error: broken JSON is the sender's fault, and the honest answer is 400 with an explanation of what exactly is wrong. Remember: 'content-type': 'application/json' in the response tells the client the body is JSON, not a random text. For independent work: extend /echo to accept the object { name, age } and require age — an integer between 1 and 120; on violation print the exact error: age must be an integer between 1 and 120. Check three requests: valid, empty name, and age 999 — expect 201, 400 and 400."
      }
+    },
+    {
+     "title": {
+      "ru": "JSON может быть правильным, а данные нет",
+      "tg": "JSON дуруст, вале дода нодуруст",
+      "en": "Valid JSON can contain invalid data"
+     },
+     "body": {
+      "ru": "{\"hello\":\"Firdaus\"} — JSON-объект с текстом. Число 7 и null тоже корректные JSON-значения, но у них нет нужного поля hello. Обработчик сначала ловит ошибку разбора, затем проверяет структуру. В ответе Content-Type говорит клиенту, как разбирать тело.",
+      "tg": "{\"hello\":\"Firdaus\"} JSON-объект бо матн аст. 7 ва null ҳам қиматҳои дурусти JSON ҳастанд, лекин майдони hello надоранд. Handler аввал хатои parse-ро мегирад, баъд сохторро месанҷад. Content-Type-и ҷавоб ба мизоҷ мегӯяд, body-ро чӣ хел хонад.",
+      "en": "{\"hello\":\"Firdaus\"} is a JSON object with text. The number 7 and null are valid JSON values too, but they lack the hello field. Catch parse errors first and validate the resulting shape next. The response's Content-Type tells the client how to read the body."
+     }
     }
    ],
    "questions": [
@@ -2672,7 +2834,13 @@
        "en": "500 — the server broke"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Отличите ошибку входного текста до обработки от сбоя программы после разбора.",
+      "tg": "Хатои матни воридшударо пеш аз parse аз хатои барнома баъди parse ҷудо кунед.",
+      "en": "Separate bad input text from a program failure after parsing."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2769,6 +2937,18 @@
       "ru": "Три частые ошибки. Первая: считать null полем-пустышкой и сразу вызывать у него методы строк — form.get('email').trim() упадёт с TypeError; сначала проверьте на null. Вторая: принимать любые поля без проверки: форма — это вход пользователя, а пользователь может отправить пустую строку, сто пробелов или миллион символов; обязательные поля проверяйте: value !== null && value.trim() !== ''. Третья: надеяться, что клиент пришлёт только заявленные поля: лишние поля приходят постоянно, и сервер решает сам, что их игнорировать. Пустая строка и строка из пробелов — разные вещи для глаз и одинаковые по смыслу: trim приводит их к одному виду. Для самостоятельной работы: напишите функцию validateForm(form), которая требует поля name и city и возвращает { ok: true } либо { ok: false, missing: ['email'] } со списком отсутствующих или пустых полей; проверьте её на двух строках — валидной и с пропущенным email.",
       "tg": "Се хатои маъмулӣ. Якум: null-ро майдони холӣ ҳисоб карда, фавран усулҳои сатрро даъват кардан — form.get('email').trim() бо TypeError меистад; аввал ба null санҷед. Дуюм: қабули ҳар майдон бе санҷиш: форма вуруди корбар аст, ва корбар метавонад сатри холӣ, сад фосила ё миллион аломат фиристад; майдонҳои ҳатмиро санҷед: value !== null && value.trim() !== ''. Сеюм: интизор будани он, ки клиент танҳо майдонҳои эълоншударо мефиристад: майдонҳои изофа доим меоянд ва сервер худаш қарор медиҳад, ки онҳоро нагузорад. Сатри холӣ ва сатри аз фосилаҳо — барои чашм гуногун, аз рӯи маъно якхела: trim онҳоро ба як намуд меорад. Барои кори мустақилона: функсияи validateForm(form) нависед, ки майдонҳои name ва city-ро талаб кунад ва { ok: true } ё { ok: false, missing: ['email'] } бо рӯйхати майдонҳои ғоиб ё холиро бармегардонад; онро дар ду сатр санҷед — дуруст ва бо email-и ғоиб.",
       "en": "Three common mistakes. First: treating null as an empty field and calling string methods on it right away — form.get('email').trim() fails with TypeError; check for null first. Second: accepting any fields without checks: a form is user input, and a user can send an empty string, a hundred spaces or a million characters; required fields are checked with value !== null && value.trim() !== ''. Third: hoping the client sends only the declared fields: extra fields arrive constantly, and the server decides itself to ignore them. An empty string and a string of spaces look different and mean the same: trim brings them to one shape. For independent work: write a function validateForm(form) that requires the fields name and city and returns { ok: true } or { ok: false, missing: ['email'] } listing missing or empty fields; test it on two strings — a valid one and one with email missing."
+     }
+    },
+    {
+     "title": {
+      "ru": "Одинаковая форма, два способа кодирования",
+      "tg": "Як форма, ду шакли фиристодан",
+      "en": "One form, two encodings"
+     },
+     "body": {
+      "ru": "Форма с именем «Ali Valiev» может отправить name=Ali+Valiev как urlencoded-текст. При JSON тот же ввод записывается как {\"name\":\"Ali Valiev\"}. Обработчик выбирает разбор по формату, после чего проверяет одинаковое правило: имя должно быть непустым после trim.",
+      "tg": "Форма бо номи «Ali Valiev» метавонад name=Ali+Valiev-ро ҳамчун urlencoded фиристад. Дар JSON ҳамон дода {\"name\":\"Ali Valiev\"} мешавад. Handler мувофиқи формат онро мехонад, баъд як қоидаро месанҷад: пас аз trim ном холӣ набошад.",
+      "en": "A form with the name “Ali Valiev” can send name=Ali+Valiev in URL-encoded text. JSON represents the same input as {\"name\":\"Ali Valiev\"}. Parse the declared format, then apply the same rule that the name must be nonempty after trimming."
      }
     }
    ],
@@ -3094,6 +3274,18 @@
       "tg": "Се хатои маъмулӣ. Якум: ҷавоби 500 баъд аз он, ки қисми ҷавоб аллакай фиристода шуд: writeHead бори дигар даъват мешавад — Node.js дар бораи хатои сарлавҳаҳо хабар медиҳад; аз ин рӯз санҷиши сарлавҳаҳои аллакай фиристодаро бо response.headersSent мекунанд. Дуюм: дар лог ба ҷои хато танҳо message навиштан: бо message error.stack ҳам муфид аст — вай сатри афтишро нишон медиҳад. Сеюм: хаторо хомӯш фармудан: catch бе лог ташхисро ба ҷӯяе табдил медиҳад; ҳатто сервери хурд вазифадор аст аломат мегузорад. Синфҳоро фарқ кунед: хатоҳои валидатсия — гуноҳи клиент (400), хатоҳои базаи маълумот ва истисноҳои номаташаккул — гуноҳи мо (500). Барои кори мустақилона: дар catch чопи console.log('Stack head:', error.stack.split('\\n')[1])-ро илова кунед ва боварӣ ҳосил кунед, ки сатри аввали стек ҷои афтишро нишон медиҳад; баъд роҳи /crash-ро илова кунед, ки RangeError('index out of range') партояд, ва санҷед, ки клиент 500 мегирад, вале лог — паёми аник.",
       "en": "Three common mistakes. First: answering 500 after part of the response was already sent: writeHead is called a second time — Node.js reports a header error; that is why the already-sent check uses response.headersSent. Second: logging only the error's message: along with message, error.stack is useful — it shows the line where things fell. Third: swallowing the error silently: a catch without a log turns diagnostics into guessing; even a small server must leave a trace. Tell classes apart: validation errors are the client's fault (400), database errors and unexpected exceptions are ours (500). For independent work: add console.log('Stack head:', error.stack.split('\\n')[1]) in the catch and make sure the first line of the stack shows the fall site; then add a route /crash that throws RangeError('index out of range') and check the client receives 500 while the log has the exact message."
      }
+    },
+    {
+     "title": {
+      "ru": "Что видит клиент и что видит разработчик",
+      "tg": "Мизоҷ ва барномасоз чиро мебинанд",
+      "en": "Client and developer see different details"
+     },
+     "body": {
+      "ru": "Если обработчик не может прочитать свои данные из-за неожиданной ошибки, интерфейс получает общий 500. Разработчик ищет техническую причину в журнале по идентификатору запроса. Когда ошибка клиента заранее ожидаема, например не заполнен title, верните предусмотренный статус и понятную подсказку к полю.",
+      "tg": "Агар handler аз хатои ногаҳонӣ додаашро хонда натавонад, UI 500-и умумӣ мегирад. Барномасоз сабаби техникиро бо ID-и дархост дар журнал меёбад. Агар хатои мизоҷ пешбинӣ шуда бошад, мисол title холӣ, статуси шартнома ва паёми фаҳморо назди майдон диҳед.",
+      "en": "When an unexpected failure prevents the handler from reading its own data, the UI gets a generic 500. The developer uses the request ID to find the cause in server logs. For a known client error such as a missing title, return the contract's status and a useful field message."
+     }
     }
    ],
    "questions": [
@@ -3417,6 +3609,18 @@
       "tg": "Се хатои маъмулӣ. Якум: миллисекундро сония ҳисоб кардан — setTimeout(fn, 3) баъди се миллисекунд кор мекунад, на се сония; дар сонияҳо 3000 менависанд. Дуюм: тасаввур кардани аники вақт: 50 миллисекунд маънои «зудтар аз 50 не», на «айнан дар 50» — ҷараён метавонад банд бошад. Сеюм: таймаутро гузоштан ва фаромӯш кардани он, ки худи амалиёт корашро идома медиҳад: Promise.race танҳо мағлубро эълон мекунад — ҳисобро худаш бояд бекор кунед, мисли clearTimeout. Ҳамчунин дар ёд доред: то ҳадди ақал як таймер зинда бошад, раванди Node.js худаш тамом намешавад. Барои кори мустақилона: функсияи withTimeout(promise, ms)-ро нависед, ки промиси навро бо Promise.race([promise, таймер]) бармегардонад; таймер бо хатои 'timed out' рад мешавад. Дар Promise-е, ки дар 10 миллисекунд ҳал мешавад (муваффақият), ва дар промис бо 200 миллисекунд (timed out) санҷед.",
       "en": "Three common mistakes. First: reading milliseconds as seconds — setTimeout(fn, 3) fires after three milliseconds, not three seconds; seconds are written 3000. Second: expecting exact time: 50 milliseconds means not earlier than 50, not exactly at 50 — the thread may be busy. Third: setting a timeout on an operation and forgetting the operation itself keeps running: Promise.race only names the loser — you must cancel the computation yourself, as we did with clearTimeout. Also remember: while at least one timer lives, the Node.js process will not exit by itself. For independent work: write a function withTimeout(promise, ms) returning a new promise via Promise.race([promise, timer]); the timer rejects with the error 'timed out'. Test it on a promise resolving in 10 milliseconds (success) and on a promise with 200 milliseconds (timed out)."
      }
+    },
+    {
+     "title": {
+      "ru": "Остановили будильник или работу?",
+      "tg": "Таймерро қатъ кардед ё корро?",
+      "en": "Did you cancel the timer or the operation?"
+     },
+     "body": {
+      "ru": "clearTimeout отменяет запланированный callback таймера до его запуска. Если сетевой запрос уже начался, удаление таймера не отменяет сам запрос. Для API, которое поддерживает отмену, передайте сигнал и обработайте результат. В учебном примере разделите выключение напоминания и завершение работы.",
+      "tg": "clearTimeout callback-и ба нақша мондаро то оғоз бекор мекунад. Агар дархости шабака аллакай оғоз шуда бошад, тоза кардани таймер худи дархостро қатъ намекунад. Агар API бекоркуниро дастгирӣ кунад, signal диҳед ва натиҷаро коркард кунед. Дар мисол таймер ва худи корро ҷудо бинед.",
+      "en": "clearTimeout cancels a scheduled timer callback before it starts. If a network request already began, clearing the timer does not cancel the request. Pass a signal to an API that supports cancellation and handle the result. In the exercise, distinguish the reminder from the work itself."
+     }
     }
    ],
    "questions": [
@@ -3454,14 +3658,14 @@
     {
      "id": "nodejs-day-21-q2",
      "question": {
-      "ru": "Через сколько сработает setTimeout(fn, 3)?",
-      "tg": "setTimeout(fn, 3) баъди чанд кор мекунад?",
-      "en": "When does setTimeout(fn, 3) fire?"
+      "ru": "Что можно сказать о времени срабатывания setTimeout(fn, 3)?",
+      "tg": "Дар бораи вақти кор кардани setTimeout(fn, 3) чӣ гуфтан мумкин?",
+      "en": "What can you say about when setTimeout(fn, 3) will fire?"
      },
      "answer": {
-      "ru": "Через 3 миллисекунды или чуть позже",
-      "tg": "Баъди 3 миллисекунд ё каме дертар",
-      "en": "After 3 milliseconds or a bit later"
+      "ru": "Запрошена задержка 3 мс, точное время вызова не гарантировано",
+      "tg": "Таъхири 3 мс дархост шудааст, вақти аниқи даъват кафолат надорад",
+      "en": "The requested delay is 3 ms, but exact timing is not guaranteed"
      },
      "options": [
       {
@@ -3470,9 +3674,9 @@
        "en": "After 3 seconds"
       },
       {
-       "ru": "Через 3 миллисекунды или чуть позже",
-       "tg": "Баъди 3 миллисекунд ё каме дертар",
-       "en": "After 3 milliseconds or a bit later"
+       "ru": "Запрошена задержка 3 мс, точное время вызова не гарантировано",
+       "tg": "Таъхири 3 мс дархост шудааст, вақти аниқи даъват кафолат надорад",
+       "en": "The requested delay is 3 ms, but exact timing is not guaranteed"
       },
       {
        "ru": "Мгновенно, без ожидания",
@@ -3480,7 +3684,13 @@
        "en": "Instantly, without waiting"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните, в каких единицах задают delay и что происходит, пока JavaScript занят.",
+      "tg": "Воҳиди delay ва рафтори таймерро дар вақти банд будани JavaScript ёд кунед.",
+      "en": "Recall the unit of delay and what happens if JavaScript is still busy."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3579,6 +3789,18 @@
       "tg": "Се хатои маъмулӣ. Якум: фаромӯш кардани await дар pipeline — барнома идома меёбад ва файлро пеш аз он, ки ҷараён то охир хонад, нест мекунад; дар барориш порсияҳои бурида пайдо мешаванд. Дуюм: тасаввур кардани он, ки порсияҳо айнан ба сатрҳо меоянд: порсия ҳар гуна қисми байт аст, сатр метавонад аз мобайн бурида шавад ва часпонидани сатрҳо дар ҷараён вазифаи алоҳида аст, ки ҳоло ба мо лозим нест. Сеюм: қабулкунандаҳоро як-як бо pipe пайвастан ва гум кардани хатоҳо: агар манбаъ бифавтад, pipe-и кӯҳна ҳамеша хаторо ба пеш намегузорад, вале pipeline промиси reject медиҳад — бомустақкамтар. Барои кори мустақилона: файлҳои story.txt-ро бо ҷараён хонда, байтҳоро ҳисоб кунед: ба рӯйдоди data обуна шуда, ҳисобкунакро ба chunk.length зиёд кунед, дар рӯйдоди end Bytes: N-ро чоп кунед; натиҷаро бо ҳаҷми воқеии файл аз fs.statSync(path).size муқоиса кунед.",
       "en": "Three common mistakes. First: forgetting await on pipeline — the program moves on and deletes the file before the stream finishes reading; the output shows torn pieces. Second: assuming chunks arrive exactly as lines: a portion is any piece of bytes, a line can be cut in the middle, and gluing lines inside a stream is a separate task we do not need yet. Third: chaining destinations one by one with pipe and losing errors: if the source fails, an old pipe does not always forward the error, while pipeline returns a rejecting promise — more reliable. For independent work: read story.txt with a stream and count bytes: subscribe to the data event and increase a counter by chunk.length, on the end event print Bytes: N; compare with the real file size via fs.statSync(path).size."
      }
+    },
+    {
+     "title": {
+      "ru": "Кусок потока и строка файла",
+      "tg": "Қисми stream ва сатри файл",
+      "en": "A stream chunk and a file line"
+     },
+     "body": {
+      "ru": "Поток отдаёт порции данных. В одной порции может оказаться половина строки или несколько строк. Поэтому нельзя считать каждое событие data отдельной строкой файла. Для обработки строк держите незавершённый остаток до следующей порции или воспользуйтесь интерфейсом построчного чтения.",
+      "tg": "Stream додаҳоро қисм-қисм медиҳад. Дар як қисм ним сатр ё чанд сатр буда метавонад. Аз ҳамин сабаб ҳар рӯйдоди data-ро як сатри файл ҳисоб накунед. Барои кор бо сатр пораи нотамомро то қисми дигар нигоҳ доред ё API-и хондани сатр ба сатрро истифода баред.",
+      "en": "A stream provides chunks. One chunk may contain half a line or several lines. A data event therefore does not identify a line in the source file. For line-by-line processing, keep the unfinished remainder for the next chunk or use a line-reading API."
+     }
     }
    ],
    "questions": [
@@ -3590,15 +3812,15 @@
       "en": "Why is a read stream better than readFileSync for a big file?"
      },
      "answer": {
-      "ru": "Читает кусками и не переполняет память",
-      "tg": "Ба порсияҳо мехонад ва ҳофизаро пур намекунад",
-      "en": "It reads in chunks and does not exhaust memory"
+      "ru": "Читает по частям, поэтому не нужно загружать весь файл сразу",
+      "tg": "Қисм-қисм мехонад, барои ҳамин тамоми файлро якбора хондан лозим нест",
+      "en": "It reads in chunks, so the entire file need not be loaded at once"
      },
      "options": [
       {
-       "ru": "Читает кусками и не переполняет память",
-       "tg": "Ба порсияҳо мехонад ва ҳофизаро пур намекунад",
-       "en": "It reads in chunks and does not exhaust memory"
+       "ru": "Читает по частям, поэтому не нужно загружать весь файл сразу",
+       "tg": "Қисм-қисм мехонад, барои ҳамин тамоми файлро якбора хондан лозим нест",
+       "en": "It reads in chunks, so the entire file need not be loaded at once"
       },
       {
        "ru": "Читает файл в несколько раз быстрее всегда",
@@ -3611,7 +3833,13 @@
        "en": "It automatically fixes errors in data"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Представьте, что файл занимает больше места, чем доступная память. Какую часть вы храните при чтении потоком?",
+      "tg": "Файл аз хотираи дастрас калон аст. Ҳангоми stream кадом қисми файлро якбора нигоҳ медоред?",
+      "en": "Imagine a file larger than available memory. How much of it must a stream hold at a time?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "nodejs-day-22-q2",
@@ -3902,6 +4130,18 @@
       "ru": "Тот же список тестов можно доверить node:test: в файле tests.mjs пишут import { test } from 'node:test' и заменяют таблицу вызовами test('adds two numbers', () => { assert.equal(add(2, 3), 5); }); запуск — node --test tests.mjs, и раннер сам напечатает отчёт по каждому тесту, время и итог. В проекте команду вносят в scripts: test: node --test. Частые ошибки. Первая: тест, который ничего не проверяет — функция вызвана, но результат не сравнён; такой тест всегда зелёный и бесполезен. Вторая: зависимость тестов друг от друга: один тест пишет файл, второй читает его и падает при раздельном запуске; тесты делают независимыми — каждый создаёт свои данные и убирает за собой. Третья: искать идеальное покрытие сразу: трёх честных тестов на основную ветку и один на граничное условие — уже дисциплина. Для самостоятельной работы: добавьте тесты для multiply из дня 4 и для границы Number.MAX_SAFE_INTEGER, как в дне 2.",
       "tg": "Ҳамин рӯйхати санҷишҳоро ба node:test супурдан мумкин: дар файли tests.mjs навишта мешавад import { test } from 'node:test' ва ҷадвал бо даъватҳои test('adds two numbers', () => { assert.equal(add(2, 3), 5); }) иваз мешавад; оғоз — node --test tests.mjs, ва раннер ҳисоботро барои ҳар санҷиш, вақт ва натиҷа чоп мекунад. Дар лоиҳа фармонро ба scripts мегузоранд: test: node --test. Хатоҳои маъмулӣ. Якум: санҷише, ки ҳеҷ чизро намесанҷад — функсия даъват шудааст, вале натиҷа муқоиса нашудааст; чунин санҷиш ҳамеша сабз ва бефида аст. Дуюм: вобастагии санҷишҳо аз ҳам: як санҷиш файл менависад, дуюм онро мехонад ва дар иҷрои алоҳида меафтад; санҷишҳоро мустақил мекунанд — ҳар яке маълумоти худро месозад ва тозагӣ мекунад. Сеюм: ҷустуҷӯи фарогирии комил фавран: се санҷиши содиқ барои шохаи асосӣ ва яке барои ҳолати канорӣ — аллакай тартиб аст. Барои кори мустақилона: санҷишҳо барои multiply-и рӯзи 4 ва барои ҳудуди Number.MAX_SAFE_INTEGER, мисли рӯзи 2, илова кунед.",
       "en": "The same test list can be handed to node:test: in a file tests.mjs write import { test } from 'node:test' and replace the table with calls like test('adds two numbers', () => { assert.equal(add(2, 3), 5); }); the run is node --test tests.mjs, and the runner prints a report per test, timing and totals. In a project the command goes into scripts: test: node --test. Common mistakes. First: a test that checks nothing — the function is called, but the result is never compared; such a test is always green and useless. Second: tests depending on each other: one writes a file, another reads it and fails when run separately; tests are made independent — each creates its own data and cleans up. Third: hunting perfect coverage right away: three honest tests for the main branch plus one for a boundary condition is already discipline. For independent work: add tests for multiply from day 4 and for the Number.MAX_SAFE_INTEGER boundary, like day 2."
+     }
+    },
+    {
+     "title": {
+      "ru": "Почему тест должен уметь падать",
+      "tg": "Чаро test бояд хаторо нишон диҳад",
+      "en": "Why a test must be able to fail"
+     },
+     "body": {
+      "ru": "Ожидаемое значение пишите явно. Для суммы 2 и 3 это 5. Если в проверке заново вызвать ту же функцию вместо ожидаемого значения, одинаковая ошибка окажется с обеих сторон. Временно поменяйте ожидание на 6, увидьте сообщение теста и восстановите правильное значение 5.",
+      "tg": "Натиҷаи интизориро аниқ нависед. Барои ҷамъ кардани 2 ва 3 он 5 аст. Агар ба ҷойи натиҷаи интизорӣ ҳамон функсияро боз даъват кунед, хато дар ҳар ду тараф як хел мешавад. Муваққатан 6 монед, хатои test-ро бинед ва 5-ро баргардонед.",
+      "en": "Write the expected value explicitly. For the sum of 2 and 3, it is 5. If the expected side calls the same function again, both sides may share the same mistake. Temporarily expect 6, inspect the failure, and restore 5."
      }
     }
    ],
@@ -4388,6 +4628,18 @@
       "tg": "Се хатои маъмулӣ. Якум: чен кардани самаранокӣ бо чашм: «шояд тез бошад» — метрика нест; ҳадди ақал — ҳисобкунаки дархостҳо ва вақти ҷавоб, ҳатто миёна бо console.time/console.timeEnd. Дуюм: тасаввур кардани он, ки Promise.all ё ҷараёнҳо аз рамзи бандкунанда наҷот медиҳанд: асинхронӣ ҳисобҳоро тез намекунад, вай танҳо ба ҷараён иҷозат намедиҳад бекор истад; цикли вазнин дар ҳар синтаксис вазнин мемонад. Сеюм: омехта кардани таъхир ва гунҷоиш: клиентҳо вақти ҷавобро ҳис мекунанд, на шумораи амалиётҳо дар як сония дар коғаз. Барои ҳисобҳои воқеӣ равандҳои кӯдак ва ҷараёнҳои корӣ ҳастанд — ҳоло танҳо донед, ки онҳо вуҷуд доранд. Барои кори мустақилона: ҳисобкунакро дар объекти stats = { requests: 0, errors: 0 } созед; барои ҳар се дархости тақлидшуда requests-ро зиёд кунед, errors — барои ноком; ҳиссаи муваффақиятҳоро дар фоиз чоп кунед: Math.round((stats.requests - stats.errors) / stats.requests * 100).",
       "en": "Three common mistakes. First: measuring performance by eye: seems fast is not a metric; the minimum is a request counter and response time, even an averaged one via console.time/console.timeEnd. Second: believing Promise.all or streams rescue blocking code: asynchrony does not speed up computations, it only keeps the thread from idling; a heavy loop stays heavy in any syntax. Third: confusing latency and throughput: clients feel response time, not operations per second on paper. For real computation there are child processes and worker threads — for now just know they exist. For independent work: assemble a counter in stats = { requests: 0, errors: 0 }; increase requests for each of three imitated requests, errors for the failing one; print the success share in percent: Math.round((stats.requests - stats.errors) / stats.requests * 100)."
      }
+    },
+    {
+     "title": {
+      "ru": "Почему короткий таймер может опоздать",
+      "tg": "Чаро таймер дер мешавад",
+      "en": "Why a short timer can run late"
+     },
+     "body": {
+      "ru": "Таймер на 10 мс означает, что callback сможет выполниться не раньше своей очереди. Если JavaScript занят вычислением 500 мс, обработчик ждёт освобождения выполнения. Сравнивайте порядок событий и задержку, но не требуйте точных миллисекунд от системы. В сервере долгое синхронное вычисление задерживает и другие запросы.",
+      "tg": "Таймери 10 мс маъно дорад, ки callback баъди расидани навбаташ кор мекунад. Агар JavaScript 500 мс бо ҳисоб банд бошад, handler озод шудани иҷроишро интизор мешавад. Тартиб ва таъхирро муқоиса кунед, миллисонияи аниқ талаб накунед. Дар сервер ҳисоби синхронии дароз дархостҳои дигарро ҳам дер мекунад.",
+      "en": "A 10 ms timer callback can run only when its turn arrives. If JavaScript is busy computing for 500 ms, the callback waits for execution to become available. Compare event order and delay without demanding exact timing. In a server, long synchronous work can also delay other requests."
+     }
     }
    ],
    "questions": [
@@ -4542,6 +4794,18 @@
       "ru": "Задание дня — письменное, по шагам: 1) объясните своими словами, что значит «развернуть» программу и чем процесс отличается от файла с кодом; 2) объясните, почему порт читают из переменной окружения и что даёт запись Number(process.env.PORT) || 3000; 3) объясните, зачем серверу логи и что будет, если писать логи только в память процесса; 4) перечислите, что произойдёт с нашими данными в памяти при перезапуске процесса и что нужно поменять, чтобы они переживали рестарт. Пишите пять-шесть предложений на пункт, опираясь только на материал курса. Ниже приведён образцовый ответ: сначала напишите свой, потом сравните. Обратите внимание: сайт не запускает Node-код и не выдаёт подтверждений; этот урок — проверка понимания, а следующие два дня вернут нас к коду мини-проекта. Опирайтесь только на материал курса — выдумывать детали хостинга не нужно.",
       "tg": "Вазифаи рӯз хаттӣ аст, қадам ба қадам: 1) бо суханони худ шарҳ диҳед, ки «ҷойгир кардани» барнома чӣ маъно дорад ва раванд аз файли код чӣ фарқ дорад; 2) шарҳ диҳед, ки чаро портро аз тағйирёбандаи муҳит мехонанд ва навишти Number(process.env.PORT) || 3000 чӣ медиҳад; 3) шарҳ диҳед, ки сервер барои чӣ лог лозим дорад ва агар логҳоро танҳо дар ҳофизаи раванд нависем, чӣ мешавад; 4) рӯйхат кунед, ки ҳангоми бозоғози раванд бо маълумоти мо дар ҳофиза чӣ мешавад ва чиро тағйир диҳем, то онҳо бозоғозро табрикат гӯянд. Дар ҳар банд панҷ-шаш ҷумла нависед, танҳо ба маводи курс такя карда. Дар зер ҷавоби намунавӣ омадааст: аввали худро нависед, баъд муқоиса кунед. Таваҷҷуҳ кунед: сайт коди Node-ро намегузорад ва тасдиқ намедиҳад; ин дарс — санҷиши фаҳмидан аст ва ду рӯзи оянда мо ба коди лоиҳаи хурд бармегардем.",
       "en": "The day's task is written, step by step: 1) explain in your own words what deploying a program means and how a process differs from a code file; 2) explain why the port is read from an environment variable and what the record Number(process.env.PORT) || 3000 provides; 3) explain why a server needs logs and what happens if logs are written only into the process's memory; 4) list what happens to our in-memory data on a process restart and what to change so the data survives. Write five or six sentences per point, relying only on course material. A model answer is given below: write yours first, then compare. Note: the website does not run Node code and issues no confirmations; this lesson is a comprehension check, and the next two days return to the mini-project code."
+     }
+    },
+    {
+     "title": {
+      "ru": "От кода к доступному адресу",
+      "tg": "Аз код то адреси дастрас",
+      "en": "From code to a reachable address"
+     },
+     "body": {
+      "ru": "На ноутбуке node main.mjs запускает процесс, а адрес localhost виден на этом же компьютере. Для публикации хостинг должен запустить процесс, передать конфигурацию и направить к нему внешние запросы по HTTPS. После запуска откройте публичный health-адрес. Сообщение в терминале само не доказывает, что внешний запрос прошёл.",
+      "tg": "Дар ноутбук node main.mjs процессро оғоз мекунад ва localhost аз ҳамон компютер дастрас аст. Барои нашр hosting бояд процессро оғоз кунад, config диҳад ва дархостҳои берунаро бо HTTPS равона кунад. Баъди оғоз health-и оммавиро кушоед. Паёми terminal худ аз худ гузаштани дархости берунаро исбот намекунад.",
+      "en": "On a laptop, node main.mjs starts the process and localhost reaches it on that computer. A host also has to start the process, supply configuration and route public HTTPS requests to it. Test the public health address after startup. A terminal message does not prove that an external request arrived."
      }
     }
    ],
@@ -4710,6 +4974,18 @@
       "tg": "Се хатои маъмулӣ. Якум: тағйирёбандаи url-ро бо сатри роҳ аз нав навиштан: дар коркардкунанда const url аз new URL эълон шудааст — дар ёрирасонҳо тағйирёбандаи дигар бо ҳамин ном насозед. Дуюм: фаромӯш кардани return баъди фиристодани ҷавоб дар роҳ: код идома меёбад ва кӯшиш мекунад дубор ҷавоб диҳад; Node.js хатои сарлавҳаҳои фиристодашударо чоп мекунад. Сеюм: муқоиса кардани id ҳамчун сатр: аз pathname матн меояд, вале дар массив адад аст; Number(...) пеш аз ҷустуҷӯ ҳатмист, вагарна find ҳеҷ чиз наёбад ва шумо 404-ро барои вазифаи мавҷуд мегиред. Барои кори мустақилона: филтр илова кунед: GET /todos?done=true танҳо вазифаҳои иҷрошударо баргардонад; параметр дар url.searchParams.get('done') меояд — онро ба true/false табдил дода, рӯйхатро филтр кунед; ҳарду қимати параметр ва набудани онро санҷед. Се иҷроиш — се рӯйхати гуногуни дар барориш.",
       "en": "Three common mistakes. First: overwriting the url variable with a path string: the handler declares const url from new URL — do not create a second variable with the same name inside helpers. Second: forgetting return after sending the response in a route: the code keeps running and tries to answer twice; Node.js prints an error about already-sent headers. Third: comparing id as a string: the pathname gives text while the array holds numbers; Number(...) before the search is mandatory, otherwise find locates nothing and you get 404 for an existing task. For independent work: add a filter: GET /todos?done=true must return only completed tasks; the parameter arrives in url.searchParams.get('done') — convert it to true/false and filter the list; check both parameter values and its absence."
      }
+    },
+    {
+     "title": {
+      "ru": "Проверка POST и повторного GET",
+      "tg": "Санҷиши POST ва GET-и дубора",
+      "en": "Checking POST with a follow-up GET"
+     },
+     "body": {
+      "ru": "Клиент отправляет название, POST сохраняет задачу и возвращает 201 с id. Затем GET должен показать эту же запись. Если после POST список пуст, сравните id и объект хранения, которые используют оба обработчика. В учебном проекте массив живёт до остановки процесса.",
+      "tg": "Мизоҷ ном мефиристад, POST вазифаро сабт карда, 201 бо id медиҳад. Баъд GET бояд ҳамон сабтро нишон диҳад. Агар баъди POST рӯйхат холӣ бошад, id ва хранилищаеро, ки ҳар ду handler истифода мебаранд, муқоиса кунед. Дар мисол массив то хомӯш шудани процесс мемонад.",
+      "en": "The client sends a title, POST stores a task and returns 201 with an id. A follow-up GET should show that same record. If the list stays empty, compare the id and storage used by both handlers. This learning project's array lasts only until the process stops."
+     }
     }
    ],
    "questions": [
@@ -4742,7 +5018,13 @@
        "en": "404"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Нужен статус создания записи, которую следующий GET сможет прочитать.",
+      "tg": "Статуси сохтани сабте даркор аст, ки GET-и баъдӣ мехонад.",
+      "en": "Look for the status for creating a record that the next GET can read."
+     },
+     "relatedSection": 3
     },
     {
      "id": "nodejs-day-29-q2",
@@ -4871,6 +5153,18 @@
       "ru": "За тридцать дней вы прошли путь от первого console.log вне браузера до API с валидацией: модули CommonJS и ESM, npm, объект process, файлы, пути, отладка, колбэки, промисы, async/await, события, HTTP-сервер с маршрутами и статусами, формы, статика, ошибки 500, конфигурация, таймауты, потоки, CLI, тесты, структура проекта, безопасность и производительность. Навык, который стоит забрать с собой: каждую программу объяснять тремя вопросами — откуда данные, что может пойти не так, как проверить, что работает. Куда дальше: подключите к API реальное хранилище (файл через fs/promises уже по силам), накройте маршруты таблицей тестов из дня 24 и попробуйте поднять проект на бесплатном хостинге — день 28 подскажет, что искать. Курсы фреймворков (Express и другие) покажутся лёгкими: теперь вы знаете, что под ними работает. Сохраните проект дня — он пригодится в следующем курсе.",
       "tg": "Дар сиюм рӯз роҳро аз аввалин console.log-и берун аз браузер то API бо валидатсия гузаштед: модулҳои CommonJS ва ESM, npm, объекти process, файлҳо, роҳҳо, ислоҳи хатоҳо, колбэкҳо, промисҳо, async/await, рӯйдодҳо, сервери HTTP бо роҳҳо ва статусҳо, формаҳо, статика, хатоҳои 500, конфигуратсия, таймаутҳо, ҷараёнҳо, CLI, санҷишҳо, сохти лоиҳа, бехатарӣ ва самаранокӣ. Малакае, ки бо худ баред: ҳар барномаро бо се савол шарҳ диҳед — маълумот аз куҷо, чӣ метавонад хато шавад, чӣ тавр санҷидан, ки кор мекунад. Роҳи минбаъда: ба API нигоҳдории воқеиро пайваст кунед (файл тавассути fs/promises аллакай ба даст меояд), роҳҳоро бо ҷадвали санҷишҳои рӯзи 24 пӯшонед ва кӯшиш кунед лоиҳаро дар хостинги ройгон баланд кунед — рӯзи 28 мегӯяд, ки чиро ҷустуҷӯ кунед. Курсҳои фреймворкҳо (Express ва дигарон) сабук менамоянд: акнун шумо медонед, ки дар зери онҳо чӣ кор мекунад.",
       "en": "In thirty days you went from the first console.log outside the browser to an API with validation: CommonJS and ESM modules, npm, the process object, files, paths, debugging, callbacks, promises, async/await, events, an HTTP server with routes and statuses, forms, static files, 500 errors, configuration, timeouts, streams, a CLI, tests, project structure, security and performance. The skill worth taking away: explain every program with three questions — where data comes from, what can go wrong, how to check it works. Where next: attach real storage to the API (a file via fs/promises is already within reach), cover the routes with the day 24 test table and try lifting the project onto a free hosting — day 28 tells you what to look for. Framework courses (Express and others) will feel easy: now you know what runs underneath."
+     }
+    },
+    {
+     "title": {
+      "ru": "Как доказать, что плохой ввод ничего не создал",
+      "tg": "Чӣ хел фаҳмем, додаи бад сабт нашуд",
+      "en": "Proving invalid input created nothing"
+     },
+     "body": {
+      "ru": "Начните с одной задачи. Отправьте POST с пустым title, получите отказ и снова прочитайте список. В нём должна остаться одна прежняя задача. Затем отправьте корректный title и получите вторую запись. Это проверяет и ответ клиенту, и изменение состояния.",
+      "tg": "Аз як вазифа сар кунед. POST бо title-и холӣ фиристед, рад гиред ва рӯйхатро боз хонед. Фақат ҳамон як вазифа бояд монад. Баъд title-и дуруст фиристода сабти дуюмро гиред. Ҳам ҷавоби мизоҷ ва ҳам тағйири state бо ҳамин санҷида мешаванд.",
+      "en": "Start with one task. POST an empty title, receive a refusal and read the list again. It should still contain only the original task. Then POST a valid title to create the second record. This checks both the response and the change in state."
      }
     }
    ],

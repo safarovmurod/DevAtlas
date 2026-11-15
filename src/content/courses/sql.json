@@ -85,6 +85,18 @@
       "tg": "Дар ин рӯз SQL-ро бевосита дар браузер иҷро кардан мумкин: worker-и ҷудогона пойгоҳи муваққатии SQLite месозад ва дархостро бо чанд маҷмӯи додаҳо месанҷад. Ин санҷиши худкори маҳаллӣ аст, на тасдиқи сервер. Фармони sqlite3-и боло низ кор мекунад. Рӯзҳои дигарро ҳоло дар муҳити маҳаллии зикршуда иҷро кунед.",
       "en": "This day can run SQL directly in your browser: a separate worker creates a temporary SQLite database and checks your query against several datasets. This is local automatic checking, not server attestation. The sqlite3 command above also works. For other days, continue using the stated local runtime."
      }
+    },
+    {
+     "title": {
+      "ru": "Данные таблицы и столбцы ответа",
+      "tg": "Додаҳои ҷадвал ва сутунҳои ҷавоб",
+      "en": "Table data and output columns"
+     },
+     "body": {
+      "ru": "Если в products есть id, name и price, SELECT name, price показывает две колонки. id при этом остаётся в таблице. WHERE id = 7 отдельно выбирает, чью строку прочитать. Выбор колонок и выбор строк — два разных решения.",
+      "tg": "Агар products дорои id, name ва price бошад, SELECT name, price ду сутунро нишон медиҳад. id дар ҷадвал мемонад. WHERE id = 7 алоҳида муайян мекунад, кадом сабт хонда шавад. Интихоби сутун ва интихоби сатр ду амали ҷудоанд.",
+      "en": "If products has id, name and price, SELECT name, price shows two columns. The id still exists in the table. WHERE id = 7 independently chooses which record to read. Selecting columns and selecting rows are separate decisions."
+     }
     }
    ],
    "interview": {
@@ -257,6 +269,18 @@
       "ru": "В этом дне SQL можно выполнить прямо в браузере: отдельный worker создаёт временную базу SQLite и проверяет запрос на нескольких наборах данных. Это локальная автоматическая проверка, не серверная аттестация. Команда sqlite3 выше также работает. Остальные дни пока выполняйте в указанной локальной среде.",
       "tg": "Дар ин рӯз SQL-ро бевосита дар браузер иҷро кардан мумкин: worker-и ҷудогона пойгоҳи муваққатии SQLite месозад ва дархостро бо чанд маҷмӯи додаҳо месанҷад. Ин санҷиши худкори маҳаллӣ аст, на тасдиқи сервер. Фармони sqlite3-и боло низ кор мекунад. Рӯзҳои дигарро ҳоло дар муҳити маҳаллии зикршуда иҷро кунед.",
       "en": "This day can run SQL directly in your browser: a separate worker creates a temporary SQLite database and checks your query against several datasets. This is local automatic checking, not server attestation. The sqlite3 command above also works. For other days, continue using the stated local runtime."
+     }
+    },
+    {
+     "title": {
+      "ru": "Что проверять до и после UPDATE",
+      "tg": "Пеш ва баъди UPDATE чиро санҷем",
+      "en": "What to check around UPDATE"
+     },
+     "body": {
+      "ru": "У товара id=7 осталось 4 штуки. Условие WHERE должно выбрать эту запись и проверить, хватает ли остатка для продажи. При продаже 3 остаётся 1. Попытка продать ещё 2 не меняет строку. Сравните остаток и число изменённых строк, иначе приложение может принять отсутствие изменения за успех.",
+      "tg": "Аз моли id=7 чор дона мондааст. WHERE бояд ҳамин сабтро интихоб кунад ва расидани бақияро санҷад. Бо фурӯши 3 дона 1 мемонад. Кӯшиши фурӯши 2 донаи дигар сабтро дигар намекунад. Бақия ва шумораи сатрҳои тағйирёфтаро бинед, то бе тағйир ҷавоби муваффақ надиҳед.",
+      "en": "Product id=7 has 4 units left. The WHERE clause selects that record and checks whether stock is sufficient. Selling 3 leaves 1. Trying to sell another 2 makes no change. Compare stock and affected rows so the app does not treat an unchanged row as a successful sale."
      }
     }
    ],
@@ -751,9 +775,9 @@
       "en": "Run and verify"
      },
      "body": {
-      "ru": "Сохраните решение как lesson.sql и выполните его в SQLite. Ожидаемый вывод — шесть строк, но обратите внимание на финал: последний запрос не печатает ничего, и пустое место после 9|6 — это его результат. Ноль строк здесь и есть ожидаемый ответ, потому что сравнение с NULL всегда ложно. Частые ошибки: писать = NULL и ждать совпадений; путать NULL с пустой строкой — это разные значения, пустая строка IS NOT NULL; считать, что NULL «плохой» — это нормальный способ сказать «неизвестно», и NOT NULL-столбцы мы вводим в дне о CONSTRAINTS сознательно. Граничный эксперимент: замените условие price > 20 во втором запросе на price >= 45 и предскажите результат; остаться должен только Honey, ведь Coffee с ценой 25 больше не проходит. Такой пустой ответ — рабочий инструмент: он означает, что условие честно проверено, а не сломано.",
-      "tg": "Ҳалли дарсро ҳамчун lesson.sql сабт карда, дар SQLite иҷро кунед. Натиҷаи интизорӣ шаш сатр аст, аммо ба охир диққат кунед: дархости охирин ҳеҷ чиз намечопад ва ҷои холӣ баъди 9|6 натиҷаи ӯст. Ин ҷо ноль сатр ҳамон ҷавоби интизорӣ аст, чунки муқоиса бо NULL ҳамеша дурӯғ аст. Хатогиҳои маъмул: навиштани = NULL ва интизори мувофиқаҳо; омехтани NULL бо сатри холӣ — ин ду қимати гуногунанд, сатри холӣ IS NOT NULL аст; фикр кардан, ки NULL «бад» аст — ин роҳи муқаррарии гуфтани «номаълум» аст ва сутунҳои NOT NULL-ро дар рӯзи CONSTRAINTS мақсаднок ворид мекунем. Таҷрибаи канорӣ: шарти price > 20-ро дар дархости дуюм ба price >= 45 иваз кунед ва пешгӯӣ кунед; танҳо Honey бояд монад, чунки Coffee бо нархи 25 дигар намегузарад.",
-      "en": "Save the solution as lesson.sql and run it in SQLite. The expected output is six lines, but look at the end: the last query prints nothing, and the empty spot after 9|6 is its result. Zero rows here is the expected answer, because a comparison with NULL is always false. Common mistakes: writing = NULL and expecting matches; confusing NULL with an empty string — they are different values, and an empty string IS NOT NULL; thinking NULL is 'bad' — it is the normal way to say 'unknown', and we will deliberately introduce NOT NULL columns in the CONSTRAINTS day. Boundary experiment: replace price > 20 with price >= 45 in the second query and predict the result; only Honey must remain, since Coffee at 25 no longer passes."
+      "ru": "Сохраните решение как lesson.sql и выполните его в SQLite. Ожидаемый вывод — шесть строк, но обратите внимание на финал: последний запрос не печатает ничего, и пустое место после 9|6 — это его результат. Ноль строк здесь и есть ожидаемый ответ, потому что сравнение через = с NULL даёт NULL, а WHERE оставляет только TRUE. Частые ошибки: писать = NULL и ждать совпадений; путать NULL с пустой строкой — это разные значения, пустая строка IS NOT NULL; считать, что NULL «плохой» — это нормальный способ сказать «неизвестно», и NOT NULL-столбцы мы вводим в дне о CONSTRAINTS сознательно. Граничный эксперимент: замените условие price > 20 во втором запросе на price >= 45 и предскажите результат; остаться должен только Honey, ведь Coffee с ценой 25 больше не проходит. Такой пустой ответ — рабочий инструмент: он означает, что условие честно проверено, а не сломано.",
+      "tg": "Ҳалли дарсро ҳамчун lesson.sql сабт карда, дар SQLite иҷро кунед. Натиҷаи интизорӣ шаш сатр аст, аммо ба охир диққат кунед: дархости охирин ҳеҷ чиз намечопад ва ҷои холӣ баъди 9|6 натиҷаи ӯст. Ин ҷо ноль сатр ҳамон ҷавоби интизорӣ аст, чунки муқоиса бо NULL ба воситаи = натиҷаи NULL медиҳад ва WHERE танҳо TRUE-ро нигоҳ медорад. Хатогиҳои маъмул: навиштани = NULL ва интизори мувофиқаҳо; омехтани NULL бо сатри холӣ — ин ду қимати гуногунанд, сатри холӣ IS NOT NULL аст; фикр кардан, ки NULL «бад» аст — ин роҳи муқаррарии гуфтани «номаълум» аст ва сутунҳои NOT NULL-ро дар рӯзи CONSTRAINTS мақсаднок ворид мекунем. Таҷрибаи канорӣ: шарти price > 20-ро дар дархости дуюм ба price >= 45 иваз кунед ва пешгӯӣ кунед; танҳо Honey бояд монад, чунки Coffee бо нархи 25 дигар намегузарад.",
+      "en": "Save the solution as lesson.sql and run it in SQLite. The expected output is six lines, but look at the end: the last query prints nothing, and the empty spot after 9|6 is its result. Zero rows here is the expected answer, because equality with NULL returns NULL and WHERE keeps only TRUE. Common mistakes: writing = NULL and expecting matches; confusing NULL with an empty string — they are different values, and an empty string IS NOT NULL; thinking NULL is 'bad' — it is the normal way to say 'unknown', and we will deliberately introduce NOT NULL columns in the CONSTRAINTS day. Boundary experiment: replace price > 20 with price >= 45 in the second query and predict the result; only Honey must remain, since Coffee at 25 no longer passes."
      }
     },
     {
@@ -766,6 +790,18 @@
       "ru": "Три шага. Первый — запустить скрипт и убедиться, что вывод совпадает построчно, включая молчание последнего запроса. Второй — граничное изменение с порогом 45: предскажите, запустите, сверьте. Третий — самостоятельная задача: посчитайте двумя запросами, сколько товаров имеют категорию и сколько не имеют; ожидаемы числа 6 и 3, а получить их нужно через COUNT с IS NOT NULL и IS NULL. Проверьте себя вопросом на понимание: что вернёт WHERE category <> 'drinks' для товара без категории — строку или ничего? Правильный ответ «ничего»: любое сравнение с NULL даёт NULL, и такие строки отсеиваются даже там, где кажется, что условие «прочее» их должно взять. Когда шаги сходятся, объясните вслух, чем IS NULL отличается от = NULL, и переходите к сортировке — шестой день показывает, как наводить порядок в выводе.",
       "tg": "Се қадам. Якум — иҷрои скрипт ва мувофиқии натиҷа сатр ба сатр, аз ҷумла сукути дархости охирин. Дуюм — тағйири канорӣ бо оҳанги 45: пешгӯӣ кунед, иҷро кунед, биёед санҷед. Сеюм — вазифаи мустақил: бо ду дархст ҳисоб кунед, чанд маҳсулот категория дорад ва чанд надорад; ададҳои 6 ва 3 интизоранд, гирифтанашон бояд тавассути COUNT бо IS NOT NULL ва IS NULL бошад. Худро бо саволи фаҳмиш санҷед: WHERE category <> 'drinks' барои моли бе категория чӣ медиҳад — сатр ё ҳеҷ чиз? Ҷавоби дуруст «ҳеҷ чиз»: ҳар муқоиса бо NULL натиҷаи NULL медиҳад ва чунин сатрҳо ҳатто дар ҷое, ки шарт «дигарон»-ро мегирад, берун мемонанд. Вақте қадамҳо ҳамроҳ шуданд, фарқи IS NULL ва = NULL-ро бо овоз изҳор кунед ва ба мураттабсозӣ гузаред — рӯзи шашум нишон медиҳад, ки чӣ тавр ба натиҷа тартиб овардан мумкин аст.",
       "en": "Three steps. First: run the script and confirm the output matches line by line, including the silence of the last query. Second: the boundary change with threshold 45 — predict, run, compare. Third: an independent task — count with two queries how many products have a category and how many do not; expect the numbers 6 and 3, obtained through COUNT with IS NOT NULL and IS NULL. Check your understanding with a question: what does WHERE category <> 'drinks' return for a product without a category — a row or nothing? The correct answer is 'nothing': any comparison with NULL yields NULL, and such rows are filtered out even where the 'everything else' condition seems to take them. When the steps agree, explain out loud how IS NULL differs from = NULL, then move to sorting — day six shows how to bring order to the output."
+     }
+    },
+    {
+     "title": {
+      "ru": "NULL, ноль и пустая строка",
+      "tg": "NULL, сифр ва сатри холӣ",
+      "en": "NULL, zero and empty text"
+     },
+     "body": {
+      "ru": "В поле price значение NULL означает, что цена не указана. 0 означает известную нулевую цену. Пустая строка — отдельное текстовое значение. Для поиска неизвестной цены нужен WHERE price IS NULL. Сравнение price = NULL не даёт истинного результата, поэтому WHERE эти строки не оставит.",
+      "tg": "Дар price, NULL мегӯяд, ки нарх дода нашудааст. 0 нархи маълуму сифр аст. Сатри холӣ қимати матнии ҷудост. Барои нархи номуайян WHERE price IS NULL нависед. price = NULL натиҷаи true намедиҳад ва WHERE он сатрҳоро намемонад.",
+      "en": "A NULL price means the price was not supplied. Zero is a known price. Empty text is a separate value. Find unknown prices with WHERE price IS NULL. A price = NULL comparison does not evaluate to true, so WHERE drops those rows."
      }
     }
    ],
@@ -809,9 +845,9 @@
       "en": "What does WHERE category = NULL return and why?"
      },
      "answer": {
-      "ru": "Ноль строк: сравнение с NULL всегда ложно",
-      "tg": "Ноль сатр: муқоиса бо NULL ҳамеша дурӯғ аст",
-      "en": "Zero rows: a comparison with NULL is always false"
+      "ru": "Ноль строк: результат сравнения — NULL, а WHERE оставляет только TRUE",
+      "tg": "Сифр сатр: натиҷаи муқоиса NULL аст ва WHERE танҳо TRUE-ро нигоҳ медорад",
+      "en": "Zero rows: the comparison returns NULL, and WHERE keeps only TRUE"
      },
      "options": [
       {
@@ -820,9 +856,9 @@
        "en": "Three rows with products without a category"
       },
       {
-       "ru": "Ноль строк: сравнение с NULL всегда ложно",
-       "tg": "Ноль сатр: муқоиса бо NULL ҳамеша дурӯғ аст",
-       "en": "Zero rows: a comparison with NULL is always false"
+       "ru": "Ноль строк: результат сравнения — NULL, а WHERE оставляет только TRUE",
+       "tg": "Сифр сатр: натиҷаи муқоиса NULL аст ва WHERE танҳо TRUE-ро нигоҳ медорад",
+       "en": "Zero rows: the comparison returns NULL, and WHERE keeps only TRUE"
       },
       {
        "ru": "Ошибку синтаксиса",
@@ -830,7 +866,13 @@
        "en": "A syntax error"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сначала вычислите category = NULL, затем спросите, какие результаты оставляет WHERE.",
+      "tg": "Аввал category = NULL-ро ҳисоб кунед, баъд бинед, WHERE кадом натиҷаҳоро нигоҳ медорад.",
+      "en": "Evaluate category = NULL first, then ask which results WHERE keeps."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -858,9 +900,9 @@
       "en": "The changed query returns only Honey|45, and the independent queries produce the numbers 6 and 3."
      },
      {
-      "ru": "Могу своими словами объяснить, почему сравнение с NULL всегда ложно.",
-      "tg": "Чаро муқоиса бо NULL ҳамеша дурӯғ аст — бо суханони худ шарҳ дода метавонам.",
-      "en": "I can explain in my own words why a comparison with NULL is always false."
+      "ru": "Могу объяснить, почему WHERE category = NULL не возвращает строки.",
+      "tg": "Фаҳмонда метавонам, ки чаро WHERE category = NULL сатр намедиҳад.",
+      "en": "I can explain why WHERE category = NULL returns no rows."
      }
     ]
    }
@@ -928,6 +970,18 @@
       "ru": "Три шага. Первый — запуск и построчное сведение вывода. Второй — граничное изменение с LIMIT 1: предскажите, запустите, сверьте. Третий — самостоятельная задача из двух запросов: топ-2 самых дешёвых товара, ожидаемо Water|3 и Cookie|4, и список name, stock по убыванию остатка, где первые строки — Cookie|100, Salt|60, Water|50. Полезный контроль понимания: что изменится, если в третьем запросе урока заменить DESC на ASC? Правильный ответ: NULL-группа уйдёт в начало, потому что при возрастании наименьшее значение идёт первым; попробуйте и убедитесь. Когда шаги сходятся, сформулируйте вслух правило: LIMIT без ORDER BY — лотерея. После этого переходите к седьмому дню: там мы научимся убирать повторы и спрашивать «какие значения вообще встречаются в столбце». Если какой-то шаг не сошёлся, вернитесь к первому разделу и пройдите пример заново — это быстрее, чем угадывать.",
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии натиҷа сатр ба сатр. Дуюм — тағйири канорӣ бо LIMIT 1: пешгӯӣ кунед, иҷро кунед, биёед санҷед. Сеюм — вазифаи мустақил аз ду дархост: топ-2 моли арзонтарин, интизорӣ Water|3 ва Cookie|4, ва рӯйхати name, stock бо коҳиши боқимонда, ки сатрҳои аввалаш Cookie|100, Salt|60, Water|50 аст. Санҷиши фаҳмиш: дар дархости сеюми дарс DESC-ро ба ASC иваз кунем, чӣ тағйир меёбад? Ҷавоби дуруст: гурӯҳи NULL ба оғоз меравад, чунки дар тартиби афзоиш камтараин қимат пеш меравад; биёед ва бовар кунед. Вақте қадамҳо ҳамроҳ шуданд, қоидаро бо овоз изҳор кунед: LIMIT бе ORDER BY — як вақти билет. Баъд ба рӯзи ҳафтум гузаред: он ҷо такрорҳоро нест кардан ва аз столб ҳархел қиматҳо пурсидан меомӯзем. Агар ягон қадам мувофиқ нашавад, ба қисми аввал баргардед ва мисолро аз нав гузаронед — ин аз сайҳ кардан тезтар аст.",
       "en": "Three steps. First: run and match the output line by line. Second: the boundary change with LIMIT 1 — predict, run, compare. Third: an independent task of two queries: the top 2 cheapest products, expected Water|3 and Cookie|4, and a name, stock list by descending stock whose first rows are Cookie|100, Salt|60, Water|50. A useful comprehension check: what changes if DESC in the third lesson query becomes ASC? The correct answer: the NULL group moves to the start, because in ascending order the smallest value comes first; try it and see. When the steps agree, say the rule out loud: LIMIT without ORDER BY is a lottery. Then move to day seven, where we learn to remove duplicates and ask which values exist in a column at all."
+     }
+    },
+    {
+     "title": {
+      "ru": "Равные цены и стабильный порядок",
+      "tg": "Нархи якхела ва тартиби муайян",
+      "en": "Equal prices and stable order"
+     },
+     "body": {
+      "ru": "Если у двух товаров одинаковый price, ORDER BY price не решает, какой будет первым среди них. Добавьте id вторым ключом сортировки, когда порядок должен быть предсказуемым. После этого LIMIT 3 берёт первые три строки уже отсортированного результата.",
+      "tg": "Агар ду мол price-и якхела дошта бошанд, ORDER BY price намегӯяд, кадомаш аввал ояд. Барои тартиби пешбинишаванда id-ро калиди дуюм монед. Баъд LIMIT 3 аз натиҷаи мураттабшуда се сатри аввалро мегирад.",
+      "en": "When two products share a price, ORDER BY price does not determine which comes first within that tie. Add id as a second sort key when order matters. LIMIT 3 then takes the first three rows of the sorted result."
      }
     }
    ],
@@ -1252,6 +1306,18 @@
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии панҷ сатр. Дуюм — таҷрибаи канорӣ бо маҷмӯи холӣ ва SUM: None-ро пешгӯӣ кунед, иҷро кунед, биёед санҷед. Сеюм — вазифаи мустақил: дар як дархост барои категорияи bakery шумораи молҳо, ҷамъи нархҳо ва миёнаи боқимондаро то як аломат гирдкарда нишон диҳед; сатри интизорӣ — 3|45|49.3, чунки миёнаи боқимонда (40+8+100)/3 ба 49.333 баробар аст. Санҷиши муфид: чаро AVG(stock) дар тамоми ҷадвал камтар меарзад, то дар категория? Дар бораи гурӯҳҳои гуногунфикр кунед: миёна гирифтан аз онҳое, ки аз мафҳумҳои гуногун иборатанд, осон аст, аммо маънонокӣ? Вақте қадамҳо ҳамроҳ шуданд, фарқи COUNT(*) ва COUNT(category)-ро ва он ки SUM барои маҷмӯи холӣ чӣ медиҳад, бо овоз изҳор кунед. Баъд — рӯзи нӯҳ: GROUP BY меомӯзонад, ки чунин ҷамъбастҳоро на дар тамоми ҷадвал, балки барои ҳар гурӯҳ алоҳида ҳисоб кардан.",
       "en": "Three steps. First: run and match the five lines. Second: the boundary experiment with an empty set and SUM — predict None, run, compare. Third: an independent task: with one query over the bakery category output the product count, the sum of prices and the average stock rounded to one decimal; the expected row is 3|45|49.3, because the average stock (40+8+100)/3 equals 49.333. A useful check: why is AVG(stock) over the whole table less useful than per category? Think about heterogeneous groups: averaging things made of different entities is easy, but is it meaningful? When the steps agree, say out loud the difference between COUNT(*) and COUNT(category) and what SUM returns over an empty set. Next comes day nine: GROUP BY teaches you to compute such totals not for the whole table but for each group separately."
      }
+    },
+    {
+     "title": {
+      "ru": "Почему COUNT(*) и COUNT(price) различаются",
+      "tg": "Фарқи COUNT(*) ва COUNT(price)",
+      "en": "Why COUNT(*) and COUNT(price) differ"
+     },
+     "body": {
+      "ru": "В трёх строках цены 10, 20 и NULL. COUNT(*) отвечает «сколько строк?» и даёт 3. COUNT(price) отвечает «у скольких есть значение?» и даёт 2. SUM(price) даёт 30, AVG(price) — 15. Не делите сумму на 3, если нужна средняя только по известным ценам.",
+      "tg": "Дар се сатр нархҳо 10, 20 ва NULL ҳастанд. COUNT(*) «чанд сатр?» мегӯяд ва 3 медиҳад. COUNT(price) «дар чандто қимат ҳаст?» мегӯяд ва 2 медиҳад. SUM(price) 30, AVG(price) 15 аст. Барои миёнаи нархҳои маълум ҷамъро ба 3 тақсим накунед.",
+      "en": "Three rows have prices 10, 20 and NULL. COUNT(*) asks how many rows there are and returns 3. COUNT(price) counts non-NULL values and returns 2. SUM(price) is 30 and AVG(price) is 15. Dividing by 3 would use the wrong denominator for known prices."
+     }
     }
    ],
    "questions": [
@@ -1315,7 +1381,13 @@
        "en": "A runtime error"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Представьте, что фильтр оставил ноль цен. Сравните поведение SUM и COUNT.",
+      "tg": "Фикр кунед, филтр ягон нарх намонд. SUM ва COUNT-ро муқоиса кунед.",
+      "en": "Suppose the filter leaves no prices. Compare SUM to COUNT."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1414,6 +1486,18 @@
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии сатр ба сатр. Дуюм — тағйири канории ароғ: пешгӯӣ кунед, иҷро кунед, омадани bakery|15.0-ро санҷед. Сеюм — вазифаи мустақил: боқимондаи ҷамъавиро аз рӯи категорияҳо ҳисоб карда, танҳо гурӯҳҳои зиёда аз садро мондан; дархост — SELECT category, SUM(stock) AS total_stock FROM products WHERE category IS NOT NULL GROUP BY category HAVING SUM(stock) > 100 ORDER BY total_stock DESC; сатри интизорӣ — bakery|148, чунки нӯшокиҳо танҳо 65 доранд. Санҷиши муфид: агар WHERE-ро гирем ва дар тамоми сутуни category гурӯҳбандӣ кунем, чӣ мебинем? Ҷавоби дуруст — гурӯҳи сеюм барои NULL пайдо мешавад ва HAVING онро ҳам баррасӣ мекунад. Вақте қадамҳо ҳамроҳ шуданд, тартиби FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY-ро бо овоз изҳор кунед ва мисоли худро биёред, ки ба он HAVING ҷавоб медиҳад. Баъд — ақаллию аксарияш бо зердархост.",
       "en": "Three steps. First: run and match line by line. Second: the boundary threshold change — predict, run, check the appearance of bakery|15.0. Third: an independent task: compute total stock per category and keep only groups above one hundred; the query is SELECT category, SUM(stock) AS total_stock FROM products WHERE category IS NOT NULL GROUP BY category HAVING SUM(stock) > 100 ORDER BY total_stock DESC; the expected row is bakery|148, since drinks hold only 65. A useful check: what do we see if WHERE is removed and the whole category column is grouped? The correct answer — a third group for NULL appears, and HAVING will consider it too. When the steps agree, say out loud the order FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY and give your own example of a question answered by HAVING. Next: minimums and maximums with a subquery."
      }
+    },
+    {
+     "title": {
+      "ru": "Фильтр до группировки и после",
+      "tg": "Филтр пеш ва баъди гурӯҳбандӣ",
+      "en": "Filtering before and after grouping"
+     },
+     "body": {
+      "ru": "В заказах одного клиента суммы 25 и 30, у другого — 40. GROUP BY customer_id даёт итоги 55 и 40. HAVING SUM(total) > 50 оставляет первого клиента. WHERE total > 50 убрал бы все отдельные строки до подсчёта. Выбирайте WHERE для строк, HAVING для сформированных групп.",
+      "tg": "Фармоишҳои як муштарӣ 25 ва 30, аз дигаре 40 мебошанд. GROUP BY customer_id ҷамъҳои 55 ва 40 медиҳад. HAVING SUM(total) > 50 муштарии аввалро мемонад. WHERE total > 50 ҳар сатри алоҳидаро пеш аз ҳисоб мепартофт. WHERE барои сатр, HAVING барои гурӯҳи ҷамъшуда аст.",
+      "en": "One customer has orders of 25 and 30 while another has an order of 40. GROUP BY customer_id gives totals of 55 and 40. HAVING SUM(total) > 50 keeps the first customer. WHERE total > 50 would remove every individual row before grouping. Use WHERE on rows and HAVING on groups."
+     }
     }
    ],
    "questions": [
@@ -1446,7 +1530,13 @@
        "en": "HAVING works before GROUP BY"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Решите, существует ли итог по категории до выполнения GROUP BY.",
+      "tg": "Муайян кунед, ки ҷамъи категория пеш аз GROUP BY ҳаст ё не.",
+      "en": "Decide whether a category total exists before GROUP BY runs."
+     },
+     "relatedSection": 3
     },
     {
      "id": "sql-day-09-q2",
@@ -1575,6 +1665,18 @@
       "ru": "Три шага. Первый — запуск и построчное сведение четырёх строк. Второй — граничное изменение MIN на MAX: предскажите Honey|45, запустите, сверьте. Третий — самостоятельная задача: найдите самый дорогой напиток запросом SELECT name, price FROM products WHERE price = (SELECT MAX(price) FROM products WHERE category = 'drinks'); ожидаемая строка — Coffee|25, ведь Juice с ценой 18 и Tea с 12 дешевле. Полезный контроль понимания: почему первый запрос вернул пару чисел в одной строке, а третий — целую строку таблицы? Ответ: в первом агрегаты сжали девять строк до одной, во втором внешний SELECT вернул обычные столбцы отобранных строк. Когда шаги сходятся, объясните вслух, что такое скалярный подзапрос, и переходите к одиннадцатому дню: таблицы, которые мы всё это время только читали, наконец научатся принимать новые данные.",
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии чор сатр. Дуюм — тағйири канории MIN ба MAX: Honey|45-ро пешгӯӣ кунед, иҷро кунед, биёед санҷед. Сеюм — вазифаи мустақил: гаронтарин нӯшокиро бо дархости SELECT name, price FROM products WHERE price = (SELECT MAX(price) FROM products WHERE category = 'drinks'); ёбед; сатри интизорӣ — Coffee|25, чунки Juice бо нархи 18 ва Tea бо 12 арзонтаранд. Санҷиши фаҳмиш: чаро дархости аввал ҷуфти ададро дар як сатр дод, вале сеюм — сатри пурраи ҷадвалро? Ҷавоб: дар аввал функсияҳои агрегатӣ нуҳ сатрро ба як фишурданд, дар сеюм SELECT-и берунӣ сутунҳои маъмулиро аз сатрҳои интихобшуда баргардонид. Вақте қадамҳо ҳамроҳ шуданд, мафҳуми зердархости скаляриро бо овоз изҳор кунед ва ба рӯзи ёздаҳ гузаред: ҷадвалҳое, ки ҳама вақт танҳо мехондем, ниҳоят қабули додаҳои навро меомӯзанд.",
       "en": "Three steps. First: run and match the four lines. Second: the boundary change of MIN to MAX — predict Honey|45, run, compare. Third: an independent task: find the most expensive drink with SELECT name, price FROM products WHERE price = (SELECT MAX(price) FROM products WHERE category = 'drinks'); the expected row is Coffee|25, since Juice at 18 and Tea at 12 are cheaper. A useful comprehension check: why did the first query return a pair of numbers in one row, while the third returned a whole table row? The answer: in the first, aggregates squeezed nine rows into one; in the second, the outer SELECT returned ordinary columns of the selected rows. When the steps agree, explain out loud what a scalar subquery is, and move to day eleven: the tables we have only been reading will finally learn to accept new data."
+     }
+    },
+    {
+     "title": {
+      "ru": "Почему самая низкая цена может дать два товара",
+      "tg": "Чаро нархи паст ду мол дода метавонад",
+      "en": "Why the lowest price can return two products"
+     },
+     "body": {
+      "ru": "У чая и воды одинаковая цена 5. MIN(price) даёт число 5. Запрос товаров с price = (SELECT MIN(price) FROM products) находит оба совпадения. Если нужен ровно один товар, определите дополнительное правило, например порядок по id. Минимальная цена сама по себе не является уникальным ключом.",
+      "tg": "Чой ва об як нарх доранд: 5. MIN(price) адади 5 медиҳад. Дархости price = (SELECT MIN(price) FROM products) ҳар ду молро меёбад. Агар танҳо якто лозим бошад, қоидаи иловагӣ, масалан тартиб бо id, муайян кунед. Нархи паст калиди ягона нест.",
+      "en": "Tea and water both cost 5. MIN(price) produces the value 5. A query for price = (SELECT MIN(price) FROM products) finds both matches. If you want one product, define a tie breaker, such as id. The minimum price is not a unique identifier."
      }
     }
    ],
@@ -2222,6 +2324,18 @@
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии нуҳ сатр. Дуюм — дарҷи канории Petr бо id-и пешгӯишудаи 12. Сеюм — вазифаи мустақил: ҷадвали notes бо INTEGER PRIMARY KEY ва сутуни text TEXT NOT NULL созед, ду сатр бе id дарҷ кунед, сатри бо id-и хурдтарро нест кунед ва сатҳи сеюмро илова кунед; SELECT id FROM notes-ро бароред — ададҳои 2 ва 3 интизоранд, чунки рақами 1 максимум набуд ва такрор нашуд, рақами сеюм аз максимуми 2 ҳисоб мешавад. Санҷиши муфид: AUTOINCREMENT воқеан кадоҷо ба ҷой меояд? Ҷавоби ростқавл — он гоҳе, ки низомҳои берунӣ ба рақамҳо ишора карда буданд ва такрор додани онҳо мумкин нест; барои ҷадвалҳои омӯзишӣ изофа аст. Вақте қадамҳо ҳамроҳ шуданд, алоқаи INTEGER PRIMARY KEY ва rowid-ро бо овоз изҳор кунед ва ба рӯзи понздаҳум гузаред: ҷадвалҳо байни худ пайвастанд меомӯзанд.",
       "en": "Three steps. First: run and match the nine lines. Second: the boundary insert of Petr with the predicted id 12. Third: an independent task: create a notes table with INTEGER PRIMARY KEY and a text TEXT NOT NULL column, insert two rows without ids, delete the row with the smaller id and insert a third; run SELECT id FROM notes — the numbers 2 and 3 are expected, because number 1 was not the maximum and is not reused, while the third number is computed from the maximum 2. A useful check: when is AUTOINCREMENT genuinely justified? The honest answer — when external systems already referenced the numbers and they must never repeat; for learning tables it is redundant. When the steps agree, explain out loud the link between INTEGER PRIMARY KEY and rowid, then move to day fifteen: tables will start relating to each other."
      }
+    },
+    {
+     "title": {
+      "ru": "Ключ выбирают по тому, что должно различаться",
+      "tg": "Калид барои ҷудо кардани сабтҳост",
+      "en": "A key distinguishes records"
+     },
+     "body": {
+      "ru": "Два клиента могут иметь одно имя. Если считать имя ключом, повторное имя создаст конфликт. Два числовых id различают клиентов независимо от написания имени. При смене имени связи с заказами остаются по id. Проверьте свою схему двумя строками с одним именем и разными id.",
+      "tg": "Ду муштарӣ метавонанд ҳамном бошанд. Агар ном калид бошад, номи дуюм конфликт медиҳад. Ду id-и ададӣ онҳоро бе вобастагӣ аз навишти ном ҷудо мекунад. Бо иваз шудани ном фармоишҳо аз рӯйи id пайваст мемонанд. Ду сабти ҳамном бо id-и гуногунро санҷед.",
+      "en": "Two customers may have the same name. Using the name as a key makes the repeated name a conflict. Two numeric ids distinguish them independently of spelling. Renaming a customer preserves links through the id. Test the schema with two rows sharing a name and using distinct ids."
+     }
     }
    ],
    "questions": [
@@ -2348,9 +2462,9 @@
       "en": "How a foreign key connects tables"
      },
      "body": {
-      "ru": "До сих пор таблицы жили поодиночке. FOREIGN KEY — внешний ключ — связывает их: customer_id в orders ссылается на id в customers. Ссылка — это обещание: такого покупателя действительно можно найти. SQLite проверяет обещание только после PRAGMA foreign_keys = ON: в отличие от многих баз, здесь эта проверка по умолчанию выключена, и команда действует на текущее соединение. Если попытаться вставить заказ с customer_id = 99, база отклонит вставку с ошибкой FOREIGN KEY constraint failed — попробуйте сами; записанного вывода у этого опыта нет, потому что наш скрипт содержит только успешные операции. Правило чтения схемы: REFERENCES указывает, на какую таблицу и столбец смотрит поле, а NOT NULL рядом означает, что заказ без покупателя не имеет смысла. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
-      "tg": "То ҳол ҷадвалҳо алоҳида зиндагӣ мекарданд. FOREIGN KEY — калиди беруна — онҳоро пайваст мекунад: customer_id дар orders ба id дар customers ишора мекунад. Ишора ваъда аст: чунин харидор воқеан ёфтан мумкин аст. SQLite ваъдаро танҳо баъди PRAGMA foreign_keys = ON месанҷад: баръакси бисёр пойгоҳҳо, дар ин ҷо санҷиш пешфарз хомӯш аст ва фармон танҳо ба пайвасти ҷорӣ амал мекунад. Агар кӯшиш кунед фармоиш бо customer_id = 99 дарҷ кунед, пойгоҳ дарҷро бо хатогии FOREIGN KEY constraint failed рад мекунад — худатон биёед; натиҷаи сабтшудаи ин таҷриба нест, чунки скрипти мо танҳо амалиёти муваффақро дар бар мегирад. Қоидаи хондани схема: REFERENCES нишон медиҳад, ки майдон ба кадом ҷадвал ва сутун нигоҳ мекунад, ва NOT NULL-и паҳлӯ маънои онро дорад, ки фармоиш бе харидор маъно надорад. Ҳамаи мисолҳо дар SQLite дар пойгоҳи :memory: иҷро мешаванд, натиҷа бо иҷрои воқеӣ сабт шудааст.",
-      "en": "Until now the tables lived separately. FOREIGN KEY links them: customer_id in orders references id in customers. A reference is a promise: such a customer really can be found. SQLite checks the promise only after PRAGMA foreign_keys = ON: unlike many databases, the check is off by default here, and the command applies to the current connection. If you try to insert an order with customer_id = 99, the database rejects it with a FOREIGN KEY constraint failed error — try it yourself; there is no recorded output for that experiment, because our script contains only successful operations. The rule for reading a schema: REFERENCES tells which table and column the field looks at, and NOT NULL beside it means an order without a customer makes no sense. All examples run in SQLite on the :memory: database, the output was recorded from a real run and reproduces locally."
+      "ru": "До сих пор таблицы жили поодиночке. FOREIGN KEY — внешний ключ — связывает их: customer_id в orders ссылается на id в customers. Ссылка — это обещание: такого покупателя действительно можно найти. Включите проверку внешних ключей командой PRAGMA foreign_keys = ON на текущем соединении до транзакции. Настройка по умолчанию зависит от сборки SQLite. Если попытаться вставить заказ с customer_id = 99, база отклонит вставку с ошибкой FOREIGN KEY constraint failed — попробуйте сами; записанного вывода у этого опыта нет, потому что наш скрипт содержит только успешные операции. Правило чтения схемы: REFERENCES указывает, на какую таблицу и столбец смотрит поле, а NOT NULL рядом означает, что заказ без покупателя не имеет смысла. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
+      "tg": "То ҳол ҷадвалҳо алоҳида зиндагӣ мекарданд. FOREIGN KEY — калиди беруна — онҳоро пайваст мекунад: customer_id дар orders ба id дар customers ишора мекунад. Ишора ваъда аст: чунин харидор воқеан ёфтан мумкин аст. Пеш аз транзаксия санҷиши калидҳои берунаро бо PRAGMA foreign_keys = ON дар пайвасти ҷорӣ фаъол кунед. Танзими пешфарз аз тарзи сохтани SQLite вобаста аст. Агар кӯшиш кунед фармоиш бо customer_id = 99 дарҷ кунед, пойгоҳ дарҷро бо хатогии FOREIGN KEY constraint failed рад мекунад — худатон биёед; натиҷаи сабтшудаи ин таҷриба нест, чунки скрипти мо танҳо амалиёти муваффақро дар бар мегирад. Қоидаи хондани схема: REFERENCES нишон медиҳад, ки майдон ба кадом ҷадвал ва сутун нигоҳ мекунад, ва NOT NULL-и паҳлӯ маънои онро дорад, ки фармоиш бе харидор маъно надорад. Ҳамаи мисолҳо дар SQLite дар пойгоҳи :memory: иҷро мешаванд, натиҷа бо иҷрои воқеӣ сабт шудааст.",
+      "en": "Until now the tables lived separately. FOREIGN KEY links them: customer_id in orders references id in customers. A reference is a promise: such a customer really can be found. Enable foreign-key checking with PRAGMA foreign_keys = ON in the current connection before the transaction. The default depends on the SQLite build. If you try to insert an order with customer_id = 99, the database rejects it with a FOREIGN KEY constraint failed error — try it yourself; there is no recorded output for that experiment, because our script contains only successful operations. The rule for reading a schema: REFERENCES tells which table and column the field looks at, and NOT NULL beside it means an order without a customer makes no sense. All examples run in SQLite on the :memory: database, the output was recorded from a real run and reproduces locally."
      },
      "code": "PRAGMA foreign_keys = ON;\nCREATE TABLE customers (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL\n);\nCREATE TABLE orders (\n  id INTEGER PRIMARY KEY,\n  customer_id INTEGER NOT NULL REFERENCES customers(id),\n  created_at TEXT NOT NULL\n);\nINSERT INTO customers (id, name) VALUES (1, 'Anna'), (2, 'Farrukh');\nINSERT INTO orders (id, customer_id, created_at) VALUES (1, 1, '2026-10-01');\nINSERT INTO orders (id, customer_id, created_at) VALUES (2, 2, '2026-10-01');\nSELECT id, customer_id, created_at FROM orders;\n",
      "language": "sql",
@@ -2382,6 +2496,18 @@
       "ru": "Три шага. Первый — запуск и построчное сведение. Второй — граничный третий заказ для Farrukh: предскажите строку 3|2|2026-10-02, запустите, сверьте. Третий — самостоятельный опыт: попробуйте вставить заказ с customer_id = 99 и запишите текст ошибки; затем добавьте покупателя с id 99 и повторите вставку — теперь она пройдёт. Это упражнение показывает суть внешнего ключа лучше любых слов: база защищает обещание связи, но только когда проверка включена. Полезный контроль: почему мы не храним имя покупателя прямо в orders? Ответ: тогда при смене имени пришлось бы менять много строк, а опечатки создавали бы «двух» разных клиентов — связь через номер решает это. Когда шаги сходятся, объясните вслух, что проверяет FOREIGN KEY, и переходите к шестнадцатому дню: научимся сшивать таблицы обратно в один ответ.",
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии сатр ба сатр. Дуюм — фармоиши канории сеюм барои Farrukh: сатри 3|2|2026-10-02-ро пешгӯӣ кунед, иҷро кунед, биёед санҷед. Сеюм — таҷрибаи мустақил: кӯшиш кунед фармоиш бо customer_id = 99 дарҷ кунед ва матни хатогиро сабт кунед; баъд харидорро бо id 99 илова карда, дарҷро такрор кунед — ҳоло он мегузарад. Ин машқ моҳияти калиди берунаро аз ҳар сухан беҳтар нишон медиҳад: пойгоҳ ваъдаи алоқаро ҳимоя мекунад, вале танҳо он гоҳе, ки санҷиш фаъол аст. Санҷиши муфид: чаро номи харидорро мустақиман дар orders нигоҳ намедорем? Ҷавоб: он гоҳ ҳангоми тағйири ном бояд сатрҳои бисёр ислоҳ мешуд ва хатогиҳои чоп ду «харидори» гуногун месохтанд — алоқа тавассути рақам инро ҳал мекунад. Вақте қадамҳо ҳамроҳ шуданд, бо овоз изҳор кунед, ки FOREIGN KEY чиро месанҷад, ва ба рӯзи шонздаҳум гузаред: меомӯзем, ки чӣ тавр ҷадвалҳоро боз ба як ҷавоб дӯхтан мумкин аст.",
       "en": "Three steps. First: run and match line by line. Second: the boundary third order for Farrukh — predict the row 3|2|2026-10-02, run, compare. Third: an independent experiment: try inserting an order with customer_id = 99 and write down the error text; then add a customer with id 99 and repeat the insert — now it passes. This exercise shows the essence of a foreign key better than any words: the database guards the promise of the relationship, but only when the check is enabled. A useful check: why do we not store the customer name right in orders? The answer: then a name change would require editing many rows, and typos would create 'two different customers' — linking by number solves this. When the steps agree, say out loud what FOREIGN KEY verifies, then move to day sixteen: we will learn to sew tables back into one answer."
+     }
+    },
+    {
+     "title": {
+      "ru": "Причина отказа вставки",
+      "tg": "Сабаби рад шудани сабт",
+      "en": "Why an insert is rejected"
+     },
+     "body": {
+      "ru": "В customers есть id=7. Заказ с customer_id=7 связывается с этим клиентом. customer_id=99 без пары отклоняется, когда SQLite проверяет внешние ключи. Включите PRAGMA foreign_keys = ON на учебном соединении до теста. Иначе успешная вставка не докажет, что связь соблюдается.",
+      "tg": "Дар customers, id=7 ҳаст. Фармоиши customer_id=7 бо он муштарӣ пайваст мешавад. customer_id=99 бе сабти мувофиқ ҳангоми санҷиши foreign key рад мешавад. Пеш аз test дар пайвасти омӯзишӣ PRAGMA foreign_keys = ON гузоред. Вагарна INSERT-и муваффақ риоя шудани пайвандро исбот намекунад.",
+      "en": "customers has id=7, so an order with customer_id=7 links to that customer. A missing id 99 is rejected when SQLite enforces foreign keys. Enable PRAGMA foreign_keys = ON on the learning connection before the test. Otherwise a successful insert does not prove the relationship is enforced."
      }
     }
    ],
@@ -2420,14 +2546,14 @@
     {
      "id": "sql-day-15-q2",
      "question": {
-      "ru": "Включена ли проверка внешних ключей в SQLite по умолчанию?",
-      "tg": "Оё санҷиши калидҳои берунӣ дар SQLite пешфарз фаъол аст?",
-      "en": "Is foreign key checking enabled in SQLite by default?"
+      "ru": "Как явно включить проверку внешних ключей на текущем соединении SQLite?",
+      "tg": "Санҷиши foreign key-ро дар пайвасти ҷории SQLite чӣ хел фаъол кунем?",
+      "en": "How do you enable foreign key checks on the current SQLite connection explicitly?"
      },
      "answer": {
-      "ru": "Нет, нужно PRAGMA foreign_keys = ON",
-      "tg": "Не, PRAGMA foreign_keys = ON лозим аст",
-      "en": "No, PRAGMA foreign_keys = ON is needed"
+      "ru": "Выполнить PRAGMA foreign_keys = ON до начала транзакции",
+      "tg": "Пеш аз транзаксия PRAGMA foreign_keys = ON-ро иҷро кардан",
+      "en": "Run PRAGMA foreign_keys = ON before the transaction"
      },
      "options": [
       {
@@ -2436,9 +2562,9 @@
        "en": "Yes, it is always enabled"
       },
       {
-       "ru": "Нет, нужно PRAGMA foreign_keys = ON",
-       "tg": "Не, PRAGMA foreign_keys = ON лозим аст",
-       "en": "No, PRAGMA foreign_keys = ON is needed"
+       "ru": "Выполнить PRAGMA foreign_keys = ON до начала транзакции",
+       "tg": "Пеш аз транзаксия PRAGMA foreign_keys = ON-ро иҷро кардан",
+       "en": "Run PRAGMA foreign_keys = ON before the transaction"
       },
       {
        "ru": "Она включается только для новых таблиц",
@@ -2446,7 +2572,13 @@
        "en": "It is enabled only for new tables"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверка относится к соединению. Найдите команду, которая задаёт настройку до BEGIN.",
+      "tg": "Санҷиш ба пайваст дахл дорад. Фармонеро ёбед, ки танзимро пеш аз BEGIN мегузорад.",
+      "en": "The setting belongs to the connection. Find the command that sets it before BEGIN."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2545,6 +2677,18 @@
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии чордаҳ сатр. Дуюм — филтри канорӣ аз рӯи фармоиши 1: як сатри 1|Anna. Сеюм — вазифаи мустақил: номи харидор ва санаро барои фармоишҳои аз сеюми октябр ва баъд бароред — SELECT c.name, o.created_at FROM orders o JOIN customers c ON c.id = o.customer_id WHERE o.created_at >= '2026-10-03' ORDER BY o.id; се сатри интизорӣ: Anna|2026-10-03, Dilnoza|2026-10-05 ва Oleg|2026-10-07. Санҷиши муфид: дар ақл ҳисоб кунед, ки JOIN-и customers ва orders бе ON чанд сатр медиҳад — панҷ ба панҷ зарб, бисту панҷ; ин машқ хоҳиши фаромӯшии шарти ON-ро то абад мекушад. Вақте қадамҳо ҳамроҳ шуданд, бо овоз изҳор кунед, ки шарти ON чӣ мекунад ва чаро Sitora берун монд. Баъд — LEFT JOIN: меомӯзем, ки онҳое, ки INNER партофт, чӣ тавр ёфтан мумкин аст.",
       "en": "Three steps. First: run and match the fourteen lines. Second: the boundary filter on order 1 — the single row 1|Anna. Third: an independent task: show the customer name and date for orders from October 3rd onward — SELECT c.name, o.created_at FROM orders o JOIN customers c ON c.id = o.customer_id WHERE o.created_at >= '2026-10-03' ORDER BY o.id; three rows are expected: Anna|2026-10-03, Dilnoza|2026-10-05 and Oleg|2026-10-07. A useful check: count in your head how many rows JOIN customers and orders return without ON — five times five, twenty-five; this exercise kills the urge to forget the condition forever. When the steps agree, say out loud what the ON condition does and why Sitora stayed out. Next — LEFT JOIN: we will learn to find those INNER threw away."
      }
+    },
+    {
+     "title": {
+      "ru": "Сколько строк даёт JOIN",
+      "tg": "JOIN чанд сатр медиҳад",
+      "en": "How many rows JOIN outputs"
+     },
+     "body": {
+      "ru": "Клиент 7 сделал два заказа. У клиента 8 нет заказов. При INNER JOIN по равенству id и customer_id клиент 7 окажется в двух строках результата, а 8 — ни в одной. Это по строке на каждую подходящую пару. Повтор имени клиента здесь закономерен.",
+      "tg": "Муштарии 7 ду фармоиш дорад, 8 ҳеҷ фармоиш надорад. Бо INNER JOIN аз рӯйи id ва customer_id, муштарии 7 дар ду сатр меояд ва 8 дар ягон сатр не. Барои ҳар ҷуфти мувофиқ як сатр мешавад. Такрори номи муштарӣ дар ин ҷо муқаррарӣ аст.",
+      "en": "Customer 7 has two orders and customer 8 has none. An INNER JOIN on id = customer_id gives two rows for 7 and none for 8. Each matched pair produces one row. Seeing the same customer name twice is expected."
+     }
     }
    ],
    "questions": [
@@ -2608,7 +2752,13 @@
        "en": "INNER JOIN shows only the first five rows"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Для Sitora выпишите пары по условию ON. Есть ли подходящий заказ?",
+      "tg": "Барои Sitora ҷуфтҳоро бо шарти ON нависед. Фармоиши мувофиқ ҳаст?",
+      "en": "Write down the pairs that meet ON for Sitora. Is there a matching order?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -2707,6 +2857,18 @@
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии ҳафт сатр. Дуюм — ивази канории LEFT ба INNER: чор сатри бе Sitora-ро пешгӯӣ кунед, иҷро кунед, биёед санҷед. Сеюм — вазифаи мустақил: маҳсулоти ҳадди ақал як бор фурӯхташударо ёбед — SELECT DISTINCT p.name FROM products p LEFT JOIN order_items oi ON oi.product_id = p.id WHERE oi.order_id IS NOT NULL ORDER BY p.id; ҳашт ном аз Tea то Honey интизоранд: ҳамаи маҳсулот, ба ҷуз Salt. Санҷиши муфид: чаро дар ҳисобкунаки дархости аввал аз рӯи c.id гурӯҳбандӣ мекунем, на аз рӯи ном? Ҷавоб: номҳо метавонанд такрор шаванд, id — не, бинобар ин гурӯҳбандӣ аз рӯи идентификатор ростқавлтар аст; дар ҷадвали хурди мо фарқ дида намешавад, вале одат дар ҳамин ҷо сохта мешавад. Вақте қадамҳо ҳамроҳ шуданд, бо овоз изҳор кунед, ки LEFT JOIN + IS NULL чӣ тавр «ятимҳоро» меёбад, ва ба алиасҳо гузаред — рӯзи ҳаждаҳум иҷрои натиҷаҳоро зебо кардан меомӯзад.",
       "en": "Three steps. First: run and match the seven lines. Second: the boundary swap of LEFT to INNER — predict four rows without Sitora, run, compare. Third: an independent task: find products sold at least once — SELECT DISTINCT p.name FROM products p LEFT JOIN order_items oi ON oi.product_id = p.id WHERE oi.order_id IS NOT NULL ORDER BY p.id; eight names from Tea to Honey are expected: every product except Salt. A useful check: why does the first query's counter group by c.id rather than by name? The answer: names can repeat while id cannot, so grouping by the identifier is more honest; in our small table the difference is invisible, but the habit is built here. When the steps agree, say out loud how LEFT JOIN + IS NULL finds orphans, then move to aliases — day eighteen teaches making output beautiful."
      }
+    },
+    {
+     "title": {
+      "ru": "Как сохранить клиента без заказа",
+      "tg": "Муштарии бе фармоишро чӣ хел нигоҳ дорем",
+      "en": "Keeping a customer with no order"
+     },
+     "body": {
+      "ru": "LEFT JOIN сохраняет клиента даже без совпадения справа. Поля заказа тогда будут NULL. Чтобы сохранить клиентов без оплаченных заказов, условие order.status = 'paid' можно поставить в ON. Если поставить его в WHERE, строки с NULL справа исчезнут из результата.",
+      "tg": "LEFT JOIN муштариро ҳатто бе ҷуфти тарафи рост нигоҳ медорад. Майдонҳои фармоиш NULL мешаванд. Барои нигоҳ доштани муштарии бе фармоиши пардохтшуда шартро дар ON гузоред. Бо ҳамин шарт дар WHERE сатрҳои тарафи рости NULL аз натиҷа мераванд.",
+      "en": "LEFT JOIN keeps the customer even when there is no matching row on the right. Order fields become NULL. Put the paid-status condition in ON to keep customers without a paid order. Moving that condition to WHERE removes rows with NULL on the right."
+     }
     }
    ],
    "questions": [
@@ -2770,7 +2932,13 @@
        "en": "That way the query runs faster"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Посмотрите на значение o.id в строке клиента без заказа.",
+      "tg": "Қимати o.id-ро дар сатри муштарии бе фармоиш бинед.",
+      "en": "Look at o.id in the customer row with no order."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3030,6 +3198,18 @@
       "ru": "Три шага. Первый — запуск и построчное сведение десяти строк. Второй — граничная замена MAX на MIN: Water|3. Третий — самостоятельная задача: найдите товары, которых нет ни в одном заказе — SELECT name FROM products WHERE id NOT IN (SELECT product_id FROM order_items) ORDER BY id; ожидаемая строка одна: Salt. Затем попробуйте испортить подзапрос, добавив в него строку с NULL — например, UNION SELECT NULL, — и убедитесь, что NOT IN вернёт пусто; это учебная демонстрация ловушки, которую мы отметили в примере. Полезный контроль: чем подзапрос в IN отличается от JOIN? Ответ: JOIN сразу склеивает строки, а IN лишь проверяет присутствие значения в списке; для вопросов «есть или нет» он короче. Когда шаги сходятся, объясните вслух разницу между скалярным и списочным подзапросом и переходите к CASE WHEN — двадцатому дню.",
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии даҳ сатр. Дуюм — ивази канории MAX ба MIN: Water|3. Сеюм — вазифаи мустақил: молҳои дар ҳеҷ фармоиш нестшударо ёбед — SELECT name FROM products WHERE id NOT IN (SELECT product_id FROM order_items) ORDER BY id; як сатри интизорӣ: Salt. Баъд кӯшиш кунед зердархостро вайрон кунед, дар он сатри NULL-дор илова кунед — масалан UNION SELECT NULL, — ва мутмаин шавед, ки NOT IN холӣ бармегардонад; ин намоиши омӯзишии тӯрест, ки дар мисол қайд кардем. Санҷиши муфид: зердархости IN аз JOIN чӣ фарқ дорад? Ҷавоб: JOIN фавран сатрҳоро месозад, аммо IN танҳо мавҷудияти қиматро дар рӯйхат месанҷад; барои саволҳои «ҳаст ё не» кӯтоҳтар аст. Вақте қадамҳо ҳамроҳ шуданд, фарқи зердархости скалярӣ ва рӯйхатиро бо овоз изҳор кунед ва ба CASE WHEN гузаред — рӯзи бистум.",
       "en": "Three steps. First: run and match the ten lines. Second: the boundary swap of MAX to MIN: Water|3. Third: an independent task: find products absent from every order — SELECT name FROM products WHERE id NOT IN (SELECT product_id FROM order_items) ORDER BY id; one expected row: Salt. Then try spoiling the subquery by adding a NULL row to it — for example UNION SELECT NULL — and make sure NOT IN returns nothing; that is a teaching demonstration of the trap we flagged in the example. A useful check: how does the IN subquery differ from JOIN? The answer: JOIN builds the joined rows right away, while IN only checks whether a value is present in a list; for 'is there or not' questions it is shorter. When the steps agree, explain out loud the difference between scalar and list subqueries, then move to CASE WHEN — day twenty."
+     }
+    },
+    {
+     "title": {
+      "ru": "Что возвращает внутренний запрос",
+      "tg": "Дархости дарунӣ чӣ медиҳад",
+      "en": "What the inner query returns"
+     },
+     "body": {
+      "ru": "В price > (SELECT AVG(price) FROM products) подзапрос даёт одно число, например 25. Внешний запрос сравнивает с ним цену каждого товара. Если внутренний запрос нужен как список категорий, используйте IN и выбирайте одну колонку. Сначала запустите внутреннюю часть отдельно и посмотрите её форму.",
+      "tg": "Дар price > (SELECT AVG(price) FROM products) query-и дарунӣ як адад, масалан 25 медиҳад. Query-и берунӣ нархи ҳар молро бо он муқоиса мекунад. Агар дарун рӯйхати категория лозим бошад, IN ва як сутунро истифода баред. Аввал дархости даруниро алоҳида иҷро кунеду шаклашро бинед.",
+      "en": "In price > (SELECT AVG(price) FROM products), the inner query gives one value, such as 25. The outer query compares each product's price against it. When the inner result is a category list, use IN and select one column. Run the inner query alone first and inspect its shape."
      }
     }
    ],
@@ -3353,6 +3533,18 @@
       "ru": "Три шага. Первый — запуск и построчное сведение двенадцати строк, включая прикидку суммы 216. Второй — граничный HAVING: Anna и Oleg. Третий — самостоятельная задача: посчитайте выручку по заказам — SELECT o.id, SUM(oi.quantity * p.price) AS total FROM orders o JOIN order_items oi ON oi.order_id = o.id GROUP BY o.id ORDER BY total DESC; ожидаемы пять строк: 1|59, 3|48, 5|45, 2|37 и 4|27. Полезный контроль: почему в первом запросе GROUP BY c.id, c.name, хотя name достаточно? Ответ: id гарантирует уникальность группы, а name участвует только ради вывода; к такой форме полезно привыкать заранее. Когда шаги сходятся, объясните вслух маршрут данных через четыре таблицы и где именно рождаются деньги — в умножении quantity на price. Дальше — даты: двадцать второй день.",
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии дувоздаҳ сатр, аз ҷумла ҳисоби умумии 216. Дуюм — HAVING-и канорӣ: Anna ва Oleg. Сеюм — вазифаи мустақил: даромадро аз рӯи фармоишҳо ҳисоб кунед — SELECT o.id, SUM(oi.quantity * p.price) AS total FROM orders o JOIN order_items oi ON oi.order_id = o.id GROUP BY o.id ORDER BY total DESC; панҷ сатри интизорӣ: 1|59, 3|48, 5|45, 2|37 ва 4|27. Санҷиши муфид: чаро дар дархости аввал GROUP BY c.id, c.name аст, ҳол он ки name кофист? Ҷавоб: id ягонагии гурӯҳро кафолат медиҳад, аммо name танҳо барои натиҷа иштирок мекунад; ба чунин шакл аз пеш одат кардан муфид аст. Вақте қадамҳо ҳамроҳ шуданд, маршрути додаҳо тавассути чор ҷадвал ва ҷои таваллуди пул — зарби quantity ба price — ро бо овоз изҳор кунед. Баъд — санаҳо: рӯзи бисту дуюм.",
       "en": "Three steps. First: run and match the twelve lines, including estimating the total of 216. Second: the boundary HAVING — Anna and Oleg. Third: an independent task: compute revenue per order — SELECT o.id, SUM(oi.quantity * p.price) AS total FROM orders o JOIN order_items oi ON oi.order_id = o.id GROUP BY o.id ORDER BY total DESC; five rows are expected: 1|59, 3|48, 5|45, 2|37 and 4|27. A useful check: why does the first query group by c.id, c.name when name alone would do? The answer: id guarantees the group is unique, while name only participates for the output; getting used to this form early pays off. When the steps agree, say out loud the data route through four tables and where exactly money is born — in multiplying quantity by price. Next — dates: day twenty-two."
+     }
+    },
+    {
+     "title": {
+      "ru": "Из чего складывается сумма заказа",
+      "tg": "Ҷамъи фармоиш аз чӣ иборат аст",
+      "en": "What makes up an order total"
+     },
+     "body": {
+      "ru": "У заказа две позиции: 2 товара по 8 и 1 по 5. После JOIN у каждой позиции есть цена. Считайте сумму выражения quantity * price: 16 + 5 = 21. До GROUP BY посмотрите пары строк. Неверное условие соединения может повторить позиции и завысить итог.",
+      "tg": "Фармоиш ду сатр дорад: 2 мол бо нархи 8 ва 1 мол бо нархи 5. Баъди JOIN нарх ба ҳар сатр мерасад. quantity * price-ро ҷамъ кунед: 16 + 5 = 21. Пеш аз GROUP BY ҷуфтҳои сатрро бинед. Шарти нодурусти JOIN метавонад сатрро такрор кунад ва ҷамъро зиёд кунад.",
+      "en": "An order has two entries: 2 units at 8 and 1 at 5. After JOIN each entry has its price. Sum quantity * price to get 16 + 5 = 21. Inspect matched rows before GROUP BY. A bad join condition can duplicate entries and inflate the total."
      }
     }
    ],
@@ -3838,6 +4030,18 @@
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии панҷ сатр, аз ҷумла ду нақша. Дуюм — индекси канорӣ аз рӯи ном ва нақшаи такрорӣ бо SEARCH. Сеюм — вазифаи мустақил: индекс аз рӯи нарх созед — CREATE INDEX idx_products_price ON products(price); — ва EXPLAIN QUERY PLAN SELECT name FROM products WHERE price = 12;-ро иҷро кунед; сабт кунед, ки нақша SEARCH шуд ё не; баъд SELECT name, price FROM products WHERE price BETWEEN 10 AND 15-ро бароред — як сатри Tea|12 интизор аст. Санҷиши муфид: индекс кадоҷо кӯмак намекунад? Ҷавобҳои дуруст: дар ҷадвали хурд; вақте ки дархост қариб ҳамаи сатрҳоро мебарад; вақте ки шарти LIKE аз '%...' оғоз мешавад. Вақте қадамҳо ҳамроҳ шуданд, он ки барои индекс чӣ пардохт мекунем, бо овоз изҳор кунед ва ба рӯзи бисту панҷум гузаред: он ҷо схемаро дар коғаз лоиҳа мекунем — ин дарси хаттӣ аст.",
       "en": "Three steps. First: run and match the five lines, including the two plans. Second: the boundary index by name and the repeated plan with SEARCH. Third: an independent task: build an index on price — CREATE INDEX idx_products_price ON products(price); — and run EXPLAIN QUERY PLAN SELECT name FROM products WHERE price = 12; note whether the plan became SEARCH; then run SELECT name, price FROM products WHERE price BETWEEN 10 AND 15 — one row, Tea|12, is expected. A useful check: when does an index not help? Correct answers: on a small table; when the query takes almost all rows; when the condition starts with LIKE '%...'. When the steps agree, say out loud what we pay for an index, then move to day twenty-five: there we will design a schema on paper — a written lesson."
      }
+    },
+    {
+     "title": {
+      "ru": "Индекс существует и индекс используется",
+      "tg": "Индекс ҳаст ва индекс истифода мешавад",
+      "en": "An existing index versus a chosen index"
+     },
+     "body": {
+      "ru": "Индекс по email помогает искать точное совпадение. Создание индекса ещё не доказывает, что SQLite выберет его для вашего запроса. Сравните EXPLAIN QUERY PLAN до и после. Индекс хранит дополнительные данные и обновляется при записи, поэтому добавляйте его под измеряемый запрос.",
+      "tg": "Индекс барои email ҷустуҷӯи мувофиқати аниқро осон мекунад. Сохтани индекс ҳанӯз намегӯяд, ки SQLite онро дар query-и шумо мегирад. EXPLAIN QUERY PLAN-ро пеш ва баъд муқоиса кунед. Индекс маълумоти иловагӣ нигоҳ медорад ва ҳангоми сабт нав мешавад.",
+      "en": "An email index helps exact searches. Creating it does not prove SQLite will choose it for your query. Compare EXPLAIN QUERY PLAN before and after. An index stores additional data and changes on writes, so connect it to a query you can measure."
+     }
     }
    ],
    "questions": [
@@ -3870,7 +4074,13 @@
        "en": "The query ran with an error"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Различайте наличие индекса и его выбор планировщиком для данного запроса.",
+      "tg": "Будани индексро аз интихобаш барои ҳамин query ҷудо кунед.",
+      "en": "Separate having an index from the query planner actually choosing it."
+     },
+     "relatedSection": 3
     },
     {
      "id": "sql-day-24-q2",
@@ -4322,6 +4532,18 @@
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии шаш сатр. Дуюм — ивази канории ROLLBACK ба COMMIT: финал 40 ва 110. Сеюм — таҷрибаи мустақил: дар транзаксия кӯшиш кунед аз Anna 500 тарҳ кунед — BEGIN; UPDATE accounts SET balance = balance - 500 WHERE id = 1; — ва хатогии CHECK constraint failed-ро мустақиман дар дохили блок мегиред; баъд ROLLBACK кунед ва мутмаин шавед, ки балансҳо 70 ва 80 монданд. Пасиҳамро сабт кунед ва шарҳ диҳед, ки чаро CHECK додаҳоро наҷот дод, вале аз хатои мантиқӣ — масалан интиқоли пул ба худ — наҷот намедиҳод. Вақте қадамҳо ҳамроҳ шуданд, фарқи BEGIN/COMMIT аз «танҳо иҷрои ду UPDATE»-ро бо овоз изҳор кунед ва ба нусхаҳои эҳтиётӣ гузаред — рӯзи бисту ҳаштум, он ҳам хаттӣ аст.",
       "en": "Three steps. First: run and match the six lines. Second: the boundary swap of ROLLBACK to COMMIT: the ending 40 and 110. Third: an independent experiment: try to subtract 500 from Anna inside a transaction — BEGIN; UPDATE accounts SET balance = balance - 500 WHERE id = 1; — and you get a CHECK constraint failed error right inside the block; then ROLLBACK and make sure the balances stayed 70 and 80. Write down the sequence and explain why CHECK saved the data but would not save you from a logical mistake — for example, transferring money to yourself would pass calmly. When the steps agree, say out loud how BEGIN/COMMIT differs from 'just run two UPDATEs', then move to backups — day twenty-eight, also written."
      }
+    },
+    {
+     "title": {
+      "ru": "Когда изменения становятся постоянными",
+      "tg": "Тағйирот кай доимӣ мешавад",
+      "en": "When changes become permanent"
+     },
+     "body": {
+      "ru": "Начните с двух остатков 10 и 0. Внутри одной транзакции вычтите 3 из первого и прибавьте ко второму. До фиксации ROLLBACK возвращает оба значения в исходное состояние. При COMMIT сохраняются 7 и 3. Проверяйте оба счёта, чтобы заметить половину операции.",
+      "tg": "Аз ду бақияи 10 ва 0 сар кунед. Дар як транзаксия аз аввал 3 кам карда, ба дуюм 3 илова кунед. То COMMIT, ROLLBACK ҳар дуро ба ҳолати аввал меорад. Бо COMMIT 7 ва 3 мемонад. Ҳар ду бақияро санҷед, то нимкора шудани амалро бинед.",
+      "en": "Begin with balances 10 and 0. Inside one transaction, subtract 3 from the first and add it to the second. Before commit, ROLLBACK restores both original values. COMMIT saves 7 and 3. Check both accounts to catch an operation that completed only halfway."
+     }
     }
    ],
    "questions": [
@@ -4354,7 +4576,13 @@
        "en": "It writes the changes to disk"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "До COMMIT обе записи относятся к одной незавершённой операции.",
+      "tg": "То COMMIT ҳар ду сабт қисми як амали нотамоманд.",
+      "en": "Before COMMIT, both writes belong to one uncommitted operation."
+     },
+     "relatedSection": 3
     },
     {
      "id": "sql-day-27-q2",
@@ -4642,6 +4870,18 @@
       "ru": "Три шага. Первый — запуск и построчное сведение восьми строк, включая прикидку 216. Второй — граничный LIMIT 1: Honey|45. Третий — самостоятельная задача: добавьте четвёртый отчёт — выручку по категориям: SELECT CASE WHEN p.category IS NULL THEN 'unknown' ELSE p.category END AS group_name, SUM(oi.quantity * p.price) AS revenue FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY group_name ORDER BY revenue DESC; ожидаемы три строки: drinks|97, unknown|60 и bakery|59 — CASE из двадцатого дня здесь встал на место. Полезный контроль: почему в топ-3 сортировка двойная — revenue DESC, product? Ответ: без второго ключа порядок равных по сумме Honey, Juice и Tea зависел бы от настроения планировщика. Когда шаги сходятся, объясните вслух, какой вопрос решает каждый из трёх отчётов, и переходите к финалу — тридцатому дню.",
       "tg": "Се қадам. Якум — иҷро ва мувофиқсозии ҳашт сатр, аз ҷумла ҳисоби 216. Дуюм — LIMIT 1-и канорӣ: Honey|45. Сеюм — вазифаи мустақил: ҳисоботи чорумро илова кунед — даромад аз рӯи категорияҳо: SELECT CASE WHEN p.category IS NULL THEN 'unknown' ELSE p.category END AS group_name, SUM(oi.quantity * p.price) AS revenue FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY group_name ORDER BY revenue DESC; се сатри интизорӣ: drinks|97, unknown|60 ва bakery|59 — CASE-и рӯзи бистум дар ин ҷо ба ҷояш нишаст. Санҷиши муфид: чаро дар топ-3 мураттабсозӣ дукарата аст — revenue DESC, product? Ҷавоб: бе калиди дуюм тартиби баробарҳо — Honey, Juice ва Tea — аз мизоҷи нақша вобаста мешуд. Вақте қадамҳо ҳамроҳ шуданд, бо овоз изҳор кунед, ки ҳар се ҳисобот ба кадом савол ҷавоб медиҳанд, ва ба финал гузаред — рӯзи сиюмум.",
       "en": "Three steps. First: run and match the eight lines, including the 216 estimate. Second: the boundary LIMIT 1 — Honey|45. Third: an independent task: add a fourth report — revenue by category: SELECT CASE WHEN p.category IS NULL THEN 'unknown' ELSE p.category END AS group_name, SUM(oi.quantity * p.price) AS revenue FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY group_name ORDER BY revenue DESC; three rows are expected: drinks|97, unknown|60 and bakery|59 — the CASE from day twenty found its place here. A useful check: why is the top-3 sort double — revenue DESC, product? The answer: without the second key the order of ties — Honey, Juice and Tea — would depend on the planner's mood. When the steps agree, say out loud which question each of the three reports answers, then move to the finale — day thirty."
+     }
+    },
+    {
+     "title": {
+      "ru": "Три отдельных отчёта и одна проверка данных",
+      "tg": "Се ҳисобот ва як санҷиши додаҳо",
+      "en": "Three reports over one checked dataset"
+     },
+     "body": {
+      "ru": "Выручка по товару отвечает, что продали, рейтинг покупателей — кто больше купил, список без заказов — кто ещё не покупал. Сначала посчитайте вручную один заказ из двух позиций. Затем проверьте, что сумма по этому заказу и список покупателей совпали с известными строками. Так легче заметить лишний JOIN.",
+      "tg": "Даромад аз мол мегӯяд, чӣ фурӯхтед, рейтинги муштарӣ мегӯяд, кӣ бештар харид ва рӯйхати бе фармоиш нишон медиҳад, кӣ ҳоло нахарид. Аввал як фармоишро бо ду сатр дастӣ ҳисоб кунед. Баъд ҷамъ ва муштариро бо додаҳои шинос муқоиса кунед. JOIN-и изофӣ ҳамин тавр намоён мешавад.",
+      "en": "Revenue by product answers what sold, buyer ranking answers who bought most, and the no-order list shows who has not purchased. Hand-compute an order with two entries first. Verify that its total and customer match known rows. That makes unexpected duplication from JOIN easier to spot."
      }
     }
    ],

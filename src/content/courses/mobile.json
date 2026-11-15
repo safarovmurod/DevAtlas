@@ -3947,7 +3947,7 @@
               "en": "On the phone screen"
             }
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "answer": {
             "ru": "package.json хранит имена пакетов и их номера.",
             "tg": "package.json номи бастаҳо ва рақамҳои онҳоро нигоҳ медорад.",
@@ -9037,9 +9037,9 @@
             "en": "Step-by-step walkthrough"
           },
           "body": {
-            "ru": "Тип Errors описывает два необязательных поля — title и minutes. validate наполняет объект: title проверяется через trim и длину, minutes — регулярным выражением ^d+$, чтобы строка была целым числом, и сравнением с нулём. Регулярное выражение читается так: от начала до конца только цифры. Обработчик submit вызывает validate и сохраняет результат в состояние errors; под каждым полем показывается своя ошибка, если она есть. Регулярное выражение читается так: от начала до конца только цифры. Проверьте на устройстве: пустая форма даёт две ошибки, «аб» и «0» — тоже, «абв» и «30» проходят. В решении добавлена строка успеха после удачной проверки.",
-            "tg": "Типи Errors ду майдони ихтиёриро тавсиф медиҳад — title ва minutes. validate объектро пур мекунад: title тавассути trim ва дарозӣ, minutes бо ифодаи муқаррарии ^d+$ месанҷад, ки сатр адади бутун бошад, ва муқоиса бо сифр. Ифодаи муқаррарӣ чунин хонда мешавад: аз оғоз то охир танҳо рақамҳо. Обработчики submit validate-ро мехонад ва натиҷаро ба ҳолати errors нигоҳ медорад; зери ҳар майдон хатои худаш нишон дода мешавад, агар бошад. Дар дастгоҳ санҷед: шакли холӣ ду хато медиҳад, «аб» ва «0» ҳам, «абв» ва «30» мегузаранд. Дар ҳалл баъди санҷиши муваффақ сатри муваффақият илова шудааст.",
-            "en": "The Errors type describes two optional fields — title and minutes. validate fills the object: title is checked through trim and length, minutes with the ^d+$ regular expression, so the string is a whole number, and a comparison with zero. The regular expression reads: from start to end only digits. The submit handler calls validate and stores the result in the errors state; each field shows its own error if present. Check on a device: an empty form gives two errors, so do «аб» with «0»; «абв» with «30» passes. The solution adds a success line after a valid check."
+            "ru": "Тип Errors описывает два необязательных поля — title и minutes. validate наполняет объект: title проверяется через trim и длину, minutes — регулярным выражением ^\\d+$, чтобы строка была целым числом, и сравнением с нулём. Регулярное выражение читается так: от начала до конца только цифры. Обработчик submit вызывает validate и сохраняет результат в состояние errors; под каждым полем показывается своя ошибка, если она есть. Регулярное выражение читается так: от начала до конца только цифры. Проверьте на устройстве: пустая форма даёт две ошибки, «аб» и «0» — тоже, «абв» и «30» проходят. В решении добавлена строка успеха после удачной проверки.",
+            "tg": "Типи Errors ду майдони ихтиёриро тавсиф медиҳад — title ва minutes. validate объектро пур мекунад: title тавассути trim ва дарозӣ, minutes бо ифодаи муқаррарии ^\\d+$ месанҷад, ки сатр адади бутун бошад, ва муқоиса бо сифр. Ифодаи муқаррарӣ чунин хонда мешавад: аз оғоз то охир танҳо рақамҳо. Обработчики submit validate-ро мехонад ва натиҷаро ба ҳолати errors нигоҳ медорад; зери ҳар майдон хатои худаш нишон дода мешавад, агар бошад. Дар дастгоҳ санҷед: шакли холӣ ду хато медиҳад, «аб» ва «0» ҳам, «абв» ва «30» мегузаранд. Дар ҳалл баъди санҷиши муваффақ сатри муваффақият илова шудааст.",
+            "en": "The Errors type describes two optional fields — title and minutes. validate fills the object: title is checked through trim and length, minutes with the ^\\d+$ regular expression, so the string is a whole number, and a comparison with zero. The regular expression reads: from start to end only digits. The submit handler calls validate and stores the result in the errors state; each field shows its own error if present. Check on a device: an empty form gives two errors, so do «аб» with «0»; «абв» with «30» passes. The solution adds a success line after a valid check."
           },
           "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Errors = { title?: string; minutes?: string };\n\nexport function validate(title: string, minutes: string): Errors {\n  const errors: Errors = {};\n  if (title.trim().length < 3) errors.title = 'Название короче трёх символов';\n  if (!/^\\d+$/.test(minutes) || Number(minutes) <= 0) errors.minutes = 'Минуты — целое число больше нуля';\n  return errors;\n}\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('');\n  const [errors, setErrors] = useState<Errors>({});\n\n  function submit() {\n    setErrors(validate(title, minutes));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Новое занятие</Text>\n      <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n      {errors.title ? <Text style={styles.error}>{errors.title}</Text> : null}\n      <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n      {errors.minutes ? <Text style={styles.error}>{errors.minutes}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={submit}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Проверить форму</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
           "language": "tsx"
@@ -9160,9 +9160,9 @@
         {
           "id": "mobile-day-22-q4",
           "question": {
-            "ru": "Что проверяет регулярное выражение ^d+$?",
-            "tg": "Ифодаи муқаррарии ^d+$ чиро месанҷад?",
-            "en": "What does the ^d+$ regular expression check?"
+            "ru": "Что проверяет регулярное выражение ^\\d+$?",
+            "tg": "Ифодаи муқаррарии ^\\d+$ чиро месанҷад?",
+            "en": "What does the ^\\d+$ regular expression check?"
           },
           "options": [
             {
