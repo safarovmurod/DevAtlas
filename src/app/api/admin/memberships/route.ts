@@ -24,6 +24,11 @@ const Body = z.discriminatedUnion('action', [
     userId: z.string().uuid(),
     days: z.number().int().min(1).max(3660),
   }),
+  z.object({
+    action: z.literal('shorten'),
+    userId: z.string().uuid(),
+    days: z.number().int().min(1).max(3660),
+  }),
   z.object({ action: z.literal('revoke'), userId: z.string().uuid() }),
 ]);
 
@@ -44,8 +49,15 @@ export async function POST(request: Request) {
   const target = await admin.auth.admin.getUserById(body.userId);
   if (target.error || !target.data.user) return json({ error: 'user_not_found' }, 404);
   const targetUser = target.data.user;
-  const action = `membership_${body.action}` as const;
-  const reason = forbiddenReason(check.user, targetUser, action);
+  // Shortening takes paid time away, so it follows the same owner protection as revoking.
+  // The audit log stores it as an extension with negative days (no schema change needed).
+  const action =
+    body.action === 'shorten' ? 'membership_extend' : (`membership_${body.action}` as const);
+  const reason = forbiddenReason(
+    check.user,
+    targetUser,
+    body.action === 'shorten' ? 'membership_revoke' : action,
+  );
   if (reason) return json({ error: reason }, 403);
 
   const existing = await admin
@@ -74,6 +86,19 @@ export async function POST(request: Request) {
       .eq('user_id', body.userId);
     if (saved.error) return json({ error: 'unavailable' }, 503);
     details = { tier: existing.data.tier, days: body.days, expiresAt };
+  } else if (body.action === 'shorten') {
+    if (!existing.data) return json({ error: 'no_membership' }, 404);
+    // Takes days off the current end date. It never goes below "now": the plan then
+    // simply ends today and stays in the list as expired, ready for a new grant.
+    const end = new Date(existing.data.expires_at).getTime();
+    if (end <= now) return json({ error: 'membership_expired' }, 409);
+    const expiresAt = new Date(Math.max(now, end - body.days * DAY_MS)).toISOString();
+    const saved = await admin
+      .from(MEMBERSHIPS)
+      .update({ expires_at: expiresAt, updated_at: stamp })
+      .eq('user_id', body.userId);
+    if (saved.error) return json({ error: 'unavailable' }, 503);
+    details = { tier: existing.data.tier, days: -body.days, expiresAt };
   } else {
     // A new grant replaces any previous plan and records who gave it.
     const expiresAt = new Date(now + body.days * DAY_MS).toISOString();

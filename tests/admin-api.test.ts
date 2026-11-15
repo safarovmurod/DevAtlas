@@ -250,6 +250,76 @@ describe('owner protection', () => {
     );
     expect(response.status).toBe(200);
   });
+
+  it('does not let an admin take days off the owner membership', async () => {
+    signIn(helper);
+    const end = new Date(Date.now() + 5 * DAY).toISOString();
+    const fake = backend([owner, helper], {
+      react_mentor_memberships: [{ user_id: OWNER_ID, tier: 'pro', expires_at: end }],
+    });
+    const response = await changeMembership(
+      request({ action: 'shorten', userId: OWNER_ID, days: 3 }),
+    );
+    expect(response.status).toBe(403);
+    expect(fake.data.react_mentor_memberships[0].expires_at).toBe(end);
+  });
+});
+
+describe('taking days off a membership', () => {
+  it('moves the end date back, keeps the tier and logs negative days', async () => {
+    signIn(helper);
+    const end = new Date(Date.now() + 20 * DAY).toISOString();
+    const fake = backend(undefined, {
+      react_mentor_memberships: [{ user_id: TARGET_ID, tier: 'expert', expires_at: end }],
+    });
+    const response = await changeMembership(
+      request({ action: 'shorten', userId: TARGET_ID, days: 5 }),
+    );
+    expect(response.status).toBe(200);
+    const saved = fake.data.react_mentor_memberships[0];
+    expect(saved.tier).toBe('expert');
+    expect(new Date(end).getTime() - new Date(String(saved.expires_at)).getTime()).toBe(5 * DAY);
+    expect(fake.data.react_mentor_admin_audit[0]).toMatchObject({
+      action: 'membership_extend',
+      details: expect.objectContaining({ days: -5 }),
+    });
+  });
+
+  it('never goes below today: too many days end the plan now', async () => {
+    signIn(helper);
+    const end = new Date(Date.now() + 2 * DAY).toISOString();
+    const fake = backend(undefined, {
+      react_mentor_memberships: [{ user_id: TARGET_ID, tier: 'pro', expires_at: end }],
+    });
+    const before = Date.now();
+    const response = await changeMembership(
+      request({ action: 'shorten', userId: TARGET_ID, days: 30 }),
+    );
+    expect(response.status).toBe(200);
+    const saved = new Date(String(fake.data.react_mentor_memberships[0].expires_at)).getTime();
+    expect(saved).toBeGreaterThanOrEqual(before);
+    expect(saved).toBeLessThanOrEqual(Date.now());
+  });
+
+  it('refuses an expired or missing plan and bad day counts', async () => {
+    signIn(helper);
+    const fake = backend(undefined, {
+      react_mentor_memberships: [
+        { user_id: TARGET_ID, tier: 'pro', expires_at: new Date(Date.now() - DAY).toISOString() },
+      ],
+    });
+    expect(
+      (await changeMembership(request({ action: 'shorten', userId: TARGET_ID, days: 1 }))).status,
+    ).toBe(409);
+    for (const days of [0, -3, 4000, 1.5])
+      expect(
+        (await changeMembership(request({ action: 'shorten', userId: TARGET_ID, days }))).status,
+      ).toBe(400);
+    fake.data.react_mentor_memberships.length = 0;
+    expect(
+      (await changeMembership(request({ action: 'shorten', userId: TARGET_ID, days: 1 }))).status,
+    ).toBe(404);
+  });
 });
 
 describe('admin role', () => {

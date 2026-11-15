@@ -50,6 +50,7 @@ export type AuditEntry = {
 export type Intent =
   | { kind: 'grant'; user: AdminUser; tier: Tier; days: number }
   | { kind: 'extend'; user: AdminUser; days: number }
+  | { kind: 'shorten'; user: AdminUser; days: number }
   | { kind: 'revoke'; user: AdminUser }
   | { kind: 'ban'; user: AdminUser }
   | { kind: 'unban'; user: AdminUser }
@@ -66,6 +67,7 @@ export const ERRORS: Record<string, string> = {
   mfa_required: 'Барои админ 2FA лозим аст. Дар Settings онро фаъол кунед ва бо код ворид шавед.',
   user_not_found: 'Корбар ёфт нашуд. Шояд аллакай нест карда шудааст.',
   no_membership: 'Ин корбар подписка надорад.',
+  membership_expired: 'Мӯҳлати подписка аллакай гузаштааст. Подпискаи нав диҳед.',
   owner_protected: 'Соҳиби сайтро тағйир додан мумкин нест.',
   owner_required: 'Нақши админро танҳо соҳиби сайт медиҳад ё мегирад.',
   admin_protected: 'Админро блок ё нест кардан мумкин нест. Аввал нақши админро гиред.',

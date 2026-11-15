@@ -143,7 +143,7 @@ export const UserRow = memo(function UserRow({
               if (count !== null) onIntent({ kind: 'extend', user, days: count });
             }}
           >
-            Дароз кардан
+            <span aria-hidden="true">+ </span>Дароз кардан
           </button>
         ) : (
           <button
@@ -156,6 +156,19 @@ export const UserRow = memo(function UserRow({
             }}
           >
             {membership ? 'Подпискаи нав' : 'Додани подписка'}
+          </button>
+        )}
+        {membership?.active && canRevokeMembership && (
+          <button
+            type="button"
+            className="button subtle"
+            disabled={busy}
+            onClick={() => {
+              const count = readDays();
+              if (count !== null) onIntent({ kind: 'shorten', user, days: count });
+            }}
+          >
+            <span aria-hidden="true">− </span>Кам кардан
           </button>
         )}
         {membership && canRevokeMembership && (

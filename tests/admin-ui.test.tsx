@@ -95,7 +95,11 @@ describe('user row', () => {
       grantedAt: '2026-11-01T00:00:00Z',
     },
   };
-  const names = () => screen.getAllByRole('button').map((button) => button.textContent);
+  // The "+" / "−" signs are decorative (aria-hidden), so compare the spoken labels.
+  const names = () =>
+    screen
+      .getAllByRole('button')
+      .map((button) => (button.textContent ?? '').replace(/^[+−]\s/, ''));
 
   it('shows membership status and the actions an admin may take', () => {
     const onIntent = vi.fn();
@@ -106,6 +110,7 @@ describe('user row', () => {
     expect(screen.getByText(/owner@example.test/)).toBeInTheDocument();
     expect(names()).toEqual([
       'Дароз кардан',
+      'Кам кардан',
       'Бекор кардан',
       'Паём фиристодан',
       'Блок кардан',
@@ -113,6 +118,8 @@ describe('user row', () => {
     ]);
     fireEvent.click(screen.getByRole('button', { name: 'Нест кардани аккаунт' }));
     expect(onIntent).toHaveBeenCalledWith({ kind: 'delete', user: base });
+    fireEvent.click(screen.getByRole('button', { name: 'Кам кардан' }));
+    expect(onIntent).toHaveBeenCalledWith({ kind: 'shorten', user: base, days: 30 });
   });
 
   it('hides destructive actions for the owner and role actions for non-owners', () => {

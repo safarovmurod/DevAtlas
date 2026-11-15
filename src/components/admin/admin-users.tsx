@@ -64,6 +64,13 @@ function plan(intent: Intent, extra: Extra): Planned {
         body: { action: 'extend', userId, days: intent.days },
         done: `Подпискаи ${who} ${intent.days} рӯз дароз шуд.`,
       };
+    case 'shorten':
+      return {
+        path: '/api/admin/memberships',
+        method: 'POST',
+        body: { action: 'shorten', userId, days: intent.days },
+        done: `Аз подпискаи ${who} ${intent.days} рӯз кам шуд.`,
+      };
     case 'revoke':
       return {
         path: '/api/admin/memberships',
