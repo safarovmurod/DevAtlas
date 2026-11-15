@@ -40,15 +40,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что такое Ruby и как увидеть результат",
+      "tg": "Ruby чист ва натиҷаро чӣ хел мебинем?",
+      "en": "Ruby and program output"
+    },
      "body": {
-      "ru": "Ruby интерпретирует main.rb. Локальная переменная получает значение через =; тип объекта определяется во время выполнения. puts выводит результат с переводом строки. Пример работает в Ruby CLI без Rails и без сервера.",
-      "tg": "Ruby main.rb-ро тафсир мекунад. Тағйирёбандаи маҳаллӣ бо = қимат мегирад; типи объект ҳангоми иҷро муайян мешавад. puts натиҷаро бо сатри нав мебарорад. Мисол дар Ruby CLI бе Rails ва сервер кор мекунад.",
-      "en": "Ruby interprets main.rb. Assign a local variable with =; object types are determined at runtime. puts prints a result with a newline. This example uses Ruby CLI, not Rails or a server."
-     },
+      "ru": "Ruby — язык программирования для скриптов и веб-приложений. Интерпретатор запускает инструкции из .rb. puts выводит значение и завершает строку.\n\nRuby интерпретирует main.rb. Локальная переменная получает значение через =; тип объекта определяется во время выполнения. puts выводит результат с переводом строки. Пример работает в Ruby CLI без Rails и без сервера.",
+      "tg": "Ruby забони барномасозӣ барои скрипт ва барномаи веб аст. Интерпретатор .rb-ро иҷро мекунад. puts қиматро мебарорад ва ба сатри нав мегузарад.\n\nRuby main.rb-ро тафсир мекунад. Тағйирёбандаи маҳаллӣ бо = қимат мегирад; типи объект ҳангоми иҷро муайян мешавад. puts натиҷаро бо сатри нав мебарорад. Мисол дар Ruby CLI бе Rails ва сервер кор мекунад.",
+      "en": "Ruby is a language for scripts and web apps. The interpreter runs instructions from a .rb file. puts displays a value and ends the line.\n\nRuby interprets main.rb. Assign a local variable with =; object types are determined at runtime. puts prints a result with a newline. This example uses Ruby CLI, not Rails or a server."
+    },
      "code": "price = 12\nquantity = 3\nputs price * quantity\n",
      "language": "ruby",
      "output": {
@@ -82,6 +82,23 @@
      }
     }
    ],
+   "interview": {
+     "id": "ruby-day-01-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Как называется метод Ruby для вывода строки с переводом строки?",
+       "tg": "Методи Ruby барои барориш бо гузаштан ба сатри нав чӣ ном дорад?",
+       "en": "Which Ruby method prints a line followed by a newline?"
+     },
+     "answer": {
+       "ru": "puts",
+       "tg": "puts",
+       "en": "puts"
+     },
+     "acceptedAnswers": [
+       "puts()"
+     ]
+   },
    "questions": [
     {
      "id": "ruby-day-01-q",
@@ -201,15 +218,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Методы и неверные аргументы",
+      "tg": "Метод ва аргументи нодуруст",
+      "en": "Methods and invalid arguments"
+    },
      "body": {
-      "ru": "def/end ограничивают метод. Последнее вычисленное выражение становится результатом без обязательного return. raise создаёт ошибку, rescue обрабатывает её у вызывающей стороны. Не используйте общий rescue для скрытия любых ошибок программы.",
-      "tg": "def/end методро маҳдуд мекунанд. Ифодаи охирини ҳисобшуда бе return-и ҳатмӣ натиҷа мешавад. raise хато медиҳад, rescue онро дар тарафи даъваткунанда коркард мекунад. Барои пинҳон кардани ҳамаи хатоҳо rescue-и умумиро истифода набаред.",
-      "en": "def/end delimit a method. The last evaluated expression becomes the result without a required return keyword. raise signals an error and rescue handles it at the call site. Do not use a broad rescue to hide all program errors."
-     },
+      "ru": "Метод объединяет повторяемые шаги. В Ruby он обычно возвращает последнее вычисленное выражение. Когда аргумент непригоден для расчёта, можно сообщить об этом через ArgumentError.\n\ndef/end ограничивают метод. Последнее вычисленное выражение становится результатом без обязательного return. raise создаёт ошибку, rescue обрабатывает её у вызывающей стороны. Не используйте общий rescue для скрытия любых ошибок программы.",
+      "tg": "Метод қадамҳои такрориро ҷамъ мекунад. Дар Ruby одатан ифодаи охиринро медиҳад. Агар argument барои ҳисоб мувофиқ набошад, ArgumentError инро нишон медиҳад.\n\ndef/end методро маҳдуд мекунанд. Ифодаи охирини ҳисобшуда бе return-и ҳатмӣ натиҷа мешавад. raise хато медиҳад, rescue онро дар тарафи даъваткунанда коркард мекунад. Барои пинҳон кардани ҳамаи хатоҳо rescue-и умумиро истифода набаред.",
+      "en": "A method groups reusable steps. In Ruby it normally returns the last evaluated expression. ArgumentError reports when a supplied argument is unsuitable.\n\ndef/end delimit a method. The last evaluated expression becomes the result without a required return keyword. raise signals an error and rescue handles it at the call site. Do not use a broad rescue to hide all program errors."
+    },
      "code": "def total(price, quantity)\n  raise ArgumentError, \"Negative value\" if price < 0 || quantity < 0\n  price * quantity\nend\n\nputs total(12, 3)\nputs total(12, 0)\nbegin\n  total(12, -1)\nrescue ArgumentError\n  puts \"Invalid input rejected\"\nend\n",
      "language": "ruby",
      "output": {
@@ -243,6 +260,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "ruby-day-02-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Как называется исключение Ruby для неподходящего аргумента?",
+       "tg": "Exception-и Ruby барои argument-и нодуруст чӣ ном дорад?",
+       "en": "Which Ruby exception reports an invalid argument?"
+     },
+     "answer": {
+       "ru": "ArgumentError",
+       "tg": "ArgumentError",
+       "en": "ArgumentError"
+     }
+   },
    "questions": [
     {
      "id": "ruby-day-02-q",
@@ -362,15 +393,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Целые числа и дроби",
+      "tg": "Адади бутун ва касрӣ",
+      "en": "Whole numbers and fractions"
+    },
      "body": {
-      "ru": "Ruby различает два вида чисел: целые (Integer) и дробные (Float). Основные операции — +, -, *, /, % и **: сложение, вычитание, умножение, деление, остаток и возведение в степень. Главная ловушка начинающего: деление двух целых чисел даёт целое. Ruby отбрасывает дробную часть, поэтому 7 / 2 — это 3, а не 3.5. Если нужен дробный результат, сделайте хотя бы одно число дробным: 7.0 / 2 уже даёт 3.5. Остаток % помогает проверять делимость: 7 % 2 равно 1, а 8 % 2 равно 0. Степень записывается двумя звёздочками: 2 ** 10 — это 1024. Метод format('%.2f', x) превращает число в строку с двумя знаками после точки — так печатают цены и средние значения. Пример ниже собран в один main.rb. Сайт не исполняет Ruby — запустите его локально. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе.",
-      "tg": "Ruby ду навъи рақамро фарқ мекунад: бутун (Integer) ва касрӣ (Float). Амалҳои асосӣ +, -, *, /, % ва ** мебошанд: ҷамъ, тарҳ, зарб, тақсим, боқимонда ва дараҷа. Тадбири асосии навомӯз: тақсими ду адади бутун адади бутун медиҳад. Ruby қисми касриро мепартояд, бинобар ин 7 / 2 ба 3 баробар аст, на ба 3.5. Агар натиҷаи касрӣ лозим бошад, ҳадди ақал як ададро касрӣ кунед: 7.0 / 2 аллакай 3.5 медиҳад. Боқимондаи % барои санҷиши тақсимшавандагӣ кӯмак мекунад: 7 % 2 ба 1, 8 % 2 ба 0 баробар аст. Дараҷаро бо ду ситора менависанд: 2 ** 10 — ин 1024 аст. Методи format('%.2f', x) ададро ба сатр бо ду аломат пас аз нуқта табдил медиҳад — ҳамин тавр нархҳо ва миёнаҳоро мебароранд. Мисоли зер дар як main.rb ҷамъ шудааст. Сайт Ruby-ро иҷро намекунад — онро локалӣ иҷро кунед.",
-      "en": "Ruby distinguishes two kinds of numbers: integers (Integer) and decimals (Float). The basic operators are +, -, *, /, % and **: addition, subtraction, multiplication, division, remainder and exponentiation. The main beginner trap: dividing two integers gives an integer. Ruby discards the fractional part, so 7 / 2 is 3, not 3.5. If you need a fractional result, make at least one number a Float: 7.0 / 2 already gives 3.5. The remainder operator % helps check divisibility: 7 % 2 is 1, while 8 % 2 is 0. Exponents use two asterisks: 2 ** 10 is 1024. The format('%.2f', x) method turns a number into a string with two digits after the point — this is how prices and averages are printed. The example below is one main.rb file. The website does not run Ruby — execute it locally."
-     },
+      "ru": "Integer и Float нужны для разных расчётов. При делении положительных целых Ruby возвращает целую часть, поэтому 7 / 2 даёт 3. С дробным операндом 7.0 / 2 результат будет 3.5.\n\nRuby различает два вида чисел: целые (Integer) и дробные (Float). Основные операции — +, -, *, /, % и **: сложение, вычитание, умножение, деление, остаток и возведение в степень. Главная ловушка начинающего: деление двух целых чисел даёт целое. Ruby отбрасывает дробную часть, поэтому 7 / 2 — это 3, а не 3.5. Если нужен дробный результат, сделайте хотя бы одно число дробным: 7.0 / 2 уже даёт 3.5. Остаток % помогает проверять делимость: 7 % 2 равно 1, а 8 % 2 равно 0. Степень записывается двумя звёздочками: 2 ** 10 — это 1024. Метод format('%.2f', x) превращает число в строку с двумя знаками после точки — так печатают цены и средние значения. Пример ниже собран в один main.rb. Сайт не исполняет Ruby — запустите его локально. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе.",
+      "tg": "Integer ва Float барои ҳисобҳои гуногунанд. Ҳангоми тақсими ду адади бутуни мусбат Ruby қисми бутунро медиҳад: 7 / 2 мешавад 3. Бо 7.0 / 2 натиҷа 3.5 аст.\n\nRuby ду навъи рақамро фарқ мекунад: бутун (Integer) ва касрӣ (Float). Амалҳои асосӣ +, -, *, /, % ва ** мебошанд: ҷамъ, тарҳ, зарб, тақсим, боқимонда ва дараҷа. Тадбири асосии навомӯз: тақсими ду адади бутун адади бутун медиҳад. Ruby қисми касриро мепартояд, бинобар ин 7 / 2 ба 3 баробар аст, на ба 3.5. Агар натиҷаи касрӣ лозим бошад, ҳадди ақал як ададро касрӣ кунед: 7.0 / 2 аллакай 3.5 медиҳад. Боқимондаи % барои санҷиши тақсимшавандагӣ кӯмак мекунад: 7 % 2 ба 1, 8 % 2 ба 0 баробар аст. Дараҷаро бо ду ситора менависанд: 2 ** 10 — ин 1024 аст. Методи format('%.2f', x) ададро ба сатр бо ду аломат пас аз нуқта табдил медиҳад — ҳамин тавр нархҳо ва миёнаҳоро мебароранд. Мисоли зер дар як main.rb ҷамъ шудааст. Сайт Ruby-ро иҷро намекунад — онро локалӣ иҷро кунед.",
+      "en": "Integer and Float support different calculations. Dividing the positive integers 7 / 2 returns 3. With a floating-point operand, 7.0 / 2 returns 3.5.\n\nRuby distinguishes two kinds of numbers: integers (Integer) and decimals (Float). The basic operators are +, -, *, /, % and **: addition, subtraction, multiplication, division, remainder and exponentiation. The main beginner trap: dividing two integers gives an integer. Ruby discards the fractional part, so 7 / 2 is 3, not 3.5. If you need a fractional result, make at least one number a Float: 7.0 / 2 already gives 3.5. The remainder operator % helps check divisibility: 7 % 2 is 1, while 8 % 2 is 0. Exponents use two asterisks: 2 ** 10 is 1024. The format('%.2f', x) method turns a number into a string with two digits after the point — this is how prices and averages are printed. The example below is one main.rb file. The website does not run Ruby — execute it locally."
+    },
      "code": "puts 7 / 2\nputs 7.0 / 2\nputs 7 % 2\nputs 2 ** 10\nputs format('%.2f', 10.0 / 3)\n",
      "language": "ruby",
      "output": {
@@ -404,6 +435,19 @@
      }
     }
    ],
+   "interview": {
+     "id": "ruby-day-03-written",
+     "question": {
+       "ru": "Что вернёт Ruby для 7 / 2? Напишите число.",
+       "tg": "Ruby барои 7 / 2 чӣ медиҳад? Ададро навис.",
+       "en": "What does Ruby return for 7 / 2? Enter the number."
+     },
+     "answer": {
+       "ru": "3",
+       "tg": "3",
+       "en": "3"
+     }
+   },
    "questions": [
     {
      "id": "ruby-day-03-q1",

@@ -1,6 +1,4 @@
 import type { InterfaceLocale } from '@/lib/locale';
-import { JAPANESE_PUBLIC_COPY } from './locales/ja';
-import { KOREAN_PUBLIC_COPY } from './locales/ko';
 
 type PublicLocaleCopy = {
   privacyLabel: string;
@@ -35,13 +33,11 @@ type PublicLocaleCopy = {
 };
 
 export const PUBLIC_COPY: Record<InterfaceLocale, PublicLocaleCopy> = {
-  ja: JAPANESE_PUBLIC_COPY,
-  ko: KOREAN_PUBLIC_COPY,
   tg: {
     privacyLabel: 'Махфият',
     termsLabel: 'Қоидаҳо',
     start: 'Оғоз кардан',
-    eyebrow: 'ПЛАТФОРМАИ ОМӮЗИШ ВА МАЛАКАҲО',
+    eyebrow: 'Платформаи касбии омӯзиш',
     heroLead: 'Аз шавқи нав',
     heroEmphasis: 'то малакаи амалӣ',
     heroEnd: 'қадам ба қадам.',
@@ -114,7 +110,7 @@ export const PUBLIC_COPY: Record<InterfaceLocale, PublicLocaleCopy> = {
     privacyLabel: 'Конфиденциальность',
     termsLabel: 'Правила',
     start: 'Начать обучение',
-    eyebrow: 'ОБРАЗОВАТЕЛЬНАЯ ПЛАТФОРМА',
+    eyebrow: 'Платформа профессионального обучения',
     heroLead: 'От нового интереса',
     heroEmphasis: 'к полезному навыку',
     heroEnd: 'шаг за шагом.',
@@ -186,7 +182,7 @@ export const PUBLIC_COPY: Record<InterfaceLocale, PublicLocaleCopy> = {
     privacyLabel: 'Privacy',
     termsLabel: 'Terms',
     start: 'Start learning',
-    eyebrow: 'A PLATFORM FOR LEARNING AND SKILLS',
+    eyebrow: 'Professional learning platform',
     heroLead: 'Turn your curiosity',
     heroEmphasis: 'into useful skills',
     heroEnd: 'one step at a time.',
@@ -254,77 +250,78 @@ export const PUBLIC_COPY: Record<InterfaceLocale, PublicLocaleCopy> = {
       notice: 'Final terms and operator details require legal review before commercial use.',
     },
   },
-  uk: {
-    privacyLabel: 'Конфіденційність',
-    termsLabel: 'Правила',
-    start: 'Почати навчання',
-    eyebrow: 'ОСВІТНЯ ПЛАТФОРМА',
-    heroLead: 'Від нового інтересу',
-    heroEmphasis: 'до корисної навички',
-    heroEnd: 'крок за кроком.',
+  es: {
+    privacyLabel: 'Privacidad',
+    termsLabel: 'Condiciones',
+    start: 'Empezar a aprender',
+    eyebrow: 'Plataforma de formación profesional',
+    heroLead: 'De la curiosidad',
+    heroEmphasis: 'a una habilidad útil',
+    heroEnd: 'paso a paso.',
     heroDescription:
-      'Програмування, Інженерія ШІ, дизайн, бізнес і маркетинг — оберіть свій напрям. DevAtlas поєднує зрозумілі уроки, практичні завдання й відстеження прогресу.',
-    seePlatform: 'Переглянути платформу',
+      'Programación, ingeniería de IA, diseño, negocios y marketing: elige tu camino. DevAtlas reúne lecciones claras, ejercicios prácticos y seguimiento del progreso.',
+    seePlatform: 'Explorar la plataforma',
     heroNote:
-      'Можна навчатися як гість. Хмарна синхронізація й онлайн-AI потребують налаштування сервера.',
-    featuresTitle: 'Від теорії до практики',
+      'Puedes aprender como invitado. La sincronización en la nube y la IA en línea dependen de la configuración del servidor.',
+    featuresTitle: 'De la teoría a la práctica',
     features: [
       {
-        title: 'Покрокові уроки',
-        description: 'Оберіть напрям і опановуйте нові теми за зрозумілим навчальним планом.',
+        title: 'Lecciones paso a paso',
+        description: 'Elige un camino y aprende temas nuevos con un plan de estudio claro.',
       },
       {
-        title: 'Завдання й проєкти',
+        title: 'Tareas y proyectos',
+        description: 'Aplica lo aprendido, comprueba tu trabajo y sigue tu progreso.',
+      },
+      {
+        title: 'AI Tutor opcional',
         description:
-          'Застосовуйте знання на практиці, перевіряйте результат і стежте за прогресом.',
-      },
-      {
-        title: 'AI Tutor — додатково',
-        description: 'Локальні матеріали працюють без API; онлайн-AI потребує налаштування.',
+          'Los materiales locales funcionan sin API; la IA en línea requiere configuración.',
       },
     ],
-    ctaTitle: 'Готові до першої вправи?',
-    ctaDescription: 'Почніть із наявних уроків і завдань.',
-    ctaLink: 'До уроків',
-    title: 'DevAtlas — навчання на практиці',
+    ctaTitle: '¿Listo para tu primer ejercicio?',
+    ctaDescription: 'Empieza con las lecciones y las tareas prácticas disponibles.',
+    ctaLink: 'Ir a las lecciones',
+    title: 'DevAtlas: aprende practicando',
     description:
-      'Платформа для розвитку навичок: програмування, інженерія ШІ, дизайн, бізнес і маркетинг з уроками та практичними завданнями.',
+      'Desarrolla habilidades en programación, ingeniería de IA, diseño, negocios y marketing con lecciones y tareas prácticas.',
     privacy: {
-      title: 'Конфіденційність',
+      title: 'Privacidad',
       introduction:
-        'DevAtlas — освітня платформа. Гостьовий прогрес зберігається в браузері, дані акаунта — в Supabase, якщо сервіс налаштовано.',
+        'DevAtlas es una plataforma educativa. El progreso de invitado se guarda en tu navegador; los datos de la cuenta se guardan en Supabase cuando el servicio está configurado.',
       sections: [
         {
-          title: 'Дані акаунта',
-          text: 'Можуть оброблятися електронна адреса, профіль, нотатки, відповіді й навчальний прогрес. Для хмарної синхронізації потрібен акаунт.',
+          title: 'Datos de la cuenta',
+          text: 'Se pueden tratar tu correo, perfil, notas, respuestas y progreso de estudio. La sincronización en la nube requiere una cuenta activa.',
         },
         {
           title: 'AI Tutor',
-          text: 'Відповіді з вбудованих матеріалів працюють без стороннього провайдера. Під час використання онлайн-AI запитання й потрібний контекст можуть передаватися провайдеру.',
+          text: 'Las respuestas de los materiales integrados funcionan sin un proveedor externo. Si se usa la IA en línea configurada, tu pregunta y el contexto necesario pueden enviarse al proveedor.',
         },
         {
-          title: 'Керування даними',
-          text: 'Гостьові дані можна видалити в браузері. Дані акаунта керуються через його налаштування.',
+          title: 'Control de los datos',
+          text: 'Puedes borrar los datos locales en tu navegador. Los datos de la cuenta se gestionan en los ajustes de la cuenta.',
         },
       ],
       notice:
-        'Це попередній опис. До публічного запуску оператор має підтвердити контакти, строки зберігання та остаточні юридичні документи.',
+        'Esta es una descripción preliminar. Antes del lanzamiento público, el operador debe confirmar el contacto, los plazos de conservación y los documentos legales.',
     },
     terms: {
-      title: 'Правила користування',
+      title: 'Condiciones de uso',
       introduction:
-        'DevAtlas — навчальна платформа. Вправи, тести та відповіді AI не гарантують сертифікат або працевлаштування.',
+        'DevAtlas es una plataforma de aprendizaje. Los ejercicios, las pruebas y las respuestas de la IA no garantizan un certificado ni un empleo.',
       sections: [
         {
-          title: 'Акаунт',
-          text: 'Зберігайте дані входу в таємниці й не намагайтеся отримати доступ до чужих даних.',
+          title: 'Cuenta',
+          text: 'No compartas tus datos de acceso ni intentes acceder a los datos de otras personas.',
         },
         {
-          title: 'Додаткові можливості',
-          text: 'Онлайн-AI та хмарна синхронізація залежать від налаштувань сервера й зовнішніх провайдерів.',
+          title: 'Funciones opcionales',
+          text: 'La IA en línea y la sincronización en la nube dependen de la configuración del servidor y de proveedores externos.',
         },
       ],
-      notice: 'Перед комерційним використанням потрібні затверджені умови й дані оператора.',
+      notice:
+        'Antes de un uso comercial se necesitan condiciones aprobadas y los datos del operador.',
     },
   },
 };

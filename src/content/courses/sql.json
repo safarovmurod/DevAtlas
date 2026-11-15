@@ -45,15 +45,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что такое SQL и таблица",
+      "tg": "SQL ва ҷадвал чист?",
+      "en": "SQL and tables"
+    },
      "body": {
-      "ru": "Используем SQLite и временную базу :memory:, чтобы не менять рабочие данные. CREATE TABLE задаёт столбцы и ограничения; INSERT добавляет строку; SELECT выбирает данные. INTEGER хранит целые числа. Для учебного запроса используем фиксированные значения, не пользовательский ввод.",
-      "tg": "SQLite ва пойгоҳи муваққатии :memory:-ро истифода мебарем, то додаҳои корӣ тағйир наёбанд. CREATE TABLE сутунҳо ва маҳдудиятҳоро муайян мекунад; INSERT сатр илова мекунад; SELECT додаҳоро интихоб мекунад. INTEGER ададҳои бутунро нигоҳ медорад. Дар дархости омӯзишӣ қиматҳои собит ҳастанд, на вуруди корбар.",
-      "en": "Use SQLite with the temporary :memory: database to avoid changing real data. CREATE TABLE defines columns and constraints; INSERT adds a row; SELECT retrieves data. INTEGER stores whole numbers. This teaching query uses fixed values, not user input."
-     },
+      "ru": "SQL — язык запросов к реляционной базе. Таблица хранит записи в строках, а поля вроде цены — в столбцах. SELECT читает записи; хранением данных занимается СУБД, например SQLite.\n\nИспользуем SQLite и временную базу :memory:, чтобы не менять рабочие данные. CREATE TABLE задаёт столбцы и ограничения; INSERT добавляет строку; SELECT выбирает данные. INTEGER хранит целые числа. Для учебного запроса используем фиксированные значения, не пользовательский ввод.",
+      "tg": "SQL забони query барои базаи релясионӣ аст. Сабт дар сатр ва хосият мисли нарх дар сутун меистад. SELECT мехонад, маълумотро бошад худи SQLite ё барномаи база нигоҳ медорад.\n\nSQLite ва пойгоҳи муваққатии :memory:-ро истифода мебарем, то додаҳои корӣ тағйир наёбанд. CREATE TABLE сутунҳо ва маҳдудиятҳоро муайян мекунад; INSERT сатр илова мекунад; SELECT додаҳоро интихоб мекунад. INTEGER ададҳои бутунро нигоҳ медорад. Дар дархости омӯзишӣ қиматҳои собит ҳастанд, на вуруди корбар.",
+      "en": "SQL is a query language for relational databases. Tables store records in rows and attributes in columns. SELECT reads records, while a database engine such as SQLite handles storage.\n\nUse SQLite with the temporary :memory: database to avoid changing real data. CREATE TABLE defines columns and constraints; INSERT adds a row; SELECT retrieves data. INTEGER stores whole numbers. This teaching query uses fixed values, not user input."
+    },
      "code": "CREATE TABLE products (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  price INTEGER NOT NULL CHECK (price >= 0)\n);\nINSERT INTO products (id, name, price) VALUES (1, 'Tea', 12);\nSELECT name, price * 3 AS total FROM products WHERE id = 1;\n",
      "language": "sql",
      "output": {
@@ -87,6 +87,19 @@
      }
     }
    ],
+   "interview": {
+     "id": "sql-day-01-written",
+     "question": {
+       "ru": "Какое слово начинает запрос чтения из таблицы?",
+       "tg": "Query барои хондан аз ҷадвал бо кадом калима сар мешавад?",
+       "en": "Which keyword starts a query that reads rows from a table?"
+     },
+     "answer": {
+       "ru": "SELECT",
+       "tg": "SELECT",
+       "en": "SELECT"
+     }
+   },
    "questions": [
     {
      "id": "sql-day-01-q",
@@ -205,15 +218,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Как UPDATE выбирает строки",
+      "tg": "UPDATE чӣ хел сатрҳоро интихоб мекунад?",
+      "en": "Updating selected rows"
+    },
      "body": {
-      "ru": "UPDATE меняет подходящие строки. Условие stock >= 2 не позволяет списать больше имеющегося. CHECK защищает таблицу от отрицательного остатка. changes() сообщает число строк предыдущего UPDATE. Каждый пример создаёт новую базу в памяти; это не работающая товарная система.",
-      "tg": "UPDATE сатрҳои мувофиқро тағйир медиҳад. Шарти stock >= 2 аз бақия зиёд кам карданро манъ мекунад. CHECK ҷадвалро аз бақияи манфӣ муҳофизат мекунад. changes() шумораи сатрҳои UPDATE-и пешинаро медиҳад. Ҳар мисол пойгоҳи нави хотиравӣ месозад; ин низоми воқеии анбор нест.",
-      "en": "UPDATE changes matching rows. The stock >= 2 condition prevents subtracting more than is available. CHECK protects against negative stock. changes() reports rows affected by the previous UPDATE. Each example creates a fresh in-memory database; this is not a production inventory system."
-     },
+      "ru": "UPDATE меняет существующие строки. WHERE ограничивает выборку: для списания проверьте и нужный товар, и достаточный остаток. Без WHERE меняются все строки.\n\nUPDATE меняет подходящие строки. Условие stock >= 2 не позволяет списать больше имеющегося. CHECK защищает таблицу от отрицательного остатка. changes() сообщает число строк предыдущего UPDATE. Каждый пример создаёт новую базу в памяти; это не работающая товарная система.",
+      "tg": "UPDATE сатрҳои мавҷударо иваз мекунад. WHERE интихобро маҳдуд мекунад: барои кам кардани захира ҳам моли дуруст ва ҳам миқдори кофиро санҷ. Бе WHERE ҳамаи сатрҳо иваз мешаванд.\n\nUPDATE сатрҳои мувофиқро тағйир медиҳад. Шарти stock >= 2 аз бақия зиёд кам карданро манъ мекунад. CHECK ҷадвалро аз бақияи манфӣ муҳофизат мекунад. changes() шумораи сатрҳои UPDATE-и пешинаро медиҳад. Ҳар мисол пойгоҳи нави хотиравӣ месозад; ин низоми воқеии анбор нест.",
+      "en": "UPDATE changes existing rows. WHERE restricts the change: for inventory, check both the product and sufficient stock. Without WHERE, the update applies to every row.\n\nUPDATE changes matching rows. The stock >= 2 condition prevents subtracting more than is available. CHECK protects against negative stock. changes() reports rows affected by the previous UPDATE. Each example creates a fresh in-memory database; this is not a production inventory system."
+    },
      "code": "CREATE TABLE products (id INTEGER PRIMARY KEY, stock INTEGER NOT NULL CHECK (stock >= 0));\nINSERT INTO products VALUES (1, 5);\nUPDATE products SET stock = stock - 2 WHERE id = 1 AND stock >= 2;\nSELECT stock FROM products WHERE id = 1;\nUPDATE products SET stock = stock - 9 WHERE id = 1 AND stock >= 9;\nSELECT changes();\n",
      "language": "sql",
      "output": {
@@ -247,6 +260,19 @@
      }
     }
    ],
+   "interview": {
+     "id": "sql-day-02-written",
+     "question": {
+       "ru": "Какое слово начинает условие, которое ограничивает строки для UPDATE?",
+       "tg": "Шарте, ки сатрҳои UPDATE-ро маҳдуд мекунад, бо чӣ сар мешавад?",
+       "en": "Which keyword introduces the condition that limits rows affected by UPDATE?"
+     },
+     "answer": {
+       "ru": "WHERE",
+       "tg": "WHERE",
+       "en": "WHERE"
+     }
+   },
    "questions": [
     {
      "id": "sql-day-02-q",
@@ -365,15 +391,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Как WHERE фильтрует записи",
+      "tg": "WHERE чӣ хел сабтҳоро филтр мекунад?",
+      "en": "Filtering with WHERE"
+    },
      "body": {
-      "ru": "SELECT без условий возвращает все строки таблицы, но настоящие вопросы всегда уже: какие товары дороже двадцати, что лежит в категории bakery. Ответы даёт WHERE — часть запроса, которую SQLite проверяет для каждой строки отдельно. Строка попадает в результат, только если условие истинно. Условия собираются из сравнений: = означает «равно», <> — «не равно», > и < сравнивают величины, а >= и <= добавляют границу. Два условия объединяются словом AND, когда должны выполняться оба, и словом OR, когда достаточно хотя бы одного; AND связывает сильнее, поэтому в третьем запросе сначала выбирается категория, а затем OR добавляет дорогие товары. Текст пишется в одинарных кавычках, например 'bakery', числа — без кавычек. Сегодняшняя таблица — наш учебный магазин: девять товаров с ценой, категорией и остатком на складе. Все примеры выполняются в SQLite во временной базе :memory:, записанный вывод получен реальным запуском этого скрипта и воспроизводится у вас локально.",
-      "tg": "SELECT бе шартҳо ҳамаи сатрҳои ҷадвалро бармегардонад, вале саволҳои воқеӣ ҳамеша хурдтаранд: кадом маҳсулот аз бист норон аст, чи дар категорияи bakery ҳаст. Ҷавобро WHERE медиҳад — қисми дархосте, ки SQLite барои ҳар сатр алоҳида санҷад. Сатр танҳо дар сурате ба натиҷа дохил мешавад, ки шарт рост бошад. Шартҳо аз муқоисаҳо сохта мешаванд: = маънои «баробар»-ро дорад, <> — «набаробар», > ва < андозаҳоро муқоиса мекунанд, >= ва <= ҳудудро ҳам дар бар мегиранд. Ду шарт бо калимаи AND якҷоя мешаванд, агар ҳарду бояд иҷро шаванд, ва бо OR, агар якеро бас бошад; AND пурқувваттар аст, бинобар ин дар дархости сеюм аввал категория интихоб мешавад, баъд OR молҳои гаронро илова мекунад. Матн дар ковӯқҳои якғона навишта мешавад, масалан 'bakery', ададҳо — бе ковӯқ. Ҷадвали имрӯза — мағозаи омӯзишии мо: нуҳ маҳсулот бо нарх, категория ва боқимонда. Ҳамаи мисолҳо дар SQLite дар пойгоҳи муваққатии :memory: иҷро мешаванд; натиҷаи сабтшуда аз иҷрои воқеии ҳамин скрипт гирифта шудааст.",
-      "en": "SELECT without conditions returns every row of a table, but real questions are always narrower: which products cost more than twenty, what belongs to the bakery category. WHERE is the part of a SELECT that answers such questions. SQLite takes each row, evaluates the condition written after WHERE, and keeps the row only when the condition is true. Conditions are built from comparisons: = means equal, <> means not equal, > and < compare sizes, and >= and <= include the boundary. Two conditions are combined with AND when both must hold, and with OR when at least one is enough; AND binds stronger than OR, so the third query first applies the category and then adds expensive products with OR. Text values are written in single quotes, for example 'bakery'; numbers are written without quotes. Today's table is our learning shop: nine products with a price, a category and a stock count. All examples run in SQLite on the temporary :memory: database, and the recorded output was produced by actually running this script."
-     },
+      "ru": "WHERE проверяет условие для каждой строки. Условие price > 20 пропускает строки дороже 20 и исключает цену ровно 20. Список после SELECT выбирает столбцы.\n\nSELECT без условий возвращает все строки таблицы, но настоящие вопросы всегда уже: какие товары дороже двадцати, что лежит в категории bakery. Ответы даёт WHERE — часть запроса, которую SQLite проверяет для каждой строки отдельно. Строка попадает в результат, только если условие истинно. Условия собираются из сравнений: = означает «равно», <> — «не равно», > и < сравнивают величины, а >= и <= добавляют границу. Два условия объединяются словом AND, когда должны выполняться оба, и словом OR, когда достаточно хотя бы одного; AND связывает сильнее, поэтому в третьем запросе сначала выбирается категория, а затем OR добавляет дорогие товары. Текст пишется в одинарных кавычках, например 'bakery', числа — без кавычек. Сегодняшняя таблица — наш учебный магазин: девять товаров с ценой, категорией и остатком на складе. Все примеры выполняются в SQLite во временной базе :memory:, записанный вывод получен реальным запуском этого скрипта и воспроизводится у вас локально.",
+      "tg": "WHERE барои ҳар сатр шарт месанҷад. price > 20 нархи аз 20 калонро мегирад, нархи худи 20 намегузарад. Рӯйхати баъди SELECT сутунҳоро мегирад.\n\nSELECT бе шартҳо ҳамаи сатрҳои ҷадвалро бармегардонад, вале саволҳои воқеӣ ҳамеша хурдтаранд: кадом маҳсулот аз бист норон аст, чи дар категорияи bakery ҳаст. Ҷавобро WHERE медиҳад — қисми дархосте, ки SQLite барои ҳар сатр алоҳида санҷад. Сатр танҳо дар сурате ба натиҷа дохил мешавад, ки шарт рост бошад. Шартҳо аз муқоисаҳо сохта мешаванд: = маънои «баробар»-ро дорад, <> — «набаробар», > ва < андозаҳоро муқоиса мекунанд, >= ва <= ҳудудро ҳам дар бар мегиранд. Ду шарт бо калимаи AND якҷоя мешаванд, агар ҳарду бояд иҷро шаванд, ва бо OR, агар якеро бас бошад; AND пурқувваттар аст, бинобар ин дар дархости сеюм аввал категория интихоб мешавад, баъд OR молҳои гаронро илова мекунад. Матн дар ковӯқҳои якғона навишта мешавад, масалан 'bakery', ададҳо — бе ковӯқ. Ҷадвали имрӯза — мағозаи омӯзишии мо: нуҳ маҳсулот бо нарх, категория ва боқимонда. Ҳамаи мисолҳо дар SQLite дар пойгоҳи муваққатии :memory: иҷро мешаванд; натиҷаи сабтшуда аз иҷрои воқеии ҳамин скрипт гирифта шудааст.",
+      "en": "WHERE tests each row. The condition price > 20 keeps prices above 20 and excludes exactly 20. The list after SELECT picks columns.\n\nSELECT without conditions returns every row of a table, but real questions are always narrower: which products cost more than twenty, what belongs to the bakery category. WHERE is the part of a SELECT that answers such questions. SQLite takes each row, evaluates the condition written after WHERE, and keeps the row only when the condition is true. Conditions are built from comparisons: = means equal, <> means not equal, > and < compare sizes, and >= and <= include the boundary. Two conditions are combined with AND when both must hold, and with OR when at least one is enough; AND binds stronger than OR, so the third query first applies the category and then adds expensive products with OR. Text values are written in single quotes, for example 'bakery'; numbers are written without quotes. Today's table is our learning shop: nine products with a price, a category and a stock count. All examples run in SQLite on the temporary :memory: database, and the recorded output was produced by actually running this script."
+    },
      "code": "CREATE TABLE products (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  price INTEGER NOT NULL CHECK (price >= 0),\n  category TEXT,\n  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0)\n);\nINSERT INTO products (id, name, price, category, stock) VALUES\n  (1, 'Tea', 12, 'drinks', 30),\n  (2, 'Coffee', 25, 'drinks', 20),\n  (3, 'Juice', 18, 'drinks', 15),\n  (4, 'Bread', 6, 'bakery', 40),\n  (5, 'Cake', 35, 'bakery', 8),\n  (6, 'Cookie', 4, 'bakery', 100),\n  (7, 'Water', 3, NULL, 50),\n  (8, 'Honey', 45, NULL, 10),\n  (9, 'Salt', 5, NULL, 60);\nSELECT name, price FROM products WHERE price > 20;\nSELECT name FROM products WHERE category = 'bakery' AND price < 10;\nSELECT name FROM products WHERE category = 'drinks' OR price > 40;\nSELECT name, price, stock FROM products WHERE stock < 10;\n",
      "language": "sql",
      "output": {
@@ -407,6 +433,19 @@
      }
     }
    ],
+   "interview": {
+     "id": "sql-day-03-written",
+     "question": {
+       "ru": "Какой знак оставляет цены строго выше 20 в условии WHERE?",
+       "tg": "Дар WHERE кадом аломат нархи аз 20 калонро мегирад?",
+       "en": "Which operator in WHERE keeps prices strictly above 20?"
+     },
+     "answer": {
+       "ru": ">",
+       "tg": ">",
+       "en": ">"
+     }
+   },
    "questions": [
     {
      "id": "sql-day-03-q1",
@@ -526,9 +565,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Шаблон, диапазон и список",
+      "tg": "Қолаб, диапазон ва рӯйхат",
+      "en": "Patterns, ranges and lists"
      },
      "body": {
       "ru": "WHERE умеет не только точные сравнения. LIKE ищет текст по шаблону: знак процента означает любое продолжение, а подчёркивание — ровно один любой символ. Поэтому 'C%' находит имена, начинающиеся с C, '%a%' — имена, где буква a встречается где угодно, а '_ea' — ровно трёхбуквенные имена, кончающиеся на ea; в SQLite LIKE для латинских букв не различает большие и маленькие. BETWEEN задаёт диапазон с включёнными концами: price BETWEEN 5 AND 15 — то же, что price >= 5 AND price <= 15, но читается легче. IN перечисляет допустимые значения: category IN ('bakery', 'drinks') истинно, когда значение совпало хотя бы с одним элементом списка, — это короче, чем цепочка OR. Все три инструмента свободно комбинируются с остальными условиями через AND и OR. Все примеры выполняются в SQLite во временной базе :memory:, записанный вывод получен реальным запуском скрипта и воспроизводится у вас локально.",
@@ -688,9 +727,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "NULL и отсутствие значения",
+      "tg": "NULL ва қимати номуайян",
+      "en": "NULL and missing values"
      },
      "body": {
       "ru": "NULL — это не ноль и не пустая строка, а честная отметка «значения нет»: категория товара неизвестна, город покупателя не указан. В нашей таблице без категории остались Water, Honey и Salt — их и находит первый запрос. Отсюда главное правило дня: NULL нельзя сравнивать через = и <>. Выражение category = NULL никогда не истинно, ведь «неизвестное равно неизвестному» — бессмыслица; поэтому последний запрос примера возвращает ноль строк, и это не ошибка, а урок. Проверять отсутствие значения нужно оператором IS NULL, а его наличие — IS NOT NULL: второй запрос нашёл дорогие товары с известной категорией. Ещё одно следствие видно в COUNT: COUNT(*) считает все строки, а COUNT(category) пропускает NULL, поэтому в выводе 9|6. Типы значений и поведение NULL описаны в официальной документации SQLite; все примеры выполняются в базе :memory:, вывод получен реальным запуском.",
@@ -850,14 +889,14 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Порядок строк и первые N результатов",
+      "tg": "Тартиби сатрҳо ва натиҷаҳои аввал",
+      "en": "Row order and the first N results"
      },
      "body": {
-      "ru": "До сегодняшнего дня строки приходили в том порядке, в каком лежат в таблице, но полагаться на это нельзя: порядок хранения — деталь реализации, а не обещание языка. ORDER BY наводит порядок явно. ORDER BY price сортирует по возрастанию, DESC — по убыванию, а ASC пишут редко, потому что это умолчание. Можно перечислить несколько ключей через запятую: третий запрос сортирует по категории по убыванию, а внутри каждой категории — по имени; так делают, когда нужна устойчивая раскладка. Отдельная тонкость: при сортировке NULL считается наименьшим значением, поэтому в DESC-порядке товары без категории уходят в конец вывода — проверьте на третьем запросе. LIMIT отрезает от готового результата первые N строк, поэтому связка ORDER BY ... LIMIT 3 — это «топ-3». Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
-      "tg": "То имрӯз сатрҳо бо тартиби нигоҳдорӣ дар ҷадвал меомаданд, вале ба ин такя кардан намешавад: тартиби нигоҳдорӣ тафсилоти иҷрокунанда аст, на ваъдаи забон. ORDER BY тартибро возеҳ меорад. ORDER BY price бо тартиби афзоиш мураттаб мекунад, DESC — бо коҳиш, ASC-ро кам менависанд, чунки он пешфарз аст. Якчанд калидро бо вергул мебароранд: дархости сеюм аз рӯи категория бо коҳиш мураттаб мекунад ва дар дохили ҳар категория аз рӯи ном; инро он гоҳ мекунанд, ки ҷойгиршавии устувор лозим ояд. Нуктаи алоҳида: дар мураттабсозӣ NULL камтараин қимат ҳисоб мешавад, бинобар ин дар тартиби DESC молҳои бе категория ба охири натиҷа мераванд — дар дархости сеюм биёед санҷед. LIMIT аз натиҷаи омода N сатри аввалро мегузорад, бинобар ин пайванди ORDER BY ... LIMIT 3 маънои «топ-3»-ро дорад. Ҳамаи мисолҳо дар SQLite дар пойгоҳи :memory: иҷро мешаванд, натиҷа бо иҷрои воқеӣ сабт шудааст.",
-      "en": "Until today rows arrived in the order they happen to sit in the table, but you cannot rely on that: storage order is an implementation detail, not a language promise. ORDER BY brings order explicitly. ORDER BY price sorts ascending, DESC sorts descending, and ASC is rarely written because it is the default. You can list several keys separated by commas: the third query sorts by category descending and, inside each category, by name; this is how stable layouts are made. A separate subtlety: in sorting, NULL counts as the smallest value, so in DESC order products without a category go to the end of the output — check it on the third query. LIMIT cuts the first N rows off a finished result, so the pair ORDER BY ... LIMIT 3 means 'top 3'. All examples run in SQLite on the :memory: database, the output was recorded from a real run and reproduces locally."
+      "ru": "Без ORDER BY база не обещает порядок строк. Даже одинаковые запросы могут менять порядок после добавления индекса или изменения данных. ORDER BY price сортирует от меньшей цены к большей. DESC разворачивает порядок. Второй столбец разрешает равенство по первому: в третьем запросе сначала сравниваем категории, затем имена. Если для страницы нужен полностью стабильный порядок, добавьте уникальный id последним ключом.\n\nВ SQLite при DESC значения NULL по умолчанию уходят в конец. LIMIT 3 оставляет первые три строки уже определённого порядка: так строится топ-3.",
+      "tg": "Бе ORDER BY пойгоҳ тартиби сатрҳоро кафолат намедиҳад. Баъди иловаи индекс ё тағйири додаҳо тартиб дигар шуда метавонад. ORDER BY price нархро аз хурд ба калон ҷобаҷо мекунад. DESC тартибро баръакс мекунад. Агар қиматҳои якум баробар бошанд, пойгоҳ ба калиди дуюм менигарад, масалан ба номи мол. Барои тартиби устувор id-и нодирро калиди охирин гузоред.\n\nДар SQLite ҳангоми DESC қиматҳои NULL одатан дар охир меоянд. LIMIT 3 се сатри аввали натиҷаи ҷобаҷошударо мегирад.",
+      "en": "Without ORDER BY, the database does not promise a row order. An index or a data change can alter it. ORDER BY price sorts from lowest to highest price. DESC reverses that order. A second sort key breaks ties in the first, as when the example sorts by category and then by name. Add a unique id as the last key when the page needs fully stable ordering.\n\nIn SQLite, NULL values sort last by default with DESC. LIMIT 3 keeps the first three rows of the ordered result."
      },
      "code": "CREATE TABLE products (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  price INTEGER NOT NULL CHECK (price >= 0),\n  category TEXT,\n  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0)\n);\nINSERT INTO products (id, name, price, category, stock) VALUES\n  (1, 'Tea', 12, 'drinks', 30),\n  (2, 'Coffee', 25, 'drinks', 20),\n  (3, 'Juice', 18, 'drinks', 15),\n  (4, 'Bread', 6, 'bakery', 40),\n  (5, 'Cake', 35, 'bakery', 8),\n  (6, 'Cookie', 4, 'bakery', 100),\n  (7, 'Water', 3, NULL, 50),\n  (8, 'Honey', 45, NULL, 10),\n  (9, 'Salt', 5, NULL, 60);\nSELECT name, price FROM products ORDER BY price;\nSELECT name, price FROM products ORDER BY price DESC LIMIT 3;\nSELECT name, price FROM products ORDER BY category DESC, name;\n",
      "language": "sql",
@@ -1012,9 +1051,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Уникальные строки результата",
+      "tg": "Сатрҳои такрорнашавандаи натиҷа",
+      "en": "Distinct rows in the result"
      },
      "body": {
       "ru": "Часто спрашивают не «какие строки есть», а «какие значения встречаются»: из каких категорий состоит ассортимент. DISTINCT убирает повторы: SELECT DISTINCT category оставляет каждое значение один раз. Обратите внимание на два места. Первое: DISTINCT — не замена сортировке; без явного ORDER BY порядок групп не гарантирован, поэтому мы добавляем его везде. Второе: NULL — это отдельное значение; третий запрос без фильтра показывает его отдельной группой, и запускатель печатает его словом None. С DISTINCT красиво работает COUNT: COUNT(DISTINCT category) считает именно разные категории, а не строки, — в выводе 6|2 против девяти строк всего. В больших таблицах DISTINCT бывает дорогим: он вынужден сравнивать значения между собой, поэтому применяйте его к конкретному столбцу, а не ко всем сразу. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -1173,9 +1212,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Как посчитать, сложить и усреднить",
+      "tg": "Ҳисоб, ҷамъ ва ёфтани миёна",
+      "en": "Counting, summing and averaging"
      },
      "body": {
       "ru": "Агрегатные функции принимают много строк и возвращают одно число. COUNT(*) считает строки; SUM складывает значения столбца; AVG вычисляет среднее. В примере: девять товаров, 333 единицы на складе, средняя цена 17 — это сумма цен 153, делённая на девять; SQLite печатает её как 17.0, потому что AVG всегда даёт дробное число, даже когда результат целый. ROUND(AVG(price), 2) округляет до двух знаков после точки, но целое среднее всё равно выглядит как 17.0 — так изображаются дробные числа. COUNT(category) снова показал шесть: NULL в подсчёт не попадают. SUM работает и по подмножеству: SUM(price) по категории bakery — 45, это цены Bread, Cake и Cookie. Запомните честное правило: агрегат по пустому набору возвращает не ноль, а NULL — SUM нечего складывать; у COUNT такого нет, он вернёт 0. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска.",
@@ -1335,9 +1374,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Группировка и фильтр по итогам",
+      "tg": "Гурӯҳбандӣ ва филтри ҷамъбаст",
+      "en": "Grouping rows and filtering the totals"
      },
      "body": {
       "ru": "Вчера агрегаты считали одно число на всю таблицу. Сегодня они научатся работать по группам. GROUP BY category собирает строки с одинаковой категорией в одну корзину, и агрегат выполняется для каждой корзины отдельно: COUNT(*) даёт размер группы, SUM(stock) — суммарный остаток. WHERE фильтрует строки до группировки — поэтому мы заранее убираем NULL-категории; иначе они собрались бы в отдельную корзину «неизвестно». HAVING фильтрует уже готовые группы и может использовать агрегаты: HAVING AVG(price) > 16 оставляет только напитки со средней ценой 18.3, а пекарня со средней 15.0 отсеивается. Порядок выполнения запроса легко запомнить: FROM, затем WHERE, затем GROUP BY, затем HAVING, затем SELECT и ORDER BY. Строки, не прошедшие WHERE, в группы не попадают вовсе. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -1497,14 +1536,14 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Цена и товар с этой ценой",
+      "tg": "Нарх ва моли дорои ин нарх",
+      "en": "Finding the product at an extreme price"
      },
      "body": {
-      "ru": "MIN и MAX находят крайние значения столбца, и их удобно сочетать с условиями: MIN(price) по категории drinks даёт 12, MAX — 25. Но само число часто бесполезно без контекста: знать, что минимум равен трём, хочется вместе с именем товара. Для этого пригодится подзапрос — SELECT внутри другого запроса в круглых скобках: сначала SQLite вычисляет внутренний SELECT MIN(price) и получает 3, затем внешний запрос находит строки с price = 3. Так работают третий и четвёртый запросы: самый дешёвый товар магазина и самый дорогой товар пекарни. Подзапрос, возвращающий ровно одно значение, называют скалярным; пока мы используем только такие — они безопасны и предсказуемы. Полный синтаксис SELECT описан в официальной документации SQLite, ссылка в источниках урока. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
-      "tg": "MIN ва MAX қиматҳои канории сутунро меёбанд ва бо шартҳо хуб якҷоя мешаванд: MIN(price) дар категорияи drinks 12 медиҳад, MAX — 25. Вале худи адад бе замина бисёр вақт бефоида аст: донистан, ки ақаллӣ се аст, якҷо бо номи маҳсулот мехоҳем. Барои ин зердархост мувофиқ меояд — SELECT дар дохили дархости дигар дар қавсҳои мудаввар: аввал SQLite SELECT MIN(price)-и дохилиро ҳисоб мекунад ва 3 мегирад, баъд дархости берунӣ сатрҳои price = 3-ро меёбад. Ҳамин тавр дархостҳои сеюм ва чорум кор мекунанд: арзонтарин маҳсулоти мағоза ва гаронтарини нонпазӣ. Зердархосте, ки айнан як қимат бармегардонад, скалярӣ номида мешавад; то ҳол танҳо ҳамнавъро истифода мебарем — онҳо бехатар ва пешгӯишавандаанд. Синтаксиси пурраи SELECT дар ҳуҷҷати расмии SQLite навишта шудааст, пайванд дар манобеи дарс аст. Ҳамаи мисолҳо дар SQLite дар пойгоҳи :memory: иҷро мешаванд, натиҷа бо иҷрои воқеӣ сабт шудааст.",
-      "en": "MIN and MAX find the extreme values of a column, and they pair well with conditions: MIN(price) for the drinks category is 12, MAX is 25. But the bare number is often useless without context: you want the minimum of three together with the product name. For that a subquery helps — a SELECT inside another query in parentheses: SQLite first computes the inner SELECT MIN(price), gets 3, and then the outer query finds rows with price = 3. That is how the third and fourth queries work: the cheapest product of the shop and the most expensive bakery item. A subquery returning exactly one value is called scalar; for now we use only those — they are safe and predictable. The full SELECT syntax is described in the official SQLite documentation, linked in the lesson sources. All examples run in SQLite on the :memory: database, the output was recorded from a real run and reproduces locally."
+      "ru": "MIN и MAX возвращают наименьшее и наибольшее значения столбца. Для напитков в примере это 12 и 25. Чтобы найти сам товар, поместите SELECT MIN(price) в скобки: внутренний запрос даёт цену, внешний выбирает строки с такой ценой. Подзапрос с одним столбцом здесь используется как одно значение, поэтому он называется скалярным.\n\nЦена и строка — разные вещи. Если несколько товаров имеют одну минимальную цену, внешний запрос вернёт каждый из них.",
+      "tg": "MIN ва MAX хурдтарин ва калонтарин қимати сутунро медиҳанд. Барои нӯшокиҳои мисол ин 12 ва 25 аст. Барои ёфтани худи мол SELECT MIN(price)-ро дар қавс гузоред: дархости дарунӣ нархро медиҳад, берунӣ ҳамаи сатрҳои дорои ин нархро меёбад. Зердархости яксутуна дар ин ҷо барои гирифтани як қимат истифода мешавад ва скалярӣ ном дорад.\n\nНарх ва сатри мол ҷудоанд. Агар чанд мол нархи ҳадди ақал дошта бошад, дархости берунӣ ҳамаи онҳоро нишон медиҳад.",
+      "en": "MIN and MAX return the smallest and largest values in a column. For drinks in the example, those values are 12 and 25. To find the product itself, put SELECT MIN(price) in parentheses. The inner query supplies a price and the outer query finds rows with that price. The one-column subquery is used as a single value here, so it is called a scalar subquery.\n\nA price and a product row are different things. If several products share the lowest price, the outer query returns all of them."
      },
      "code": "CREATE TABLE products (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  price INTEGER NOT NULL CHECK (price >= 0),\n  category TEXT,\n  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0)\n);\nINSERT INTO products (id, name, price, category, stock) VALUES\n  (1, 'Tea', 12, 'drinks', 30),\n  (2, 'Coffee', 25, 'drinks', 20),\n  (3, 'Juice', 18, 'drinks', 15),\n  (4, 'Bread', 6, 'bakery', 40),\n  (5, 'Cake', 35, 'bakery', 8),\n  (6, 'Cookie', 4, 'bakery', 100),\n  (7, 'Water', 3, NULL, 50),\n  (8, 'Honey', 45, NULL, 10),\n  (9, 'Salt', 5, NULL, 60);\nSELECT MIN(price), MAX(price) FROM products;\nSELECT MIN(price), MAX(price) FROM products WHERE category = 'drinks';\nSELECT name, price FROM products WHERE price = (SELECT MIN(price) FROM products);\nSELECT name, price FROM products WHERE price = (SELECT MAX(price) FROM products WHERE category = 'bakery');\n",
      "language": "sql",
@@ -1659,9 +1698,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Как добавить строку",
+      "tg": "Чӣ тавр сатр илова кунем",
+      "en": "Adding a row"
      },
      "body": {
       "ru": "Таблицы создаются один раз, а наполняются постоянно. INSERT INTO добавляет строки. Мы перечисляем столбцы явно — INSERT INTO products (name, price, category, stock) VALUES (...) — это защищает от ошибок при изменении структуры таблицы. Столбец id можно не указывать: INTEGER PRIMARY KEY назначается сам, беря следующий свободный номер. Столбцы без значения получают DEFAULT, если он задан, иначе NULL: у Water категория не указана и станет NULL, а stock взял ноль из DEFAULT. Несколько строк вставляются одним запросом через запятую — это короче и надёжнее, чем десять отдельных INSERT. Последняя вставка добавляет второй Tea с другой ценой: пока нет ограничения UNIQUE, база не мешает дублям имён, и мы вернёмся к этому в дне двадцать третьем. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -1820,9 +1859,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Какие строки меняет UPDATE",
+      "tg": "UPDATE кадом сатрҳоро тағйир медиҳад",
+      "en": "Which rows UPDATE changes"
      },
      "body": {
       "ru": "UPDATE меняет значения в уже существующих строках: SET перечисляет новые выражения, WHERE выбирает, кого касаться. Выражение может опираться на старое значение: stock = stock - 3 уменьшает остаток каждого подходящего товара на три — один запрос обновил сразу две строки напитков, что и показал changes(). Ошибиться легко: UPDATE без WHERE перепишет все строки таблицы, поэтому правило такое — сначала напишите условие и проверьте его отдельным SELECT с тем же WHERE, и только потом превращайте SELECT в UPDATE. Третий запрос поднимает цену вдвое только у пекарни с малым складом: условие с AND сужает выборку до одной строки — Cake, и changes() возвращает 1. Все примеры выполняются в SQLite в базе :memory:; каждая вставка создаёт свежую таблицу, вывод записан с реального запуска. Это учебный стенд, а не рабочий склад.",
@@ -1981,9 +2020,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Какие строки удаляет DELETE",
+      "tg": "DELETE кадом сатрҳоро нест мекунад",
+      "en": "Which rows DELETE removes"
      },
      "body": {
       "ru": "DELETE FROM удаляет строки целиком, и как UPDATE он опасен без WHERE: DELETE FROM products сотрёт всё содержимое. Удаляйте по точному условию и проверяйте его SELECT-ом заранее; changes() покажет, сколько строк реально ушло — у нас одна: Juice. Но в рабочих системах стараются удалять реже, чем кажется: история заказов нужна отчётам, а случайно удалённую строку вернуть нельзя. Поэтому применяют мягкое удаление: добавляют столбец deleted INTEGER NOT NULL DEFAULT 0 и вместо DELETE помечают строку — UPDATE products SET deleted = 1. Все обычные запросы должны тогда добавлять WHERE deleted = 0, что видно в последнем выводе: Cake из списка исчез, хотя строка на месте. Настоящее DELETE оставьте для действительно мусорных данных. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -2143,9 +2182,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Идентификатор строки и его назначение",
+      "tg": "Шиносаи сатр ва вазифаи он",
+      "en": "Row identifiers and their purpose"
      },
      "body": {
       "ru": "INTEGER PRIMARY KEY — это столбец-идентификатор: он уникален у каждой строки, и SQLite делает его синонимом внутреннего номера rowid. Поэтому при INSERT без id база назначает номер сама: Anna получила 1, Farrukh — 2. После удаления Farrukh новая Dilnoza получила 2 — без ключевого слова AUTOINCREMENT SQLite берёт максимальный существующий номер и прибавляет единицу, так что освобождённый максимум занимается снова. Если вставить id вручную — 10 для Oleg — счётчик продолжится от него: Sitora получила 11. Вторая таблица audit показывает поведение AUTOINCREMENT: даже после DELETE FROM, стёршего все строки, новый номер равен 3 — история максимальных значений хранится отдельно и старые номера не отдаёт. AUTOINCREMENT чуть дороже и нужен редко, но знать о нём честно полезно. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска.",
@@ -2304,9 +2343,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Как внешний ключ связывает таблицы",
+      "tg": "Калиди беруна ҷадвалҳоро чӣ тавр мепайвандад",
+      "en": "How a foreign key connects tables"
      },
      "body": {
       "ru": "До сих пор таблицы жили поодиночке. FOREIGN KEY — внешний ключ — связывает их: customer_id в orders ссылается на id в customers. Ссылка — это обещание: такого покупателя действительно можно найти. SQLite проверяет обещание только после PRAGMA foreign_keys = ON: в отличие от многих баз, здесь эта проверка по умолчанию выключена, и команда действует на текущее соединение. Если попытаться вставить заказ с customer_id = 99, база отклонит вставку с ошибкой FOREIGN KEY constraint failed — попробуйте сами; записанного вывода у этого опыта нет, потому что наш скрипт содержит только успешные операции. Правило чтения схемы: REFERENCES указывает, на какую таблицу и столбец смотрит поле, а NOT NULL рядом означает, что заказ без покупателя не имеет смысла. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -2466,9 +2505,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Как JOIN собирает данные из таблиц",
+      "tg": "JOIN додаҳои ҷадвалҳоро чӣ тавр ҷамъ мекунад",
+      "en": "How JOIN combines rows"
      },
      "body": {
       "ru": "Данные нашего магазина разбросаны по четырём таблицам, а ответы нужны цельные: кто сделал заказ, что в нём лежит. JOIN соединяет таблицы попарно: FROM orders o JOIN customers c ON c.id = o.customer_id. Для каждой пары строк SQLite проверяет условие ON; если оно истинно, строки склеиваются в одну строку результата. INNER JOIN оставляет только удачные склейки: покупатель Sitora без заказов в первый запрос не попала — ей не с чем соединиться, и это нормально для INNER. Второй запрос показывает настоящую силу: order_items соединяется с products, и вместо сухих номеров товаров мы видим имена с количеством. Алиасы o, c, p, oi здесь не украшение, а способ коротко различать таблицы; подробнее о них — в дне восемнадцатом. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -2628,9 +2667,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Как найти строки без пары",
+      "tg": "Чӣ тавр сатрҳои бе ҷуфтро ёбем",
+      "en": "Finding rows with no match"
      },
      "body": {
       "ru": "INNER JOIN выбрасывает непарные строки, но часто именно они и интересны: кто ещё ничего не купил, какой товар залежался. LEFT JOIN сохраняет все строки левой таблицы, а там, где пары справа нет, подставляет NULL. Первый запрос считает заказы каждого покупателя: у Anna два, у остальных по одному, а Sitora получает 0 — COUNT(o.id) не считает NULL, поэтому ноль честный; COUNT(*) здесь бы соврал, ведь строка с NULL тоже существует. Второй запрос отвечает на вопрос «что не продавалось»: к товарам приставляем order_items и оставляем тех, у кого oi.order_id IS NULL — это Salt. Третий тем же приёмом находит покупателей-«сирот»: Sitora. Запомните связку LEFT JOIN + IS NULL — это стандартный поиск несоединённых строк, он понадобится в проектных днях. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -2790,9 +2829,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Короткие имена для полей и таблиц",
+      "tg": "Номҳои кӯтоҳ барои майдону ҷадвал",
+      "en": "Short names for columns and tables"
      },
      "body": {
       "ru": "Алиас — временное имя. AS переименовывает столбец в результате: p.price AS unit_price делает вывод читаемым, а вычисляемому столбцу p.price * 2 даёт осмысленное имя pair_price — без AS у него было бы некрасивое «p.price * 2». Таблицам тоже дают короткие имена: FROM customers c JOIN orders o — и дальше пишем c.name вместо customers.name. Это не лень: в таблицах часто одинаковые столбцы, id и name есть в обеих, и без алиасов SQLite не понял бы, чей name вы имеете в виду, а при неоднозначности ответит ambiguous column name. Порядок столбцов в SELECT определяет порядок в выводе: можно показать цену перед именем, если отчёту так удобнее, — данные те же, форма другая. Алиасы живут только внутри запроса: после его выполнения имён не существует. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -2952,14 +2991,14 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Запрос внутри другого запроса",
+      "tg": "Дархост дар дохили дархост",
+      "en": "A query inside another query"
      },
      "body": {
-      "ru": "Подзапрос — это SELECT в круглых скобках внутри другого запроса. Сначала выполняется внутренний, его результат использует внешний. Самый простой вид — скалярный: он возвращает ровно одно значение. В первом запросе (SELECT MAX(price) FROM products) выдаёт 45, и внешний SELECT находит товар с такой ценой — Honey. Один и тот же подзапрос можно ставить и в список столбцов: третий запрос показывает рядом с ценой мёда среднюю цену всего магазина, 17.0, — удобно для сравнения. Во втором запросе подзапрос возвращает много значений — список купленных product_id, и для списков служит IN: перечислены все товары, которые хоть раз покупали; Salt, которого нет ни в одном заказе, остался за бортом. Помните ловушку: если в списке подзапроса есть NULL, NOT IN вернёт пусто — мы ещё вернёмся к этому. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска.",
-      "tg": "Зердархост — SELECT дар қавсҳои мудаввар дар дохили дархости дигар аст. Аввалӣ дохилӣ иҷро мешавад, натиҷаи ӯро берунӣ истифода мебарад. Оддитарин намуд — скалярӣ: айнан як қимат бармегардонад. Дар дархости аввал (SELECT MAX(price) FROM products) 45 медиҳад ва SELECT-и берунӣ моли бо чунин нархро меёбад — Honey. Ҳамин гуна зердархостро дар рӯйхати сутунҳо ҳам гузоштан мумкин: дархости сеюм паҳлӯи нархи асал нархи миёнаи тамоми мағозаро нишон медиҳад — 17.0 — барои муқоиса қулай аст. Дар дархости дуюм зердархост қиматҳои бисёр бармегардонад — рӯйхати product_id-ҳои харидашуда ва барои рӯйхатҳо IN хизмат мекунад: ҳамаи молҳое, ки ҳадди ақал як бор харида шудаанд, бароварда мешаванд; Salt, ки дар ҳеҷ фармоиш нест, берун монд. Турапро дар хотир доред: агар дар рӯйхати зердархост NULL бошад, NOT IN холӣ бармегардонад — ба ин ҳоло бармегардем. Ҳамаи мисолҳо дар SQLite дар пойгоҳи :memory: иҷро мешаванд, натиҷа бо иҷрои воқеӣ сабт шудааст.",
-      "en": "A subquery is a SELECT in parentheses inside another query. The inner one runs first, and the outer one uses its result. The simplest kind is scalar: it returns exactly one value. In the first query (SELECT MAX(price) FROM products) yields 45, and the outer SELECT finds the product with that price — Honey. The same subquery can be placed in the column list too: the third query shows next to honey's price the average price of the whole shop, 17.0 — handy for comparison. In the second query the subquery returns many values — the list of purchased product_id, and IN serves lists: all products purchased at least once are listed; Salt, absent from every order, stayed out. Remember the trap: if the subquery's list contains NULL, NOT IN returns nothing — we will come back to this. All examples run in SQLite on the :memory: database, the output was recorded from a real run."
+      "ru": "Подзапрос — это SELECT в скобках внутри другого запроса. Здесь (SELECT MAX(price) FROM products) даёт одну цену, и внешний запрос выбирает товары с этой ценой. Такой подзапрос используют как одно значение. В SQLite скалярный подзапрос без строк даёт NULL, а при нескольких строках берёт значение первой. Поэтому для одного числа задайте агрегат или точный отбор.\n\nПодзапрос после IN задаёт список: в примере это идентификаторы проданных товаров. Если в таком списке есть NULL, NOT IN может дать неизвестный результат для значений без совпадения. Для этого случая сначала уберите NULL из списка или используйте NOT EXISTS.",
+      "tg": "Зердархост SELECT-и дар қавс буда, дар дохили дархости дигар меояд. Дар ин ҷо (SELECT MAX(price) FROM products) як нарх медиҳад ва дархости берунӣ молҳои дорои ҳамин нархро интихоб мекунад. Дар SQLite зердархости скалярии бе сатр NULL медиҳад. Бо чанд сатр қимати сатри якумро мегирад. Барои як адади муайян агрегат ё филтри дақиқ гузоред.\n\nЗердархости баъди IN рӯйхат медиҳад. Дар мисол ин id-и молҳои фурӯхташуда аст. Агар рӯйхат NULL дошта бошад, NOT IN барои қимати бе мувофиқат метавонад номуайян шавад. Аввал NULL-ро ҷудо кунед ё NOT EXISTS кор баред.",
+      "en": "A subquery is a SELECT in parentheses inside another query. Here (SELECT MAX(price) FROM products) supplies one price and the outer query selects products with that price. In SQLite, a scalar subquery with no rows yields NULL, and one with several rows takes the first value. Use an aggregate or a precise filter when you need one definite value.\n\nA subquery after IN supplies a list, such as the IDs of products that sold. With NULL in that list, NOT IN can yield unknown for values that do not match. Filter NULL out of the list or use NOT EXISTS for this case."
      },
      "code": "PRAGMA foreign_keys = ON;\nCREATE TABLE products (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  price INTEGER NOT NULL CHECK (price >= 0),\n  category TEXT,\n  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0)\n);\nINSERT INTO products (id, name, price, category, stock) VALUES\n  (1, 'Tea', 12, 'drinks', 30),\n  (2, 'Coffee', 25, 'drinks', 20),\n  (3, 'Juice', 18, 'drinks', 15),\n  (4, 'Bread', 6, 'bakery', 40),\n  (5, 'Cake', 35, 'bakery', 8),\n  (6, 'Cookie', 4, 'bakery', 100),\n  (7, 'Water', 3, NULL, 50),\n  (8, 'Honey', 45, NULL, 10),\n  (9, 'Salt', 5, NULL, 60);\nCREATE TABLE customers (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  city TEXT\n);\nINSERT INTO customers (id, name, city) VALUES\n  (1, 'Anna', 'Dushanbe'),\n  (2, 'Farrukh', 'Khujand'),\n  (3, 'Dilnoza', 'Dushanbe'),\n  (4, 'Oleg', 'Bokhtar'),\n  (5, 'Sitora', NULL);\nCREATE TABLE orders (\n  id INTEGER PRIMARY KEY,\n  customer_id INTEGER NOT NULL REFERENCES customers(id),\n  created_at TEXT NOT NULL\n);\nINSERT INTO orders (id, customer_id, created_at) VALUES\n  (1, 1, '2026-10-01'),\n  (2, 2, '2026-10-01'),\n  (3, 1, '2026-10-03'),\n  (4, 3, '2026-10-05'),\n  (5, 4, '2026-10-07');\nCREATE TABLE order_items (\n  order_id INTEGER NOT NULL REFERENCES orders(id),\n  product_id INTEGER NOT NULL REFERENCES products(id),\n  quantity INTEGER NOT NULL CHECK (quantity > 0)\n);\nINSERT INTO order_items (order_id, product_id, quantity) VALUES\n  (1, 1, 2), (1, 5, 1),\n  (2, 2, 1), (2, 6, 3),\n  (3, 3, 2), (3, 1, 1),\n  (4, 4, 2), (4, 7, 5),\n  (5, 8, 1);\nSELECT name, price FROM products WHERE price = (SELECT MAX(price) FROM products);\nSELECT name FROM products WHERE id IN (SELECT product_id FROM order_items) ORDER BY id;\nSELECT name, price, (SELECT ROUND(AVG(price), 2) FROM products) AS shop_average FROM products WHERE price > 40;\n",
      "language": "sql",
@@ -3113,9 +3152,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Условия внутри результата SELECT",
+      "tg": "Шартҳо дар натиҷаи SELECT",
+      "en": "Conditions in SELECT output"
      },
      "body": {
       "ru": "CASE WHEN добавляет условную логику прямо в SELECT: SQLite идёт по веткам сверху вниз и берёт первую, чьё условие истинно; ELSE описывает, что делать, если ни одна не подошла, а без ELSE получится NULL. В примере цены получают ярлыки: от 25 — expensive, от 10 — medium, остальное — cheap; Tea с ценой 12 попадает в medium, потому что первая ветка не сработала, хотя вторая начинается с той же цифры. Второй запрос — любимый приём отчётов: CASE внутри агрегата. Мы превращаем NULL-категории в слово unknown и группируем по готовому ярлыку — три группы по три товара: bakery, drinks и unknown. Заметьте: CASE не меняет таблицу, он только вычисляет значение для вывода; хранить ярлыки в отдельном столбце не нужно, пока их можно получить запросом. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -3275,9 +3314,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "От позиций заказа к сумме покупки",
+      "tg": "Аз мавқеъҳои фармоиш то маблағи харид",
+      "en": "From order lines to purchase totals"
      },
      "body": {
       "ru": "Соединим всё, что умеем: JOIN связывает таблицы, GROUP BY собирает группы, SUM считает деньги. Четырёхтабличная цепочка customers → orders → order_items → products — типичный маршрут: количество умножаем на цену и получаем потраченную сумму. Первый запрос группирует по покупателю: Anna потратила 107 — два заказа, Oleg 45, Farrukh 37, Dilnoza 27; Sitora отсутствует, ведь INNER JOIN отрезает её — о клиентах без покупок расскажет LEFT JOIN в проектных днях. Второй запрос считает продажи по товарам: пять бутылок воды, три чая и три печенья, дальше меньше. Обратите внимание на вторую сортировку: при равных продажах имена расставляют строки стабильно — Cookie перед Tea, Bread перед Juice; без второго ключа порядок равных был бы лотереей. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -3436,14 +3475,14 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Как хранить и сравнивать даты",
+      "tg": "Нигоҳдорӣ ва муқоисаи санаҳо",
+      "en": "Storing and comparing dates"
      },
      "body": {
-      "ru": "SQLite не имеет отдельного типа дат: в описании типов официальной документации перечислены NULL, INTEGER, REAL, TEXT и BLOB, и даты хранят в любом из них. Мы выбрали самый прозрачный вариант — TEXT в формате ISO: '2026-10-01'. У формата есть суперсила: лексикографическое сравнение текста совпадает со сравнением времени, поэтому created_at >= '2026-10-03' честно отбирает поздние заказы — их три. Функция date() прибавляет дни: date(created_at, '+2 days') показывает срок готовности заказа. strftime('%Y-%m', ...) вырезает месяц, и DISTINCT подтверждает: все наши заказы — октябрь 2026 года. Разницу в днях считают через julianday — дробный номер дня; приведение CAST к INTEGER оставляет целое: между заказами первого и последнего дня шесть суток. Формат всегда YYYY-MM-DD, иначе сравнения сломаются молча. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска.",
-      "tg": "SQLite намуди алоҳидаи сана надорад: дар тавсифи намудҳои ҳуҷҷати расмӣ NULL, INTEGER, REAL, TEXT ва BLOB қайд шудаанд ва санаҳоро дар ҳар кадом нигоҳ медоранд. Мо шаффофтарин варианти интихоб кардем — TEXT дар формати ISO: '2026-10-01'. Ин формат қувваи хос дорад: муқоисаи матнӣ бо муқоисаи вақт мувофиқ аст, бинобар ин created_at >= '2026-10-03' фармоишҳои баъдинаро ростқавл интихоб мекунад — се дона. Функсияи date() рӯзҳо илова мекунад: date(created_at, '+2 days') муҳлати омодагии фармоишро нишон медиҳад. strftime('%Y-%m', ...) моҳро мебурад ва DISTINCT тасдиқ мекунад: ҳамаи фармоишҳои мо — октябри 2026. Фарқи рӯзҳоро тавассути julianday — рақами касрии рӯз ҳисоб мекунанд; табдили CAST ба INTEGER бутун мемонад: байни фармоишҳои рӯзи аввал ва охирин шабонарӯз. Формат ҳамеша YYYY-MM-DD бошад, вагарна муқоисаҳо бетартиб вайрон мешаванд. Ҳамаи мисолҳо дар SQLite дар пойгоҳи :memory: иҷро мешаванд, натиҷа бо иҷрои воқеӣ сабт шудааст.",
-      "en": "SQLite has no separate date type: the official documentation's type description lists NULL, INTEGER, REAL, TEXT and BLOB, and dates are stored in any of them. We chose the most transparent option — TEXT in ISO format: '2026-10-01'. The format has a superpower: lexicographic text comparison matches time comparison, so created_at >= '2026-10-03' honestly picks later orders — there are three. The date() function adds days: date(created_at, '+2 days') shows the order's readiness deadline. strftime('%Y-%m', ...) extracts the month, and DISTINCT confirms: all our orders are October 2026. Day differences are computed through julianday — a fractional day number; casting with CAST to INTEGER keeps the whole part: between the first and the last order there are six days. Keep the format always YYYY-MM-DD, otherwise comparisons break silently. All examples run in SQLite on the :memory: database, the output was recorded from a real run."
+      "ru": "У SQLite нет отдельного типа хранения даты. Для дат обычно используют TEXT, REAL с юлианским днём или INTEGER с Unix-временем. В учебном магазине даты хранятся как TEXT в едином виде YYYY-MM-DD. При этом формате сортировка по строке совпадает с календарным порядком. Не смешивайте его с произвольными форматами.\n\ndate(created_at, '+2 days') прибавляет два дня, strftime('%Y-%m', created_at) выделяет год и месяц. julianday превращает дату в число дней, поэтому разность показывает интервал между заказами.",
+      "tg": "SQLite барои сана навъи махсуси нигоҳдорӣ надорад. Одатан TEXT, REAL бо рӯзи юлианӣ ё INTEGER бо вақти Unix истифода мешавад. Дар мағозаи мисол ҳамаи санаҳо матни YYYY-MM-DD ҳастанд. Бо ҳамин шакл тартиби матн ба тақвим мувофиқ аст. Шаклҳои гуногунро дар як сутун омехта накунед.\n\ndate(created_at, '+2 days') ду рӯз зам мекунад. strftime('%Y-%m', created_at) солу моҳро ҷудо мекунад. Фарқи ду натиҷаи julianday фосилаи байни санаҳоро бо рӯз медиҳад.",
+      "en": "SQLite has no dedicated date storage class. Dates commonly use TEXT, REAL Julian days or INTEGER Unix time. The teaching store uses the same YYYY-MM-DD text format for every date, so string order matches calendar order. Keep the format consistent.\n\ndate(created_at, '+2 days') adds two days, and strftime('%Y-%m', created_at) extracts the year and month. Subtract two julianday results to find the interval in days."
      },
      "code": "PRAGMA foreign_keys = ON;\nCREATE TABLE products (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  price INTEGER NOT NULL CHECK (price >= 0),\n  category TEXT,\n  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0)\n);\nINSERT INTO products (id, name, price, category, stock) VALUES\n  (1, 'Tea', 12, 'drinks', 30),\n  (2, 'Coffee', 25, 'drinks', 20),\n  (3, 'Juice', 18, 'drinks', 15),\n  (4, 'Bread', 6, 'bakery', 40),\n  (5, 'Cake', 35, 'bakery', 8),\n  (6, 'Cookie', 4, 'bakery', 100),\n  (7, 'Water', 3, NULL, 50),\n  (8, 'Honey', 45, NULL, 10),\n  (9, 'Salt', 5, NULL, 60);\nCREATE TABLE customers (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  city TEXT\n);\nINSERT INTO customers (id, name, city) VALUES\n  (1, 'Anna', 'Dushanbe'),\n  (2, 'Farrukh', 'Khujand'),\n  (3, 'Dilnoza', 'Dushanbe'),\n  (4, 'Oleg', 'Bokhtar'),\n  (5, 'Sitora', NULL);\nCREATE TABLE orders (\n  id INTEGER PRIMARY KEY,\n  customer_id INTEGER NOT NULL REFERENCES customers(id),\n  created_at TEXT NOT NULL\n);\nINSERT INTO orders (id, customer_id, created_at) VALUES\n  (1, 1, '2026-10-01'),\n  (2, 2, '2026-10-01'),\n  (3, 1, '2026-10-03'),\n  (4, 3, '2026-10-05'),\n  (5, 4, '2026-10-07');\nCREATE TABLE order_items (\n  order_id INTEGER NOT NULL REFERENCES orders(id),\n  product_id INTEGER NOT NULL REFERENCES products(id),\n  quantity INTEGER NOT NULL CHECK (quantity > 0)\n);\nINSERT INTO order_items (order_id, product_id, quantity) VALUES\n  (1, 1, 2), (1, 5, 1),\n  (2, 2, 1), (2, 6, 3),\n  (3, 3, 2), (3, 1, 1),\n  (4, 4, 2), (4, 7, 5),\n  (5, 8, 1);\nSELECT COUNT(*) AS orders_count FROM orders WHERE created_at >= '2026-10-03';\nSELECT o.id, o.created_at, date(o.created_at, '+2 days') AS ready_day FROM orders o WHERE o.id <= 2 ORDER BY o.id;\nSELECT DISTINCT strftime('%Y-%m', created_at) AS month FROM orders ORDER BY month;\nSELECT CAST(julianday('2026-10-07') - julianday('2026-10-01') AS INTEGER) AS days;\n",
      "language": "sql",
@@ -3598,14 +3637,14 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Какие ограничения проверяет база",
+      "tg": "База кадом шартҳоро месанҷад",
+      "en": "Which rules the database enforces"
      },
      "body": {
-      "ru": "CONSTRAINT — правило, которое база проверяет сама, не доверяя приложению. NOT NULL запрещает пустое значение; UNIQUE не даёт повторов — два покупателя с одним email невозможны, вторая вставка с занятым адресом кончилась бы ошибкой UNIQUE constraint failed; CHECK проверяет выражение: rating BETWEEN 1 AND 5 отрежет оценку семь ещё на этапе вставки. Разница с проверками в приложении принципиальна: constraint срабатывает при любой вставке — из консоли, скрипта, чужой программы — и его нельзя забыть. Ограничения почти ничего не стоят на маленьких таблицах, а их ошибки говорят человеческим языком. Правда, проектировать лучше сразу: добавить UNIQUE к таблице, где дубли уже накопились, не выйдет, пока их не вычистят. CONSTRAINT — часть CREATE TABLE; полный синтаксис смотрите в официальной документации SQLite. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска.",
-      "tg": "CONSTRAINT қоидае аст, ки пойгоҳ худаш месанҷад, ба барнома бовар намекунад. NOT NULL қимати холиро манъ мекунад; UNIQUE такрорро намегузорад — ду харидор бо як email имконнопазир аст, дарҷи дуюм бо суроғаи машғул бо хатогии UNIQUE constraint failed тамом мешуд; CHECK ибораро месанҷад: rating BETWEEN 1 AND 5 баҳои ҳафтро дар давраи дарҷ мебурад. Фарқ бо санҷишҳои дар барнома асосӣ аст: constraint дар ҳар дарҷ кор мекунад — аз консол, скрипт, барномаи ғайр — ва фаромӯш карданаш мумкин нест. Маҳдудиятҳо дар ҷадвалҳои хурд ҳеҷ чиз нармеароянд ва хатогиҳояшон бо забони одамӣ сухан мегӯянд. Вале беҳтар аст пешакӣ лоиҳакунии кунед: ба ҷадвале, ки такрорҳояш аллакай ҷамъ шудааст, UNIQUE илова кардан мумкин нест, то онҳо тоза нашаванд. CONSTRAINT қисми CREATE TABLE аст; синтаксиси пурраро дар ҳуҷҷати расмии SQLite бинед. Ҳамаи мисолҳо дар SQLite дар пойгоҳи :memory: иҷро мешаванд, натиҷа бо иҷрои воқеӣ сабт шудааст.",
-      "en": "A CONSTRAINT is a rule the database checks itself, without trusting the application. NOT NULL forbids an empty value; UNIQUE prevents repeats — two customers with one email are impossible, a second insert with an occupied address would end in a UNIQUE constraint failed error; CHECK evaluates an expression: rating BETWEEN 1 AND 5 cuts off a rating of seven right at insert time. The difference from application checks is fundamental: a constraint fires on every insert — from a console, a script, someone else's program — and cannot be forgotten. Constraints cost almost nothing on small tables, and their errors speak human language. Still, design early: adding UNIQUE to a table that already accumulated duplicates will not work until they are cleaned out. CONSTRAINT is part of CREATE TABLE; see the full syntax in the official SQLite documentation. All examples run in SQLite on the :memory: database, the output was recorded from a real run."
+      "ru": "Ограничение — это правило записи, которое проверяет сама база. NOT NULL запрещает NULL, но допускает пустую строку. UNIQUE запрещает одинаковые ненулевые значения, поэтому email можно сделать и UNIQUE, и NOT NULL. CHECK проверяет выражение: рейтинг 7 нарушает условие rating BETWEEN 1 AND 5. Если рейтинг обязателен, добавьте NOT NULL, потому что NULL сам по себе не проваливает CHECK в SQLite.\n\nПриложение проверяет ввод ради понятной ошибки. База держит эти правила и для консольных команд или импортов, которые обходят обычную форму.",
+      "tg": "Маҳдудият қоидаи сабт аст, ки худи пойгоҳ месанҷад. NOT NULL қимати NULL-ро намегузорад, аммо сатри холиро қабул мекунад. UNIQUE қиматҳои якхелаи ғайри NULL-ро манъ мекунад. Барои email-и ҳатмӣ ҳар ду қоида лозим мешаванд. CHECK шартро месанҷад: рейтинги 7 аз rating BETWEEN 1 AND 5 намегузарад. Агар рейтинг ҳатмӣ бошад, NOT NULL ҳам гузоред, чун NULL худ аз худ CHECK-ро намешиканад.\n\nСанҷиши барнома хатои фаҳмо медиҳад. Қоидаи пойгоҳ ҳангоми импорт ё сабт аз терминал низ кор мекунад.",
+      "en": "A constraint is a rule the database checks when data is written. NOT NULL rejects NULL but permits an empty string. UNIQUE rejects duplicate non-NULL values, so a required email can use both rules. CHECK tests an expression: a rating of 7 fails rating BETWEEN 1 AND 5. Use NOT NULL as well when a rating is required, because NULL alone does not fail a SQLite CHECK.\n\nApplication validation gives helpful feedback. Database rules also protect writes through imports or the console."
      },
      "code": "CREATE TABLE customers (\n  id INTEGER PRIMARY KEY,\n  email TEXT NOT NULL UNIQUE,\n  name TEXT NOT NULL\n);\nINSERT INTO customers (email, name) VALUES ('anna@example.com', 'Anna');\nINSERT INTO customers (email, name) VALUES ('far@example.com', 'Farrukh');\nCREATE TABLE reviews (\n  id INTEGER PRIMARY KEY,\n  product_name TEXT NOT NULL,\n  rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5)\n);\nINSERT INTO reviews (product_name, rating) VALUES ('Tea', 5), ('Coffee', 4), ('Cake', 3);\nSELECT id, product_name, rating FROM reviews ORDER BY id;\nSELECT name, email FROM customers ORDER BY id;\n",
      "language": "sql",
@@ -3759,9 +3798,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Что индекс ускоряет и сколько он стоит",
+      "tg": "Индекс чиро тез мекунад ва чӣ қимат дорад",
+      "en": "What an index speeds up and costs"
      },
      "body": {
       "ru": "Индекс — служебная структура внутри базы, которая позволяет находить строки по значению столбца без просмотра всей таблицы. CREATE INDEX idx_products_category ON products(category) строит его по категории; имя индекса придумываете вы. Правду о запросе показывает EXPLAIN QUERY PLAN: первый план отвечает SEARCH products USING INDEX — поиск пошёл по индексу; второй, по имени, остался SCAN products — полный просмотр, потому что индекса по name нет. При девяти строках разницы в скорости нет вовсе — SQLite и без индекса справится мгновенно; индексы окупаются на тысячах строк и частых запросах. Цена индекса — место на диске и замедление вставок: каждая INSERT обслуживает и таблицу, и все её индексы. Правило начала: индексируйте столбцы, по которым постоянно ищете и соединяете, и не плодите индексы «на всякий случай». Все примеры выполняются в SQLite в базе :memory:, вывод планов записан с реального запуска.",
@@ -4081,9 +4120,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Представление как именованный запрос",
+      "tg": "View ҳамчун дархости номдор",
+      "en": "A view as a named query"
      },
      "body": {
       "ru": "VIEW — сохранённый запрос с именем. CREATE VIEW drinks AS SELECT ... не копирует данные: база запоминает текст запроса, и каждый SELECT * FROM drinks выполняет его заново. Отсюда два честных свойства: view всегда показывает актуальные данные — поменялась цена кофе, изменился и drinks; а если удалить таблицу, view сломается при обращении, а не в момент удаления. Views удобны трояко: длинное условие пишется один раз; отчёты получают короткие имена; права доступа можно выдавать на view, не открывая таблицу целиком. В примере drinks — витрина напитков, expensive — дорогие товары; оба ведут себя в SELECT как обычные таблицы, WHERE и ORDER BY работают как всегда. Удаление делается командой DROP VIEW drinks; попытка обращения после неё даст ошибку no such table. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -4243,9 +4282,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Что именно отменяет ROLLBACK",
+      "tg": "ROLLBACK маҳз чиро бекор мекунад",
+      "en": "What ROLLBACK cancels"
      },
      "body": {
       "ru": "Перевод денег — это два UPDATE: снять с одного счёта, добавить другому. Если между ними что-то сломается, деньги исчезнут. Транзакция решает это: BEGIN открывает блок, и изменения внутри невидимы снаружи, пока не скажете COMMIT; ROLLBACK отменяет всё, что сделано после BEGIN, как будто этого не было. В примере первый блок завершён ROLLBACK: SELECT после него показывает исходные балансы 100 и 50 — обе записи отменились вместе. Второй блок завершён COMMIT: изменения закреплены, балансы 70 и 80. Отсюда атомарность: транзакция выполняется целиком или не выполняется вовсе; промежуточных состояний не бывает. Транзакции в SQLite описаны в официальной документации, PostgreSQL придерживается той же идеи — ссылки в источниках урока. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",
@@ -4409,9 +4448,9 @@
       "en": "Why data copies"
      },
      "body": {
-      "ru": "Данные гибнут не только в кино: диск выходит из строя, UPDATE без WHERE стирает половину таблицы, обновление ломает схему. Ответ один — резервная копия: отдельный файл, из которого базу можно восстановить целиком. Два честных правила сразу. Копия на том же диске — не копия: умрёт диск, умрут оба файла. Копия, которую ни разу не восстанавливали, — не копия, а надежда: никто не знает, откроется ли она. Поэтому частота копий определяется простым вопросом: сколько работы вам не жалко потерять за час, за день? Для учебной базы в памяти ответ простой — она восстанавливается пересозданием скрипта, и это тоже полезная привычка: держать создание базы в воспроизводимом SQL-файле. Для рабочей базы требуется настоящий план, и его вы напишете в задании этого дня. Это письменный урок: скрипта и вывода нет.",
-      "tg": "Додаҳо на танҳо дар синамо гум мешаванд: диск аз кор мебарояд, UPDATE бе WHERE нисфи ҷадвалро нест мекунад, навсозӣ схемаро вайрон мекунад. Ҷавоб яктост — нусхаи эҳтиётӣ: файли алоҳида, ки аз он пойгоҳро тамоман барқарор кардан мумкин аст. Ду қоидаи ростқавл фавран. Нусха дар ҳамон диск — нусха нест: диск мемирад, ҳарду файл мемиранд. Нусхае, ки ҳеҷ гоҳ барқарор накардаанд, нусха нест, балки умед аст: касе намедонад, ки оё кушода мешавад ё не. Аз ин сабаб зуддии нусхаҳоро саволи оддӣ муайян мекунад: чанд корро гум кардан ба шумо вазнин нест — дар як соат, дар як рӯз? Барои пойгоҳи омӯзишии хотиравӣ ҷавоб сода аст — вай бо азнавсохтани скрипт барқарор мешавад ва ин ҳам одати муфид аст: сохтани пойгоҳро дар файли SQL-и такроршаванда нигоҳ доштан. Барои пойгоҳи корӣ нақшаи воқеӣ лозим аст ва онро дар вазифаи имрӯза менависед. Ин дарси хаттӣ аст: скрипт ва натиҷа нест.",
-      "en": "Data dies not only in the movies: a disk fails, an UPDATE without WHERE wipes half a table, an upgrade breaks the schema. The answer is one — a backup: a separate file from which the database can be restored whole. Two honest rules right away. A copy on the same disk is not a copy: the disk dies, both files die. A copy never restored is not a copy but a hope: nobody knows whether it opens. So the frequency of backups is set by a simple question: how much work can you afford to lose per hour, per day? For an in-memory learning base the answer is simple — it is restored by re-running the script, and that is a useful habit too: keep database creation in a reproducible SQL file. A working database needs a real plan, and you will write it in this day's task. This is a written lesson: no script and no output."
+      "ru": "Резервная копия — отдельный снимок данных, который нужен для восстановления. Экспорт SQL описывает схему и данные командами: его можно загрузить в отдельную базу и проверить. Файл базы и SQL-экспорт — два разных формата восстановления. Не копируйте файл рабочей SQLite наугад во время записи. Для согласованной копии используйте механизм резервного копирования SQLite, например её Online Backup API.\n\nХраните копию отдельно от основного диска. Проверьте, что она восстанавливается в другом месте, и сравните ожидаемые данные. В этом уроке вы составляете такой план для учебной базы.",
+      "tg": "Нусхаи эҳтиётӣ акси ҷудои додаҳост, ки барои барқарор кардан лозим мешавад. Экспорти SQL сохтору додаҳоро ҳамчун фармонҳо менависад. Онро ба пойгоҳи ҷудо ворид карда, санҷидан мумкин. Файли база ва SQL-экспорт ду шакли гуногуни барқароркунӣ ҳастанд. Файли SQLite-ро вақти сабт тасодуфӣ нусха накунед. Барои нусхаи мувофиқ механизми худи SQLite, масалан Online Backup API, истифода мешавад.\n\nНусхаро ҷудо аз диски асосӣ нигоҳ доред. Дар ҷои дигар барқарор карда, додаҳои интизориро муқоиса кунед. Дар ин дарс чунин нақша менависед.",
+      "en": "A backup is a separate snapshot for recovery. A SQL export describes the schema and data as commands, so you can import it into a separate database and check it. A database file and a SQL export are different recovery formats. Avoid blindly copying a working SQLite file during writes. Use a SQLite backup mechanism, such as its Online Backup API, to obtain a consistent copy.\n\nKeep a copy separate from the main disk. Restore it elsewhere and compare the expected records. In this lesson you write that recovery plan."
      }
     },
     {
@@ -4564,9 +4603,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Выручка, лидеры продаж и клиенты без заказов",
+      "tg": "Даромад, молҳои серфурӯш ва муштариёни бе фармоиш",
+      "en": "Revenue, top products and customers without orders"
      },
      "body": {
       "ru": "Первый проектный день: собираем витрину отчётов из трёх запросов на знакомой базе. Отчёт один — выручка по дням: соединяем заказы с позициями и товарами, умножаем количество на цену, группируем по дате; первый октября заработал 96, дальше 48, 27 и 45. Отчёт два — топ-3 товаров по выручке: та же формула, группировка по товару, сортировка по убыванию и LIMIT 3; при равенстве выручки места расставляет имя — Juice с 36 впереди Tea с теми же 36. Отчёт три — клиенты без заказов через LEFT JOIN и IS NULL: это Sitora. Каждый отчёт — отдельный SELECT со своим устойчивым порядком строк; комментарии отделяют блоки, чтобы вывод читался глазами. Вместе три отчёта дают менеджеру снимок недели: сколько заработали, что берут, кого разбудить рассылкой. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска.",
@@ -4726,9 +4765,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
+      "ru": "Как проверить итоговый SQL-отчёт",
+      "tg": "Ҳисоботи ниҳоии SQL-ро чӣ тавр месанҷем",
+      "en": "Checking the final SQL report"
      },
      "body": {
       "ru": "Финальный день собирает полный аналитический скрипт: три связанных отчёта одним запуском, с чистым устойчивым выводом. Отчёт первый — по дням: дата, число заказов COUNT(DISTINCT o.id) и выручка; первое октября — два заказа на 96. Отчёт второй — по клиентам: заказы и сумма; Anna с двумя заказами и 107 — наш лучший клиент, у остальных по одному. Отчёт третий — контроль качества данных: товар, который ни разу не продавали, — Salt, и общий итог магазина — 216. Обратите внимание на дисциплину вывода: у каждого SELECT есть ORDER BY, при равенствах работают вторые ключи, блоки разделены комментариями — такой скрипт читается глазами и не зависит от настроения планировщика. Это готовый шаблон: поменяли пороги и окна — получили новую витрину. Все примеры выполняются в SQLite в базе :memory:, вывод записан с реального запуска и воспроизводится локально.",

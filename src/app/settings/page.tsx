@@ -9,7 +9,7 @@ import { PageHeading } from '@/components/learning/page-heading';
 import { AccountSettings } from '@/components/account/account-settings';
 import { useAccount } from '@/components/account/account-provider';
 import { progressSnapshot } from '@/lib/account/progress';
-import type { InterfaceLocale } from '@/lib/locale';
+import { INTERFACE_LANGUAGE_NAMES, INTERFACE_LOCALES, type InterfaceLocale } from '@/lib/locale';
 export default function SettingsPage() {
   const state = useLearningStore();
   const account = useAccount();
@@ -51,9 +51,7 @@ export default function SettingsPage() {
           ru: 'Не удалось экспортировать. Данные не удалены.',
           en: 'Export failed. Your data has not been deleted.',
           tg: 'Экспорт нашуд. Маълумоти шумо нест нашудааст.',
-          uk: 'Не вдалося експортувати. Ваші дані не видалено.',
-          ja: 'エクスポートできませんでした。データは削除されていません。',
-          ko: '내보내지 못했습니다. 데이터는 삭제되지 않았습니다.',
+          es: 'No se pudo exportar. Tus datos no se han eliminado.',
         }[state.language],
       );
     }
@@ -78,12 +76,11 @@ export default function SettingsPage() {
                 state.setPreferences({ language: event.target.value as InterfaceLocale })
               }
             >
-              <option value="tg">Тоҷикӣ</option>
-              <option value="ru">Русский</option>
-              <option value="uk">Українська</option>
-              <option value="en">English</option>
-              <option value="ja">日本語</option>
-              <option value="ko">한국어</option>
+              {INTERFACE_LOCALES.map((locale) => (
+                <option key={locale} value={locale}>
+                  {INTERFACE_LANGUAGE_NAMES[locale]}
+                </option>
+              ))}
             </select>
           </div>
           <div className="setting-row">
@@ -152,9 +149,7 @@ export default function SettingsPage() {
                         ru: 'Прогресс вашего аккаунта сохраняется в браузере и синхронизируется с облаком.',
                         en: 'Your account progress is cached in this browser and synchronized to the cloud.',
                         tg: 'Пешрафти аккаунт дар браузер нигоҳ дошта шуда, бо абр ҳамоҳанг мешавад.',
-                        uk: 'Прогрес акаунта зберігається у браузері та синхронізується з хмарою.',
-                        ja: '学習記録はブラウザーに保存され、クラウドと同期されます。',
-                        ko: '학습 기록은 브라우저에 저장되고 클라우드와 동기화됩니다.',
+                        es: 'El progreso de tu cuenta se guarda en este navegador y se sincroniza con la nube.',
                       }[state.language]
                     : copy.storageHint}
                 </p>

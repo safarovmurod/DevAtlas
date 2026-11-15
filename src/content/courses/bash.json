@@ -35,15 +35,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что такое Bash и чем он запускает команды",
+      "tg": "Bash чист ва командаҳоро чӣ хел иҷро мекунад?",
+      "en": "Bash and commands"
+    },
      "body": {
-      "ru": "Bash — командная оболочка. При присваивании price=12 вокруг = нет пробелов. $((...)) выполняет целочисленную арифметику. printf с фиксированным форматом и значением в кавычках выводит строку без неожиданного разделения аргументов. Эти примеры не удаляют файлы и не требуют sudo.",
-      "tg": "Bash муҳити фармонӣ аст. Дар price=12 атрофи = фосила нест. $((...)) ҳисоби ададҳои бутунро иҷро мекунад. printf бо формати собит ва қимат дар нохунак сатрро бе ҷудокунии ногаҳонии аргументҳо мебарорад. Ин мисолҳо файлҳоро нест намекунанд ва sudo талаб намекунанд.",
-      "en": "Bash is a command shell. Assignment price=12 has no spaces around =. $((...)) performs integer arithmetic. printf with a fixed format and a quoted value prints without unexpected argument splitting. These examples delete no files and need no sudo."
-     },
+      "ru": "Bash — оболочка: она читает команды пользователя и запускает их. Скрипт собирает те же команды в файле. Переменные и кавычки помогают передавать им значения с пробелами.\n\nBash — командная оболочка. При присваивании price=12 вокруг = нет пробелов. $((...)) выполняет целочисленную арифметику. printf с фиксированным форматом и значением в кавычках выводит строку без неожиданного разделения аргументов. Эти примеры не удаляют файлы и не требуют sudo.",
+      "tg": "Bash shell аст: командаҳоро мехонад ва иҷро мекунад. Скрипт ҳамин командаҳоро дар файл ҷамъ мекунад. Variable ва нохунак қимати пробелдорро якҷо нигоҳ медоранд.\n\nBash муҳити фармонӣ аст. Дар price=12 атрофи = фосила нест. $((...)) ҳисоби ададҳои бутунро иҷро мекунад. printf бо формати собит ва қимат дар нохунак сатрро бе ҷудокунии ногаҳонии аргументҳо мебарорад. Ин мисолҳо файлҳоро нест намекунанд ва sudo талаб намекунанд.",
+      "en": "Bash is a shell that reads and runs commands. A script puts those commands in a file. Variables and quotes help pass values that contain spaces.\n\nBash is a command shell. Assignment price=12 has no spaces around =. $((...)) performs integer arithmetic. printf with a fixed format and a quoted value prints without unexpected argument splitting. These examples delete no files and need no sudo."
+    },
      "code": "#!/usr/bin/env bash\nset -eu\nprice=12\nquantity=3\nprintf '%s\\n' \"$((price * quantity))\"\n",
      "language": "shell",
      "output": {
@@ -77,6 +77,24 @@
      }
     }
    ],
+   "interview": {
+     "id": "bash-day-01-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Что написать слева от числа 12, чтобы присвоить его переменной price в Bash? Напишите всё присваивание.",
+       "tg": "Барои ба price додани адади 12 тамоми присваивание-и Bash-ро навис.",
+       "en": "Write the Bash assignment that sets price to 12."
+     },
+     "answer": {
+       "ru": "price=12",
+       "tg": "price=12",
+       "en": "price=12"
+     },
+     "acceptedAnswers": [
+       "price=\"12\"",
+       "price='12'"
+     ]
+   },
    "questions": [
     {
      "id": "bash-day-01-q",
@@ -195,15 +213,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Аргументы и код возврата",
+      "tg": "Аргумент ва коди баргашт",
+      "en": "Arguments and exit status"
+    },
      "body": {
-      "ru": "Функция читает аргументы через $1 и $2. Проверяем, что это от одной до шести цифр. Возврат 1 означает отказ; 0 означает успех. Префикс 10# заставляет читать ведущие нули как десятичное число. Никогда не передавайте введённый пользователем текст в eval.",
-      "tg": "Функсия аргументҳоро аз $1 ва $2 мехонад. Месанҷем, ки аз як то шаш рақам бошанд. Баргардондани 1 радкунӣ, 0 муваффақият аст. Пешванди 10# адади дорои сифри аввалро даҳӣ мехонад. Матни воридкардаи корбарро ҳеҷ гоҳ ба eval надиҳед.",
-      "en": "The function reads arguments through $1 and $2. Require one to six digits. Returning 1 signals failure; 0 signals success. The 10# prefix treats leading zeros as decimal. Never pass user-entered text to eval."
-     },
+      "ru": "Функция Bash получает позиционные аргументы как $1 и $2. Текст для человека выводится отдельно. Условие в скрипте узнаёт об успехе по коду возврата.\n\nФункция читает аргументы через $1 и $2. Проверяем, что это от одной до шести цифр. Возврат 1 означает отказ; 0 означает успех. Префикс 10# заставляет читать ведущие нули как десятичное число. Никогда не передавайте введённый пользователем текст в eval.",
+      "tg": "Функсияи Bash аргументҳоро бо $1 ва $2 мегирад. Матн барои одам ҷудо мебарояд. Скрипт аз коди баргашт мефаҳмад, ки амал муваффақ шуд ё не.\n\nФунксия аргументҳоро аз $1 ва $2 мехонад. Месанҷем, ки аз як то шаш рақам бошанд. Баргардондани 1 радкунӣ, 0 муваффақият аст. Пешванди 10# адади дорои сифри аввалро даҳӣ мехонад. Матни воридкардаи корбарро ҳеҷ гоҳ ба eval надиҳед.",
+      "en": "A Bash function receives positional arguments as $1 and $2. It can print text separately. The script determines success from the exit status.\n\nThe function reads arguments through $1 and $2. Require one to six digits. Returning 1 signals failure; 0 signals success. The 10# prefix treats leading zeros as decimal. Never pass user-entered text to eval."
+    },
      "code": "#!/usr/bin/env bash\nset -eu\ntotal() {\n  local price=$1 quantity=$2\n  [[ $price =~ ^[0-9]{1,6}$ && $quantity =~ ^[0-9]{1,6}$ ]] || return 1\n  printf '%s\\n' \"$((10#$price * 10#$quantity))\"\n}\ntotal 12 3\ntotal 12 0\nif ! total 12 -1; then printf '%s\\n' 'Invalid input rejected'; fi\n",
      "language": "shell",
      "output": {
@@ -237,6 +255,24 @@
      }
     }
    ],
+   "interview": {
+     "id": "bash-day-02-written",
+     "question": {
+       "ru": "Какой код возврата означает успех в Bash?",
+       "tg": "Кадом коди баргашт дар Bash муваффақиятро нишон медиҳад?",
+       "en": "Which Bash exit status means success?"
+     },
+     "answer": {
+       "ru": "0",
+       "tg": "0",
+       "en": "0"
+     },
+     "acceptedAnswers": [
+       "ноль",
+       "сифр",
+       "zero"
+     ]
+   },
    "questions": [
     {
      "id": "bash-day-02-q",
@@ -356,15 +392,15 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: зачем два способа вывода",
-      "tg": "Аз сифр: чаро ду тарзи хуруҷ",
-      "en": "From zero: why two ways to print"
-     },
+      "ru": "Чем printf отличается от echo",
+      "tg": "printf аз echo чӣ фарқ дорад?",
+      "en": "Choosing between printf and echo"
+    },
      "body": {
-      "ru": "Программа в терминале общается с человеком текстом, и в Bash для этого есть две команды. echo простая: она печатает свои аргументы через пробел и сама добавляет перевод строки в конце. printf пришла из языка C и работает по шаблону: первый аргумент задаёт формат, где %s — место для строки, \\n — перевод строки, а \\t — табуляция. Контроль над каждым символом важен, когда нужно выровнять колонки, склеить две части одной строки или вывести сообщение без перевода. Внутри echo последовательности вроде \\n по умолчанию не интерпретируются, а printf понимает их всегда, поэтому в скриптах она надёжнее. Привычка писать формат в кавычках и значение тоже в кавычках защищает строки с пробелами от неожиданного разбиения. Вывод — это интерфейс вашего скрипта: аккуратные сообщения читает человек, а ровный текст удобно передавать следующим командам через конвейер. Сегодня вы научитесь управлять каждым переводом строки сами.",
-      "tg": "Барнома дар терминал бо инсон тавассути матн муошира мекунад ва дар Bash барои ин ду фармон вуҷуд дорад. echo сода аст: аргументҳои худро бо фосила чоп мекунад ва дар охир худаш гузариши сатрро илова мекунад. printf аз забони C омадааст ва аз рӯи қолиб кор мекунад: аргументи аввал формати хуруҷро муайян мекунад, ки дар он %s ҷои сатр, \\n гузариши сатр ва \\t табулятсия аст. Идора кардани ҳар як аломат он вақт муҳим мешавад, ки бояд сутунҳоро рост кунед, ду қисми як сатрро пайваст созед ё хабарро бе гузариши сатр чоп кунед. Дар дохили echo пайрафтҳои монанди \\n пешфарз фаҳмида намешаванд, вале printf онҳоро ҳамеша мефаҳмад, аз ин рӯ дар скриптҳо он бехатартар аст. Одати навиштани формати нохунакдор ва қимати нохунакдор сатрҳои дорои фосиларо аз тақсимшавии ногаҳон эмин медорад. Хуруҷ интерфейси скрипти шумост: паёмҳои биро инсон мехонад ва матни ростро ба фармонҳои навбатӣ дар конвейер месупоред.",
-      "en": "A program in a terminal talks to people through text, and Bash gives you two commands for that. echo is the simple one: it prints its arguments separated by spaces and adds the final newline itself. printf comes from the C language and works from a template: the first argument is the format, where %s is a slot for a string, \\n is a newline and \\t is a tab. Controlling every character matters when you align columns, join two parts of one line, or print a message without a trailing newline. Inside echo, sequences like \\n are not interpreted by default, while printf always understands them, so it is the more predictable choice in scripts. The habit of quoting the format and quoting the value protects lines containing spaces from unexpected splitting. Output is your script's interface: humans read the messages, and clean text is easy to hand to the next command in a pipeline."
-     }
+      "ru": "echo удобно для короткого сообщения. printf задаёт шаблон вывода, например строку с предсказуемым переносом. Это помогает, когда результат читает другой скрипт.\n\nПрограмма в терминале общается с человеком текстом, и в Bash для этого есть две команды. echo простая: она печатает свои аргументы через пробел и сама добавляет перевод строки в конце. printf пришла из языка C и работает по шаблону: первый аргумент задаёт формат, где %s — место для строки, \\n — перевод строки, а \\t — табуляция. Контроль над каждым символом важен, когда нужно выровнять колонки, склеить две части одной строки или вывести сообщение без перевода. Внутри echo последовательности вроде \\n по умолчанию не интерпретируются, а printf понимает их всегда, поэтому в скриптах она надёжнее. Привычка писать формат в кавычках и значение тоже в кавычках защищает строки с пробелами от неожиданного разбиения. Вывод — это интерфейс вашего скрипта: аккуратные сообщения читает человек, а ровный текст удобно передавать следующим командам через конвейер. Сегодня вы научитесь управлять каждым переводом строки сами.",
+      "tg": "echo барои паёми кӯтоҳ қулай аст. printf формати бароришро муайян мекунад, масалан кай сатр нав шавад. Вақте скрипти дигар натиҷаро мехонад, ин муҳим аст.\n\nБарнома дар терминал бо инсон тавассути матн муошира мекунад ва дар Bash барои ин ду фармон вуҷуд дорад. echo сода аст: аргументҳои худро бо фосила чоп мекунад ва дар охир худаш гузариши сатрро илова мекунад. printf аз забони C омадааст ва аз рӯи қолиб кор мекунад: аргументи аввал формати хуруҷро муайян мекунад, ки дар он %s ҷои сатр, \\n гузариши сатр ва \\t табулятсия аст. Идора кардани ҳар як аломат он вақт муҳим мешавад, ки бояд сутунҳоро рост кунед, ду қисми як сатрро пайваст созед ё хабарро бе гузариши сатр чоп кунед. Дар дохили echo пайрафтҳои монанди \\n пешфарз фаҳмида намешаванд, вале printf онҳоро ҳамеша мефаҳмад, аз ин рӯ дар скриптҳо он бехатартар аст. Одати навиштани формати нохунакдор ва қимати нохунакдор сатрҳои дорои фосиларо аз тақсимшавии ногаҳон эмин медорад. Хуруҷ интерфейси скрипти шумост: паёмҳои биро инсон мехонад ва матни ростро ба фармонҳои навбатӣ дар конвейер месупоред.",
+      "en": "echo is convenient for a quick message. printf gives you control over the output format, including newlines. This matters when another script reads the output.\n\nA program in a terminal talks to people through text, and Bash gives you two commands for that. echo is the simple one: it prints its arguments separated by spaces and adds the final newline itself. printf comes from the C language and works from a template: the first argument is the format, where %s is a slot for a string, \\n is a newline and \\t is a tab. Controlling every character matters when you align columns, join two parts of one line, or print a message without a trailing newline. Inside echo, sequences like \\n are not interpreted by default, while printf always understands them, so it is the more predictable choice in scripts. The habit of quoting the format and quoting the value protects lines containing spaces from unexpected splitting. Output is your script's interface: humans read the messages, and clean text is easy to hand to the next command in a pipeline."
+    }
     },
     {
      "title": {
@@ -398,6 +434,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "bash-day-03-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какая команда Bash печатает текст по явному формату?",
+       "tg": "Кадом командаи Bash аз рӯйи формат матн мебарорад?",
+       "en": "Which Bash command prints text using an explicit format?"
+     },
+     "answer": {
+       "ru": "printf",
+       "tg": "printf",
+       "en": "printf"
+     }
+   },
    "questions": [
     {
      "id": "bash-day-03-q1",
@@ -518,9 +568,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: где скрипт хранит данные",
-      "tg": "Аз сифр: скрипт маълумотро дар куҷо нигоҳ медорад",
-      "en": "From zero: where a script keeps data"
+      "ru": "Переменные и кавычки",
+      "tg": "Тағйирёбанда ва нохунак",
+      "en": "Variables and quoting"
      },
      "body": {
       "ru": "Переменная — это именованная ячейка памяти: один раз записали значение, дальше используете его по имени. Присваивание в Bash выглядит как name=World, и вокруг знака равенства не должно быть пробелов: написали name = World — и bash решил, что name это команда, которую надо запустить. Прочитать значение можно, поставив перед именем знак доллара: $name. Дальше начинается самое важное — кавычки. Двойные кавычки раскрывают переменные: \"Hello, $name!\" превращается в Hello, World!. Одинарные кавычки печатают текст буквально: '$name' так и остаётся двумя символами и именем. Без кавычек значение с пробелами разрезается на несколько слов — именно так ломаются скрипты, работающие с именами файлов. Правило простое: раскрываете переменную — ставьте двойные кавычки; нужен буквальный текст со знаками доллара — одинарные. Сегодня вы увидите обе ситуации на одном коротком примере и поймёте, почему кавычки экономят часы отладки.",
@@ -680,14 +730,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: скрипт, который принимает данные",
-      "tg": "Аз сифр: скрипте, ки маълумот мегирад",
-      "en": "From zero: a script that accepts data"
+      "ru": "Аргументы скрипта: $1, \"$@\" и $#",
+      "tg": "Аргументҳои script: $1, \"$@\" ва $#",
+      "en": "Script arguments: $1, \"$@\", and $#"
      },
      "body": {
-      "ru": "Пока значения записаны внутри скрипта, он делает всегда одно и то же. Настоящая автоматизация начинается, когда данные приходят снаружи — из командной строки. Написав bash main.sh alpha \"beta gamma\" 42, вы передаёте скрипту три аргумента, и внутри них видно через позиционные параметры: $1 — первый, $2 — второй и так далее. Специальная запись $# хранит количество переданных аргументов, а $@ — весь список целиком. И тут снова решают кавычки: цикл по \"$@\" отдаёт каждый аргумент отдельно, даже если внутри него есть пробелы, а без кавычек строка beta gamma разрезается на два куска. Чтобы этот урок был воспроизводимым без ручного набора аргументов, в примере используется команда set --, которая назначает позиционные параметры прямо внутри скрипта: ровно те же значения вы получите, запустив скрипт с этими аргументами в командной строке. Проверка количества аргументов перед работой — первый шаг любого добросовестного скрипта.",
-      "tg": "То вақте ки қиматҳо дар дохили скрипт навишта шудаанд, он ҳамеша як корро мекунад. Отоматсияонии ҳақиқӣ аз он оғоз мешавад, ки маълумот аз берун — аз сатри фармон меояд. Бо навиштани bash main.sh alpha \"beta gamma\" 42 шумо ба скрипт се аргумент медиҳед ва дар дохили онҳо тавассути параметрҳои ҷойгиршуда намоён аст: $1 якум, $2 дуюм ва ғайра. Навишти махсуси $# шумораи аргументҳои додашударо нигоҳ медорад, вале $@ рӯйхати пурраро дар бар мегирад. Ва ин ҷо боз нохунакҳо ҳал мекунанд: чархиш дар \"$@\" ҳар аргументро алоҳида медиҳад, ҳатто агар дар дохили он фосила бошад, вале бе нохунак сатри beta gamma ба ду парча бурида мешавад. Барои он ки ин дарс бе дасти ворид кардани аргументҳо такроршаванда бошад, дар мисол фармони set -- истифода мешавад, ки параметрҳои ҷойгиршударо мустақиман дар дохили скрипт таъин мекунад: ҳамон қиматҳоро аз фармони bash main.sh бо ин аргументҳо мегиред. Санҷиши шумораи аргументҳо пеш аз кор — қадами аввали ҳар скрипти масъулона навишташуда аст.",
-      "en": "As long as values are hard-coded inside, a script always does the same thing. Real automation begins when data arrives from outside — from the command line. When you run bash main.sh alpha \"beta gamma\" 42, you pass the script three arguments, and inside they are visible through positional parameters: $1 is the first, $2 the second and so on. The special $# holds the number of arguments passed, and $@ is the whole list. Quotes decide again here: a loop over \"$@\" yields each argument separately, even when it contains spaces, while unquoted beta gamma gets cut into two pieces. To keep this lesson reproducible without typing arguments by hand, the example uses set --, which assigns positional parameters right inside the script: you would get exactly the same values by launching the script with those arguments on the command line. Checking the argument count before doing any work is the first step of every responsibly written script."
+      "ru": "Пока значения записаны внутри скрипта, он делает всегда одно и то же. Настоящая автоматизация начинается, когда данные приходят снаружи — из командной строки. Написав bash main.sh alpha \"beta gamma\" 42, вы передаёте скрипту три аргумента, и внутри них видно через позиционные параметры: $1 — первый, $2 — второй и так далее. Специальная запись $# хранит количество переданных аргументов, а $@ — весь список целиком. И тут снова решают кавычки: цикл по \"$@\" отдаёт каждый аргумент отдельно, даже если внутри него есть пробелы, а без кавычек строка beta gamma разрезается на два куска. Чтобы этот урок был воспроизводимым без ручного набора аргументов, в примере используется команда set --, которая назначает позиционные параметры прямо внутри скрипта: ровно те же значения вы получите, запустив скрипт с этими аргументами в командной строке. Проверка количества аргументов перед работой — первый шаг любого добросовестного скрипта.\n\nВызов из примера передаёт три аргумента, потому что кавычки сохраняют beta gamma одной строкой. \"$@\" передаёт дальше каждый исходный аргумент отдельно. Без кавычек Bash может разбить один аргумент на несколько слов.",
+      "tg": "То вақте ки қиматҳо дар дохили скрипт навишта шудаанд, он ҳамеша як корро мекунад. Отоматсияонии ҳақиқӣ аз он оғоз мешавад, ки маълумот аз берун — аз сатри фармон меояд. Бо навиштани bash main.sh alpha \"beta gamma\" 42 шумо ба скрипт се аргумент медиҳед ва дар дохили онҳо тавассути параметрҳои ҷойгиршуда намоён аст: $1 якум, $2 дуюм ва ғайра. Навишти махсуси $# шумораи аргументҳои додашударо нигоҳ медорад, вале $@ рӯйхати пурраро дар бар мегирад. Ва ин ҷо боз нохунакҳо ҳал мекунанд: чархиш дар \"$@\" ҳар аргументро алоҳида медиҳад, ҳатто агар дар дохили он фосила бошад, вале бе нохунак сатри beta gamma ба ду парча бурида мешавад. Барои он ки ин дарс бе дасти ворид кардани аргументҳо такроршаванда бошад, дар мисол фармони set -- истифода мешавад, ки параметрҳои ҷойгиршударо мустақиман дар дохили скрипт таъин мекунад: ҳамон қиматҳоро аз фармони bash main.sh бо ин аргументҳо мегиред. Санҷиши шумораи аргументҳо пеш аз кор — қадами аввали ҳар скрипти масъулона навишташуда аст.\n\nМисол се аргумент медиҳад, чун нохунак beta gamma-ро якҷо нигоҳ медорад. \"$@\" ҳар аргументи аслиро алоҳида мегузаронад. Бе нохунак Bash метавонад як аргументро ба чанд калима ҷудо кунад.",
+      "en": "As long as values are hard-coded inside, a script always does the same thing. Real automation begins when data arrives from outside — from the command line. When you run bash main.sh alpha \"beta gamma\" 42, you pass the script three arguments, and inside they are visible through positional parameters: $1 is the first, $2 the second and so on. The special $# holds the number of arguments passed, and $@ is the whole list. Quotes decide again here: a loop over \"$@\" yields each argument separately, even when it contains spaces, while unquoted beta gamma gets cut into two pieces. To keep this lesson reproducible without typing arguments by hand, the example uses set --, which assigns positional parameters right inside the script: you would get exactly the same values by launching the script with those arguments on the command line. Checking the argument count before doing any work is the first step of every responsibly written script.\n\nThe example passes three arguments because the quotes keep beta gamma together. \"$@\" forwards each original argument separately. Without quotes, Bash can split one argument into multiple words."
      }
     },
     {
@@ -842,9 +892,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: скрипт, который решает сам",
-      "tg": "Аз сифр: скрипте, ки худаш қарор мегирад",
-      "en": "From zero: a script that decides"
+      "ru": "Условие if проверяет код завершения",
+      "tg": "Шарти if коди анҷомро месанҷад",
+      "en": "How if uses an exit status"
      },
      "body": {
       "ru": "До этого дня скрипты выполняли строки строго сверху вниз. Но полезная программа должна реагировать на данные: возраст меньше восемнадцати — один ответ, больше — другой. За это отвечает конструкция if: после if стоит команда, чей код возврата проверяется; ноль означает успех, и тогда выполняется ветка then, иначе — ветка else, а для промежуточных случаев есть elif. Сама проверка пишется командой test, для которой существует синоним — квадратные скобки: [ \"$age\" -ge 18 ]. Для чисел используются операции -eq, -ne, -gt, -ge, -lt, -le, потому что обычное = сравнивает строки. Важно каждое слово заключать в кавычки: пустая переменная без кавычек превратит скобки в синтаксическую ошибку. Конструкция закрывается перевёрнутым словом fi, а не скобкой — это особенность Bash, к которой быстро привыкаешь. Сегодня вы напишете обе проверки примера и проследите, какая ветка выполняется.",
@@ -1004,14 +1054,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: скрипт смотрит на диск",
-      "tg": "Аз сифр: скрипт ба диск менигарад",
-      "en": "From zero: the script looks at the disk"
+      "ru": "Проверяем строки и пути через test",
+      "tg": "Санҷидани сатр ва path бо test",
+      "en": "Testing strings and paths"
      },
      "body": {
-      "ru": "Скрипты автоматизации постоянно работают с файлами: прочитать настройки, проверить отчёт, создать папку. Прежде чем трогать файл, надо убедиться, что он существует, — иначе команда завершится ошибкой, а скрипт продолжит работать с неверными предположениями. Для этого у команды test есть файловые проверки: -e истинна, если путь существует вообще, -f — если это обычный файл, -d — если это папка. Отрицание пишется знаком восклицания: [ ! -e путь ] истинно, когда пути нет. Для строк besides = и != полезны -z и -n: первая проверяет, что строка пустая, вторая — что непустая. В сегодняшнем примере скрипт сам создаёт в учебной папке маленькую песочницу, проверяет её содержимое и убирает за собой, поэтому пример полностью безопасен и воспроизводим. Проверки файлов — фундамент надёжных скриптов: сначала убедился, потом действовал.",
-      "tg": "Скриптҳои отоматсия доимо бо файлҳо кор мекунанд: танзимотро хондан, ҳисотро санҷидан, папка сохтан. Пеш аз даркор кардани файл бояд боварӣ ҳосил кард, ки он вуҷуд дорад — вагарна фармон бо хато тамом мешавад ва скрипт бо тасаввуроти нодуруст корро идома медиҳад. Барои ин дар фармони test санҷишҳои файлӣ ҳастанд: -e рост аст, агар роҳ дар умум вуҷуд дошта бошад, -f — агар он файли оддӣ бошад, -d — агар папка бошад. Инкор бо аломати нидо навишта мешавад: [ ! -e роҳ ] рост аст, вақте ки роҳ нест. Барои сатрҳо ғайр аз = ва != санҷишҳои -z ва -n муфиданд: якум месанҷад, ки сатр холӣ аст, дуюм — ки холӣ нест. Дар мисоли имрӯза скрипт худаш дар папкаи омӯзишӣ пясочницаи хурд месозад, мазмуни онро месанҷад ва баъди худаш тоза мекунад, барои ҳамин мисол комилан бехатар ва такроршаванда аст. Санҷишҳои файлӣ бунёди скриптҳои боэътимоданд: аввал боварӣ ҳосил кун, баъд амал кун.",
-      "en": "Automation scripts constantly deal with files: read settings, check a report, create a folder. Before touching a file you must confirm it exists — otherwise the command fails and the script keeps running on wrong assumptions. The test command provides file checks for this: -e is true when the path exists at all, -f when it is a regular file, -d when it is a folder. Negation is written with an exclamation mark: [ ! -e path ] is true when the path is missing. For strings, besides = and !=, -z and -n are useful: the first checks the string is empty, the second that it is non-empty. In today's example the script builds a small sandbox inside your learning folder, inspects it and cleans up after itself, so the example is completely safe and reproducible. File tests are the foundation of reliable scripts: confirm first, act second."
+      "ru": "Скрипты автоматизации постоянно работают с файлами: прочитать настройки, проверить отчёт, создать папку. Прежде чем трогать файл, надо убедиться, что он существует, — иначе команда завершится ошибкой, а скрипт продолжит работать с неверными предположениями. Для этого у команды test есть файловые проверки: -e истинна, если путь существует вообще, -f — если это обычный файл, -d — если это папка. Отрицание пишется знаком восклицания: [ ! -e путь ] истинно, когда пути нет. Для строк besides = и != полезны -z и -n: первая проверяет, что строка пустая, вторая — что непустая. В сегодняшнем примере скрипт сам создаёт в учебной папке маленькую песочницу, проверяет её содержимое и убирает за собой, поэтому пример полностью безопасен и воспроизводим. Проверки файлов — фундамент надёжных скриптов: сначала убедился, потом действовал.\n\n[ — команда проверки, поэтому ставьте пробелы между [, аргументами и ]. Проверка пути сообщает тип объекта в момент проверки. Команда чтения после неё всё ещё может получить ошибку.",
+      "tg": "Скриптҳои отоматсия доимо бо файлҳо кор мекунанд: танзимотро хондан, ҳисотро санҷидан, папка сохтан. Пеш аз даркор кардани файл бояд боварӣ ҳосил кард, ки он вуҷуд дорад — вагарна фармон бо хато тамом мешавад ва скрипт бо тасаввуроти нодуруст корро идома медиҳад. Барои ин дар фармони test санҷишҳои файлӣ ҳастанд: -e рост аст, агар роҳ дар умум вуҷуд дошта бошад, -f — агар он файли оддӣ бошад, -d — агар папка бошад. Инкор бо аломати нидо навишта мешавад: [ ! -e роҳ ] рост аст, вақте ки роҳ нест. Барои сатрҳо ғайр аз = ва != санҷишҳои -z ва -n муфиданд: якум месанҷад, ки сатр холӣ аст, дуюм — ки холӣ нест. Дар мисоли имрӯза скрипт худаш дар папкаи омӯзишӣ пясочницаи хурд месозад, мазмуни онро месанҷад ва баъди худаш тоза мекунад, барои ҳамин мисол комилан бехатар ва такроршаванда аст. Санҷишҳои файлӣ бунёди скриптҳои боэътимоданд: аввал боварӣ ҳосил кун, баъд амал кун.\n\n[ командаи санҷиш аст: байни [, аргументҳо ва ] фосила мон. Санҷиш навъи файлро ҳамин лаҳза нишон медиҳад. Командаи хондани файл баъди санҷиш ҳам метавонад хато диҳад.",
+      "en": "Automation scripts constantly deal with files: read settings, check a report, create a folder. Before touching a file you must confirm it exists — otherwise the command fails and the script keeps running on wrong assumptions. The test command provides file checks for this: -e is true when the path exists at all, -f when it is a regular file, -d when it is a folder. Negation is written with an exclamation mark: [ ! -e path ] is true when the path is missing. For strings, besides = and !=, -z and -n are useful: the first checks the string is empty, the second that it is non-empty. In today's example the script builds a small sandbox inside your learning folder, inspects it and cleans up after itself, so the example is completely safe and reproducible. File tests are the foundation of reliable scripts: confirm first, act second.\n\n[ is a test command, so put spaces between [, its arguments, and ]. A path test tells you what is at the path at that moment. Reading the file can still fail later."
      }
     },
     {
@@ -1166,9 +1216,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: повторение без копипасты",
-      "tg": "Аз сифр: такрор бе нусхагирӣ",
-      "en": "From zero: repetition without copy-paste"
+      "ru": "Перебор аргументов и диапазонов через for",
+      "tg": "Гаштан аз аргумент ва диапазон бо for",
+      "en": "Looping over words and ranges with for"
      },
      "body": {
       "ru": "Когда одно и то же действие нужно выполнить для пяти файлов или десяти чисел, копировать строку пять раз — плохой план: стоит забыть поправить одну копию, и скрипт начнёт врать. Цикл for решает это честно: вы один раз пишете тело цикла, а bash подставляет вместо переменной по очереди каждый элемент списка. Синтаксис прост: for имя in элементы; do команды; done. Элементы можно перечислить прямо в коде, получить из переменной или сгенерировать диапазон фигурными скобками: {1..5} разворачивается в один два три четыре пять, а {1..3} — в три числа. Внутри тела цикла переменная раскрывается в кавычках, как вы уже привыкли. Отдельная сила цикла — накопление: завели переменную total=0 и на каждом шаге прибавляете к ней очередное число через уже знакомую арифметику. Сегодня вы увидите все три применения в одном коротком скрипте: список, диапазон и сумму.",
@@ -1328,14 +1378,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: повторять, пока условие верно",
-      "tg": "Аз сифр: такрор кардан, то шарти рост бошад",
-      "en": "From zero: repeat while the condition holds"
+      "ru": "Цикл while и чтение по строкам",
+      "tg": "Цикли while ва як хат-як хат хондан",
+      "en": "While loops and reading lines"
      },
      "body": {
-      "ru": "Цикл for хорош, когда заранее известен список. Но часто известно не количество шагов, а условие продолжения: работать, пока счётчик не дойдёт до трёх, пока в файле есть строки, пока не найдена ошибка. Для этого существует while: он проверяет условие перед каждым шагом и выполняет тело, пока условие истинно. Классический счётчик выглядит так: создали count=1, в условии сравниваете его с пределом, в теле печатаете и увеличиваете на единицу через арифметику. Если забыть увеличение, цикл станет бесконечным — это самая знаменитая ошибка новичков, и выйти поможет Ctrl+C. Второе применение while — построчное чтение файла: конструкция while IFS= read -r line; do ...; done < файл читает файл строка за строкой, сохраняя пробелы и не ломая содержимое. Именно так скрипты обрабатывают конфиги, списки и журналы. Сегодня вы попробуете оба режима в одном примере.",
-      "tg": "Цикли for он вақт хуб аст, ки рӯйхат пешакӣ маълум бошад. Вале аксар вақт на шумораи қадамҳо, балки шарти идома маълум аст: кор кун, то ҳисобкунанда ба се расад, то дар файл сатрҳо бошанд, то хато ёфта нашавад. Барои ин while вуҷуд дорад: он пеш аз ҳар қадам шартиро месанҷад ва танро иҷро мекунад, то шарти рост бошад. Ҳисобкунандаи классикӣ чунин менамояд: count=1 сохтед, дар шарт онро бо ҳудуд муқоиса мекунед, дар тан чоп мекунед ва бо ҳисоб як илова мекунед. Агар илова карданро фаромӯш кунед, чарх беохир мешавад — ин машҳуртарин хатои навомӯзон аст ва барои баромадан Ctrl+C ёрӣ медиҳад. Истифодаи дуюми while — хондани файл сатр ба сатр аст: сохтори while IFS= read -r line; do ...; done < файл файлро сатр ба сатр мехонад, фосилаҳоро нигоҳ медорад ва мазмунро вайрон намекунад. Ҳамин тавр скриптҳо танзимот, рӯйхатҳо ва журналҳоро коркард мекунанд. Имрӯз ҳарду реҷаро дар як мисол месанҷед.",
-      "en": "The for loop is good when the list is known in advance. But often you know not the number of steps, only the continuation condition: work while the counter is below three, while the file has lines, while no error is found. That is what while is for: it checks the condition before every step and runs the body while the condition is true. The classic counter looks like this: set count=1, compare it with the limit in the condition, print and increment by one with arithmetic in the body. Forget the increment and the loop becomes infinite — the most famous beginner mistake, and Ctrl+C gets you out. The second use of while is line-by-line file reading: the construct while IFS= read -r line; do ...; done < file reads the file one line at a time, preserving spaces and not mangling content. That is exactly how scripts process configs, lists and logs. Today you will try both modes in one example."
+      "ru": "Цикл for хорош, когда заранее известен список. Но часто известно не количество шагов, а условие продолжения: работать, пока счётчик не дойдёт до трёх, пока в файле есть строки, пока не найдена ошибка. Для этого существует while: он проверяет условие перед каждым шагом и выполняет тело, пока условие истинно. Классический счётчик выглядит так: создали count=1, в условии сравниваете его с пределом, в теле печатаете и увеличиваете на единицу через арифметику. Если забыть увеличение, цикл станет бесконечным — это самая знаменитая ошибка новичков, и выйти поможет Ctrl+C. Второе применение while — построчное чтение файла: конструкция while IFS= read -r line; do ...; done < файл читает файл строка за строкой, сохраняя пробелы и не ломая содержимое. Именно так скрипты обрабатывают конфиги, списки и журналы. Сегодня вы попробуете оба режима в одном примере.\n\nIFS= сохраняет начальные и конечные пробелы, а -r оставляет обратные косые черты. Если последняя строка файла не заканчивается переводом строки, read может заполнить line и вернуть ненулевой статус. Для учебных файлов с переводами строк показанного условия хватает.",
+      "tg": "Цикли for он вақт хуб аст, ки рӯйхат пешакӣ маълум бошад. Вале аксар вақт на шумораи қадамҳо, балки шарти идома маълум аст: кор кун, то ҳисобкунанда ба се расад, то дар файл сатрҳо бошанд, то хато ёфта нашавад. Барои ин while вуҷуд дорад: он пеш аз ҳар қадам шартиро месанҷад ва танро иҷро мекунад, то шарти рост бошад. Ҳисобкунандаи классикӣ чунин менамояд: count=1 сохтед, дар шарт онро бо ҳудуд муқоиса мекунед, дар тан чоп мекунед ва бо ҳисоб як илова мекунед. Агар илова карданро фаромӯш кунед, чарх беохир мешавад — ин машҳуртарин хатои навомӯзон аст ва барои баромадан Ctrl+C ёрӣ медиҳад. Истифодаи дуюми while — хондани файл сатр ба сатр аст: сохтори while IFS= read -r line; do ...; done < файл файлро сатр ба сатр мехонад, фосилаҳоро нигоҳ медорад ва мазмунро вайрон намекунад. Ҳамин тавр скриптҳо танзимот, рӯйхатҳо ва журналҳоро коркард мекунанд. Имрӯз ҳарду реҷаро дар як мисол месанҷед.\n\nIFS= пробелҳои сару охирро нигоҳ медорад, -r бошад аломати \\-ро. Агар хатти охири файл newline надошта бошад, read метавонад line-ро пур кунад ва ҳамзамон коди ғайри сифр диҳад. Барои файли машқ бо newline шарти мисол бас аст.",
+      "en": "The for loop is good when the list is known in advance. But often you know not the number of steps, only the continuation condition: work while the counter is below three, while the file has lines, while no error is found. That is what while is for: it checks the condition before every step and runs the body while the condition is true. The classic counter looks like this: set count=1, compare it with the limit in the condition, print and increment by one with arithmetic in the body. Forget the increment and the loop becomes infinite — the most famous beginner mistake, and Ctrl+C gets you out. The second use of while is line-by-line file reading: the construct while IFS= read -r line; do ...; done < file reads the file one line at a time, preserving spaces and not mangling content. That is exactly how scripts process configs, lists and logs. Today you will try both modes in one example.\n\nIFS= preserves leading and trailing spaces, and -r keeps backslashes. If the last line lacks a newline, read can fill line and still return a nonzero status. The example condition works for the course files, which end each line with a newline."
      }
     },
     {
@@ -1490,14 +1540,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: когда if становится лестницей",
-      "tg": "Аз сифр: кай if зинапоя мешавад",
-      "en": "From zero: when if turns into a ladder"
+      "ru": "Выбор ветки по шаблону через case",
+      "tg": "Интихоб аз рӯйи pattern бо case",
+      "en": "Choosing a branch with case"
      },
      "body": {
-      "ru": "Представьте команду, которая реагирует на слова start, stop и status. Через if пришлось бы писать три проверки подряд, и с ростом числа команд код превращается в лестницу, которую тяжело читать. Для такого случая в Bash есть конструкция case: она берёт строку и последовательно сравнивает её с шаблонами. Каждый шаблон заканчивается скобкой, за ним идут команды, а ветка закрывается двойной точкой с запятой. Шаблоны умеют альтернативы: hello|Hello означает любое из двух слов, звёздочка * означает всё остальное и традиционно ставится последней веткой по умолчанию. Сравнение буквальное, если не использовать шаблонные символы, поэтому Hello и hello — разные слова, что хорошо видно в сегодняшнем примере. case читается сверху вниз и выполняет только первую подходящую ветку — порядок веток имеет значение. Завершается конструкция словом esac, то есть case наоборот. Этот механизм лежит в основе меню, обработки аргументов команд и разбора коротких ответов пользователя.",
-      "tg": "Фармонеро тасаввур кунед, ки ба калимаҳои start, stop ва status вокуниш нишон медиҳад. Бо if се санҷишро пай дар пай навиштан меомад ва бо афзоиши шумораи фармонҳо код ба зинапое табдил меёбад, ки хонданаш душвор аст. Барои чунин ҳолат дар Bash сохтори case вуҷуд дорад: он сатрро мегирад ва пайваста бо қолибҳо муқоиса мекунад. Ҳар қолиб бо қавс тамом мешавад, баъди он фармонҳо меоянд ва шоха бо нуқтаи вергули дучанда пӯшида мешавад. Қолибҳо алтернативҳоро медонанд: hello|Hello маънои ҳар яке аз ду калимаро дорад, ситора * маънои ҳама чизи боқимондаро дорад ва одатан ҳамчун шохаи пешфарзи охирин гузошта мешавад. Муқоиса ҳамчун матн аст, агар аломатҳои қолиб истифода нашаванд, барои ҳамин Hello ва hello калимаҳои гуногунанд — ин дар мисоли имрӯз хуб намоён аст. case аз боло ба поён хонда мешавад ва танҳо шохаи якуми мувофиқро иҷро мекунад — тартиби шохаҳо аҳамият дорад. Сохтор бо калимаи esac, яъне case-и баргардон, тамом мешавад. Ин механизм асоси менюҳо, коркарди аргументҳои фармон ва таҳлили ҷавобҳои кӯтоҳи корбар аст.",
-      "en": "Imagine a command reacting to the words start, stop and status. With if you would write three checks in a row, and as commands multiply the code turns into a ladder that is hard to read. For such cases Bash has the case construct: it takes a string and compares it against patterns in order. Each pattern ends with a parenthesis, commands follow it, and the branch closes with a double semicolon. Patterns support alternatives: hello|Hello means either word, the star * means everything else and is conventionally placed last as the default branch. Comparison is literal unless you use pattern characters, so Hello and hello are different words — clearly visible in today's example. case reads top to bottom and executes only the first matching branch — branch order matters. The construct ends with the word esac, case spelled backwards. This mechanism underlies menus, command-argument handling and parsing short user replies."
+      "ru": "Представьте команду, которая реагирует на слова start, stop и status. Через if пришлось бы писать три проверки подряд, и с ростом числа команд код превращается в лестницу, которую тяжело читать. Для такого случая в Bash есть конструкция case: она берёт строку и последовательно сравнивает её с шаблонами. Каждый шаблон заканчивается скобкой, за ним идут команды, а ветка закрывается двойной точкой с запятой. Шаблоны умеют альтернативы: hello|Hello означает любое из двух слов, звёздочка * означает всё остальное и традиционно ставится последней веткой по умолчанию. Сравнение буквальное, если не использовать шаблонные символы, поэтому Hello и hello — разные слова, что хорошо видно в сегодняшнем примере. case читается сверху вниз и выполняет только первую подходящую ветку — порядок веток имеет значение. Завершается конструкция словом esac, то есть case наоборот. Этот механизм лежит в основе меню, обработки аргументов команд и разбора коротких ответов пользователя.\n\ncase сравнивает строку с шаблонами оболочки, а не с выражениями grep. * означает любое количество символов, включая ноль. В ветках из примера используется ;;, поэтому после первого совпадения сравнение заканчивается.",
+      "tg": "Фармонеро тасаввур кунед, ки ба калимаҳои start, stop ва status вокуниш нишон медиҳад. Бо if се санҷишро пай дар пай навиштан меомад ва бо афзоиши шумораи фармонҳо код ба зинапое табдил меёбад, ки хонданаш душвор аст. Барои чунин ҳолат дар Bash сохтори case вуҷуд дорад: он сатрро мегирад ва пайваста бо қолибҳо муқоиса мекунад. Ҳар қолиб бо қавс тамом мешавад, баъди он фармонҳо меоянд ва шоха бо нуқтаи вергули дучанда пӯшида мешавад. Қолибҳо алтернативҳоро медонанд: hello|Hello маънои ҳар яке аз ду калимаро дорад, ситора * маънои ҳама чизи боқимондаро дорад ва одатан ҳамчун шохаи пешфарзи охирин гузошта мешавад. Муқоиса ҳамчун матн аст, агар аломатҳои қолиб истифода нашаванд, барои ҳамин Hello ва hello калимаҳои гуногунанд — ин дар мисоли имрӯз хуб намоён аст. case аз боло ба поён хонда мешавад ва танҳо шохаи якуми мувофиқро иҷро мекунад — тартиби шохаҳо аҳамият дорад. Сохтор бо калимаи esac, яъне case-и баргардон, тамом мешавад. Ин механизм асоси менюҳо, коркарди аргументҳои фармон ва таҳлили ҷавобҳои кӯтоҳи корбар аст.\n\ncase сатрро бо pattern-и shell месанҷад. Ин regex-и grep нест. * ҳар қадар аломат, ҳатто сатри холиро мегирад. Дар мисол ;; истифода мешавад, пас баъди аввалин мувофиқат case меистад.",
+      "en": "Imagine a command reacting to the words start, stop and status. With if you would write three checks in a row, and as commands multiply the code turns into a ladder that is hard to read. For such cases Bash has the case construct: it takes a string and compares it against patterns in order. Each pattern ends with a parenthesis, commands follow it, and the branch closes with a double semicolon. Patterns support alternatives: hello|Hello means either word, the star * means everything else and is conventionally placed last as the default branch. Comparison is literal unless you use pattern characters, so Hello and hello are different words — clearly visible in today's example. case reads top to bottom and executes only the first matching branch — branch order matters. The construct ends with the word esac, case spelled backwards. This mechanism underlies menus, command-argument handling and parsing short user replies.\n\ncase compares the value with shell patterns, which work differently from grep regular expressions. * can match any number of characters, including zero. The example uses ;;, so processing stops after the first match."
      }
     },
     {
@@ -1652,14 +1702,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: счёт внутри скрипта",
-      "tg": "Аз сифр: ҳисоб дар дохили скрипт",
-      "en": "From zero: counting inside a script"
+      "ru": "Целочисленная арифметика и подстановка",
+      "tg": "Ҳисоби адади бутун ва гузоштани натиҷа",
+      "en": "Integer arithmetic and expansion"
      },
      "body": {
-      "ru": "Скриптам часто нужно считать: индексы, суммы, размеры, проценты. В Bash для этого есть арифметическая подстановка $(( )): внутрь двойных скобок пишете выражение, а на его место подставляется результат. Внутри можно не писать знак доллара перед именами переменных: $((a + b)) понимается как сумма значений a и b. Работают сложение, вычитание, умножение, деление и остаток от деления. Важно знать особенность: деление целочисленное, дробная часть отбрасывается — семь разделить на два даст три, а не три с половиной. Остаток от деления пишется знаком процента и незаменим для проверки чётности или циклического счёта. Существует и старшая команда let: она вычисляет выражение и сохраняет результат в переменную, что удобно для присваиваний вроде let 'square = a * a'. Вы уже не раз использовали $(( )) для счётчиков; сегодня вы посмотрите на арифметику как на полноценный инструмент с четырьмя действиями сразу.",
-      "tg": "Ба скрипт зуд-зуд ҳисоб кардан лозим мешавад: индексҳо, ҷамъҳо, андозаҳо, фоизҳо. Дар Bash барои ин ҷойгузории ҳисобӣ $(( )) ҳаст: дар дохили қавсҳои дучанда ифодаро менависед ва ба ҷои он натиҷа гузошта мешавад. Дар дохил аломати долларро пеши номҳои тағйирёбандаҳо нанавиштан мумкин аст: $((a + b)) ҳамчун ҷамъи қиматҳои a ва b фаҳмида мешавад. Ҷамъ, тарҳ, зарб, тақсим ва боқимондаи тақсим кор мекунанд. Хусусияти муҳимро донистан лозим аст: тақсим бутун аст, қисми касрӣ партоида мешавад — ҳафтро ба ду тақсим кардан се медиҳад, на се ним. Боқимондаи тақсим бо аломати фоиз навишта мешавад ва барои санҷиши ҷуфт будан ё ҳисоби даврӣ беалтернатив аст. Фармони калонии let низ ҳаст: он ифодаро ҳисоб мекунад ва натиҷаро дар тағйирёбанда нигоҳ медорад, ки барои таъиноти мисли let 'square = a * a' қулай аст. Шумо аллакай борҳо $(( ))-ро барои ҳисобкунандаҳо истифода кардед; имрӯз ба ҳисоб ҳамчун абзори пурраи чорамал менигаред.",
-      "en": "A script often needs to count: indexes, sums, sizes, percentages. Bash has arithmetic substitution for that: you write an expression inside double parentheses and the result takes its place. Inside, the dollar sign before variable names is optional: $((a + b)) is read as the sum of the values of a and b. Addition, subtraction, multiplication, division and remainder all work. One peculiarity matters: division is integer, the fractional part is discarded — seven divided by two gives three, not three and a half. The remainder uses the percent sign and is indispensable for evenness checks or cyclic counters. There is also the older let command: it evaluates an expression and stores the result in a variable, handy for assignments like let 'square = a * a'. You have already used $(( )) for counters; today you will look at arithmetic as a full tool with all four operations at once."
+      "ru": "Скриптам часто нужно считать: индексы, суммы, размеры, проценты. В Bash для этого есть арифметическая подстановка $(( )): внутрь двойных скобок пишете выражение, а на его место подставляется результат. Внутри можно не писать знак доллара перед именами переменных: $((a + b)) понимается как сумма значений a и b. Работают сложение, вычитание, умножение, деление и остаток от деления. Важно знать особенность: деление целочисленное, дробная часть отбрасывается — семь разделить на два даст три, а не три с половиной. Остаток от деления пишется знаком процента и незаменим для проверки чётности или циклического счёта. Существует и старшая команда let: она вычисляет выражение и сохраняет результат в переменную, что удобно для присваиваний вроде let 'square = a * a'. Вы уже не раз использовали $(( )) для счётчиков; сегодня вы посмотрите на арифметику как на полноценный инструмент с четырьмя действиями сразу.\n\n$((...)) подставляет текст числового результата. let и ((...)) выполняют выражение как команды. У них статус 1, если выражение вычислилось в 0. Это влияет на if и на скрипты с set -e, даже когда вычисление не ошиблось.",
+      "tg": "Ба скрипт зуд-зуд ҳисоб кардан лозим мешавад: индексҳо, ҷамъҳо, андозаҳо, фоизҳо. Дар Bash барои ин ҷойгузории ҳисобӣ $(( )) ҳаст: дар дохили қавсҳои дучанда ифодаро менависед ва ба ҷои он натиҷа гузошта мешавад. Дар дохил аломати долларро пеши номҳои тағйирёбандаҳо нанавиштан мумкин аст: $((a + b)) ҳамчун ҷамъи қиматҳои a ва b фаҳмида мешавад. Ҷамъ, тарҳ, зарб, тақсим ва боқимондаи тақсим кор мекунанд. Хусусияти муҳимро донистан лозим аст: тақсим бутун аст, қисми касрӣ партоида мешавад — ҳафтро ба ду тақсим кардан се медиҳад, на се ним. Боқимондаи тақсим бо аломати фоиз навишта мешавад ва барои санҷиши ҷуфт будан ё ҳисоби даврӣ беалтернатив аст. Фармони калонии let низ ҳаст: он ифодаро ҳисоб мекунад ва натиҷаро дар тағйирёбанда нигоҳ медорад, ки барои таъиноти мисли let 'square = a * a' қулай аст. Шумо аллакай борҳо $(( ))-ро барои ҳисобкунандаҳо истифода кардед; имрӯз ба ҳисоб ҳамчун абзори пурраи чорамал менигаред.\n\n$((...)) натиҷаи ададиро ҳамчун матн мегузорад. let ва ((...)) ифодаро ҳамчун команда иҷро мекунанд. Агар натиҷа 0 шавад, статускодашон 1 аст. Ин ба if ва script бо set -e таъсир мекунад, ҳатто агар ҳисоб дуруст бошад.",
+      "en": "A script often needs to count: indexes, sums, sizes, percentages. Bash has arithmetic substitution for that: you write an expression inside double parentheses and the result takes its place. Inside, the dollar sign before variable names is optional: $((a + b)) is read as the sum of the values of a and b. Addition, subtraction, multiplication, division and remainder all work. One peculiarity matters: division is integer, the fractional part is discarded — seven divided by two gives three, not three and a half. The remainder uses the percent sign and is indispensable for evenness checks or cyclic counters. There is also the older let command: it evaluates an expression and stores the result in a variable, handy for assignments like let 'square = a * a'. You have already used $(( )) for counters; today you will look at arithmetic as a full tool with all four operations at once.\n\n$((...)) expands to the result as text. let and ((...)) run an expression as commands. They report status 1 when the value is zero. This affects if and scripts using set -e even when the arithmetic succeeded."
      }
     },
     {
@@ -1814,14 +1864,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: много значений в одной переменной",
-      "tg": "Аз сифр: чанд қимат дар як тағйирёбанда",
-      "en": "From zero: many values in one variable"
+      "ru": "Массив: элементы, индексы и размер",
+      "tg": "Массив: элемент, индекс ва шумора",
+      "en": "Arrays: elements, indexes, and size"
      },
      "body": {
-      "ru": "Обычная переменная хранит одно значение, а задач часто требует список: пять имён файлов, три города, строки отчёта. Для этого в Bash есть массивы. Массив создаётся присваиванием в круглых скобках: fruits=(apple banana cherry) кладёт три элемента под одним именем. Доступ к элементу — по номеру в квадратных скобках, причём нумерация начинается с нуля: первый элемент это ${fruits[0]}. Количество элементов даёт запись ${#fruits[@]} — решётка означает длину. Добавить элемент в конец можно записью +=: fruits+=(date) допишет четвёртый элемент. Перебор делается циклом for по \"${fruits[@]}\" — кавычки обязательны, иначе элементы с пробелами разрежутся. Фигурные скобки вокруг выражений с массивами тоже обязательны: без них bash не поймёт, где кончается имя. Массивы превращают горы одноимённых переменных в один аккуратный список, с которым удобно работать циклами.",
-      "tg": "Тағйирёбандаи оддӣ як қимат нигоҳ медорад, вале вазифаҳо зуд рӯйхат талаб мекунанд: панҷ номи файл, се шаҳр, сатрҳои ҳисот. Барои ин дар Bash массивҳо ҳастанд. Массив бо таъини дар қавсҳои мудаввар сохта мешавад: fruits=(apple banana cherry) се элементро дар як ном мегузорад. Дастрасӣ ба элемент — аз рӯи рақам дар қавсҳои чоркунҷа, ва рақамгузорӣ аз сифр сар мешавад: элементи якум ин ${fruits[0]} аст. Шумораи элементҳоро навишти ${#fruits[@]} медиҳад — решотка дарозиро ифода мекунад. Илова кардани элемент ба охир бо навишти += мумкин аст: fruits+=(date) элементи чорумро менависад. Гардонидан бо чархи for аз \"${fruits[@]}\" карда мешавад — нохунакҳо ҳатмӣанд, вагарна элементҳои дорои фосила бурида мешаванд. Қавсҳои фигурӣ гирди ифодаҳои массив низ ҳатмӣанд: бе онҳо bash намефаҳмад, ки ном дар куҷо тамом мешавад. Массивҳо кӯҳҳои тағйирёбандаҳои ҳамномро ба як рӯйхати биро табдил медиҳанд, ки бо чархҳо кор карданаш қулай аст.",
-      "en": "An ordinary variable stores one value, but tasks often demand a list: five file names, three cities, report lines. Bash has arrays for this. An array is created by assigning in parentheses: fruits=(apple banana cherry) stores three items under one name. Access to an item is by number in square brackets, and numbering starts at zero: the first item is ${fruits[0]}. The item count is given by ${#fruits[@]} — the hash means length. Appending is done with +=: fruits+=(date) adds a fourth item. Iteration is a for loop over \"${fruits[@]}\" — the quotes are mandatory, otherwise items with spaces get cut. Braces around array expressions are mandatory too: without them bash cannot tell where the name ends. Arrays turn mountains of numbered variables into one tidy list that loops work with nicely."
+      "ru": "Обычная переменная хранит одно значение, а задач часто требует список: пять имён файлов, три города, строки отчёта. Для этого в Bash есть массивы. Массив создаётся присваиванием в круглых скобках: fruits=(apple banana cherry) кладёт три элемента под одним именем. Доступ к элементу — по номеру в квадратных скобках, причём нумерация начинается с нуля: первый элемент это ${fruits[0]}. Количество элементов даёт запись ${#fruits[@]} — решётка означает длину. Добавить элемент в конец можно записью +=: fruits+=(date) допишет четвёртый элемент. Перебор делается циклом for по \"${fruits[@]}\" — кавычки обязательны, иначе элементы с пробелами разрежутся. Фигурные скобки вокруг выражений с массивами тоже обязательны: без них bash не поймёт, где кончается имя. Массивы превращают горы одноимённых переменных в один аккуратный список, с которым удобно работать циклами.\n\nКоличество элементов и последний индекс могут различаться: после удаления элемента индекс у остальных не меняется. Для перебора берите \"${fruits[@]}\", а когда нужны именно индексы — \"${!fruits[@]}\".",
+      "tg": "Тағйирёбандаи оддӣ як қимат нигоҳ медорад, вале вазифаҳо зуд рӯйхат талаб мекунанд: панҷ номи файл, се шаҳр, сатрҳои ҳисот. Барои ин дар Bash массивҳо ҳастанд. Массив бо таъини дар қавсҳои мудаввар сохта мешавад: fruits=(apple banana cherry) се элементро дар як ном мегузорад. Дастрасӣ ба элемент — аз рӯи рақам дар қавсҳои чоркунҷа, ва рақамгузорӣ аз сифр сар мешавад: элементи якум ин ${fruits[0]} аст. Шумораи элементҳоро навишти ${#fruits[@]} медиҳад — решотка дарозиро ифода мекунад. Илова кардани элемент ба охир бо навишти += мумкин аст: fruits+=(date) элементи чорумро менависад. Гардонидан бо чархи for аз \"${fruits[@]}\" карда мешавад — нохунакҳо ҳатмӣанд, вагарна элементҳои дорои фосила бурида мешаванд. Қавсҳои фигурӣ гирди ифодаҳои массив низ ҳатмӣанд: бе онҳо bash намефаҳмад, ки ном дар куҷо тамом мешавад. Массивҳо кӯҳҳои тағйирёбандаҳои ҳамномро ба як рӯйхати биро табдил медиҳанд, ки бо чархҳо кор карданаш қулай аст.\n\nШумораи элемент ва индекси охирин як чиз нестанд: баъди нест кардани элемент индекси дигарҳо тағйир намеёбад. Барои гирифтани қиматҳо \"${fruits[@]}\" ва барои индексҳо \"${!fruits[@]}\" гир.",
+      "en": "An ordinary variable stores one value, but tasks often demand a list: five file names, three cities, report lines. Bash has arrays for this. An array is created by assigning in parentheses: fruits=(apple banana cherry) stores three items under one name. Access to an item is by number in square brackets, and numbering starts at zero: the first item is ${fruits[0]}. The item count is given by ${#fruits[@]} — the hash means length. Appending is done with +=: fruits+=(date) adds a fourth item. Iteration is a for loop over \"${fruits[@]}\" — the quotes are mandatory, otherwise items with spaces get cut. Braces around array expressions are mandatory too: without them bash cannot tell where the name ends. Arrays turn mountains of numbered variables into one tidy list that loops work with nicely.\n\nThe element count can differ from the last index: removing an element leaves the other indexes alone. Use \"${fruits[@]}\" for values and \"${!fruits[@]}\" when you need the indexes."
      }
     },
     {
@@ -1976,9 +2026,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: свои команды",
-      "tg": "Аз сифр: фармонҳои худӣ",
-      "en": "From zero: your own commands"
+      "ru": "Функция: аргументы, результат и статус",
+      "tg": "Функсия: аргумент, натиҷа ва статус",
+      "en": "Functions: arguments, output, and status"
      },
      "body": {
       "ru": "Когда один и тот же блок кода нужен в скрипте трижды, копирование — верный способ получить три копии одной ошибки. Функция решает это: вы один раз определяете именованную команду и потом вызываете её по имени сколько угодно раз. Определение выглядит скромно: имя, круглые скобки и тело в фигурных. Внутри функции доступны собственные позиционные параметры: $1 — первый аргумент вызова, $2 — второй, ровно как у целого скрипта. Чтобы функция не портила переменные снаружи, объявляйте внутренние через local: такая переменная живёт только внутри вызова. Возврат значений устроено иначе, чем в привычных языках: команда return передаёт только код успеха или ошибки, а данные функция печатает — вывод вы подставляете в команду подстановки или читаете дальше по конвейеру. Это разделение простое и очень мощное: данные текут через вывод, а статус — через код возврата.",
@@ -2138,14 +2188,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: у каждой команды есть вердикт",
-      "tg": "Аз сифр: ҳар фармон ҳукм дорад",
-      "en": "From zero: every command has a verdict"
+      "ru": "Коды завершения и связки && и ||",
+      "tg": "Коди анҷом ва && бо ||",
+      "en": "Exit statuses and && / ||"
      },
      "body": {
-      "ru": "Каждая выполненная команда оставляет после себя число — код возврата. Ноль означает успех: команда сделала то, что обещала. Любое другое число — ошибка, и разные программы используют разные коды, чтобы уточнить причину. Прочитать последний код можно в переменной вопросительный знак: сразу после команды выведите echo $? — но именно сразу, потому что любая следующая команда перезапишет это значение. На кодах держится вся логика Bash: конструкция if проверяет именно код, а не текст. Из кодов выросли и короткие связки. Запись cmd1 && cmd2 означает: выполни вторую, только если первая успешна. Запись cmd1 || cmd2 означает обратное: выполни вторую, если первая провалилась. Так строятся компактные фразы вроде создать папку и сообщить или проверить и поправить. Связки можно смешивать, но читаемость важнее краткости: длинные цепочки лучше разворачивать в if. Сегодня вы увидите коды в чистом виде и обе связки в деле.",
-      "tg": "Ҳар фармони иҷрошуда баъди худ адад мемонад — коди баргардонидан. Сифр муваффақиятро дарк мекунад: фармон он кореро кард, ки ваъда дода буд. Ҳар адади дигар хато аст ва барномаҳои гуногун кодҳои гуногунро истифода мебаранд, то сабабро дақиқ кунанд. Коди охиринро дар тағйирёбандаи аломати савол хондан мумкин аст: фавран баъди фармон echo $?-ро бароред — вале ҳамон фавран, зеро ҳар фармони навбатӣ ин қиматро аз нав менависад. Дар кодҳо тамоми мантиқи Bash истодааст: сохтори коди ҳамон корро месанҷад, на матнро. Аз кодҳо пайвандҳои кӯтоҳ низ хоста шудаанд. Навишти cmd1 && cmd2 маънои ин аст: дуюмро танҳо он гоҳ иҷро кун, ки якум муваффақ бошад. Навишти cmd1 || cmd2 баръакс аст: дуюмро иҷро кун, агар якум шикаст хӯрад. Ҳамин тавр иборахои муҷазе мисли папка сохтан ва хабар додан ё санҷидан ва ислоҳ кардан сохта мешаванд. Пайвандҳоро омехта кардан мумкин аст, вале хоноӣ аз кӯтоҳӣ муҳимтар аст: занҷирҳои дарозро беҳтар дар if кушодан аст. Имрӯз кодҳоро дар намуди тоза ва ҳарду пайвандро дар кор мебинед.",
-      "en": "Every executed command leaves a number behind — its exit code. Zero means success: the command did what it promised. Any other number is an error, and different programs use different codes to refine the cause. You read the last code from the question-mark variable: print echo $? right after the command — and only right after, because any next command overwrites the value. All of Bash's logic rests on these codes: the if construct checks precisely the code, not the text. The short connectives grew out of codes too. Writing cmd1 && cmd2 means: run the second only if the first succeeds. Writing cmd1 || cmd2 means the opposite: run the second if the first failed. Compact phrases are built this way — make the folder and report, or check and fix. You can mix connectives, but readability beats brevity: long chains are better unfolded into if. Today you will see the codes in pure form and both connectives at work."
+      "ru": "Код завершения — число, которое команда оставляет после выполнения. 0 означает успех по правилам этой команды. Ненулевой код требует свериться с её правилами: например, grep возвращает 1, если строка не найдена, и больше 1 при ошибке. $? хранит последний код до следующей команды. A && B запускает B после успеха A; A || B запускает B, если A вернула ненулевой код. Длинные сочетания лучше разделять через if, чтобы было видно, к какому результату относится каждый шаг.",
+      "tg": "Коди анҷом ададест, ки команда баъди кор медиҳад. 0 аз рӯйи қоидаи команда муваффақият аст. Барои коди ғайри сифр қоидаи командро бин: grep ҳангоми наёфтани сатр 1 ва ҳангоми хато аз 1 зиёд медиҳад. $? коди охиринро то командаи дигар нигоҳ медорад. A && B баъди муваффақияти A, A || B бошад баъди коди ғайри сифри A командаи B-ро иҷро мекунад. Барои давоми дароз if равшантар аст.",
+      "en": "An exit status is the number a command leaves when it finishes. Zero means success under that command’s rules. Check what a nonzero value means: grep uses 1 for no matches and a higher status for an error. $? holds the last status until the next command. A && B runs B after A succeeds, and A || B runs B after A returns nonzero. An if makes longer combinations easier to read."
      }
     },
     {
@@ -2300,9 +2350,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: откуда скрипт берёт данные",
-      "tg": "Аз сифр: скрипт маълумотро аз куҷо мегирад",
-      "en": "From zero: where a script gets its data"
+      "ru": "Как read читает вход и делит поля",
+      "tg": "read чӣ хел мехонад ва майдонро ҷудо мекунад",
+      "en": "How read takes input and splits fields"
      },
      "body": {
       "ru": "До сих пор данные жили в самом скрипте или приходили аргументами. Третий путь — ввод во время работы: команда read ждёт строку и раскладывает её по переменным. Если переменных несколько, read делит строку по пробелам: первое слово в первую переменную, второе во вторую, остаток строки — в последнюю. Флаг -r отключает искажение обратных слэшей и должен стоять всегда, если нет особой причины. Когда слова разделены не пробелом, помогает IFS: значение этой переменной на момент вызова задаёт разделитель, и запись IFS=':' read -r user host аккуратно режет строки вида admin:server1. В интерактиве read показывает приглашение с флагом -p, но наш пример демонстрационный: чтобы он не ждал клавиатуры и всегда давал одинаковый вывод, ввод подаётся через конструкцию тройного знака меньше — из строки прямо в команде, а также из файла через цикл while read. Такой скрипт можно запускать многократно и сверять результат дословно.",
@@ -2462,9 +2512,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: заглянуть в файл без редактора",
-      "tg": "Аз сифр: ба файл бе муҳаррир нигоҳ кардан",
-      "en": "From zero: peek into a file without an editor"
+      "ru": "Файлы целиком, с начала или с конца",
+      "tg": "Файлро пурра, аз аввал ё аз охир хондан",
+      "en": "Reading whole files, heads, and tails"
      },
      "body": {
       "ru": "Скриптам постоянно нужно посмотреть, что лежит в файле, и для этого не нужен текстовый редактор. Команда cat печатает файл целиком — короткий и удобный способ убедиться, что вы записали именно то, что хотели. Когда файл большой, целиком смотреть невыносимо, и на помощь приходят две парные команды. head показывает начало файла: по умолчанию первые десять строк, а с флагом -n — столько, сколько вы попросили. tail показывает конец: последние строки, что идеально для журналов, где самое свежее всегда внизу. Обе команды принимают несколько имён файлов и честно печатают их по очереди, а cat умеет склеивать: cat a.txt b.txt выведет один файл за другим сплошным потоком. Именно через cat и head чаще всего заглядывают в данные перед тем, как передать их в grep или sort. Сегодня вы создадите учебный файл и попробуете все три команды на нём.",
@@ -2624,9 +2674,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: найти нужные строки",
-      "tg": "Аз сифр: ёфтани сатрҳои лозимӣ",
-      "en": "From zero: finding the lines you need"
+      "ru": "Как grep выбирает строки",
+      "tg": "grep сатрҳоро чӣ хел интихоб мекунад",
+      "en": "How grep selects lines"
      },
      "body": {
       "ru": "Файл на сто строк глазами не просматривается — нужен инструмент, который сам отберёт строки по признаку. Это grep: вы даёте ему образец и файл, а он печатает только те строки, где образец встречается. По умолчанию поиск чувствителен к регистру: apple и Apple для него разные слова, что важно помнить, работая с текстами, где регистр непоследователен. Флаг -i отключает чувствительность и находит оба варианта. Флаг -v переворачивает смысл: печатаются строки, где образца нет, — так отбирают всё, кроме известного шума. Флаг -c не печатает строки вовсе, а выводит их количество — мгновенная статистика встречаемости. Есть и тихий -q, который только ставит код возврата: найдено или нет, — идеальный партнёр для if. grep живёт в конвейерах, но сегодня вы поработаете с ним напрямую, на маленьком учебном файле, где каждый флаг виден невооружённым глазом.",
@@ -2786,14 +2836,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: искать не слово, а форму",
-      "tg": "Аз сифр: на калима, балки шакл ҷустоҷӯ кардан",
-      "en": "From zero: search for a shape, not a word"
+      "ru": "Якоря и варианты в регулярном выражении",
+      "tg": "Сару охири сатр ва вариант дар regex",
+      "en": "Anchors and alternatives in a regular expression"
      },
      "body": {
-      "ru": "Обычный grep ищет подстроку: слово в любом месте строки. Но часто вопрос звучит иначе: строки, которые начинаются с user, строки, которые заканчиваются на ok, строки, где есть либо login, либо logout. Для этого придуманы регулярные выражения — язык описания формы текста. Два главных символа сегодня — якоря. Крышечка означает начало строки: шаблон ^user совпадёт только если user стоит самым первым. Знак доллара означает конец: ok$ совпадёт только если ok — последние два символа строки. Для альтернатив нужна черта: login|logout означает любое из слов, но чтобы grep понял черту как «или», нужен флаг -E, включающий расширенные регулярные выражения. Якоря работают и без -E, а вот альтернативы и скобочные группы — нет. Регулярные выражения — большая тема; сегодня вы делаете первый шаг: два якоря и одно «или», чего уже хватает для реальных задач в журналах и списках.",
-      "tg": "grep-и оддӣ зерсатрро меҷӯяд: калимаро дар ҳар ҷои сатр. Вале савол аксар вақт дигар садо медиҳад: сатрҳое, ки бо user оғоз мешаванд, сатрҳое, ки ба ok тамом мешаванд, сатрҳое, ки дар онҳо login ё logout ҳаст. Барои ин ифодаҳои регулярі — забони тавсифи шакли матн — ихтироъ шудаанд. Ду аломати асосии имрӯз болоигарҳоянд. Аломати боло маънои аввали сатрро дорад: қолиби ^user танҳо он гоҳ мувофиқ меояд, ки user аввалин истода бошад. Аломати доллар маънои охирро дорад: ok$ танҳо он гоҳ мувофиқ аст, ки ok ду аломати охирини сатр бошанд. Барои алтернативҳо хат лозим аст: login|logout маънои ҳар яке аз калимаҳоро дорад, вале то grep хатро ҳамчун «ё» фаҳмад, парчами -E лозим аст, ки ифодаҳои регулярии васеъро фаъол мекунад. Болоигарҳо бе -E низ кор мекунанд, вале алтернативҳо ва гурӯҳҳои қавсӣ — не. Ифодаҳои регулярі мавзӯи калонанд; имрӯз қадами якумро мегузоред: ду болоигар ва як «ёро», ки барои вазифаҳои воқеӣ дар журналҳо ва рӯйхатҳо аллакай бас аст.",
-      "en": "Plain grep looks for a substring: the word anywhere in the line. But the question often sounds different: lines starting with user, lines ending in ok, lines containing either login or logout. Regular expressions — a language for describing text shape — were invented for this. Today's two main characters are anchors. The caret means line start: the pattern ^user matches only when user comes first. The dollar sign means line end: ok$ matches only when ok is the last two characters. Alternatives need a bar: login|logout means either word, but for grep to read the bar as \"or\" you need the -E flag, enabling extended regular expressions. Anchors work without -E; alternatives and bracket groups do not. Regular expressions are a big topic; today you take the first step — two anchors and one \"or\", already enough for real tasks in logs and lists."
+      "ru": "Регулярное выражение — шаблон для поиска текста. ^user ищет user в начале строки, а ok$ — ok в конце. В расширенном режиме grep -E шаблон login|logout выбирает строки с одним из двух слов. Квадратный класс [0-9] работает и без -E. Когда ищете значение буквально, используйте grep -F: оно не трактует точки и скобки как части регулярного выражения.",
+      "tg": "Regex намуна барои ҷустуҷӯи матн аст. ^user калимаи user-ро дар аввали сатр, ok$ бошад ok-ро дар охир меёбад. Бо grep -E намунаи login|logout яке аз ду калимаро мегирад. Класси [0-9] бе -E ҳам кор мекунад. Барои ҷустуҷӯи матн айнан grep -F гир: нуқтаю қавсро ҳамчун regex намефаҳмад.",
+      "en": "A regular expression describes text to find. ^user matches user at the start of a line, and ok$ matches ok at the end. With grep -E, login|logout selects lines containing either word. A bracket class such as [0-9] works without -E. For literal text, use grep -F so dots and brackets are taken as ordinary characters."
      }
     },
     {
@@ -2948,9 +2998,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: порядок в списке",
-      "tg": "Аз сифр: тартиб дар рӯйхат",
-      "en": "From zero: order in a list"
+      "ru": "Сортировка строк и соседние повторы",
+      "tg": "Тартиби сатрҳо ва такрорҳои паҳлуи ҳам",
+      "en": "Sorting lines and counting adjacent repeats"
      },
      "body": {
       "ru": "Сырые данные редко бывают упорядочены: слова идут в порядке появления, а не по алфавиту, а повторы разбросаны по всему файлу. Команда sort приводит строки к порядку: по умолчанию она сортирует их как текст, по алфавиту текущей локали. Уже это делает список обозримым и подготовленным к следующему шагу. Команда uniq убирает повторяющиеся строки, но с важной оговоркой: она видит только соседние повторы. Если одинаковые слова разбросаны, uniq их не заметит — поэтому в практике почти всегда стоит связка sort | uniq: сначала сортировка собирает одинаковые строки рядом, потом uniq их схлопывает. Флаг -c превращает uniq в статиста: перед каждой строкой он печатает, сколько раз она повторилась. Позже вы узнаете про sort -rn для сортировки получившихся счётчиков по убыванию — из этих кирпичиков строится любой топ-список. Сегодня вы прогоните один файл через все три ступени и увидите каждую в чистом виде.",
@@ -3110,14 +3160,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: считать, резать и заменять",
-      "tg": "Аз сифр: ҳисоб кардан, бурдан ва иваз кардан",
-      "en": "From zero: count, cut and translate"
+      "ru": "Строки, столбцы и символы: wc, cut, tr",
+      "tg": "Сатр, сутун ва аломат: wc, cut, tr",
+      "en": "Lines, fields, and characters: wc, cut, tr"
      },
      "body": {
-      "ru": "Три маленькие команды закрывают три повседневные задачи. Первая — wc, слово-счётчик: с флагами -l, -w и -c она считает строки, слова и байты файла; чаще всего нужна именно -l, и чтобы вывод был чистым числом без имени файла, файл подают через знак меньше: wc -l < файл. Вторая — cut, нож для колонок: она вырезает поле из каждой строки, если указать разделитель -d и номер поля -f; таблица вида имя,балл режется по запятой, и cut -d, -f2 достанет вторую колонку целиком. Третья — tr, переводчик символов: она заменяет каждый символ из первого набора соответствующим символом второго; классика — перевести строчные буквы в заглавные: tr 'a-z' 'A-Z'. Обратите внимание: tr читает только из стандартного ввода, поэтому ей передают данные по конвейеру, как в примере. Все три команды простые, но в связке с grep и sort они превращаются в настоящую мастерскую обработки текста.",
-      "tg": "Се фармони хурд се вазифаи ҳаррӯзиро мепӯшонанд. Якум — wc, ҳисобкунандаи калимаҳо: бо парчамҳои -l, -w ва -c сатрҳо, калимаҳо ва байтҳои файлро ҳисоб мекунад; аксар вақт маҳз -l лозим мешавад ва то натиҷа адади тоза бе номи файл бошад, файлро аз тариқи аломати камтар медиҳанд: wc -l < файл. Дуюм — cut, корди сутунҳо: он аз ҳар сатр полеро мебурад, агар ҷудокунандаи -d ва рақами полои -f нишон диҳед; ҷадвали шакли ном,балл аз рӯи вергул бурида мешавад ва cut -d, -f2 сутуни дуюмро пурра мебарорад. Сеюм — tr, тарҷумони аломатҳо: он ҳар аломати маҷмӯи якумро ба аломати мувофиқи дуюм иваз мекунад; классика — ҳарфҳои хурдро ба калонҳо гузаронидан: tr 'a-z' 'A-Z'. Таваҷҷӯҳ кунед: tr танҳо аз вуруди стандарта мехонад, барои ҳамин маълумотро ба он дар конвейер мебаранд, чунон ки дар мисол. Ҳар се фармон содаанд, вале дар пайванд бо grep ва sort ба коргоҳи воқеии коркарди матн табдил меёбанд.",
-      "en": "Three small commands cover three everyday needs. The first is wc, the word counter: with -l, -w and -c it counts a file's lines, words and bytes; -l is needed most often, and to get a clean number without the file name, you feed the file through the less-than sign: wc -l < file. The second is cut, a knife for columns: it extracts a field from every line once you give the -d delimiter and the -f field number; a name,score table is cut by the comma, and cut -d, -f2 pulls out the whole second column. The third is tr, a character translator: it replaces each character of the first set with the matching character of the second; the classic is lower to upper case: tr 'a-z' 'A-Z'. Note that tr reads only standard input, so data is piped to it, as in the example. All three are simple, yet combined with grep and sort they become a real text-processing workshop."
+      "ru": "Три маленькие команды закрывают три повседневные задачи. Первая — wc, слово-счётчик: с флагами -l, -w и -c она считает строки, слова и байты файла; чаще всего нужна именно -l, и чтобы вывод был чистым числом без имени файла, файл подают через знак меньше: wc -l < файл. Вторая — cut, нож для колонок: она вырезает поле из каждой строки, если указать разделитель -d и номер поля -f; таблица вида имя,балл режется по запятой, и cut -d, -f2 достанет вторую колонку целиком. Третья — tr, переводчик символов: она заменяет каждый символ из первого набора соответствующим символом второго; классика — перевести строчные буквы в заглавные: tr 'a-z' 'A-Z'. Обратите внимание: tr читает только из стандартного ввода, поэтому ей передают данные по конвейеру, как в примере. Все три команды простые, но в связке с grep и sort они превращаются в настоящую мастерскую обработки текста.\n\nwc -l считает символы перевода строки: последняя строка без него не попадёт в счётчик. cut подходит для простых полей. Запятые внутри кавычек требуют CSV-парсера.",
+      "tg": "Се фармони хурд се вазифаи ҳаррӯзиро мепӯшонанд. Якум — wc, ҳисобкунандаи калимаҳо: бо парчамҳои -l, -w ва -c сатрҳо, калимаҳо ва байтҳои файлро ҳисоб мекунад; аксар вақт маҳз -l лозим мешавад ва то натиҷа адади тоза бе номи файл бошад, файлро аз тариқи аломати камтар медиҳанд: wc -l < файл. Дуюм — cut, корди сутунҳо: он аз ҳар сатр полеро мебурад, агар ҷудокунандаи -d ва рақами полои -f нишон диҳед; ҷадвали шакли ном,балл аз рӯи вергул бурида мешавад ва cut -d, -f2 сутуни дуюмро пурра мебарорад. Сеюм — tr, тарҷумони аломатҳо: он ҳар аломати маҷмӯи якумро ба аломати мувофиқи дуюм иваз мекунад; классика — ҳарфҳои хурдро ба калонҳо гузаронидан: tr 'a-z' 'A-Z'. Таваҷҷӯҳ кунед: tr танҳо аз вуруди стандарта мехонад, барои ҳамин маълумотро ба он дар конвейер мебаранд, чунон ки дар мисол. Ҳар се фармон содаанд, вале дар пайванд бо grep ва sort ба коргоҳи воқеии коркарди матн табдил меёбанд.\n\nwc -l аломати newline-ро мешуморад: хатти охир бе newline ҳисоб намешавад. cut барои майдони сода аст. Агар дар CSV даруни нохунак вергул бошад, parser-и CSV лозим.",
+      "en": "Three small commands cover three everyday needs. The first is wc, the word counter: with -l, -w and -c it counts a file's lines, words and bytes; -l is needed most often, and to get a clean number without the file name, you feed the file through the less-than sign: wc -l < file. The second is cut, a knife for columns: it extracts a field from every line once you give the -d delimiter and the -f field number; a name,score table is cut by the comma, and cut -d, -f2 pulls out the whole second column. The third is tr, a character translator: it replaces each character of the first set with the matching character of the second; the classic is lower to upper case: tr 'a-z' 'A-Z'. Note that tr reads only standard input, so data is piped to it, as in the example. All three are simple, yet combined with grep and sort they become a real text-processing workshop.\n\nwc -l counts newline characters, so a final line without one is not counted. cut fits simple delimited fields. Commas inside quoted CSV fields require a CSV parser."
      }
     },
     {
@@ -3272,9 +3322,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: заменить во всём файле",
-      "tg": "Аз сифр: дар тамоми файл иваз кардан",
-      "en": "From zero: replace across a whole file"
+      "ru": "Как sed заменяет текст по шаблону",
+      "tg": "sed матнро аз рӯйи pattern чӣ хел иваз мекунад",
+      "en": "How sed replaces text using a pattern"
      },
      "body": {
       "ru": "grep находит строки, но не меняет их. Когда нужно заменить одно слово другим во всех строках, в дело вступает sed — потоковый редактор, который читает файл строка за строкой, применяет к каждой правила и печатает результат. Главный инструмент — команда замены: s/старое/новое/. Она заменяет первое вхождение образца в каждой строке; флаг g в конце заставляет заменить все вхождения: s/cat/tiger/g. Важно понимать, что sed по умолчанию ничего не портит: он печатает изменённую копию на экран, а исходный файл остаётся нетронутым — вы видите это в примере. Чтобы сохранить результат, вывод перенаправляют в новый файл, как вы делали с printf. Прямое редактирование на месте существует — флаг -i, — но новичку лучше отложить его: сначала посмотреть, потом сохранить в копию, и только при полной уверенности менять оригинал. Такой порядок действий сохранит ваши данные, пока вы учитесь.",
@@ -3434,9 +3484,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: таблица как поток строк",
-      "tg": "Аз сифр: ҷадвал ҳамчун ҷараёни сатрҳо",
-      "en": "From zero: a table as a stream of lines"
+      "ru": "Поля, фильтр и итог через awk",
+      "tg": "Майдон, филтр ва ҷамъбаст бо awk",
+      "en": "Fields, filters, and totals with awk"
      },
      "body": {
       "ru": "Многие данные — это таблица, записанная текстом: в каждой строке несколько полей, разделённых пробелами. awk видит файл именно так: читает строку, автоматически режет её на поля и даёт вам доступ по номерам: $1 — первое поле, $2 — второе, а $NF — последнее, сколько бы их ни было. Основная форма программы — шаблон в кавычках и действие в фигурных скобках: awk '$2 > 80 { print $1 }' печатает первое поле только тех строк, где второе поле больше восьмидесяти. Если шаблон опустить, действие выполнится для каждой строки; если действие опустить, строка просто печатается. Отдельно живёт блок END: он выполняется один раз после всего файла — идеальное место для итогов, и классическая сумма пишется как { s += $2 } END { print s }. Единичные кавычки вокруг программы обязательны: внутри стоят символы, которые bash не должен трогать. Сегодня вы соберёте из этих кирпичей четыре полезных запроса к таблице оценок.",
@@ -3596,14 +3646,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: команда, следующая за командой",
-      "tg": "Аз сифр: фармоне, ки баъди фармон меояд",
-      "en": "From zero: a command following a command"
+      "ru": "Стандартный вывод в конвейере",
+      "tg": "Барориши стандартӣ дар pipeline",
+      "en": "Standard output in a pipeline"
      },
      "body": {
-      "ru": "Все эти дни вы выполняли команды по одной и рассматривали их вывод глазами. Конвейер соединяет команды напрямую: запись cmd1 | cmd2 означает, что всё, что cmd1 напечатала, поступает на вход cmd2, не появляясь на экране. На экран попадает только результат последней команды цепочки. Это меняет стиль работы: вместо одного мощного инструмента вы собираете цепочку простых, где каждый шаг делает одну маленькую вещь. grep отбирает строки, awk вырезает поле, sort упорядочивает, uniq считает, wc пересчитывает — и всё это можно выстроить в одну строку, где данные текут слева направо. Конвейер — главная идея unix-инструментов, и Bash даёт к нему прямой доступ. Сегодня вы построите три цепочки разной длины над одним маленьким журналом и увидите, как каждая ступень сужает поток до ровно нужного ответа.",
-      "tg": "Тамоми ин рӯзҳо шумо фармонҳоро як-як иҷро мекардед ва натиҷаи онҳоро бо чашм медидед. Конвейер фармонҳоро мустақиман мепайвандад: навишти cmd1 | cmd2 маънои ин аст, ки ҳама чизе, ки cmd1 чоп кард, ба вуруди cmd2 меафтад ва дар экран пайдо намешавад. Ба экран танҳо натиҷаи фармони охирини занҷир меафтад. Ин услуби корро дигар мекунад: ба ҷои як абзори қувватнок шумо занҷири абзорҳои сода месозед, ки дар он ҳар қадам як чизи хурд мекунад. grep сатрҳоро интихоб мекунад, awk полеро мебурад, sort муназзам мекунад, uniq ҳисоб мекунад, wc аз нав мешиносад — ва ҳамаро метавон дар як сатр вақт гузошт, ки маълумот аз чап ба рост мегардад. Конвейер идеи асосии абзорҳои unix аст ва Bash ба он дастрасии мустақим медиҳад. Имрӯз се занҷири дарозиҳои гуногунро болои як журнали хурд месозед ва мебинед, ки ҳар зина ҷараёнро то ҷавоби дақиқ танг мекунад.",
-      "en": "All these days you ran commands one at a time and examined their output with your eyes. A pipeline connects commands directly: writing cmd1 | cmd2 means everything cmd1 printed goes to cmd2's input and never reaches the screen. Only the last command's output appears. This changes the working style: instead of one powerful tool you assemble a chain of simple ones, each step doing one small thing. grep selects lines, awk cuts a field, sort orders, uniq counts, wc tallies — all lineable into one line where data flows left to right. The pipeline is the core idea of unix tools, and Bash gives direct access to it. Today you will build three chains of different lengths over one small log and watch each stage narrow the stream to exactly the needed answer."
+      "ru": "Конвейер A | B соединяет стандартный вывод команды A со стандартным входом B. Обычный вывод A идёт дальше, а её сообщения об ошибках по умолчанию остаются отдельно. Команды могут работать одновременно: B начинает читать до завершения A. Итоговый статус обычно берут от последней команды. Включите pipefail, если в автоматизации важно заметить ошибки ранних звеньев.",
+      "tg": "Pipeline-и A | B барориши стандартии A-ро ба даромади стандартии B мепайвандад. Натиҷаи одии A ба B меравад, паёми хато одатан ҷудо мемонад. Командаҳо якбора кор карда метавонанд: B то анҷоми A хондан мегирад. Статуси pipeline одатан аз командаи охир меояд. Барои дидани хатои командаҳои пешина pipefail лозим.",
+      "en": "A pipeline A | B connects A’s standard output to B’s standard input. A’s result flows onward, while its error messages stay separate by default. The commands can run at the same time; B can read before A finishes. The pipeline normally reports the last command’s status. Enable pipefail when automation needs to catch failures in earlier stages."
      }
     },
     {
@@ -3758,9 +3808,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: куда течёт вывод",
-      "tg": "Аз сифр: хуруҷ ба куҷо мегузарад",
-      "en": "From zero: where output flows"
+      "ru": "Потоки вывода и перенаправление",
+      "tg": "Ҷараёни барориш ва равона кардани он",
+      "en": "Output streams and redirection"
      },
      "body": {
       "ru": "У каждой команды два основных потока: стандартный вывод для результатов и поток ошибок для сообщений о проблемах. Обычно оба идут на экран, но Bash позволяет направить каждый в свою сторону. Знак больше с файлом перезаписывает файл выводом команды: старое содержимое исчезает ещё до запуска команды, поэтому случайное > вместо >> — классический способ потерять данные. Двойной знак больше дописывает в конец, не трогая существующее. Ошибки перенаправляются отдельно: запись 2> файл собирает именно поток ошибок, а /dev/null — специальное устройство-мусорка: всё, что туда отправлено, просто исчезает, и команда тише не становится, зато экран остаётся чистым. Разделение потоков важно для скриптов: результаты — в файл-отчёт, ошибки — в отдельный журнал, а лишние предупреждения — в никуда. Сегодня вы проделаете все четыре операции и увидите разницу на своих глазах.",
@@ -3920,14 +3970,14 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: скрипт управляет файлами",
-      "tg": "Аз сифр: скрипт файлҳоро идора мекунад",
-      "en": "From zero: a script manages files"
+      "ru": "Создание, копирование, перемещение и удаление",
+      "tg": "Сохтан, нусха гирифтан, кӯчондан ва нест кардан",
+      "en": "Creating, copying, moving, and removing files"
      },
      "body": {
-      "ru": "Автоматизация — это в первую очередь наведение порядка в файлах: создать структуру папок, скопировать резервную копию, переименовать, убрать лишнее. Команда mkdir -p создаёт сразу целую цепочку вложенных папок и не ругается, если они уже есть — флаг -p означает «со всеми родителями и без ошибок». Команда cp копирует файл; mv переносит или переименовывает — это одна и та же операция с точки зрения файловой системы. Команда rm удаляет, и с ней нужно уважение: у rm нет корзины, отменить нечего. Поэтому золотое правило первых недель: все эксперименты — только в отдельной учебной песочнице, путь к которой хранится в переменной и везде раскрывается в кавычках. Сегодняшний скрипт именно так устроен: он создаёт свою песочницу, проводит в ней полный цикл операций и убирает её за собой. Никаких операций вне песочницы он не делает — и ваш скрипт по образцу тоже не должен.",
-      "tg": "Отоматсия пеш аз ҳама тартиб овардан дар файлҳост: сохтани сохтори папкаҳо, нусхагирии захиравӣ, номивазкунӣ, тоза кардани зиёдатӣ. Фармони mkdir -p фавран тамоми занҷири папкаҳои дохилиро месозад ва агар онҳо аллакай бошанд, санг намезанад — парчами -p маънои «бо ҳамаи волидайн ва бе хатоҳо»-ро дорад. Фармони cp файлро нусхагирӣ мекунад; mv мегузаронад ё номиваз мекунад — аз нуқтаи назари системаи файлҳо ин як амал аст. Фармони rm нест мекунад ва бо он бояд эҳтиром кард: rm сабад надорад, баргардонидан чизе нест. Аз ин рӯ қоидаи тиллоии ҳафтаҳои аввал: ҳамаи таҷрибаҳо — танҳо дар пясочникаи алоҳидаи омӯзишӣ, ки роҳи он дар тағйирёбанда нигоҳ дошта мешавад ва дар ҳама ҷо дар нохунак кушода мешавад. Скрипти имрӯза ҳамин тавр сохта шудааст: он пясочинаи худро месозад, дар он тамоми даври амалҳоро мегузаронад ва баъди худаш тоза мекунад. Он берун аз пясочника ҳеҷ амал намекунад — ва скрипти шумо низ по намедиҳад.",
-      "en": "Automation is first of all bringing order to files: create a folder structure, copy a backup, rename, remove the extra. The mkdir -p command creates a whole chain of nested folders at once and does not complain when they already exist — the -p flag means \"with all parents and without errors\". The cp command copies a file; mv moves or renames — the same operation as far as the filesystem is concerned. The rm command deletes, and it demands respect: rm has no trash bin, there is nothing to undo. Hence the golden rule of the first weeks: all experiments happen only inside a separate learning sandbox whose path lives in a variable and is always expanded in quotes. Today's script is built exactly that way: it creates its sandbox, runs a full cycle of operations inside and cleans it up afterwards. It performs nothing outside the sandbox — and your script by this pattern must not either."
+      "ru": "mkdir -p создаёт недостающие родительские папки и принимает уже существующую папку. cp копирует, mv переименовывает или перемещает, rm удаляет без корзины. Перед операцией проверьте исходный и целевой пути: cp и mv могут заменить существующий файл. Для упражнения используйте отдельную учебную папку из примера.",
+      "tg": "mkdir -p папкаҳои болоро, агар набошанд, месозад ва папкаи аллакай бударо қабул мекунад. cp нусха мегирад, mv ном ё ҷойро иваз мекунад, rm бе корзина нест мекунад. Пеш аз кор path-и сару мақсадро бин: cp ва mv метавонанд файли бударо иваз кунанд. Барои машқ папкаи ҷудои мисолро истифода кун.",
+      "en": "mkdir -p creates missing parent directories and accepts a directory that already exists. cp copies, mv renames or moves, and rm removes without a recycle bin. Check source and destination before acting: cp and mv can overwrite an existing file. Keep the exercise inside its separate learning directory."
      }
     },
     {
@@ -4082,9 +4132,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: от сырого журнала к ответу",
-      "tg": "Аз сифр: аз журнали хом то ҷавоб",
-      "en": "From zero: from raw log to answer"
+      "ru": "От строк журнала к рейтингу страниц",
+      "tg": "Аз сатрҳои log то саҳифаҳои сердархост",
+      "en": "From log records to popular pages"
      },
      "body": {
       "ru": "У вас уже есть все кирпичи, и сегодня они собираются в настоящий анализ. Журнал веб-сервера — обычный текст: по строке на запрос, сначала страница, потом код ответа. Вопрос бизнес прост: какие страницы запрашивают чаще всего и сколько было ошибок. Ответ строится в четыре ступени. Первая: awk печатает первое поле каждой строки — список страниц со повторами. Вторая: sort собирает одинаковые рядом. Третья: uniq -c схлопывает повторы и печатает счётчик перед каждой страницей. Четвёртая: sort -rn упорядочивает строки по числу по убыванию — флаг -n включает числовое сравнение, а r переворачивает порядок. Ошибки считаются отдельной цепочкой: awk с условием на второе поле отбирает строки с кодом четыреста и выше, wc -l пересчитывает. Обратите внимание: между счётчиком и страницей sort видит число в начале строки, поэтому всё работает без ручной обработки.",
@@ -4245,13 +4295,13 @@
     {
      "title": {
       "ru": "Кавычки и проверка входных данных",
-      "tg": "Нохунакҳо ва санҷиши маълумоти вуруд",
-      "en": "Quoting and validating input"
+      "tg": "Нохунак ва санҷиши маълумоти даромад",
+      "en": "Quoting and input validation"
      },
      "body": {
-      "ru": "Большинство аварий в скриптах происходит не из-за сложной логики, а из-за пустых переменных и строк с пробелами, которые раскрылись не так, как ждал автор. Первая линия защиты — кавычки: каждое раскрытие переменной заключается в двойные кавычки, а аргументы перебираются как \"$@\". Тогда имя файла с пробелом остаётся одним словом, а пустая переменная не разваливает команду. Вторая линия — проверка входа: прежде чем использовать $1, скрипт сверяет $# с ожидаемым числом и при нехватке печатает подсказку о правильном вызове и выходит с ненулевым статусом. Так скрипт отказывает честно и рано, а не доделывает работу с мусорными данными. Третья линия — отказ от eval: передача внешнего текста в eval позволяет выполнить что угодно, и почти всегда есть безопасная замена через массивы, case или обычные раскрытия. Эти три привычки стоят минут, а экономят часы восстановления.",
-      "tg": "Аксарияти садамаҳо дар скриптҳо на аз сабаби мантиқи мураккаб, балки аз сабаби тағйирёбандаҳои холӣ ва сатрҳои дорои фосила меоянд, ки он тавр кушода нашуданд, ки муаллиф интизор буд. Хатти якуми мудофиа — нохунакҳоянд: ҳар кушодани тағйирёбанда дар нохунакҳои дучанда гузошта мешавад ва аргументҳо ҳамчун \"$@\" гардонида мешаванд. Он гоҳ номи файли дорои фосила як калима мемонад ва тағйирёбандаи холӣ фармонро вайрон намекунад. Хатти дуюм — санҷиши вуруд аст: пеш аз истифодаи $1 скрипт $#-ро бо шумораи интизорӣ муқоиса мекунад ва дар ҳолати камбудӣ дар бораи даъвати дуруст маслиҳат чоп карда, бо ҳолати ғайрисифр мебарояд. Ҳамин тавр скрипт самиман ва барвақт рад мекунад, на ки корро бо маълумоти партов тамом мекунад. Хатти сеюм — рад кардани eval аст: додани матни берунӣ ба eval иҷро кардани ҳар чизро имкон медиҳад ва қариб ҳамеша ивазоти бехатари тариқи массивҳо, case ё кушодани оддӣ вуҷуд дорад. Ин се одат дақиқа вақт мегирад, вале соатҳои барқарориро сарфа мекунад.",
-      "en": "Most script accidents come not from complex logic but from empty variables and space-containing strings that expanded differently than the author expected. The first line of defense is quoting: every variable expansion goes into double quotes, and arguments are iterated as \"$@\". A file name with a space then stays one word, and an empty variable does not shatter a command. The second line is input validation: before using $1, the script compares $# with the expected count and, when short, prints a usage hint and exits nonzero. The script then fails honestly and early instead of finishing work with garbage data. The third line is refusing eval: passing outside text to eval can execute anything, and there is almost always a safe replacement via arrays, case or ordinary expansion. These three habits cost minutes and save hours of recovery."
+      "ru": "Большинство аварий в скриптах происходит не из-за сложной логики, а из-за пустых переменных и строк с пробелами, которые раскрылись не так, как ждал автор. Первая линия защиты — кавычки: каждое раскрытие переменной заключается в двойные кавычки, а аргументы перебираются как \"$@\". Тогда имя файла с пробелом остаётся одним словом, а пустая переменная не разваливает команду. Вторая линия — проверка входа: прежде чем использовать $1, скрипт сверяет $# с ожидаемым числом и при нехватке печатает подсказку о правильном вызове и выходит с ненулевым статусом. Так скрипт отказывает честно и рано, а не доделывает работу с мусорными данными. Третья линия — отказ от eval: передача внешнего текста в eval позволяет выполнить что угодно, и почти всегда есть безопасная замена через массивы, case или обычные раскрытия. Эти три привычки стоят минут, а экономят часы восстановления.\n\nКавычки сохраняют границы аргумента, но не подтверждают, что путь безопасен или существует. Сначала проверьте, куда он указывает и должен ли скрипт там работать. В отладочных логах не печатайте пароли и токены.",
+      "tg": "Аксарияти садамаҳо дар скриптҳо на аз сабаби мантиқи мураккаб, балки аз сабаби тағйирёбандаҳои холӣ ва сатрҳои дорои фосила меоянд, ки он тавр кушода нашуданд, ки муаллиф интизор буд. Хатти якуми мудофиа — нохунакҳоянд: ҳар кушодани тағйирёбанда дар нохунакҳои дучанда гузошта мешавад ва аргументҳо ҳамчун \"$@\" гардонида мешаванд. Он гоҳ номи файли дорои фосила як калима мемонад ва тағйирёбандаи холӣ фармонро вайрон намекунад. Хатти дуюм — санҷиши вуруд аст: пеш аз истифодаи $1 скрипт $#-ро бо шумораи интизорӣ муқоиса мекунад ва дар ҳолати камбудӣ дар бораи даъвати дуруст маслиҳат чоп карда, бо ҳолати ғайрисифр мебарояд. Ҳамин тавр скрипт самиман ва барвақт рад мекунад, на ки корро бо маълумоти партов тамом мекунад. Хатти сеюм — рад кардани eval аст: додани матни берунӣ ба eval иҷро кардани ҳар чизро имкон медиҳад ва қариб ҳамеша ивазоти бехатари тариқи массивҳо, case ё кушодани оддӣ вуҷуд дорад. Ин се одат дақиқа вақт мегирад, вале соатҳои барқарориро сарфа мекунад.\n\nНохунак аргументро якҷо нигоҳ медорад, аммо дуруст ё бехатар будани path-ро намесанҷад. Аввал бин, ки ба куҷо мебарад ва script дар он ҷо кор карданаш даркор ё не. Паролу token-ро ба log-и debug нанавис.",
+      "en": "Most script accidents come not from complex logic but from empty variables and space-containing strings that expanded differently than the author expected. The first line of defense is quoting: every variable expansion goes into double quotes, and arguments are iterated as \"$@\". A file name with a space then stays one word, and an empty variable does not shatter a command. The second line is input validation: before using $1, the script compares $# with the expected count and, when short, prints a usage hint and exits nonzero. The script then fails honestly and early instead of finishing work with garbage data. The third line is refusing eval: passing outside text to eval can execute anything, and there is almost always a safe replacement via arrays, case or ordinary expansion. These three habits cost minutes and save hours of recovery.\n\nQuotes preserve argument boundaries. They do not verify that a path exists or belongs to the intended workspace. Check the destination before using it. Keep passwords and tokens out of debug logs."
      },
      "code": "#!/usr/bin/env bash\nif [ \"$#\" -ne 2 ]; then\n  printf 'usage: %s <source> <target>\\n' \"$0\"\n  exit 1\nfi\nfor arg in \"$@\"; do\n  printf 'accepted: %s\\n' \"$arg\"\ndone\n",
      "language": "bash"
@@ -4408,14 +4458,14 @@
    "sections": [
     {
      "title": {
-      "ru": "Структура: скрипт, который читается",
-      "tg": "Сохт: скрипте, ки хонда мешавад",
-      "en": "Structure: a script that reads well"
+      "ru": "Структура скрипта, shebang и функции",
+      "tg": "Сохтори script, shebang ва функсия",
+      "en": "Script structure, shebang, and functions"
      },
      "body": {
-      "ru": "Скрипт пишется один раз, а читается десятки — и чаще всего вами же через месяц. Поэтому структура важнее хитростей. Первая строка — всегда шебанг: он решает, каким интерпретатором запускать файл, и без него поведение зависит от того, кто запустил. Дальше — маленькие функции с одной задачей и говорящие имена: prepare_sandbox понятнее ping2, а print_report говорит сам за себя. Внутри функций переменные объявляются local, чтобы не портить чужие. Пробелы вокруг операторов и отступы в циклах стоят копейки, а экономят глаза. Повторяющиеся действия выносятся в цикл, а не копируются, — копипаста скрывает ошибки: исправите одно место, забудете два других. Комментарии объясняют почему, а не что: что делает строка, видно из кода, а вот зачем — стоит написать. Такой скрипт отлаживается быстрее, чем пишется с нуля, и это главный признак качества.",
-      "tg": "Скрипт як бор навишта мешавад, вале даҳҳо бор хонда мешавад — ва аксар вақт худатон баъди як моҳ. Барои ҳамин сохт аз ҳилаҳо муҳимтар аст. Сатри якум — ҳамеша шебанг аст: он муайян мекунад, ки файл бо кадом тафсиркунанда иҷро шавад ва бе он рафтор ба он вобаста мешавад, ки кӣ иҷро кард. Баъд — функсияҳои хурди дорои як вазифа ва номҳои гӯянда: prepare_sandbox аз ping2 фаҳмотар аст ва print_report худашро мефаҳмонад. Дар дохили функсияҳо тағйирёбандаҳо бо local эълом мешаванд, то моли дигаронро вайрон накунанд. Фосилаҳо гирди амалҳо ва даромадгоҳҳо дар чархҳо танҳо як танга арзиш доранд, вале чашмро сарфа мекунанд. Амалҳои такроршаванда ба чарх бароварда мешаванд, на нусхагирӣ карда — нусхагирӣ хатоҳоро пинҳон мекунад: як ҷойро ислоҳ мекунед, ду ҷои дигарро фаромӯш мекунед. Шарҳҳо «чаро»-ро шарҳ медиҳанд, на «чӣ»-ро: сатр чӣ мекунад аз код намоён аст, вале барои чӣ — сазовори навиштан аст. Чунин скрипт тезтар аз он ки аз нав навишта шавад, ислоҳ мешавад ва ин нишонаи асосии сифат аст.",
-      "en": "A script is written once and read dozens of times — usually by you, a month later. So structure matters more than tricks. The first line is always the shebang: it decides which interpreter runs the file, and without it behavior depends on whoever launched it. Then come small functions with one job and speaking names: prepare_sandbox is clearer than ping2, and print_report explains itself. Inside functions, variables are declared local so they spoil nothing else. Spaces around operators and indentation in loops cost pennies and save your eyes. Repeated actions go into a loop instead of being copied — copy-paste hides bugs: you fix one place and forget two others. Comments explain why, not what: what a line does is visible in the code, but the reason is worth writing down. Such a script is debugged faster than it would be rewritten, and that is the main sign of quality."
+      "ru": "Shebang — первая строка вида #!/usr/bin/env bash. При прямом запуске она выбирает интерпретатор. При bash script.sh Bash уже выбран командой. Внутри сгруппируйте шаги в функции с одним назначением и передавайте им аргументы явно. local уменьшает риск случайно поменять переменную снаружи. Имена и комментарии должны объяснять назначение шагов и причины решений.",
+      "tg": "Shebang сатри аввали мисли #!/usr/bin/env bash аст. Дар иҷрои мустақим interpreter-ро интихоб мекунад. Дар bash script.sh худи команда алакай Bash-ро интихоб кардааст. Қадамҳоро ба функсияҳои якмақсад ҷудо кун ва аргументҳоро равшан гузарон. local хатари тасодуфан иваз шудани тағйирёбандаи берунаро кам мекунад. Аз ном ва comment мақсаду сабаби қадам фаҳмида шавад.",
+      "en": "A shebang is a first line such as #!/usr/bin/env bash. It selects the interpreter for direct execution. With bash script.sh, the command already selects Bash. Group related steps into functions with one purpose and pass arguments explicitly. local helps avoid changing an outer variable by accident. Use names and comments to explain what a step owns and why it exists."
      },
      "code": "#!/usr/bin/env bash\nprepare_sandbox() {\n  local dir=$1\n  mkdir -p \"$dir\"\n  printf 'sandbox ready: %s\\n' \"$dir\"\n}\nprint_report() {\n  local total=$1\n  printf 'total files: %s\\n' \"$total\"\n}\n",
      "language": "bash"
@@ -4572,9 +4622,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: план перед кодом",
-      "tg": "Аз сифр: нақша пеш аз код",
-      "en": "From zero: a plan before code"
+      "ru": "От содержимого папки к статистике файлов",
+      "tg": "Аз файлҳои папка то омори онҳо",
+      "en": "From directory contents to file counts"
      },
      "body": {
       "ru": "Настоящие скрипты начинаются не с кода, а с плана. Задача: по заданной папке сообщить, сколько в ней файлов и какие расширения встречаются чаще. План такой. Первый шаг — песочница: скрипт сам создаёт учебное дерево папок с файлами разных типов, чтобы результат был воспроизводимым, и сам убирает его в конце. Второй шаг — подсчёт: цикл проходит по всем файлам дерева, а проверка -f отбрасывает папки, чтобы в счёт попадали только настоящие файлы. Третий шаг — расширение: для каждого файла выражение со снятием кратчайшего начала пути до последней точки оставляет только хвост вроде txt или png. Четвёртый шаг — статистика: напечатанные расширения проходят знакомую цепочку sort, uniq -c и sort -rn, которая уже строила вам топ страниц. Все кирпичи вы знаете по отдельности; проект — это умение сложить их в порядке, который решает задачу. Именно так рождаются настоящие инструменты автоматизации.",
@@ -4734,9 +4784,9 @@
    "sections": [
     {
      "title": {
-      "ru": "С нуля: отчёт одной командой",
-      "tg": "Аз сифр: ҳисот бо як фармон",
-      "en": "From zero: a report in one command"
+      "ru": "Группировка вывода в итоговый отчёт",
+      "tg": "Гурӯҳ кардани барориш ба ҳисоботи ниҳоӣ",
+      "en": "Grouping output into a final report"
      },
      "body": {
       "ru": "Последний проект курса собирает всё, чему вы научились, в один рабочий инструмент. Вход — журнал запросов, по строке на событие: страница и код ответа. Выход — текстовый отчёт, который можно отправить коллеге или сохранить. План отчёта: заголовок, общее число запросов, число ошибок, число успешных ответов и топ-три страницы. Новая деталь здесь — групповое перенаправление: фигурные скобки объединяют несколько команд, и один знак больше отправляет весь их вывод в файл. Внутри блока каждая строка отчёта собирается из уже знакомых частей: wc -l считает строки, awk с условием отбирает ошибки и успехи, знакомая цепочка с sort -rn строит топ. В конце скрипт печатает готовый файл cat-ом и убирает песочницу. Это и есть стиль настоящей автоматизации: маленькие честные инструменты, соединённые в надёжную цепочку, и результат, который можно проверить глазами.",

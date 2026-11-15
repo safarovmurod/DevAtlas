@@ -17,26 +17,14 @@ import { isCourseId, type CourseId } from '@/lib/courses/ids';
 import type { InterfaceLocale } from '@/lib/locale';
 import { useAppStore } from '@/stores/app-store';
 import { useLearningStore } from '@/stores/learning-store';
-import { CatalogFilterPanel, type CatalogFilters } from './catalog-filters';
+import { CatalogCategoryGrid } from './catalog-filters';
+import { CatalogOverview } from './catalog-overview';
 import { CATEGORY_ICONS } from './category-icons';
 import { CourseCard, type CourseStatus } from './course-card';
 import { BROWSE_COPY, CATALOG_UI, courseCountLabel } from './course-catalog-copy';
 
-const NO_FILTERS: CatalogFilters = {
-  category: 'all',
-  subtrack: 'all',
-  access: 'all',
-  start: 'all',
-  length: 'all',
-};
-
 // JavaScript month 2 is reached through the month tabs on the JS1 card.
-const CATALOG_COURSES = COURSE_CATALOG.filter((course) => course.id !== 'javascript-2');
-
-/** Duration buckets match the published programs: up to 14 days, 30 days, 44+ days. */
-export function courseLengthBucket(days: number): 'short' | 'month' | 'long' {
-  return days <= 14 ? 'short' : days <= 30 ? 'month' : 'long';
-}
+export const CATALOG_COURSES = COURSE_CATALOG.filter((course) => course.id !== 'javascript-2');
 
 function isCourseStatusList(data: unknown): data is CourseStatus[] {
   return (
@@ -54,21 +42,12 @@ function isCourseStatusList(data: unknown): data is CourseStatus[] {
   );
 }
 
-function matchesFilters(
+/** Search looks through names, descriptions and direction labels. */
+export function matchesSearch(
   course: CourseCatalogEntry,
-  filters: CatalogFilters,
   query: string,
   language: InterfaceLocale,
 ) {
-  const { category, subtrack, access, start, length } = filters;
-  if (access !== 'all' && (course.accessTier ?? 'starter') !== access) return false;
-  if (start === 'zero' && course.prerequisite) return false;
-  if (start === 'next' && !course.prerequisite) return false;
-  if (length !== 'all' && courseLengthBucket(course.publishedDays ?? 0) !== length) return false;
-  if (category !== 'all' && course.category !== category) return false;
-  if (subtrack !== 'all' && course.category === 'programming' && course.subtrack !== subtrack)
-    return false;
-
   const searchable = [
     course.name,
     courseDisplayName(course.id, language),
@@ -89,7 +68,7 @@ type CourseGroup = {
 };
 
 /** Programming is grouped by specialization, every other category is one group. */
-function groupCourses(courses: CourseCatalogEntry[]): CourseGroup[] {
+export function groupCourses(courses: CourseCatalogEntry[]): CourseGroup[] {
   return COURSE_CATEGORIES.flatMap(({ id }): CourseGroup[] => {
     if (id !== 'programming') {
       const inCategory = courses.filter((course) => course.category === id);
@@ -104,18 +83,12 @@ function groupCourses(courses: CourseCatalogEntry[]): CourseGroup[] {
   }).filter((group) => group.courses.length > 0);
 }
 
-/** The course catalog: categories, filters, search and course cards. */
-export function CourseCatalog() {
+/** Ready-lesson statuses from the server and the "open this course" action. */
+export function useCourseChoice() {
   const router = useRouter();
-  const language = useLearningStore((state) => state.language);
   const selected = useLearningStore((state) => (state.courseChosen ? state.selectedCourse : null));
-  const labels = CATALOG_UI[language];
-  const browse = BROWSE_COPY[language];
-
   const [statuses, setStatuses] = useState<CourseStatus[] | null>(null);
   const [statusFailed, setStatusFailed] = useState(false);
-  const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState<CatalogFilters>(NO_FILTERS);
 
   // How many lessons each course has ready on the server.
   useEffect(() => {
@@ -138,79 +111,47 @@ export function CourseCatalog() {
   function choose(id: CourseId) {
     useLearningStore.getState().chooseCourse(id);
     useAppStore.setState({ sidebarOpen: false, tutorDrawerOpen: false, tutorQuestion: null });
+    // Straight into the course: the logo morphs from the card into the page header.
     router.push(id === 'react' ? '/courses/react' : `/courses/${id}/plan`, {
-      transitionTypes: ['nav-fade'],
+      transitionTypes: ['nav-forward'],
     });
   }
 
-  function updateFilters(changes: Partial<CatalogFilters>) {
-    setFilters((current) => ({ ...current, ...changes }));
-  }
+  return { statuses, statusFailed, selected, choose };
+}
 
-  function resetFilters() {
-    setFilters(NO_FILTERS);
-    setQuery('');
-  }
-
-  const visibleCourses = CATALOG_COURSES.filter((course) =>
-    matchesFilters(course, filters, query, language),
-  );
-  const groups = groupCourses(visibleCourses);
+/** Course groups with a heading each; programming shows its specializations. */
+export function CourseGroupList({
+  courses,
+  showCategory = true,
+}: {
+  courses: CourseCatalogEntry[];
+  showCategory?: boolean;
+}) {
+  const language = useLearningStore((state) => state.language);
+  const { statuses, statusFailed, selected, choose } = useCourseChoice();
+  const groups = groupCourses(courses);
 
   return (
-    <section className="course-catalog">
-      <div className="course-intro">
-        <span className="eyebrow">
-          <Compass size={16} />
-          {labels.eyebrow}
-        </span>
-        <h1>{labels.title}</h1>
-        <p>{labels.intro}</p>
-      </div>
-      <OnboardingBanner />
-
-      <CatalogFilterPanel courses={CATALOG_COURSES} filters={filters} onChange={updateFilters} />
-
-      <div className="catalog-toolbar">
-        <div>
-          <h2>
-            <BookOpen size={19} />
-            {browse.browse}
-          </h2>
-          <span className="catalog-result-count" aria-live="polite">
-            {courseCountLabel(visibleCourses.length, language)}
-          </span>
-        </div>
-        <label className="catalog-search">
-          <Search size={17} />
-          <input
-            aria-label={browse.searchLabel}
-            placeholder={browse.search}
-            value={query}
-            onChange={(event) => {
-              // Search looks through every category and access level.
-              setQuery(event.target.value);
-              updateFilters({ category: 'all', subtrack: 'all', access: 'all' });
-            }}
-          />
-        </label>
-      </div>
-
-      <div className="catalog-groups">
-        {groups.map((group) => {
-          const Icon = CATEGORY_ICONS[group.category];
-          return (
-            <section
-              className="catalog-course-group"
-              key={group.key}
-              aria-labelledby={'catalog-group-' + group.key}
-            >
+    <div className="catalog-groups">
+      {groups.map((group) => {
+        const Icon = CATEGORY_ICONS[group.category];
+        return (
+          <section
+            className="catalog-course-group"
+            key={group.key}
+            aria-labelledby={
+              showCategory || group.subtrack ? 'catalog-group-' + group.key : undefined
+            }
+          >
+            {/* A direction page already names the direction; only specializations need a heading. */}
+            {(showCategory || group.subtrack) && (
               <div className="catalog-group-heading">
                 <span className="group-category-icon" data-category={group.category}>
                   <Icon size={18} />
                 </span>
                 <div>
-                  {group.subtrack && (
+                  {group.subtrack && showCategory && (
                     <span className="group-parent-category">
                       {categoryLabel(group.category, language)}
                     </span>
@@ -225,31 +166,89 @@ export function CourseCatalog() {
                   {courseCountLabel(group.courses.length, language)}
                 </span>
               </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                {group.courses.map((course) => (
-                  <CourseCard
-                    key={course.id}
-                    course={course}
-                    statuses={statuses}
-                    statusFailed={statusFailed}
-                    selectedCourse={selected}
-                    onChoose={choose}
-                  />
-                ))}
-              </div>
-            </section>
-          );
-        })}
+            )}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {group.courses.map((course) => (
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  statuses={statuses}
+                  statusFailed={statusFailed}
+                  selectedCourse={selected}
+                  onChoose={choose}
+                />
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
+/** The course catalog: direction cards and a search across every course. */
+export function CourseCatalog() {
+  const language = useLearningStore((state) => state.language);
+  const labels = CATALOG_UI[language];
+  const browse = BROWSE_COPY[language];
+  const [query, setQuery] = useState('');
+
+  const searching = query.trim() !== '';
+  const found = searching
+    ? CATALOG_COURSES.filter((course) => matchesSearch(course, query, language))
+    : [];
+
+  return (
+    <section className="course-catalog">
+      <div className="course-intro">
+        <span className="eyebrow">
+          <Compass size={16} />
+          {labels.eyebrow}
+        </span>
+        <h1>{labels.title}</h1>
+        <p>{labels.intro}</p>
+      </div>
+      <CatalogOverview />
+      <OnboardingBanner />
+
+      <div className="catalog-toolbar">
+        <div>
+          <h2>
+            <BookOpen size={19} />
+            {browse.browse}
+          </h2>
+          {searching && (
+            <span className="catalog-result-count" aria-live="polite">
+              {courseCountLabel(found.length, language)}
+            </span>
+          )}
+        </div>
+        <label className="catalog-search">
+          <Search size={17} />
+          <input
+            aria-label={browse.searchLabel}
+            placeholder={browse.search}
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </label>
       </div>
 
-      {visibleCourses.length === 0 && (
-        <div role="status" className="catalog-empty">
-          <Search size={25} />
-          <p>{query ? browse.noResults : browse.empty}</p>
-          <button className="button subtle" onClick={resetFilters}>
-            {browse.reset}
-          </button>
-        </div>
+      {searching ? (
+        <>
+          <CourseGroupList courses={found} />
+          {found.length === 0 && (
+            <div role="status" className="catalog-empty">
+              <Search size={25} />
+              <p>{browse.noResults}</p>
+              <button className="button subtle" onClick={() => setQuery('')}>
+                {browse.reset}
+              </button>
+            </div>
+          )}
+        </>
+      ) : (
+        <CatalogCategoryGrid courses={CATALOG_COURSES} />
       )}
     </section>
   );

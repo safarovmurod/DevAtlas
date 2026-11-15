@@ -24,16 +24,14 @@ async function enterCode(page:Page,value:string) {
   await expect.poll(()=>page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).state.courses.html.drafts['html-day-01'],storageKey)).toBe(value);
 }
 
-test('day 1 has a real editor, accepts alternate HTML, confirms and unlocks exactly day 2',async({page},testInfo)=>{
+test('day 1 has lesson and a real editor on one page, accepts alternate HTML and confirms',async({page},testInfo)=>{
   test.setTimeout(60000);
   await seed(page);
   const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
   await page.goto('/courses/html/home?day=1');
   await expect(page.getByRole('button',{name:'Подтвердить завершение дня',exact:true})).toBeDisabled();
   await page.getByRole('button',{name:'Прочитал и понял',exact:true}).click();
-  await page.getByRole('link',{name:'Практика этого дня',exact:true}).click();
-  await expect(page).toHaveURL(/\/practice\?course=html&day=1$/);
-  await expect(page.locator('.practice-selector')).toBeVisible();
+  await expect(page.locator('#day-practice')).toBeVisible();
   await enterCode(page,'<h1>Ещё не готово</h1>');
   await page.getByRole('button',{name:'Проверить решение',exact:true}).click();
   await expect(page.locator('.practice-validation [role=status]')).toContainText('Исправьте');
@@ -41,7 +39,8 @@ test('day 1 has a real editor, accepts alternate HTML, confirms and unlocks exac
   await enterCode(page,alternateHtml);
   await page.getByRole('button',{name:'Проверить решение',exact:true}).click();
   await expect(page.locator('.practice-validation [role=status]')).toContainText('Все проверки пройдены');
-  await expect(page.frameLocator('.html-preview').getByRole('heading',{name:'Учусь создавать сайты'})).toBeVisible();
+  // The lesson step has its own demo preview; the practice preview is inside #day-practice.
+  await expect(page.frameLocator('#day-practice .html-preview').getByRole('heading',{name:'Учусь создавать сайты'})).toBeVisible();
   await expect(page.getByRole('button',{name:'Подтвердить завершение дня',exact:true})).toBeEnabled();
   await page.screenshot({path: testInfo.outputPath('verified-practice.png'),fullPage:true});
   await page.getByRole('button',{name:'Подтвердить завершение дня',exact:true}).click();
@@ -58,30 +57,30 @@ test('day 1 has a real editor, accepts alternate HTML, confirms and unlocks exac
   await page.goto('/courses/html/plan');
   await expect(page.locator('.day-card.is-done')).toHaveCount(1);
   await expect(page.locator('.day-card.is-next')).toHaveCount(1);
+  // Every day is open: the next days are links too.
   await expect(page.getByRole('link',{name:/День 2 /})).toBeVisible();
-  await expect(page.getByRole('link',{name:/День 3 /})).toHaveCount(0);
+  await expect(page.getByRole('link',{name:/День 3 /})).toBeVisible();
   await page.screenshot({path: testInfo.outputPath('progress.png'),fullPage:true});
   expect(errors).toEqual([]);
 });
 
-test('future day is locked through direct lesson and shared practice URLs',async({page})=>{
+test('every day is open through direct lesson and legacy practice URLs',async({page})=>{
   await seed(page);
-  for(const path of ['/courses/html/home?day=2','/practice?course=html&day=2']) {
+  for(const path of ['/courses/html/home?day=2','/practice?course=html&day=2','/courses/html/practice?day=2']) {
     await page.goto(path);
-    await expect(page.getByRole('heading',{name:'Сначала завершите и подтвердите предыдущий день.'})).toBeVisible();
-    await expect(page.locator('.monaco-editor')).toHaveCount(0);
+    await expect(page).toHaveURL(/\/courses\/html\/home\?day=2/);
+    await expect(page.locator('#day-practice')).toBeVisible();
+    await expect(page.getByRole('heading',{name:'Сначала завершите и подтвердите предыдущий день.'})).toHaveCount(0);
+    await expect(page.locator('.monaco-editor').first()).toBeVisible({timeout:30000});
   }
   await page.goto('/practice?course=unknown');
   await expect(page.getByText('This page could not be found.')).toBeVisible();
   await expect(page.locator('.monaco-editor')).toHaveCount(0);
 });
 
-test('all learning tracks have one shared practice catalog and responsive layouts',async({page},testInfo)=>{
+test('practice belongs to the selected course, every track is in the catalog and layouts are responsive',async({page},testInfo)=>{
   await seed(page);
-  await page.goto('/practice');
-  await expect(page.getByRole('heading',{name:'Лаборатория практики',exact:true})).toBeVisible();
-  for(const track of ['html','react','python','backend','mobile','cpp'])await expect(page.locator(`.practice-course-tabs a[href="/practice?course=${track}"]`)).toBeVisible();
-  await page.goto('/courses');
+  await page.goto('/courses/category/programming');
   for(const track of ['html','react','python','backend','mobile','cpp'])await expect(page.locator(`[data-course="${track}"]`)).toBeVisible();
   for(const path of ['/','/courses','/practice','/practice?course=html&day=1']){
     await page.goto(path);
@@ -94,13 +93,14 @@ test('all learning tracks have one shared practice catalog and responsive layout
   await page.screenshot({path: testInfo.outputPath('practice-mobile.png'),fullPage:true});
 });
 
-for(const [locale,title] of [['ru','Лаборатория практики'],['tg','Озмоишгоҳи машқ'],['en','Practice lab'],['ja','演習ラボ'],['ko','실습실']] as const){
-  test(`shared practice navigation works in ${locale}`,async({page})=>{
+for(const locale of ['ru','tg','en','es'] as const){
+  test(`legacy practice link opens the day page with practice in ${locale}`,async({page})=>{
     await seed(page,locale);
-    await page.goto('/practice');
+    await page.goto('/practice?course=html&day=1');
+    await expect(page).toHaveURL(/\/courses\/html\/home\?day=1/);
     await expect(page.locator('html')).toHaveAttribute('lang',locale);
-    await expect(page.getByRole('heading',{name:title,exact:true})).toBeVisible();
-    await expect(page.locator('.practice-course-tabs a')).toHaveCount(COURSE_CATALOG.length);
+    await expect(page.locator('#day-practice')).toBeVisible();
+    await expect(page.locator('.practice-course-tabs')).toHaveCount(0);
   });
 }
 
@@ -109,10 +109,12 @@ test('unconfigured paid plans cannot activate subscriptions and guest chat has n
   const checkoutRequests:string[]=[];
   page.on('request',request=>{if(request.url().includes('/api/billing/checkout'))checkoutRequests.push(request.url());});
   await page.goto('/plans');
-  await expect(page.getByRole('heading',{name:'Ваш путь в разработку',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Выберите тариф',exact:true})).toBeVisible();
+  // Start / Pro / Ultra: Start is free, the two paid plans have no checkout yet.
+  for(const plan of ['Start','Pro','Ultra'])await expect(page.getByRole('heading',{name:plan,exact:true})).toBeVisible();
   await expect(page.getByRole('button',{name:'Оплата ещё не подключена',exact:true})).toHaveCount(2);
   for(const button of await page.getByRole('button',{name:'Оплата ещё не подключена',exact:true}).all())await expect(button).toBeDisabled();
-  await expect(page.getByText('Сейчас платежи и подписки не создаются.',{exact:false})).toBeVisible();
+  await expect(page.getByText('не создаются платежи и подписки',{exact:false})).toBeVisible();
   expect(checkoutRequests).toEqual([]);
   await page.goto('/community');
   await expect(page.getByRole('status').filter({hasText:'Войдите в аккаунт, чтобы открыть сообщество.'})).toBeVisible();

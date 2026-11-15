@@ -50,21 +50,12 @@ function reactDayReady(progress: ReactProgress, month: number, day: number) {
 }
 
 /**
- * A React day can be confirmed when it is ready, not confirmed yet, every
- * earlier day of the month is confirmed, and month 2 also needs all of month 1.
+ * Every React day is open and can be confirmed in any order: the day must be a real day
+ * of month 1 or 2, ready (its own topics learned and practised) and not confirmed yet.
  */
 export function canConfirmReactDay(progress: ReactProgress, month: number, day: number) {
   if (month !== 1 && month !== 2) return false;
   if (!Number.isInteger(day) || day < 1 || day > DAYS_PER_MONTH) return false;
-  if (!reactDayReady(progress, month, day)) return false;
   if (progress.confirmedDays.includes(`${month}:${day}`)) return false;
-
-  const confirmed = (targetMonth: number, targetDay: number) =>
-    progress.confirmedDays.includes(`${targetMonth}:${targetDay}`) &&
-    reactDayReady(progress, targetMonth, targetDay);
-  const daysBefore = (count: number) => Array.from({ length: count }, (_, index) => index + 1);
-
-  if (month === 2 && !daysBefore(DAYS_PER_MONTH).every((previous) => confirmed(1, previous)))
-    return false;
-  return daysBefore(day - 1).every((previous) => confirmed(month, previous));
+  return reactDayReady(progress, month, day);
 }

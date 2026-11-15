@@ -66,4 +66,13 @@ describe('project-first tutor retrieval', () => {
       expect(result.source.questionId).toBe(question.id);
     }
   });
+
+  it('still finds the question when a technical word has a typo', () => {
+    const expected = projectAnswer('useState чиба даркорай?')?.source.questionId;
+    expect(expected).toBeDefined();
+    for (const query of ['useStete чиба даркорай?', 'usestat чиба даркорай?', 'Что такое юзстейт?'])
+      expect(projectAnswer(query)?.source.questionId, query).toBeDefined();
+    expect(projectAnswer('useStete чиба даркорай?')?.source.questionId).toBe(expected);
+    expect(projectAnswer('useZzzzz quantum чиба даркорай?')).toBeNull();
+  });
 });

@@ -1,7 +1,5 @@
 import type { InterfaceLocale } from '@/lib/locale';
-import { JAPANESE_ACCOUNT_COPY } from './locales/ja';
-import { KOREAN_ACCOUNT_COPY } from './locales/ko';
-import { ACCOUNT_COPY_EN, ACCOUNT_COPY_TG, ACCOUNT_COPY_UK } from './account-copy-translations';
+import { ACCOUNT_COPY_EN, ACCOUNT_COPY_ES, ACCOUNT_COPY_TG } from './account-copy-translations';
 
 const ru = {
   account: 'Ваш аккаунт',
@@ -91,6 +89,8 @@ const ru = {
   passwordMismatch: 'Пароли не совпадают.',
   recoveryError: 'Не удалось сменить пароль. Повторите запрос восстановления.',
   opening: 'Открываем DevAtlas…',
+  openingLessons: 'Открываем обучение…',
+  signedInOpening: 'Вход выполнен. Открываем обучение…',
   restoring: 'Восстанавливаем ваш вход',
   openFailed: 'Не удалось открыть аккаунт',
   openError: 'Не удалось открыть аккаунт.',
@@ -122,12 +122,10 @@ export type AccountCopyKey = keyof typeof ru;
 export type AccountCopy = Record<AccountCopyKey, string>;
 
 export const ACCOUNT_COPY: Record<InterfaceLocale, AccountCopy> = {
-  ja: JAPANESE_ACCOUNT_COPY,
-  ko: KOREAN_ACCOUNT_COPY,
   ru,
   en: ACCOUNT_COPY_EN,
   tg: ACCOUNT_COPY_TG,
-  uk: ACCOUNT_COPY_UK,
+  es: ACCOUNT_COPY_ES,
 };
 
 const authErrorKeys: Record<string, AccountCopyKey> = {

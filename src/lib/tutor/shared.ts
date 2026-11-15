@@ -9,12 +9,14 @@ export interface TutorSource {
 
 export function isDeepFollowUp(text: string): boolean {
   return (
-    /^(?:ч[уқукӯ]+ур(?:тар)?\s*(?:фаҳмон|фахмон)?|глубже|подробнее|объясни подробнее|deeper|explain more|expand)[.!?\s]*$/i.test(
+    /^(?:ч[уқукӯ]+ур(?:тар)?\s*(?:фаҳмон|фахмон)?|глубже|подробнее|объясни подробнее|deeper|explain more|expand|más a fondo|con más detalle|explica más|profundiza)[.!?\s]*$/i.test(
       text.trim(),
     ) || /^саволи пешинаро(?:\s|$)/i.test(text.trim())
   );
 }
 
 export function wantsDeepExplanation(text: string): boolean {
-  return /ч[уқукӯ]+ур|муфассал|подробн|глубже|in depth|deeper|explain more/i.test(text);
+  return /ч[уқукӯ]+ур|муфассал|подробн|глубже|in depth|deeper|explain more|a fondo|más detalle|en profundidad|profundiza|explica más/i.test(
+    text,
+  );
 }

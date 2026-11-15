@@ -259,13 +259,14 @@ export function CoursePractice({
       )}
       <details className="solution">
         <summary>{copy.solution}</summary>
-        {written ? (
+        {(written || practice.referenceAnswer) && (
           <p className="preserve-lines">
             {practice.referenceAnswer
               ? courseText(practice.referenceAnswer, state.contentLanguage)
               : practice.solution}
           </p>
-        ) : (
+        )}
+        {!written && practice.solution && (
           <pre tabIndex={0}>
             <code>{practice.solution}</code>
           </pre>

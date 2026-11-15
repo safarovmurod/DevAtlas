@@ -14,7 +14,7 @@ import {
   type Progress,
 } from '@/lib/account/progress';
 import type { CourseId, ImportedCourseId } from '@/lib/courses/ids';
-import { courseDayProgress, courseDayReady, type CoursePlanDay } from '@/lib/courses/plan';
+import { courseDayReady, type CoursePlanDay } from '@/lib/courses/plan';
 import { contentLocaleFor, persistManualLocale, type InterfaceLocale } from '@/lib/locale';
 import { canConfirmReactDay } from './react-day-progress';
 import { flushPendingStudyTime } from './study-time';
@@ -124,7 +124,8 @@ export const useLearningStore = create<LearningState>()(
         recordAnswer(question, mode, correct, answer, today = dateKey()) {
           const current = get();
           const key = `${today}:${mode}:${question.id}`;
-          if (current.answers[key]) return;
+          const previous = current.answers[key];
+          if (previous && (mode !== 'interview' || previous.correct)) return;
           const awards = { ...current.awards };
           if (correct) awards[`${mode}:${question.id}`] = mode === 'test' ? 10 : 5;
           set({
@@ -181,18 +182,13 @@ export const useLearningStore = create<LearningState>()(
           });
         },
         confirmCourseDay(courseId, day, plan) {
-          // Only the current day can be confirmed, and only when its lesson and practice are done.
+          // Any day can be confirmed, in any order, once its own lesson and practice are done.
           const progress = courseProgress(courseId);
-          const current = courseDayProgress(
-            plan,
-            progress.completedTopics,
-            progress.completedPractice,
-            progress.confirmedDays,
-          ).current;
+          const item = plan.find((entry) => entry.day === day);
           if (
-            !current ||
-            current.day !== day ||
-            !courseDayReady(current, progress.completedTopics, progress.completedPractice)
+            !item ||
+            progress.confirmedDays.includes(String(day)) ||
+            !courseDayReady(item, progress.completedTopics, progress.completedPractice)
           )
             return false;
           updateCourse(courseId, { confirmedDays: [...progress.confirmedDays, String(day)] });

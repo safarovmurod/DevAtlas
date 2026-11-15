@@ -15,8 +15,8 @@ test('imported-course review grades real choices and updates its schedule withou
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state.courses.html);
  expect(saved.answers[Object.keys(saved.answers).find(key=>key.includes(':revision:'))!].correct).toBe(true);
  expect(saved.masteredQuestions).toEqual([]);expect(saved.awards[`revision:${question.id}`]).toBe(5);
- await page.reload();await expect(page.locator('.course-question')).toHaveCount(0);await expect(page.locator('.learning-review')).toContainText('Пока нет тем');
- await page.goto('/courses/html/weak-topics');await expect(page.getByRole('heading',{name:'Сложные темы',exact:true})).toBeVisible();
+ await page.reload();await expect(page.locator('.course-question')).toHaveCount(0);await expect(page.getByText('Пока нет тем')).toBeVisible();
+ await page.goto('/courses/html/weak-topics');await expect(page).toHaveURL('/courses/html/revision');await expect(page.getByRole('heading',{name:'Повторение',exact:true})).toBeVisible();
  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:testInfo.outputPath('review-320px.png')});expect(errors).toEqual([]);
 });
@@ -36,34 +36,31 @@ test('React review preserves both queued questions after rescheduling the first'
  }
  await expect(page.locator('.session-complete')).toContainText('2 / 2');
 });
-test('agent ignores unowned legacy history and persists its actual guest reply',async({page},testInfo)=>{
+test('the voice assistant has no text chat, removes the guest text chat only and closes with Escape',async({page},testInfo)=>{
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});
  await page.addInitScript(()=>{
   if(window.top!==window.self||localStorage.getItem('react-mentor-learning-v2'))return;
   localStorage.setItem('react-mentor-learning-v2',JSON.stringify({version:2,state:{language:'en',contentLanguage:'en',selectedCourse:'html',courseChosen:true}}));
   localStorage.setItem('devatlas-agent-chat-v1',JSON.stringify([{id:'old',sender:'user',text:'Unowned legacy conversation'}]));
+  localStorage.setItem('devatlas-agent-chat-v2:guest',JSON.stringify([{id:'guest',sender:'user',text:'Old guest chat'}]));
+  localStorage.setItem('devatlas-agent-chat-v2:account:other',JSON.stringify([{id:'other',sender:'user',text:'Other account chat'}]));
  });
- await page.goto('/courses/html/plan');await expect(page).toHaveTitle(/DevAtlas/);await page.getByRole('button',{name:'DevAtlas assistant',exact:true}).click();
- await expect(page.getByText('Unowned legacy conversation')).toHaveCount(0);
- const response=page.waitForResponse(response=>response.url().endsWith('/api/tutor')&&response.request().method()==='POST');
- await page.getByLabel('Ask the assistant',{exact:true}).fill('Explain the HTML document');await page.getByRole('button',{name:'Send',exact:true}).click();
- expect((await response).status()).toBe(200);await expect(page.locator('.agent-message.assistant')).toHaveCount(2);
- await expect(page.locator('.agent-message.assistant').last().locator('.agent-kind')).toHaveText('Local');
- for(const theme of ['light','dark']){
- await page.evaluate(value=>{document.documentElement.dataset.theme=value;},theme);
- const contrast=await page.locator('.agent-message.user p').evaluate(element=>{
-  const rgb=(value:string)=>(value.match(/[0-9.]+/g)??[]).slice(0,3).map(Number);
-  const luminance=(values:number[])=>values.map(value=>{const v=value/255;return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4;}).reduce((n,value,index)=>n+value*[0.2126,0.7152,0.0722][index],0);
-  const text=luminance(rgb(getComputedStyle(element).color)),background=luminance(rgb(getComputedStyle(element.parentElement!).backgroundColor));
-  return (Math.max(text,background)+0.05)/(Math.min(text,background)+0.05);
- });expect(contrast,theme).toBeGreaterThanOrEqual(4.5);
- }
- await page.evaluate(()=>{document.documentElement.dataset.theme='light';});
- await page.reload();await page.getByRole('button',{name:'DevAtlas assistant',exact:true}).click();await expect(page.locator('.agent-message.user')).toHaveText('Explain the HTML document');
+ await page.goto('/courses/html/plan');await expect(page).toHaveTitle(/DevAtlas/);
+ const bubble=page.getByRole('button',{name:'DevAtlas assistant',exact:true});await bubble.click();
+ const panel=page.getByRole('dialog',{name:'DevAtlas assistant',exact:true});await expect(panel).toBeVisible();
+ // Voice only: no message box, no Send button, no chat history.
+ await expect(panel.getByRole('textbox')).toHaveCount(0);await expect(panel.getByRole('button',{name:'Send',exact:true})).toHaveCount(0);
+ await expect(panel.getByRole('button',{name:'Speak',exact:true}).or(panel.getByRole('button',{name:'Open AI Tutor',exact:true}))).toBeVisible();
+ await expect(page.getByText('Old guest chat')).toHaveCount(0);await expect(page.getByText('Unowned legacy conversation')).toHaveCount(0);
+ // Only the guest's own old text chat is removed. Other accounts and the unowned v1 chat stay untouched.
+ await expect.poll(()=>page.evaluate(()=>localStorage.getItem('devatlas-agent-chat-v2:guest'))).toBeNull();
  expect(await page.evaluate(()=>localStorage.getItem('devatlas-agent-chat-v1'))).toContain('Unowned legacy conversation');
+ expect(await page.evaluate(()=>localStorage.getItem('devatlas-agent-chat-v2:account:other'))).toContain('Other account chat');
  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- expect(await page.locator('.agent-messages').evaluate(element=>element.clientHeight)).toBeGreaterThan(180);
- await expect(page.locator('.agent-panel')).toHaveAttribute('aria-modal','true');
+ // On a phone the panel stays above the assistant button.
+ const box={panel:await panel.boundingBox(),bubble:await bubble.boundingBox()};
+ expect(box.panel!.y+box.panel!.height).toBeLessThanOrEqual(box.bubble!.y);
  await page.screenshot({path:testInfo.outputPath('agent-320px.png')});
- await page.keyboard.press('Escape');await expect(page.locator('.agent-panel')).toHaveCount(0);expect(await page.evaluate(()=>document.body.style.overflow)).not.toBe('hidden');expect(errors).toEqual([]);
+ await page.keyboard.press('Escape');await expect(panel).toHaveCount(0);await expect(bubble).toBeFocused();
+ expect(await page.evaluate(()=>document.body.style.overflow)).not.toBe('hidden');expect(errors).toEqual([]);
 });

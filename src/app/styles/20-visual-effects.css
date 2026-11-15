@@ -38,57 +38,18 @@
   pointer-events: none;
   z-index: -1;
 }
-.public-hero-layout {
-  position: relative;
-}
-.public-hero-layout::before,
-.public-hero-layout::after {
-  content: '';
-  position: absolute;
-  border-radius: 999px;
-  pointer-events: none;
-  z-index: -1;
-}
-.public-hero-layout::before {
-  top: 6%;
-  right: 4%;
-  width: clamp(140px, 22vw, 300px);
-  height: clamp(140px, 22vw, 300px);
-  background: var(--hero-orb);
-}
-.public-hero-layout::after {
-  inset: 0;
-  width: auto;
-  height: auto;
-  border-radius: 0;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 44px 44px;
-  -webkit-mask-image: radial-gradient(ellipse at 50% 25%, #000 0%, transparent 75%);
-  mask-image: radial-gradient(ellipse at 50% 25%, #000 0%, transparent 75%);
-}
+
 /* Micro-interactions: cards lift softly on hover (transform/opacity only). */
-.public-feature-grid article,
-.studio-preview,
-.public-cta {
+.public-feature-grid article {
   transition: transform 0.25s ease;
 }
-.studio-preview:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-2);
-  border-color: var(--border-strong);
-}
+
 /* Accessibility and low-power devices: freeze all ambient motion. */
 @media (prefers-reduced-motion: reduce) {
-  body::before,
-  .public-hero-layout::before,
-  .public-hero-layout::after {
+  body::before {
     animation: none;
   }
-  .public-feature-grid article,
-  .studio-preview,
-  .public-cta {
+  .public-feature-grid article {
     transition: none;
   }
 }
@@ -105,44 +66,6 @@
 }
 
 /* ============ Learning track stages ============ */
-.track-stages {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-bottom: 18px;
-}
-.track-stage {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.track-stage strong {
-  font-size: 13px;
-  letter-spacing: 0.02em;
-}
-.track-stage a {
-  font-size: 13px;
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-.track-stage a[aria-current='location'] {
-  color: var(--primary);
-}
-.track-stage a:hover {
-  text-decoration: underline;
-}
-.track-stage small {
-  color: var(--text-muted);
-}
-.track-stage-pending {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-@media (max-width: 650px) {
-  .track-stages {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* ============ Premium design layer (2026-10-24) ============
    Bigger display typography, staged entrance motion, richer landing aurora,
@@ -172,18 +95,7 @@
   letter-spacing: -0.03em;
   font-weight: 700;
 }
-.public-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.public-eyebrow::before {
-  content: '';
-  width: 26px;
-  height: 2px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, var(--primary));
-}
+
 .public-hero > p:not(.public-eyebrow) {
   font-size: clamp(16px, 2vw, 20px);
 }
@@ -191,10 +103,7 @@
   font-size: 16px;
   min-height: 52px;
 }
-.public-features h2,
-.public-cta h2 {
-  font-size: clamp(26px, 3.4vw, 40px);
-}
+
 .public-brand {
   color: var(--text);
 }
@@ -261,14 +170,10 @@
 .public-hero > *:nth-child(6) {
   animation-delay: 0.55s;
 }
-.studio-preview,
-.public-feature-grid article,
-.public-cta {
+.public-feature-grid article {
   animation: rise-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
-.studio-preview {
-  animation-delay: 0.3s;
-}
+
 .public-feature-grid article:nth-child(1) {
   animation-delay: 0.45s;
 }
@@ -278,9 +183,7 @@
 .public-feature-grid article:nth-child(3) {
   animation-delay: 0.65s;
 }
-.public-cta {
-  animation-delay: 0.75s;
-}
+
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -299,8 +202,7 @@
 .public-actions .button.primary:hover {
   transform: translateY(-2px);
 }
-.public-actions .button.primary,
-.public-cta .button.primary {
+.public-actions .button.primary {
   transition: transform 0.2s ease;
 }
 
@@ -358,9 +260,7 @@
 }
 
 /* --- Track stage cards hover --- */
-.track-stage {
-  transition: transform 0.2s ease;
-}
+
 .track-stage:not(.is-here):hover {
   border-color: var(--border-strong);
 }
@@ -368,14 +268,11 @@
 /* --- Freeze everything decorative under reduced motion --- */
 @media (prefers-reduced-motion: reduce) {
   .public-hero > *,
-  .studio-preview,
   .public-feature-grid article,
-  .public-cta,
   .app-main > *,
   .tutor-panel,
   .tutor-backdrop,
   .day-card,
-  .track-stage,
   .public-home::before,
   .public-home::after,
   .progress-track span {

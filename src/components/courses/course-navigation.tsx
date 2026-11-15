@@ -1,22 +1,19 @@
 'use client';
+import { Fragment } from 'react';
 import Link from 'next/link';
-import { coursePublishedDays, courseTrack, type LearningStage } from '@/content/courses/catalog';
+import { ChevronRight } from 'lucide-react';
+import { coursePublishedDays, courseTrack } from '@/content/courses/catalog';
 import { courseDisplayName } from '@/lib/catalog-copy';
 import { courseDayCount } from '@/lib/course-copy';
 import type { ImportedCourseId } from '@/lib/courses/ids';
 import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import type { InterfaceLocale } from '@/lib/locale';
-import { STAGE_LABELS, TRACK_LABEL, UNPUBLISHED_STAGE } from './course-workspace-copy';
+import { cn } from '@/lib/utils';
+import { CourseIcon } from './course-icon';
+import { TRACK_LABEL } from './course-workspace-copy';
 
-const STAGES: LearningStage[] = ['beginner', 'pro', 'expert'];
-const STAGE_NAMES: Record<LearningStage, string> = {
-  beginner: 'Beginner',
-  pro: 'Pro',
-  expert: 'Expert',
-};
-
-/** Beginner → Pro → Expert steps of the course's learning track. */
-export function TrackStages({
+/** The courses of one learning track in order. Every level, Pro and Expert included, is free. */
+export function TrackPath({
   courseId,
   language,
 }: {
@@ -24,40 +21,32 @@ export function TrackStages({
   language: InterfaceLocale;
 }) {
   const track = courseTrack(courseId);
-  if (!track) return null;
+  if (!track || track.courses.length < 2) return null;
 
   return (
-    <nav className="track-stages" aria-label={TRACK_LABEL[language]}>
-      {STAGES.map((stage) => {
-        const published = track.courses.filter((entry) => entry.stage === stage);
-        const isHere = published.some((entry) => entry.course === courseId);
-        const stageLabel = STAGE_LABELS[stage][language];
-
-        return (
-          <div key={stage} className={'track-stage ' + (isHere ? 'is-here' : '')}>
-            <strong>{STAGE_NAMES[stage]}</strong>
-            {published.length ? (
-              <>
-                {published.map((entry) => (
-                  <Link
-                    key={entry.course}
-                    href={`/courses/${entry.course}/plan`}
-                    aria-current={entry.course === courseId ? 'location' : undefined}
-                  >
-                    {courseDisplayName(entry.course, language)} ·{' '}
-                    {courseDayCount(coursePublishedDays(entry.course), language)}
-                  </Link>
-                ))}
-                <small>{stageLabel}</small>
-              </>
-            ) : (
-              <span className="track-stage-pending">
-                {stageLabel} — {UNPUBLISHED_STAGE[language]}
-              </span>
+    <nav aria-label={TRACK_LABEL[language]} className="mb-5 flex flex-wrap items-center gap-2">
+      {track.courses.map((entry, index) => (
+        <Fragment key={entry.course}>
+          {index > 0 && (
+            <ChevronRight size={16} aria-hidden="true" className="text-muted-foreground" />
+          )}
+          <Link
+            href={entry.course === 'react' ? '/courses/react' : `/courses/${entry.course}/plan`}
+            transitionTypes={['nav-fade']}
+            aria-current={entry.course === courseId ? 'location' : undefined}
+            className={cn(
+              'inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium no-underline transition-colors',
+              entry.course === courseId
+                ? 'border-primary bg-primary-soft text-brand'
+                : 'border-border bg-card text-muted-foreground hover:text-foreground',
             )}
-          </div>
-        );
-      })}
+          >
+            <CourseIcon courseId={entry.course} size={18} className="rounded-md" />
+            {courseDisplayName(entry.course, language)} ·{' '}
+            {courseDayCount(coursePublishedDays(entry.course), language)}
+          </Link>
+        </Fragment>
+      ))}
     </nav>
   );
 }

@@ -19,7 +19,8 @@ export function courseMonthPlan(lessons: CourseLesson[]): CoursePlanDay[] {
   return lessons.map((lesson, index) => ({ day: index + 1, lesson, section: 'answers' }));
 }
 
-export type CourseDayStatus = 'done' | 'current' | 'upcoming';
+/** Every day is open. "current" is the first day that is not finished yet. */
+export type CourseDayStatus = 'done' | 'current' | 'open';
 export interface CourseDayItem {
   day: number;
   lesson: CourseLesson;
@@ -62,8 +63,9 @@ export function courseDayReadiness(
   };
 }
 
-// День «answers» завершён, когда урок отмечен изученным; «practice» — когда сдана практика.
-// День «tests» повторению не мешает: вопросы доступны в любой момент.
+// All days are open: nothing is locked. A day is "done" when its lesson and practice are
+// finished (and, when confirmations are tracked, the learner confirmed it). "current" is the
+// first unfinished day, so the learner always knows where to continue.
 export function courseDayProgress(
   plan: ReturnType<typeof courseMonthPlan>,
   completedTopics: readonly string[],
@@ -71,27 +73,13 @@ export function courseDayProgress(
   confirmedDays?: readonly string[],
 ): { days: CourseDayItem[]; current: CourseDayItem | null } {
   let current: CourseDayItem | null = null;
-  let previousConfirmed = true;
   const days = plan.map((item) => {
-    if (confirmedDays !== undefined) {
-      const done =
-        previousConfirmed &&
-        confirmedDays.includes(String(item.day)) &&
-        courseDayReady(item, completedTopics, completedPractice);
-      const status: CourseDayStatus = done ? 'done' : previousConfirmed ? 'current' : 'upcoming';
-      const entry = { ...item, status };
-      if (status === 'current') current = entry;
-      previousConfirmed = done;
-      return entry;
-    }
-    const done = courseDayReady(item, completedTopics, completedPractice);
-    let status: CourseDayStatus = 'upcoming';
-    if (done) status = 'done';
-    else if (!current) {
-      status = 'current';
-      current = { ...item, status };
-    }
-    return { ...item, status };
+    const ready = courseDayReady(item, completedTopics, completedPractice);
+    const done = ready && (confirmedDays === undefined || confirmedDays.includes(String(item.day)));
+    const status: CourseDayStatus = done ? 'done' : current ? 'open' : 'current';
+    const entry = { ...item, status };
+    if (status === 'current') current = entry;
+    return entry;
   });
   return { days, current };
 }

@@ -45,14 +45,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Чек на рынке",
-            "tg": "Чек дар бозор",
-            "en": "A market receipt"
+            "ru": "Что такое Go и точка входа",
+            "tg": "Go чист ва барнома аз куҷо сар мешавад?",
+            "en": "Go and program entry"
           },
           "body": {
-            "ru": "Продавец умножает цену одной тетради на количество. Программа делает тот же расчёт с именованными значениями. Переменная хранит значение под понятным именем: price — цена, quantity — количество. Изменив количество, можно получить новый итог без переписывания формулы. Цена остаётся прежней, а количество становится входом расчёта.",
-            "tg": "Фурӯшанда нархи як дафтарро ба шумораи дафтарҳо зарб мекунад. Барнома ҳам ҳамин ҳисобро мекунад. Тағйирёбанда қиматро бо номи фаҳмо нигоҳ медорад: price нарх аст, quantity миқдор. Агар миқдор дигар шавад, формулаи ҳисобро аз нав навиштан лозим нест. Нарх ҳамон мемонад, аммо миқдор вуруди ҳисоб мешавад.",
-            "en": "A seller multiplies the price of one notebook by the quantity. A program does the same with named values. A variable stores a value under a useful name: price is the unit price, quantity is the count. Change the count to calculate a new total without rewriting the formula. The price stays the same while quantity becomes the calculation’s input."
+            "ru": "Go — компилируемый язык для утилит и серверов. В запускаемой программе пакет main содержит функцию main, с которой начинается работа. Первый расчёт можно выполнить без сети и базы.\n\nПродавец умножает цену одной тетради на количество. Программа делает тот же расчёт с именованными значениями. Переменная хранит значение под понятным именем: price — цена, quantity — количество. Изменив количество, можно получить новый итог без переписывания формулы. Цена остаётся прежней, а количество становится входом расчёта.",
+            "tg": "Go забони компилятсияшаванда барои утилита ва сервер аст. Дар барномаи иҷрошаванда package main функсияи main дорад. Ҳисоби аввал бе шабака ва база кор мекунад.\n\nФурӯшанда нархи як дафтарро ба шумораи дафтарҳо зарб мекунад. Барнома ҳам ҳамин ҳисобро мекунад. Тағйирёбанда қиматро бо номи фаҳмо нигоҳ медорад: price нарх аст, quantity миқдор. Агар миқдор дигар шавад, формулаи ҳисобро аз нав навиштан лозим нест. Нарх ҳамон мемонад, аммо миқдор вуруди ҳисоб мешавад.",
+            "en": "Go is a compiled language used for tools and servers. An executable has a main function in package main. The first calculation needs neither a network nor a database.\n\nA seller multiplies the price of one notebook by the quantity. A program does the same with named values. A variable stores a value under a useful name: price is the unit price, quantity is the count. Change the count to calculate a new total without rewriting the formula. The price stays the same while quantity becomes the calculation’s input."
           }
         },
         {
@@ -99,6 +99,23 @@
           }
         }
       ],
+      "interview": {
+        "id": "go-day-01-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "С какой функции начинается выполнение программы Go? Укажите имя.",
+          "tg": "Иҷрои барномаи Go аз кадом функсия сар мешавад? Номашро навис.",
+          "en": "Which function starts a Go executable? Enter its name."
+        },
+        "answer": {
+          "ru": "main",
+          "tg": "main",
+          "en": "main"
+        },
+        "acceptedAnswers": [
+          "main()"
+        ]
+      },
       "questions": [
         {
           "id": "go-day-01-q",
@@ -279,14 +296,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Заказ или отказ",
-            "tg": "Фармоиш ё радкунӣ",
-            "en": "An order or a refusal"
+            "ru": "Почему Go возвращает результат и ошибку",
+            "tg": "Чаро Go натиҷа ва хаторо медиҳад?",
+            "en": "Returning a value and an error"
           },
           "body": {
-            "ru": "Кассир выдаёт чек либо объясняет, почему заказ нельзя принять. Отрицательное количество товара — причина отказа, а пустая корзина может стоить ноль. В Go функция способна вернуть результат и ошибку отдельно. Так число 0 не приходится использовать как признак любой проблемы. Проверка ошибки отличает бесплатный заказ от неверных данных.",
-            "tg": "Кассир чек медиҳад ё мефаҳмонад, ки чаро фармоиш қабул намешавад. Миқдори манфӣ сабаби радкунӣ аст, аммо сабади холӣ метавонад арзиши сифр дошта бошад. Дар Go функсия натиҷа ва хаторо ҷудо бармегардонад. Пас ҳар як сифр маънои мушкилро надорад. Санҷиши хато фармоиши ройгонро аз маълумоти нодуруст ҷудо мекунад.",
-            "en": "A cashier gives a receipt or explains why an order cannot be accepted. A negative quantity is invalid, but an empty basket may legitimately cost zero. A Go function can return a result and an error separately. Zero therefore does not have to represent every possible problem. Checking the error distinguishes a free order from invalid data."
+            "ru": "Go-функция может вернуть несколько значений. Частый вариант — результат и error. Проверяйте err до использования результата. Если err не nil, обработайте сбой.\n\nКассир выдаёт чек либо объясняет, почему заказ нельзя принять. Отрицательное количество товара — причина отказа, а пустая корзина может стоить ноль. В Go функция способна вернуть результат и ошибку отдельно. Так число 0 не приходится использовать как признак любой проблемы. Проверка ошибки отличает бесплатный заказ от неверных данных.",
+            "tg": "Функсияи Go чанд қимат дода метавонад. Одатан натиҷа ва error медиҳад. Пеш аз истифодаи натиҷа err-ро санҷ. Агар nil набошад, хаторо коркард кун.\n\nКассир чек медиҳад ё мефаҳмонад, ки чаро фармоиш қабул намешавад. Миқдори манфӣ сабаби радкунӣ аст, аммо сабади холӣ метавонад арзиши сифр дошта бошад. Дар Go функсия натиҷа ва хаторо ҷудо бармегардонад. Пас ҳар як сифр маънои мушкилро надорад. Санҷиши хато фармоиши ройгонро аз маълумоти нодуруст ҷудо мекунад.",
+            "en": "A Go function can return multiple values, often a result and an error. Check err before using the result. A non-nil error needs handling.\n\nA cashier gives a receipt or explains why an order cannot be accepted. A negative quantity is invalid, but an empty basket may legitimately cost zero. A Go function can return a result and an error separately. Zero therefore does not have to represent every possible problem. Checking the error distinguishes a free order from invalid data."
           }
         },
         {
@@ -333,6 +350,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "go-day-02-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какое значение err означает отсутствие ошибки?",
+          "tg": "Кадом қимати err мегӯяд, ки хато нест?",
+          "en": "Which value of err means there is no error?"
+        },
+        "answer": {
+          "ru": "nil",
+          "tg": "nil",
+          "en": "nil"
+        }
+      },
       "questions": [
         {
           "id": "go-day-02-q",
@@ -514,14 +545,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Ячейки складского журнала",
-            "tg": "Хонаҳои дафтари анбор",
-            "en": "Columns in a stock ledger"
+            "ru": "Типы и нулевые значения",
+            "tg": "Тип ва қимати аввала",
+            "en": "Types and zero values"
           },
           "body": {
-            "ru": "В журнале склада отдельно записывают название, число коробок и признак оплаты. Эти поля не взаимозаменяемы. Тип задаёт, какие значения можно хранить и какие операции допустимы. int хранит целое, float64 — приближённое дробное число, string — текст, bool — true или false.",
-            "tg": "Дар дафтари анбор ном, шумораи қуттиҳо ва ҳолати пардохт ҷудо сабт мешаванд. Ин майдонҳо якдигарро иваз намекунанд. Тип муайян мекунад, ки кадом қимат ва амал иҷозат аст. int адади бутун, float64 адади касрии тақрибӣ, string матн, bool true ё false нигоҳ медорад.",
-            "en": "A stock ledger separates the item name, box count and payment status. Those fields are not interchangeable. A type determines which values and operations are valid. int stores whole numbers, float64 approximate fractional numbers, string text, and bool either true or false."
+            "ru": "Тип определяет, что может хранить переменная. Если объявить var count int без начального значения, Go подставит нулевое значение типа. У bool это false, у string — пустая строка.\n\nВ журнале склада отдельно записывают название, число коробок и признак оплаты. Эти поля не взаимозаменяемы. Тип задаёт, какие значения можно хранить и какие операции допустимы. int хранит целое, float64 — приближённое дробное число, string — текст, bool — true или false.",
+            "tg": "Тип мегӯяд, ки variable чӣ гирифта метавонад. Агар var count int-ро бе қимат эълон кунӣ, Go қимати аввалаи типро мемонад. Барои bool ин false ва барои string сатри холӣ аст.\n\nДар дафтари анбор ном, шумораи қуттиҳо ва ҳолати пардохт ҷудо сабт мешаванд. Ин майдонҳо якдигарро иваз намекунанд. Тип муайян мекунад, ки кадом қимат ва амал иҷозат аст. int адади бутун, float64 адади касрии тақрибӣ, string матн, bool true ё false нигоҳ медорад.",
+            "en": "A type describes what a variable can hold. Without an initializer, Go supplies that type's zero value. That is false for bool and the empty string for string.\n\nA stock ledger separates the item name, box count and payment status. Those fields are not interchangeable. A type determines which values and operations are valid. int stores whole numbers, float64 approximate fractional numbers, string text, and bool either true or false."
           }
         },
         {
@@ -568,6 +599,24 @@
           }
         }
       ],
+      "interview": {
+        "id": "go-day-03-written",
+        "question": {
+          "ru": "Какое начальное значение у var count int без присваивания?",
+          "tg": "Қимати аввали var count int бе таъин чист?",
+          "en": "What value does var count int have without an initializer?"
+        },
+        "answer": {
+          "ru": "0",
+          "tg": "0",
+          "en": "0"
+        },
+        "acceptedAnswers": [
+          "ноль",
+          "сифр",
+          "zero"
+        ]
+      },
       "questions": [
         {
           "id": "go-day-03-q1",

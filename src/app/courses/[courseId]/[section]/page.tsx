@@ -39,8 +39,11 @@ export default async function CoursePage({
   )
     notFound();
   if (day === 0) redirect(`/courses/${courseId}/${section}?day=1`);
-  if (section === 'interview')
-    redirect(`/courses/${courseId}/tests${day !== undefined ? '?day=' + day : ''}`);
+  const dayQuery = day !== undefined ? '?day=' + day : '';
+  if (section === 'interview') redirect(`/courses/${courseId}/tests${dayQuery}`);
+  // Old links: practice lives on the day page, weak topics are part of the review page.
+  if (section === 'practice') redirect(`/courses/${courseId}/home${dayQuery}#day-practice`);
+  if (section === 'weak-topics') redirect(`/courses/${courseId}/revision`);
   return (
     <PageTransition>
       <CourseWorkspace

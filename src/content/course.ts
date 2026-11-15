@@ -4,6 +4,8 @@ import interviewSource from './imported/interview.json';
 import roadmapSource from './imported/roadmap.json';
 import { EXTRA_TOPICS, EXTRA_QUESTIONS } from './supplemental';
 import { reactTopicSections } from './supplemental-react';
+import { REACT_INTRO } from './react-intro';
+import { withReactConcept } from './react-concepts';
 import { contentLocaleFor, type InterfaceLocale } from '@/lib/locale';
 import { tr } from '@/lib/translate';
 
@@ -31,6 +33,8 @@ export interface LearningQuestion {
   code: string[];
   source: string;
   sourceId: string;
+  acceptedAnswers?: string[];
+  caseSensitive?: boolean;
 }
 
 const titlesRu = [
@@ -115,16 +119,27 @@ const titlesRu = [
 ];
 
 export const LEARNING_TOPICS: LearningTopic[] = [
-  ...deepSource.map((topic, index) => ({
+  ...deepSource.map((topic, index) => {
+    const id = `topic-${index + 1}`;
+    const intro = REACT_INTRO[id];
+    return {
+      ...topic,
+      id,
+      explanation: [
+        ...(intro ? [{ title: intro.title[0], text: intro.body[0] }] : []),
+        ...(intro ? topic.explanation.slice(1) : withReactConcept(id, topic.explanation)),
+        ...reactTopicSections(id),
+      ],
+      title: topic.title.replace(/^\d+\.\s*/, '').replaceAll('`', ''),
+      titleRu: titlesRu[index],
+      month: index < 35 ? 1 : index < 50 ? 2 : 3,
+      source: 'react_deep_understanding_visual_offline.html',
+    };
+  }),
+  ...EXTRA_TOPICS.map((topic) => ({
     ...topic,
-    id: `topic-${index + 1}`,
-    explanation: [...topic.explanation, ...reactTopicSections(`topic-${index + 1}`)],
-    title: topic.title.replace(/^\d+\.\s*/, '').replaceAll('`', ''),
-    titleRu: titlesRu[index],
-    month: index < 35 ? 1 : index < 50 ? 2 : 3,
-    source: 'react_deep_understanding_visual_offline.html',
+    explanation: withReactConcept(topic.id, topic.explanation),
   })),
-  ...EXTRA_TOPICS,
 ];
 
 export const QUIZ_QUESTIONS: LearningQuestion[] = [
@@ -159,19 +174,45 @@ const interviewTopicNumbers = [
   4, 6, 7, 8, 12, 13, 14, 15, 16, 16, 17, 18, 19, 21, 22, 23, 26, 27, 29, 28, 30, 45, 47, 40, 24,
   36, 37, 38, 41, 42, 43, 44, 32, 33, 34, 35, 51, 53, 54, 56,
 ];
-export const INTERVIEW_QUESTIONS: LearningQuestion[] = interviewSource.flatMap((group, index) => {
-  const topic = LEARNING_TOPICS.find(
-    (item) => item.id === `topic-${interviewTopicNumbers[index]}`,
-  )!;
-  return group.questions.map((question) => ({
-    ...question,
-    topicId: topic.id,
-    month: topic.month,
-    group: topic.month,
-    options: [],
-    source: 'react-interview.html',
-  }));
+const openingInterview: LearningQuestion[] = LEARNING_TOPICS.flatMap((topic) => {
+  const intro = REACT_INTRO[topic.id];
+  if (!intro) return [];
+  const id = topic.id + '-written';
+  return [
+    {
+      id,
+      sourceId: id,
+      topicId: topic.id,
+      month: topic.month,
+      group: topic.month,
+      question: intro.question[0],
+      answer: intro.answer[0],
+      options: [],
+      explanation: intro.body[0],
+      code: [],
+      source: 'React course',
+      acceptedAnswers: intro.acceptedAnswers,
+      caseSensitive: intro.caseSensitive,
+    },
+  ];
 });
+
+export const INTERVIEW_QUESTIONS: LearningQuestion[] = [
+  ...openingInterview,
+  ...interviewSource.flatMap((group, index) => {
+    const topic = LEARNING_TOPICS.find(
+      (item) => item.id === `topic-${interviewTopicNumbers[index]}`,
+    )!;
+    return group.questions.map((question) => ({
+      ...question,
+      topicId: topic.id,
+      month: topic.month,
+      group: topic.month,
+      options: [],
+      source: 'react-interview.html',
+    }));
+  }),
+];
 
 export const ALL_QUESTIONS = [...QUIZ_QUESTIONS, ...INTERVIEW_QUESTIONS];
 export const MONTHS = [

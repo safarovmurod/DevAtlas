@@ -2,8 +2,8 @@
 // about DevAtlas itself; lesson questions go to the course answer library.
 import type { InterfaceLocale } from '@/lib/locale';
 
-/** Languages the guide is written in. Other interface languages use English. */
-export type GuideLanguage = 'ru' | 'tg' | 'en';
+/** Languages the guide is written in: all four interface languages. */
+export type GuideLanguage = 'ru' | 'tg' | 'en' | 'es';
 
 export type IntentKey =
   | 'whereCourses'
@@ -13,6 +13,7 @@ export type IntentKey =
   | 'whereTests'
   | 'whereNotes'
   | 'wherePlans'
+  | 'whereTutor'
   | 'whereCommunity';
 
 export interface GuideContext {
@@ -28,7 +29,7 @@ export interface GuideContext {
 }
 
 export function guideLanguage(language: InterfaceLocale): GuideLanguage {
-  return language === 'ru' || language === 'tg' ? language : 'en';
+  return language;
 }
 
 /** Phrases that start each guide topic, per language. Checked in this order. */
@@ -37,37 +38,55 @@ export const INTENT_PATTERNS: Record<IntentKey, Record<GuideLanguage, RegExp>> =
     ru: /где.*(курс|направлен)|какой курс|с чего начать|что изучать|список курсов|какие курсы/i,
     tg: /курсҳо дар куҷо|аз куҷо оғоз|қадамҳои аввал|курсҳои мо|фиҳрист/i,
     en: /where.*(course|track)|which course|how (do i )?start|what (should i )?(learn|study)|course list/i,
+    es: /d[oó]nde.*(curso|ruta|categor)|qu[eé] curso|por d[oó]nde (empiezo|empezar)|c[oó]mo (empiezo|empezar)|qu[eé] (debo |puedo )?(aprender|estudiar)|lista de cursos|qu[eé] cursos/i,
   },
   nextStep: {
     ru: /что.*(дальше|делать)|продолжить|рекоменд|мой прогресс|где я остановил|следующий шаг/i,
     tg: /чи дароз|ч[иӣ] кунам|минбаъд|баъд чӣ|идома|тавсия|пешрафти ман|қадами навбатӣ/i,
     en: /what.*(next|now)|continue|recommend|my progress|where was i|next step/i,
+    es: /qu[eé].*(sigue|hago|hacer|ahora)|continuar|recomiend|mi progreso|d[oó]nde (me )?qued[eé]|siguiente paso/i,
   },
   howMastery: {
     ru: /мастерство|как.*(прогресс|подтвержд|заверш)|считается|xp|очки/i,
     tg: /мастерство|азхудкунӣ|чӣ тавр.*(пешрафт|тасдиқ)|ҳисоб мешавад/i,
     en: /mastery|how.*(progress|confirm|complete)|counts as|\bxps?\b/i,
+    es: /dominio|c[oó]mo.*(progreso|confirm|complet)|c[oó]mo se cuenta|\bxp\b|puntos/i,
   },
   wherePractice: {
     ru: /где.*(практ|упражн)|как.*(практ|решать задач)/i,
     tg: /где.*(практ|машқ)|машқ(ҳо)? дар куҷо/i,
     en: /where.*(practice|exercises)|how.*(practice|solve)/i,
+    es: /d[oó]nde.*(pr[aá]ctic|ejercicio)|c[oó]mo.*(practic|resolver)/i,
   },
   whereTests: {
     ru: /где.*(тест|экзамен|интервью)|(подготов|готов|репетиц).*(интервью|собеседов)|собеседован|интервью/i,
     tg: /где.*(тест|интервью)|санҷишҳо дар куҷо|мусоҳиба|интервью/i,
     en: /where.*(test|exam|interview)|interview prep/i,
+    es: /d[oó]nde.*(prueba|examen|entrevista)|preparar.*entrevista|entrevista/i,
   },
-  whereNotes: { ru: /заметк|конспект/i, tg: /қайд|ёддошт/i, en: /\bnotes?\b/i },
+  whereNotes: {
+    ru: /заметк|конспект/i,
+    tg: /қайд|ёддошт/i,
+    en: /\bnotes?\b/i,
+    es: /\bnotas?\b|apuntes/i,
+  },
   wherePlans: {
-    ru: /подписк|тариф|сколько стоит|цена|оплат|premium|pro доступ/i,
-    tg: /обуна|тариф|нарх|чанд аст|пардохт|pro дастрас/i,
-    en: /subscri|pricing|how much|price|payment|premium|pro access/i,
+    ru: /подписк|тариф|сколько стоит|цена|оплат|premium|ultra|ультра|pro доступ/i,
+    tg: /обуна|тариф|нарх|чанд аст|пардохт|ultra|pro дастрас/i,
+    en: /subscri|pricing|how much|price|payment|premium|ultra|pro access/i,
+    es: /suscripci|planes|precio|cu[aá]nto cuesta|pago|premium|ultra|acceso pro|tarifa/i,
+  },
+  whereTutor: {
+    ru: /ai\s*tutor|тьютор|тютор|репетитор|чат с (ai|ии|ай)/i,
+    tg: /ai\s*tutor|тутор|тьютор|чат бо (ai|ии)/i,
+    en: /ai\s*tutor|\btutor\b/i,
+    es: /ai\s*tutor|\btutor\b/i,
   },
   whereCommunity: {
     ru: /сообществ|чат|другие ученики|форум/i,
     tg: /ҷомеа|ҷамоат|чат|дигарон/i,
     en: /community|chat with|forum|other learners/i,
+    es: /comunidad|chat con|foro|otros (estudiantes|alumnos)/i,
   },
 };
 
@@ -80,26 +99,33 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
     ru: (c) =>
       lines(
         'Все направления собраны в каталоге «Курсы»: ' + c.trackSummary,
-        'Каждое направление — это learning track: начальный уровень всегда бесплатный, а Pro и Expert публикуются по мере готовности (на карточках видно честно).',
+        'Каждое направление — это learning track: уровни Beginner, Pro и Expert бесплатны и появляются по мере готовности (на карточках видно честно).',
         'Совет: выберите направление в каталоге — платформа сама откроет план по дням и будет вести от урока к практике.',
       ),
     tg: (c) =>
       lines(
         'Ҳамаи самтҳо дар каталоги «Курсҳо» ҷамъ шудаанд: ' + c.trackSummary,
-        'Ҳар самт як learning track аст: сатҳи асосӣ ҳамеша ройгон аст, Pro ва Expert баъди омода шудан нашр мешаванд.',
+        'Ҳар самт як learning track аст: сатҳҳои Beginner, Pro ва Expert ройгонанд ва баъди омода шудан нашр мешаванд.',
         'Маслиҳат: дар каталог як самт интихоб кунед — платформа нақшаро аз рӯи рӯзҳо мекушояд ва аз дарс ба машқ мебарад.',
       ),
     en: (c) =>
       lines(
         'All directions live in the Courses catalog: ' + c.trackSummary,
-        'Every direction is a learning track: the beginner stage is always free, while Pro and Expert stages are published honestly as they become ready.',
+        'Every direction is a learning track: the Beginner, Pro and Expert levels are all free and appear honestly as they become ready.',
         'Tip: pick a direction in the catalog — the platform opens the day-by-day plan and walks you from reading to practice.',
+      ),
+    es: (c) =>
+      lines(
+        'Todas las rutas están en el catálogo «Cursos»: ' + c.trackSummary,
+        'Cada ruta es un learning track: los niveles Beginner, Pro y Expert son gratuitos y aparecen a medida que están listos (en las tarjetas se ve con claridad).',
+        'Consejo: elige una ruta en el catálogo y la plataforma abrirá el plan día a día y te llevará de la lección a la práctica.',
       ),
   },
   nextStep: {
     ru: (c) => c.nextStep,
     tg: (c) => c.nextStep,
     en: (c) => c.nextStep,
+    es: (c) => c.nextStep,
   },
   howMastery: {
     ru: () =>
@@ -120,6 +146,12 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
         'Mastery is tracked separately through the day quiz in the Tests section: every correct answer is stored, and once all of the day’s questions are answered correctly the day shows as mastered. Wrong answers are never punishing — you can retry within the day.',
         'XP is granted per distinct action (lesson, practice, correct answer) and the same action never pays out twice. Guest progress lives in the browser; with an account it syncs across devices.',
       ),
+    es: () =>
+      lines(
+        'El progreso del día se cuenta con honestidad: marca la lección como estudiada y entrega la práctica; después ya puedes confirmar el día.',
+        'El dominio se cuenta aparte, con las preguntas del día de la sección «Pruebas»: cada respuesta correcta se guarda y, cuando respondes bien todas las preguntas del día, aparece el resultado «todas las preguntas del día superadas». Equivocarse no pasa nada: puedes volver a responder la pregunta fallada el mismo día.',
+        'El XP se concede por acciones distintas (lección, práctica, respuesta correcta) y una misma acción no suma puntos dos veces. El progreso de invitado vive en el navegador y, con una cuenta, se sincroniza entre dispositivos.',
+      ),
   },
   wherePractice: {
     ru: () =>
@@ -136,6 +168,11 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
       lines(
         'Practice lives in two places: inside the course (the “Practice for this day” button) and the shared Practice section in the sidebar listing assignments from every course.',
         'Assignments come in two kinds: code (typed in the editor with checks or self-review) and written (essays, case analysis) — the latter are honestly labeled self-reviewed.',
+      ),
+    es: () =>
+      lines(
+        'La práctica está en dos sitios: dentro del curso (el botón «Práctica de este día» de cada día) y en la sección general «Práctica» del menú lateral, donde se reúnen las tareas de todos los cursos.',
+        'Las tareas son de dos tipos: de código (se escriben en el editor con comprobación o autoevaluación) y escritas (ensayos, análisis de casos), que se marcan con honestidad como autoevaluación.',
       ),
   },
   whereTests: {
@@ -157,6 +194,12 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
         'Interview mode asks “do you remember?” and honestly labels the result as self-review — it is rehearsal, not a graded exam.',
         c.selectedCourseHint,
       ),
+    es: (c) =>
+      lines(
+        'Cada día del curso trae pruebas y una entrevista de estudio: abre el curso → «Pruebas y entrevista» (o añade ?day=N a la dirección).',
+        'El modo entrevista pregunta «¿lo recuerdas?» y marca el resultado con honestidad como autoevaluación: es un ensayo de entrevista, no un examen con nota.',
+        c.selectedCourseHint,
+      ),
   },
   whereNotes: {
     ru: () =>
@@ -165,30 +208,61 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
       'Ёддоштҳо — бахши алоҳидаи «Ёддоштҳо» дар менюи паҳлӯ. Ҳар курс ёддоштҳои худро дорад: курсро иваз кунед, ёддоштҳояшро мебинед.',
     en: () =>
       'Notes have their own sidebar section. Notes are per course: switch the course to see its notes.',
+    es: () =>
+      'Las notas tienen su propia sección en el menú lateral. Cada curso tiene sus notas: cambia de curso y verás sus apuntes.',
   },
   wherePlans: {
     ru: () =>
       lines(
-        'Начальный уровень всех направлений полностью бесплатный и остаётся бесплатным.',
-        'Платные уровни Pro и Expert существуют как курсы, но оплата пока намеренно не подключена: оформление заказа честно сообщает «сервис недоступен», пока не будет настроен реальный провайдер платежей. Никаких «фейковых оплат» на сайте нет — уровни можно посмотреть в разделе «Тарифы».',
+        'Есть три тарифа: Start, Pro и Ultra.',
+        'Start бесплатный: знакомство с платформой, базовые уроки и проверка знаний в редакторе.',
+        'Pro — основной: глубокое изучение, все курсы, практические задания, сертификат и чат с AI Tutor.',
+        'Ultra — максимум: помощь наставника, проверка проектов, закрытая группа и сообщество, подготовка к работе и голосовой ассистент.',
+        'Оплата пока не подключена, ничего не списывается, а все текущие курсы остаются открытыми. Подробности — в разделе «Тарифы».',
       ),
     tg: () =>
       lines(
-        'Сатҳи асосии ҳамаи самтҳо пурра ройгон аст ва ройгон мемонад.',
-        'Сатҳҳои Pro ва Expert ҳамчун курс мавҷуданд, вале пардохт қасдан пайваст нашудааст: саҳифаи пардохт ростгӯёна мегӯяд «хидмат дастрас нест». Сатҳҳоро дар бахши «Тарифҳо» мебинед.',
+        'Се тариф ҳаст: Start, Pro ва Ultra.',
+        'Start ройгон аст: шиносоӣ бо платформа, дарсҳои асосӣ ва санҷиши дониш дар муҳаррир.',
+        'Pro — асосӣ: омӯзиши амиқ, ҳамаи курсҳо, супоришҳои амалӣ, сертификат ва чат бо AI Tutor.',
+        'Ultra — ҳадди аксар: кӯмаки мураббӣ, санҷиши лоиҳаҳо, гурӯҳ ва ҷомеаи пӯшида, тайёрӣ ба кор ва ёрдамчии овозӣ.',
+        'Пардохт ҳоло пайваст нашудааст, ҳеҷ чиз гирифта намешавад ва ҳамаи курсҳои ҳозира кушода мемонанд. Тафсилот — дар бахши «Тарифҳо».',
       ),
     en: () =>
       lines(
-        'The beginner stage of every direction is fully free and stays free.',
-        'Paid Pro and Expert stages exist as courses, but payment is intentionally not connected: checkout honestly reports the service is unavailable until a real payment provider is configured. Plans are listed in the Plans section.',
+        'There are three plans: Start, Pro and Ultra.',
+        'Start is free: an introduction to the platform, basic lessons and knowledge checks in the editor.',
+        'Pro is the main plan: deep study, all courses, practical assignments, a certificate and the AI Tutor chat.',
+        'Ultra is the maximum: mentor help, project review, a private group and community, job preparation and the voice assistant.',
+        'Payments are not connected yet, nothing is charged, and all current courses stay open. See the Plans section for details.',
       ),
+    es: () =>
+      lines(
+        'Hay tres planes: Start, Pro y Ultra.',
+        'Start es gratis: introducción a la plataforma, lecciones básicas y comprobación de conocimientos en el editor.',
+        'Pro es el principal: estudio a fondo, todos los cursos, tareas prácticas, certificado y chat con AI Tutor.',
+        'Ultra es el máximo: ayuda de un mentor, revisión de proyectos, grupo y comunidad privados, preparación para el trabajo y asistente de voz.',
+        'Los pagos aún no están conectados, no se cobra nada y todos los cursos actuales siguen abiertos. Los detalles están en la sección «Planes».',
+      ),
+  },
+  whereTutor: {
+    ru: () =>
+      'AI Tutor — это чат для вопросов. Откройте его кнопкой «AI Tutor» (значок с искрой) вверху страницы и пишите своими словами: он отвечает на приветствия и вопросы по курсам, а сначала ищет ответ в материалах курса. Чат входит в тариф Pro.',
+    tg: () =>
+      'AI Tutor — чат барои саволҳо аст. Онро бо тугмаи «AI Tutor» (нишони шарора) дар боло кушоед ва бо суханони худ нависед: ба салом ва саволҳои курс ҷавоб медиҳад ва аввал дар маводи курс меҷӯяд. Чат ба тарифи Pro дохил аст.',
+    en: () =>
+      'AI Tutor is the chat for questions. Open it with the “AI Tutor” button (the sparkle icon) at the top of the page and write in your own words: it replies to greetings and course questions, looking in the course materials first. The chat is part of the Pro plan.',
+    es: () =>
+      'AI Tutor es el chat para tus preguntas. Ábrelo con el botón «AI Tutor» (el icono de destello) de la parte superior de la página y escribe con tus propias palabras: responde a saludos y a preguntas de los cursos, y primero busca la respuesta en los materiales del curso. El chat forma parte del plan Pro.',
   },
   whereCommunity: {
     ru: () =>
-      'Раздел «Сообщество» в боковом меню открывает сообщество платформы: обсуждения и чат для подписчиков. Чат требует реальной активной подписки на сервере — без неё интерфейс честно объясняет, что сервис недоступен.',
+      'Раздел «Сообщество» в боковом меню открывает общий чат закрытого сообщества. Он входит в тариф Ultra и требует реальной активной подписки на сервере — без неё интерфейс честно объясняет, что сервис недоступен.',
     tg: () =>
-      'Бахши «Ҷомеа» дар менюи паҳлӯ ҷомеаи платформаро мекушояд. Чат обунаи воқеиро талаб мекунад — бе он интерфейс ростгӯёна мефаҳмонад, ки хидмат дастрас нест.',
+      'Бахши «Ҷомеа» дар менюи паҳлӯ чати умумии ҷомеаи пӯшидаро мекушояд. Он ба тарифи Ultra дохил аст ва обунаи воқеиро талаб мекунад — бе он интерфейс ростгӯёна мефаҳмонад, ки хидмат дастрас нест.',
     en: () =>
-      'The Community sidebar section opens platform discussions and the subscriber chat. The chat requires a real active server-side membership — without one the UI explains honestly that the service is unavailable.',
+      'The Community sidebar section opens the shared chat of the private community. It is part of the Ultra plan and needs a real active server-side membership — without one the UI explains honestly that the service is unavailable.',
+    es: () =>
+      'La sección «Comunidad» del menú lateral abre el chat común de la comunidad privada. Forma parte del plan Ultra y requiere una suscripción activa real en el servidor; sin ella, la interfaz explica con honestidad que el servicio no está disponible.',
   },
 };

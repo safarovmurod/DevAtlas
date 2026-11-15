@@ -16,7 +16,7 @@ export type {
   PlacementTier,
 } from './placement-types';
 
-export const DONT_KNOW = t('Намедонам', 'Не знаю', "I don't know");
+export const DONT_KNOW = t('Намедонам', 'Не знаю', "I don't know", 'No lo sé');
 
 /** Six questions per direction: two per tier. Answers are spread across positions on purpose. */
 export const PLACEMENT_BANK: Record<PlacementDirection, PlacementQuestion[]> = {
@@ -78,7 +78,7 @@ export function scorePlacement(
 }
 
 export const LEVEL_LABEL: Record<PlacementLevel, Text> = {
-  beginner: t('Навомӯз', 'Новичок', 'Beginner'),
-  middle: t('Миёна', 'Средний', 'Intermediate'),
-  advanced: t('Баланд', 'Высокий', 'Advanced'),
+  beginner: t('Навомӯз', 'Новичок', 'Beginner', 'Principiante'),
+  middle: t('Миёна', 'Средний', 'Intermediate', 'Intermedio'),
+  advanced: t('Баланд', 'Высокий', 'Advanced', 'Avanzado'),
 };

@@ -24,7 +24,7 @@ beforeAll(async()=>{
  create table public.react_mentor_profiles(user_id uuid primary key references auth.users(id), display_name text);
  grant usage on schema auth,public to anon,authenticated,service_role;
  grant execute on all functions in schema auth to anon,authenticated,service_role;`);
- for(const file of ['20261022000000_verified_practice.sql','20261022010000_memberships_chat.sql'])
+ for(const file of ['20261022000000_verified_practice.sql','20261022010000_memberships_chat.sql','20261115000000_chat_ultra_only.sql'])
   await db.exec(await readFile(new URL('../supabase/migrations/'+file,import.meta.url),'utf8'));
 },30000);
 beforeEach(async()=>{
@@ -61,7 +61,7 @@ describe('verified progress SQL and RLS',()=>{
 });
 
 describe('subscription chat SQL and RLS',()=>{
- async function subscribe(id=A){await admin();await db.query("insert into public.react_mentor_memberships(user_id,tier,expires_at) values($1,'pro',now()+interval '1 day')",[id]);}
+ async function subscribe(id=A,tier:'pro'|'expert'='expert'){await admin();await db.query("insert into public.react_mentor_memberships(user_id,tier,expires_at) values($1,$2,now()+interval '1 day')",[id,tier]);}
  it('allows only trusted service provisioning and private membership reads',async()=>{
   await actor('service_role');
   await db.query("insert into public.react_mentor_memberships(user_id,tier,expires_at) values($1,'pro',now()+interval '1 day')",[A]);
@@ -75,6 +75,30 @@ describe('subscription chat SQL and RLS',()=>{
   await expect(db.query("select public.react_mentor_send_message('Hello')")).rejects.toThrow(/membership/i);
   await expect(db.query("insert into public.react_mentor_memberships(user_id,tier,expires_at) values($1,'expert',now()+interval '1 day')",[A])).rejects.toThrow(/permission denied/i);
   expect((await db.query('select * from public.react_mentor_chat_messages')).rows).toHaveLength(0);
+ });
+ it('opens the chat to Ultra (expert) only and denies Pro for reading, writing and presence',async()=>{
+  await subscribe(A,'expert');await subscribe(B,'pro');
+  await actor('authenticated',A);
+  await db.query("select public.react_mentor_send_message('Ultra hello')");
+  await db.query('select public.react_mentor_chat_heartbeat(false)');
+  expect((await db.query('select * from public.react_mentor_chat_messages')).rows).toHaveLength(1);
+  expect((await db.query('select * from public.react_mentor_chat_presence')).rows).toHaveLength(1);
+  await actor('authenticated',B);
+  await expect(db.query("select public.react_mentor_send_message('Pro hello')")).rejects.toThrow(/membership/i);
+  await expect(db.query('select public.react_mentor_chat_heartbeat(false)')).rejects.toThrow(/membership/i);
+  expect((await db.query('select * from public.react_mentor_chat_messages')).rows).toHaveLength(0);
+  expect((await db.query('select * from public.react_mentor_chat_presence')).rows).toHaveLength(0);
+  // Pro keeps its own membership row; only the chat is closed.
+  expect((await db.query('select tier from public.react_mentor_memberships')).rows).toEqual([{tier:'pro'}]);
+ });
+ it('closes the chat for a member who is downgraded from Ultra to Pro',async()=>{
+  await subscribe(A,'expert');await actor('authenticated',A);
+  await db.query("select public.react_mentor_send_message('Before downgrade')");
+  expect((await db.query('select * from public.react_mentor_chat_messages')).rows).toHaveLength(1);
+  await admin();await db.query("update public.react_mentor_memberships set tier='pro' where user_id=$1",[A]);
+  await actor('authenticated',A);
+  expect((await db.query('select * from public.react_mentor_chat_messages')).rows).toHaveLength(0);
+  await expect(db.query("select public.react_mentor_send_message('After downgrade')")).rejects.toThrow(/membership/i);
  });
  it('derives message author from identity and enforces posting rate limits',async()=>{
   await subscribe();await actor('authenticated');

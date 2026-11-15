@@ -1,11 +1,15 @@
 // The 15 onboarding questions and their shared types.
 
-/** Onboarding copy is authored in TG/RU/EN; other interface locales fall back to RU or EN. */
-export type OnboardingLocale = 'tg' | 'ru' | 'en';
-export type Text = Record<OnboardingLocale, string>;
+/** Onboarding copy exists in TG/RU/EN/ES. Knowledge-check questions have no Spanish and show English. */
+export type OnboardingLocale = 'tg' | 'ru' | 'en' | 'es';
+export type Text = Record<'tg' | 'ru' | 'en', string> & { es?: string };
 export function onboardingLocale(locale: string): OnboardingLocale {
-  if (locale === 'tg' || locale === 'ru' || locale === 'en') return locale;
-  return locale === 'uk' ? 'ru' : 'en';
+  if (locale === 'tg' || locale === 'ru' || locale === 'en' || locale === 'es') return locale;
+  return 'en';
+}
+/** The text in the given language, or English when that language has none. */
+export function pickText(text: Text, locale: OnboardingLocale): string {
+  return text[locale] ?? text.en;
 }
 
 export interface OnboardingQuestion {
@@ -49,7 +53,7 @@ const level = (id: QuestionId, tg: string, ru: string, en: string): OnboardingQu
   ],
 });
 
-export const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
+const BASE_QUESTIONS: OnboardingQuestion[] = [
   {
     id: 'goal',
     question: {
@@ -325,3 +329,122 @@ export const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
     ],
   },
 ];
+
+/** Spanish text of every question and answer, by question id and answer value. */
+const SPANISH: Record<QuestionId, { question: string; options: Record<string, string> }> = {
+  goal: {
+    question: '¿Cuál es tu objetivo principal?',
+    options: {
+      job: 'Conseguir un trabajo como desarrollador',
+      freelance: 'Freelance y clientes',
+      own: 'Mi propio proyecto o negocio',
+      curious: 'Solo tengo curiosidad',
+    },
+  },
+  direction: {
+    question: '¿Qué ruta te interesa más?',
+    options: {
+      frontend: 'Sitios web e interfaces (Frontend)',
+      backend: 'Servidores y bases de datos (Backend)',
+      mobile: 'Aplicaciones móviles',
+      data: 'Datos e IA',
+      design: 'Diseño (UX/UI)',
+      business: 'Marketing y negocios',
+      unknown: 'Aún no lo sé',
+    },
+  },
+  computer: {
+    question: '¿Qué tal te manejas con el ordenador?',
+    options: {
+      new: 'Me cuesta: los archivos y las carpetas son nuevos para mí',
+      ok: 'Normal',
+      good: 'Con soltura, instalo programas yo mismo',
+    },
+  },
+  coded: {
+    question: '¿Has escrito código alguna vez?',
+    options: {
+      never: 'Nunca',
+      little: 'Un poco, con vídeos o un curso',
+      yes: 'Sí, con regularidad',
+    },
+  },
+  html: {
+    question: '¿Cuánto sabes de HTML y CSS?',
+    options: {
+      none: 'No sé nada',
+      basic: 'Conozco lo básico',
+      good: 'Lo sé bien, hice un proyecto',
+    },
+  },
+  javascript: {
+    question: '¿Cuánto sabes de JavaScript?',
+    options: {
+      none: 'No sé nada',
+      basic: 'Conozco lo básico',
+      good: 'Lo sé bien, hice un proyecto',
+    },
+  },
+  react: {
+    question: '¿Cuánto sabes de React?',
+    options: {
+      none: 'No sé nada',
+      basic: 'Conozco lo básico',
+      good: 'Lo sé bien, hice un proyecto',
+    },
+  },
+  device: {
+    question: '¿En qué vas a estudiar?',
+    options: { computer: 'Ordenador o portátil', phone: 'Solo el móvil' },
+  },
+  minutes: {
+    question: '¿Cuánto tiempo tienes al día?',
+    options: {
+      '20': '15–20 minutos',
+      '45': 'Unos 45 minutos',
+      '90': '1–1,5 horas',
+      '180': '3 horas o más',
+    },
+  },
+  days: {
+    question: '¿Cuántos días a la semana vas a estudiar?',
+    options: { '3': '3 días', '5': '5 días', '6': '6 días', '7': 'Todos los días' },
+  },
+  style: {
+    question: '¿Cómo aprendes mejor?',
+    options: {
+      read: 'Leyendo con ejemplos',
+      practice: 'Practicando de inmediato',
+      game: 'Con juegos y pruebas',
+      talk: 'Preguntando a un mentor',
+    },
+  },
+  english: {
+    question: '¿Qué tal tu inglés?',
+    options: { none: 'No sé nada', basic: 'Palabras sencillas', good: 'Leo documentación' },
+  },
+  deadline: {
+    question: '¿En cuánto tiempo quieres ver resultados?',
+    options: { '1': '1 mes', '3': '3 meses', '6': '6 meses', '0': 'Sin prisa' },
+  },
+  language: {
+    question: '¿En qué idioma quieres las lecciones?',
+    options: { tg: 'Tayiko', ru: 'Ruso', en: 'Inglés' },
+  },
+  interview: {
+    question: '¿Necesitas prepararte para entrevistas?',
+    options: { yes: 'Sí, cada semana', later: 'Más adelante', no: 'No' },
+  },
+};
+
+export const ONBOARDING_QUESTIONS: OnboardingQuestion[] = BASE_QUESTIONS.map((item) => {
+  const spanish = SPANISH[item.id];
+  return {
+    ...item,
+    question: { ...item.question, es: spanish.question },
+    options: item.options.map((option) => ({
+      ...option,
+      label: { ...option.label, es: spanish.options[option.value] },
+    })),
+  };
+});

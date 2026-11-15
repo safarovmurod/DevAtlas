@@ -24,29 +24,14 @@ export const EDITOR_COPY = {
     emmetOn: 'Emmet is on: type ! or div.card and press Tab.',
     emmetOff: 'Emmet unlocks after the first lessons: type tags by hand first.',
   },
-  uk: {
-    loading: 'Завантаження редактора…',
-    unavailable: 'Редактор недоступний. Можна продовжити у звичайному текстовому полі.',
+  es: {
+    loading: 'Cargando el editor…',
+    unavailable: 'El editor no está disponible. Puedes seguir en un campo de texto normal.',
     pasteBlocked:
-      'Велику вставку скасовано. Наберіть код руками — так він запам’ятовується. Короткі фрагменти вставляти можна.',
-    emmetOn: 'Emmet увімкнено: наберіть ! або div.card і натисніть Tab.',
-    emmetOff: 'Emmet відкриється після перших уроків: спочатку пишемо теги руками.',
-  },
-  ja: {
-    loading: 'エディターを読み込み中…',
-    unavailable: 'エディターを利用できません。通常の入力欄で続けられます。',
-    pasteBlocked:
-      '大きな貼り付けを取り消しました。自分で入力すると身につきます。短い断片は貼り付けできます。',
-    emmetOn: 'Emmetが有効です：! や div.card と入力してTabを押します。',
-    emmetOff: 'Emmetは最初のレッスンの後に使えます。まずタグを手で書きましょう。',
-  },
-  ko: {
-    loading: '편집기를 불러오는 중…',
-    unavailable: '편집기를 사용할 수 없습니다. 기본 입력란에서 계속 작성할 수 있습니다.',
-    pasteBlocked:
-      '긴 붙여넣기를 취소했습니다. 직접 입력해야 기억에 남습니다. 짧은 조각은 붙여넣을 수 있습니다.',
-    emmetOn: 'Emmet 사용 중: ! 또는 div.card 를 입력하고 Tab을 누르세요.',
-    emmetOff: 'Emmet은 첫 수업 이후에 열립니다. 먼저 태그를 직접 입력하세요.',
+      'Se deshizo el pegado grande. Escribe el código tú mismo: así se queda en la memoria. Los fragmentos cortos sí se pueden pegar.',
+    emmetOn: 'Emmet está activado: escribe ! o div.card y pulsa Tab.',
+    emmetOff:
+      'Emmet se desbloquea después de las primeras lecciones: primero escribe las etiquetas a mano.',
   },
 };
 

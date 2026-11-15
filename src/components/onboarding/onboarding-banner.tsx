@@ -9,6 +9,7 @@ import {
   ONBOARDING_STORAGE_KEY,
   courseRoute,
   onboardingLocale,
+  pickText,
   readOnboarding,
 } from '@/lib/onboarding';
 import { LEVEL_LABEL } from '@/lib/placement';
@@ -40,6 +41,15 @@ const COPY = {
     perDay: 'min a day',
     open: 'Open',
     redo: 'Redo',
+  },
+  es: {
+    ask: '¿No sabes por dónde empezar? Responde 15 preguntas y recibirás un curso y un horario para cada día.',
+    go: 'Responder las preguntas',
+    day0: 'Día 0',
+    plan: 'Tu plan',
+    perDay: 'min al día',
+    open: 'Abrir',
+    redo: 'Repetir',
   },
 };
 
@@ -83,7 +93,8 @@ export function OnboardingBanner() {
       <CalendarDays size={20} />
       <p>
         <strong>{copy.plan}:</strong> {courseName(plan.courseId)} ·{' '}
-        {LEVEL_LABEL[plan.level][locale]} · {plan.minutesPerDay} {copy.perDay} · {plan.daysPerWeek}
+        {pickText(LEVEL_LABEL[plan.level], locale)} · {plan.minutesPerDay} {copy.perDay} ·{' '}
+        {plan.daysPerWeek}
         ×7
       </p>
       <div className="button-row">

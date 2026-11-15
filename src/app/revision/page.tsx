@@ -1,5 +1,5 @@
 import { PageTransition } from '@/components/layout/page-transition';
-import { ReactReview } from '@/components/learning/react-review';
+import { ReactRevision } from '@/components/learning/review-board';
 import { StudySession } from '@/components/learning/study-session';
 import { sessionConfig } from '@/lib/session-config';
 export default async function Page({
@@ -16,7 +16,7 @@ export default async function Page({
     );
   return (
     <PageTransition>
-      <ReactReview mode="revision" />
+      <ReactRevision />
     </PageTransition>
   );
 }

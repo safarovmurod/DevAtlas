@@ -1,22 +1,15 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  ArrowLeft,
-  CheckCircle2,
-  CircleAlert,
-  Eye,
-  MessageSquareText,
-  BookOpen,
-} from 'lucide-react';
-import { ALL_QUESTIONS, QUIZ_QUESTIONS, getTopic } from '@/content/course';
+import { ArrowRight, ArrowLeft, CheckCircle2, CircleAlert, Eye, BookOpen } from 'lucide-react';
+import { ALL_QUESTIONS, INTERVIEW_QUESTIONS, QUIZ_QUESTIONS, getTopic } from '@/content/course';
 import { orderedOptions, dateKey, type StudyMode } from '@/lib/learning';
 import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
 import { tr } from '@/lib/translate';
 import { PageHeading } from './page-heading';
 import { QuestionAnswer } from './question-answer';
+import { WrittenAnswer } from './written-answer';
 
 export interface SessionConfig {
   mode: StudyMode;
@@ -26,7 +19,13 @@ export interface SessionConfig {
   group?: number;
   review?: boolean;
 }
-export function StudySession({ config }: { config: SessionConfig }) {
+export function StudySession({
+  config,
+  embedded = false,
+}: {
+  config: SessionConfig;
+  embedded?: boolean;
+}) {
   const state = useLearningStore();
   const copy = COPY[state.language];
   const today = dateKey();
@@ -35,14 +34,14 @@ export function StudySession({ config }: { config: SessionConfig }) {
   const [index, setIndex] = useState(0);
   const [shown, setShown] = useState(config.mode === 'learn');
   const [selection, setSelection] = useState('');
-  const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [finished, setFinished] = useState(false);
   useEffect(() => {
     if (ready && config.daily) ensureDailySet(month, today);
   }, [ready, config.daily, ensureDailySet, month, today]);
-  let questions = config.mode === 'interview' ? ALL_QUESTIONS : QUIZ_QUESTIONS;
+  let questions =
+    config.mode === 'interview' ? [...INTERVIEW_QUESTIONS, ...QUIZ_QUESTIONS] : QUIZ_QUESTIONS;
   if (config.daily) {
     const ids = state.dailySets[`${today}-${month}`] || [];
     questions = ids
@@ -91,7 +90,6 @@ export function StudySession({ config }: { config: SessionConfig }) {
     setIndex(nextIndex);
     setShown(config.mode === 'learn');
     setSelection('');
-    setDraft('');
     setError('');
   }
   async function handleCheck() {
@@ -114,15 +112,11 @@ export function StudySession({ config }: { config: SessionConfig }) {
       setBusy(false);
     }
   }
-  function assess(correct: boolean) {
-    if (!question || record) return;
-    state.recordAnswer(question, config.mode, correct, draft, today);
-  }
   if (!state.ready) return <p className="loading-state">{copy.loading}</p>;
   if (!question)
     return (
       <>
-        <PageHeading title={title} back={back} />
+        {!embedded && <PageHeading title={title} back={back} />}
         <div className="panel empty-state">
           {copy.empty}
           <Link className="button subtle" href="/plan">
@@ -138,7 +132,7 @@ export function StudySession({ config }: { config: SessionConfig }) {
     const correct = records.filter((item) => item.correct).length;
     return (
       <>
-        <PageHeading title={copy.sessionDone} back={back} />
+        {!embedded && <PageHeading title={copy.sessionDone} back={back} />}
         <section className="panel session-complete">
           <CheckCircle2 size={40} />
           <h2>
@@ -170,16 +164,18 @@ export function StudySession({ config }: { config: SessionConfig }) {
   }
   return (
     <div className="session-width">
-      <PageHeading
-        title={title}
-        back={back}
-        subtitle={`${copy.question} ${index + 1} / ${questions.length}`}
-      >
-        <Link className="button subtle" href={`/lesson/${question.topicId}`}>
-          <BookOpen size={16} />
-          {copy.openLesson}
-        </Link>
-      </PageHeading>
+      {!embedded && (
+        <PageHeading
+          title={title}
+          back={back}
+          subtitle={`${copy.question} ${index + 1} / ${questions.length}`}
+        >
+          <Link className="button subtle" href={`/lesson/${question.topicId}`}>
+            <BookOpen size={16} />
+            {copy.openLesson}
+          </Link>
+        </PageHeading>
+      )}
       <div className="session-progress">
         <div className="progress-track">
           <span style={{ width: `${((index + 1) / questions.length) * 100}%` }} />
@@ -221,32 +217,19 @@ export function StudySession({ config }: { config: SessionConfig }) {
           </div>
         )}
         {config.mode === 'interview' && (
-          <label className="answer-input">
-            <span>{copy.yourAnswer}</span>
-            <textarea
-              rows={5}
-              value={record?.answer ?? draft}
-              readOnly={Boolean(record)}
-              onChange={(event) => setDraft(event.target.value)}
-              placeholder={
-                state.contentLanguage === 'ru'
-                  ? 'Объясни своими словами…'
-                  : state.contentLanguage === 'en'
-                    ? 'Explain in your own words…'
-                    : 'Бо суханҳои худат фаҳмон…'
-              }
-            />
-          </label>
-        )}
-        {config.mode === 'interview' && !shown && !record && (
-          <button
-            className="button primary"
-            disabled={!draft.trim()}
-            onClick={() => setShown(true)}
-          >
-            <MessageSquareText size={17} />
-            {copy.compare}
-          </button>
+          <WrittenAnswer
+            key={question.id}
+            reference={tr(question.answer, state.contentLanguage)}
+            accepted={[
+              ...(['tg', 'ru', 'en'] as const).map((locale) => tr(question.answer, locale)),
+              ...(question.acceptedAnswers ?? []),
+            ]}
+            caseSensitive={question.caseSensitive}
+            saved={record}
+            onCheck={(correct, answer) =>
+              state.recordAnswer(question, 'interview', correct, answer, today)
+            }
+          />
         )}
         {config.mode === 'learn' && !shown && (
           <button className="button subtle" onClick={() => setShown(true)}>
@@ -254,7 +237,7 @@ export function StudySession({ config }: { config: SessionConfig }) {
             {copy.showAnswer}
           </button>
         )}
-        {(shown || record) && (
+        {config.mode !== 'interview' && (shown || record) && (
           <div className="revealed-answer">
             {record && (
               <div className={`result-label ${record.correct ? 'success-text' : 'warning-text'}`}>
@@ -263,19 +246,6 @@ export function StudySession({ config }: { config: SessionConfig }) {
               </div>
             )}
             <QuestionAnswer question={question} />
-          </div>
-        )}
-        {config.mode === 'interview' && shown && !record && (
-          <div className="self-check">
-            <p>{copy.selfCheck}</p>
-            <div className="button-row">
-              <button className="button primary" onClick={() => assess(true)}>
-                {copy.remembered}
-              </button>
-              <button className="button subtle" onClick={() => assess(false)}>
-                {copy.forgotten}
-              </button>
-            </div>
           </div>
         )}
         {error && (

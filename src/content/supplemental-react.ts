@@ -1,4 +1,6 @@
 import type { ExtraSeed } from './supplemental';
+import { REACT_INTRO } from './react-intro';
+import { REACT_CONCEPTS } from './react-concepts';
 
 /** Extra React topics for months 1 and 2: tooling, forms, TypeScript, data and auth. */
 export const REACT_SEEDS: ExtraSeed[] = [
@@ -1174,6 +1176,15 @@ export function reactTopicSections(topicId: string) {
 }
 
 const authoredTranslations = new Map<string, LessonText>();
+for (const concept of Object.values(REACT_CONCEPTS)) {
+  authoredTranslations.set(concept.title[0], concept.title);
+  authoredTranslations.set(concept.body[0], concept.body);
+}
+for (const intro of Object.values(REACT_INTRO)) {
+  for (const line of [intro.title, intro.body, intro.question, intro.answer]) {
+    authoredTranslations.set(line[0], line);
+  }
+}
 for (const detail of Object.values(REACT_TOPIC_DETAILS)) {
   if (!detail) continue;
   for (const section of detail.sections) {

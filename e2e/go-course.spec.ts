@@ -20,15 +20,15 @@ for (const locale of ['ru', 'tg', 'en'] as const) {
     }, { locale, ids: go.lessons.slice(0, 29).map(item => item.id) });
 
     await page.goto('/courses/go/home?day=1');
-    await expect(page.locator('.course-lesson h2')).toHaveText(go.lessons[0].title[locale]);
-    await expect(page.locator('.day-explanation').first()).toContainText(go.lessons[0].sections[0].body[locale]);
+    await expect(page.locator('main article h2').first()).toHaveText(go.lessons[0].title[locale]);
+    await expect(page.locator('[data-lesson-section]').first()).toContainText(go.lessons[0].sections[0].body[locale]);
     await page.goto('/courses/go/home?day=30');
-    await expect(page.locator('.course-lesson h2')).toHaveText(lesson.title[locale]);
-    await expect(page.locator('.day-explanation')).toHaveCount(4);
-    await expect(page.locator('.day-explanation').first()).toContainText(lesson.sections[0].body[locale]);
-    await expect(page.locator('.course-lesson')).not.toContainText('func (l *List) Complete');
+    await expect(page.locator('main article h2').first()).toHaveText(lesson.title[locale]);
+    await expect(page.locator('[data-lesson-section]')).toHaveCount(4);
+    await expect(page.locator('[data-lesson-section]').first()).toContainText(lesson.sections[0].body[locale]);
+    await expect(page.locator('#day-learn')).not.toContainText('func (l *List) Complete');
 
-    await page.getByRole('link', { name: 'Практика этого дня', exact: true }).click();
+    await expect(page.locator('#day-practice')).toBeVisible();
     await expect(page.locator('.practice-instructions')).toContainText(lesson.practice.task[locale]);
     await expect(page.locator('.practice-hint')).toHaveCount(2);
     await expect(page.locator('.course-criterion')).toHaveCount(3);

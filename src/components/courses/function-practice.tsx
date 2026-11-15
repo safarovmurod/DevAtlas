@@ -48,34 +48,16 @@ const copy: Record<
     actual: 'Actual',
     error: 'Execution did not finish. Check syntax, function name and the 3-second limit.',
   },
-  uk: {
-    run: 'Запустити тести функції',
-    note: 'JavaScript виконується в ізольованому worker браузера до 3 секунд. Мережа заблокована. Результат локальний, без серверного підтвердження чи Mastered. Модулі Node.js перевіряйте в завантаженій лабораторній роботі.',
-    passed: 'Локальні тести пройдено.',
-    failed: 'Є помилки. Порівняйте вхід, очікування й результат та повторіть без штрафу.',
-    expected: 'Очікується',
-    actual: 'Отримано',
-    error: 'Виконання не завершено. Перевірте синтаксис, ім’я функції та ліміт 3 секунди.',
-  },
-  ja: {
-    run: '関数テストを実行',
-    note: '隔離されたブラウザーworkerでJavaScriptを実行します（最大3秒）。ネットワークは禁止。結果はローカルのみで、サーバー認証やMasteredは付与されません。Node.jsモジュールはダウンロードしたラボで確認してください。',
-    passed: 'ローカルテストに合格。',
+  es: {
+    run: 'Ejecutar las pruebas de la función',
+    note: 'Ejecución real de JavaScript en un worker aislado del navegador, hasta 3 segundos. La red está bloqueada. El resultado es local: no hay certificación del servidor ni estado Mastered. Comprueba los módulos de Node.js en el laboratorio descargable.',
+    passed: 'Pruebas locales superadas.',
     failed:
-      '不合格のテストがあります。入力・期待値・実際の結果を比較し、減点なしで再挑戦してください。',
-    expected: '期待値',
-    actual: '実際',
-    error: '実行できませんでした。構文、関数名、3秒の制限を確認してください。',
-  },
-  ko: {
-    run: '함수 테스트 실행',
-    note: '격리된 브라우저 worker에서 실제 JavaScript를 최대 3초 실행합니다. 네트워크는 차단됩니다. 로컬 결과이며 서버 인증이나 Mastered를 부여하지 않습니다. Node.js 모듈은 내려받은 실습에서 확인하세요.',
-    passed: '로컬 테스트 통과.',
-    failed:
-      '실패한 테스트가 있습니다. 입력, 예상값, 실제 결과를 비교하고 감점 없이 다시 시도하세요.',
-    expected: '예상',
-    actual: '실제',
-    error: '실행을 완료하지 못했습니다. 문법, 함수 이름 및 3초 제한을 확인하세요.',
+      'Hay pruebas que fallan. Compara la entrada, lo esperado y lo obtenido; corrige el código y vuelve a intentarlo sin penalización.',
+    expected: 'Esperado',
+    actual: 'Obtenido',
+    error:
+      'La ejecución no terminó. Revisa la sintaxis, el nombre de la función y el límite de 3 segundos.',
   },
 };
 function printable(value: unknown) {

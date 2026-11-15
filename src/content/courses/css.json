@@ -165,14 +165,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Вывеска и краска",
-            "tg": "Лавҳа ва ранг",
-            "en": "A sign and its paint"
+            "ru": "Что такое CSS и селектор",
+            "tg": "CSS ва селектор чист?",
+            "en": "CSS and selectors"
           },
           "body": {
-            "ru": "Мастер сначала собирает вывеску, затем выбирает краску. Так же HTML задаёт содержание: заголовок, цену, ссылку. CSS задаёт оформление этих элементов. Селектор — адрес получателя стиля. Правило p выбирает абзацы, а свойство color меняет цвет текста. Слова при этом остаются прежними.",
-            "tg": "Усто аввал лавҳаро месозад, баъд онро ранг мекунад. HTML низ мазмунро муайян мекунад: сарлавҳа, нарх ва пайванд. CSS намуди ин элементҳоро танзим мекунад. Селектор нишонии гирандаи услуб аст. Қоидаи p абзатсҳоро интихоб мекунад, color ранги матнро дигар мекунад. Худи калимаҳо бетағйир мемонанд.",
-            "en": "A maker builds a shop sign before painting it. HTML similarly describes content: a heading, price and link. CSS controls how those elements look. A selector is the address that receives a style. The p selector finds paragraphs; the color property changes their text color. Their actual words stay unchanged."
+            "ru": "CSS — язык оформления. Селектор выбирает элементы, например .price подходит к элементам класса price. Правило меняет цвет, отступы или расположение уже существующего содержимого.\n\nМастер сначала собирает вывеску, затем выбирает краску. Так же HTML задаёт содержание: заголовок, цену, ссылку. CSS задаёт оформление этих элементов. Селектор — адрес получателя стиля. Правило p выбирает абзацы, а свойство color меняет цвет текста. Слова при этом остаются прежними.",
+            "tg": "CSS забони ороиши саҳифа аст. Селектор элементҳоро интихоб мекунад: .price элементҳои class=\"price\"-ро мегирад. Қоида ранг, фосила ё ҷои чизҳои мавҷударо иваз мекунад.\n\nУсто аввал лавҳаро месозад, баъд онро ранг мекунад. HTML низ мазмунро муайян мекунад: сарлавҳа, нарх ва пайванд. CSS намуди ин элементҳоро танзим мекунад. Селектор нишонии гирандаи услуб аст. Қоидаи p абзатсҳоро интихоб мекунад, color ранги матнро дигар мекунад. Худи калимаҳо бетағйир мемонанд.",
+            "en": "CSS is a styling language. A selector picks elements: .price matches elements with the price class. A rule can change their color, spacing, or layout.\n\nA maker builds a shop sign before painting it. HTML similarly describes content: a heading, price and link. CSS controls how those elements look. A selector is the address that receives a style. The p selector finds paragraphs; the color property changes their text color. Their actual words stay unchanged."
           }
         },
         {
@@ -219,6 +219,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "css-day-01-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Запишите простой селектор класса price через точку.",
+          "tg": "Селектори одии class-и price-ро бо нуқта навис.",
+          "en": "Write the simple class selector for price using a dot."
+        },
+        "answer": {
+          "ru": ".price",
+          "tg": ".price",
+          "en": ".price"
+        }
+      },
       "questions": [
         {
           "id": "css-day-01-q1",
@@ -399,14 +413,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Адрес в многоэтажном складе",
-            "tg": "Нишонӣ дар анбори бисёрошёна",
-            "en": "Addresses in a layered warehouse"
+            "ru": "Как селекторы учитывают вложенность",
+            "tg": "Селекторҳо вложенность-ро чӣ хел мефаҳманд?",
+            "en": "Selectors and nesting"
           },
           "body": {
-            "ru": "На складе «все коробки отдела» и «коробки прямо на полке» — разные адреса. В HTML элементы тоже вложены друг в друга. Пробел в .stock p выбирает все абзацы внутри stock, даже глубоко вложенные. Знак > выбирает только прямых детей. Это уточнение вчерашнего адреса класса.",
-            "tg": "Дар анбор «ҳамаи қуттиҳои шуъба» ва «қуттиҳои рӯйи раф» нишониҳои гуногунанд. Элементҳои HTML низ даруни ҳам меоянд. Фосила дар .stock p ҳамаи абзатсҳои дохили stock-ро мегирад, ҳатто дар чуқурӣ. Аломати > танҳо фарзандони мустақимро мегирад. Ин дақиқ кардани нишонии класси дирӯза аст.",
-            "en": "In a warehouse, all boxes in a department differ from boxes directly on one shelf. HTML elements are nested in the same way. A space in .stock p selects every paragraph inside stock, including deeply nested ones. The > sign selects direct children only, refining yesterday’s class address."
+            "ru": "В .menu a пробел находит ссылки на любой глубине внутри меню. В .menu > a знак > оставляет только ссылки, которые лежат прямо в меню.\n\nНа складе «все коробки отдела» и «коробки прямо на полке» — разные адреса. В HTML элементы тоже вложены друг в друга. Пробел в .stock p выбирает все абзацы внутри stock, даже глубоко вложенные. Знак > выбирает только прямых детей. Это уточнение вчерашнего адреса класса.",
+            "tg": "Дар .menu a пробел линкҳои ҳар қабати дохили менюро мегирад. Дар .menu > a аломати > фақат линкҳоеро мегирад, ки бевосита дар меню ҳастанд.\n\nДар анбор «ҳамаи қуттиҳои шуъба» ва «қуттиҳои рӯйи раф» нишониҳои гуногунанд. Элементҳои HTML низ даруни ҳам меоянд. Фосила дар .stock p ҳамаи абзатсҳои дохили stock-ро мегирад, ҳатто дар чуқурӣ. Аломати > танҳо фарзандони мустақимро мегирад. Ин дақиқ кардани нишонии класси дирӯза аст.",
+            "en": "The space in .menu a finds links at any depth inside the menu. The > in .menu > a keeps only links that are direct children of the menu.\n\nIn a warehouse, all boxes in a department differ from boxes directly on one shelf. HTML elements are nested in the same way. A space in .stock p selects every paragraph inside stock, including deeply nested ones. The > sign selects direct children only, refining yesterday’s class address."
           }
         },
         {
@@ -453,6 +467,25 @@
           }
         }
       ],
+      "interview": {
+        "id": "css-day-02-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Каким селектором выбрать только прямые дочерние ссылки a в .menu?",
+          "tg": "Бо кадом селектор фақат линкҳои a-ро мегирӣ, ки бевосита дар .menu ҳастанд?",
+          "en": "Write the selector for a elements that are direct children of .menu."
+        },
+        "answer": {
+          "ru": ".menu > a",
+          "tg": ".menu > a",
+          "en": ".menu > a"
+        },
+        "acceptedAnswers": [
+          ".menu>a",
+          ".menu> a",
+          ".menu >a"
+        ]
+      },
       "questions": [
         {
           "id": "css-day-02-q1",
@@ -634,14 +667,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Два указания для одной стены",
-            "tg": "Ду дастур барои як девор",
-            "en": "Two instructions for one wall"
+            "ru": "Каскад и наследование",
+            "tg": "Каскад ва меросгирӣ",
+            "en": "The cascade and inheritance"
           },
           "body": {
-            "ru": "На ремонте два указания могут касаться одной стены. Нужен порядок, какое выполнять. Каскад CSS выбирает значение каждого свойства отдельно. Здесь рассматриваем обычные авторские правила без слоёв и !important. При равной специфичности выигрывает более позднее объявление. Остальные свойства не исчезают.",
-            "tg": "Дар таъмир ду дастур метавонад ба як девор дахл кунад. Бояд донист, ки кадомаш иҷро мешавад. Каскади CSS арзиши ҳар хосиятро ҷудогона интихоб мекунад. Ҳоло қоидаҳои одии бе қабат ва !important-ро мебинем. Агар мушаххасият баробар бошад, қоидаи дертар меомада ғолиб мешавад. Хосиятҳои дигар гум намешаванд.",
-            "en": "During repairs, two instructions may target the same wall. A priority rule decides which one to follow. The CSS cascade selects each property’s value separately. Here we consider normal author rules without layers or !important. With equal specificity, the later declaration wins; unrelated properties remain."
+            "ru": "Наследование передаёт некоторые значения от родителя к потомку, например цвет текста. Каскад выбирает, какое из конкурирующих объявлений применить к одному свойству. Последнее правило побеждает только при равенстве остальных условий.\n\nНа ремонте два указания могут касаться одной стены. Нужен порядок, какое выполнять. Каскад CSS выбирает значение каждого свойства отдельно. Здесь рассматриваем обычные авторские правила без слоёв и !important. При равной специфичности выигрывает более позднее объявление. Остальные свойства не исчезают.",
+            "tg": "Меросгирӣ баъзе қиматҳоро аз элементи болоӣ ба дарунӣ мегузаронад, масалан ранги матнро. Каскад миёни қоидаҳои як хосият ғолибро интихоб мекунад. Қоидаи охирин на ҳамеша ғолиб аст.\n\nДар таъмир ду дастур метавонад ба як девор дахл кунад. Бояд донист, ки кадомаш иҷро мешавад. Каскади CSS арзиши ҳар хосиятро ҷудогона интихоб мекунад. Ҳоло қоидаҳои одии бе қабат ва !important-ро мебинем. Агар мушаххасият баробар бошад, қоидаи дертар меомада ғолиб мешавад. Хосиятҳои дигар гум намешаванд.",
+            "en": "Inheritance passes some values from parent to child, such as text color. The cascade chooses among declarations for the same property. Source order breaks ties when the other factors are equal.\n\nDuring repairs, two instructions may target the same wall. A priority rule decides which one to follow. The CSS cascade selects each property’s value separately. Here we consider normal author rules without layers or !important. With equal specificity, the later declaration wins; unrelated properties remain."
           }
         },
         {
@@ -688,6 +721,24 @@
           }
         }
       ],
+      "interview": {
+        "id": "css-day-03-written",
+        "question": {
+          "ru": "Как называется выбор победившего CSS-объявления для одного свойства?",
+          "tg": "Интихоби қоидаи ғолиб барои як хосият дар CSS чӣ ном дорад?",
+          "en": "What process decides which competing CSS declaration wins?"
+        },
+        "answer": {
+          "ru": "Каскад",
+          "tg": "Каскад",
+          "en": "Cascade"
+        },
+        "acceptedAnswers": [
+          "каскад CSS",
+          "CSS cascade",
+          "the cascade"
+        ]
+      },
       "questions": [
         {
           "id": "css-day-03-q1",
@@ -3683,9 +3734,9 @@
             "en": "How many boxes fit on a shelf"
           },
           "body": {
-            "ru": "На полке помещается столько коробок, сколько допускают их ширина и промежутки. При расширении полки можно добавить ещё коробку. Auto-fit в Grid похожим образом выбирает число дорожек. Minmax задаёт границы их размера. Сетка меняет число колонок по доступной ширине контейнера, а не по названию устройства.",
-            "tg": "Дар раф ҳамон қадар қуттӣ ҷой мешавад, ки паҳноӣ ва фосилаҳояшон иҷозат медиҳад. Раф васеъ шавад, қуттии дигар ҳам меғунҷад. Auto-fit дар Grid шумораи роҳчаҳоро ҳамин тавр интихоб мекунад. Minmax ҳудуди андозаро медиҳад. Шабака аз паҳноии контейнер вобаста аст, на аз номи дастгоҳ.",
-            "en": "A shelf holds as many boxes as their widths and gaps allow. A wider shelf may fit another box. Grid auto-fit chooses a track count in a similar way, while minmax gives the size boundaries. The grid responds to available container width rather than to a device category such as phone or tablet."
+            "ru": "В адаптивной сетке число колонок может меняться без отдельного правила на каждый экран. repeat(auto-fit, minmax(...)) повторяет колонку, пока для неё хватает места, и распределяет остаток между занятыми колонками. Минимальная ширина должна помещаться и на самом узком экране.\n\nНа полке помещается столько коробок, сколько допускают их ширина и промежутки. При расширении полки можно добавить ещё коробку. Auto-fit в Grid похожим образом выбирает число дорожек. Minmax задаёт границы их размера. Сетка меняет число колонок по доступной ширине контейнера, а не по названию устройства.",
+            "tg": "Дар сеткаи мутобиқшаванда шумораи сутунҳо метавонад бе қоидаи алоҳида барои ҳар экран иваз шавад. repeat(auto-fit, minmax(...)) то ҷое ки ҷой ҳаст сутун месозад ва ҷойи боқимондаро байни сутунҳои пур тақсим мекунад. Сутуни камтарин ҳам бояд дар экрани танг ғунҷад.\n\nДар раф ҳамон қадар қуттӣ ҷой мешавад, ки паҳноӣ ва фосилаҳояшон иҷозат медиҳад. Раф васеъ шавад, қуттии дигар ҳам меғунҷад. Auto-fit дар Grid шумораи роҳчаҳоро ҳамин тавр интихоб мекунад. Minmax ҳудуди андозаро медиҳад. Шабака аз паҳноии контейнер вобаста аст, на аз номи дастгоҳ.",
+            "en": "A responsive grid can change its column count without a separate rule for every screen. repeat(auto-fit, minmax(...)) fits as many columns as possible and distributes leftover space among occupied columns. Its minimum size still needs to fit the narrowest screen.\n\nA shelf holds as many boxes as their widths and gaps allow. A wider shelf may fit another box. Grid auto-fit chooses a track count in a similar way, while minmax gives the size boundaries. The grid responds to available container width rather than to a device category such as phone or tablet."
           }
         },
         {
@@ -4619,9 +4670,9 @@
             "en": "Planning a dispatcher’s workspace"
           },
           "body": {
-            "ru": "Диспетчер держит список районов слева, а заказы — в рабочей области. На маленьком столе эти листы приходится положить друг под другом. Такая же логика у адаптивной панели: Grid задаёт крупные области, Flexbox собирает действия. Сегодня соединяем сетки, media queries и содержимое разной длины.",
-            "tg": "Танзимгар рӯйхати ноҳияҳоро чап ва фармоишҳоро дар ҷойи кор мемонад. Дар мизи хурд варақҳоро зери ҳам мегузорад. Панели мутобиқшаванда ҳам ҳамин мантиқ дорад: Grid минтақаҳои калон, Flexbox амалҳоро месозад. Имрӯз шабака, media query ва мазмуни гуногундарозро мепайвандем.",
-            "en": "A dispatcher keeps districts on the left and orders in the main workspace. On a small desk the sheets must be stacked. A responsive dashboard follows the same logic: Grid organizes major areas, while Flexbox groups actions. Today we combine grids, media queries and content of different lengths."
+            "ru": "Панель заказов помогает сотруднику видеть, какие заказы ждут действий. В этом упражнении она только раскладывает уже полученные данные. В полном проекте сервер отдал бы эти данные через API, а панель показала бы список, пустой результат, загрузку или ошибку.\n\nДиспетчер держит список районов слева, а заказы — в рабочей области. На маленьком столе эти листы приходится положить друг под другом. Такая же логика у адаптивной панели: Grid задаёт крупные области, Flexbox собирает действия. Сегодня соединяем сетки, media queries и содержимое разной длины.",
+            "tg": "Панели фармоишҳо ба корманд нишон медиҳад, ки кадом фармоиш ҳоло амал мехоҳад. Дар ҳамин машқ панел фақат додаи тайёрро ҷо мекунад. Дар проекти пурра сервер додаҳоро аз API медод ва панел рӯйхат, натиҷаи холӣ, боршавӣ ё хаторо нишон медод.\n\nТанзимгар рӯйхати ноҳияҳоро чап ва фармоишҳоро дар ҷойи кор мемонад. Дар мизи хурд варақҳоро зери ҳам мегузорад. Панели мутобиқшаванда ҳам ҳамин мантиқ дорад: Grid минтақаҳои калон, Flexbox амалҳоро месозад. Имрӯз шабака, media query ва мазмуни гуногундарозро мепайвандем.",
+            "en": "An order dashboard helps staff see which orders need action. This exercise lays out data that is already available. In a full project, an API would supply the data and the dashboard would show the list, an empty state, loading, or an error.\n\nA dispatcher keeps districts on the left and orders in the main workspace. On a small desk the sheets must be stacked. A responsive dashboard follows the same logic: Grid organizes major areas, while Flexbox groups actions. Today we combine grids, media queries and content of different lengths."
           }
         },
         {
@@ -5556,9 +5607,9 @@
             "en": "Alternating ledger rows"
           },
           "body": {
-            "ru": "В ведомости чередуют светлые строки, чтобы не потерять нужную сумму. Nth-child выбирает элементы по номеру среди братьев, начиная с единицы. Before и after решают другую задачу: добавляют оформляемую часть элемента без отдельного HTML-тега. Для смысла оставляйте текст в документе, для украшения можно создать псевдоэлемент.",
-            "tg": "Дар рӯйхат сатрҳои равшанро навбат мекунанд, то маблағи лозим гум нашавад. Nth-child элементҳоро аз рӯи рақам байни ҳамсатҳҳо аз як сар карда мегирад. Before ва after қисми ороиширо бе теги ҷудои HTML месозанд. Матни маънодор дар ҳуҷҷат монад, барои ороиш псевдоэлемент истифода мешавад.",
-            "en": "Alternating ledger rows help readers follow an amount. Nth-child selects elements by sibling position, counting from one. Before and after do something different: they create a styleable part without another HTML tag. Keep meaningful text in the document, and use a pseudo-element for decoration."
+            "ru": "Чтобы выделять каждую вторую строку ведомости, используйте :nth-child(even). Номер считается с единицы среди всех соседей одного родителя, включая элементы другого типа. ::before и ::after создают оформляемые части элемента, например декоративную метку. Важный текст оставляйте в HTML.",
+            "tg": "Барои таъкид кардани ҳар сатри дуюми ҷадвал :nth-child(even)-ро истифода бар. Рақам аз як сар мешавад ва тамоми элементҳои як падар, ҳатто тегҳои дигар, ба ҳисоб мераванд. ::before ва ::after қисми ороишӣ месозанд, мисли нишона. Матни муҳимро дар HTML гузор.",
+            "en": "Use :nth-child(even) to highlight every second row in a list. Positions start at one and count all element siblings, including different tag types. ::before and ::after create stylable parts for decoration, such as a marker. Keep important text in the HTML."
           }
         },
         {
@@ -6524,9 +6575,9 @@
             "en": "Stopping leaves the status visible"
           },
           "body": {
-            "ru": "В reduced-motion уберите несущественную анимацию. Базовый стиль должен показывать индикатор и без keyframes. Не ставьте opacity: 0 в базе ради появления, если отключение анимации скроет элемент. Для длительного движущегося содержимого может понадобиться управление паузой. Число повторов выбирайте по смыслу задачи.",
-            "tg": "Дар reduced-motion аниматсияи нолозимро бардоред. Услуби асосӣ нишондиҳандаро бе keyframes ҳам намоён монад. Барои пайдоиш дар асос opacity: 0 надиҳед, агар хомӯшшавӣ элементро пинҳон кунад. Барои мазмуни тӯлонии ҳаракаткунанда идораи таваққуф лозим шуда метавонад. Шумораи такрорро аз вазифа интихоб кунед.",
-            "en": "Remove nonessential animation for reduced-motion. The base style must show the indicator without keyframes too. Avoid base opacity: 0 for an entrance if disabling the animation would hide it. Longer moving content may require a pause control. Choose the repeat count to fit the purpose rather than using infinite by habit."
+            "ru": "@media (prefers-reduced-motion: reduce) сообщает, что пользователь предпочитает меньше движения. Отключите необязательную пульсацию, сохранив видимую метку статуса. Если базовый стиль использует opacity: 0, уберите это значение в спокойном режиме. Текст рядом с меткой поможет понять статус без движения.",
+            "tg": "@media (prefers-reduced-motion: reduce) мегӯяд, ки корбар ҳаракати камтар мехоҳад. Пулсатсияи нолозимро хомӯш кун, нишонаи ҳолат намоён монад. Агар style-и асосӣ opacity: 0 дошта бошад, дар ҳолати ором онро бардор, то нишона нопадид нашавад. Матни назди нишона ҳолатро бе ҳаракат мефаҳмонад.",
+            "en": "@media (prefers-reduced-motion: reduce) tells you the user prefers less motion. Turn off the optional pulse while leaving the status indicator visible. If the base rule sets opacity: 0, override it in the reduced-motion case. A label beside the indicator conveys the status without motion."
           }
         },
         {

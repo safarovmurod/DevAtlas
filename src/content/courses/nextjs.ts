@@ -1,5 +1,6 @@
 import { CURRICULUM, getTopic, questionsForTopic, type LearningTopic } from '@/content/course';
 import type { CourseContent } from '@/lib/courses/schema';
+import { NEXTJS_FOUNDATIONS } from './nextjs-foundations';
 
 
 type Lesson = CourseContent['lessons'][number];
@@ -1218,6 +1219,237 @@ if (!curriculum) throw new Error('The Next.js curriculum is missing.');
 const days = curriculum.weeks.flatMap((week) => week.days);
 const localized = (value: string) => ({ ru: value, tg: value });
 
+const startingLessons: Partial<
+  Record<
+    number,
+    {
+      title: LessonText;
+      summary: LessonText;
+      sections: Pick<Lesson['sections'][number], 'title' | 'body'>[];
+      question: Pick<Lesson['questions'][number], 'question' | 'options'>;
+      interview?: Lesson['interview'];
+      practice: Pick<NonNullable<Lesson['practice']>, 'task' | 'hint' | 'criteria'> &
+        Partial<Pick<NonNullable<Lesson['practice']>, 'solution' | 'referenceAnswer' | 'kind'>>;
+    }
+  >
+> = {
+  ...NEXTJS_FOUNDATIONS,
+  1: {
+    title: text('Next.js и способы рендера', 'Next.js ва роҳҳои render', 'Next.js rendering'),
+    summary: text(
+      'Определите, где и когда готовится страница.',
+      'Бифаҳмед, ки саҳифа дар куҷо ва кай тайёр мешавад.',
+      'Find out where and when a page is prepared.',
+    ),
+    sections: [
+      {
+        title: text('Что такое Next.js', 'Next.js чист?', 'What is Next.js?'),
+        body: text(
+          'Next.js — фреймворк на React. React описывает интерфейс компонентами, а Next.js организует страницы, маршруты и работу на сервере. Он может подготовить HTML заранее или при запросе. Интерактивные части, например кнопка, работают в браузере.',
+          'Next.js фреймворки болои React аст. React интерфейсро аз компонентҳо месозад. Next.js саҳифа, route ва кори серверро тартиб медиҳад. HTML пешакӣ ё вақти request тайёр мешавад. Қисми интерактивӣ, масалан тугма, дар браузер кор мекунад.',
+          'Next.js is a framework built on React. React describes the UI with components, while Next.js organizes pages, routes, and server work. It can prepare HTML ahead of time or on a request. Interactive parts such as buttons run in the browser.',
+        ),
+      },
+      {
+        title: text('Когда готовится страница', 'Саҳифа кай тайёр мешавад?', 'When the page is prepared'),
+        body: text(
+          'SSR готовит страницу на сервере при запросе. SSG собирает её заранее, например для стабильной страницы «О нас». ISR позволяет обновить заранее подготовленную страницу. CSR строит нужную часть интерфейса в браузере, например после загрузки данных.',
+          'SSR саҳифаро дар сервер вақти request месозад. SSG пешакӣ тайёр мекунад, мисли саҳифаи «Дар бораи мо». ISR имкон медиҳад нусхаи тайёр нав шавад. CSR қисми лозими интерфейсро дар браузер месозад, масалан баъди омадани маълумот.',
+          'SSR prepares a page on the server for a request. SSG builds it ahead of time, for example a stable About page. ISR can update a prebuilt page. CSR builds a part of the UI in the browser, such as after loading data.',
+        ),
+      },
+    ],
+    question: {
+      question: text('Чем SSR отличается от SSG?', 'SSR ва SSG аз чӣ фарқ мекунанд?', 'How does SSR differ from SSG?'),
+      options: [
+        text('SSR готовит страницу по запросу, SSG — заранее.', 'SSR вақти request месозад, SSG пешакӣ.', 'SSR renders on request, SSG prepares the page ahead of time.'),
+        text('Оба выполняются только в браузере.', 'Ҳар ду фақат дар браузер кор мекунанд.', 'Both render only in the browser.'),
+        text('SSG записывает каждый клик в базу.', 'SSG ҳар кликро ба база менависад.', 'SSG records each click in the database.'),
+      ],
+    },
+    interview: {
+      id: 'nextjs-day-01-written',
+      question: text('Как сокращённо называется генерация страницы заранее при сборке?', 'Сохтани саҳифа пешакӣ вақти build кӯтоҳ чӣ ном дорад?', 'Which abbreviation describes generating a page at build time?'),
+      answer: text('SSG', 'SSG', 'SSG'),
+      acceptedAnswers: ['static site generation', 'статическая генерация'],
+    },
+    practice: {
+      task: text(
+        'Откройте простую страницу About из примера и измените её заголовок. Затем выберите способ подготовки для страницы расписания, которую редко меняют, и страницы с остатком товара на каждый запрос. Объясните оба выбора.',
+        'Саҳифаи About-и мисолро кушоед ва сарлавҳаашро иваз кунед. Баъд барои саҳифаи ҷадвали камтағйир ва саҳифаи захираи мол барои ҳар request роҳи тайёршавиро интихоб кунед. Ҳар ду интихобро фаҳмонед.',
+        'Open the About page from the example and change its heading. Then choose how to render a rarely updated schedule and an inventory page that must reflect stock on each request. Explain both choices.',
+      ),
+      hint: text(
+        'Сначала решите, какие данные известны при сборке, а какие нужно читать для каждого запроса.',
+        'Аввал муайян кунед, кадом дода вақти build маълум аст ва кадомашро барои ҳар request хондан даркор.',
+        'Decide which data is known at build time and which needs to be read on each request.',
+      ),
+      solution: `// app/about/page.tsx
+export default function AboutPage() {
+  return <main><h1>Library hours</h1></main>;
+}`,
+      referenceAnswer: text(
+        'Редко меняющееся расписание можно собрать заранее. Страницу с актуальным остатком готовьте при запросе, если на каждый запрос нужны свежие данные.',
+        'Ҷадвали камтағйирро пешакӣ сохтан мумкин. Агар захираи нав барои ҳар request лозим бошад, саҳифаи онро вақти request тайёр кунед.',
+        'Build the rarely updated schedule ahead of time. Render the inventory page on request when every request needs current stock.',
+      ),
+      criteria: [
+        text('Страница показывает новый заголовок.', 'Саҳифа сарлавҳаи навро нишон медиҳад.', 'The page shows the new heading.'),
+        text('Для каждого примера объяснено время подготовки страницы.', 'Барои ҳар мисол вақти тайёр шудани саҳифа шарҳ дода шудааст.', 'Each choice explains when the page will be prepared.'),
+      ],
+    },
+  },
+  2: {
+    title: text('App Router и файлы маршрута', 'App Router ва файлҳои route', 'App Router and route files'),
+    summary: text(
+      'Свяжите адрес с папкой и разделите общий интерфейс и страницу.',
+      'Адресро бо папка пайваст кунед ва қисми умумиро аз саҳифа ҷудо кунед.',
+      'Map a URL to a folder and separate the shared layout from the page.',
+    ),
+    sections: [
+      {
+        title: text('Что такое App Router', 'App Router чист?', 'What is the App Router?'),
+        body: text(
+          'App Router связывает адреса с файлами в app. Папка products задаёт часть пути, а products/page.tsx делает /products страницей. layout.tsx добавляет общую оболочку, например меню для нескольких страниц.',
+          'App Router адресҳоро бо файлҳои app мепайвандад. Папкаи products қисми адрес аст ва products/page.tsx саҳифаи /products-ро мекушояд. layout.tsx қисми умумӣ медиҳад, мисли меню барои чанд саҳифа.',
+          'The App Router maps URLs to files in app. The products folder names the path segment, and products/page.tsx makes /products a page. A layout.tsx file can share navigation across several pages.',
+        ),
+      },
+      {
+        title: text('Ожидание и ошибка маршрута', 'Интизорӣ ва хатои route', 'Waiting and route errors'),
+        body: text(
+          'loading.tsx даёт временный экран, пока контент ещё готовится. error.tsx показывает запасной экран при ошибке рендера части маршрута. При навигации через Link общий layout может остаться на месте.',
+          'loading.tsx вақти тайёр шудани content намоиши муваққатӣ медиҳад. error.tsx ҳангоми хатои render дар қисми route экрани дигар нишон медиҳад. Бо Link гузарӣ, layout-и умумӣ метавонад дар ҷояш монад.',
+          'loading.tsx shows temporary content while the page is being prepared. error.tsx provides a fallback when rendering a route segment fails. Shared layouts can stay mounted when you navigate with Link.',
+        ),
+      },
+    ],
+    question: {
+      question: text('Какой адрес открывает app/products/page.tsx?', 'app/products/page.tsx кадом URL-ро мекушояд?', 'Which URL does app/products/page.tsx serve?'),
+      options: [
+        text('/products', '/products', '/products'),
+        text('/app/products/page.tsx', '/app/products/page.tsx', '/app/products/page.tsx'),
+        text('Адрес появляется после useEffect.', 'Адрес баъди useEffect пайдо мешавад.', 'The URL appears after useEffect.'),
+      ],
+    },
+    interview: {
+      id: 'nextjs-day-02-written',
+      question: text('Как называется файл общего меню для нескольких страниц App Router?', 'Файли менюи умумӣ барои чанд саҳифаи App Router чӣ ном дорад?', 'Which App Router file can share a menu across pages?'),
+      answer: text('layout.tsx', 'layout.tsx', 'layout.tsx'),
+      acceptedAnswers: ['layout.js', 'layout.jsx', 'app/layout.tsx', 'layout'],
+      caseSensitive: true,
+    },
+    practice: {
+      task: text(
+        'По образцу /products создайте страницу /books. Добавьте ссылку на неё в общий layout и ссылку обратно на главную. Проверьте прямой адрес, переход по ссылке и обновление страницы.',
+        'Аз рӯйи мисоли /products саҳифаи /books созед. Линкашро дар layout-и умумӣ монед ва аз /books ба асосӣ линк диҳед. Адреси рост, гузаштан аз линк ва reload-ро санҷед.',
+        'Use /products as a reference to make a /books page. Link to it from the shared layout and link back to the homepage. Test the direct URL, the link, and a refresh.',
+      ),
+      hint: text(
+        'Имя папки задаёт часть URL, а page.tsx определяет страницу. Общая навигация живёт в layout.tsx.',
+        'Номи папка қисми URL-ро медиҳад, page.tsx саҳифаро муайян мекунад. Менюи умумӣ дар layout.tsx мемонад.',
+        'The folder name sets the URL segment, and page.tsx defines the page. Shared navigation lives in layout.tsx.',
+      ),
+      solution: `// app/books/page.tsx
+import Link from 'next/link';
+
+export default function BooksPage() {
+  return <main><h1>Books</h1><Link href="/">Home</Link></main>;
+}
+
+// app/layout.tsx
+import Link from 'next/link';
+import type { ReactNode } from 'react';
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return <html lang="en"><body><nav><Link href="/books">Books</Link></nav>{children}</body></html>;
+}`,
+      criteria: [
+        text('Книги открываются по /books напрямую и после обновления.', '/books бевосита ва баъди reload мекушояд.', '/books works directly and after refresh.'),
+        text('Ссылка доступна из общего меню.', 'Линк дар менюи умумӣ ҳаст.', 'The link is available in the shared menu.'),
+      ],
+    },
+  },
+  3: {
+    title: text('Server и Client Components', 'Server ва Client Component', 'Server and Client Components'),
+    summary: text(
+      'Оставьте чтение данных на сервере, а интерактивность в нужном компоненте.',
+      'Хондани додаҳоро дар сервер монед, қисми интерактивиро ҷудо кунед.',
+      'Keep data reading on the server and isolate the interactive part.',
+    ),
+    sections: [
+      {
+        title: text('Серверный и клиентский компонент', 'Компоненти серверӣ ва клиентӣ', 'Server and client components'),
+        body: text(
+          'В App Router страницы и layout по умолчанию серверные. Серверный компонент может прочитать записи, не отправляя браузеру код базы. Компонент со счётчиком, useState и onClick должен оказаться на клиентской стороне.',
+          'Дар App Router саҳифа ва layout одатан дар сервер кор мекунанд. Компоненти серверӣ сабтҳоро мехонад, коди база ба браузер намеравад. Компоненти ҳисобкунак бо useState ва onClick ба қисми клиентӣ дохил мешавад.',
+          'App Router pages and layouts are server components by default. A server component can read records without sending database code to the browser. A counter that uses useState and onClick belongs in the client component tree.',
+        ),
+      },
+      {
+        title: text('Где поставить use client', 'use client-ро куҷо мемонем?', 'Where to put use client'),
+        body: text(
+          'Директива "use client" в начале файла обозначает вход в клиентскую часть. Поместите её в небольшой интерактивный компонент, а данные передайте ему через props. После гидратации React подключит обработчик кнопки в браузере.',
+          '"use client" дар аввали файл даромад ба қисми клиентиро муайян мекунад. Онро дар компоненти хурди интерактивӣ монед ва додаҳоро бо props диҳед. Пас аз hydration React handler-и тугмаро дар браузер пайваст мекунад.',
+          'A "use client" directive at the top of a file marks an entry to the client component tree. Put it in the small interactive component and pass data as props. React attaches the button handler in the browser during hydration.',
+        ),
+      },
+    ],
+    question: {
+      question: text('Что требуется компоненту с useState и onClick?', 'Ба компоненти useState ва onClick чӣ лозим аст?', 'What does a component with useState and onClick need?'),
+      options: [
+        text('Вход в клиентскую часть с use client.', 'Даромад ба қисми клиентӣ бо use client.', 'An entry to the client tree marked with use client.'),
+        text('Базу данных в браузере.', 'База дар браузер.', 'A database inside the browser.'),
+        text('use server в каждом файле.', 'use server дар ҳар файл.', 'use server in every file.'),
+      ],
+    },
+    interview: {
+      id: 'nextjs-day-03-written',
+      question: text('Какую директиву пишут в начале файла клиентской точки входа?', 'Аввали файли даромади Client Component кадом directive-ро менависӣ?', 'Which directive marks a client component entry file?'),
+      answer: text('use client', 'use client', 'use client'),
+      acceptedAnswers: ['"use client"', "'use client'", '"use client";', "'use client';"],
+      caseSensitive: true,
+    },
+    practice: {
+      task: text(
+        'Оставьте заголовок списка чтения в серверной странице. Создайте рядом небольшой клиентский счётчик с начальным числом 2 из props. Нажатие добавляет одну книгу, а заголовок остаётся прежним.',
+        'Сарлавҳаи рӯйхати китобҳоро дар саҳифаи серверӣ монед. Компоненти хурди client созед, ки аз props бо 2 сар кунад. Пахш як китоб илова мекунад, сарлавҳа ҳамон мемонад.',
+        'Keep the reading list heading in the server page. Add a small client counter that starts at 2 from props. Clicking it adds one book and leaves the heading as it was.',
+      ),
+      hint: text(
+        'Поместите use client в файл счётчика. Серверная страница передаёт начальное значение числом.',
+        'use client-ро дар файли ҳисобкунак монед. Саҳифаи серверӣ қимати аввалро ҳамчун адад медиҳад.',
+        'Put use client in the counter file. Pass a number from the server page as its initial value.',
+      ),
+      solution: `// app/reading/page.tsx
+import ReadingCounter from './reading-counter';
+
+export default function ReadingPage() {
+  return <main><h1>Reading list</h1><ReadingCounter initialCount={2} /></main>;
+}
+
+// app/reading/reading-counter.tsx
+'use client';
+
+import { useState } from 'react';
+
+export default function ReadingCounter({ initialCount }: { initialCount: number }) {
+  const [count, setCount] = useState(initialCount);
+
+  return (
+    <button type="button" onClick={() => setCount((previous) => previous + 1)}>
+      Books: {count}
+    </button>
+  );
+}`,
+      criteria: [
+        text('После одного клика счётчик показывает 3.', 'Баъди як пахш ҳисобкунак 3 нишон медиҳад.', 'The count shows 3 after one click.'),
+        text('Серверная страница передаёт число клиентскому компоненту.', 'Саҳифаи сервер ба компоненти client адад медиҳад.', 'The server page passes a number to the client component.'),
+      ],
+    },
+  },
+};
+
 const lessons: CourseContent['lessons'] = days.map((day, index) => {
   const dayNumber = index + 1;
   const details = authoredLessons[dayNumber];
@@ -1234,6 +1466,7 @@ const lessons: CourseContent['lessons'] = days.map((day, index) => {
   const topics = day.topicIds
     .map(getTopic)
     .filter((topic): topic is LearningTopic => Boolean(topic));
+  const opening = startingLessons[dayNumber];
   const sections: CourseContent['lessons'][number]['sections'] = topics.flatMap((topic) =>
     topic.explanation.map((part, partIndex) => ({
       title: localized(part.title || topic.titleRu),
@@ -1253,13 +1486,17 @@ const lessons: CourseContent['lessons'] = days.map((day, index) => {
       .filter((question) => question.options.length >= 2)
       .map((question) => [question.id, question]),
   );
-  const questions = [...selectedQuestions.values()].slice(0, 3).map((question) => ({
-    id: `nextjs-day-${String(dayNumber).padStart(2, '0')}-${question.id}`,
-    question: localized(question.question),
-    answer: localized(question.answer),
-    options: question.options.map(localized),
-    correctIndex: Math.max(0, question.options.indexOf(question.answer)),
-  }));
+  const questions = [...selectedQuestions.values()].slice(0, 3).map((question, questionIndex) => {
+    const copy = questionIndex === 0 ? opening?.question : undefined;
+    const correctIndex = Math.max(0, question.options.indexOf(question.answer));
+    return {
+      id: `nextjs-day-${String(dayNumber).padStart(2, '0')}-${question.id}`,
+      question: copy?.question ?? localized(question.question),
+      answer: copy?.options[correctIndex] ?? localized(question.answer),
+      options: copy?.options ?? question.options.map(localized),
+      correctIndex,
+    };
+  });
   const practiceSteps = topics.flatMap((topic) => topic.flow).slice(0, 8);
   const solution = topics
     .map((topic) => topic.code[0])
@@ -1269,14 +1506,18 @@ const lessons: CourseContent['lessons'] = days.map((day, index) => {
     id: `nextjs-day-${String(dayNumber).padStart(2, '0')}`,
     day: dayNumber,
     prerequisiteDays: index === 0 ? [] : [index],
-    title: localized(day.titleRu),
-    summary: localized(day.tags.join(' · ') || day.title),
+    title: opening?.title ?? localized(day.titleRu),
+    summary: opening?.summary ?? localized(day.tags.join(' · ') || day.title),
     level: index < 10 ? 'beginner' : 'intermediate',
     sourceIds: topics.some((topic) => topic.id.startsWith('topic-'))
       ? ['nextjs-docs', 'react-docs']
       : ['nextjs-docs'],
-    sections,
+    sections: sections.map((section, sectionIndex) => ({
+      ...section,
+      ...opening?.sections[sectionIndex],
+    })),
     questions,
+    interview: opening?.interview,
     practice: {
       task: localized(
         `${day.titleRu}\n\n${practiceSteps.map((step, stepIndex) => `${stepIndex + 1}. ${step}`).join('\n')}`,
@@ -1288,6 +1529,7 @@ const lessons: CourseContent['lessons'] = days.map((day, index) => {
         localized('Фарқи коди пешина ва коди имрӯзаро фаҳмонед.'),
         localized('Хато, loading ва ҳолати холиро агар лозим бошад, тафтиш кунед.'),
       ],
+      ...opening?.practice,
     },
   };
 });

@@ -13,7 +13,7 @@ type AnswerReaderCopy = {
   allAnswers: string;
 };
 
-/** Text of the answer reading page in all six interface languages. */
+/** Text of the answer reading page in all four interface languages. */
 export const ANSWER_READER_COPY: Record<InterfaceLocale, AnswerReaderCopy> = {
   ru: {
     addition: 'Дополнение',
@@ -54,41 +54,17 @@ export const ANSWER_READER_COPY: Record<InterfaceLocale, AnswerReaderCopy> = {
     practiceIntro: 'Баъди хондан кӯшиш кунед, ки бе маслиҳат ҷавоб диҳед.',
     allAnswers: 'Ҳамаи ҷавобҳо',
   },
-  uk: {
-    addition: 'Доповнення',
-    saveToNotes: 'До нотаток',
-    whatHappened: 'Що сталося і чому',
-    context: 'Контекст завдання',
-    shared: 'Спільні відповіді за темою',
-    sharedIntro: 'Усі пояснення зібрано в одній відповіді.',
+  es: {
+    addition: 'Explicación adicional',
+    saveToNotes: 'Guardar en notas',
+    whatHappened: 'Qué pasó y por qué',
+    context: 'Contexto de la tarea',
+    shared: 'Respuestas comunes del tema',
+    sharedIntro: 'Todas las explicaciones están reunidas en una sola respuesta.',
     designExample:
-      'Це приклад проєктування застосунку. У вихідному файлі для нього немає окремих запитань.',
-    practiceTitle: 'Закріпити тему',
-    practiceIntro: 'Після читання спробуйте відповісти без підказки.',
-    allAnswers: 'Усі відповіді',
-  },
-  ja: {
-    addition: '補足説明',
-    saveToNotes: 'ノートに保存',
-    whatHappened: '何が起きたのか、なぜか',
-    context: '課題の前提',
-    shared: 'このテーマの共通の回答',
-    sharedIntro: 'すべての説明を1つの回答にまとめています。',
-    designExample: 'これはアプリ設計の例です。元の資料には個別の質問がありません。',
-    practiceTitle: 'このテーマを練習',
-    practiceIntro: '読んだあと、ヒントなしで答えてみましょう。',
-    allAnswers: 'すべての回答',
-  },
-  ko: {
-    addition: '추가 설명',
-    saveToNotes: '노트에 저장',
-    whatHappened: '무슨 일이 일어났고 왜 그런가',
-    context: '과제 배경',
-    shared: '이 주제의 공통 답변',
-    sharedIntro: '모든 설명을 하나의 답변에 모았습니다.',
-    designExample: '애플리케이션 설계 예시입니다. 원본 자료에는 별도의 질문이 없습니다.',
-    practiceTitle: '이 주제 연습하기',
-    practiceIntro: '읽은 후 힌트 없이 답해 보세요.',
-    allAnswers: '모든 답변',
+      'Este es un ejemplo de diseño de una aplicación. La fuente original no tiene preguntas aparte para él.',
+    practiceTitle: 'Afianza el tema',
+    practiceIntro: 'Después de leer, intenta responder sin ayuda.',
+    allAnswers: 'Todas las respuestas',
   },
 };

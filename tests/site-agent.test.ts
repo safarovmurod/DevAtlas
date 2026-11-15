@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { siteGuideAnswer, guideContext, agentGreeting, agentQuickPrompts, agentTrackLine } from '@/lib/agent/site-agent';
+import { siteGuideAnswer, guideContext, agentTrackLine } from '@/lib/agent/site-agent';
 import { COURSE_CATALOG } from '@/content/courses/catalog';
 
 const base = guideContext({
@@ -24,6 +24,18 @@ describe('site agent guide brain', () => {
     }
   });
 
+  it('answers platform questions in Spanish with real links', () => {
+    const context = guideContext({ language: 'es', selectedCourse: 'python', progress: { completedTopics: [], completedPractice: [], confirmedDays: [], masteredQuestions: [], drafts: {} } });
+    const courses = siteGuideAnswer('¿Dónde están los cursos?', context);
+    expect(courses?.links.some(link => link.href === '/courses')).toBe(true);
+    expect(courses?.reply).toContain(COURSE_CATALOG.length.toString());
+    const plans = siteGuideAnswer('¿Cuánto cuesta la suscripción?', context);
+    expect(plans?.links.some(link => link.href === '/plans')).toBe(true);
+    for (const plan of ['Start', 'Pro', 'Ultra']) expect(plans?.reply).toContain(plan);
+    expect(siteGuideAnswer('¿Dónde están mis notas?', context)?.reply).toContain('notas');
+    expect(agentTrackLine('python', 'es')).toContain('gratis');
+  });
+
   it('recommends the concrete next step from real learner progress', () => {
     const reply = siteGuideAnswer('Что мне делать дальше?', base);
     expect(reply?.reply).toContain('Python');
@@ -43,7 +55,27 @@ describe('site agent guide brain', () => {
     }
     expect(siteGuideAnswer('Где практика?', base)?.links.some(link => link.href === '/practice')).toBe(true);
     expect(siteGuideAnswer('Как готовиться к интервью?', base)?.links.some(link => link.href === '/courses/python/tests')).toBe(true);
-    expect(siteGuideAnswer('Сколько стоит подписка?', base)?.reply).toContain('бесплатный');
+    expect(siteGuideAnswer('Сколько стоит подписка?', base)?.reply).toContain('бесплатн');
+    const plans = siteGuideAnswer('Сколько стоит подписка?', base)?.reply;
+    for (const plan of ['Start', 'Pro', 'Ultra']) expect(plans).toContain(plan);
+    expect(plans).not.toContain('Pro Ultra');
+  });
+
+  it('explains the three plans in every guide language and says which plan has which tool', () => {
+    for (const [language, query] of [['ru', 'Какие есть тарифы?'], ['tg', 'Тарифҳо чанд аст?'], ['en', 'How much is Ultra?']] as const) {
+      const context = guideContext({ language, selectedCourse: 'python', progress: { completedTopics: [], completedPractice: [], confirmedDays: [], masteredQuestions: [] } });
+      const reply = siteGuideAnswer(query, context);
+      expect(reply?.links.some(link => link.href === '/plans'), language).toBe(true);
+      for (const plan of ['Start', 'Pro', 'Ultra']) expect(reply?.reply, language).toContain(plan);
+    }
+    expect(siteGuideAnswer('Где чат сообщества?', base)?.reply).toContain('Ultra');
+  });
+
+  it('points to the AI Tutor chat and names its plan', () => {
+    const reply = siteGuideAnswer('Где AI Tutor?', base);
+    expect(reply?.reply).toContain('AI Tutor');
+    expect(reply?.reply).toContain('Pro');
+    expect(siteGuideAnswer('Where is the AI tutor chat?', { ...base, language: 'en' })?.reply).toContain('Pro');
   });
 
   it('refuses to invent lesson content and hands material questions to the course library', () => {
@@ -56,8 +88,6 @@ describe('site agent guide brain', () => {
   it('gives an unstarted-course recommendation and greets in the UI language', () => {
     const fresh = guideContext({ language: 'en', selectedCourse: 'go', progress: { completedTopics: [], completedPractice: [], confirmedDays: [], masteredQuestions: [] } });
     expect(siteGuideAnswer('what should I do next?', fresh)?.reply).toContain('day 1');
-    expect(agentGreeting('tg')).toContain('DevAtlas');
-    expect(agentQuickPrompts('ru').length).toBeGreaterThanOrEqual(4);
     expect(agentTrackLine('python', 'ru')).toContain('Python');
     expect(agentTrackLine('javascript', 'ru')).toContain('JavaScript · Pro');
   });

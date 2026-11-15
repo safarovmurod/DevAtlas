@@ -22,14 +22,14 @@
   "sections": [
     {
       "title": {
-        "ru": "От значения к экрану",
-        "tg": "Аз қимат то экран",
-        "en": "From values to the screen"
+        "ru": "Как переменная становится текстом на экране",
+        "tg": "Қимат аз variable чӣ хел ба экран мебарояд?",
+        "en": "Rendering a value on screen"
       },
       "body": {
-        "ru": "Значение — данные, например имя или число выполненных занятий. Переменная даёт значению имя, чтобы использовать его в нескольких местах. const объявляет имя, которое нельзя переназначить; само значение может быть строкой в кавычках или числом без кавычек. JSX похож на разметку, но позволяет вставить JavaScript-выражение в одиночных фигурных скобках: {remaining}. Выражение сначала вычисляется, затем Text отображает результат. Вычитание total - completed возвращает число, а не сохраняет что-либо на сервере. При каждом новом рендере функция App запускается снова. Обычная переменная не вызывает рендер после нажатия — для этого нужен state, знакомый по дню 2.",
-        "tg": "Қимат дода аст, масалан ном ё шумори машғулияти анҷомёфта. Тағйирёбанда ба қимат ном медиҳад, то онро чанд бор истифода барем. const номеро эълон мекунад, ки аз нав таъин намешавад; қимат сатр дар нохунак ё адади бе нохунак шуда метавонад. JSX ба нишонагузорӣ монанд аст, вале ифодаи JavaScript-ро дар қавсҳои ягонаи шаклдор мегирад: {remaining}. Аввал ифода ҳисоб ва баъд Text натиҷаро нишон медиҳад. total - completed адад медиҳад, вале дар сервер чизе сабт намекунад. Дар ҳар render-и нав функсияи App боз иҷро мешавад. Тағйирёбандаи оддӣ баъди пахш render намекунад — барои ин state-и рӯзи 2 лозим аст.",
-        "en": "A value is data, such as a name or a number of completed lessons. A variable gives that value a name for reuse. const declares a binding that cannot be reassigned; its value can be a quoted string or an unquoted number. JSX resembles markup but evaluates a JavaScript expression between single braces: {remaining}. The expression is evaluated first and Text displays its result. Subtracting completed from total returns a number; it does not save anything to a server. App runs again on each render. Changing an ordinary variable after a button press does not request a render: use the state introduced on day 2."
+        "ru": "Значение хранится под именем, а JSX показывает его внутри фигурных скобок. В Text запись {name} выводит содержимое name. Написанное без скобок имя будет обычным текстом.\n\nЗначение — данные, например имя или число выполненных занятий. Переменная даёт значению имя, чтобы использовать его в нескольких местах. const объявляет имя, которое нельзя переназначить; само значение может быть строкой в кавычках или числом без кавычек. JSX похож на разметку, но позволяет вставить JavaScript-выражение в одиночных фигурных скобках: {remaining}. Выражение сначала вычисляется, затем Text отображает результат. Вычитание total - completed возвращает число, а не сохраняет что-либо на сервере. При каждом новом рендере функция App запускается снова. Обычная переменная не вызывает рендер после нажатия — для этого нужен state, знакомый по дню 2.",
+        "tg": "Қимат ном дорад ва JSX онро дар қавсҳои фигурӣ нишон медиҳад. Дар Text нависи {name} қимати name-ро мебарорад. Бе қавс калима ҳамчун матн мебарояд.\n\nҚимат дода аст, масалан ном ё шумори машғулияти анҷомёфта. Тағйирёбанда ба қимат ном медиҳад, то онро чанд бор истифода барем. const номеро эълон мекунад, ки аз нав таъин намешавад; қимат сатр дар нохунак ё адади бе нохунак шуда метавонад. JSX ба нишонагузорӣ монанд аст, вале ифодаи JavaScript-ро дар қавсҳои ягонаи шаклдор мегирад: {remaining}. Аввал ифода ҳисоб ва баъд Text натиҷаро нишон медиҳад. total - completed адад медиҳад, вале дар сервер чизе сабт намекунад. Дар ҳар render-и нав функсияи App боз иҷро мешавад. Тағйирёбандаи оддӣ баъди пахш render намекунад — барои ин state-и рӯзи 2 лозим аст.",
+        "en": "A variable gives a value a name, and JSX reads its value inside braces. In Text, {name} displays what's stored in name. Without braces, name is literal text.\n\nA value is data, such as a name or a number of completed lessons. A variable gives that value a name for reuse. const declares a binding that cannot be reassigned; its value can be a quoted string or an unquoted number. JSX resembles markup but evaluates a JavaScript expression between single braces: {remaining}. The expression is evaluated first and Text displays its result. Subtracting completed from total returns a number; it does not save anything to a server. App runs again on each render. Changing an ordinary variable after a button press does not request a render: use the state introduced on day 2."
       }
     },
     {
@@ -47,6 +47,23 @@
       "language": "tsx"
     }
   ],
+  "interview": {
+    "id": "mobile-day-03-written",
+    "caseSensitive": true,
+    "question": {
+      "ru": "Что написать внутри Text, чтобы вывести значение переменной name? Укажите выражение вместе со скобками.",
+      "tg": "Дар дохили Text барои нишон додани қимати name чӣ менависӣ? Бо қавс навис.",
+      "en": "What do you write inside Text to display the value of name? Include the braces."
+    },
+    "answer": {
+      "ru": "{name}",
+      "tg": "{name}",
+      "en": "{name}"
+    },
+    "acceptedAnswers": [
+      "{ name }"
+    ]
+  },
   "questions": [
     {
       "id": "mobile-day-03-q1",

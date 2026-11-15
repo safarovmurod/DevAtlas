@@ -1,61 +1,6 @@
 /* Shared practice lab, theme overrides and small screens. */
 /* Shared practice lab: language selection, real editor and visible requirements. */
-.practice-selector {
-  min-width: 0;
-  margin-bottom: 30px;
-}
-.practice-selector .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--primary);
-}
-.practice-selector .page-heading {
-  margin-bottom: 23px;
-}
-.practice-selector .page-heading h1 {
-  font-size: clamp(28px, 3.3vw, 40px);
-  letter-spacing: -0.05em;
-}
-.practice-course-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid var(--border);
-}
-.practice-course-tabs a {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 44px;
-  padding: 10px 13px;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-2);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 11px;
-}
-.practice-course-tabs a > span {
-  color: var(--primary);
-  font-family: var(--font-jetbrains), var(--font-inter-code), monospace;
-  font-size: 12px;
-}
-.practice-course-tabs a > svg {
-  color: var(--text-muted);
-}
-.practice-course-tabs a:hover {
-  border-color: var(--border-strong);
-  background: var(--control-hover);
-}
-.practice-course-tabs a[aria-current='page'] {
-  background: var(--primary-soft);
-  border-color: var(--active-border);
-  color: var(--accent);
-  box-shadow: var(--active-inset);
-}
+
 .course-practice-studio {
   display: flex;
   flex-direction: column;
@@ -222,29 +167,8 @@
 .course-practice-studio > .solution[open] > summary {
   margin-bottom: 16px;
 }
-.day-strip .locked-day {
-  display: grid;
-  place-items: center;
-  flex: 0 0 38px;
-  height: 38px;
-  border: 1px dashed var(--border-strong);
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: not-allowed;
-}
-.day-confirmation .button-row {
-  justify-content: flex-start;
-}
+
 @media (max-width: 700px) {
-  .practice-course-tabs {
-    gap: 7px;
-  }
-  .practice-course-tabs a {
-    font-size: 12px;
-    padding: 9px 11px;
-    min-height: 40px;
-    gap: 7px;
-  }
   .practice-validation ul {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -323,30 +247,6 @@
 }
 
 /* Keep the selected exercise close to the editor on small screens. */
-.practice-course-picker {
-  margin-block: 10px 20px;
-}
-.practice-course-picker > summary {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: fit-content;
-  cursor: pointer;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-.practice-course-picker > summary strong {
-  color: var(--text);
-}
-.practice-course-picker[open] > summary {
-  margin-bottom: 12px;
-}
-.practice-selector.is-compact {
-  margin-bottom: 12px;
-}
 
 .written-practice {
   display: grid;
@@ -367,31 +267,4 @@
   padding: 16px;
   color: var(--text);
   background: var(--card);
-}
-
-.practice-course-group {
-  width: 100%;
-  min-width: 0;
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
-}
-.practice-course-group > h2 {
-  font-size: 17px;
-  margin-bottom: 12px;
-}
-.practice-course-group > div,
-.practice-subgroup > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.practice-course-group .practice-subgroup {
-  display: block;
-  margin-bottom: 16px;
-}
-.practice-subgroup > h3 {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 600;
-  margin-bottom: 8px;
 }

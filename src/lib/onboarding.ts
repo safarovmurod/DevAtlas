@@ -7,6 +7,7 @@ import type { OnboardingAnswers, Text } from './onboarding-questions';
 export {
   ONBOARDING_QUESTIONS,
   onboardingLocale,
+  pickText,
   type OnboardingAnswers,
   type OnboardingLocale,
   type OnboardingQuestion,
@@ -48,6 +49,7 @@ function frontendCourse(a: OnboardingAnswers): { id: CourseId; reason: Text } {
         tg: 'React-ро медонед — қадами навбатӣ Next.js аст.',
         ru: 'React вы знаете — следующий шаг Next.js.',
         en: 'You know React — Next.js is the next step.',
+        es: 'Ya conoces React: el siguiente paso es Next.js.',
       },
     };
   if (a.javascript === 'good')
@@ -57,6 +59,7 @@ function frontendCourse(a: OnboardingAnswers): { id: CourseId; reason: Text } {
         tg: 'JavaScript-ро хуб медонед — вақти React аст.',
         ru: 'JavaScript вы знаете хорошо — время React.',
         en: 'Your JavaScript is solid — time for React.',
+        es: 'Tu JavaScript es sólido: es hora de React.',
       },
     };
   if (a.javascript === 'basic')
@@ -66,6 +69,7 @@ function frontendCourse(a: OnboardingAnswers): { id: CourseId; reason: Text } {
         tg: 'Асосҳои JS ҳаст — API ва дархостҳоро меомӯзем.',
         ru: 'Основы JS есть — изучаем API и запросы.',
         en: 'You have JS basics — next are APIs and requests.',
+        es: 'Ya tienes las bases de JS: ahora toca ver las API y las solicitudes.',
       },
     };
   if (a.html === 'good' || a.html === 'basic')
@@ -75,6 +79,7 @@ function frontendCourse(a: OnboardingAnswers): { id: CourseId; reason: Text } {
         tg: 'HTML/CSS ҳаст — акнун JavaScript саҳифаро зинда мекунад.',
         ru: 'HTML/CSS есть — теперь JavaScript оживит страницу.',
         en: 'You know HTML/CSS — now JavaScript brings pages to life.',
+        es: 'Ya conoces HTML/CSS: ahora JavaScript da vida a las páginas.',
       },
     };
   return {
@@ -83,6 +88,7 @@ function frontendCourse(a: OnboardingAnswers): { id: CourseId; reason: Text } {
       tg: 'Аз сифр: HTML ва CSS — аввалин сайти худро месозед.',
       ru: 'С нуля: HTML и CSS — вы соберёте свой первый сайт.',
       en: 'From zero: HTML and CSS — you will build your first site.',
+      es: 'Desde cero: HTML y CSS; construirás tu primer sitio.',
     },
   };
 }
@@ -97,6 +103,7 @@ export function recommendCourse(a: OnboardingAnswers): { id: CourseId; reason: T
               tg: 'JS-ро медонед — Node.js барои сервер.',
               ru: 'JS вы знаете — Node.js для сервера.',
               en: 'You know JS — Node.js for servers.',
+              es: 'Ya conoces JS: Node.js para servidores.',
             },
           }
         : {
@@ -105,6 +112,7 @@ export function recommendCourse(a: OnboardingAnswers): { id: CourseId; reason: T
               tg: 'Backend аз сифр: HTTP, база ва API.',
               ru: 'Backend с нуля: HTTP, база и API.',
               en: 'Backend from zero: HTTP, databases and APIs.',
+              es: 'Backend desde cero: HTTP, bases de datos y API.',
             },
           };
     case 'mobile':
@@ -115,6 +123,7 @@ export function recommendCourse(a: OnboardingAnswers): { id: CourseId; reason: T
               tg: 'React-ро медонед — барномаи телефон бо Expo.',
               ru: 'React вы знаете — мобильное приложение на Expo.',
               en: 'You know React — mobile apps with Expo.',
+              es: 'Ya conoces React: aplicaciones móviles con Expo.',
             },
           }
         : frontendCourse(a);
@@ -126,6 +135,7 @@ export function recommendCourse(a: OnboardingAnswers): { id: CourseId; reason: T
               tg: 'Таҳлили маълумот бе барномасозии мураккаб сар мешавад.',
               ru: 'Аналитика данных начинается без сложного программирования.',
               en: 'Data analytics starts without heavy programming.',
+              es: 'El análisis de datos empieza sin programación complicada.',
             },
           }
         : {
@@ -134,6 +144,7 @@ export function recommendCourse(a: OnboardingAnswers): { id: CourseId; reason: T
               tg: 'Python — забони асосии маълумот ва AI.',
               ru: 'Python — главный язык данных и AI.',
               en: 'Python is the main language of data and AI.',
+              es: 'Python es el lenguaje principal de los datos y la IA.',
             },
           };
     case 'design':
@@ -143,6 +154,7 @@ export function recommendCourse(a: OnboardingAnswers): { id: CourseId; reason: T
           tg: 'UX/UI аз сифр: тадқиқот, wireframe ва кейс.',
           ru: 'UX/UI с нуля: исследование, wireframes и кейс.',
           en: 'UX/UI from zero: research, wireframes and a case.',
+          es: 'UX/UI desde cero: investigación, wireframes y un caso práctico.',
         },
       };
     case 'business':
@@ -153,6 +165,7 @@ export function recommendCourse(a: OnboardingAnswers): { id: CourseId; reason: T
               tg: 'Барои лоиҳаи худ — асосҳои бизнес.',
               ru: 'Для своего проекта — основы бизнеса.',
               en: 'For your own project — business foundations.',
+              es: 'Para tu propio proyecto: fundamentos de negocios.',
             },
           }
         : {
@@ -161,6 +174,7 @@ export function recommendCourse(a: OnboardingAnswers): { id: CourseId; reason: T
               tg: 'Маркетинги рақамӣ: аудитория, канал ва метрика.',
               ru: 'Digital-маркетинг: аудитория, каналы и метрики.',
               en: 'Digital marketing: audience, channels and metrics.',
+              es: 'Marketing digital: audiencia, canales y métricas.',
             },
           };
     default:
@@ -190,16 +204,19 @@ const PLACED_REASON: Record<PlacementLevel, Text> = {
     tg: 'Тест нишон дод, ки аз асос сар кардан беҳтар аст — ин курс аз сифр аст.',
     ru: 'Тест показал, что лучше начать с основ — этот курс с нуля.',
     en: 'The test shows it is best to start from the basics — this course starts from zero.',
+    es: 'La prueba indica que lo mejor es empezar por lo básico: este curso parte de cero.',
   },
   middle: {
     tg: 'Асосҳоро медонед — ин курс аз ҳамон ҷое ки донишатон тамом мешавад, давом медиҳад.',
     ru: 'Основы вы знаете — этот курс продолжает с того места, где заканчиваются ваши знания.',
     en: 'You know the basics — this course picks up where your knowledge stops.',
+    es: 'Ya conoces lo básico: este curso continúa donde terminan tus conocimientos.',
   },
   advanced: {
     tg: 'Сатҳи баланд — ба шумо курси пешрафта мувофиқ аст.',
     ru: 'Высокий уровень — вам подходит продвинутый курс.',
     en: 'Advanced level — an advanced course fits you.',
+    es: 'Nivel avanzado: te conviene un curso avanzado.',
   },
 };
 

@@ -78,6 +78,33 @@ export const UI = {
     login: 'Sign in to keep your progress',
     again: 'Answer again',
   },
+  es: {
+    title: 'Encuentra tu ruta de aprendizaje',
+    subtitle: '15 preguntas cortas. Al final tendrás un curso adecuado y un horario para cada día.',
+    step: 'Pregunta',
+    of: 'de',
+    back: 'Atrás',
+    next: 'Siguiente',
+    result: 'Tu plan',
+    course: 'Curso recomendado',
+    perDay: 'minutos al día',
+    perWeek: 'días a la semana',
+    day: 'Un día de estudio',
+    theory: 'Teoría y ejemplo',
+    practice: 'Escribir código a mano',
+    review: 'Repaso, juego y prueba',
+    finish: 'Terminarás aproximadamente en',
+    weeks: 'sem.',
+    tight:
+      'El plazo elegido es demasiado corto. Dedica más tiempo al día o elige un plazo más largo: las prisas dificultan la memoria.',
+    phone:
+      'Puedes seguir la teoría y hacer las pruebas desde el móvil, pero para practicar código necesitarás un ordenador.',
+    interview: 'Cada semana tu plan incluye un ensayo de entrevista.',
+    start: 'Empezar el curso',
+    day0: 'Primero el día 0: VS Code y la consola',
+    login: 'Inicia sesión para guardar tu progreso',
+    again: 'Responder de nuevo',
+  },
 };
 /** Text of the short knowledge check. */
 export const TEST_UI = {
@@ -130,12 +157,30 @@ export const TEST_UI = {
     higher: 'The check shows you know more than you thought — a harder course is suggested.',
     pro: 'This is a Pro course. You can start free with the course before it:',
   },
+  es: {
+    title: 'Prueba rápida de conocimientos',
+    intro:
+      '6 preguntas, unos 3 minutos. Si no sabes la respuesta, elige «No lo sé»: así encontramos el curso adecuado con más precisión.',
+    start: 'Empezar',
+    skip: 'Saltar la prueba',
+    step: 'Pregunta',
+    of: 'de',
+    level: 'Tu nivel',
+    score: 'Respuestas correctas',
+    self: 'El nivel se estimó a partir de tus respuestas (no hiciste la prueba).',
+    lower:
+      'Te valoraste por encima de lo que mostró la prueba. Empezar ahora por lo básico te ahorrará tiempo después.',
+    higher:
+      'La prueba muestra que sabes más de lo que pensabas, por eso se propone un curso más difícil.',
+    pro: 'Este es un curso Pro. Puedes empezar gratis con el curso anterior:',
+  },
 };
 
 export const WEEKDAYS = {
   tg: ['Дш', 'Сш', 'Чш', 'Пш', 'Ҷм', 'Шб', 'Яш'],
   ru: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
   en: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  es: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
 };
 /** Study days are spread through the week so rest days fall between them. */
 export const STUDY_DAYS: Record<number, number[]> = {

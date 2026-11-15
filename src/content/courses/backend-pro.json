@@ -96,15 +96,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Модель и границы",
-      "tg": "Модел ва ҳудудҳо",
-      "en": "Model and boundaries"
-     },
+      "ru": "Контракт API и допустимые поля",
+      "tg": "Контракти API ва майдонҳои иҷозадода",
+      "en": "API contracts and allowed fields"
+    },
      "body": {
-      "ru": "На границе API проверяем размер, JSON, форму объекта и поля. HTTP 400 означает неверный ввод; 413 — превышение лимита. Не принимайте ownerId, role или plan из формы создания задачи: владельца назначает сервер из проверенной сессии. Считайте UTF-8 байты, а не только число JavaScript-символов. Эта чистая функция проверяет уже полученную строку; настоящий HTTP-сервер обязан ограничивать поток до накопления всего большого тела.",
-      "tg": "Дар сарҳади API андоза, JSON, шакли объект ва майдонҳоро месанҷем. HTTP 400 вуруди нодуруст, 413 аз лимит гузаштан аст. ownerId, role ё plan-ро аз шакли сохтани вазифа қабул накунед: сервер соҳибро аз сессияи тасдиқшуда таъйин мекунад. Байти UTF-8-ро ҳисоб кунед, на танҳо шумораи аломатҳои JavaScript. Ин функсияи соф сатри гирифташударо месанҷад; HTTP-сервер бояд ҷараёнро пеш аз ҷамъ кардани тамоми баданаи калон маҳдуд кунад.",
-      "en": "At the API boundary validate size, JSON, object shape and fields. HTTP 400 means invalid input; 413 means the size limit was exceeded. Never accept ownerId, role or plan from a create-task form: the server derives ownership from a verified session. Count UTF-8 bytes, not only JavaScript characters. This pure function checks an already received string; a real HTTP server must bound the stream before accumulating a large body."
-     }
+      "ru": "Контракт описывает формат запроса и ответа. Схема на сервере допускает только нужные поля и проверяет их значения. Поля владельца берите из подтверждённой сессии, чтобы не доверять вводу клиента.\n\nНа границе API проверяем размер, JSON, форму объекта и поля. HTTP 400 означает неверный ввод; 413 — превышение лимита. Не принимайте ownerId, role или plan из формы создания задачи: владельца назначает сервер из проверенной сессии. Считайте UTF-8 байты, а не только число JavaScript-символов. Эта чистая функция проверяет уже полученную строку; настоящий HTTP-сервер обязан ограничивать поток до накопления всего большого тела.",
+      "tg": "Контракт формати request ва response-ро мегӯяд. Схемаи сервер фақат майдонҳои лозим ва қимати дурустро қабул мекунад. Маълумоти соҳибро аз session-и тасдиқшуда гир.\n\nДар сарҳади API андоза, JSON, шакли объект ва майдонҳоро месанҷем. HTTP 400 вуруди нодуруст, 413 аз лимит гузаштан аст. ownerId, role ё plan-ро аз шакли сохтани вазифа қабул накунед: сервер соҳибро аз сессияи тасдиқшуда таъйин мекунад. Байти UTF-8-ро ҳисоб кунед, на танҳо шумораи аломатҳои JavaScript. Ин функсияи соф сатри гирифташударо месанҷад; HTTP-сервер бояд ҷараёнро пеш аз ҷамъ кардани тамоми баданаи калон маҳдуд кунад.",
+      "en": "An API contract defines request and response shapes. The server schema permits only intended fields and checks their values. Use the verified session to identify the owner.\n\nAt the API boundary validate size, JSON, object shape and fields. HTTP 400 means invalid input; 413 means the size limit was exceeded. Never accept ownerId, role or plan from a create-task form: the server derives ownership from a verified session. Count UTF-8 bytes, not only JavaScript characters. This pure function checks an already received string; a real HTTP server must bound the stream before accumulating a large body."
+    }
     },
     {
      "title": {
@@ -138,6 +138,26 @@
      }
     }
    ],
+   "interview": {
+     "id": "backend-pro-day-01-written",
+     "question": {
+       "ru": "Откуда сервер должен брать ID текущего пользователя для новой записи?",
+       "tg": "Сервер ID-и корбари ҳозираро барои сабти нав аз куҷо мегирад?",
+       "en": "Where should the server get the current user's ID for a new record?"
+     },
+     "answer": {
+       "ru": "Из проверенной сессии",
+       "tg": "Аз session-и тасдиқшуда",
+       "en": "From the verified session"
+     },
+     "acceptedAnswers": [
+       "серверная сессия",
+       "из сессии",
+       "session",
+       "verified session",
+       "server session"
+     ]
+   },
    "questions": [
     {
      "id": "backend-pro-day-01-q",
@@ -258,15 +278,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Модель и границы",
-      "tg": "Модел ва ҳудудҳо",
-      "en": "Model and boundaries"
-     },
+      "ru": "Кто вошёл и кому принадлежит запись",
+      "tg": "Кӣ даромад ва сабт аз они кист?",
+      "en": "Identity and record ownership"
+    },
      "body": {
-      "ru": "Аутентификация отвечает «кто это», авторизация — «можно ли ему читать эту запись». session здесь уже получена доверенным серверным middleware, а не из тела запроса. Даже корректный id не даёт права читать чужую задачу. Возвращаем одинаковый 404 для чужой и отсутствующей записи, чтобы не подтверждать её существование. Тестовая repository проверяет логику без настоящей базы; в production нужна фильтрация по user_id в запросе и RLS как второй слой.",
-      "tg": "Тасдиқи шахсият ба «ин кист», иҷозат ба «оё ин сабтро хонда метавонад» ҷавоб медиҳад. session ин ҷо аз middleware-и боэътимоди сервер гирифта шудааст, на аз баданаи дархост. Ҳатто id-и дуруст ҳуқуқи хондани вазифаи дигаронро намедиҳад. Барои сабти бегона ва набуда як 404 медиҳем, то мавҷудияташро ошкор накунем. repository-и тестӣ мантиқро бе пойгоҳи воқеӣ месанҷад; дар production филтри user_id ва RLS ҳамчун қабати дуюм лозим аст.",
-      "en": "Authentication answers who the caller is; authorization decides whether they may read this record. session is already supplied by trusted server middleware, never by the request body. A valid id does not grant access to another user’s task. Return the same 404 for missing and foreign records to avoid confirming existence. A repository fixture tests the logic without a live database; production needs ownership-scoped queries and RLS as a second layer."
-     }
+      "ru": "Проверка личности даёт подтверждённого пользователя. Проверка права решает, можно ли этому пользователю работать именно с выбранной записью. Обе проверки выполняются на сервере.\n\nАутентификация отвечает «кто это», авторизация — «можно ли ему читать эту запись». session здесь уже получена доверенным серверным middleware, а не из тела запроса. Даже корректный id не даёт права читать чужую задачу. Возвращаем одинаковый 404 для чужой и отсутствующей записи, чтобы не подтверждать её существование. Тестовая repository проверяет логику без настоящей базы; в production нужна фильтрация по user_id в запросе и RLS как второй слой.",
+      "tg": "Санҷиши шахсият корбари тасдиқшударо медиҳад. Санҷиши ҳуқуқ ҳал мекунад, ки ҳамин корбар иҷозаи кор бо ҳамин сабтро дорад ё не. Ҳар ду дар сервер мешаванд.\n\nТасдиқи шахсият ба «ин кист», иҷозат ба «оё ин сабтро хонда метавонад» ҷавоб медиҳад. session ин ҷо аз middleware-и боэътимоди сервер гирифта шудааст, на аз баданаи дархост. Ҳатто id-и дуруст ҳуқуқи хондани вазифаи дигаронро намедиҳад. Барои сабти бегона ва набуда як 404 медиҳем, то мавҷудияташро ошкор накунем. repository-и тестӣ мантиқро бе пойгоҳи воқеӣ месанҷад; дар production филтри user_id ва RLS ҳамчун қабати дуюм лозим аст.",
+      "en": "Authentication identifies the user. Authorization checks whether that user may act on the specific record. Both checks run on the server.\n\nAuthentication answers who the caller is; authorization decides whether they may read this record. session is already supplied by trusted server middleware, never by the request body. A valid id does not grant access to another user’s task. Return the same 404 for missing and foreign records to avoid confirming existence. A repository fixture tests the logic without a live database; production needs ownership-scoped queries and RLS as a second layer."
+    }
     },
     {
      "title": {
@@ -300,6 +320,24 @@
      }
     }
    ],
+   "interview": {
+     "id": "backend-pro-day-02-written",
+     "question": {
+       "ru": "Как называется проверка права пользователя читать конкретную запись?",
+       "tg": "Санҷиши ҳуқуқи хондани сабти муайян чӣ ном дорад?",
+       "en": "What do we call checking if a user may read a particular record?"
+     },
+     "answer": {
+       "ru": "Авторизация",
+       "tg": "Авторизатсия",
+       "en": "Authorization"
+     },
+     "acceptedAnswers": [
+       "проверка прав",
+       "permission check",
+       "санҷиши иҷозат"
+     ]
+   },
    "questions": [
     {
      "id": "backend-pro-day-02-q",
@@ -420,15 +458,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Модель и границы",
-      "tg": "Модел ва ҳудудҳо",
-      "en": "Model and boundaries"
-     },
+      "ru": "Что проверяет интеграционный HTTP-тест",
+      "tg": "Интеграционный HTTP-тест чиро месанҷад?",
+      "en": "What an HTTP integration test covers"
+    },
      "body": {
-      "ru": "Пример действительно запускает Node HTTP-сервер только на 127.0.0.1 со свободным портом, выполняет fetch и закрывает сервер в finally. Сессия — временный случайный 256-битный токен в памяти, а не пользовательский ownerId. Это локальный интеграционный стенд, не production-вход и не постоянная база. В production нужны HTTPS, полноценный жизненный цикл сессий, хранилище, миграции, rate limits и лимит тела на ingress. Тело больше 4096 байт не накапливается в памяти; медленный поток ограничен тайм-аутом. Лимит при этом не заменяет ограничения сетевого трафика на сервере размещения.",
-      "tg": "Мисол воқеан Node HTTP-серверро танҳо дар 127.0.0.1 бо порти озод оғоз карда, fetch иҷро мекунад ва дар finally мебандад. Сессия токени тасодуфии муваққатии 256-бита дар хотира аст, на ownerId-и муштарӣ. Ин стенди маҳаллии ҳамгироӣ аст, на воридшавии production ё пойгоҳи доимӣ. Дар production HTTPS, давраи пурраи сессия, захира, мигратсия, rate limit ва лимити бадана дар ingress лозиманд. Баданаи зиёда аз 4096 байт дар хотира ҷамъ намешавад; ҷараёни суст бо вақт маҳдуд аст. Ин лимит ҷойи маҳдудияти трафики хостингро намегирад.",
-      "en": "This example really starts a Node HTTP server on loopback with an ephemeral port, makes fetch requests and closes it in finally. Its session is a temporary random 256-bit token in memory, not a client ownerId. This is a local integration fixture, not production login or persistent storage. Production additionally needs HTTPS, complete session lifecycle, storage, migrations, rate limits and ingress body limits. Bodies beyond 4096 bytes are not accumulated; slow streams have timeouts. This does not replace hosting-level traffic limits."
-     }
+      "ru": "Интеграционный тест посылает запрос рабочему обработчику и проверяет ответ. Так видно, что парсинг, валидация и статус согласованы. Для отказа хранилища проверьте ещё, что клиент получил понятную ошибку.\n\nПример действительно запускает Node HTTP-сервер только на 127.0.0.1 со свободным портом, выполняет fetch и закрывает сервер в finally. Сессия — временный случайный 256-битный токен в памяти, а не пользовательский ownerId. Это локальный интеграционный стенд, не production-вход и не постоянная база. В production нужны HTTPS, полноценный жизненный цикл сессий, хранилище, миграции, rate limits и лимит тела на ingress. Тело больше 4096 байт не накапливается в памяти; медленный поток ограничен тайм-аутом. Лимит при этом не заменяет ограничения сетевого трафика на сервере размещения.",
+      "tg": "Интеграционный тест ба handler request фиристода, response-ро месанҷад. Маълум мешавад, ки хондани request, валидация ва статус якҷо дуруст кор мекунанд. Барои хатои база паёми фаҳморо ҳам санҷ.\n\nМисол воқеан Node HTTP-серверро танҳо дар 127.0.0.1 бо порти озод оғоз карда, fetch иҷро мекунад ва дар finally мебандад. Сессия токени тасодуфии муваққатии 256-бита дар хотира аст, на ownerId-и муштарӣ. Ин стенди маҳаллии ҳамгироӣ аст, на воридшавии production ё пойгоҳи доимӣ. Дар production HTTPS, давраи пурраи сессия, захира, мигратсия, rate limit ва лимити бадана дар ingress лозиманд. Баданаи зиёда аз 4096 байт дар хотира ҷамъ намешавад; ҷараёни суст бо вақт маҳдуд аст. Ин лимит ҷойи маҳдудияти трафики хостингро намегирад.",
+      "en": "An integration test sends a request through the actual handler and checks its response. It checks parsing, validation, and status together. For a storage failure, verify that the client gets a useful error.\n\nThis example really starts a Node HTTP server on loopback with an ephemeral port, makes fetch requests and closes it in finally. Its session is a temporary random 256-bit token in memory, not a client ownerId. This is a local integration fixture, not production login or persistent storage. Production additionally needs HTTPS, complete session lifecycle, storage, migrations, rate limits and ingress body limits. Bodies beyond 4096 bytes are not accumulated; slow streams have timeouts. This does not replace hosting-level traffic limits."
+    }
     },
     {
      "title": {
@@ -462,6 +500,24 @@
      }
     }
    ],
+   "interview": {
+     "id": "backend-pro-day-03-written",
+     "question": {
+       "ru": "Как называется тест, который проверяет несколько частей приложения вместе через реальный HTTP-запрос?",
+       "tg": "Тесте, ки чанд қисми барномаро якҷо бо HTTP request месанҷад, чӣ ном дорад?",
+       "en": "What kind of test checks several application parts together through an HTTP request?"
+     },
+     "answer": {
+       "ru": "Интеграционный тест",
+       "tg": "Тести интегратсионӣ",
+       "en": "Integration test"
+     },
+     "acceptedAnswers": [
+       "HTTP integration test",
+       "интеграционное тестирование",
+       "integration testing"
+     ]
+   },
    "questions": [
     {
      "id": "backend-pro-day-03-q",
@@ -1454,9 +1510,9 @@
       "en": "What a JWT is made of"
      },
      "body": {
-      "ru": "JWT — это header.payload.signature: заголовок и полезная нагрузка закодированы в base64url и читаются всеми без ключа, подпись — HMAC от первых двух частей. Подпись гарантирует неизменность, но не секретность: класть в payload пароль или персональные данные — грубая ошибка. Всегда проверяйте exp и, что важнее, алгоритм: принятие «alg: none» или подмена HS256 на RS256 ломали не один сервис. В отличие от сессии, JWT нельзя просто «удалить» на сервере — отзыв требует списка отозванных jti, короткого срока жизни access-токена и refresh-токена, хранящегося на сервере. Схема «короткий access + длинный refresh» даёт баланс между производительностью и возможностью отзыва.",
-      "tg": "JWT — header.payload.signature: сарлавҳа ва бори муфид дар base64url рамзгузорӣ шудаанд ва ҳама бе калид мехонанд; имзо — HMAC-и ду қисми аввал. Имзо тағйирнопазирияро кафолат медиҳад, вале маҳрамониятро не: гузоштани парол ё додаҳои шахсӣ дар payload — хатои ҷиддӣ. Ҳамеша exp ва, муҳимтар аз ҳама, алгоритмро санҷед: қабули «alg: none» ё ивази HS256 ба RS256 зиёда аз як хидматро вайрон кардааст. Баръакси сессия, JWT-ро дар сервер «нест» кардан номумкин аст — бекоркунӣ рӯйхати jti-ҳои бекоршуда, мӯҳлати кӯтоҳи access-токен ва refresh-токени дар сервер нигоҳдоршударо талаб мекунад. Схемаи «access-и кӯтоҳ + refresh-и дароз» мутаносиби самаранокӣ ва имконияти бекоркуниро медиҳад.",
-      "en": "A JWT is header.payload.signature: the header and payload are base64url-encoded and readable by anyone without a key; the signature is an HMAC over the first two parts. The signature guarantees integrity, not secrecy: putting a password or personal data in the payload is a serious mistake. Always validate exp and, more importantly, the algorithm: accepting \"alg: none\" or swapping HS256 for RS256 has broken more than one service. Unlike a session, a JWT cannot simply be \"deleted\" on the server — revocation needs a jti deny-list, a short access-token lifetime and a refresh token stored server-side. The \"short access + long refresh\" scheme balances performance against revocability."
+      "ru": "JWT — компактный формат передачи утверждений, например идентификатора пользователя и срока действия. Обычный подписанный JWT состоит из заголовка, данных и подписи. Base64url помогает передать данные в тексте, но не скрывает их. Подпись или код аутентификации защищают от незаметного изменения, если сервер правильно их проверяет.\n\nИспользуйте библиотеку с явно разрешённым алгоритмом. Проверьте подпись, срок и ожидаемые issuer/audience. Пароли и секреты в данные токена не кладут. Для немедленного отзыва уже выданного токена нужна серверная проверка состояния.",
+      "tg": "JWT шакли кӯтоҳи фиристодани маълумот аст, масалан id-и корбар ва муҳлати эътибор. JWT-и имзошуда аз сарлавҳа, дода ва имзо иборат аст. Base64url додаҳоро ба матни мувофиқ мегузаронад, аммо пинҳон намекунад. Агар сервер дуруст санҷад, имзо тағйири ноаёнро пешгирӣ мекунад.\n\nКитобхонаи тайёр бо алгоритми муайян истифода баред. Имзо, муҳлат, issuer ва audience-и интизориро санҷед. Паролу сиррро ба токен нагузоред. Барои бекор кардани токени аллакай дода сервер бояд ҳолаташро санҷад.",
+      "en": "A JWT is a compact format for carrying claims such as an account ID and an expiry time. A typical signed JWT has a header, payload and signature. Base64url makes the payload safe to carry as text, but does not hide it. A verified signature or message authentication code detects changes.\n\nUse a library with an explicit algorithm allowlist. Verify the signature, expiry, expected issuer and audience. Keep secrets out of claims. Immediate revocation of a previously issued token requires a server-side check."
      }
     },
     {
@@ -1800,9 +1856,9 @@
       "en": "Cookie attributes and what they block"
      },
      "body": {
-      "ru": "Сессия в cookie — стандарт веба, и её безопасность решают три атрибута. HttpOnly запрещает JavaScript читать cookie — токен, украденный XSS-скриптом, уже не уйдёт. Secure разрешает передачу только по HTTPS — cookie не утечёт через открытый Wi-Fi. SameSite=Lax отправляет cookie только с запросами того же сайта и блокирует кросс-сайтовые POST — это первый рубеж против CSRF; None требует Secure и нужен только для законных встраиваний. Path и Max-Age ограничивают область действия и жизнь токена. Атрибуты — не «галочки безопасности», а правила браузера: сервер не может проверить, что клиент их соблюдает, поэтому они работают только в связке с серверными проверками.",
-      "tg": "Сессия дар cookie — стандарти веб аст ва бехатариашро се атрибут ҳал мекунанд. HttpOnly ба JavaScript хондани cookie-ро манъ мекунад — токени дуздидашудаи скрипти XSS дигар берун намерезад. Secure танҳо интиқолро тавассути HTTPS иҷозат медиҳад — cookie тавассути Wi-Fi-и кушода намерезад. SameSite=Lax cookie-ро танҳо бо дархостҳои ҳамин сайт мефиристад ва POST-и байнисайтиро манъ мекунад — ин хати аввали ҳимоя аз CSRF аст; None ба Secure ниёз дорад ва танҳо барои дарунсозиҳои қонуӣ лозим аст. Path ва Max-Age соҳаи амал ва умри токенро маҳдуд мекунанд. Атрибутҳо «ҷадвали санҷиши бехатарӣ» нестанд, балки қоидаҳои браузеранд: сервер наметавонад санҷад, ки муштарӣ онҳоро риоя мекунад, бинобар ин онҳо танҳо дар пайванд бо санҷишҳои серверӣ кор мекунанд.",
-      "en": "A session lives in a cookie — a web standard — and three attributes decide its security. HttpOnly forbids JavaScript from reading the cookie, so a token stolen by an XSS script cannot leave. Secure allows transport only over HTTPS, so the cookie does not leak across open Wi-Fi. SameSite=Lax sends the cookie only with same-site requests and blocks cross-site POSTs — the first line of CSRF defense; None requires Secure and is only for legitimate embeds. Path and Max-Age bound the token's scope and life. Attributes are not \"security checkboxes\" but browser rules: the server cannot verify the client obeys them, so they only work combined with server-side checks."
+      "ru": "Атрибуты cookie задают браузеру правила хранения и отправки. HttpOnly скрывает значение от JavaScript, но браузер всё ещё может приложить cookie к запросу, который запустил скрипт. Secure ограничивает передачу защищённым соединением; localhost имеет специальное исключение при разработке.\n\nSameSite=Lax ограничивает пересылку между сайтами, но допускает навигацию верхнего уровня безопасным методом, например переход по GET-ссылке. None требует Secure. Правила cookie дополняют серверную проверку сессии и отдельную защиту изменений.",
+      "tg": "Атрибутҳои cookie ба браузер қоидаи нигоҳдорӣ ва фиристодан медиҳанд. HttpOnly намегузорад JavaScript қиматро хонад. Браузер ҳанӯз метавонад cookie-ро ба дархости аз скрипт оғозшуда зам кунад. Secure фиристоданро ба пайвасти ҳифзшуда маҳдуд мекунад. Дар таҳияи маҳаллӣ барои localhost истисно ҳаст.\n\nSameSite=Lax фиристодани cookie байни сайтҳоро маҳдуд мекунад, аммо дар сатҳи асосӣ гузаштан бо усули бехатар, мисли GET, мумкин аст. None бо Secure истифода мешавад. Сервер ҳам сессия ва ҳам иҷозати тағйирро месанҷад.",
+      "en": "Cookie attributes tell browsers when to store and send a cookie. HttpOnly prevents JavaScript from reading the value, although the browser can still attach it to a request made by a script. Secure restricts transmission to secure connections, with a local-development exception for localhost.\n\nSameSite=Lax restricts cross-site sending but permits top-level navigation with a safe method such as GET. None requires Secure. These browser rules complement server-side session checks and protection for changes."
      }
     },
     {
@@ -1969,14 +2025,14 @@
    "sections": [
     {
      "title": {
-      "ru": "Два вектора: подмена запроса и внедрение скрипта",
-      "tg": "Ду самт: қалбакии дархост ва дарҷ кардани скрипт",
-      "en": "Two vectors: request forgery and script injection"
+      "ru": "Как различать CSRF и XSS",
+      "tg": "CSRF ва XSS чӣ фарқ доранд",
+      "en": "How CSRF and XSS differ"
      },
      "body": {
-      "ru": "CSRF использует то, что браузер сам прикладывает cookie к запросу со стороннего сайта: жертва залогинена, вредоносная страница отправляет POST на перевод денег — сервер видит валидную сессию и выполняет действие. XSS внедряет скрипт в страницу: сохранённый в комментарии <img onerror=...> исполняется у каждого читателя и может красть сессии. Защита от CSRF — доказать, что запрос пришёл с вашей формы: токен, производный от сессии, присутствует и в заголовке, и в cookie, совпадение обязательно. Защита от XSS — экранировать всё, что попадает в HTML, и ставить CSP. Важно: обе защиты строятся на сервере, потому что клиенту доверять нельзя.",
-      "tg": "CSRF аз он истифода мебарад, ки браузер худаш cookie-ро ба дархости сайти дигар замима мекунад: қурбон ворид шудааст, саҳифаи зарарнок POST-ро ба интиқоли пул мефиристад — сервер сессияи дурустро мебинад ва амалро иҷро мекунад. XSS скриптро ба саҳифа дарҷ мекунад: <img onerror=...>, ки дар шарҳ нигоҳ дошта шудааст, назди ҳар хонанда иҷро мешавад ва метавонад сессияҳоро дуздад. Ҳимоя аз CSRF — исбот кардан, ки дархост аз шакли шумо омадааст: токени аз сессия ҳосилшуда ҳам дар сарлавҳа, ҳам дар cookie аст, мувофиқат ҳатмист. Ҳимоя аз XSS — экрани кардани ҳар чизе, ки ба HTML меравад, ва гузоштани CSP. Муҳим: ҳарду ҳимоя дар сервер сохта мешаванд, чунки ба муштарӣ бовар кардан намешавад.",
-      "en": "CSRF exploits the fact that the browser itself attaches cookies to requests from another site: the victim is logged in, a malicious page sends a POST to transfer money — the server sees a valid session and performs the action. XSS injects a script into a page: an <img onerror=...> stored in a comment runs for every reader and can steal sessions. CSRF defense is proving the request came from your form: a token derived from the session, present in both a header and a cookie, which must match. XSS defense is escaping everything that lands in HTML plus a CSP. Crucially, both defenses are built server-side, because a client cannot be trusted."
+      "ru": "CSRF — нежелательное изменение от имени пользователя, когда браузер автоматически прикладывает cookie сессии. Для запросов, меняющих данные, проверяйте Origin и применяйте CSRF-защиту фреймворка. Если выбран токен, сервер должен проверять его привязку к сессии. GET оставляйте для чтения.\n\nXSS возникает, когда недоверенный ввод становится активной частью страницы. Выводите такой ввод как текст или применяйте проверенную обработку HTML там, где HTML необходим. CSP даёт дополнительный слой защиты, но не заменяет безопасный вывод.",
+      "tg": "CSRF тағйири нохоста аз номи корбар аст, вақте браузер cookie-и сессияро худкор мефиристад. Барои дархостҳои тағйирдиҳанда Origin ва ҳифзи CSRF-и фреймворкро санҷед. Агар токен истифода шавад, сервер вобастагии онро ба сессия тасдиқ мекунад. GET-ро барои хондан монед.\n\nXSS мешавад, вақте додаи нобовар ба қисми фаъоли саҳифа табдил меёбад. Онро ҳамчун матн нишон диҳед ё дар ҷойи зарурӣ HTML-ро бо абзори санҷидашуда тоза кунед. CSP ҳифзи иловагӣ медиҳад, аммо баровардани бехатарро иваз намекунад.",
+      "en": "CSRF is an unwanted change made with a user's session when the browser attaches its cookie automatically. Check Origin and use framework CSRF protection for state-changing requests. If the design uses a token, the server checks that it belongs to the session. Keep GET for reads.\n\nXSS occurs when untrusted input becomes active page content. Render that input as text or sanitize it with a vetted tool wherever HTML is necessary. CSP adds a layer of protection but does not replace safe rendering."
      }
     },
     {
@@ -2147,9 +2203,9 @@
       "en": "A value that became code"
      },
      "body": {
-      "ru": "Инъекция — это подмена данных кодом: склейка SQL из строк превращает пользовательское значение в часть программы. Ввод Bob' OR '1' = '1 закрывает кавычку и добавляет условие, истинное для всех строк, — запрос возвращает всю таблицу. Stacked statements ( ; DROP TABLE users; -- ) опаснее: часть драйверов исполняет несколько команд подряд. Правильный путь — параметризация: SQL пишется со «впадинами» ($1, ?), а значение передаётся отдельно и никогда не разбирается как текст запроса. То же правило для ORM: raw-запросы с интерполяцией воспроизводят уязвимость. В учебном примере база — mock-слой, но механика поломки та же самая.",
-      "tg": "Инъексия — ивази додаҳо ба код аст: часпондани SQL аз сатрҳо арзиши корбарро ба қисми барнома табдил медиҳад. Вуруди Bob' OR '1' = '1 кавучакро мебандад ва шарти ҳамеша дурустро илова мекунад — дархост тамоми ҷадвалро бармегардонад. Дастурҳои пайдарпай ( ; DROP TABLE users; -- ) хатарноканд: қисми драйверҳо чанд фармонро пайдарпай иҷро мекунанд. Роҳи дуруст — параметризатсия: SQL бо «ҷойҳои холӣ» ($1, ?) навишта мешавад, арзиш алоҳида интиқол меёбад ва ҳеҷ гоҳ ҳамчун матни дархост таҳлил намешавад. Ҳамон қоида барои ORM: дархостҳои raw бо интерполяция осепазирияро такрор медиҳанд. Дар мисоли омӯзишӣ база mock-қабат аст, вале механикаи вайроншавӣ айнан ҳамон аст.",
-      "en": "Injection is data becoming code: gluing SQL from strings turns a user value into part of the program. The input Bob' OR '1' = '1 closes the quote and appends a condition true for every row — the query returns the whole table. Stacked statements ( ; DROP TABLE users; -- ) are worse: some drivers execute several commands in a row. The correct path is parameterization: SQL is written with \"slots\" ($1, ?) and the value travels separately, never parsed as query text. The same rule applies to ORMs: raw queries with interpolation recreate the vulnerability. The teaching example uses a mock database, but the failure mechanics are identical."
+      "ru": "SQL-инъекция возникает, когда введённый текст начинает влиять на структуру запроса. Параметр запроса разделяет инструкцию и данные: код задаёт SELECT с местом для значения, драйвер передаёт введённое отдельно. Используйте параметры и в обычном SQL, и в SQL-запросах через ORM.\n\nПараметр подходит для значения, а не для имени столбца. Если экран умеет сортировать по цене или названию, сервер выбирает нужный столбец из списка, заданного в коде. Учебный пример показывает это разделение на тестовом слое данных.",
+      "tg": "SQL-инъексия вақте мешавад, ки матни воридшуда сохтори дархостро тағйир диҳад. Параметр фармонро аз дода ҷудо мекунад: код SELECT-ро бо ҷой барои қимат медиҳад, драйвер матни воридшударо алоҳида мефиристад. Ин қоида барои SQL-и одӣ ва дархостҳои ORM ҳам кор мекунад.\n\nПараметр барои қимат аст. Агар рӯйхат аз рӯйи нарх ё ном ҷобаҷо шавад, сервер номи сутунро аз рӯйхати дар код таъиншуда интихоб мекунад. Мисоли дарсӣ ҷудоиро дар қабати санҷишӣ нишон медиҳад.",
+      "en": "SQL injection occurs when input text can change the shape of a query. A query parameter separates instructions from data. The code defines the SELECT with a placeholder and the driver passes the value separately. Use parameters in both direct SQL and raw queries through an ORM.\n\nA placeholder is for a value, not a column name. If the UI can sort by price or name, the server selects the column from an allowlist in code. The exercise demonstrates that separation with a test data layer."
      }
     },
     {
@@ -2320,9 +2376,9 @@
       "en": "The logging red line"
      },
      "body": {
-      "ru": "Есть данные, которые не должны существовать в логах ни в каком виде: пароли, полный номер карты, ключи, токены сессий, cookie. Хешируйте то, что нужно узнавать по совпадению, но не читать: id пользователя можно заменить коротким хешем для аналитики. Маскируйте то, что должно оставаться узнаваемым для человека: email mu***@example.com и токен abcd…ef45 достаточны для отладки. Красная линия проста: если строка лога утечёт в скриншот, на GitHub или в агрегатор — ущерб должен быть нулевым. Проверяйте это тестом: соберите типовую запись лога и попытайтесь найти в ней секрет.",
-      "tg": "Додаҳое ҳастанд, ки бояд дар логҳо ба ҳар шакл вуҷуд надошта бошанд: паролҳо, рақами пурраи корт, калидҳо, токенҳои сессия, cookie. Он чиро хеш кунед, ки аз рӯи мувофиқат шинохтан лозим аст, вале хондан — не: id-и корбарро барои таҳлил метавон бо хеши кӯтоҳ иваз кард. Он чиро маска кунед, ки барои одам шинохташаванда боқӣ монад: email-и mu***@example.com ва токени abcd…ef45 барои отладка кофист. Хати сурх сода аст: агар сатри лог ба скриншот, GitHub ё агрегатор барояд, зарар бояд сифр бошад. Инро бо тест санҷед: сабти намунавии логро ҷамъ карда, кӯшиш кунед дар он сирр ҷустуҷӯ кунед.",
-      "en": "Some data must never exist in logs in any form: passwords, full card numbers, keys, session tokens, cookies. Hash what needs to be matched but not read: a user id can become a short hash for analytics. Mask what should stay recognizable to a human: email mu***@example.com and token abcd…ef45 are enough for debugging. The red line is simple: if a log line leaks into a screenshot, GitHub or an aggregator, the damage must be zero. Test it: assemble a typical log record and try to find a secret in it."
+      "ru": "Логирование нужно, чтобы найти причину сбоя по нескольким безопасным полям. Начните со списка разрешённых полей, например operation, result и requestId. Пароль, ключ API, токен сессии, cookie и полные реквизиты карты исключайте целиком. Вместо фрагмента токена связывайте записи по отдельному requestId.\n\nМаскирование скрывает часть значения и не делает остаток анонимным. Добавляйте такие данные только когда они действительно нужны. Проверьте тестом, что ни полный секрет, ни его фрагмент не оказался в JSON-логе.",
+      "tg": "Лог барои ёфтани сабаби хато аз чанд майдони бехатар лозим аст. Аз рӯйхати иҷозатдода сар кунед, масалан operation, result ва requestId. Парол, калиди API, токени сессия, cookie ва рақами пурраи кортро тамоман хориҷ кунед. Барои пайваст кардани сабтҳо requestId-и ҷудоро истифода баред.\n\nМаскировка як қисми қиматро пинҳон мекунад ва боқимондаро беном намекунад. Танҳо ҳангоми зарурат илова кунед. Тест санҷад, ки дар JSON-лог сирр ё порчаи он нест.",
+      "en": "Logs help find a failure using a few safe fields. Start with an allowlist such as operation, result and requestId. Omit passwords, API keys, session tokens, cookies and full card details. Correlate records with a separate requestId instead of a token fragment.\n\nMasking hides part of a value but does not make the remainder anonymous. Include masked data only when needed. Test that neither a secret nor part of it appears in the JSON log."
      }
     },
     {
@@ -2666,9 +2722,9 @@
       "en": "Windows, buckets and keys"
      },
      "body": {
-      "ru": "Лимит частоты защищает не «от хакеров», а от любой вспышки нагрузки: скрипт с багом, ретраи, индексатор. Фиксированное окно просто, но на границе двух окон пропускает двойной burst; токен-бакет сглаживает это, разрешая короткие пики при ровном среднем темпе. Ключ определяет, кто считается: по userId — честно для клиентов, по IP — когда сессии нет, по комбинации — когда за NAT сидят сотни людей. Ответ 429 обязан нести Retry-After: клиент, уважающий протокол, вернётся в нужный момент, а не через миллисекунду. Лимитер ставят до дорогих операций — до базы и внешних вызовов, иначе он защищает только сам себя.",
-      "tg": "Маҳдудияти басомад аз «ҳакерҳо» ҳимоя намекунад, аз ҳар оҳанги ошёни бор: скрипти багдор, такрорҳо, индексатор. Равзанаи собит сода аст, вале дар сарҳади ду равзана оҳанги дукаратро мегузаронад; сатли токентӣ инро ҳамвор мекунад — оҳанги кӯтоҳро бо темпи миёнаи баробар иҷозат медиҳад. Калид муайян мекунад, кӣ ҳисоб мешавад: аз рӯи userId — барои муштарӣҳо одилона, аз рӯи IP — ҳангоми набудани сессия, бо омехта — ҳангоми он ки зери NAT садҳо одам ҳастанд. Ҷавоби 429 бояд Retry-After доро бошад: муштарии эҳтиромгузори протокол дар лаҳзаи муносиб бармегардад, на баъди миллисекунд. Лимитер пеш аз амалиётҳои гарон гузошта мешавад — пеш аз база ва даъватҳои берунӣ, вагарна танҳо худашро ҳимоя мекунад.",
-      "en": "Rate limiting guards not against \"hackers\" but against any burst: a buggy script, retries, a crawler. A fixed window is simple but lets a double burst through at the boundary of two windows; a token bucket smooths that, allowing short peaks at a steady average. The key decides who counts: by userId — fair for clients, by IP — when there is no session, by a combination — when hundreds share a NAT. A 429 must carry Retry-After: a protocol-respecting client returns at the right moment, not a millisecond later. Place the limiter before expensive operations — the database and external calls — otherwise it protects only itself."
+      "ru": "Ограничитель частоты решает, сколько запросов принять от одного ключа за время. Ключ может обозначать учётную запись или доверенно определённый адрес клиента. Фиксированное окно обнуляет счётчик по границе интервала. Токен-бакет пополняет запас постепенно и допускает короткие всплески.\n\nКогда места нет, верните 429. Retry-After сообщает время следующей попытки, если оно известно. Поставьте проверку до дорогого запроса к базе. Если серверов несколько, их локальные счётчики не образуют один общий лимит.",
+      "tg": "Лимит муайян мекунад, ки аз як калид дар як вақт чанд дархост қабул мешавад. Калид ҳисоби корбар ё суроғаи боэътимоди муштарӣ шуда метавонад. Равзанаи собит ҳисобкунакро дар сарҳади вақт аз нав оғоз мекунад. Токен-бакет захираро оҳиста пур мекунад ва қуллаи кӯтоҳро мегузаронад.\n\nАгар лимит тамом шавад, 429 диҳед. Retry-After вақти кӯшиши навро, агар маълум бошад, мегӯяд. Санҷишро пеш аз дархости гарони база гузоред. Ҳисобкунакҳои маҳаллии чанд сервер лимити ягона намесозанд.",
+      "en": "A rate limiter decides how many requests a key can send over time. The key can represent an account or a reliably identified client address. A fixed window resets its count at a boundary. A token bucket refills gradually and permits short bursts.\n\nWhen the limit is reached, return 429. Retry-After tells the client when to retry if that time is known. Check before expensive database work. Local counters in several servers do not form one shared limit."
      }
     },
     {
@@ -2839,9 +2895,9 @@
       "en": "Cache-Control, ETag and staleness"
      },
      "body": {
-      "ru": "Cache-Control решает, кто и как долго хранит ответ: no-store — нигде, no-cache — можно, но всегда перепроверяй, max-age=60 — можно 60 секунд без вопросов. ETag — отпечаток версии ресурса: клиент повторяет запрос с If-None-Match, и если ресурс не изменился, сервер отвечает 304 без тела — экономия и трафика, и работы. Инвалидация — слабое место: HTTP не умеет «стереть кэш у всех»; в кэш кладут то, что редко меняется, а меняющееся отдают без кэша или с коротким max-age. Ошибки устаревшего кэша дорогие: клиент видит удалённую запись или чужие данные — no-store обязателен для персональных ответов.",
-      "tg": "Cache-Control муайян мекунад, кӣ ва то кай ҷавобро нигоҳ медорад: no-store — ҳеҷ ҷо, no-cache — мумкин, вале ҳамеша аз нав санҷ, max-age=60 — шаст сония бе савол. ETag — матбаи версияи захира: муштарӣ дархостро бо If-None-Match такрор мекунад ва агар захира тағйир наёфта бошад, сервер 304 бе бадана медиҳад — ҳам трафик, ҳам кор сарфа мешавад. Аз кор баровардан — ҷои суст: HTTP «тозакунии кэши ҳама»-ро намедонад; дар кэш он чиз гузошта мешавад, ки кам тағйир меёбад, тағйирёбанда бе кэш ё бо max-age-и кӯтоҳ дода мешавад. Хатоҳои кэши куҳнашуда гаронанд: муштарӣ сабти нестшударо мебинад ё додаҳои бегона — барои ҷавобҳои шахсӣ no-store ҳатмист.",
-      "en": "Cache-Control decides who stores a response and for how long: no-store — nowhere, no-cache — store but always revalidate, max-age=60 — sixty seconds without asking. An ETag is a fingerprint of the resource version: the client repeats the request with If-None-Match, and if nothing changed the server answers 304 without a body — saving both traffic and work. Invalidation is the weak spot: HTTP cannot \"wipe everyone's cache\"; cache rarely-changing things and serve changing ones uncached or with a short max-age. Stale-cache bugs are expensive: a client sees a deleted record or someone else's data — no-store is mandatory for personal responses."
+      "ru": "HTTP-кэш хранит полученный ответ, чтобы не загружать его заново при каждом чтении. Cache-Control задаёт правила: max-age=60 разрешает 60 секунд использовать свежую копию; no-cache требует проверить её перед повторным использованием; no-store не разрешает сохранять текущий ответ.\n\nETag обозначает версию представления. Клиент присылает её в If-None-Match, а сервер при совпадении отвечает на условный GET статусом 304 без нового тела. Публичный каталог удобно проверять так. Ответы с приватными данными требуют отдельной осторожной настройки кэша.",
+      "tg": "Кэши HTTP ҷавобро нигоҳ медорад, то барои ҳар хондан аз нав пурра нагирад. Cache-Control қоида медиҳад: max-age=60 нусхаи тозаро 60 сония истифода мебарад; no-cache пеш аз истифодаи дубора санҷиш мехоҳад; no-store нигоҳ доштани ҷавоби ҳозираро манъ мекунад.\n\nETag версияи ҷавобро нишон медиҳад. Муштарӣ онро дар If-None-Match мефиристад. Агар версия мувофиқ бошад, сервер ба GET-и шартӣ бо 304 ва бе тани нав ҷавоб медиҳад. Ин барои каталоги оммавӣ мувофиқ аст. Додаҳои хусусӣ қоидаи эҳтиёткоронаи кэш мехоҳанд.",
+      "en": "An HTTP cache stores a response so repeated reads can reuse it. Cache-Control sets the rules: max-age=60 allows a fresh copy for 60 seconds, no-cache requires validation before reuse, and no-store prevents storing the current response.\n\nAn ETag identifies a representation version. The client sends it in If-None-Match. On a matching conditional GET, the server can return 304 without a new body. This is useful for a public catalog. Private responses need their own cache policy."
      }
     },
     {
@@ -3532,9 +3588,9 @@
       "en": "Time limits and cancellation"
      },
      "body": {
-      "ru": "Внешний вызов без таймаута — обещание, что зависимость отвечает мгновенно всегда. Это неверно: сеть деградирует, пул соединений копит ожидающих, и сервис умирает медленно. Каждый fetch оборачивайте AbortController-таймаутом; порог выбирайте по SLA зависимости, а не по надежде. Отмена должна доходить до источника: signal прерывает соединение, и зависимость прекращает работу — иначе «отменённый» запрос продолжает сжигать ресурсы. Различайте причины: TimeoutError говорит клиенту «повтори позже», а ошибка отмены — не ошибка зависимости. После abort освободите таймер: незакрытый setTimeout держит цикл событий живым.",
-      "tg": "Даъвати берунӣ бе таймаут — ваъдаест, ки вобастагӣ ҳамеша фавран ҷавоб медиҳад. Ин нодуруст аст: шабака вайрон мешавад, ҳавзи пайвастҳо интизоронро ҷамъ меоварад ва хидмат оҳиста-оложо мемирад. Ҳар fetch-ро бо таймаути AbortController пӯшонед; остонаро аз рӯи SLA-и вобастагӣ интихоб кунед, на аз рӯи умед. Бекоркунӣ бояд то манбаъ расад: signal пайвастро мебурад ва вобастагӣ кори худро меистонад — вагарна дархости «бекоршуда» манбаъҳоро сӯзондан идома медиҳад. Сабабҳоро ҷудо кунед: TimeoutError ба муштарӣ мегӯяд «баъдан такрор кун», вале хатои бекоркунӣ хатои вобастагӣ нест. Баъди abort таймерро озод кунед: setTimeout-и напӯшида ҳалқаи рӯйдодҳоро зинда медорад.",
-      "en": "An external call without a timeout is a promise that the dependency always answers instantly. That is false: networks degrade, connection pools accumulate waiters, and the service dies slowly. Wrap every fetch in an AbortController timeout; pick the threshold from the dependency's SLA, not from hope. Cancellation must reach the source: the signal breaks the connection and the dependency stops working — otherwise the \"cancelled\" request keeps burning resources. Distinguish the causes: TimeoutError tells the client to retry later, while a cancellation error is not a dependency failure. After abort, release the timer: an open setTimeout keeps the event loop alive."
+      "ru": "Таймаут задаёт предел времени ожидания. Если API ждёт службу доставки слишком долго, оставьте часть общего времени на понятный ответ клиенту. В fetch сигнал AbortController позволяет прекратить ожидание и чтение тела. После завершения запроса очистите таймер в finally.\n\nОтмена на стороне клиента не доказывает, что удалённый сервер остановил работу. Запись могла уже завершиться. Перед повтором убедитесь, что он не создаст второй заказ, или используйте договор идемпотентности.",
+      "tg": "Таймаут ҳадди вақти интизорӣ аст. Агар API аз хизмати расондан дер ҷавоб гирад, қисми вақтро барои ҷавоби фаҳмо ба муштарӣ монед. Сигнали AbortController дар fetch интизорӣ ва хондани тани ҷавобро қатъ карда метавонад. Пас аз анҷом таймерро дар finally тоза кунед.\n\nҚатъ кардани интизорӣ аз тарафи муштарӣ исбот намекунад, ки сервери дигар корашро боздошт. Сабт шояд анҷом ёфтааст. Пеш аз такрор санҷед, ки фармоиши дуюм намесозад, ё қоидаи идемпотентиро истифода баред.",
+      "en": "A timeout sets a deadline for waiting. If a delivery service takes too long, reserve some of the overall request budget for a useful response. An AbortController signal can stop fetch and response-body reading. Clear the timer in finally when the call finishes.\n\nClient-side cancellation does not prove the remote server stopped. A write may already have completed. Before retrying, confirm the action will not create a second order or use an idempotency contract."
      }
     },
     {
@@ -3705,9 +3761,9 @@
       "en": "What may be retried"
      },
      "body": {
-      "ru": "Повтор имеет смысл только для идемпотентных операций: GET, PUT, DELETE — да; POST без ключа идемпотентности — риск второго списания. Повторяйте только временные ошибки: 503, 429, таймауты; 400 и 422 от повторов не изменятся, и каждый лишний вызов — нагрузка. Экспоненциальная пауза с фактором 2 (100, 200, 400 мс) и предел попыток: бесконечный ретрай превращает сбой зависимости в собственный отказ. Ключ идемпотентности решает проблему POST: клиент генерирует UUID на операцию, сервер дедуплицирует. Ретраи всех клиентов одновременно — ретрай-шторм: пауза с джиттером рассыпает пики.",
-      "tg": "Такрор танҳо барои амалиётҳои идемпотентӣ маъно дорад: GET, PUT, DELETE — ҳа; POST бе калиди идемпотентӣ — хатари дукарат кам кардани маблағ. Танҳо хатоҳои муваққатиро такрор кунед: 503, 429, таймаутҳо; 400 ва 422 аз такрор тағйир намеёбанд ва ҳар даъвати изофа — бор. Танаффуси экспоненсиалӣ бо фактери 2 (100, 200, 400 мс) ва ҳадди кӯшишҳо: ретрайи беохир вайроншавии вобастагиро ба нокомии худатон табдил медиҳад. Калиди идемпотентӣ мушкили POST-ро ҳал мекунад: муштарӣ барои ҳар амалиёт UUID месозад, сервер дедупликатсия мекунад. Такрори ҳамаи муштарӣҳо ҳамзамон — тӯфони такрор: танаффус бо джиттер оҳангиҳоро партофта мекунад.",
-      "en": "A retry only makes sense for idempotent operations: GET, PUT, DELETE — yes; POST without an idempotency key — the risk of a second charge. Retry only transient failures: 503, 429, timeouts; 400 and 422 will not change, and every extra call is load. Exponential backoff with factor 2 (100, 200, 400 ms) and an attempt limit: endless retrying turns a dependency's failure into your own outage. An idempotency key solves POST: the client generates a UUID per operation and the server deduplicates. Retries of all clients at once are a retry storm: jittered delays scatter the peaks."
+      "ru": "Идемпотентность означает, что повтор того же действия не меняет его итоговый эффект. Например, повторная установка статуса «закрыто» оставляет задачу закрытой, хотя статус ответа может отличаться. Повтор нового POST без специального договора может создать второй заказ. Ключ идемпотентности даёт одному намерению один идентификатор, а сервер запоминает его результат.\n\nПовторяйте временные ошибки в пределах общего срока и числа попыток. Увеличивайте паузу между повторами и добавляйте небольшой случайный разброс. При наличии Retry-After учитывайте указанный срок.",
+      "tg": "Идемпотентӣ маънои онро дорад, ки такрори ҳамон амал таъсири ниҳоиро дигар намекунад. Масалан, дубора гузоштани «пӯшида» вазифаро ҳамон хел мемонад, ҳарчанд статуси ҷавоб фарқ карда метавонад. POST-и бе қоидаи махсус метавонад фармоиши дуюм созад. Калиди идемпотентӣ ба як амал як шиноса медиҳад ва сервер натиҷаашро нигоҳ медорад.\n\nХатои муваққатиро дар ҳадди вақт ва шумораи кӯшиш такрор кунед. Танаффусро зиёд кунед ва андаке вақти тасодуфӣ илова кунед. Агар Retry-After бошад, вақти онро ба назар гиред.",
+      "en": "Idempotency means repeating the same action preserves its intended effect. Setting a task to closed again leaves it closed, even if the response status differs. Retrying a POST without a contract can create a second order. An idempotency key gives one intent a stable identifier and lets the server remember its outcome.\n\nRetry transient failures within the time and attempt budgets. Increase the delay between attempts and add a little random jitter. Honor Retry-After when provided."
      }
     },
     {
@@ -4398,9 +4454,9 @@
       "en": "A test through real HTTP"
      },
      "body": {
-      "ru": "Интеграционный тест поднимает сервер на порту 0 — система сама даст свободный порт — и гоняет fetch-сценарии по настоящему стеку: маршрутизация, парсинг, заголовки. Это дороже unit-тестов, но ловит класс ошибок, которые юнит-тест не видит: Content-Type, Location, статус-коды, кодирование тела. Изоляция: каждому тесту — свой инстанс сервера и своё хранилище; общее состояние делает тесты зависимыми от порядка. Ресурсы освобождаются в finally: упавший assert не должен оставлять занятый порт. На порту 0 сервер слушает loopback — тест не открывает наружу ничего.",
-      "tg": "Тести ҳамгироӣ серверро дар порти 0 мепардозад — система худаш порти озод медиҳад — ва fetch-сценарийҳоро аз рӯи стаки воқеӣ мегузаронад: маршрутизация, парсинг, сарлавҳаҳо. Ин аз unit-тестҳо гарон, вале синфи хатоҳоро мегирад, ки юнит-тест намебинад: Content-Type, Location, статус-кодҳо, кодироватсияи бадана. Изолятсия: ба ҳар тест инстанси алоҳидаи сервер ва захираи алоҳида; ҳолати умумӣ тестҳоро вобаста аз тартиб месозад. Захираҳо дар finally озод мешаванд: assert-и афтида набояд порти ишғолшударо боқӣ гузорад. Дар порти 0 сервер loopback-ро гӯш мекунад — тест ба берун ҳеҷ чизро намекушояд.",
-      "en": "An integration test starts a server on port 0 — the system hands out a free port — and runs fetch scenarios through the real stack: routing, parsing, headers. It is costlier than unit tests but catches a class of bugs unit tests cannot see: Content-Type, Location, status codes, body encoding. Isolation: every test gets its own server instance and its own store; shared state makes tests order-dependent. Resources are released in finally: a failed assert must not leave a port occupied. On port 0 the server listens on loopback — the test exposes nothing outward."
+      "ru": "Интеграционный HTTP-тест запускает сервер и проверяет результат запроса так, как его увидит клиент. Сопоставьте статус, заголовки и тело, а не только возврат отдельной функции. Каждому тесту выделите свои данные, чтобы порядок запуска не влиял на итог.\n\nПорт 0 просит систему выбрать свободный порт. Локальный адрес 127.0.0.1 отдельно ограничивает доступ этой машиной. Дождитесь запуска, получите фактический порт и закрывайте сервер в finally даже при падении проверки.",
+      "tg": "Тести интегратсионии HTTP серверро ба кор дароварда, ҷавобро аз нигоҳи муштарӣ месанҷад. Статус, сарлавҳа ва тани ҷавобро санҷед, на танҳо натиҷаи як функсияро. Барои ҳар тест додаи ҷудо дошта бошед, то тартиби иҷро таъсир накунад.\n\nПорти 0 аз система порти холӣ мепурсад. Суроғаи 127.0.0.1 ҷудогона дастрасиро ба ҳамин компютер маҳдуд мекунад. Оғозро интизор шавед, порти воқеиро гиред ва серверро дар finally пӯшед.",
+      "en": "An HTTP integration test starts the server and inspects the response a client sees. Check status, headers and body rather than a single function's return value. Give each test its own data so test order does not change the result.\n\nPort 0 asks the operating system to select a free port. Binding to 127.0.0.1 separately limits access to the local machine. Wait for listening, read the chosen port and close the server in finally even when an assertion fails."
      }
     },
     {
@@ -4744,9 +4800,9 @@
       "en": "Measure, do not assume"
      },
      "body": {
-      "ru": "Оптимизация без измерения — украшение случайных мест. Минимальный набор счётчиков: запросов к БД на операцию, времени ответа p95, размера полезной нагрузки. Классика производительности — N+1: список из 50 задач делает 50 запросов за именами владельцев вместо одного с IN. Лечится батчингом: собрать уникальные ключи, сделать один запрос, склеить через словарь. На mock-слое это считается точно: queries до и после — самые честные цифры. Вторая ловушка — преждевременная оптимизация: сначала счётчики покажут, что 80% времени уходит не туда, куда вы думаете. Регрессии ловятся тестом: «эта операция делает не более K запросов» — падение такого теста дешевле, чем расследование прод-инцидента.",
-      "tg": "Оптимизация бе андоза гулукашонии ҷойҳои тасодуфӣ аст. Маҷмӯи минималии ҳисобкунакҳо: дархостҳо ба БД ба ҳар амалиёт, вақти ҷавоби p95, андозаи бори муфид. Классикаи самаранокӣ — N+1: рӯйхати 50 вазифа 50 дархост барои номҳои соҳибон мекунад, ба ҷои як дархост бо IN. Давоаш батчинг аст: калидҳои ягонаро ҷамъ карда, як дархост карда, тавассути луғат пайваст кардан. Дар mock-қабат ин дақиқ ҳисоб мешавад: queries пеш ва баъд — самимитарин рақамҳо. Тӯроқи дуюм — оптимизацияи пеш аз вақт: аввал ҳисобкунакҳо нишон медиҳанд, ки 80% вақт на он ҷо меравад, ки шумо фикр мекунед. Регрессияҳоро тест мегирад: «ин амалиёт на зиёдтар аз K дархост мекунад» — афтидани чунин тест аз таҳқиқи ҳодисаи прод арзонтар аст.",
-      "en": "Optimization without measurement is decorating random places. The minimal counter set: database queries per operation, p95 response time, payload size. The classic performance trap is N+1: a list of 50 tasks makes 50 queries for owner names instead of one with IN. The cure is batching: collect unique keys, make one query, join through a dictionary. On a mock layer this counts exactly: queries before and after are the most honest numbers. The second trap is premature optimization: counters first show that 80% of the time goes nowhere near your guess. Regressions are caught by a test: \"this operation makes no more than K queries\" — failing that test is cheaper than investigating a production incident."
+      "ru": "N+1 — один запрос за списком и ещё по одному за связанными данными для каждой записи. Для 50 задач это бывает 51 запрос: список и 50 владельцев. Соберите уникальные идентификаторы и загрузите их одним запросом, затем сопоставьте владельцев с задачами. Так измеряется выигрыш без догадок.\n\nДля времени ответа p95 означает, что примерно 95% измерений не превышают указанного порога. Счётчик учебного слоя доказывает изменение числа обращений, а не время ответа в рабочем окружении.",
+      "tg": "N+1 як дархост барои рӯйхат ва яктои дигар барои додаи вобастаи ҳар сабт аст. Барои 50 вазифа 51 дархост шуда метавонад: рӯйхат ва 50 соҳиб. Шиносаҳои нодирро ҷамъ кунед, соҳибонро бо як дархост гиред ва ба вазифаҳо пайваст кунед. Фарқро бо ҳисоб санҷед.\n\nБарои вақти ҷавоб p95 ҳаддест, ки тақрибан 95% ченкуниҳо аз он намегузаранд. Ҳисобкунаки мисол шумораи муроҷиатро месанҷад, на суръати сервери кориро.",
+      "en": "N+1 means one query for a list and one more query for related data per row. For 50 tasks that can be 51 queries: the list plus 50 owners. Collect unique IDs, load the owners in one query, and match them back to the tasks. Compare query counts to measure the change.\n\nFor response time, p95 is the threshold that roughly 95% of measurements do not exceed. A counter in the teaching layer proves the query count changed, not how fast a deployed service will respond."
      }
     },
     {
@@ -4917,9 +4973,9 @@
       "en": "State versus horizontal growth"
      },
      "body": {
-      "ru": "Горизонтальное масштабирование — добавить второй инстанс за балансировщиком. Это работает, только если инстансы взаимозаменяемы: любой запрос может прийти на любой узел. Сессия в памяти инстанса ломает это: пользователь залогинился на узле 1, следующий запрос уходит на узел 2 — 401. Два пути: sticky sessions (балансировщик привязывает пользователя к узлу — узлы теряются при падении) и общий store: Redis или база. В процессе остаются кэш соединений, горячие данные для чтения, метрики. Проверка на stateless проста: убейте один инстанс на живом трафике — пользователи не должны заметить.",
-      "tg": "Афзудани уфуқӣ — илова кардани инстанси дуюм зери балансёр аст. Ин танҳо он гоҳ кор мекунад, ки инстансҳо ивазшаванда бошанд: ҳар дархост метавонад ба ҳар гиреҳ ояд. Сессия дар хотираи инстанс инро меситонад: корбар дар гиреҳи 1 ворид шуд, дархости навбатӣ ба гиреҳи 2 меравад — 401. Ду роҳ: сессияҳои часпак (балансёр корбарро ба гиреҳ мебандад — ҳангоми афтидан сессияҳо гум мешаванд) ва шаред-стор: Redis ё база. Дар раванд мемонанд: кэши пайвастҳо, додаҳои гарми хондан, метрикаҳо. Санҷиши stateless сода аст: як инстансро дар трафики зинда кушед — корбарон набояд ҳис кунанд.",
-      "en": "Horizontal scaling is adding a second instance behind a balancer. It works only when instances are interchangeable: any request may land on any node. A session in an instance's memory breaks that: the user logged in on node 1, the next request goes to node 2 — 401. Two ways out: sticky sessions (the balancer pins the user to a node — nodes are lost on crash) and a shared store: Redis or a database. In-process remain connection caches, hot read data, metrics. The stateless check is simple: kill one instance under live traffic — users must not notice."
+      "ru": "Горизонтальное масштабирование добавляет экземпляры приложения за балансировщиком, который распределяет запросы. Взаимозаменяемый, или stateless, экземпляр не хранит незаменимые данные пользователя только в своей памяти. Если вход на первом экземпляре нужен на втором, сессия читается из общего хранилища.\n\nSticky sessions направляют клиента к тому же узлу, но сами по себе не переживают его отказ. В тестовой среде отправьте следующую операцию через другой экземпляр и проверьте сохранность сессии и данных.",
+      "tg": "Масштабкунии уфуқӣ чанд нусхаи барномаро паси тақсимкунандаи дархост мегузорад. Нусхаи ивазшаванда, ё stateless, додаи зарурии корбарро танҳо дар хотираи худ нигоҳ намедорад. Агар вуруд дар нусхаи якум ба дуюм ҳам лозим бошад, ҳар ду аз анбори умумӣ сессияро мехонанд.\n\nSticky sessions муштариро ба ҳамон гиреҳ мебаранд, вале ҳангоми аз кор мондани он сессияро худ аз худ ҳифз намекунанд. Дар муҳити тестӣ амали навбатиро аз нусхаи дигар гузаронед ва сессияву додаҳоро бисанҷед.",
+      "en": "Horizontal scaling adds application instances behind a load balancer that distributes requests. An interchangeable, stateless instance does not keep irreplaceable user state only in its own memory. If a login on the first instance must work on the second, both read sessions from shared storage.\n\nSticky sessions route a client to the same node but do not themselves preserve its state if the node fails. In a test environment, send the next operation to a different instance and check that the session and data still work."
      }
     },
     {

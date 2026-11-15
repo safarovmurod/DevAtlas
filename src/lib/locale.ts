@@ -1,34 +1,41 @@
 /** Locale negotiation is UI personalization, never an authorization signal. */
 export const LOCALE_COOKIE = 'react-mentor-locale';
-export const INTERFACE_LOCALES = ['ru', 'uk', 'en', 'tg', 'ja', 'ko'] as const;
+export const INTERFACE_LOCALES = ['en', 'ru', 'tg', 'es'] as const;
 export type InterfaceLocale = (typeof INTERFACE_LOCALES)[number];
 export type ContentLocale = 'ru' | 'en' | 'tg';
 export const INTERFACE_LANGUAGE_NAMES: Record<InterfaceLocale, string> = {
-  ru: 'Русский',
-  uk: 'Українська',
   en: 'English',
+  ru: 'Русский',
   tg: 'Тоҷикӣ',
-  ja: '日本語',
-  ko: '한국어',
+  es: 'Español',
 };
+
+/** Interface languages that older versions offered. Saved values are migrated, never rejected. */
+const REMOVED_LOCALES = ['uk', 'ja', 'ko'] as const;
 
 export function isInterfaceLocale(value: unknown): value is InterfaceLocale {
   return typeof value === 'string' && (INTERFACE_LOCALES as readonly string[]).includes(value);
 }
 
 export function contentLocaleFor(locale: InterfaceLocale): ContentLocale {
-  // The existing lessons are available in RU/EN/TG only. Never label Russian
-  // or English lesson text as a Ukrainian, Japanese, or Korean translation.
+  // The existing lessons are available in RU/EN/TG only. Spanish interface
+  // users read lesson text in English until a Spanish translation exists.
   return locale === 'ru' ? 'ru' : locale === 'tg' ? 'tg' : 'en';
 }
 
 const countryLocales: Record<string, InterfaceLocale> = {
   RU: 'ru',
-  UA: 'uk',
   US: 'en',
   TJ: 'tg',
-  JP: 'ja',
-  KR: 'ko',
+  ES: 'es',
+  MX: 'es',
+  AR: 'es',
+  CO: 'es',
+  CL: 'es',
+  PE: 'es',
+  VE: 'es',
+  EC: 'es',
+  UY: 'es',
 };
 
 /** q=0 entries must not be selected. Unsupported languages fall through. */
@@ -49,6 +56,21 @@ export function localeFromAcceptLanguage(value: string | null | undefined): Inte
     if (isInterfaceLocale(item.language)) return item.language;
   }
   return 'en';
+}
+
+/**
+ * Turns a saved language into a supported one. Supported values stay as they are.
+ * A removed language (Ukrainian, Japanese, Korean) becomes the first supported
+ * language from the browser list, otherwise English. Anything else is null.
+ */
+export function migrateSavedLocale(
+  value: unknown,
+  browserLanguages: readonly string[] = [],
+): InterfaceLocale | null {
+  if (isInterfaceLocale(value)) return value;
+  if (typeof value === 'string' && (REMOVED_LOCALES as readonly string[]).includes(value))
+    return localeFromAcceptLanguage(browserLanguages.join(','));
+  return null;
 }
 
 export function negotiateLocale(input: {

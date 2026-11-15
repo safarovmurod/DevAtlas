@@ -100,15 +100,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что такое MongoDB, документ и коллекция",
+      "tg": "MongoDB, ҳуҷҷат ва collection чист?",
+      "en": "MongoDB, documents, and collections"
+    },
      "body": {
-      "ru": "Нужны отдельный локальный MongoDB и mongosh. Используйте только учебную базу devatlas_learning. Коллекция хранит документы; _id однозначно определяет документ. updateOne с upsert создаёт документ, если его нет, а $set задаёт поля. Повторный запуск с тем же _id не добавляет дубликат.",
-      "tg": "MongoDB-и маҳаллӣ ва mongosh лозиманд. Танҳо пойгоҳи омӯзишии devatlas_learning-ро истифода баред. Маҷмуа ҳуҷҷатҳоро нигоҳ медорад; _id ҳуҷҷатро якмаъно муайян мекунад. updateOne бо upsert ҳуҷҷати набударо месозад, $set майдонҳоро таъйин мекунад. Иҷрои такрорӣ бо ҳамон _id нусхаи зиёдатӣ намесозад.",
-      "en": "A separate local MongoDB server and mongosh are required. Use only the devatlas_learning teaching database. Collections contain documents; _id uniquely identifies one. updateOne with upsert creates a missing document and $set assigns fields. Repeating the same _id does not add a duplicate."
-     },
+      "ru": "MongoDB — база данных, которая хранит записи как документы. Документ содержит поля и может включать массивы и вложенные объекты. Коллекция группирует документы, например товары.\n\nНужны отдельный локальный MongoDB и mongosh. Используйте только учебную базу devatlas_learning. Коллекция хранит документы; _id однозначно определяет документ. updateOne с upsert создаёт документ, если его нет, а $set задаёт поля. Повторный запуск с тем же _id не добавляет дубликат.",
+      "tg": "MongoDB базаест, ки сабтро ҳамчун ҳуҷҷат нигоҳ медорад. Ҳуҷҷат майдонҳо дорад ва дарунаш массив ё объекти дигар ҳам мешавад. Collection ҳуҷҷатҳои як гурӯҳро ҷамъ мекунад.\n\nMongoDB-и маҳаллӣ ва mongosh лозиманд. Танҳо пойгоҳи омӯзишии devatlas_learning-ро истифода баред. Маҷмуа ҳуҷҷатҳоро нигоҳ медорад; _id ҳуҷҷатро якмаъно муайян мекунад. updateOne бо upsert ҳуҷҷати набударо месозад, $set майдонҳоро таъйин мекунад. Иҷрои такрорӣ бо ҳамон _id нусхаи зиёдатӣ намесозад.",
+      "en": "MongoDB stores records as documents. A document can contain fields, arrays, and nested objects. A collection groups documents, such as products.\n\nA separate local MongoDB server and mongosh are required. Use only the devatlas_learning teaching database. Collections contain documents; _id uniquely identifies one. updateOne with upsert creates a missing document and $set assigns fields. Repeating the same _id does not add a duplicate."
+    },
      "code": "const learning = db.getSiblingDB(\"devatlas_learning\");\nlearning.lesson_day1.updateOne(\n  { _id: \"tea\" },\n  { $set: { name: \"Tea\", stock: 5 } },\n  { upsert: true }\n);\nconst product = learning.lesson_day1.findOne({ _id: \"tea\" });\nprint(product.stock);\n",
      "language": "javascript",
      "output": {
@@ -142,6 +142,23 @@
      }
     }
    ],
+   "interview": {
+     "id": "mongodb-day-01-written",
+     "question": {
+       "ru": "Как MongoDB называет группу документов о товарах?",
+       "tg": "Дар MongoDB гурӯҳи ҳуҷҷатҳои молҳо чӣ ном дорад?",
+       "en": "What does MongoDB call a group of product documents?"
+     },
+     "answer": {
+       "ru": "Коллекция",
+       "tg": "Коллексия",
+       "en": "Collection"
+     },
+     "acceptedAnswers": [
+       "collection of documents",
+       "маҷмӯаи ҳуҷҷатҳо"
+     ]
+   },
    "questions": [
     {
      "id": "mongodb-day-01-q",
@@ -260,15 +277,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что означает атомарное обновление",
+      "tg": "Навсозии атомарӣ чӣ маъно дорад?",
+      "en": "Atomic updates"
+    },
      "body": {
-      "ru": "Условие stock: {$gte: 2} и уменьшение $inc выполняются одним обновлением документа. Не читайте остаток и не списывайте его отдельными несогласованными запросами. matchedCount=0 означает, что условие не выполнено. Пример сначала сбрасывает только свой учебный документ к stock=5 для повторяемого результата.",
-      "tg": "Шарти stock: {$gte: 2} ва камкунӣ бо $inc дар як навсозии ҳуҷҷат иҷро мешаванд. Бақияро хонда, бо дархости алоҳидаи номувофиқ кам накунед. matchedCount=0 маънои иҷро нашудани шартро дорад. Барои натиҷаи такроршаванда мисол аввал танҳо ҳуҷҷати омӯзишии худро ба stock=5 мегузорад.",
-      "en": "The stock: {$gte: 2} condition and $inc decrement run in one document update. Do not read stock and subtract it with separate uncoordinated requests. matchedCount=0 means the condition was not met. The example first resets only its own teaching document to stock=5 for repeatable output."
-     },
+      "ru": "Одно обновление документа применяет свои изменения как единое целое. Для остатка поставьте условие «достаточно товара» прямо в запрос обновления. Отдельные чтение и запись оставляют между собой окно для другого запроса.\n\nУсловие stock: {$gte: 2} и уменьшение $inc выполняются одним обновлением документа. Не читайте остаток и не списывайте его отдельными несогласованными запросами. matchedCount=0 означает, что условие не выполнено. Пример сначала сбрасывает только свой учебный документ к stock=5 для повторяемого результата.",
+      "tg": "Як навсозии ҳуҷҷат ҳама тағйироти худашро якҷо сабт мекунад. Шарти миқдори кофиро дар худи query-и update мон. Байни хондану сабти ҷудо query-и дигар омада метавонад.\n\nШарти stock: {$gte: 2} ва камкунӣ бо $inc дар як навсозии ҳуҷҷат иҷро мешаванд. Бақияро хонда, бо дархости алоҳидаи номувофиқ кам накунед. matchedCount=0 маънои иҷро нашудани шартро дорад. Барои натиҷаи такроршаванда мисол аввал танҳо ҳуҷҷати омӯзишии худро ба stock=5 мегузорад.",
+      "en": "One document update applies its changes as a unit. Put the stock check in the update filter. Separate reads and writes leave time for another request to change the record.\n\nThe stock: {$gte: 2} condition and $inc decrement run in one document update. Do not read stock and subtract it with separate uncoordinated requests. matchedCount=0 means the condition was not met. The example first resets only its own teaching document to stock=5 for repeatable output."
+    },
      "code": "const learning = db.getSiblingDB(\"devatlas_learning\");\nlearning.lesson_day2.updateOne({ _id: \"tea\" }, { $set: { stock: 5 } }, { upsert: true });\nlearning.lesson_day2.updateOne({ _id: \"tea\", stock: { $gte: 2 } }, { $inc: { stock: -2 } });\nprint(learning.lesson_day2.findOne({ _id: \"tea\" }).stock);\nconst refused = learning.lesson_day2.updateOne({ _id: \"tea\", stock: { $gte: 9 } }, { $inc: { stock: -9 } });\nprint(refused.matchedCount);\n",
      "language": "javascript",
      "output": {
@@ -302,6 +319,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "mongodb-day-02-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какой оператор MongoDB меняет числовое поле на заданную величину?",
+       "tg": "Кадом оператори MongoDB майдони ададиро ба миқдори додашуда иваз мекунад?",
+       "en": "Which MongoDB operator changes a numeric field by a given amount?"
+     },
+     "answer": {
+       "ru": "$inc",
+       "tg": "$inc",
+       "en": "$inc"
+     }
+   },
    "questions": [
     {
      "id": "mongodb-day-02-q",
@@ -421,15 +452,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Зачем документы, а не таблицы",
-      "tg": "Барои чӣ ҳуҷҷатҳо, на ҷадвалҳо",
-      "en": "Why documents instead of tables"
-     },
+      "ru": "Как устроены вложенные документы",
+      "tg": "Ҳуҷҷати дарунӣ чӣ хел сохта мешавад?",
+      "en": "Nested documents"
+    },
      "body": {
-      "ru": "В реляционной базе данные о товаре пришлось бы разложить по нескольким плоским таблицам: товары, характеристики, поставщики — и собирать их обратно операцией соединения. MongoDB хранит запись целиком как документ: внутри одного объекта лежат и цена, и вложенный объект поставщика с его городом и рейтингом, и массив тегов. Такая форма похожа на JSON, с которым вы уже встречались в JavaScript, поэтому фронтенду она понятна без переводчика. Документы одной коллекции не обязаны быть одинаковыми: у хлеба может не быть тегов, и это не ошибка — поле просто отсутствует. Сегодня мы создаём учебную коллекцию магазина и учимся читать из документа и простые поля, и вложенные, и элементы массива. Всё выполняется в вашей локальной mongosh; сайт сам этот код не запускает.",
-      "tg": "Дар пойгоҳи додаҳои релятсионӣ маълумоти як молро бояд ба чанд ҷадвали алоҳидаи ҳамвор тақсим кард: молҳо, хусусиятҳо, таъминкунандагон — ва баъд онҳоро бо амали пайвастшавӣ ба ҳам баргардонд. MongoDB ёддоштро пурра ба шакли ҳуҷҷат нигоҳ медорад: дар дохили як объект ҳам нарх, ҳам объекти дарунсохти таъминкунанда бо шаҳр ва рейтинги ӯ, ҳам массиви тегҳо ҷой мегирад. Ин шакл ба JSON монанд аст, ки онро дар JavaScript дидаед, барои фронти фаҳмо аст. Ҳуҷҷатҳои як маҷмуа ҳатман якхела нестанд: дар нон тегҳо набошанд, ин хато нест — майдон оддӣ нест. Имрӯз маҷмуаи омӯзишии дукон месозем ва аз ҳуҷҷат майдонҳои оддӣ, дарунсохтҳо ва унсурҳои массивро мехонем. Ҳама чиз дар mongoshi маҳаллии худ иҷро мешавад; сайт ин кодро иҷро намекунад.",
-      "en": "In a relational database, one product's data would be split across several flat tables — products, attributes, suppliers — and stitched back together with a join. MongoDB stores the whole record as a document: inside one object live the price, a nested supplier object with its city and rating, and an array of tags. The shape mirrors JSON, which you have already met in JavaScript, so it reads naturally for a frontend developer. Documents in one collection do not have to be identical: bread may carry no tags, and that is not corruption — the field is simply absent. Today we create a teaching shop collection and learn to read plain fields, nested fields, and array elements from a document. Everything runs in your local mongosh; this site does not execute the code."
-     }
+      "ru": "При вложенности поле документа может содержать другой объект. Например, address хранит city и street внутри записи клиента. Это удобно, когда эти данные читаются вместе; для общих данных выбирают модель осознанно.\n\nВ реляционной базе данные о товаре пришлось бы разложить по нескольким плоским таблицам: товары, характеристики, поставщики — и собирать их обратно операцией соединения. MongoDB хранит запись целиком как документ: внутри одного объекта лежат и цена, и вложенный объект поставщика с его городом и рейтингом, и массив тегов. Такая форма похожа на JSON, с которым вы уже встречались в JavaScript, поэтому фронтенду она понятна без переводчика. Документы одной коллекции не обязаны быть одинаковыми: у хлеба может не быть тегов, и это не ошибка — поле просто отсутствует. Сегодня мы создаём учебную коллекцию магазина и учимся читать из документа и простые поля, и вложенные, и элементы массива. Всё выполняется в вашей локальной mongosh; сайт сам этот код не запускает.",
+      "tg": "Ҳангоми вложенность майдони ҳуҷҷат метавонад объекти дигар дошта бошад. Масалан address даруни сабти муштарӣ city ва street дорад. Ин вақте қулай аст, ки ҳамаро якҷо мехонанд.\n\nДар пойгоҳи додаҳои релятсионӣ маълумоти як молро бояд ба чанд ҷадвали алоҳидаи ҳамвор тақсим кард: молҳо, хусусиятҳо, таъминкунандагон — ва баъд онҳоро бо амали пайвастшавӣ ба ҳам баргардонд. MongoDB ёддоштро пурра ба шакли ҳуҷҷат нигоҳ медорад: дар дохили як объект ҳам нарх, ҳам объекти дарунсохти таъминкунанда бо шаҳр ва рейтинги ӯ, ҳам массиви тегҳо ҷой мегирад. Ин шакл ба JSON монанд аст, ки онро дар JavaScript дидаед, барои фронти фаҳмо аст. Ҳуҷҷатҳои як маҷмуа ҳатман якхела нестанд: дар нон тегҳо набошанд, ин хато нест — майдон оддӣ нест. Имрӯз маҷмуаи омӯзишии дукон месозем ва аз ҳуҷҷат майдонҳои оддӣ, дарунсохтҳо ва унсурҳои массивро мехонем. Ҳама чиз дар mongoshi маҳаллии худ иҷро мешавад; сайт ин кодро иҷро намекунад.",
+      "en": "A field can contain another object. For example, a customer's address can hold city and street. Embedding is useful for details usually read together; choose the model deliberately for shared records.\n\nIn a relational database, one product's data would be split across several flat tables — products, attributes, suppliers — and stitched back together with a join. MongoDB stores the whole record as a document: inside one object live the price, a nested supplier object with its city and rating, and an array of tags. The shape mirrors JSON, which you have already met in JavaScript, so it reads naturally for a frontend developer. Documents in one collection do not have to be identical: bread may carry no tags, and that is not corruption — the field is simply absent. Today we create a teaching shop collection and learn to read plain fields, nested fields, and array elements from a document. Everything runs in your local mongosh; this site does not execute the code."
+    }
     },
     {
      "title": {
@@ -463,6 +494,27 @@
      }
     }
    ],
+   "interview": {
+     "id": "mongodb-day-03-written",
+     "question": {
+       "ru": "Как называется размещение адреса объектом внутри записи клиента, а не отдельной записью?",
+       "tg": "Гузоштани address ҳамчун объект даруни сабти муштарӣ чӣ ном дорад?",
+       "en": "What is storing an address as an object inside the customer record called?"
+     },
+     "answer": {
+       "ru": "Вложение",
+       "tg": "Вложенность",
+       "en": "Embedding"
+     },
+     "acceptedAnswers": [
+       "вложенный документ",
+       "встраивание",
+       "embedding a document",
+       "ҳуҷҷати дарунӣ",
+       "nested document",
+       "embedded document"
+     ]
+   },
    "questions": [
     {
      "id": "mongodb-day-03-q1",
@@ -743,14 +795,14 @@
    "sections": [
     {
      "title": {
-      "ru": "Как задать вопрос коллекции",
-      "tg": "Чӣ тавр ба маҷмуа савол додан мумкин аст",
-      "en": "How to ask a collection a question"
+      "ru": "Фильтр, проекция и курсор",
+      "tg": "Филтр, проексия ва курсор",
+      "en": "Filter, projection and cursor"
      },
      "body": {
-      "ru": "Данные хранят, чтобы отвечать на вопросы: «что за товар p6?», «покажи всю еду с ценами». За ответы отвечает find. Первый аргумент — фильтр: объект с условиями; {category:\"food\"} означает точное равенство значения поля. Пустой фильтр {} возвращает все документы. Второй, необязательный аргумент — проекция: какие поля показывать. По умолчанию find отдаёт документы целиком вместе с _id; когда полей много, это шумно, поэтому проекцию {name:1, price:1, _id:0} используют как «список колонок»: единица включает поле, ноль выключает, а _id приходится выключать отдельно, потому что он включён всегда. Для одного документа есть findOne — он возвращает не курсор со множеством результатов, а сам объект, и удобен, когда нужно быстро заглянуть в одну запись по её ключу _id. Сегодня читаем каталог первый раз по-настоящему.",
-      "tg": "Маълумотро барои ҷавоб додан ба саволҳо нигоҳ медоранд: «моли p6 чист?», «тамоми ғизоро бо нархҳо нишон деҳ». Барои ҷавоб find масъул аст. Далели якум — филтр: объект бо шароҳҳо; {category:\"food\"} маънои баробарии дақиқи қимати майдонро дорад. Филтри холӣ {} ҳамаи ҳуҷҷатҳоро бармегардонад. Далели дуюм, ихтиёрӣ — проексия: кадом майдонҳоро нишон додан. Бо нобаёнӣ find ҳуҷҷатҳоро пурра бо _id мебарорад; вақте майдонҳо зиёданд, ин хеле чашмгир аст, бинобар ин проексияи {name:1, price:1, _id:0}-ро ба мисли «рӯйхати сутунҳо» истифода мебаранд: як майдонро фаъол, сифр хомӯш мекунад ва _id-ро алоҳида бояд хомӯш кард, зеро он ҳамеша фаъол аст. Барои як ҳуҷҷат findOne ҳаст — он на курсор бо якчанд натиҷа, балки худи объекктро бармегардонад ва барои тез назар кардан ба як сабт аз рӯи калиди _id муфид аст. Имрӯз каталогро бори аввал воқеан мехонем.",
-      "en": "Data is stored so it can answer questions: \"what is product p6?\", \"show all food with prices\". find is in charge of answers. The first argument is a filter: an object of conditions; {category:\"food\"} means an exact match on the field's value. An empty filter {} returns every document. The second, optional argument is a projection: which fields to show. By default find returns whole documents together with _id; when there are many fields that is noisy, so a projection like {name:1, price:1, _id:0} works as a \"column list\": a one includes a field, a zero excludes it, and _id has to be excluded separately because it is always included. For a single document there is findOne — it returns not a cursor of many results but the object itself, and it is handy for a quick look at one record by its _id key. Today we read the catalog properly for the first time."
+      "ru": "Фильтр определяет, какие документы нужны: {category:\"food\"} выбирает продукты из категории food. Проекция определяет, какие поля вернутся: {name:1, price:1, _id:0} оставляет имя и цену. Без проекции find возвращает документы со всеми полями.\n\nРезультат find — курсор, через который можно читать подходящие записи по очереди. Когда нужна одна запись по уникальному ключу, используйте findOne: он возвращает документ или null, если совпадений нет.",
+      "tg": "Филтр муайян мекунад, ки кадом ҳуҷҷат лозим аст: {category:\"food\"} молҳои бахши food-ро мегирад. Проексия майдонҳои натиҷаро муайян мекунад: {name:1, price:1, _id:0} танҳо ному нархро мемонад. Бе проексия find ҳамаи майдонҳоро медиҳад.\n\nНатиҷаи find курсор аст, ки сабтҳоро бо навбат хондан медиҳад. Барои як сабт аз рӯйи калиди нодир findOne истифода мешавад. Агар мувофиқат набошад, null мегиред.",
+      "en": "A filter chooses which documents match: {category:\"food\"} selects the food category. A projection chooses which fields come back: {name:1, price:1, _id:0} includes the name and price. Without a projection, find returns all fields.\n\nThe result of find is a cursor, which lets you read matching documents in order. To get a single record by a unique key, use findOne. It returns a document or null when nothing matches."
      }
     },
     {
@@ -2036,9 +2088,9 @@
       "en": "One command for a whole category"
      },
      "body": {
-      "ru": "Когда распродажа касается целой категории, обновлять товары по одному — долго и рискованно: между командами данные успевают измениться. updateMany применяет оператор сразу ко всем документам, подходящим под фильтр, за одну команду. Арифметика — частый случай: $inc прибавляет к текущему значению (отрицательное число — вычитает, как вы уже делали во второй день курса), $mul умножает текущее значение на заданное. Оба оператора создают поле, если его не было. С плавающей точкой будьте внимательны: $mul на 1.1 может оставить хвост вроде 275.00000000000006 — для учебных и отчётных примеров выбирайте «ровные» множители вроде 1.5 или работайте с целыми числами. Возвращаемое значение updateMany содержит matchedCount и modifiedCount — по ним видно, сколько документов нашлось и сколько реально изменилось; сверка этих чисел с ожиданием — хорошая привычка. Сегодня поднимаем цены еде на десять и умножаем цены дома на полтора.",
-      "tg": "Вақте тахфисот тамоми категорияро дар бар мегирад, молҳоро як-як навсозӣ кардан дароз ва хатарнок аст: байни фармонҳо маълумот тағйир ёфтан мумкин. updateMany операторро фавран ба ҳамаи ҳуҷҷатҳое, ки ба филтр мувофиқанд, бо як фармон месозад. Арифметика ҳолати маъмул аст: $inc ба қимати ҷорӣ меафзояд (адади манфӣ кам мекунад, чунон ки дар рӯзи дуюми курс кардед), $mul қимати ҷориро ба адади додашуда зарб мекунад. Ҳарду оператор майдони набударо месозанд. Бо нуқтаи шинокунанда эҳтиёт бошед: $mul ба 1.1 метавонад думче мисли 275.00000000000006 боқӣ гузорад — барои мисолҳои омӯзишӣ ва ҳисоботӣ «ҳамвор»-кунандаҳо монанди 1.5-ро интихоб кунед ё бо ададҳои цели кор кунед. Қимати баргардондаи updateMany matchedCount ва modifiedCount дорад — аз онҳо дида мешавад, чанд ҳуҷҷат ёфт шуд ва чанд воқеан тағйир ёфт; муқоисаи ин ададҳо бо интизор одати хуб аст. Имрӯз нархҳои ғизоро ба даҳ баланд мебарем ва нархҳои хонагиро ба яку ним зарб мекунем.",
-      "en": "When a sale touches a whole category, updating products one by one is slow and risky: data changes between commands. updateMany applies the operator to every document matching the filter in a single command. Arithmetic is the common case: $inc adds to the current value (a negative number subtracts, as you did on day 2), $mul multiplies the current value by the given number. Both create the field when it is missing. Be careful with floating point: $mul by 1.1 can leave a tail like 275.00000000000006 — for teaching and reporting examples pick \"round\" factors like 1.5 or stick to integers. The value returned by updateMany carries matchedCount and modifiedCount, showing how many documents matched and how many actually changed; comparing those numbers with your expectation is a good habit. Today we add ten to food prices and multiply home prices by one and a half."
+      "ru": "updateMany применяет изменение к документам, подходящим под фильтр. При переоценке категории $inc прибавляет к текущей цене, а $mul умножает её. Если числового поля нет, $inc создаёт его с указанной прибавкой, а $mul — с нулём. Для цены обычно лучше явно отобрать документы с числовым значением.\n\nИзменение атомарно для одного документа. Вся группа не превращается в одну транзакцию. matchedCount показывает, сколько записей подошло, modifiedCount — сколько изменилось. Сверяйте оба числа с ожиданиями.",
+      "tg": "updateMany тағйирро ба ҳуҷҷатҳои мувофиқи филтр татбиқ мекунад. Ҳангоми тағйири нарх $inc ба қимати пешина адад зам мекунад, $mul бошад онро зарб мекунад. Агар майдон набошад, $inc онро бо адади додашуда месозад ва $mul бо сифр. Барои тағйири нарх сабтҳои дорои нархи ададиро дақиқ интихоб кунед.\n\nАтомарӣ ба як ҳуҷҷат дахл дорад. Тамоми гурӯҳ як транзаксия намешавад. matchedCount шумораи сабтҳои ёфташударо медиҳад, modifiedCount шумораи сабтҳои тағйирёфтаро.",
+      "en": "updateMany applies a change to documents that match a filter. For a category price change, $inc adds to the stored price and $mul multiplies it. If a field is missing, $inc creates it with the increment and $mul creates it with zero. For prices, explicitly select documents that have a numeric price.\n\nAtomicity applies per document. The batch as a whole is not a transaction. matchedCount counts matches and modifiedCount counts changes. Check both against your expectations."
      }
     },
     {
@@ -2197,9 +2249,9 @@
       "en": "If it exists, update; if not, create"
      },
      "body": {
-      "ru": "Сценарий «если запись есть — обнови, нет — создай» встречается постоянно: счётчик посещений страницы, товар в корзине, настройка по ключу. Раньше его решали двумя запросами — найти, потом вставить или обновить, — и между ними всегда есть гонка: два одновременных клиента оба не находят запись и оба вставляют. В MongoDB это один вызов — updateOne с опцией {upsert:true} (слова update и insert склеены). Если фильтр нашёл документ, происходит обычное обновление через операторы; если нет — создаётся новый документ, собранный из полей фильтра и $set. Повторный запуск того же upsert уже находит созданный документ и обновляет его — дублей не появляется, что легко проверить по upsertedCount: при вставке он равен 1, при обновлении 0. Это тот же приём, которым первый день курса создавал чай, — теперь вы понимаете его полностью. Сегодня заводим ложку p9 через upsert и прогоняем команду дважды.",
-      "tg": "Сенарияи «агар сабт ҳаст — нав кун, нест — соз» доимо вомехӯрад: ҳисобкунаки ташрифи саҳифа, мол дар сабад, танзимот аз рӯи калид. Пештар онро бо ду дархост ҳал мекарданд — ёб, баъд гузор ё нав кун, — ва байни онҳо ҳамеша пойгон ҳаст: ду муштарии ҳамвақт ҳарду сабтро наёфта ҳарду мегузоранд. Дар MongoDB ин як даъват аст — updateOne бо опциияи {upsert:true} (калимаҳои update ва insert ба ҳам часпидаанд). Агар филтр ҳуҷҷатро ёбад, навсозии оддӣ тавассути операторҳо мешавад; агар наёбад — ҳуҷҷати нав аз майдонҳои филтр ва $set сохта мешавад. Такрори ҳамон upsert аллакай ҳуҷҷати сохташодаро меёбад ва онро нав мекунад — нусхаҳои такрорӣ пайдо намешаванд, ки инро бо upsertedCount осон санҷидан мумкин аст: ҳангоми гузоштан он 1, ҳангоми навсозӣ 0 аст. Ин ҳамон усулест, ки рӯзи якуми курс бо он чой месохт — акнун шумо онро пурра мефаҳмед. Имрӯз қошуқи p9-ро тавассути upsert месозем ва фармонро ду бор иҷро мекунем.",
-      "en": "The pattern \"if the record exists, update it; otherwise create it\" appears everywhere: a page view counter, a product in a cart, a setting stored by key. It used to take two requests — find, then insert or update — with a race in between: two concurrent clients both find nothing and both insert. In MongoDB it is one call — updateOne with the option {upsert:true} (the words update and insert fused). If the filter finds a document, the usual operator-based update happens; if not, a new document is assembled from the filter fields and $set. Rerunning the same upsert now finds the created document and updates it — no duplicates appear, easily checked with upsertedCount: 1 on insert, 0 on update. It is the same technique day 1 of the course used to create the tea — now you understand it fully. Today we create the spoon p9 through an upsert and run the command twice."
+      "ru": "Upsert объединяет update и insert. При вызове updateOne с {upsert:true} база меняет найденный документ. Если совпадений нет, она создаёт запись. В примере точное условие по _id ищет одну ложку, а $set задаёт её поля. upsertedCount отличает вставку от обновления.\n\nОдна команда не гарантирует уникальность произвольного фильтра. Если два клиента создают одну запись одновременно, определите её по уникальному ключу, например _id, или по полям с уникальным индексом.",
+      "tg": "Upsert амалҳои update ва insert-ро якҷо мекунад. updateOne бо {upsert:true} ҳуҷҷати ёфташударо иваз мекунад. Агар ҳуҷҷат набошад, сабти нав месозад. Дар мисол шарти дақиқи _id қошуқи лозимро меёбад ва $set майдонҳояшро медиҳад. upsertedCount илова шуданро аз навсозӣ ҷудо мекунад.\n\nЯк фармон нодир будани филтри дилхоҳро кафолат намедиҳад. Агар ду муштарӣ ҳамзамон як сабтро созанд, калиди нодир, масалан _id, ё майдонҳои дорои индекси нодир лозим мешаванд.",
+      "en": "An upsert combines update and insert. With {upsert:true}, updateOne changes a matching document or creates one when nothing matches. In the example, an exact _id filter identifies the spoon and $set supplies its fields. upsertedCount tells an insertion from an update.\n\nOne command does not make an arbitrary filter unique. When two clients might create the same logical record, identify it with a unique key such as _id or fields covered by a unique index."
      }
     },
     {
@@ -2519,9 +2571,9 @@
       "en": "People read lists top to bottom"
      },
      "body": {
-      "ru": "Порядок — часть ответа: «покажи три самых дорогих товара» означает и отбор, и расстановку. sort({price:-1}) упорядочивает по убыванию цены; 1 — по возрастанию. Несколько ключей сортируются по очереди: {price:1,_id:1} — сначала цена, а при равных ценах — ключ документа; вторые ключи делают порядок полностью определённым, когда основные значения совпадают. limit(N) обрезает результат до N документов — вместе с sort получается классический топ-N: пьедестал почета. Цепочка читается слева направо и выражает именно этот порядок операций: сначала нашли и отсортировали, потом ограничили. У sort без индекса есть цена: серверу нужно собрать и упорядочить все подходящие документы — на восьми товарах это незаметно, на миллионах пригодятся индексы из дня 19. Сегодня строим пьедестал каталога: три самых дорогих и два самых дешёвых.",
-      "tg": "Тартиб қисми ҷавоб аст: «се моли гаронтаринро нишон деҳ» ҳам интихоб, ҳам гузоришро дар бар мегирад. sort({price:-1}) аз рӯи камшавии нарх мураттаб мекунад; 1 — аз рӯи афзоиш. Якчанд калид дар навбат сорт мешаванд: {price:1,_id:1} — аввал нарх, ва ҳангоми нархҳои баробар — калиди ҳуҷҷат; калидҳои дуюм тартибро тамоман муайян мекунанд, вақте ки қиматҳои асосӣ баробаранд. limit(N) натиҷаро то N ҳуҷҷат мебурад — бо sort якҷоя топ-N-и классикӣ мешавад: растаи ифтихорӣ. Занҷир аз чап ба рост хонда мешавад ва ҳамин тартиби амалиётҳоро ифода мекунад: аввал ёфтем ва мураттаб кардем, баъд маҳдуд намудем. Бо sort бе индекс нарҳеро партоедан ҳаст: сервер бояд ҳамаи ҳуҷҷатҳои мувофиқро ҷамъ ва мураттаб кунад — дар ҳашт мол ин намоён нест, дар миллионҳо индексҳои рӯзи 19 кор меоянд. Имрӯз растаи каталогро месозем: се моли гаронтарин ва ду арзонтарин.",
-      "en": "Order is part of the answer: \"show the three most expensive products\" means both selection and arrangement. sort({price:-1}) orders by descending price; 1 means ascending. Several keys sort in turn: {price:1,_id:1} — price first, and for equal prices the document key; secondary keys make the order fully determined when primary values tie. limit(N) trims the result to N documents — combined with sort it yields the classic top-N podium. The chain reads left to right and expresses exactly that order of operations: find and sort first, then restrict. Sorting without an index has a cost: the server must gather and order every matching document — invisible with eight products, decisive with millions, where day 19's indexes come in. Today we build the catalog podium: the three most expensive and the two cheapest."
+      "ru": "Чтобы показать три самых дорогих товара, нужны и порядок, и предел. sort({price:-1,_id:1}) ставит самые высокие цены первыми, а при равных ценах сравнивает _id. limit(3) оставляет три первых результата. Для курсора find MongoDB применяет сортировку до ограничения независимо от порядка этих вызовов. У стадий конвейера порядок имеет значение, это появится в дне 23.\n\nБез подходящего индекса серверу может потребоваться отдельно отсортировать совпадения. Индекс и его цена разберём в дне 19.",
+      "tg": "Барои нишон додани се моли аз ҳама гарон тартиб ва ҳад лозим аст. sort({price:-1,_id:1}) нархҳои баландро аввал мегузорад. Агар баробар бошанд, _id муқоиса мешавад. limit(3) се натиҷаи аввалро мегирад. Барои курсори find MongoDB аввал ҷобаҷо мекунад, ҳатто агар limit пеш навишта шавад. Дар конвейер тартиби марҳилаҳо муҳим аст, инро рӯзи 23 мебинед.\n\nБе индекси мувофиқ сервер метавонад натиҷаҳои мувофиқро ҷудогона ҷобаҷо кунад. Индексро рӯзи 19 меомӯзед.",
+      "en": "To show the three most expensive products, specify an order and a cap. sort({price:-1,_id:1}) puts higher prices first and uses _id to break ties. limit(3) keeps the first three results. For a find cursor, MongoDB sorts before limiting regardless of the chaining order. Pipeline stage order does matter, as day 23 shows.\n\nWithout a suitable index the server may have to sort matching records separately. Day 19 explains the cost and use of an index."
      }
     },
     {
@@ -2680,9 +2732,9 @@
       "en": "When the list does not fit the screen"
      },
      "body": {
-      "ru": "Когда товаров восемь, список помещается на экран; когда восемь тысяч — нужна пагинация: выдача результатов страницами по несколько позиций. Простейший инструмент — пара skip(N)+limit(K): skip пропускает первые N документов результата, limit отдаёт следующие K. Номер страницы считается по формуле skip = (номер − 1) × размер: первая страница ничего не пропускает, вторая пропускает размер, третья — удвоенный размер. Вместе с sort это даёт стабильные страницы: без сортировки порядок документов не гарантирован, и одна и та же позиция может появиться на двух страницах подряд. Запрос за пределами данных — например, skip(8) для восьми товаров — не ошибка, а пустой результат; интерфейс по нему понимает «страниц больше нет». Сегодня листаем каталог по три товара: полная первая страница, полная вторая, короткая третья — и убеждаемся, что вместе они дают весь список.",
-      "tg": "Вақте молҳо ҳаштанд, рӯйхат ба экран мегунҷад; вақте ҳазоронанд — пагинатсия лозим мешавад: додани натиҷаҳо бо саҳифаҳои аз якчанд мавқеъ. Асбоби соддатарин — ҷуфти skip(N)+limit(K): skip N-и аввалини ҳуҷҷатҳои натиҷаро мегузаронад, limit K-и ояндаро медиҳад. Рақами саҳифа аз рӯи формулаи skip = (рақам − 1) × андоза ҳисоб мешавад: саҳифаи якум ҳеҷ чизро намегузаронад, дуюм андозаро мегузаронад, сеюм — андозаи дучанда. Бо sort ин саҳифаҳои устувор медиҳад: бе мураттабсозӣ тартиби ҳуҷҷатҳо кафолат надорад ва як мавқеъ метавонад дар ду саҳифаи паи ҳам пайдо шавад. Дархост берун аз маълумот — мисолан, skip(8) барои ҳашт мол — хато нест, натиҷаи холӣ аст; интерфейс аз он «саҳифаҳо тамом шуданд»-ро мефаҳмад. Имрӯз каталогро се-се варақ мегардонем: саҳифаи якуми пурра, дуюми пурра, сеюми кӯтоҳ — ва мутмаин мешавем, ки якҷоя тамоми рӯйхатро медиҳанд.",
-      "en": "With eight products the list fits the screen; with eight thousand you need pagination: serving results a few positions at a time. The simplest tool is the pair skip(N)+limit(K): skip passes over the first N result documents, limit returns the next K. The page number follows the formula skip = (page − 1) × size: page one skips nothing, page two skips one size, page three skips double. Combined with sort this yields stable pages: without sorting, document order is not guaranteed and one item can appear on two consecutive pages. A query beyond the data — skip(8) for eight products — is not an error but an empty result; the UI reads it as \"no more pages\". Today we page through the catalog three at a time: a full first page, a full second, a short third — and confirm that together they cover the whole list."
+      "ru": "Пагинация делит длинный список на страницы. skip пропускает первые документы, а limit ограничивает размер страницы. Для страницы n с размером size используйте skip = (n − 1) × size. Например, при размере 3 вторая страница пропустит три товара. Задайте сортировку с уникальным вторым ключом, например {price:1,_id:1}, чтобы порядок при равных ценах был однозначным. Если данные меняются между запросами, следующий offset может сдвинуться. За концом списка запрос вернёт пустой результат.",
+      "tg": "Пагинация рӯйхати дарозро ба саҳифаҳо ҷудо мекунад. skip ҳуҷҷатҳои аввалро мегузаронад ва limit андозаи саҳифаро маҳдуд мекунад. Барои саҳифаи n бо андозаи size аз skip = (n − 1) × size истифода баред. Масалан, бо андозаи 3 саҳифаи дуюм се моли аввалро мегузаронад. Барои нархҳои баробар калиди дуюми ягона монед, масалан {price:1,_id:1}, то тартиб аниқ бошад. Агар додаҳо байни дархостҳо иваз шаванд, offset-и навбатӣ метавонад ҷобаҷо шавад. Баъди охири рӯйхат дархост натиҷаи холӣ медиҳад.",
+      "en": "Pagination splits a long list into pages. skip passes over the first documents and limit caps the page size. For page n of size size, use skip = (n − 1) × size. For example, with a page size of 3, the second page skips three products. Sort with a unique second key, such as {price:1,_id:1}, to give equal prices a consistent order. Changes between requests can shift the next offset. A request past the end returns an empty result."
      }
     },
     {
@@ -2998,9 +3050,9 @@
    "sections": [
     {
      "title": {
-      "ru": "Почему поиск может быть медленным",
-      "tg": "Чаро ҷустуҷӯ метавонад суст бошад",
-      "en": "Why search can be slow"
+      "ru": "Поиск по индексу и цена записи",
+      "tg": "Ҷустуҷӯ бо индекс ва қимати сабт",
+      "en": "Index lookup and the cost of writes"
      },
      "body": {
       "ru": "Пока коллекция маленькая, любой find молниеносен. Но без подсказок MongoDB ищет перебором: просматривает каждый документ коллекции — это называется сканированием коллекции. На восьми товарах неощутимо; на миллионе товаров запрос цены в диапазоне превращается в миллион проверок, и интерфейс замирает. Индекс — упорядоченный справочник значений одного поля, как предметный указатель в конце учебника: вместо чтения всех страниц вы открываете нужную. createIndex({price:1}) строит такой справочник по цене; 1 — порядок возрастания, -1 — убывания. Уникальный индекс по _id создаётся автоматически — поэтому getIndexes всегда показывает _id_. За скорость платят дважды: каждый индекс занимает место на диске и обновляется при каждой вставке и обновлении, поэтому индексы создают под реальные запросы, а не «на всякий случай». Важно: createIndex идемпотентен — повторный вызов с тем же ключом не создаёт дубликат и не ошибается. Сегодня создаём индекс по цене и смотрим список индексов коллекции.",
@@ -3647,9 +3699,9 @@
       "en": "Totals need to be ordered"
      },
      "body": {
-      "ru": "Отчёты редко читают как есть — их читают сверху вниз: кто потратил больше, какой заказ самый крупный. В конвейере для этого те же знакомые имена — $sort и $limit, — но теперь это стадии, через которые проходят документы. $sort:{total:-1} упорядочивает поток по убыванию итога; $limit:3 пропускает дальше только первые три документа. Ключевая идея: стадии действуют по порядку записи, поэтому $sort до $limit даёт честный топ-3, а после — случайные три документа. Особенно полезна связка после $group: сгруппировали по покупателям, сложили суммы, отсортировали по убыванию, ограничили — и получили таблицу лидеров. Есть и практическое ограничение: сортировка держит поток в памяти, и на больших промежуточных данных конвейер может отказаться работать без allowDiskUse; на учебных пяти заказах этого не случится, но помнить об этом стоит. Сегодня строим топ-3 заказов и топ-2 покупателей по сумме.",
-      "tg": "Ҳисоботҳоро кам ба ҳолати хом мехонанд — онҳоро аз боло ба поён мехонанд: ки бештар харҷ кард, кадом фармоиш калонтарин аст. Дар конвейер барои ин ҳамон номҳои маълум — $sort ва $limit, — вале акнун ин марҳилаҳоеанд, ки ҳуҷҷатҳо аз онҳо мегузаранд. $sort:{total:-1} ҷориро аз рӯи камшавии сумма мураттаб мекунад; $limit:3 танҳо се ҳуҷҷати аввалро ба пеш мегузаронад. Идеяи асосӣ: марҳилаҳо дар тартиби навиштан кор мекунанд, аз ҳамин сабаб $sort пеш аз $limit топ-3-и рост медиҳад, ва баъд он — се ҳуҷҷати тасодуфӣ. Пайванди марҳилаҳо баъди $group махсусан муфид аст: аз рӯи харидорон гурӯҳ кардем, суммаҳоро ҷамъ кардем, аз рӯи камшавӣ сорт кардем, маҳдуд намудем — ва ҷадвали пешқадамон гирифтем. Маҳдудияти амалӣ низ ҳаст: сорт ҷориро дар хотира нигоҳ медорад ва дар маълумоти миёнаи калон конвейер бе allowDiskUse кор кардан намехоҳад; дар панҷ фармоиши омӯзишӣ ин рӯй намедиҳад, вале дар ёд доштан муфид аст. Имрӯз топ-3 фармоишҳо ва топ-2 харидоронро аз рӯи сумма месозем.",
-      "en": "Reports are rarely read as-is — they are read top to bottom: who spent the most, which order is the largest. The pipeline reuses the same familiar names — $sort and $limit — but now they are stages documents pass through. $sort:{total:-1} orders the stream by descending total; $limit:3 lets only the first three documents onward. The key idea: stages act in written order, so $sort before $limit yields a true top-3, while the reverse yields three arbitrary documents. The combo shines after $group: group by customer, sum the totals, sort descending, limit — and you have a leaderboard. There is a practical limit too: sorting holds the stream in memory, and on large intermediate data the pipeline may refuse to run without allowDiskUse; that will not happen with five teaching orders, but it is worth remembering. Today we build the top-3 orders and the top-2 buyers by amount."
+      "ru": "Стадии конвейера выполняются в записанном порядке. $sort:{total:-1,_id:1} ставит крупные суммы первыми и разрешает равенство по _id. $limit:3 пропускает дальше первые три строки. Если применить $limit первым, сортировка увидит только уже выбранные строки и не даст топ по всей коллекции.\n\nПосле $group применяют ту же пару стадий к итогам по покупателям. Для большой сортировки нужен подходящий индекс или достаточный ресурс на выполнение операции.",
+      "tg": "Марҳилаҳои конвейер бо тартиби навишта иҷро мешаванд. $sort:{total:-1,_id:1} маблағҳои калонро аввал мегузорад ва ҳангоми баробарӣ _id-ро месанҷад. $limit:3 се сатри аввалро мегузаронад. Агар $limit аввал бошад, sort фақат сатрҳои интихобшударо мебинад ва топи тамоми маҷмӯа намебарояд.\n\nБаъди $group ҳамин ду марҳила барои ҷамъбасти муштариён кор мекунанд. Барои ҷобаҷокунии калон индекси мувофиқ ё захираи кофӣ даркор мешавад.",
+      "en": "Pipeline stages run in the written order. $sort:{total:-1,_id:1} puts larger totals first and breaks ties with _id. $limit:3 passes through the first three rows. If $limit comes first, the sort sees only the preselected rows and cannot produce a top list for the full collection.\n\nUse the same pair after $group to rank customer totals. Large sorts need a suitable index or enough resources for the operation."
      }
     },
     {
@@ -3808,9 +3860,9 @@
       "en": "The answer is not only numbers but shape"
      },
      "body": {
-      "ru": "Иногда нужно не посчитать новое, а переупаковать имеющееся: убрать шумные поля, добавить вычисленную колонку. Стадия $project управляет формой выходных документов: customer:1 включает поле, _id:0 выключает вездесущий ключ, а вместо значения поля можно поставить выражение — например, items:{$size:\"$items\"} посчитает элементы массива и назовёт результат именем items. В отличие от проекции в find, $project умеет вычислять: размеры массивов, склейки строк, условия — полноценные выражения над полями документа. Это происходит в конвейере, поэтому результат $project можно сразу передать дальше — например, в $sort, как сделаем сегодня. Правило то же, что и всегда: включайте только то, что нужно следующей стадии и читателю; лишние поля в отчёте — это лишняя пересылка и лишний шум. Сегодня превращаем заказы в строки «покупатель, итог, число позиций» и сортируем по сумме.",
-      "tg": "Баъзан на ҳисоб кардани нав, балки аз нав баста кардани мавҷуд лозим аст: майдонҳои серошёро дур кардан, сутуни ҳисобшуда илова кардан. Марҳилаи $project шакли ҳуҷҷатҳои хуруҷиро идора мекунад: customer:1 майдонро фаъол мекунад, _id:0 калиди ҳамаҷоида хомӯш мекунад ва ба ҷои қимати майдон ифода гузоштан мумкин аст — мисол, items:{$size:\"$items\"} унсурҳои массивро мешуморад ва натиҷаро бо номи items меномад. Аз проексияи find фарқ мекунад: $project ҳисоб карда метавонад: андозаҳои массивҳо, часпиҳои сатрҳо, шароҳҳо — ифодаҳои пурраи болои майдонҳои ҳуҷҷат. Ин дар конвейер мешавад, бинобар ин натиҷаи $project-ро фавран ба пеш додан мумкин аст — мисол, ба $sort, чунон ки имрӯз мекунем. Қоида ҳамеша ҳамон аст: танҳо он чиро фаъол кунед, ки ба марҳилаи оянда ва хонанда лозим аст; майдонҳои зиёдатӣ дар ҳисобот — интиқол ва овозҳои зиёдатист. Имрӯз фармоишҳоро ба сатрҳои «харидор, сумма, шумораи мавқеъҳо» табдил медиҳем ва аз рӯи сумма мураттаб мекунем.",
-      "en": "Sometimes you do not need to compute something new but to repackage what exists: drop noisy fields, add a calculated column. The $project stage controls the shape of output documents: customer:1 includes a field, _id:0 silences the ubiquitous key, and in place of a field's value you can put an expression — for example, items:{$size:\"$items\"} counts the array elements and names the result items. Unlike a find projection, $project can compute: array sizes, string concatenations, conditions — full expressions over the document's fields. It all happens inside the pipeline, so a $project result can be passed straight on — into $sort, as we do today. The rule stays the same: include only what the next stage and the reader need; extra fields in a report mean extra transfer and extra noise. Today we turn orders into \"customer, total, line count\" rows and sort by the total."
+      "ru": "$project — стадия, которая задаёт поля документа для следующих этапов. customer:1 оставляет имя покупателя, _id:0 скрывает ключ. Выражение items:{$size:\"$items\"} возвращает число позиций, а не сам массив. После стадии сортировка может использовать это новое число.\n\nПроекция find тоже поддерживает выражения. $project нужен здесь, потому что мы меняем форму данных посреди конвейера, после сортировки или перед следующим вычислением. Исходный документ от этого не изменяется.",
+      "tg": "$project марҳилаест, ки майдонҳои ҳуҷҷатро барои қадамҳои баъдӣ интихоб мекунад. customer:1 номи муштариро мемонад, _id:0 бошад калидро намедиҳад. items:{$size:\"$items\"} ба ҷойи массив шумораи мавқеъҳоро медиҳад. Марҳилаи баъдӣ метавонад бо ҳамин адад ҷобаҷо кунад.\n\nПроексияи find низ ифодаро қабул мекунад. Дар ин ҷо $project барои он лозим аст, ки шакли додаҳоро дар миёнаи конвейер дигар мекунем. Ҳуҷҷати нигоҳдошта тағйир намеёбад.",
+      "en": "$project shapes the document that moves to the next stage. customer:1 preserves the customer field, while _id:0 hides the identifier. items:{$size:\"$items\"} returns the number of order lines instead of the array. A following sort can use that new number.\n\nA find projection can also use expressions. Here $project changes the shape partway through a pipeline, before further processing. It does not change the stored document."
      }
     },
     {
@@ -4292,9 +4344,9 @@
       "en": "What the workspace consists of"
      },
      "body": {
-      "ru": "Чтобы выполнять уроки курса, нужны две вещи: работающий сервер MongoDB и оболочка mongosh — отдельная программа командной строки, через которую вы всё это время отправляли скрипты. Сервер можно получить двумя путями. Первый — установить MongoDB Community Server локально: установщик под вашу систему скачивают с официального сайта mongodb.com, после установки сервер обычно доступен на адресе 127.0.0.1 и порту 27017. Второй — облачный сервис MongoDB Atlas: бесплатный кластер создаётся в браузере по регистрации, и к нему подключаются той же mongosh по строке подключения с сайта. Локальный сервер удобен для учёбы без интернета; Atlas не требует установки сервера вообще. mongosh ставится отдельно с того же официального сайта и работает с обоими вариантами. Подключение выглядит одинаково: mongosh, затем строка вида mongodb://127.0.0.1:27017 — для локального, или длинная строка с именем кластера и паролем — для Atlas.",
-      "tg": "Барои иҷро кардани дарсҳои курс ду чиз лозим аст: сервери кории MongoDB ва пӯшаи mongosh — барномаи алоҳидаи сатри фармонӣ, ки шумо аз тариқи он ҳамаи ин вақт скриптҳоро мефиристодед. Серверро бо ду роҳ гирифтан мумкин аст. Якум — насб кардани MongoDB Community Server дар маҳаллӣ: насбкунанда барои системаи шуморо аз сайти расмии mongodb.com мегиранд, баъди насб сервер одатан дар суроғаи 127.0.0.1 ва порти 27017 дастрас аст. Дуюм — хизмати абрии MongoDB Atlas: кластери ройгон баъди бақайдгирӣ дар браузер сохта мешавад ва бо ҳамон mongosh бо сатри пайвастшавии аз сайт ба он пайваст мешаванд. Сервери маҳаллӣ барои омӯзиш бе интернет муфид аст; Atlas тамоман насби серверро талаб намекунад. mongosh алоҳида аз ҳамон сайти расмӣ насб мешавад ва бо ҳарду вариант кор мекунад. Пайвастшавӣ якхела менамояд: mongosh, сипас сатри намуди mongodb://127.0.0.1:27017 — барои маҳаллӣ, ё сатри дарози бо номи кластер ва парол — барои Atlas.",
-      "en": "Doing the course lessons takes two things: a running MongoDB server and the mongosh shell — a separate command-line program through which you have been sending scripts all along. The server comes two ways. First, install MongoDB Community Server locally: the installer for your system is downloaded from the official mongodb.com site, and after installation the server is usually reachable at 127.0.0.1 port 27017. Second, the MongoDB Atlas cloud service: a free cluster is created in the browser after sign-up, and you connect to it with the same mongosh using the connection string from the site. A local server is convenient for studying offline; Atlas needs no server installation at all. mongosh is installed separately from the same official site and works with both. Connecting looks the same: mongosh, then a string like mongodb://127.0.0.1:27017 for local, or a long string with the cluster name and password for Atlas."
+      "ru": "MongoDB Server хранит данные и выполняет запросы. mongosh — отдельная консоль, которая отправляет запросы серверу и печатает результаты. Подключение к локальной установке можно проверить командой mongosh mongodb://127.0.0.1:27017, если сервер слушает этот адрес.\n\nУстановите сервер и оболочку из официальных инструкций для своей системы. Для облачной учебной базы оболочка та же, а адрес и доступ выдаёт провайдер. Храните строку подключения с паролем вне исходного кода и используйте отдельную учебную базу.",
+      "tg": "MongoDB Server додаҳоро нигоҳ медорад ва дархостҳоро иҷро мекунад. mongosh консолест, ки дархостро ба сервер мефиристад ва натиҷаро нишон медиҳад. Агар сервер дар суроғаи маҳаллӣ гӯш кунад, пайвастро бо mongosh mongodb://127.0.0.1:27017 санҷед.\n\nСервер ва консолро аз дастури расмии системаи худ насб кунед. Барои базаи абрӣ ҳамон консол кор мекунад, суроғаву иҷозатро провайдер медиҳад. Сатри пайвасти дорои паролро аз код ҷудо нигоҳ доред ва базаи алоҳидаи омӯзишӣ истифода баред.",
+      "en": "MongoDB Server stores data and executes queries. mongosh is a separate shell that sends queries to the server and prints results. If the local server listens on the usual address, check the connection with mongosh mongodb://127.0.0.1:27017.\n\nUse the official instructions for your operating system to install both. A hosted learning database can use the same shell with an address and credentials from the provider. Keep credentials out of source code and use a separate learning database."
      }
     },
     {
@@ -4454,9 +4506,9 @@
       "en": "Replication: copies for reliability"
      },
      "body": {
-      "ru": "Один сервер — одна точка отказа: упал диск, пропало питание — данные недоступны, а возможно и потеряны. Репликация решает это: данные хранятся сразу на нескольких серверах, объединённых в реплика-сет. Один узел — primary — принимает все записи, остальные — secondaries — постоянно подтягивают его журнал операций и хранят те же данные. Если primary падает, оставшиеся узлы за секунды проводят выборы и назначают новый primary из себя; приложение переподключается и продолжает работу — это называется отказоустойчивостью. Второй бонус — чтение можно распределять по вторичным узлам, разгружая основной. Число узлов обычно нечётное — три: чтобы выборы всегда могли собрать большинство. Нашему учебному магазину с одним сервером репликация не нужна, но уже при первом реальном пользователе она становится обязательной: именно её бесплатно предоставляет даже наименьший кластер Atlas.",
-      "tg": "Як сервер — як нуқтаи осиб: диск афтод, барқ рафт — маълумот дастрас намешавад ва эҳтимол гум мешавад. Репликатсия инро ҳал мекунад: маълумот фавран дар якчанд сервер, ки дар реплика-сет муттаҳид шудаанд, нигоҳ дошта мешавад. Як гиреҳ — primary — ҳамаи сабтҳоро мепазирад, боқӣ — secondaries — доимо журналги амалиёти ӯро мегиранд ва ҳамон маълумотро нигоҳ медоранд. Агар primary афтад, гиреҳҳои боқимонда дар чанд сония интихобот мегузаронад ва аз худ primary-и нав таъин мекунанд; барнома аз нав пайваст мешавад ва корро идома медиҳад — ин боэътимодӣ номида мешавад. Бонуси дуюм — хонишро метаван ба гиреҳҳои дуюмдараҷа тақсим кард, асосиро сабук кард. Шумораи гиреҳҳо одатан то аст — се: то интихобот ҳамеша аксарияти ҷамъ кунад. Ба дукони омӯзишии мо бо як сервер репликатсия лозим нест, вале аллакай бо аввалин корбари воқеӣ он ҳатмӣ мешавад: ҳамин онро ба таври ройгон ҳатто хурдтарин кластери Atlas пешниҳод мекунад.",
-      "en": "One server is one point of failure: a disk dies, power drops — the data becomes unavailable and may be lost. Replication solves this: the data lives on several servers united in a replica set. One node — the primary — accepts all writes; the others — secondaries — continuously replay its operation log and hold the same data. If the primary falls, the remaining nodes run an election within seconds and appoint a new primary from among themselves; the application reconnects and continues — that is failover. A second bonus: reads can be spread across secondaries to relieve the primary. Node counts are usually odd — three — so elections can always gather a majority. Our teaching shop with one server needs no replication, but with the first real user it becomes mandatory: even the smallest Atlas cluster provides it for free."
+      "ru": "Репликация поддерживает копии данных на нескольких узлах. Главный узел primary принимает записи, а secondary повторяют его операции. Если primary недоступен, подходящие узлы могут выбрать новый при наличии большинства голосов. На время выборов записи могут быть недоступны, а вторичный узел может отставать.\n\nШардирование решает другую задачу: делит разные части набора между группами серверов. Репликация помогает при отказе узла, но не заменяет резервную копию, поскольку ошибочное изменение тоже может попасть в реплики.",
+      "tg": "Репликатсия нусхаҳои додаҳоро дар чанд гиреҳ нигоҳ медорад. Гиреҳи primary сабтро қабул мекунад ва secondary тағйирҳояшро такрор мекунанд. Агар primary дастнорас шавад, бо аксари овозҳо primary-и нав интихоб шуда метавонад. Ҳангоми интихоб сабт муваққатан дастнорас мешавад ва нусхаи secondary метавонад қафо монад.\n\nШардкунӣ қисмҳои гуногуни додаҳоро байни гурӯҳҳои сервер тақсим мекунад. Репликатсия ҳангоми аз кор мондани гиреҳ кумак мекунад. Нусхаи эҳтиётӣ ҳам лозим аст, чун тағйири хато ба репликаҳо низ гузашта метавонад.",
+      "en": "Replication keeps copies on multiple members. The primary accepts writes and secondaries replay its operations. If the primary is unavailable, eligible members can elect a new one when a voting majority is available. Writes may pause while they elect it, and secondaries can lag.\n\nSharding divides different parts of the data across groups of servers. Replication helps with member failure, but a separate backup remains necessary because accidental changes can be replicated too."
      }
     },
     {

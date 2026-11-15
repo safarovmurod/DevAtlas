@@ -22,20 +22,10 @@ const SOURCE_PRACTICE_COPY: Record<InterfaceLocale, { sourceNote: string; codePa
       'Мисоли аслӣ аз HTML-и шумо. Суроғаҳои API мисли манбаъ нигоҳ дошта шудаанд; аз ин саҳифа дархост фиристода намешавад.',
     codeParts: 'Ҳар қисми код чӣ кор мекунад',
   },
-  uk: {
+  es: {
     sourceNote:
-      'Оригінальний приклад із вашого HTML. API-адреси збережено як у джерелі; звідси запити не надсилаються.',
-    codeParts: 'Що робить кожна частина коду',
-  },
-  ja: {
-    sourceNote:
-      'あなたのHTMLにある元の例です。APIのアドレスは元のままで、このページからリクエストは送信されません。',
-    codeParts: 'コードの各部分の役割',
-  },
-  ko: {
-    sourceNote:
-      '내 HTML의 원본 예제입니다. API 주소는 원본 그대로이며, 이 페이지에서는 요청을 보내지 않습니다.',
-    codeParts: '코드의 각 부분이 하는 일',
+      'Ejemplo original de tu HTML. Las direcciones de API se conservan tal como están en la fuente; desde aquí no se envían solicitudes.',
+    codeParts: 'Qué hace cada parte del código',
   },
 };
 type SourceLesson = {

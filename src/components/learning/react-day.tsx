@@ -10,44 +10,9 @@ import { tr } from '@/lib/translate';
 import { reactDayProgress, reactDayReady } from '@/lib/react-plan';
 import { lessonTranslationNotice } from '@/lib/learning-ui-copy';
 import { PROGRESSION_COPY } from '@/lib/progression-copy';
+import { useDayCopy } from '@/components/courses/lesson-flow-copy';
 import { useAccount } from '@/components/account/account-provider';
 const DAY_UI = {
-  ja: {
-    title: 'React を理解しよう',
-    intro: 'その日のテーマを学び、コードで実践します。',
-    day: '日目',
-    selectDay: '学習日を選択',
-    prepTitle: 'React の準備',
-    prepText:
-      '先に HTML、CSS、JavaScript を学びましょう。Node.js とコードエディターを使い、毎日プロジェクトを改善します。',
-    start: '学習を開始',
-    apply: '実践',
-    study: '学習',
-    steps: '手順',
-    previous: '前日の成果を活用',
-    guide: 'React 公式ガイド',
-    practice: 'この日の演習',
-    tests: 'テストと面接対策',
-    next: '次の日',
-  },
-  ko: {
-    title: 'React 이해하기',
-    intro: '오늘의 주제를 학습한 뒤 코드로 실습합니다.',
-    day: '일차',
-    selectDay: '학습 일차 선택',
-    prepTitle: 'React 준비',
-    prepText:
-      '먼저 HTML, CSS, JavaScript를 학습하세요. Node.js와 코드 편집기를 사용하여 매일 프로젝트를 개선합니다.',
-    start: '학습 시작',
-    apply: '실습',
-    study: '학습',
-    steps: '단계별 안내',
-    previous: '이전 일차의 결과 활용',
-    guide: 'React 공식 가이드',
-    practice: '오늘의 실습',
-    tests: '테스트 및 면접',
-    next: '다음 일차',
-  },
   ru: {
     title: 'Время разобраться в React.',
     intro: 'Изучаем выбранный день, затем применяем в коде.',
@@ -102,23 +67,23 @@ const DAY_UI = {
     tests: 'Санҷиш ва мусоҳиба',
     next: 'Рӯзи баъдӣ',
   },
-  uk: {
-    title: 'Час розібратися з React.',
-    intro: 'Вивчаємо тему обраного дня, а потім застосовуємо її в коді.',
-    day: 'День',
-    selectDay: 'Вибір дня',
-    prepTitle: 'Підготовка до React',
+  es: {
+    title: 'Hora de entender React.',
+    intro: 'Estudia el día elegido y luego aplícalo en código.',
+    day: 'Día',
+    selectDay: 'Elegir día',
+    prepTitle: 'Preparación para React',
     prepText:
-      'Спочатку пройдіть HTML + CSS і два місяці JavaScript. Вам знадобляться Node.js і редактор коду. Щодня вдосконалюйте свій проєкт.',
-    start: 'Почати день',
-    apply: 'Застосовуємо',
-    study: 'Вивчаємо',
-    steps: 'Крок за кроком',
-    previous: 'Використовуємо результат дня',
-    guide: 'React · офіційний посібник',
-    practice: 'Практика цього дня',
-    tests: 'Тести та співбесіда',
-    next: 'Наступний день',
+      'Antes completa HTML + CSS y dos meses de JavaScript. Necesitarás Node.js y un editor de código. Cada día sigue mejorando tu proyecto.',
+    start: 'Empezar el día',
+    apply: 'Aplícalo',
+    study: 'Estudio',
+    steps: 'Paso a paso',
+    previous: 'Usa el resultado del día',
+    guide: 'React · guía oficial',
+    practice: 'Práctica de este día',
+    tests: 'Pruebas y entrevista',
+    next: 'Día siguiente',
   },
 };
 
@@ -134,6 +99,7 @@ export function ReactDay({
     labels = DAY_UI[state.language as keyof typeof DAY_UI] || DAY_UI.en,
     progression = PROGRESSION_COPY[state.language] || PROGRESSION_COPY.en;
   const account = useAccount();
+  const dayText = useDayCopy();
   const month = requestedMonth || (state.activeMonth === 2 ? 2 : 1);
   // Never invent a selected day on first course entry; plan selection is authoritative.
   const stored = state.drafts['react-selected-day']?.split(':').map(Number);
@@ -147,9 +113,7 @@ export function ReactDay({
     state.completedPractice,
     state.confirmedDays,
   );
-  const rememberedAvailable = days.find(
-    (item) => item.day === remembered && item.status !== 'upcoming',
-  );
+  const rememberedAvailable = days.find((item) => item.day === remembered);
   const day =
     requestedDay ??
     rememberedAvailable?.day ??
@@ -157,9 +121,8 @@ export function ReactDay({
     (days.every((item) => item.status === 'done') ? days.at(-1)?.day : 1) ??
     1;
   const entry = days.find((item) => item.day === day);
-  const locked = entry?.status === 'upcoming';
   const canConfirm =
-    !!entry && !locked && reactDayReady(entry, state.completedTopics, state.completedPractice);
+    !!entry && reactDayReady(entry, state.completedTopics, state.completedPractice);
   const reactTopics = LEARNING_TOPICS.filter((topic) => topic.month <= 2);
   const learned = reactTopics.filter((topic) => state.completedTopics.includes(topic.id)).length;
   const saveDraft = state.saveDraft,
@@ -214,14 +177,7 @@ export function ReactDay({
         {lessonTranslationNotice(state.language) && (
           <p role="note">{lessonTranslationNotice(state.language)}</p>
         )}
-        {locked ? (
-          <article className="panel course-lesson">
-            <h2>{progression.locked}</h2>
-            <Link className="button primary" href={`/plan/${month}`}>
-              {progression.plan}
-            </Link>
-          </article>
-        ) : day === undefined ? (
+        {day === undefined ? (
           <article className="panel course-lesson">
             <h2>{labels.selectDay}</h2>
             <p>{labels.intro}</p>
@@ -298,7 +254,7 @@ export function ReactDay({
                 {entry.status === 'done'
                   ? progression.confirmed
                   : canConfirm
-                    ? progression.ready
+                    ? dayText('ready')
                     : progression.missing}
               </p>
               <div className="button-row">

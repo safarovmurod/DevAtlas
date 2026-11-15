@@ -7,6 +7,7 @@ import {
   ONBOARDING_QUESTIONS,
   buildPlan,
   onboardingLocale,
+  pickText,
   saveOnboarding,
   type OnboardingAnswers,
   type OnboardingPlan,
@@ -140,7 +141,7 @@ export function OnboardingQuiz() {
           <div className="onboarding-progress" aria-hidden="true">
             <span style={{ width: `${(testIndex / bank.length) * 100}%` }} />
           </div>
-          <h2 id="placement-question">{item.question[locale]}</h2>
+          <h2 id="placement-question">{pickText(item.question, locale)}</h2>
           {item.code && (
             <pre className="placement-code">
               <code>{item.code}</code>
@@ -153,11 +154,11 @@ export function OnboardingQuiz() {
                 className="answer-option"
                 onClick={() => answerTest(optionIndex)}
               >
-                {option[locale]}
+                {pickText(option, locale)}
               </button>
             ))}
             <button className="answer-option dont-know" onClick={() => answerTest(DONT_KNOW_INDEX)}>
-              {DONT_KNOW[locale]}
+              {pickText(DONT_KNOW, locale)}
             </button>
           </div>
           {testIndex > 0 && (
@@ -188,7 +189,7 @@ export function OnboardingQuiz() {
         <div className="onboarding-progress" aria-hidden="true">
           <span style={{ width: `${(index / ONBOARDING_QUESTIONS.length) * 100}%` }} />
         </div>
-        <h2 id="onboarding-question">{question.question[locale]}</h2>
+        <h2 id="onboarding-question">{pickText(question.question, locale)}</h2>
         <div className="answer-options">
           {question.options.map((option) => (
             <button
@@ -198,7 +199,7 @@ export function OnboardingQuiz() {
               }
               onClick={() => choose(option.value)}
             >
-              {option.label[locale]}
+              {pickText(option.label, locale)}
             </button>
           ))}
         </div>

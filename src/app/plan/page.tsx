@@ -10,10 +10,8 @@ import type { InterfaceLocale } from '@/lib/locale';
 const DURATION: Record<InterfaceLocale, string> = {
   ru: 'React · 2 месяца',
   tg: 'React · 2 моҳ',
-  uk: 'React · 2 місяці',
+  es: 'React · 2 meses',
   en: 'React · 2 months',
-  ja: 'React · 2か月',
-  ko: 'React · 2개월',
 };
 /** React course: choose month 1 or month 2. */
 export default function PlanPage() {

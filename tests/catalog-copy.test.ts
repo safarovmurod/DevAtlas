@@ -24,11 +24,11 @@ describe('localized course catalog', () => {
       }
     }
     expect(courseDisplayName('javascript-pro', 'ru')).toBe('JavaScript · Pro');
-    expect(courseDisplayName('architecture-expert', 'ja')).toBe('システム設計 · Expert');
+    expect(courseDisplayName('architecture-expert', 'es')).toBe('Arquitectura · Expert');
     expect(courseDisplayName('digital-marketing', 'ru')).toBe('Цифровой маркетинг');
     expect(courseDisplayName('business-foundations', 'tg')).toBe('Асосҳои соҳибкорӣ');
-    expect(courseDisplayName('communication', 'ja')).toBe('コミュニケーション');
-    expect(courseDisplayName('content-creation', 'ko')).toBe('콘텐츠 제작');
+    expect(courseDisplayName('communication', 'es')).toBe('Comunicación');
+    expect(courseDisplayName('content-creation', 'es')).toBe('Creación de contenido');
   });
 
   it('keeps technology proper names and labels introductory modules with their current scope', () => {
@@ -40,7 +40,7 @@ describe('localized course catalog', () => {
         if (course.introductoryDays) {
           expect(course.introductoryDays).toBe(course.publishedDays);
           expect(courseDescription(course.id, locale)).toContain(String(course.introductoryDays));
-          expect(courseDescription(course.id, locale)).not.toMatch(/сертификат|certificate|認定資格|자격증/i);
+          expect(courseDescription(course.id, locale)).not.toMatch(/сертификат|certificate|certificado/i);
         }
       }
     }

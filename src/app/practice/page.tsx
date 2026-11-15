@@ -1,14 +1,16 @@
 import { PageTransition } from '@/components/layout/page-transition';
 import { coursePublishedDays } from '@/content/courses/catalog';
-import { courseAccessTier } from '@/lib/courses/access';
 import { PracticeHub } from '@/components/learning/practice-hub';
+import { PracticeEntry } from '@/components/learning/practice-entry';
 import { getTopic } from '@/content/course';
 import { redirect } from 'next/navigation';
-import { PracticeSelector } from '@/components/learning/practice-selector';
-import { CourseWorkspace } from '@/components/courses/course-workspace';
 import { isCourseId } from '@/lib/courses/ids';
-import { loadCourseContent } from '@/lib/courses/content';
 import { notFound } from 'next/navigation';
+
+/**
+ * Practice is part of the day page of each course ("My day": lesson + practice together).
+ * Old links to /practice?course=...&day=... open that page. React keeps its practice lab.
+ */
 export default async function PracticePage({
   searchParams,
 }: {
@@ -24,43 +26,25 @@ export default async function PracticePage({
       (!Number.isInteger(day) || day < 1 || day > coursePublishedDays(params.course))
     )
       notFound();
-    return (
-      <PageTransition>
-        <>
-          <PracticeSelector selected={params.course} />
-          <CourseWorkspace
-            key={params.course + day}
-            courseId={params.course}
-            section="practice"
-            day={day}
-            initialContent={
-              courseAccessTier(params.course) === 'starter'
-                ? await loadCourseContent(params.course)
-                : undefined
-            }
-          />
-        </>
-      </PageTransition>
+    redirect(
+      `/courses/${params.course}/home${day !== undefined ? `?day=${day}` : ''}#day-practice`,
     );
   }
   if (month === 3 || getTopic(params.topic || '')?.month === 3)
-    redirect(`/courses/nextjs/practice${params.day ? `?day=${params.day}` : ''}`);
+    redirect(`/courses/nextjs/home${params.day ? `?day=${params.day}` : ''}#day-practice`);
   if (!params.course && !params.month && !params.topic && !params.day)
     return (
       <PageTransition>
-        <PracticeSelector />
+        <PracticeEntry />
       </PageTransition>
     );
   return (
     <PageTransition>
-      <>
-        <PracticeSelector selected="react" />
-        <PracticeHub
-          initialMonth={[1, 2, 3].includes(month) ? month : undefined}
-          initialTopic={params.topic}
-          initialDay={Number(params.day) || undefined}
-        />
-      </>
+      <PracticeHub
+        initialMonth={[1, 2, 3].includes(month) ? month : undefined}
+        initialTopic={params.topic}
+        initialDay={Number(params.day) || undefined}
+      />
     </PageTransition>
   );
 }

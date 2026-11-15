@@ -50,15 +50,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что такое Swift и как начать расчёт",
+      "tg": "Swift чист ва ҳисоб чӣ хел сар мешавад?",
+      "en": "Swift and the first calculation"
+    },
      "body": {
-      "ru": "Установите Swift toolchain или используйте Xcode на macOS. let объявляет постоянную привязку, var — изменяемую. Тип Int можно указать явно или вывести из значения. print выводит результат. Это консольный Swift, а не готовое iOS-приложение.",
-      "tg": "Swift toolchain насб кунед ё дар macOS Xcode-ро истифода баред. let номи доимӣ, var номи тағйирёбанда эълон мекунад. Типи Int-ро ошкор навиштан ё аз қимат муайян кардан мумкин аст. print натиҷаро мебарорад. Ин Swift-и консолӣ аст, на барномаи тайёри iOS.",
-      "en": "Install the Swift toolchain or use Xcode on macOS. let declares a constant binding; var declares a mutable one. Specify Int explicitly or infer it from a value. print displays the result. This is console Swift, not a finished iOS application."
-     },
+      "ru": "Swift — язык программирования для приложений Apple, инструментов и серверов. Консольный пример выполняет инструкции по порядку. let задаёт имя, которое нельзя присвоить заново, а var допускает изменение.\n\nУстановите Swift toolchain или используйте Xcode на macOS. let объявляет постоянную привязку, var — изменяемую. Тип Int можно указать явно или вывести из значения. print выводит результат. Это консольный Swift, а не готовое iOS-приложение.",
+      "tg": "Swift забони барномасозӣ барои барномаҳои Apple, утилита ва сервер аст. Мисоли терминалӣ дастурҳоро бо тартиб иҷро мекунад. let қимати дубора намегирад, var гирифта метавонад.\n\nSwift toolchain насб кунед ё дар macOS Xcode-ро истифода баред. let номи доимӣ, var номи тағйирёбанда эълон мекунад. Типи Int-ро ошкор навиштан ё аз қимат муайян кардан мумкин аст. print натиҷаро мебарорад. Ин Swift-и консолӣ аст, на барномаи тайёри iOS.",
+      "en": "Swift is a language for Apple apps, tools, and servers. The console example runs its statements in order. let creates a binding that cannot be reassigned, while var can be reassigned.\n\nInstall the Swift toolchain or use Xcode on macOS. let declares a constant binding; var declares a mutable one. Specify Int explicitly or infer it from a value. print displays the result. This is console Swift, not a finished iOS application."
+    },
      "code": "let price: Int = 12\nlet quantity = 3\nprint(price * quantity)\n",
      "language": "swift",
      "output": {
@@ -92,6 +92,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "swift-day-01-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какое слово Swift объявляет привязку без повторного присваивания?",
+       "tg": "Кадом калимаи Swift номи бе тағйири қиматро эълон мекунад?",
+       "en": "Which Swift keyword declares a binding that you cannot reassign?"
+     },
+     "answer": {
+       "ru": "let",
+       "tg": "let",
+       "en": "let"
+     }
+   },
    "questions": [
     {
      "id": "swift-day-01-q",
@@ -210,15 +224,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Как Swift сообщает об ошибке",
+      "tg": "Swift хаторо чӣ хел нишон медиҳад?",
+      "en": "Reporting errors in Swift"
+    },
      "body": {
-      "ru": "throws отмечает функцию, способную сообщить об ошибке. try вызывает её внутри do/catch. Отрицательные значения отклоняются до умножения; multipliedReportingOverflow проверяет переполнение. Перехватывайте определённую ошибку отдельно от остальных.",
-      "tg": "throws функсияеро нишон медиҳад, ки хато дода метавонад. try онро дар do/catch даъват мекунад. Қиматҳои манфӣ пеш аз зарб рад мешаванд; multipliedReportingOverflow пуршавии ҳудудро месанҷад. Хатои муайянро аз дигар хатоҳо ҷудо гиред.",
-      "en": "throws marks a function that can report failure. try calls it inside do/catch. Negative values are rejected before multiplication; multipliedReportingOverflow checks overflow. Handle a specific error separately from other errors."
-     },
+      "ru": "throws в объявлении предупреждает, что функция может выбросить ошибку. У вызова пишут try, а catch позволяет обработать сбой. Успешный вызов отдаёт рассчитанное значение.\n\nthrows отмечает функцию, способную сообщить об ошибке. try вызывает её внутри do/catch. Отрицательные значения отклоняются до умножения; multipliedReportingOverflow проверяет переполнение. Перехватывайте определённую ошибку отдельно от остальных.",
+      "tg": "throws дар эълон нишон медиҳад, ки функсия хато дода метавонад. Дар вақти даъват try менависӣ ва бо catch хаторо мегирӣ. Агар хато набошад, қимати ҳисобшуда меояд.\n\nthrows функсияеро нишон медиҳад, ки хато дода метавонад. try онро дар do/catch даъват мекунад. Қиматҳои манфӣ пеш аз зарб рад мешаванд; multipliedReportingOverflow пуршавии ҳудудро месанҷад. Хатои муайянро аз дигар хатоҳо ҷудо гиред.",
+      "en": "throws in a declaration marks a function that can throw an error. try marks the call, and catch lets you handle a failure. A successful call returns the computed value.\n\nthrows marks a function that can report failure. try calls it inside do/catch. Negative values are rejected before multiplication; multipliedReportingOverflow checks overflow. Handle a specific error separately from other errors."
+    },
      "code": "enum InputError: Error { case negative, overflow }\nfunc total(_ price: Int, _ quantity: Int) throws -> Int {\n    guard price >= 0 && quantity >= 0 else { throw InputError.negative }\n    let result = price.multipliedReportingOverflow(by: quantity)\n    guard !result.overflow else { throw InputError.overflow }\n    return result.partialValue\n}\ndo {\n    print(try total(12, 3))\n    print(try total(12, 0))\n    _ = try total(12, -1)\n} catch InputError.negative {\n    print(\"Invalid input rejected\")\n} catch {\n    print(\"Unexpected error\")\n}\n",
      "language": "swift",
      "output": {
@@ -252,6 +266,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "swift-day-02-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какое слово ставят перед вызовом функции Swift, которая может выбросить ошибку?",
+       "tg": "Пеш аз даъвати функсияи Swift, ки хато дода метавонад, чӣ менависӣ?",
+       "en": "Which keyword precedes a call to a throwing Swift function?"
+     },
+     "answer": {
+       "ru": "try",
+       "tg": "try",
+       "en": "try"
+     }
+   },
    "questions": [
     {
      "id": "swift-day-02-q",
@@ -370,15 +398,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Теория: константа или переменная",
-      "tg": "Назария: доимӣ ё тағйирёбанда",
-      "en": "Theory: constant or variable"
-     },
+      "ru": "Когда нужны let и var",
+      "tg": "Кай let, кай var лозим мешавад?",
+      "en": "When to use let or var"
+    },
      "body": {
-      "ru": "Каждое значение в Swift — либо константа, либо переменная. Константу объявляют словом let, переменную — словом var. Константа получает значение ровно один раз; после этого компилятор отклоняет любое присваивание, и проверка выполняется ещё до запуска программы. Переменной можно присваивать новое значение столько раз, сколько требует логика программы. Правило языка: по умолчанию пишите let и переходите на var только тогда, когда можете назвать причину, по которой значение будет меняться. Зачем такая строгость? Значение, которое никогда не меняется, легче читать, легче проверять тестами и безопаснее в параллельном коде. Когда вы читаете чужую функцию, каждое var — это сигнал: где-то дальше это значение изменится. Константы помогают компилятору ловить ошибки раньше и делают намерения автора явными. Сегодня вы отработаете это решение на маленьком счётчике поездки.",
-      "tg": "Ҳар як қимат дар Swift ё доимӣ ё тағйирёбанда аст. Қимати доимиро бо калимаи let, тағйирёбандаро бо калимаи var эълон мекунанд. Қимати доимӣ қиматро даққат як бор мегирад; баъди он компилятор ҳар гуна присваиванияи навро рад мекунад ва ин санҷиш пеш аз иҷрои барнома мешавад. Ба тағйирёбанда қимати навро барои ҳар қадар, ки мантиқи барнома талаб мекунад, гузоштан мумкин аст. Қоидаи забон чунин аст: пешфарз let нависед ва танҳо вақте ба var гузаред, ки сабаби тағйирёбии қиматро номбар карда метавонед. Чаро чунин сахтӣ? Қимате, ки ҳеҷ гоҳ намеғарад, хонданаш осонтар, бо тестҳо санҷиданаш осонтар ва дар коди ҳамзамон иҷрошаванда бехатартар аст. Вақте коди одами дигарро мехонед, ҳар як var сигнал аст: дар ҷое ин қимат тағйир меёбад. Доимиҳо ба компилятор кӯмак мекунанд, ки хатоҳоро зуд пайдо кунад, ва нияти муаллифро возеҳ нишон медиҳанд. Имрӯз ин қарорро дар ҳисобкунаки хурди сафар машқ мекунед.",
-      "en": "Every value in Swift is either a constant or a variable. A constant is declared with let, a variable with var. A constant receives its value exactly once; after that the compiler rejects any assignment, and this check happens before the program ever runs. A variable can be assigned a new value as many times as the logic requires. The rule of the language: write let by default, and switch to var only when you can name the reason the value will change. Why so strict? A value that never changes is easier to read, easier to test, and safer in concurrent code. When you read someone else's function, every var is a signal: somewhere below, this value takes on a new life. Constants help the compiler catch mistakes early and make the author's intent explicit. Today you will practise this decision on a tiny trip counter."
-     }
+      "ru": "let и var объявляют имена, а тип задаёт, какие значения им подходят. Для счётчика, который растёт, подходит var. Для цены из неизменного условия задачи достаточно let.\n\nКаждое значение в Swift — либо константа, либо переменная. Константу объявляют словом let, переменную — словом var. Константа получает значение ровно один раз; после этого компилятор отклоняет любое присваивание, и проверка выполняется ещё до запуска программы. Переменной можно присваивать новое значение столько раз, сколько требует логика программы. Правило языка: по умолчанию пишите let и переходите на var только тогда, когда можете назвать причину, по которой значение будет меняться. Зачем такая строгость? Значение, которое никогда не меняется, легче читать, легче проверять тестами и безопаснее в параллельном коде. Когда вы читаете чужую функцию, каждое var — это сигнал: где-то дальше это значение изменится. Константы помогают компилятору ловить ошибки раньше и делают намерения автора явными. Сегодня вы отработаете это решение на маленьком счётчике поездки.",
+      "tg": "let ва var ном медиҳанд, тип бошад қиматҳои мувофиқро муайян мекунад. Барои ҳисобкунаки тағйирёбанда var, барои нархи доимӣ let бас аст.\n\nҲар як қимат дар Swift ё доимӣ ё тағйирёбанда аст. Қимати доимиро бо калимаи let, тағйирёбандаро бо калимаи var эълон мекунанд. Қимати доимӣ қиматро даққат як бор мегирад; баъди он компилятор ҳар гуна присваиванияи навро рад мекунад ва ин санҷиш пеш аз иҷрои барнома мешавад. Ба тағйирёбанда қимати навро барои ҳар қадар, ки мантиқи барнома талаб мекунад, гузоштан мумкин аст. Қоидаи забон чунин аст: пешфарз let нависед ва танҳо вақте ба var гузаред, ки сабаби тағйирёбии қиматро номбар карда метавонед. Чаро чунин сахтӣ? Қимате, ки ҳеҷ гоҳ намеғарад, хонданаш осонтар, бо тестҳо санҷиданаш осонтар ва дар коди ҳамзамон иҷрошаванда бехатартар аст. Вақте коди одами дигарро мехонед, ҳар як var сигнал аст: дар ҷое ин қимат тағйир меёбад. Доимиҳо ба компилятор кӯмак мекунанд, ки хатоҳоро зуд пайдо кунад, ва нияти муаллифро возеҳ нишон медиҳанд. Имрӯз ин қарорро дар ҳисобкунаки хурди сафар машқ мекунед.",
+      "en": "let and var declare bindings. The type determines which values they can hold. Use var for a counter that changes and let for a fixed input price.\n\nEvery value in Swift is either a constant or a variable. A constant is declared with let, a variable with var. A constant receives its value exactly once; after that the compiler rejects any assignment, and this check happens before the program ever runs. A variable can be assigned a new value as many times as the logic requires. The rule of the language: write let by default, and switch to var only when you can name the reason the value will change. Why so strict? A value that never changes is easier to read, easier to test, and safer in concurrent code. When you read someone else's function, every var is a signal: somewhere below, this value takes on a new life. Constants help the compiler catch mistakes early and make the author's intent explicit. Today you will practise this decision on a tiny trip counter."
+    }
     },
     {
      "title": {
@@ -412,6 +440,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "swift-day-03-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Как объявить счётчик Swift, который потом увеличится? Укажите ключевое слово.",
+       "tg": "Ҳисобкунаки Swift, ки баъд зиёд мешавад, бо кадом калима эълон мекунӣ?",
+       "en": "Which keyword declares a Swift counter that will change later?"
+     },
+     "answer": {
+       "ru": "var",
+       "tg": "var",
+       "en": "var"
+     }
+   },
    "questions": [
     {
      "id": "swift-day-03-q1",

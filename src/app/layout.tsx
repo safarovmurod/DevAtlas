@@ -54,7 +54,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <AccountProvider initialLocale={locale}>
           <LearningProvider initialLocale={locale}>
-            <AccountShell>{children}</AccountShell>
+            <AccountShell initialLocale={locale}>{children}</AccountShell>
           </LearningProvider>
         </AccountProvider>
       </body>

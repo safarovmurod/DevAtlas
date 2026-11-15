@@ -21,9 +21,7 @@ export function Header() {
     ru: 'Открыть меню',
     en: 'Open menu',
     tg: 'Кушодани меню',
-    uk: 'Відкрити меню',
-    ja: 'メニューを開く',
-    ko: '메뉴 열기',
+    es: 'Abrir menú',
   }[language];
   return (
     <header className="app-header">

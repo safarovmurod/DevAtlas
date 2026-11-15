@@ -1,19 +1,21 @@
 import { expect, test } from '@playwright/test';
 import { COURSE_CATEGORIES } from '../src/content/course-categories';
-import { COURSE_CATALOG } from '../src/content/courses/catalog';
 
-test('landing exposes the real catalog and usable navigation on desktop and mobile',async({page})=>{
+test('landing exposes the featured directions and usable navigation on desktop and mobile',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.setViewportSize({width:1366,height:768});
   await page.goto('/');
   const motion=await page.evaluate(()=>document.getAnimations().map(animation=>animation.effect?.getComputedTiming().duration).filter(duration=>typeof duration==='number'&&duration>1));
   expect(motion).toEqual([]);
-  await expect(page.locator('.public-direction-card')).toHaveCount(COURSE_CATEGORIES.length);
-  await expect(page.locator('.public-facts')).toContainText(String(COURSE_CATALOG.filter(course=>course.id!=='javascript-2').length));
-  await expect(page.locator('.public-actions .button.subtle')).toHaveAttribute('href','#directions');
-  await expect(page.locator('.public-header .brand-icon')).toHaveCSS('background-clip','border-box');
-  const primary=page.locator('.public-actions .button.primary');
-  const secondary=page.locator('.public-actions .button.subtle');
+  // The landing shows the featured directions, each one opens its own catalog page.
+  const directions=page.locator('#directions a[href^="/courses/category/"]');
+  await expect(directions.first()).toBeVisible();
+  expect(await directions.count()).toBeLessThanOrEqual(COURSE_CATEGORIES.length);
+  expect(await directions.count()).toBeGreaterThanOrEqual(4);
+  const hero=page.locator('section[aria-labelledby="landing-hero-heading"]');
+  await expect(hero.locator('a[href="#directions"]')).toBeVisible();
+  const primary=hero.locator('a[href="/onboarding"]');
+  const secondary=hero.locator('a[href="#directions"]');
   for(const button of [primary,secondary]) {
     const box=await button.boundingBox();
     expect(box).not.toBeNull();expect(box!.y+box!.height).toBeLessThanOrEqual(768);
@@ -26,8 +28,8 @@ test('landing exposes the real catalog and usable navigation on desktop and mobi
     }).filter(item=>item.right>innerWidth+1).slice(0,30)}));
     expect(layout.width,JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);
     if(width===320) {
-      await expect(page.locator('.public-header').getByRole('link',{name:'Начать обучение',exact:true})).toBeInViewport({ratio:1});
-      await expect(page.locator('.public-header').getByRole('button',{name:'Открыть меню'})).toBeInViewport({ratio:1});
+      await expect(page.locator('header').first().getByRole('link',{name:'Начать обучение',exact:true})).toBeInViewport({ratio:1});
+      await expect(page.locator('header').first().getByRole('button',{name:'Открыть меню'})).toBeInViewport({ratio:1});
     }
   }
   await page.setViewportSize({width:390,height:844});
@@ -45,48 +47,14 @@ test('landing exposes the real catalog and usable navigation on desktop and mobi
   await expect(menu).toHaveCount(0);await expect(trigger).toBeFocused();
 });
 
-test('the white preview text stays readable in both themes and screen sizes',async({page})=>{
-  await page.emulateMedia({reducedMotion:'reduce'});
-  for(const theme of ['light','dark'] as const) {
-    await page.goto('/settings');
-    await page.getByRole('combobox',{name:'Оформление',exact:true}).selectOption(theme);
-    for(const viewport of [{width:390,height:844},{width:1440,height:900}]) {
-      await page.setViewportSize(viewport);
-      await page.goto('/');
-      await expect(page.locator('html')).toHaveAttribute('data-theme',theme);
-      await expect(page.locator('.studio-result')).toBeVisible();
-      const result=await page.evaluate(()=>{
-        const block=document.querySelector('.studio-result')!;
-        const luminance=(value:string)=>{
-          const channels=value.match(/[\d.]+/g)?.slice(0,3).map(Number);
-          if(!channels||channels.length!==3)throw new Error(`Unsupported color: ${value}`);
-          const [r,g,b]=channels.map(n=>n/255).map(n=>n<=.04045?n/12.92:((n+.055)/1.055)**2.4);
-          return .2126*r+.7152*g+.0722*b;
-        };
-        const background=getComputedStyle(block).backgroundColor,bg=luminance(background);
-        const texts=['span','p'].map(selector=>{
-          const element=block.querySelector(selector)!;const style=getComputedStyle(element),fg=luminance(style.color);
-          return {selector,size:parseFloat(style.fontSize),ratio:(Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05)};
-        });
-        return {background,texts,width:document.documentElement.scrollWidth,viewport:innerWidth};
-      });
-      expect(result.background).toBe('rgb(255, 255, 255)');
-      for(const text of result.texts) {
-        expect(text.size,`${theme} ${viewport.width} ${text.selector}`).toBeGreaterThanOrEqual(12);
-        expect(text.ratio,`${theme} ${viewport.width} ${text.selector}`).toBeGreaterThanOrEqual(4.5);
-      }
-      expect(result.width).toBeLessThanOrEqual(result.viewport);
-    }
-  }
-});
-
-test('lesson code can be scrolled by keyboard and locked days have a name',async({page})=>{
+test('lesson code can be scrolled by keyboard and every day is open and named',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.setViewportSize({width:320,height:844});
   await page.goto('/courses/html/home');
-  const locked=page.locator('.day-strip .locked-day').first();
-  await expect(locked).toBeDisabled();
-  await expect(locked).toHaveAccessibleName(/День 2/);
+  const second=page.locator('.day-strip a').nth(1);
+  await expect(second).toBeEnabled();
+  await expect(second).toHaveAccessibleName(/День 2/);
+  await page.locator('#html-day-01-section-1 summary').click();
   const code=page.locator('#html-day-01-section-1 pre');
   await code.scrollIntoViewIfNeeded();
   const dimensions=await code.evaluate(element=>({width:element.clientWidth,scrollWidth:element.scrollWidth}));
@@ -102,7 +70,7 @@ test('lesson code can be scrolled by keyboard and locked days have a name',async
 
 test('plans and avatars remain readable in both themes and learning has no infinite animation',async({page})=>{
   await page.goto('/plans');
-  await expect(page.getByRole('heading',{name:'Ваш путь в разработку'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Выберите тариф',level:1})).toBeVisible();
   async function contrast(selector:string,backgroundSelector:string) {
     return page.evaluate(([foreground,background])=>{
       const fg=document.querySelector(foreground),bg=document.querySelector(background);
@@ -127,7 +95,7 @@ test('catalog symbols have readable contrast in both themes',async({page})=>{
   for(const theme of ['light','dark'] as const) {
     await page.goto('/settings');
     await page.getByRole('combobox',{name:'Оформление',exact:true}).selectOption(theme);
-    await page.goto('/courses');
+    await page.goto('/courses/category/programming');
     const symbols=page.locator('.course-card .course-symbol');
     await expect(symbols.first()).toBeVisible();
     const failures=await symbols.evaluateAll(elements=>elements.flatMap(element=>{
@@ -176,7 +144,11 @@ test('header menus support keyboard focus and changing the interface language',a
   await expect(language).toHaveAttribute('aria-controls','language-menu-options');
   const languages=page.locator('#language-menu-options');
   const languageItems=languages.getByRole('menuitemradio');
-  await expect(languageItems).toHaveCount(6);
+  // English, Russian, Tajik and Spanish. Ukrainian, Japanese and Korean were removed.
+  await expect(languageItems).toHaveCount(4);
+  // Opening the menu focuses the current language; Home moves to the first one.
+  await expect(languages.getByRole('menuitemradio',{checked:true})).toBeFocused();
+  await page.keyboard.press('Home');
   await expect(languageItems.first()).toBeFocused();
   await page.keyboard.press('Shift+Tab');
   await expect(languageItems.last()).toBeFocused();
@@ -280,8 +252,8 @@ test('typed sidebar navigation starts a view transition when the browser support
     await expect(page.locator('.sidebar')).toHaveClass(/\bis-open\b/);
   }
   await page.evaluate(()=>{(window as Window & {devatlasTransitions?:number}).devatlasTransitions=0;});
-  await page.locator('.sidebar').getByRole('link',{name:'Практика',exact:true}).click();
-  await expect(page).toHaveURL('/practice');
+  await page.locator('.sidebar').getByRole('link',{name:'Тесты и интервью',exact:true}).click();
+  await expect(page).toHaveURL(/\/tests$/);
   await expect.poll(()=>page.evaluate(()=>(window as Window & {devatlasTransitions?:number}).devatlasTransitions??0)).toBeGreaterThan(0);
 });
 
@@ -297,19 +269,19 @@ test('sidebar navigation works when view transitions are unavailable',async({pag
     await openMenu.click();
     await expect(page.locator('.sidebar')).toHaveClass(/\bis-open\b/);
   }
-  await page.locator('.sidebar').getByRole('link',{name:'Практика',exact:true}).click();
-  await expect(page).toHaveURL('/practice');
+  await page.locator('.sidebar').getByRole('link',{name:'Тесты и интервью',exact:true}).click();
+  await expect(page).toHaveURL(/\/tests$/);
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   expect(errors).toEqual([]);
 });
 
-test('six interface languages fit key mobile pages',async({page},testInfo)=>{
+test('four interface languages fit key mobile pages',async({page},testInfo)=>{
   test.skip(testInfo.project.name!=='mobile','Mobile-only locale layout coverage.');
   test.setTimeout(180000);
   const routes=['/','/login','/home','/courses','/practice','/settings','/plans','/community','/privacy','/terms'];
   const issues:Array<{locale:string;route:string;viewport:number;width:number}>=[];
   await page.goto('/');
-  for(const locale of ['ru','uk','en','tg','ja','ko']) {
+  for(const locale of ['ru','en','tg','es']) {
     await page.context().addCookies([{name:'react-mentor-locale',value:locale,url:'http://127.0.0.1:3100'}]);
     await page.evaluate(language=>{
       const contentLanguage=language==='ru'?'ru':language==='tg'?'tg':'en';

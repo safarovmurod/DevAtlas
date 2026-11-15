@@ -69,30 +69,38 @@ export function reactDayReady(
   );
 }
 
+/**
+ * Every day is open. `current` is the first day that is not confirmed yet, the rest
+ * of the unfinished days are `open`. A day is `done` only when it is confirmed and ready.
+ */
 export function reactDayProgress(
   month: number,
   completedTopics: readonly string[],
   completedPractice: readonly string[],
   confirmedDays: readonly string[],
 ) {
-  let previousConfirmed =
-    month !== 2 ||
-    reactMonthDays(1).every(
-      (day) =>
-        confirmedDays.includes(`1:${day.day}`) &&
-        reactDayReady(day, completedTopics, completedPractice),
-    );
+  let currentFound = false;
   return reactMonthDays(month).map((day) => {
     const done =
-      previousConfirmed &&
       confirmedDays.includes(`${month}:${day.day}`) &&
       reactDayReady(day, completedTopics, completedPractice);
-    const status: 'done' | 'current' | 'upcoming' = done
-      ? 'done'
-      : previousConfirmed
-        ? 'current'
-        : 'upcoming';
-    previousConfirmed = done;
+    const status: 'done' | 'current' | 'open' = done ? 'done' : currentFound ? 'open' : 'current';
+    if (!done) currentFound = true;
     return { ...day, status };
   });
+}
+
+/** First React day (month 1, then month 2) that is not confirmed yet. */
+export function reactCurrentDay(
+  completedTopics: readonly string[],
+  completedPractice: readonly string[],
+  confirmedDays: readonly string[],
+) {
+  for (const month of [1, 2]) {
+    const current = reactDayProgress(month, completedTopics, completedPractice, confirmedDays).find(
+      (item) => item.status === 'current',
+    );
+    if (current) return { month, day: current.day };
+  }
+  return null;
 }

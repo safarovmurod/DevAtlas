@@ -36,14 +36,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Как это работает",
-            "tg": "Чӣ тавр кор мекунад",
-            "en": "How it works"
+            "ru": "Что такое React Native и экран",
+            "tg": "React Native ва экран чист?",
+            "en": "React Native and screens"
           },
           "body": {
-            "ru": "Приложение на телефоне состоит из экранов. React Native позволяет описать экран на JavaScript и React, а затем создаёт компоненты платформы. Компонент — повторно используемая часть интерфейса. Начнём с готового примера: функция App возвращает JSX, похожую на разметку запись дерева элементов. View группирует части экрана, Text выводит текст. Импорт подключает их из пакета react-native. Expo предоставляет инструменты для запуска и разработки; браузер этого сайта не является мобильным эмулятором. Для выполнения понадобится проект Expo и устройство с Expo Go либо настроенный эмулятор. Если их нет, вы всё равно можете разобрать код и предсказать результат, но не отмечайте запуск как выполненный.",
-            "tg": "Барномаи телефон аз экранҳо иборат аст. React Native экранро бо JavaScript ва React тавсиф карда, ҷузъҳои платформаро месозад. Компонент қисми такроран истифодашавандаи интерфейс аст. Аз мисоли тайёр оғоз мекунем: функсияи App JSX, яъне навишти дарахти унсурҳои ба нишонагузорӣ монандро медиҳад. View қисмҳоро гурӯҳ ва Text матнро нишон медиҳад. Import онҳоро аз бастаи react-native мегирад. Expo воситаҳои оғозу таҳия медиҳад; браузери ин сайт эмулятори мобилӣ нест. Барои иҷро лоиҳаи Expo ва дастгоҳ бо Expo Go ё эмулятори танзимшуда лозим. Агар набошад, кодро шарҳ дода, натиҷаро пешгӯӣ кунед, вале иҷрои дастгоҳро тасдиқ накунед.",
-            "en": "A phone application consists of screens. React Native describes a screen using JavaScript and React and creates platform components. A component is a reusable part of an interface. Start with a worked example: the App function returns JSX, a markup-like representation of a tree of elements. View groups screen content and Text displays text. The import obtains them from the react-native package. Expo supplies development and launch tools; this website’s browser is not a mobile emulator. Running requires an Expo project and a device with Expo Go or a configured emulator. Without either, you can still explain the code and predict its result, but do not claim a device run."
+            "ru": "React Native использует компоненты React, чтобы строить интерфейс мобильного приложения. View и Text соответствуют мобильным элементам, поэтому здесь не пишут HTML-теги div и p.\n\nПриложение на телефоне состоит из экранов. React Native позволяет описать экран на JavaScript и React, а затем создаёт компоненты платформы. Компонент — повторно используемая часть интерфейса. Начнём с готового примера: функция App возвращает JSX, похожую на разметку запись дерева элементов. View группирует части экрана, Text выводит текст. Импорт подключает их из пакета react-native. Expo предоставляет инструменты для запуска и разработки; браузер этого сайта не является мобильным эмулятором. Для выполнения понадобится проект Expo и устройство с Expo Go либо настроенный эмулятор. Если их нет, вы всё равно можете разобрать код и предсказать результат, но не отмечайте запуск как выполненный.",
+            "tg": "React Native бо компонентҳои React интерфейси барномаи телефонро месозад. View ва Text элементҳои мобилӣ медиҳанд, барои ҳамин ин ҷо тегҳои HTML-и div ва p истифода намешаванд.\n\nБарномаи телефон аз экранҳо иборат аст. React Native экранро бо JavaScript ва React тавсиф карда, ҷузъҳои платформаро месозад. Компонент қисми такроран истифодашавандаи интерфейс аст. Аз мисоли тайёр оғоз мекунем: функсияи App JSX, яъне навишти дарахти унсурҳои ба нишонагузорӣ монандро медиҳад. View қисмҳоро гурӯҳ ва Text матнро нишон медиҳад. Import онҳоро аз бастаи react-native мегирад. Expo воситаҳои оғозу таҳия медиҳад; браузери ин сайт эмулятори мобилӣ нест. Барои иҷро лоиҳаи Expo ва дастгоҳ бо Expo Go ё эмулятори танзимшуда лозим. Агар набошад, кодро шарҳ дода, натиҷаро пешгӯӣ кунед, вале иҷрои дастгоҳро тасдиқ накунед.",
+            "en": "React Native uses React components to build mobile interfaces. View and Text render mobile UI, so you use them in place of HTML elements such as div and p.\n\nA phone application consists of screens. React Native describes a screen using JavaScript and React and creates platform components. A component is a reusable part of an interface. Start with a worked example: the App function returns JSX, a markup-like representation of a tree of elements. View groups screen content and Text displays text. The import obtains them from the react-native package. Expo supplies development and launch tools; this website’s browser is not a mobile emulator. Running requires an Expo project and a device with Expo Go or a configured emulator. Without either, you can still explain the code and predict its result, but do not claim a device run."
           },
           "code": "import { View, Text, StyleSheet } from 'react-native';\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\" style={styles.title}>My first app</Text>\n      <Text>I am learning to build mobile screens.</Text>\n    </View>\n  );\n}\nconst styles = StyleSheet.create({\n  screen: { flex: 1, justifyContent: 'center', padding: 24 },\n  title: { fontSize: 28, fontWeight: '700', marginBottom: 12 },\n});",
           "language": "tsx"
@@ -78,6 +78,24 @@
           }
         }
       ],
+      "interview": {
+        "id": "mobile-day-01-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какой компонент React Native выводит надпись на экране?",
+          "tg": "Кадом компоненти React Native дар экран матн мебарорад?",
+          "en": "Which React Native component displays text on screen?"
+        },
+        "answer": {
+          "ru": "Text",
+          "tg": "Text",
+          "en": "Text"
+        },
+        "acceptedAnswers": [
+          "<Text>",
+          "<Text />"
+        ]
+      },
       "questions": [
         {
           "id": "mobile-day-01-q",
@@ -454,14 +472,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Как это работает",
-            "tg": "Чӣ тавр кор мекунад",
-            "en": "How it works"
+            "ru": "Что такое state и событие нажатия",
+            "tg": "State ва event-и пахш чист?",
+            "en": "State and press events"
           },
           "body": {
-            "ru": "Состояние — данные, которые могут измениться во время работы экрана. React вызывает функцию компонента, чтобы получить описание интерфейса; такой вызов называется рендером. useState(0) возвращает текущее число count и функцию setCount, которая просит React обновить экран. При первом рендере count равен 0. Обработчик — функция, которую система вызывает после действия пользователя. onPress получает такую функцию, а не результат её немедленного вызова. Функциональное обновление value => value + 1 получает последнее предыдущее значение и возвращает новое. Нажатия изменяют только память приложения: после перезапуска счётчик сбросится, потому что постоянное хранение и синхронизация ещё не созданы.",
-            "tg": "Ҳолат додаест, ки ҳангоми кори экран тағйир ёфта метавонад. React функсияи компонентро барои гирифтани тавсифи интерфейс мехонад; ин даъват render ном дорад. useState(0) адади ҷории count ва функсияи setCount медиҳад, ки аз React навсозии экранро мехоҳад. Дар render-и аввал count 0 аст. Коркардкунанда функсияест, ки система баъди амали корбар мехонад. onPress чунин функсия мегирад, на натиҷаи даъвати фаврии он. Навсозии value => value + 1 қимати охирини пешинаро гирифта, навро медиҳад. Пахшҳо танҳо хотираи барномаро иваз мекунанд: баъди оғози нав ҳисобкунак 0 мешавад, зеро нигоҳдории доимӣ ва ҳамоҳангсозӣ ҳанӯз сохта нашудааст.",
-            "en": "State is data that may change while a screen is in use. React calls a component function to obtain an interface description; that call is a render. useState(0) returns the current count and setCount, which asks React to update the screen. On the first render count is zero. A handler is a function the system calls after a user action. onPress receives that function, not the result of invoking it immediately. The functional update value => value + 1 receives the latest previous value and returns the next one. Presses change only application memory: restarting resets the counter because persistence and synchronization have not yet been implemented."
+            "ru": "State — память компонента между отрисовками. При нажатии обработчик запрашивает обновление state, и компонент строит новый вид. Обычная локальная переменная не сохраняет счётчик между отрисовками.\n\nСостояние — данные, которые могут измениться во время работы экрана. React вызывает функцию компонента, чтобы получить описание интерфейса; такой вызов называется рендером. useState(0) возвращает текущее число count и функцию setCount, которая просит React обновить экран. При первом рендере count равен 0. Обработчик — функция, которую система вызывает после действия пользователя. onPress получает такую функцию, а не результат её немедленного вызова. Функциональное обновление value => value + 1 получает последнее предыдущее значение и возвращает новое. Нажатия изменяют только память приложения: после перезапуска счётчик сбросится, потому что постоянное хранение и синхронизация ещё не созданы.",
+            "tg": "State хотираи компонент байни render-ҳо аст. Ҳангоми пахш handler тағйири state-ро дархост мекунад ва экран аз нав намоиш меёбад. Variable-и одӣ ҳисобкунакро байни render нигоҳ намедорад.\n\nҲолат додаест, ки ҳангоми кори экран тағйир ёфта метавонад. React функсияи компонентро барои гирифтани тавсифи интерфейс мехонад; ин даъват render ном дорад. useState(0) адади ҷории count ва функсияи setCount медиҳад, ки аз React навсозии экранро мехоҳад. Дар render-и аввал count 0 аст. Коркардкунанда функсияест, ки система баъди амали корбар мехонад. onPress чунин функсия мегирад, на натиҷаи даъвати фаврии он. Навсозии value => value + 1 қимати охирини пешинаро гирифта, навро медиҳад. Пахшҳо танҳо хотираи барномаро иваз мекунанд: баъди оғози нав ҳисобкунак 0 мешавад, зеро нигоҳдории доимӣ ва ҳамоҳангсозӣ ҳанӯз сохта нашудааст.",
+            "en": "State is a component's memory between renders. A press handler requests a state update and the component produces the next view. An ordinary local variable does not persist the count between renders.\n\nState is data that may change while a screen is in use. React calls a component function to obtain an interface description; that call is a render. useState(0) returns the current count and setCount, which asks React to update the screen. On the first render count is zero. A handler is a function the system calls after a user action. onPress receives that function, not the result of invoking it immediately. The functional update value => value + 1 receives the latest previous value and returns the next one. Presses change only application memory: restarting resets the counter because persistence and synchronization have not yet been implemented."
           },
           "code": "import { useState } from 'react';\nimport { View, Text, Button } from 'react-native';\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>\n      <Text accessibilityLiveRegion=\"polite\">Completed: {count}</Text>\n      <Button title=\"Complete one task\" onPress={() => setCount(value => value + 1)} />\n      <Button title=\"Reset\" onPress={() => setCount(0)} />\n    </View>\n  );\n}",
           "language": "tsx"
@@ -496,6 +514,23 @@
           }
         }
       ],
+      "interview": {
+        "id": "mobile-day-02-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какой хук хранит счётчик между отрисовками React Native?",
+          "tg": "Кадом hook ҳисобкунакро байни render-ҳои React Native нигоҳ медорад?",
+          "en": "Which hook keeps a counter across React Native renders?"
+        },
+        "answer": {
+          "ru": "useState",
+          "tg": "useState",
+          "en": "useState"
+        },
+        "acceptedAnswers": [
+          "useState()"
+        ]
+      },
       "questions": [
         {
           "id": "mobile-day-02-q",
@@ -872,14 +907,14 @@
       "sections": [
         {
           "title": {
-            "ru": "От значения к экрану",
-            "tg": "Аз қимат то экран",
-            "en": "From values to the screen"
+            "ru": "Как переменная становится текстом на экране",
+            "tg": "Қимат аз variable чӣ хел ба экран мебарояд?",
+            "en": "Rendering a value on screen"
           },
           "body": {
-            "ru": "Значение — данные, например имя или число выполненных занятий. Переменная даёт значению имя, чтобы использовать его в нескольких местах. const объявляет имя, которое нельзя переназначить; само значение может быть строкой в кавычках или числом без кавычек. JSX похож на разметку, но позволяет вставить JavaScript-выражение в одиночных фигурных скобках: {remaining}. Выражение сначала вычисляется, затем Text отображает результат. Вычитание total - completed возвращает число, а не сохраняет что-либо на сервере. При каждом новом рендере функция App запускается снова. Обычная переменная не вызывает рендер после нажатия — для этого нужен state, знакомый по дню 2.",
-            "tg": "Қимат дода аст, масалан ном ё шумори машғулияти анҷомёфта. Тағйирёбанда ба қимат ном медиҳад, то онро чанд бор истифода барем. const номеро эълон мекунад, ки аз нав таъин намешавад; қимат сатр дар нохунак ё адади бе нохунак шуда метавонад. JSX ба нишонагузорӣ монанд аст, вале ифодаи JavaScript-ро дар қавсҳои ягонаи шаклдор мегирад: {remaining}. Аввал ифода ҳисоб ва баъд Text натиҷаро нишон медиҳад. total - completed адад медиҳад, вале дар сервер чизе сабт намекунад. Дар ҳар render-и нав функсияи App боз иҷро мешавад. Тағйирёбандаи оддӣ баъди пахш render намекунад — барои ин state-и рӯзи 2 лозим аст.",
-            "en": "A value is data, such as a name or a number of completed lessons. A variable gives that value a name for reuse. const declares a binding that cannot be reassigned; its value can be a quoted string or an unquoted number. JSX resembles markup but evaluates a JavaScript expression between single braces: {remaining}. The expression is evaluated first and Text displays its result. Subtracting completed from total returns a number; it does not save anything to a server. App runs again on each render. Changing an ordinary variable after a button press does not request a render: use the state introduced on day 2."
+            "ru": "Значение хранится под именем, а JSX показывает его внутри фигурных скобок. В Text запись {name} выводит содержимое name. Написанное без скобок имя будет обычным текстом.\n\nЗначение — данные, например имя или число выполненных занятий. Переменная даёт значению имя, чтобы использовать его в нескольких местах. const объявляет имя, которое нельзя переназначить; само значение может быть строкой в кавычках или числом без кавычек. JSX похож на разметку, но позволяет вставить JavaScript-выражение в одиночных фигурных скобках: {remaining}. Выражение сначала вычисляется, затем Text отображает результат. Вычитание total - completed возвращает число, а не сохраняет что-либо на сервере. При каждом новом рендере функция App запускается снова. Обычная переменная не вызывает рендер после нажатия — для этого нужен state, знакомый по дню 2.",
+            "tg": "Қимат ном дорад ва JSX онро дар қавсҳои фигурӣ нишон медиҳад. Дар Text нависи {name} қимати name-ро мебарорад. Бе қавс калима ҳамчун матн мебарояд.\n\nҚимат дода аст, масалан ном ё шумори машғулияти анҷомёфта. Тағйирёбанда ба қимат ном медиҳад, то онро чанд бор истифода барем. const номеро эълон мекунад, ки аз нав таъин намешавад; қимат сатр дар нохунак ё адади бе нохунак шуда метавонад. JSX ба нишонагузорӣ монанд аст, вале ифодаи JavaScript-ро дар қавсҳои ягонаи шаклдор мегирад: {remaining}. Аввал ифода ҳисоб ва баъд Text натиҷаро нишон медиҳад. total - completed адад медиҳад, вале дар сервер чизе сабт намекунад. Дар ҳар render-и нав функсияи App боз иҷро мешавад. Тағйирёбандаи оддӣ баъди пахш render намекунад — барои ин state-и рӯзи 2 лозим аст.",
+            "en": "A variable gives a value a name, and JSX reads its value inside braces. In Text, {name} displays what's stored in name. Without braces, name is literal text.\n\nA value is data, such as a name or a number of completed lessons. A variable gives that value a name for reuse. const declares a binding that cannot be reassigned; its value can be a quoted string or an unquoted number. JSX resembles markup but evaluates a JavaScript expression between single braces: {remaining}. The expression is evaluated first and Text displays its result. Subtracting completed from total returns a number; it does not save anything to a server. App runs again on each render. Changing an ordinary variable after a button press does not request a render: use the state introduced on day 2."
           }
         },
         {
@@ -897,6 +932,23 @@
           "language": "tsx"
         }
       ],
+      "interview": {
+        "id": "mobile-day-03-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Что написать внутри Text, чтобы вывести значение переменной name? Укажите выражение вместе со скобками.",
+          "tg": "Дар дохили Text барои нишон додани қимати name чӣ менависӣ? Бо қавс навис.",
+          "en": "What do you write inside Text to display the value of name? Include the braces."
+        },
+        "answer": {
+          "ru": "{name}",
+          "tg": "{name}",
+          "en": "{name}"
+        },
+        "acceptedAnswers": [
+          "{ name }"
+        ]
+      },
       "questions": [
         {
           "id": "mobile-day-03-q1",

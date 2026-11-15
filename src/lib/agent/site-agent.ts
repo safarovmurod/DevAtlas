@@ -72,6 +72,15 @@ const LINK_LABELS: Record<
     tests: 'tests',
     plan: 'Course plan',
   },
+  es: {
+    catalog: 'Catálogo de cursos',
+    practice: 'Práctica general',
+    notes: 'Notas',
+    plans: 'Planes',
+    community: 'Comunidad',
+    tests: 'pruebas',
+    plan: 'Plan del curso',
+  },
 };
 
 /** Answers a question about the platform, or returns null for lesson-content questions. */
@@ -115,6 +124,8 @@ function trackSummary(language: Lang) {
     return `${first} и другие — всего ${categories} категорий, ${courses} курсов.`;
   if (language === 'tg')
     return `${first} ва дигар — ҳамагӣ ${categories} категория, ${courses} курс.`;
+  if (language === 'es')
+    return `${first} y más: ${categories} categorías, ${courses} cursos en total.`;
   return `${first} and more — ${categories} categories, ${courses} courses in total.`;
 }
 
@@ -134,6 +145,7 @@ function nextStepText(
       ru: 'Откройте каталог курсов и выберите направление — рекомендую начать с HTML + CSS, если вы с нуля.',
       tg: 'Каталогро кушоед ва як самт интихоб кунед — агар аз сифр бошед, аз HTML + CSS оғоз кунед.',
       en: 'Open the course catalog and pick a direction — start with HTML + CSS if you are new.',
+      es: 'Abre el catálogo de cursos y elige una ruta; si empiezas de cero, empieza por HTML + CSS.',
     }[lang];
   }
   if (hasProgress) {
@@ -141,17 +153,20 @@ function nextStepText(
       ru: currentDay ? ' — сейчас идёт день ' + currentDay : '',
       tg: currentDay ? ' — ҳоло рӯзи ' + currentDay : '',
       en: currentDay ? ' — currently on day ' + currentDay : '',
+      es: currentDay ? ' — ahora vas por el día ' + currentDay : '',
     }[lang];
     return {
       ru: `Продолжайте курс «${courseTitle}»${day}. Проверьте мастерство дня в разделе тестов и подтвердите день, когда урок и практика готовы.`,
       tg: `Курси «${courseTitle}»-ро идома диҳед${day}. Азхудкунии рӯзро дар санҷишҳо тафтиш кунед ва рӯзро тасдиқ кунед.`,
       en: `Continue “${courseTitle}”${day}. Check the day’s mastery in tests and confirm the day once reading and practice are done.`,
+      es: `Continúa el curso «${courseTitle}»${day}. Comprueba el dominio del día en las pruebas y confirma el día cuando la lección y la práctica estén listas.`,
     }[lang];
   }
   return {
     ru: `Курс «${courseTitle}» выбран, но пока не начат: откройте план и начните с дня 1 — каждый день это урок, пример, практика и тест.`,
     tg: `Курси «${courseTitle}» интихоб шудааст, вале ҳанӯз оғоз нашудааст: нақшаро кушоед ва аз рӯзи 1 оғоз кунед.`,
     en: `“${courseTitle}” is selected but not started: open the plan and begin with day 1 — every day is a lesson, example, practice and a quiz.`,
+    es: `Has elegido «${courseTitle}», pero aún no lo has empezado: abre el plan y empieza por el día 1; cada día es una lección, un ejemplo, práctica y una prueba.`,
   }[lang];
 }
 
@@ -203,6 +218,7 @@ export function guideContext(input: {
       ru: `Сейчас выбран курс «${courseTitle}»${days ? ' — ' + courseDayCount(days, 'ru') : ''}.`,
       tg: `Ҳоло курси «${courseTitle}» интихоб аст.`,
       en: `Current course: “${courseTitle}”.`,
+      es: `Curso actual: «${courseTitle}».`,
     }[guideLanguage(language)];
   }
 
@@ -224,49 +240,18 @@ export function guideContext(input: {
   };
 }
 
-/** Human-readable capability overview used as the widget's greeting. */
-export function agentGreeting(language: Lang): string {
-  if (language === 'ru')
-    return 'Привет! Я ассистент DevAtlas. Подскажу, где что находится, что делать дальше, как считается прогресс и мастерство. Вопросы по материалам урока передам в библиотеку ответов курса. Спрашивайте!';
-  if (language === 'tg')
-    return 'Салом! Ман ёрдамчии DevAtlas ҳастам. Мегӯям, ки чӣ дар куҷост, минбаъд чӣ кардан лозим ва пешрафт чӣ тавр ҳисоб мешавад. Саволҳои дарсиро ба китобхонаи ҷавобҳои курс мефиристам. Пурсед!';
-  return 'Hi! I am the DevAtlas assistant. I can point you around the platform, suggest what to do next, and explain how progress and mastery work. Lesson-content questions go to the reviewed course answer library. Ask away!';
-}
-
-/** Ready-made questions shown as buttons. Each one matches a guide topic. */
-export function agentQuickPrompts(language: Lang): string[] {
-  if (language === 'ru')
-    return [
-      'Что мне делать дальше?',
-      'Где найти курсы?',
-      'Как считается мастерство?',
-      'Как готовиться к интервью?',
-    ];
-  if (language === 'tg')
-    return [
-      'Минбаъд чӣ кунам?',
-      'Курсҳо дар куҷоанд?',
-      'Пешрафт чӣ тавр ҳисоб мешавад?',
-      'Барои мусоҳиба чӣ тавр тайёр шавам?',
-    ];
-  return [
-    'What should I do next?',
-    'Where are the courses?',
-    'How does mastery work?',
-    'How do I prep for interviews?',
-  ];
-}
-
 function agentStages(language: Lang): Record<LearningStage, string> {
+  if (language === 'es')
+    return { beginner: 'Inicial · gratis', pro: 'Pro · gratis', expert: 'Expert · gratis' };
   if (language === 'tg')
-    return { beginner: 'Асосӣ · ройгон', pro: 'Pro · бо обуна', expert: 'Expert · бо обуна' };
+    return { beginner: 'Асосӣ · ройгон', pro: 'Pro · ройгон', expert: 'Expert · ройгон' };
   if (language === 'ru')
     return {
       beginner: 'Начальный · бесплатно',
-      pro: 'Pro · по подписке',
-      expert: 'Expert · по подписке',
+      pro: 'Pro · бесплатно',
+      expert: 'Expert · бесплатно',
     };
-  return { beginner: 'Beginner · free', pro: 'Pro · paid', expert: 'Expert · paid' };
+  return { beginner: 'Beginner · free', pro: 'Pro · free', expert: 'Expert · free' };
 }
 
 /** One learning track as text: "Python: Python (Beginner · free, 30) → …". */

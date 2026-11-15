@@ -61,16 +61,15 @@ export function AnswersLibrary(props: Props) {
           {text.download}
         </a>
       </PageHeading>
-      <section className="panel answers-recommendation">
-        <div>
-          <span className="badge">
+      <section className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4">
+        <div className="grid min-w-0 gap-1">
+          <span className="badge w-fit">
             <BookOpen size={14} />
             {copy.recommended}
           </span>
-          <h2>{text.prepareTitle}</h2>
-          <p>{text.prepareText}</p>
-          <span className="source-line">
-            react_deep_understanding.html · 79 {text.topics} · {deepAnswers} {copy.questionsOf}
+          <h2 className="text-base font-semibold">{text.prepareTitle}</h2>
+          <span className="text-sm text-muted-foreground">
+            79 {text.topics} · {deepAnswers} {copy.questionsOf}
           </span>
         </div>
         <Link className="button primary" href="/answers/deep-1">
@@ -84,7 +83,7 @@ export function AnswersLibrary(props: Props) {
         </span>
         <span>
           <CheckCircle2 size={15} />
-          {learnedCount} {copy.learned.toLowerCase()} · 0 {text.tokens}
+          {learnedCount} {copy.learned.toLowerCase()}
         </span>
       </div>
       <nav className="answers-source-filters" aria-label={copy.source}>

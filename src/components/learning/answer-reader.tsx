@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import type { AnswerTopic } from '@/content/answers';
+import { questionsForTopic } from '@/content/course';
 import { COPY } from '@/lib/i18n';
 import { tr } from '@/lib/translate';
 import { useLearningStore } from '@/stores/learning-store';
 import { AnswerCodeBlock, Flow, ReadingQuestion } from './answer-question';
 import { ANSWER_READER_COPY } from './answer-reader-copy';
 import { PageHeading } from './page-heading';
+import { StudySession } from './study-session';
 
 /** File name of the original React material an answer comes from. */
 const SOURCE_FILES: Record<string, string> = {
@@ -23,6 +25,7 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
   const contentLanguage = useLearningStore((state) => state.contentLanguage);
   const studied = useLearningStore((state) => state.studied);
   const [query, setQuery] = useState('');
+  const [mode, setMode] = useState<'read' | 'test' | 'interview'>('read');
   useEffect(() => {
     function revealAnswer() {
       const target = document.getElementById(window.location.hash.slice(1));
@@ -38,6 +41,8 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
   const count = topic.questions.filter((question) =>
     question.aliases.some((id) => studied.includes(id)),
   ).length;
+  const practiceQuestions = topic.lessonId ? questionsForTopic(topic.lessonId) : [];
+  const hasTest = practiceQuestions.some((question) => question.options.length > 1);
   const filtered = topic.questions.filter((question) =>
     [
       question.question,
@@ -67,132 +72,158 @@ export function AnswerReader({ topic }: { topic: AnswerTopic }) {
           {topic.questions.length} {copy.learned.toLowerCase()}
         </span>
       </PageHeading>
-      <div className={'answer-reader-grid ' + (!topic.flow.length ? 'without-flow' : '')}>
-        <article className="panel lesson-article" lang={contentLanguage}>
-          {topic.context && (
-            <section className="answer-context">
-              <h2>{text.context}</h2>
-              <p className="preserve-lines">{translate(topic.context)}</p>
-            </section>
+      {practiceQuestions.length > 0 && (
+        <div className="button-row mb-4" role="group" aria-label={copy.practice}>
+          {(['read', ...(hasTest ? (['test'] as const) : []), 'interview'] as const).map(
+            (value) => (
+              <button
+                key={value}
+                type="button"
+                className={'button ' + (mode === value ? 'primary' : 'subtle')}
+                aria-pressed={mode === value}
+                onClick={() => setMode(value)}
+              >
+                {value === 'read' ? copy.answers : value === 'test' ? copy.tests : copy.interview}
+              </button>
+            ),
           )}
-          {topic.explanation.map((section, index) => (
-            <section key={index}>
-              <h2>{translate(section.title)}</h2>
-              <p className="preserve-lines">{translate(section.text)}</p>
-            </section>
-          ))}
-          {topic.code.map((code, index) => (
-            <section key={index}>
-              <h2>
-                {copy.code} {topic.code.length > 1 ? index + 1 : ''}
-              </h2>
-              <AnswerCodeBlock code={code} language={language} />
-            </section>
-          ))}
-          <section>
-            {topic.questions.length > 0 && (
-              <div className="section-heading">
+        </div>
+      )}
+      {mode === 'read' && (
+        <div className={'answer-reader-grid ' + (!topic.flow.length ? 'without-flow' : '')}>
+          <article className="panel lesson-article" lang={contentLanguage}>
+            {topic.context && (
+              <section className="answer-context">
+                <h2>{text.context}</h2>
+                <p className="preserve-lines">{translate(topic.context)}</p>
+              </section>
+            )}
+            {topic.explanation.map((section, index) => (
+              <section key={index}>
+                <h2>{translate(section.title)}</h2>
+                <p className="preserve-lines">{translate(section.text)}</p>
+              </section>
+            ))}
+            {topic.code.map((code, index) => (
+              <section key={index}>
                 <h2>
-                  {copy.questions} · {topic.questions.length}
+                  {copy.code} {topic.code.length > 1 ? index + 1 : ''}
                 </h2>
-              </div>
-            )}
-            {topic.questions.length > 5 && (
-              <input
-                className="search-input"
-                aria-label={copy.search}
-                placeholder={copy.search}
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-              />
-            )}
-            <div className="answer-reading-list">
-              {filtered.map((question) => (
-                <ReadingQuestion
-                  key={question.id}
-                  question={question}
-                  topic={topic}
-                  index={topic.questions.indexOf(question)}
+                <AnswerCodeBlock code={code} language={language} />
+              </section>
+            ))}
+            <section>
+              {topic.questions.length > 0 && (
+                <div className="section-heading">
+                  <h2>
+                    {copy.questions} · {topic.questions.length}
+                  </h2>
+                </div>
+              )}
+              {topic.questions.length > 5 && (
+                <input
+                  className="search-input"
+                  aria-label={copy.search}
+                  placeholder={copy.search}
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
                 />
-              ))}
-            </div>
-            {!filtered.length && topic.questions.length > 0 && <p role="status">{copy.empty}</p>}
-            {!topic.questions.length && !topic.relatedQuestions.length && (
-              <p>{text.designExample}</p>
+              )}
+              <div className="answer-reading-list">
+                {filtered.map((question) => (
+                  <ReadingQuestion
+                    key={question.id}
+                    question={question}
+                    topic={topic}
+                    index={topic.questions.indexOf(question)}
+                  />
+                ))}
+              </div>
+              {!filtered.length && topic.questions.length > 0 && <p role="status">{copy.empty}</p>}
+              {!topic.questions.length && !topic.relatedQuestions.length && (
+                <p>{text.designExample}</p>
+              )}
+            </section>
+            {topic.relatedQuestions.length > 0 && (
+              <section className="answer-related">
+                <h2>{text.shared}</h2>
+                <p>{text.sharedIntro}</p>
+                {topic.relatedQuestions.map((reference) => (
+                  <Link
+                    id={reference.id}
+                    className="answer-related-link"
+                    key={reference.id}
+                    href={'/answers/' + reference.topicId + '#' + reference.questionId}
+                  >
+                    <span>{translate(reference.question)}</span>
+                    <ArrowRight size={16} />
+                  </Link>
+                ))}
+              </section>
             )}
-          </section>
-          {topic.relatedQuestions.length > 0 && (
-            <section className="answer-related">
-              <h2>{text.shared}</h2>
-              <p>{text.sharedIntro}</p>
-              {topic.relatedQuestions.map((reference) => (
+            <p className="source-line">
+              {copy.source}: {topic.sources.map(sourceFile).join(' + ')} · {topic.sourceId}
+            </p>
+          </article>
+          <aside className="lesson-aside">
+            {topic.questions.length > 0 && (
+              <nav className="panel answer-toc" aria-label={copy.questions}>
+                <h2>{copy.questions}</h2>
+                <ol>
+                  {topic.questions.map((question) => (
+                    <li key={question.id}>
+                      <a
+                        href={'#' + question.id}
+                        onClick={() => {
+                          const target = document.getElementById(question.id);
+                          if (target instanceof HTMLDetailsElement) target.open = true;
+                        }}
+                      >
+                        {translate(question.question)}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )}
+            {topic.flow.length > 0 && (
+              <section className="panel">
+                <h2>{copy.flow}</h2>
+                <Flow steps={topic.flow} language={contentLanguage} />
+              </section>
+            )}
+            {topic.lessonId && (
+              <section className="panel answers-next-step">
+                <h3>{text.practiceTitle}</h3>
+                <p>{text.practiceIntro}</p>
                 <Link
-                  id={reference.id}
-                  className="answer-related-link"
-                  key={reference.id}
-                  href={'/answers/' + reference.topicId + '#' + reference.questionId}
+                  className="button primary full-width"
+                  href={
+                    (topic.sources.includes('interview') ? '/interview?topic=' : '/tests?topic=') +
+                    topic.lessonId
+                  }
                 >
-                  <span>{translate(reference.question)}</span>
+                  {topic.sources.includes('interview') ? copy.interview : copy.tests}
                   <ArrowRight size={16} />
                 </Link>
-              ))}
-            </section>
-          )}
-          <p className="source-line">
-            {copy.source}: {topic.sources.map(sourceFile).join(' + ')} · {topic.sourceId}
-          </p>
-        </article>
-        <aside className="lesson-aside">
-          {topic.questions.length > 0 && (
-            <nav className="panel answer-toc" aria-label={copy.questions}>
-              <h2>{copy.questions}</h2>
-              <ol>
-                {topic.questions.map((question) => (
-                  <li key={question.id}>
-                    <a
-                      href={'#' + question.id}
-                      onClick={() => {
-                        const target = document.getElementById(question.id);
-                        if (target instanceof HTMLDetailsElement) target.open = true;
-                      }}
-                    >
-                      {translate(question.question)}
-                    </a>
-                  </li>
-                ))}
-              </ol>
-            </nav>
-          )}
-          {topic.flow.length > 0 && (
-            <section className="panel">
-              <h2>{copy.flow}</h2>
-              <Flow steps={topic.flow} language={contentLanguage} />
-            </section>
-          )}
-          {topic.lessonId && (
-            <section className="panel answers-next-step">
-              <h3>{text.practiceTitle}</h3>
-              <p>{text.practiceIntro}</p>
-              <Link
-                className="button primary full-width"
-                href={
-                  (topic.sources.includes('interview') ? '/interview?topic=' : '/tests?topic=') +
-                  topic.lessonId
-                }
-              >
-                {topic.sources.includes('interview') ? copy.interview : copy.tests}
-                <ArrowRight size={16} />
-              </Link>
-              <Link className="button subtle full-width" href={'/lesson/' + topic.lessonId}>
-                {copy.openLesson}
-              </Link>
-            </section>
-          )}
-          <Link className="button subtle full-width" href="/answers">
-            {text.allAnswers}
-          </Link>
-        </aside>
-      </div>
+                <Link className="button subtle full-width" href={'/lesson/' + topic.lessonId}>
+                  {copy.openLesson}
+                </Link>
+              </section>
+            )}
+            <Link className="button subtle full-width" href="/answers">
+              {text.allAnswers}
+            </Link>
+          </aside>
+        </div>
+      )}
+      {mode !== 'read' && topic.lessonId && (
+        <StudySession
+          key={topic.lessonId + mode}
+          config={{ mode, topic: topic.lessonId }}
+          embedded
+        />
+      )}
     </>
   );
 }

@@ -9,6 +9,20 @@ vi.mock('@/lib/courses/content',()=>({loadCourseContent:mocks.load}));
 vi.mock('@/lib/courses/tutor',()=>({courseAnswer:mocks.courseAnswer}));
 vi.mock('@/lib/tutor/project-answers',()=>({projectAnswer:mocks.projectAnswer}));
 vi.mock('node:fs/promises',()=>({readFile:mocks.readFile}));
+
+// Every course is free now. The membership guard stays and is still tested, so these ids
+// are pretended to be members-only here.
+vi.mock('@/lib/courses/access', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/courses/access')>();
+  const members: Record<string, 'pro' | 'expert'> = {
+    'javascript-pro': 'pro',
+    'backend-pro': 'pro',
+    'ux-pro': 'pro',
+    'business-pro': 'pro',
+    'architecture-expert': 'expert',
+  };
+  return { ...actual, courseAccessTier: (id: string) => members[id] ?? actual.courseAccessTier(id) };
+});
 import {POST as tutor} from '@/app/api/tutor/route';
 import {GET as attachment} from '@/app/course-files/[filename]/route';
 

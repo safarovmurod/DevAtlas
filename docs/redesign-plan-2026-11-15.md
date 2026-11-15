@@ -1,0 +1,11 @@
+# DevAtlas redesign plan — 2026-11-15
+
+Shared rules for every task: Tailwind for new UI, no new legacy CSS, keep test hooks, short clear text (a beginner must understand), calm hover (no jumping, one smooth lift), PC + phone. Do not commit. Do not run prettier on whole folders. Files are CRLF. Work only in your own files: other agents edit the rest at the same time.
+
+| # | Task | Model | Effort | Files (owner) | Status |
+|---|------|-------|--------|---------------|--------|
+| A | Catalog: one page per direction (Programming → programming courses page, AI → its page). Click opens the page directly; no filter clutter. Calm hover everywhere. | Opus 5.5 | low | `src/app/courses/page.tsx`, `src/app/courses/category/**`, `components/courses/catalog-*`, `course-catalog*`, `course-card.tsx`, `category-icons.ts`, `src/app/styles/29-depth.css` | running |
+| B | Learning flow: all days open (no locks); "My day" + practice in one page; short steps instead of 8 long ones; revision + weak topics in one page; answers/interview as clear Q&A per day ("What is HTML?"). | Sonnet 5.5 | xhigh | `components/courses/course-day.tsx`, `lesson-flow*`, `course-workspace*`, `course-plan.tsx`, `course-practice*`, `lib/courses/plan.ts`, `lib/courses/learning-flow.ts`, `components/layout/sidebar.tsx`, `mobile-tab-bar.tsx`, revision / weak-topics / answers routes | running |
+| C | Progress report: one page with real numbers from registration — weeks 1..N (week N+1 appears when week N ends), score, questions, interview, active days, hours/minutes, studied / left / mistakes, per course. | Haiku 5.5 | xhigh | new `src/app/progress/**`, new `components/progress/**`, new `lib/progress/weekly-report.ts`, tests | running |
+| D | Plans Start / Pro / Ultra with real feature split; DevAtlas Assistant = voice only (no chat UI); AI Tutor = the chat, cleaned texts, answers greetings and course questions; settings show real sessions with sign-out of other devices. | Sonnet 5.5 | xhigh | `components/agent/**`, `lib/agent/**`, `components/layout/tutor-drawer.tsx`, `lib/tutor/**`, `app/api/tutor/**`, `lib/billing/**`, `components/community/plans-screen.tsx`, `components/account/*settings*`, `lib/account/session.ts` | running |
+| E | Languages: keep EN, RU, TG, add ES; remove UK, JA, KO everywhere. | Sonnet 5.5 | xhigh | all copy files | after A–D |

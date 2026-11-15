@@ -11,7 +11,6 @@ import {
   START_QUESTIONS,
   START_SECTIONS,
 } from '@/content/start-here';
-import { onboardingLocale } from '@/lib/onboarding';
 
 const UI = {
   tg: {
@@ -41,7 +40,7 @@ const UI = {
 };
 
 export function StartHere() {
-  const locale = onboardingLocale(useLearningStore((state) => state.contentLanguage));
+  const locale = useLearningStore((state) => state.contentLanguage);
   const ui = UI[locale];
   const [answers, setAnswers] = useState<Record<string, number>>({});
   return (

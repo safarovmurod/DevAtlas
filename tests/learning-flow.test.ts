@@ -14,7 +14,7 @@ it('validates the pilot flow against actual theory, practice and assessment',()=
  expect(flow.walkthroughSections).toEqual(lesson.sections.map((_,index)=>index));
  expect(flow.assessmentVersion).toBe(bank.version);expect(lesson.id).toBe(bank.lessonId);
  expect(course.lessons.find(next=>next.id===flow.nextLessonId)?.day).toBe(2);
- expect(LEARNING_FLOW_STAGES).toEqual(['learn','understand','watch','try','practice','test','review','master']);
+ expect(LEARNING_FLOW_STAGES).toEqual(['learn','practice','check']);
  const legacy=structuredClone(course);delete legacy.lessons[0].learningFlow;
  expect(courseContentSchema.safeParse(legacy).success).toBe(true);
 });
@@ -68,7 +68,9 @@ it('allows an explicit course ending only at the last scheduled day and rejects 
  const course=courseContentSchema.parse(html),flow=course.lessons[0].learningFlow!;
  const last=course.lessons.filter(item=>item.day!==undefined).sort((a,b)=>a.day!-b.day!).at(-1)!;
  // An authored terminal flow must still provide every learning activity and translation.
- Object.assign(last,{...structuredClone(course.lessons[0]),id:last.id,day:last.day,questions:course.lessons[0].questions.map(question=>({...question,id:question.id+'-terminal'})),learningFlow:{...flow,nextLessonId:null}});
+ const example=structuredClone(course.lessons[0]);
+ if(example.interview) example.interview.id+='-terminal';
+ Object.assign(last,{...example,id:last.id,day:last.day,questions:example.questions.map(question=>({...question,id:question.id+'-terminal'})),learningFlow:{...flow,nextLessonId:null}});
  expect(courseContentSchema.safeParse(course).success).toBe(true);
  course.lessons[0].learningFlow={...flow,nextLessonId:null};
  expect(courseContentSchema.safeParse(course).success).toBe(false);

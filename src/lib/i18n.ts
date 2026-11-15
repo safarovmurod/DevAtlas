@@ -1,10 +1,6 @@
-import { JAPANESE_COPY } from './locales/ja';
-import { KOREAN_COPY } from './locales/ko';
-import { COPY_EN, COPY_TG, COPY_UK } from './i18n-translations';
+import { COPY_EN, COPY_ES, COPY_TG } from './i18n-translations';
 
 export const COPY = {
-  ja: JAPANESE_COPY,
-  ko: KOREAN_COPY,
   ru: {
     home: 'Мой день',
     plan: 'Учебный план',
@@ -129,5 +125,5 @@ export const COPY = {
   },
   en: COPY_EN,
   tg: COPY_TG,
-  uk: COPY_UK,
+  es: COPY_ES,
 };

@@ -125,15 +125,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что такое PHP и где выполняется код",
+      "tg": "PHP чист ва код дар куҷо иҷро мешавад?",
+      "en": "PHP and its runtime"
+    },
      "body": {
-      "ru": "Для запуска нужен PHP CLI. Файл начинается с <?php; имена переменных начинаются с $. echo выводит значение, PHP_EOL добавляет перевод строки. Запуск через CLI не требует веб-сервера и не создаёт HTTP API.",
-      "tg": "Барои иҷро PHP CLI лозим аст. Файл аз <?php сар мешавад; номи тағйирёбанда аз $ оғоз меёбад. echo қиматро мебарорад, PHP_EOL сатри нав илова мекунад. Иҷро дар CLI веб-сервер талаб намекунад ва HTTP API намесозад.",
-      "en": "PHP CLI is required. The file begins with <?php and variable names begin with $. echo outputs a value; PHP_EOL adds a newline. CLI execution requires no web server and does not create an HTTP API."
-     },
+      "ru": "PHP — язык программирования, часто используемый на сервере. Он может собрать HTML и отправить браузеру результат. В первом уроке PHP CLI запускает файл из терминала.\n\nДля запуска нужен PHP CLI. Файл начинается с <?php; имена переменных начинаются с $. echo выводит значение, PHP_EOL добавляет перевод строки. Запуск через CLI не требует веб-сервера и не создаёт HTTP API.",
+      "tg": "PHP забони барномасозӣ аст, ки бисёр вақт дар сервер кор мекунад. Метавонад HTML тайёр карда ба браузер ҷавоб диҳад. Дар дарси аввал файлро PHP CLI дар терминал иҷро мекунад.\n\nБарои иҷро PHP CLI лозим аст. Файл аз <?php сар мешавад; номи тағйирёбанда аз $ оғоз меёбад. echo қиматро мебарорад, PHP_EOL сатри нав илова мекунад. Иҷро дар CLI веб-сервер талаб намекунад ва HTTP API намесозад.",
+      "en": "PHP is a programming language often used on servers. It can produce HTML and send the result to a browser. This lesson runs a file from the terminal with PHP CLI.\n\nPHP CLI is required. The file begins with <?php and variable names begin with $. echo outputs a value; PHP_EOL adds a newline. CLI execution requires no web server and does not create an HTTP API."
+    },
      "code": "<?php\n$price = 12;\n$quantity = 3;\necho $price * $quantity, PHP_EOL;\n",
      "language": "php",
      "output": {
@@ -167,6 +167,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "php-day-01-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какой символ ставят перед именем переменной в PHP?",
+       "tg": "Пеш аз номи variable дар PHP кадом аломат меояд?",
+       "en": "Which symbol goes before a PHP variable name?"
+     },
+     "answer": {
+       "ru": "$",
+       "tg": "$",
+       "en": "$"
+     }
+   },
    "questions": [
     {
      "id": "php-day-01-q",
@@ -285,15 +299,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Типы в параметрах и результате функции",
+      "tg": "Типи параметр ва натиҷаи функсия",
+      "en": "Parameters and return types"
+    },
      "body": {
-      "ru": "declare(strict_types=1) включает строгую передачу скалярных аргументов из этого файла. Параметры и возвращаемый результат помечены int. InvalidArgumentException отклоняет отрицательные значения. Используйте целые небольшие значения; для реальных денег нужна отдельная модель точности и валют.",
-      "tg": "declare(strict_types=1) додани аргументҳои скаляриро аз ин файл қатъӣ мекунад. Параметрҳо ва натиҷа int мебошанд. InvalidArgumentException қиматҳои манфиро рад мекунад. Ададҳои хурди бутунро истифода баред; барои пули воқеӣ модели алоҳидаи дақиқӣ ва асъор лозим аст.",
-      "en": "declare(strict_types=1) enables strict scalar argument passing from this file. Parameters and return values are marked int. InvalidArgumentException rejects negative values. Use small whole numbers; real money needs a separate precision and currency model."
-     },
+      "ru": "Функция с типами объявляет, какие значения принимает и возвращает. Тип int запрещает неподходящий тип аргумента при строгом вызове, но проверка отрицательного количества всё равно нужна.\n\ndeclare(strict_types=1) включает строгую передачу скалярных аргументов из этого файла. Параметры и возвращаемый результат помечены int. InvalidArgumentException отклоняет отрицательные значения. Используйте целые небольшие значения; для реальных денег нужна отдельная модель точности и валют.",
+      "tg": "Функсия бо тип мегӯяд, кадом қиматро мегирад ва медиҳад. Дар даъвати strict типи int қимати навъи дигарро намегирад. Манфӣ будани миқдорро алоҳида санҷ.\n\ndeclare(strict_types=1) додани аргументҳои скаляриро аз ин файл қатъӣ мекунад. Параметрҳо ва натиҷа int мебошанд. InvalidArgumentException қиматҳои манфиро рад мекунад. Ададҳои хурди бутунро истифода баред; барои пули воқеӣ модели алоҳидаи дақиқӣ ва асъор лозим аст.",
+      "en": "A typed function states what it takes and returns. In a strict call, int rejects other scalar types. Still check the range, such as a negative item count.\n\ndeclare(strict_types=1) enables strict scalar argument passing from this file. Parameters and return values are marked int. InvalidArgumentException rejects negative values. Use small whole numbers; real money needs a separate precision and currency model."
+    },
      "code": "<?php\ndeclare(strict_types=1);\nfunction total(int $price, int $quantity): int {\n    if ($price < 0 || $quantity < 0) throw new InvalidArgumentException(\"Negative value\");\n    return $price * $quantity;\n}\necho total(12, 3), PHP_EOL;\necho total(12, 0), PHP_EOL;\ntry { total(12, -1); }\ncatch (InvalidArgumentException $error) { echo \"Invalid input rejected\", PHP_EOL; }\n",
      "language": "php",
      "output": {
@@ -327,6 +341,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "php-day-02-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какой тип возвращаемого значения указать для целого количества в функции PHP?",
+       "tg": "Барои натиҷаи бутуни функсияи PHP кадом типро мемонӣ?",
+       "en": "Which PHP return type fits a whole-number count?"
+     },
+     "answer": {
+       "ru": "int",
+       "tg": "int",
+       "en": "int"
+     }
+   },
    "questions": [
     {
      "id": "php-day-02-q",
@@ -445,15 +473,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Зачем это нужно",
-      "tg": "Барои чӣ лозим аст",
-      "en": "Why it matters"
-     },
+      "ru": "Типы PHP и значение null",
+      "tg": "Типҳои PHP ва қимати null",
+      "en": "PHP types and null"
+    },
      "body": {
-      "ru": "В любой программе данные имеют тип: целое число, дробное, текст, истина/ложь или «ничего». PHP определяет тип сам, в момент присваивания, поэтому новичку кажется, что типов «нет». Это не так: от типа зависит, что произойдёт при сложении, сравнении и выводе. Слабая типизация удобна, но коварна: PHP молча превращает «5» в 5, и ошибка в данных может остаться незамеченной. Поэтому мы сразу включаем declare(strict_types=1) и учимся видеть типы явно. Пять базовых типов покрывают почти весь вводный курс: int для счётчиков и лет, float для средних значений, string для текста, bool для флагов, null для «значения ещё нет». Сегодня вы научитесь спрашивать у PHP тип через gettype и предсказывать результат простых операций. Слово gettype здесь работает как линейка: без неё типы остаются догадками, с ней — фактом. Привычка спрашивать тип перед операцией спасает от половины неожиданностей слабой типизации.",
-      "tg": "Дар ҳар барнома маълумот тип дорад: адади бутун, адади касрӣ, матн, рост/нодуруст ё «ҳеҷ чиз». PHP типро худ муайян мекунад, дар лаҳзаи додани қимат, бинобар ин ба навомӯз чунин менамояд, ки типҳо «нестанд». Ин дуруст нест: аз тип вобаста аст, ки дар ҷамъбаст, муқоиса ва барориш чӣ рӯй медиҳад. Типизатсияи суст роҳат аст, вале хатарнок: PHP «5»-ро бепарво ба 5 табдил медиҳад ва хато дар маълумот ноаён боқӣ мемонад. Барои мо фавран declare(strict_types=1)-ро фаъол мекунем ва меомӯзем типҳоро ошкоро дида бошем. Панҷ типи асосӣ қариб тамоми курси шиносоиро мепушонанд: int барои ҳисобкунакҳо ва солҳо, float барои миёнаҳо, string барои матн, bool барои парчамҳо, null барои «ҳанӯз қимат нест». Имрӯз шумо меомӯзед аз PHP бо gettype тип пурсед ва натиҷаи амалиётҳои оддиро пешгӯӣ кунед. Сухани gettype дар ин ҷо ҳамчун хаткашак кор мекунад: бе он типҳо тахмин мемонанд, бо он — воқеият. Одати пурсидани тип пеш аз амал аз ниме аз ногоҳидиҳои типизатсияи суст ҳифз мекунад.",
-      "en": "Every value in a program has a type: a whole number, a decimal, text, true/false, or nothing. PHP decides the type itself at assignment time, so beginners often think types do not exist. They do: the type decides what happens during addition, comparison, and output. Weak typing is convenient but sneaky — PHP quietly turns \"5\" into 5, and a data error can stay invisible. That is why we switch on declare(strict_types=1) from the start and learn to see types explicitly. Five basic types cover almost the whole beginner course: int for counters and years, float for averages, string for text, bool for flags, null for no value yet. Today you will ask PHP for a type with gettype and predict the result of simple operations. Treat gettype as a ruler: without it types are guesses, with it they are facts. The habit of asking for a type before an operation saves you half of weak-typing surprises."
-     }
+      "ru": "PHP связывает тип с текущим значением: строка \"0\", число 0 и null означают разные вещи. null нужен, когда значение отсутствует. Строгое сравнение === учитывает и тип.\n\nВ любой программе данные имеют тип: целое число, дробное, текст, истина/ложь или «ничего». PHP определяет тип сам, в момент присваивания, поэтому новичку кажется, что типов «нет». Это не так: от типа зависит, что произойдёт при сложении, сравнении и выводе. Слабая типизация удобна, но коварна: PHP молча превращает «5» в 5, и ошибка в данных может остаться незамеченной. Поэтому мы сразу включаем declare(strict_types=1) и учимся видеть типы явно. Пять базовых типов покрывают почти весь вводный курс: int для счётчиков и лет, float для средних значений, string для текста, bool для флагов, null для «значения ещё нет». Сегодня вы научитесь спрашивать у PHP тип через gettype и предсказывать результат простых операций. Слово gettype здесь работает как линейка: без неё типы остаются догадками, с ней — фактом. Привычка спрашивать тип перед операцией спасает от половины неожиданностей слабой типизации.",
+      "tg": "Дар PHP тип ба қимати ҳозира вобаста аст. Сатри \"0\", адади 0 ва null ҳар кадом маънои ҷудо доранд. null вақте аст, ки қимат нест. === типро ҳам месанҷад.\n\nДар ҳар барнома маълумот тип дорад: адади бутун, адади касрӣ, матн, рост/нодуруст ё «ҳеҷ чиз». PHP типро худ муайян мекунад, дар лаҳзаи додани қимат, бинобар ин ба навомӯз чунин менамояд, ки типҳо «нестанд». Ин дуруст нест: аз тип вобаста аст, ки дар ҷамъбаст, муқоиса ва барориш чӣ рӯй медиҳад. Типизатсияи суст роҳат аст, вале хатарнок: PHP «5»-ро бепарво ба 5 табдил медиҳад ва хато дар маълумот ноаён боқӣ мемонад. Барои мо фавран declare(strict_types=1)-ро фаъол мекунем ва меомӯзем типҳоро ошкоро дида бошем. Панҷ типи асосӣ қариб тамоми курси шиносоиро мепушонанд: int барои ҳисобкунакҳо ва солҳо, float барои миёнаҳо, string барои матн, bool барои парчамҳо, null барои «ҳанӯз қимат нест». Имрӯз шумо меомӯзед аз PHP бо gettype тип пурсед ва натиҷаи амалиётҳои оддиро пешгӯӣ кунед. Сухани gettype дар ин ҷо ҳамчун хаткашак кор мекунад: бе он типҳо тахмин мемонанд, бо он — воқеият. Одати пурсидани тип пеш аз амал аз ниме аз ногоҳидиҳои типизатсияи суст ҳифз мекунад.",
+      "en": "PHP values have types. The string \"0\", the number 0, and null mean different things. null represents a missing value. Strict equality === also checks the type.\n\nEvery value in a program has a type: a whole number, a decimal, text, true/false, or nothing. PHP decides the type itself at assignment time, so beginners often think types do not exist. They do: the type decides what happens during addition, comparison, and output. Weak typing is convenient but sneaky — PHP quietly turns \"5\" into 5, and a data error can stay invisible. That is why we switch on declare(strict_types=1) from the start and learn to see types explicitly. Five basic types cover almost the whole beginner course: int for counters and years, float for averages, string for text, bool for flags, null for no value yet. Today you will ask PHP for a type with gettype and predict the result of simple operations. Treat gettype as a ruler: without it types are guesses, with it they are facts. The habit of asking for a type before an operation saves you half of weak-typing surprises."
+    }
     },
     {
      "title": {
@@ -499,6 +527,23 @@
      }
     }
    ],
+   "interview": {
+     "id": "php-day-03-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какой литерал PHP обозначает отсутствие значения?",
+       "tg": "Дар PHP кадом қимат набудани маълумотро нишон медиҳад?",
+       "en": "Which PHP literal represents the absence of a value?"
+     },
+     "answer": {
+       "ru": "null",
+       "tg": "null",
+       "en": "null"
+     },
+     "acceptedAnswers": [
+       "NULL"
+     ]
+   },
    "questions": [
     {
      "id": "php-day-03-q1",
@@ -623,10 +668,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Текст — самый частый тип в веб-разработке: имена, письма, адреса, сообщения об ошибках. Сегодня вы научитесь собирать строки из кусков и измерять их. В PHP есть два способа склейки. Первый — оператор «точка»: он присоединяет правую часть к левой и работает всегда одинаково. Второй — интерполяция внутри двойных кавычек: переменная, написанная прямо в строке, заменяется своим значением. Одинарные кавычки ничего не подставляют — это удобно для шаблонов и опасно, если забыть про разницу. Мы также познакомимся с первыми строковыми функциями: strlen измеряет длину, strtoupper поднимает регистр, str_repeat повторяет строку, substr вырезает часть. Все примеры сегодня на латинице: strlen считает байты, а кириллица занимает больше одного байта — об этом отдельный разговор позже. Проверяйте себя маленькими шагами: одна склейка — одна строка вывода, и её легко сверить глазами. Так строки перестают быть магией.",
-      "tg": "Матн — маъмултарин тип дар веб-таҳия: номҳо, номаҳо, суроғаҳо, паёмҳои хато. Имрӯз шумо меомӯзед сатрҳоро аз пораҳо ҷамъ кунед ва дарозии онҳоро чен кунед. Дар PHP ду роҳи часпондан ҳаст. Якум — оператори «нуқта»: қисми ростро ба чап меафзояд ва ҳамеша якхела кор мекунад. Дуюм — интерполясия дар дохили коҳиҷаҳои дучанд: тағйирёбандае, ки бевосита дар сатр навишта шудааст, ба қиматаш иваз мешавад. Коҳиҷаҳои як ҳеҷ чизро иваз намекунанд — барои шаблонҳо роҳат аст ва хатарнок, агар фарқро фаромӯш кунед. Мо инчунин бо аввалин функсияҳои сатр шинос мешавем: strlen дарозиро мекашад, strtoupper ҳарфҳоро калон мекунад, str_repeat сатрро такрор мекунад, substr қисмеро мебурад. Ҳамаи мисолҳо имрӯз бо ҳарфҳои лотинӣ мебошанд: strlen байтҳоро месаморад, кириллӣ зиёда аз як байт мегирад — инро баъдтар алоҳида меомӯзем. Худро бо қадамҳои хурд санҷед: як часпондан — як сатри барориш ва онро ба осонӣ бо чашм муқоиса кардан мумкин аст. Ҳамин тавр сатрҳо ҷодуӣ мешаванд.",
-      "en": "Text is the most common type in web development: names, emails, addresses, error messages. Today you will learn to build strings from pieces and measure them. PHP has two ways to glue strings. The first is the dot operator: it appends the right part to the left one and always behaves the same. The second is interpolation inside double quotes: a variable written right in the string is replaced by its value. Single quotes substitute nothing — handy for templates, dangerous if you forget the difference. We also meet the first string functions: strlen measures length, strtoupper uppercases, str_repeat repeats, substr cuts out a part. All examples today use Latin letters only: strlen counts bytes, and Cyrillic takes more than one byte — we will discuss that separately later. Check yourself in small steps: one concatenation, one output line, easy to verify by eye. That is how strings stop being magic."
-     }
+      "ru": "Строка хранит текст. Оператор . склеивает части, например \"Hi, \" . $name. В двойных кавычках PHP подставляет значение переменной: \"Hi, $name\". В одинарных имя останется текстом. strlen считает байты; чтобы посчитать символы UTF-8, используйте mb_strlen при включённом расширении mbstring.",
+      "tg": "Сатр матнро нигоҳ медорад. Оператори . қисмҳоро мепайвандад, мисли \"Hi, \" . $name. Дар нохунаки дугона PHP қимати variable-ро мегузорад: \"Hi, $name\". Дар нохунаки якка ном матн мемонад. strlen байтро мешуморад; барои аломатҳои UTF-8 бо mbstring аз mb_strlen истифода бар.",
+      "en": "A string holds text. The . operator joins pieces such as \"Hi, \" . $name. Double quotes interpolate variables, as in \"Hi, $name\", while single quotes leave the name as text. strlen counts bytes; use mb_strlen with the mbstring extension to count UTF-8 characters."
+    }
     },
     {
      "title": {
@@ -796,10 +841,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Числа в программе живут по правилам арифметики, но с двумя сюрпризами. Первый: деление двух целых через «/» даёт дробь — 9 / 2 это 4.5, а не 4. Если нужна именно целая часть, используйте intdiv, а остаток от деления даёт оператор «%» — он постоянно нужен для проверок «чётное или нет» и распределения по колонкам. Второй сюрприз: дроби хранятся приближённо, поэтому для денег и точных счётчиков их избегают, а при выводе форматируют через sprintf и %.2f — два знака после точки. Сегодня также разбираем возведение в степень «**» и приоритет операций: умножение выполняется раньше сложения, поэтому 5 + 2 * 3 это 11, а не 21. Скобки позволяют управлять порядком вычислений явно. Арифметика в PHP предсказуема, если помнить два правила: деление даёт дробь, а процент — это остаток. Всё остальное — школьная математика со скобками.",
-      "tg": "Ададҳо дар барнома аз рӯи қоидаҳои арифметика зиндагӣ мекунанд, вале бо ду ғароибат. Якум: тақсими ду адади бутун бо «/» касрӣ медиҳад — 9 / 2 айнан 4.5 аст, на 4. Агар қисми бутун лозим бошад, intdiv-ро истифода баред, ва боқимондаи тақсимро оператори «%» медиҳад — он барои санҷиши «ҷуфт ё тоқ» ва тақсим ба сутунҳо доимо лозим мешавад. Дуюм: касрҳо тахминӣ нигоҳ дошта мешаванд, бинобар ин барои пул ва ҳисобкунакҳои дақиқ истифода намебароранд, ва ҳангоми барориш бо sprintf ва %.2f — ду аломат баъди нуқта — шакл медиҳанд. Имрӯз инчунин ба дараҷа баровардан «**» ва пешинии амалиётҳо мешаваем: зарб пеш аз ҷамъ иҷро мешавад, бинобар ин 5 + 2 * 3 айнан 11 аст, на 21. Қавсҳо тартиби ҳисобро ошкоро идора мекунанд. Арифметика дар PHP пешгӯишаванда аст, агар ду қоида дар хотиро дошта бошед: тақсим касрӣ медиҳад, вале фоиз — боқимонда. Бақия — математикаи мактабӣ бо қавсҳост.",
-      "en": "Numbers follow the rules of arithmetic, with two surprises. First: dividing two integers with / gives a decimal — 9 / 2 is 4.5, not 4. If you need the whole part, use intdiv, and the remainder comes from the % operator — you will need it constantly for even/odd checks and splitting into columns. Second: decimals are stored approximately, so avoid them for money and exact counters, and format them on output with sprintf and %.2f — two digits after the point. Today we also cover exponentiation with ** and operator precedence: multiplication runs before addition, so 5 + 2 * 3 is 11, not 21. Parentheses let you control the order of computation explicitly. PHP arithmetic is predictable once you remember two rules: division yields a decimal, and percent means remainder. Everything else is school math with parentheses."
-     }
+      "ru": "В PHP 9 / 2 даёт 4.5. Если результат деления двух целых точный, он может быть целым. intdiv(9, 2) даёт целое частное 4, а 9 % 2 даёт остаток 1. intdiv отбрасывает дробную часть; round округляет по правилу. Выбирайте операцию по задаче: количество коробок и цена за единицу требуют разных правил.",
+      "tg": "Дар PHP 9 / 2 натиҷаи 4.5 медиҳад. Агар ду адади бутун бебақия тақсим шаванд, натиҷа метавонад бутун бошад. intdiv(9, 2) қисми бутуни 4, 9 % 2 бақияи 1 медиҳад. intdiv касрро мепартояд, round бошад гирд мекунад. Шумораи қуттӣ ва нархи як дона ҳисобҳои ҷудоянд.",
+      "en": "In PHP, 9 / 2 yields 4.5. An exact division of two integers can return an integer. intdiv(9, 2) gives the integer quotient 4 and 9 % 2 gives the remainder 1. intdiv discards the fractional part; round rounds according to its rule. A box count and a unit price can need different operations."
+    }
     },
     {
      "title": {
@@ -1315,10 +1360,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Одна переменная хранит одно значение, но данные почти всегда идут списками: товары в чеке, файлы в папке, оценки ученика. Для списков в PHP есть массив — упорядоченный набор значений. Индексный массив нумеруется автоматически с нуля: первый элемент имеет индекс 0, второй — 1, и так далее. Создаётся он через квадратные скобки, новый элемент дописывается через пустые квадратные скобки, число элементов даёт count. Обращение к элементу — по индексу в квадратных скобках; обращение к несуществующему индексу — классическая ошибка новичка, поэтому сначала смотрите на count. Массивы сочетаются с циклом foreach из дня 7, функцией implode для печати списка одной строкой и array_sum для суммы — три инструмента, которые вы будете использовать постоянно. Думайте о массиве как о пронумерованных ячейках: номера всегда начинаются с нуля, и это не прихоть, а традиция языков.",
-      "tg": "Як тағйирёбанда як қимат нигоҳ медорад, вале маълумот қариб ҳамеша рӯйхатанд: молҳои ҳисоб, файлҳои папка, баҳоҳои шогирд. Барои рӯйхатҳо дар PHP массив ҳаст — маҷмӯи мураттаби қиматҳо. Массиви индексӣ худкор аз сифр рахт гузошта мешавад: унсуни аввал индекси 0 дорад, дуюм — 1 ва ҳамин тавр. Он бо қавсҳои квадратӣ сохта мешавад, унсуни нав бо қавсҳои квадратии холӣ илова мешавад ва теъдоди унсурҳоро count медиҳад. Муроҷиат ба унсур — тавассути индекс дар қавсҳои квадратӣ; муроҷиат ба индекси мавҷуднабуда — хатои классикии навомӯз аст, бинобар ин пеш аз ҳама ба count нигоҳ кунед. Массивҳо бо ҳалқаи foreach-и рӯзи 7, функсияи implode барои чопи рӯйхат як сатр ва array_sum барои ҷамъ — се абзоре, ки доимо истифода мебаред, ҷуфт мешаванд. Массивро ҳамчун қуттиҳои рахтгузоришуда тасаввур кунед: рахтҳо ҳамеша аз сифр оғоз мешаванд ва ин хоксиворӣ нест, анъанаи забонҳост.",
-      "en": "One variable holds one value, but data usually comes in lists: items on a receipt, files in a folder, a student's grades. For lists PHP has the array — an ordered set of values. An indexed array is numbered automatically from zero: the first element has index 0, the second 1, and so on. You create it with square brackets, append an element with empty square brackets, and count gives the number of elements. You access an element by its index in square brackets; accessing a missing index is the classic beginner error, so check count first. Arrays pair with the foreach loop from day 7, the implode function for printing a list as one string, and array_sum for the total — three tools you will use constantly. Think of an array as numbered cells: numbering always starts at zero, and that is not a whim but a language tradition."
-     }
+      "ru": "Массив PHP хранит значения в порядке вставки под ключами. Для списка [\"tea\", \"bread\"] ключи по умолчанию равны 0 и 1. Синтаксис $items[] добавляет элемент, count считает элементы. После удаления ключи могут стать непоследовательными; foreach обходит существующие записи без догадок об индексах.",
+      "tg": "Массиви PHP қиматҳоро бо калид ва тартиби илова нигоҳ медорад. Дар рӯйхати [\"tea\", \"bread\"] калидҳои пешфарз 0 ва 1 ҳастанд. $items[] элемент илова мекунад ва count мешуморад. Баъди несткунӣ калидҳо метавонанд пайдарпай набошанд; foreach худи сабтҳои мавҷударо мегирад.",
+      "en": "A PHP array stores values under keys in insertion order. The list [\"tea\", \"bread\"] receives keys 0 and 1. Append with $items[] and count entries with count. Removing an item can leave gaps in numeric keys. foreach visits the entries that actually exist."
+    }
     },
     {
      "title": {
@@ -1488,10 +1533,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Вчера данные шли списком с номерами: 0, 1, 2. Но описание пользователя удобнее читать по именам полей: имя, город, год рождения. Для этого есть ассоциативный массив: каждый элемент связан не с числом, а со строковым ключом. Записывается он как «ключ => значение», доступ — по ключу в квадратных скобках. Внутри PHP это тот же массив, поэтому count, foreach и остальные функции работают одинаково; разница только в том, что ключи текстовые. Функция isset проверяет, существует ли ключ, — это безопасный способ чтения необязательных полей. Ассоциативные массивы — главный способ описывать «объекты с полями» до знакомства с классами, и они понадобятся нам вплоть до финального проекта в конце курса. Именованные ключи делают код самодокументирующимся: $user[“city”] читается как предложение, а $user[1] — как загадка.",
-      "tg": "Дирӯз маълумот ҳамчун рӯйхат бо рахтҳо омад: 0, 1, 2. Вале тавсифи корбарро бо номҳои майдонҳо роҳаттар хондан мумкин аст: ном, шаҳр, соли таваллуд. Барои ин массиви ассоциативӣ ҳаст: ҳар унсур бо адад на, бо калиди сатрӣ алоқаманд аст. Он ҳамчун «калид => қимат» навишта мешавад, дастрасӣ — бо калид дар қавсҳои квадратӣ. Дар дохили PHP ҳамин массив аст, бинобар ин count, foreach ва дигар функсияҳо якхела кор мекунанд; фарқ танҳо дар он аст, ки калидҳо матнианд. Функсияи isset месанҷад, ки оё калид мавҷуд аст — ин роҳи бехатари хондани майдонҳои ихтиёрӣ. Массивҳои ассоциативӣ воситаи асосии тавсифи «объектҳо бо майдонҳо» то шиносоӣ бо синфҳоянд ва то лоиҳаи ниҳоии охири курс лозим мешаванд. Калидҳои номдор рамзро худтушонифис мекунанд: $user[“city”] ҳамчун ҷумла хонда мешавад, вале $user[1] — ҳамчун номуфҳм.",
-      "en": "Yesterday data came as a numbered list: 0, 1, 2. But a user profile reads better by field names: name, city, birth year. For that there is the associative array: each element is tied not to a number but to a string key. It is written as key => value, and access goes through the key in square brackets. Inside PHP it is the same array, so count, foreach, and the rest work identically; the only difference is that keys are text. The isset function checks whether a key exists — the safe way to read optional fields. Associative arrays are the main way to describe \"objects with fields\" before classes, and we will need them up to the final project at the end of the course. Named keys make code self-documenting: $user[\"city\"] reads like a sentence, while $user[1] reads like a riddle."
-     }
+      "ru": "Ассоциативный массив связывает понятный ключ со значением, например [\"name\" => \"Ali\", \"city\" => \"Dushanbe\"]. Прочитайте поле через $user[\"city\"]. PHP также допускает целые ключи, а строка вида \"8\" становится ключом 8. Не допускайте случайного совпадения ключей, если строите массив из внешних данных.",
+      "tg": "Массиви ассоциативӣ калиди фаҳморо ба қимат мебандад, мисли [\"name\" => \"Ali\", \"city\" => \"Dushanbe\"]. Майдонро бо $user[\"city\"] хон. PHP калиди бутунро ҳам қабул мекунад ва сатри \"8\" ба калиди 8 табдил мешавад. Агар массив аз додаи берунӣ тартиб ёбад, як шудани калидҳоро санҷ.",
+      "en": "An associative array connects a readable key to a value, as in [\"name\" => \"Ali\", \"city\" => \"Dushanbe\"]. Read the field with $user[\"city\"]. PHP also accepts integer keys and converts a string key such as \"8\" to integer 8. Check for key collisions when deriving keys from external data."
+    }
     },
     {
      "title": {
@@ -1661,10 +1706,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Вчерашний foreach уже умеет обходить список, но три задачи встречаются так часто, что для них есть готовые функции. Первая — упорядочить: sort расставляет числа или строки по возрастанию прямо в исходном массиве, ничего не возвращая. Вторая — преобразовать каждый элемент: array_map принимает функцию и применяет её ко всем элементам, возвращая новый массив; сегодня мы используем короткие стрелочные функции fn из PHP 7.4. Третья — отобрать: array_filter оставляет только те элементы, для которых функция вернула true. Эти три функции — кирпичики обработки данных: они заменяют целый цикл одной понятной строкой и уменьшают число ошибок. Сегодня важно почувствовать разницу: sort меняет массив на месте, а array_map и array_filter возвращают новый, не трогая исходный. Эти три функции — словарь обработки списков: упорядочить, преобразовать, отобрать. Большинство задач с массивами — комбинация этих трёх действий.",
-      "tg": "Дирӯз foreach аллакай рӯйхатро мегузаронад, вале се вазифа он қадар маъмуланд, ки барои онҳо функсияҳои омода ҳастанд. Якум — мураттаб кардан: sort ададҳо ё сатрҳоро аз хурд ба калон мустақиман дар массиви аслӣ мегузорад ва ҳеҷ чиз бармегардонад. Дуюм — табдил додани ҳар унсур: array_map функсия мегирад ва онро ба ҳамаи унсурҳо татбиқ мекунад, массиви нав бармегардонад; имрӯз функсияҳои кӯтоҳи тири fn-и PHP 7.4-ро истифода мебарем. Сеюм — интихоб кардан: array_filter танҳо он унсурҳоро мегузорад, ки барои онҳо функсия true додааст. Ин се функсия — хиштҳои коркарди маълумот: онҳо ҳалқаи пурраро бо як сатри фаҳмо иваз мекунанд ва теъдоди хатоҳоро кам мекунанд. Имрӯз фарқро ҳис кунед: sort массивро дар ҷо тағйир медиҳад, вале array_map ва array_filter массиви нав бармегардонанд ва аслро намеронанд. Ин се функсия — луғати коркарди рӯйхатҳоянд: мураттаб кардан, табдил додан, интихоб кардан. Аксарияти вазифаҳо бо массивҳо омехаи ҳамин се амаланд.",
-      "en": "Yesterday's foreach already walks a list, but three tasks are so common that ready functions exist for them. The first is ordering: sort arranges numbers or strings ascending directly in the original array, returning nothing. The second is transforming every element: array_map takes a function and applies it to all elements, returning a new array; today we use the short arrow functions fn from PHP 7.4. The third is selecting: array_filter keeps only the elements for which the function returned true. These three functions are building blocks of data processing: they replace a whole loop with one readable line and reduce errors. Today, feel the difference: sort changes the array in place, while array_map and array_filter return a new array and leave the original alone. These three functions are the dictionary of list processing: order, transform, select. Most array tasks are combinations of these three actions."
-     }
+      "ru": "sort переставляет элементы исходного массива и заново нумерует ключи; его результат не является отсортированным массивом. array_map строит значения по одному правилу, например удваивает цены. array_filter оставляет подходящие записи и сохраняет их ключи. Если дальше нужен список с индексами подряд, примените array_values.",
+      "tg": "sort элементҳои массивро дар ҷояш ҷойиваз мекунад ва калидҳоро аз нав рақам медиҳад. Натиҷаи даъваташ массиви тартибшуда нест. array_map аз рӯйи як қоида қиматҳои нав месозад, мисли ду баробар кардани нарх. array_filter сабтҳои мувофиқ ва калидҳояшонро мемонад. Барои индексҳои пайдарпай array_values гир.",
+      "en": "sort reorders the original array and renumbers its keys. Its return value is not the sorted array. array_map transforms values, for example by doubling each price. array_filter keeps matching entries and preserves their keys. Use array_values when subsequent code expects consecutive numeric indexes."
+    }
     },
     {
      "title": {
@@ -2007,10 +2052,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Переменная, созданная внутри функции, видна только внутри неё — это локальная область видимости. Снаружи функции внешняя переменная $total не существует: PHP создаёт внутри функции свою собственную переменную с тем же именем, и они никак не связаны. Такая изоляция — благо: функция не может случайно испортить данные снаружи, и её поведение зависит только от аргументов. Ключевое слово global технически даёт доступ снаружи, но в учебном и рабочем коде от него держатся подальше — это источник трудновоспроизводимых ошибок. Сегодня также знакомимся со static: статическая переменная внутри функции помнит своё значение между вызовами. Это удобный способ вести счётчик или кеш без глобальных переменных. Мы разберём оба эффекта на предсказуемом примере. Границы видимости защищают данные так же, как стены защищают комнату: снаружи нельзя тронуть то, что внутри.",
-      "tg": "Тағйирёбандае, ки дар дохили функсия сохта мешавад, танҳо дар ҳамон ҷо дида мешавад — ин доираи локалӣ аст. Беруни функсия тағйирёбандаи берунии $total вуҷуд надорад: PHP дар дохили функсия тағйирёбандаи худашро бо ҳамин ном месозад ва онҳо ягон алоқа надоранд. Ин изоляция некист: функсия наметавонад ба таври тасодуфӣ маълумоти берунро вайрон кунад ва рафтораш танҳо ба аргументҳо вобаста аст. Калидмаънии global расман дастрасии берунӣ медиҳад, вале дар рамзи омӯзишӣ ва корӣ аз он дур мемонанд — сарчашмаи хатоҳои душвори такроршаванда аст. Имрӯз инчунин бо static шинос мешавем: тағйирёбандаи статикӣ дар дохили функсия қиматашро байни даъватҳо дар ёд медорад. Ин роҳи роҳати нигоҳдории ҳисобкунак ё кеш бе тағйирёбандаҳои глобалӣ аст. Ҳарду эффекто дар мисоли пешгӯишаванда меомӯзем. Ҳудуди дидашавӣ маълумотро ҳамон тавр ҳимоя мекунад, ки деворҳо утоқро: аз берун он чизе, ки дар дохил аст, дастнорас аст.",
-      "en": "A variable created inside a function is visible only there — that is local scope. Outside, the outer $total does not exist for the function: PHP creates its own variable with the same name inside, and the two are unrelated. Such isolation is a blessing: the function cannot accidentally corrupt outside data, and its behavior depends only on its arguments. The global keyword technically opens access from inside, but learning and production code stay away from it — it is a source of hard-to-reproduce errors. Today we also meet static: a static variable inside a function remembers its value between calls. It is a tidy way to keep a counter or a cache without global variables. We will trace both effects on a predictable example. Scope boundaries protect data the way walls protect a room: from outside, what is inside cannot be touched."
-     }
+      "ru": "Область видимости показывает, где доступно имя. Переменная снаружи функции не становится видимой внутри неё автоматически. Передайте значение параметром, чтобы зависимость была явной. Локальная static сохраняет своё значение между вызовами функции в рамках данного выполнения скрипта. Это не способ хранить данные между запросами.",
+      "tg": "Область видимости ҷои дастрас будани номро муайян мекунад. Variable-и берунӣ худ аз худ даруни функсия намедарояд. Қиматро ҳамчун параметр деҳ, то вобастагӣ намоён бошад. static-и локалӣ байни даъватҳои функсия дар як иҷрои скрипт қиматашро нигоҳ медорад. Ин сабти доимӣ байни request-ҳо нест.",
+      "en": "Scope defines where a name is visible. A variable outside a function does not automatically become available inside it. Pass its value as a parameter to make the dependency explicit. A static local retains its value between function calls in that execution of the script. It is not persistent storage across requests."
+    }
     },
     {
      "title": {
@@ -2180,10 +2225,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "До сих пор весь код жил в одном main.php. Реальные проекты делят код на файлы: настройки отдельно, функции отдельно, страницы отдельно — иначе файл растёт до тысяч строк. Оператор include вставляет содержимое другого файла в это место, как будто вы скопировали его руками. Родственный require делает то же самое, но при отсутствии файла останавливает программу фатальной ошибкой, тогда как include только предупреждает и продолжает — обычно это худшее поведение, поэтому для кода используют require. Сегодня мы вынесем функцию greet в отдельный файл helpers.php и подключим его в main.php. Заодно закрепим привычку к __DIR__ — константе с папкой текущего файла, которая делает путь надёжным независимо от того, откуда запущена команда. Разделение на файлы похоже на папки для бумаг: документов столько же, но искать становится проще, а потерять — труднее.",
-      "tg": "То имрӯз тамоми рамз дар як main.php зиндагӣ мекард. Лоиҳаҳои воқеӣ рамзро ба файлҳо ҷудо мекунанд: танзимот алоҳида, функсияҳо алоҳида, саҳифаҳо алоҳида — вагарна файл то ҳазорҳо сатр калон мешавад. Оператори include мавзӯи файли дигарро ба ҳамин ҷо дарҷ мекунад, гӯё ки шумо онро дастӣ нусхабардорӣ карда бошед. Бародараш require ҳамон корро мекунад, вале дар набудани файл барномаро бо хатои фатошӣ меистонад, ҳол он ки include танҳо огоҳӣ медиҳад ва давом меёбад — одатан ин беҳтарин рафтор нест, бинобар ин барои рамз require истифода мешавад. Имрӯз функсияи greet-ро ба файли алоҳидаи helpers.php мебарорем ва онро дар main.php пайваст мекунем. Ҳамзамон одати __DIR__-ро мустаҳкам мекунем — доимие, ки папкаи файли ҷориро дорад ва роҳро аз он вобаста мекунад, ки фармон аз куҷо оғоз шудааст. Ҷудо кардан ба файлҳо монанди папкаҳо барои коғазҳост: ҳуҷҷатҳо ҳамон қадаранд, вале ҷустуҷӯ осон ва гум кардан душвар мешавад.",
-      "en": "So far all code lived in one main.php. Real projects split code into files: settings separately, functions separately, pages separately — otherwise the file grows to thousands of lines. The include operator inserts another file's contents right here, as if you copied it by hand. Its sibling require does the same, but when the file is missing it stops the program with a fatal error, while include only warns and continues — usually the worst behavior, so code uses require. Today we move the greet function into a separate helpers.php and include it from main.php. Along the way we fix the habit of __DIR__ — a constant holding the current file's folder, which makes the path reliable no matter where the command was started. Splitting into files is like folders for papers: the documents are the same, but finding gets easier and losing gets harder."
-     }
+      "ru": "include выполняет указанный PHP-файл в этом месте. __DIR__ даёт папку текущего файла, поэтому подключение не зависит от папки, из которой запустили команду. При обязательном файле используйте require, чтобы отсутствие остановило запуск. Варианты с _once помогают не объявить одну функцию дважды. Подключайте известные пути проекта.",
+      "tg": "include файли PHP-ро дар ҳамин ҷой иҷро мекунад. __DIR__ папкаи файли ҳозираро медиҳад ва аз папкаи оғоз вобаста нест. Барои файли ҳатмӣ require гир, то агар набошад барнома сар нашавад. Варианти _once ёрӣ медиҳад, ки як функсия ду бор эълон нашавад. Танҳо роҳи маълуми проектро пайваст кун.",
+      "en": "include evaluates a PHP file at that point. __DIR__ gives you the directory of the current file so the path does not depend on where the command started. Use require for an essential file so startup stops if it is missing. The _once variants avoid redeclaring a function. Include files from known project paths."
+    }
     },
     {
      "title": {
@@ -3045,10 +3090,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Часто несколько классов похожи: и собака, и кошка имеют имя и умеют издавать звук, но по-разному. Наследование позволяет объявить общий класс Animal и унаследовать его в Dog и Cat через extends: потомки получают свойства и методы родителя бесплатно. Общий код пишется один раз в родителе, а отличия — в переопределённых методах потомков. Слово protected открывает свойство самим классам-наследникам, оставляя его закрытым для остального мира: между private и public есть средняя ступень. Вызов parent::speak() внутри потомка запускает версию родителя — так строятся методы «всё как раньше, но с добавкой». Наследование экономит код, но им не стоит злоупотреблять: сначала подумайте, действительно ли классы являются разновидностями друг друга. Наследование — про экономию общего: то, что одинаково, живёт в родителе, а различия — в потомках.",
-      "tg": "Аксар вақт якчанд синф монанданд: ҳам саг, ҳам горб nom дорад ва овоз дорад, вале гуногун. Меросбардорӣ имкон медиҳад синфи умумии Animal эълон карда, онро дар Dog ва Cat тавассути extends мерос гирифт: фарзандон хосиятҳо ва усулҳои падарро бе ҷиддуҷаҳд мегиранд. Рамзи умумӣ як бор дар падар навишта мешавад, вале фарқиятҳо — дар усулҳои бознависшудаи фарзандон. Калидмаънии protected хосиятро ба худи синфҳои меросбар мекушояд, вале барои олами дигар пӯшида медорад: байни private ва public зинаи миёна вуҷуд дорад. Даъвати parent::speak() дар дохили фарзанд версияи падарро мебарорад — ҳамин тавр усулҳои «ҳама чиз мисли пеш, вале бо изофа» сохта мешаванд. Меросбардорӣ рамзро аз навнависӣ медарад, вале аз ҳад зиёд истифода набояд бурд: аввал фикр кунед, ки синфҳо воқеан гуногуннавии якдигар ҳастанд. Меросбардорӣ дар бораи ҷамъбаст аст: он чизе, ки якхела аст, дар падар зиндагӣ мекунад, вале фарқиятҳо — дар фарзандон.",
-      "en": "Several classes are often alike: both a dog and a cat have a name and can make a sound — differently. Inheritance lets you declare a common Animal class and extend it in Dog and Cat with extends: children get the parent's properties and methods for free. Shared code is written once in the parent, differences live in overridden child methods. The word protected exposes a property to the class itself and its inheritors while keeping it closed to everyone else: between private and public there is a middle step. Calling parent::speak() inside a child runs the parent's version — that is how 'everything as before, plus a little more' methods are built. Inheritance saves code, but do not abuse it: first ask whether the classes really are kinds of one another. Inheritance is about sharing: what is identical lives in the parent, and the differences live in the children."
-     }
+      "ru": "extends создаёт класс на основе другого, например Dog на основе Animal. Собака использует доступное общее поведение и может переопределить свой звук. Члены private недоступны напрямую в коде потомка; для общей настройки подходит метод родителя. Если у потомка есть свой конструктор, parent::__construct явно запускает настройку родителя.",
+      "tg": "extends классро аз рӯйи класси дигар месозад, масалан Dog аз Animal. Dog рафтори умумии дастрасро истифода мебарад ва садои худро иваз карда метавонад. Ба private коди класси поёнӣ бевосита намерасад. Агар constructor-и худаш бошад, parent::__construct танзими класси болоиро даъват мекунад.",
+      "en": "extends builds one class on another, such as Dog on Animal. Dog reuses accessible behavior and can override its sound. Methods in the subclass cannot directly access private members. If the subclass defines its own constructor, call parent::__construct explicitly when it needs the parent’s setup."
+    }
     },
     {
      "title": {
@@ -4083,10 +4128,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Пока данные жили только в переменных и умирали вместе со скриптом. Файл — первое постоянное хранилище в этом курсе: программа завершается, а данные остаются на диске. Две функции покрывают простые случаи: file_put_contents записывает строку целиком в файл (и создаёт его при необходимости), file_get_contents читает файл целиком в строку. Флаг FILE_APPEND дописывает в конец вместо перезаписи. Мы работаем локально: скрипт создаст файл note.txt в своей папке — это часть учебного упражнения, а не побочный эффект. Важно понимать границы: для больших файлов и частичных операций есть потоки (fopen и семейство), а для «настоящего» хранения данных в веб-проектах позже понадобится база данных. Сегодня — минимальный честный цикл: записали, прочитали, проверили. Файл — первый шаг к данным, которые живут дольше программы: закрыли терминал, а строка осталась на диске.",
-      "tg": "То ҳол маълумот танҳо дар тағйирёбандаҳо зиндагӣ мекарданд ва бо скрипт мемурданд. Файл аввалин нигоҳдории доимӣ дар ҳамин курс аст: барнома тамом мешавад, вале маълумот дар диск мемонад. Ду функсия ҳолатҳои оддиро мепушонанд: file_put_contents сатрро тамоман ба файл менависад (ва агар лозим шавад, файлро месозад), file_get_contents файлро тамоман ба сатр мехонад. Парчами FILE_APPEND ба охир илова мекунад, на аз нав менависад. Мо локалӣ кор мекунем: скрипт файли note.txt-ро дар папкаи худ месозад — ин қисми машқи омӯзишӣ аст, на натиҷаи тасодуфӣ. Фаҳмидани ҳудуд муҳим аст: барои файлҳои калон ва амалиётҳои қисмӣ ҷараёнҳо ҳастанд (fopen ва оилааш), вале барои нигоҳдории «ҳақиқии» маълумот дар лоиҳаҳои веб баъдтар базаи маълумот лозим мешавад. Имрӯз — даври минималии ростқавл: навиштем, хондем, санҷидем. Файл — аввалин қадам ба маълумоте, ки аз барнома дарозтар зиндагӣ мекунад: терминалро пӯшидед, вале сатр дар диск монд.",
-      "en": "Until now data lived only in variables and died with the script. A file is the first persistent storage in this course: the program ends, the data stays on disk. Two functions cover the simple cases: file_put_contents writes a whole string into a file (creating it if needed), file_get_contents reads the whole file into a string. The FILE_APPEND flag appends to the end instead of overwriting. We work locally: the script creates note.txt in its own folder — that is part of the exercise, not a side effect. Know the limits: for large files and partial operations there are streams (fopen and its family), and real web projects later need a database for storage. Today — a minimal honest cycle: write, read, verify. A file is the first step toward data that outlives the program: the terminal closed, but the string stayed on disk."
-     }
+      "ru": "Файл сохраняет данные после завершения скрипта. file_put_contents записывает строку целиком и без дополнительных флагов заменяет прежнее содержимое. file_get_contents возвращает прочитанный текст или false при ошибке. Пустая строка — тоже успешный результат, поэтому проверяйте ошибку через === false. Для примеров берите отдельный учебный файл.",
+      "tg": "Файл баъди анҷоми скрипт маълумотро нигоҳ медорад. file_put_contents тамоми сатрро менависад ва бе flag мазмуни пешинаро иваз мекунад. file_get_contents матн ё ҳангоми хато false медиҳад. Сатри холӣ ҳам натиҷаи дуруст аст, хаторо бо === false санҷ. Барои мисол файли ҷудои машқ гир.",
+      "en": "A file can preserve data after the script ends. file_put_contents writes a complete string and replaces previous content by default. file_get_contents returns the text or false on failure. An empty string can be a valid result, so test failure with === false. Work with a dedicated practice file."
+    }
     },
     {
      "title": {
@@ -4256,10 +4301,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Вчера данные научились жить на диске как текст. JSON — самый распространённый текстовый формат обмена данными: файлы настроек, ответы API, хранилища без баз данных. JSON выглядит почти как PHP-массив: объект в фигурных скобках с ключами в кавычках, массив в квадратных скобках, строки в кавычках, числа как есть. Две функции переводят между мирами: json_encode принимает массив и возвращает JSON-строку; json_decode делает обратное, а второй аргумент true просит вернуть ассоциативный массив вместо объекта. Это мост между вашим PHP-кодом и внешним миром: JavaScript читает тот же формат без переводчиков. Сегодня закодируем книгу с массивом тегов, декодируем её обратно и убедимся, что данные не потерялись. JSON — общий язык между языками: PHP пишет, JavaScript читает без переводчика, и наоборот. Прочитайте этот абзац дважды: второй проход обязательно покажет деталь, которую вы пропустили.",
-      "tg": "Дирӯз маълумот омӯхтанд, ки дар диск ҳамчун матн зиндагӣ кунанд. JSON маъмултарин формати матнии мубодилаи маълумот аст: файлҳои танзимот, ҷавобҳои API, нигоҳдориҳо бе базаи маълумот. JSON қариб монанди массиви PHP менамояд: объект дар қавсҳои фигурӣ бо калидҳо дар коҳиҷа, массив дар қавсҳои квадратӣ, сатрҳо дар коҳиҷа, ададҳо ҳамон тавр. Ду функсия байни ду ҷаҳон тарҷума мекунанд: json_encode массив мегирад ва сатри JSON бармегардонад; json_decode баръакс кор мекунад ва аргументи дуюми true массиви ассоциативиро, на объектро, талаб мекунад. Ин пули байни рамзи PHP-и шумо ва олами берунӣ аст: JavaScript ҳамин форматро бе тарҷумон мехонад. Имрӯз китобро бо массиви тегҳо кодиро мекунем, боз декодро мекунем ва боварӣ ҳосил мекунем, ки маълумот гум нашуд. JSON — забони умумии байни забонҳост: PHP менависад, JavaScript бе тарҷумон мехонад ва баръакс.",
-      "en": "Yesterday data learned to live on disk as text. JSON is the most widespread text format for data exchange: config files, API responses, storage without databases. JSON looks almost like a PHP array: an object in curly braces with quoted keys, an array in square brackets, strings in quotes, numbers as they are. Two functions translate between worlds: json_encode takes an array and returns a JSON string; json_decode does the reverse, and its second argument true asks for an associative array instead of an object. It is a bridge between your PHP code and the outside world: JavaScript reads the same format without translators. Today we encode a book with a tag array, decode it back, and verify nothing was lost. JSON is a common language between languages: PHP writes, JavaScript reads without a translator, and vice versa."
-     }
+      "ru": "JSON записывает данные текстом для обмена или хранения. json_encode преобразует значение PHP, а json_decode читает обратно. Передайте true вторым аргументом, чтобы JSON-объекты стали ассоциативными массивами. С JSON_THROW_ON_ERROR неверный текст приводит к исключению; это отличает ошибку разбора от допустимого значения JSON null.",
+      "tg": "JSON додаҳоро барои фиристодан ё сабт ҳамчун матн менависад. json_encode қимати PHP-ро табдил медиҳад, json_decode онро боз мехонад. Аргументи дуюми true объекти JSON-ро ба массиви ассоциативӣ мегардонад. Бо JSON_THROW_ON_ERROR матни вайрон exception медиҳад, то онро аз JSON null фарқ кунӣ.",
+      "en": "JSON represents data as text for exchange or storage. json_encode converts a PHP value, and json_decode reads it back. Pass true as the second argument to make JSON objects associative arrays. JSON_THROW_ON_ERROR turns malformed input into an exception, which distinguishes a parse failure from the valid JSON value null."
+    }
     },
     {
      "title": {
@@ -4430,10 +4475,10 @@
       "en": "How a web request works"
      },
      "body": {
-      "ru": "До сих пор скрипты получали данные из своего кода. В вебе данные приходят от браузера: пользователь заполняет форму и отправляет её, а PHP принимает значения в массивах $_GET и $_POST. Способ передачи выбирает форма. GET кладёт данные в адрес страницы: их видно, ими можно делиться ссылкой, они остаются в истории браузера — подходит для поиска и фильтров. POST отправляет данные в теле запроса: их не видно в адресе — так передают пароли и большие формы. Ключевое правило: данные из запроса нельзя доверять. Они могли прийти не из вашей формы вообще. Поэтому на сервере их проверяют — наличие, длину, формат — и только потом используют. Без проверки одна строка может испортить страницу или базу данных. День сознательно без запуска: понятия веба важнее строк кода, и проговорить их письменно — самый честный способ проверки.",
-      "tg": "То имрӯз скриптҳо маълумотро аз рамзи худ мегирифтанд. Дар веб маълумот аз браузер меояд: корбар формаро пур карда мефиристад ва PHP қиматҳоро дар массивҳои $_GET ва $_POST қабул мекунад. Роҳи фиристоданро форма интихоб мекунад. GET маълумотро ба суроғаи саҳифа мегузорад: онҳо дида мешаванд, бо истинод мубодила мешаванд ва дар таърихи браузер мемонанд — барои ҷустуҷӯ ва полоҳо мувофиқ аст. POST маълумотро ба бадани дархост мефиристад: дар суроға дида намешаванд — ҳамин тавр паролҳо ва формаҳои калон мегузаранд. Қоидаи калидӣ: ба маълумоти дархост бовар кардан мумкин нест. Онҳо метавонанд аз формаи шумо умуман наоянд. Бинобар ин дар сервер онҳоро месанҷанд — мавҷудият, дарозӣ, шакл — ва танҳо баъд истифода мебаранд. Бе санҷиш як сатр метавонад саҳифа ё базаи маълумотро вайрон кунад. Рӯз айнан бе иҷро аст: мафҳумҳои веб аз сатрҳои рамз муҳимтаранд ва гуфтани онҳо дар навиштан самттарин роҳи санҷиш аст.",
-      "en": "Until now scripts got their data from their own code. On the web data arrives from the browser: a user fills a form and submits it, and PHP receives the values in the $_GET and $_POST arrays. The form chooses the transfer method. GET puts data into the page address: it is visible, shareable as a link, and stays in browser history — good for searches and filters. POST sends data in the request body: it is invisible in the address — passwords and large forms travel this way. The key rule: request data must not be trusted. It may not have come from your form at all. So the server validates it — presence, length, format — before use. Without validation a single string can break a page or a database. The day is deliberately without execution: web concepts matter more than code lines, and saying them in writing is the most honest check."
-     }
+      "ru": "Форма отправляет браузеру указанный метод и адрес, а сервер получает запрос. $_GET содержит параметры адреса даже у POST-запроса. $_POST заполняется полями обычной POST-формы, но не JSON-телом. Для поиска подходит GET, для добавления — POST. Сам метод POST не скрывает данные: используйте HTTPS и проверяйте ввод на сервере.",
+      "tg": "Форма метод ва адресро ба браузер медиҳад, сервер request мегирад. $_GET ҳатто дар POST параметрҳои адресро дорад. $_POST майдонҳои формаи одии POST-ро мегирад, JSON-и body-ро не. Барои ҷустуҷӯ GET, барои илова POST мувофиқ аст. Худи POST додаҳоро пинҳон намекунад: HTTPS ва санҷиши сервер лозиманд.",
+      "en": "The form tells the browser which method and address to use, and the server receives the request. $_GET contains URL parameters even on POST requests. $_POST contains fields from ordinary POST forms, not a JSON body. Use GET for searching and POST for adding. POST itself provides no confidentiality; use HTTPS and validate on the server."
+    }
     },
     {
      "title": {
@@ -4602,10 +4647,10 @@
       "en": "Why it matters"
      },
      "body": {
-      "ru": "Первые двадцать шесть дней были отдельными упражнениями; теперь три дня складываются в один маленький, но настоящий проект — каталог книг. Задача части 1: описать модель книги и уметь добавлять её в каталог. Класс Book берёт всё лучшее из пройденного: три типизированных свойства — заголовок, автор, год — и конструктор, который сразу приводит объект в корректное состояние. Добавление оформим функцией addBook: она принимает массив и книгу, возвращает новый массив с книгой в конце. Почему функция, а не прямое $catalog[]? Потому что так появилось одно место, где решается, как добавлять: завтра сюда можно добавить проверку дублей, ничего не меняя в остальном коде. Такой стиль — маленький шаг к аккуратным программам. Проект — проверка курса на прочность: каждая строка опирается на предыдущие дни, и слабое место видно сразу.",
-      "tg": "Бисту шаш рӯзи аввал мошқҳои ҷудо буданд; ҳоло се рӯз ба як лоиҳаи хурд, вале ҳақиқии каталоги китобҳо ҷамъ мешаванд. Вазифаи қисми 1: тавсифи модели китоб ва қобилияти илова кардани он ба каталог. Синфи Book ҳамаи беҳтарини гузаштаро мегирад: се хосияти типдор — сарлавҳа, муаллиф, сол — ва конструкторе, ки объектро фавран ба ҳолати дуруст меорад. Илова карданро функсияи addBook иҷро мекунад: он массив ва китобро қабул мекунад, массиви нав бо китоб дар охир бармегардонад. Чаро функсия, на мустақими $catalog[]? Зеро ҳоло як ҷое пайдо шуд, ки дар он ҳал мешавад, ки чӣ тавр илова кардан: фардо метавон санҷиши нусхаҳоро ҳамин ҷо гузошт, бе тағйири рамзи боқимонда. Ин сабк — қадами хурд ба барномаҳои тоза. Лоиҳа санҷиши мустаҳкамии курс аст: ҳар сатр ба рӯзҳои қаблӣ такя мекунад ва ҷои суст фавран дида мешавад.",
-      "en": "The first twenty-six days were separate exercises; now three days fold into one small but real project — a book catalog. Part 1's task: describe the book model and be able to add books to the catalog. The Book class takes the best from the course: three typed properties — title, author, year — and a constructor that brings the object into a valid state right away. Adding goes through an addBook function: it takes an array and a book, and returns a new array with the book at the end. Why a function instead of a direct $catalog[]? Because there is now a single place that decides how adding works: tomorrow a duplicate check can go here without touching the rest of the code. That style is a small step toward tidy programs. A project stress-tests the course: every line leans on earlier days, and the weak spot shows immediately."
-     }
+      "ru": "Модель описывает одну книгу: какие данные есть и какие значения допустимы. Каталог отвечает за коллекцию книг. Например, проверку года можно держать в модели, а поиск по заголовку — в каталоге. На этом шаге работаем с объектами в памяти; постоянное хранилище требует отдельного решения.\n\nПервые двадцать шесть дней были отдельными упражнениями; теперь три дня складываются в один маленький, но настоящий проект — каталог книг. Задача части 1: описать модель книги и уметь добавлять её в каталог. Класс Book берёт всё лучшее из пройденного: три типизированных свойства — заголовок, автор, год — и конструктор, который сразу приводит объект в корректное состояние. Добавление оформим функцией addBook: она принимает массив и книгу, возвращает новый массив с книгой в конце. Почему функция, а не прямое $catalog[]? Потому что так появилось одно место, где решается, как добавлять: завтра сюда можно добавить проверку дублей, ничего не меняя в остальном коде. Такой стиль — маленький шаг к аккуратным программам. Проект — проверка курса на прочность: каждая строка опирается на предыдущие дни, и слабое место видно сразу.",
+      "tg": "Модел як китобро шарҳ медиҳад: кадом дода ва кадом қиматаш дуруст аст. Каталог ба коллексияи китобҳо ҷавобгар аст. Масалан, солро дар модел санҷ, ҷустуҷӯи номро дар каталог мон. Дар ин қадам объектҳо дар хотираанд; барои сабти доимӣ роҳи алоҳида лозим.\n\nБисту шаш рӯзи аввал мошқҳои ҷудо буданд; ҳоло се рӯз ба як лоиҳаи хурд, вале ҳақиқии каталоги китобҳо ҷамъ мешаванд. Вазифаи қисми 1: тавсифи модели китоб ва қобилияти илова кардани он ба каталог. Синфи Book ҳамаи беҳтарини гузаштаро мегирад: се хосияти типдор — сарлавҳа, муаллиф, сол — ва конструкторе, ки объектро фавран ба ҳолати дуруст меорад. Илова карданро функсияи addBook иҷро мекунад: он массив ва китобро қабул мекунад, массиви нав бо китоб дар охир бармегардонад. Чаро функсия, на мустақими $catalog[]? Зеро ҳоло як ҷое пайдо шуд, ки дар он ҳал мешавад, ки чӣ тавр илова кардан: фардо метавон санҷиши нусхаҳоро ҳамин ҷо гузошт, бе тағйири рамзи боқимонда. Ин сабк — қадами хурд ба барномаҳои тоза. Лоиҳа санҷиши мустаҳкамии курс аст: ҳар сатр ба рӯзҳои қаблӣ такя мекунад ва ҷои суст фавран дида мешавад.",
+      "en": "The model describes one book, its fields, and what values are allowed. The catalog manages the collection. Keep a publication year check in the model and title search in the catalog. This step uses in-memory objects; persistent storage requires a separate decision.\n\nThe first twenty-six days were separate exercises; now three days fold into one small but real project — a book catalog. Part 1's task: describe the book model and be able to add books to the catalog. The Book class takes the best from the course: three typed properties — title, author, year — and a constructor that brings the object into a valid state right away. Adding goes through an addBook function: it takes an array and a book, and returns a new array with the book at the end. Why a function instead of a direct $catalog[]? Because there is now a single place that decides how adding works: tomorrow a duplicate check can go here without touching the rest of the code. That style is a small step toward tidy programs. A project stress-tests the course: every line leans on earlier days, and the weak spot shows immediately."
+    }
     },
     {
      "title": {

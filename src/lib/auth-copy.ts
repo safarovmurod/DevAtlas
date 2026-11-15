@@ -1,6 +1,4 @@
 import type { InterfaceLocale } from '@/lib/locale';
-import { JAPANESE_AUTH_COPY } from './locales/ja';
-import { KOREAN_AUTH_COPY } from './locales/ko';
 
 export type AuthCopy = {
   signupTitle: string;
@@ -42,8 +40,6 @@ export type AuthCopy = {
   nameError: string;
 };
 export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
-  ja: JAPANESE_AUTH_COPY,
-  ko: KOREAN_AUTH_COPY,
   ru: {
     signupTitle: 'Начнём учиться вместе',
     resetTitle: 'Восстановить доступ',
@@ -179,49 +175,51 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     logout: 'Баромадан',
     nameError: 'Ном нигоҳ дошта нашуд.',
   },
-  uk: {
-    signupTitle: 'Нумо навчатися разом',
-    resetTitle: 'Відновлення доступу',
-    loginTitle: 'Продовжте своє навчання',
-    intro: 'Особистий прогрес, нотатки та практика — на комп’ютері й телефоні.',
+  es: {
+    signupTitle: 'Empecemos a aprender juntos',
+    resetTitle: 'Recuperar el acceso',
+    loginTitle: 'Sigue con tu aprendizaje',
+    intro: 'Tu progreso, tus notas y tu práctica, en el ordenador y en el móvil.',
     unavailable:
-      'Вхід і реєстрацію поки не налаштовано. Уроки й відповіді доступні без акаунта; AI потребує акаунта.',
-    guest: 'Продовжити як гість',
-    google: 'Продовжити з Google',
-    recommended: 'Рекомендуємо',
-    orEmail: 'або через email',
-    name: 'Ваше ім’я',
-    email: 'Електронна пошта',
-    password: 'Пароль',
-    showPassword: 'Показати пароль',
-    hidePassword: 'Приховати пароль',
-    passwordHint: 'Щонайменше 8 символів',
-    loginTab: 'Вхід',
-    panelTitle: 'Навчайтеся спокійно, крок за кроком.',
+      'El inicio de sesión y el registro aún no están conectados. El curso y las respuestas están disponibles sin cuenta; la IA necesita una cuenta.',
+    guest: 'Continuar como invitado',
+    google: 'Continuar con Google',
+    recommended: 'Recomendado',
+    orEmail: 'o con tu correo',
+    name: 'Tu nombre',
+    email: 'Correo electrónico',
+    password: 'Contraseña',
+    showPassword: 'Mostrar contraseña',
+    hidePassword: 'Ocultar contraseña',
+    passwordHint: 'Al menos 8 caracteres',
+    loginTab: 'Entrar',
+    panelTitle: 'Aprende a tu ritmo, paso a paso.',
     panelBenefits: [
-      'Зрозумілі уроки за днями',
-      'Практика та перевірка результату',
-      'Прогрес і нотатки в одному місці',
+      'Lecciones claras organizadas por días',
+      'Práctica y revisión de tu trabajo',
+      'Progreso y notas en un solo lugar',
     ],
-    panelFlow: 'Урок → Код → Перевірка',
-    creating: 'Створюємо…',
-    saveWait: 'Зачекайте…',
-    signUp: 'Створити акаунт',
-    sendLink: 'Надіслати посилання',
-    signIn: 'Увійти через email',
-    existing: 'Уже маєте акаунт? Увійти',
-    createAccount: 'Створити акаунт',
-    forgot: 'Забули пароль?',
-    backToLogin: 'Назад до входу',
-    security: 'Google або email · безплатний акаунт',
-    googleError: 'Вхід через Google недоступний. Спробуйте email або повторіть пізніше.',
-    resetSent: 'Якщо адресу зареєстровано, посилання для скидання пароля надійде на email.',
-    confirmEmail: 'Перевірте email і підтвердьте адресу. Потім увійдіть.',
-    firstNameTitle: 'Як до вас звертатися?',
+    panelFlow: 'Lección → Código → Revisión',
+    creating: 'Creando…',
+    saveWait: 'Espera un momento…',
+    signUp: 'Crear cuenta',
+    sendLink: 'Enviar enlace',
+    signIn: 'Entrar con correo',
+    existing: '¿Ya tienes una cuenta? Entra',
+    createAccount: 'Crear cuenta',
+    forgot: '¿Olvidaste la contraseña?',
+    backToLogin: 'Volver a entrar',
+    security: 'Google o correo · cuenta gratuita',
+    googleError:
+      'El acceso con Google no está disponible. Prueba con el correo o inténtalo más tarde.',
+    resetSent:
+      'Si este correo está registrado, recibirás un enlace para restablecer la contraseña.',
+    confirmEmail: 'Revisa tu correo y confirma la dirección. Después, entra.',
+    firstNameTitle: '¿Cómo quieres que te llamemos?',
     firstNameDescription:
-      'Ім’я відображатиметься у профілі. Змінити його й додати фото можна в налаштуваннях.',
-    firstNameStart: 'Почати навчання',
-    logout: 'Вийти',
-    nameError: 'Не вдалося зберегти ім’я.',
+      'Este nombre aparecerá en tu perfil. Puedes cambiarlo y añadir una foto en Ajustes.',
+    firstNameStart: 'Empezar a aprender',
+    logout: 'Cerrar sesión',
+    nameError: 'No se pudo guardar el nombre.',
   },
 };

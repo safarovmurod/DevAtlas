@@ -10,13 +10,12 @@ import { useLearningStore } from '@/stores/learning-store';
 import { isDeepFollowUp, type TutorSource } from '@/lib/tutor/shared';
 import { useAccount } from '@/components/account/account-provider';
 import { LEARNING_UI_COPY, tutorErrorKey, type TutorErrorKey } from '@/lib/learning-ui-copy';
+import { TUTOR_COPY } from '@/lib/tutor/copy';
 
 interface ChatMsg {
   id: string;
   sender: 'user' | 'assistant';
   text: string;
-  mode?: 'local' | 'online';
-  tokens?: number;
   error?: boolean;
   errorKey?: TutorErrorKey;
   source?: TutorSource;
@@ -169,13 +168,8 @@ export function TutorDrawer() {
           id: crypto.randomUUID(),
           sender: 'assistant',
           text: data.reply,
-          mode: data.mode === 'online' ? 'online' : 'local',
           source: data.source,
           subject: query,
-          tokens:
-            Number.isSafeInteger(data.usage?.totalTokens) && data.usage.totalTokens >= 0
-              ? data.usage.totalTokens
-              : undefined,
         },
       ]);
     } catch (caught) {
@@ -196,7 +190,6 @@ export function TutorDrawer() {
   }
 
   if (!open) return null;
-  const tokens = messages.reduce((sum, message) => sum + (message.tokens || 0), 0);
   return (
     <div className="tutor-backdrop" onClick={() => setOpen(false)}>
       <aside
@@ -212,7 +205,6 @@ export function TutorDrawer() {
             <h2 id="tutor-title">
               <Sparkles size={19} /> AI Tutor
             </h2>
-            <p>{ui.tutorIntro}</p>
           </div>
           <button className="icon-button" onClick={() => setOpen(false)} aria-label={ui.tutorClose}>
             <X size={20} />
@@ -229,19 +221,9 @@ export function TutorDrawer() {
               key={message.id}
               className={'tutor-message ' + message.sender + (message.error ? ' tutor-error' : '')}
             >
-              {message.mode && (
-                <span className="tutor-source">
-                  {message.mode === 'online'
-                    ? 'AI · AnyModel'
-                    : message.source
-                      ? ui.tutorMaterial
-                      : ui.tutorLocal}
-                  {message.tokens !== undefined ? ' · ' + message.tokens + ' ' + ui.tokens : ''}
-                </span>
-              )}
               <p>
                 {message.id === 'welcome'
-                  ? ui.tutorWelcome
+                  ? TUTOR_COPY[uiLanguage].welcome
                   : message.errorKey
                     ? ui[message.errorKey]
                     : message.text}
@@ -254,7 +236,7 @@ export function TutorDrawer() {
                   }
                   onClick={() => setOpen(false)}
                 >
-                  {ui.source} {message.source.title} · {message.source.sourceId}
+                  {ui.source} {message.source.title}
                 </Link>
               )}
             </div>
@@ -326,10 +308,6 @@ export function TutorDrawer() {
               {ui.tutorSend}
             </button>
           </form>
-          <p className="tutor-footnote">
-            {tokens > 0 ? ui.tutorSpent + ' ' + tokens + ' ' + ui.tokens + '. ' : ''}
-            {ui.tutorCaution}
-          </p>
         </div>
       </aside>
     </div>

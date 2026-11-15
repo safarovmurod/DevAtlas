@@ -34,35 +34,15 @@ export const RUBRIC: Record<InterfaceLocale, Record<HtmlCheckId, string>> = {
     paragraph: 'Add your own paragraph inside main',
     link: 'Add a meaningful HTTPS documentation link',
   },
-  uk: {
-    doctype: 'Оголошено документ HTML: <!doctype html>',
-    language: 'Для html указано мову lang',
-    encoding: 'Указано кодування UTF-8',
-    viewport: 'Додано viewport із width=device-width',
-    title: 'Сторінка має непорожній title',
-    heading: 'У main є непорожній заголовок h1',
-    paragraph: 'У main є абзац p з вашим текстом',
-    link: 'Є змістовне HTTPS-посилання на документацію',
-  },
-  ja: {
-    doctype: 'HTML文書を宣言する：<!doctype html>',
-    language: 'htmlのlang属性に言語を指定する',
-    encoding: '文字コードUTF-8を指定する',
-    viewport: 'viewportにwidth=device-widthを指定する',
-    title: 'ページに空でないtitleを付ける',
-    heading: 'main内に空でないh1見出しを置く',
-    paragraph: 'main内のp要素に自分の文章を書く',
-    link: '説明文のあるHTTPSのドキュメントリンクを追加する',
-  },
-  ko: {
-    doctype: 'HTML 문서 선언: <!doctype html>',
-    language: 'html의 lang 속성에 언어 지정',
-    encoding: 'UTF-8 문자 인코딩 지정',
-    viewport: 'viewport에 width=device-width 추가',
-    title: '비어 있지 않은 페이지 title 작성',
-    heading: 'main 안에 비어 있지 않은 h1 제목 추가',
-    paragraph: 'main 안의 p 요소에 내 문장 작성',
-    link: '설명 텍스트가 있는 HTTPS 문서 링크 추가',
+  es: {
+    doctype: 'Declara el documento HTML: <!doctype html>',
+    language: 'Indica el idioma con el atributo lang en html',
+    encoding: 'Declara la codificación UTF-8',
+    viewport: 'Añade un viewport con width=device-width',
+    title: 'Da a la página un title que no esté vacío',
+    heading: 'Añade un encabezado h1 con texto dentro de main',
+    paragraph: 'Añade dentro de main un párrafo p con tu propio texto',
+    link: 'Añade un enlace HTTPS con texto a la documentación',
   },
 };
 
@@ -113,38 +93,16 @@ export const PRACTICE_COPY: Record<InterfaceLocale, PracticeCopy> = {
     serverUnavailable:
       'Server assessment unavailable. Your learning result is local only; retry later.',
   },
-  uk: {
-    instructions: 'Умова завдання',
-    verify: 'Перевірити розв’язання',
-    passed: 'Усі перевірки пройдено. Практику збережено.',
-    failed: 'Виправте позначені вимоги й перевірте ще раз.',
-    note: 'Перевіряємо структуру сторінки, а не збіг із прикладом. Ваші слова й оформлення можуть відрізнятися.',
-    local: 'Навчальна перевірка в браузері. Це не серверне оцінювання.',
-    serverVerified: 'Розв’язання підтверджено сервером. XP нараховано в захищеному журналі.',
+  es: {
+    instructions: 'Enunciado de la tarea',
+    verify: 'Comprobar la solución',
+    passed: 'Se superaron todas las comprobaciones. Práctica guardada.',
+    failed: 'Corrige los requisitos marcados y vuelve a comprobar.',
+    note: 'Comprobamos la estructura de la página, no que coincida con el ejemplo. Tus palabras y tu estilo pueden ser distintos.',
+    local: 'Comprobación de estudio en el navegador. No es una evaluación del servidor.',
+    serverVerified: 'El servidor verificó la solución. El XP se registró en el libro protegido.',
     serverUnavailable:
-      'Серверна перевірка недоступна. Навчальний результат збережено лише локально; спробуйте пізніше.',
-  },
-  ja: {
-    instructions: '課題の説明',
-    verify: '解答を確認',
-    passed: 'すべての確認項目を満たしました。演習を保存しました。',
-    failed: '指摘された項目を修正して、もう一度確認してください。',
-    note: '解答例との一致ではなく、ページの構造を確認します。文章や見た目は異なっていても構いません。',
-    local: 'ブラウザー内の学習用チェックです。サーバーによる評価ではありません。',
-    serverVerified: 'サーバーで解答を確認しました。保護された台帳にXPを記録しました。',
-    serverUnavailable:
-      'サーバーで評価できませんでした。学習結果はローカルにのみ保存されています。後で再試行してください。',
-  },
-  ko: {
-    instructions: '과제 설명',
-    verify: '풀이 확인',
-    passed: '모든 확인 항목을 통과했습니다. 실습을 저장했습니다.',
-    failed: '표시된 요구 사항을 수정하고 다시 확인하세요.',
-    note: '예시와의 일치 여부가 아닌 페이지 구조를 확인합니다. 문장이나 디자인은 달라도 됩니다.',
-    local: '브라우저 내 학습용 확인입니다. 서버에서 검증한 평가는 아닙니다.',
-    serverVerified: '서버에서 풀이를 검증했습니다. 보호된 원장에 XP를 기록했습니다.',
-    serverUnavailable:
-      '서버 평가를 이용할 수 없습니다. 학습 결과는 로컬에만 저장되었습니다. 나중에 다시 시도하세요.',
+      'La comprobación del servidor no está disponible. El resultado de estudio solo se guardó en local; inténtalo más tarde.',
   },
 };
 

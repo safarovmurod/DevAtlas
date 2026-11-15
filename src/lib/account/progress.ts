@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { COURSE_IDS } from '@/lib/courses/ids';
+import { INTERFACE_LOCALES, migrateSavedLocale } from '@/lib/locale';
 
 const id = z.string().min(1).max(200);
 const clock = z.record(z.string(), z.number().nonnegative()).default({});
@@ -17,6 +18,13 @@ const review = z.object({
   due: z.string().max(30),
   repetitions: z.number().int().nonnegative(),
 });
+// A saved Ukrainian, Japanese or Korean choice moves to a supported language
+// (the browser's, otherwise English) instead of making the whole profile unreadable.
+const interfaceLanguage = z.preprocess(
+  (value) =>
+    migrateSavedLocale(value, typeof navigator === 'undefined' ? [] : navigator.languages) ?? value,
+  z.enum(INTERFACE_LOCALES),
+);
 export const studyProgressSchema = z.object({
   dailySets: z.record(z.string(), z.array(id)).default({}),
   studied: z.array(id).default([]),
@@ -42,7 +50,7 @@ export const studyProgressSchema = z.object({
 export type CourseProgress = z.infer<typeof studyProgressSchema>;
 export const emptyCourseProgress = (): CourseProgress => studyProgressSchema.parse({});
 export const progressSchema = studyProgressSchema.extend({
-  language: z.enum(['ru', 'en', 'tg', 'uk', 'ja', 'ko']).default('ru'),
+  language: interfaceLanguage.default('ru'),
   contentLanguage: z.enum(['tg', 'ru', 'en']).default('tg'),
   dailyLimit: z.union([z.literal(5), z.literal(10), z.literal(15)]).default(10),
   activeMonth: z.number().int().min(1).max(3).default(1),

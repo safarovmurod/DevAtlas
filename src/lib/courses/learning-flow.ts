@@ -2,16 +2,11 @@ import { z } from 'zod';
 
 // New authored flows require all three lesson languages; old lessons remain valid.
 const text = z.object({ ru: z.string().min(1), tg: z.string().min(1), en: z.string().min(1) });
-export const LEARNING_FLOW_STAGES = [
-  'learn',
-  'understand',
-  'watch',
-  'try',
-  'practice',
-  'test',
-  'review',
-  'master',
-] as const;
+/**
+ * The day is three short steps: learn, practice, check. The authored flow data below
+ * (prediction, demo, guided practice, mini challenge, summary) is shown inside these steps.
+ */
+export const LEARNING_FLOW_STAGES = ['learn', 'practice', 'check'] as const;
 export const learningFlowSchema = z
   .object({
     version: z.literal(1),

@@ -20,14 +20,14 @@
   "sections": [
     {
       "title": {
-        "ru": "Как это работает",
-        "tg": "Чӣ тавр кор мекунад",
-        "en": "How it works"
+        "ru": "Что такое React Native и экран",
+        "tg": "React Native ва экран чист?",
+        "en": "React Native and screens"
       },
       "body": {
-        "ru": "Приложение на телефоне состоит из экранов. React Native позволяет описать экран на JavaScript и React, а затем создаёт компоненты платформы. Компонент — повторно используемая часть интерфейса. Начнём с готового примера: функция App возвращает JSX, похожую на разметку запись дерева элементов. View группирует части экрана, Text выводит текст. Импорт подключает их из пакета react-native. Expo предоставляет инструменты для запуска и разработки; браузер этого сайта не является мобильным эмулятором. Для выполнения понадобится проект Expo и устройство с Expo Go либо настроенный эмулятор. Если их нет, вы всё равно можете разобрать код и предсказать результат, но не отмечайте запуск как выполненный.",
-        "tg": "Барномаи телефон аз экранҳо иборат аст. React Native экранро бо JavaScript ва React тавсиф карда, ҷузъҳои платформаро месозад. Компонент қисми такроран истифодашавандаи интерфейс аст. Аз мисоли тайёр оғоз мекунем: функсияи App JSX, яъне навишти дарахти унсурҳои ба нишонагузорӣ монандро медиҳад. View қисмҳоро гурӯҳ ва Text матнро нишон медиҳад. Import онҳоро аз бастаи react-native мегирад. Expo воситаҳои оғозу таҳия медиҳад; браузери ин сайт эмулятори мобилӣ нест. Барои иҷро лоиҳаи Expo ва дастгоҳ бо Expo Go ё эмулятори танзимшуда лозим. Агар набошад, кодро шарҳ дода, натиҷаро пешгӯӣ кунед, вале иҷрои дастгоҳро тасдиқ накунед.",
-        "en": "A phone application consists of screens. React Native describes a screen using JavaScript and React and creates platform components. A component is a reusable part of an interface. Start with a worked example: the App function returns JSX, a markup-like representation of a tree of elements. View groups screen content and Text displays text. The import obtains them from the react-native package. Expo supplies development and launch tools; this website’s browser is not a mobile emulator. Running requires an Expo project and a device with Expo Go or a configured emulator. Without either, you can still explain the code and predict its result, but do not claim a device run."
+        "ru": "React Native использует компоненты React, чтобы строить интерфейс мобильного приложения. View и Text соответствуют мобильным элементам, поэтому здесь не пишут HTML-теги div и p.\n\nПриложение на телефоне состоит из экранов. React Native позволяет описать экран на JavaScript и React, а затем создаёт компоненты платформы. Компонент — повторно используемая часть интерфейса. Начнём с готового примера: функция App возвращает JSX, похожую на разметку запись дерева элементов. View группирует части экрана, Text выводит текст. Импорт подключает их из пакета react-native. Expo предоставляет инструменты для запуска и разработки; браузер этого сайта не является мобильным эмулятором. Для выполнения понадобится проект Expo и устройство с Expo Go либо настроенный эмулятор. Если их нет, вы всё равно можете разобрать код и предсказать результат, но не отмечайте запуск как выполненный.",
+        "tg": "React Native бо компонентҳои React интерфейси барномаи телефонро месозад. View ва Text элементҳои мобилӣ медиҳанд, барои ҳамин ин ҷо тегҳои HTML-и div ва p истифода намешаванд.\n\nБарномаи телефон аз экранҳо иборат аст. React Native экранро бо JavaScript ва React тавсиф карда, ҷузъҳои платформаро месозад. Компонент қисми такроран истифодашавандаи интерфейс аст. Аз мисоли тайёр оғоз мекунем: функсияи App JSX, яъне навишти дарахти унсурҳои ба нишонагузорӣ монандро медиҳад. View қисмҳоро гурӯҳ ва Text матнро нишон медиҳад. Import онҳоро аз бастаи react-native мегирад. Expo воситаҳои оғозу таҳия медиҳад; браузери ин сайт эмулятори мобилӣ нест. Барои иҷро лоиҳаи Expo ва дастгоҳ бо Expo Go ё эмулятори танзимшуда лозим. Агар набошад, кодро шарҳ дода, натиҷаро пешгӯӣ кунед, вале иҷрои дастгоҳро тасдиқ накунед.",
+        "en": "React Native uses React components to build mobile interfaces. View and Text render mobile UI, so you use them in place of HTML elements such as div and p.\n\nA phone application consists of screens. React Native describes a screen using JavaScript and React and creates platform components. A component is a reusable part of an interface. Start with a worked example: the App function returns JSX, a markup-like representation of a tree of elements. View groups screen content and Text displays text. The import obtains them from the react-native package. Expo supplies development and launch tools; this website’s browser is not a mobile emulator. Running requires an Expo project and a device with Expo Go or a configured emulator. Without either, you can still explain the code and predict its result, but do not claim a device run."
       },
       "code": "import { View, Text, StyleSheet } from 'react-native';\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\" style={styles.title}>My first app</Text>\n      <Text>I am learning to build mobile screens.</Text>\n    </View>\n  );\n}\nconst styles = StyleSheet.create({\n  screen: { flex: 1, justifyContent: 'center', padding: 24 },\n  title: { fontSize: 28, fontWeight: '700', marginBottom: 12 },\n});",
       "language": "tsx"
@@ -62,6 +62,24 @@
       }
     }
   ],
+  "interview": {
+    "id": "mobile-day-01-written",
+    "caseSensitive": true,
+    "question": {
+      "ru": "Какой компонент React Native выводит надпись на экране?",
+      "tg": "Кадом компоненти React Native дар экран матн мебарорад?",
+      "en": "Which React Native component displays text on screen?"
+    },
+    "answer": {
+      "ru": "Text",
+      "tg": "Text",
+      "en": "Text"
+    },
+    "acceptedAnswers": [
+      "<Text>",
+      "<Text />"
+    ]
+  },
   "questions": [
     {
       "id": "mobile-day-01-q",

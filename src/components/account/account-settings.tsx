@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Camera, Cloud, LogOut, RefreshCw, Smartphone } from 'lucide-react';
+import { Camera, Cloud, RefreshCw, Smartphone } from 'lucide-react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { prepareAvatar } from '@/lib/account/avatar';
 import { accountStorageKey, mergeProgress, progressSnapshot } from '@/lib/account/progress';
@@ -10,6 +10,7 @@ import { useAccount } from './account-provider';
 import { AccountAvatar } from './account-avatar';
 import { ACCOUNT_COPY, accountErrorKey, type AccountCopyKey } from '@/lib/account-copy';
 import { SecuritySettings } from './security-settings';
+import { SessionsSettings } from './sessions-settings';
 
 const AVATAR_BUCKET = 'react-mentor-avatars';
 
@@ -103,16 +104,19 @@ export function AccountSettings() {
   }
   if (!account.user)
     return (
-      <section id="account-profile" className="panel account-panel">
-        <div className="section-heading">
-          <h2>{copy.account}</h2>
-          <span className="account-badge">{copy.guestMode}</span>
-        </div>
-        <p>{copy.guestDescription}</p>
-        <Link className="button primary" href="/login">
-          {copy.guestLogin}
-        </Link>
-      </section>
+      <>
+        <section id="account-profile" className="panel account-panel">
+          <div className="section-heading">
+            <h2>{copy.account}</h2>
+            <span className="account-badge">{copy.guestMode}</span>
+          </div>
+          <p>{copy.guestDescription}</p>
+          <Link className="button primary" href="/login">
+            {copy.guestLogin}
+          </Link>
+        </section>
+        <SessionsSettings />
+      </>
     );
   return (
     <>
@@ -204,14 +208,7 @@ export function AccountSettings() {
         <PhoneQr />
       </section>
       <SecuritySettings />
-      <section className="panel account-panel">
-        <h2>{copy.session}</h2>
-        <p>{copy.sessionDescription}</p>
-        <button className="button subtle" onClick={account.signOut}>
-          <LogOut size={17} />
-          {copy.logoutAccount}
-        </button>
-      </section>
+      <SessionsSettings key={account.user.id} />
     </>
   );
 }

@@ -105,14 +105,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Разберите пример",
-            "tg": "Мисолро фаҳмед",
-            "en": "Understand the example"
+            "ru": "Что такое Kotlin и что задаёт val",
+            "tg": "Kotlin чист ва val чӣ медиҳад?",
+            "en": "Kotlin and val"
           },
           "body": {
-            "ru": "Нужны Kotlin/JVM compiler и JDK. fun main — точка входа. val задаёт привязку без повторного присваивания, var допускает изменение. Kotlin выводит тип Int из целого числа. println печатает результат. Этот консольный пример не собирает Android APK.",
-            "tg": "Kotlin/JVM compiler ва JDK лозиманд. fun main нуқтаи оғоз аст. val номро бе таъйини такрорӣ месозад, var тағйирро иҷозат медиҳад. Kotlin аз адади бутун типи Int-ро муайян мекунад. println натиҷаро мебарорад. Ин мисоли консолӣ Android APK намесозад.",
-            "en": "Kotlin/JVM compiler and a JDK are required. fun main is the entry point. val cannot be reassigned; var can. Kotlin infers Int from a whole number. println prints the result. This console example does not build an Android APK."
+            "ru": "Kotlin — язык программирования, известный по Android и JVM. В простом примере main запускает расчёт, а val связывает результат с именем, которому нельзя заново присвоить значение.\n\nНужны Kotlin/JVM compiler и JDK. fun main — точка входа. val задаёт привязку без повторного присваивания, var допускает изменение. Kotlin выводит тип Int из целого числа. println печатает результат. Этот консольный пример не собирает Android APK.",
+            "tg": "Kotlin забони барномасозӣ барои Android ва JVM ҳам ҳаст. Дар мисоли сода main ҳисобро оғоз мекунад. val ба қимат ном медиҳад ва аз нав қимат дода намешавад.\n\nKotlin/JVM compiler ва JDK лозиманд. fun main нуқтаи оғоз аст. val номро бе таъйини такрорӣ месозад, var тағйирро иҷозат медиҳад. Kotlin аз адади бутун типи Int-ро муайян мекунад. println натиҷаро мебарорад. Ин мисоли консолӣ Android APK намесозад.",
+            "en": "Kotlin is a programming language used for Android and JVM projects. In a simple program main starts the calculation. val declares a binding that cannot be reassigned.\n\nKotlin/JVM compiler and a JDK are required. fun main is the entry point. val cannot be reassigned; var can. Kotlin infers Int from a whole number. println prints the result. This console example does not build an Android APK."
           },
           "code": "fun main() {\n    val price: Int = 12\n    val quantity = 3\n    println(price * quantity)\n}\n",
           "language": "kotlin",
@@ -147,6 +147,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "kotlin-day-01-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какое слово Kotlin запрещает повторное присваивание переменной?",
+          "tg": "Кадом калимаи Kotlin имкон намедиҳад, ки аз нав қимат диҳӣ?",
+          "en": "Which Kotlin keyword declares a read-only binding?"
+        },
+        "answer": {
+          "ru": "val",
+          "tg": "val",
+          "en": "val"
+        }
+      },
       "questions": [
         {
           "id": "kotlin-day-01-q",
@@ -229,14 +243,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Разберите пример",
-            "tg": "Мисолро фаҳмед",
-            "en": "Understand the example"
+            "ru": "Для чего require в функции",
+            "tg": "require дар функсия барои чӣ лозим?",
+            "en": "Checking arguments with require"
           },
           "body": {
-            "ru": "require проверяет условие и при отказе бросает IllegalArgumentException. return передаёт результат вызывающему коду. Math.multiplyExact в Kotlin/JVM отдельно обнаруживает переполнение Int. try/catch обрабатывает ожидаемую ошибку у вызывающей стороны.",
-            "tg": "require шартро месанҷад ва ҳангоми радкунӣ IllegalArgumentException медиҳад. return натиҷаро ба рамзи даъваткунанда медиҳад. Math.multiplyExact дар Kotlin/JVM пуршавии ҳудуди Int-ро алоҳида меёбад. try/catch хатои интизориро дар тарафи даъваткунанда коркард мекунад.",
-            "en": "require checks a condition and throws IllegalArgumentException when it fails. return passes a result to the caller. Math.multiplyExact on Kotlin/JVM separately detects Int overflow. try/catch handles the expected error at the call site."
+            "ru": "require проверяет условие на входе. Если условие ложно, вычисление останавливается с IllegalArgumentException. Если вход подходит, return возвращает рассчитанное значение.\n\nrequire проверяет условие и при отказе бросает IllegalArgumentException. return передаёт результат вызывающему коду. Math.multiplyExact в Kotlin/JVM отдельно обнаруживает переполнение Int. try/catch обрабатывает ожидаемую ошибку у вызывающей стороны.",
+            "tg": "require шартро дар даромади функсия месанҷад. Агар нодуруст бошад, IllegalArgumentException мебарояд. Агар мувофиқ бошад, return натиҷаро медиҳад.\n\nrequire шартро месанҷад ва ҳангоми радкунӣ IllegalArgumentException медиҳад. return натиҷаро ба рамзи даъваткунанда медиҳад. Math.multiplyExact дар Kotlin/JVM пуршавии ҳудуди Int-ро алоҳида меёбад. try/catch хатои интизориро дар тарафи даъваткунанда коркард мекунад.",
+            "en": "require checks an input condition. A failed condition throws IllegalArgumentException. For valid inputs, return passes back the computed result.\n\nrequire checks a condition and throws IllegalArgumentException when it fails. return passes a result to the caller. Math.multiplyExact on Kotlin/JVM separately detects Int overflow. try/catch handles the expected error at the call site."
           },
           "code": "fun total(price: Int, quantity: Int): Int {\n    require(price >= 0 && quantity >= 0) { \"Negative value\" }\n    return Math.multiplyExact(price, quantity)\n}\nfun main() {\n    println(total(12, 3))\n    println(total(12, 0))\n    try { total(12, -1) }\n    catch (error: IllegalArgumentException) { println(\"Invalid input rejected\") }\n}\n",
           "language": "kotlin",
@@ -271,6 +285,23 @@
           }
         }
       ],
+      "interview": {
+        "id": "kotlin-day-02-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какая функция Kotlin проверяет предусловие аргумента в этом уроке?",
+          "tg": "Дар ин дарс кадом функсияи Kotlin шарти argument-ро месанҷад?",
+          "en": "Which Kotlin function checks the argument precondition in this lesson?"
+        },
+        "answer": {
+          "ru": "require",
+          "tg": "require",
+          "en": "require"
+        },
+        "acceptedAnswers": [
+          "require()"
+        ]
+      },
       "questions": [
         {
           "id": "kotlin-day-02-q",
@@ -353,14 +384,14 @@
       "sections": [
         {
           "title": {
-            "ru": "Понятие и пример",
-            "tg": "Мафҳум ва мисол",
-            "en": "Concept and example"
+            "ru": "Почему результат целочисленного деления целый",
+            "tg": "Чаро натиҷаи Int / Int бутун аст?",
+            "en": "Integer division and types"
           },
           "body": {
-            "ru": "Тип определяет допустимые операции и способ хранения значения. Литералы 7 и 2 имеют тип Int, поэтому их деление даёт целое число с отброшенной дробной частью. Преобразование одного операнда через toDouble меняет тип операции до деления. Преобразование уже полученного результата не возвращает потерянную дробь. Long нужен для более широкого диапазона целых, но тоже имеет конечные границы.",
-            "tg": "Тип амалҳои иҷозатдодашуда ва тарзи нигоҳдории қиматро муайян мекунад. Ададҳои 7 ва 2 типи Int доранд, бинобар ин тақсими онҳо қисми касриро мепартояд. Табдили як адад бо toDouble пеш аз тақсим навъи амалро дигар мекунад. Табдили натиҷаи аллакай ҳисобшуда қисми гумшударо барқарор намекунад. Long барои доираи васеътари ададҳои бутун аст, вале он низ ҳудуд дорад.",
-            "en": "A type determines the available operations and how a value is represented. The literals 7 and 2 are Int values, so division discards the fractional part. Converting one operand with toDouble changes the operation before division happens. Converting the result afterwards cannot recover the lost fraction. Long provides a wider integer range, but it still has finite limits."
+            "ru": "В Kotlin тип выражения зависит от операндов. У 7 / 2 оба числа Int, поэтому результат 3. Если нужна дробь, используйте дробный тип до деления, например 7.0 / 2.\n\nТип определяет допустимые операции и способ хранения значения. Литералы 7 и 2 имеют тип Int, поэтому их деление даёт целое число с отброшенной дробной частью. Преобразование одного операнда через toDouble меняет тип операции до деления. Преобразование уже полученного результата не возвращает потерянную дробь. Long нужен для более широкого диапазона целых, но тоже имеет конечные границы.",
+            "tg": "Дар Kotlin типи натиҷа аз қиматҳои ҳисоб вобаста аст. Дар 7 / 2 ҳар ду Int аст ва натиҷа 3. Барои каср пеш аз тақсим якеашро касрӣ кун, мисли 7.0 / 2.\n\nТип амалҳои иҷозатдодашуда ва тарзи нигоҳдории қиматро муайян мекунад. Ададҳои 7 ва 2 типи Int доранд, бинобар ин тақсими онҳо қисми касриро мепартояд. Табдили як адад бо toDouble пеш аз тақсим навъи амалро дигар мекунад. Табдили натиҷаи аллакай ҳисобшуда қисми гумшударо барқарор намекунад. Long барои доираи васеътари ададҳои бутун аст, вале он низ ҳудуд дорад.",
+            "en": "Kotlin uses the operand types to determine the result. Both numbers in 7 / 2 are Int, so it yields 3. For a fractional result, use a floating-point operand before dividing.\n\nA type determines the available operations and how a value is represented. The literals 7 and 2 are Int values, so division discards the fractional part. Converting one operand with toDouble changes the operation before division happens. Converting the result afterwards cannot recover the lost fraction. Long provides a wider integer range, but it still has finite limits."
           },
           "code": "fun main() {\n    val items = 7\n    val boxes = 2\n    println(items / boxes)\n    println(items.toDouble() / boxes)\n    println((items / boxes).toDouble())\n}\n",
           "language": "kotlin",
@@ -395,6 +426,19 @@
           }
         }
       ],
+      "interview": {
+        "id": "kotlin-day-03-written",
+        "question": {
+          "ru": "Что даст выражение 7 / 2 в Kotlin, если оба операнда Int?",
+          "tg": "Дар Kotlin 7 / 2 бо ду Int чӣ мешавад?",
+          "en": "What does Kotlin return for 7 / 2 with two Int operands?"
+        },
+        "answer": {
+          "ru": "3",
+          "tg": "3",
+          "en": "3"
+        }
+      },
       "questions": [
         {
           "id": "kotlin-day-03-concept",

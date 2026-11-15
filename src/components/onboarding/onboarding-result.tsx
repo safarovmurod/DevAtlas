@@ -3,7 +3,12 @@
 import Link from 'next/link';
 import { ArrowRight, CalendarDays, CheckCircle2, Smartphone } from 'lucide-react';
 import { COURSE_CATALOG, courseName } from '@/content/courses/catalog';
-import { courseRoute, type OnboardingLocale, type OnboardingPlan } from '@/lib/onboarding';
+import {
+  courseRoute,
+  pickText,
+  type OnboardingLocale,
+  type OnboardingPlan,
+} from '@/lib/onboarding';
 import { LEVEL_LABEL } from '@/lib/placement';
 import { STUDY_DAYS, TEST_UI, UI, WEEKDAYS } from './onboarding-copy';
 
@@ -33,7 +38,7 @@ export function OnboardingResult({
       </h1>
       <p className="onboarding-level">
         <span className={'level-badge level-' + plan.level}>
-          {testUi.level}: {LEVEL_LABEL[plan.level][locale]}
+          {testUi.level}: {pickText(LEVEL_LABEL[plan.level], locale)}
         </span>
         {plan.score && (
           <span>
@@ -41,7 +46,7 @@ export function OnboardingResult({
           </span>
         )}
       </p>
-      <p>{plan.reason[locale]}</p>
+      <p>{pickText(plan.reason, locale)}</p>
       {plan.levelSource === 'self' && <p className="muted small">{testUi.self}</p>}
       {plan.selfMismatch && <p className="warning-text">{testUi[plan.selfMismatch]}</p>}
       {proPrerequisite && (

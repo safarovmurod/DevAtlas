@@ -46,51 +46,50 @@
   animation: nav-fade-in 200ms var(--ease-out) both;
 }
 ::view-transition-old(.nav-forward) {
-  animation: nav-forward-out 200ms var(--ease-in-out) both;
+  animation: nav-forward-out 140ms var(--ease-in-out) both;
 }
 ::view-transition-new(.nav-forward) {
-  animation: nav-forward-in 320ms var(--ease-out) both;
+  animation: nav-forward-in 280ms var(--ease-out) both;
 }
 ::view-transition-old(.nav-back) {
-  animation: nav-back-out 200ms var(--ease-in-out) both;
+  animation: nav-back-out 140ms var(--ease-in-out) both;
 }
 ::view-transition-new(.nav-back) {
-  animation: nav-back-in 320ms var(--ease-out) both;
+  animation: nav-back-in 280ms var(--ease-out) both;
 }
 @keyframes nav-fade-out {
   to {
     opacity: 0;
-    transform: translateY(-6px);
   }
 }
 @keyframes nav-fade-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
 }
 @keyframes nav-forward-out {
   to {
     opacity: 0;
-    transform: translateX(-24px);
+    transform: scale(0.985);
   }
 }
 @keyframes nav-forward-in {
   from {
     opacity: 0;
-    transform: translateX(24px);
+    transform: translate3d(0, 18px, 0) scale(0.985);
   }
 }
 @keyframes nav-back-out {
   to {
     opacity: 0;
-    transform: translateX(24px);
+    transform: scale(1.01);
   }
 }
 @keyframes nav-back-in {
   from {
     opacity: 0;
-    transform: translateX(-24px);
+    transform: translate3d(0, -10px, 0) scale(1.01);
   }
 }
 @media (prefers-reduced-motion: reduce) {

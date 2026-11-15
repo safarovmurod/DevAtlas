@@ -1,229 +1,183 @@
 import type { InterfaceLocale } from '@/lib/locale';
+import type { NavTarget } from '@/lib/agent/voice-commands';
 
 type AgentCopy = {
   assistant: string;
-  subtitle: string;
-  voiceOn: string;
-  voiceOff: string;
-  voiceIsOn: string;
-  voiceIsOff: string;
-  clear: string;
   close: string;
-  kindGuide: string;
-  kindMaterials: string;
-  kindNoMatch: string;
-  stop: string;
+  tapToSpeak: string;
+  listening: string;
   thinking: string;
-  inputLabel: string;
-  placeholder: string;
-  send: string;
-  historyNote: string;
-  guideNote: string;
+  speaking: string;
+  micStart: string;
+  micStop: string;
+  stopSpeaking: string;
+  heard: string;
+  noSpeech: string;
+  micDenied: string;
+  languageUnsupported: string;
+  unsupported: string;
+  noVoiceOutput: string;
+  openTutor: string;
+  tutorOpened: string;
+  greeting: string;
+  help: string;
   unavailable: string;
+  /** What the assistant says when it opens a page. */
+  nav: Record<NavTarget, string>;
 };
 
-/** Text of the floating DevAtlas assistant. */
+/** Text of the floating DevAtlas voice assistant. It listens and speaks; it has no chat. */
 export const AGENT_COPY: Record<InterfaceLocale, AgentCopy> = {
   ru: {
     assistant: 'Ассистент DevAtlas',
-    subtitle: 'Навигация и ответы из материалов курса',
-    voiceOn: 'Включить голос',
-    voiceOff: 'Выключить голос',
-    voiceIsOn: 'Голос включён',
-    voiceIsOff: 'Голос выключен',
-    clear: 'Очистить чат',
     close: 'Закрыть',
-    kindGuide: 'Гид по платформе',
-    kindMaterials: 'Из материалов курса',
-    kindNoMatch: 'Не нашёл',
-    stop: 'Остановить',
+    tapToSpeak: 'Нажмите на микрофон и говорите',
+    listening: 'Слушаю…',
     thinking: 'Думаю…',
-    inputLabel: 'Вопрос ассистенту',
-    placeholder: 'Спросите про платформу или тему урока…',
-    send: 'Отправить',
-    historyNote:
-      'История разделена по аккаунтам и хранится только в этом браузере. Серверная история пока недоступна.',
-    guideNote:
-      'Гид отвечает по устройству платформы; вопросы по урокам — из проверенных материалов курса. Без выдумок.',
+    speaking: 'Говорю…',
+    micStart: 'Говорить',
+    micStop: 'Закончить запись',
+    stopSpeaking: 'Остановить голос',
+    heard: 'Вы сказали',
+    noSpeech: 'Не расслышал. Нажмите на микрофон и повторите.',
+    micDenied: 'Нет доступа к микрофону. Разрешите его в настройках браузера.',
+    languageUnsupported:
+      'Браузер не распознаёт этот язык. Переключите язык интерфейса на русский или английский.',
+    unsupported: 'Этот браузер не умеет слушать голос. Откройте AI Tutor и напишите вопрос там.',
+    noVoiceOutput: 'В этом браузере нет озвучивания, поэтому ответ показан текстом.',
+    openTutor: 'Открыть AI Tutor',
+    tutorOpened: 'Открываю AI Tutor.',
+    greeting: 'Привет! Скажите, например, «открой курсы» или задайте вопрос по теме.',
+    help: 'Я слушаю и отвечаю голосом. Скажите «открой курсы», «мой день», «открой практику» или «тарифы». Можно спросить, что делать дальше, или задать вопрос по теме курса.',
     unavailable:
-      'Сервис ответов сейчас недоступен. По платформе я всё равно подскажу: спросите «что дальше?», «где практика?», «как считается мастерство?».',
+      'Сервис ответов сейчас недоступен. Про платформу я всё равно подскажу, а вопросы по темам можно задать в AI Tutor.',
+    nav: {
+      courses: 'Открываю курсы.',
+      myDay: 'Открываю ваш день.',
+      plan: 'Открываю план курса.',
+      practice: 'Открываю практику.',
+      tests: 'Открываю тесты.',
+      answers: 'Открываю ответы.',
+      notes: 'Открываю заметки.',
+      plans: 'Открываю тарифы.',
+      community: 'Открываю сообщество.',
+      settings: 'Открываю настройки.',
+      progress: 'Открываю ваш прогресс.',
+    },
   },
   tg: {
     assistant: 'Ёрдамчии DevAtlas',
-    subtitle: 'Роҳнамоии платформа ва ҷавобҳо аз маводи курс',
-    voiceOn: 'Овозро фаъол кун',
-    voiceOff: 'Овозро хомӯш кун',
-    voiceIsOn: 'Овоз фаъол аст',
-    voiceIsOff: 'Овоз хомӯш аст',
-    clear: 'Чатро тоза кардан',
     close: 'Пӯшидан',
-    kindGuide: 'Роҳнамо',
-    kindMaterials: 'Аз маводи курс',
-    kindNoMatch: 'Наёфтам',
-    stop: 'Қатъ кардан',
+    tapToSpeak: 'Микрофонро пахш кунед ва гӯед',
+    listening: 'Гӯш мекунам…',
     thinking: 'Фикр мекунам…',
-    inputLabel: 'Савол ба ёрдамчӣ',
-    placeholder: 'Дар бораи платформа ё мавзӯъ пурсед…',
-    send: 'Фиристодан',
-    historyNote:
-      'Таърих барои ҳар ҳисоб ҷудо буда, танҳо дар ҳамин браузер нигоҳ дошта мешавад. Таърихи серверӣ ҳоло дастрас нест.',
-    guideNote:
-      'Роҳнамо сохтори платформаро мефаҳмонад; ҷавоби саволҳои дарсӣ аз маводи санҷидашудаи курс аст. Бе бофтан.',
+    speaking: 'Мегӯям…',
+    micStart: 'Гуфтан',
+    micStop: 'Анҷоми сабт',
+    stopSpeaking: 'Қатъи овоз',
+    heard: 'Шумо гуфтед',
+    noSpeech: 'Нашунидам. Микрофонро пахш кунед ва такрор кунед.',
+    micDenied: 'Ба микрофон иҷозат нест. Онро дар танзимоти браузер фаъол кунед.',
+    languageUnsupported:
+      'Браузер ин забонро намешиносад. Забони интерфейсро ба русӣ ё англисӣ иваз кунед.',
+    unsupported:
+      'Ин браузер овозро гӯш карда наметавонад. AI Tutor-ро кушоед ва саволро дар он нависед.',
+    noVoiceOutput: 'Дар ин браузер овоздиҳӣ нест, барои ҳамин ҷавоб бо матн нишон дода шуд.',
+    openTutor: 'Кушодани AI Tutor',
+    tutorOpened: 'AI Tutor-ро мекушоям.',
+    greeting: 'Салом! Масалан гӯед «курсҳоро кушо» ё дар бораи мавзӯъ савол диҳед.',
+    help: 'Ман гӯш мекунам ва бо овоз ҷавоб медиҳам. Гӯед «курсҳоро кушо», «рӯзи ман», «машқҳоро кушо» ё «тарифҳо». Метавонед пурсед, ки минбаъд чӣ кунед, ё дар бораи мавзӯи курс савол диҳед.',
     unavailable:
-      'Хидмати ҷавобҳо ҳоло дастрас нест. Дар бораи платформа ба ҳар ҳол кӯмак мекунам: пурсед «қадами навбатӣ?», «машқҳо дар куҷо?», «пешрафт чӣ тавр ҳисоб мешавад?».',
+      'Хидмати ҷавобҳо ҳоло дастрас нест. Дар бораи платформа ба ҳар ҳол кӯмак мекунам, саволҳои мавзӯиро дар AI Tutor диҳед.',
+    nav: {
+      courses: 'Курсҳоро мекушоям.',
+      myDay: 'Рӯзи шуморо мекушоям.',
+      plan: 'Нақшаи курсро мекушоям.',
+      practice: 'Машқҳоро мекушоям.',
+      tests: 'Санҷишҳоро мекушоям.',
+      answers: 'Ҷавобҳоро мекушоям.',
+      notes: 'Ёддоштҳоро мекушоям.',
+      plans: 'Тарифҳоро мекушоям.',
+      community: 'Ҷомеаро мекушоям.',
+      settings: 'Танзимотро мекушоям.',
+      progress: 'Пешрафти шуморо мекушоям.',
+    },
   },
   en: {
     assistant: 'DevAtlas assistant',
-    subtitle: 'Platform guide + answers from course materials',
-    voiceOn: 'Turn voice on',
-    voiceOff: 'Turn voice off',
-    voiceIsOn: 'Voice on',
-    voiceIsOff: 'Voice off',
-    clear: 'Clear chat',
     close: 'Close',
-    kindGuide: 'Platform guide',
-    kindMaterials: 'From course materials',
-    kindNoMatch: 'No match',
-    stop: 'Stop',
+    tapToSpeak: 'Tap the microphone and speak',
+    listening: 'Listening…',
     thinking: 'Thinking…',
-    inputLabel: 'Ask the assistant',
-    placeholder: 'Ask about the platform or a lesson topic…',
-    send: 'Send',
-    historyNote:
-      'History is separated by account and stored only in this browser. Server history is not available yet.',
-    guideNote:
-      'The guide explains the platform; lesson questions come from reviewed course materials. No inventions.',
-    unavailable:
-      'The answer service is unavailable right now. I can still help with the platform: ask “what next?”, “where is practice?”, “how does mastery work?”.',
-  },
-  uk: {
-    assistant: 'Асистент DevAtlas',
-    subtitle: 'Навігація та відповіді з матеріалів курсу',
-    voiceOn: 'Увімкнути голос',
-    voiceOff: 'Вимкнути голос',
-    voiceIsOn: 'Голос увімкнено',
-    voiceIsOff: 'Голос вимкнено',
-    clear: 'Очистити чат',
-    close: 'Закрити',
-    kindGuide: 'Гід платформою',
-    kindMaterials: 'З матеріалів курсу',
-    kindNoMatch: 'Не знайшов',
-    stop: 'Зупинити',
-    thinking: 'Думаю…',
-    inputLabel: 'Запитання асистенту',
-    placeholder: 'Запитайте про платформу або тему уроку…',
-    send: 'Надіслати',
-    historyNote:
-      'Історія розділена за обліковими записами й зберігається лише в цьому браузері. Серверна історія поки недоступна.',
-    guideNote:
-      'Гід пояснює будову платформи; відповіді на питання з уроків — із перевірених матеріалів курсу. Без вигадок.',
-    unavailable:
-      'Сервіс відповідей зараз недоступний. З платформою я все одно допоможу: оберіть одну з підказок нижче.',
-  },
-  ja: {
-    assistant: 'DevAtlas アシスタント',
-    subtitle: 'サイト案内とコース教材からの回答',
-    voiceOn: '音声をオンにする',
-    voiceOff: '音声をオフにする',
-    voiceIsOn: '音声オン',
-    voiceIsOff: '音声オフ',
-    clear: 'チャットを消去',
-    close: '閉じる',
-    kindGuide: 'サイト案内',
-    kindMaterials: 'コース教材から',
-    kindNoMatch: '見つかりません',
-    stop: '停止',
-    thinking: '考えています…',
-    inputLabel: 'アシスタントに質問',
-    placeholder: 'サイトやレッスンの内容について質問…',
-    send: '送信',
-    historyNote:
-      '履歴はアカウントごとに分かれ、このブラウザーにのみ保存されます。サーバー履歴はまだ利用できません。',
-    guideNote:
-      '案内はサイトの使い方を説明します。レッスンの質問には確認済みのコース教材から答えます。作り話はしません。',
-    unavailable:
-      '回答サービスは現在利用できません。サイトの使い方は引き続き案内できます。下の候補から選んでください。',
-  },
-  ko: {
-    assistant: 'DevAtlas 도우미',
-    subtitle: '플랫폼 안내와 강좌 자료 기반 답변',
-    voiceOn: '음성 켜기',
-    voiceOff: '음성 끄기',
-    voiceIsOn: '음성 켜짐',
-    voiceIsOff: '음성 꺼짐',
-    clear: '채팅 지우기',
-    close: '닫기',
-    kindGuide: '플랫폼 안내',
-    kindMaterials: '강좌 자료에서',
-    kindNoMatch: '찾지 못함',
-    stop: '중지',
-    thinking: '생각 중…',
-    inputLabel: '도우미에게 질문',
-    placeholder: '플랫폼이나 수업 주제에 대해 물어보세요…',
-    send: '보내기',
-    historyNote:
-      '기록은 계정별로 분리되어 이 브라우저에만 저장됩니다. 서버 기록은 아직 제공되지 않습니다.',
-    guideNote:
-      '안내는 플랫폼 사용법을 설명하고, 수업 질문은 검토된 강좌 자료로 답합니다. 지어내지 않습니다.',
-    unavailable:
-      '답변 서비스를 지금 사용할 수 없습니다. 플랫폼 안내는 계속할 수 있어요. 아래 추천 질문을 눌러 보세요.',
-  },
-};
-
-type MicCopy = {
-  start: string;
-  stop: string;
-  listening: string;
-  unsupported: string;
-  denied: string;
-};
-
-/** Text of the voice input (microphone) button. */
-export const MIC_COPY: Record<InterfaceLocale, MicCopy> = {
-  ru: {
-    start: 'Сказать голосом',
-    stop: 'Остановить запись',
-    listening: 'Слушаю… говорите вопрос.',
+    speaking: 'Speaking…',
+    micStart: 'Speak',
+    micStop: 'Finish recording',
+    stopSpeaking: 'Stop the voice',
+    heard: 'You said',
+    noSpeech: 'I did not catch that. Tap the microphone and try again.',
+    micDenied: 'Microphone access is blocked. Allow it in your browser settings.',
+    languageUnsupported:
+      'Your browser cannot recognise this language. Switch the interface to English or Russian.',
     unsupported:
-      'Браузер не распознаёт этот язык. Переключите язык интерфейса на русский или английский или напишите текстом.',
-    denied: 'Нет доступа к микрофону. Разрешите его в настройках браузера.',
+      'This browser cannot listen to your voice. Open AI Tutor and type your question there.',
+    noVoiceOutput: 'This browser cannot speak aloud, so the answer is shown as text.',
+    openTutor: 'Open AI Tutor',
+    tutorOpened: 'Opening AI Tutor.',
+    greeting: 'Hi! Say, for example, “open courses”, or ask a question about a topic.',
+    help: 'I listen and answer by voice. Say “open courses”, “my day”, “open practice” or “plans”. You can ask what to do next, or ask a question about a course topic.',
+    unavailable:
+      'The answer service is unavailable right now. I can still help with the platform, and you can ask topic questions in AI Tutor.',
+    nav: {
+      courses: 'Opening the courses.',
+      myDay: 'Opening your day.',
+      plan: 'Opening the course plan.',
+      practice: 'Opening practice.',
+      tests: 'Opening the tests.',
+      answers: 'Opening the answers.',
+      notes: 'Opening your notes.',
+      plans: 'Opening the plans.',
+      community: 'Opening the community.',
+      settings: 'Opening settings.',
+      progress: 'Opening your progress.',
+    },
   },
-  tg: {
-    start: 'Бо овоз гуфтан',
-    stop: 'Қатъи сабт',
-    listening: 'Гӯш мекунам… саволро гӯед.',
+  es: {
+    assistant: 'Asistente de DevAtlas',
+    close: 'Cerrar',
+    tapToSpeak: 'Toca el micrófono y habla',
+    listening: 'Escuchando…',
+    thinking: 'Pensando…',
+    speaking: 'Hablando…',
+    micStart: 'Hablar',
+    micStop: 'Terminar la grabación',
+    stopSpeaking: 'Detener la voz',
+    heard: 'Dijiste',
+    noSpeech: 'No te he entendido. Toca el micrófono e inténtalo de nuevo.',
+    micDenied: 'No hay acceso al micrófono. Permítelo en los ajustes del navegador.',
+    languageUnsupported:
+      'Tu navegador no reconoce este idioma. Cambia la interfaz a inglés o ruso.',
     unsupported:
-      'Браузер забони тоҷикиро бо овоз намешиносад. Саволро бо русӣ ё англисӣ гӯед (забони интерфейсро иваз кунед) ё нависед.',
-    denied: 'Ба микрофон иҷозат нест. Онро дар танзимоти браузер фаъол кунед.',
-  },
-  en: {
-    start: 'Ask by voice',
-    stop: 'Stop recording',
-    listening: 'Listening… say your question.',
-    unsupported:
-      'Your browser cannot recognise this language. Switch the interface to English or Russian, or type instead.',
-    denied: 'Microphone access is blocked. Allow it in your browser settings.',
-  },
-  uk: {
-    start: 'Сказати голосом',
-    stop: 'Зупинити запис',
-    listening: 'Слухаю… скажіть запитання.',
-    unsupported:
-      'Браузер не розпізнає цю мову. Перемкніть інтерфейс на англійську чи російську або напишіть текстом.',
-    denied: 'Немає доступу до мікрофона. Дозвольте його в налаштуваннях браузера.',
-  },
-  ja: {
-    start: '音声で質問',
-    stop: '録音を停止',
-    listening: '聞いています… 質問をどうぞ。',
-    unsupported: 'このブラウザーはこの言語を認識できません。文字で入力してください。',
-    denied: 'マイクへのアクセスがブロックされています。ブラウザーの設定で許可してください。',
-  },
-  ko: {
-    start: '음성으로 질문',
-    stop: '녹음 중지',
-    listening: '듣고 있어요… 질문을 말하세요.',
-    unsupported: '브라우저가 이 언어를 인식하지 못합니다. 텍스트로 입력하세요.',
-    denied: '마이크 접근이 차단되었습니다. 브라우저 설정에서 허용하세요.',
+      'Este navegador no puede escuchar tu voz. Abre AI Tutor y escribe tu pregunta allí.',
+    noVoiceOutput:
+      'Este navegador no puede leer en voz alta, así que la respuesta se muestra como texto.',
+    openTutor: 'Abrir AI Tutor',
+    tutorOpened: 'Abriendo AI Tutor.',
+    greeting: '¡Hola! Di, por ejemplo, «abre los cursos» o hazme una pregunta sobre un tema.',
+    help: 'Escucho y respondo con voz. Di «abre los cursos», «mi día», «abre la práctica» o «planes». Puedes preguntar qué hacer a continuación o hacer una pregunta sobre un tema del curso.',
+    unavailable:
+      'El servicio de respuestas no está disponible ahora. Aun así puedo ayudarte con la plataforma, y las preguntas sobre temas puedes hacerlas en AI Tutor.',
+    nav: {
+      courses: 'Abriendo los cursos.',
+      myDay: 'Abriendo tu día.',
+      plan: 'Abriendo el plan del curso.',
+      practice: 'Abriendo la práctica.',
+      tests: 'Abriendo las pruebas.',
+      answers: 'Abriendo las respuestas.',
+      notes: 'Abriendo tus notas.',
+      plans: 'Abriendo los planes.',
+      community: 'Abriendo la comunidad.',
+      settings: 'Abriendo los ajustes.',
+      progress: 'Abriendo tu progreso.',
+    },
   },
 };

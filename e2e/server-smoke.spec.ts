@@ -10,8 +10,8 @@ test('public and learning routes render without server errors',async({request})=
   }
 });
 
-test('the public page renders all six interface locales on the server',async({request})=>{
-  for(const [country,lead] of [['RU','От нового интереса'],['UA','Від нового інтересу'],['US','Turn your curiosity'],['TJ','Аз шавқи нав'],['JP','新しい興味を'],['KR','새로운 관심을']] as const) {
+test('the public page renders all four interface locales on the server',async({request})=>{
+  for(const [country,lead] of [['RU','От нового интереса'],['US','Turn your curiosity'],['TJ','Аз шавқи нав'],['ES','De la curiosidad']] as const) {
     const response=await request.get('/',{headers:{'x-vercel-ip-country':country}});
     expect(response.status(),country).toBe(200);
     expect(await response.text(),country).toContain(lead);

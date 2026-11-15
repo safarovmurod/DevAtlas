@@ -9,9 +9,7 @@ const STORAGE_ERROR: Record<InterfaceLocale, string> = {
   ru: 'Не удалось прочитать сохранённые данные. Не очищайте браузер.',
   tg: 'Маълумоти нигоҳдошташуда хонда нашуд. Маълумоти браузерро тоза накунед.',
   en: 'Saved data could not be read. Do not clear your browser data.',
-  uk: 'Не вдалося прочитати збережені дані. Не очищуйте браузер.',
-  ja: '保存されたデータを読み込めませんでした。ブラウザーのデータを消去しないでください。',
-  ko: '저장된 데이터를 읽지 못했습니다. 브라우저 데이터를 지우지 마세요.',
+  es: 'No se pudieron leer los datos guardados. No borres los datos del navegador.',
 };
 
 export function LearningProvider({

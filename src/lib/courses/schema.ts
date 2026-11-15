@@ -73,6 +73,15 @@ export const courseContentSchema = z
             correctIndex: z.number().int().nonnegative(),
           }),
         ),
+        interview: z
+          .object({
+            id,
+            question: text,
+            answer: text,
+            acceptedAnswers: z.array(z.string().trim().min(1).max(160)).max(12).optional(),
+            caseSensitive: z.boolean().optional(),
+          })
+          .optional(),
         practice: z
           .object({
             kind: z.enum(['code', 'written']).optional(),
@@ -163,6 +172,11 @@ export const courseContentSchema = z
             message: 'Next lesson must follow the published sequence',
           });
       }
+      if (lesson.interview) {
+        if (!completeTranslations(lesson.interview) || questionIds.has(lesson.interview.id))
+          ctx.addIssue({ code: 'custom', message: 'Invalid written question: ' + lesson.id });
+        questionIds.add(lesson.interview.id);
+      }
       for (const question of lesson.questions) {
         if (
           (question.hint === undefined) !== (question.relatedSection === undefined) ||
@@ -194,4 +208,8 @@ export type CourseLesson = CourseContent['lessons'][number];
 export type CourseText = CourseLesson['title'];
 export function courseText(value: CourseText, language: 'tg' | 'ru' | 'en') {
   return value[language] || value.ru;
+}
+/** Language that courseText really returns: the requested one, else Russian. Keep both in step. */
+export function courseTextLanguage(value: CourseText, language: 'tg' | 'ru' | 'en') {
+  return value[language] ? language : 'ru';
 }

@@ -20,16 +20,28 @@ const TutorDrawer = dynamic(() =>
 import { CourseBoundary } from '@/components/courses/course-boundary';
 import { useLearningStore } from '@/stores/learning-store';
 import { ACCOUNT_COPY, accountErrorKey } from '@/lib/account-copy';
+import type { InterfaceLocale } from '@/lib/locale';
 import { SiteAgent } from '@/components/agent/site-agent';
 import { Brand } from '@/components/layout/brand';
 import { PageTransition } from '@/components/layout/page-transition';
 import { LoadingState } from '@/components/learning/loading-state';
 
-export function AccountShell({ children }: { children: React.ReactNode }) {
+export function AccountShell({
+  children,
+  initialLocale = 'ru',
+}: {
+  children: React.ReactNode;
+  /** Language negotiated by the server, used until the saved profile is loaded. */
+  initialLocale?: InterfaceLocale;
+}) {
   const account = useAccount();
   const pathname = usePathname();
   const course = useLearningStore((state) => state.selectedCourse);
-  const copy = ACCOUNT_COPY[useLearningStore((state) => state.language)];
+  // While the account loads, the store still holds its Russian default, so the loading
+  // screen follows the server-negotiated language until the saved profile is ready.
+  const storeReady = useLearningStore((state) => state.ready);
+  const storeLanguage = useLearningStore((state) => state.language);
+  const copy = ACCOUNT_COPY[account.loading && !storeReady ? initialLocale : storeLanguage];
   const tutorOpen = useAppStore((state) => state.tutorDrawerOpen);
   const [tutorMounted, setTutorMounted] = useState(false);
   if (tutorOpen && !tutorMounted) setTutorMounted(true);

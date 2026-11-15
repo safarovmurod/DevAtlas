@@ -45,15 +45,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что такое Rust и как работает let",
+      "tg": "Rust чист ва let чӣ кор мекунад?",
+      "en": "Rust and let"
+    },
      "body": {
-      "ru": "Установите Rust через официальный rustup. rustc компилирует main.rs в исполняемый файл. let по умолчанию создаёт неизменяемую привязку; тип i32 — знаковое 32-битное целое. println! — макрос форматированного вывода.",
-      "tg": "Rust-ро тавассути rustup-и расмӣ насб кунед. rustc main.rs-ро ба файли иҷрошаванда табдил медиҳад. let одатан номи тағйирнопазир месозад; i32 адади бутуни 32-бита бо аломат аст. println! макроси баровардани матни форматшуда мебошад.",
-      "en": "Install Rust using official rustup. rustc compiles main.rs into an executable. let creates an immutable binding by default; i32 is a signed 32-bit integer. println! is a formatted-output macro."
-     },
+      "ru": "Rust — компилируемый язык для систем, утилит и серверов. Компилятор проверяет правила работы с памятью. let создаёт привязку имени; чтобы присваивать другое значение, добавьте mut.\n\nУстановите Rust через официальный rustup. rustc компилирует main.rs в исполняемый файл. let по умолчанию создаёт неизменяемую привязку; тип i32 — знаковое 32-битное целое. println! — макрос форматированного вывода.",
+      "tg": "Rust забони компилятсияшаванда барои система, утилита ва сервер аст. Компилятор қоидаи кор бо хотираро месанҷад. let ба қимат ном медиҳад, барои иваз кардани он mut лозим.\n\nRust-ро тавассути rustup-и расмӣ насб кунед. rustc main.rs-ро ба файли иҷрошаванда табдил медиҳад. let одатан номи тағйирнопазир месозад; i32 адади бутуни 32-бита бо аломат аст. println! макроси баровардани матни форматшуда мебошад.",
+      "en": "Rust is a compiled language used for systems, tools, and servers. The compiler checks memory rules. let binds a name; add mut if the binding must be reassigned.\n\nInstall Rust using official rustup. rustc compiles main.rs into an executable. let creates an immutable binding by default; i32 is a signed 32-bit integer. println! is a formatted-output macro."
+    },
      "code": "fn main() {\n    let price: i32 = 12;\n    let quantity: i32 = 3;\n    println!(\"{}\", price * quantity);\n}\n",
      "language": "rust",
      "output": {
@@ -87,6 +87,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "rust-day-01-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какое слово после let допускает новое присваивание?",
+       "tg": "Кадом калима баъди let иҷозат медиҳад, ки қиматро иваз кунӣ?",
+       "en": "Which keyword after let allows reassignment?"
+     },
+     "answer": {
+       "ru": "mut",
+       "tg": "mut",
+       "en": "mut"
+     }
+   },
    "questions": [
     {
      "id": "rust-day-01-q",
@@ -206,15 +220,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите пример",
-      "tg": "Мисолро фаҳмед",
-      "en": "Understand the example"
-     },
+      "ru": "Что показывает Result",
+      "tg": "Result чиро нишон медиҳад?",
+      "en": "What Result represents"
+    },
      "body": {
-      "ru": "Result<i32, &str> явно представляет успех Ok или ошибку Err. Проверка отрицательных аргументов возвращает Err. checked_mul возвращает Option и обнаруживает переполнение; ok_or переводит отсутствие результата в Err. match обрабатывает обе ветки.",
-      "tg": "Result<i32, &str> муваффақиятро бо Ok ё хаторо бо Err нишон медиҳад. Аргументҳои манфӣ Err медиҳанд. checked_mul Option баргардонда, пуршавии ҳудуди ададро меёбад; ok_or набудани натиҷаро ба Err табдил медиҳад. match ҳар ду ҳолатро коркард мекунад.",
-      "en": "Result<i32, &str> explicitly represents success with Ok or failure with Err. Negative arguments return Err. checked_mul returns Option and detects overflow; ok_or converts a missing result to Err. match handles both cases."
-     },
+      "ru": "Result хранит либо успех Ok со значением, либо Err с причиной сбоя. Обработайте нужную ветку перед использованием результата расчёта.\n\nResult<i32, &str> явно представляет успех Ok или ошибку Err. Проверка отрицательных аргументов возвращает Err. checked_mul возвращает Option и обнаруживает переполнение; ok_or переводит отсутствие результата в Err. match обрабатывает обе ветки.",
+      "tg": "Result ё муваффақияти Ok бо қимат, ё Err бо сабаби хаторо нигоҳ медорад. Пеш аз истифодаи натиҷа ҳолаташро санҷ.\n\nResult<i32, &str> муваффақиятро бо Ok ё хаторо бо Err нишон медиҳад. Аргументҳои манфӣ Err медиҳанд. checked_mul Option баргардонда, пуршавии ҳудуди ададро меёбад; ok_or набудани натиҷаро ба Err табдил медиҳад. match ҳар ду ҳолатро коркард мекунад.",
+      "en": "Result represents either Ok with a value or Err with a failure reason. Handle the outcome before using the calculation result.\n\nResult<i32, &str> explicitly represents success with Ok or failure with Err. Negative arguments return Err. checked_mul returns Option and detects overflow; ok_or converts a missing result to Err. match handles both cases."
+    },
      "code": "fn total(price: i32, quantity: i32) -> Result<i32, &'static str> {\n    if price < 0 || quantity < 0 { return Err(\"Negative value\"); }\n    price.checked_mul(quantity).ok_or(\"Total too large\")\n}\nfn main() {\n    println!(\"{}\", total(12, 3).expect(\"valid input\"));\n    println!(\"{}\", total(12, 0).expect(\"valid input\"));\n    match total(12, -1) {\n        Err(_) => println!(\"Invalid input rejected\"),\n        Ok(value) => println!(\"Unexpected: {}\", value),\n    }\n}\n",
      "language": "rust",
      "output": {
@@ -248,6 +262,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "rust-day-02-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Как называется вариант Result для ошибки?",
+       "tg": "Варианти Result барои хато чӣ ном дорад?",
+       "en": "Which Result variant represents an error?"
+     },
+     "answer": {
+       "ru": "Err",
+       "tg": "Err",
+       "en": "Err"
+     }
+   },
    "questions": [
     {
      "id": "rust-day-02-q",
@@ -367,15 +395,15 @@
    "sections": [
     {
      "title": {
-      "ru": "Разберите концепцию",
-      "tg": "Мафҳумро фаҳмед",
-      "en": "Understand the concept"
-     },
+      "ru": "Типы и допустимые значения",
+      "tg": "Тип ва қиматҳои мувофиқ",
+      "en": "Types and valid values"
+    },
      "body": {
-      "ru": "Каждое значение в Rust имеет тип, и компилятор знает большинство типов ещё до запуска программы. Для первых программ хватает четырёх базовых: i32 — целое число со знаком в 32 бита, f64 — дробное число с плавающей точкой двойной точности, bool — логическое значение true или false, char — ровно один символ Unicode в одинарных кавычках. Обратите внимание на строку let ready: bool; за которой присваивание идёт позже: Rust разрешает объявить переменную, а инициализировать её ближе к месту использования. Но прочитать переменную до присваивания невозможно — компилятор отклонит программу. В языках без такой проверки неинициализированная переменная содержит случайный мусор из памяти, и ошибка проявляется иногда, в самый неожиданный момент. В Rust этот класс ошибок исключён полностью: программа либо не скомпилируется, либо работает с точно известными значениями. Это одна из причин, почему Rust называют безопасным языком.",
-      "tg": "Ҳар қимат дар Rust намуд дорад ва компилятор бештари намудҳоро то оғози иҷрои барнома медонад. Барои барномаҳои аввал чор намуди асосӣ кофӣ аст: i32 — адади бутуни 32-бита бо аломат, f64 — адади касрии дақиқии баланд, bool — мақоми мантиқии true ё false, char — дақиқ як аломати Unicode дар цитатаҳои якка. Ба сатри let ready: bool; нигоҳ кунед, ки баъд аз он таъинот баъдтар меояд: Rust иҷозат медиҳад тағйирёбандаро эълон карда, онро наздиктар ба ҷои истифода пур кунед. Вале хондани тағйирёбанда то таъинот имнопазир аст — компилятор барномаро рад мекунад. Дар забонҳое, ки чунин санҷиш надоранд, тағйирёбандаи пурнашуда кохпроси тасодуфии хотираро нигоҳ медорад ва хато гоҳе дар лаҳзаи ноумедкунанда зоҳир мешавад. Дар Rust чунин синфи хатоҳо тамоман ҳузур надоранд: барнома ё компилятсия намешавад, ё бо қиматҳои дақиқ маълум кор мекунад. Ин яке аз сабабҳои он аст, ки Rust-ро бехатар меноманд.",
-      "en": "Every value in Rust has a type, and the compiler knows most types before the program even runs. Four basic types cover the first programs: i32 is a signed 32-bit integer, f64 is a double-precision floating-point number, bool is a logical value, true or false, and char is exactly one Unicode character in single quotes. Note the line let ready: bool; where the assignment comes later: Rust allows declaring a variable and initializing it closer to the place of use. But reading the variable before the assignment is impossible — the compiler rejects the program. In languages without such a check, an uninitialized variable holds random garbage from memory, and the bug appears occasionally, at the worst possible moment. In Rust this class of bugs is eliminated entirely: the program either fails to compile or runs with exactly known values. That is one of the reasons Rust is called a safe language."
-     },
+      "ru": "У i32 фиксированный диапазон целых чисел со знаком, f64 хранит число с плавающей точкой, bool — true или false, char — одно скалярное значение Unicode. Одна видимая буква с диакритикой может состоять из нескольких таких значений.\n\nКаждое значение в Rust имеет тип, и компилятор знает большинство типов ещё до запуска программы. Для первых программ хватает четырёх базовых: i32 — целое число со знаком в 32 бита, f64 — дробное число с плавающей точкой двойной точности, bool — логическое значение true или false, char — ровно один символ Unicode в одинарных кавычках. Обратите внимание на строку let ready: bool; за которой присваивание идёт позже: Rust разрешает объявить переменную, а инициализировать её ближе к месту использования. Но прочитать переменную до присваивания невозможно — компилятор отклонит программу. В языках без такой проверки неинициализированная переменная содержит случайный мусор из памяти, и ошибка проявляется иногда, в самый неожиданный момент. В Rust этот класс ошибок исключён полностью: программа либо не скомпилируется, либо работает с точно известными значениями. Это одна из причин, почему Rust называют безопасным языком.",
+      "tg": "i32 ададҳои бутуни мусбат ва манфиро дар диапазони муайян мегирад. f64 адади касрӣ, bool true ё false ва char як қимати Unicode-ро мегирад. Як ҳарфи намоён метавонад аз чанд қимат иборат бошад.\n\nҲар қимат дар Rust намуд дорад ва компилятор бештари намудҳоро то оғози иҷрои барнома медонад. Барои барномаҳои аввал чор намуди асосӣ кофӣ аст: i32 — адади бутуни 32-бита бо аломат, f64 — адади касрии дақиқии баланд, bool — мақоми мантиқии true ё false, char — дақиқ як аломати Unicode дар цитатаҳои якка. Ба сатри let ready: bool; нигоҳ кунед, ки баъд аз он таъинот баъдтар меояд: Rust иҷозат медиҳад тағйирёбандаро эълон карда, онро наздиктар ба ҷои истифода пур кунед. Вале хондани тағйирёбанда то таъинот имнопазир аст — компилятор барномаро рад мекунад. Дар забонҳое, ки чунин санҷиш надоранд, тағйирёбандаи пурнашуда кохпроси тасодуфии хотираро нигоҳ медорад ва хато гоҳе дар лаҳзаи ноумедкунанда зоҳир мешавад. Дар Rust чунин синфи хатоҳо тамоман ҳузур надоранд: барнома ё компилятсия намешавад, ё бо қиматҳои дақиқ маълум кор мекунад. Ин яке аз сабабҳои он аст, ки Rust-ро бехатар меноманд.",
+      "en": "i32 holds a fixed range of signed integers, f64 floating-point values, bool true or false, and char a Unicode scalar value. A visible accented character may contain several such values.\n\nEvery value in Rust has a type, and the compiler knows most types before the program even runs. Four basic types cover the first programs: i32 is a signed 32-bit integer, f64 is a double-precision floating-point number, bool is a logical value, true or false, and char is exactly one Unicode character in single quotes. Note the line let ready: bool; where the assignment comes later: Rust allows declaring a variable and initializing it closer to the place of use. But reading the variable before the assignment is impossible — the compiler rejects the program. In languages without such a check, an uninitialized variable holds random garbage from memory, and the bug appears occasionally, at the worst possible moment. In Rust this class of bugs is eliminated entirely: the program either fails to compile or runs with exactly known values. That is one of the reasons Rust is called a safe language."
+    },
      "code": "fn main() {\n    let zero_int: i32 = 0;\n    let zero_float: f64 = 0.0;\n    let zero_bool: bool = false;\n    println!(\"{} {} {}\", zero_int, zero_float, zero_bool);\n    let ready: bool;\n    ready = 5 > 2;\n    println!(\"{}\", ready);\n}\n",
      "language": "rust",
      "output": {
@@ -409,6 +437,20 @@
      }
     }
    ],
+   "interview": {
+     "id": "rust-day-03-written",
+     "caseSensitive": true,
+     "question": {
+       "ru": "Какой тип Rust хранит 32-битное целое число со знаком?",
+       "tg": "Кадом типи Rust адади бутуни 32-бита бо аломатро нигоҳ медорад?",
+       "en": "Which Rust type holds a signed 32-bit integer?"
+     },
+     "answer": {
+       "ru": "i32",
+       "tg": "i32",
+       "en": "i32"
+     }
+   },
    "questions": [
     {
      "id": "rust-day-03-q1",

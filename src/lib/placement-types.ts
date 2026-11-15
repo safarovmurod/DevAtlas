@@ -1,9 +1,11 @@
-import type { OnboardingLocale } from '@/lib/onboarding';
+import type { Text } from './onboarding-questions';
 
 // Shared types of the placement (knowledge check) questions.
 
-export type Text = Record<OnboardingLocale, string>;
-export const t = (tg: string, ru: string, en: string): Text => ({ tg, ru, en });
+export type { Text };
+/** Questions are authored in TG/RU/EN; interface labels may add Spanish. */
+export const t = (tg: string, ru: string, en: string, es?: string): Text =>
+  es ? { tg, ru, en, es } : { tg, ru, en };
 
 export type PlacementDirection = 'frontend' | 'backend' | 'mobile' | 'data' | 'design' | 'business';
 export type PlacementLevel = 'beginner' | 'middle' | 'advanced';

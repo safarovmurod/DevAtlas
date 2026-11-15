@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, LockKeyhole } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { reactDayProgress } from '@/lib/react-plan';
 import { useLearningStore } from '@/stores/learning-store';
 import { PageHeading } from './page-heading';
@@ -36,53 +36,32 @@ export function MonthPlan({ month }: { month: number }) {
         ))}
       </div>
       <div className="day-card-grid">
-        {days.map((day) => {
-          const locked = day.status === 'upcoming';
-          const contents = (
-            <>
-              <div className="between">
-                <span className="eyebrow">
-                  {copy.day} {day.day}
-                </span>
-                {day.status === 'done' ? (
-                  <CheckCircle2 size={18} />
-                ) : locked ? (
-                  <LockKeyhole size={18} />
-                ) : null}
-              </div>
-              <h2>{day.title}</h2>
-              <p>{locked ? copy.locked : copy.flow}</p>
-              {!locked && (
-                <span className="text-link">
-                  {copy.open} <ArrowRight size={15} />
-                </span>
-              )}
-            </>
-          );
-          return locked ? (
-            <article
-              key={day.day}
-              className="panel day-card is-locked"
-              aria-label={`${copy.day} ${day.day}: ${copy.locked}`}
-            >
-              {contents}
-            </article>
-          ) : (
-            <Link
-              prefetch={false}
-              href={`/home?month=${month}&day=${day.day}`}
-              key={day.day}
-              className={
-                'panel day-card ' +
-                (selected === `${month}:${day.day}` ? 'is-current' : '') +
-                (day.status === 'done' ? ' is-done' : '')
-              }
-              onClick={() => state.setPreferences({ activeMonth: month })}
-            >
-              {contents}
-            </Link>
-          );
-        })}
+        {/* Every day is open: no locked cards. */}
+        {days.map((day) => (
+          <Link
+            prefetch={false}
+            href={`/home?month=${month}&day=${day.day}`}
+            key={day.day}
+            className={
+              'panel day-card ' +
+              (selected === `${month}:${day.day}` ? 'is-current' : '') +
+              (day.status === 'done' ? ' is-done' : '')
+            }
+            onClick={() => state.setPreferences({ activeMonth: month })}
+          >
+            <div className="between">
+              <span className="eyebrow">
+                {copy.day} {day.day}
+              </span>
+              {day.status === 'done' ? <CheckCircle2 size={18} /> : null}
+            </div>
+            <h2>{day.title}</h2>
+            <p>{copy.flow}</p>
+            <span className="text-link">
+              {copy.open} <ArrowRight size={15} />
+            </span>
+          </Link>
+        ))}
       </div>
     </>
   );

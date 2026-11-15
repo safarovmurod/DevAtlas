@@ -22,14 +22,14 @@
   "sections": [
     {
       "title": {
-        "ru": "Как это работает",
-        "tg": "Чӣ тавр кор мекунад",
-        "en": "How it works"
+        "ru": "Что такое state и событие нажатия",
+        "tg": "State ва event-и пахш чист?",
+        "en": "State and press events"
       },
       "body": {
-        "ru": "Состояние — данные, которые могут измениться во время работы экрана. React вызывает функцию компонента, чтобы получить описание интерфейса; такой вызов называется рендером. useState(0) возвращает текущее число count и функцию setCount, которая просит React обновить экран. При первом рендере count равен 0. Обработчик — функция, которую система вызывает после действия пользователя. onPress получает такую функцию, а не результат её немедленного вызова. Функциональное обновление value => value + 1 получает последнее предыдущее значение и возвращает новое. Нажатия изменяют только память приложения: после перезапуска счётчик сбросится, потому что постоянное хранение и синхронизация ещё не созданы.",
-        "tg": "Ҳолат додаест, ки ҳангоми кори экран тағйир ёфта метавонад. React функсияи компонентро барои гирифтани тавсифи интерфейс мехонад; ин даъват render ном дорад. useState(0) адади ҷории count ва функсияи setCount медиҳад, ки аз React навсозии экранро мехоҳад. Дар render-и аввал count 0 аст. Коркардкунанда функсияест, ки система баъди амали корбар мехонад. onPress чунин функсия мегирад, на натиҷаи даъвати фаврии он. Навсозии value => value + 1 қимати охирини пешинаро гирифта, навро медиҳад. Пахшҳо танҳо хотираи барномаро иваз мекунанд: баъди оғози нав ҳисобкунак 0 мешавад, зеро нигоҳдории доимӣ ва ҳамоҳангсозӣ ҳанӯз сохта нашудааст.",
-        "en": "State is data that may change while a screen is in use. React calls a component function to obtain an interface description; that call is a render. useState(0) returns the current count and setCount, which asks React to update the screen. On the first render count is zero. A handler is a function the system calls after a user action. onPress receives that function, not the result of invoking it immediately. The functional update value => value + 1 receives the latest previous value and returns the next one. Presses change only application memory: restarting resets the counter because persistence and synchronization have not yet been implemented."
+        "ru": "State — память компонента между отрисовками. При нажатии обработчик запрашивает обновление state, и компонент строит новый вид. Обычная локальная переменная не сохраняет счётчик между отрисовками.\n\nСостояние — данные, которые могут измениться во время работы экрана. React вызывает функцию компонента, чтобы получить описание интерфейса; такой вызов называется рендером. useState(0) возвращает текущее число count и функцию setCount, которая просит React обновить экран. При первом рендере count равен 0. Обработчик — функция, которую система вызывает после действия пользователя. onPress получает такую функцию, а не результат её немедленного вызова. Функциональное обновление value => value + 1 получает последнее предыдущее значение и возвращает новое. Нажатия изменяют только память приложения: после перезапуска счётчик сбросится, потому что постоянное хранение и синхронизация ещё не созданы.",
+        "tg": "State хотираи компонент байни render-ҳо аст. Ҳангоми пахш handler тағйири state-ро дархост мекунад ва экран аз нав намоиш меёбад. Variable-и одӣ ҳисобкунакро байни render нигоҳ намедорад.\n\nҲолат додаест, ки ҳангоми кори экран тағйир ёфта метавонад. React функсияи компонентро барои гирифтани тавсифи интерфейс мехонад; ин даъват render ном дорад. useState(0) адади ҷории count ва функсияи setCount медиҳад, ки аз React навсозии экранро мехоҳад. Дар render-и аввал count 0 аст. Коркардкунанда функсияест, ки система баъди амали корбар мехонад. onPress чунин функсия мегирад, на натиҷаи даъвати фаврии он. Навсозии value => value + 1 қимати охирини пешинаро гирифта, навро медиҳад. Пахшҳо танҳо хотираи барномаро иваз мекунанд: баъди оғози нав ҳисобкунак 0 мешавад, зеро нигоҳдории доимӣ ва ҳамоҳангсозӣ ҳанӯз сохта нашудааст.",
+        "en": "State is a component's memory between renders. A press handler requests a state update and the component produces the next view. An ordinary local variable does not persist the count between renders.\n\nState is data that may change while a screen is in use. React calls a component function to obtain an interface description; that call is a render. useState(0) returns the current count and setCount, which asks React to update the screen. On the first render count is zero. A handler is a function the system calls after a user action. onPress receives that function, not the result of invoking it immediately. The functional update value => value + 1 receives the latest previous value and returns the next one. Presses change only application memory: restarting resets the counter because persistence and synchronization have not yet been implemented."
       },
       "code": "import { useState } from 'react';\nimport { View, Text, Button } from 'react-native';\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>\n      <Text accessibilityLiveRegion=\"polite\">Completed: {count}</Text>\n      <Button title=\"Complete one task\" onPress={() => setCount(value => value + 1)} />\n      <Button title=\"Reset\" onPress={() => setCount(0)} />\n    </View>\n  );\n}",
       "language": "tsx"
@@ -64,6 +64,23 @@
       }
     }
   ],
+  "interview": {
+    "id": "mobile-day-02-written",
+    "caseSensitive": true,
+    "question": {
+      "ru": "Какой хук хранит счётчик между отрисовками React Native?",
+      "tg": "Кадом hook ҳисобкунакро байни render-ҳои React Native нигоҳ медорад?",
+      "en": "Which hook keeps a counter across React Native renders?"
+    },
+    "answer": {
+      "ru": "useState",
+      "tg": "useState",
+      "en": "useState"
+    },
+    "acceptedAnswers": [
+      "useState()"
+    ]
+  },
   "questions": [
     {
       "id": "mobile-day-02-q",

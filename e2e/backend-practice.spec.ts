@@ -35,7 +35,10 @@ test('Backend executes actual function tests, catches wrong results and timeout,
 });
 test('Backend flow has keyboard-controlled code traces, local-only assessment copy and the actual ZIP download',async({page,request})=>{
  await page.goto('/courses/backend/home?day=4');
- await expect(page.getByRole('navigation',{name:'Учебный маршрут'}).getByRole('link')).toHaveCount(8);
+ // The day has three steps now: learn, practice, check.
+ await expect(page.getByRole('navigation',{name:'Шаги дня'}).getByRole('link')).toHaveCount(3);
+ // The example sits in a closed block of the lesson step.
+ await page.locator('details:has(.code-trace) > summary').first().click();
  const trace=page.locator('.code-trace');await expect(trace).toContainText('не выполнение вашего кода');
  await expect(trace.locator('[aria-current=step]')).toContainText('const quantity = 3');
  await trace.getByRole('button',{name:'Следующий шаг'}).focus();await page.keyboard.press('Enter');
@@ -44,8 +47,8 @@ test('Backend flow has keyboard-controlled code traces, local-only assessment co
  await expect(trace.getByRole('button',{name:'Следующий шаг'})).toBeDisabled();
  await expect(page.locator('#backend-day-04-flow-master')).toContainText('Серверной аттестации Backend пока нет');
  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- await page.getByRole('navigation',{name:'Учебный маршрут'}).getByRole('link').nth(5).click();
- await expect(page).toHaveURL(/\/tests\?course=backend&day=4/);
+ await page.goto('/courses/backend/tests?day=4');
+ await expect(page).toHaveURL('/courses/backend/tests?day=4');
  await expect(page.locator('.course-question')).toHaveCount(10);
  const question=page.locator('.course-question').first(),first=course.lessons[3].questions[0];
  await question.getByRole('radio').nth(1-first.correctIndex).check();await question.getByRole('button',{name:'Проверить',exact:true}).click();
@@ -54,7 +57,10 @@ test('Backend flow has keyboard-controlled code traces, local-only assessment co
  await question.getByRole('radio').nth(first.correctIndex).check();await question.getByRole('button',{name:'Проверить',exact:true}).click();
  await expect(question.getByRole('status')).not.toContainText('Неверно');
  await expect(question).toContainText(first.answer.ru);
- await page.goto('/courses/backend/plan');const download=page.getByRole('link',{name:'Материал 1 · ZIP',exact:true});
+ await page.goto('/courses/backend/plan');
+ // The files are one closed line ("Материалы курса · 1") until the learner opens it.
+ await page.locator('.course-materials > summary').click();
+ const download=page.getByRole('link',{name:'Материал 1 · ZIP',exact:true});
  await expect(download).toHaveAttribute('href',course.files[0].url);
  await expect(download).toHaveAttribute('title',course.files[0].title);
  const response=await request.get(course.files[0].url);expect(response.status()).toBe(200);expect((await response.body()).length).toBe(course.files[0].bytes);

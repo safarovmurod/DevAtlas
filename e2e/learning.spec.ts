@@ -66,7 +66,7 @@ test('homepage renders local fonts without external font requests', async ({ pag
 test('a correct quiz answer awards 10 XP and survives reload without duplicates', async ({ page }) => {
   await page.goto('/tests?topic=topic-1');
   await page.locator('.answer-option').filter({ hasText: question.correctAnswer }).click();
-  await page.getByRole('button', { name: 'Проверить', exact: true }).click();
+  await page.getByRole('region', { name: 'Тесты', exact: true }).getByRole('button', { name: 'Проверить', exact: true }).click();
   await expect(page.locator('.result-label')).toContainText('Верно');
   await page.reload();
   await expect(page.locator('.result-label')).toContainText('Верно');
@@ -83,7 +83,7 @@ test('a correct quiz answer awards 10 XP and survives reload without duplicates'
 test('an incorrect answer persists with no XP award', async ({ page }) => {
   await page.goto('/tests?topic=topic-1');
   await page.locator('.answer-option').filter({ hasText: question.distractors[0] }).click();
-  await page.getByRole('button', { name: 'Проверить', exact: true }).click();
+  await page.getByRole('region', { name: 'Тесты', exact: true }).getByRole('button', { name: 'Проверить', exact: true }).click();
   await expect(page.locator('.result-label')).toContainText('Нужно повторить');
   await page.reload();
   await expect(page.locator('.result-label')).toContainText('Нужно повторить');
@@ -101,14 +101,14 @@ test('Tutor opens, replies from actual local course material and closes with Esc
   await expect(dialog.getByRole('link',{name:'Вход / регистрация',exact:true})).toHaveAttribute('href','/login');
   await dialog.getByLabel('Вопрос к Tutor').fill('useState чиба даркорай?');
   await dialog.getByRole('button', { name: 'Отправить', exact: true }).click();
-  await expect(dialog.locator('.tutor-source').first()).toHaveText('Материалы проекта · 0 токенов');
+  await expect(dialog.locator('.tutor-source').first()).toContainText('Источник:');
   await expect(dialog.locator('.tutor-message.assistant').last()).toContainText('useState');
   await page.keyboard.press('Escape');
   await expect(dialog).not.toBeVisible();
   await expect(page.getByRole('button', { name: 'AI Tutor', exact: true })).toBeFocused();
 });
 
-test('Tutor handles online chat history, token usage and API errors (mocked provider)', async ({ page }, testInfo) => {
+test('Tutor handles online chat history and API errors without token counters (mocked provider)', async ({ page }, testInfo) => {
   const requests: Record<string, unknown>[] = [];
   await page.route('**/api/tutor', async route => {
     requests.push(route.request().postDataJSON());
@@ -121,14 +121,16 @@ test('Tutor handles online chat history, token usage and API errors (mocked prov
   const dialog = page.getByRole('dialog');
   await dialog.getByLabel('Вопрос к Tutor').fill('useState чиба даркорай?');
   await dialog.getByRole('button', { name: 'Отправить', exact: true }).click();
-  await expect(dialog.locator('.tutor-source').last()).toContainText('AI · AnyModel · 321 токенов');
+  await expect(dialog.locator('.tutor-message.assistant').last()).toContainText('useState хотираи компонент аст.');
   await dialog.getByRole('button', { name: 'Объясни подробнее', exact: true }).click();
   await expect(dialog.locator('.tutor-message.assistant').last()).toContainText('setState → render → UI.');
   expect(requests[1]).toMatchObject({ isDeep: true, history: [
     { role: 'user', content: 'useState чиба даркорай?' },
     { role: 'assistant', content: 'useState хотираи компонент аст.' },
   ] });
-  await expect(dialog.locator('.tutor-footnote')).toContainText('642 токенов');
+  // The cleaned Tutor shows no token counters.
+  await expect(dialog.locator('.tutor-footnote')).toHaveCount(0);
+  await expect(dialog).not.toContainText('токен');
   await page.screenshot({ path: testInfo.outputPath('tutor.png') });
   await dialog.getByLabel('Вопрос к Tutor').fill('useEffect?');
   await dialog.getByRole('button', { name: 'Отправить', exact: true }).click();
@@ -139,7 +141,7 @@ test('Tutor handles online chat history, token usage and API errors (mocked prov
 test('deep tutor uses the displayed quiz answer and keeps its source through repeated follow-ups', async ({ page }, testInfo) => {
   await page.goto('/tests?topic=topic-1');
   await page.locator('.answer-option').filter({ hasText: question.correctAnswer }).click();
-  await page.getByRole('button', { name: 'Проверить', exact: true }).click();
+  await page.getByRole('region', { name: 'Тесты', exact: true }).getByRole('button', { name: 'Проверить', exact: true }).click();
   await expect(page.locator('.result-label')).toContainText('Верно');
   await page.locator('.answer-content').getByRole('button', { name: 'Объясни подробнее', exact: true }).click();
   const dialog = page.getByRole('dialog');
@@ -151,7 +153,7 @@ test('deep tutor uses the displayed quiz answer and keeps its source through rep
     await expect(response).toContainText('Ҷараёни кор');
     await expect(response).toContainText('State / Props');
     await expect(response.getByRole('link')).toHaveAttribute('href', '/lesson/topic-1');
-    await expect(response.locator('.tutor-source').first()).toHaveText('Материалы проекта · 0 токенов');
+    await expect(response.locator('.tutor-source').first()).toContainText('Источник:');
     await expect(dialog.getByLabel('Вопрос к Tutor')).toBeEnabled();
   }
   await page.screenshot({ path: testInfo.outputPath('local-deep.png') });
@@ -181,7 +183,7 @@ test('Tajik Tutor controls preserve an independently selected English content la
   await expect(dialog.getByLabel('Савол ба Tutor')).toHaveValue('What is useState for?');
   await dialog.getByRole('button', { name: 'Фиристодан', exact: true }).click();
   await expect(dialog.locator('.tutor-message.assistant').last()).toContainText('useState stores component state.');
-  await expect(dialog.locator('.tutor-source').first()).toHaveText('Маводи лоиҳа · 0 токен');
+  await expect(dialog.locator('.tutor-source').first()).toContainText('Манбаъ:');
   expect(requests[0]).toMatchObject({ language: 'en', userText: 'What is useState for?', isDeep: false });
   await dialog.getByRole('button', { name: 'Чуқур фаҳмон', exact: true }).click();
   await expect.poll(() => requests.length).toBe(2);

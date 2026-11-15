@@ -30,14 +30,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Переменная — коробка с подписью",
-            "tg": "1. Тағйирёбанда — қуттӣ бо имзо",
-            "en": "1. A variable is a labelled box"
+            "ru": "Что такое JavaScript и переменная",
+            "tg": "JavaScript ва variable чист?",
+            "en": "JavaScript and variables"
           },
           "body": {
-            "ru": "Программе нужно где-то хранить данные: имя клиента, цену, количество. Переменная — коробка с подписью: по подписи (имени) мы находим содержимое (значение). const создаёт коробку, содержимое которой нельзя заменить. let — коробку, которую можно переложить. По умолчанию пишите const; let — только если значение действительно меняется.",
-            "tg": "Барнома бояд маълумотро дар ягон ҷо нигоҳ дорад: номи мизоҷ, нарх, миқдор. Тағйирёбанда — қуттӣ бо имзо: аз рӯи имзо (ном) мундариҷаро (қимат) меёбем. const қуттиеро месозад, ки мундариҷаашро иваз кардан мумкин нест. let — қуттиеро, ки аз нав пур кардан мумкин аст. Ба таври пешфарз const нависед; let — фақат агар қимат воқеан иваз шавад.",
-            "en": "Programs need somewhere to keep data: a customer name, a price, a quantity. A variable is a labelled box: the label (name) finds the content (value). const makes a box whose content cannot be replaced. let makes one you can refill. Default to const; use let only when the value really changes."
+            "ru": "JavaScript — язык программирования для кликов, расчётов и обновления страницы. В Node.js он запускается и вне браузера. Переменная даёт значению имя, чтобы использовать его в следующих шагах программы.\n\nПрограмме нужно где-то хранить данные: имя клиента, цену, количество. Переменная — коробка с подписью: по подписи (имени) мы находим содержимое (значение). const создаёт коробку, содержимое которой нельзя заменить. let — коробку, которую можно переложить. По умолчанию пишите const; let — только если значение действительно меняется.",
+            "tg": "JavaScript забони барномасозӣ аст. Кликро коркард мекунад, ҳисоб мекунад ва саҳифаро нав мекунад. Бо Node.js берун аз браузер ҳам кор мекунад. Variable ба қимат ном медиҳад.\n\nБарнома бояд маълумотро дар ягон ҷо нигоҳ дорад: номи мизоҷ, нарх, миқдор. Тағйирёбанда — қуттӣ бо имзо: аз рӯи имзо (ном) мундариҷаро (қимат) меёбем. const қуттиеро месозад, ки мундариҷаашро иваз кардан мумкин нест. let — қуттиеро, ки аз нав пур кардан мумкин аст. Ба таври пешфарз const нависед; let — фақат агар қимат воқеан иваз шавад.",
+            "en": "JavaScript is a programming language used for clicks, calculations, and page updates. Node.js also runs it outside the browser. A variable gives a value a name for later steps.\n\nPrograms need somewhere to keep data: a customer name, a price, a quantity. A variable is a labelled box: the label (name) finds the content (value). const makes a box whose content cannot be replaced. let makes one you can refill. Default to const; use let only when the value really changes."
           },
           "code": "const name = \"Мансур\";\nlet balance = 100;\nbalance = balance - 30;\nconsole.log(name, balance); // Мансур 70",
           "language": "javascript"
@@ -83,6 +83,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "javascript-1-day-01-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какое слово объявляет переменную с областью видимости внутри блока, которой можно присвоить новое значение?",
+          "tg": "Кадом калима variable-и даруни блок месозад, ки баъд ба он қимати нав додан мешавад?",
+          "en": "Which keyword declares a block-scoped variable that can be reassigned?"
+        },
+        "answer": {
+          "ru": "let",
+          "tg": "let",
+          "en": "let"
+        }
+      },
       "questions": [
         {
           "id": "javascript-1-day-01-q1",
@@ -291,14 +305,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Какие бывают значения",
-            "tg": "1. Қиматҳо чӣ гунаанд",
-            "en": "1. Kinds of values"
+            "ru": "Тип значения и преобразование",
+            "tg": "Типи қимат ва табдили он",
+            "en": "Types and conversion"
           },
           "body": {
-            "ru": "number — числа (25, 3.5), string — текст в кавычках (\"25\"), boolean — да/нет (true/false), undefined — «коробку создали, но ничего не положили», null — «специально пусто». На вид \"25\" и 25 похожи, но это разные вещи: как цифра на ценнике и деньги в кассе. typeof подскажет тип.",
-            "tg": "number — ададҳо (25, 3.5), string — матн дар нохунак (\"25\"), boolean — ҳа/не (true/false), undefined — «қуттӣ сохта шуд, вале чизе гузошта нашуд», null — «қасдан холӣ». Аз берун \"25\" ва 25 монанданд, вале ин чизҳои гуногунанд: мисли рақам дар нархнома ва пул дар касса. typeof навъро мегӯяд.",
-            "en": "number is a numeric value (25, 3.5), string is text in quotes (\"25\"), boolean is yes/no (true/false), undefined means “box made, nothing put in”, null means “deliberately empty”. \"25\" and 25 look alike but differ, like a price tag digit and money in the till. typeof tells you the type."
+            "ru": "Тип определяет, какие операции имеют смысл. Из обычного поля ввода приходит строка: \"8\" + 2 даёт \"82\". Для сложения сначала получите число и проверьте результат преобразования.\n\nnumber — числа (25, 3.5), string — текст в кавычках (\"25\"), boolean — да/нет (true/false), undefined — «коробку создали, но ничего не положили», null — «специально пусто». На вид \"25\" и 25 похожи, но это разные вещи: как цифра на ценнике и деньги в кассе. typeof подскажет тип.",
+            "tg": "Тип нишон медиҳад, бо қимат чӣ кор карда мешавад. Аз input сатр меояд: \"8\" + 2 натиҷаи \"82\" медиҳад. Пеш аз ҷамъ кардан матни рақамиро ба адад гардон ва натиҷаро санҷ.\n\nnumber — ададҳо (25, 3.5), string — матн дар нохунак (\"25\"), boolean — ҳа/не (true/false), undefined — «қуттӣ сохта шуд, вале чизе гузошта нашуд», null — «қасдан холӣ». Аз берун \"25\" ва 25 монанданд, вале ин чизҳои гуногунанд: мисли рақам дар нархнома ва пул дар касса. typeof навъро мегӯяд.",
+            "en": "A type determines which operations make sense. An ordinary input field supplies text, so \"8\" + 2 produces \"82\". For addition, convert the input to a number and check the result.\n\nnumber is a numeric value (25, 3.5), string is text in quotes (\"25\"), boolean is yes/no (true/false), undefined means “box made, nothing put in”, null means “deliberately empty”. \"25\" and 25 look alike but differ, like a price tag digit and money in the till. typeof tells you the type."
           },
           "code": "console.log(typeof 25);      // \"number\"\nconsole.log(typeof \"25\");    // \"string\"\nconsole.log(typeof true);    // \"boolean\"\nlet nothing;\nconsole.log(nothing);        // undefined",
           "language": "javascript"
@@ -344,6 +358,24 @@
           }
         }
       ],
+      "interview": {
+        "id": "javascript-1-day-02-written",
+        "question": {
+          "ru": "Как называется тип значения \"8\" с кавычками в JavaScript?",
+          "tg": "Типи қимати \"8\" бо нохунак дар JavaScript чӣ ном дорад?",
+          "en": "What is the JavaScript type of the quoted value \"8\"?"
+        },
+        "answer": {
+          "ru": "Строка",
+          "tg": "Сатр",
+          "en": "string"
+        },
+        "acceptedAnswers": [
+          "строковый тип",
+          "матн",
+          "string type"
+        ]
+      },
       "questions": [
         {
           "id": "javascript-1-day-02-q1",
@@ -559,14 +591,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Арифметика и остаток",
-            "tg": "1. Арифметика ва бақия",
-            "en": "1. Arithmetic and remainder"
+            "ru": "Операторы и сравнение значений",
+            "tg": "Операторҳо ва муқоисаи қиматҳо",
+            "en": "Operators and comparisons"
           },
           "body": {
-            "ru": "+, -, *, / работают как на калькуляторе. % возвращает остаток от деления: 10 % 3 = 1. Это нужно чаще, чем кажется: чётное ли число (n % 2 === 0), каждая ли третья строка таблицы, сколько минут останется после целых часов (130 % 60 = 10).",
-            "tg": "+, -, *, / мисли калкулятор кор мекунанд. % бақияи тақсимро бармегардонад: 10 % 3 = 1. Ин зиёдтар аз он ки менамояд, лозим мешавад: адад ҷуфт аст ё не (n % 2 === 0), ҳар сатри сеюми ҷадвал, баъди соатҳои пурра чанд дақиқа мемонад (130 % 60 = 10).",
-            "en": "+, -, *, / work like a calculator. % returns the remainder: 10 % 3 is 1. You need it more than you think: is a number even (n % 2 === 0), every third table row, minutes left after whole hours (130 % 60 is 10)."
+            "ru": "Оператор задаёт действие над значениями. Например, % находит остаток, а === сравнивает значения без преобразования типов. Сравнение возвращает true или false.\n\n+, -, *, / работают как на калькуляторе. % возвращает остаток от деления: 10 % 3 = 1. Это нужно чаще, чем кажется: чётное ли число (n % 2 === 0), каждая ли третья строка таблицы, сколько минут останется после целых часов (130 % 60 = 10).",
+            "tg": "Оператор амалро муайян мекунад. Масалан, % бақияро меёбад ва === қиматҳоро бе табдили тип муқоиса мекунад. Натиҷаи муқоиса true ё false аст.\n\n+, -, *, / мисли калкулятор кор мекунанд. % бақияи тақсимро бармегардонад: 10 % 3 = 1. Ин зиёдтар аз он ки менамояд, лозим мешавад: адад ҷуфт аст ё не (n % 2 === 0), ҳар сатри сеюми ҷадвал, баъди соатҳои пурра чанд дақиқа мемонад (130 % 60 = 10).",
+            "en": "An operator specifies an operation. For example, % finds a remainder, and === compares values without converting their types. A comparison produces true or false.\n\n+, -, *, / work like a calculator. % returns the remainder: 10 % 3 is 1. You need it more than you think: is a number even (n % 2 === 0), every third table row, minutes left after whole hours (130 % 60 is 10)."
           },
           "code": "const minutes = 130;\nconst hours = Math.floor(minutes / 60); // 2\nconst rest = minutes % 60;             // 10\nconsole.log(`${hours} ч ${rest} мин`);",
           "language": "javascript"
@@ -612,6 +644,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "javascript-1-day-03-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какой оператор проверяет равенство без преобразования типов?",
+          "tg": "Дар JS кадом оператор баробариро бе табдили тип месанҷад?",
+          "en": "Which operator checks equality without type coercion?"
+        },
+        "answer": {
+          "ru": "===",
+          "tg": "===",
+          "en": "==="
+        }
+      },
       "questions": [
         {
           "id": "javascript-1-day-03-q1",
@@ -1914,9 +1960,9 @@
             "en": "1. Rooms and the corridor"
           },
           "body": {
-            "ru": "Представьте офис: в коридоре (глобальная область) вещи видят все, в кабинете (функция) — только сотрудники кабинета, в ящике стола (блок {} у if или for) — только хозяин стола. let и const живут в том блоке, где объявлены. Изнутри видно наружу, снаружи внутрь — нет.",
-            "tg": "Офисро тасаввур кунед: дар долон (доираи глобалӣ) чизҳоро ҳама мебинанд, дар кабинет (функсия) — фақат кормандони кабинет, дар ҷевони миз (блоки {} дар if ё for) — фақат соҳиби миз. let ва const дар ҳамон блоке зиндагӣ мекунанд, ки эълон шудаанд. Аз дарун берун намоён аст, аз берун дарун — не.",
-            "en": "Picture an office: things in the corridor (global scope) are seen by everyone, in a room (function) only by its staff, in a desk drawer (the {} block of if or for) only by the desk owner. let and const live in the block where they are declared. You can see out from inside, not in from outside."
+            "ru": "Область видимости — места, где имя переменной доступно. let и const относятся к блоку, в котором их объявили. Внутри if можно прочитать переменную из наружного блока, но наружу имя из if не выходит. Представьте кабинет: сотрудники в кабинете могут взять общий инструмент из коридора, а прохожий в коридоре не получит доступ к столу.",
+            "tg": "Область видимости мегӯяд, ки номи variable дар куҷо дастрас аст. let ва const ба ҳамон блок тааллуқ доранд, ки дар он эълон шудаанд. Даруни if номи берунаро хонда метавонад, лекин берун номи даруни if-ро намебинад. Мисли кабинет: корманд ба долон мебарояд, аммо ҳар каси долон ба мизи корӣ дастрасӣ надорад.",
+            "en": "Scope determines where a variable name is accessible. let and const belong to their declaring block. An if block can read names from its outer scope, but its own names are unavailable outside. Think of an office: staff can use a shared hallway tool, while passers-by cannot reach inside a desk."
           },
           "code": "const company = \"DevAtlas\";       // глобальная\nfunction showOffice() {\n  const room = \"Бухгалтерия\";     // видна в функции\n  if (true) {\n    const drawer = \"Ключи\";       // видна только в блоке\n    console.log(company, room, drawer);\n  }\n  // console.log(drawer); // ReferenceError\n}",
           "language": "javascript"
@@ -2184,14 +2230,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Та же функция короче",
-            "tg": "1. Ҳамон функсия кӯтоҳтар",
-            "en": "1. The same function, shorter"
+            "ru": "Что такое стрелочная функция",
+            "tg": "Arrow function чист?",
+            "en": "What is an arrow function?"
           },
           "body": {
-            "ru": "Стрелочная функция — сокращённая запись: const square = (n) => n * n. Если тело — одно выражение без фигурных скобок, return пишется сам (неявный). Это как фирменный бланк вместо письма от руки: смысл тот же, писать меньше.",
-            "tg": "Функсияи тирчадор — навишти кӯтоҳ аст: const square = (n) => n * n. Агар бадан як ифода бе қавсҳои фигурӣ бошад, return худаш навишта мешавад (ғайриошкоро). Ин мисли бланки ширкатӣ ба ҷои мактуби дастнавис аст: маъно ҳамон, навиштан камтар.",
-            "en": "An arrow function is a shorthand: const square = (n) => n * n. If the body is a single expression without braces, return is implied. Like a printed form instead of a handwritten letter: same meaning, less writing."
+            "ru": "Стрелочная функция записывается через =>. Короткое тело из одного выражения сразу даёт результат. Для встроенной функции в map это удобно. У стрелки нет собственного this и её нельзя вызывать как конструктор через new.\n\nСтрелочная функция — сокращённая запись: const square = (n) => n * n. Если тело — одно выражение без фигурных скобок, return пишется сам (неявный). Это как фирменный бланк вместо письма от руки: смысл тот же, писать меньше.",
+            "tg": "Arrow function бо => навишта мешавад. Агар бадан як ифода бошад, натиҷаро худаш медиҳад. Дар map функсияи кӯтоҳ қулай аст. Arrow this-и худаш надорад ва бо new сохта намешавад.\n\nФунксияи тирчадор — навишти кӯтоҳ аст: const square = (n) => n * n. Агар бадан як ифода бе қавсҳои фигурӣ бошад, return худаш навишта мешавад (ғайриошкоро). Ин мисли бланки ширкатӣ ба ҷои мактуби дастнавис аст: маъно ҳамон, навиштан камтар.",
+            "en": "An arrow function uses =>. A short expression body returns its value, which is useful for callbacks in map. Arrow functions have no own this and cannot be used as constructors with new.\n\nAn arrow function is a shorthand: const square = (n) => n * n. If the body is a single expression without braces, return is implied. Like a printed form instead of a handwritten letter: same meaning, less writing."
           },
           "code": "function squareOld(n) {\n  return n * n;\n}\nconst square = (n) => n * n;\nconsole.log(square(4)); // 16",
           "language": "javascript"
@@ -2235,6 +2281,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "javascript-1-day-09-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какой знак отделяет параметры от тела стрелочной функции?",
+          "tg": "Кадом аломат параметрро аз бадани arrow function ҷудо мекунад?",
+          "en": "Which symbol separates the parameters and body of an arrow function?"
+        },
+        "answer": {
+          "ru": "=>",
+          "tg": "=>",
+          "en": "=>"
+        }
+      },
       "questions": [
         {
           "id": "javascript-1-day-09-q1",
@@ -2451,9 +2511,9 @@
             "en": "1. A string is a row of beads"
           },
           "body": {
-            "ru": "Строка — как нитка с бусинами: у каждой бусины номер с нуля. text.length — сколько бусин, text[0] — первая. Строки неизменяемы: методы не меняют исходную строку, а возвращают новую. Поэтому результат надо сохранить: const upper = text.toUpperCase().",
-            "tg": "Сатр — мисли ришта бо мунчоқҳо: ҳар мунчоқ рақам дорад аз сифр. text.length — чанд мунчоқ, text[0] — аввал. Сатрҳо тағйирнопазиранд: методҳо сатри аввалаиро иваз намекунанд, балки сатри нав бармегардонанд. Барои ҳамин натиҷаро нигоҳ доштан лозим: const upper = text.toUpperCase().",
-            "en": "A string is like beads on a thread, each numbered from zero. text.length counts them, text[0] is the first. Strings are immutable: methods do not change the original, they return a new string. So store the result: const upper = text.toUpperCase()."
+            "ru": "Строка — последовательность текста. Индексы начинаются с нуля: \"book\"[0] даёт \"b\". length считает кодовые единицы UTF-16, поэтому у некоторых эмодзи значение больше одного. Строки неизменяемы: text.toUpperCase() возвращает новую строку; используйте этот результат, чтобы показать заглавные буквы.",
+            "tg": "Сатр пайдарпайии матн аст. Индекс аз сифр сар мешавад: \"book\"[0] ҳарфи \"b\"-ро медиҳад. length воҳидҳои UTF-16-ро мешуморад, барои ҳамин баъзе emoji андозаи аз як калон доранд. Худи сатр иваз намешавад: text.toUpperCase() сатри нав медиҳад. Барои нишон додани ҳарфи калон натиҷаро истифода бар.",
+            "en": "A string is a sequence of text. Indexes start at zero, so \"book\"[0] gives \"b\". length counts UTF-16 code units, so some emoji count as more than one. Strings are immutable: text.toUpperCase() returns a new string. Use that result to display the uppercase text."
           },
           "code": "const city = \"  Душанбе \";\nconst clean = city.trim();          // \"Душанбе\"\nconsole.log(clean.length);          // 7\nconsole.log(clean.toUpperCase());   // \"ДУШАНБЕ\"\nconsole.log(clean[0]);              // \"Д\"",
           "language": "javascript"
@@ -2983,9 +3043,9 @@
             "en": "1. Add and remove"
           },
           "body": {
-            "ru": "push добавляет в конец, pop забирает последний. unshift добавляет в начало, shift забирает первый. Это как очередь в кассу: новые встают в конец (push), обслуживают первого (shift). Все эти методы меняют сам массив.",
-            "tg": "push ба охир илова мекунад, pop охиринро мегирад. unshift ба аввал илова мекунад, shift аввалинро мегирад. Ин мисли навбат дар касса аст: навомадаҳо ба охир меистанд (push), аввалинро хизмат мекунанд (shift). Ҳамаи ин методҳо худи массивро иваз мекунанд.",
-            "en": "push adds to the end, pop takes the last one. unshift adds to the start, shift takes the first. Like a till queue: newcomers join the end (push), the first is served (shift). All of these change the array itself."
+            "ru": "Мутация — изменение существующего массива. Если две переменные указывают на одну корзину, cart.push(\"tea\") добавит чай в корзину, которую видят обе переменные. Когда нужен прежний список отдельно, сначала создайте новый.\n\npush добавляет в конец, pop забирает последний. unshift добавляет в начало, shift забирает первый. Это как очередь в кассу: новые встают в конец (push), обслуживают первого (shift). Все эти методы меняют сам массив.",
+            "tg": "Mutation иваз кардани худи массиви мавҷуда аст. Агар ду variable ба як сабад ишора кунанд, cart.push(\"tea\") чойро ба сабаде зам мекунад, ки ҳар дуяш мебинанд. Барои ҷудо мондани рӯйхати пешина аввал массиви нав соз.\n\npush ба охир илова мекунад, pop охиринро мегирад. unshift ба аввал илова мекунад, shift аввалинро мегирад. Ин мисли навбат дар касса аст: навомадаҳо ба охир меистанд (push), аввалинро хизмат мекунанд (shift). Ҳамаи ин методҳо худи массивро иваз мекунанд.",
+            "en": "Mutation changes an existing array. If two variables refer to the same cart, cart.push(\"tea\") adds tea to the cart both of them see. Make a new array first when the original list needs to remain available.\n\npush adds to the end, pop takes the last one. unshift adds to the start, shift takes the first. Like a till queue: newcomers join the end (push), the first is served (shift). All of these change the array itself."
           },
           "code": "const queue = [\"Али\", \"Сара\"];\nqueue.push(\"Мансур\");   // [\"Али\", \"Сара\", \"Мансур\"]\nconst served = queue.shift(); // \"Али\"\nconsole.log(queue);      // [\"Сара\", \"Мансур\"]",
           "language": "javascript"
@@ -3006,14 +3066,14 @@
         },
         {
           "title": {
-            "ru": "3. Копия через spread",
-            "tg": "3. Нусха тавассути spread",
-            "en": "3. Copy with spread"
+            "ru": "Что такое spread для массива",
+            "tg": "Spread барои массив чист?",
+            "en": "Array spread"
           },
           "body": {
-            "ru": "Безопасный путь — создать новый массив: [...cart, item]. Три точки (spread) раскладывают старые элементы в новую полку, а потом добавляется новый. Оригинал не трогается. Проверка в практике сама ловит мутацию: если функция изменит входной массив, тест не пройдёт.",
-            "tg": "Роҳи бехатар — сохтани массиви нав: [...cart, item]. Се нуқта (spread) элементҳои кӯҳнаро ба рафи нав мегузоранд, баъд нав илова мешавад. Аслӣ дахл карда намешавад. Санҷиш дар практика худаш мутатсияро мегирад: агар функсия массиви воридотиро иваз кунад, тест намегузарад.",
-            "en": "The safe path is a new array: [...cart, item]. The three dots (spread) unpack the old items onto a new shelf, then the new one is added. The original is untouched. The practice checker catches mutation: if the function changes its input array, the test fails."
+            "ru": "В записи [...cart, item] три точки раскрывают элементы cart в новом массиве. push добавил бы элемент в существующий массив. Если в cart были объекты, новая внешняя копия не дублирует каждый объект.\n\nБезопасный путь — создать новый массив: [...cart, item]. Три точки (spread) раскладывают старые элементы в новую полку, а потом добавляется новый. Оригинал не трогается. Проверка в практике сама ловит мутацию: если функция изменит входной массив, тест не пройдёт.",
+            "tg": "Дар [...cart, item] се нуқта элементҳои cart-ро ба массиви нав мегузорад. push элементи навро ба массиви пешина зам мекунад. Объектҳои дохили cart алоҳида нусха намешаванд.\n\nРоҳи бехатар — сохтани массиви нав: [...cart, item]. Се нуқта (spread) элементҳои кӯҳнаро ба рафи нав мегузоранд, баъд нав илова мешавад. Аслӣ дахл карда намешавад. Санҷиш дар практика худаш мутатсияро мегирад: агар функсия массиви воридотиро иваз кунад, тест намегузарад.",
+            "en": "In [...cart, item], the three dots expand cart's elements into a new array. push would add the item to the original array. The new outer array does not clone the objects it contains.\n\nThe safe path is a new array: [...cart, item]. The three dots (spread) unpack the old items onto a new shelf, then the new one is added. The original is untouched. The practice checker catches mutation: if the function changes its input array, the test fails."
           },
           "code": "function addItem(cart, item) {\n  return [...cart, item];\n}\nconst cart = [\"чай\"];\nconst next = addItem(cart, \"сахар\");\nconsole.log(cart); // [\"чай\"] — не изменился\nconsole.log(next); // [\"чай\", \"сахар\"]",
           "language": "javascript"
@@ -4364,9 +4424,9 @@
             "en": "1. The sort() trap"
           },
           "body": {
-            "ru": "Без аргументов sort сравнивает элементы как строки — по алфавиту, символ за символом. \"10\" начинается с «1», поэтому стоит раньше «9». Для чисел это почти всегда ошибка. Как если бы ценники в магазине разложили по первой цифре, а не по цене.",
-            "tg": "Бе аргумент sort элементҳоро ҳамчун сатр муқоиса мекунад — аз рӯи алифбо, аломат ба аломат. \"10\" бо «1» сар мешавад, барои ҳамин пеш аз «9» меистад. Барои ададҳо ин қариб ҳамеша хато аст. Мисли он ки нархномаҳоро дар мағоза аз рӯи рақами аввал, на аз рӯи нарх ҷойгир кунанд.",
-            "en": "Without arguments sort compares elements as strings — alphabetically, character by character. \"10\" starts with “1” so it comes before “9”. For numbers that is almost always a bug, like shelving price tags by their first digit instead of price."
+            "ru": "sort переставляет элементы в исходном массиве. Без функции сравнения значения приводятся к строкам и сравниваются по кодовым единицам, поэтому 10 оказывается перед 9. Для чисел передайте (a, b) => a - b. Если старый порядок ещё нужен, сортируйте копию.",
+            "tg": "sort элементҳоро дар худи массив ҷойиваз мекунад. Бе функсияи муқоиса қиматҳо ба сатр мегузаранд ва аз рӯйи код муқоиса мешаванд. Барои ҳамин 10 пеш аз 9 меояд. Барои адад (a, b) => a - b деҳ. Агар тартиби пешина лозим бошад, нусхаро sort кун.",
+            "en": "sort reorders the original array. Without a comparison function, it converts values to strings and compares their code units, so 10 comes before 9. Pass (a, b) => a - b for ascending numbers. Sort a copy if you still need the earlier order."
           },
           "code": "console.log([10, 9, 1].sort());              // [1, 10, 9] — неверно\nconsole.log([10, 9, 1].sort((a, b) => a - b)); // [1, 9, 10]",
           "language": "javascript"
@@ -4918,9 +4978,9 @@
             "en": "1. Unpacking a parcel"
           },
           "body": {
-            "ru": "Вместо трёх строк const title = product.title; const price = product.price; … пишут одну: const { title, price } = product. Это как распаковать посылку и сразу разложить вещи по полкам с теми же названиями. Имена переменных должны совпадать с ключами.",
-            "tg": "Ба ҷои се сатр const title = product.title; const price = product.price; … якто менависанд: const { title, price } = product. Ин мисли кушодани посылка ва фавран ҷойгир кардани чизҳо дар рафҳо бо ҳамон номҳо аст. Номи тағйирёбандаҳо бояд бо калидҳо мувофиқ бошанд.",
-            "en": "Instead of three lines const title = product.title; const price = product.price; … write one: const { title, price } = product. Like unpacking a parcel straight onto shelves with matching names. Variable names must match the keys."
+            "ru": "Деструктуризация — способ сразу присвоить нужные части объекта или массива переменным. const { title, price } = product читает одноимённые свойства product. Это как распаковать посылку по подписанным полкам. Сам product остаётся тем же объектом.",
+            "tg": "Деструктуризатсия қисмҳои лозими объект ё массивро ба variable медиҳад. const { title, price } = product хосиятҳои ҳамномро аз product мехонад. Мисли кушодани бор ва гузоштани чизҳо ба рафҳои номдор аст. Худи product дар ҷояш мемонад.",
+            "en": "Destructuring assigns selected parts of an object or array to variables. const { title, price } = product reads the matching properties from product. Think of unpacking a parcel into labeled shelves. The product object itself stays the same."
           },
           "code": "const product = { title: \"Чай\", price: 35, stock: 0 };\nconst { title, price } = product;\nconsole.log(title, price); // \"Чай\" 35",
           "language": "javascript"
@@ -4932,9 +4992,9 @@
             "en": "2. Defaults and renaming"
           },
           "body": {
-            "ru": "Если поля может не быть, задайте значение по умолчанию: const { discount = 0 } = product. Переименовать можно через двоеточие: const { title: name } = product. Деструктуризацию часто пишут прямо в параметрах функции — сразу видно, какие поля функция использует.",
-            "tg": "Агар майдон набошад, қимати пешфарз диҳед: const { discount = 0 } = product. Ивази номро тавассути дунуқта кардан мумкин аст: const { title: name } = product. Деструктуризатсияро аксар вақт бевосита дар параметрҳои функсия менависанд — фавран маълум аст, ки функсия кадом майдонҳоро истифода мебарад.",
-            "en": "If a field may be missing, give a default: const { discount = 0 } = product. Rename with a colon: const { title: name } = product. Destructuring often goes straight into function parameters, showing which fields the function uses."
+            "ru": "Значение по умолчанию берётся, когда свойства нет или оно равно undefined. В const { discount = 0 } = product скидка null остаётся null. Двоеточие задаёт другое имя переменной: const { title: name } = product создаёт name, но не переименовывает поле.",
+            "tg": "Қимати пешфарз вақте гирифта мешавад, ки хосият нест ё undefined аст. Дар const { discount = 0 } = product қимати null ҳамон null мемонад. Ду нуқта номи variable-ро иваз мекунад: const { title: name } = product номи name месозад, хосияти product-ро не.",
+            "en": "A default applies when a property is missing or undefined. In const { discount = 0 } = product, a null discount stays null. A colon picks a variable name: const { title: name } = product creates name without renaming the property."
           },
           "code": "function formatProduct({ title, price, currency = \"смн\" }) {\n  return `${title}: ${price} ${currency}`;\n}\nconsole.log(formatProduct({ title: \"Чай\", price: 35 })); // \"Чай: 35 смн\"",
           "language": "javascript"
@@ -5181,14 +5241,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Копия объекта",
-            "tg": "1. Нусхаи объект",
-            "en": "1. Copying an object"
+            "ru": "Что такое spread и какую копию он делает",
+            "tg": "Spread чист ва чӣ хел нусха месозад?",
+            "en": "What spread copies"
           },
           "body": {
-            "ru": "Как и с массивами, const b = a для объекта — вторая табличка на ту же карточку. Чтобы сделать новую карточку, используют spread: const copy = { ...user }. Все поля переписываются в новый объект, оригинал остаётся нетронутым.",
-            "tg": "Мисли массивҳо, const b = a барои объект — лавҳаи дуюм ба ҳамон корт аст. Барои сохтани корти нав spread-ро истифода мебаранд: const copy = { ...user }. Ҳамаи майдонҳо ба объекти нав навишта мешаванд, аслӣ дахлнопазир мемонад.",
-            "en": "As with arrays, const b = a for an object is a second label on the same card. To make a new card use spread: const copy = { ...user }. All fields are copied into a new object and the original stays untouched."
+            "ru": "Spread раскрывает элементы массива или свойства объекта в новом литерале. В { ...user, active: true } значение active из конца записи побеждает старое. Копируется только первый уровень, поэтому вложенные объекты остаются общими.\n\nКак и с массивами, const b = a для объекта — вторая табличка на ту же карточку. Чтобы сделать новую карточку, используют spread: const copy = { ...user }. Все поля переписываются в новый объект, оригинал остаётся нетронутым.",
+            "tg": "Spread элементҳои массив ё хосиятҳои объектро дар нав мекушояд. Дар { ...user, active: true } active-и охир қимати кӯҳнаро иваз мекунад. Фақат қабати аввал нусха мешавад, объектҳои дарунӣ муштарак мемонанд.\n\nМисли массивҳо, const b = a барои объект — лавҳаи дуюм ба ҳамон корт аст. Барои сохтани корти нав spread-ро истифода мебаранд: const copy = { ...user }. Ҳамаи майдонҳо ба объекти нав навишта мешаванд, аслӣ дахлнопазир мемонад.",
+            "en": "Spread expands array items or object properties into a new literal. In { ...user, active: true }, the later active value wins. It only copies the outer level, so nested objects remain shared.\n\nAs with arrays, const b = a for an object is a second label on the same card. To make a new card use spread: const copy = { ...user }. All fields are copied into a new object and the original stays untouched."
           },
           "code": "const user = { name: \"Сара\", city: \"Душанбе\" };\nconst copy = { ...user };\ncopy.city = \"Худжанд\";\nconsole.log(user.city); // \"Душанбе\" — оригинал цел",
           "language": "javascript"
@@ -5232,6 +5292,25 @@
           }
         }
       ],
+      "interview": {
+        "id": "javascript-1-day-20-written",
+        "question": {
+          "ru": "Как называется копия объекта через spread, когда вложенные объекты остаются общими?",
+          "tg": "Нусхаи spread, ки объектҳои даруниаш муштарак мемонанд, чӣ ном дорад?",
+          "en": "What do we call a spread copy that shares its nested objects?"
+        },
+        "answer": {
+          "ru": "Поверхностная копия",
+          "tg": "Нусхаи рӯякӣ",
+          "en": "Shallow copy"
+        },
+        "acceptedAnswers": [
+          "поверхностное копирование",
+          "рӯякӣ",
+          "shallow",
+          "a shallow copy"
+        ]
+      },
       "questions": [
         {
           "id": "javascript-1-day-20-q1",
@@ -5761,9 +5840,9 @@
             "en": "1. A date is a count of milliseconds"
           },
           "body": {
-            "ru": "Внутри Date хранит одно число — сколько миллисекунд прошло с 1 января 1970 года по UTC. Как счётчик пробега в машине: из одного числа можно узнать и год, и день, и час. new Date(\"2026-01-15\") создаёт дату из строки ISO (год-месяц-день) — самого надёжного формата.",
-            "tg": "Дар дохил Date як адад нигоҳ медорад — аз 1 январи соли 1970 аз рӯи UTC чанд миллисония гузашт. Мисли ҳисобкунаки масофа дар мошин: аз як адад ҳам сол, ҳам рӯз ва ҳам соатро фаҳмидан мумкин аст. new Date(\"2026-01-15\") санаро аз сатри ISO (сол-моҳ-рӯз) месозад — формати аз ҳама боэътимод.",
-            "en": "Inside, a Date holds one number: milliseconds since 1 January 1970 UTC. Like a car's odometer, one number yields the year, day and hour. new Date(\"2026-01-15\") creates a date from an ISO string (year-month-day), the most reliable format."
+            "ru": "Date хранит момент в виде миллисекунд с 1 января 1970 года, 00:00 UTC. new Date(\"2026-01-15\") означает полночь UTC. При показе в местном часовом поясе дата на экране может отличаться. Для точного момента передавайте время и пояс, например \"2026-01-15T12:00:00Z\".",
+            "tg": "Date лаҳзаро бо миллисония аз 1 январи 1970, соати 00:00 UTC нигоҳ медорад. new Date(\"2026-01-15\") ними шаби UTC аст. Дар вақти маҳаллӣ санаи экран метавонад дигар шавад. Барои лаҳзаи аниқ вақт ва минтақаашро навис, масалан \"2026-01-15T12:00:00Z\".",
+            "en": "A Date stores an instant as milliseconds since January 1, 1970 at 00:00 UTC. new Date(\"2026-01-15\") means midnight UTC. The displayed calendar date can differ in a local time zone. Include the time and zone for an exact instant, such as \"2026-01-15T12:00:00Z\"."
           },
           "code": "const start = new Date(\"2026-01-15\");\nconsole.log(start.getTime());      // миллисекунды\nconsole.log(start.getUTCFullYear()); // 2026\nconsole.log(start.getUTCMonth());    // 0 — январь! месяцы с нуля\nconsole.log(start.getUTCDate());     // 15",
           "language": "javascript"
@@ -5775,9 +5854,9 @@
             "en": "2. Difference in days"
           },
           "body": {
-            "ru": "Вычитаем две даты — получаем разницу в миллисекундах. Делим на количество миллисекунд в сутках (1000 * 60 * 60 * 24 = 86 400 000) и округляем. Так считают, сколько дней до дедлайна или сколько дней длилась аренда.",
-            "tg": "Ду санаро тарҳ мекунем — фарқро дар миллисонияҳо мегирем. Ба шумораи миллисонияҳо дар як шабонарӯз (1000 * 60 * 60 * 24 = 86 400 000) тақсим карда, яклухт мекунем. Ҳамин тавр ҳисоб мекунанд, ки то мӯҳлат чанд рӯз монд ё иҷора чанд рӯз давом кард.",
-            "en": "Subtract two dates to get the difference in milliseconds. Divide by the milliseconds in a day (1000 * 60 * 60 * 24 = 86,400,000) and round. That is how you count days to a deadline or the length of a rental."
+            "ru": "Разность двух дат — длительность в миллисекундах. Деление на 86 400 000 переводит её в интервалы по 24 часа. Это подходит для полных 24 часов аренды, но не всегда для подсчёта местных календарных дней: при смене летнего времени сутки могут быть короче или длиннее.",
+            "tg": "Фарқи ду сана давомнокиро бо миллисония медиҳад. Ба 86 400 000 тақсим кунӣ, шумораи фосилаҳои 24-соата мебарояд. Барои 24 соати пурраи иҷора ин дуруст аст. Барои рӯзи тақвимии маҳаллӣ ҳамеша не: вақти тобистона дарозии рӯзи маҳаллиро дигар карда метавонад.",
+            "en": "Subtracting two dates gives an elapsed duration in milliseconds. Dividing by 86,400,000 converts it to intervals of 24 hours. That works for rental periods based on 24 hours. Local calendar days can differ around a daylight saving change."
           },
           "code": "const DAY = 1000 * 60 * 60 * 24;\nconst from = new Date(\"2026-01-01\");\nconst to = new Date(\"2026-01-31\");\nconsole.log(Math.round((to - from) / DAY)); // 30",
           "language": "javascript"
@@ -6029,9 +6108,9 @@
             "en": "1. A parcel in a box"
           },
           "body": {
-            "ru": "По сети и в localStorage можно передать только текст. Чтобы отправить объект, его «упаковывают» в строку — JSON.stringify, а получатель «распаковывает» — JSON.parse. Как мебель, которую разбирают для перевозки и собирают на месте: форма та же, но в пути это плоская коробка.",
-            "tg": "Тавассути шабака ва дар localStorage фақат матн фиристодан мумкин аст. Барои фиристодани объект онро ба сатр «бастабандӣ» мекунанд — JSON.stringify, ва гиранда «мекушояд» — JSON.parse. Мисли мебел, ки барои интиқол ҷудо карда, дар ҷояш ҷамъ мекунанд: шакл ҳамон, вале дар роҳ қуттии ҳамвор аст.",
-            "en": "Only text travels over the network or into localStorage. To send an object you “pack” it into a string with JSON.stringify and the receiver “unpacks” it with JSON.parse. Like furniture taken apart for moving and rebuilt on site: same shape, flat box in transit."
+            "ru": "JSON — текстовый формат для записи данных. JSON.stringify превращает объект в текст для localStorage или тела HTTP-запроса. JSON.parse читает текст обратно как значение JavaScript. По HTTP можно передавать и другие форматы, например файл; JSON удобен для записей и списков.",
+            "tg": "JSON формати матнӣ барои сабти додаҳост. JSON.stringify объектро барои localStorage ё бадани HTTP request ба матн мегардонад. JSON.parse матнро ҳамчун қимати JavaScript боз мехонад. HTTP дигар форматҳо, мисли файлро ҳам мефиристад. JSON барои сабтҳо ва рӯйхатҳо қулай аст.",
+            "en": "JSON is a text format for data. JSON.stringify converts an object to text for localStorage or an HTTP body. JSON.parse reads the text back as a JavaScript value. HTTP can carry other formats, including files; JSON is convenient for records and lists."
           },
           "code": "const order = { id: 7, items: [\"чай\", \"хлеб\"], paid: false };\nconst text = JSON.stringify(order);\nconsole.log(text); // '{\"id\":7,\"items\":[\"чай\",\"хлеб\"],\"paid\":false}'\nconst back = JSON.parse(text);\nconsole.log(back.items[0]); // \"чай\"",
           "language": "javascript"
@@ -6043,9 +6122,9 @@
             "en": "2. Format rules"
           },
           "body": {
-            "ru": "JSON строже, чем объекты JavaScript: ключи и строки только в двойных кавычках, без запятой после последнего элемента, без комментариев. Значения — строки, числа, true/false, null, массивы и объекты. Функции и undefined в JSON не попадают — stringify их пропускает.",
-            "tg": "JSON аз объектҳои JavaScript сахттар аст: калидҳо ва сатрҳо фақат дар нохунакҳои дукарата, бе вергул баъди элементи охир, бе шарҳ. Қиматҳо — сатрҳо, ададҳо, true/false, null, массивҳо ва объектҳо. Функсияҳо ва undefined ба JSON намеафтанд — stringify онҳоро мегузаронад.",
-            "en": "JSON is stricter than JavaScript objects: keys and strings in double quotes only, no trailing comma, no comments. Values are strings, numbers, true/false, null, arrays and objects. Functions and undefined do not survive — stringify drops them."
+            "ru": "JSON требует двойные кавычки у строк и ключей, без комментариев и запятой в конце списка. Допустимы числа, строки, true, false, null, массивы и объекты. При JSON.stringify свойства объекта со значением undefined или функцией пропускаются, а в массиве такие позиции становятся null. Например, JSON.stringify([undefined]) даёт \"[null]\".",
+            "tg": "Дар JSON калид ва сатр бо нохунаки дугона навишта мешаванд. Комментарий ва вергули охир иҷозат нест. Адад, сатр, true, false, null, массив ва объект мумкин аст. JSON.stringify хосияти undefined ё функсияро дар объект мегузарад, дар массив ҷояшро null мекунад. Масалан JSON.stringify([undefined]) матни \"[null]\" медиҳад.",
+            "en": "JSON uses double quotes for strings and property names. It has no comments or trailing commas. It supports numbers, strings, true, false, null, arrays, and objects. JSON.stringify omits undefined or function-valued object properties but replaces them with null in arrays. For example, JSON.stringify([undefined]) returns \"[null]\"."
           },
           "code": "// правильно\n{ \"title\": \"Чай\", \"price\": 35 }\n// неправильно: одинарные кавычки, ключ без кавычек, лишняя запятая\n{ 'title': 'Чай', price: 35, }",
           "language": "text"
@@ -6285,9 +6364,9 @@
             "en": "1. A safety net"
           },
           "body": {
-            "ru": "Если JSON.parse получит битую строку, он бросит ошибку, и вся программа остановится — пользователь увидит пустой экран. try — «попробуй выполнить», catch — «если сломалось, сделай вот это». Как страховка на стройке: работаем как обычно, но при падении сетка ловит.",
-            "tg": "Агар JSON.parse сатри вайронро гирад, вай хато мепартояд ва тамоми барнома қатъ мешавад — корбар экрани холиро мебинад. try — «кӯшиш кун иҷро кунӣ», catch — «агар вайрон шуд, инро кун». Мисли суғурта дар сохтмон: мисли одатӣ кор мекунем, вале ҳангоми афтидан тӯр мегирад.",
-            "en": "If JSON.parse receives a broken string it throws and the whole program stops — the user sees a blank screen. try means “attempt this”, catch means “if it breaks, do this instead”. Like a safety net on a building site: work normally, the net catches a fall."
+            "ru": "try/catch позволяет отреагировать на исключение во время выполнения кода. Например, JSON.parse останавливает текущую операцию, если текст испорчен. Остаток блока try пропускается и начинает работать catch: можно показать понятное сообщение или вернуть безопасное значение. Другие действия приложения могут продолжаться.",
+            "tg": "try/catch имкон медиҳад ба exception-и вақти иҷро ҷавоб диҳӣ. Масалан, JSON.parse ҳангоми матни вайрон амали ҳозираро меистонад. Боқимондаи try намегузарад ва catch кор мекунад. Он ҷо паёми фаҳмо ё қимати эҳтиётӣ медиҳӣ. Дигар қисмҳои барнома кор карда метавонанд.",
+            "en": "try/catch lets code respond to an exception. For example, malformed JSON makes JSON.parse stop the current operation. The rest of the try block is skipped and catch runs. It can show a useful message or use a safe fallback while other parts of the app keep working."
           },
           "code": "function safeParse(text) {\n  try {\n    return JSON.parse(text);\n  } catch (error) {\n    console.log(\"Неверный JSON:\", error.message);\n    return null;\n  }\n}",
           "language": "javascript"
@@ -7018,9 +7097,9 @@
             "en": "1. submit and reloading"
           },
           "body": {
-            "ru": "По умолчанию отправка формы перезагружает страницу — все введённые данные и состояние пропадают. event.preventDefault() в обработчике submit отменяет это поведение, и дальше мы решаем сами, что делать. Слушать нужно событие submit на form, а не click на кнопке — тогда работает и клавиша Enter.",
-            "tg": "Ба таври пешфарз фиристодани форма саҳифаро аз нав бор мекунад — ҳамаи маълумоти воридшуда ва ҳолат нест мешаванд. event.preventDefault() дар коркардкунандаи submit ин рафторро бекор мекунад ва минбаъд мо худамон ҳал мекунем, ки чӣ кор кунем. Рӯйдоди submit-ро дар form гӯш кардан лозим, на click-ро дар тугма — он гоҳ тугмаи Enter ҳам кор мекунад.",
-            "en": "By default submitting a form reloads the page — every entered value and the state are lost. event.preventDefault() in the submit handler cancels that, and we decide what happens next. Listen for submit on the form, not click on the button — then the Enter key works too."
+            "ru": "Обычная отправка HTML-формы может открыть адрес из action и заменить текущую страницу. event.preventDefault() в обработчике submit отменяет переход. Тогда JavaScript сам читает поля, обновляет список или отправляет запрос. Слушайте submit на форме: так обработается и отправка клавишей Enter.",
+            "tg": "Фиристодани одии форма метавонад адреси action-ро кушояд ва саҳифаи ҳозираро иваз кунад. event.preventDefault() дар handler-и submit ин гузаришро бекор мекунад. Баъд JavaScript майдонҳоро мехонад, рӯйхатро нав мекунад ё request мефиристад. submit-ро дар form гӯш кун, то Enter ҳам кор кунад.",
+            "en": "Submitting a plain HTML form can navigate to its action URL and replace the current page. event.preventDefault() inside a submit handler cancels that navigation. JavaScript can then read fields, update a list, or send a request. Listen for submit on the form so keyboard submission works too."
           },
           "code": "const form = document.querySelector(\"#todo-form\");\nform.addEventListener(\"submit\", (event) => {\n  event.preventDefault();\n  console.log(\"Форма отправлена без перезагрузки\");\n});",
           "language": "javascript"
@@ -7251,9 +7330,9 @@
             "en": "1. A drawer in the browser"
           },
           "body": {
-            "ru": "localStorage — небольшой ящик в браузере для каждого сайта. Данные в нём остаются после закрытия вкладки и перезагрузки. Хранит только строки по ключу: setItem(\"ключ\", \"значение\") кладёт, getItem(\"ключ\") достаёт, removeItem удаляет. Если ключа нет, getItem вернёт null.",
-            "tg": "localStorage — ҷевони хурд дар браузер барои ҳар сайт. Маълумот дар он баъди пӯшидани варақа ва аз нав боркунӣ мемонад. Фақат сатрҳоро аз рӯи калид нигоҳ медорад: setItem(\"калид\", \"қимат\") мегузорад, getItem(\"калид\") мегирад, removeItem нест мекунад. Агар калид набошад, getItem null бармегардонад.",
-            "en": "localStorage is a small drawer in the browser for each site. Its data survives closing the tab and reloading. It stores strings by key only: setItem(\"key\", \"value\") puts, getItem(\"key\") gets, removeItem deletes. A missing key gives null."
+            "ru": "localStorage хранит строки в браузере для текущего origin: схемы, домена и порта. setItem сохраняет значение, getItem читает и возвращает null для отсутствующего ключа. Список обычно переживает reload, но не переносится на другое устройство и может исчезнуть при очистке данных сайта.",
+            "tg": "localStorage сатрро дар браузер барои origin-и ҳозира, яъне схема, домен ва порт, нигоҳ медорад. setItem сабт мекунад, getItem мехонад ва барои калиди набуда null медиҳад. Рӯйхат одатан баъди reload мемонад, ба дастгоҳи дигар намегузарад ва ҳангоми тоза кардани додаи сайт нест шуда метавонад.",
+            "en": "localStorage stores strings in the browser for the current origin: scheme, hostname, and port. setItem writes a value; getItem reads it and returns null for a missing key. A list usually survives reload but does not travel to another device and can disappear if site data is cleared."
           },
           "code": "localStorage.setItem(\"theme\", \"dark\");\nconsole.log(localStorage.getItem(\"theme\"));   // \"dark\"\nconsole.log(localStorage.getItem(\"missing\")); // null",
           "language": "javascript"
@@ -7265,9 +7344,9 @@
             "en": "2. Arrays via JSON"
           },
           "body": {
-            "ru": "Массив задач нельзя положить напрямую — получится строка \"[object Object]\". Сохраняем через JSON.stringify, читаем через JSON.parse. Если в хранилище ничего нет, начинаем с пустого массива. Сохраняют после каждого изменения данных.",
-            "tg": "Массиви вазифаҳоро бевосита гузоштан мумкин нест — сатри \"[object Object]\" мешавад. Тавассути JSON.stringify нигоҳ медорем, тавассути JSON.parse мехонем. Агар дар анбор чизе набошад, аз массиви холӣ сар мекунем. Баъди ҳар тағйири маълумот нигоҳ медоранд.",
-            "en": "You cannot store a task array directly — you get the string \"[object Object]\". Save with JSON.stringify and read with JSON.parse. If storage is empty, start with an empty array. Save after every change."
+            "ru": "Перед сохранением массива используйте JSON.stringify, а при чтении — JSON.parse. Без этого преобразования метод записи приводит значение к строке и структура теряется. Сначала обработайте отсутствие данных. При чтении старых записей также учитывайте, что текст может быть испорчен или содержать неподходящую структуру.",
+            "tg": "Массивро пеш аз сабт бо JSON.stringify ба матн гардон, вақти хондан JSON.parse кун. Бе ин табдил метод қиматро ба сатр мегардонад ва сохтори массив гум мешавад. Аввал ҳолати набудани додаҳоро гир. Барои сабти кӯҳна матни вайрон ё сохтори номувофиқро ҳам ба назар гир.",
+            "en": "Serialize an array with JSON.stringify before saving it, then read it with JSON.parse. Without that step the storage method coerces the value to a string and loses the array structure. Handle a missing entry first. An old entry may also have malformed text or an unexpected shape."
           },
           "code": "const KEY = \"todos\";\nfunction saveTodos(todos) {\n  localStorage.setItem(KEY, JSON.stringify(todos));\n}\nfunction loadTodos() {\n  const raw = localStorage.getItem(KEY);\n  return raw ? JSON.parse(raw) : [];\n}",
           "language": "javascript"
@@ -7717,9 +7796,9 @@
             "en": "1. Logic separate from the screen"
           },
           "body": {
-            "ru": "Профессионалы отделяют «что происходит с данными» от «как это показать». Функции addTodo, toggleTodo, removeTodo получают массив и возвращают новый — без DOM и без localStorage. Их легко проверить тестами, а экран просто рисует то, что они вернули. Это ровно та схема, по которой работает React.",
-            "tg": "Мутахассисон «бо маълумот чӣ мешавад»-ро аз «онро чӣ тавр нишон додан» ҷудо мекунанд. Функсияҳои addTodo, toggleTodo, removeTodo массивро гирифта, массиви нав бармегардонанд — бе DOM ва бе localStorage. Онҳоро бо тестҳо санҷидан осон аст, ва экран танҳо он чиро ки онҳо баргардонданд, мекашад. Ин маҳз ҳамон нақшаест, ки React аз рӯи он кор мекунад.",
-            "en": "Professionals separate “what happens to the data” from “how it is shown”. addTodo, toggleTodo and removeTodo take an array and return a new one — no DOM, no localStorage. They are easy to test, and the screen just draws what they return. That is exactly how React works."
+            "ru": "Логика списка меняет данные, а интерфейс показывает результат. Пусть addTodo, toggleTodo и removeTodo принимают массив и возвращают новый, не работая с DOM и localStorage. Тогда можно проверить их обычным тестом. Это пригодится и в React: компонент покажет данные, а функцию обновления можно оставить отдельно.",
+            "tg": "Мантиқи рӯйхат додаҳоро иваз мекунад, интерфейс натиҷаро нишон медиҳад. addTodo, toggleTodo ва removeTodo массив мегиранд ва массиви нав медиҳанд, бе DOM ва localStorage. Онҳоро бо тести одӣ санҷидан мешавад. Дар React ҳам ин фоида дорад: компонент додаҳоро нишон медиҳад ва функсияи навсозӣ ҷудо мемонад.",
+            "en": "List logic changes data; the interface displays the result. Keep addTodo, toggleTodo, and removeTodo as functions that accept an array and return a new one without touching DOM or localStorage. That makes their behavior easy to test. The same separation helps in React, where components display data handled by separate update functions."
           },
           "code": "function toggleTodo(todos, id) {\n  return todos.map(todo => (todo.id === id ? { ...todo, done: !todo.done } : todo));\n}\nfunction removeTodo(todos, id) {\n  return todos.filter(todo => todo.id !== id);\n}",
           "language": "javascript"

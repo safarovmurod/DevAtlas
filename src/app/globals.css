@@ -76,3 +76,37 @@
 @import './styles/26-page-transitions.css';
 @import './styles/27-onboarding.css';
 @import './styles/28-landing-calm.css';
+@import './styles/29-depth.css';
+
+/* Landing motion, used as Tailwind utilities (animate-rise, animate-fade-in). */
+@theme {
+  --animate-rise: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-fade-in: fade-in 1s ease 0.15s both;
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-fade-in {
+    animation: none;
+  }
+}

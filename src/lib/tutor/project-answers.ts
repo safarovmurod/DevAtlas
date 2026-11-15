@@ -5,6 +5,7 @@ import {
   type LearningTopic,
 } from '@/content/course';
 import { tr, type ContentLanguage } from '@/lib/translate';
+import { nearest } from './fuzzy';
 import type { TutorSource } from './shared';
 
 // Search and answers use the same authored data as the quiz and interview UI.
@@ -116,10 +117,17 @@ const indexed = entries.map((question) => {
   };
 });
 
+// Every word the lessons use, so a typo such as "useStete" is matched to the real word.
+const knownTerms = new Set(
+  indexed.flatMap((item) => [...item.questionTerms, ...item.titleTerms, ...item.answerTerms]),
+);
+
 function findQuestion(query: string): LearningQuestion | undefined {
   const direct = exact.get(normalized(query));
   if (direct) return direct;
-  const queryTerms = terms(query);
+  const queryTerms = terms(query).map((term) =>
+    knownTerms.has(term) ? term : (nearest(term, knownTerms) ?? term),
+  );
   if (!queryTerms.length) return;
   let best: LearningQuestion | undefined,
     bestScore = 0;

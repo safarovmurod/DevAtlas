@@ -11,6 +11,7 @@ import type { InterfaceLocale } from '@/lib/locale';
 
 const mocked = vi.hoisted(() => ({ account:null as ReturnType<typeof useAccount>|null, client:null as SupabaseClient|null }));
 vi.mock('@/components/account/account-provider', () => ({ useAccount:() => mocked.account }));
+vi.mock('@/components/account/auth-showcase', () => ({ AuthShowcase: () => null, AuthShowcaseMobile: () => null }));
 vi.mock('@/lib/supabase/client', () => ({ getSupabaseBrowserClient:() => mocked.client }));
 vi.mock('qrcode', () => ({ toDataURL:vi.fn().mockResolvedValue('data:image/png;base64,phone-qr') }));
 vi.mock('next/navigation', () => ({ usePathname:() => '/settings' }));
@@ -21,14 +22,12 @@ vi.mock('@/components/providers/activity-tracker', () => ({ ActivityTracker:() =
 vi.mock('@/components/courses/course-boundary', () => ({ CourseBoundary:() => null }));
 
 const initialStore = useLearningStore.getState();
-const locales = ['ru','en','tg','ja','ko','uk'] as const satisfies readonly InterfaceLocale[];
+const locales = ['ru','en','tg','es'] as const satisfies readonly InterfaceLocale[];
 const labels = {
-  ja:{challenge:'ログインを確認',code:'認証コード',verify:'確認',challengeError:'コードを確認できませんでした。アプリで新しいコードを取得してください。',password:'新しいパスワード',repeat:'パスワードを再入力',savePassword:'パスワードを保存',mismatch:'パスワードが一致しません。',recoveryError:'パスワードを変更できませんでした。復旧を再度リクエストしてください。',profile:'プロフィール',name:'お名前',saveName:'名前を保存',profileError:'プロフィールを保存できませんでした。再試行してください。',profileSaved:'プロフィールを保存しました。',security:'アカウントの保護',sync:'今すぐ同期',enroll:'認証アプリを接続 · QR',enable:'保護を有効にする',appCode:'アプリのコード',enrollAlt:'認証アプリ用QRコード',phoneAlt:'スマートフォンのログイン画面を開くQRコード',quota:'メール送信の上限に達しました。後で再試行してください。',restoring:'ログイン状態を復元中',retry:'再試行',expired:'セッションが期限切れです。再度ログインしてください。',firstName:'お名前を教えてください',start:'学習を始める'},
-  ko:{challenge:'로그인 확인',code:'인증 코드',verify:'확인',challengeError:'코드를 확인하지 못했습니다. 앱에서 새 코드를 확인하세요.',password:'새 비밀번호',repeat:'비밀번호 재입력',savePassword:'비밀번호 저장',mismatch:'비밀번호가 일치하지 않습니다.',recoveryError:'비밀번호를 변경하지 못했습니다. 복구를 다시 요청하세요.',profile:'개인 프로필',name:'이름',saveName:'이름 저장',profileError:'프로필을 저장하지 못했습니다. 다시 시도하세요.',profileSaved:'프로필을 저장했습니다.',security:'계정 보안',sync:'지금 동기화',enroll:'인증 앱 연결 · QR',enable:'보안 활성화',appCode:'앱의 코드',enrollAlt:'인증 앱용 QR',phoneAlt:'휴대전화 로그인 화면을 여는 QR',quota:'이메일 전송 한도에 도달했습니다. 나중에 다시 시도하세요.',restoring:'로그인 복원 중',retry:'다시 시도',expired:'세션이 만료되었습니다. 다시 로그인하세요.',firstName:'어떻게 불러 드릴까요?',start:'학습 시작'},
   ru:{challenge:'Подтвердите вход', code:'Код authenticator', verify:'Подтвердить', challengeError:'Не удалось подтвердить код. Возьмите новый код из приложения.', password:'Новый пароль', repeat:'Повторите пароль', savePassword:'Сохранить пароль', mismatch:'Пароли не совпадают.', recoveryError:'Не удалось сменить пароль. Повторите запрос восстановления.', profile:'Личный профиль', name:'Ваше имя', saveName:'Сохранить имя', profileError:'Не удалось сохранить профиль. Попробуйте ещё раз.', profileSaved:'Профиль сохранён.', security:'Защита аккаунта', sync:'Синхронизировать', enroll:'Подключить authenticator · QR', enable:'Подключить защиту', appCode:'Код из приложения', enrollAlt:'QR для приложения authenticator', phoneAlt:'QR: открыть вход на телефоне', quota:'Лимит отправки писем временно исчерпан. Попробуйте позже.', restoring:'Восстанавливаем ваш вход', retry:'Повторить', expired:'Сессия истекла. Войдите ещё раз.', firstName:'Как вас называть?', start:'Начать обучение'},
   en:{challenge:'Verify your sign-in', code:'Authenticator code', verify:'Verify', challengeError:'Could not verify the code. Get a new code from the app.', password:'New password', repeat:'Repeat password', savePassword:'Save password', mismatch:'Passwords do not match.', recoveryError:'Could not change the password. Request password recovery again.', profile:'Personal profile', name:'Your name', saveName:'Save name', profileError:'Could not save your profile. Please try again.', profileSaved:'Profile saved.', security:'Account security', sync:'Sync now', enroll:'Connect authenticator · QR', enable:'Enable protection', appCode:'Code from the app', enrollAlt:'QR for the authenticator app', phoneAlt:'QR: open sign-in on your phone', quota:'The email sending limit is temporarily reached. Try again later.', restoring:'Restoring your sign-in', retry:'Retry', expired:'Your session has expired. Sign in again.', firstName:'What should we call you?', start:'Start learning'},
   tg:{challenge:'Воридшавиро тасдиқ кунед', code:'Коди authenticator', verify:'Тасдиқ кардан', challengeError:'Код тасдиқ нашуд. Аз барнома коди нав гиред.', password:'Рамзи нав', repeat:'Рамзро такрор кунед', savePassword:'Нигоҳ доштани рамз', mismatch:'Рамзҳо мувофиқ нестанд.', recoveryError:'Рамз иваз нашуд. Барқароркуниро бори дигар дархост кунед.', profile:'Профили шахсӣ', name:'Номи шумо', saveName:'Нигоҳ доштани ном', profileError:'Профил нигоҳ дошта нашуд. Бори дигар кӯшиш кунед.', profileSaved:'Профил нигоҳ дошта шуд.', security:'Ҳифзи аккаунт', sync:'Ҳамоҳанг кардан', enroll:'Пайваст кардани authenticator · QR', enable:'Фаъол кардани ҳифз', appCode:'Код аз барнома', enrollAlt:'QR барои барномаи authenticator', phoneAlt:'QR: кушодани воридшавӣ дар телефон', quota:'Маҳдудияти фиристодани номаҳо муваққатан расид. Дертар кӯшиш кунед.', restoring:'Воридшавии шумо барқарор мешавад', retry:'Такрор кардан', expired:'Сессия ба охир расид. Бори дигар ворид шавед.', firstName:'Шуморо чӣ ном гӯем?', start:'Оғози омӯзиш'},
-  uk:{challenge:'Підтвердьте вхід', code:'Код authenticator', verify:'Підтвердити', challengeError:'Не вдалося підтвердити код. Візьміть новий код із застосунку.', password:'Новий пароль', repeat:'Повторіть пароль', savePassword:'Зберегти пароль', mismatch:'Паролі не збігаються.', recoveryError:'Не вдалося змінити пароль. Повторіть запит відновлення.', profile:'Особистий профіль', name:'Ваше ім’я', saveName:'Зберегти ім’я', profileError:'Не вдалося зберегти профіль. Спробуйте ще раз.', profileSaved:'Профіль збережено.', security:'Захист акаунта', sync:'Синхронізувати', enroll:'Підключити authenticator · QR', enable:'Підключити захист', appCode:'Код із застосунку', enrollAlt:'QR для застосунку authenticator', phoneAlt:'QR: відкрити вхід на телефоні', quota:'Ліміт надсилання листів тимчасово вичерпано. Спробуйте пізніше.', restoring:'Відновлюємо ваш вхід', retry:'Повторити', expired:'Сесія завершилася. Увійдіть ще раз.', firstName:'Як до вас звертатися?', start:'Почати навчання'},
+  es:{challenge:'Confirma tu inicio de sesión', code:'Código del autenticador', verify:'Confirmar', challengeError:'No se pudo comprobar el código. Pide uno nuevo en la aplicación.', password:'Contraseña nueva', repeat:'Repite la contraseña', savePassword:'Guardar contraseña', mismatch:'Las contraseñas no coinciden.', recoveryError:'No se pudo cambiar la contraseña. Pide de nuevo la recuperación.', profile:'Perfil personal', name:'Tu nombre', saveName:'Guardar nombre', profileError:'No se pudo guardar el perfil. Inténtalo de nuevo.', profileSaved:'Perfil guardado.', security:'Seguridad de la cuenta', sync:'Sincronizar ahora', enroll:'Conectar autenticador · QR', enable:'Activar protección', appCode:'Código de la aplicación', enrollAlt:'QR para la aplicación de autenticación', phoneAlt:'QR: abrir el inicio de sesión en el móvil', quota:'Se alcanzó temporalmente el límite de envío de correos. Inténtalo más tarde.', restoring:'Restaurando tu sesión', retry:'Reintentar', expired:'La sesión ha caducado. Inicia sesión de nuevo.', firstName:'¿Cómo quieres que te llamemos?', start:'Empezar a aprender'},
 };
 
 function changeLanguage(language:InterfaceLocale) {
@@ -42,7 +41,9 @@ function backend() {
   const signup = vi.fn().mockResolvedValue({data:{session:null},error:null});
   const enroll = vi.fn().mockResolvedValue({data:{id:'factor-new',totp:{qr_code:'<svg/>',secret:'enrollment-only-secret'}},error:null});
   const unenroll = vi.fn().mockResolvedValue({error:null});
-  mocked.client = {auth:{mfa:{listFactors,challengeAndVerify:verify,enroll,unenroll},updateUser,signUp:signup}} as unknown as SupabaseClient;
+  const getSession = vi.fn().mockResolvedValue({data:{session:{access_token:'a.e30.c',user:{id:'account-a',app_metadata:{provider:'google'},last_sign_in_at:'2026-11-01T08:00:00Z'}}},error:null});
+  const signOut = vi.fn().mockResolvedValue({error:null});
+  mocked.client = {auth:{getSession,signOut,mfa:{listFactors,challengeAndVerify:verify,enroll,unenroll},updateUser,signUp:signup}} as unknown as SupabaseClient;
   return {listFactors,verify,updateUser,signup,enroll,unenroll};
 }
 beforeEach(() => {
@@ -74,7 +75,7 @@ it('translates a failed MFA challenge when language changes and verifies the sam
     expect(screen.getByRole('button',{name:text.verify})).toBeEnabled();
     expect(screen.getByRole('alert')).toHaveTextContent(text.challengeError);
   }
-  fireEvent.click(screen.getByRole('button',{name:labels.uk.verify}));
+  fireEvent.click(screen.getByRole('button',{name:labels.es.verify}));
   await waitFor(() => expect(mocked.account!.reload).toHaveBeenCalledOnce());
   expect(b.verify).toHaveBeenNthCalledWith(2,{factorId:'factor-1',code:'123456'});
   expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -94,10 +95,10 @@ it('translates recovery validation without losing passwords, then changes the pa
     expect(screen.getByLabelText(text.password)).toHaveValue('new-password-123');
     expect(screen.getByRole('alert')).toHaveTextContent(text.mismatch);
   }
-  fireEvent.change(screen.getByLabelText(labels.uk.repeat),{target:{value:'new-password-123'}});
+  fireEvent.change(screen.getByLabelText(labels.es.repeat),{target:{value:'new-password-123'}});
   b.updateUser.mockResolvedValueOnce({error:new Error('provider error')});
-  fireEvent.click(screen.getByRole('button',{name:labels.uk.savePassword}));
-  await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(labels.uk.recoveryError));
+  fireEvent.click(screen.getByRole('button',{name:labels.es.savePassword}));
+  await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(labels.es.recoveryError));
   expect(mocked.account!.signOut).not.toHaveBeenCalled();
   changeLanguage('en');expect(screen.getByRole('alert')).toHaveTextContent(labels.en.recoveryError);
   fireEvent.click(screen.getByRole('button',{name:labels.en.savePassword}));
@@ -122,8 +123,8 @@ it('updates profile, device and security labels along with an existing save fail
     expect(screen.getByAltText(text.phoneAlt)).toBeVisible();
     expect(screen.getByRole('alert')).toHaveTextContent(text.profileError);
   }
-  fireEvent.click(screen.getByRole('button',{name:labels.uk.saveName}));
-  await screen.findByText(labels.uk.profileSaved);
+  fireEvent.click(screen.getByRole('button',{name:labels.es.saveName}));
+  await screen.findByText(labels.es.profileSaved);
   for (const locale of locales) {changeLanguage(locale);expect(screen.getByText(labels[locale].profileSaved)).toBeVisible();}
   expect(mocked.account!.saveProfile).toHaveBeenNthCalledWith(2,'Одина');
 });
@@ -140,8 +141,8 @@ it('keeps MFA enrollment in memory while its QR, form and cancellation labels fo
     expect(screen.getByRole('button',{name:text.enable})).toBeEnabled();
   }
   expect(JSON.stringify(localStorage)).not.toContain('enrollment-only-secret');
-  fireEvent.click(screen.getByRole('button',{name:'Скасувати'}));
-  await waitFor(() => expect(screen.queryByAltText(labels.uk.enrollAlt)).not.toBeInTheDocument());
+  fireEvent.click(screen.getByRole('button',{name:'Cancelar'}));
+  await waitFor(() => expect(screen.queryByAltText(labels.es.enrollAlt)).not.toBeInTheDocument());
   expect(b.unenroll).toHaveBeenCalledWith({factorId:'factor-new'});
   expect(b.verify).not.toHaveBeenCalled();
 });
@@ -176,6 +177,22 @@ it('translates first-profile errors and preserves the entered name across all in
   }
 });
 
+it('shows the loading screen in the negotiated language until the saved profile is ready', () => {
+  mocked.account!.loading=true;
+  const opening={ru:'Открываем DevAtlas…',en:'Opening DevAtlas…',tg:'DevAtlas кушода мешавад…',es:'Abriendo DevAtlas…'};
+  for (const locale of locales) {
+    useLearningStore.setState({ready:false,language:'ru'});
+    const view=render(<AccountShell initialLocale={locale}>Private content</AccountShell>);
+    expect(screen.getByRole('status')).toHaveTextContent(opening[locale]);
+    expect(screen.queryByText('Private content')).not.toBeInTheDocument();
+    view.unmount();
+  }
+  // Once the saved profile is loaded, its own language wins over the server default.
+  useLearningStore.setState({ready:true,language:'tg'});
+  render(<AccountShell initialLocale="en">Private content</AccountShell>);
+  expect(screen.getByRole('status')).toHaveTextContent(opening.tg);
+});
+
 it('translates session restoration errors and keeps retry wired to account restoration', () => {
   mocked.account!.restoreFailed=true;mocked.account!.error='Сессия истекла. Войдите ещё раз.';
   render(<AccountShell>Private content</AccountShell>);
@@ -186,6 +203,27 @@ it('translates session restoration errors and keeps retry wired to account resto
     expect(screen.getByRole('button',{name:text.retry})).toBeEnabled();
   }
   expect(screen.queryByText('Private content')).not.toBeInTheDocument();
-  fireEvent.click(screen.getByRole('button',{name:labels.uk.retry}));
+  fireEvent.click(screen.getByRole('button',{name:labels.es.retry}));
   expect(mocked.account!.reload).toHaveBeenCalledOnce();
+});
+
+
+it.each(['google', 'github', 'facebook'] as const)('starts %s OAuth from login and signup with the current callback', async (provider) => {
+  useLearningStore.setState({language: 'en'});
+  const signInWithOAuth = vi.fn().mockResolvedValue({error: new Error('OAuth unavailable')});
+  mocked.client = {auth: {signInWithOAuth}} as unknown as SupabaseClient;
+  render(<AuthScreen />);
+  const name = provider === 'github' ? 'GitHub' : provider === 'facebook' ? 'Facebook' : 'Google';
+  fireEvent.click(screen.getByRole('button', {name: `Continue with ${name}`}));
+  await waitFor(() => expect(signInWithOAuth).toHaveBeenCalledWith({
+    provider,
+    options: {
+      redirectTo: window.location.origin + '/auth/callback',
+      ...(provider === 'google' ? {queryParams: {prompt: 'select_account'}} : {}),
+    },
+  }));
+  expect(await screen.findByRole('alert')).toHaveTextContent(name);
+  fireEvent.click(screen.getByRole('button', {name: 'Create account'}));
+  fireEvent.click(screen.getByRole('button', {name: `Continue with ${name}`}));
+  await waitFor(() => expect(signInWithOAuth).toHaveBeenCalledTimes(2));
 });

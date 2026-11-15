@@ -5,24 +5,30 @@ import { FileText } from 'lucide-react';
 import { LoadingState } from '@/components/learning/loading-state';
 import { coursePublishedDays } from '@/content/courses/catalog';
 import { emptyCourseProgress } from '@/lib/account/progress';
+import { planName } from '@/lib/billing/plans';
 import { COURSE_MATERIAL_LABEL } from '@/lib/course-copy';
 import { courseAccessTier } from '@/lib/courses/access';
 import { fetchCourseContent } from '@/lib/courses/fetch-course';
 import type { ImportedCourseId } from '@/lib/courses/ids';
 import { courseDayProgress, courseMonthPlan } from '@/lib/courses/plan';
-import type { CourseContent } from '@/lib/courses/schema';
+import { courseTextLanguage, type CourseContent } from '@/lib/courses/schema';
 import { COPY } from '@/lib/i18n';
-import { LEARNING_UI_COPY, lessonTranslationNotice } from '@/lib/learning-ui-copy';
+import {
+  LEARNING_UI_COPY,
+  contentFallbackNotice,
+  lessonTranslationNotice,
+} from '@/lib/learning-ui-copy';
 import { PREMIUM_COPY } from '@/lib/premium-copy';
 import { useAppStore } from '@/stores/app-store';
 import { useLearningStore } from '@/stores/learning-store';
 import { CourseAnswers } from './course-answers';
 import { CourseDay } from './course-day';
 import { CourseHeader } from './course-header';
-import { JavaScriptMonths, TrackStages } from './course-navigation';
+import { JavaScriptMonths, TrackPath } from './course-navigation';
 import { CoursePlan } from './course-plan';
 import { CourseReview } from './course-review';
 import { MATERIALS_TITLE } from './course-workspace-copy';
+import { CourseWorkspaceHeader } from './course-workspace-header';
 
 const EMPTY_PROGRESS = emptyCourseProgress();
 const SELECTED_DAY_KEY = 'selected-day-v3';
@@ -41,10 +47,14 @@ const readHash = () => {
   }
 };
 
-/** True when some English text of the course is missing and falls back to another language. */
-function hasEnglishFallback(content: CourseContent) {
-  return content.lessons.some((lesson) =>
-    [
+/**
+ * The language that shows instead of the selected learning language when some text of
+ * the course is missing. It comes from the same rule that picks the text, so the note
+ * always names the language the learner really reads. Null when nothing is missing.
+ */
+function contentFallbackLanguage(content: CourseContent, language: 'tg' | 'ru' | 'en') {
+  for (const lesson of content.lessons) {
+    const values = [
       lesson.title,
       lesson.summary,
       ...lesson.sections.flatMap((part) => [part.title, part.body]),
@@ -56,18 +66,26 @@ function hasEnglishFallback(content: CourseContent) {
       ...(lesson.practice
         ? [lesson.practice.task, lesson.practice.hint, ...lesson.practice.criteria]
         : []),
-    ].some((value) => !value.en),
-  );
+    ];
+    for (const value of values) {
+      const shown = courseTextLanguage(value, language);
+      if (shown !== language) return shown;
+    }
+  }
+  return null;
 }
 
-/** Downloadable files attached to the course. */
+/** Downloadable files attached to the course. One closed line until the learner opens it. */
 function CourseMaterials({ content }: { content: CourseContent }) {
   const language = useLearningStore((state) => state.language);
   if (!content.files.length) return null;
   return (
-    <section className="panel course-materials">
-      <h2>{MATERIALS_TITLE[language]}</h2>
-      <ul>
+    <details className="course-materials mt-5 rounded-xl border border-border bg-card">
+      <summary className="flex min-h-11 cursor-pointer items-center gap-2 px-4 py-2.5 text-[15px] font-medium">
+        <FileText size={16} aria-hidden="true" />
+        {MATERIALS_TITLE[language]} · {content.files.length}
+      </summary>
+      <ul className="grid gap-2 border-t border-border px-4 py-3">
         {content.files.map((file, index) => {
           const extension = file.title.match(/\.([a-z0-9]{1,8})$/i)?.[1];
           return (
@@ -81,7 +99,7 @@ function CourseMaterials({ content }: { content: CourseContent }) {
           );
         })}
       </ul>
-    </section>
+    </details>
   );
 }
 
@@ -104,7 +122,7 @@ function CourseAccessGate({
     accessStatus === 401
       ? premium.login
       : accessStatus === 403
-        ? premium.required + ' ' + (requiredTier === 'expert' ? 'Expert' : 'Pro')
+        ? premium.required + ' ' + planName(requiredTier === 'expert' ? 'expert' : 'pro')
         : accessStatus === 503
           ? premium.unavailable
           : ui.courseUnavailable;
@@ -132,7 +150,10 @@ function CourseAccessGate({
   );
 }
 
-/** One course page: plan, day lesson, practice, tests, answers or review. */
+/**
+ * One course page: plan, the day (lesson + practice + check on one page), tests, answers
+ * or review (revision and weak topics together). All days are open.
+ */
 export function CourseWorkspace({
   courseId,
   section,
@@ -195,6 +216,7 @@ export function CourseWorkspace({
     progress.completedPractice,
     progress.confirmedDays,
   );
+  const doneDays = statuses.days.filter((item) => item.status === 'done').length;
 
   // Which day to show: the day in the URL, else the last day the learner opened,
   // else the current day. Older versions saved the selected day under other keys.
@@ -205,9 +227,7 @@ export function CourseWorkspace({
         ? Number(oldSelection) + 1
         : progress.drafts['selected-day']),
   );
-  const remembered = statuses.days.find(
-    (entry) => entry.day === rememberedDay && entry.status !== 'upcoming',
-  );
+  const remembered = statuses.days.find((entry) => entry.day === rememberedDay);
   const day = requestedDay ?? remembered?.day ?? statuses.current?.day ?? plan.at(-1)?.day ?? 1;
 
   const legacyLesson = legacyLessonId
@@ -225,30 +245,31 @@ export function CourseWorkspace({
       saveCourseDraft(courseId, SELECTED_DAY_KEY, String(day));
   }, [courseId, day, progress.drafts, saveCourseDraft]);
 
-  const translationNotice =
-    state.contentLanguage === 'en' && content && hasEnglishFallback(content)
-      ? ui.contentFallback
-      : lessonTranslationNotice(state.language);
+  const fallbackLanguage = content ? contentFallbackLanguage(content, state.contentLanguage) : null;
+  const translationNotice = fallbackLanguage
+    ? contentFallbackNotice(state.language, fallbackLanguage)
+    : lessonTranslationNotice(state.language);
 
   const titles: Record<string, string> = {
     home: copy.home,
+    practice: copy.home,
     plan: copy.plan,
-    practice: copy.practice,
     tests: ui.testsInterview,
     interview: ui.testsInterview,
     answers: ui.answersInterview,
     revision: copy.revision,
-    'weak-topics': copy.weak,
+    'weak-topics': copy.revision,
   };
 
   function renderSection(content: CourseContent) {
+    // Revision and weak topics are one page: everything worth repeating, in one list.
     if (section === 'revision' || section === 'weak-topics') {
       return (
         <CourseReview
           courseId={courseId}
           content={content}
           progress={progress}
-          mode={section === 'revision' ? 'revision' : 'weak'}
+          currentDay={statuses.current?.day ?? 1}
         />
       );
     }
@@ -263,25 +284,16 @@ export function CourseWorkspace({
       );
     }
     if (section === 'answers') {
-      const openedLessonIds = new Set(
-        statuses.days.filter((item) => item.status !== 'upcoming').map((item) => item.lesson.id),
-      );
       return (
-        <CourseAnswers
-          courseId={courseId}
-          lessons={content.lessons}
-          openedLessonIds={openedLessonIds}
-        />
+        <CourseAnswers courseId={courseId} lessons={content.lessons} initialDay={requestedDay} />
       );
     }
     return (
       <CourseDay
         courseId={courseId}
-        section={section}
-        content={content}
+        section={section === 'practice' ? 'home' : section}
         plan={plan}
         days={statuses.days}
-        currentDay={statuses.current?.day ?? 1}
         day={day}
         lesson={lesson}
         entry={entry}
@@ -292,17 +304,32 @@ export function CourseWorkspace({
 
   return (
     <section className="course-workspace">
-      <CourseHeader
-        courseId={courseId}
-        section={section}
-        title={titles[section]}
-        day={day}
-        totalDays={plan.length}
-        doneDays={statuses.days.filter((item) => item.status === 'done').length}
-      />
-      <TrackStages courseId={courseId} language={state.language} />
-      {translationNotice && <p role="note">{translationNotice}</p>}
-      <JavaScriptMonths courseId={courseId} language={state.language} />
+      {section === 'plan' ? (
+        <>
+          <CourseHeader
+            courseId={courseId}
+            section={section}
+            title={titles[section]}
+            day={day}
+            totalDays={plan.length}
+            doneDays={doneDays}
+          />
+          <TrackPath courseId={courseId} language={state.language} />
+        </>
+      ) : (
+        <CourseWorkspaceHeader
+          courseId={courseId}
+          title={titles[section]}
+          totalDays={plan.length}
+          doneDays={doneDays}
+        />
+      )}
+      {translationNotice && (
+        <p role="note" className="mb-4 text-sm text-muted-foreground">
+          {translationNotice}
+        </p>
+      )}
+      {section === 'plan' && <JavaScriptMonths courseId={courseId} language={state.language} />}
 
       {error ? (
         <CourseAccessGate
@@ -318,8 +345,9 @@ export function CourseWorkspace({
         <LoadingState label={copy.loading} />
       ) : (
         <>
-          {(section === 'plan' || section === 'home') && <CourseMaterials content={content} />}
+          {section === 'plan' && <CourseMaterials content={content} />}
           {renderSection(content)}
+          {section === 'home' && <CourseMaterials content={content} />}
         </>
       )}
     </section>

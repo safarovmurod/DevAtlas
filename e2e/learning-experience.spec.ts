@@ -13,7 +13,7 @@ test('15-question onboarding builds a beginner plan and a daily schedule', async
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
-  await page.locator('.public-actions .button.primary').click();
+  await page.locator('section[aria-labelledby="landing-hero-heading"] a[href="/onboarding"]').first().click();
   await expect(page).toHaveURL('/onboarding');
   await expect(page.getByText('Савол 1 аз 15')).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath('onboarding-question.png') });
@@ -75,6 +75,8 @@ test('Day 0 explains VS Code and the console and checks understanding', async ({
 
 test('lessons have an ordering game and practice blocks large pastes', async ({ page, context, browserName }, testInfo) => {
   await page.goto('/courses/html/home?day=1');
+  // The game sits in a closed block of the lesson step.
+  await page.locator('details:has(.code-game) > summary').click();
   const game = page.locator('.code-game');
   await expect(game).toBeVisible({ timeout: 30000 });
   await game.scrollIntoViewIfNeeded();
@@ -108,17 +110,16 @@ test('lessons have an ordering game and practice blocks large pastes', async ({ 
   await page.screenshot({ path: testInfo.outputPath('paste-guard.png') });
 });
 
-test('catalog filters by start level and course length', async ({ page }, testInfo) => {
+test('a direction page lists its courses without filters and a card opens the plan', async ({ page }, testInfo) => {
   const { COURSE_CATALOG } = await import('../src/content/courses/catalog');
-  const listed = COURSE_CATALOG.filter(course => course.id !== 'javascript-2');
-  await page.goto('/courses');
+  const listed = COURSE_CATALOG.filter(course => course.id !== 'javascript-2' && course.category === 'programming');
+  await page.goto('/courses/category/programming');
   await expect(page.locator('.course-card')).toHaveCount(listed.length);
-  await page.getByRole('button', { name: 'Аз сифр', exact: true }).click();
-  await expect(page.locator('.course-card')).toHaveCount(listed.filter(course => !course.prerequisite).length);
-  await page.getByRole('button', { name: 'То 14 рӯз', exact: true }).click();
-  const expected = listed.filter(course => !course.prerequisite && (course.publishedDays ?? 0) <= 14).length;
-  await expect(page.locator('.course-card')).toHaveCount(expected);
-  await page.locator('.course-extra-filters').screenshot({ path: testInfo.outputPath('catalog-filters.png') });
+  // The old level and length filters are gone: one page per direction, no filter bar.
+  await expect(page.locator('.course-extra-filters, .course-access-filters, .subtrack-filters')).toHaveCount(0);
+  await page.screenshot({ path: testInfo.outputPath('direction-page.png') });
+  await page.locator('[data-course=html]').getByRole('button').click();
+  await expect(page).toHaveURL('/courses/html/plan');
 });
 
 test('JavaScript-1 practice runs real function tests in the browser', async ({ page }) => {

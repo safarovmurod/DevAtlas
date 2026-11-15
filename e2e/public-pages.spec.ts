@@ -5,8 +5,8 @@ test('public landing and policy pages open without login on desktop and small ph
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole('heading', { name: /От нового интереса/ })).toBeVisible();
   await expect(page.locator('.sidebar')).toHaveCount(0);
-  await expect(page.locator('.public-feature-grid article')).toHaveCount(3);
-  await expect(page.locator('.public-header').getByRole('link', { name: /Начать обучение/ })).toHaveAttribute('href', '/login');
+  await expect(page.locator('#directions')).toBeAttached();
+  await expect(page.locator('header').first().getByRole('link', { name: /Начать обучение/ })).toHaveAttribute('href', '/login');
 
   for (const width of [320, 360, 390, 430]) {
     await page.setViewportSize({ width, height: 740 });
@@ -14,13 +14,13 @@ test('public landing and policy pages open without login on desktop and small ph
     await expect(page.getByRole('heading', { name: /От нового интереса/ })).toBeInViewport();
   }
 
-  await page.locator('.public-footer').getByRole('link', { name: 'Конфиденциальность' }).click();
+  await page.locator('footer').getByRole('link', { name: 'Конфиденциальность' }).click();
   await expect(page).toHaveURL(/\/privacy$/);
   await expect(page.getByRole('heading', { name: 'Конфиденциальность' })).toBeVisible();
   await expect(page.locator('.sidebar')).toHaveCount(0);
   await page.getByRole('link', { name: /DevAtlas/ }).click();
 
-  await page.locator('.public-footer').getByRole('link', { name: 'Правила' }).click();
+  await page.locator('footer').getByRole('link', { name: 'Правила' }).click();
   await expect(page).toHaveURL(/\/terms$/);
   await expect(page.getByRole('heading', { name: 'Правила использования' })).toBeVisible();
   await expect(page.locator('.sidebar')).toHaveCount(0);

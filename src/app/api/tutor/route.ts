@@ -11,11 +11,12 @@ import { z } from 'zod';
 import { CORE_INTERVIEW_QUESTIONS } from '@/content/interview-questions';
 import { gradeInterviewAnswer } from '@/lib/grading/interview-grader';
 import { TUTOR_SYSTEM_PROMPT, tutorContext } from '@/lib/tutor/prompt';
-import { projectAnswer } from '@/lib/tutor/project-answers';
+import { glossaryAnswer } from '@/lib/tutor/glossary';
+import { localReference } from '@/lib/tutor/local-answer';
+import { smalltalkKind, smalltalkLanguage, smalltalkReply } from '@/lib/tutor/smalltalk';
 import { isDeepFollowUp, wantsDeepExplanation } from '@/lib/tutor/shared';
 import { authenticatedUser } from '@/lib/account/require-user';
 import { COURSE_IDS } from '@/lib/courses/ids';
-import { courseAnswer } from '@/lib/courses/tutor';
 import { courseName } from '@/content/courses/catalog';
 import { readBoundedJson, RequestBodyError } from '@/lib/security/request';
 import { courseAccessTier } from '@/lib/courses/access';
@@ -32,7 +33,7 @@ const schema = z.object({
   userText: z.string().trim().min(1).max(1500),
   codeContext: z.string().max(3000).optional(),
   isDeep: z.boolean().default(false),
-  language: z.enum(['tg', 'ru', 'en']).default('tg'),
+  language: z.enum(['tg', 'ru', 'en', 'es']).default('tg'),
   history: z
     .array(
       z.object({
@@ -83,6 +84,36 @@ export async function POST(req: NextRequest) {
     history,
     language,
   } = parsed.data;
+  // Lessons exist in Tajik, Russian and English. A Spanish interface reads them in
+  // English; greetings, definitions and system replies are written in Spanish.
+  const materialLanguage = language === 'es' ? 'en' : language;
+
+  const previousUserMessage = [...history]
+    .reverse()
+    .find((item) => item.role === 'user' && !isDeepFollowUp(item.content))?.content;
+  const previousUserQuestion =
+    previousUserMessage && tutorScope(previousUserMessage) === 'allowed'
+      ? previousUserMessage
+      : undefined;
+
+  // Everyday messages and "what is HTML?" are answered at once and for free: no
+  // account, no course lookup and no paid model call.
+  if (action === 'ask' && !codeContext?.trim()) {
+    const talk = smalltalkKind(userText);
+    if (talk)
+      return tutorJson({
+        mode: 'local',
+        reply: smalltalkReply(talk, smalltalkLanguage(userText, language), userText),
+        usage: { totalTokens: 0 },
+      });
+    const definition = glossaryAnswer(
+      isDeepFollowUp(userText) ? (previousUserQuestion ?? '') : userText,
+      language,
+      { deep: isDeep || wantsDeepExplanation(userText) },
+    );
+    if (definition && !questionId)
+      return tutorJson({ mode: 'local', ...definition, usage: { totalTokens: 0 } });
+  }
 
   // Local references are course material too: protect paid answers before lookup.
   // Existing free/React references still require no account or provider setup.
@@ -103,13 +134,6 @@ export async function POST(req: NextRequest) {
     return error('Кодро барои шарҳ фиристед.', 400);
 
   const deep = isDeep || wantsDeepExplanation(userText);
-  const previousUserMessage = [...history]
-    .reverse()
-    .find((item) => item.role === 'user' && !isDeepFollowUp(item.content))?.content;
-  const previousUserQuestion =
-    previousUserMessage && tutorScope(previousUserMessage) === 'allowed'
-      ? previousUserMessage
-      : undefined;
   const query = isDeepFollowUp(userText) ? previousUserQuestion || '' : userText;
   if (action === 'ask') {
     const scope = tutorScope(userText, previousUserQuestion, codeContext);
@@ -122,10 +146,11 @@ export async function POST(req: NextRequest) {
           userText,
         );
       if (scope === 'outside' && questionId && referenceIntent) {
-        const reference =
-          courseId === 'react'
-            ? projectAnswer(query, { questionId, deep, language })
-            : await courseAnswer(courseId, query, { questionId, deep, language });
+        const reference = await localReference(courseId, query, {
+          questionId,
+          deep,
+          language: materialLanguage,
+        });
         if (reference?.source?.questionId === questionId)
           return tutorJson({ mode: 'local', ...reference, usage: { totalTokens: 0 } });
       }
@@ -136,6 +161,7 @@ export async function POST(req: NextRequest) {
             tg: 'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.',
             ru: 'Какой вопрос разобрать подробнее? Напишите вопрос или тему.',
             en: 'Which question should we explore? Write a question or topic.',
+            es: '¿Qué pregunta vemos con más detalle? Escribe una pregunta o un tema.',
           }[language],
           usage: { totalTokens: 0 },
         });
@@ -145,10 +171,11 @@ export async function POST(req: NextRequest) {
         usage: { totalTokens: 0 },
       });
     }
-    const local =
-      courseId === 'react'
-        ? projectAnswer(query, { questionId, deep, language })
-        : await courseAnswer(courseId, query, { questionId, deep, language });
+    const local = await localReference(courseId, query, {
+      questionId,
+      deep,
+      language: materialLanguage,
+    });
     // A paid reference is returned only for the exact question requested.
     const sourceMatches = !questionId || local?.source?.questionId === questionId;
     if (local && sourceMatches)
@@ -160,6 +187,7 @@ export async function POST(req: NextRequest) {
           tg: 'Кадом саволро чуқур фаҳмонем? Савол ё мавзӯъро нависед.',
           ru: 'Какой вопрос разобрать подробнее? Напишите вопрос или тему.',
           en: 'Which question should we explore? Write a question or topic.',
+          es: '¿Qué pregunta vemos con más detalle? Escribe una pregunta o un tema.',
         }[language],
         usage: { totalTokens: 0 },
       });
@@ -177,11 +205,7 @@ export async function POST(req: NextRequest) {
         tg: 'Ҷавоби мувофиқ ба ин савол дар маводи лоиҳа ёфт нашуд. Барои саволҳои нав AI-и онлайн бояд фаъол бошад.',
         ru: 'В материалах курса не найден подходящий ответ. Онлайн-AI сейчас не включён. Попробуйте название изучаемой темы или откройте объяснение урока.',
         en: 'No matching answer was found in the course materials. Online AI is not enabled. Try the topic name or open the lesson explanation.',
-      }[language],
-      notice: {
-        tg: 'AI-и онлайн ҳоло фаъол нест; токен сарф нашуд.',
-        ru: 'Онлайн-AI не включён; токены не потрачены.',
-        en: 'Online AI is not enabled; no tokens were spent.',
+        es: 'No se encontró una respuesta adecuada en los materiales del curso. La IA en línea no está activada. Prueba con el nombre del tema o abre la explicación de la lección.',
       }[language],
       usage: { totalTokens: 0 },
     });

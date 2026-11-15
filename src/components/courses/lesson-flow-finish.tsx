@@ -1,17 +1,16 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-import type { CourseProgress } from '@/lib/account/progress';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import type { ImportedCourseId } from '@/lib/courses/ids';
 import { courseSectionHref } from '@/lib/courses/links';
 import type { CoursePlanDay } from '@/lib/courses/plan';
-import type { CourseLesson } from '@/lib/courses/schema';
 import { PROGRESSION_COPY } from '@/lib/progression-copy';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { getSessionWithTimeout } from '@/lib/supabase/session';
 import { useLearningStore } from '@/stores/learning-store';
-import { MASTERY_LABELS, SERVER_CONFIRMATION_FAILED } from './course-workspace-copy';
+import { SERVER_CONFIRMATION_FAILED } from './course-workspace-copy';
+import { useDayCopy } from './lesson-flow-copy';
 
 /**
  * Only HTML day 1 has protected server evidence today. For it, a signed-in
@@ -39,34 +38,30 @@ async function recordServerConfirmation(courseId: ImportedCourseId, day: number)
   if (!response.ok) throw new Error('Server confirmation failed');
 }
 
-/** End of a lesson day: quiz result and the button that opens the next day. */
-export function DayConfirmation({
+/**
+ * End of the day: one status line, one confirm button, and the next day.
+ * Days are never locked. Confirming only records progress.
+ */
+export function DayFinish({
   courseId,
   day,
   plan,
-  lesson,
-  progress,
   isDone,
-  canConfirm,
+  ready,
 }: {
   courseId: ImportedCourseId;
   day: number;
   plan: CoursePlanDay[];
-  lesson: CourseLesson;
-  progress: CourseProgress;
   isDone: boolean;
-  canConfirm: boolean;
+  /** Lesson is marked as learned and practice is done. */
+  ready: boolean;
 }) {
   const language = useLearningStore((state) => state.language);
   const confirmCourseDay = useLearningStore((state) => state.confirmCourseDay);
   const gate = PROGRESSION_COPY[language];
+  const t = useDayCopy();
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState('');
-
-  const total = lesson.questions.length;
-  const passed = lesson.questions.filter((question) =>
-    progress.masteredQuestions.includes(question.id),
-  ).length;
   const hasNextDay = plan.some((item) => item.day === day + 1);
 
   async function confirmDay() {
@@ -90,25 +85,21 @@ export function DayConfirmation({
   }
 
   return (
-    <section className="day-confirmation" aria-label={gate.confirm}>
-      <p role="status">{isDone ? gate.confirmed : canConfirm ? gate.ready : gate.missing}</p>
-
-      {total > 0 && (
-        <p className="mastery-status" role="status">
-          {passed === total
-            ? MASTERY_LABELS.done[language]
-            : `${MASTERY_LABELS.quiz[language]} ${passed}/${total}`}{' '}
-          —{' '}
-          <Link className="text-link" href={courseSectionHref(courseId, 'tests', day)}>
-            {MASTERY_LABELS.retry[language]}
-          </Link>
-        </p>
-      )}
-
-      <div className="button-row">
+    <section
+      aria-label={gate.confirm}
+      className="grid gap-3 rounded-2xl border border-border bg-muted/40 p-4 sm:flex sm:items-center sm:justify-between sm:gap-4"
+    >
+      <p
+        role="status"
+        className="flex items-center gap-2 text-sm font-medium text-foreground sm:text-[15px]"
+      >
+        {isDone && <CheckCircle2 size={18} aria-hidden="true" className="shrink-0 text-success" />}
+        {isDone ? gate.confirmed : ready ? t('ready') : gate.missing}
+      </p>
+      <div className="flex flex-wrap gap-2">
         <button
           className="button primary"
-          disabled={confirming || isDone || !canConfirm}
+          disabled={confirming || isDone || !ready}
           onClick={confirmDay}
         >
           {isDone ? gate.confirmed : gate.confirm}
@@ -124,8 +115,11 @@ export function DayConfirmation({
           </Link>
         )}
       </div>
-
-      {error && <p role="alert">{error}</p>}
+      {error && (
+        <p role="alert" className="text-sm text-muted-foreground sm:basis-full">
+          {error}
+        </p>
+      )}
     </section>
   );
 }

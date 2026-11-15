@@ -17,8 +17,6 @@ vi.mock('@/components/learning/study-session', () => ({ StudySession: () => <div
 vi.mock('@/components/learning/session-hub', () => ({ SessionHub: () => <div data-testid="session-hub" /> }));
 
 const locales = [
-  { locale:'ja',heading:'テストと面接対策',tests:'テスト',interview:'面接対策',answers:'解説と面接対策',code:'あなたのコード',preview:'HTML + CSSをプレビュー',result:'HTML + CSSの実行結果',send:'送信',close:'チューターを閉じる',question:'チューターへの質問',login:'ログイン・登録',loadError:'コースを読み込めませんでした。',retry:'再試行',aiError:'AIへの質問にはGoogleまたはメールでログインしてください。'},
-  { locale:'ko',heading:'테스트와 면접 준비',tests:'테스트',interview:'면접 준비',answers:'해설과 면접 준비',code:'내 코드',preview:'HTML + CSS 미리 보기',result:'HTML + CSS 실행 결과',send:'보내기',close:'튜터 닫기',question:'튜터에게 질문',login:'로그인 / 가입',loadError:'강좌를 불러오지 못했습니다.',retry:'다시 시도',aiError:'AI에 질문하려면 Google 또는 이메일로 로그인하세요.'},
   { locale: 'ru', heading: 'Тесты и интервью', tests: 'Тесты', interview: 'Интервью', answers: 'Ответы и интервью',
     code: 'Ваш код', preview: 'Показать HTML + CSS', result: 'Результат вашего HTML + CSS',
     send: 'Отправить', close: 'Закрыть Tutor', question: 'Вопрос к Tutor', login: 'Вход / регистрация',
@@ -31,10 +29,10 @@ const locales = [
     code: 'Коди шумо', preview: 'Нишон додани HTML + CSS', result: 'Натиҷаи HTML + CSS-и шумо',
     send: 'Фиристодан', close: 'Пӯшидани Tutor', question: 'Савол ба Tutor', login: 'Воридшавӣ / регистрация',
     loadError: 'Курс бор карда нашуд.', retry: 'Аз нав кӯшиш кунед', aiError: 'Барои саволи AI бо Google ё email ба аккаунт ворид шавед.' },
-  { locale: 'uk', heading: 'Тести та співбесіда', tests: 'Тести', interview: 'Співбесіда', answers: 'Відповіді та співбесіда',
-    code: 'Ваш код', preview: 'Показати HTML + CSS', result: 'Результат вашого HTML + CSS',
-    send: 'Надіслати', close: 'Закрити Tutor', question: 'Питання до Tutor', login: 'Вхід / реєстрація',
-    loadError: 'Не вдалося завантажити курс.', retry: 'Спробувати знову', aiError: 'Для питання до AI увійдіть через Google або email.' },
+  { locale: 'es', heading: 'Pruebas y entrevista', tests: 'Pruebas', interview: 'Entrevista', answers: 'Respuestas y entrevista',
+    code: 'Tu código', preview: 'Ver HTML + CSS', result: 'Resultado de tu HTML + CSS',
+    send: 'Enviar', close: 'Cerrar Tutor', question: 'Pregunta para el Tutor', login: 'Entrar / registrarse',
+    loadError: 'No se pudo cargar el curso.', retry: 'Reintentar', aiError: 'Inicia sesión con Google o con tu correo para preguntarle a la IA.' },
 ] as const;
 const text = (ru: string) => ({ ru, tg: 'Тоҷикӣ: ' + ru, en: 'English: ' + ru });
 const content: CourseContent = {
@@ -114,7 +112,7 @@ describe.each(locales)('$locale learning interface', labels => {
   it('uses the interface language for a lesson Tutor button and keeps its Tajik question context', () => {
     useLearningStore.setState({ contentLanguage: 'tg' });
     const question = ALL_QUESTIONS[0];
-    const deepLabels = { ru: 'Объясни подробнее', en: 'Explain more', tg: 'Чуқур фаҳмон', uk: 'Поясни докладніше', ja:'詳しく説明して', ko:'더 자세히 설명해 주세요' };
+    const deepLabels = { ru: 'Объясни подробнее', en: 'Explain more', tg: 'Чуқур фаҳмон', es: 'Explícalo con más detalle' };
     render(<QuestionAnswer question={question} />);
     expect(screen.getByText(question.answer)).toBeVisible();
     const button = screen.getByRole('button', { name: deepLabels[labels.locale] });
@@ -127,20 +125,20 @@ describe.each(locales)('$locale learning interface', labels => {
 it('reacts to interface locale changes without discarding the practice draft or changing content', () => {
   render(<CourseWorkspace courseId="html" section="practice" initialContent={content} day={1} />);
   fireEvent.change(screen.getByLabelText('Ваш код'), { target: { value: '<h1>Keep me</h1>' } });
-  act(() => useLearningStore.getState().setPreferences({ language: 'uk' }));
-  expect(screen.getByRole('button', { name: 'Показати HTML + CSS' })).toBeVisible();
-  expect(screen.getByLabelText('Ваш код')).toHaveValue('<h1>Keep me</h1>');
+  act(() => useLearningStore.getState().setPreferences({ language: 'es' }));
+  expect(screen.getByRole('button', { name: 'Ver HTML + CSS' })).toBeVisible();
+  expect(screen.getByLabelText('Tu código')).toHaveValue('<h1>Keep me</h1>');
   expect(screen.getByRole('heading', { name: 'Русский урок' })).toBeVisible();
   expect(useLearningStore.getState().contentLanguage).toBe('ru');
 });
 
-it('clearly identifies Russian fallback for an untranslated English lesson in a Ukrainian interface', () => {
-  useLearningStore.setState({ language: 'uk', contentLanguage: 'en' });
+it('clearly identifies Russian fallback for an untranslated English lesson in a Spanish interface', () => {
+  useLearningStore.setState({ language: 'es', contentLanguage: 'en' });
   const untranslated = structuredClone(content);
   delete untranslated.lessons[0].title.en;
   render(<CourseWorkspace courseId="html" section="home" initialContent={untranslated} day={1} />);
   expect(screen.getByRole('heading', { name: 'Русский урок' })).toBeVisible();
-  expect(screen.getByRole('note')).toHaveTextContent('Деякі матеріали не перекладені обраною мовою навчання та показані російською.');
+  expect(screen.getByRole('note')).toHaveTextContent('Parte del material no está traducida al idioma de estudio elegido y se muestra en ruso.');
   expect(useLearningStore.getState().contentLanguage).toBe('en');
 });
 
@@ -165,6 +163,7 @@ it('updates Tutor chrome and prior errors when locale changes, preserving succes
   await screen.findByText('Ҷавоби аслии тоҷикӣ');
   fireEvent.click(screen.getByRole('button', { name: 'Объясни подробнее' }));
   await screen.findByText('Лимит или токены AnyModel закончились. Проверьте аккаунт провайдера.');
+  expect(screen.queryByText(/Локально|токенов|AI может ошибаться/)).not.toBeInTheDocument();
   expect(JSON.parse(fetcher.mock.calls[1][1].body)).toMatchObject({ language: 'tg', isDeep: true, userText: 'useState?', history: [
     { role: 'user', content: 'useState?' }, { role: 'assistant', content: 'Ҷавоби аслии тоҷикӣ' },
   ] });
@@ -172,6 +171,9 @@ it('updates Tutor chrome and prior errors when locale changes, preserving succes
   expect(screen.getByText('The AnyModel limit or tokens have run out. Check the provider account.')).toBeVisible();
   expect(screen.getByText('Ҷавоби аслии тоҷикӣ')).toBeVisible();
   expect(screen.getByRole('button', { name: 'Send' })).toBeVisible();
-  expect(screen.getByText(/Hello! We first look for an answer/)).toBeVisible();
+  expect(screen.getByText(/Hello! I am AI Tutor/)).toBeVisible();
+  // The cleaned chat has no token counters, source labels, caution line or subtitle.
+  expect(screen.queryByText(/d+ tokens|Local|AI can make mistakes|AI может ошибаться|AI · AnyModel/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/Project materials first|Сначала материалы проекта/)).not.toBeInTheDocument();
   await waitFor(() => expect(screen.getByLabelText('Question for Tutor')).toBeEnabled());
 });

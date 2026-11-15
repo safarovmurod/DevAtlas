@@ -1,19 +1,15 @@
-import type { InterfaceLocale } from './locale';
-import { JAPANESE_LEARNING_COPY } from './locales/ja';
-import { KOREAN_LEARNING_COPY } from './locales/ko';
+import type { ContentLocale, InterfaceLocale } from './locale';
 import {
   LEARNING_UI_COPY_EN,
+  LEARNING_UI_COPY_ES,
   LEARNING_UI_COPY_TG,
-  LEARNING_UI_COPY_UK,
 } from './learning-ui-copy-translations';
 
 export const COPY_CODE_ERROR: Record<InterfaceLocale, string> = {
   ru: 'Не удалось скопировать. Выделите код вручную.',
   en: 'Could not copy. Select the code manually.',
   tg: 'Нусхабардорӣ нашуд. Кодро дастӣ интихоб кунед.',
-  uk: 'Не вдалося скопіювати. Виділіть код вручну.',
-  ja: 'コピーできませんでした。コードを手動で選択してください。',
-  ko: '복사하지 못했습니다. 코드를 직접 선택해 주세요.',
+  es: 'No se pudo copiar. Selecciona el código a mano.',
 };
 
 // Interface text is independent of the language selected for authored lessons
@@ -65,14 +61,9 @@ const ru = {
   htmlResult: 'Результат вашего HTML + CSS',
   preparationFallback: 'Материал подготовки пока доступен только на русском языке.',
   contentFallback:
-    'Некоторые материалы не переведены на выбранный язык обучения и показаны на русском.',
-  tutorWelcome:
-    'Здравствуйте! Сначала найдём ответ в материалах проекта: бесплатно, без токенов. Для новых вопросов используется AI — войдите через Google или email.',
-  tutorIntro: 'Сначала материалы проекта · AI для новых вопросов',
+    'Некоторые материалы не переведены на выбранный язык обучения и показаны на {language}.',
   tutorClose: 'Закрыть Tutor',
   tutorMaterial: 'Материалы проекта',
-  tutorLocal: 'Локально',
-  tokens: 'токенов',
   source: 'Источник:',
   tutorLoading: 'Ментор готовит ответ…',
   tutorSignIn:
@@ -83,8 +74,6 @@ const ru = {
   tutorQuestion: 'Вопрос к Tutor',
   tutorPlaceholder: 'Напишите вопрос или код…',
   tutorSend: 'Отправить',
-  tutorSpent: 'В этом разговоре использовано:',
-  tutorCaution: 'AI может ошибаться; проверяйте код.',
   tutorUnavailable: 'AI сейчас недоступен. Попробуйте позже.',
   tutorEmpty: 'Ответ пуст. Попробуйте позже.',
   tutorConnection: 'Соединение прервалось или AI не ответил вовремя. Попробуйте позже.',
@@ -110,13 +99,27 @@ const ru = {
 export type LearningUiCopy = typeof ru;
 
 export const LEARNING_UI_COPY: Record<InterfaceLocale, LearningUiCopy> = {
-  ja: JAPANESE_LEARNING_COPY,
-  ko: KOREAN_LEARNING_COPY,
   ru,
   en: LEARNING_UI_COPY_EN,
   tg: LEARNING_UI_COPY_TG,
-  uk: LEARNING_UI_COPY_UK,
+  es: LEARNING_UI_COPY_ES,
 };
+
+/** Language names for the "shown in …" note, in the grammatical form each interface language needs. */
+const FALLBACK_LANGUAGE_NAMES: Record<InterfaceLocale, Record<ContentLocale, string>> = {
+  ru: { ru: 'русском', en: 'английском', tg: 'таджикском' },
+  en: { ru: 'Russian', en: 'English', tg: 'Tajik' },
+  tg: { ru: 'русӣ', en: 'англисӣ', tg: 'тоҷикӣ' },
+  es: { ru: 'ruso', en: 'inglés', tg: 'tayiko' },
+};
+
+/** Note shown when some lesson text is missing and another language is displayed instead. */
+export function contentFallbackNotice(locale: InterfaceLocale, fallback: ContentLocale): string {
+  return LEARNING_UI_COPY[locale].contentFallback.replace(
+    '{language}',
+    FALLBACK_LANGUAGE_NAMES[locale][fallback],
+  );
+}
 
 export type TutorErrorKey =
   | 'tutorUnavailable'
@@ -136,12 +139,8 @@ export type TutorErrorKey =
 
 /** A translated interface does not imply translated authored lessons. */
 export function lessonTranslationNotice(locale: InterfaceLocale): string | null {
-  if (locale === 'ja')
-    return '教材はタジク語・ロシア語・英語に対応しています。日本語の教材翻訳はまだありません。設定で教材の言語を変更できます。';
-  if (locale === 'ko')
-    return '학습 자료는 타지크어, 러시아어, 영어로 제공됩니다. 한국어로 번역된 학습 자료는 아직 없습니다. 설정에서 학습 자료 언어를 변경할 수 있습니다.';
-  if (locale === 'uk')
-    return 'Навчальні матеріали доступні таджицькою, російською та англійською. Мову матеріалів можна змінити в налаштуваннях.';
+  if (locale === 'es')
+    return 'Las lecciones están disponibles en tayiko, ruso e inglés. Aún no hay traducción al español. Puedes cambiar el idioma de los materiales en Ajustes.';
   return null;
 }
 

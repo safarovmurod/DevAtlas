@@ -44,10 +44,24 @@ describe('courseDayProgress', () => {
     expect(days[1]).toMatchObject({status:'current',day:2,section:'answers'});
     expect(current?.day).toBe(2);
   });
-  it('requires explicit confirmation before opening the next real published day',()=>{
+  it('requires explicit confirmation to finish a day but never locks the next one',()=>{
     const plan=courseMonthPlan(lessons);
-    expect(courseDayProgress(plan,['a'],['a'],[]).days.map(item=>item.status)).toEqual(['current','upcoming']);
+    expect(courseDayProgress(plan,['a'],['a'],[]).days.map(item=>item.status)).toEqual(['current','open']);
     expect(courseDayProgress(plan,['a'],['a'],['1']).days.map(item=>item.status)).toEqual(['done','current']);
+  });
+  it('keeps every day open: no day is ever reported as locked or upcoming',()=>{
+    const plan=courseMonthPlan([lesson('a'),lesson('b'),lesson('c')]);
+    for(const confirmed of [undefined,[],['1'],['3']]){
+      const {days}=courseDayProgress(plan,[],[],confirmed);
+      expect(days.every(item=>['done','current','open'].includes(item.status))).toBe(true);
+    }
+    expect(courseDayProgress(plan,[],[],[]).days.map(item=>item.status)).toEqual(['current','open','open']);
+  });
+  it('lets a later finished day count as done without finishing the days before it',()=>{
+    const plan=courseMonthPlan([lesson('a'),lesson('b'),lesson('c')]);
+    const {days,current}=courseDayProgress(plan,['c'],['c'],['3']);
+    expect(days.map(item=>item.status)).toEqual(['current','open','done']);
+    expect(current?.day).toBe(1);
   });
   it('does not inherit completion for a missing practical requirement',()=>{
     const plan=courseMonthPlan(lessons);

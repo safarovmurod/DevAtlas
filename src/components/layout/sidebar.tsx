@@ -6,37 +6,69 @@ import {
   CalendarCheck,
   Route,
   RotateCcw,
-  Target,
   BookOpenCheck,
-  Code2,
   ListChecks,
+  BarChart3,
   NotebookPen,
   Settings2,
   X,
   Crown,
   MessagesSquare,
+  ChevronsUpDown,
 } from 'lucide-react';
 import { useAppStore } from '@/stores/app-store';
-import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
-import learningIndex from '@/content/learning-index.json';
-const LEARNING_TOPICS = learningIndex.topics;
 import { useAccount } from '@/components/account/account-provider';
 import { AccountAvatar } from '@/components/account/account-avatar';
 import { courseDisplayName } from '@/lib/catalog-copy';
-import { COURSE_CATALOG } from '@/content/courses/catalog';
 import { CourseIcon } from '@/components/courses/course-icon';
-import { Progress } from '@/components/ui/progress';
+import { useCourseProgress } from '@/lib/use-course-progress';
+// "Мой день" holds the lesson and its practice, "Повторение" holds revision and weak topics.
 const items = [
   { key: 'plan', href: '/plan', icon: Route },
   { key: 'home', href: '/home', icon: CalendarCheck },
-  { key: 'practice', href: '/practice', icon: Code2 },
   { key: 'tests', href: '/tests', icon: ListChecks },
   { key: 'revision', href: '/revision', icon: RotateCcw },
-  { key: 'weak', href: '/weak-topics', icon: Target },
-  { key: 'notes', href: '/notes', icon: NotebookPen },
   { key: 'answers', href: '/answers', icon: BookOpenCheck },
+  { key: 'progress', href: '/progress', icon: BarChart3 },
+  { key: 'notes', href: '/notes', icon: NotebookPen },
 ] as const;
+
+const TONES = {
+  plan: 'bg-violet-500/12 text-violet-600',
+  home: 'bg-orange-500/12 text-orange-600',
+  tests: 'bg-emerald-500/12 text-emerald-600',
+  revision: 'bg-amber-500/15 text-amber-600',
+  progress: 'bg-sky-500/12 text-sky-600',
+  notes: 'bg-teal-500/12 text-teal-600',
+  answers: 'bg-indigo-500/12 text-indigo-600',
+  community: 'bg-pink-500/12 text-pink-600',
+  plans: 'bg-yellow-500/15 text-yellow-600',
+  settings: 'bg-slate-500/12 text-slate-600',
+} as const;
+
+function NavIcon({
+  icon: Icon,
+  tone,
+  active,
+}: {
+  icon: typeof CalendarCheck;
+  tone: keyof typeof TONES;
+  active?: boolean;
+}) {
+  return (
+    <span
+      className={
+        'flex size-8 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover/nav:-translate-y-px ' +
+        (active
+          ? 'bg-primary text-primary-foreground shadow-[0_8px_14px_-8px_var(--primary)]'
+          : TONES[tone])
+      }
+    >
+      <Icon size={17} strokeWidth={1.9} aria-hidden="true" />
+    </span>
+  );
+}
 
 const NAV_LABELS = {
   ru: {
@@ -47,6 +79,7 @@ const NAV_LABELS = {
     choose: 'Выбрать курс',
     tests: 'Тесты и интервью',
     answers: 'Ответы и интервью',
+    progress: 'Прогресс',
     guest: 'Гость',
     personal: 'Личный аккаунт',
     local: 'В этом браузере',
@@ -59,6 +92,7 @@ const NAV_LABELS = {
     choose: 'Choose course',
     tests: 'Tests & interview',
     answers: 'Answers & interview',
+    progress: 'Progress',
     guest: 'Guest',
     personal: 'Personal account',
     local: 'In this browser',
@@ -71,54 +105,30 @@ const NAV_LABELS = {
     choose: 'Интихоби курс',
     tests: 'Санҷишҳо ва мусоҳиба',
     answers: 'Ҷавобҳо ва мусоҳиба',
+    progress: 'Пешрафт',
     guest: 'Меҳмон',
     personal: 'Аккаунти шахсӣ',
     local: 'Дар ҳамин браузер',
   },
-  ja: {
-    open: 'メニューを開く',
-    close: 'メニューを閉じる',
-    navigation: '学習ナビゲーション',
-    eyebrow: '学習',
-    choose: 'コースを選ぶ',
-    tests: 'テストと面接',
-    answers: '解答と面接',
-    guest: 'ゲスト',
-    personal: '個人アカウント',
-    local: 'このブラウザー内',
-  },
-  ko: {
-    open: '메뉴 열기',
-    close: '메뉴 닫기',
-    navigation: '학습 탐색',
-    eyebrow: '학습',
-    choose: '강좌 선택',
-    tests: '테스트 및 면접',
-    answers: '해답 및 면접',
-    guest: '게스트',
-    personal: '개인 계정',
-    local: '이 브라우저에 저장',
-  },
-  uk: {
-    open: 'Відкрити меню',
-    close: 'Закрити меню',
-    navigation: 'Навігація курсом',
-    eyebrow: 'НАВЧАННЯ',
-    choose: 'Обрати курс',
-    tests: 'Тести та співбесіда',
-    answers: 'Відповіді та співбесіда',
-    guest: 'Гість',
-    personal: 'Особистий акаунт',
-    local: 'У цьому браузері',
+  es: {
+    open: 'Abrir menú',
+    close: 'Cerrar menú',
+    navigation: 'Navegación del curso',
+    eyebrow: 'APRENDIZAJE',
+    choose: 'Elegir curso',
+    tests: 'Pruebas y entrevista',
+    answers: 'Respuestas y entrevista',
+    progress: 'Progreso',
+    guest: 'Invitado',
+    personal: 'Cuenta personal',
+    local: 'En este navegador',
   },
 };
 const EXTRA_NAV = {
   ru: { plans: 'Тарифы', community: 'Сообщество' },
   en: { plans: 'Plans', community: 'Community' },
   tg: { plans: 'Тарифҳо', community: 'Ҷомеа' },
-  uk: { plans: 'Тарифи', community: 'Спільнота' },
-  ja: { plans: 'プラン', community: 'コミュニティ' },
-  ko: { plans: '요금제', community: '커뮤니티' },
+  es: { plans: 'Planes', community: 'Comunidad' },
 };
 export function Sidebar() {
   const account = useAccount();
@@ -173,29 +183,15 @@ export function Sidebar() {
       if (previousFocus?.isConnected) previousFocus.focus();
     };
   }, [open, mobile, setOpen]);
-  const language = useLearningStore((state) => state.language);
-  const month = useLearningStore((state) => state.activeMonth);
-  const completed = useLearningStore((state) => state.completedTopics);
-  const course = useLearningStore((state) => state.selectedCourse);
-  const courseCount = useLearningStore((state) =>
-    course === 'react' ? 0 : state.courses[course]?.confirmedDays.length || 0,
-  );
-  const courseTotal =
-    COURSE_CATALOG.find((item) => item.id === course)?.publishedDays ??
-    (course === 'css' ? 5 : course === 'nextjs' ? 20 : 30);
+  const {
+    course,
+    language,
+    reactMonth,
+    percent: progressPercent,
+    label: progressLabel,
+  } = useCourseProgress();
   const copy = COPY[language];
   const labels = NAV_LABELS[language];
-  const reactMonth = month === 2 ? 2 : 1;
-  const total = LEARNING_TOPICS.filter((topic) => topic.month === reactMonth).length;
-  const count = LEARNING_TOPICS.filter(
-    (topic) => topic.month === reactMonth && completed.includes(topic.id),
-  ).length;
-  // React counts studied topics of the current month; other courses count confirmed days.
-  const done = course === 'react' ? count : courseCount;
-  const goal = course === 'react' ? total : courseTotal;
-  const progressPercent = goal ? (done / goal) * 100 : 0;
-  const progressLabel =
-    (course === 'react' ? copy.month + ' ' + reactMonth + ' · ' : '') + done + ' / ' + goal;
   return (
     <>
       {open && (
@@ -229,37 +225,53 @@ export function Sidebar() {
           transitionTypes={['nav-fade']}
           href="/courses"
           aria-current={pathname === '/courses' ? 'page' : undefined}
-          className={'nav-item course-switch ' + (pathname === '/courses' ? 'active' : '')}
+          className="group relative mx-1 mb-3 block shrink-0 overflow-hidden rounded-2xl !bg-[#17120f] p-4 !text-white no-underline shadow-[0_18px_32px_-20px_rgb(23_18_15/0.85)] transition-transform duration-300 hover:-translate-y-0.5"
           onClick={() => setOpen(false)}
         >
-          <span className="flex w-full min-w-0 flex-col gap-2">
-            <span className="flex items-center gap-2.5">
-              <CourseIcon courseId={course} size={32} className="rounded-lg" />
-              <span className="grid min-w-0">
-                <small className="text-xs font-medium text-muted-foreground">{labels.choose}</small>
-                <strong className="truncate text-sm font-semibold text-foreground">
-                  {courseDisplayName(course, language)}
-                </strong>
-              </span>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-8 -right-8 size-28 rounded-full bg-[#ff9301]/25 blur-2xl"
+          />
+          <span className="relative flex items-center gap-3">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/10">
+              <CourseIcon courseId={course} size={30} />
             </span>
-            <Progress value={progressPercent} label={progressLabel} />
-            <small className="font-mono text-xs text-muted-foreground">{progressLabel}</small>
+            <span className="grid min-w-0">
+              <small className="text-xs text-white/60">{labels.choose}</small>
+              <strong className="truncate text-sm font-semibold text-white">
+                {courseDisplayName(course, language)}
+              </strong>
+            </span>
+            <ChevronsUpDown size={16} aria-hidden="true" className="ml-auto text-white/50" />
           </span>
+          <span
+            role="progressbar"
+            aria-label={progressLabel}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(progressPercent)}
+            className="relative mt-4 block h-1.5 overflow-hidden rounded-full bg-white/15"
+          >
+            <span
+              className="block h-full rounded-full bg-[#ff9301]"
+              style={{ width: `${Math.round(progressPercent)}%` }}
+            />
+          </span>
+          <small className="relative mt-2 block font-mono text-xs text-white/60">
+            {progressLabel}
+          </small>
         </Link>
         <nav>
           {items.map((item) => {
             const Icon = item.icon;
             const href =
-              item.key === 'practice'
-                ? '/practice'
-                : course === 'react' && item.key === 'plan'
-                  ? `/plan/${reactMonth}`
-                  : course === 'react' || item.key === 'notes'
-                    ? item.href
-                    : `/courses/${course}${item.href}`;
+              course === 'react' && item.key === 'plan'
+                ? `/plan/${reactMonth}`
+                : course === 'react' || item.key === 'notes' || item.key === 'progress'
+                  ? item.href
+                  : `/courses/${course}${item.href}`;
             const active =
               pathname === href ||
-              (course === 'react' && item.key === 'practice' && pathname === '/practice') ||
               (course === 'react' &&
                 item.href === '/answers' &&
                 pathname.startsWith('/answers/')) ||
@@ -272,16 +284,18 @@ export function Sidebar() {
                 key={item.href}
                 href={href}
                 aria-current={active ? 'page' : undefined}
-                className={'nav-item ' + (active ? 'active' : '')}
+                className={'nav-item group/nav gap-3 ' + (active ? 'active' : '')}
                 onClick={() => setOpen(false)}
               >
-                <Icon size={18} />
+                <NavIcon icon={Icon} tone={item.key} active={active} />
                 <span>
                   {item.key === 'tests'
                     ? labels.tests
                     : item.key === 'answers'
                       ? labels.answers
-                      : copy[item.key]}
+                      : item.key === 'progress'
+                        ? labels.progress
+                        : copy[item.key]}
                 </span>
                 {active && <span className="nav-dot" />}
               </Link>
@@ -293,19 +307,19 @@ export function Sidebar() {
           <Link
             transitionTypes={['nav-fade']}
             href="/community"
-            className={'nav-item ' + (pathname === '/community' ? 'active' : '')}
+            className={'nav-item group/nav gap-3 ' + (pathname === '/community' ? 'active' : '')}
             onClick={() => setOpen(false)}
           >
-            <MessagesSquare size={18} />
+            <NavIcon icon={MessagesSquare} tone="community" active={pathname === '/community'} />
             <span>{EXTRA_NAV[language].community}</span>
           </Link>
           <Link
             transitionTypes={['nav-fade']}
             href="/plans"
-            className={'nav-item ' + (pathname === '/plans' ? 'active' : '')}
+            className={'nav-item group/nav gap-3 ' + (pathname === '/plans' ? 'active' : '')}
             onClick={() => setOpen(false)}
           >
-            <Crown size={18} />
+            <NavIcon icon={Crown} tone="plans" active={pathname === '/plans'} />
             <span>{EXTRA_NAV[language].plans}</span>
           </Link>
         </nav>
@@ -314,10 +328,10 @@ export function Sidebar() {
             transitionTypes={['nav-fade']}
             href="/settings"
             aria-current={pathname === '/settings' ? 'page' : undefined}
-            className={'nav-item ' + (pathname === '/settings' ? 'active' : '')}
+            className={'nav-item group/nav gap-3 ' + (pathname === '/settings' ? 'active' : '')}
             onClick={() => setOpen(false)}
           >
-            <Settings2 size={18} />
+            <NavIcon icon={Settings2} tone="settings" active={pathname === '/settings'} />
             {copy.settings}
           </Link>
           <Link

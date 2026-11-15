@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CheckCircle2, Eye, EyeOff, Mail, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, Mail, ShieldCheck } from 'lucide-react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useAccount } from './account-provider';
 import { useLearningStore } from '@/stores/learning-store';
@@ -10,6 +11,7 @@ import { AUTH_COPY } from '@/lib/auth-copy';
 import { ACCOUNT_COPY, accountErrorKey, localizedAuthError } from '@/lib/account-copy';
 import { GoogleMark } from './google-mark';
 import { Brand } from '@/components/layout/brand';
+import { AuthShowcase, AuthShowcaseMobile } from './auth-showcase';
 import { authFormSchema, type AuthFormValues, type AuthMode } from '@/lib/account/form-schemas';
 
 export { FirstProfileScreen, MfaChallengeScreen, PasswordRecoveryScreen } from './account-gates';
@@ -28,12 +30,21 @@ export function AuthScreen() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<
-    { kind: 'google' } | { kind: 'provider'; cause: unknown; mode: typeof mode } | null
+    | { kind: 'oauth'; provider: 'google' | 'github' | 'facebook' }
+    | { kind: 'provider'; cause: unknown; mode: typeof mode }
+    | null
   >(null);
   const [message, setMessage] = useState<'resetSent' | 'confirmEmail' | ''>('');
   const errorMessage = error
-    ? error.kind === 'google'
-      ? copy.googleError
+    ? error.kind === 'oauth'
+      ? copy.googleError.replaceAll(
+          'Google',
+          error.provider === 'github'
+            ? 'GitHub'
+            : error.provider === 'facebook'
+              ? 'Facebook'
+              : 'Google',
+        )
       : localizedAuthError(error.cause, error.mode, language)
     : account.error
       ? ACCOUNT_COPY[language][accountErrorKey(account.error, 'openError')]
@@ -50,22 +61,22 @@ export function AuthScreen() {
     account.continueAsGuest();
     if (window.location.pathname !== '/home') window.location.assign('/home');
   }
-  async function google() {
+  async function signInWithProvider(provider: 'google' | 'github' | 'facebook') {
     const client = getSupabaseBrowserClient();
-    if (!client) return;
+    if (!client || busy) return;
     setBusy(true);
     setError(null);
     try {
       const { error } = await client.auth.signInWithOAuth({
-        provider: 'google',
+        provider,
         options: {
           redirectTo: window.location.origin + '/auth/callback',
-          queryParams: { prompt: 'select_account' },
+          ...(provider === 'google' ? { queryParams: { prompt: 'select_account' } } : {}),
         },
       });
       if (error) throw error;
     } catch {
-      setError({ kind: 'google' });
+      setError({ kind: 'oauth', provider });
       setBusy(false);
     }
   }
@@ -108,23 +119,9 @@ export function AuthScreen() {
     mode === 'signup' ? copy.signupTitle : mode === 'reset' ? copy.resetTitle : copy.loginTitle;
   return (
     <div className="account-screen auth-layout">
-      <aside className="auth-aside">
+      <aside className="auth-aside auth-aside-showcase">
         <Brand variant="auth" />
-        <div>
-          <h2>{copy.panelTitle}</h2>
-          <ul>
-            {copy.panelBenefits.map((benefit) => (
-              <li key={benefit}>
-                <CheckCircle2 size={18} />
-                {benefit}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="auth-panel-preview">
-          <span className="eyebrow">DevAtlas</span>
-          <strong>{copy.panelFlow}</strong>
-        </div>
+        <AuthShowcase />
       </aside>
       <section className="auth-card">
         <div className="auth-mobile-brand">
@@ -132,6 +129,7 @@ export function AuthScreen() {
         </div>
         <h1>{title}</h1>
         <p>{copy.intro}</p>
+        <AuthShowcaseMobile copy={copy} />
         <div className="auth-tabs" role="group" aria-label={copy.loginTab}>
           <button
             type="button"
@@ -161,7 +159,7 @@ export function AuthScreen() {
         <div className="google-option">
           <button
             className="button google-button"
-            onClick={google}
+            onClick={() => signInWithProvider('google')}
             disabled={busy || !account.configured}
           >
             <span className="google-mark" aria-hidden="true">
@@ -169,7 +167,32 @@ export function AuthScreen() {
             </span>
             <span>{copy.google}</span>
           </button>
-          <span className="recommend-tag">{copy.recommended}</span>
+        </div>
+        <div className="social-login-options">
+          <button
+            type="button"
+            className="button google-button"
+            onClick={() => signInWithProvider('github')}
+            disabled={busy || !account.configured}
+          >
+            <Image src="/auth-icons/github.svg" width={20} height={20} alt="" aria-hidden="true" />
+            <span>{copy.google.replaceAll('Google', 'GitHub')}</span>
+          </button>
+          <button
+            type="button"
+            className="button google-button"
+            onClick={() => signInWithProvider('facebook')}
+            disabled={busy || !account.configured}
+          >
+            <Image
+              src="/auth-icons/facebook.svg"
+              width={20}
+              height={20}
+              alt=""
+              aria-hidden="true"
+            />
+            <span>{copy.google.replaceAll('Google', 'Facebook')}</span>
+          </button>
         </div>
         <div className="auth-divider">{copy.orEmail}</div>
         <form className="account-form" onSubmit={form.handleSubmit(submit)}>

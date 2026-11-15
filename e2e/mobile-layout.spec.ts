@@ -6,7 +6,7 @@ test.beforeEach(async ({page})=>{
 test('settings controls fit small phones in every interface language', async ({page}) => {
   await page.goto('/settings');
   const interfaceLanguage=page.locator('.settings-panel select').first();
-  for (const [locale,title] of [['ru','Настройки'],['en','Settings'],['tg','Танзимот'],['uk','Налаштування'],['ja','設定'],['ko','설정']] as const) {
+  for (const [locale,title] of [['ru','Настройки'],['en','Settings'],['tg','Танзимот'],['es','Ajustes']] as const) {
     await interfaceLanguage.selectOption(locale);
     await expect(page.getByRole('heading',{name:title,exact:true})).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('lang',locale);
@@ -74,8 +74,13 @@ test('unconfigured registration explains the blocker and offers usable guest acc
     await expect(page.getByRole('button',{name:'Продолжить с Google',exact:true})).toBeDisabled();
     await expect(page.getByLabel('Электронная почта',{exact:true})).toBeDisabled();
     await expect(page.getByRole('button',{name:'Продолжить как гость',exact:true})).toBeInViewport();
-    const google=await page.locator('.google-button').boundingBox();const label=await page.locator('.google-button > span:last-child').boundingBox();
-    expect(label!.x+label!.width).toBeLessThanOrEqual(google!.x+google!.width);
+    // Google, GitHub and Facebook: every provider label must stay inside its button.
+    const providers=page.locator('.google-button');expect(await providers.count()).toBe(3);
+    for(let index=0;index<3;index++){
+      const button=providers.nth(index);
+      const box=await button.boundingBox();const label=await button.locator(':scope > span:last-child').boundingBox();
+      expect(label!.x+label!.width).toBeLessThanOrEqual(box!.x+box!.width);
+    }
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
   await page.getByRole('button',{name:'Создать аккаунт',exact:true}).click();

@@ -50,14 +50,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Официант и кухня",
-            "tg": "1. Пешхизмат ва ошхона",
-            "en": "1. Waiter and kitchen"
+            "ru": "Как HTTP связывает клиент и сервер",
+            "tg": "HTTP клиенту серверро чӣ хел мепайвандад?",
+            "en": "How HTTP connects a client and server"
           },
           "body": {
-            "ru": "В кафе вы (клиент) не идёте на кухню сами — вы говорите заказ официанту, он несёт его на кухню (сервер) и возвращает блюдо. HTTP — язык таких заказов. Запрос содержит адрес (URL), метод (что сделать), заголовки и иногда тело. Ответ содержит код статуса, заголовки и тело — обычно JSON.",
-            "tg": "Дар қаҳвахона шумо (мизоҷ) худатон ба ошхона намеравед — фармоишро ба пешхизмат мегӯед, ӯ онро ба ошхона (сервер) мебарад ва таомро бармегардонад. HTTP — забони чунин фармоишҳост. Дархост суроға (URL), метод (чӣ кор кардан), сарлавҳаҳо ва баъзан бадан дорад. Ҷавоб рамзи статус, сарлавҳаҳо ва бадан — одатан JSON дорад.",
-            "en": "In a cafe you (the client) do not walk into the kitchen — you give your order to a waiter who takes it to the kitchen (the server) and brings back the dish. HTTP is the language of such orders. A request has an address (URL), a method (what to do), headers and sometimes a body. A response has a status code, headers and a body — usually JSON."
+            "ru": "HTTP — правила обмена запросами и ответами. Браузер спрашивает у API список товаров, сервер отвечает статусом и данными. Как хранить товары решает сервер.\n\nВ кафе вы (клиент) не идёте на кухню сами — вы говорите заказ официанту, он несёт его на кухню (сервер) и возвращает блюдо. HTTP — язык таких заказов. Запрос содержит адрес (URL), метод (что сделать), заголовки и иногда тело. Ответ содержит код статуса, заголовки и тело — обычно JSON.",
+            "tg": "HTTP қоидаи мубодилаи request ва response аст. Браузер аз API рӯйхати молро мегирад. Сервер статус ва маълумот медиҳад ва худаш ҳал мекунад, сабтҳо дар куҷо бошанд.\n\nДар қаҳвахона шумо (мизоҷ) худатон ба ошхона намеравед — фармоишро ба пешхизмат мегӯед, ӯ онро ба ошхона (сервер) мебарад ва таомро бармегардонад. HTTP — забони чунин фармоишҳост. Дархост суроға (URL), метод (чӣ кор кардан), сарлавҳаҳо ва баъзан бадан дорад. Ҷавоб рамзи статус, сарлавҳаҳо ва бадан — одатан JSON дорад.",
+            "en": "HTTP defines how requests and responses work. The browser asks an API for products, and the server returns a status and data. The server decides how to store the products.\n\nIn a cafe you (the client) do not walk into the kitchen — you give your order to a waiter who takes it to the kitchen (the server) and brings back the dish. HTTP is the language of such orders. A request has an address (URL), a method (what to do), headers and sometimes a body. A response has a status code, headers and a body — usually JSON."
           }
         },
         {
@@ -101,6 +101,22 @@
           }
         }
       ],
+      "interview": {
+        "id": "javascript-2-day-01-written",
+        "question": {
+          "ru": "Как называется веб-протокол обмена запросами и ответами?",
+          "tg": "Протоколи request ва response дар веб чӣ ном дорад?",
+          "en": "What web protocol defines requests and responses?"
+        },
+        "answer": {
+          "ru": "HTTP",
+          "tg": "HTTP",
+          "en": "HTTP"
+        },
+        "acceptedAnswers": [
+          "Hypertext Transfer Protocol"
+        ]
+      },
       "questions": [
         {
           "id": "javascript-2-day-01-q1",
@@ -342,14 +358,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Квитанция из химчистки",
-            "tg": "1. Квитансия аз химчистка",
-            "en": "1. A dry-cleaning receipt"
+            "ru": "Что показывает Promise",
+            "tg": "Promise чиро нишон медиҳад?",
+            "en": "What a Promise represents"
           },
           "body": {
-            "ru": "Отдали костюм в химчистку — вам дают квитанцию, а костюм будет завтра. Promise — такая квитанция: результат ещё не готов (pending), потом либо готов (fulfilled), либо что-то пошло не так (rejected). Запрос к серверу идёт сотни миллисекунд, поэтому fetch возвращает не данные, а Promise.",
-            "tg": "Костюмро ба химчистка доданд — ба шумо квитансия медиҳанд, костюм пагоҳ тайёр мешавад. Promise — чунин квитансия аст: натиҷа ҳанӯз тайёр нест (pending), баъд ё тайёр (fulfilled), ё чизе нодуруст рафт (rejected). Дархост ба сервер садҳо миллисония давом мекунад, барои ҳамин fetch на маълумот, балки Promise бармегардонад.",
-            "en": "Hand in a suit for dry cleaning and you get a receipt; the suit is ready tomorrow. A Promise is that receipt: not ready yet (pending), then either ready (fulfilled) or something went wrong (rejected). A server request takes hundreds of milliseconds, so fetch returns a Promise, not the data."
+            "ru": "Promise представляет будущий результат операции. Пока результата нет, он pending. Затем Promise либо выполняется со значением, либо отклоняется с причиной; возврат Promise ещё не означает, что данные получены.\n\nОтдали костюм в химчистку — вам дают квитанцию, а костюм будет завтра. Promise — такая квитанция: результат ещё не готов (pending), потом либо готов (fulfilled), либо что-то пошло не так (rejected). Запрос к серверу идёт сотни миллисекунд, поэтому fetch возвращает не данные, а Promise.",
+            "tg": "Promise натиҷаи ояндаи амалро нишон медиҳад. То натиҷа pending аст. Баъд бо қимат анҷом меёбад ё бо сабаб рад мешавад. Promise гирифтан ҳоло маънои омадани маълумотро надорад.\n\nКостюмро ба химчистка доданд — ба шумо квитансия медиҳанд, костюм пагоҳ тайёр мешавад. Promise — чунин квитансия аст: натиҷа ҳанӯз тайёр нест (pending), баъд ё тайёр (fulfilled), ё чизе нодуруст рафт (rejected). Дархост ба сервер садҳо миллисония давом мекунад, барои ҳамин fetch на маълумот, балки Promise бармегардонад.",
+            "en": "A Promise represents an operation's eventual outcome. It starts pending, then fulfills with a value or rejects with a reason. Getting the Promise does not mean the data has arrived.\n\nHand in a suit for dry cleaning and you get a receipt; the suit is ready tomorrow. A Promise is that receipt: not ready yet (pending), then either ready (fulfilled) or something went wrong (rejected). A server request takes hundreds of milliseconds, so fetch returns a Promise, not the data."
           },
           "code": "const promise = new Promise((resolve, reject) => {\n  setTimeout(() => resolve(\"Костюм готов\"), 1000);\n});\nconsole.log(promise); // Promise { <pending> }",
           "language": "javascript"
@@ -395,6 +411,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "javascript-2-day-02-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Как по-английски называется состояние Promise до результата или ошибки?",
+          "tg": "Promise пеш аз натиҷа ё хато дар кадом ҳолат аст? Калимаи англисиро навис.",
+          "en": "What is the English name for the state of a Promise before it settles?"
+        },
+        "answer": {
+          "ru": "pending",
+          "tg": "pending",
+          "en": "pending"
+        }
+      },
       "questions": [
         {
           "id": "javascript-2-day-02-q1",
@@ -612,14 +642,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Ждать в очереди",
-            "tg": "1. Дар навбат интизор шудан",
-            "en": "1. Waiting in line"
+            "ru": "Как async и await работают вместе",
+            "tg": "async ва await чӣ хел якҷо кор мекунанд?",
+            "en": "How async and await work together"
           },
           "body": {
-            "ru": "await — как сказать: «стою и жду, пока не принесут заказ, потом продолжу». Пишут его перед Promise внутри функции с пометкой async. Код сверху вниз читается как рецепт, без цепочек then. Но ждёт только эта функция — остальная страница продолжает работать.",
-            "tg": "await — мисли гуфтан аст: «меистам ва интизор мешавам, то фармоишро биёранд, баъд идома медиҳам». Онро пеш аз Promise дар дохили функсия бо нишони async менависанд. Код аз боло ба поён мисли рецепт хонда мешавад, бе занҷирҳои then. Вале фақат ҳамин функсия интизор мешавад — боқимондаи саҳифа кор карданро идома медиҳад.",
-            "en": "await is like saying “I will stand and wait until the order arrives, then continue”. It goes before a Promise inside a function marked async. The code reads top to bottom like a recipe, without then chains. Only this function waits — the rest of the page keeps working."
+            "ru": "В async-функции await приостанавливает эту функцию до результата Promise. Другие действия могут продолжаться. Если Promise отклонён, await выбрасывает ошибку, которую можно обработать через try/catch.\n\nawait — как сказать: «стою и жду, пока не принесут заказ, потом продолжу». Пишут его перед Promise внутри функции с пометкой async. Код сверху вниз читается как рецепт, без цепочек then. Но ждёт только эта функция — остальная страница продолжает работать.",
+            "tg": "Дар функсияи async калимаи await ҳамин функсияро то натиҷаи Promise нигоҳ медорад. Дигар корҳо давом карда метавонанд. Хаторо бо try/catch гирифтан мумкин.\n\nawait — мисли гуфтан аст: «меистам ва интизор мешавам, то фармоишро биёранд, баъд идома медиҳам». Онро пеш аз Promise дар дохили функсия бо нишони async менависанд. Код аз боло ба поён мисли рецепт хонда мешавад, бе занҷирҳои then. Вале фақат ҳамин функсия интизор мешавад — боқимондаи саҳифа кор карданро идома медиҳад.",
+            "en": "Inside an async function, await pauses that function until the Promise settles. Other work can continue. If it rejects, await throws the rejection so try/catch can handle it.\n\nawait is like saying “I will stand and wait until the order arrives, then continue”. It goes before a Promise inside a function marked async. The code reads top to bottom like a recipe, without then chains. Only this function waits — the rest of the page keeps working."
           },
           "code": "async function loadCourses() {\n  const response = await fetch(\"/api/courses\");\n  const courses = await response.json();\n  return courses;\n}",
           "language": "javascript"
@@ -665,6 +695,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "javascript-2-day-03-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какое слово внутри async-функции ждёт результат Promise?",
+          "tg": "Кадом калима дар функсияи async натиҷаи Promise-ро интизор мешавад?",
+          "en": "Which keyword waits for a Promise inside an async function?"
+        },
+        "answer": {
+          "ru": "await",
+          "tg": "await",
+          "en": "await"
+        }
+      },
       "questions": [
         {
           "id": "javascript-2-day-03-q1",
@@ -893,9 +937,9 @@
             "en": "1. The fetch trap"
           },
           "body": {
-            "ru": "fetch отклоняет Promise только когда сети нет совсем. Если сервер ответил 404 или 500 — для fetch это «ответ получен», Promise выполняется успешно. Как курьер, который привёз коробку: доставка прошла, но внутри может быть записка «товара нет». Поэтому статус проверяем сами.",
-            "tg": "fetch Promise-ро фақат вақте рад мекунад, ки шабака тамоман набошад. Агар сервер 404 ё 500 ҷавоб диҳад — барои fetch ин «ҷавоб гирифта шуд» аст, Promise бомуваффақият иҷро мешавад. Мисли курьере ки қуттиро овард: расонидан шуд, вале дар дохил метавонад ёддошти «мол нест» бошад. Барои ҳамин статусро худамон месанҷем.",
-            "en": "fetch rejects only when there is no network at all. If the server answers 404 or 500, fetch considers it “a response received” and resolves successfully. Like a courier who delivered a box: delivery worked, but inside there may be a note “out of stock”. So we check the status ourselves."
+            "ru": "fetch возвращает Promise с ответом HTTP, даже при 404 или 500. Это как доставка: коробка пришла, но внутри может быть уведомление об отказе. Сначала проверьте response.ok или status. Если запрос нельзя выполнить из-за сетевого сбоя, отмены или другого сбоя fetch, Promise отклоняется и HTTP-ответа в коде нет.",
+            "tg": "fetch ҳатто барои 404 ё 500 Promise-и ҷавоби HTTP медиҳад. Мисли доставка: қуттӣ омад, аммо дарунаш метавонад хабари рад бошад. Аввал response.ok ё status-ро бин. Агар аз хатои шабака, бекоркунӣ ё мушкили дигари fetch ҷавоб нарасад, Promise рад мешавад.",
+            "en": "fetch fulfills with an HTTP response even for a 404 or 500. Think of a delivery that arrived with a refusal notice inside. Check response.ok or status first. If a network failure, cancellation, or another fetch failure prevents an accessible response, the promise rejects."
           },
           "code": "const response = await fetch(\"/api/courses/999\");\nconsole.log(response.ok);     // false\nconsole.log(response.status); // 404\n// ошибки не было — проверяем сами",
           "language": "javascript"
@@ -1752,9 +1796,9 @@
             "en": "1. A form inside the address"
           },
           "body": {
-            "ru": "Всё после знака ? — это параметры запроса, как поля короткой анкеты: ключ=значение, разделённые &. Сервер читает их и понимает, что найти: /api/courses?search=react&level=beginner. Такой адрес можно отправить другу — он увидит те же результаты.",
-            "tg": "Ҳама чиз баъди аломати ? — параметрҳои дархост аст, мисли майдонҳои анкетаи кӯтоҳ: калид=қимат, бо & ҷудошуда. Сервер онҳоро мехонад ва мефаҳмад, ки чиро ёбад: /api/courses?search=react&level=beginner. Чунин суроғаро ба дӯст фиристодан мумкин — ӯ ҳамон натиҷаҳоро мебинад.",
-            "en": "Everything after ? is query parameters, like fields of a short form: key=value pairs separated by &. The server reads them to know what to find: /api/courses?search=react&level=beginner. You can send such an address to a friend and they see the same results."
+            "ru": "Параметры запроса уточняют, какие данные нужны. В /api/courses?search=react&level=beginner два параметра: search и level. Знак ? начинает query, & разделяет параметры, а # начинает фрагмент и не отправляется серверу. URLSearchParams кодирует введённые значения, чтобы пробел или & не сломали запрос.",
+            "tg": "Параметри query мегӯяд, ки кадом дода лозим аст. Дар /api/courses?search=react&level=beginner ду параметр ҳаст: search ва level. ? query-ро сар мекунад, & параметрҳоро ҷудо мекунад ва қисми # ба сервер намеравад. URLSearchParams қиматро код мекунад, то пробел ё & запросро вайрон накунад.",
+            "en": "Query parameters narrow the requested data. /api/courses?search=react&level=beginner has two parameters, search and level. ? starts the query, & separates parameters, and a # fragment stays in the browser. URLSearchParams encodes values so a space or & cannot change the query structure."
           }
         },
         {
@@ -2303,9 +2347,9 @@
             "en": "1. A new passport or a stamp"
           },
           "body": {
-            "ru": "PUT — как выдать новый паспорт: вы отправляете запись целиком, и сервер заменяет старую полностью. Если какое-то поле забыли — оно пропадёт. PATCH — как поставить штамп о прописке: отправляете только то, что изменилось, остальное остаётся как было.",
-            "tg": "PUT — мисли додани шиносномаи нав: шумо сабтро пурра мефиристед ва сервер кӯҳнаро тамоман иваз мекунад. Агар ягон майдонро фаромӯш кунед — он нест мешавад. PATCH — мисли гузоштани мӯҳри қайд: фақат он чиро ки иваз шуд, мефиристед, боқимонда ҳамон тавр мемонад.",
-            "en": "PUT is like issuing a new passport: you send the whole record and the server replaces the old one completely. Forget a field and it disappears. PATCH is like stamping a residence permit: send only what changed and the rest stays as it was."
+            "ru": "PUT передаёт представление ресурса для замены. В учебном API пропущенное поле может исчезнуть, поэтому отправляйте полную запись. PATCH описывает частичное изменение: чтобы отметить задачу, учебному API достаточно { \"done\": true }. Формат PATCH и поведение при пропусках уточняйте в контракте конкретного API.",
+            "tg": "PUT шакли ресурсро барои иваз кардан мефиристад. Дар API-и машқ майдони набуда метавонад гум шавад, барои ҳамин сабтро пурра деҳ. PATCH тағйири як қисм аст: барои анҷом додани вазифа ба API-и машқ { \"done\": true } бас аст. Формат ва рафтори ҳар API-ро аз шартномаи он бин.",
+            "en": "PUT supplies a representation to replace a resource. In this training API, omitted fields can disappear, so send the complete record. PATCH describes a partial change. Sending { \"done\": true } can mark a task done here. Check the API’s contract for its actual PATCH format and treatment of omitted fields."
           },
           "code": "// PUT — вся запись\nawait fetch(\"/api/tasks/7\", { method: \"PUT\", headers, body: JSON.stringify({ id: 7, title: \"Купить хлеб\", done: true }) });\n// PATCH — только изменения\nawait fetch(\"/api/tasks/7\", { method: \"PATCH\", headers, body: JSON.stringify({ done: true }) });",
           "language": "javascript"
@@ -3125,9 +3169,9 @@
             "en": "1. Business-centre security"
           },
           "body": {
-            "ru": "Origin — это схема + домен + порт: http://localhost:5173 и http://localhost:3001 — разные origin. Браузер, как охрана бизнес-центра, не пускает страницу читать ответы чужого офиса, пока тот сам не скажет «этому гостю можно». Это защищает пользователя: чужой сайт не может тайком читать вашу почту или банк от вашего имени.",
-            "tg": "Origin — ин схема + домен + порт аст: http://localhost:5173 ва http://localhost:3001 — origin-ҳои гуногунанд. Браузер, мисли посбонии маркази тиҷоратӣ, намегузорад, ки саҳифа ҷавобҳои офиси бегонаро хонад, то он худаш нагӯяд «ба ин меҳмон мумкин». Ин корбарро ҳимоя мекунад: сайти бегона наметавонад пинҳонӣ почта ё бонки шуморо аз номи шумо хонад.",
-            "en": "An origin is scheme + domain + port: http://localhost:5173 and http://localhost:3001 are different origins. Like business-centre security, the browser will not let a page read another office's responses until that office says “this guest is allowed”. It protects users: another site cannot secretly read your email or bank on your behalf."
+            "ru": "CORS — правила, по которым браузер решает, может ли страница прочитать ответ с другого origin. Origin состоит из схемы, имени хоста и порта. localhost:5173 и localhost:3001 — разные origin. Если сервер разрешил доступ фронтенду, JavaScript может прочитать ответ; это разрешение не заменяет проверку прав пользователя.",
+            "tg": "CORS қоидаест, ки браузер муайян мекунад, саҳифа ҷавоби origin-и дигарро хонда метавонад ё не. Origin аз схема, хост ва порт иборат аст. localhost:5173 ва localhost:3001 origin-ҳои ҷудоанд. Агар сервер ба frontend иҷозат диҳад, JavaScript ҷавобро мехонад. Ин иҷозат санҷиши ҳуқуқи user-ро иваз намекунад.",
+            "en": "CORS is how a browser decides whether a page may read a response from another origin. An origin is the scheme, host, and port. localhost:5173 and localhost:3001 have different origins. If the server permits the frontend origin, JavaScript can read the response. The server still needs to check user permissions."
           }
         },
         {
@@ -3151,9 +3195,9 @@
             "en": "3. Preflight and JSON Server"
           },
           "body": {
-            "ru": "Для «непростых» запросов (PATCH, DELETE, JSON-тело, свой заголовок Authorization) браузер сначала отправляет проверочный запрос OPTIONS — preflight: «можно?». Если сервер не отвечает разрешением, настоящий запрос не уходит. JSON Server по умолчанию разрешает CORS, поэтому для учебных проектов он удобен.",
-            "tg": "Барои дархостҳои «ғайрисодда» (PATCH, DELETE, бадани JSON, сарлавҳаи худии Authorization) браузер аввал дархости санҷишии OPTIONS — preflight мефиристад: «мумкин?». Агар сервер бо иҷозат ҷавоб надиҳад, дархости воқеӣ намеравад. JSON Server ба таври пешфарз CORS-ро иҷозат медиҳад, барои ҳамин барои лоиҳаҳои омӯзишӣ қулай аст.",
-            "en": "For “non-simple” requests (PATCH, DELETE, JSON bodies, a custom Authorization header) the browser first sends an OPTIONS check — a preflight: “may I?”. Without a permitting response, the real request never leaves. JSON Server allows CORS by default, which makes it handy for learning projects."
+            "ru": "Для некоторых запросов другого origin браузер сначала отправляет OPTIONS — проверку preflight. Так бывает, например, с PATCH или с заголовком Authorization. Если ответ не разрешает нужный метод или заголовок, основной запрос не отправляется. Проверяйте настройки и заголовки сервера из учебного проекта.",
+            "tg": "Барои баъзе request-ҳо ба origin-и дигар браузер аввал OPTIONS мефиристад. Ин санҷиши preflight аст. Масалан, барои PATCH ё сарлавҳаи Authorization рух медиҳад. Агар ҷавоб метод ё сарлавҳаи лозимро иҷозат надиҳад, request-и асосӣ намеравад. Танзим ва сарлавҳаҳои сервери машқро бин.",
+            "en": "For some requests to another origin, the browser first sends OPTIONS, a preflight check. PATCH and requests with an Authorization header are examples. If the response does not allow the intended method or header, the browser does not send the actual request. Check the practice server’s configuration and response headers."
           }
         },
         {
@@ -3354,9 +3398,9 @@
             "en": "1. Cancelling a taxi order"
           },
           "body": {
-            "ru": "Вы вызвали такси, а потом передумали — заказ надо отменить, иначе машина приедет зря. С запросами так же: если пользователь ушёл со страницы или начал новый поиск, старый запрос лучше отменить. AbortController — пульт отмены: controller.abort() останавливает запрос, у которого есть его signal.",
-            "tg": "Шумо такси даъват кардед, баъд фикратонро иваз кардед — фармоишро бекор кардан лозим, вагарна мошин беҳуда меояд. Бо дархостҳо ҳам ҳамин тавр: агар корбар аз саҳифа рафт ё ҷустуҷӯи навро сар кард, дархости кӯҳнаро беҳтар аст бекор кунед. AbortController — пулти бекоркунӣ: controller.abort() дархостеро ки signal-и онро дорад, қатъ мекунад.",
-            "en": "You called a taxi then changed your mind — cancel it or the car comes for nothing. Requests are the same: if the user left the page or started a new search, cancel the old request. AbortController is the cancel remote: controller.abort() stops the request that holds its signal."
+            "ru": "AbortController даёт запросу сигнал, который можно отменить. Передайте signal в fetch при старте поиска, а при новом вводе вызовите abort у старого контроллера. Клиент перестанет ждать старый ответ. Если сервер уже записал данные, отмена на клиенте не откатит запись.",
+            "tg": "AbortController ба request signal-и бекоршаванда медиҳад. Вақти сар шудани ҷустуҷӯ signal-ро ба fetch деҳ. Ҳангоми вориди нав дар controller-и пешина abort кун. Клиент ҷавоби кӯҳнаро дигар интизор намешавад. Агар сервер аллакай сабт карда бошад, abort-и клиент сабтро барнамегардонад.",
+            "en": "AbortController supplies a cancelable signal. Pass it to fetch when a search starts, then abort the old controller when a new search begins. The client stops waiting for the old result. Cancellation does not roll back any change the server has already made."
           },
           "code": "const controller = new AbortController();\nfetch(\"/api/courses\", { signal: controller.signal })\n  .then(r => r.json())\n  .then(data => console.log(data))\n  .catch(error => {\n    if (error.name === \"AbortError\") return; // отменили сами — это не ошибка\n    console.log(\"Ошибка сети\");\n  });\ncontroller.abort();",
           "language": "javascript"
@@ -3585,9 +3629,9 @@
             "en": "1. Two couriers"
           },
           "body": {
-            "ru": "Вы заказали сначала пиццу, потом передумали и заказали плов. Курьер с пиццей застрял в пробке и приехал позже. Если принять ту доставку, что пришла последней, на столе окажется пицца — а хотели плов. В поиске так же: запрос «ре» может ответить позже, чем «react», и на экране окажутся старые результаты.",
-            "tg": "Шумо аввал пицца фармоиш додед, баъд фикратонро иваз карда ош фармоиш додед. Курьер бо пицца дар роҳбандӣ монд ва дертар омад. Агар расониданеро ки охир омад, қабул кунед, дар миз пицца мешавад — вале ош мехостед. Дар ҷустуҷӯ ҳам ҳамин тавр: дархости «ре» метавонад дертар аз «react» ҷавоб диҳад, ва дар экран натиҷаҳои кӯҳна мешаванд.",
-            "en": "You order pizza, then change your mind and order plov. The pizza courier is stuck in traffic and arrives later. Accept whatever arrives last and you end up with pizza though you wanted plov. Search works the same: the request for “re” may answer after “react”, leaving stale results on screen."
+            "ru": "Гонка запросов возникает, когда результат зависит от того, какой ответ пришёл последним. Поиск «ре» начался первым, но может завершиться после поиска «react» и затереть новые результаты. Храните номер текущего запроса и обновляйте список только его ответом.",
+            "tg": "Гонки request вақте мешавад, ки натиҷа аз вақти омадани ҷавоб вобаста аст. Ҷустуҷӯи «ре» аввал сар шуд, вале метавонад баъди «react» тамом шуда, рӯйхати навро иваз кунад. Рақами request-и ҳозираро нигоҳ дор ва рӯйхатро фақат аз ҷавоби ҳамон нав кун.",
+            "en": "A request race occurs when the displayed result depends on which response happens to arrive last. A search for “re” can start first, finish after “react,” and overwrite its newer results. Keep the current request number and only update the list when the response belongs to that request."
           }
         },
         {
@@ -3897,9 +3941,9 @@
             "en": "2. Promise.all — all or nothing"
           },
           "body": {
-            "ru": "Promise.all ждёт все промисы и возвращает массив результатов в том же порядке, что и запросы. Но если хоть один упал — весь Promise.all отклоняется. Подходит, когда без любой части экран бессмыслен: например, нужен и товар, и его цены.",
-            "tg": "Promise.all ҳамаи промисҳоро интизор мешавад ва массиви натиҷаҳоро бо ҳамон тартибе ки дархостҳо буданд, бармегардонад. Вале агар ақаллан яке афтад — тамоми Promise.all рад мешавад. Вақте мувофиқ аст, ки бе ҳар қисм экран маъно надорад: масалан, ҳам мол ва ҳам нархҳои он лозиманд.",
-            "en": "Promise.all waits for every promise and returns the results in the same order as the requests. But if even one fails, the whole Promise.all rejects. Use it when the screen is meaningless without any part: e.g. you need both the product and its prices."
+            "ru": "Promise.all собирает результаты в порядке входных промисов, даже если ответы пришли в другом порядке. Если один отклоняется, общий Promise отклоняется, но остальные операции сами не отменяются. Это подходит, когда экран требует и товар, и его цену. Если части независимы и допустим неполный экран, рассмотрите allSettled.",
+            "tg": "Promise.all натиҷаро бо тартиби promise-ҳои воридшуда медиҳад, ҳатто агар ҷавобҳо бо тартиби дигар оянд. Агар яке рад шавад, Promise-и умумӣ рад мешавад, вале амалҳои дигар худ аз худ намеистанд. Барои экране, ки ҳам мол ва ҳам нархро мехоҳад, ин қулай аст. Агар қисмҳо мустақил бошанд, allSettled мумкин аст.",
+            "en": "Promise.all collects results in input order even when responses arrive at different times. One rejection rejects the combined promise, but it does not cancel the other operations. Use it when the screen needs both the product and its price. When independently useful parts can be shown, consider allSettled."
           }
         },
         {
@@ -4797,9 +4841,9 @@
             "en": "1. A book, not a scroll"
           },
           "body": {
-            "ru": "Тысячу товаров никто не листает одним бесконечным свитком — это медленно и для сети, и для глаз. Список делят на страницы, как книгу: page — номер страницы (с 1), limit — сколько записей на странице. Сервер возвращает только нужный кусок и общее количество записей.",
-            "tg": "Ҳазор молро ҳеҷ кас дар як тӯмори беохир варақ намезанад — ин ҳам барои шабака ва ҳам барои чашм суст аст. Рӯйхатро мисли китоб ба саҳифаҳо тақсим мекунанд: page — рақами саҳифа (аз 1), limit — дар саҳифа чанд сабт. Сервер фақат порчаи лозимӣ ва шумораи умумии сабтҳоро бармегардонад.",
-            "en": "Nobody scrolls a thousand products as one endless scroll — it is slow for the network and the eyes. Split the list into pages like a book: page is the page number (from 1), limit is how many records per page. The server returns only the needed chunk plus the total count."
+            "ru": "Пагинация делит большой список на части. В учебном примере page — номер страницы с единицы, limit — записей на странице. Для page = 3 и limit = 10 начальный индекс равен 20. API может вернуть общее количество, ссылку на продолжение или курсор; используйте то, что указано в его контракте.",
+            "tg": "Пагинатсия рӯйхати калонро ба қисмҳо мебурад. Дар мисол page рақами саҳифа аз як ва limit шумораи сабт дар як саҳифа аст. Барои page = 3 ва limit = 10 индекс аз 20 сар мешавад. API метавонад шумораи умумӣ, линк ё cursor диҳад. Аз рӯйи шартномаи API кор кун.",
+            "en": "Pagination splits a large list into slices. In this lesson, page counts from one and limit is the number of records per page. For page = 3 and limit = 10, the starting index is 20. An API may return a total, a next link, or a cursor. Use the mechanism specified by its contract."
           },
           "code": "// JSON Server\nGET /products?_page=2&_limit=10\n// заголовок ответа X-Total-Count: 57 — всего записей",
           "language": "text"
@@ -5359,9 +5403,9 @@
             "en": "1. A file is not JSON"
           },
           "body": {
-            "ru": "Фото аватарки нельзя положить в JSON-строку — это двоичные данные. Для файлов используют FormData — как почтовая посылка с несколькими отделениями: в одном файл, в другом подпись. Браузер сам упакует её в формат multipart/form-data и сам поставит правильный заголовок.",
-            "tg": "Акси аватарро ба сатри JSON гузоштан мумкин нест — ин маълумоти дуӣ аст. Барои файлҳо FormData-ро истифода мебаранд — мисли посилкаи почта бо якчанд қисмат: дар яке файл, дар дигаре имзо. Браузер онро худаш ба формати multipart/form-data бастабандӣ мекунад ва худаш сарлавҳаи дурустро мегузорад.",
-            "en": "A profile photo cannot go into a JSON string — it is binary data. Files use FormData, like a parcel with several compartments: the file in one, a caption in another. The browser packs it as multipart/form-data and sets the right header itself."
+            "ru": "FormData собирает поля и файлы в один запрос. Для аватарки добавьте сам файл и подпись как отдельные поля. В fetch передайте FormData в body, чтобы браузер записал multipart/form-data и boundary — метку, разделяющую части. Ручной заголовок без этой метки помешает серверу прочитать форму.",
+            "tg": "FormData майдон ва файлро дар як request ҷамъ мекунад. Барои аватар файл ва тавзеҳро ҳамчун майдонҳои ҷудо илова кун. FormData-ро дар body-и fetch деҳ, браузер multipart/form-data ва boundary, яъне ҷудокунандаи қисмҳоро, худаш мегузорад. Агар сарлавҳаро бе boundary дастӣ монӣ, сервер формаро хонда наметавонад.",
+            "en": "FormData puts fields and files into one request. Add an avatar file and its caption as separate fields. Pass the FormData as the fetch body. The browser will set multipart/form-data with the boundary that separates its parts. A manual header without the boundary can prevent the server from reading the form."
           },
           "code": "const body = new FormData();\nbody.append(\"avatar\", file);\nbody.append(\"userId\", \"7\");\nawait fetch(\"/api/avatar\", { method: \"POST\", body }); // без Content-Type!",
           "language": "javascript"
@@ -6200,9 +6244,9 @@
             "en": "1. Why Axios is handier than fetch"
           },
           "body": {
-            "ru": "Axios делает три вещи сам: превращает ответ в JSON (данные сразу в response.data), сам ставит Content-Type и JSON.stringify для объекта, и — главное — выбрасывает ошибку на любой статус кроме 2xx. С fetch всё это вы делали руками в днях 4 и 8. Установка: npm i axios.",
-            "tg": "Axios се корро худаш мекунад: ҷавобро ба JSON табдил медиҳад (маълумот фавран дар response.data), барои объект Content-Type ва JSON.stringify-ро худаш мегузорад, ва — муҳимтар — ба ҳар статус ғайр аз 2xx хато мепартояд. Бо fetch ҳамаи инро шумо дар рӯзҳои 4 ва 8 дастӣ мекардед. Насб: npm i axios.",
-            "en": "Axios does three things for you: parses the response as JSON (data lands in response.data), sets Content-Type and JSON.stringify for objects, and — most importantly — throws on any non-2xx status. With fetch you did all of that by hand on days 4 and 8. Install: npm i axios."
+            "ru": "Axios — библиотека для HTTP-запросов. Она даёт единый объект ответа: статус в response.status, данные в response.data. Для обычного объекта клиент готовит JSON, а JSON-ответ обычно разбирает автоматически. По умолчанию не-2xx статус приводит к отклонению Promise; это правило можно изменить настройкой validateStatus.",
+            "tg": "Axios китобхона барои HTTP request аст. Як объекти ҷавоб медиҳад: статус дар response.status, дода дар response.data. Барои объекти одӣ JSON тайёр мекунад ва ҷавоби JSON-ро одатан худаш мехонад. Бо танзими пешфарз статуси берун аз 2xx Promise-ро рад мекунад. validateStatus метавонад ин қоидаро иваз кунад.",
+            "en": "Axios is an HTTP client library. It returns a response object with response.status and response.data. It serializes a plain object to JSON and usually parses a JSON response for you. Statuses outside 2xx reject the promise by default; validateStatus can change that rule."
           },
           "code": "import axios from \"axios\";\n\nconst response = await axios.get(\"http://localhost:3001/courses\", {\n  params: { level: \"beginner\" }, // сам соберёт ?level=beginner\n});\nconsole.log(response.data);",
           "language": "javascript"
@@ -6228,9 +6272,9 @@
             "en": "3. Interceptors are a checkpoint"
           },
           "body": {
-            "ru": "Interceptor — функция, через которую проходит каждый запрос (или ответ). В request-interceptor добавляют токен — так он есть во всех запросах, и его не забудут. В response-interceptor ловят 401 один раз для всего сайта. Адрес сервера хранят в .env как VITE_API_URL, а не в коде.",
-            "tg": "Interceptor — функсияест, ки ҳар дархост (ё ҷавоб) аз он мегузарад. Дар request-interceptor токенро илова мекунанд — ҳамин тавр он дар ҳамаи дархостҳо ҳаст ва фаромӯш намешавад. Дар response-interceptor 401-ро як бор барои тамоми сайт медоранд. Суроғаи серверро дар .env ҳамчун VITE_API_URL нигоҳ медоранд, на дар код.",
-            "en": "An interceptor is a function every request (or response) passes through. A request interceptor adds the token so every request has it and nobody forgets. A response interceptor catches 401 once for the whole site. Keep the server address in .env as VITE_API_URL, not in code."
+            "ru": "Interceptor — обработчик, который выполняется на настроенном экземпляре Axios перед отправкой запроса или при получении результата. Он удобен для общего формата ошибки или заголовка на доверенном API. Используйте отдельный экземпляр для своего сервера, чтобы учётные данные не добавлялись к запросам на посторонние адреса.",
+            "tg": "Interceptor handler аст, ки дар экземпляри танзимшудаи Axios пеш аз request ё ҳангоми омадани натиҷа кор мекунад. Барои формати умумии хато ё сарлавҳаи API-и боэътимод қулай аст. Барои сервери худ экземпляри ҷудо истифода бар, то маълумоти воридшавӣ ба адреси бегона наравад.",
+            "en": "An interceptor is a handler that runs on a configured Axios instance before a request or when its result arrives. It helps apply a consistent error format or a header for a trusted API. Use a dedicated client for your API so credentials are not attached to requests for unrelated hosts."
           }
         },
         {
@@ -6431,9 +6475,9 @@
             "en": "1. Three kinds of errors"
           },
           "body": {
-            "ru": "Позвонили в магазин: 1) ответили «товара нет» — есть ответ (error.response со статусом и данными); 2) никто не взял трубку — запрос ушёл, ответа нет (error.request есть, error.response нет): нет интернета, сервер выключен, CORS; 3) вы набрали неправильный номер — запрос даже не собрался (ошибка в коде).",
-            "tg": "Ба мағоза занг задед: 1) ҷавоб доданд «мол нест» — ҷавоб ҳаст (error.response бо статус ва маълумот); 2) ҳеҷ кас гӯширо нагирифт — дархост рафт, ҷавоб нест (error.request ҳаст, error.response нест): интернет нест, сервер хомӯш аст, CORS; 3) шумо рақами нодурустро гирифтед — дархост ҳатто сохта нашуд (хато дар код).",
-            "en": "You call a shop: 1) they say “out of stock” — there is a response (error.response with status and data); 2) nobody picks up — the request went out but no answer came (error.request exists, error.response does not): no internet, server down, CORS; 3) you dialled a wrong number — the request was never built (a bug in the code)."
+            "ru": "В catch сначала проверьте error.response: сервер прислал доступный HTTP-ответ со статусом и данными. Если response нет, но есть request, клиент не получил доступного ответа. Это может быть сеть, таймаут или ограничение браузера; по одному полю причину не узнать. Если нет обоих, проверьте настройку вызова.",
+            "tg": "Дар catch аввал error.response-ро бин. Агар бошад, сервер ҷавоби дастрас бо статус ва дода додааст. Агар response нест, аммо request ҳаст, клиент ҷавоби дастрас нагирифт. Сабаб метавонад шабака, timeout ё маҳдудияти браузер бошад. Аз як хосият сабаб маълум намешавад. Агар ҳар ду набошад, танзими даъватро бин.",
+            "en": "In catch, check error.response first: an accessible HTTP response arrived with a status and data. If there is a request but no response, the client had no accessible reply. Network failure, timeout, and browser policy are possible causes; the field alone does not identify which. If neither is present, check the request setup."
           },
           "code": "try {\n  const { data } = await api.get(\"/courses\");\n} catch (error) {\n  if (error.response) console.log(\"Ответ с ошибкой\", error.response.status);\n  else if (error.request) console.log(\"Нет ответа от сервера\");\n  else console.log(\"Ошибка в коде запроса\", error.message);\n}",
           "language": "javascript"
@@ -7341,9 +7385,9 @@
             "en": "2. localStorage and XSS"
           },
           "body": {
-            "ru": "localStorage читает любой скрипт на странице. Если злоумышленник вставит свой скрипт (XSS — например через innerHTML с текстом пользователя), он заберёт токен. Защита: выводить текст пользователя только через textContent, не подключать случайные скрипты, а на серьёзных проектах хранить сессию в cookie с флагом HttpOnly — её не видит JavaScript вообще. Supabase и похожие сервисы делают это за вас.",
-            "tg": "localStorage-ро ҳар скрипт дар саҳифа мехонад. Агар бадқасд скрипти худро гузорад (XSS — масалан тавассути innerHTML бо матни корбар), вай токенро мегирад. Ҳимоя: матни корбарро фақат тавассути textContent баровардан, скриптҳои тасодуфиро пайваст накардан, ва дар лоиҳаҳои ҷиддӣ сессияро дар cookie бо парчами HttpOnly нигоҳ доштан — онро JavaScript умуман намебинад. Supabase ва хизматҳои монанд инро барои шумо мекунанд.",
-            "en": "Any script on the page can read localStorage. If an attacker injects a script (XSS — e.g. through innerHTML with user text), they take the token. Protect yourself: output user text only via textContent, do not include random scripts, and on serious projects keep the session in an HttpOnly cookie that JavaScript cannot see at all. Supabase and similar services do this for you."
+            "ru": "localStorage доступен JavaScript того же origin, поэтому код страницы может читать сохранённый токен. Выводите пользовательский текст через textContent для простого текстового поля. Сервер может хранить данные сессии за cookie с HttpOnly, которую код страницы не прочитает. При этом браузер всё равно отправляет cookie подходящим запросам, поэтому сервер отдельно проверяет права и защищает изменения от нежелательных запросов.",
+            "tg": "localStorage барои JavaScript-и ҳамин origin дастрас аст. Агар дар он токен бошад, коди саҳифа метавонад онро хонад. Матни корбарро ҳамчун матн бо textContent нишон деҳ. Сервер метавонад session-ро бо cookie-и HttpOnly муҳофизат кунад, ки коди саҳифа онро намехонад. Браузер cookie-ро дар request-и мувофиқ мефиристад, барои ҳамин сервер ҳуқуқ ва тағйиротро алоҳида месанҷад.",
+            "en": "JavaScript on the same origin can read localStorage, including a stored token. Use textContent when displaying plain user text. A server can keep a session behind an HttpOnly cookie that page scripts cannot read. The browser still sends the cookie with matching requests, so the server must check permissions and guard state changes separately."
           },
           "code": "// опасно: текст пользователя как HTML\ncomment.innerHTML = userText;\n\n// безопасно\ncomment.textContent = userText;",
           "language": "javascript"
@@ -7355,9 +7399,9 @@
             "en": "3. Signing out and masking"
           },
           "body": {
-            "ru": "При выходе удаляют токен, личные данные из кэша (день 16) и состояние интерфейса, а не просто прячут кнопку. Если токен нужно показать в отладке, его маскируют: abcd…wxyz — видно, какой это токен, но использовать его нельзя.",
-            "tg": "Ҳангоми баромадан токен, маълумоти шахсиро аз кэш (рӯзи 16) ва ҳолати интерфейсро нест мекунанд, на танҳо тугмаро пинҳон мекунанд. Агар токенро дар ислоҳи хато нишон додан лозим бошад, онро пинҳон мекунанд: abcd…wxyz — намоён аст, ки ин кадом токен аст, вале истифода бурдани он мумкин нест.",
-            "en": "On sign-out remove the token, personal data from the cache (day 16) and UI state — do not just hide the button. If a token must appear in debugging, mask it: abcd…wxyz shows which token it is but cannot be used."
+            "ru": "При выходе очистите личный кэш и данные интерфейса. В реальном проекте вызывайте предусмотренный API выхода, чтобы завершить серверную сессию. Удаление локальной строки может быть недостаточно для уже выданного токена. Для диагностики записывайте статус и идентификатор запроса без значения токена.",
+            "tg": "Ҳангоми баромадан кэши шахсӣ ва додаи экранро тоза кун. Дар проекти воқеӣ API-и logout-ро истифода бар, то session дар сервер анҷом ёбад. Хориҷ кардани сатри локалӣ барои токени пештар додашуда метавонад бас набошад. Дар log статус ва ID-и request-ро бе қимати токен навис.",
+            "en": "Clear private cache entries and UI data on sign-out. In a real project, call the API’s sign-out operation to end the server session. Removing the local string may not revoke a previously issued token. For debugging, record a status and request ID without logging token values."
           }
         },
         {
@@ -8047,9 +8091,9 @@
             "en": "1. The frontend is not security"
           },
           "body": {
-            "ru": "Главное правило: всё, что в браузере, пользователь может изменить. Скрытая кнопка «Удалить» не защищает — запрос DELETE можно отправить из Console. Настоящие проверки прав, длины полей и лимитов делает сервер. Задача фронтенда — удобство и честные сообщения, а не замок.",
-            "tg": "Қоидаи асосӣ: ҳар чизе ки дар браузер аст, корбар метавонад иваз кунад. Тугмаи пинҳони «Нест кардан» ҳимоя намекунад — дархости DELETE-ро аз Console фиристодан мумкин. Санҷишҳои воқеии ҳуқуқҳо, дарозии майдонҳо ва лимитҳоро сервер мекунад. Вазифаи фронтенд — қулайӣ ва паёмҳои ростқавлона аст, на қулф.",
-            "en": "The key rule: anything in the browser can be changed by the user. A hidden Delete button protects nothing — a DELETE request can be sent from the Console. Real checks of permissions, field lengths and limits happen on the server. The frontend's job is convenience and honest messages, not a lock."
+            "ru": "Авторизация проверяет, разрешено ли вошедшему пользователю действие с конкретной записью. Скрытая кнопка помогает интерфейсу, но сервер всё равно обязан проверять право для каждого изменения. Например, запрос на удаление заказа должен завершаться отказом, если этот пользователь не имеет права на заказ.",
+            "tg": "Авторизатсия месанҷад, ки user-и воридшуда ба амали ҳамин сабт иҷозат дорад ё не. Тугмаи пинҳонӣ ба интерфейс ёрӣ медиҳад, сервер бошад ҳуқуқро барои ҳар тағйир месанҷад. Масалан, агар user ба як фармоиш ҳуқуқ надошта бошад, дархости нест кардани он бояд рад шавад.",
+            "en": "Authorization decides whether a signed-in user may act on a particular record. Hiding a button helps the interface, but the server still checks permission on every change. For example, a request to delete an order should be rejected when that user has no permission for that order."
           }
         },
         {

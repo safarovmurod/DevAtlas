@@ -15,6 +15,17 @@ describe('Private account progress',()=>{
     switchLearningAccount(null);expect(useLearningStore.getState().notes[0].id).toBe('guest-note');
     expect(JSON.parse(localStorage.getItem(accountStorageKey('account-b'))!).state.drafts.practice).toBe('Private B code');
   });
+  it('moves a saved Ukrainian, Japanese or Korean language to a supported one instead of failing',()=>{
+    for(const old of ['uk','ja','ko']){
+      localStorage.setItem(accountStorageKey('legacy-'+old),JSON.stringify({state:{language:old,contentLanguage:'en'}}));
+      switchLearningAccount('legacy-'+old);
+      expect(useLearningStore.getState().storageError).toBe('');
+      expect(useLearningStore.getState().language).toBe('en');
+    }
+    expect(progressSnapshot({language:'es'}).language).toBe('es');
+    expect(progressSnapshot({}).language).toBe('ru');
+    expect(()=>progressSnapshot({language:'xx'})).toThrow();
+  });
   it('preserves a corrupt cache instead of overwriting it',()=>{
     localStorage.setItem(accountStorageKey('broken'),'{broken');switchLearningAccount('broken');
     expect(useLearningStore.getState().storageError).toBeTruthy();expect(localStorage.getItem(accountStorageKey('broken'))).toBe('{broken');

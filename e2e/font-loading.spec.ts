@@ -20,13 +20,13 @@ test('a late Inter download does not move the landing content', async ({ page },
 
   try {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('.public-hero h1')).toBeVisible();
+    await expect(page.locator('#landing-hero-heading')).toBeVisible();
     await expect.poll(() => requests).toBeGreaterThan(0);
     // Allow the browser's optional-font block period and hydration to finish.
     await page.waitForTimeout(1000);
     const measure = () => page.evaluate(() => {
-      const heading = document.querySelector('.public-hero h1')!.getBoundingClientRect();
-      const actions = document.querySelector('.public-actions')!.getBoundingClientRect();
+      const heading = document.querySelector('#landing-hero-heading')!.getBoundingClientRect();
+      const actions = document.querySelector('section[aria-labelledby="landing-hero-heading"] a[href="/onboarding"]')!.getBoundingClientRect();
       return { headingHeight: heading.height, actionsTop: actions.top };
     });
     const before = await measure();
@@ -56,7 +56,7 @@ test('a late Inter download still supplies Tajik glyphs in code', async ({ page 
 
   try {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('.public-hero h1')).toBeVisible();
+    await expect(page.locator('#landing-hero-heading')).toBeVisible();
     await expect.poll(() => requests).toBeGreaterThan(0);
     // Exceed the optional body-font deadline, then require glyphs that are
     // absent from the bundled JetBrains Mono face.

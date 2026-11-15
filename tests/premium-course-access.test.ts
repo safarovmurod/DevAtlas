@@ -5,6 +5,20 @@ const mocks = vi.hoisted(() => ({ authenticatedUser: vi.fn(), serverClient: vi.f
 vi.mock('@/lib/account/require-user', () => ({ authenticatedUser: mocks.authenticatedUser }));
 vi.mock('@/lib/supabase/server', () => ({ getSupabaseServerClient: mocks.serverClient }));
 vi.mock('@/lib/courses/content', () => ({ loadCourseContent: mocks.load }));
+
+// Every course is free now. The membership guard stays and is still tested, so these ids
+// are pretended to be members-only here.
+vi.mock('@/lib/courses/access', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/courses/access')>();
+  const members: Record<string, 'pro' | 'expert'> = {
+    'javascript-pro': 'pro',
+    'backend-pro': 'pro',
+    'ux-pro': 'pro',
+    'business-pro': 'pro',
+    'architecture-expert': 'expert',
+  };
+  return { ...actual, courseAccessTier: (id: string) => members[id] ?? actual.courseAccessTier(id) };
+});
 import { courseAccessTier, hasCourseAccess } from '@/lib/courses/access';
 import { GET } from '@/app/api/courses/[courseId]/route';
 

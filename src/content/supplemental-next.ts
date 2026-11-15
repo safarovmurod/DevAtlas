@@ -132,7 +132,21 @@ export const NEXT_SEEDS: ExtraSeed[] = [
       'Response бо status',
       'Браузер result-ро мегирад',
     ],
-    code: '// app/api/echo/route.ts — мисоли бе database\nexport async function POST(request: Request) {\n  const body = await request.json();\n  if (typeof body.name !== "string" || !body.name.trim()) {\n    return Response.json({ error: "Name required" }, { status: 400 });\n  }\n  return Response.json({ name: body.name.trim() });\n}',
+    code: `// app/api/echo/route.ts
+export async function POST(request: Request) {
+  const body: unknown = await request.json().catch(() => null);
+
+  if (typeof body !== "object" || body === null || !("name" in body)) {
+    return Response.json({ error: "Name required" }, { status: 400 });
+  }
+
+  const name = typeof body.name === "string" ? body.name.trim() : "";
+  if (!name) {
+    return Response.json({ error: "Name required" }, { status: 400 });
+  }
+
+  return Response.json({ name });
+}`,
     question: 'Route Handler чӣ бармегардонад?',
     answer: 'Response: body, status ва headers-и HTTP.',
     wrong: ['Ҳамеша React JSX.', 'Танҳо useState.'],

@@ -30,14 +30,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Компилятор — переводчик",
-            "tg": "1. Компилятор — тарҷумон",
-            "en": "1. The compiler is a translator"
+            "ru": "Что такое C++ и компиляция",
+            "tg": "C++ ва компиляция чист?",
+            "en": "C++ and compilation"
           },
           "body": {
-            "ru": "Процессор понимает только машинный код. JavaScript переводится на лету браузером, а C++ сначала целиком переводит компилятор (g++, clang, MSVC) в готовый .exe-файл. Если в коде ошибка, компилятор откажется переводить и покажет строку. Поэтому C++ быстрый: перевод делается один раз заранее.",
-            "tg": "Протсессор фақат коди мошиниро мефаҳмад. JavaScript-ро браузер дар ҳамон лаҳза тарҷума мекунад, вале C++-ро аввал компилятор (g++, clang, MSVC) пурра ба файли тайёри .exe тарҷума мекунад. Агар дар код хато бошад, компилятор тарҷума карданро рад мекунад ва сатрро нишон медиҳад. Барои ҳамин C++ тез аст: тарҷума як бор пешакӣ карда мешавад.",
-            "en": "The processor understands only machine code. A browser translates JavaScript on the fly, while C++ is translated in full beforehand by a compiler (g++, clang, MSVC) into a ready .exe file. If the code has an error the compiler refuses and shows the line. That is why C++ is fast: translation happens once, in advance."
+            "ru": "C++ — язык программирования для приложений, игр и системного кода. Компилятор переводит исходные инструкции в исполняемый код. Сохранение .cpp ещё не создаёт программу для запуска.\n\nПроцессор понимает только машинный код. JavaScript переводится на лету браузером, а C++ сначала целиком переводит компилятор (g++, clang, MSVC) в готовый .exe-файл. Если в коде ошибка, компилятор откажется переводить и покажет строку. Поэтому C++ быстрый: перевод делается один раз заранее.",
+            "tg": "C++ забони барномасозӣ барои барнома, бозӣ ва коди системавӣ аст. Компилятор коди навиштаро ба коди иҷрошаванда мегардонад. Save кардани .cpp ҳоло барнома намесозад.\n\nПротсессор фақат коди мошиниро мефаҳмад. JavaScript-ро браузер дар ҳамон лаҳза тарҷума мекунад, вале C++-ро аввал компилятор (g++, clang, MSVC) пурра ба файли тайёри .exe тарҷума мекунад. Агар дар код хато бошад, компилятор тарҷума карданро рад мекунад ва сатрро нишон медиҳад. Барои ҳамин C++ тез аст: тарҷума як бор пешакӣ карда мешавад.",
+            "en": "C++ is a programming language for apps, games, and systems. A compiler translates source instructions into executable code. Saving a .cpp file does not build the program.\n\nThe processor understands only machine code. A browser translates JavaScript on the fly, while C++ is translated in full beforehand by a compiler (g++, clang, MSVC) into a ready .exe file. If the code has an error the compiler refuses and shows the line. That is why C++ is fast: translation happens once, in advance."
           }
         },
         {
@@ -81,6 +81,22 @@
           }
         }
       ],
+      "interview": {
+        "id": "cpp-day-01-written",
+        "question": {
+          "ru": "Как называется программа, которая переводит исходный код C++ для запуска?",
+          "tg": "Барномае, ки коди C++-ро барои иҷро тайёр мекунад, чӣ ном дорад?",
+          "en": "What translates C++ source code into a form that can run?"
+        },
+        "answer": {
+          "ru": "Компилятор",
+          "tg": "Компилятор",
+          "en": "Compiler"
+        },
+        "acceptedAnswers": [
+          "C++ compiler"
+        ]
+      },
       "questions": [
         {
           "id": "cpp-day-01-q1",
@@ -261,14 +277,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Цепочка <<",
-            "tg": "1. Занҷираи <<",
-            "en": "1. The << chain"
+            "ru": "Как cout выдаёт текст",
+            "tg": "cout матнро чӣ хел мебарорад?",
+            "en": "Writing output with cout"
           },
           "body": {
-            "ru": "Оператор << как конвейер: всё, что справа, едет в cout по очереди. Можно смешивать текст и числа: std::cout << \"Цена: \" << 25 << \" сомони\\n\". Пробелы между частями сами не добавляются — ставьте их внутри кавычек.",
-            "tg": "Оператори << мисли конвейер аст: ҳар чи аз рост бошад, навбат ба навбат ба cout меравад. Матн ва рақамҳоро омехта кардан мумкин: std::cout << \"Нарх: \" << 25 << \" сомонӣ\\n\". Фосилаҳо байни қисмҳо худашон илова намешаванд — онҳоро дар дохили нохунак гузоред.",
-            "en": "The << operator is a conveyor: everything on the right travels into cout in order. Mix text and numbers: std::cout << \"Price: \" << 25 << \" somoni\\n\". Spaces between parts are not added automatically — put them inside the quotes."
+            "ru": "std::cout — поток обычного вывода в C++. Оператор << отправляет туда текст или число, а символ новой строки переводит следующий вывод на другую строку.\n\nОператор << как конвейер: всё, что справа, едет в cout по очереди. Можно смешивать текст и числа: std::cout << \"Цена: \" << 25 << \" сомони\\n\". Пробелы между частями сами не добавляются — ставьте их внутри кавычек.",
+            "tg": "std::cout ҷараёни барориши одӣ дар C++ аст. Оператори << матн ё ададро ба он медиҳад. Аломати сатри нав барориши навбатиро ба сатри дигар мегузаронад.\n\nОператори << мисли конвейер аст: ҳар чи аз рост бошад, навбат ба навбат ба cout меравад. Матн ва рақамҳоро омехта кардан мумкин: std::cout << \"Нарх: \" << 25 << \" сомонӣ\\n\". Фосилаҳо байни қисмҳо худашон илова намешаванд — онҳоро дар дохили нохунак гузоред.",
+            "en": "std::cout is the C++ standard output stream. The << operator sends text or a number to it. A newline moves the next output to another line.\n\nThe << operator is a conveyor: everything on the right travels into cout in order. Mix text and numbers: std::cout << \"Price: \" << 25 << \" somoni\\n\". Spaces between parts are not added automatically — put them inside the quotes."
           },
           "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Цена: \" << 25 << \" сомони\\n\";\n    std::cout << \"Итого: \" << 25 * 3 << \"\\n\";\n}",
           "language": "cpp"
@@ -312,6 +328,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "cpp-day-02-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какой оператор отправляет значение в std::cout? Напишите символы.",
+          "tg": "Кадом оператор қиматро ба std::cout медиҳад? Аломатҳоро навис.",
+          "en": "What operator sends a value to std::cout? Enter its symbols."
+        },
+        "answer": {
+          "ru": "<<",
+          "tg": "<<",
+          "en": "<<"
+        }
+      },
       "questions": [
         {
           "id": "cpp-day-02-q1",
@@ -492,14 +522,14 @@
       "sections": [
         {
           "title": {
-            "ru": "1. Коробки с подписью и размером",
-            "tg": "1. Қуттиҳо бо имзо ва андоза",
-            "en": "1. Labelled, sized boxes"
+            "ru": "Переменные, типы и диапазон",
+            "tg": "Variable, тип ва диапазон",
+            "en": "Variables, types, and ranges"
           },
           "body": {
-            "ru": "В JavaScript переменная может хранить что угодно. В C++ при создании указывают тип — какого размера коробка и что в неё можно положить. Тип потом не меняется: в коробку для целых чисел не положить текст — компилятор не даст.",
-            "tg": "Дар JavaScript тағйирёбанда метавонад ҳар чизро нигоҳ дорад. Дар C++ ҳангоми сохтан навъро нишон медиҳанд — қуттӣ чӣ андоза дорад ва ба он чӣ гузоштан мумкин. Навъ баъд иваз намешавад: ба қуттӣ барои рақамҳои бутун матн гузоштан мумкин нест — компилятор намегузорад.",
-            "en": "In JavaScript a variable can hold anything. In C++ you state its type when you create it — how big the box is and what may go inside. The type never changes: you cannot put text into an integer box — the compiler refuses."
+            "ru": "Имя переменной позволяет обратиться к её значению. Тип задаёт допустимые операции и диапазон. Для количества коробок обычно достаточно целого типа, для дробной меры нужен другой тип.\n\nВ JavaScript переменная может хранить что угодно. В C++ при создании указывают тип — какого размера коробка и что в неё можно положить. Тип потом не меняется: в коробку для целых чисел не положить текст — компилятор не даст.",
+            "tg": "Номи variable барои гирифтан ё тағйир додани қимат аст. Тип амал ва диапазонро муайян мекунад. Барои шумораи қуттӣ типи бутун, барои ченаки касрӣ типи дигар лозим.\n\nДар JavaScript тағйирёбанда метавонад ҳар чизро нигоҳ дорад. Дар C++ ҳангоми сохтан навъро нишон медиҳанд — қуттӣ чӣ андоза дорад ва ба он чӣ гузоштан мумкин. Навъ баъд иваз намешавад: ба қуттӣ барои рақамҳои бутун матн гузоштан мумкин нест — компилятор намегузорад.",
+            "en": "A variable's name gives you access to its value. Its type determines valid operations and range. A box count usually needs an integer, while a measurement can need a fractional type.\n\nIn JavaScript a variable can hold anything. In C++ you state its type when you create it — how big the box is and what may go inside. The type never changes: you cannot put text into an integer box — the compiler refuses."
           }
         },
         {
@@ -541,6 +571,20 @@
           }
         }
       ],
+      "interview": {
+        "id": "cpp-day-03-written",
+        "caseSensitive": true,
+        "question": {
+          "ru": "Какой тип имеет целочисленный литерал 12 в C++ без суффикса?",
+          "tg": "Адади бутуни 12 бе суффикс дар C++ кадом тип дорад?",
+          "en": "What type does the integer literal 12 have in C++ without a suffix?"
+        },
+        "answer": {
+          "ru": "int",
+          "tg": "int",
+          "en": "int"
+        }
+      },
       "questions": [
         {
           "id": "cpp-day-03-q1",

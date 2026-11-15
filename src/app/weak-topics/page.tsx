@@ -1,9 +1,6 @@
-import { PageTransition } from '@/components/layout/page-transition';
-import { ReactReview } from '@/components/learning/react-review';
+import { redirect } from 'next/navigation';
+
+/** Weak topics and revision are one page now. Old links open it. */
 export default function Page() {
-  return (
-    <PageTransition>
-      <ReactReview mode="weak" />
-    </PageTransition>
-  );
+  redirect('/revision');
 }

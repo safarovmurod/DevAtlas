@@ -10,7 +10,6 @@ type AnswersLibraryCopy = {
   startReading: string;
   uniqueQuestions: string;
   sources: string;
-  tokens: string;
   deepRecommended: string;
   searchPlaceholder: string;
   searchButton: string;
@@ -20,7 +19,7 @@ type AnswersLibraryCopy = {
   pages: string;
 };
 
-/** Text of the answers library page in all six interface languages. */
+/** Text of the answers library page in all four interface languages. */
 export const ANSWERS_LIBRARY_COPY: Record<InterfaceLocale, AnswersLibraryCopy> = {
   ru: {
     title: 'Ответы и интервью',
@@ -34,7 +33,6 @@ export const ANSWERS_LIBRARY_COPY: Record<InterfaceLocale, AnswersLibraryCopy> =
     startReading: 'Начать читать',
     uniqueQuestions: 'вопроса без повторов',
     sources: 'источника',
-    tokens: 'токенов',
     deepRecommended: 'Deep · рекомендуется',
     searchPlaceholder: 'Поиск по вопросу, ответу или коду…',
     searchButton: 'Найти',
@@ -55,7 +53,6 @@ export const ANSWERS_LIBRARY_COPY: Record<InterfaceLocale, AnswersLibraryCopy> =
     startReading: 'Start reading',
     uniqueQuestions: 'questions without duplicates',
     sources: 'sources',
-    tokens: 'tokens',
     deepRecommended: 'Deep · recommended',
     searchPlaceholder: 'Search questions, answers or code…',
     searchButton: 'Search',
@@ -76,7 +73,6 @@ export const ANSWERS_LIBRARY_COPY: Record<InterfaceLocale, AnswersLibraryCopy> =
     startReading: 'Хонданро оғоз кунед',
     uniqueQuestions: 'саволи бе такрор',
     sources: 'манбаъ',
-    tokens: 'токен',
     deepRecommended: 'Deep · тавсия мешавад',
     searchPlaceholder: 'Ҷустуҷӯ аз рӯи савол, ҷавоб ё код…',
     searchButton: 'Ёфтан',
@@ -85,65 +81,24 @@ export const ANSWERS_LIBRARY_COPY: Record<InterfaceLocale, AnswersLibraryCopy> =
     architectureExample: 'Намунаи архитектура',
     pages: 'Саҳифаҳои ҷавобҳо',
   },
-  uk: {
-    title: 'Відповіді та співбесіда',
+  es: {
+    title: 'Respuestas y entrevista',
     subtitle:
-      'Питання співбесіди, зрозумілі відповіді й приклади коду. Вчіться пояснювати рішення своїми словами.',
-    download: 'Завантажити спільний HTML',
-    prepareTitle: 'Як готуватися до співбесіди',
+      'Preguntas de entrevista, respuestas claras y ejemplos de código. Aprende a explicar una solución con tus propias palabras.',
+    download: 'Descargar el HTML combinado',
+    prepareTitle: 'Cómo prepararte para las entrevistas',
     prepareText:
-      'Спочатку зрозумійте тему, потім прочитайте відповідь, поясніть її своїми словами й перевірте себе.',
-    topics: 'тем',
-    startReading: 'Почати читати',
-    uniqueQuestions: 'запитань без повторів',
-    sources: 'джерела',
-    tokens: 'токенів',
-    deepRecommended: 'Deep · рекомендовано',
-    searchPlaceholder: 'Пошук за запитанням, відповіддю або кодом…',
-    searchButton: 'Знайти',
-    resetFilters: 'Скинути фільтри',
-    sharedAnswer: 'Спільна відповідь',
-    architectureExample: 'Приклад архітектури',
-    pages: 'Сторінки відповідей',
-  },
-  ja: {
-    title: '解答と面接',
-    subtitle:
-      '面接の質問、わかりやすい解答、コード例。自分の言葉で解き方を説明できるようにしましょう。',
-    download: 'まとめたHTMLをダウンロード',
-    prepareTitle: '面接の準備方法',
-    prepareText: 'まずテーマを理解し、解答を読み、自分の言葉で説明してから確認しましょう。',
-    topics: 'トピック',
-    startReading: '読み始める',
-    uniqueQuestions: '件の質問（重複なし）',
-    sources: 'つの資料',
-    tokens: 'トークン',
-    deepRecommended: 'Deep · おすすめ',
-    searchPlaceholder: '質問・解答・コードを検索…',
-    searchButton: '検索',
-    resetFilters: '絞り込みを解除',
-    sharedAnswer: '共通の解答',
-    architectureExample: 'アーキテクチャの例',
-    pages: '解答のページ',
-  },
-  ko: {
-    title: '해답 및 면접',
-    subtitle:
-      '면접 질문, 이해하기 쉬운 답변과 코드 예시. 풀이를 자신의 말로 설명하는 법을 익히세요.',
-    download: '통합 HTML 다운로드',
-    prepareTitle: '면접 준비 방법',
-    prepareText: '먼저 주제를 이해하고, 답변을 읽고, 자신의 말로 설명한 뒤 스스로 확인하세요.',
-    topics: '주제',
-    startReading: '읽기 시작',
-    uniqueQuestions: '개 질문(중복 없음)',
-    sources: '개 자료',
-    tokens: '토큰',
-    deepRecommended: 'Deep · 추천',
-    searchPlaceholder: '질문, 답변 또는 코드 검색…',
-    searchButton: '검색',
-    resetFilters: '필터 초기화',
-    sharedAnswer: '공통 답변',
-    architectureExample: '아키텍처 예시',
-    pages: '답변 페이지',
+      'Primero entiende el tema, luego lee la respuesta, explícala con tus palabras y comprueba lo que sabes.',
+    topics: 'temas',
+    startReading: 'Empezar a leer',
+    uniqueQuestions: 'preguntas sin repetir',
+    sources: 'fuentes',
+    deepRecommended: 'Deep · recomendado',
+    searchPlaceholder: 'Buscar en preguntas, respuestas o código…',
+    searchButton: 'Buscar',
+    resetFilters: 'Borrar filtros',
+    sharedAnswer: 'Respuesta común',
+    architectureExample: 'Ejemplo de arquitectura',
+    pages: 'Páginas de respuestas',
   },
 };

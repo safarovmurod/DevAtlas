@@ -12,7 +12,7 @@ Beginning programmers often learn from scattered resources without a clear seque
 
 ## Solution and audience
 
-The product connects a study plan with lessons, hands-on exercises, self-checks and quizzes, then records learning progress and review needs. It is designed for first-time programmers, students and independent learners. The interface supports Tajik, Russian, English and Ukrainian; lesson translations vary, and a complete Ukrainian lesson catalog is not claimed. Tajik-speaking learners are an important intended audience alongside international beginners.
+The product connects a study plan with lessons, hands-on exercises, self-checks and quizzes, then records learning progress and review needs. It is designed for first-time programmers, students and independent learners. The interface supports Tajik, Russian, English and Spanish; lesson translations vary, and a Spanish lesson catalog is not claimed (Spanish interface users read lessons in English). Tajik-speaking learners are an important intended audience alongside international beginners.
 
 ## Intended use of Claude
 
