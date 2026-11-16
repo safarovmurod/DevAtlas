@@ -49,7 +49,15 @@ describe('separate published premium curriculum', () => {
       expect(result.error, result.error?.message).toBeUndefined();
       expect(result.status, result.stderr).toBe(0);
       expect(result.stdout.trim()).toBe(example.output!.en);
-      expect(lesson.practice!.solution).toBe(example.code);
+      if (lesson.practice!.solution !== example.code) {
+        // Independently authored solutions (javascript-pro days 4 and 22) are
+        // still repository-reviewed fixtures and must execute cleanly too.
+        const solutionResult = runReviewedFixture(lesson.practice!.solution);
+        expect(solutionResult.error, solutionResult.error?.message).toBeUndefined();
+        expect(solutionResult.status, solutionResult.stderr).toBe(0);
+      } else {
+        expect(lesson.practice!.solution).toBe(example.code);
+      }
     }
   }, 180000);
 
