@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { Menu, Settings2, Clock3, Sparkles, ChevronRight } from 'lucide-react';
+import { Menu, Settings2, Clock3, ChevronRight } from 'lucide-react';
 import { useAppStore } from '@/stores/app-store';
 import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
@@ -12,7 +12,6 @@ import { AccountMenu } from './account-menu';
 export function Header() {
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
   const sidebarOpen = useAppStore((state) => state.sidebarOpen);
-  const setTutorDrawerOpen = useAppStore((state) => state.setTutorDrawerOpen);
   const seconds = useAppStore((state) => state.activeSecondsToday);
   const language = useLearningStore((state) => state.language);
   const course = useLearningStore((state) => state.selectedCourse);
@@ -42,13 +41,6 @@ export function Header() {
         {courseName(course)}
       </span>
       <div className="header-tools">
-        <button
-          className="icon-button"
-          onClick={() => setTutorDrawerOpen(true)}
-          aria-label="AI Tutor"
-        >
-          <Sparkles size={19} />
-        </button>
         <span className="active-time">
           <Clock3 size={16} />
           {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, '0')}

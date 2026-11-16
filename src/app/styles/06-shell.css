@@ -260,7 +260,8 @@
 /* Phones get the bottom tab bar (64px): keep page content and the assistant above it. */
 @media (max-width: 860px) {
   .app-main {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    /* Tab bar (64px) plus room for the two round buttons, so they never cover content. */
+    padding-bottom: calc(136px + env(safe-area-inset-bottom));
   }
   body .agent-bubble {
     bottom: calc(80px + env(safe-area-inset-bottom));

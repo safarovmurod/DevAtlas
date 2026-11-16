@@ -86,6 +86,16 @@ function SiteAgentSession({ owner }: { owner: string | null }) {
 
   return (
     <>
+      {/* Two round buttons at the bottom: AI Tutor chat and the voice assistant. */}
+      <button
+        type="button"
+        className="agent-bubble tutor-bubble"
+        aria-label="AI Tutor"
+        title="AI Tutor"
+        onClick={() => setTutorOpen(true)}
+      >
+        <Sparkles size={22} />
+      </button>
       {!tutorOpen && (
         <button
           ref={bubble}
