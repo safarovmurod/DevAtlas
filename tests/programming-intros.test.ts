@@ -101,6 +101,13 @@ describe('programming course examples', () => {
     const solution = load('bash').lessons[1].practice!.solution;
     writeFileSync(path.join(root, 'main.sh'), solution + '\ntotal 07 02\nif total 12 abc; then exit 99; fi\n');
     expect(runTrusted(bashCommand!, ['main.sh'])).toBe('36\n0\nInvalid input rejected\n14');
+    // Day 30 keeps its positional-argument lesson: run without arguments it
+    // builds its own sample fixture, but an unreadable file argument must
+    // still fail loudly with a usage hint on stderr.
+    writeFileSync(path.join(root, 'report.sh'), load('bash').lessons.find(lesson => lesson.day === 30)!.practice!.solution);
+    const rejected = spawnSync(bashCommand!, ['report.sh', 'missing.log'], { cwd: root, encoding: 'utf8', timeout: 5000 });
+    expect(rejected.status, rejected.stderr).not.toBe(0);
+    expect(rejected.stderr.replace(/\r\n/g, '\n')).toContain('Usage: bash report.sh');
   }, 180000);
   it.skipIf(!hasPython)('SQL course: every executable day runs in real SQLite and matches its recorded output', () => {
     const sqlite = 'import sqlite3, sys\nc=sqlite3.connect(":memory:")\nbuffer=""\nfor line in sys.stdin:\n buffer+=line\n if sqlite3.complete_statement(buffer):\n  cursor=c.execute(buffer)\n  if cursor.description:\n   for row in cursor.fetchall(): print("|".join(str(value) for value in row))\n  buffer=""\n';

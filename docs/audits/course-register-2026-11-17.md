@@ -24,7 +24,7 @@ Coordinator: primary agent. One owner per course. Statuses: queued / in-progress
 | php | 30 | agent-php | queued | <4 sections on 2 days; <3 questions on 30 days; missing hints on 30 days |
 | ruby | 30 | agent-ruby | queued | <4 sections on 30 days; <3 questions on 30 days; missing hints on 30 days |
 | sql | 30 | agent-sql | queued | <4 sections on 14 days; <3 questions on 30 days; missing hints on 30 days |
-| bash | 30 | agent-bash | queued | <4 sections on 28 days; <3 questions on 30 days; missing hints on 30 days |
+| bash | 30 | agent-bash | accepted by coordinator | day-30 solution made self-contained (no-arg → built-in fixture, real output valid=4/ok=1/redirects=1/errors=2/skipped=1; usage+exit1 kept for unreadable explicit path) + stale section output replaced (was from a different program); 28 new sections (30×4); 30 new q3 questions (per-day distinct correctIndex; overall dominant 63→45.6%); 60 hints+relatedSection; 26/26 solutions executed with bash; day-10 draft text caught 2 factual errors before commit (ca?t→cart not cat; [st]art→tart not start); GNU Bash manual 5.3 URLs fetched; REMAINING: 11 days have [0,0] existing pairs (3-distinct impossible without reordering); longest-answer 84.4% parked |
 | nodejs | 30 | agent-nodejs | queued | <4 sections on 9 days; <3 questions on 30 days; missing hints on 30 days |
 | mongodb | 30 | agent-mongodb | queued | <4 sections on 13 days; <3 questions on 30 days; missing hints on 30 days |
 | swift | 30 | agent-swift | queued | <4 sections on 30 days; <3 questions on 28 days; missing hints on 30 days |
