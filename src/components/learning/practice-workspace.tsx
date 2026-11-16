@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { HintGate } from '@/components/courses/hint-gate';
 import { CheckCircle2, RotateCcw, Play, FileCode2 } from 'lucide-react';
 import type { PracticeExercise } from '@/content/practice';
 import { runFunction, type FunctionResult } from '@/lib/grading/function-runner';
@@ -65,12 +66,11 @@ export function PracticeWorkspace({ exercise }: { exercise: PracticeExercise }) 
                 </li>
               ))}
             </ul>
-            <details className="hint-box">
-              <summary>{copy.hint}</summary>
+            <HintGate taskId={'react:' + exercise.id} label={copy.hint}>
               <p className="preserve-lines" lang={lang}>
                 {tr(exercise.hint, lang)}
               </p>
-            </details>
+            </HintGate>
             <h3>{copy.criteria}</h3>
             <div className="checklist">
               {exercise.criteria.map((item) => (

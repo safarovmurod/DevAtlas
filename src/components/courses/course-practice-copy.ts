@@ -62,8 +62,8 @@ export const PRACTICE_COPY: Record<InterfaceLocale, PracticeCopy> = {
   ru: {
     instructions: 'Условие задания',
     verify: 'Проверить решение',
-    passed: 'Все проверки пройдены. Практика сохранена.',
-    failed: 'Исправьте отмеченные требования и проверьте ещё раз.',
+    passed: 'Верно. Практика сохранена.',
+    failed: 'Неверно. Исправьте:',
     note: 'Проверяем структуру страницы, а не совпадение с примером. Ваши слова и оформление могут отличаться.',
     local: 'Учебная проверка в браузере. Это не серверная аттестация.',
     serverVerified: 'Решение подтверждено сервером. XP начислен в защищённом журнале.',
@@ -73,8 +73,8 @@ export const PRACTICE_COPY: Record<InterfaceLocale, PracticeCopy> = {
   tg: {
     instructions: 'Шарти супориш',
     verify: 'Санҷидани ҳалли масъала',
-    passed: 'Ҳамаи санҷишҳо гузаштанд. Практика сабт шуд.',
-    failed: 'Талаботи ишорашударо ислоҳ карда, боз санҷед.',
+    passed: 'Дуруст. Практика сабт шуд.',
+    failed: 'Нодуруст. Ислоҳ кунед:',
     note: 'Сохтори саҳифа санҷида мешавад, на монандии код ба мисол. Матн ва ороиш метавонанд дигар бошанд.',
     local: 'Санҷиши омӯзишӣ дар браузер. Ин аттестатсияи серверӣ нест.',
     serverVerified:
@@ -85,8 +85,8 @@ export const PRACTICE_COPY: Record<InterfaceLocale, PracticeCopy> = {
   en: {
     instructions: 'Task instructions',
     verify: 'Check solution',
-    passed: 'All checks passed. Practice saved.',
-    failed: 'Fix the highlighted requirements and try again.',
+    passed: 'Correct. Practice saved.',
+    failed: 'Incorrect. Fix:',
     note: 'We check document structure, not a match with the reference. Your wording and styling may differ.',
     local: 'Learning check in your browser, not a server-verified assessment.',
     serverVerified: 'Server verified. XP recorded in the protected ledger.',
@@ -96,8 +96,8 @@ export const PRACTICE_COPY: Record<InterfaceLocale, PracticeCopy> = {
   es: {
     instructions: 'Enunciado de la tarea',
     verify: 'Comprobar la solución',
-    passed: 'Se superaron todas las comprobaciones. Práctica guardada.',
-    failed: 'Corrige los requisitos marcados y vuelve a comprobar.',
+    passed: 'Correcto. Práctica guardada.',
+    failed: 'Incorrecto. Corrige:',
     note: 'Comprobamos la estructura de la página, no que coincida con el ejemplo. Tus palabras y tu estilo pueden ser distintos.',
     local: 'Comprobación de estudio en el navegador. No es una evaluación del servidor.',
     serverVerified: 'El servidor verificó la solución. El XP se registró en el libro protegido.',

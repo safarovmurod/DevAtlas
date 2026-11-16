@@ -10,16 +10,12 @@ import { EMMET_FROM_DAY } from '@/lib/editor-copy';
 import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import { courseText, type CourseLesson } from '@/lib/courses/schema';
 import type { ImportedCourseId } from '@/lib/courses/ids';
-import {
-  gradeHtmlDocument,
-  safeHtmlPreview,
-  HTML_CHECK_IDS,
-  type HtmlCheck,
-} from '@/lib/grading/html-grader';
+import { gradeHtmlDocument, safeHtmlPreview, type HtmlCheck } from '@/lib/grading/html-grader';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { getSessionWithTimeout } from '@/lib/supabase/session';
 import type { PracticeSubmissionResult } from '@/lib/practice/types';
 import dynamic from 'next/dynamic';
+import { HintGate } from './hint-gate';
 import { PRACTICE_COPY, RUBRIC, practiceFileName, type HtmlCheckId } from './course-practice-copy';
 
 // Heavy practice tools load only when a lesson needs them.
@@ -116,15 +112,14 @@ export function CoursePractice({
       <details className="practice-instructions" open>
         <summary>{labels.instructions}</summary>
         <p className="preserve-lines">{courseText(practice.task, state.contentLanguage)}</p>
-        {(practice.hints ?? [practice.hint]).map((hint, index) => (
-          <details key={index} className="practice-hint">
-            <summary>
-              {copy.hint}
-              {practice.hints ? ` ${index + 1}` : null}
-            </summary>
-            <p className="preserve-lines">{courseText(hint, state.contentLanguage)}</p>
-          </details>
-        ))}
+        <HintGate taskId={courseId + ':' + lesson.id} label={copy.hint}>
+          {(practice.hints ?? [practice.hint]).map((hint, index) => (
+            <p key={index} className="preserve-lines">
+              {practice.hints ? <strong>{index + 1}. </strong> : null}
+              {courseText(hint, state.contentLanguage)}
+            </p>
+          ))}
+        </HintGate>
       </details>
       {written ? (
         <div className="written-practice">
@@ -200,24 +195,30 @@ export function CoursePractice({
       {courseId === 'sql' && lesson.id === 'sql-day-01' && <SqlitePractice code={code} />}
       {automatic ? (
         <section className="practice-validation" aria-live="polite">
-          <p className="small muted">{labels.note}</p>
-          <ul>
-            {(results ?? HTML_CHECK_IDS.map((id) => ({ id, passed: false }))).map((check) => (
-              <li
-                key={check.id}
-                className={results ? (check.passed ? 'success-text' : 'warning-text') : ''}
-              >
-                <span aria-hidden="true">{results ? (check.passed ? '✓' : '×') : '○'}</span>{' '}
-                {rubric[check.id as HtmlCheckId]}
-              </li>
-            ))}
-          </ul>
           {results && (
-            <p role="status">
-              {results.every((check) => check.passed) ? labels.passed : labels.failed}
-            </p>
+            <>
+              <p
+                role="status"
+                className={results.every((check) => check.passed) ? 'success-text' : 'warning-text'}
+              >
+                <span aria-hidden="true">
+                  {results.every((check) => check.passed) ? '✓ ' : '× '}
+                </span>
+                <strong>
+                  {results.every((check) => check.passed) ? labels.passed : labels.failed}
+                </strong>
+              </p>
+              <ul>
+                {results
+                  .filter((check) => !check.passed)
+                  .map((check) => (
+                    <li key={check.id} className="warning-text">
+                      {rubric[check.id as HtmlCheckId]}
+                    </li>
+                  ))}
+              </ul>
+            </>
           )}
-          <p className="small muted">{labels.local}</p>
         </section>
       ) : practice.rubric ? (
         <WrittenRubricReview

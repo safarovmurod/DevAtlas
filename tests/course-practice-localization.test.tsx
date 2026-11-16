@@ -15,10 +15,10 @@ vi.mock('@/components/learning/code-editor', () => ({
 }));
 
 const labels = [
-  { locale:'ru', instructions:'Условие задания', verify:'Проверить решение', rubric:'У html указан язык lang', failed:'Исправьте отмеченные требования и проверьте ещё раз.', passed:'Все проверки пройдены. Практика сохранена.', verified:'Решение подтверждено сервером. XP начислен в защищённом журнале.', unavailable:'Серверная проверка недоступна. Учебный результат сохранён только локально; попробуйте позже.' },
-  { locale:'tg', instructions:'Шарти супориш', verify:'Санҷидани ҳалли масъала', rubric:'Забони lang дар html навишта шудааст', failed:'Талаботи ишорашударо ислоҳ карда, боз санҷед.', passed:'Ҳамаи санҷишҳо гузаштанд. Практика сабт шуд.', verified:'Ҳалли масъала аз тарафи сервер тасдиқ шуд. XP дар сабти муҳофизатшуда нигоҳ дошта шуд.', unavailable:'Санҷиши серверӣ дастрас нест. Натиҷаи омӯзишӣ танҳо маҳаллӣ сабт шуд; баъдтар санҷед.' },
-  { locale:'en', instructions:'Task instructions', verify:'Check solution', rubric:'Set the html lang attribute', failed:'Fix the highlighted requirements and try again.', passed:'All checks passed. Practice saved.', verified:'Server verified. XP recorded in the protected ledger.', unavailable:'Server assessment unavailable. Your learning result is local only; retry later.' },
-  { locale:'es', instructions:'Enunciado de la tarea', verify:'Comprobar la solución', rubric:'Indica el idioma con el atributo lang en html', failed:'Corrige los requisitos marcados y vuelve a comprobar.', passed:'Se superaron todas las comprobaciones. Práctica guardada.', verified:'El servidor verificó la solución. El XP se registró en el libro protegido.', unavailable:'La comprobación del servidor no está disponible. El resultado de estudio solo se guardó en local; inténtalo más tarde.' },
+  { locale:'ru', instructions:'Условие задания', verify:'Проверить решение', rubric:'У html указан язык lang', failed:'Неверно. Исправьте:', passed:'Верно. Практика сохранена.', verified:'Решение подтверждено сервером. XP начислен в защищённом журнале.', unavailable:'Серверная проверка недоступна. Учебный результат сохранён только локально; попробуйте позже.' },
+  { locale:'tg', instructions:'Шарти супориш', verify:'Санҷидани ҳалли масъала', rubric:'Забони lang дар html навишта шудааст', failed:'Нодуруст. Ислоҳ кунед:', passed:'Дуруст. Практика сабт шуд.', verified:'Ҳалли масъала аз тарафи сервер тасдиқ шуд. XP дар сабти муҳофизатшуда нигоҳ дошта шуд.', unavailable:'Санҷиши серверӣ дастрас нест. Натиҷаи омӯзишӣ танҳо маҳаллӣ сабт шуд; баъдтар санҷед.' },
+  { locale:'en', instructions:'Task instructions', verify:'Check solution', rubric:'Set the html lang attribute', failed:'Incorrect. Fix:', passed:'Correct. Practice saved.', verified:'Server verified. XP recorded in the protected ledger.', unavailable:'Server assessment unavailable. Your learning result is local only; retry later.' },
+  { locale:'es', instructions:'Enunciado de la tarea', verify:'Comprobar la solución', rubric:'Indica el idioma con el atributo lang en html', failed:'Incorrecto. Corrige:', passed:'Correcto. Práctica guardada.', verified:'El servidor verificó la solución. El XP se registró en el libro protegido.', unavailable:'La comprobación del servidor no está disponible. El resultado de estudio solo se guardó en local; inténtalo más tarde.' },
 ] as const;
 const text = (ru: string) => ({ ru, tg:'Тоҷикӣ', en:'English' });
 const lesson: CourseLesson = {
@@ -57,10 +57,11 @@ it.each(labels)('$locale uses interface language for rubric and controls without
   useLearningStore.getState().saveCourseDraft('html',lesson.id,'<h1>Incomplete</h1>');
   render(<CoursePractice courseId="html" lesson={lesson} />);
   expect(screen.getByText(copy.instructions)).toBeVisible();
-  expect(screen.getByText(copy.rubric)).toBeVisible();
   expect(screen.getByText('Авторское задание')).toBeVisible();
   fireEvent.click(screen.getByRole('button',{ name:copy.verify }));
   expect(await screen.findByRole('status')).toHaveTextContent(copy.failed);
+  // Short result: only the requirements that failed are listed.
+  expect(screen.getByText(copy.rubric)).toBeVisible();
   expect(auth.getSession).not.toHaveBeenCalled();
   expect(useLearningStore.getState().contentLanguage).toBe('ru');
 });

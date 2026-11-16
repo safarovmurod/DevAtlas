@@ -8,56 +8,39 @@ import type { InterfaceLocale } from '@/lib/locale';
 type Execution = NonNullable<NonNullable<CourseLesson['practice']>['execution']>;
 const copy: Record<
   InterfaceLocale,
-  {
-    run: string;
-    note: string;
-    passed: string;
-    failed: string;
-    expected: string;
-    actual: string;
-    error: string;
-  }
+  { run: string; passed: string; failed: string; expected: string; actual: string; error: string }
 > = {
   ru: {
-    run: 'Выполнить тесты функции',
-    note: 'Реальное выполнение JavaScript в изолированном браузерном worker, до 3 секунд. Сеть заблокирована. Результат локальный: серверная аттестация и Mastered не начисляются. Модули Node.js проверяйте в скачиваемой лабораторной работе.',
-    passed: 'Локальные тесты пройдены.',
-    failed:
-      'Есть ошибки. Сравните вход, ожидание и результат; исправьте код и повторите без штрафа.',
-    expected: 'Ожидается',
-    actual: 'Получено',
-    error: 'Не удалось завершить выполнение. Проверьте синтаксис, имя функции и лимит 3 секунды.',
+    run: 'Проверить решение',
+    passed: 'Верно',
+    failed: 'Неверно',
+    expected: 'ожидается',
+    actual: 'получено',
+    error: 'Код не выполнился: проверьте синтаксис и имя функции.',
   },
   tg: {
-    run: 'Тестҳои функсияро иҷро кунед',
-    note: 'JavaScript воқеан дар worker-и ҷудои браузер, то 3 сония иҷро мешавад. Шабака баста аст. Натиҷа маҳаллӣ аст: тасдиқи сервер ва Mastered дода намешаванд. Модулҳои Node.js-ро дар лабораторияи боргирифта санҷед.',
-    passed: 'Тестҳои маҳаллӣ гузаштанд.',
-    failed:
-      'Хато ҳаст. Вуруд, интизорӣ ва натиҷаро муқоиса карда, рамзро бе ҷарима ислоҳ ва такрор кунед.',
-    expected: 'Интизорӣ',
-    actual: 'Натиҷа',
-    error: 'Иҷро анҷом наёфт. Синтаксис, номи функсия ва муҳлати 3 сонияро санҷед.',
+    run: 'Санҷидани ҳал',
+    passed: 'Дуруст',
+    failed: 'Нодуруст',
+    expected: 'интизор',
+    actual: 'натиҷа',
+    error: 'Код иҷро нашуд: синтаксис ва номи функсияро санҷед.',
   },
   en: {
-    run: 'Run function tests',
-    note: 'Actual JavaScript execution in an isolated browser worker, up to 3 seconds. Networking is blocked. Results are local: no server attestation or Mastered status. Check Node.js modules in the downloadable lab.',
-    passed: 'Local tests passed.',
-    failed:
-      'Some tests failed. Compare inputs, expected and actual results; fix the code and retry without penalty.',
-    expected: 'Expected',
-    actual: 'Actual',
-    error: 'Execution did not finish. Check syntax, function name and the 3-second limit.',
+    run: 'Check solution',
+    passed: 'Correct',
+    failed: 'Incorrect',
+    expected: 'expected',
+    actual: 'got',
+    error: 'The code did not run: check the syntax and the function name.',
   },
   es: {
-    run: 'Ejecutar las pruebas de la función',
-    note: 'Ejecución real de JavaScript en un worker aislado del navegador, hasta 3 segundos. La red está bloqueada. El resultado es local: no hay certificación del servidor ni estado Mastered. Comprueba los módulos de Node.js en el laboratorio descargable.',
-    passed: 'Pruebas locales superadas.',
-    failed:
-      'Hay pruebas que fallan. Compara la entrada, lo esperado y lo obtenido; corrige el código y vuelve a intentarlo sin penalización.',
-    expected: 'Esperado',
-    actual: 'Obtenido',
-    error:
-      'La ejecución no terminó. Revisa la sintaxis, el nombre de la función y el límite de 3 segundos.',
+    run: 'Comprobar solución',
+    passed: 'Correcto',
+    failed: 'Incorrecto',
+    expected: 'se espera',
+    actual: 'se obtuvo',
+    error: 'El código no se ejecutó: revisa la sintaxis y el nombre de la función.',
   },
 };
 function printable(value: unknown) {
@@ -101,9 +84,9 @@ function Session({ code, execution }: { code: string; execution: Execution }) {
     }
   }
   const active = result?.code === code && result.execution === execution ? result.checks : null;
+  const failed = active?.filter((check) => !check.passed) ?? [];
   return (
     <section className="practice-validation function-practice">
-      <p className="small muted">{labels.note}</p>
       <button
         type="button"
         className="button primary"
@@ -115,25 +98,26 @@ function Session({ code, execution }: { code: string; execution: Execution }) {
       {error && <p role="alert">{labels.error}</p>}
       {active && (
         <div aria-live="polite">
-          <p role="status">
-            {active.every((check) => check.passed) ? labels.passed : labels.failed}
+          <p role="status" className={failed.length ? 'warning-text' : 'success-text'}>
+            <strong>{failed.length ? '× ' + labels.failed : '✓ ' + labels.passed}</strong> ·{' '}
+            {active.length - failed.length}/{active.length}
           </p>
-          <ol>
-            {active.map((check, index) => (
-              <li key={index} className={check.passed ? 'success-text' : 'warning-text'}>
-                <span aria-hidden="true">{check.passed ? '✓' : '×'}</span>{' '}
-                <code>
-                  {execution.functionName}({execution.tests[index].args.map(printable).join(', ')})
-                </code>
-                <p>
-                  {labels.expected}: <code>{printable(check.expected)}</code>
-                </p>
-                <p>
-                  {labels.actual}: <code>{check.error ?? printable(check.actual)}</code>
-                </p>
-              </li>
-            ))}
-          </ol>
+          {failed.length > 0 && (
+            <ul className="grid gap-1 text-sm">
+              {active.map((check, index) =>
+                check.passed ? null : (
+                  <li key={index}>
+                    <code>
+                      {execution.functionName}(
+                      {execution.tests[index].args.map(printable).join(', ')})
+                    </code>{' '}
+                    — {labels.expected} <code>{printable(check.expected)}</code>, {labels.actual}{' '}
+                    <code>{check.error ?? printable(check.actual)}</code>
+                  </li>
+                ),
+              )}
+            </ul>
+          )}
         </div>
       )}
     </section>

@@ -68,7 +68,7 @@ describe('site agent guide brain', () => {
       expect(reply?.links.some(link => link.href === '/plans'), language).toBe(true);
       for (const plan of ['Start', 'Pro', 'Ultra']) expect(reply?.reply, language).toContain(plan);
     }
-    expect(siteGuideAnswer('Где чат сообщества?', base)?.reply).toContain('Ultra');
+    expect(siteGuideAnswer('Где чат сообщества?', base)?.reply).toContain('всех, кто вошёл');
   });
 
   it('points to the AI Tutor chat and names its plan', () => {
