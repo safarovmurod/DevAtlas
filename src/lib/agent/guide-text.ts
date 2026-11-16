@@ -217,7 +217,7 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
         'Есть три тарифа: Start, Pro и Ultra.',
         'Start бесплатный: знакомство с платформой, базовые уроки и проверка знаний в редакторе.',
         'Pro — основной: глубокое изучение, все курсы, практические задания, сертификат и чат с AI Tutor.',
-        'Ultra — максимум: помощь наставника, проверка проектов, закрытая группа и сообщество, подготовка к работе и голосовой ассистент.',
+        'Ultra — максимум: помощь наставника, проверка проектов, подготовка к работе и голосовой ассистент.',
         'Оплата пока не подключена, ничего не списывается, а все текущие курсы остаются открытыми. Подробности — в разделе «Тарифы».',
       ),
     tg: () =>
@@ -225,7 +225,7 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
         'Се тариф ҳаст: Start, Pro ва Ultra.',
         'Start ройгон аст: шиносоӣ бо платформа, дарсҳои асосӣ ва санҷиши дониш дар муҳаррир.',
         'Pro — асосӣ: омӯзиши амиқ, ҳамаи курсҳо, супоришҳои амалӣ, сертификат ва чат бо AI Tutor.',
-        'Ultra — ҳадди аксар: кӯмаки мураббӣ, санҷиши лоиҳаҳо, гурӯҳ ва ҷомеаи пӯшида, тайёрӣ ба кор ва ёрдамчии овозӣ.',
+        'Ultra — ҳадди аксар: кӯмаки мураббӣ, санҷиши лоиҳаҳо, тайёрӣ ба кор ва ёрдамчии овозӣ.',
         'Пардохт ҳоло пайваст нашудааст, ҳеҷ чиз гирифта намешавад ва ҳамаи курсҳои ҳозира кушода мемонанд. Тафсилот — дар бахши «Тарифҳо».',
       ),
     en: () =>
@@ -233,7 +233,7 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
         'There are three plans: Start, Pro and Ultra.',
         'Start is free: an introduction to the platform, basic lessons and knowledge checks in the editor.',
         'Pro is the main plan: deep study, all courses, practical assignments, a certificate and the AI Tutor chat.',
-        'Ultra is the maximum: mentor help, project review, a private group and community, job preparation and the voice assistant.',
+        'Ultra is the maximum: mentor help, project review, job preparation and the voice assistant.',
         'Payments are not connected yet, nothing is charged, and all current courses stay open. See the Plans section for details.',
       ),
     es: () =>
@@ -241,28 +241,28 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
         'Hay tres planes: Start, Pro y Ultra.',
         'Start es gratis: introducción a la plataforma, lecciones básicas y comprobación de conocimientos en el editor.',
         'Pro es el principal: estudio a fondo, todos los cursos, tareas prácticas, certificado y chat con AI Tutor.',
-        'Ultra es el máximo: ayuda de un mentor, revisión de proyectos, grupo y comunidad privados, preparación para el trabajo y asistente de voz.',
+        'Ultra es el máximo: ayuda de un mentor, revisión de proyectos, preparación para el trabajo y asistente de voz.',
         'Los pagos aún no están conectados, no se cobra nada y todos los cursos actuales siguen abiertos. Los detalles están en la sección «Planes».',
       ),
   },
   whereTutor: {
     ru: () =>
-      'AI Tutor — это чат для вопросов. Откройте его кнопкой «AI Tutor» (значок с искрой) вверху страницы и пишите своими словами: он отвечает на приветствия и вопросы по курсам, а сначала ищет ответ в материалах курса. Чат входит в тариф Pro.',
+      'AI Tutor — это чат для вопросов. Откройте его кнопкой «AI Tutor» (значок с искрой) внизу экрана, рядом с ассистентом, и пишите своими словами: он отвечает на приветствия и вопросы по курсам, а сначала ищет ответ в материалах курса. Чат входит в тариф Pro.',
     tg: () =>
-      'AI Tutor — чат барои саволҳо аст. Онро бо тугмаи «AI Tutor» (нишони шарора) дар боло кушоед ва бо суханони худ нависед: ба салом ва саволҳои курс ҷавоб медиҳад ва аввал дар маводи курс меҷӯяд. Чат ба тарифи Pro дохил аст.',
+      'AI Tutor — чат барои саволҳо аст. Онро бо тугмаи «AI Tutor» (нишони шарора) дар поёни экран, назди ёрдамчӣ кушоед ва бо суханони худ нависед: ба салом ва саволҳои курс ҷавоб медиҳад ва аввал дар маводи курс меҷӯяд. Чат ба тарифи Pro дохил аст.',
     en: () =>
-      'AI Tutor is the chat for questions. Open it with the “AI Tutor” button (the sparkle icon) at the top of the page and write in your own words: it replies to greetings and course questions, looking in the course materials first. The chat is part of the Pro plan.',
+      'AI Tutor is the chat for questions. Open it with the “AI Tutor” button (the sparkle icon) at the bottom of the screen, next to the assistant, and write in your own words: it replies to greetings and course questions, looking in the course materials first. The chat is part of the Pro plan.',
     es: () =>
-      'AI Tutor es el chat para tus preguntas. Ábrelo con el botón «AI Tutor» (el icono de destello) de la parte superior de la página y escribe con tus propias palabras: responde a saludos y a preguntas de los cursos, y primero busca la respuesta en los materiales del curso. El chat forma parte del plan Pro.',
+      'AI Tutor es el chat para tus preguntas. Ábrelo con el botón «AI Tutor» (el icono de destello) en la parte inferior de la pantalla, junto al asistente, y escribe con tus propias palabras: responde a saludos y a preguntas de los cursos, y primero busca la respuesta en los materiales del curso. El chat forma parte del plan Pro.',
   },
   whereCommunity: {
     ru: () =>
-      'Раздел «Сообщество» в боковом меню открывает общий чат закрытого сообщества. Он входит в тариф Ultra и требует реальной активной подписки на сервере — без неё интерфейс честно объясняет, что сервис недоступен.',
+      'Раздел «Сообщество» в боковом меню открывает общий чат для всех, кто вошёл в аккаунт: текст, фото, видео и код.',
     tg: () =>
-      'Бахши «Ҷомеа» дар менюи паҳлӯ чати умумии ҷомеаи пӯшидаро мекушояд. Он ба тарифи Ultra дохил аст ва обунаи воқеиро талаб мекунад — бе он интерфейс ростгӯёна мефаҳмонад, ки хидмат дастрас нест.',
+      'Бахши «Ҷомеа» дар менюи паҳлӯ чати умумиро барои ҳамаи воридшудагон мекушояд: матн, сурат, видео ва код.',
     en: () =>
-      'The Community sidebar section opens the shared chat of the private community. It is part of the Ultra plan and needs a real active server-side membership — without one the UI explains honestly that the service is unavailable.',
+      'The Community sidebar section opens the shared chat for everyone who is signed in: text, photos, videos and code.',
     es: () =>
-      'La sección «Comunidad» del menú lateral abre el chat común de la comunidad privada. Forma parte del plan Ultra y requiere una suscripción activa real en el servidor; sin ella, la interfaz explica con honestidad que el servicio no está disponible.',
+      'La sección «Comunidad» del menú lateral abre el chat común para todos los que han iniciado sesión: texto, fotos, vídeos y código.',
   },
 };

@@ -46,7 +46,11 @@ export type PlanFeature =
 
 /**
  * The first plan that includes a feature. Pro includes Start, and Ultra includes
- * Pro. The AI Tutor chat is Pro, the voice assistant and the community chat are Ultra.
+ * Pro. The AI Tutor chat is Pro, the voice assistant is Ultra.
+ *
+ * COMMUNITY ACCESS SWITCH: `privateCommunity` decides who may use the community chat.
+ * 'start' = every signed-in member (owner decision 2026-11-17). Set 'ultra' to make it
+ * Ultra-only again; the database side follows 20261118000000_community_all_members.sql.
  */
 export const FEATURE_PLAN: Record<PlanFeature, PlanId> = {
   platformIntro: 'start',
@@ -59,7 +63,7 @@ export const FEATURE_PLAN: Record<PlanFeature, PlanId> = {
   aiTutor: 'pro',
   mentor: 'ultra',
   projectReview: 'ultra',
-  privateCommunity: 'ultra',
+  privateCommunity: 'start',
   jobPrep: 'ultra',
   voiceAssistant: 'ultra',
 };

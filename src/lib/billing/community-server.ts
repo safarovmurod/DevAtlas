@@ -18,7 +18,7 @@ export async function requireMembership(
   const membership = await serverMembership(client, user.id);
   if (!membership.available)
     return { failure: communityResponse({ error: 'service_unavailable' }, 503) };
-  // The private community belongs to Ultra (stored as the `expert` tier).
+  // Who may use the chat is FEATURE_PLAN.privateCommunity (now: every signed-in member).
   if (!planIncludes(planForTier(membership.tier), 'privateCommunity'))
     return { failure: communityResponse({ error: 'membership_required' }, 403) };
   return { client, user, tier: membership.tier };

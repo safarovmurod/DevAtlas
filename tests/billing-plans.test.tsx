@@ -14,8 +14,13 @@ import { PlansScreen } from '@/components/community/plans-screen';
 import { useLearningStore } from '@/stores/learning-store';
 
 describe('plan feature split', () => {
-  it('puts the intro, basic lessons and editor checks in Start', () => {
-    expect(planOwnFeatures('start')).toEqual(['platformIntro', 'basicLessons', 'editorChecks']);
+  it('puts the intro, basic lessons, editor checks and the community chat in Start', () => {
+    expect(planOwnFeatures('start')).toEqual([
+      'platformIntro',
+      'basicLessons',
+      'editorChecks',
+      'privateCommunity',
+    ]);
   });
 
   it('puts deep study, all courses, practice, the certificate and the AI Tutor chat in Pro', () => {
@@ -28,11 +33,10 @@ describe('plan feature split', () => {
     ]);
   });
 
-  it('puts the mentor, project review, private community, job preparation and voice assistant in Ultra', () => {
+  it('puts the mentor, project review, job preparation and voice assistant in Ultra', () => {
     expect(planOwnFeatures('ultra')).toEqual([
       'mentor',
       'projectReview',
-      'privateCommunity',
       'jobPrep',
       'voiceAssistant',
     ]);
@@ -88,7 +92,7 @@ describe('plans page', () => {
     expect(within(pro).queryByText(copy.features.voiceAssistant)).not.toBeInTheDocument();
     expect(within(ultra).getByText(copy.everythingPro)).toBeVisible();
     expect(within(ultra).getByText(copy.features.voiceAssistant)).toBeVisible();
-    expect(within(ultra).getByText(copy.features.privateCommunity)).toBeVisible();
+    expect(within(start).getByText(copy.features.privateCommunity)).toBeVisible();
     for (const card of [pro, ultra])
       expect(within(card).getByRole('button', { name: copy.unavailable })).toBeDisabled();
     expect(screen.getByText(copy.note)).toBeVisible();
