@@ -41,7 +41,7 @@ Coordinator: primary agent. One owner per course. Statuses: queued / in-progress
 | english-foundations | 42 | agent-english-foundations | queued-review | semantic/source/translation/practice review only |
 | digital-literacy | 30 | agent-digital-literacy | queued-review | semantic/source/translation/practice review only |
 | personal-productivity | 22 | agent-personal-productivity | queued-review | semantic/source/translation/practice review only |
-| management-foundations | 30 | coordinator→review-agent | review (source review pending) | days 24-30 appended from recovered draft; rubrics 16/23/30 authored; counts synced (test/catalog/descriptions); general-course-content+published-curriculum+stage-coverage green; REMAINING: source-review doc with actually-fetched URLs |
+| management-foundations | 30 | coordinator→review-agent | accepted (fully verified) | days 24-30 appended from recovered draft; rubrics 16/23/30 authored; counts synced; general-course-content+published-curriculum+stage-coverage green; source review: 6/6 URLs fetched (OpenStax 17-7, GovS 002 via web-reader after 403, OpenStax OB 8-3, 2 Atlassian plays, W3C WAI), per-day comparison 0 conflicts; open metadata: GovS "version 2.1" label unconfirmed from page (documented in review limitations) |
 | javascript-pro | 30 | agent-javascript-pro | queued | <4 sections on 26 days; missing hints on 30 days |
 | backend-pro | 30 | agent-backend-pro | queued | <3 questions on 30 days; missing hints on 30 days |
 | architecture-expert | 30 | agent-architecture-expert | queued | <4 sections on 28 days; <3 questions on 30 days; missing hints on 30 days |
