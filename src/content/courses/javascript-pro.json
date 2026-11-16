@@ -795,12 +795,7 @@
       "en": "The script first prints start and end. The promise handler and timer wait during this code. Once the current script finishes, the microtask queue runs then. After that, the task queue runs the timer. Save as lesson.mjs and run node lesson.mjs. Expect start, end, then, timer."
      },
      "code": "console.log(\"start\");\nsetTimeout(() => console.log(\"timer\"), 0);\nPromise.resolve().then(() => console.log(\"then\"));\nconsole.log(\"end\");",
-     "language": "javascript",
-     "output": {
-      "ru": "start\nend\nthen\ntimer",
-      "tg": "start\nend\nthen\ntimer",
-      "en": "start\nend\nthen\ntimer"
-     }
+     "language": "javascript"
     },
     {
      "title": {
@@ -813,7 +808,26 @@
       "tg": "Трассаи худро созед: камаш ду нишонаи синхронӣ, микровазифа бо микровазифаи лонаадор, queueMicrotask-и алоҳида ва камаш ду таймер, ки яке аз онҳо боз якеро банақша мегирад. Аввал тартибро дар коғаз пешгӯӣ кунед, баъд иҷро карда муқоиса намоед. Камаш ҳашт муносибати тартибро бо assert тасдиқ кунед, ҳар якро бо тасдиқи алоҳида ва паёми фаҳмо. Алоҳида озмоиш кунед: агар микровазифаи лонаадор на аз реаксияи промис, балки аз queueMicrotask илова шавад, чӣ тағйир меёбад? Агар дар дохили таймер истисно партофта шавад, оё таймери навбатӣ иҷро мешавад? process.nextTick ва реаксияҳои промисро ҳамчун унсурҳои рақиб дар як трасса нагузоред: тартиби мутақобили онҳо ҷузъиёти иҷро аст, на шарт, ва тест аз рӯйи он шикастанопазар намешавад. Вазифаи иловагии бо ситора: дарозии журналро бо се сатҳи лонаадории микровазифаҳо чен карда, натиҷаро бо як ҷумла дар шарҳ баён кунед.",
       "en": "Build your own trace: at least two synchronous labels, a microtask with a nested microtask, a separate queueMicrotask, and at least two timers, one of which schedules another. Predict the order on paper first, then run and compare. Assert at least eight ordering relations, each as its own assert with a clear message. Experiment separately: what changes if the nested microtask is queued from queueMicrotask instead of from a promise reaction? If a timer callback throws, does the next timer still run? Do not include process.nextTick and promise reactions as competing elements in one trace: their mutual order is an implementation detail, not a contract, and a test built on it becomes brittle. A starred extra: measure the log length with three levels of nested microtasks and explain the result in a one-line comment."
      }
+    },
+   {
+    "title": {
+     "ru": "Полный пример — эталон практики",
+     "tg": "Мисоли пурра — намунаи амалия",
+     "en": "Full example — the practice reference"
+    },
+    "body": {
+     "ru": "Программа складывает метки в массив порядка вместо мгновенной печати, поэтому итоговый журнал — один детерминированный блок. Сохраните его как lesson.mjs и выполните node lesson.mjs (Node.js 22+); используются только стандартные API, сеть не затрагивается. Читайте вывод сверху вниз как временную шкалу: две синхронные метки, затем три метки микрозадач — включая вложенную реакцию, добавленную из другой реакции, — затем первый таймер, созданная им микрозадача, второй таймер и, наконец, таймер, запланированный внутри первого таймера. Утверждения в конце проверяют только те отношения, которые гарантирует спецификация: синхронный код раньше микрозадач, микрозадачи раньше таймеров, вложенные микрозадачи не обгоняют родительские, а контроль после каждого таймера осушает очередь заново. Отдельные детали, вроде относительного порядка process.nextTick в разных контекстах выполнения, сознательно не проверяются: они не являются контрактом. Запустите программу несколько раз — порядок строк не изменится: выполненные отношения гарантированы спецификацией, а не удачей.",
+     "tg": "Барнома нишонаҳоро ба сафи тартиб мегузорад ва фавран чоп намекунад, бинобар ин журнали ниҳоӣ як блоки детерминистӣ аст. Онро ҳамчун lesson.mjs сабт карда, node lesson.mjs-ро иҷро кунед (Node.js 22+); танҳо API-ҳои стандартӣ истифода мешаванд, шабака дахл намешавад. Хуруҷро аз боло ба поён ҳамчун хатти вақт хонед: ду нишонаи синхронӣ, баъд се нишонаи микровазифаҳо — аз ҷумла реаксияи лонаадор, ки аз реаксияи дигар илова шудааст, — баъд таймери аввал, микровазифае, ки он сохт, таймери дуввум ва ниҳоят таймере, ки дар дохили таймери аввал банақша гирифта шуд. Тасдиқҳои охирин танҳо муносибатҳоеро месанҷанд, ки спесификатсия кафолат медиҳад: коди синхронӣ пеш аз микровазифаҳо, микровазифаҳо пеш аз таймерҳо, микровазифаҳои лонаадор волидайнро пеш намегузаранд, назорат баъди ҳар таймер сафро боз холӣ мекунад. Ҷузъиёти алоҳида, монанди тартиби нисбии process.nextTick дар контекстҳои гуногун, дар тасдиқҳо навишта нашудаанд: онҳо шарт нестанд. Барномаро чанд бор иҷро кунед — тартиби сатрҳо тағйир намеёбад: муносибатҳои иҷрошуда аз ҷониби спесификатсия кафолат дода мешаванд, на аз тасодуф.",
+     "en": "The program pushes labels into an order array instead of printing immediately, so the final transcript is one deterministic block. Save it as lesson.mjs and run node lesson.mjs (Node.js 22+); only standard APIs are used and no network is involved. Read the output top to bottom as a timeline: two synchronous labels, then three microtask labels — including a nested reaction queued from inside another reaction — then the first timer, the microtask it schedules, the second timer, and finally the timer planned inside the first timer's callback. The assertions at the end check only the relations the specification guarantees: synchronous code before microtasks, microtasks before timers, nested microtasks not overtaking their parents, and the checkpoint after each timer draining the queue again. Deliberate details such as the relative order of process.nextTick across execution contexts are not asserted: they are not part of the contract. Run the program several times — the line order never changes: the executed relations are guaranteed by the specification, not by luck."
+    },
+    "code": "import assert from \"node:assert/strict\";\n\nconst order = [];\nconst step = (label) => order.push(label);\n\nstep(\"sync:start\");\nPromise.resolve().then(() => {\n  step(\"microtask:then-1\");\n  Promise.resolve().then(() => step(\"microtask:nested-in-then-1\"));\n});\nqueueMicrotask(() => step(\"microtask:queued\"));\nsetTimeout(() => {\n  step(\"timer:1\");\n  Promise.resolve().then(() => step(\"microtask:after-timer-1\"));\n  setTimeout(() => {\n    step(\"timer:scheduled-inside-timer-1\");\n    setTimeout(() => {\n      step(\"timer:final\");\n      console.log(order.join(\"\\n\"));\n      assert.ok(order.indexOf(\"sync:start\") < order.indexOf(\"sync:end\"));\n      assert.ok(order.indexOf(\"sync:end\") < order.indexOf(\"microtask:then-1\"));\n      assert.ok(order.indexOf(\"microtask:then-1\") < order.indexOf(\"microtask:queued\"));\n      assert.ok(order.indexOf(\"microtask:queued\") < order.indexOf(\"microtask:nested-in-then-1\"));\n      assert.ok(order.indexOf(\"microtask:nested-in-then-1\") < order.indexOf(\"timer:1\"));\n      assert.ok(order.indexOf(\"timer:1\") < order.indexOf(\"microtask:after-timer-1\"));\n      assert.ok(order.indexOf(\"microtask:after-timer-1\") < order.indexOf(\"timer:2\"));\n      assert.ok(order.indexOf(\"timer:2\") < order.indexOf(\"timer:scheduled-inside-timer-1\"));\n      assert.ok(order.indexOf(\"timer:scheduled-inside-timer-1\") < order.indexOf(\"timer:final\"));\n      assert.equal(order.length, 10);\n    }, 0);\n  }, 0);\n}, 0);\nsetTimeout(() => step(\"timer:2\"), 0);\nstep(\"sync:end\");\n",
+    "language": "javascript",
+    "output": {
+     "ru": "sync:start\nsync:end\nmicrotask:then-1\nmicrotask:queued\nmicrotask:nested-in-then-1\ntimer:1\nmicrotask:after-timer-1\ntimer:2\ntimer:scheduled-inside-timer-1\ntimer:final",
+     "tg": "sync:start\nsync:end\nmicrotask:then-1\nmicrotask:queued\nmicrotask:nested-in-then-1\ntimer:1\nmicrotask:after-timer-1\ntimer:2\ntimer:scheduled-inside-timer-1\ntimer:final",
+     "en": "sync:start\nsync:end\nmicrotask:then-1\nmicrotask:queued\nmicrotask:nested-in-then-1\ntimer:1\nmicrotask:after-timer-1\ntimer:2\ntimer:scheduled-inside-timer-1\ntimer:final"
     }
+   }
    ],
    "questions": [
     {
@@ -4367,12 +4381,7 @@
       "en": "A stream reads or writes data in chunks. In this example Readable produces two strings, “tea” and “bread”. A Transform uppercases each chunk, and a loop reads the result. This shows the source and transformation roles. In practice, add a Writable and connect the stages with pipeline()."
      },
      "language": "javascript",
-     "code": "import { Readable, Transform } from \"node:stream\";\n\nconst upper = new Transform({\n  objectMode: true,\n  transform(chunk, _encoding, done) {\n    done(null, chunk.toString().toUpperCase());\n  },\n});\n\nconst words = Readable.from([\"tea\", \"bread\"]);\nfor await (const chunk of words.pipe(upper)) {\n  console.log(chunk.toString());\n}\n// TEA, then BREAD",
-     "output": {
-      "ru": "TEA\nBREAD",
-      "tg": "TEA\nBREAD",
-      "en": "TEA\nBREAD"
-     }
+     "code": "import { Readable, Transform } from \"node:stream\";\n\nconst upper = new Transform({\n  objectMode: true,\n  transform(chunk, _encoding, done) {\n    done(null, chunk.toString().toUpperCase());\n  },\n});\n\nconst words = Readable.from([\"tea\", \"bread\"]);\nfor await (const chunk of words.pipe(upper)) {\n  console.log(chunk.toString());\n}\n// TEA, then BREAD"
     },
     {
      "title": {
@@ -4385,7 +4394,26 @@
       "tg": "Агар манбаъ тезтар диҳад ва қабулкунанда сусттар нависад, навбат калон мешавад. Ҳангоми навишти дастӣ false аз write() мегӯяд, ки фиристоданро то event-и drain нигоҳ дорем. pipeline() таваққуфро байни stream-ҳо идора карда, хаторо ба коди даъваткунанда медиҳад. Барои хондани дуюм Readable-и нав аз ҳамон массив созед, чун якумаш тамом шуд.",
       "en": "When a source produces faster than a destination writes, its queue grows. While writing manually, a false result from write() tells you to wait for drain. pipeline() manages the pace between streams and passes failures to the caller. For a second read, make a new Readable from the same array because the first stream is already exhausted."
      }
+    },
+   {
+    "title": {
+     "ru": "Полный пример — эталон практики",
+     "tg": "Мисоли пурра — намунаи амалия",
+     "en": "Full example — the practice reference"
+    },
+    "body": {
+     "ru": "Сохраните пример как lesson.mjs и выполните node lesson.mjs (Node.js 22+) в отдельной учебной папке. Первый блок собирает полный конвейер: Readable.from по трём словам, Transform, поднимающий регистр, и Writable, собирающий чанки; pipeline() возвращает промис, результат печатается ALPHA|BETA|GAMMA, а deepEqual подтверждает точный набор. Второй блок читает тот же Readable через for await и собирает чанки с разделителем: ab-cd-ef. Третий блок — Transform в objectMode: он суммирует числа в поле total по мере прихода и в flush отдаёт итог одним объектом; pipeline над Readable.from([10,20,30,40]) печатает aggregated total: 100. Все стадии вызывают callback, поэтому конвейер не зависает; вывод детерминирован. Практическое замечание к выводу: чанки приходят ровно в том порядке, в каком их отдал источник, потому что конвейер связывает стадии попарно и не переупорядочивает данные. Если поднимете highWaterMark у Writable, вывод не изменится — изменится только момент приостановки источника.",
+     "tg": "Мисолро ҳамчун lesson.mjs сабт кунед ва дар папкаи алоҳидаи омӯзишӣ node lesson.mjs-ро иҷро кунед (Node.js 22+). Блоки авван конвейери пурра месозад: Readable.from аз рӯйи се калима, Transform-и баландкунандаи регистр ва Writable-и ҷамъкунандаи қисмҳо; pipeline() промис бармегардонад, натиҷа ALPHA|BETA|GAMMA чоп мешавад, ва deepEqual маҷмӯи дақиқро тасдиқ мекунад. Блоки дуюм ҳамин Readable-ро тавассути for await мехонад ва қисмҳоро бо ҷудокунанда ҷамъ мекунад: ab-cd-ef. Блоки сеюм — Transform дар objectMode: вай ададҳоро дар майдони total ҳамагон коркарди меорад ва дар flush натиҷаро бо як объект медиҳад; pipeline болои Readable.from([10,20,30,40]) aggregated total: 100-ро чоп мекунад. Ҳамаи марҳилаҳо callback фаро мехонанд, бинобар ин конвейер намемонад; натиҷа детерминистӣ аст. Мушоҳидаи амалӣ ба баромад: қисмҳо дақиқ бо тартибе меоянд, ки манбаъ додааст, чунки конвейер марҳилаҳоро ҷуфт-ҷуфт мепайвандад ва додаҳоро аз нав тартиб намедиҳад. Агар highWaterMark-и Writable-ро баланд бароред, баромад тағйир намеёбад — танҳо лаҳзаи таваққуфи манбаъ тағйир меёбад.",
+     "en": "Save the example as lesson.mjs and run node lesson.mjs (Node.js 22+) in a separate learning folder. The first block wires a full pipeline: Readable.from over three words, a Transform upper-casing them, and a Writable collecting chunks; pipeline() returns a promise, the result prints ALPHA|BETA|GAMMA, and deepEqual pins the exact set. The second block reads the same Readable through for await and joins the chunks with a separator: ab-cd-ef. The third block is an objectMode Transform: it sums numbers into a total field as they arrive and emits the total once in flush; pipeline over Readable.from([10,20,30,40]) prints aggregated total: 100. Every stage calls its callback, so the pipeline never stalls; the output is deterministic. A practical note on the output: chunks arrive exactly in the order the source emitted them, because the pipeline wires stages pairwise and does not reorder data. If you raise the Writable's highWaterMark, the output does not change — only the moment the source pauses does."
+    },
+    "language": "javascript",
+    "code": "// Day 22 — Streams: an introduction.\n// Readable -> Transform -> Writable with pipeline(), and async iteration.\nimport assert from \"node:assert/strict\";\nimport { Readable, Transform, Writable } from \"node:stream\";\nimport { pipeline } from \"node:stream/promises\";\n\nconst collected = [];\nconst sink = new Writable({\n  write(chunk, encoding, callback) { collected.push(chunk.toString()); callback(); },\n});\n\nconst upper = new Transform({\n  transform(chunk, encoding, callback) {\n    this.push(chunk.toString().toUpperCase());\n    callback();\n  },\n});\n\nconst words = [\"alpha\", \"beta\", \"gamma\"];\nawait pipeline(Readable.from(words), upper, sink);\nconsole.log(\"pipeline result:\", collected.join(\"|\"));\nassert.deepEqual(collected, [\"ALPHA\", \"BETA\", \"GAMMA\"]);\n\n// Streams are async-iterable: for await pulls chunk by chunk.\nconst chunks = [];\nfor await (const chunk of Readable.from([\"ab\", \"cd\", \"ef\"])) chunks.push(chunk.toString());\nconsole.log(\"for await:\", chunks.join(\"-\"));\n\n// A transform can change granularity: three numbers become one aggregate.\nconst summing = new Transform({\n  objectMode: true,\n  transform(chunk, encoding, callback) {\n    this.total = (this.total ?? 0) + chunk;\n    callback();\n  },\n  flush(callback) { this.push(this.total); callback(); },\n});\nconst totals = [];\nawait pipeline(Readable.from([10, 20, 30, 40]), summing, new Writable({\n  objectMode: true,\n  write(chunk, encoding, callback) { totals.push(chunk); callback(); },\n}));\nconsole.log(\"aggregated total:\", totals.join(\",\"));\n",
+    "output": {
+     "ru": "pipeline result: ALPHA|BETA|GAMMA\nfor await: ab-cd-ef\naggregated total: 100",
+     "tg": "pipeline result: ALPHA|BETA|GAMMA\nfor await: ab-cd-ef\naggregated total: 100",
+     "en": "pipeline result: ALPHA|BETA|GAMMA\nfor await: ab-cd-ef\naggregated total: 100"
     }
+   }
    ],
    "questions": [
     {
