@@ -16,6 +16,7 @@ import { DayFinish } from './lesson-flow-finish';
 import { CheckStep, LearnStep, PracticeStep } from './lesson-flow-steps';
 import { CourseQuestion } from './course-question';
 import { usePracticeAccess } from './use-practice-access';
+import { StrictAttempt } from './strict-attempt';
 
 /** Row of day numbers. Every day is open; the finished ones get a check mark. */
 function DayStrip({
@@ -173,7 +174,10 @@ export function CourseDay({
 
   return (
     <>
-      <DayStrip courseId={courseId} section={stripSection} days={days} selectedDay={day} />
+      {/* The test is part of its day ("День N"), not a separate list of days. */}
+      {!testsPage && (
+        <DayStrip courseId={courseId} section={stripSection} days={days} selectedDay={day} />
+      )}
       <div className="mb-4 flex items-center justify-between gap-3">
         <span className="badge">
           {ui.day} {day}
@@ -205,10 +209,9 @@ export function CourseDay({
 
           {testsPage ? (
             <>
-              <LessonQuestions courseId={courseId} lesson={lesson} />
-              <Link className="text-link" href={courseSectionHref(courseId, 'home', day)}>
-                {ui.backExplanation}
-              </Link>
+              <StrictAttempt courseId={courseId} lesson={lesson} day={day}>
+                <LessonQuestions courseId={courseId} lesson={lesson} />
+              </StrictAttempt>
             </>
           ) : (
             <>

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { COURSE_IDS } from '@/lib/courses/ids';
+import { COURSE_IDS, type CourseId } from '@/lib/courses/ids';
 import { INTERFACE_LOCALES, migrateSavedLocale } from '@/lib/locale';
 
 const id = z.string().min(1).max(200);
@@ -58,6 +58,13 @@ export const progressSchema = studyProgressSchema.extend({
   selectedCourse: z.enum(COURSE_IDS).default('react'),
   courseChosen: z.boolean().default(false),
   courses: z.partialRecord(z.enum(COURSE_IDS).exclude(['react']), studyProgressSchema).default({}),
+  // Courses removed from "My courses". Progress is kept; the newest change wins on sync.
+  courseVisibility: z
+    .partialRecord(
+      z.enum(COURSE_IDS),
+      z.object({ hidden: z.boolean(), at: z.number().nonnegative() }),
+    )
+    .default({}),
   preferenceClock: clock,
 });
 export type Progress = z.infer<typeof progressSchema>;
@@ -85,6 +92,12 @@ export function mergeProgress(remote: Progress, local: Progress): Progress {
       Object.assign(merged, { [key]: local[key] });
   }
   merged.preferenceClock = maxClocks(remote.preferenceClock, local.preferenceClock);
+  merged.courseVisibility = { ...remote.courseVisibility };
+  for (const [courseId, value] of Object.entries(local.courseVisibility)) {
+    const key = courseId as keyof typeof local.courseVisibility;
+    if (value && (!merged.courseVisibility[key] || value.at > merged.courseVisibility[key]!.at))
+      merged.courseVisibility[key] = value;
+  }
   merged.courses = { ...remote.courses };
   for (const [courseId, value] of Object.entries(local.courses)) {
     const key = courseId as keyof typeof local.courses;
@@ -140,3 +153,28 @@ function maxClocks(a: Record<string, number>, b: Record<string, number>) {
   for (const [key, value] of Object.entries(b)) result[key] = Math.max(value, a[key] || 0);
   return result;
 }
+
+/** Courses the learner has started: any saved progress, or the chosen course. */
+export function startedCourses(
+  progress: Pick<
+    Progress,
+    'courseChosen' | 'selectedCourse' | 'completedTopics' | 'answers' | 'courses'
+  >,
+): CourseId[] {
+  const ids = new Set<CourseId>();
+  if (progress.courseChosen) ids.add(progress.selectedCourse);
+  if (progress.completedTopics?.length || Object.keys(progress.answers ?? {}).length)
+    ids.add('react');
+  for (const [courseId, value] of Object.entries(progress.courses ?? {}))
+    if (
+      value &&
+      (value.completedTopics.length ||
+        value.completedPractice.length ||
+        Object.keys(value.answers).length ||
+        Object.keys(value.drafts).length)
+    )
+      ids.add(courseId as CourseId);
+  return [...ids];
+}
+export const courseHidden = (progress: Pick<Progress, 'courseVisibility'>, id: CourseId) =>
+  progress.courseVisibility?.[id]?.hidden === true;

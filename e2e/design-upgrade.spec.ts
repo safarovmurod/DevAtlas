@@ -252,8 +252,8 @@ test('typed sidebar navigation starts a view transition when the browser support
     await expect(page.locator('.sidebar')).toHaveClass(/\bis-open\b/);
   }
   await page.evaluate(()=>{(window as Window & {devatlasTransitions?:number}).devatlasTransitions=0;});
-  await page.locator('.sidebar').getByRole('link',{name:'Тесты и интервью',exact:true}).click();
-  await expect(page).toHaveURL(/\/tests$/);
+  await page.locator('.sidebar').getByRole('link',{name:'Повторение',exact:true}).click();
+  await expect(page).toHaveURL(/\/revision$/);
   await expect.poll(()=>page.evaluate(()=>(window as Window & {devatlasTransitions?:number}).devatlasTransitions??0)).toBeGreaterThan(0);
 });
 
@@ -269,8 +269,8 @@ test('sidebar navigation works when view transitions are unavailable',async({pag
     await openMenu.click();
     await expect(page.locator('.sidebar')).toHaveClass(/\bis-open\b/);
   }
-  await page.locator('.sidebar').getByRole('link',{name:'Тесты и интервью',exact:true}).click();
-  await expect(page).toHaveURL(/\/tests$/);
+  await page.locator('.sidebar').getByRole('link',{name:'Повторение',exact:true}).click();
+  await expect(page).toHaveURL(/\/revision$/);
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   expect(errors).toEqual([]);
 });

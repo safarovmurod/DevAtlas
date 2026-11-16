@@ -7,7 +7,6 @@ import {
   Route,
   RotateCcw,
   BookOpenCheck,
-  ListChecks,
   BarChart3,
   NotebookPen,
   Settings2,
@@ -25,10 +24,10 @@ import { courseDisplayName } from '@/lib/catalog-copy';
 import { CourseIcon } from '@/components/courses/course-icon';
 import { useCourseProgress } from '@/lib/use-course-progress';
 // "Мой день" holds the lesson and its practice, "Повторение" holds revision and weak topics.
+// Tests and interviews are not a separate section: each day opens its own strict attempt.
 const items = [
   { key: 'plan', href: '/plan', icon: Route },
   { key: 'home', href: '/home', icon: CalendarCheck },
-  { key: 'tests', href: '/tests', icon: ListChecks },
   { key: 'revision', href: '/revision', icon: RotateCcw },
   { key: 'answers', href: '/answers', icon: BookOpenCheck },
   { key: 'progress', href: '/progress', icon: BarChart3 },
@@ -292,13 +291,11 @@ export function Sidebar() {
               >
                 <NavIcon icon={Icon} tone={item.key} active={active} />
                 <span>
-                  {item.key === 'tests'
-                    ? labels.tests
-                    : item.key === 'answers'
-                      ? labels.answers
-                      : item.key === 'progress'
-                        ? labels.progress
-                        : copy[item.key]}
+                  {item.key === 'answers'
+                    ? labels.answers
+                    : item.key === 'progress'
+                      ? labels.progress
+                      : copy[item.key]}
                 </span>
                 {active && <span className="nav-dot" />}
               </Link>

@@ -21,6 +21,7 @@ import { CatalogCategoryGrid } from './catalog-filters';
 import { CatalogOverview } from './catalog-overview';
 import { CATEGORY_ICONS } from './category-icons';
 import { CourseCard, type CourseStatus } from './course-card';
+import { MyCourses } from './my-courses';
 import { BROWSE_COPY, CATALOG_UI, courseCountLabel } from './course-catalog-copy';
 
 // JavaScript month 2 is reached through the month tabs on the JS1 card.
@@ -209,6 +210,7 @@ export function CourseCatalog() {
         <p>{labels.intro}</p>
       </div>
       <CatalogOverview />
+      <MyCourses />
       <OnboardingBanner />
 
       <div className="catalog-toolbar">

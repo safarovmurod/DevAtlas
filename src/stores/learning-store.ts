@@ -56,6 +56,9 @@ interface LearningState extends Progress {
   deleteNote: (id: string) => void;
   addStudySeconds: (seconds: number, courseId?: CourseId) => void;
   chooseCourse: (courseId: CourseId) => void;
+  /** Removes a course from "My courses" without deleting its progress. */
+  hideCourse: (courseId: CourseId) => void;
+  restoreCourse: (courseId: CourseId) => void;
   completeCourseLesson: (courseId: ImportedCourseId, lessonId: string) => void;
   recordCourseAnswer: (
     courseId: ImportedCourseId,
@@ -249,6 +252,22 @@ export const useLearningStore = create<LearningState>()(
           set({
             studySeconds,
             courses: { ...state.courses, [course]: { ...progress, studySeconds: courseSeconds } },
+          });
+        },
+        hideCourse(courseId) {
+          set({
+            courseVisibility: {
+              ...get().courseVisibility,
+              [courseId]: { hidden: true, at: Date.now() },
+            },
+          });
+        },
+        restoreCourse(courseId) {
+          set({
+            courseVisibility: {
+              ...get().courseVisibility,
+              [courseId]: { hidden: false, at: Date.now() },
+            },
           });
         },
         chooseCourse(selectedCourse) {
