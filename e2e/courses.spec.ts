@@ -72,8 +72,8 @@ test('returning learner opens only the current lesson, preserves manual practice
  await page.reload();await expect(page.locator('.monaco-editor')).toBeVisible();
  for(const checkbox of await page.locator('.course-criterion input').all())await checkbox.check();await page.getByRole('button',{name:'Самопроверка проекта',exact:true}).click();
  await page.getByRole('button',{name:'Подтвердить завершение дня',exact:true}).click();
- await page.goto('/courses/html/tests?day=15');const lesson=html.lessons.find(l=>l.id==='html-day-15')!;const tests=page.locator('.course-question').first();await tests.getByRole('radio',{name:lesson.questions[0].options[lesson.questions[0].correctIndex].tg,exact:true}).check();await tests.getByRole('button',{name:'Проверить',exact:true}).click();await expect(tests.getByRole('status')).toHaveText('Верно');
- await expect(page.getByRole('heading',{name:'1. Тесты'})).toBeVisible();await expect(page.getByRole('heading',{name:'2. Интервью'})).toBeVisible();await page.reload();await expect(page.locator('.course-question').first().getByRole('status')).toHaveText('Верно');
+ await page.goto('/courses/html/tests?day=15'); await page.locator('[data-strict-start]').click();const lesson=html.lessons.find(l=>l.id==='html-day-15')!;const tests=page.locator('.course-question').first();await tests.getByRole('radio',{name:lesson.questions[0].options[lesson.questions[0].correctIndex].tg,exact:true}).check();await tests.getByRole('button',{name:'Проверить',exact:true}).click();await expect(tests.getByRole('status')).toHaveText('Верно');
+ await expect(page.getByRole('heading',{name:'1. Тесты'})).toBeVisible();await expect(page.getByRole('heading',{name:'2. Интервью'})).toBeVisible();await page.reload();await page.locator('[data-strict-start]').click();await expect(page.locator('.course-question').first().getByRole('status')).toHaveText('Верно');
  const state=await page.evaluate(()=>JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);expect(state.courses.html.awards).toMatchObject({'lesson:html-day-15':5,'practice:html-day-15':4,['test:'+lesson.questions[0].id]:10});expect(state.awards).toEqual({});
  await page.goto('/courses/html/plan?day=15');await expect(page.locator('.day-card.is-done')).toHaveCount(15);
  const layout=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth,overflowing:Array.from(document.querySelectorAll('*')).map(element=>{
@@ -99,7 +99,7 @@ test('CSS is a full standalone course and the Sass library lessons stay readable
   const tutor=await response.json();
   expect(tutor).toMatchObject({mode:'local',usage:{totalTokens:0}});
   expect(tutor.reply).toContain('preprocessor');
-  await page.goto('/courses/css/tests');
+  await page.goto('/courses/css/tests'); await page.locator('[data-strict-start]').click();
   const question=page.locator('.course-question').first();
   await expect(question.getByRole('heading',{name:'CSS чист?',exact:true})).toBeVisible();
   await question.getByRole('radio',{name:'Забони тавсифи намуди элементҳои саҳифа',exact:true}).check();

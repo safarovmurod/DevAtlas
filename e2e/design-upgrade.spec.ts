@@ -129,7 +129,8 @@ test('the mobile drawer scrolls as one layer above the assistant',async({page})=
   await expect(drawer.locator('.profile-row')).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(close).toBeFocused();
-  await expect(page.locator('.agent-bubble')).toBeHidden();
+  // Both round buttons (AI Tutor and the assistant) hide under the open drawer.
+  for (const bubble of await page.locator('.agent-bubble').all()) await expect(bubble).toBeHidden();
   const answers=drawer.getByRole('link',{name:'Ответы и интервью',exact:true});
   await answers.scrollIntoViewIfNeeded();await expect(answers).toBeVisible();
   await page.keyboard.press('Escape');

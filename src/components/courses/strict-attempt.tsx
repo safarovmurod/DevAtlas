@@ -231,7 +231,12 @@ export function StrictAttempt({
               <li key={rule}>{rule}</li>
             ))}
           </ul>
-          <button type="button" className="button primary justify-self-start" onClick={start}>
+          <button
+            type="button"
+            className="button primary justify-self-start"
+            data-strict-start=""
+            onClick={start}
+          >
             <Maximize2 size={16} aria-hidden="true" />
             {copy.start}
           </button>

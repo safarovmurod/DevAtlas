@@ -30,7 +30,7 @@ for (const locale of ['ru', 'tg', 'en'] as const) {
 
     await expect(page.locator('#day-practice')).toBeVisible();
     await expect(page.locator('.practice-instructions')).toContainText(lesson.practice.task[locale]);
-    await expect(page.locator('.practice-hint')).toHaveCount(2);
+    await expect(page.getByRole('timer')).toBeVisible();
     await expect(page.locator('.course-criterion')).toHaveCount(3);
     for (const criterion of lesson.practice.criteria) {
       await expect(page.locator('.practice-validation')).toContainText(criterion[locale]);
@@ -41,7 +41,7 @@ for (const locale of ['ru', 'tg', 'en'] as const) {
     await expect(solution.locator('pre')).toContainText('// File: todo_test.go');
     await expect(solution.locator('pre')).toContainText('// Output:');
 
-    await page.goto('/courses/go/tests?day=30');
+    await page.goto('/courses/go/tests?day=30'); await page.locator('[data-strict-start]').click();
     const quizzes = page.locator('.course-question').filter({ has: page.locator('.course-options') });
     await expect(quizzes).toHaveCount(3);
     const first = quizzes.first();
@@ -51,7 +51,7 @@ for (const locale of ['ru', 'tg', 'en'] as const) {
     await expect(first.locator('.question-feedback')).toContainText(question.hint[locale]);
     await first.locator('.question-feedback a').click();
     await expect(page.locator(`#${lesson.id}-section-${question.relatedSection}`)).toContainText(lesson.sections[question.relatedSection].title[locale]);
-    await page.goto('/courses/go/tests?day=30');
+    await page.goto('/courses/go/tests?day=30'); await page.locator('[data-strict-start]').click();
     for (let index = 0; index < 3; index++) {
       const quiz = quizzes.nth(index);
       await quiz.getByRole('radio').nth(lesson.questions[index].correctIndex).check();

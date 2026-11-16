@@ -38,7 +38,7 @@ test('day 1 has lesson and a real editor on one page, accepts alternate HTML and
   await expect(page.getByRole('button',{name:'Подтвердить завершение дня',exact:true})).toBeDisabled();
   await enterCode(page,alternateHtml);
   await page.getByRole('button',{name:'Проверить решение',exact:true}).click();
-  await expect(page.locator('.practice-validation [role=status]')).toContainText('Все проверки пройдены');
+  await expect(page.locator('.practice-validation [role=status]')).toContainText('Верно. Практика сохранена.');
   // The lesson step has its own demo preview; the practice preview is inside #day-practice.
   await expect(page.frameLocator('#day-practice .html-preview').getByRole('heading',{name:'Учусь создавать сайты'})).toBeVisible();
   await expect(page.getByRole('button',{name:'Подтвердить завершение дня',exact:true})).toBeEnabled();
@@ -117,8 +117,8 @@ test('unconfigured paid plans cannot activate subscriptions and guest chat has n
   await expect(page.getByText('не создаются платежи и подписки',{exact:false})).toBeVisible();
   expect(checkoutRequests).toEqual([]);
   await page.goto('/community');
-  await expect(page.getByRole('status').filter({hasText:'Войдите в аккаунт, чтобы открыть сообщество.'})).toBeVisible();
-  await expect(page.getByLabel('Ваше сообщение',{exact:true})).toHaveCount(0);
+  await expect(page.getByRole('status').filter({hasText:'Войдите, чтобы открыть чат.'})).toBeVisible();
+  await expect(page.getByLabel('Сообщение',{exact:true})).toHaveCount(0);
   await expect(page.getByRole('link',{name:'Войти',exact:true})).toHaveAttribute('href','/login');
   expect((await page.request.get('/api/community')).status()).toBe(401);
 });

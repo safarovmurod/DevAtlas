@@ -34,7 +34,8 @@ test('phone header controls never overlap and the menu scrolls, traps focus and 
     await expect(page.locator('.header-settings')).toBeHidden();
     const boxes = await Promise.all([
       page.getByRole('button', { name: 'Открыть меню' }), page.locator('.brand'),
-      page.getByRole('button', { name: 'AI Tutor', exact: true }), page.locator('.language-link'), page.locator('.header-profile'),
+      // AI Tutor is no longer in the header: it is a round button at the bottom.
+      page.locator('.language-link'), page.locator('.header-profile'),
     ].map(locator => locator.boundingBox()));
     for (let index=0;index<boxes.length;index++) {
       const box=boxes[index]!;expect(box).toBeTruthy();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(width);

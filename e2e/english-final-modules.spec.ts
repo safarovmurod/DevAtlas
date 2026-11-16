@@ -22,7 +22,7 @@ for (const [start, end] of [[15, 18], [19, 26], [27, 34], [35, 42]]) {
       await expect(page.locator('[data-lesson-section]')).toHaveCount(4);
     }
     const lesson = course.lessons[end - 1];
-    await page.goto(`/courses/english-foundations/tests?day=${end}`);
+    await page.goto(`/courses/english-foundations/tests?day=${end}`); await page.locator('[data-strict-start]').click();
     const question = page.locator('.course-question').first();
     const wrong = (lesson.questions[0].correctIndex + 1) % 3;
     await question.getByRole('radio', { name: lesson.questions[0].options[wrong].tg, exact: true }).check();

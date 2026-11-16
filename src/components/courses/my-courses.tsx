@@ -8,6 +8,9 @@ import type { InterfaceLocale } from '@/lib/locale';
 import { useLearningStore } from '@/stores/learning-store';
 import { CourseIcon } from './course-icon';
 
+/** Touch targets stay at least 44×44 px. */
+const TOUCH = { width: 44, height: 44 };
+
 const COPY: Record<
   InterfaceLocale,
   { title: string; remove: string; confirm: string; hidden: string; restore: string }
@@ -83,12 +86,16 @@ export function MyCourses() {
                 className="flex items-center gap-3 rounded-xl border border-border bg-card p-2 pl-3"
               >
                 <CourseIcon courseId={id} size={26} className="rounded-md" />
-                <Link href={courseHref(id)} className="min-w-0 flex-1 truncate font-medium">
+                <Link
+                  href={courseHref(id)}
+                  className="flex min-h-11 min-w-0 flex-1 items-center truncate font-medium"
+                >
                   {name}
                 </Link>
                 <button
                   type="button"
                   className="icon-button"
+                  style={TOUCH}
                   aria-label={`${copy.remove}: ${name}`}
                   title={copy.remove}
                   onClick={() => {
