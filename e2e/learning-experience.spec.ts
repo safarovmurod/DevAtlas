@@ -131,11 +131,11 @@ test('JavaScript-1 practice runs real function tests in the browser', async ({ p
     const models = (window as unknown as { monaco: { editor: { getModels: () => { setValue: (v: string) => void }[] } } }).monaco.editor.getModels();
     models[models.length - 1].setValue(value);
   }, code);
-  const run = page.getByRole('button', { name: 'Тестҳои функсияро иҷро кунед' });
+  const run = page.getByRole('button', { name: 'Санҷидани ҳал' });
   await setCode('function describeUser(name, age) { return name + age; }');
   await run.click();
-  await expect(page.locator('.function-practice [role=status]')).not.toHaveText('Тестҳои маҳаллӣ гузаштанд.', { timeout: 15000 });
+  await expect(page.locator('.function-practice [role=status]')).toContainText('× Нодуруст', { timeout: 15000 });
   await setCode('function describeUser(name, age) {\n  return `${name}, ${age}`;\n}');
   await run.click();
-  await expect(page.locator('.function-practice [role=status]')).toHaveText('Тестҳои маҳаллӣ гузаштанд.', { timeout: 15000 });
+  await expect(page.locator('.function-practice [role=status]')).toContainText('✓ Дуруст', { timeout: 15000 });
 });
