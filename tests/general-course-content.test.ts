@@ -14,7 +14,7 @@ const applied = ['ux-pro', 'business-pro'] as const;
 const appliedDays = { 'ux-pro': 30, 'business-pro': 30 } as Record<string, number>;
 const starterDays = {
   'ux-design': 30, 'digital-marketing': 30, 'data-analytics': 30, 'business-foundations': 30, 'communication': 30,
-  'content-creation': 30, 'english-foundations': 42, 'digital-literacy': 9, 'personal-productivity': 22, 'management-foundations': 9,
+  'content-creation': 30, 'english-foundations': 42, 'digital-literacy': 30, 'personal-productivity': 22, 'management-foundations': 23,
 } as Record<string, number>;
 const expandedIntroductions = new Set([
   'content-creation', 'english-foundations', 'digital-literacy', 'personal-productivity', 'management-foundations',
@@ -97,7 +97,7 @@ describe('original general-education modules', () => {
         }
       }
     }
-    expect(lessonCount).toBe(322);
+    expect(lessonCount).toBe(357);
   });
 
   it('editing and media quizzes cannot be solved by a fixed answer position for each question number', async () => {
@@ -108,6 +108,31 @@ describe('original general-education modules', () => {
       for (const questionIndex of [0, 1, 2]) {
         expect(new Set(module.map(lesson => lesson.questions[questionIndex].correctIndex)).size).toBeGreaterThan(1);
       }
+    }
+  });
+
+  it('authored digital and management modules vary answer positions and keep written capstones self-reviewed', async () => {
+    for (const id of ['digital-literacy', 'management-foundations']) {
+      const course = await content(id);
+      for (const startDay of course.lessons.length === 30 ? [10, 17, 24] : [10, 17]) {
+        const module = course.lessons.filter(lesson => lesson.day! >= startDay && lesson.day! < startDay + 7);
+        expect(module).toHaveLength(7);
+        for (const questionIndex of [0, 1, 2]) {
+          expect(new Set(module.map(lesson => lesson.questions[questionIndex].correctIndex)).size).toBeGreaterThan(1);
+        }
+        for (const lesson of module) {
+          expect(new Set(lesson.questions.map(question => question.correctIndex)).size).toBe(3);
+          expect(lesson.practice!.kind).toBe('written');
+          expect(lesson.practice!.execution).toBeUndefined();
+          expect(lesson.practice!.hints).toHaveLength(2);
+          expect(lesson.practice!.hint).toEqual(lesson.practice!.hints![0]);
+        }
+      }
+      if (course.lessons.length < 30) continue;
+      const capstone = course.lessons.find(lesson => lesson.day === 30)!.practice!;
+      expect(capstone.rubric).toBeDefined();
+      expect(capstone.rubric!.criteria).toHaveLength(capstone.criteria.length);
+      expect(capstone.rubric!.criteria.length).toBeGreaterThanOrEqual(3);
     }
   });
 

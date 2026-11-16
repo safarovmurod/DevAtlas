@@ -52,7 +52,9 @@ const delivery=[
  '',
  '## Required remaining work',
  '',
- `The short-course blueprints still have ${short.reduce((sum,row)=>sum+row.plannedDays-row.publishedDays,0)} days to author across ${short.length} courses: ${short.map(row=>`\`${row.courseId}\` (${row.publishedDays}/${row.plannedDays})`).join(', ')}. Counts show authored days in the local catalog against draft targets.`,
+ short.length
+  ? `The short-course blueprints still have ${short.reduce((sum,row)=>sum+row.plannedDays-row.publishedDays,0)} days to author across ${short.length} courses: ${short.map(row=>`\`${row.courseId}\` (${row.publishedDays}/${row.plannedDays})`).join(', ')}. Counts show authored days in the local catalog against draft targets.`
+  : 'All twelve short-course blueprints now have their planned scheduled lessons in the local loaders. Independent content review, assessment variants and verified learner outcomes remain separate requirements.',
  '',
  `All ${fourteen.length} fourteen-day programs still require a reviewed continuation: ${fourteen.map(row=>`\`${row.courseId}\``).join(', ')}.`,
  '',
