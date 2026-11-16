@@ -191,6 +191,13 @@ export const dayCopy = {
     'No questions for this day.',
     'No hay preguntas para este día.',
   ),
+  whatIs: t('Что это?', 'Ин чист?', 'What is it?', '¿Qué es?'),
+  question: t('Вопрос', 'Савол', 'Question', 'Pregunta'),
+  answer: t('Ответ', 'Ҷавоб', 'Answer', 'Respuesta'),
+  showAnswer: t('Показать ответ', 'Ҷавобро нишон деҳ', 'Show answer', 'Ver respuesta'),
+  sample: t('Пример', 'Мисол', 'Example', 'Ejemplo'),
+  result: t('Результат', 'Натиҷа', 'Result', 'Resultado'),
+  more: t('Подробнее', 'Муфассал', 'More', 'Más'),
   expand: t('Открыть все', 'Ҳамаро кушодан', 'Open all', 'Abrir todo'),
   collapse: t('Свернуть', 'Печондан', 'Collapse', 'Contraer'),
   qa: t(

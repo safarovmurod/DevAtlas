@@ -196,9 +196,11 @@ export function CourseDay({
             <h2 className="text-2xl leading-8 font-semibold tracking-tight">
               {text(lesson.title)}
             </h2>
-            <p className="max-w-[80ch] text-[15px] leading-6 text-muted-foreground">
-              {text(lesson.summary)}
-            </p>
+            {testsPage && (
+              <p className="max-w-[80ch] text-[15px] leading-6 text-muted-foreground">
+                {text(lesson.summary)}
+              </p>
+            )}
           </header>
 
           {testsPage ? (

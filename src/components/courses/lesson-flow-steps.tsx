@@ -20,7 +20,6 @@ import {
   Extra,
   FlowChallenge,
   FlowDemo,
-  FlowGoals,
   FlowGuided,
   FlowNotes,
   FlowPrediction,
@@ -75,8 +74,6 @@ export function LearnStep({
 
   return (
     <StepCard step="learn" title={t('learn')} done={studied}>
-      {flow && <FlowGoals flow={flow} />}
-
       <div className="grid gap-2" ref={sections}>
         {lesson.sections.length > 1 && (
           <button type="button" className="text-link justify-self-end text-sm" onClick={toggleAll}>
@@ -91,12 +88,7 @@ export function LearnStep({
             id={`${lesson.id}-section-${index}`}
             summary={text(part.title)}
           >
-            <p className="preserve-lines">{text(part.body)}</p>
-            {part.code && (
-              <pre tabIndex={0}>
-                <code>{part.code}</code>
-              </pre>
-            )}
+            <TopicParts lesson={lesson} index={index} />
           </Extra>
         ))}
       </div>
@@ -245,5 +237,67 @@ export function CheckStep({
         </Link>
       </div>
     </StepCard>
+  );
+}
+
+/** First paragraph of a text, and the rest (folded under "More"). */
+export function splitLead(body: string): [string, string] {
+  const parts = body.trim().split(/\n\s*\n/);
+  return [parts[0] ?? '', parts.slice(1).join('\n\n')];
+}
+
+/**
+ * One topic in a fixed, short order: What is it? → question → answer → example.
+ * Only the presentation changes; the authored text and IDs stay the same.
+ */
+function TopicParts({ lesson, index }: { lesson: CourseLesson; index: number }) {
+  const contentLanguage = useLearningStore((state) => state.contentLanguage);
+  const t = useDayCopy();
+  const text = (value: CourseLesson['title']) => courseText(value, contentLanguage);
+  const part = lesson.sections[index];
+  const question = lesson.questions.find((item) => item.relatedSection === index);
+  const [lead, rest] = splitLead(text(part.body));
+  const label = 'text-xs font-semibold tracking-wide text-brand uppercase';
+  return (
+    <div className="grid gap-4" data-topic-parts="">
+      <div className="grid gap-1">
+        <span className={label}>{t('whatIs')}</span>
+        <p className="preserve-lines m-0">{lead}</p>
+        {rest && (
+          <details>
+            <summary className="cursor-pointer text-sm font-medium text-muted-foreground">
+              {t('more')}
+            </summary>
+            <p className="preserve-lines mt-2 mb-0">{rest}</p>
+          </details>
+        )}
+      </div>
+      {question && (
+        <div className="grid gap-1">
+          <span className={label}>{t('question')}</span>
+          <p className="m-0 font-medium">{text(question.question)}</p>
+          <details>
+            <summary className="cursor-pointer text-sm font-medium text-brand">
+              {t('showAnswer')}
+            </summary>
+            <p className="preserve-lines mt-2 mb-0">{text(question.answer)}</p>
+          </details>
+        </div>
+      )}
+      {part.code && (
+        <div className="grid gap-1">
+          <span className={label}>{t('sample')}</span>
+          <pre tabIndex={0}>
+            <code>{part.code}</code>
+          </pre>
+          {part.output && (
+            <p className="m-0 text-sm">
+              <span className="font-medium">{t('result')}: </span>
+              <code className="preserve-lines">{text(part.output)}</code>
+            </p>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
