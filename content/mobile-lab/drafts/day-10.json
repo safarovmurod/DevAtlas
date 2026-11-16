@@ -45,6 +45,30 @@
       },
       "code": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Проверка проекта</Text>\n      <Text>Откройте package.json и найдите версии expo, react-native и react.</Text>\n    </View>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Как SDK держит версии вместе",
+        "tg": "Чӣ тавр SDK версияҳоро якҷоя нигоҳ медорад",
+        "en": "How an SDK keeps versions together"
+      },
+      "body": {
+        "ru": "package.json хранит номера, а согласованность поддерживает expo: npx expo install подбирает версию пакета под текущий SDK, поэтому список зависимостей остаётся совместимым. Если версии разошлись, npx expo install --fix выравнивает их под SDK без ручной правки. Expo Go на устройстве поддерживает свои выпуски: проект одного SDK открывается в Expo Go того же выпуска, и несовпадение видно сразу сообщением о версии. Связь с первым днём: проект создаётся один раз командой create-expo-app, и все дни курса живут в нём; после каждого дополнения проверяйте список версий в package.json.",
+        "tg": "package.json рақамҳоро нигоҳ медорад, аммо мувофиқиро expo дастгирӣ мекунад: npx expo install версияи бастаро мувофиқи SDK-и ҷорӣ интихоб мекунад, бинобар ин рӯйхати вобастагӣ мувофиқ мемонад. Агар версияҳо ҷудо шуда бошанд, npx expo install --fix онҳоро мувофиқи SDK бе тағйири дастӣ мувофиқ мегузорад. Expo Go дар дастгоҳ нашриёти худро дастгирӣ мекунад: лоиҳаи як SDK дар Expo Go-и ҳамон нашр кушода мешавад ва номувофиқӣ фавран бо паёми версия дида мешавад. Пайванд бо рӯзи аввал: лоиҳа як бор бо фармони create-expo-app сохта мешавад ва ҳамаи рӯзҳои курс дар он зиндагӣ мекунанд; баъди ҳар илова рӯйхати версияҳоро дар package.json санҷед.",
+        "en": "package.json stores the numbers, while expo keeps them consistent: npx expo install picks a package version matching the current SDK, so the dependency list stays compatible. If versions drift apart, npx expo install --fix aligns them to the SDK without manual editing. Expo Go on a device supports specific releases: a project of one SDK opens in the Expo Go of the same release, and a mismatch is immediately visible as a version message. Connection to day one: the project is created once with create-expo-app and all course days live inside it; after every addition check the version list in package.json."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с версиями",
+        "tg": "Хатоҳои маъмулӣ бо версияҳо",
+        "en": "Common mistakes with versions"
+      },
+      "body": {
+        "ru": "Первая ошибка — npm install react-native@latest: свежая версия не соответствует SDK, и нативная сборка ломается; версию подбирает npx expo install. Вторая — ручная правка номеров в package.json: номер без окружающих пакетов ничего не гарантирует; пересоздайте проект или используйте expo install. Третья — несоответствие Expo Go: проект открывают в Expo Go другого выпуска SDK и получают сообщение о версии вместо экрана. Четвёртая — правки внутри node_modules: папка пересоздаётся при каждой установке, и изменения исчезают без следа.",
+        "tg": "Хатои аввал — npm install react-native@latest: версияи навтар ба SDK мувофиқ нест ва сохтмони нативӣ вайрон мешавад; версияро npx expo install интихоб мекунад. Хатои дуюм — тағйири дастии рақамҳо дар package.json: як рақам бе бастаҳои атроф ҳеҷ чизро кафолат намедиҳад; лоиҳаро аз нав созед ё expo install-ро истифода баред. Хатои сеюм — номувофиқии Expo Go: лоиҳаро дар Expo Go-и нашри дигари SDK мекушоянд ва ба ҷои экран паёми версия мегиранд. Хатои чорум — ислоҳҳо дар дохили node_modules: папка дар ҳар насб аз нав сохта мешавад ва тағйирот бе изи худ гум мешаванд.",
+        "en": "The first mistake is npm install react-native@latest: a fresh version does not match the SDK and the native build breaks; the version is chosen by npx expo install. The second is manual editing of numbers in package.json: a number without its surrounding packages guarantees nothing; recreate the project or use expo install. The third is an Expo Go mismatch: the project is opened in an Expo Go of a different SDK release and shows a version message instead of the screen. The fourth is edits inside node_modules: the folder is recreated on every install, and the changes vanish without a trace."
+      }
     }
   ],
   "questions": [
@@ -109,7 +133,7 @@
           "en": "On the phone screen"
         }
       ],
-      "correctIndex": 0,
+      "correctIndex": 1,
       "answer": {
         "ru": "package.json хранит имена пакетов и их номера.",
         "tg": "package.json номи бастаҳо ва рақамҳои онҳоро нигоҳ медорад.",
@@ -305,7 +329,7 @@
           "en": "On the phone screen"
         }
       ],
-      "correctIndex": 0,
+      "correctIndex": 1,
       "hint": {
         "ru": "Вспомните, какой файл в корне проекта описывает зависимости.",
         "tg": "Ёд оред, ки кадом файл дар решаи лоиҳа вобастагиро тавсиф мекунад.",

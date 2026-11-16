@@ -45,6 +45,30 @@
       },
       "code": "import { Text, View } from 'react-native';\n\nexport default function App() {\n  const plan = {\n    title: 'Мой план',\n    lessons: ['Открыть урок', 'Повторить тему'],\n  };\n  const lessonCount = plan.lessons.length;\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">{plan.title}</Text>\n      <Text>Занятий в плане: {lessonCount}</Text>\n    </View>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Структура данных как карта экрана",
+        "tg": "Сохтори додаҳо ҳамчун харитаи экран",
+        "en": "Data structure as a map of the screen"
+      },
+      "body": {
+        "ru": "Объект plan держит связанные значения вместе: название и список едут в одну запись и показываются одной строкой. Свойство length превращает массив в счётчик — готовое число для Text: «Занятий: 3». В реальном проекте длина списка почти всегда выводится рядом с заголовком, потому что пользователь сначала смотрит объём, потом содержимое. Массив для отображения не меняют напрямую: для добавления создают новый массив [...lessons, item], и только он попадает в состояние. Связь с будущими днями: на девятом список рисуют через map с ключами, на шестнадцатом — через FlatList; оба читают тот же массив.",
+        "tg": "Объекти plan қиматҳои ба ҳам пайвандаро якҷоя нигоҳ медорад: ном ва рӯйхат ба як қайд меомаданд ва бо як сатр нишон дода мешаванд. Хосияти length массивро ба ҳисобкунак табдил медиҳад — адади омода барои Text: «Машғулиятҳо: 3». Дар лоиҳаи воқеӣ дарозии рӯйхат қариб ҳамеша паҳлуи сарлавҳа нишон дода мешавад, чунки корбар аввал ҳаҷмро мебинад, баъд мазмунро. Рӯйхати барои намоиш бевосита тағйир дода намешавад: барои илова массиви нави [...lessons, item] сохта мешавад ва танҳо ҳамин ба ҳолат мерасад. Пайванд бо рӯзҳои оянда: дар рӯзи нӯҳум рӯйхатро бо map бо калидҳо мекашанд, дар рӯзи шонздаҳум — бо FlatList; ҳарду ҳамин массивро мехонанд.",
+        "en": "The plan object keeps related values together: the title and the list travel in one record and are shown by one line. The length property turns an array into a counter — a ready number for Text: «Lessons: 3». In a real project the list length is almost always printed next to the header, because a user first sees the volume and only then the content. An array used for display is never mutated directly: to add an item you create a new array [...lessons, item], and only that one reaches the state. Connection to future days: on day nine the list is drawn with map and keys, on day sixteen with FlatList; both read the same array."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с объектами и массивами",
+        "tg": "Хатоҳои маъмулӣ бо объектҳо ва массивҳо",
+        "en": "Common mistakes with objects and arrays"
+      },
+      "body": {
+        "ru": "Первая ошибка — показать массив вместо числа: Text ожидает строку или число, а lessons без length не выводится и вызывает ошибку рендера. Вторая — lessons.push(item) напрямую: массив меняется, но React не замечает, потому что ссылка осталась прежней; нужен новый массив. Третья — опечатка в имени свойства: plan.lessens даёт undefined вместо названия, и на экране появляется пустота. Четвёртая — обращение по индексу за границей массива: lessons[3] при трёх записях возвращает undefined, поэтому проверяют length до доступа.",
+        "tg": "Хатои аввал — нишон додани массив ба ҷои адад: Text сатр ё ададро талаб мекунад, lessons бе length намоиш дода намешавад ва хатои рендер мегирад. Хатои дуюм — lessons.push(item) бевосита: массив тағйир меёбад, аммо React мефаҳмонад, чунки истинод ҳамон боқӣ монд; массиви нав лозим аст. Хатои сеюм — хатогӣ дар номи хосият: plan.lessens undefined ба ҷои ном медиҳад ва дар экран холӣ пайдо мешавад. Хатои чорум — муроҷиат бо индекс берун аз ҳуди массив: lessons[3] дар се қайд undefined бармегардонад, бинобар ин пеш аз дастрасӣ length-ро санҷед.",
+        "en": "The first mistake is showing an array instead of a number: Text expects a string or a number, and lessons without length is not displayed and raises a render error. The second is lessons.push(item) directly: the array changes, but React does not notice because the reference stayed the same; a new array is needed. The third is a typo in a property name: plan.lessens gives undefined instead of the title, and emptiness appears on the screen. The fourth is indexing past the array boundary: lessons[3] with three records returns undefined, so check length before access."
+      }
     }
   ],
   "questions": [

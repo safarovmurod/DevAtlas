@@ -45,6 +45,30 @@
       },
       "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Task = { id: string; title: string };\n\nconst KEY = 'devatlas-tasks';\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        setTasks(raw ? (JSON.parse(raw) as Task[]) : []);\n      })\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return (\n      <View style={styles.screen}>\n        <Text>Открываем сохранённые занятия…</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      {tasks.length === 0 ? (\n        <Text>Сохранённых занятий нет. Это первый запуск.</Text>\n      ) : (\n        tasks.map(task => <Text key={task.id}>{task.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Три периода запуска",
+        "tg": "Се давраи оғоз",
+        "en": "Three periods of a launch"
+      },
+      "body": {
+        "ru": "Запуск проходит три периода: не прочитано — tasks равен null, прочитано и пусто — массив, прочитано с данными — записи на экране. Экран каждого периода разный: загрузка, пустое состояние, список — применение четырёх состояний дня двадцать шестого к хранилищу. После JSON.parse проверяют форму данных: у записей должны быть нужные поля, иначе данные, сохранённые «прошлой версией приложения», не должны валить рендер. В реальном проекте это называют защитой от старых версий: первая версия уже в руках пользователя, а модель данных живёт дальше.",
+        "tg": "Оғоз се давра мегузарад: нахондашуда — tasks баробари null, хондашуда ва холӣ — массив, хондашуда бо додаҳо — қайдҳо дар экран. Экрани ҳар давра гуногун аст: боркунӣ, ҳолати холӣ, рӯйхат — татбиқи чор ҳолати рӯзи бисту шашум ба хазина. Баъди JSON.parse шакли додаҳоро санҷед: дар қайдҳо майдонҳои лозимӣ бояд бошанд, вагарна додаҳои «версияи қаблии барнома» набояд рендерро месикананд. Дар лоиҳаи воқеӣ инро ҳимоя аз версияҳои кӯҳна меноманд: версияи аввал аллакай дасти корбар аст ва модели додаҳо зиндагиро идома медиҳад.",
+        "en": "A launch passes three periods: not read — tasks equals null, read and empty — an array, read with data — records on the screen. Each period has its own screen: loading, empty state, list — applying the four states of day twenty-six to storage. After JSON.parse check the data shape: records must have the required fields, otherwise data saved by a «previous app version» must not crash the render. In a real project this is called protection against old versions: the first version is already in the user's hands while the data model lives on."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки восстановления",
+        "tg": "Хатоҳои маъмулии барқарорсозӣ",
+        "en": "Common mistakes of restoring"
+      },
+      "body": {
+        "ru": "Первая ошибка — старт с [] вместо null: экран называет пустым список, который ещё не прочитан, и «мигает» пустотой при каждом запуске. Вторая — нет экрана загрузки: между открытием и чтением хранилища пользователь видит случайную ветку интерфейса. Третья — данные из хранилища принимаются без проверки формы: чужая или старая структура валит рендер на отсутствующем поле. Четвёртая — двойное чтение ключа: useEffect запускается дважды при строгом режиме разработки, и записи дублируются; чтение делают один раз и хранят в состоянии.",
+        "tg": "Хатои аввал — оғоз бо [] ба ҷои null: экран рӯйхате, ки ҳанӯз нахондашудааст, холӣ меномад ва дар ҳар оғоз бо холӣ «мигзад». Хатои дуюм — набудани экрани боркунӣ: байни кушодан ва хондани хазина корбар шохаи тасодуфии интерфейсро мебинад. Хатои сеюм — қабул кардани додаҳо аз хазина бе санҷиши шакл: сохти дигар ё кӯҳна барои майдони набуда рендерро меканад. Хатои чорум — хондани дучанди калид: useEffect дар реҷаи қатии таҳия ду бор оғоз мешавад ва қайдҳо дучанд мешаванд; хонданро як бор мекунанд ва дар ҳолат нигоҳ медоранд.",
+        "en": "The first mistake is starting with [] instead of null: the screen calls an unread list empty and «blinks» with emptiness on every launch. The second is no loading screen: between opening and reading storage the user sees a random interface branch. The third is accepting storage data without a shape check: a foreign or old structure crashes the render on a missing field. The fourth is double reading of the key: useEffect starts twice in development strict mode and records duplicate; read once and keep the result in state."
+      }
     }
   ],
   "questions": [

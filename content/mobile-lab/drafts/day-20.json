@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, StyleSheet, Text, TextInput, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  const [draft, setDraft] = useState('');\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Черновик заметки</Text>\n      <TextInput\n        value={draft}\n        onChangeText={setDraft}\n        placeholder=\"Пишите здесь\"\n        style={styles.input}\n      />\n      <Button title=\"Открыть подсказку\" onPress={() => navigation.navigate('Help')} />\n      <Text>Черновик останется, пока экран в стеке.</Text>\n    </View>\n  );\n}\n\nfunction HelpScreen() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Подсказка</Text>\n      <Text>Вернитесь назад системной кнопкой и найдите черновик.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Help\" component={HelpScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Черновик живёт в стеке",
+        "tg": "Лоиҳа дар стек зиндагӣ мекунад",
+        "en": "The draft lives in the stack"
+      },
+      "body": {
+        "ru": "Экран под верхним не уничтожается: его state сохраняется, и черновик остаётся, пока стек держит экран. Это поведение проверяют осознанно: введите текст, откройте второй экран, вернитесь — текст на месте, и это не баг, а свойство стека. Но стек не хранилище: закрытие приложения и перезапуск теряют несохранённый ввод без предупреждения. Осознанное сохранение — кнопка, а не автозапись: пользователь должен понимать, что именно станет заметкой (двадцать восьмой день добавит настоящее хранение в AsyncStorage). Связь с днём семнадцатым: различие «черновик» и «сохранено» формулируют в сценарии до кода.",
+        "tg": "Экрани зери болоӣ нест намешавад: ҳолаташ нигоҳ дошта мешавад ва лоиҳа мемонад, то стек экранро нигоҳ дорад. Ин рафторро огоҳона санҷед: матн нависед, экрани дуюмро кушоед, баргардед — матн дар ҷояст ва ин хато нест, хусусияти стек аст. Аммо стек хазина нест: пӯшидани барнома ва оғози нав навиштаҷоти нигоҳдоринашударо бе огоҳӣ гум мекунад. Нигоҳдории огоҳона — тугма аст, на сабти худкор: корбар бояд фаҳмад, ки чӣ дастақиқ қайд мешавад (рӯзи бисту ҳаштум нигоҳдории воқеиро дар AsyncStorage меорад). Пайванд бо рӯзи ҳафтум: фарқи «лоиҳа» ва «нигоҳдорӣшуда»-ро дар сенария пеш аз рамз нависед.",
+        "en": "The screen under the top one is not destroyed: its state survives, and the draft remains while the stack keeps the screen. Check this behavior deliberately: type a text, open the second screen, come back — the text is there, and this is not a bug but a stack property. But the stack is not storage: closing the app and relaunching loses unsaved input without warning. Deliberate saving is a button, not auto-write: the user must understand what exactly becomes a note (day twenty-eight adds real storage in AsyncStorage). Connection to day seventeen: the difference between «draft» and «saved» is stated in the scenario before the code."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки возврата и черновиков",
+        "tg": "Хатоҳои маъмулии бозгашт ва лоиҳаҳо",
+        "en": "Common mistakes of going back and drafts"
+      },
+      "body": {
+        "ru": "Первая ошибка — ожидание сброса при возврате: стек сохраняет экран, и черновик «неожиданно» живёт; это не ошибка, а договор стека. Вторая — обнуление state в useEffect на каждый возврат: черновик стирается самим приложением; сброс делают только по явному действию пользователя. Третья — надежда, что стек заменит хранилище: перезапуск теряет несохранённый текст; для переживания перезапуска нужно хранилище из дня двадцать восьмого. Четвёртая — подъём состояния копированием: черновик дублируют в двух местах и получают расхождения; состояние поднимают один раз, а события передают вверх (день двадцать первый).",
+        "tg": "Хатои аввал — интизори поксозӣ ҳангоми бозгашт: стек экранро нигоҳ медорад ва лоиҳа «ногаҳон» зинда мемонад; ин хато нест, шартномаи стек аст. Хатои дуюм — сифр кардани ҳолат дар useEffect дар ҳар бозгашт: лоиҳаро худи барнома мекушад; поксозиро танҳо бо амали возеҳи корбар мекунанд. Хатои сеюм — умед, ки стек хазинаро иваз мекунад: оғози нав матни нигоҳдоринашударо гум мекунад; барои аз сар гузаштан хазинаи рӯзи бисту ҳаштум лозим аст. Хатои чорум — боло бурдани ҳолат тавассути нусхабардорӣ: лоиҳаро дар ду ҷо такрор мекунанд ва ноҳамҳангиро мегиранд; ҳолатро як бор боло мебароранд ва рӯйдодҳоро боло мефиристанд (рӯзи бисту як).",
+        "en": "The first mistake is expecting a reset on return: the stack keeps the screen and the draft «unexpectedly» survives; this is not a bug but the stack's contract. The second is zeroing state in useEffect on every return: the app erases the draft itself; reset only by an explicit user action. The third is hoping the stack replaces storage: a relaunch loses unsaved text; surviving a relaunch needs the storage of day twenty-eight. The fourth is lifting state by copying: the draft is duplicated in two places and diverges; lift the state once and pass events upward (day twenty-one)."
+      }
     }
   ],
   "questions": [

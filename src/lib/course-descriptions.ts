@@ -238,10 +238,10 @@ export const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     'Metas, prioridades, plan semanal y distracciones. Crea un plan personal que puedas cumplir.',
   ),
   'management-foundations': text(
-    '23 дня: цель и план команды, делегирование, обратная связь, риски, решения, рабочие конфликты и доступное участие.',
-    '23 days: team goals and planning, delegation, feedback, risks, decisions, disagreements and inclusive participation.',
-    '23 рӯз: ҳадафу нақшаи даста, супоридани вазифа, feedback, хавф, қарор, норозигии корӣ ва иштироки дастрас.',
-    '23 días: objetivos y planificación del equipo, delegación, retroalimentación, riesgos, decisiones, desacuerdos y participación inclusiva.',
+    '30 дней: цель и план команды, делегирование, обратная связь, риски, решения, рабочие конфликты и доступное участие.',
+    '30 days: team goals and planning, delegation, feedback, risks, decisions, disagreements and inclusive participation.',
+    '30 рӯз: ҳадафу нақшаи даста, супоридани вазифа, feedback, хавф, қарор, норозигии корӣ ва иштироки дастрас.',
+    '30 días: objetivos y planificación del equipo, delegación, retroalimentación, riesgos, decisiones, desacuerdos y participación inclusiva.',
   ),
   'ai-fundamentals': text(
     'Четырнадцать бесплатных дней: ИИ, LLM, токены и контекст, инструкции, галлюцинации, безопасность и мини-проект.',

@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { Button, Text, View } from 'react-native';\n\nexport default function App() {\n  const [message, setMessage] = useState('Готовы начать?');\n\n  function startLesson() {\n    setMessage('Урок начался');\n  }\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text>{message}</Text>\n      <Button title=\"Начать урок\" onPress={startLesson} />\n    </View>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Кто вызывает обработчик",
+        "tg": "Кӣ коркардкунандаро мехонад",
+        "en": "Who calls the handler"
+      },
+      "body": {
+        "ru": "Кнопка вызывает функцию сама: вы передаёте имя, а платформа запускает её при нажатии. Если обработчику нужны аргументы, передают стрелку: onPress={() => open(id)} — запись open(id) без стрелки выполнится во время отрисовки, ещё до первого касания. В реальном проекте обработчик редко делает всё сразу: он вызывает небольшую функцию изменения state, а остальное делает рендер. Проверка дня — последовательность старт → сброс → старт: после сброса сообщение возвращается сразу, и это видно только на устройстве, где между нажатиями проходит настоящее время.",
+        "tg": "Тугма функсияро худаш мехонад: шумо номро медиҳед ва платформа онро ҳангоми пахш иҷро мекунад. Агар коркардкунанда аргументҳо талаб кунад, стрелка мегузоранд: onPress={() => open(id)} — навишти open(id) бе стрелка ҳангоми рендер, то ба аввалин ламс иҷро мешавад. Дар лоиҳаи воқеӣ коркардкунанда ҳама чизро якбора намеронад: вай функсияи хурди тағйири ҳолатро мехонад, боқимондаро рендер мекунад. Санҷиши рӯз — пайиҳамоӣ оғоз → бозгашт → оғоз: баъди бозгашт паём фавран бармеагардад ва ин танҳо дар дастгоҳ дида мешавад, ки байни пахшҳо вақти воқеӣ мегузарад.",
+        "en": "The button calls the function itself: you pass the name, and the platform runs it on press. If a handler needs arguments, pass an arrow: onPress={() => open(id)} — writing open(id) without the arrow runs it during rendering, before the first touch. In a real project a handler rarely does everything at once: it calls a small function that changes state, and rendering does the rest. The check of this day is the sequence start → reset → start: after the reset the message returns immediately, and this is visible only on a device, where real time passes between presses."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с обработчиками",
+        "tg": "Хатоҳои маъмулӣ бо коркардкунандаҳо",
+        "en": "Common mistakes with handlers"
+      },
+      "body": {
+        "ru": "Первая ошибка — onPress={start()}: круглые скобки вызывают функцию при отрисовке, поэтому сообщение появляется без нажатий; правильно onPress={start} или onPress={() => start()}. Вторая — обработчик меняет обычную переменную вместо state: значения как будто нет, экран не обновляется, потому что React не знает о переменной. Третья — функция объявлена, но кнопке не передана: экран выглядит готовым, а нажатия ничего не делают; проверяйте именно на устройстве. Четвёртая — обработчик делает три дела сразу: меняет state, пишет лог и ждёт сеть; разделите действия, чтобы ошибка была видна в одном месте.",
+        "tg": "Хатои аввал — onPress={start()}: қавсҳои мудаввар функсияро ҳангоми рендер мехонанд, бинобар ин паём бе пахшҳо пайдо мешавад; дурусташ onPress={start} ё onPress={() => start()}. Хатои дуюм — коркардкунанда тағйирёбандаи одиро тағйир медиҳад, на ҳолатро: чунин ба назар меояд, ки қимат нест, экран нав намешавад, чунки React аз тағйирёбанда хабардор нест. Хатои сеюм — функсия эълон шудааст, аммо тугма гирифтааст: экран омода ба назар меояд, пахшҳо ҳеҷ намекунанд; махсусан дар дастгоҳ санҷед. Хатои чорум — коркардкунанда се корро якбора мекунад: ҳолатро тағйир медиҳад, лог менависад ва шабакаро интизор мешавад; амалҳо ҷудо кунед, то хато дар як ҷо дида шавад.",
+        "en": "The first mistake is onPress={start()}: parentheses call the function during rendering, so the message appears without presses; the correct forms are onPress={start} or onPress={() => start()}. The second is a handler that changes a plain variable instead of state: the value seems to vanish and the screen does not update, because React knows nothing about the variable. The third is a declared function that is never passed to the button: the screen looks ready, but presses do nothing; verify this on a device. The fourth is a handler doing three things at once: changing state, logging and waiting for the network; split the actions so an error is visible in one place."
+      }
     }
   ],
   "questions": [

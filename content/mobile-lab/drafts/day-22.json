@@ -39,12 +39,36 @@
         "en": "Step-by-step walkthrough"
       },
       "body": {
-        "ru": "Тип Errors описывает два необязательных поля — title и minutes. validate наполняет объект: title проверяется через trim и длину, minutes — регулярным выражением ^d+$, чтобы строка была целым числом, и сравнением с нулём. Регулярное выражение читается так: от начала до конца только цифры. Обработчик submit вызывает validate и сохраняет результат в состояние errors; под каждым полем показывается своя ошибка, если она есть. Регулярное выражение читается так: от начала до конца только цифры. Проверьте на устройстве: пустая форма даёт две ошибки, «аб» и «0» — тоже, «абв» и «30» проходят. В решении добавлена строка успеха после удачной проверки.",
-        "tg": "Типи Errors ду майдони ихтиёриро тавсиф медиҳад — title ва minutes. validate объектро пур мекунад: title тавассути trim ва дарозӣ, minutes бо ифодаи муқаррарии ^d+$ месанҷад, ки сатр адади бутун бошад, ва муқоиса бо сифр. Ифодаи муқаррарӣ чунин хонда мешавад: аз оғоз то охир танҳо рақамҳо. Обработчики submit validate-ро мехонад ва натиҷаро ба ҳолати errors нигоҳ медорад; зери ҳар майдон хатои худаш нишон дода мешавад, агар бошад. Дар дастгоҳ санҷед: шакли холӣ ду хато медиҳад, «аб» ва «0» ҳам, «абв» ва «30» мегузаранд. Дар ҳалл баъди санҷиши муваффақ сатри муваффақият илова шудааст.",
-        "en": "The Errors type describes two optional fields — title and minutes. validate fills the object: title is checked through trim and length, minutes with the ^d+$ regular expression, so the string is a whole number, and a comparison with zero. The regular expression reads: from start to end only digits. The submit handler calls validate and stores the result in the errors state; each field shows its own error if present. Check on a device: an empty form gives two errors, so do «аб» with «0»; «абв» with «30» passes. The solution adds a success line after a valid check."
+        "ru": "Тип Errors описывает два необязательных поля — title и minutes. validate наполняет объект: title проверяется через trim и длину, minutes — регулярным выражением ^\\d+$, чтобы строка была целым числом, и сравнением с нулём. Регулярное выражение читается так: от начала до конца только цифры. Обработчик submit вызывает validate и сохраняет результат в состояние errors; под каждым полем показывается своя ошибка, если она есть. Регулярное выражение читается так: от начала до конца только цифры. Проверьте на устройстве: пустая форма даёт две ошибки, «аб» и «0» — тоже, «абв» и «30» проходят. В решении добавлена строка успеха после удачной проверки.",
+        "tg": "Типи Errors ду майдони ихтиёриро тавсиф медиҳад — title ва minutes. validate объектро пур мекунад: title тавассути trim ва дарозӣ, minutes бо ифодаи муқаррарии ^\\d+$ месанҷад, ки сатр адади бутун бошад, ва муқоиса бо сифр. Ифодаи муқаррарӣ чунин хонда мешавад: аз оғоз то охир танҳо рақамҳо. Обработчики submit validate-ро мехонад ва натиҷаро ба ҳолати errors нигоҳ медорад; зери ҳар майдон хатои худаш нишон дода мешавад, агар бошад. Дар дастгоҳ санҷед: шакли холӣ ду хато медиҳад, «аб» ва «0» ҳам, «абв» ва «30» мегузаранд. Дар ҳалл баъди санҷиши муваффақ сатри муваффақият илова шудааст.",
+        "en": "The Errors type describes two optional fields — title and minutes. validate fills the object: title is checked through trim and length, minutes with the ^\\d+$ regular expression, so the string is a whole number, and a comparison with zero. The regular expression reads: from start to end only digits. The submit handler calls validate and stores the result in the errors state; each field shows its own error if present. Check on a device: an empty form gives two errors, so do «аб» with «0»; «абв» with «30» passes. The solution adds a success line after a valid check."
       },
       "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Errors = { title?: string; minutes?: string };\n\nexport function validate(title: string, minutes: string): Errors {\n  const errors: Errors = {};\n  if (title.trim().length < 3) errors.title = 'Название короче трёх символов';\n  if (!/^\\d+$/.test(minutes) || Number(minutes) <= 0) errors.minutes = 'Минуты — целое число больше нуля';\n  return errors;\n}\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n  const [minutes, setMinutes] = useState('');\n  const [errors, setErrors] = useState<Errors>({});\n\n  function submit() {\n    setErrors(validate(title, minutes));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Новое занятие</Text>\n      <TextInput value={title} onChangeText={setTitle} placeholder=\"Название\" style={styles.input} />\n      {errors.title ? <Text style={styles.error}>{errors.title}</Text> : null}\n      <TextInput value={minutes} onChangeText={setMinutes} placeholder=\"Минуты\" keyboardType=\"number-pad\" style={styles.input} />\n      {errors.minutes ? <Text style={styles.error}>{errors.minutes}</Text> : null}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={submit}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Проверить форму</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  error: { color: '#dc2626', fontSize: 14 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Чистая проверка и момент валидации",
+        "tg": "Санҷиши соф ва лаҳзаи валидатсия",
+        "en": "Pure validation and when it runs"
+      },
+      "body": {
+        "ru": "validate — чистая функция: принимает значения полей, возвращает объект ошибок и ничего не меняет. Её можно вызвать в любой момент: по кнопке отправки, при каждом вводе через onChangeText из четырнадцатого дня, при потере фокуса полем. Момент выбирают по сценарию: жёсткие правила показывают сразу, мягкие — по нажатию. Регулярное выражение из кода отсекает нецелые и отрицательные минуты одним сравнением. Связь с днём тридцать девятым: границы модели — те же правила, но на уровне данных, и makeTask проверяет их до создания записи.",
+        "tg": "validate функсияи соф аст: қиматҳои майдонҳоро мегирад, объекти хатоҳоро бармегардонад ва ҳеҷ чизро тағйир намедиҳад. Онро дар ҳар лаҳза хондан мумкин: бо тугмаи фиристодан, дар ҳар навиштан тавассути onChangeText-и рӯзи чордаҳум, ҳангоми хурд шудани фокуси майдон. Лаҳзаро аз рӯи сенария интихоб мекунанд: қоидаҳои қатиро фавран нишон медиҳанд, мулоимро — бо пахш. Ифодаи муқаррарии дар рамз дақиқаҳои ғайрибутун ва манфирро бо як муқоиса мебурад. Пайванд бо рӯзи сию нӯҳум: ҳудуди модел ҳамин қоидаҳоянд, аммо дар сатҳи додаҳо, ва makeTask онҳоро пеш аз сохтани қайд санҷад.",
+        "en": "validate is a pure function: it takes field values, returns an error object and changes nothing. It can run at any moment: on the submit button, on every input through the onChangeText of day fourteen, when a field loses focus. The moment is chosen by scenario: hard rules show immediately, soft ones — on press. The regular expression from the code cuts off non-integer and negative minutes with one comparison. Connection to day thirty-nine: the model boundaries are the same rules at the data level, and makeTask checks them before creating a record."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки проверки формы",
+        "tg": "Хатоҳои маъмулии санҷиши шакл",
+        "en": "Common mistakes of form validation"
+      },
+      "body": {
+        "ru": "Первая ошибка — проверка «на глаз» без функции: каждый разработчик проверяет по-своему, и правила расходятся между экранами; проверку описывают одной чистой функцией. Вторая — забытый trim: строка из пробелов проходит как «название», и в список попадает пустая запись. Третья — parseInt вместо точной проверки: parseInt('12abc') возвращает 12 и пропускает мусор; целые числа проверяют регулярным выражением из кода. Четвёртая — ошибка не очищается при исправлении: пользователь исправил поле, а сообщение висит; ошибки пересчитывают при каждом изменении значения.",
+        "tg": "Хатои аввал — санҷиши «ба чашм» бе функсия: ҳар таҳиягар ба тарзи худ месанҷад ва қоидаҳо байни экранҳо ҷудо мешаванд; санҷишро бо як функсияи соф тавсиф мекунанд. Хатои дуюм — trim-и фаромӯшшуда: сатри танҳо пробелҳо ҳамчун «ном» мегузарад ва ба рӯйхат қайди холӣ мерасад. Хатои сеюм — parseInt ба ҷои санҷиши дақиқ: parseInt('12abc') 12 бармегардонад ва офотро мегузаронад; ададҳои бутунро бо ифодаи муқаррарии дар рамз месанҷанд. Хатои чорум — хато ҳангоми ислоҳ пок намешавад: корбар майдонро дуруст кард, аммо паём меистад; хатоҳоро дар ҳар тағйири қимат аз нав ҳисоб мекунанд.",
+        "en": "The first mistake is checking «by eye» without a function: every developer checks their own way and rules diverge between screens; describe validation with one pure function. The second is a forgotten trim: a string of spaces passes as a «title», and an empty record reaches the list. The third is parseInt instead of an exact check: parseInt('12abc') returns 12 and lets garbage through; whole numbers are checked with the regular expression from the code. The fourth is an error that never clears: the user fixed the field, yet the message hangs; recalculate errors on every value change."
+      }
     }
   ],
   "questions": [
@@ -162,9 +186,9 @@
     {
       "id": "mobile-day-22-q4",
       "question": {
-        "ru": "Что проверяет регулярное выражение ^d+$?",
-        "tg": "Ифодаи муқаррарии ^d+$ чиро месанҷад?",
-        "en": "What does the ^d+$ regular expression check?"
+        "ru": "Что проверяет регулярное выражение ^\\d+$?",
+        "tg": "Ифодаи муқаррарии ^\\d+$ чиро месанҷад?",
+        "en": "What does the ^\\d+$ regular expression check?"
       },
       "options": [
         {

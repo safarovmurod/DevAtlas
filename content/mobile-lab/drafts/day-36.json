@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Step = { id: string; label: string; done: boolean };\n\nconst initialSteps: Step[] = [\n  { id: 's1', label: 'Открыть список', done: false },\n  { id: 's2', label: 'Добавить занятие', done: false },\n  { id: 's3', label: 'Открыть подробности', done: false },\n  { id: 's4', label: 'Вернуться без потери ввода', done: false },\n];\n\nexport default function App() {\n  const [steps, setSteps] = useState<Step[]>(initialSteps);\n  const [note, setNote] = useState('');\n\n  function mark(id: string) {\n    setSteps(current => current.map(step => (step.id === id ? { ...step, done: true } : step)));\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Сценарий проверки</Text>\n      {steps.map(step => (\n        <Pressable\n          key={step.id}\n          accessibilityRole=\"button\"\n          accessibilityLabel={`Шаг: ${step.label}. Отметить выполненным`}\n          onPress={() => mark(step.id)}\n          style={({ pressed }) => [styles.row, pressed && styles.pressed]}\n        >\n          <Text>{step.done ? '✔' : '☐'} {step.label}</Text>\n        </Pressable>\n      ))}\n      <TextInput\n        value={note}\n        onChangeText={setNote}\n        placeholder=\"Заметка между шагами\"\n        style={styles.input}\n      />\n      <Text>Отметьте шаги по мере прохождения сценария на устройстве.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  pressed: { opacity: 0.6 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Сценарий как тест пути",
+        "tg": "Сенария ҳамчун санҷиши роҳ",
+        "en": "The scenario as a path test"
+      },
+      "body": {
+        "ru": "Сценарий проверяет путь целиком: шаги с уникальными id, отметки, заметки между ними. Отдельные тесты компонентов отвечают «детали работают», сценарий — «пользователь доходит до цели». Отметка шага копирует объект: map с {...step, done: true} — то же правило неизменности, что и в списке дня девятого. Прогоняют сценарий против своего приложения из дня двадцать третьего: расхождения записывают дословно, где именно шаг пошёл иначе, — этот протокол станет частью проверки устройства. Связь с днём тридцать пятым: сценарий не заменяет тесты, а дополняет их проверкой связей между частями.",
+        "tg": "Сенария роҳро комилан месанҷад: қадамҳо бо id-и беназир, аломатгузорӣ, ёддоштҳои байни онҳо. Тестҳои ҷудогонаи компонентҳо мегӯянд «қисмҳо кор мекунанд», сенария — «корбар ба мақсад мерасад». Аломатгузории қадам объектро нусхабардорӣ мекунад: map бо {...step, done: true} — ҳамин қоидаи тағйирнопазирӣ, ки дар рӯйхати рӯзи нӯҳум буд. Сенарияро зидди барномаи худи рӯзи бисту сеюм мегузаронанд: ноҳамҳангиро аз ҳарф ба ҳарф сабт мекунанд, дақиқан дар куҷо қадам дигар рафт — ин протокол қисми санҷиши дастгоҳ мешавад. Пайванд бо рӯзи сию панҷум: сенария тестҳоро иваз намекунад, балки онҳоро бо санҷиши пайвандҳои байни қисмҳо пур мекунад.",
+        "en": "The scenario checks the path as a whole: steps with unique ids, marks, notes in between. Separate component tests answer «the parts work», the scenario — «the user reaches the goal». Marking a step copies the object: map with {...step, done: true} — the same immutability rule as the list of day nine. Run the scenario against your own app from day twenty-three: write divergences verbatim, exactly where a step went differently — this protocol becomes part of the device check. Connection to day thirty-five: the scenario does not replace tests but complements them by checking links between parts."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки сценария",
+        "tg": "Хатоҳои маъмулии сенария",
+        "en": "Common mistakes of the scenario"
+      },
+      "body": {
+        "ru": "Первая ошибка — шаги без уникальных id: React предупреждает о ключах, а отметки попадают не в тот шаг; id создаётся один раз и живёт в данных. Вторая — проверка «всё сразу» вместо шага за шагом: расхождение теряется в общей картине. Третья — прогон примера вместо своего приложения: пример — справочник, сценарий проверяет реальный проект дня двадцать третьего. Четвёртая — запись «работает» без деталей: воспроизвести результат нельзя; шаги, отметки и расхождения записывают дословно, чтобы завтра повторить проверку.",
+        "tg": "Хатои аввал — қадамҳо бе id-и беназир: React огоҳии калидҳоро медиҳад ва аломатҳо ба қадами дигар мерасанд; id як бор сохта мешавад ва дар додаҳо зиндагӣ мекунад. Хатои дуюм — санҷиши «ҳама якбора» ба ҷои қадам ба қадам: ноҳамҳангӣ дар манзараи умумӣ гум мешавад. Хатои сеюм — гузаронидани мисол ба ҷои барномаи худ: мисол маълумотнома аст, сенария лоиҳаи воқеии рӯзи бисту сеюмро месанҷад. Хатои чорум — сабти «кор мекунад» бе тафсилот: натиҷаро такрор кардан мумкин нест; қадамҳо, аломатҳо ва ноҳамҳангиро аз ҳарф ба ҳарф менависанд, то фардо санҷишро такрор кунанд.",
+        "en": "The first mistake is steps without unique ids: React warns about keys, and marks land on the wrong step; the id is created once and lives in the data. The second is checking «everything at once» instead of step by step: a divergence is lost in the overall picture. The third is running the example instead of your app: the example is a reference, the scenario checks the real project of day twenty-three. The fourth is writing «it works» without details: the result cannot be reproduced; steps, marks and divergences are written verbatim so tomorrow the check can repeat."
+      }
     }
   ],
   "questions": [

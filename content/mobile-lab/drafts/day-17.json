@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\ntype ScreenName = 'list' | 'about';\n\nexport default function App() {\n  const [screen, setScreen] = useState<ScreenName>('list');\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">\n        {screen === 'list' ? 'Мои занятия' : 'О приложении'}\n      </Text>\n      {screen === 'list' ? (\n        <Text>Экран списка. Занятий пока нет.</Text>\n      ) : (\n        <Text>Версия 1. Учебное приложение.</Text>\n      )}\n      <Pressable\n        accessibilityRole=\"button\"\n        onPress={() => setScreen(screen === 'list' ? 'about' : 'list')}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>\n          {screen === 'list' ? 'Открыть «О приложении»' : 'Вернуться к списку'}\n        </Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Сценарий проверяется до кода",
+        "tg": "Сенария пеш аз рамз санҷида мешавад",
+        "en": "The scenario is checked before the code"
+      },
+      "body": {
+        "ru": "Сценарий — это шаги словами: список → занятие → возврат. Записанный сценарий превращается в проверку: каждый шаг должен быть доступен на устройстве, и переход работает в обе стороны. Имя экрана — не строка «на удачу», а состояние ограниченного типа: ScreenName из двух значений ловит опечатку компилятором ещё до запуска. В реальном проекте переключатель состояния достаточен для двух экранов, но не растёт дальше: появление настоящего стека навигации на восемнадцатом дне приносит заголовки, историю и системный возврат. Проверяйте оба направления, а не только переход «вперёд».",
+        "tg": "Сенария — қадамҳо бо калимаҳост: рӯйхат → машғулият → бозгашт. Сенарияи навишташуда ба санҷиш табдил меёбад: ҳар қадам бояд дар дастгоҳ дастрас бошад ва гузариш ба ҳарду самт кор кунад. Номи экран — сатри «ба бахт» нест, балки ҳолати навъи маҳдуд: ScreenName-и ду қиматӣ хатогиро бо компилятор то оғоз мегирад. Дар лоиҳаи воқеӣ ивазкунандаи ҳолат барои ду экран кофист, аммо дуртар намеравад: пайдоиши стеки воқеии навигатсия дар рӯзи ҳаждаҳум сарлавҳаҳо, таърих ва бозгашти системавӣ меорад. Ҳарду самтро санҷед, на танҳо гузариши «пеш».",
+        "en": "A scenario is steps in words: list → lesson → back. A written scenario becomes a check: every step must be reachable on a device, and the transition works both ways. A screen name is not a «luck» string but state of a restricted type: the two-value ScreenName catches a typo at compile time, before launch. In a real project the state switch is enough for two screens but does not scale further: a real navigation stack on day eighteen brings headers, history and the system back. Check both directions, not only the forward transition."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки переключения экранов",
+        "tg": "Хатоҳои маъмулии ивази экранҳо",
+        "en": "Common mistakes of screen switching"
+      },
+      "body": {
+        "ru": "Первая ошибка — имена экранов строками без типа: опечатка 'detales' молча ничего не переключает; union ScreenName делает ошибку видимой при компиляции. Вторая — новый экран без возврата: пользователь открывает экран и застревает; путь назад проектируют вместе с переходом вперёд. Третья — состояние экрана у каждого ребёнка: два компонента знают «разные» экраны, и интерфейс рассинхронизируется; источник один — у общего родителя (день двадцать первый). Четвёртая — цепочка вложенных условий для трёх и более экранов: её невозможно читать; условия заменяют простым выбором по значению состояния.",
+        "tg": "Хатои аввал — номҳои экранҳо бо сатр бе навъ: хатогии 'detales' хомӯш ҳеҷ чизро иваз намекунад; union-и ScreenName хаторо ҳангоми компиляция возеҳ мекунад. Хатои дуюм — экрани нав бе бозгашт: корбар экранро мекушояд ва дар ҳамон ҷо мемонад; роҳи баргаштро ҳамроҳи гузариши пеш лоиҳамекунанд. Хатои сеюм — ҳолати экран дар ҳар фарзанд: ду компонент «экранҳои» гуногумедонанд ва интерфейс ошофта мешавад; манбаъ яест — назди волиди умумӣ (рӯзи бисту як). Хатои чорум — занҷираи шартҳои дохилӣ барои се ва бештар экранҳо: онро хондан мумкин нест; шартҳоро бо интихоби сода аз рӯи қимати ҳолат иваз мекунанд.",
+        "en": "The first mistake is screen names as bare strings: the typo 'detales' silently switches nothing; the ScreenName union makes the error visible at compile time. The second is a new screen without a way back: the user opens the screen and gets stuck; design the way back together with the forward transition. The third is screen state in every child: two components know «different» screens and the interface desynchronizes; one source lives at the shared parent (day twenty-one). The fourth is a chain of nested conditions for three or more screens: it is unreadable; replace conditions with a simple choice by the state value."
+      }
     }
   ],
   "questions": [

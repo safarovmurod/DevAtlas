@@ -45,6 +45,30 @@
       },
       "code": "import { FlatList, StyleSheet, Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nconst lessons: Lesson[] = [\n  { id: '1', title: 'Экран' },\n  { id: '2', title: 'Стили' },\n  { id: '3', title: 'Flexbox' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия</Text>\n      <FlatList\n        data={lessons}\n        keyExtractor={item => item.id}\n        renderItem={({ item }) => <Text style={styles.item}>{item.title}</Text>}\n      />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 8 },\n  item: { padding: 12, fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Когда ScrollView, а когда FlatList",
+        "tg": "Кай ScrollView ва кай FlatList",
+        "en": "When ScrollView and when FlatList"
+      },
+      "body": {
+        "ru": "ScrollView монтирует всех детей сразу — для шапки, формы и пары блоков это дёшево, потому что элементов немного. FlatList рендерит только видимые элементы: длинный список остаётся плавным, а память не растёт вместе с данными, что документация называет главным преимуществом перед ScrollView. В реальном проекте правило простое: данные приходят из сети и растут — FlatList; экран содержит несколько статических разделов — ScrollView. renderItem выносят из JSX, а keyExtractor возвращает строку: несовпадение типов видно как предупреждение о ключах. Связь с тридцать четвёртым днём: параметры окна FlatList настраивают, когда список тормозит на устройстве.",
+        "tg": "ScrollView ҳамаи кӯдаконро якбора монтаж мекунад — барои сарлавҳа, шакл ва якҷуфт блок ин арзон аст, чунки элементҳо каманд. FlatList танҳо элементҳои дидашударо рендер мекунад: рӯйхати дароз мантқан мулоим мемонад ва ҳофиз бо додаҳо афзоиш намеёбад, ки ҳуҷҷат инро хусусияти асосии ӯ дар муқоиса бо ScrollView меномад. Дар лоиҳаи воқеӣ қоида содда аст: додаҳо аз шабака меомаданд ва меафзоянд — FlatList; экран якчанд бахши статикӣ дорад — ScrollView. renderItem-ро аз JSX мебароранд ва keyExtractor сатрро бармегардонад: номувофиқии навъҳо ҳамчун огоҳиномаи калидҳо дида мешавад. Пайванд бо рӯзи сию чорум: параметрҳои равзанаи FlatList-ро ҳангоми астишавии рӯйхат дар дастгоҳ танзим мекунанд.",
+        "en": "ScrollView mounts all children at once — cheap for a header, a form and a couple of blocks, because there are few elements. FlatList renders only the visible items: a long list stays smooth and memory does not grow with the data, which the documentation calls the main advantage over ScrollView. In a real project the rule is simple: data comes from the network and grows — FlatList; the screen holds a few static sections — ScrollView. renderItem is moved out of JSX, and keyExtractor returns a string: a type mismatch shows up as a key warning. Connection to day thirty-four: the FlatList window parameters are tuned when the list stutters on a device."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки списков",
+        "tg": "Хатоҳои маъмулии рӯйхатҳо",
+        "en": "Common mistakes of lists"
+      },
+      "body": {
+        "ru": "Первая ошибка — ScrollView для длинных данных: сотни строк монтируются сразу, прокрутка дёргается, память растёт; для растущих данных берут FlatList. Вторая — keyExtractor возвращает число: ключ должен быть строкой, поэтому id приводят String(item.id). Третья — renderItem описан анонимной функцией прямо в JSX: она пересоздаётся при каждом рендере, и список перерисовывается целиком. Четвёртая — data={[]} создаётся заново в каждом рендере: список выглядит пустым, хотя данные есть; массив объявляют вне компонента или берут из состояния.",
+        "tg": "Хатои аввал — ScrollView барои додаҳои дароз: садҳо сатр якбора монтаж мешаванд, вайроншавӣ лавҳа мезанад, ҳофиз меафзояд; барои додаҳои афзоянда FlatList мегиранд. Хатои дуюм — keyExtractor ададро бармегардонад: калид бояд сатр бошад, бинобар ин id-ро String(item.id) мекунанд. Хатои сеюм — renderItem ҳамчун функсияи беном дар JSX навишта шудааст: ӯ дар ҳар рендер аз нав сохта мешавад ва рӯйхат комилан аз нав мекашад. Хатои чорум — data={[]} дар ҳар рендер аз нав сохта мешавад: рӯйхат холӣ ба назар меояд, гарчанде додаҳо ҳастанд; массивро берун аз компонент эълон мекунанд ё аз ҳолат мегиранд.",
+        "en": "The first mistake is ScrollView for long data: hundreds of rows mount at once, scrolling judders, memory grows; for growing data take FlatList. The second is keyExtractor returning a number: the key must be a string, so convert the id with String(item.id). The third is renderItem written as an anonymous function right in JSX: it is recreated on every render, and the whole list redraws. The fourth is data={[]} created anew in every render: the list looks empty although the data exists; declare the array outside the component or take it from state."
+      }
     }
   ],
   "questions": [

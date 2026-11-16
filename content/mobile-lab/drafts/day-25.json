@@ -45,6 +45,30 @@
       },
       "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\ntype Status = 'loading' | 'done' | 'error';\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [todos, setTodos] = useState<Todo[]>([]);\n\n  useEffect(() => {\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')\n      .then(response => {\n        if (!response.ok) throw new Error('Ответ сервера: ' + response.status);\n        return response.json();\n      })\n      .then((data: Todo[]) => {\n        setTodos(data);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия из учебного API</Text>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? todos.map(todo => <Text key={todo.id}>{todo.title}</Text>) : null}\n      {status === 'error' ? <Text>Сеть недоступна. Проверьте интернет и откройте экран снова.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Честная проверка ответа сервера",
+        "tg": "Санҷиши ростқавлии ҷавоби сервер",
+        "en": "Honest checking of the server response"
+      },
+      "body": {
+        "ru": "fetch разрешается успешно, даже когда сервер вернул 404: сетевой запрос дошёл, но ответ — не то, что нужно. Проверка response.ok отделяет «сеть недоступна» (попадает в catch) от «сервер отказал» (ok равен false) — у этих сбоев разные сообщения и разные действия пользователя. response.json() тоже Promise: без await вы получите объект Promise вместо данных, и код «работает» до первой проверки значений. Связь с днём двадцать шестым: четыре состояния ленты строятся на этом различии — пусто, ошибка сети и отказ сервера выглядят на экране по-разному.",
+        "tg": "fetch ҳатто ҳангоми ҷавоби 404-и сервер муваффақ ҳал мешавад: дархости шабакӣ расид, аммо ҷавоб он чизест, ки лозим набуд. Санҷиши response.ok «шабака дастрас нест»-ро (ба catch мерасад) аз «сервер радд кард»-ро (ok баробари false) ҷудо мекунад — ин ду вайроншавӣ паёмҳои гуногун ва амалҳои гуногуни корбар доранд. response.json() низ Promise аст: бе await шумо объекти Promise-ро ба ҷои додаҳо мегиред ва код то аввалин санҷиши қиматҳо «кор мекунад». Пайванд бо рӯзи бисту шашум: чор ҳолати лента аз ҳамин фарқ сохта мешаванд — холӣ, хатои шабака ва радди сервер дар экран ҳамчун ҳолатҳои гуногун ба назар меоянд.",
+        "en": "fetch resolves successfully even when the server returned 404: the network request arrived, but the response is not what you need. Checking response.ok separates «no network» (lands in catch) from «server refused» (ok is false) — these failures have different messages and different user actions. response.json() is also a Promise: without await you get a Promise object instead of data, and the code «works» until the first check of values. Connection to day twenty-six: the feed's four states are built on this difference — empty, network failure and server refusal look different on screen."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с fetch",
+        "tg": "Хатоҳои маъмулӣ бо fetch",
+        "en": "Common mistakes with fetch"
+      },
+      "body": {
+        "ru": "Первая ошибка — нет проверки response.ok: 404 и 500 проходят как успех, и код пытается разобрать страницу ошибки как данные. Вторая — response.json() без await: переменная получает Promise, а не массив, и map по ней падает. Третья — catch есть, но статус ошибки не ставится: экран остаётся в «Загрузка…», хотя запрос уже закончился отказом. Четвёртая — кнопка повтора вызывает fetch снова, но статус не сбрасывается в loading: пользователь видит старый результат, пока не придёт новый.",
+        "tg": "Хатои аввал — санҷиши response.ok нест: 404 ва 500 ҳамчун муваффақият мегузаранд ва код кӯшиш мекунад саҳифаи хаторо ҳамчун додаҳо таҳлил кунад. Хатои дуюм — response.json() бе await: тағйирёбанда Promise мегирад, на массив, ва map болои он меафтад. Хатои сеюм — catch ҳаст, аммо ҳолати хато гузошта намешавад: экран дар «Боркунӣ…» мемонад, гарчанде дархост аллакай бо радд тамом шудааст. Хатои чорум — тугмаи такрор fetch-ро аз нав мехонад, аммо ҳолат ба loading сифр намешавад: корбар натиҷаи кӯҳнаро мебинад, то додаҳои нав оянд.",
+        "en": "The first mistake is no response.ok check: 404 and 500 pass as success, and the code tries to parse an error page as data. The second is response.json() without await: the variable holds a Promise, not an array, and mapping over it crashes. The third is a catch that exists but never sets the error status: the screen stays in «Loading…» although the request already ended in refusal. The fourth is a retry button that calls fetch again without resetting the status to loading: the user sees the old result until the new one arrives."
+      }
     }
   ],
   "questions": [

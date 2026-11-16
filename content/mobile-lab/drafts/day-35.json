@@ -45,6 +45,30 @@
       },
       "code": "import { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport function decrement(current: number): number {\n  return Math.max(0, current - 1);\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Что проверяет тест</Text>\n      <Text>decrement(2) равен 1, decrement(0) остаётся 0.</Text>\n      <Pressable accessibilityRole=\"button\" onPress={() => {}} style={styles.button}>\n        <Text style={styles.buttonText}>Проверить вручную</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Что тест видит, а что нет",
+        "tg": "Тест чиро мебинад ва чиро не",
+        "en": "What a test sees and what it does not"
+      },
+      "body": {
+        "ru": "Компонентный тест — JavaScript в Node: он проверяет логику и разметку, но не видит iOS, Android и настоящее устройство, как прямо говорит документация. Поэтому чистые функции вроде decrement тестируются быстро, а касания, клавиатура и диктор проверяются руками на устройстве — тридцать седьмой день соберёт их в чек-лист. Тест пишут по схеме given/when/then: дано, действие, ожидание — и одна проверка на один тест. Связь с днём двадцать вторым: validate как чистая функция проверяется тестом без моков, потому что не зависит ни от сети, ни от платформы.",
+        "tg": "Санҷиши компонентӣ — JavaScript дар Node аст: вай мантиқ ва сохти интерфейсро месанҷад, аммо iOS, Android ва дастгоҳи воқеиро намебинад, чунки ҳуҷҷат мустақиман мегӯяд. Бинобар ин функсияҳои софи мисли decrement тез санҷида мешаванд, аммо ламсҳо, клавиатура ва хонандаро дар дастгоҳ бо даҳон месанҷанд — рӯзи сию ҳафтум онҳоро ба чек-лист ҷамъ меорад. Тестро аз рӯи схемаи given/when/then менависанд: дода шудааст, амал, интизори натиҷа — ва як санҷиш дар як тест. Пайванд бо рӯзи бисту дуюм: validate-и ҳамчун функсияи соф бо тест бе мокҳо месанҷанд, чунки аз шабака ва платформа вобаста нест.",
+        "en": "A component test is JavaScript in Node: it checks logic and markup but does not see iOS, Android or a real device, as the documentation says outright. Therefore pure functions like decrement test fast, while touches, the keyboard and the screen reader are checked by hand on a device — day thirty-seven gathers them into a checklist. A test is written by the given/when/then scheme: given, action, expectation — and one check per test. Connection to day twenty-two: validate as a pure function is testable without mocks because it depends on neither the network nor the platform."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки тестов",
+        "tg": "Хатоҳои маъмулии тестҳо",
+        "en": "Common mistakes of tests"
+      },
+      "body": {
+        "ru": "Первая ошибка — тест зависит от сети или порядка выполнения: сегодня проходит, завтра падает; чистые функции и моки делают тест стабильным. Вторая — проверка внутренностей: тест читает state и props вместо видимого поведения; проверяют то, что пользователь видит и нажимает. Третья — ожидание, что тест работает на устройстве: компонентный тест живёт в Node и не проверяет нативный код; устройство проверяют руками. Четвёртая — забытый test.only после отладки: остальные тесты молча не запускаются в сборке; перед коммитом запускают весь набор.",
+        "tg": "Хатои аввал — тест аз шабака ё тартиби иҷро вобаста аст: имрӯз мегузарад, фардо меафтад; функсияҳои соф ва мокҳо тестро устувор мекунанд. Хатои дуюм — санҷиши дохилӣ: тест state ва props-ро мехонад ба ҷои рафтори дидашуда; он чизро месанҷанд, ки корбар мебинад ва пешонад. Хатои сеюм — интизори он ки тест дар дастгоҳ кор кунад: санҷиши компонентӣ дар Node зиндагӣ мекунад ва рамзи нативиро намесанҷад; дастгоҳро бо даст месанҷанд. Хатои чорум — test.only-и фаромӯшшуда баъди ислоҳ: боқимондаи тестҳо дар сохтмон хомӯш оғоз намешаванд; пеш аз коммит тамоми маҷмӯаро мегузаронанд.",
+        "en": "The first mistake is a test depending on the network or execution order: it passes today and fails tomorrow; pure functions and mocks make a test stable. The second is checking internals: the test reads state and props instead of visible behavior; check what the user sees and presses. The third is expecting a test to run on a device: a component test lives in Node and does not verify native code; the device is checked by hand. The fourth is a forgotten test.only after debugging: the other tests silently skip in the build; run the whole suite before committing."
+      }
     }
   ],
   "questions": [

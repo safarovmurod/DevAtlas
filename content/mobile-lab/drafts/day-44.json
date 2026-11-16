@@ -45,6 +45,30 @@
       },
       "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport const STORAGE_KEY = 'devatlas-planner';\nexport const APP_VERSION = '1.0.0-учебная';\n\nconst limits = [\n  'Сборка APK и IPA не выполнялась: проверка только через Expo Go и Metro.',\n  'Синхронизации с сервером нет: данные одного устройства.',\n  'Учебный API — чужой тестовый сервис, личные данные не отправляются.',\n  'Уведомления и напоминания не реализованы.',\n];\n\nconst retrospective = [\n  'Какой день модуля оказался самым трудным и почему?',\n  'Какой сценарий приложения вы проверили лично?',\n  'Что вы добавили бы в версию 2?',\n];\n\nexport default function App() {\n  const [tasks, setTasks] = useState<Task[] | null>(null);\n\n  useEffect(() => {\n    AsyncStorage.getItem(STORAGE_KEY)\n      .then(raw => setTasks(raw ? (JSON.parse(raw) as Task[]) : []))\n      .catch(() => setTasks([]));\n  }, []);\n\n  if (tasks === null) {\n    return <View style={styles.screen}><Text>Открываем итоговый экран…</Text></View>;\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Планировщик: итоги</Text>\n      <Text>Версия: {APP_VERSION}. Записей в плане: {tasks.length}.</Text>\n      <Text accessibilityRole=\"header\" style={styles.subheader}>Честные ограничения</Text>\n      {limits.map((limit, index) => <Text key={index}>• {limit}</Text>)}\n      <Text accessibilityRole=\"header\" style={styles.subheader}>Ретроспектива</Text>\n      {retrospective.map((question, index) => <Text key={index}>{index + 1}. {question}</Text>)}\n      <Text>\n        Проект завершён на уровне курса Beginner: сценарии, хранение, сеть с\n        откатом и доступность проверены вами на устройстве.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 10, padding: 24 },\n  subheader: { fontSize: 17, fontWeight: '600', marginTop: 8 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Демонстрация по сценарию",
+        "tg": "Намоиш аз рӯи сенария",
+        "en": "A demonstration by the scenario"
+      },
+      "body": {
+        "ru": "Демонстрация — это сценарий тридцать восьмого дня, исполненный на устройстве: список, добавление, детали, шаблоны, итоговый экран. Перезапуск между шагами доказывает хранение; диктор доказывает доступность; крупный шрифт доказывает масштабирование. Ограничения перечисляют честно: то, что проект не делает — нет сборки в магазин, нет синхронизации между устройствами — записано в отчёте словами. Ретроспектива фиксирует трудности: что было самым сложным и почему — эти ответы становятся началом следующего курса.",
+        "tg": "Намоиш — сенарияи рӯзи сию ҳаштум аст, ки дар дастгоҳ иҷро шудааст: рӯйхат, илова, тафсилот, намунаҳо, экрани ниҳоӣ. Оғози нав дар байни қадамҳо нигоҳдории додаҳоро исбот мекунад; хонанда дастрасиро исбот мекунад; шрифти калон масштабро исбот мекунад. Маҳдудиятҳоро ростқавлӣ менависанд: он чизе, ки лоиҳа намекунад — сохтмон ба дукон нест, ҳамоҳангӣ байни дастгоҳҳо нест — дар ҳисобот бо калимаҳо сабт шудааст. Ретроспектива душвориҳоро сабт мекунад: чӣ аз ҳама душвор буд ва чаро — ин ҷавобҳо ибтидои курси оянда мешаванд.",
+        "en": "The demonstration is the day-thirty-eight scenario performed on a device: the list, an addition, details, templates, the final screen. A relaunch between steps proves storage; the reader proves accessibility; the large font proves scaling. Limitations are listed honestly: what the project does not do — no store build, no synchronization between devices — is written in the report in words. The retrospective records difficulties: what was hardest and why — those answers become the start of the next course."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки итоговой проверки",
+        "tg": "Хатоҳои маъмулии санҷиши ниҳоӣ",
+        "en": "Common mistakes of the final check"
+      },
+      "body": {
+        "ru": "Первая ошибка — демонстрация без перезапуска: всё «работает», но живучесть данных не доказана; перезапуск ставят в середину сценария, а не в конец. Вторая — ограничения не записаны: отчёт обещает больше, чем делает проект, и первый же пользователь находит разрыв. Третья — ретроспектива «всё было легко»: она не учит и не сохраняет опыт; трудности записывают словами с причинами. Четвёртая — итоговый экран вместо критериев: красивая статистика не заменяет проверку пяти-шести пунктов дня тридцать восьмого; их проходят целиком перед демонстрацией.",
+        "tg": "Хатои аввал — намоиш бе оғози нав: ҳама чиз «кор мекунад», аммо зинда мондани додаҳо исбот нашуд; оғози навро ба миёни сенария мегузоранд, на ба охир. Хатои дуюм — маҳдудиятҳо сабт нашуданд: ҳисобот аз он чи лоиҳа мекунад, бештар ваъда медиҳад ва аввалин корбар шикастро меёбад. Хатои сеюм — ретроспективи «ҳама осон буд»: вай намеронад омӯхтан ва таҷрибаро нигоҳ намедорад; душвориҳоро бо калимаҳо ва сабабҳо менависанд. Хатои чорум — экрани ниҳоӣ ба ҷои меъёрҳо: оморҳои зебо санҷиши панҷ-шаш банди рӯзи сию ҳаштумро иваз намекунад; онҳоро то намоиш комилан мегузаронанд.",
+        "en": "The first mistake is a demonstration without a relaunch: everything «works», but data persistence is unproven; put the relaunch in the middle of the scenario, not at the end. The second is limitations left unrecorded: the report promises more than the project does, and the first user finds the gap. The third is a retrospective of «everything was easy»: it teaches nothing and preserves no experience; write difficulties in words with causes. The fourth is the final screen instead of the criteria: pretty statistics do not replace the five-six checks of day thirty-eight; run them fully before the demonstration."
+      }
     }
   ],
   "questions": [

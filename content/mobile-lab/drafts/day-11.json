@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.header}>\n        <Text accessibilityRole=\"header\">Мой план</Text>\n      </View>\n      <View style={styles.content}>\n        <Text>Здесь будет список занятий.</Text>\n      </View>\n      <View style={styles.footer}>\n        <Text>День 11</Text>\n      </View>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1 },\n  header: { padding: 16, backgroundColor: '#dbeafe' },\n  content: { flex: 1, padding: 16 },\n  footer: { padding: 16, backgroundColor: '#e5e7eb' },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Области экрана в реальном проекте",
+        "tg": "Минтақаҳои экран дар лоиҳаи воқеӣ",
+        "en": "Screen areas in a real project"
+      },
+      "body": {
+        "ru": "Внешний View с flex: 1 занимает всю высоту: header фиксированной высоты, content с flex: 1 забирает остаток, footer остаётся служебной строкой внизу. Такая трёхчастная структура встречается почти в каждом приложении: список сверху растёт, кнопка сохранения остаётся досягаемой снизу. В реальном проекте области проверяют на узком экране и при открытой клавиатуре — тридцать первый день покажет, как клавиатура сжимает content. Связь с двенадцатым днём: отступы и цвета задают в одном StyleSheet, чтобы границы областей совпадали и экран не собирался «на глаз».",
+        "tg": "View-и берунӣ бо flex: 1 тамоми баландро мегирад: header бо баландии собит, content бо flex: 1 боқимондаро мегирад ва footer сатри хизматӣ дар поён мемонад. Чунин сохти сеқисма дар қариб ҳар барнома дучор меояд: рӯйхати боло меафзояд, тугмаи нигоҳдорӣ дар поён дастрас мемонад. Дар лоиҳаи воқеӣ минтақаҳоро дар экрани танг ва ҳангоми клавиатураи кушода санҷенд — рӯзи сию як нишон медиҳад, ки клавиатура чӣ тавр content-ро мепӯшонад. Пайванд бо рӯзи дувоздаҳум: фосилаҳо ва рангҳоро дар як StyleSheet мегузоранд, то ҳудуди минтақаҳо мувофиқ бошанд ва экран «ба чашм» сохта нашавад.",
+        "en": "The outer View with flex: 1 takes the full height: a header of fixed height, a content with flex: 1 taking the rest, and a footer staying as a service line at the bottom. This three-part structure appears in almost every app: the list at the top grows, the save button stays reachable at the bottom. In a real project you check the areas on a narrow screen and with the keyboard open — day thirty-one will show how the keyboard squeezes the content. Connection to day twelve: paddings and colors are set in one StyleSheet so the area borders agree and the screen is not assembled «by eye»."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки структуры экрана",
+        "tg": "Хатоҳои маъмулии сохти экран",
+        "en": "Common mistakes of screen structure"
+      },
+      "body": {
+        "ru": "Первая ошибка — нет flex: 1 у корневого View: контент сжимается до содержимого, и фон не доходит до низа экрана. Вторая — стили строкой: style='padding: 16' не работает, React Native читает только объекты и StyleSheet.create. Третья — фиксированные высоты для всех областей: на маленьком экране footer уходит за край; высоту фиксируют у header и footer, а content оставляют гибким. Четвёртая — забытые безопасные области: на устройствах с вырезом заголовок прячется под системный индикатор; SafeAreaView и отступы решают это до проверки на устройстве.",
+        "tg": "Хатои аввал — набудани flex: 1 дар View-и реша: мазмун то мазмун фишурда мешавад ва ранг то поёни экран намерасад. Хатои дуюм — услуб бо сатр: style='padding: 16' кор намекунад, React Native танҳо объектҳо ва StyleSheet.create-ро мехонад. Хатои сеюм — баландии собит барои ҳама минтақаҳо: дар экрани хурд footer аз ҳудуд меберояд; баландиро барои header ва footer собит мекунанд ва content-ро мутахаррик мегузоранд. Хатои чорум — минтақаҳои бехатари фаромӯшшуда: дар дастгоҳҳои буридашуда сарлавҳа зери нишонадои системавӣ пинҳон мешавад; SafeAreaView ва фосилаҳо инро пеш аз санҷиш дар дастгоҳ ҳал мекунанд.",
+        "en": "The first mistake is no flex: 1 on the root View: the content shrinks to its own size and the background never reaches the bottom of the screen. The second is styles as a string: style='padding: 16' does not work — React Native reads only style objects and StyleSheet.create. The third is fixed heights for every area: on a small screen the footer goes past the edge; fix the header and footer heights and keep the content flexible. The fourth is forgotten safe areas: on devices with a cutout the header hides under the system indicator; SafeAreaView and paddings solve this before a device check."
+      }
     }
   ],
   "questions": [

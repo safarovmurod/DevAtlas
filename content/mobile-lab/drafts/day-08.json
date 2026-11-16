@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { Button, Text, View } from 'react-native';\n\nexport default function App() {\n  const [completed, setCompleted] = useState(0);\n\n  function completeTwo() {\n    setCompleted(previous => previous + 1);\n    setCompleted(previous => previous + 1);\n  }\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text>Готово: {completed}</Text>\n      <Button title=\"Завершить два\" onPress={completeTwo} />\n    </View>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Очередь обновлений и чистые функции",
+        "tg": "Навбати навсозиҳо ва функсияҳои соф",
+        "en": "The update queue and pure functions"
+      },
+      "body": {
+        "ru": "React ставит обновления в очередь и применяет их по порядку: функция previous => previous + 1 берёт результат предыдущего шага очереди, а не снимок рендера, поэтому две такие функции из нуля дают ровно два. Апдейтер обязан быть чистым: без логов, без установки другого state, без обращения к внешним переменным. Отрицательный счётчик запрещают прямо в очереди: Math.max(0, previous - 1) никогда не уйдёт ниже нуля, и отдельные проверки после не нужны. Связь с двадцать первым днём: тот же приём работает, когда счётчик поднимается к общему родителю и два ребёнка обновляют его по очереди.",
+        "tg": "React навсозиҳоро ба навбат мегузорад ва бо тартиб иҷро мекунад: функсияи previous => previous + 1 натиҷаи қадами пешинаи навбатро мегирад, на снимки рендерро, бинобар ин ду чунин функсия аз сифр дақиқан ду медиҳад. Апдейтер бояд соф бошад: бе лог, бе гузоштани ҳолати дигар, бе муроҷиат ба тағйирёбандаҳои берунӣ. Ҳисобкунаки манфирро бевосита дар навбат манъ мекунанд: Math.max(0, previous - 1) ҳеҷ гоҳ аз сифр паст намешавад ва санҷишҳои ҷудо лозим нестанд. Пайванд бо рӯзи бисту як: ҳамин усул ҳангоми боло бурдани ҳисобкунак ба волиди умумӣ кор мекунад, ки ду фарзанд ба навбат навсозӣ мекунанд.",
+        "en": "React queues updates and applies them in order: the function previous => previous + 1 takes the result of the previous queue step, not the render snapshot, so two such functions from zero give exactly two. An updater must be pure: no logs, no setting of other state, no access to outside variables. A negative counter is forbidden right in the queue: Math.max(0, previous - 1) never goes below zero, and separate checks afterwards are unnecessary. Connection to day twenty-one: the same technique works when a counter is lifted to a shared parent and two children update it in turn."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки последовательных обновлений",
+        "tg": "Хатоҳои маъмулии навсозиҳои пайиҳамоӣ",
+        "en": "Common mistakes of sequential updates"
+      },
+      "body": {
+        "ru": "Первая ошибка — два setCount(count + 1) вместо setCount(n => n + 1): счётчик прибавляет единицу, а не два, потому что оба вызова видят один снимок. Вторая — мутация state: completed++ или tasks.push меняют объект, но React не перерисовывает; всегда создают новое значение. Третья — побочные эффекты внутри апдейтера: console.log и установка другого state делают функцию нечистой, и результат в строгом режиме неожиданно удваивается. Четвёртая — ожидание нового значения сразу после setCompleted в том же обработчике: переменная там ещё старая, значение появится только на следующей отрисовке.",
+        "tg": "Хатои аввал — ду setCount(count + 1) ба ҷои setCount(n => n + 1): ҳисобкунак ба як, на ба ду меафзояд, чунки ҳарду даъват як снимкро мебинанд. Хатои дуюм — мутатсияи ҳолат: completed++ ё tasks.push объектро тағйир медиҳад, аммо React аз нав намекашад; ҳамеша қимати нав месозанд. Хатои сеюм — таъсирҳои канорӣ дар дохили апдейтер: console.log ва гузоштани ҳолати дигар функсияро нопак мекунад ва натиҷа дар реҷаи қатӣ ногаҳон дучанд мешавад. Хатои чорум — интизори қимати нав баъди setCompleted дар ҳамон коркард: тағйирёбанда он ҷо ҳанӯз кӯҳна аст, қимат танҳо дар рендери оянда пайдо мешавад.",
+        "en": "The first mistake is two setCount(count + 1) instead of setCount(n => n + 1): the counter adds one, not two, because both calls see one snapshot. The second is mutating state: completed++ or tasks.push changes the object, but React does not re-render; always create a new value. The third is side effects inside the updater: console.log and setting other state make the function impure, and the result unexpectedly doubles in strict mode. The fourth is expecting the new value right after setCompleted in the same handler: the variable there is still old, and the value appears only on the next render."
+      }
     }
   ],
   "questions": [

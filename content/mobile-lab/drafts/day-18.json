@@ -45,6 +45,30 @@
       },
       "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">Мои занятия</Text>\n      <Button title=\"Подробности\" onPress={() => navigation.navigate('Details')} />\n    </View>\n  );\n}\n\nfunction DetailsScreen() {\n  return (\n    <View style={{ flex: 1, padding: 24 }}>\n      <Text accessibilityRole=\"header\">Подробности</Text>\n      <Text>Второй экран стека.</Text>\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Стек навигации в реальном проекте",
+        "tg": "Стеки навигатсия дар лоиҳаи воқеӣ",
+        "en": "A navigation stack in a real project"
+      },
+      "body": {
+        "ru": "Стек — это история экранов: navigate кладёт экран сверху, goBack снимает верхний. Документация подчёркивает: navigate на экран, где вы уже находитесь, ничего не делает — для копий экрана с разными данными используют push. Пакеты стека ставят через npx expo install: в них есть нативные модули, и версии обязаны соответствовать SDK десятого дня. Заголовки шапки задают в screenOptions, а на Android возврат работает и системной кнопкой — проверяйте оба способа. Связь с двадцатым днём: экран под верхним остаётся смонтированным, и его состояние переживает переходы.",
+        "tg": "Стек таърихи экранҳост: navigate экранро боло мемонад, goBack болоиро мебардорад. Ҳуҷҷат таъкид мекунад: navigate ба экране, ки шумо аллакай ҳастед, ҳеҷ чиз намеронад — барои нусхаҳои экран бо додаҳои гуногун push истифода мешавад. Бастаҳои стекро тавассути npx expo install мегузоранд: дар онҳо модулҳои нативӣ ҳастанд ва версияҳо бояд ба SDK-и рӯзи даҳум мувофиқ бошанд. Сарлавҳаҳои шапкаро дар screenOptions мегузоранд ва дар Android бозгашт бо тугмаи системавӣ ҳам кор мекунад — ҳарду роҳро санҷед. Пайванд бо рӯзи бистум: экран дар зери болоӣ монтировашиуда мемонад ва ҳолаташ гузаришҳоро аз сар мегузаронад.",
+        "en": "A stack is the history of screens: navigate puts a screen on top, goBack removes the top one. The documentation stresses: navigate to the screen you are already on does nothing — for copies of a screen with different data use push. Stack packages are installed with npx expo install: they contain native modules, and the versions must match the day-ten SDK. Header titles are set in screenOptions, and on Android the back also works with the system button — check both ways. Connection to day twenty: the screen under the top one stays mounted, and its state survives transitions."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки со стеком",
+        "tg": "Хатоҳои маъмулӣ бо стек",
+        "en": "Common mistakes with the stack"
+      },
+      "body": {
+        "ru": "Первая ошибка — npm install вместо npx expo install для пакетов навигации: нативные версии расходятся с SDK, и приложение падает на старте. Вторая — navigate на текущий экран: нажатие «молчит», потому что экран уже открыт; для повторного слоя маршрута нужен push. Третья — экран объявлен вне NavigationContainer: navigation приходит undefined, и нажатие вызывает ошибку; весь стек живёт внутри контейнера. Четвёртая — навигация по строкам без типов: опечатка в имени экрана ловится только руками; типы маршрутов описывают вместе с экранами, как в дне девятнадцатом.",
+        "tg": "Хатои аввал — npm install ба ҷои npx expo install барои бастаҳои навигатсия: версияҳои нативӣ аз SDK ҷудо мешаванд ва барнома дар оғоз меафтад. Хатои дуюм — navigate ба экрани ҷорӣ: пахш «хомӯш» ба назар меояд, чунки экран аллакай кушодааст; барои қабати навбатии маршрут push лозим аст. Хатои сеюм — экран берун аз NavigationContainer эълон шудааст: navigation undefined меояд ва пахш хаторо медиҳад; тамоми стек дар дохили контейнер зиндагӣ мекунад. Хатои чорум — навигатсия бо сатрҳо бе навъҳо: хатогӣ дар номи экранро танҳо дастӣ меёбанд; навъҳои маршрутро ҳамроҳи экранҳо тавсиф мекунанд, мисли рӯзи нуздаҳум.",
+        "en": "The first mistake is npm install instead of npx expo install for the navigation packages: native versions drift from the SDK and the app crashes at start. The second is navigate to the current screen: the press «silently» does nothing because the screen is already open; for another layer of the route use push. The third is a screen declared outside NavigationContainer: navigation comes undefined and the press throws; the whole stack lives inside the container. The fourth is navigating by untyped strings: a typo in a screen name is caught only by hand; describe route types together with the screens as in day nineteen."
+      }
     }
   ],
   "questions": [

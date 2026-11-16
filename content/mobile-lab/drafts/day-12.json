@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>Урок 12</Text>\n      <Text style={styles.body}>Размеры задаются числами без единиц.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  card: { margin: 16, padding: 16, borderRadius: 12, backgroundColor: '#ffffff' },\n  title: { fontSize: 20, fontWeight: '600', marginBottom: 8 },\n  body: { fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Числа, проценты и плотность экрана",
+        "tg": "Ададҳо, фоизҳо ва зичии экран",
+        "en": "Numbers, percentages and screen density"
+      },
+      "body": {
+        "ru": "Число без единиц — плотностно-независимый пиксель: на экранах разной чёткости оно соответствует одинаковому физическому размеру, поэтому размеры пишут числами, а не строками с px. Проценты задают долю от родителя: width: '50%' — половина контейнера, и работает она, только если родитель имеет размер. В реальном проекте комбинируют: ширины панелей — проценты, отступы и радиусы — числа из StyleSheet. Связь с тринадцатым днём: когда проценты не дают нужных пропорций, свободное пространство делят через flex, а фиксированные размеры оставляют мелким деталям.",
+        "tg": "Адад бе воҳид — пиксели мустақил аз зичӣ: дар экранҳои гуногуни возеҳӣ ӯ ба андозаи физикии якхела мувофиқ аст, бинобар ин андозаҳоро бо адад менависанд, на бо сатри px. Фоиз ҳиссаро нисбат ба волид медиҳад: width: '50%' — нисфи контейнер ва танҳо ҳангоми доштани андозаи волид кор мекунад. Дар лоиҳаи воқеӣ омехта мекунанд: паҳнии панелҳо — фоизҳо, фосилаҳо ва радиусҳо — ададҳо аз StyleSheet. Пайванд бо рӯзи сенздаҳум: ҳангоми он ки фоизҳо таносуби лозимиро намедиҳанд, фазои холиро тавассути flex тақсим мекунанд ва андозаҳои собитро ба қисмҳои хурд мегузоранд.",
+        "en": "A number without units is a density-independent pixel: on screens of different sharpness it matches the same physical size, so dimensions are written as numbers, not strings with px. Percentages set a share of the parent: width: '50%' is half the container and works only when the parent has a size. In a real project they are combined: panel widths as percentages, paddings and radii as numbers from StyleSheet. Connection to day thirteen: when percentages do not give the needed proportions, free space is divided with flex, and fixed sizes are left to small details."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки со стилями",
+        "tg": "Хатоҳои маъмулӣ бо услубҳо",
+        "en": "Common mistakes with styles"
+      },
+      "body": {
+        "ru": "Первая ошибка — размеры строками: padding: '16px' в React Native не работает, значение пишут числом 16. Вторая — перенос CSS из веба: файлы .css не читаются, а свойства вроде margin: 0 auto требуют другого решения. Третья — цвет без кавычек: background: #f5f5f5 вызывает синтаксическую ошибку; цвет — строка '#f5f5f5'. Четвёртая — копирование веб-размеров один к одному: у телефона плотность и шрифт другие, поэтому макет проверяют на устройстве и числа подбирают по факту, а не по макету браузера.",
+        "tg": "Хатои аввал — андоза бо сатр: padding: '16px' дар React Native кор намекунад, қиматро бо адади 16 менависанд. Хатои дуюм — баровардани CSS аз веб: файлҳои .css хонда намешаванд ва хосиятҳо ба монанди margin: 0 auto ҳалли дигар талаб мекунанд. Хатои сеюм — ранг бе кавсҳо: background: #f5f5f5 хатои синтаксиро медиҳад; ранг сатри '#f5f5f5' аст. Хатои чорум — нусхабардории андозаҳои веб як ба як: дар телефон зичӣ ва шрифт дигаранд, бинобар ин макетро дар дастгоҳ санҷед ва ададҳоро аз рӯи воқеъ, на аз рӯи макети браузер интихоб кунед.",
+        "en": "The first mistake is sizes as strings: padding: '16px' does not work in React Native, the value is written as the number 16. The second is carrying CSS over from the web: .css files are not read, and properties like margin: 0 auto need a different solution. The third is a color without quotes: background: #f5f5f5 raises a syntax error; a color is the string '#f5f5f5'. The fourth is copying web dimensions one to one: a phone has different density and fonts, so the layout is checked on a device and numbers are picked from facts, not from the browser mock-up."
+      }
     }
   ],
   "questions": [

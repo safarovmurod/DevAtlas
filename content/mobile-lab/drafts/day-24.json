@@ -45,6 +45,30 @@
       },
       "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\nfunction loadLessons(): Promise<string[]> {\n  return new Promise(resolve => {\n    setTimeout(() => resolve(['Экран', 'Стили', 'Flexbox']), 1500);\n  });\n}\n\nexport default function App() {\n  const [status, setStatus] = useState<Status>('loading');\n  const [items, setItems] = useState<string[]>([]);\n\n  useEffect(() => {\n    loadLessons()\n      .then(result => {\n        setItems(result);\n        setStatus('done');\n      })\n      .catch(() => setStatus('error'));\n  }, []);\n\n  return (\n    <View style={styles.screen}>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Жизненный цикл за пределами примера",
+        "tg": "Ҷараёни ҳаёт берун аз мисол",
+        "en": "The lifecycle beyond the example"
+      },
+      "body": {
+        "ru": "loadLessons — управляемая загрузка: Promise разрешается через полторы секунды, поэтому все три статуса видно глазами. В реальном проекте тайминг непредсказуем: медленная сеть держит «Загрузка…» десятки секунд, и экрану нужен тайм-аут с переходом в ошибку и кнопкой повтора. async-функция в useEffect обязана учитывать размонтирование: после ухода с экрана установка состояния запрещена, иначе React предупредит об утечке. Связь с днём двадцать седьмым: гонку двух ответов при поиске решает AbortController, а тайм-аут и отмена решают разные проблемы.",
+        "tg": "loadLessons — боркунӣ дар идора: Promise тавассути як нимсония ҳал мешавад, бинобар ин се ҳолатро бо чашм дидан мумкин аст. Дар лоиҳаи воқеӣ вақт ноаён аст: шабакаи суст «Боркунӣ…»-ро даҳҳо сония нигоҳ медорад ва экран ба вақти интизор бо гузариш ба хато ва тугмаи такрор ниёз дорад. async-функсия дар useEffect вайроншудани экрани болоиро ба ҳисоб мегирад: баъди рафтан аз экран гузоштани ҳолат манъ аст, вагарна React огоҳии гумшудагиро медиҳад. Пайванд бо рӯзи бисту ҳафтум: бонии ҷавобҳои дучанд дар ҷустуҷӯро AbortController ҳал мекунад ва вақти интизор ва бекоркунӣ мушкилоти гуногунро ҳал мекунанд.",
+        "en": "loadLessons is a managed load: the Promise resolves in a second and a half, so all three statuses are visible to the eye. In a real project timing is unpredictable: a slow network holds «Loading…» for tens of seconds, and the screen needs a timeout that moves to the error state with a retry button. An async function in useEffect must respect unmounting: after leaving the screen, setting state is forbidden, otherwise React warns about a leak. Connection to day twenty-seven: the race of two search responses is solved by AbortController, while timeout and cancellation solve different problems."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки загрузки",
+        "tg": "Хатоҳои маъмулии боркунӣ",
+        "en": "Common mistakes of loading"
+      },
+      "body": {
+        "ru": "Первая ошибка — нет состояния ошибки: при отказе сети экран навсегда остаётся в «Загрузка…», и пользователь не может ничего сделать. Вторая — статус сбрасывают только в успешной ветке: путь с исключением не доходит до done, и загрузка висит; сброс ставят в finally. Третья — загрузка в теле компонента без useEffect: каждый рендер запускает новый запрос, и экран зацикливается. Четвёртая — ожидание данных сразу после вызова loadLessons(): Promise ещё не разрешён, переменная пуста; результат обрабатывают в then или await, а не после вызова.",
+        "tg": "Хатои аввал — набудани ҳолати хато: ҳангоми раддани шабака экран беохир дар «Боркунӣ…» мемонад ва корбар ҳеҷ кор карда наметавонад. Хатои дуюм — ҳолатро танҳо дар шохаи муваффақият сифр мекунанд: роҳи истисно то done намерасад ва боркунӣ меистад; сифркуниро дар finally мегузоранд. Хатои сеюм — боркунӣ дар бадани компонент бе useEffect: ҳар рендер дархости нав мегузорад ва экран давр мезанад. Хатои чорум — интизори додаҳо фавран баъди даъвати loadLessons(): Promise ҳанӯз ҳал нашудааст, тағйирёбанда холист; натиҷаро дар then ё await мегиранд, на баъди даъват.",
+        "en": "The first mistake is no error state: when the network fails, the screen stays in «Loading…» forever and the user can do nothing. The second is resetting the status only in the success branch: the exception path never reaches done and loading hangs; put the reset in finally. The third is loading in the component body without useEffect: every render starts a new request and the screen loops. The fourth is expecting data right after calling loadLessons(): the Promise has not resolved and the variable is empty; handle the result in then or await, not after the call."
+      }
     }
   ],
   "questions": [

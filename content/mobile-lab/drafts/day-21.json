@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nfunction Counter({ count }: { count: number }) {\n  return <Text>Выполнено: {count}</Text>;\n}\n\nfunction CompleteButton({ onComplete }: { onComplete: () => void }) {\n  return (\n    <Pressable\n      accessibilityRole=\"button\"\n      accessibilityLabel=\"Отметить занятие выполненным\"\n      onPress={onComplete}\n      style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n    >\n      <Text style={styles.buttonText}>Отметить</Text>\n    </Pressable>\n  );\n}\n\nexport default function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <View style={styles.screen}>\n      <Counter count={count} />\n      <CompleteButton onComplete={() => setCount(value => value + 1)} />\n      <Text>Состояние живёт в App и передаётся детям.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Границы компонента в реальном проекте",
+        "tg": "Ҳудуди компонент дар лоиҳаи воқеӣ",
+        "en": "Component boundaries in a real project"
+      },
+      "body": {
+        "ru": "Подъём состояния — не правило «всё в App», а поиск владельца: состояние живёт у ближайшего общего родителя тех, кто его читает. Counter отображает count и ничего не решает; CompleteButton вызывает onComplete и не знает, что тот делает, — это граница между данными и видом. В реальном проекте так отделяют список записей от строк списка: данные и сохранение в родителе, строки — чистые компоненты с props. Связь с днём сорок: ядро итогового проекта построено так же, и ошибки правок ищут именно на границах — кто владеет данными и кто только показывает.",
+        "tg": "Боло бурдани ҳолат қоидаи «ҳама чиз дар App» нест, ҷустуҷӯи соҳиб аст: ҳолат назди наздиктарин волиди умумии онҳое зиндагӣ мекунад, ки мехонандашанд. Counter танҳо count-ро нишон медиҳад ва ҳеҷ қарор намеронад; CompleteButton onComplete-ро мехонад ва намедонад, ки вай чӣ мекунад — ин ҳудуди байни додаҳо ва намуд аст. Дар лоиҳаи воқеӣ рӯйхати қайдҳоро аз сатрҳои рӯйхат ҳамин тавр ҷудо мекунанд: додаҳо ва нигоҳдорӣ дар волид, сатрҳо — компонентҳои соф бо props. Пайванд бо рӯзи чилум: ҳастаи лоиҳаи ниҳоӣ ҳамин тавр сохта шудааст ва хатоҳои тағйирҳоро дар ҳудудҳо меҷӯянд — кӣ соҳиби додаҳо аст ва кӣ танҳо нишон медиҳад.",
+        "en": "Lifting state up is not the rule «everything into App» but a search for an owner: state lives at the nearest common parent of everyone who reads it. Counter displays count and decides nothing; CompleteButton calls onComplete and does not know what it does — that is the boundary between data and view. In a real project this is how the record list is separated from its rows: data and saving at the parent, rows as pure components with props. Connection to day forty: the final project core is built the same way, and edit bugs are hunted at the boundaries — who owns the data and who only displays."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки подъёма состояния",
+        "tg": "Хатоҳои маъмулии болобардории ҳолат",
+        "en": "Common mistakes of lifting state up"
+      },
+      "body": {
+        "ru": "Первая ошибка — два брата держат каждый своё состояние: счётчики расходятся, и интерфейс показывает противоречия; состояние поднимают к общему родителю. Вторая — ребёнок меняет props напрямую: изменение не доходит до родителя и ломает поток; вверх передают событие, вниз — новые данные. Третья — callback забыли передать: кнопка «работает» молча, потому что onComplete равен undefined; проверяют нажатием на устройстве, а не глазами на коде. Четвёртая — всё состояние сгоняют в App: родитель превращается в склад, и правки задевают чужие экраны; состояние держат близко к потребителю.",
+        "tg": "Хатои аввал — ду фарзанд ҳар яак ҳолати худро дорад: ҳисобкунакҳо ҷудо мешаванд ва интерфейс зиддият нишон медиҳад; ҳолатро ба волиди умумӣ боло мебароранд. Хатои дуюм — фарзанд props-ро бевосита тағйир медиҳад: тағйир ба волид намерасад ва ҷараён вайрон мешавад; боло рӯйдод, поён — додаҳои нав. Хатои сеюм — callback гирифта нашуд: тугма «кор мекунад» бе овоз, чунки onComplete баробари undefined аст; пахшро дар дастгоҳ санҷед, на кодро бо чашм. Хатои чорум — ҳамаи ҳолатро ба App месупоранд: волид анбор мешавад ва ислоҳҳо экранҳои дигаронро мебароранд; ҳолатро назди истеъмолкунанда нигоҳ медоранд.",
+        "en": "The first mistake is two siblings each holding their own state: counters diverge and the interface shows contradictions; lift the state to a shared parent. The second is a child mutating props directly: the change never reaches the parent and breaks the flow; events go up, fresh data goes down. The third is a callback never passed: the button «works» silently because onComplete is undefined; verify by pressing on a device, not by reading code. The fourth is sweeping all state into App: the parent becomes a warehouse, and edits touch unrelated screens; keep state close to its consumer."
+      }
     }
   ],
   "questions": [

@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Criterion = { id: string; label: string; how: string };\n\nconst criteria: Criterion[] = [\n  { id: 'k1', label: 'Список, создание, детали и редактирование работают', how: 'пройти сценарий на устройстве' },\n  { id: 'k2', label: 'Данные сохраняются и восстанавливаются', how: 'закрыть и открыть приложение' },\n  { id: 'k3', label: 'Пустое состояние и ошибки понятны', how: 'открыть пустой список и отключить сеть' },\n  { id: 'k4', label: 'Управление доступно диктору', how: 'TalkBack или VoiceOver' },\n  { id: 'k5', label: 'Ограничения указаны честно', how: 'прочитать финальный отчёт' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проект: учебный планировщик</Text>\n      <Text style={styles.goal}>\n        Пользователь ведёт список занятий: добавляет, открывает детали, правит\n        и сохраняет. Данные живут на устройстве, сеть приносит шаблоны.\n      </Text>\n      {criteria.map(criterion => (\n        <View key={criterion.id} style={styles.row}>\n          <Text style={styles.label}>{criterion.label}</Text>\n          <Text style={styles.how}>Как проверить: {criterion.how}</Text>\n        </View>\n      ))}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  goal: { fontSize: 15, color: '#334155' },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  label: { fontSize: 15, fontWeight: '600' },\n  how: { fontSize: 13, color: '#64748b' },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Критерии, которые можно проверить",
+        "tg": "Меъёрҳое, ки санҷидан мумкин",
+        "en": "Criteria that can be verified"
+      },
+      "body": {
+        "ru": "Критерий приёмки — предложение, которое можно выполнить и получить ответ «да» или «нет»: команда запуска, шаг сценария, чтение диктором. «Приложение удобное» — не критерий: удобство не измеряется шагами, и спор о нём не заканчивается. Пять-шесть проверяемых критериев дают ясную финишную линию, и каждый обеспечивает способ проверки, как в примере дня. Связь с днём тридцать девятым: модель данных рождается из критериев — что хранить, видно уже на этом шаге, до первой кнопки.",
+        "tg": "Меъёри пазириш ибораест, ки иҷро кардан ва ҷавоби «бале» ё «не» гирифтан мумкин: фармони оғоз, қадами сенария, хондани хонанда. «Барнома роҳат аст» — меъёр нест: роҳатӣ бо қадамҳо чен намешавад ва баҳси он тамом намешавад. Панҷ-шаш меъёри санҷиданӣ хатти анҷоми возеҳ медиҳанд ва ҳар яак роҳи санҷишро, мисли мисоли рӯз, таъмин мекунад. Пайванд бо рӯзи сию нӯҳум: модели додаҳо аз меъёрҳо ба дунё меояд — он ки чиро нигоҳ доштан лозим аст, аллакай дар ҳамин қадам, то аввалин тугма, маълум мешавад.",
+        "en": "An acceptance criterion is a sentence you can execute and get «yes» or «no»: the launch command, a scenario step, a screen-reader reading. «The app is convenient» is not a criterion: convenience is not measured by steps, and the argument about it never ends. Five or six verifiable criteria give a clear finish line, and each provides a way to check, like in the day's example. Connection to day thirty-nine: the data model is born from the criteria — what to store is visible already at this step, before the first button."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки критериев",
+        "tg": "Хатоҳои маъмулии меъёрҳо",
+        "en": "Common mistakes of criteria"
+      },
+      "body": {
+        "ru": "Первая ошибка — непроверяемые формулировки: «работает хорошо» и «понятный интерфейс» не дают шага проверки; критерий переформулируют действием. Вторая — слишком много критериев: два десятка пунктов превращают приёмку в бесконечность; держат пять-шесть основных. Третья — критерий без способа проверки: «данные сохраняются» требует перезапуска в шагах; к каждому критерию пишут, как именно его выполнить. Четвёртая — смена критериев по ходу без записи: непонятно, что считалось готовым; изменения фиксируют датой, как ограничения в финальном отчёте.",
+        "tg": "Хатои аввал — формулировкаҳои насанҷиданӣ: «хуб кор мекунад» ва «интерфейси фаҳмо» қадами санҷиш намедиҳанд; меъёрро бо амал аз нав менависанд. Хатои дуюм — меъёрҳои аз ҳад зиёд: бист банд пазиришро беохир мекунад; панҷ-шаш асосиро нигоҳ медоранд. Хатои сеюм — меъёр бе роҳи санҷиш: «додаҳо нигоҳ дошта мешаванд» оғози навро дар қадамҳо талаб мекунад; ба ҳар меъёр менависанд, ки дақиқан чӣ тавр иҷро мекунанд. Хатои чорум — тағйири меъёрҳо дар роҳ бе сабт: номаълум, ки чӣ омода ҳисоб мешуд; тағйиротро бо сана сабт мекунанд, мисли маҳдудиятҳо дар ҳисоботи ниҳоӣ.",
+        "en": "The first mistake is unverifiable wording: «works well» and «a clear interface» give no checking step; restate the criterion as an action. The second is too many criteria: two dozen items turn acceptance into infinity; keep five or six main ones. The third is a criterion without a way to check: «data persists» requires a relaunch in the steps; write next to each criterion how exactly to perform it. The fourth is changing criteria along the way without recording: it is unclear what counted as done; fix changes with a date, like limitations in the final report."
+      }
     }
   ],
   "questions": [

@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Check = { id: string; label: string; how: string };\n\nconst checks: Check[] = [\n  { id: 'c1', label: 'Экран открывается на устройстве', how: 'npx expo start и Expo Go' },\n  { id: 'c2', label: 'Клавиатура не закрывает поля', how: 'открыть форму и печатать' },\n  { id: 'c3', label: 'Диктор читает подписи', how: 'включить TalkBack или VoiceOver' },\n  { id: 'c4', label: 'Крупный шрифт не обрезается', how: 'увеличить системный шрифт' },\n];\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка устройства</Text>\n      {checks.map(check => (\n        <View key={check.id} style={styles.row}>\n          <Text style={styles.label}>{check.label}</Text>\n          <Text style={styles.how}>Как проверить: {check.how}</Text>\n        </View>\n      ))}\n      <Text style={styles.note}>\n        Сборка APK и запуск на реальной сборке — отдельная задача; этот список не заменяет её.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  label: { fontSize: 16, fontWeight: '600' },\n  how: { fontSize: 14, color: '#475569' },\n  note: { fontSize: 13, color: '#b91c1c' },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Границы чек-листа",
+        "tg": "Ҳудуди чек-лист",
+        "en": "The checklist boundaries"
+      },
+      "body": {
+        "ru": "Чек-лист покрывает то, что видно на устройстве: запуск через Expo Go, клавиатура, диктор, повторяемость шагов. За его границами остаются слабые устройства, реальная сеть и поведение других пользователей — чек-лист их не измеряет, он фиксирует пройденные проверки. Честная граница — часть результата: в отчёте пишут и что проверено, и что осталось, и день сорок четвёртый превратит это в список ограничений. Каждый пункт проверяют повторно: одна удачная попытка не доказывает стабильность, повторяемость — часть критерия из дня тридцать восьмого.",
+        "tg": "Чек-лист он чизро мепӯшонад, ки дар дастгоҳ дида мешавад: оғоз тавассути Expo Go, клавиатура, хонанда, такроршавии қадамҳо. Дар берун аз ҳудуди он дастгоҳҳои суст, шабакаи воқеӣ ва рафтори дигарон мемонанд — чек-лист онҳоро чен намекунад, вай санҷишҳои гузарондаро сабт мекунад. Ҳудуди ростқавлӣ қисми натиҷа аст: дар ҳисобот менависанд, ки чӣ санҷида шуд ва чӣ боқӣ монд, ва рӯзи чилу чорум инро ба рӯйхати маҳдудиятҳо табдил медиҳад. Ҳар бандро такроран месанҷанд: як кӯшиши муваффақ устувориро исбот намекунад, такроршавӣ қисми меъёри рӯзи сию ҳаштум аст.",
+        "en": "The checklist covers what is visible on a device: the launch through Expo Go, the keyboard, the screen reader, step repeatability. Outside its boundaries stay weak devices, the real network and other users' behavior — the checklist does not measure them, it records the checks that passed. An honest boundary is part of the result: the report writes both what was checked and what remains, and day forty-four turns this into the list of limitations. Every item is checked repeatedly: one lucky attempt does not prove stability, repeatability is part of the day-thirty-eight criterion."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки проверки устройства",
+        "tg": "Хатоҳои маъмулии санҷиши дастгоҳ",
+        "en": "Common mistakes of device checking"
+      },
+      "body": {
+        "ru": "Первая ошибка — отметка пункта без проверки: отчёт врёт, и следующий шаг строится на ложном основании; отметку ставят только после выполнения. Вторая — проверка только в портретной ориентации: поворот меняет раскладку и клавиатуру, и половина проблем живёт в ландшафте. Третья — одна попытка: сеть и сенсор неустойчивы, шаг повторяют несколько раз. Четвёртая — чек-лист вместо тестов: ручная проверка не защищает от регрессии; чек-лист дополняет тесты дня тридцать пятого, а не заменяет их.",
+        "tg": "Хатои аввал — аломатгузории банд бе санҷиш: ҳисобот дурӯғ мегӯяд ва қадами оянда бар заминаи дурӯғ сохта мешавад; аломатро танҳо баъди иҷро мегузоранд. Хатои дуюм — санҷиш танҳо дар вазъияти амудӣ: гардиш тарҳробиро ва клавиатураро тағйир медиҳад ва нисфи мушкилот дар вазъияти уфуқӣ зиндагӣ мекунад. Хатои сеюм — як кӯшиш: шабака ва сенсор ноустуворанд, қадамро якчанд бор такрор мекунанд. Хатои чорум — чек-лист ба ҷои тестҳо: санҷиши дастӣ аз бозгашти хато ҳимоя намекунад; чек-лист тестҳои рӯзи сию панҷумро пур мекунад, на иваз мекунад.",
+        "en": "The first mistake is marking an item without checking: the report lies, and the next step is built on a false ground; a mark goes only after completion. The second is checking only in portrait: rotation changes the layout and the keyboard, and half the problems live in landscape. The third is one attempt: network and touch are unstable, repeat the step several times. The fourth is a checklist instead of tests: a manual check does not protect against regressions; the checklist complements the day-thirty-five tests, not replaces them."
+      }
     }
   ],
   "questions": [

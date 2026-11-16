@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <View style={styles.row}>\n        <View style={styles.partOne}>\n          <Text>План</Text>\n        </View>\n        <View style={styles.partTwo}>\n          <Text>Прогресс</Text>\n        </View>\n      </View>\n      <Text>Поверните экран и проверьте раскладку.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 16, gap: 12 },\n  row: { flexDirection: 'row', height: 120, gap: 12 },\n  partOne: { flex: 1, backgroundColor: '#bfdbfe', padding: 12 },\n  partTwo: { flex: 2, backgroundColor: '#bbf7d0', padding: 12 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Пропорции и узкие экраны",
+        "tg": "Таносубҳо ва экранҳои танг",
+        "en": "Proportions and narrow screens"
+      },
+      "body": {
+        "ru": "По умолчанию flexDirection — колонка: без явного 'row' панели встанут столбцом, и это первое отличие от веба, о котором предупреждает документация. Пропорции flex: 1 и flex: 2 делят свободное пространство как один к двум, а не задают абсолютные размеры. На узком экране строка из трёх панелей может не поместиться: flexWrap: 'wrap' переносит панель на новую строку, а высоту задаёт minHeight, чтобы перенесённая часть осталась видимой. Связь с одиннадцатым днём: области экрана — те же панели; с тридцать первым — поворот устройства меняет ширину, поэтому row проверяют в обоих положениях.",
+        "tg": "Бо нобаёнӣ flexDirection колонка аст: бе 'row'-и возеҳ панелҳо сутун мешаванд ва ин аввалин фарқ аз веб аст, ки ҳуҷҷат огоҳӣ медиҳад. Таносубҳои flex: 1 ва flex: 2 фазои холиро ҳамчун як ба ду тақсим мекунанд, на андозаҳои абсолютиро муқаррар мекунанд. Дар экрани танг сатри се панел ҷой намешавад: flexWrap: 'wrap' панелро ба сатри нав мегузаронад ва баландиро minHeight медиҳад, то қисми интиқолёфта дида шавад. Пайванд бо рӯзи ёздаҳум: минтақаҳои экран ҳамон панелҳоянд; бо рӯзи сию як — гардиши дастгоҳ паҳниро тағйир медиҳад, бинобар ин row-ро дар ҳарду ҳолат санҷед.",
+        "en": "By default flexDirection is a column: without an explicit 'row' the panels stack vertically, and this is the first difference from the web the documentation warns about. Proportions flex: 1 and flex: 2 divide free space one to two, not set absolute sizes. On a narrow screen a row of three panels may not fit: flexWrap: 'wrap' moves a panel to the next line, and minHeight keeps the wrapped part visible. Connection to day eleven: screen areas are the same panels; to day thirty-one — device rotation changes the width, so check the row in both orientations."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с flexbox",
+        "tg": "Хатоҳои маъмулӣ бо flexbox",
+        "en": "Common mistakes with flexbox"
+      },
+      "body": {
+        "ru": "Первая ошибка — ожидание ряда без flexDirection: 'row': панели столбцом выглядят «сломанными», хотя это поведение по умолчанию. Вторая — flex: 1 у ребёнка без flex: 1 у родителя: делить нечего, и пропорции не применяются. Третья — перепутанные оси: justifyContent раскладывает по главной оси, alignItems — по поперечной; попытка выравнивать «по центру строки» alignItems даёт сдвиг по высоте. Четвёртая — привычка из веба считать flexShrink равным единице: в React Native он ноль, и панель вместо сжатия вылезает за край экрана.",
+        "tg": "Хатои аввал — интизори сатр бе flexDirection: 'row': панелҳои сутунӣ «вайрон» ба назар меоянд, гарчанде ин рафтори нобаёнӣ аст. Хатои дуюм — flex: 1 дар фарзанд бе flex: 1 дар волид: тақсим кардан чизе нест ва таносубҳо иҷро намешаванд. Хатои сеюм — меҳварҳои ошофта: justifyContent дар меҳвари асосӣ меҷорад, alignItems дар меҳвари гузариш; кӯшиши «дар маркази сатр» бо alignItems ҷойивазкунии баландро медиҳад. Хатои чорум — одати аз веб ҳисоб кардани flexShrink баробари як: дар React Native ӯ сифр аст ва панел ба ҷои фишурдашавӣ аз ҳудуди экран меберояд.",
+        "en": "The first mistake is expecting a row without flexDirection: 'row': vertical panels look «broken», although this is the default behavior. The second is flex: 1 on a child without flex: 1 on the parent: there is nothing to divide, and proportions do not apply. The third is confused axes: justifyContent lays out along the main axis, alignItems — along the cross axis; trying to center «in the row» with alignItems shifts by height. The fourth is the web habit of counting flexShrink as one: in React Native it is zero, and a panel overflows the screen edge instead of shrinking."
+      }
     }
   ],
   "questions": [

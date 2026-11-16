@@ -146,7 +146,7 @@ export const OTHER_COURSES: CourseCatalogEntry[] = [
   },
   {
     id: 'management-foundations',
-    publishedDays: 23,
+    publishedDays: 30,
     name: 'Management Foundations',
     symbol: '◇',
     ru: 'Цель, план, делегирование и обратная связь. Разберите риски, решения, рабочие конфликты и доступное участие.',
@@ -154,6 +154,6 @@ export const OTHER_COURSES: CourseCatalogEntry[] = [
     route: 'tools',
     prerequisite: null,
     category: 'business',
-    introductoryDays: 23,
+    introductoryDays: 30,
   },
 ];

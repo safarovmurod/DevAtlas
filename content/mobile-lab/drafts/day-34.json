@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = Array.from({ length: 200 }, (_, index) => ({\n  id: `t${index + 1}`,\n  title: `Занятие ${index + 1}`,\n  minutes: 15 + (index % 4) * 5,\n}));\n\nfunction TaskRow({ task }: { task: Task }) {\n  return (\n    <View style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>{task.minutes} мин.</Text>\n    </View>\n  );\n}\n\nexport function TaskList({ tasks }: { tasks: Task[] }) {\n  return (\n    <View>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Двести записей</Text>\n      <TaskList tasks={tasks.slice(0, 20)} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },\n  title: { fontSize: 16 },\n  minutes: { fontSize: 14, color: '#64748b' },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Окно списка и его параметры",
+        "tg": "Равзанаи рӯйхат ва параметрҳои он",
+        "en": "The list window and its parameters"
+      },
+      "body": {
+        "ru": "FlatList монтирует элементы окна: видимая область плюс запас сверху и снизу; windowSize измеряется в высотах экрана, и документация называет окно областью, обычно гораздо больше видимой части. initialNumToRender задаёт первую партию: сколько строк закрывают экран сразу, до первой прокрутки. Слишком маленькое окно — пустые области при быстрой прокрутке, слишком большое — трата памяти; настраивают по замеру, а не по ощущению. Счётчик видимых записей из решения помогает увидеть окно: число растёт порциями по мере прокрутки. Связь с днём шестнадцатым: это продолжение выбора FlatList вместо ScrollView.",
+        "tg": "FlatList элементҳои равзанаро монтаж мекунад: минтақаи дидашуда ҳамроҳи захираи боло ва поён; windowSize бо баландиҳои экран чен мешавад ва ҳуҷҷат равзанаро минтақае меномад, ки одатан аз қисми дидашуда хеле калонтар аст. initialNumToRender партияи аввалро муқаррар мекунад: чанд сатр экранро то аввалин вайроншавӣ мепӯшонанд. Равзанаи хеле хурд — минтақаҳои холӣ ҳангоми вайроншавии тез, хеле калон — ҳофизи изофа; танзим аз рӯи андоза, на аз рӯи ҳиссиёт. Ҳисобкунаки қайдҳои дидашуда аз ҳалл кӯмак мекунад равзанаро дидан: адад бо пуршудани вайроншавӣ порция меафзояд. Пайванд бо рӯзи шонздаҳум: ин идомаи интихоби FlatList ба ҷои ScrollView аст.",
+        "en": "FlatList mounts the window's items: the visible area plus a reserve above and below; windowSize is measured in screen heights, and the documentation calls the window an area usually much larger than the viewport. initialNumToRender sets the first batch: how many rows cover the screen before the first scroll. A too small window — blank areas during fast scrolling; a too large one — wasted memory; tune by measurement, not by feeling. The visible-record counter from the solution makes the window visible: the number grows in portions as you scroll. Connection to day sixteen: this continues choosing FlatList over ScrollView."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки производительности",
+        "tg": "Хатоҳои маъмулии суръат",
+        "en": "Common performance mistakes"
+      },
+      "body": {
+        "ru": "Первая ошибка — map по всем элементам внутри ScrollView: двести строк монтируются сразу, и прокрутка дёргается на слабых устройствах; для длинных данных — FlatList. Вторая — renderItem анонимной функцией в JSX: она пересоздаётся при каждом рендере; функцию выносят и оборачивают в useCallback. Третья — нестабильные ключи: без keyExtractor React пересоздаёт строки, и прокрутка теряет плавность. Четвёртая — тяжёлые элементы списка: большие изображения без уменьшенных версий замедляют проход; строка держит лёгкий текст и маленькие иконки.",
+        "tg": "Хатои аввал — map болои ҳамаи элементҳо дар дохили ScrollView: дусад сатр якбора монтаж мешаванд ва вайроншавӣ дар дастгоҳҳои суст меистад; барои додаҳои дароз — FlatList. Хатои дуюм — renderItem ҳамчун функсияи беном дар JSX: ӯ дар ҳар рендер аз нав сохта мешавад; функсияро мебароранд ва дар useCallback мепечонанд. Хатои сеюм — калидҳои ногаравон: бе keyExtractor React сатрҳоро аз нав месозад ва вайроншавӣ мулоими худро гум мекунад. Хатои чорум — элементҳои вазнини рӯйхат: тасвирҳои калон бе версияҳои хурдшуда гузаришро оҳиста мекунанд; сатр матни сабук ва нишонаҳои хурдро нигоҳ медорад.",
+        "en": "The first mistake is mapping over all items inside ScrollView: two hundred rows mount at once and scrolling judders on weak devices; for long data — FlatList. The second is renderItem as an anonymous function in JSX: it is recreated on every render; extract the function and wrap it in useCallback. The third is unstable keys: without keyExtractor React rebuilds rows and scrolling loses smoothness. The fourth is heavy list items: large images without downscaled versions slow the pass; a row holds light text and small icons."
+      }
     }
   ],
   "questions": [

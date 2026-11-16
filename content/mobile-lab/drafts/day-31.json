@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [title, setTitle] = useState('');\n\n  function submit() {\n    if (!title.trim()) return;\n    setTitle('');\n  }\n\n  return (\n    <KeyboardAvoidingView\n      behavior={Platform.OS === 'ios' ? 'padding' : undefined}\n      style={styles.flex}\n    >\n      <View style={styles.screen}>\n        <Text accessibilityRole=\"header\">Новое занятие</Text>\n        <TextInput\n          value={title}\n          onChangeText={setTitle}\n          placeholder=\"Название\"\n          returnKeyType=\"done\"\n          onSubmitEditing={submit}\n          style={styles.input}\n        />\n        <Pressable\n          accessibilityRole=\"button\"\n          accessibilityLabel=\"Сохранить занятие и убрать клавиатуру\"\n          onPress={() => submit()}\n          style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n        >\n          <Text style={styles.buttonText}>Сохранить</Text>\n        </Pressable>\n        <Text>Клавиатура не должна закрывать поле и кнопку.</Text>\n      </View>\n    </KeyboardAvoidingView>\n  );\n}\n\nconst styles = StyleSheet.create({\n  flex: { flex: 1 },\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Клавиатура в реальной форме",
+        "tg": "Клавиатура дар шакли воқеӣ",
+        "en": "The keyboard in a real form"
+      },
+      "body": {
+        "ru": "behavior выбирают по платформе: padding на iOS, height на Android — документация прямо предупреждает, что платформы реагируют на этот параметр по-разному. keyboardVerticalOffset нужен, когда над формой есть шапка: без смещения форма поднимается на высоту шапки дважды и уезжает за верх экрана. Кнопку сохранения в клавиатуре делают через Keyboard.dismiss: сохранить и убрать гостя одним касанием. Связь с днём одиннадцатым: content сжимается при открытой клавиатуре, и именно его области проверяют в двух положениях — портрет и ландшафт.",
+        "tg": "behavior-ро аз рӯи платформа интихоб мекунанд: padding дар iOS, height дар Android — ҳуҷҷат мустақиман огоҳӣ медиҳад, ки платформаҳо ба ин параметр гуногун ҷавоб медиҳанд. keyboardVerticalOffset ҳангоми шапкаи болои шакл лозим аст: бе ҷойивазкунӣ шакл ба баландии шапка дучанд мебардорад ва аз болои экран меберояд. Тугмаи нигоҳдориро дар клавиатура тавассути Keyboard.dismiss мекунанд: нигоҳ доштан ва раондани меҳмон бо як ламс. Пайванд бо рӯзи ёздаҳум: content ҳангоми клавиатураи кушода фишурда мешавад ва минтақаҳои ҳамин ҳисса дар ду вазъият — амудӣ ва уфуқӣ санҷида мешаванд.",
+        "en": "behavior is chosen per platform: padding on iOS, height on Android — the documentation warns outright that platforms react to this prop differently. keyboardVerticalOffset is needed when a header sits above the form: without the offset the form lifts by the header height twice and slides past the top edge. The save button in the keyboard is done through Keyboard.dismiss: save and dismiss the guest with one touch. Connection to day eleven: the content squeezes with the keyboard open, and exactly its areas are checked in two orientations — portrait and landscape."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с клавиатурой",
+        "tg": "Хатоҳои маъмулӣ бо клавиатура",
+        "en": "Common mistakes with the keyboard"
+      },
+      "body": {
+        "ru": "Первая ошибка — один behavior для обеих платформ: на Android форма сжимается по-другому, и кнопки уходят под край; behavior проверяют на двух системах. Вторая — кнопка сохранения под клавиатурой: она существует, но недоступна, пока клавиатура открыта; контейнер поднимают или закрывают клавиатуру перед нажатием. Третья — забытый keyboardShouldPersistTaps на ScrollView: первое касание закрывает клавиатуру и «съедает» нажатие кнопки. Четвёртая — проверка без экранной клавиатуры: физическая клавиатура не показывает проблему, поэтому форму проверяют на устройстве с настоящей экранной клавиатурой.",
+        "tg": "Хатои аввал — як behavior барои ҳарду платформа: дар Android шакл дигар фишурда мешавад ва тугмаҳо аз канор мебероянд; behavior-ро дар ду система санҷед. Хатои дуюм — тугмаи нигоҳдорӣ зери клавиатура: вай мавҷуд аст, аммо то ки клавиатура кушодааст дастрас нест; контейнерро мебардоранд ё пеш аз пахш клавиатураро мепӯшанд. Хатои сеюм — keyboardShouldPersistTaps-и фаромӯшшуда дар ScrollView: аввалин ламс клавиатураро мепӯшонад ва пахши тугмаро «мехӯрад». Хатои чорум — санҷиш бе клавиатураи экранӣ: клавиатураи физикӣ мушкилотро намекушояд, бинобар ин шаклро дар дастгоҳ бо клавиатураи воқеии экранӣ санҷед.",
+        "en": "The first mistake is one behavior for both platforms: on Android the form squeezes differently and buttons slip past the edge; check behavior on both systems. The second is a save button under the keyboard: it exists but is unreachable while the keyboard is open; lift the container or dismiss the keyboard before pressing. The third is a forgotten keyboardShouldPersistTaps on ScrollView: the first touch closes the keyboard and «eats» the button press. The fourth is checking without the on-screen keyboard: a physical keyboard hides the problem, so test the form on a device with the real on-screen keyboard."
+      }
     }
   ],
   "questions": [
