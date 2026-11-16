@@ -99,12 +99,12 @@
       "ru": "Контракт API и допустимые поля",
       "tg": "Контракти API ва майдонҳои иҷозадода",
       "en": "API contracts and allowed fields"
-    },
+     },
      "body": {
       "ru": "Контракт описывает формат запроса и ответа. Схема на сервере допускает только нужные поля и проверяет их значения. Поля владельца берите из подтверждённой сессии, чтобы не доверять вводу клиента.\n\nНа границе API проверяем размер, JSON, форму объекта и поля. HTTP 400 означает неверный ввод; 413 — превышение лимита. Не принимайте ownerId, role или plan из формы создания задачи: владельца назначает сервер из проверенной сессии. Считайте UTF-8 байты, а не только число JavaScript-символов. Эта чистая функция проверяет уже полученную строку; настоящий HTTP-сервер обязан ограничивать поток до накопления всего большого тела.",
       "tg": "Контракт формати request ва response-ро мегӯяд. Схемаи сервер фақат майдонҳои лозим ва қимати дурустро қабул мекунад. Маълумоти соҳибро аз session-и тасдиқшуда гир.\n\nДар сарҳади API андоза, JSON, шакли объект ва майдонҳоро месанҷем. HTTP 400 вуруди нодуруст, 413 аз лимит гузаштан аст. ownerId, role ё plan-ро аз шакли сохтани вазифа қабул накунед: сервер соҳибро аз сессияи тасдиқшуда таъйин мекунад. Байти UTF-8-ро ҳисоб кунед, на танҳо шумораи аломатҳои JavaScript. Ин функсияи соф сатри гирифташударо месанҷад; HTTP-сервер бояд ҷараёнро пеш аз ҷамъ кардани тамоми баданаи калон маҳдуд кунад.",
       "en": "An API contract defines request and response shapes. The server schema permits only intended fields and checks their values. Use the verified session to identify the owner.\n\nAt the API boundary validate size, JSON, object shape and fields. HTTP 400 means invalid input; 413 means the size limit was exceeded. Never accept ownerId, role or plan from a create-task form: the server derives ownership from a verified session. Count UTF-8 bytes, not only JavaScript characters. This pure function checks an already received string; a real HTTP server must bound the stream before accumulating a large body."
-    }
+     }
     },
     {
      "title": {
@@ -151,24 +151,24 @@
     }
    ],
    "interview": {
-     "id": "backend-pro-day-01-written",
-     "question": {
-       "ru": "Откуда сервер должен брать ID текущего пользователя для новой записи?",
-       "tg": "Сервер ID-и корбари ҳозираро барои сабти нав аз куҷо мегирад?",
-       "en": "Where should the server get the current user's ID for a new record?"
-     },
-     "answer": {
-       "ru": "Из проверенной сессии",
-       "tg": "Аз session-и тасдиқшуда",
-       "en": "From the verified session"
-     },
-     "acceptedAnswers": [
-       "серверная сессия",
-       "из сессии",
-       "session",
-       "verified session",
-       "server session"
-     ]
+    "id": "backend-pro-day-01-written",
+    "question": {
+     "ru": "Откуда сервер должен брать ID текущего пользователя для новой записи?",
+     "tg": "Сервер ID-и корбари ҳозираро барои сабти нав аз куҷо мегирад?",
+     "en": "Where should the server get the current user's ID for a new record?"
+    },
+    "answer": {
+     "ru": "Из проверенной сессии",
+     "tg": "Аз session-и тасдиқшуда",
+     "en": "From the verified session"
+    },
+    "acceptedAnswers": [
+     "серверная сессия",
+     "из сессии",
+     "session",
+     "verified session",
+     "server session"
+    ]
    },
    "questions": [
     {
@@ -200,7 +200,13 @@
        "en": "From an ownerId query parameter"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Валидатор не аутентифицирует пользователя: кто владелец, решает сервер, а не клиент.",
+      "tg": "Валидатор корбарро тасдиқ намекунад: соҳиб кӣ аст, онро сервер муайян мекунад, на муштарӣ.",
+      "en": "The validator does not authenticate users: the server, not the client, decides the owner."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-01-q2",
@@ -231,7 +237,50 @@
        "en": "500 Internal Server Error"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Различайте неверный ввод и тело, которое не помещается в лимит.",
+      "tg": "Вориди нодурустро аз таное, ки ба маҳдудият намеғунҷад, фарқ кунед.",
+      "en": "Distinguish invalid input from a body that does not fit the limit."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-01-q3",
+     "question": {
+      "ru": "Почему размер тела проверяют в UTF-8 байтах, а не в длине строки?",
+      "tg": "Чаро ҳаҷми танро дар байтҳои UTF-8 месанҷанд, на дар тӯли сатр?",
+      "en": "Why is the body size checked in UTF-8 bytes rather than string length?"
+     },
+     "answer": {
+      "ru": "Один символ вне ASCII даёт несколько байтов: Buffer.byteLength считает реальный размер, а не число символов.",
+      "tg": "Як аломити берун аз ASCII чанд байт медиҳад: Buffer.byteLength андозаи воқеиро ҳисоб мекунад, на шумораи аломитҳо.",
+      "en": "One non-ASCII character yields several bytes: Buffer.byteLength counts the real size, not the number of characters."
+     },
+     "hint": {
+      "ru": "Сравните символ эмодзи или кириллицы с ASCII-символом: сколько байтов у каждого?",
+      "tg": "Аломити эмодзи ё кирилликоро бо аломити ASCII муқоиса кунед: ҳар кадом чанд байт дорад?",
+      "en": "Compare an emoji or Cyrillic character with an ASCII one: how many bytes does each take?"
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Один символ вне ASCII занимает несколько байтов",
+       "tg": "Як аломити берун аз ASCII чанд байтро мегирад",
+       "en": "A character outside ASCII takes several bytes"
+      },
+      {
+       "ru": "JavaScript считает длину строки в байтах",
+       "tg": "JavaScript тӯли сатрро дар байтҳо ҳисоб мекунад",
+       "en": "JavaScript counts string length in bytes"
+      },
+      {
+       "ru": "Байты нужны только для файлов: строки всегда измеряются символами",
+       "tg": "Байтҳо танҳо барои файлҳо лозиманд: сатрҳо ҳамеша бо аломит андоза мешаванд",
+       "en": "Bytes matter only for files: strings are always measured in characters"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -293,12 +342,12 @@
       "ru": "Кто вошёл и кому принадлежит запись",
       "tg": "Кӣ даромад ва сабт аз они кист?",
       "en": "Identity and record ownership"
-    },
+     },
      "body": {
       "ru": "Проверка личности даёт подтверждённого пользователя. Проверка права решает, можно ли этому пользователю работать именно с выбранной записью. Обе проверки выполняются на сервере.\n\nАутентификация отвечает «кто это», авторизация — «можно ли ему читать эту запись». session здесь уже получена доверенным серверным middleware, а не из тела запроса. Даже корректный id не даёт права читать чужую задачу. Возвращаем одинаковый 404 для чужой и отсутствующей записи, чтобы не подтверждать её существование. Тестовая repository проверяет логику без настоящей базы; в production нужна фильтрация по user_id в запросе и RLS как второй слой.",
       "tg": "Санҷиши шахсият корбари тасдиқшударо медиҳад. Санҷиши ҳуқуқ ҳал мекунад, ки ҳамин корбар иҷозаи кор бо ҳамин сабтро дорад ё не. Ҳар ду дар сервер мешаванд.\n\nТасдиқи шахсият ба «ин кист», иҷозат ба «оё ин сабтро хонда метавонад» ҷавоб медиҳад. session ин ҷо аз middleware-и боэътимоди сервер гирифта шудааст, на аз баданаи дархост. Ҳатто id-и дуруст ҳуқуқи хондани вазифаи дигаронро намедиҳад. Барои сабти бегона ва набуда як 404 медиҳем, то мавҷудияташро ошкор накунем. repository-и тестӣ мантиқро бе пойгоҳи воқеӣ месанҷад; дар production филтри user_id ва RLS ҳамчун қабати дуюм лозим аст.",
       "en": "Authentication identifies the user. Authorization checks whether that user may act on the specific record. Both checks run on the server.\n\nAuthentication answers who the caller is; authorization decides whether they may read this record. session is already supplied by trusted server middleware, never by the request body. A valid id does not grant access to another user’s task. Return the same 404 for missing and foreign records to avoid confirming existence. A repository fixture tests the logic without a live database; production needs ownership-scoped queries and RLS as a second layer."
-    }
+     }
     },
     {
      "title": {
@@ -345,22 +394,22 @@
     }
    ],
    "interview": {
-     "id": "backend-pro-day-02-written",
-     "question": {
-       "ru": "Как называется проверка права пользователя читать конкретную запись?",
-       "tg": "Санҷиши ҳуқуқи хондани сабти муайян чӣ ном дорад?",
-       "en": "What do we call checking if a user may read a particular record?"
-     },
-     "answer": {
-       "ru": "Авторизация",
-       "tg": "Авторизатсия",
-       "en": "Authorization"
-     },
-     "acceptedAnswers": [
-       "проверка прав",
-       "permission check",
-       "санҷиши иҷозат"
-     ]
+    "id": "backend-pro-day-02-written",
+    "question": {
+     "ru": "Как называется проверка права пользователя читать конкретную запись?",
+     "tg": "Санҷиши ҳуқуқи хондани сабти муайян чӣ ном дорад?",
+     "en": "What do we call checking if a user may read a particular record?"
+    },
+    "answer": {
+     "ru": "Авторизация",
+     "tg": "Авторизатсия",
+     "en": "Authorization"
+    },
+    "acceptedAnswers": [
+     "проверка прав",
+     "permission check",
+     "санҷиши иҷозат"
+    ]
    },
    "questions": [
     {
@@ -392,7 +441,13 @@
        "en": "Yes, if the interface never shows the record id"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Браузер — не граница доверия: запрос можно отправить напрямую.",
+      "tg": "Браузер марзи боварӣ нест: дархостро метавон мустақиман фиристод.",
+      "en": "The browser is not a trust boundary: a request can be sent directly."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-02-q2",
@@ -423,7 +478,50 @@
        "en": "200 with an empty object"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Одинаковый отказ для чужой и отсутствующей записи не подтверждает существование id.",
+      "tg": "Радди якхела барои сабти дигарон ва сабти набуда вуҷуд доштани id-ро тасдиқ намекунад.",
+      "en": "One identical denial for foreign and missing records does not confirm the id exists."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-02-q3",
+     "question": {
+      "ru": "Что вернёт readOwnedTodo для гостя без сессии до обращения к repository?",
+      "tg": "readOwnedTodo барои меҳмоне бе сессия пеш аз муроҷиат ба repository чӣ бармегардонад?",
+      "en": "What does readOwnedTodo return for a guest without a session before touching the repository?"
+     },
+     "answer": {
+      "ru": "Гость не прошёл аутентификацию, поэтому функция возвращает 401 до вызова findById.",
+      "tg": "Меҳмон тасдиқи ҳувиятро нагузашт, барои ин функсия пеш аз даъвати findById 401 бармегардонад.",
+      "en": "The guest has not authenticated, so the function returns 401 before calling findById."
+     },
+     "hint": {
+      "ru": "Следуйте порядку проверок в примере: сессия, формат id и только потом поиск.",
+      "tg": "Тартиби тафтишҳоро дар мисол пайравӣ кунед: сессия, шакли id ва танҳо баъд ҷустуҷӯ.",
+      "en": "Follow the check order in the example: session, id shape, then the lookup."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "404 — гостю чужие записи не видны, как и в интерфейсе",
+       "tg": "404 — ба меҳмон сабтҳои дигарон ҳамчун дар интерфейс намоён нестанд",
+       "en": "404 — a guest cannot see foreign records, same as in the interface"
+      },
+      {
+       "ru": "200 — гости читают публичные задачи",
+       "tg": "200 — меҳмонҳо вазифаҳои ҷамъиятиро мехонанд",
+       "en": "200 — guests read public tasks"
+      },
+      {
+       "ru": "401 — проверка сессии выполняется до поиска записи",
+       "tg": "401 — тафтиши сессия пеш аз ҷустуҷӯи сабт анҷом мешавад",
+       "en": "401 — the session check runs before the record lookup"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -485,12 +583,12 @@
       "ru": "Что проверяет интеграционный HTTP-тест",
       "tg": "Интеграционный HTTP-тест чиро месанҷад?",
       "en": "What an HTTP integration test covers"
-    },
+     },
      "body": {
       "ru": "Интеграционный тест посылает запрос рабочему обработчику и проверяет ответ. Так видно, что парсинг, валидация и статус согласованы. Для отказа хранилища проверьте ещё, что клиент получил понятную ошибку.\n\nПример действительно запускает Node HTTP-сервер только на 127.0.0.1 со свободным портом, выполняет fetch и закрывает сервер в finally. Сессия — временный случайный 256-битный токен в памяти, а не пользовательский ownerId. Это локальный интеграционный стенд, не production-вход и не постоянная база. В production нужны HTTPS, полноценный жизненный цикл сессий, хранилище, миграции, rate limits и лимит тела на ingress. Тело больше 4096 байт не накапливается в памяти; медленный поток ограничен тайм-аутом. Лимит при этом не заменяет ограничения сетевого трафика на сервере размещения.",
       "tg": "Интеграционный тест ба handler request фиристода, response-ро месанҷад. Маълум мешавад, ки хондани request, валидация ва статус якҷо дуруст кор мекунанд. Барои хатои база паёми фаҳморо ҳам санҷ.\n\nМисол воқеан Node HTTP-серверро танҳо дар 127.0.0.1 бо порти озод оғоз карда, fetch иҷро мекунад ва дар finally мебандад. Сессия токени тасодуфии муваққатии 256-бита дар хотира аст, на ownerId-и муштарӣ. Ин стенди маҳаллии ҳамгироӣ аст, на воридшавии production ё пойгоҳи доимӣ. Дар production HTTPS, давраи пурраи сессия, захира, мигратсия, rate limit ва лимити бадана дар ingress лозиманд. Баданаи зиёда аз 4096 байт дар хотира ҷамъ намешавад; ҷараёни суст бо вақт маҳдуд аст. Ин лимит ҷойи маҳдудияти трафики хостингро намегирад.",
       "en": "An integration test sends a request through the actual handler and checks its response. It checks parsing, validation, and status together. For a storage failure, verify that the client gets a useful error.\n\nThis example really starts a Node HTTP server on loopback with an ephemeral port, makes fetch requests and closes it in finally. Its session is a temporary random 256-bit token in memory, not a client ownerId. This is a local integration fixture, not production login or persistent storage. Production additionally needs HTTPS, complete session lifecycle, storage, migrations, rate limits and ingress body limits. Bodies beyond 4096 bytes are not accumulated; slow streams have timeouts. This does not replace hosting-level traffic limits."
-    }
+     }
     },
     {
      "title": {
@@ -537,22 +635,22 @@
     }
    ],
    "interview": {
-     "id": "backend-pro-day-03-written",
-     "question": {
-       "ru": "Как называется тест, который проверяет несколько частей приложения вместе через реальный HTTP-запрос?",
-       "tg": "Тесте, ки чанд қисми барномаро якҷо бо HTTP request месанҷад, чӣ ном дорад?",
-       "en": "What kind of test checks several application parts together through an HTTP request?"
-     },
-     "answer": {
-       "ru": "Интеграционный тест",
-       "tg": "Тести интегратсионӣ",
-       "en": "Integration test"
-     },
-     "acceptedAnswers": [
-       "HTTP integration test",
-       "интеграционное тестирование",
-       "integration testing"
-     ]
+    "id": "backend-pro-day-03-written",
+    "question": {
+     "ru": "Как называется тест, который проверяет несколько частей приложения вместе через реальный HTTP-запрос?",
+     "tg": "Тесте, ки чанд қисми барномаро якҷо бо HTTP request месанҷад, чӣ ном дорад?",
+     "en": "What kind of test checks several application parts together through an HTTP request?"
+    },
+    "answer": {
+     "ru": "Интеграционный тест",
+     "tg": "Тести интегратсионӣ",
+     "en": "Integration test"
+    },
+    "acceptedAnswers": [
+     "HTTP integration test",
+     "интеграционное тестирование",
+     "integration testing"
+    ]
    },
    "questions": [
     {
@@ -584,7 +682,13 @@
        "en": "To make the server respond faster"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Упавший assert — не повод оставлять сервер работать.",
+      "tg": "Assert-и фурӯхӯрда далели кори идомаи сервер нест.",
+      "en": "A failed assert is no reason to leave the server running."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-03-q2",
@@ -615,7 +719,50 @@
        "en": "In finally — whatever the checks' outcome"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ресурс должен освобождаться при любом исходе проверок.",
+      "tg": "Ресурс бояд дар ҳар натиҷаи тафтишҳо озод шавад.",
+      "en": "The resource must be released whatever the checks’ outcome."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "backend-pro-day-03-q3",
+     "question": {
+      "ru": "Что увидит интеграционный HTTP-тест, чего не заметит тест отдельной функции?",
+      "tg": "Таҷрибаи интегратсионии HTTP чиро мебинад, ки таҷрибаи функсияи алоҳида намебинад?",
+      "en": "What does an integration HTTP test see that a single-function test misses?"
+     },
+     "answer": {
+      "ru": "Тест функции не заметит неверно подключённый маршрут; интеграционный тест посылает настоящий запрос и проверяет статус и ответ.",
+      "tg": "Таҷрибаи функсия роҳи нодуруст пайвастро намебинад; таҷрибаи интегратсионӣ дархости воқеӣ мефиристад ва статусу ҷавобро месанҷад.",
+      "en": "A function test misses a wrongly wired route; an integration test sends a real request and checks the status and response."
+     },
+     "hint": {
+      "ru": "Тест функции не проверяет, что маршрут действительно подключён к обработчику.",
+      "tg": "Таҷрибаи функсия тасдиқ намекунад, ки роҳ ба коргузорӣ воқеан пайваст аст.",
+      "en": "A function test never proves the route is actually wired to the handler."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Неверно подключённый маршрут при настоящем запросе",
+       "tg": "Роҳи нодуруст пайвастшуда ҳангоми дархости воқеӣ",
+       "en": "A wrongly wired route on a real request"
+      },
+      {
+       "ru": "Только значения внутренних переменных функции без HTTP",
+       "tg": "Танҳо арзишҳои тағйирёбандаҳои дарунии функсия бе HTTP",
+       "en": "Only the function’s internal variable values, without HTTP"
+      },
+      {
+       "ru": "Ничего нового: оба теста всегда эквивалентны",
+       "tg": "Ҳеҷ чизи нав: ҳар ду таҷриба ҳамеша баробаранд",
+       "en": "Nothing new: both tests are always equivalent"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -770,7 +917,13 @@
        "en": "PATCH — it always adds fields"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Идемпотентность — об итоге на ресурсе, а не о различии ответов.",
+      "tg": "Идемпотентият дар бораи натиҷаи ниҳоӣ барои захира аст, на дар бораи фарқи ҷавобҳо.",
+      "en": "Idempotency is about the final resource state, not differing responses."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-04-q2",
@@ -801,7 +954,50 @@
        "en": "Status 200 with an error field"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Клиент должен понять, какими методами ресурс ещё можно вызвать.",
+      "tg": "Муштарӣ бояд бифаҳмад, ки манбаъро бо кадом усулҳо боз даъват кардан мумкин аст.",
+      "en": "The client must learn which methods can still be used."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-04-q3",
+     "question": {
+      "ru": "Почему изменения через GET считаются ошибкой проектирования?",
+      "tg": "Чаро тағйирот аз тариқи GET ҳамчун хатои лоиҳакашӣ ҳисоб мешавад?",
+      "en": "Why is changing state through GET a design mistake?"
+     },
+     "answer": {
+      "ru": "GET должен быть безопасным: прокси и браузеры прелоадят такие ссылки, и данные меняются без намерения пользователя.",
+      "tg": "GET бояд бехатар бошад: прокси ва браузерҳо чунин пайвандҳоро пешакӣ мекушоянд ва маълумот бе нияти корбар тағйир меёбад.",
+      "en": "GET must be safe: proxies and browsers preload such links, and data changes without the user’s intent."
+     },
+     "hint": {
+      "ru": "Какие программы в цепочке могут выполнить GET сами, не спрашивая человека?",
+      "tg": "Кадом барномаҳо дар занҷир GET-ро бе пурсидани инсон иҷро карда метавонанд?",
+      "en": "Which programs in the chain can fire a GET without asking a human?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "GET не поддерживает JSON-тела",
+       "tg": "GET танҳои JSON-ро дастгирӣ намекунад",
+       "en": "GET does not support JSON bodies"
+      },
+      {
+       "ru": "GET всегда медленнее остальных методов из-за кэша",
+       "tg": "GET аз ҳамаи усулҳои дигар сабттар мегардад",
+       "en": "GET is always slower than the other methods"
+      },
+      {
+       "ru": "Прокси и браузеры могут выполнить GET сами",
+       "tg": "Прокси ва браузерҳо GET-ро худ иҷро карда метавонанд",
+       "en": "Proxies and browsers can issue GETs on their own"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -955,7 +1151,13 @@
        "en": "JSON cannot hold large arrays"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что происходит с размером ответа, когда строк в таблице становятся миллионы?",
+      "tg": "Ба андозаи ҷавоб чӣ мешавад, ҳангоме ки сатрҳо ба миллионҳо мерасанд?",
+      "en": "What happens to the response size as rows grow to millions?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-05-q2",
@@ -986,7 +1188,50 @@
        "en": "Renaming an existing response field"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сравните добавление поля и переименование: что сломает клиент со старым ответом?",
+      "tg": "Илова кардани майдон ва бозномгузориро муқоиса кунед: муштарии бо ҷавоби кӯҳна аз чӣ мешиканад?",
+      "en": "Compare adding a field and renaming one: what breaks a client with the old response?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-05-q3",
+     "question": {
+      "ru": "Что делает сервер с запросом limit=999 при допустимом диапазоне 1–50?",
+      "tg": "Сервер бо дархости limit=999 дар диапазони иҷозатдодаи 1–50 чӣ мекунад?",
+      "en": "What does the server do with limit=999 when the allowed range is 1–50?"
+     },
+     "answer": {
+      "ru": "Границы задают Math.min и Math.max: слишком большой limit становится 50, и страница отвечает обычным способом.",
+      "tg": "Ҳудудҳоро Math.min ва Math.max муайян мекунанд: limit-и хеле калон ба 50 табдил меёбад ва саҳифа ба тарзи муқаррарӣ ҷавоб медиҳад.",
+      "en": "Math.min and Math.max set the bounds: an oversized limit becomes 50 and the page answers normally."
+     },
+     "hint": {
+      "ru": "Значение не отклоняется: пределы диапазона приводят его к допустимому.",
+      "tg": "Арзиш рад намешавад: ҳудудҳои диапазон онро ба қадри иҷозатдода меоранд.",
+      "en": "The value is not rejected: the range bounds bring it back to what is allowed."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Сжимает limit до верхней границы 50",
+       "tg": "limit-ро то ҳадди болоии 50 кам мекунад",
+       "en": "Clamps limit to the upper bound 50"
+      },
+      {
+       "ru": "Возвращает 999 элементов без изменений",
+       "tg": "999 унсурро бе тағйирот бармегардонад",
+       "en": "Returns 999 items unchanged"
+      },
+      {
+       "ru": "Отвечает 404, потому что значение limit не входит в допустимый диапазон",
+       "tg": "404 медиҳад, чунки арзиши limit дар диапазони иҷозатдода намегунҷад",
+       "en": "Answers 404 because limit is outside the allowed range"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1128,7 +1373,13 @@
        "en": "The client fixes all fields in a single request"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сколько запросов нужно, чтобы исправить четыре ошибки по одной за запрос?",
+      "tg": "Барои ислоҳи чор хато, як хато дар як дархост, чанд дархост лозим аст?",
+      "en": "How many requests to fix four errors one per request?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-06-q2",
@@ -1159,7 +1410,50 @@
        "en": "Encrypts the field values"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что происходит с role или ownerId, если их нет в схеме?",
+      "tg": "Ба role ё ownerId чӣ мешавад, агар онҳо дар схема набошанд?",
+      "en": "What happens to role or ownerId when they are not in the schema?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-06-q3",
+     "question": {
+      "ru": "Что маскирует приведение типов на лету, когда «20» превращается в 20?",
+      "tg": "Табдили намуд дар ҷой, ки «20» ба 20 мубаддал мешавад, чиро пинҳон мекунад?",
+      "en": "What does on-the-fly type coercion hide when \"20\" turns into 20?"
+     },
+     "answer": {
+      "ru": "Тип входа остаётся неверным: сервер скрывает дефект клиента, и тот никогда не узнает об ошибке.",
+      "tg": "Намуди воридаш нодуруст мемонад: сервер нуқсони муштариро пинҳон мекунад ва ӯ ҳеҷ гоҳ аз хато нахоҳад фаҳмид.",
+      "en": "The input type stays wrong: the server hides the client defect, and it never learns about the mistake."
+     },
+     "hint": {
+      "ru": "Клиент, который всегда шлёт строку вместо числа, должен узнать об этом, а не получить «успех».",
+      "tg": "Муштарие, ки ҳамеша сатр ба ҷои адад мефиристад, бояд инро бифаҳмад, на ҷавоби муваффақ гирад.",
+      "en": "A client that always sends a string instead of a number should hear about it, not receive success."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Маскирует сломанного клиента, шлющего строку вместо числа",
+       "tg": "Муштарии вайроншударо пинҳон мекунад, ки сатрро ба ҷои адад мефиристад",
+       "en": "It hides a broken client sending a string instead of a number"
+      },
+      {
+       "ru": "Ничего: это стандартный и безопасный способ проверки чисел",
+       "tg": "Ҳеҷ чизро: ин тарзи муқаррарӣ ва бехатари тафтиши ададҳост",
+       "en": "Nothing: it is a standard and safe way to check numbers"
+      },
+      {
+       "ru": "Скорость: приведение типов всегда быстрее строгой проверки",
+       "tg": "Суръат: табдили намуд ҳамеша аз тафтиши қатӣ тезтар аст",
+       "en": "Speed: coercion is always faster than strict checking"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1313,7 +1607,13 @@
        "en": "A bodyless reply with just the error text"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Какая информация нужна клиенту от сбоя, на который он не мог повлиять?",
+      "tg": "Муштарӣ аз харобие, ки ба он таъсир наметавонист, чиро бояд донад?",
+      "en": "What does a client need from a failure it could not influence?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-07-q2",
@@ -1344,7 +1644,50 @@
        "en": "It is too short for a client"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Прочитайте пример строки «ECONNREFUSED 10.0.0.4:5432»: что узнает клиент?",
+      "tg": "Сатри «ECONNREFUSED 10.0.0.4:5432»-ро дар мисол бихонед: муштарӣ чиро мефаҳмад?",
+      "en": "Read the example line «ECONNREFUSED 10.0.0.4:5432»: what would a client learn?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-07-q3",
+     "question": {
+      "ru": "Почему невалидный ввод нельзя отвечать статусом 500?",
+      "tg": "Чаро ба воридаи нодуруст бояд бо 500 ҷавоб додан мумкин набошад?",
+      "en": "Why must invalid input not be answered with a 500?"
+     },
+     "answer": {
+      "ru": "Дежурные перестанут доверять алертам: ожидаемая ветка контракта должна возвращать свой точный статус.",
+      "tg": "Муовинҳо ба огоҳиҳо бовар намекунанд: шохаи интизории шартнома бояд статуси дақиқи худро бармегардонад.",
+      "en": "Duty staff will stop trusting alerts: an expected contract branch must return its own exact status."
+     },
+     "hint": {
+      "ru": "Что увидят дежурные в алертах, если каждая ошибка формы приходит как 500?",
+      "tg": "Муовинон дар огоҳиҳо чӣ мебинанд, агар ҳар хатои шакл бо 500 расад?",
+      "en": "What would duty staff see in alerts if every form error arrived as a 500?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "HTTP прямо запрещает статус 500 для ошибок клиента",
+       "tg": "HTTP статуси 500-ро барои хатоҳои муштарӣ мустақиман манъ мекунад",
+       "en": "HTTP explicitly forbids 500 for client errors"
+      },
+      {
+       "ru": "500 отвечает медленнее, чем 400",
+       "tg": "500 аз 400 сусттар ҷавоб медиҳад",
+       "en": "500 responds slower than 400"
+      },
+      {
+       "ru": "Мониторинг примет ошибку клиента за аварию",
+       "tg": "Мониторинг хатои муштариро ҳамчун ҳодиса мепазирад",
+       "en": "Monitoring will treat a client mistake as an outage"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1487,7 +1830,13 @@
        "en": "To compress the hash to sixteen bytes"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Подумайте о готовых таблицах хешей популярных паролей.",
+      "tg": "Ба ҷадвалҳои омодаи ҳешҳои паролҳои маъмул фикр кунед.",
+      "en": "Think about ready-made hash tables of popular passwords."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-08-q2",
@@ -1518,7 +1867,50 @@
        "en": "A random session token with a lifetime"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Что клиент может использовать при следующих запросах вместо пароля?",
+      "tg": "Муштарӣ дар дархостҳои баъдӣ ба ҷои парол чиро истифода метавонад?",
+      "en": "What can the client use on later requests instead of the password?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-08-q3",
+     "question": {
+      "ru": "Чем обычное сравнение хешей хуже timingSafeEqual?",
+      "tg": "Муқоисаи муқаррарии ҳешҳо аз timingSafeEqual чӣ гуна бадтар аст?",
+      "en": "How is plain hash comparison worse than timingSafeEqual?"
+     },
+     "answer": {
+      "ru": "Обычное сравнение возвращает управление при первом различии; timingSafeEqual тратит одинаковое время и не раскрывает ход перебора.",
+      "tg": "Муқоисаи муқаррарӣ дар аввалин фарқият бармегардад; timingSafeEqual вақти якхела мегирад ва пешрафти ҷустуҷӯро ошкор намекунад.",
+      "en": "Plain comparison returns at the first difference; timingSafeEqual spends the same time and reveals nothing about the search."
+     },
+     "hint": {
+      "ru": "Измерьте время сравнения короткого и почти полного совпадения: что увидит атакующий?",
+      "tg": "Вақти муқоисаи мувофиқии кӯтоҳ ва хеле пурраро чен кунед: ҳамлагар чӣ мебинад?",
+      "en": "Time a comparison of a short match and a nearly full one: what does an attacker learn?"
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Время сравнения зависит от совпавших символов",
+       "tg": "Вақти муқоиса ба аломитҳои мувофиқ вобаста аст",
+       "en": "Comparison time depends on the matching characters"
+      },
+      {
+       "ru": "Обычное сравнение не работает с hex-строками",
+       "tg": "Муқоисаи муқаррарӣ бо сатрҳои hex кор намекунад",
+       "en": "Plain comparison does not work with hex strings"
+      },
+      {
+       "ru": "timingSafeEqual шифрует значение перед сравнением",
+       "tg": "timingSafeEqual арзишро пеш аз муқоиса рамзгузорӣ мекунад",
+       "en": "timingSafeEqual encrypts the value before comparing"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1673,7 +2065,13 @@
        "en": "The token owner's anonymity"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Измените один символ payload и проверьте подпись ещё раз.",
+      "tg": "Як аломити payload-ро тағйир диҳед ва имзорро дубора санҷед.",
+      "en": "Change one payload character and verify the signature again."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-09-q2",
@@ -1704,7 +2102,50 @@
        "en": "Overwrite the signature with an empty string"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Какие поля токена позволяют найти именно его среди действующих?",
+      "tg": "Кадом майдонҳои токен ҳозируро миёни токенҳои амалкунанда меҷӯянд?",
+      "en": "Which token fields let you find exactly that token among the active ones?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-09-q3",
+     "question": {
+      "ru": "Что увидит посторонний, открыв подписанный JWT без секретного ключа?",
+      "tg": "Каси бегоне, ки JWT-и имзошударо бе калиди махфӣ мекушояд, чиро мебинад?",
+      "en": "What does a stranger see opening a signed JWT without the secret key?"
+     },
+     "answer": {
+      "ru": "Base64url передаёт данные в тексте и не скрывает их; подпись защищает от изменения, а не от чтения.",
+      "tg": "Base64url маълумотро ба шакли матн мегузаронад ва онҳоро пинҳон намекунад; имзо аз тағйирот ҳимоя мекунад, на аз хондан.",
+      "en": "Base64url carries data as text without hiding it; the signature protects against changes, not reading."
+     },
+     "hint": {
+      "ru": "Декодируйте первые две части токена: нужен ли секрет для чтения?",
+      "tg": "Ду қисми аввали токенро аз рамз бароред: барои хондан калиди махфӣ лозим аст?",
+      "en": "Decode the token’s first two parts: is the secret needed to read them?"
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Ничего: payload скрыт подписью",
+       "tg": "Ҳеҷ чиз: payload бо имзо пинҳон аст",
+       "en": "Nothing: the payload is hidden by the signature"
+      },
+      {
+       "ru": "Только подпись: остальное недоступно без ключа",
+       "tg": "Танҳо имзо: боқимонда бе калид дастрас нест",
+       "en": "Only the signature: the rest is inaccessible without the key"
+      },
+      {
+       "ru": "Заголовок и payload читаются свободно, подменить нельзя",
+       "tg": "Сарлавҳа ва payload озод мехонанд, иваз кардан мумкин нест",
+       "en": "The header and payload read freely, replacing them fails"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1846,7 +2287,13 @@
        "en": "404: we do not confirm existence"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Что узнает переборщик id, если чужая запись отвечает 403?",
+      "tg": "Ҷустуҷӯгари id ҳангоми 403-и сабти дигарон чиро мефаҳмад?",
+      "en": "What does an id enumerator learn when a foreign record answers 403?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-10-q2",
@@ -1877,7 +2324,50 @@
        "en": "Yes, if the role is editor"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Роль описывает тип операции, а не владельца конкретной записи.",
+      "tg": "Нақш намуди амалиётро тавсиф мекунад, на соҳиби сабти мушаххасро.",
+      "en": "A role describes the operation type, not the owner of a specific record."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-10-q3",
+     "question": {
+      "ru": "В каком порядке authorizeUpdate выполняет проверки?",
+      "tg": "authorizeUpdate тафтишҳоро бо кадом тартиб иҷро мекунад?",
+      "en": "In what order does authorizeUpdate run its checks?"
+     },
+     "answer": {
+      "ru": "Порядок 401 → 403 → 404 → 200 отражает три вопроса авторизации: кто ты, разрешена ли операция, твоя ли запись.",
+      "tg": "Тартиби 401 → 403 → 404 → 200 се саволи иҷозатро нишон медиҳад: туро кӣ, амалиёт иҷозатдода аст ва сабт аз они кист.",
+      "en": "The order 401 → 403 → 404 → 200 mirrors the three authorization questions: who you are, whether the operation is allowed, whether the record is yours."
+     },
+     "hint": {
+      "ru": "Ответ «кто ты» приходит раньше ответа «можно ли тебе».",
+      "tg": "Ҷавоби «туро кӣ» пеш аз ҷавоби «барои тӯ иҷозат дорӣ» меояд.",
+      "en": "The answer to who you are comes before the answer to what you may do."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "401, затем 403, затем 404, только потом 200",
+       "tg": "Аввал 401, баъд 403, баъд 404 ва танҳо баъд он 200",
+       "en": "401, then 403, then 404, only then 200"
+      },
+      {
+       "ru": "Сначала поиск записи, потом роль, потом владелец",
+       "tg": "Аввал ҷустуҷӯи сабт, баъд нақш, баъд соҳибӣ",
+       "en": "First the record lookup, then the role, then ownership"
+      },
+      {
+       "ru": "Порядок не важен: все проверки независимы",
+       "tg": "Тартиб муҳим нест: ҳамаи тафтишҳо мустақиланд",
+       "en": "Order does not matter: all checks are independent"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2031,7 +2521,13 @@
        "en": "Sending the cookie to subdomains"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "HttpOnly ограничивает чтение из document.cookie, но не отменяет отправку cookie.",
+      "tg": "HttpOnly хонданро аз document.cookie маҳдуд мекунад, фиристодани cookie-ро бекор намекунад.",
+      "en": "HttpOnly restricts reading via document.cookie; it does not stop the cookie being sent."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-11-q2",
@@ -2062,7 +2558,50 @@
        "en": "The cookie gets extra encryption"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Кросс-сайтовый запрос не является навигацией верхнего уровня.",
+      "tg": "Дархости кросс-сайт навигатсияи сатҳи болоӣ нест.",
+      "en": "A cross-site request is not a top-level navigation."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-11-q3",
+     "question": {
+      "ru": "Почему SameSite=None без Secure не работает?",
+      "tg": "Чаро SameSite=None бе Secure кор намекунад?",
+      "en": "Why does SameSite=None without Secure not work?"
+     },
+     "answer": {
+      "ru": "Спецификация требует Secure при SameSite=None; без него браузеры просто не сохранят cookie.",
+      "tg": "Спецификация ҳамроҳ бо SameSite=None ба Secure талаб мекунад; бе он браузерҳо cookie-ро нигоҳ намедоранд.",
+      "en": "The spec requires Secure with SameSite=None; without it browsers simply will not store the cookie."
+     },
+     "hint": {
+      "ru": "Кто проверяет это правило — ваш сервер или браузер пользователя?",
+      "tg": "Ин қоидаро кӣ месанҷад — сервери шумо ё браузери корбар?",
+      "en": "Who enforces this rule — your server or the user’s browser?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "None отключает действие HttpOnly",
+       "tg": "None таъсири HttpOnly-ро хомӯш мекунад",
+       "en": "None disables the HttpOnly effect"
+      },
+      {
+       "ru": "None требует одновременно HttpOnly и Max-Age в строке",
+       "tg": "None яквақта дар сатр HttpOnly ва Max-Age-ро талаб мекунад",
+       "en": "None requires both HttpOnly and Max-Age in the string"
+      },
+      {
+       "ru": "Браузеры отбросят такую cookie без Secure",
+       "tg": "Браузерҳо чунин cookie-ро бе Secure рад мекунанд",
+       "en": "Browsers discard such a cookie without Secure"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2205,7 +2744,13 @@
        "en": "It is an HTML standard requirement"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Cookie браузер подставит сам: что тогда докажет токен?",
+      "tg": "Cookie-ро браузер худ мегузорад: он гоҳ токен чиро тасдиқ мекунад?",
+      "en": "The browser attaches the cookie itself: what would the token prove then?"
+     },
+     "relatedSection": 2
     },
     {
      "id": "backend-pro-day-12-q2",
@@ -2236,7 +2781,50 @@
        "en": "Blocks sending the whole response"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Экранирование превращает разметку в текст при выводе, а не при хранении.",
+      "tg": "Хушайсозӣ ҳангоми барориш зарбмаркаро ба матн табдил медиҳад, на ҳангоми нигоҳдорӣ.",
+      "en": "Escaping turns markup into text at output time, not storage time."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-12-q3",
+     "question": {
+      "ru": "Почему экранирование «на клиенте» не спасает сохранённый комментарий?",
+      "tg": "Чаро хушайсозии «дар тарафи муштарӣ» шарҳи нигоҳдоришударо наҷот намедиҳад?",
+      "en": "Why does client-side escaping not save a stored comment?"
+     },
+     "answer": {
+      "ru": "Один и тот же текст выводится во многих местах: экранировать нужно при каждом выводе, иначе где-то сырой HTML прорвётся.",
+      "tg": "Як матн дар ҷойҳои зиёд барорӣ мешавад: ҳар бори барориш бояд хушайсозӣ карда шавад, вагарна дар ягон ҷо HTML-и хом мегузарад.",
+      "en": "The same text is rendered in many places: escape at every render, or raw HTML breaks through somewhere."
+     },
+     "hint": {
+      "ru": "Комментарий показывают в ленте, в письме и в превью — сколько выводов защищены?",
+      "tg": "Шарҳро дар лента, дар мактуб ва дар пешнамо нишон медиҳанд — чанд барориш ҳимоя шудааст?",
+      "en": "The comment appears in a feed, an email and a preview — how many renders are protected?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Данные лежат в базе сырыми и всплывут при другом выводе",
+       "tg": "Маълумот бо шакли хом дар пойгоҳ аст ва дар бароришы дигар пайдо мешавад",
+       "en": "The data sits raw in the database and resurfaces on another render"
+      },
+      {
+       "ru": "Клиент не умеет заменять угловые скобки на HTML-сущности",
+       "tg": "Муштарӣ аломатҳои кунҷиро бо мавҷудотҳои HTML иваз карда наметавонад",
+       "en": "The client cannot replace angle brackets with HTML entities"
+      },
+      {
+       "ru": "HTTP запрещает клиентское экранирование",
+       "tg": "HTTP хушайсозии муштариро манъ мекунад",
+       "en": "HTTP forbids client-side escaping"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2378,7 +2966,13 @@
        "en": "Such a query is always faster"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Драйвер передаёт значение отдельно от текста инструкции.",
+      "tg": "Драйвер арзишро алоҳида аз матни дастур мегузаронад.",
+      "en": "The driver passes the value separately from the statement text."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-13-q2",
@@ -2409,7 +3003,50 @@
        "en": "Through quote escaping"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Параметр подходит для значения, но не для имени столбца.",
+      "tg": "Параметр барои арзиш мувофиқ аст, на барои номи сутун.",
+      "en": "A parameter fits a value, not a column name."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-13-q3",
+     "question": {
+      "ru": "Почему ввод «Bob' OR '1' = '1» возвращает все строки уязвимой версии?",
+      "tg": "Чаро воридаи «Bob' OR '1' = '1» дар версияи ранҷбар ҳамаи сатрҳоро бармегардонад?",
+      "en": "Why does the input «Bob' OR '1' = '1» return every row in the vulnerable version?"
+     },
+     "answer": {
+      "ru": "Конкатенация вставила ввод в текст запроса: условие name = 'Bob' OR '1' = '1' истинно для каждой строки.",
+      "tg": "Амалиёти пайвастшавӣ ворида ба матни дархост даромад: шарти name = 'Bob' OR '1' = '1' барои ҳар сатр рост аст.",
+      "en": "Concatenation spliced the input into the query text: the condition name = 'Bob' OR '1' = '1' holds for every row."
+     },
+     "hint": {
+      "ru": "Подставьте ввод в шаблон SELECT ... WHERE name = '...' и прочитайте условие целиком.",
+      "tg": "Ворида ба қолаби SELECT ... WHERE name = '...' дароред ва шарти тамомиро бихонед.",
+      "en": "Substitute the input into the SELECT ... WHERE name = '...' template and read the whole condition."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Драйвер видит ошибку и на всякий случай отдаёт всю таблицу",
+       "tg": "Драйвер хаторо мебинад ва барои эҳтиёт тамоми ҷадвалро медиҳад",
+       "en": "The driver sees an error and, to be safe, returns the whole table"
+      },
+      {
+       "ru": "Экранирование сработало, но совпало с разрешением для всех",
+       "tg": "Хушайсозӣ кор кард, вале бо иҷозати ҳамагон мувофиқ шуд",
+       "en": "Escaping worked but coincided with a grant for everyone"
+      },
+      {
+       "ru": "Внедрённый текст делает условие WHERE тавтологией",
+       "tg": "Матни боридаш шарти WHERE-ро тавтология мекунад",
+       "en": "The injected text turns the WHERE clause into a tautology"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2551,7 +3188,13 @@
        "en": "A mask encrypts, a hash compresses"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Хеш сопоставляет значения без чтения; маска оставляет узнаваемость.",
+      "tg": "Ҳеш арзишҳоро бе хондан мувофиқ мекунад; ниқоб шинохтро нигоҳ медорад.",
+      "en": "A hash matches values without reading them; a mask keeps recognizability."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-14-q2",
@@ -2582,7 +3225,50 @@
        "en": "Only truncate the URL in the UI"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "URL попадает в логи прокси и историю браузера.",
+      "tg": "URL ба логҳои прокси ва таърихи браузер мерасад.",
+      "en": "A URL lands in proxy logs and browser history."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-14-q3",
+     "question": {
+      "ru": "Почему связывать записи лога нужно requestId, а не фрагментом токена?",
+      "tg": "Чаро сабтҳои логро бо requestId пайваст кунем, на бо пораи токен?",
+      "en": "Why link log entries by requestId instead of a token fragment?"
+     },
+     "answer": {
+      "ru": "Фрагмент токена всё ещё помогает злоумышленнику; отдельный requestId связывает записи без риска.",
+      "tg": "Пораи токен то ҳол ба муҳоҷир кӯмак мекунад; requestId-и алоҳида сабтҳоро бе хатар пайваст мекунад.",
+      "en": "A token fragment still helps an attacker; a separate requestId ties entries without risk."
+     },
+     "hint": {
+      "ru": "Что даёт злоумышленнику даже часть действующего токена?",
+      "tg": "Ба муҳоҷир ҳатто қисми токени амалкунанда чӣ медиҳад?",
+      "en": "What does even a part of a live token give an attacker?"
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "requestId короче, чем токен",
+       "tg": "requestId аз токен кӯтоҳтар аст",
+       "en": "requestId is shorter than a token"
+      },
+      {
+       "ru": "Токен слишком длинный для удобного поиска по логам",
+       "tg": "Токен барои ҷустуҷӯи осон дар лог хеле дароз аст",
+       "en": "A token is too long for convenient log search"
+      },
+      {
+       "ru": "Часть токена — секрет, а requestId создан для связки",
+       "tg": "Пораи токен сирр аст, requestId барои пайвастанд сохта шудааст",
+       "en": "A token fragment is a secret, requestId exists to link entries"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2724,7 +3410,13 @@
        "en": "To encrypt the records"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Один запрос проходит через несколько обработчиков и сервисов.",
+      "tg": "Як дархост тавассути чанд коргузорӣ ва хидмат мегузарад.",
+      "en": "One request passes through several handlers and services."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-15-q2",
@@ -2755,7 +3447,50 @@
        "en": "Impossible: debug is banned in production"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Инцидент не должен ждать релиза.",
+      "tg": "Ҳодиса набояд интизории барорӣ шавад.",
+      "en": "An incident must not wait for a release."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-15-q3",
+     "question": {
+      "ru": "Какие поля должна нести каждая структурная запись лога?",
+      "tg": "Ҳар сабти сохтории лог бояд кадом майдонҳоро дошта бошад?",
+      "en": "Which fields must every structured log entry carry?"
+     },
+     "answer": {
+      "ru": "Каждая запись — JSON с уровнем, временем, request-id и сообщением; секретные поля в записи не допускаются.",
+      "tg": "Ҳар сабт JSON бо сатҳ, вақт, request-id ва паём аст; майдонҳои сирр дар сабт иҷозат дода намешаванд.",
+      "en": "Every entry is JSON with a level, time, request id and message; secret fields are not allowed in it."
+     },
+     "hint": {
+      "ru": "Четыре обязательных поля видны в примере logger; пароля среди них нет.",
+      "tg": "Чор майдони ҳатмӣ дар мисоли logger намоёнанд; парол миёни онҳо нест.",
+      "en": "Four mandatory fields are visible in the logger example; a password is not one of them."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Только текст сообщения без уровня",
+       "tg": "Танҳо матни паём бе сатҳ",
+       "en": "Only the message text, without a level"
+      },
+      {
+       "ru": "Имя пользователя и его пароль для служебных расследований",
+       "tg": "Номи корбар ва пароли ӯ барои таҳқиқоти хидматӣ",
+       "en": "The username and their password for service investigations"
+      },
+      {
+       "ru": "ts, level, requestId и message",
+       "tg": "ts, level, requestId ва message",
+       "en": "ts, level, requestId and message"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2909,7 +3644,13 @@
        "en": "To log every request"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что лимитер защищает, если проверка стоит после самого дорогого вызова?",
+      "tg": "Лимитер чиро ҳимоя мекунад, агар тафтиш баъди даъвати он қадар гарон истад?",
+      "en": "What does a limiter protect when the check sits after the costliest call?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-16-q2",
@@ -2940,7 +3681,50 @@
        "en": "A new request body"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Клиент должен знать, когда повторить попытку.",
+      "tg": "Муштарӣ бояд донад, ки кай кӯшиш такрор кунад.",
+      "en": "The client should know when to retry."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-16-q3",
+     "question": {
+      "ru": "Почему лимитер в памяти каждого инстанса умножает лимит?",
+      "tg": "Чаро лимитери дар ҳофизаи ҳар инстанс лимитро зиёд мекунад?",
+      "en": "Why does a per-instance in-memory limiter multiply the limit?"
+     },
+     "answer": {
+      "ru": "Счётчики живут в разных процессах, и запрос, попавший на другую реплику, не видит счётчик первой.",
+      "tg": "Ҳисобкунакҳо дар равандҳои гуногун зиндагӣ мекунанд ва дархости ба репликаи дигар расонда шумораи аввалро намебинад.",
+      "en": "Counters live in different processes, and a request landing on another replica never sees the first counter."
+     },
+     "hint": {
+      "ru": "Где живёт счётчик ключа, когда следующий запрос попадает на другую реплику?",
+      "tg": "Ҳисобкунаки калид дар куҷост, ҳангоме ки дархости баъдӣ ба репликаи дигар мерасад?",
+      "en": "Where does a key’s counter live when the next request lands on another replica?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Память медленнее общего хранилища",
+       "tg": "Ҳофиза аз хазинаи муштарак сусттар аст",
+       "en": "Memory is slower than a shared store"
+      },
+      {
+       "ru": "Лимит в памяти сбрасывается чаще, чем основное окно",
+       "tg": "Лимити дар ҳофиза пеш аз итмоми давраи асосӣ аз нав оғоз мешавад",
+       "en": "The in-memory limit resets more often than the main window"
+      },
+      {
+       "ru": "Каждая реплика считает ключи независимо",
+       "tg": "Ҳар реплика калидҳоро мустақил меҳисобад",
+       "en": "Each replica counts keys independently"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3094,7 +3878,13 @@
        "en": "412 Precondition Failed"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Клиент уже хранит копию: новое тело не нужно.",
+      "tg": "Муштарӣ нусхаро аллакай нигоҳ медорад: танҷоми нав лозим нест.",
+      "en": "The client already stores the copy: a new body is not needed."
+     },
+     "relatedSection": 4
     },
     {
      "id": "backend-pro-day-17-q2",
@@ -3125,7 +3915,50 @@
        "en": "An ETag on every response"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что случится, если персональный ответ сохранит общий прокси?",
+      "tg": "Чӣ мешавад, агар проксии умумӣ ҷавоби шахсиро нигоҳ дорад?",
+      "en": "What happens when a shared proxy stores a personal response?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-17-q3",
+     "question": {
+      "ru": "Что происходит при повторном запросе с тем же ETag, если данные не менялись?",
+      "tg": "Дархости такрорӣ бо ҳамон ETag, агар маълумот тағйир наёфта бошад, чӣ натиҷа медиҳад?",
+      "en": "What happens on a repeat request with the same ETag when nothing changed?"
+     },
+     "answer": {
+      "ru": "Совпадение If-None-Match с текущим ETag даёт 304: сервер подтверждает копию без нового тела.",
+      "tg": "Мувофиқи If-None-Match бо ETag-и ҷорӣ 304 медиҳад: сервер нусхаро бе танҷоми нав тасдиқ мекунад.",
+      "en": "If-None-Match matching the current ETag yields 304: the server confirms the copy without a new body."
+     },
+     "hint": {
+      "ru": "Сервер сравнивает присланное If-None-Match с текущей версией представления.",
+      "tg": "Сервер If-None-Match-и фиристодашударо бо версияи ҷории намуд муқоиса мекунад.",
+      "en": "The server compares the sent If-None-Match with the current representation version."
+     },
+     "relatedSection": 4,
+     "options": [
+      {
+       "ru": "200 с полной копией ресурса заново",
+       "tg": "200 бо нусхаи аз нав пурраи манбаъ",
+       "en": "200 with a fresh full copy of the resource"
+      },
+      {
+       "ru": "304 без тела ответа",
+       "tg": "304 бе танҷоми ҷавоб",
+       "en": "304 with no response body"
+      },
+      {
+       "ru": "Код 412 Precondition Failed",
+       "tg": "Коди 412 Precondition Failed",
+       "en": "The 412 Precondition Failed status"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -3267,7 +4100,13 @@
        "en": "The transaction becomes faster"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Посчитайте, сколько живут соединения и блокировки при внешнем вызове.",
+      "tg": "Ҳисоб кунед, ки ҳангоми даъвати берунӣ пайвасти ва қулфҳо чанд зиндагӣ мекунанд.",
+      "en": "Count how long connections and locks live during the external call."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-18-q2",
@@ -3298,7 +4137,50 @@
        "en": "Retries only the failed operation"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните состояние до и после неудавшейся операции.",
+      "tg": "Ҳолатро пеш ва баъди амалиёти ноком муқоиса кунед.",
+      "en": "Compare the state before and after the failed operation."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-18-q3",
+     "question": {
+      "ru": "Что должна доказывать проверка балансов после отката перевода?",
+      "tg": "Тафтиши мизони баъди баргардонии бекоршуда чиро бояд собит кунад?",
+      "en": "What must the balance check after a rolled-back transfer prove?"
+     },
+     "answer": {
+      "ru": "Частично применённый перевод опаснее полного отказа: откат должен вернуть и списание, и зачисление.",
+      "tg": "Татбиқи қисмании бекоршуда аз нокомии пурра хатарноктар аст: баргардонӣ коҳиш ва замимаро ҳамроҳ баргардонад.",
+      "en": "A half-applied transfer is worse than a full failure: the rollback must undo both the withdrawal and the credit."
+     },
+     "hint": {
+      "ru": "Сравните счёт обоих участников с моментом до начала транзакции.",
+      "tg": "Ҳисоби ҳар ду иштирокчиро бо лаҳзаи пеш аз оғози транзаксия муқоиса кунед.",
+      "en": "Compare both accounts with the moment before the transaction started."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Списание сохраняется, а зачисление полностью отменяется",
+       "tg": "Коҳиш нигоҳ дошта мешавад ва замима тамоман бекор мешавад",
+       "en": "The withdrawal persists while the credit is fully cancelled"
+      },
+      {
+       "ru": "txId уменьшился на единицу",
+       "tg": "txId ба як воҳид кам шуд",
+       "en": "The txId decreased by one"
+      },
+      {
+       "ru": "Оба баланса равны значениям до неудавшейся операции",
+       "tg": "Ҳар ду мизон ба арзишҳои пеш аз амалиёти нокомӣ баробаранд",
+       "en": "Both balances equal the values from before the failed operation"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3452,7 +4334,13 @@
        "en": "switch → expand → contract"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Каждый шаг должен оставлять работающий код рабочим.",
+      "tg": "Ҳар қадам бояд коди кориашро корӣ нигоҳ дорад.",
+      "en": "Every step must keep working code working."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-19-q2",
@@ -3483,7 +4371,50 @@
        "en": "The database does not support two versions"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Инстансы обновляются не в один момент.",
+      "tg": "Инстансҳо бо як лаҳза навсозӣ намешаванд.",
+      "en": "Instances do not update at the same moment."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-19-q3",
+     "question": {
+      "ru": "Что делает шаг backfill при expand?",
+      "tg": "Қадами backfill ҳангоми expand чӣ мекунад?",
+      "en": "What does the backfill step do during expand?"
+     },
+     "answer": {
+      "ru": "Expand добавляет поле и заполняет его: старый код продолжает работать на прежней форме данных.",
+      "tg": "Expand майдонро илова мекунад ва онро пур мекунад: коди кӯҳна дар шакли пешинаи маълумот кор мекунад.",
+      "en": "Expand adds the column and fills it: the old code keeps working on the previous data shape."
+     },
+     "hint": {
+      "ru": "Старые строки появились до миграции: кто и когда их получит новое поле?",
+      "tg": "Сатрҳои куҳна пеш аз муҳоҷират пайдо шудаанд: кӣ ва кай онҳоро майдони навро мегиранд?",
+      "en": "Old rows existed before the migration: who fills their new column, and when?"
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Немедленно удаляет старое поле",
+       "tg": "Майдони куҳнаро фавран нест мекунад",
+       "en": "Removes the old column immediately"
+      },
+      {
+       "ru": "Переключает чтение всех клиентов на новое поле",
+       "tg": "Хондани ҳамаи муштариёнро ба майдони нав мегузорад",
+       "en": "Switches all clients’ reads to the new column"
+      },
+      {
+       "ru": "Заполняет новое поле для существующих строк",
+       "tg": "Майдони навро барои сатрҳои мавҷуд пур мекунад",
+       "en": "Fills the new column for existing rows"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3625,7 +4556,13 @@
        "en": "Only in tests"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что произойдёт, если опечатка в имени переменной всплывёт в первом запросе?",
+      "tg": "Чӣ мешавад, агар хатои ҳарфи номи тағйирёбанда дар аввалин дархост ошкор шавад?",
+      "en": "What happens when a variable-name typo surfaces in the first request?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-20-q2",
@@ -3656,7 +4593,50 @@
        "en": "The list of expected types"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Куда попадает вывод старта процесса?",
+      "tg": "Барориши оғози раванд ба куҷо мерасад?",
+      "en": "Where does the process startup output land?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-20-q3",
+     "question": {
+      "ru": "Почему типы переменных окружения считают всегда строками?",
+      "tg": "Чаро намудҳои тағйирёбандаҳои муҳит ҳамеша сатр мезонанд?",
+      "en": "Why are environment variables always treated as strings?"
+     },
+     "answer": {
+      "ru": "ENV-переменные — всегда строки: без Number-преобразования «0» и «http» пройдут мимо проверки типов.",
+      "tg": "Тағйирёбандаҳои ENV ҳамеша сатр ҳастанд: бе табдили Number «0» ва «http» аз тафтиши намуд мегузаранд.",
+      "en": "ENV variables are always strings: without a Number conversion, «0» and «http» slip past type checks."
+     },
+     "hint": {
+      "ru": "Что вернёт process.env.PORT — число 3000 или строку «3000»?",
+      "tg": "process.env.PORT чӣ бармегардонад — адади 3000 ё сатри «3000»?",
+      "en": "What does process.env.PORT return — the number 3000 or the string «3000»?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "env хранит значения в JSON-формате",
+       "tg": "env арзишҳоро ба шакли JSON нигоҳ медорад",
+       "en": "env stores values in JSON format"
+      },
+      {
+       "ru": "Node сам приводит типы по имени переменной окружения",
+       "tg": "Node намудҳоро аз рӯи номи тағйирёбандаи муҳит худ табдил медиҳад",
+       "en": "Node converts types by the environment variable name itself"
+      },
+      {
+       "ru": "PORT приходит строкой «3000», число получают явно",
+       "tg": "PORT ҳамчун сатри «3000» меояд, ададро возеҳ мегиранд",
+       "en": "PORT arrives as the string «3000»; the number is taken explicitly"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3811,7 +4791,13 @@
        "en": "The request is retried automatically"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Разрыв соединения на клиенте не передаётся обработчику без signal.",
+      "tg": "Қатъи пайваст аз тарафи муштарӣ бе signal ба коргузорӣ намерасад.",
+      "en": "A client-side disconnect never reaches the handler without a signal."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-21-q2",
@@ -3842,7 +4828,50 @@
        "en": "Randomly, but under a second"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Зависимость обещает ответ за известное время — начните с неё.",
+      "tg": "Вобастагӣ ҷавобро дар вақти маълум мефаҳмонад — аз он оғоз кунед.",
+      "en": "The dependency promises an answer in a known time — start from it."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-21-q3",
+     "question": {
+      "ru": "Зачем очищать таймер в finally?",
+      "tg": "Чаро дар finally таймерро пок кунем?",
+      "en": "Why clear the timer in finally?"
+     },
+     "answer": {
+      "ru": "Незакрытый таймер ждёт своего часа и отменит уже завершённый успешный вызов; finally снимает его при любом исходе.",
+      "tg": "Таймери кушода мунтазир мешавад ва даъвати муваффақи анҷомёфта­ро бекор мекунад; finally онро дар ҳар натиҷа бармедорад.",
+      "en": "A forgotten timer waits for its moment and cancels an already finished success; finally removes it whatever the outcome."
+     },
+     "hint": {
+      "ru": "Что произойдёт с отложенным abort, если успешный ответ пришёл раньше лимита?",
+      "tg": "Ба abort-и дар навбат истода чӣ мешавад, агар ҷавоби муваффақ пеш аз ҳад расад?",
+      "en": "What happens to the pending abort when success arrives before the limit?"
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Чтобы таймаут сработал дважды",
+       "tg": "То ки тақаут ду бор кор кунад",
+       "en": "So the timeout fires twice"
+      },
+      {
+       "ru": "Это формальное требование стандарта AbortController",
+       "tg": "Ин талаби расмии стандарти AbortController аст",
+       "en": "It is a formal requirement of the AbortController standard"
+      },
+      {
+       "ru": "Чтобы отложенный abort не отменил успешный ответ",
+       "tg": "То ки abort-и муҳлат ҷавоби муваффақро бекор накунад",
+       "en": "So the pending abort does not cancel a successful response"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3996,7 +5025,13 @@
        "en": "A read timeout"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Повтор того же запроса с той же валидацией даст тот же отказ.",
+      "tg": "Такрори ҳамон дархост бо ҳамон тасдиқ ҳамон раддиро медиҳад.",
+      "en": "Repeating the same request with the same validation yields the same refusal."
+     },
+     "relatedSection": 2
     },
     {
      "id": "backend-pro-day-22-q2",
@@ -4027,7 +5062,50 @@
        "en": "Encrypts requests"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Как сервер узнает, что два POST — одно намерение?",
+      "tg": "Сервер аз куҷо мефаҳмад, ки ду POST як ният аст?",
+      "en": "How would the server learn that two POSTs are one intent?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-22-q3",
+     "question": {
+      "ru": "Почему ретраи на каждом слое опасны?",
+      "tg": "Чаро такрор дар ҳар қабат хатарнок аст?",
+      "en": "Why are retries on every layer dangerous?"
+     },
+     "answer": {
+      "ru": "Множители складываются: клиент, шлюз и сервис каждый добавляют свои попытки, и нагрузка растёт взрывообразно.",
+      "tg": "Зарбкунандаҳо якҷоя мешаванд: муштарӣ, дарвоза ва хидмат ҳар як кӯшиши худро илова мекунанд ва боркунӣ якбора афзудан мегирад.",
+      "en": "Multipliers stack: client, gateway and service each add attempts, and load grows explosively."
+     },
+     "hint": {
+      "ru": "Посчитайте произведение попыток: клиент × шлюз × сервис.",
+      "tg": "Ҳосили зарби кӯшишҳоро ҳисоб кунед: муштарӣ × дарвоза × хидмат.",
+      "en": "Multiply the attempts: client × gateway × service."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Попытки умножаются по слоям",
+       "tg": "Кӯшишҳо аз рӯи қабатҳо зарб мешаванд",
+       "en": "Attempts multiply across the layers"
+      },
+      {
+       "ru": "Каждый слой теряет стек-трейс ошибки",
+       "tg": "Ҳар қабат стек-трейси хаторо гум мекунад",
+       "en": "Each layer loses the error stack trace"
+      },
+      {
+       "ru": "Клиент не умеет считать собственные повторные попытки",
+       "tg": "Муштарӣ кӯшишҳои такрории худро ҳисоб карда наметавонад",
+       "en": "The client cannot count its own retry attempts"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -4181,7 +5259,13 @@
        "en": "To log less"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Кто заметит восстановление зависимости, если проверки вручную нет?",
+      "tg": "Кӣ барқарор шудани вобастагиро мебинад, агар тафтиши дастӣ набошад?",
+      "en": "Who notices the dependency recovered when no manual check exists?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-23-q2",
@@ -4212,7 +5296,50 @@
        "en": "A request retry inside the breaker"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните ожидание полного таймаута с мгновенным отказом.",
+      "tg": "Интизори тақаути пурраро бо радди фаврӣ муқоиса кунед.",
+      "en": "Compare waiting out the full timeout with an instant refusal."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-23-q3",
+     "question": {
+      "ru": "Что произойдёт с валидными 4xx от зависимости, если fast-fail не различает причин?",
+      "tg": "Ба 4xx-и асосноки вобастагӣ чӣ мешавад, агар fast-fail сабабҳоро фарқ накунад?",
+      "en": "What happens to valid 4xx from the dependency when fast-fail ignores causes?"
+     },
+     "answer": {
+      "ru": "Ошибка валидации на стороне зависимости — не её авария: без различения причин breaker открывается от чужих 4xx.",
+      "tg": "Хатои тасдиқ дар тарафи вобастагӣ ҳодисаи ӯ нест: бе фарқи сабабҳо breaker аз 4xx-и ғайрихеш мекушояд.",
+      "en": "A validation error on the dependency’s side is not its outage: without cause checks the breaker opens on foreign 4xx."
+     },
+     "hint": {
+      "ru": "Ошибка валидации на стороне зависимости — чья вина и должен ли breaker на неё реагировать?",
+      "tg": "Хатои тасдиқ дар тарафи вобастагӣ — гуноҳи кист ва оё бояд ба он ҷавоб диҳад?",
+      "en": "A validation error on the dependency’s side — whose fault is it, and should the breaker react?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Они автоматически повторятся после окна восстановления",
+       "tg": "Онҳо баъди давраи барқароркунӣ худкор такрор мешаванд",
+       "en": "They are retried automatically after the recovery window"
+      },
+      {
+       "ru": "Они вернутся клиенту как 5xx",
+       "tg": "Онҳо ҳамчун 5xx ба муштарӣ бармегарданд",
+       "en": "They return to the client as 5xx"
+      },
+      {
+       "ru": "Они посчитаются сбоем зависимости",
+       "tg": "Онҳо ҳамчун харобии вобастагӣ ҳисоб мешаванд",
+       "en": "They count as dependency failures"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4366,7 +5493,13 @@
        "en": "Requests must always be fast and lightweight"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "SMTP упал в середине обработки: что увидит пользователь?",
+      "tg": "SMTP дар миёнаи кор фурӯ монд: корбар чиро мебинад?",
+      "en": "SMTP dies mid-processing: what does the user see?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-24-q2",
@@ -4397,7 +5530,50 @@
        "en": "Store data backups"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что происходит с заданием, когда попытки закончились?",
+      "tg": "Ба супориш чӣ мешавад, ҳангоме ки кӯшишҳо тамом шуданд?",
+      "en": "What happens to a job when attempts run out?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-24-q3",
+     "question": {
+      "ru": "Почему задание может обработаться дважды?",
+      "tg": "Чаро супориш метавонад ду бор коркарда шавад?",
+      "en": "Why can a job end up processed twice?"
+     },
+     "answer": {
+      "ru": "Потерянное подтверждение выглядит как невыполненное задание: обработчик должен быть идемпотентным.",
+      "tg": "Тасдиқи гумшуда ҳамчун супориши иҷронашуда менамояд: коркардкунанда бояд идемпотентӣ бошад.",
+      "en": "A lost acknowledgement looks like an unprocessed job: the handler must be idempotent."
+     },
+     "hint": {
+      "ru": "Что произойдёт с заданием, если подтверждение не дошло до очереди?",
+      "tg": "Ба супориш чӣ мешавад, агар тасдиқ ба қатор нарасад?",
+      "en": "What happens to a job whose acknowledgement never reached the queue?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Очередь дублирует каждое задание дважды для надёжности",
+       "tg": "Қатор ҳар супоришро ду бор нусхабардорӣ мекунад",
+       "en": "The queue duplicates every job twice for reliability"
+      },
+      {
+       "ru": "DLQ переигрывает успешные задания",
+       "tg": "DLQ супоришҳои муваффақро аз нав мебозидад",
+       "en": "The DLQ replays successful jobs"
+      },
+      {
+       "ru": "Воркер умер после работы, но до подтверждения",
+       "tg": "Воркер баъди кор, вале пеш аз тасдиқ мурд",
+       "en": "The worker died after the work but before the acknowledgement"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4551,7 +5727,13 @@
        "en": "/ready answers faster"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Два разных решения: перезапуск и отвод трафика.",
+      "tg": "Ду қарори гуногун: аз нав оғозидан ва кашидани трафик.",
+      "en": "Two different decisions: restart and traffic withdrawal."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-25-q2",
@@ -4582,7 +5764,50 @@
        "en": "The label encrypts values"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сколько серий получится, если метка — id пользователя?",
+      "tg": "Агар барчасп id-и корбар бошад, чанд силсила пайдо мешавад?",
+      "en": "How many series appear when the label is a user id?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-25-q3",
+     "question": {
+      "ru": "Что должна показать пара «/health 200 + /ready 503»?",
+      "tg": "Ҷуфти «/health 200 + /ready 503» чиро бояд нишон диҳад?",
+      "en": "What should the pair «/health 200 + /ready 503» show?"
+     },
+     "answer": {
+      "ru": "Живость и готовность — разные вопросы: процесс с недоступной базой жив, но трафик к нему пускать нельзя.",
+      "tg": "Зинда будан ва омода будан — саволҳои гуногун: раванд бо пойгоҳи дастраснабуд зинда аст, вале трафик ба он додан мумкин нест.",
+      "en": "Liveness and readiness are different questions: a process with a down database is alive, yet must not take traffic."
+     },
+     "hint": {
+      "ru": "Два разных вопроса: жив ли процесс и пускать ли к нему трафик.",
+      "tg": "Ду саволи гуногун: оё раванд зинда аст ва оё трафик ба он додан мумкин аст.",
+      "en": "Two different questions: is the process alive, and should traffic reach it."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Процесс нужно немедленно перезапустить с деплоем",
+       "tg": "Равандро фавран бо барор бояд аз нав оғоз кард",
+       "en": "The process must be restarted immediately with a deploy"
+      },
+      {
+       "ru": "Метрики сломаны и не отвечают",
+       "tg": "Метрикаҳо вайрон шудаанд ва ҷавоб намедиҳанд",
+       "en": "Metrics are broken and unresponsive"
+      },
+      {
+       "ru": "Процесс жив, но не готов принимать трафик",
+       "tg": "Раванд зинда аст, вале омодаи қабули трафик нест",
+       "en": "The process is alive but not ready to take traffic"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4725,7 +5950,13 @@
        "en": "That way tests become externally visible"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Кто назначает порт при значении 0 — сервер или операционная система?",
+      "tg": "Ҳангоми арзиши 0 портро кӣ таъин мекунад — сервер ё системаи оператсионӣ?",
+      "en": "Who assigns the port at value 0 — the server or the operating system?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-26-q2",
@@ -4756,7 +5987,50 @@
        "en": "Nothing: the status decides everything"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "200 с пустым списком и 200 с данными — разные ответы.",
+      "tg": "200 бо рӯйхати холӣ ва 200 бо маълумот — ҷавобҳои гуногунанд.",
+      "en": "200 with an empty list and 200 with data are different answers."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-26-q3",
+     "question": {
+      "ru": "Что ломают тесты с жёстко прописанным портом?",
+      "tg": "Таҷрибаҳо бо порти кушода навишташуда чиро вайрон мекунанд?",
+      "en": "What breaks tests with a hard-coded port?"
+     },
+     "answer": {
+      "ru": "Два процесса не могут слушать один порт: жёсткий порт даёт спорные запуски в CI и на соседних тестах.",
+      "tg": "Ду раванд наметавонанд як портро гӯш кунанд: порти қатъӣ дар CI ва таҷрибаҳои ҳамсоя мубоҳисаи оғоз медиҳад.",
+      "en": "Two processes cannot listen on one port: a fixed port gives contested starts in CI and neighbouring tests."
+     },
+     "hint": {
+      "ru": "Что происходит, когда два процесса просят один и тот же порт?",
+      "tg": "Чӣ мешавад, ҳангоме ки ду раванд як портро талаб мекунанд?",
+      "en": "What happens when two processes ask for the same port?"
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Тесты становятся медленнее из-за ожидания порта",
+       "tg": "Таҷрибаҳо аз интизори порт сусттар мешаванд",
+       "en": "Tests become slower waiting for the port"
+      },
+      {
+       "ru": "CI падает на тесте, занявшем тот же порт",
+       "tg": "CI дар таҷрибае, ки ҳамон портро ишғол кард, меафтад",
+       "en": "CI fails on a test that took the same port"
+      },
+      {
+       "ru": "Сервер теряет заголовки ответа",
+       "tg": "Сервер сарлавҳаҳои ҷавобро гум мекунад",
+       "en": "The server loses response headers"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -4898,7 +6172,13 @@
        "en": "It breaks the cache"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Пользователь редактирует данные из кэша: что случится при сохранении?",
+      "tg": "Корбар маълумоти кэшро тағйир медиҳад: ҳангоми нигоҳдорӣ чӣ мешавад?",
+      "en": "The user edits cached data: what happens at save time?"
+     },
+     "relatedSection": 2
     },
     {
      "id": "backend-pro-day-27-q2",
@@ -4929,7 +6209,50 @@
        "en": "Restart the process on any error"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Перечислите функции, которым зависимость не нужна.",
+      "tg": "Функсияҳои онҳоеро, ки вобастагӣ ба онҳо лозим нест, номбар кунед.",
+      "en": "List the functions that do not need the dependency."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-27-q3",
+     "question": {
+      "ru": "Что проверяет путь «сломанный репозиторий без fallback»?",
+      "tg": "Роҳи «репозитории вайрон бе fallback» чиро месанҷад?",
+      "en": "What does the «broken repository without fallback» path check?"
+     },
+     "answer": {
+      "ru": "Без fallback обманывать нечем: вызывающий должен получить настоящий отказ, а не тишину или заглушку.",
+      "tg": "Бе fallback ғафлатонӣ чизе нест: даъваткунанда бояд радди воқеӣ гирад, на сукут ё қалабӣ.",
+      "en": "Without a fallback there is nothing to fake with: the caller must get a real refusal, not silence or a stub."
+     },
+     "hint": {
+      "ru": "Третий путь примера: ни репозитория, ни резервного значения — что получает вызывающий?",
+      "tg": "Роҳи сеюми мисол: на repository, на арзиши эҳтиётӣ — даъваткунанда чиро мегирад?",
+      "en": "The example’s third path: no repository, no fallback value — what does the caller get?"
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Что сервис переключается на кэш и отвечает из него",
+       "tg": "Онро, ки хидмат ба кэш мегузарад ва аз он ҷавоб медиҳад",
+       "en": "That the service switches to the cache and answers from it"
+      },
+      {
+       "ru": "Что процесс перезапускается",
+       "tg": "Онро, ки раванд аз нав оғоз мешавад",
+       "en": "That the process restarts"
+      },
+      {
+       "ru": "Что ошибка честно уходит вызывающему",
+       "tg": "Онро, ки хато ба даъваткунанда рости мерасад",
+       "en": "That the error honestly reaches the caller"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -5083,7 +6406,13 @@
        "en": "Memory leaks"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Счётчик запросов одинаков при каждом запуске: регрессия видна сразу.",
+      "tg": "Ҳисобкунаки дархост дар ҳар оғоз якхела аст: вайроншавӣ фавран намоён мешавад.",
+      "en": "The query count is identical on every run: a regression shows at once."
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-28-q2",
@@ -5114,7 +6443,50 @@
        "en": "Growing the connection pool"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Соберите уникальных владельцев и загрузите их одним запросом.",
+      "tg": "Соҳибони ягонаро ҷамъ кунед ва онҳоро бо як дархост бор кунед.",
+      "en": "Collect the unique owners and load them with one query."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-28-q3",
+     "question": {
+      "ru": "Сколько запросов делает N+1 для списка из 50 задач с владельцами?",
+      "tg": "N+1 барои рӯйхати 50 вазифа бо соҳибон чанд дархост мекунад?",
+      "en": "How many queries does N+1 make for a list of 50 tasks with owners?"
+     },
+     "answer": {
+      "ru": "Один запрос за списком плюс по одному на каждую запись — так счётчик показывает проблему буквально.",
+      "tg": "Як дархост барои рӯйхат ва аз якто барои ҳар сабт — ҳамин тавр ҳисобкунак мушкилиро ошкор нишон медиҳад.",
+      "en": "One query for the list plus one per record — the counter shows the problem literally."
+     },
+     "hint": {
+      "ru": "Прибавьте один запрос списка к числу записей, для которых нужен владелец.",
+      "tg": "Ба шумораи сабтҳои ба соҳиб ниёзманд як дархости рӯйхатро илова кунед.",
+      "en": "Add one list query to the number of records needing an owner."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "50: по одному на задачу",
+       "tg": "50: аз якто барои ҳар вазифа",
+       "en": "50: one per task"
+      },
+      {
+       "ru": "2: один список и один общий запрос по владельцам",
+       "tg": "2: як рӯйхат ва як дархости умумӣ аз рӯи соҳибон",
+       "en": "2: one list and one shared owner query"
+      },
+      {
+       "ru": "51: список и по одному на владельца",
+       "tg": "51: рӯйхат ва аз якто барои ҳар соҳиб",
+       "en": "51: the list plus one per owner"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -5268,7 +6640,13 @@
        "en": "They violate the HTTP standard"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что случится с сессиями узла при его аварии?",
+      "tg": "Ба сессияҳои гиреҳ ҳангоми ҳодисаи он чӣ мешавад?",
+      "en": "What happens to a node’s sessions when it fails?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-29-q2",
@@ -5299,7 +6677,50 @@
        "en": "The shopping cart"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что можно пересчитать или перечитать без ущерба для пользователя?",
+      "tg": "Чиро бе зиён барои корбар аз нав ҳисоб ё аз нав хондан мумкин аст?",
+      "en": "What can be recomputed or re-read without hurting the user?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "backend-pro-day-29-q3",
+     "question": {
+      "ru": "Что увидит пользователь после входа на первом инстансе, если сессия только в его памяти?",
+      "tg": "Корбари баъди воридшудан ба инстанси аввал чиро мебинад, агар сессия танҳо дар ҳофизаи ӯ бошад?",
+      "en": "What does a user see after logging in on instance one when the session lives only in its memory?"
+     },
+     "answer": {
+      "ru": "Запрос round-robin попал на другой экземпляр, у которого в памяти этой сессии нет.",
+      "tg": "Дархости round-robin ба мисоли дигар расид, ки дар ҳофизаи ӯ чунин сессия нест.",
+      "en": "The round-robin request landed on another instance that has no such session in memory."
+     },
+     "hint": {
+      "ru": "Где второй экземпляр ищет сессию, если общий store не настроен?",
+      "tg": "Инстанси дуюм агар store-и умумӣ танзим нашуда бошад, сессияро аз куҷо меҷӯяд?",
+      "en": "Where does the second instance look for the session when no shared store is set up?"
+     },
+     "relatedSection": 4,
+     "options": [
+      {
+       "ru": "Оба инстанса находят сессию в общем store",
+       "tg": "Ҳар ду инстанс сессияро дар store-и умумӣ меёбанд",
+       "en": "Both instances find the session in the shared store"
+      },
+      {
+       "ru": "HTTP сам перенаправит запрос на первый инстанс без перезапуска",
+       "tg": "HTTP худ дархостро бе аз нав оғозидан ба инстанси аввал мегузаронад",
+       "en": "HTTP itself routes the request back to the first instance without a restart"
+      },
+      {
+       "ru": "Второй инстанс не найдёт сессию",
+       "tg": "Инстанси дуюм сессияро наёбад",
+       "en": "The second instance finds no session"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -5454,7 +6875,13 @@
        "en": "It is faster this way"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Лимит принадлежит пользователю: кто его ключ, если сессии нет?",
+      "tg": "Лимит аз они корбар аст: агар сессия набошад, калиди он аз они кист?",
+      "en": "The limit belongs to the user: whose key is it when there is no session?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "backend-pro-day-30-q2",
@@ -5485,7 +6912,50 @@
        "en": "That response headers match"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните ответы сценария с содержимым хранилища.",
+      "tg": "Ҷавобҳои сенарияро бо мӯҳтавои захира муқоиса кунед.",
+      "en": "Compare the scenario’s answers with the storage contents."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "backend-pro-day-30-q3",
+     "question": {
+      "ru": "Какой порядок обработки утверждает контракт capstone?",
+      "tg": "Коркардҳо бо кадом тартиб шартномаи capstone-ро тасдиқ мекунанд?",
+      "en": "Which processing order does the capstone contract establish?"
+     },
+     "answer": {
+      "ru": "Порядок обработчиков сам по себе контракт: перестановка 401 и 429 меняет поведение для клиентов.",
+      "tg": "Тартиби коркардҳо худ шартнома аст: ҷойивазкунии 401 ва 429 рафторро барои муштариён тағйир медиҳад.",
+      "en": "The handler order is itself a contract: swapping 401 and 429 changes client-visible behavior."
+     },
+     "hint": {
+      "ru": "Прочитайте порядок в разделе «Все слои вместе»: от неизвестного пути до успеха.",
+      "tg": "Тартибро дар бахши «Ҳамаи қабатҳо якҷоя» бихонед: аз роҳи номаълум то муваффақият.",
+      "en": "Read the order in «All layers together»: from unknown path to success."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Валидация → аутентификация → лимит → метод → сразу 201",
+       "tg": "Тасдиқ → тасдиқи ҳувият → лимит → усул → фавран 201",
+       "en": "Validation → authentication → limit → method → straight to 201"
+      },
+      {
+       "ru": "Обратный порядок: 201 → 400 → 405 → 429 → 401 → 404",
+       "tg": "Тартиби баръакс: 201 → 400 → 405 → 429 → 401 → 404",
+       "en": "Reverse order: 201 → 400 → 405 → 429 → 401 → 404"
+      },
+      {
+       "ru": "От неизвестного пути до успеха: 404 → 401 → 429 → 405 → 400 → 201",
+       "tg": "Аз роҳи номаълум то муваффақият: 404 → 401 → 429 → 405 → 400 → 201",
+       "en": "From unknown path to success: 404 → 401 → 429 → 405 → 400 → 201"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
