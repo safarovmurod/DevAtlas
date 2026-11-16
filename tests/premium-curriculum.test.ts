@@ -49,7 +49,12 @@ describe('separate published premium curriculum', () => {
       expect(result.error, result.error?.message).toBeUndefined();
       expect(result.status, result.stderr).toBe(0);
       expect(result.stdout.trim()).toBe(example.output!.en);
-      expect(lesson.practice!.solution).toBe(example.code);
+      // A solution may go beyond the example (own asserts); then it must run green itself.
+      if (lesson.practice!.solution !== example.code) {
+        const solved = runReviewedFixture(lesson.practice!.solution!);
+        expect(solved.error, `${lesson.id}: ${solved.error?.message}`).toBeUndefined();
+        expect(solved.status, `${lesson.id}: ${solved.stderr}`).toBe(0);
+      }
     }
   }, 180000);
 

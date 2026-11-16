@@ -93,11 +93,20 @@ describe('programming course examples', () => {
       if (lesson.practice!.kind !== 'code') continue;
       const section = lesson.sections.find(item => item.output?.en !== undefined);
       if (!section) continue;
-      writeFileSync(path.join(root, 'main.sh'), lesson.practice!.solution);
+      // The documented output belongs to the lesson example; most solutions are that example.
+      writeFileSync(path.join(root, 'main.sh'), section.code ?? lesson.practice!.solution);
       expect(runTrusted(bashCommand!, ['main.sh']).replace(/\r/g, ''), lesson.id).toBe(section.output!.en);
       verified++;
     }
     expect(verified).toBeGreaterThanOrEqual(26);
+    // Day 30 practice is independent: report.sh reads the file named in its task.
+    const report = load('bash').lessons.find(lesson => lesson.id === 'bash-day-30')!.practice!.solution!;
+    writeFileSync(path.join(root, 'report.sh'), report);
+    writeFileSync(path.join(root, 'requests.txt'), '/store 200\n/store 503\n/help 302\n/cart 404\ninvalid line\n');
+    expect(runTrusted(bashCommand!, ['report.sh', 'requests.txt'])).toBe('valid=4\nok=1\nredirects=1\nerrors=2\nskipped=1');
+    const missing = spawnSync(bashCommand!, ['report.sh'], { cwd: root, encoding: 'utf8' });
+    expect(missing.status).toBe(1);
+    expect(missing.stderr).toMatch(/Usage: bash report\.sh/);
     const solution = load('bash').lessons[1].practice!.solution;
     writeFileSync(path.join(root, 'main.sh'), solution + '\ntotal 07 02\nif total 12 abc; then exit 99; fi\n');
     expect(runTrusted(bashCommand!, ['main.sh'])).toBe('36\n0\nInvalid input rejected\n14');
