@@ -8,6 +8,7 @@ import { loadAssessmentBank } from '@/lib/practice/assessment-banks';
 import { gradeAssessment } from '@/lib/practice/assessment-grader';
 import { isCourseId } from '@/lib/courses/ids';
 import { authorizeCourseContent } from '@/lib/courses/access-server';
+import { practicePlanDenial } from '@/lib/practice/plan-access';
 import { authenticatedUser } from '@/lib/account/require-user';
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 import { readBoundedJson, RequestBodyError } from '@/lib/security/request';
@@ -19,7 +20,9 @@ async function contentAccess(request: Request, courseId: string) {
   if (!isCourseId(courseId) || courseId === 'react')
     return json({ error: 'assessment_not_available' }, 404);
   const access = await authorizeCourseContent(request, courseId);
-  return access.allowed ? null : access.response;
+  if (!access.allowed) return access.response;
+  // The graded assessment includes the practice code, so it follows the practice plan.
+  return practicePlanDenial(request);
 }
 
 export async function GET(request: Request) {

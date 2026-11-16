@@ -8,6 +8,7 @@ import {
   practiceResponse,
   readVerifiedPractice,
 } from '@/lib/practice/server';
+import { practicePlanDenial } from '@/lib/practice/plan-access';
 import { VERIFIED_HTML_LESSON, type PracticeSubmissionResult } from '@/lib/practice/types';
 
 const inputSchema = z
@@ -21,6 +22,9 @@ const inputSchema = z
 export async function POST(request: Request) {
   const access = await authorizePractice(request);
   if ('failure' in access) return access.failure;
+  // Practice is a Pro feature: a Start account cannot record verified practice or XP.
+  const planDenied = await practicePlanDenial(request);
+  if (planDenied) return planDenied;
   let input: unknown;
   try {
     input = await readBoundedJson(request, 128_000);

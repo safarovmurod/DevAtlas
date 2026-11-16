@@ -33,11 +33,13 @@ export function courseDayReady(
   item: CoursePlanDay,
   completedTopics: readonly string[],
   completedPractice: readonly string[],
+  /** False while practice is locked by the plan: the day can then be finished without it. */
+  practiceRequired = true,
 ): boolean {
   if (item.section === 'tests') return true;
   return (
     (item.section === 'practice' || completedTopics.includes(item.lesson.id)) &&
-    (!item.lesson.practice || completedPractice.includes(item.lesson.id))
+    (!practiceRequired || !item.lesson.practice || completedPractice.includes(item.lesson.id))
   );
 }
 

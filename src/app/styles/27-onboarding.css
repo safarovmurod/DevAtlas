@@ -136,19 +136,97 @@
 .code-game-line:hover:not(:disabled) {
   border-color: var(--primary);
 }
-.code-game-answer {
+.code-game-task {
   margin: 0;
-  padding-left: 28px;
+  line-height: 1.55;
+}
+.code-game-example {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.code-game-example span {
+  font-weight: 600;
+}
+.code-game-slots {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.code-game-answer li code {
+.code-game-slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--well);
+}
+.code-game-slot[data-result='right'] {
+  border-color: var(--success);
+}
+.code-game-slot[data-result='wrong'] {
+  border-color: var(--danger);
+  border-style: dashed;
+}
+.code-game-slot-number {
+  min-width: 36px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.code-game-slot-empty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 36px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.code-game-slot-fill {
+  flex: 1 1 200px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  max-width: 100%;
+}
+.code-game-slot-fill:disabled {
+  cursor: default;
+}
+.code-game-slot-fill code {
   white-space: pre-wrap;
   word-break: break-word;
 }
-.code-game-answer li.wrong code {
-  color: #ac452f;
+.code-game-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.code-game-slot[data-result='wrong'] .code-game-mark {
+  color: var(--danger);
+}
+.code-game-feedback p {
+  margin: 0;
 }
 .start-here {
   display: flex;

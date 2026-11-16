@@ -44,7 +44,12 @@ interface LearningState extends Progress {
   ) => void;
   completeTopic: (topicId: string) => void;
   completePractice: (practiceId: string, verified: boolean) => void;
-  confirmCourseDay: (courseId: ImportedCourseId, day: number, plan: CoursePlanDay[]) => boolean;
+  confirmCourseDay: (
+    courseId: ImportedCourseId,
+    day: number,
+    plan: CoursePlanDay[],
+    practiceRequired?: boolean,
+  ) => boolean;
   confirmReactDay: (month: number, day: number) => boolean;
   saveDraft: (id: string, code: string) => void;
   saveNote: (note: { id: string; title: string; content: string }) => void;
@@ -181,14 +186,19 @@ export const useLearningStore = create<LearningState>()(
             },
           });
         },
-        confirmCourseDay(courseId, day, plan) {
+        confirmCourseDay(courseId, day, plan, practiceRequired = true) {
           // Any day can be confirmed, in any order, once its own lesson and practice are done.
           const progress = courseProgress(courseId);
           const item = plan.find((entry) => entry.day === day);
           if (
             !item ||
             progress.confirmedDays.includes(String(day)) ||
-            !courseDayReady(item, progress.completedTopics, progress.completedPractice)
+            !courseDayReady(
+              item,
+              progress.completedTopics,
+              progress.completedPractice,
+              practiceRequired,
+            )
           )
             return false;
           updateCourse(courseId, { confirmedDays: [...progress.confirmedDays, String(day)] });

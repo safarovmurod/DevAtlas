@@ -12,7 +12,9 @@ import { courseText, type CourseLesson } from '@/lib/courses/schema';
 import { COPY } from '@/lib/i18n';
 import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import { useLearningStore } from '@/stores/learning-store';
+import type { PracticeAccess } from '@/lib/billing/practice-access';
 import { CoursePractice } from './course-practice';
+import { PracticeLock } from './practice-lock';
 import { CourseQuestion } from './course-question';
 import {
   Extra,
@@ -145,10 +147,13 @@ export function PracticeStep({
   courseId,
   lesson,
   practiced,
+  access = 'open',
 }: {
   courseId: ImportedCourseId;
   lesson: CourseLesson;
   practiced: boolean;
+  /** The task and editor render only when the plan includes practice. */
+  access?: PracticeAccess;
 }) {
   const t = useDayCopy();
   const flow = lesson.learningFlow;
@@ -157,7 +162,11 @@ export function PracticeStep({
       {flow && <FlowGuided flow={flow} />}
       {flow && <FlowChallenge flow={flow} />}
       {lesson.practice ? (
-        <CoursePractice courseId={courseId} lesson={lesson} />
+        access === 'open' ? (
+          <CoursePractice courseId={courseId} lesson={lesson} />
+        ) : (
+          <PracticeLock access={access} />
+        )
       ) : (
         <p className="text-sm text-muted-foreground">{t('noPractice')}</p>
       )}
@@ -172,12 +181,15 @@ export function CheckStep({
   day,
   progress,
   checked,
+  practiceOpen = true,
 }: {
   courseId: ImportedCourseId;
   lesson: CourseLesson;
   day: number;
   progress: CourseProgress;
   checked: boolean;
+  /** The graded assessment lives inside the practice block. */
+  practiceOpen?: boolean;
 }) {
   const language = useLearningStore((state) => state.language);
   const ui = LEARNING_UI_COPY[language];
@@ -189,7 +201,8 @@ export function CheckStep({
     progress.masteredQuestions.includes(question.id),
   ).length;
   // The assessment form lives at the end of the practice of the first HTML day.
-  const hasAssessment = flow && flow.assessmentMode !== 'local-only' && lesson.id === 'html-day-01';
+  const hasAssessment =
+    practiceOpen && flow && flow.assessmentMode !== 'local-only' && lesson.id === 'html-day-01';
 
   return (
     <StepCard step="check" title={t('check')} done={checked}>

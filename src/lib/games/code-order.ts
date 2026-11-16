@@ -82,3 +82,41 @@ export function buildPuzzle(
 export function firstMistake(answer: number[]): number {
   return answer.findIndex((line, position) => line !== position);
 }
+
+/** Numbered answer slots: `null` is an empty "?" slot, a number is the chosen line. */
+export type Slots = (number | null)[];
+export type SlotResult = 'right' | 'wrong';
+
+export function emptySlots(count: number): Slots {
+  return Array.from({ length: count }, () => null);
+}
+
+/** Puts a line into the first empty slot. A line already placed is not placed twice. */
+export function placeLine(slots: Slots, line: number): Slots {
+  const free = slots.indexOf(null);
+  if (free === -1 || slots.includes(line)) return slots;
+  return slots.map((value, index) => (index === free ? line : value));
+}
+
+/** Empties one slot; its line goes back to the choices. */
+export function clearSlot(slots: Slots, position: number): Slots {
+  return slots.map((value, index) => (index === position ? null : value));
+}
+
+/** Empties the last filled slot ("undo"). */
+export function clearLastSlot(slots: Slots): Slots {
+  for (let index = slots.length - 1; index >= 0; index--)
+    if (slots[index] !== null) return clearSlot(slots, index);
+  return slots;
+}
+
+/** Right or wrong for every slot, or null while some slot is still empty. */
+export function checkSlots(slots: Slots): SlotResult[] | null {
+  if (slots.some((value) => value === null)) return null;
+  return slots.map((value, position) => (value === position ? 'right' : 'wrong'));
+}
+
+/** True when the correct first line is the HTML5 doctype, so one "1 → <!DOCTYPE html>" example can be shown. */
+export function startsWithDoctype(lines: string[]): boolean {
+  return lines.length > 0 && /^\s*<!doctype\s+html\s*>\s*$/i.test(lines[0]);
+}

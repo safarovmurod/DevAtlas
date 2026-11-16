@@ -2,6 +2,8 @@ import {act,cleanup,fireEvent,render,screen,waitFor} from '@testing-library/reac
 import {afterEach,beforeEach,expect,it,vi} from 'vitest';
 const mocks=vi.hoisted(()=>({session:vi.fn()}));
 vi.mock('@/lib/supabase/client',()=>({getSupabaseBrowserClient:()=>({auth:{getSession:mocks.session}})}));
+// A Pro learner: practice is open, so the server confirmation path is exercised.
+vi.mock('@/components/courses/use-practice-access',()=>({usePracticeAccess:()=>'open'}));
 import {CourseWorkspace} from '@/components/courses/course-workspace';
 import {useLearningStore} from '@/stores/learning-store';
 import {emptyCourseProgress} from '@/lib/account/progress';

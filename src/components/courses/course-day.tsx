@@ -15,6 +15,7 @@ import { LessonSteps } from './lesson-flow';
 import { DayFinish } from './lesson-flow-finish';
 import { CheckStep, LearnStep, PracticeStep } from './lesson-flow-steps';
 import { CourseQuestion } from './course-question';
+import { usePracticeAccess } from './use-practice-access';
 
 /** Row of day numbers. Every day is open; the finished ones get a check mark. */
 function DayStrip({
@@ -147,6 +148,9 @@ export function CourseDay({
   const testsPage = section === 'tests' || section === 'interview';
   const stripSection = testsPage ? 'tests' : 'home';
 
+  // A locked practice never blocks the day: the lesson and quiz stay free.
+  const practiceAccess = usePracticeAccess();
+  const practiceRequired = practiceAccess !== 'locked';
   const studied = !!lesson && progress.completedTopics.includes(lesson.id);
   const practiced =
     !!lesson && (!lesson.practice || progress.completedPractice.includes(lesson.id));
@@ -155,13 +159,13 @@ export function CourseDay({
     lesson.questions.every((question) => progress.masteredQuestions.includes(question.id));
   const isDone = entry?.status === 'done';
   const ready = entry
-    ? courseDayReady(entry, progress.completedTopics, progress.completedPractice)
-    : studied && practiced;
+    ? courseDayReady(entry, progress.completedTopics, progress.completedPractice, practiceRequired)
+    : studied && (practiced || !practiceRequired);
   const current = isDone
     ? 'done'
     : !studied
       ? 'learn'
-      : !practiced
+      : !practiced && practiceRequired
         ? 'practice'
         : !checked
           ? 'check'
@@ -211,15 +215,28 @@ export function CourseDay({
                 current={current}
               />
               <LearnStep courseId={courseId} lesson={lesson} plan={plan} studied={studied} />
-              <PracticeStep courseId={courseId} lesson={lesson} practiced={practiced} />
+              <PracticeStep
+                courseId={courseId}
+                lesson={lesson}
+                practiced={practiced}
+                access={practiceAccess}
+              />
               <CheckStep
                 courseId={courseId}
                 lesson={lesson}
                 day={day}
                 progress={progress}
                 checked={checked}
+                practiceOpen={practiceAccess === 'open'}
               />
-              <DayFinish courseId={courseId} day={day} plan={plan} isDone={isDone} ready={ready} />
+              <DayFinish
+                courseId={courseId}
+                day={day}
+                plan={plan}
+                isDone={isDone}
+                ready={ready}
+                practiceRequired={practiceRequired}
+              />
             </>
           )}
         </article>

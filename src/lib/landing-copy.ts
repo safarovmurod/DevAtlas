@@ -21,6 +21,8 @@ type LandingCopy = {
   footerDocuments: string;
   guest: string;
   courses: (count: number) => string;
+  /** Text of the lesson card on the 3D computer screen. */
+  screen: { lesson: string; text: string; progress: string; action: string; label: string };
   categories: (count: number) => string;
   languages: (count: number) => string;
 };
@@ -84,6 +86,13 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     footerDocuments: 'Документы',
     guest: 'Можно начать как гость',
     courses: (n) => slavicCount(n, 'ru', 'курс', 'курса', 'курсов'),
+    screen: {
+      lesson: 'Урок',
+      text: 'Короткое объяснение, пример и мини-задача на один день.',
+      progress: 'Прогресс дня',
+      action: 'Продолжить',
+      label: 'На экране: карточка урока и выбор направления',
+    },
     categories: (n) => slavicCount(n, 'ru', 'направление', 'направления', 'направлений'),
     languages: (n) => slavicCount(n, 'ru', 'язык', 'языка', 'языков'),
   },
@@ -140,6 +149,13 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     footerDocuments: 'Documents',
     guest: 'Start as a guest',
     courses: (n) => `${n} ${n === 1 ? 'course' : 'courses'}`,
+    screen: {
+      lesson: 'Lesson',
+      text: 'A short explanation, an example and a small task for one day.',
+      progress: 'Day progress',
+      action: 'Continue',
+      label: 'On screen: a lesson card and the choice of a learning path',
+    },
     categories: (n) => `${n} ${n === 1 ? 'path' : 'paths'}`,
     languages: (n) => `${n} ${n === 1 ? 'language' : 'languages'}`,
   },
@@ -196,6 +212,13 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     footerDocuments: 'Ҳуҷҷатҳо',
     guest: 'Оғоз ҳамчун меҳмон',
     courses: (n) => `${n} курс`,
+    screen: {
+      lesson: 'Дарс',
+      text: 'Шарҳи кӯтоҳ, мисол ва масъалаи хурд барои як рӯз.',
+      progress: 'Пешрафти рӯз',
+      action: 'Идома додан',
+      label: 'Дар экран: корти дарс ва интихоби самт',
+    },
     categories: (n) => `${n} самт`,
     languages: (n) => `${n} забон`,
   },
@@ -252,6 +275,13 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     footerDocuments: 'Documentos',
     guest: 'Puedes empezar como invitado',
     courses: (n) => `${n} ${n === 1 ? 'curso' : 'cursos'}`,
+    screen: {
+      lesson: 'Lección',
+      text: 'Una explicación breve, un ejemplo y una tarea pequeña para un día.',
+      progress: 'Progreso del día',
+      action: 'Continuar',
+      label: 'En pantalla: una tarjeta de lección y la elección de ruta',
+    },
     categories: (n) => `${n} ${n === 1 ? 'ruta' : 'rutas'}`,
     languages: (n) => `${n} ${n === 1 ? 'idioma' : 'idiomas'}`,
   },

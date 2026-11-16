@@ -48,6 +48,7 @@ export function DayFinish({
   plan,
   isDone,
   ready,
+  practiceRequired = true,
 }: {
   courseId: ImportedCourseId;
   day: number;
@@ -55,6 +56,8 @@ export function DayFinish({
   isDone: boolean;
   /** Lesson is marked as learned and practice is done. */
   ready: boolean;
+  /** False when the plan locks practice: the day is then confirmed locally without it. */
+  practiceRequired?: boolean;
 }) {
   const language = useLearningStore((state) => state.language);
   const confirmCourseDay = useLearningStore((state) => state.confirmCourseDay);
@@ -75,11 +78,12 @@ export function DayFinish({
     try {
       // Study can continue even when the server is down; verified mastery is
       // simply not granted in that case.
-      await recordServerConfirmation(courseId, day);
+      // Server evidence needs verified practice, which a locked plan cannot have.
+      if (practiceRequired) await recordServerConfirmation(courseId, day);
     } catch {
       if (sameAccount()) setError(SERVER_CONFIRMATION_FAILED[language]);
     } finally {
-      if (sameAccount()) confirmCourseDay(courseId, day, plan);
+      if (sameAccount()) confirmCourseDay(courseId, day, plan, practiceRequired);
       setConfirming(false);
     }
   }

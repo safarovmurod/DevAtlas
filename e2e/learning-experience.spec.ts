@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+import html from '../src/content/courses/html.json';
+import { buildPuzzle } from '../src/lib/games/code-order';
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -80,18 +82,18 @@ test('lessons have an ordering game and practice blocks large pastes', async ({ 
   const game = page.locator('.code-game');
   await expect(game).toBeVisible({ timeout: 30000 });
   await game.scrollIntoViewIfNeeded();
-  // Wrong first pick shows a hint; undo, then solve by trying every remaining line.
-  const total = await game.locator('.code-game-line').count();
-  expect(total).toBeGreaterThanOrEqual(3);
-  for (let step = 0; step < total; step++) {
-    const options = game.locator('.code-game-line');
-    const count = await options.count();
-    for (let candidate = 0; candidate < count; candidate++) {
-      await options.nth(candidate).click();
-      if (await game.locator('.warning-text').count() === 0) break;
-      await game.getByRole('button', { name: 'Як қадам ақиб' }).click();
-    }
-  }
+  // Numbered places 1 → ?, 2 → ?: a wrong order is named, then the right order is accepted.
+  const day = html.lessons[0];
+  const puzzle = buildPuzzle(day.sections.map(section => ({ code: section.code, title: section.title.tg })), day.id)!;
+  const lines = puzzle.lines.map(line => line.trim());
+  expect(lines.length).toBeGreaterThanOrEqual(3);
+  await expect(game.locator('.code-game-slot-empty')).toHaveCount(lines.length);
+  for (const line of [...lines].reverse()) await game.locator('.code-game-line', { hasText: line }).first().click();
+  await game.getByRole('button', { name: 'Санҷидан' }).click();
+  await expect(game.locator('.warning-text')).toBeVisible();
+  await game.getByRole('button', { name: 'Аз нав' }).click();
+  for (const line of lines) await game.locator('.code-game-line', { hasText: line }).first().click();
+  await game.getByRole('button', { name: 'Санҷидан' }).click();
   await expect(game.locator('.success-text')).toBeVisible();
   await game.screenshot({ path: testInfo.outputPath('code-game.png') });
 

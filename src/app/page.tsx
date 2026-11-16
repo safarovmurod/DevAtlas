@@ -4,24 +4,15 @@ import { ArrowRight, ChevronDown } from 'lucide-react';
 import { getRequestLocale } from '@/lib/request-locale';
 import { LANDING_COPY, PUBLIC_COPY } from '@/lib/public-copy';
 import { BRAND_NAME } from '@/lib/brand';
-import { COURSE_CATEGORIES, type CourseCategoryId } from '@/content/course-categories';
-import { COURSE_CATALOG } from '@/content/courses/catalog';
+import { landingDirections } from '@/lib/landing-directions';
 import { CATEGORY_ICONS } from '@/components/courses/category-icons';
 import { PublicHeader } from '@/components/layout/public-header';
 import { Brand } from '@/components/layout/brand';
 import { LazyHeroScene } from '@/components/landing/hero-scene-lazy';
-import { PhoneStory } from '@/components/landing/phone-story';
+import { ComputerStory } from '@/components/landing/computer-story';
+import type { ComputerScreenData } from '@/components/landing/computer-screen';
 import { Starfield } from '@/components/landing/starfield';
 
-// The landing shows only the strongest directions; the full list is in the catalog.
-const FEATURED: CourseCategoryId[] = [
-  'programming',
-  'ai',
-  'design',
-  'marketing',
-  'analytics',
-  'business',
-];
 const FAQ_LIMIT = 4;
 
 const sectionTitle =
@@ -36,9 +27,21 @@ export default async function Page() {
   const locale = await getRequestLocale();
   const copy = PUBLIC_COPY[locale],
     landing = LANDING_COPY[locale];
-  // Match the catalog: JavaScript's second month is reached through its first card.
-  const courses = COURSE_CATALOG.filter((course) => course.id !== 'javascript-2');
-  const directions = COURSE_CATEGORIES.filter((category) => FEATURED.includes(category.id));
+  // Course counts come from the real catalog, with the plural form of the language.
+  const directions = landingDirections(locale);
+  const firstStep = landing.steps[0];
+  const screen: ComputerScreenData = {
+    brand: BRAND_NAME,
+    lessonNumber: '01',
+    lessonLabel: landing.screen.lesson,
+    lessonTitle: firstStep.description.replace(/\.$/, ''),
+    lessonText: landing.screen.text,
+    progressLabel: landing.screen.progress,
+    progress: 40,
+    action: landing.screen.action,
+    directionsTitle: landing.directionTitle,
+    directions,
+  };
   const headerCopy = {
     directions: landing.directions,
     how: landing.how,
@@ -94,12 +97,17 @@ export default async function Page() {
               </div>
             </div>
             <div className="animate-fade-in">
-              <LazyHeroScene />
+              <LazyHeroScene screen={screen} />
             </div>
           </div>
         </section>
 
-        <PhoneStory title={landing.howTitle} steps={landing.steps} />
+        <ComputerStory
+          title={landing.howTitle}
+          steps={landing.steps}
+          screen={screen}
+          screenLabel={landing.screen.label}
+        />
 
         <section
           id="directions"
@@ -112,7 +120,6 @@ export default async function Page() {
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {directions.map((category) => {
               const Icon = CATEGORY_ICONS[category.id];
-              const count = courses.filter((course) => course.category === category.id).length;
               return (
                 <Link
                   key={category.id}
@@ -123,8 +130,8 @@ export default async function Page() {
                     <Icon size={22} aria-hidden="true" />
                   </span>
                   <span className="flex-1">
-                    <strong className="block text-white">{category.labels[locale]}</strong>
-                    <small className="text-white/50">{landing.courses(count)}</small>
+                    <strong className="block text-white">{category.label}</strong>
+                    <small className="text-white/50">{category.countLabel}</small>
                   </span>
                   <ArrowRight
                     size={16}

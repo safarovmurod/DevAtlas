@@ -1,65 +1,88 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Gamepad2, RotateCcw, Undo2 } from 'lucide-react';
+import { Check, Gamepad2, RotateCcw, Undo2, X } from 'lucide-react';
 import { useLearningStore } from '@/stores/learning-store';
-import { buildPuzzle, firstMistake } from '@/lib/games/code-order';
+import {
+  buildPuzzle,
+  checkSlots,
+  clearLastSlot,
+  clearSlot,
+  emptySlots,
+  placeLine,
+  startsWithDoctype,
+  type SlotResult,
+  type Slots,
+} from '@/lib/games/code-order';
 
 const COPY = {
   tg: {
     title: 'Бозӣ: кодро ба тартиб гузоред',
     stepsTitle: 'Бозӣ: қадамҳои дарсро ба тартиб гузоред',
-    stepsIntro:
-      'Қадамҳоро бо тартиби дуруст пахш кунед. Барои ҳар қадам як ҷумла фикр кунед: чаро маҳз ҳамин вақт?',
-    intro:
-      'Сатрҳоро бо ҳамон тартибе пахш кунед, ки дар коди дуруст меоянд. Ҳар сатр чӣ кор мекунад — дар сар фикр кунед.',
-    pool: 'Сатрҳо',
-    answer: 'Ҷавоби шумо',
-    empty: 'Аз боло сатри аввалро интихоб кунед.',
+    task: 'Кадом сатр аввал меояд, кадомаш дуюм, кадомаш сеюм? Сатрҳоро бо тартиб пахш кунед — онҳо ба ҷойҳои 1, 2, 3… меафтанд.',
+    stepsTask:
+      'Кадом қадам аввал аст, кадомаш дуюм, кадомаш сеюм? Қадамҳоро бо тартиб пахш кунед — онҳо ба ҷойҳои 1, 2, 3… меафтанд.',
+    example: 'Мисол',
+    slots: 'Ҷавоби шумо',
+    pool: 'Вариантҳо',
+    empty: 'холӣ',
+    remove: 'Аз ҷои {n} баровардан',
+    check: 'Санҷидан',
     undo: 'Як қадам ақиб',
     reset: 'Аз нав',
-    wrong:
-      'Сатри {n} дар ҷояш нест. Онро бардоред ва боз фикр кунед: кадом сатр бояд пеш аз он ояд?',
+    right: 'дуруст',
+    wrong: 'ҷояш нест',
+    fillAll: 'Ҳамаи ҷойҳоро пур кунед, баъд «Санҷидан»-ро пахш кунед.',
+    mistakes: 'Дар ҷояш нест: {list}. Онҳоро пахш кунед, то баргарданд, ва боз кӯшиш кунед.',
     done: 'Офарин! Тартиб дуруст аст. Ҳар сатрро бо овози баланд шарҳ диҳед — ҳамин тавр дар хотир мемонад.',
-    moves: 'Хатоҳо',
   },
   ru: {
     title: 'Игра: соберите код по порядку',
     stepsTitle: 'Игра: расставьте шаги урока по порядку',
-    stepsIntro:
-      'Нажимайте шаги в правильном порядке. Для каждого шага подумайте: почему именно сейчас?',
-    intro:
-      'Нажимайте строки в том порядке, в котором они идут в правильном коде. Проговаривайте, что делает каждая строка.',
-    pool: 'Строки',
-    answer: 'Ваш ответ',
-    empty: 'Выберите первую строку сверху.',
+    task: 'Какая строка идёт первой, какая второй, какая третьей? Нажимайте строки по порядку — они встанут в места 1, 2, 3…',
+    stepsTask:
+      'Какой шаг первый, какой второй, какой третий? Нажимайте шаги по порядку — они встанут в места 1, 2, 3…',
+    example: 'Пример',
+    slots: 'Ваш ответ',
+    pool: 'Варианты',
+    empty: 'пусто',
+    remove: 'Убрать из места {n}',
+    check: 'Проверить',
     undo: 'Шаг назад',
     reset: 'Заново',
-    wrong: 'Строка {n} стоит не на месте. Уберите её и подумайте: какая строка должна идти раньше?',
+    right: 'верно',
+    wrong: 'не на месте',
+    fillAll: 'Заполните все места, затем нажмите «Проверить».',
+    mistakes: 'Не на своём месте: {list}. Нажмите на них, чтобы вернуть, и попробуйте ещё раз.',
     done: 'Отлично! Порядок верный. Объясните каждую строку вслух — так она запомнится.',
-    moves: 'Ошибок',
   },
   en: {
     title: 'Game: put the code in order',
     stepsTitle: 'Game: put the lesson steps in order',
-    stepsIntro: 'Tap the steps in the right order. For each one, think: why now?',
-    intro: 'Tap the lines in the order they appear in correct code. Say what each line does.',
-    pool: 'Lines',
-    answer: 'Your answer',
-    empty: 'Choose the first line above.',
+    task: 'Which line comes first, which second, which third? Tap the lines in order — they fill places 1, 2, 3…',
+    stepsTask:
+      'Which step comes first, which second, which third? Tap the steps in order — they fill places 1, 2, 3…',
+    example: 'Example',
+    slots: 'Your answer',
+    pool: 'Choices',
+    empty: 'empty',
+    remove: 'Remove from place {n}',
+    check: 'Check',
     undo: 'Undo',
     reset: 'Restart',
-    wrong: 'Line {n} is out of place. Remove it and think: which line must come earlier?',
+    right: 'right',
+    wrong: 'out of place',
+    fillAll: 'Fill every place, then press “Check”.',
+    mistakes: 'Out of place: {list}. Tap them to take them back and try again.',
     done: 'Great! The order is right. Explain each line out loud — that is how it sticks.',
-    moves: 'Mistakes',
   },
 };
 
 type GameSection = { code?: string; title?: Partial<Record<'tg' | 'ru' | 'en', string>> };
 export function CodeOrderGame({ sections, seed }: { sections: GameSection[]; seed: string }) {
   const language = useLearningStore((state) => state.contentLanguage);
-  const copy = COPY[language === 'tg' || language === 'en' ? language : 'ru'];
   const locale = language === 'tg' || language === 'en' ? language : 'ru';
+  const copy = COPY[locale];
   const puzzle = useMemo(
     () =>
       buildPuzzle(
@@ -71,77 +94,133 @@ export function CodeOrderGame({ sections, seed }: { sections: GameSection[]; see
       ),
     [sections, seed, locale],
   );
-  const [answer, setAnswer] = useState<number[]>([]);
-  const [mistakes, setMistakes] = useState(0);
+  const size = puzzle?.lines.length ?? 0;
+  const [slots, setSlots] = useState<Slots>(() => emptySlots(size));
+  const [results, setResults] = useState<SlotResult[] | null>(null);
   if (!puzzle) return null;
-  const mistake = firstMistake(answer);
-  const solved = answer.length === puzzle.lines.length && mistake === -1;
-  function pick(line: number) {
-    const next = [...answer, line];
-    if (firstMistake(next) !== -1) setMistakes((count) => count + 1);
-    setAnswer(next);
+
+  // A puzzle of another size (language switch) starts from empty places.
+  const current = slots.length === size ? slots : emptySlots(size);
+  const full = current.every((value) => value !== null);
+  const solved = results !== null && results.every((result) => result === 'right');
+  const code = puzzle.kind === 'code';
+  const headingId = seed + '-game';
+
+  function change(next: Slots) {
+    setSlots(next);
+    setResults(null);
   }
+  const show = (line: number) =>
+    code ? <code>{puzzle.lines[line].trim()}</code> : <span>{puzzle.lines[line]}</span>;
+  const wrongPlaces = results
+    ? results.flatMap((result, index) => (result === 'wrong' ? [String(index + 1)] : []))
+    : [];
+
   return (
-    <section className="panel code-game" aria-labelledby={seed + '-game'}>
-      <h3 id={seed + '-game'}>
-        <Gamepad2 size={18} /> {puzzle.kind === 'steps' ? copy.stepsTitle : copy.title}
+    <section className="panel code-game" aria-labelledby={headingId}>
+      <h3 id={headingId}>
+        <Gamepad2 size={18} aria-hidden="true" /> {code ? copy.title : copy.stepsTitle}
       </h3>
-      <p className="small muted">{puzzle.kind === 'steps' ? copy.stepsIntro : copy.intro}</p>
-      <p className="code-game-label">{copy.pool}</p>
-      <div className="code-game-pool">
-        {puzzle.shuffled
-          .filter((line) => !answer.includes(line))
-          .map((line) => (
-            <button
-              key={line}
-              type="button"
-              className="code-game-line"
-              disabled={solved}
-              onClick={() => pick(line)}
-            >
-              <code>{puzzle.lines[line].trim()}</code>
-            </button>
-          ))}
-      </div>
-      <p className="code-game-label">{copy.answer}</p>
-      <ol className="code-game-answer">
-        {answer.length === 0 ? (
-          <li className="muted small">{copy.empty}</li>
-        ) : (
-          answer.map((line, position) => (
-            <li key={line} className={mistake !== -1 && position >= mistake ? 'wrong' : 'right'}>
-              <code>{puzzle.lines[line]}</code>
+      <p className="code-game-task">{code ? copy.task : copy.stepsTask}</p>
+      {code && startsWithDoctype(puzzle.lines) && (
+        <p className="code-game-example">
+          <span>{copy.example}:</span> 1 → <code>{'<!DOCTYPE html>'}</code>
+        </p>
+      )}
+
+      <p className="code-game-label" id={headingId + '-slots'}>
+        {copy.slots}
+      </p>
+      <ol className="code-game-slots" aria-labelledby={headingId + '-slots'}>
+        {current.map((line, position) => {
+          const result = results?.[position];
+          return (
+            <li key={position} className="code-game-slot" data-result={result}>
+              <span className="code-game-slot-number" aria-hidden="true">
+                {position + 1} →
+              </span>
+              {line === null ? (
+                <span className="code-game-slot-empty">
+                  <span aria-hidden="true">?</span>
+                  <span className="sr-only">{copy.empty}</span>
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  className="code-game-slot-fill"
+                  disabled={solved}
+                  aria-label={`${copy.remove.replace('{n}', String(position + 1))}: ${puzzle.lines[line].trim()}`}
+                  onClick={() => change(clearSlot(current, position))}
+                >
+                  {show(line)}
+                </button>
+              )}
+              {result && (
+                <span className="code-game-mark">
+                  {result === 'right' ? (
+                    <Check size={14} aria-hidden="true" />
+                  ) : (
+                    <X size={14} aria-hidden="true" />
+                  )}
+                  {result === 'right' ? copy.right : copy.wrong}
+                </span>
+              )}
             </li>
-          ))
-        )}
+          );
+        })}
       </ol>
-      <div aria-live="polite">
-        {mistake !== -1 && (
-          <p className="warning-text small">{copy.wrong.replace('{n}', String(mistake + 1))}</p>
-        )}
-        {solved && <p className="success-text">{copy.done}</p>}
+
+      {!solved && (
+        <>
+          <p className="code-game-label" id={headingId + '-pool'}>
+            {copy.pool}
+          </p>
+          <div className="code-game-pool" role="group" aria-labelledby={headingId + '-pool'}>
+            {puzzle.shuffled
+              .filter((line) => !current.includes(line))
+              .map((line) => (
+                <button
+                  key={line}
+                  type="button"
+                  className="code-game-line"
+                  onClick={() => change(placeLine(current, line))}
+                >
+                  {show(line)}
+                </button>
+              ))}
+          </div>
+        </>
+      )}
+
+      <div role="status" aria-live="polite" className="code-game-feedback">
+        {solved ? (
+          <p className="success-text">{copy.done}</p>
+        ) : results ? (
+          <p className="warning-text">{copy.mistakes.replace('{list}', wrongPlaces.join(', '))}</p>
+        ) : !full && current.some((value) => value !== null) ? (
+          <p className="small muted">{copy.fillAll}</p>
+        ) : null}
       </div>
+
       <div className="button-row">
-        <span className="small muted">
-          {copy.moves}: {mistakes}
-        </span>
         <button
           type="button"
-          className="button subtle"
-          disabled={!answer.length || solved}
-          onClick={() => setAnswer(answer.slice(0, -1))}
+          className="button primary"
+          disabled={!full || solved || results !== null}
+          onClick={() => setResults(checkSlots(current))}
         >
-          <Undo2 size={16} /> {copy.undo}
+          <Check size={16} aria-hidden="true" /> {copy.check}
         </button>
         <button
           type="button"
           className="button subtle"
-          onClick={() => {
-            setAnswer([]);
-            setMistakes(0);
-          }}
+          disabled={current.every((value) => value === null) || solved}
+          onClick={() => change(clearLastSlot(current))}
         >
-          <RotateCcw size={16} /> {copy.reset}
+          <Undo2 size={16} aria-hidden="true" /> {copy.undo}
+        </button>
+        <button type="button" className="button subtle" onClick={() => change(emptySlots(size))}>
+          <RotateCcw size={16} aria-hidden="true" /> {copy.reset}
         </button>
       </div>
     </section>
