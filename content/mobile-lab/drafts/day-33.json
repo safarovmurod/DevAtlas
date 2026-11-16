@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport function LessonCard({ title, minutes }: { title: string; minutes: number }) {\n  return (\n    <View style={styles.card}>\n      <Text style={styles.title}>{title}</Text>\n      <Text style={styles.body}>{minutes} минут практики</Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Проверка читаемости</Text>\n      <LessonCard title=\"Экран и структуры\" minutes={20} />\n      <Text style={styles.note}>\n        Увеличьте системный шрифт в настройках и откройте экран снова.\n      </Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  card: { padding: 16, borderRadius: 12, backgroundColor: '#f8fafc' },\n  title: { fontSize: 18, fontWeight: '600', color: '#0f172a' },\n  body: { fontSize: 15, color: '#334155' },\n  note: { fontSize: 14, color: '#475569' },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Масштаб шрифта как настройка пользователя",
+        "tg": "Масштаби шрифт ҳамчун танзимоти корбар",
+        "en": "Font scale as a user setting"
+      },
+      "body": {
+        "ru": "Текст React Native масштабируется вместе с системной настройкой размера шрифта — это доступность по умолчанию, и отключать её «для красоты» нельзя. maxFontSizeMultiplier ограничивает рост: значение 2 разрешает удвоение, но не десятикратный растягивающий макет размер. Контраст текста и фона проверяют отношением: 4.5:1 для обычного текста, 3:1 для крупного; тёмный текст на светлом фоне из примера проходит, светло-серый на белом — нет. Связь с днём одиннадцатым: при увеличенном шрифте content растёт, и области экрана пересматривают в двух масштабах.",
+        "tg": "Матни React Native ҳамроҳи танзимоти системавии андозаи шрифт масштаб мешавад — ин дастрасии нобаёнӣ аст ва «барои зебоӣ» хомӯш карданаш мумкин нест. maxFontSizeMultiplier афзоишро маҳдуд мекунад: қимати 2 дучанд шуданро иҷозат медиҳад, аммо андозаи даҳкардашуда, ки макетро меканад, не. Контрасти матн ва заминаро аз рӯи нисбат месанҷанд: 4.5:1 барои матни одӣ, 3:1 барои матни калон; матни торики заминаи равшани аз мисол мегузарад, хокистарии равшан рӯи сафед — не. Пайванд бо рӯзи ёздаҳум: ҳангоми шрифти калон content меафзояд ва минтақаҳои экранро дар ду масштаб аз нав мебинанд.",
+        "en": "React Native text scales with the system font-size setting — this is accessibility by default, and turning it off «for beauty» is not allowed. maxFontSizeMultiplier limits the growth: a value of 2 allows doubling but not a tenfold size that tears the layout. Text and background contrast is checked by ratio: 4.5:1 for normal text, 3:1 for large; the dark text on a light background from the example passes, light gray on white does not. Connection to day eleven: with a larger font the content grows, and the screen areas are re-reviewed at two scales."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки шрифта и контраста",
+        "tg": "Хатоҳои маъмулии шрифт ва контраст",
+        "en": "Common mistakes of fonts and contrast"
+      },
+      "body": {
+        "ru": "Первая ошибка — allowFontScaling={false}: экран «красивый» в проверке, но пользователь с плохим зрением читает мелкий текст с усилием. Вторая — numberOfLines={1} на данных: длинное название обрезается многоточием, и содержимое теряется без предупреждения; обрезка уместна для заголовков, а не для записей. Третья — низкий контраст: серый текст на белом фоне выглядит стильно и не проходит 4.5:1; пару цветов проверяют до публикации. Четвёртая — проверка только при стандартном шрифте: макет собирается заново при максимальном масштабе, и ошибки видны только там.",
+        "tg": "Хатои аввал — allowFontScaling={false}: экран дар санҷиш «зебост», аммо корбари биниҳози матни хурдро бо заҳмат мехонад. Хатои дуюм — numberOfLines={1} дар додаҳо: номи дароз бо нуқтаҳо бурида мешавад ва мазмун бе огоҳӣ гум мешавад; буриш барои сарлавҳаҳо мувофиқ аст, на барои қайдҳо. Хатои сеюм — контрасти паст: матни хокистарӣ рӯи заминаи сафед устувор ба назар меояд ва 4.5:1-ро намегузарад; ҷуфти рангҳоро пеш аз нашр месанҷанд. Хатои чорум — санҷиш танҳо бо шрифти стандартӣ: макет дар масштаби максимальӣ аз нав сохта мешавад ва хатоҳо танҳо он ҷо дида мешаванд.",
+        "en": "The first mistake is allowFontScaling={false}: the screen looks «nice» in the check, but a user with low vision strains to read the small text. The second is numberOfLines={1} on data: a long title is cut with an ellipsis and content is lost without warning; truncation fits headers, not records. The third is low contrast: gray text on a white background looks stylish and fails 4.5:1; check the color pair before publishing. The fourth is checking only at the standard font: the layout reassembles at maximum scale, and mistakes are visible only there."
+      }
     }
   ],
   "questions": [

@@ -88,13 +88,27 @@
       "ru": "Что такое Python и как он запускается",
       "tg": "Python чист ва чӣ хел кор мекунад?",
       "en": "What Python is and how it runs"
-    },
+     },
      "body": {
       "ru": "Python — язык программирования для скриптов, обработки данных и серверных приложений. Интерпретатор читает инструкции из файла .py. В этом уроке программа вычислит цену и покажет её в терминале.\n\nПрисваивание = сохраняет значение под именем. Числа можно умножать; print выводит результат. Имена переменных выбирайте понятно: price, quantity, total. Python выполняет строки сверху вниз. Здесь нет базы данных и оплаты — только расчёт.",
       "tg": "Python забони барномасозӣ барои скрипт, коркарди маълумот ва барномаи серверӣ аст. Интерпретатор дастурҳои файли .py-ро иҷро мекунад. Дар ин дарс барнома нархро ҳисоб карда, дар терминал нишон медиҳад.\n\nАломати = қиматро бо ном сабт мекунад. Ададҳоро зарб кардан мумкин аст; print натиҷаро мебарорад. Номҳои фаҳмо интихоб кунед: price, quantity, total. Python сатрҳоро аз боло ба поён иҷро мекунад. Ин танҳо ҳисоб аст, на пойгоҳи дода ё пардохт.",
       "en": "Python is a programming language for scripts, data work, and server applications. The interpreter runs instructions in a .py file. Here the program calculates a price and shows it in the terminal.\n\nAssignment with = binds a value to a name. Numbers can be multiplied; print displays the result. Choose meaningful names such as price, quantity and total. Python executes lines from top to bottom. This is a calculation, not a database or payment system."
-    },
+     },
      "code": "price = 12\nquantity = 3\ntotal = price * quantity\nprint(total)",
+     "language": "python"
+    },
+    {
+     "title": {
+      "ru": "Порядок строк и повторное присваивание",
+      "tg": "Тартиби сатрҳо ва гузоштани дубора",
+      "en": "Line order and reassignment"
+     },
+     "body": {
+      "ru": "Python выполняет строки сверху вниз, поэтому порядок важен. Имя становится доступным только в строке, где ему присвоено значение: обращение к quantity до quantity = 3 закончится NameError: name 'quantity' is not defined. Последнее слово ошибки называет недостающее имя — читайте его первым.\n\nПрисваивание сохраняет готовое число, а не формулу: total = price * quantity кладёт в total обычное 36 в момент выполнения строки. Поэтому после price = 20 переменная total по-прежнему хранит 36 — вывод программы ниже: 36 и 60. Пересчёт происходит только в строке присваивания, а не при печати. Отсюда правило: изменили входные данные — выполните строку расчёта заново. И помните, что присваивание затирает старое значение без предупреждения: после price = 20 во всей программе price равно 20; если число нужно сохранить, заведите для него второе имя.",
+      "tg": "Python сатрҳоро аз боло ба поён иҷро мекунад, аз ин рӯз тартиб муҳим аст. Ном танҳо дар он сатр дастрас мешавад, ки ба он қимат гузошта мешавад: муроҷиат ба quantity пеш аз quantity = 3 бо NameError: name 'quantity' is not defined тамом мешавад. Калимаи охирини хато номи набударо меномад — аввал ҳамонро бихонед.\n\nГузоштан рақами омодаро нигоҳ медорад, на формула: total = price * quantity дар лаҳзаи иҷрои сатр рақами оддии 36-ро ба total мегузорад. Бинобар ин баъди price = 20 тағйирёбанда total ҳанӯз 36-ро нигоҳ медорад — натиҷаи барномаи зер: 36 ва 60. Ҳисоб танҳо дар сатри гузоштан такрор мешавад, на ҳангоми чоп. Қоида: агар маълумоти вурудиро тағйир диҳед, сатри ҳисобро дубора иҷро кунед. Ва дар ёд доред, ки гузоштан қиммати кӯҳнаро бе огоҳинома рӯйнавис мекунад: баъди price = 20 дар тамоми барнома price ба 20 баробар аст; агар рақам бояд нигоҳ дошта шавад, барои он номи дуюм гиред.",
+      "en": "Python runs lines top to bottom, so order matters. A name becomes usable only on the line where it is assigned: touching quantity before quantity = 3 ends with NameError: name 'quantity' is not defined. The last word of the error names the missing variable — read it first.\n\nAssignment stores a finished number, not a formula: total = price * quantity puts a plain 36 into total at the moment the line runs. That is why, after price = 20, the variable total still keeps 36 — the output of the program below is 36 and 60. Recalculation happens only on the assignment line, not at print time. Hence the rule: changed the inputs — run the calculation line again. And remember that assignment overwrites the old value without a warning: after price = 20 the whole program sees price as 20; if the number must be kept, give it a second name."
+     },
+     "code": "price = 12\nquantity = 3\ntotal = price * quantity\nprice = 20\nprint(total)\nprint(price * quantity)",
      "language": "python"
     },
     {
@@ -128,21 +142,21 @@
     }
    ],
    "interview": {
-     "id": "python-day-01-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какая встроенная функция Python выводит значение в терминал?",
-       "tg": "Кадом функсияи тайёри Python қиматро дар терминал мебарорад?",
-       "en": "Which built-in Python function displays a value in the terminal?"
-     },
-     "answer": {
-       "ru": "print",
-       "tg": "print",
-       "en": "print"
-     },
-     "acceptedAnswers": [
-       "print()"
-     ]
+    "id": "python-day-01-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какая встроенная функция Python выводит значение в терминал?",
+     "tg": "Кадом функсияи тайёри Python қиматро дар терминал мебарорад?",
+     "en": "Which built-in Python function displays a value in the terminal?"
+    },
+    "answer": {
+     "ru": "print",
+     "tg": "print",
+     "en": "print"
+    },
+    "acceptedAnswers": [
+     "print()"
+    ]
    },
    "questions": [
     {
@@ -157,6 +171,12 @@
       "tg": "14: амали * ададҳоро зарб мекунад.",
       "en": "14: the * operator multiplies numbers."
      },
+     "hint": {
+      "ru": "Внутри скобок — числовое выражение: Python сначала его вычисляет.",
+      "tg": "Дар қавс ифодаи ададӣ аст: Python аввал онро ҳисоб мекунад.",
+      "en": "Inside the brackets is a numeric expression: Python evaluates it first."
+     },
+     "relatedSection": 0,
      "options": [
       {
        "ru": "72",
@@ -188,6 +208,12 @@
       "tg": "0: зарби ҳар адад дар сифр сифр медиҳад.",
       "en": "0: any number multiplied by zero gives zero."
      },
+     "hint": {
+      "ru": "Умножение на ноль — тот же обычный расчёт.",
+      "tg": "Зарб ба сифр ҳам ҳисоби оддӣ аст.",
+      "en": "Multiplying by zero is the same ordinary calculation."
+     },
+     "relatedSection": 0,
      "options": [
       {
        "ru": "0",
@@ -206,6 +232,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "python-day-01-q3",
+     "question": {
+      "ru": "Строки идут в таком порядке: price = 12, total = price * quantity, quantity = 3. Что произойдёт?",
+      "tg": "Сатрҳо бо чунин тартибанд: price = 12, total = price * quantity, quantity = 3. Чӣ мешавад?",
+      "en": "The lines run in this order: price = 12, total = price * quantity, quantity = 3. What happens?"
+     },
+     "answer": {
+      "ru": "NameError: Python выполняет строки сверху вниз, и на момент расчёта quantity ещё не существует.",
+      "tg": "NameError: Python сатрҳоро аз боло ба поён иҷро мекунад ва дар лаҳзаи ҳисоб ҳанӯз quantity вуҷуд надорад.",
+      "en": "NameError: Python runs lines top to bottom, and quantity does not exist yet at the moment of the calculation."
+     },
+     "hint": {
+      "ru": "Python не откладывает расчёт: он идёт по строкам сверху вниз.",
+      "tg": "Python ҳисобро ба баъд намегузорад: он бо сатрҳо аз боло ба поён меравад.",
+      "en": "Python does not postpone the calculation: it walks the lines top to bottom."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Python подождёт, пока quantity появится",
+       "tg": "Python то лаҳзае, ки quantity пайдо шавад, интизор мешавад",
+       "en": "Python waits until quantity appears"
+      },
+      {
+       "ru": "total получит 0",
+       "tg": "total қиммати 0 мегирад",
+       "en": "total gets 0"
+      },
+      {
+       "ru": "NameError: имя quantity ещё не определено",
+       "tg": "NameError: номи quantity ҳанӯз муайян нашудааст",
+       "en": "NameError: the name quantity is not defined yet"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -260,13 +323,27 @@
       "ru": "Что функция получает и возвращает",
       "tg": "Функсия чӣ мегирад ва чӣ медиҳад?",
       "en": "What a function takes and returns"
-    },
+     },
      "body": {
       "ru": "Функция собирает шаги под одним именем. Параметры передают входные данные, return отдаёт результат вызывающему коду. Исключение сообщает о проблеме вместо неверного результата.\n\ndef объявляет функцию. Отступы определяют её тело. return передаёт результат вызывающему коду; raise ValueError сообщает о неверных данных. Проверка поведения не зависит от имён параметров.",
       "tg": "Функсия чанд қадамро зери як ном ҷамъ мекунад. Параметр маълумот медиҳад ва return натиҷаро ба ҷои даъват бармегардонад. Exception хаторо нишон медиҳад, то натиҷаи нодуруст истифода нашавад.\n\ndef функсияро эълон мекунад. Фосилаи аввали сатр ҳудуди онро муайян мекунад. return натиҷаро ба рамзи даъваткунанда медиҳад; raise ValueError хатои маълумотро хабар медиҳад. Санҷиши рафтор аз номи параметрҳо вобаста нест.",
       "en": "A function groups steps under a name. Parameters supply inputs and return sends the result to the caller. An exception reports a problem instead of returning a bad result.\n\ndef declares a function; indentation defines its body. return passes a result to the caller; raise ValueError reports invalid input. Behavioral checks do not depend on parameter names."
-    },
+     },
      "code": "def calculate_total(price, quantity):\n    if price < 0 or quantity < 0:\n        raise ValueError(\"Values must not be negative\")\n    return price * quantity\n\nprint(calculate_total(12, 3))\nprint(calculate_total(12, 0))\ntry:\n    calculate_total(12, -1)\nexcept ValueError:\n    print(\"Invalid input rejected\")",
+     "language": "python"
+    },
+    {
+     "title": {
+      "ru": "Что вернёт функция без return",
+      "tg": "Функсия бе return чӣ бармегардонад",
+      "en": "What a function returns without return"
+     },
+     "body": {
+      "ru": "return не просто завершает функцию — он передаёт значение тому месту, где функцию вызвали. Функция без return тоже возвращает значение: None, то есть «ничего». Поэтому два варианта в примере выглядят похоже, а работают по-разному.\n\nadd_print печатает сумму сама и ничего не возвращает: one равен None. add_return возвращает 5, и печатью занимается вызывающий код — поэтому print(one, two) покажет None 5, а print(add_return(10, 5) * 2) даст 30. Результат с return можно продолжать считать; с напечатанным это не сработает: None * 2 поднимет TypeError. Если переменная внезапно оказалась None, ищите функцию, которая печатает результат вместо того, чтобы возвращать его.",
+      "tg": "return танҳо функсияро тамом намекунад — он қимматро ба ҷои даъвати функсия месупорад. Функсияе, ки return надорад, ҳам қиммат мебарорад: None, яъне «ҳеҷ чиз». Бинобар ин ду варианти мисол ба ҳам монанд ба назар мерасанд, вале гуногун кор мекунанд.\n\nadd_print ҷамъро худаш чоп мекунад ва ҳеҷ чиз намебарорад: one ба None баробар аст. add_return 5-ро мебарорад ва чопро коди даъваткунанда иҷро мекунад — бинобар ин print(one, two) None 5 нишон медиҳад, вале print(add_return(10, 5) * 2) 30 медиҳад. Қиммати баргардондашударо метавон идомаи ҳисоб кард; бо чопшуда ин кор намекунад: None * 2 хатои TypeError медиҳад. Агар тағйирёбанда ногаҳон None шуд, функсияеро ҷӯед, ки натиҷаро чоп мекунад, на бармегардонад.",
+      "en": "return does not just end the function — it hands a value to the place where the function was called. A function without return also returns a value: None, that is, nothing. So the two versions in the example look alike but behave differently.\n\nadd_print prints the sum itself and returns nothing: one is None. add_return returns 5, and the caller does the printing — that is why print(one, two) shows None 5, while print(add_return(10, 5) * 2) gives 30. A returned value can keep being computed; a printed one cannot: None * 2 raises TypeError. If a variable suddenly turned out to be None, look for a function that prints its result instead of returning it."
+     },
+     "code": "def add_print(a, b):\n    print(a + b)\n\ndef add_return(a, b):\n    return a + b\n\none = add_print(2, 3)\ntwo = add_return(2, 3)\nprint(one, two)\nprint(add_return(10, 5) * 2)",
      "language": "python"
     },
     {
@@ -300,18 +377,18 @@
     }
    ],
    "interview": {
-     "id": "python-day-02-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какое слово возвращает значение из функции Python вызывающему коду?",
-       "tg": "Кадом калима қиматро аз функсияи Python ба ҷои даъват медиҳад?",
-       "en": "Which Python keyword sends a value back to the caller?"
-     },
-     "answer": {
-       "ru": "return",
-       "tg": "return",
-       "en": "return"
-     }
+    "id": "python-day-02-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какое слово возвращает значение из функции Python вызывающему коду?",
+     "tg": "Кадом калима қиматро аз функсияи Python ба ҷои даъват медиҳад?",
+     "en": "Which Python keyword sends a value back to the caller?"
+    },
+    "answer": {
+     "ru": "return",
+     "tg": "return",
+     "en": "return"
+    }
    },
    "questions": [
     {
@@ -326,6 +403,12 @@
       "tg": "return. print танҳо матнро нишон медиҳад ва натиҷаи баргардондашударо иваз намекунад.",
       "en": "return. print displays text but does not replace the returned value."
      },
+     "hint": {
+      "ru": "Одно ключевое слово отдаёт значение наружу, другое только печатает.",
+      "tg": "Як калимаи калидӣ қимматро ба берун мебарорад, дигараш танҳо чоп мекунад.",
+      "en": "One keyword hands the value out, the other only prints."
+     },
+     "relatedSection": 0,
      "options": [
       {
        "ru": "print",
@@ -357,6 +440,12 @@
       "tg": "Иҷрои функсияро қатъ карда, истиснои ValueError-ро бо паём барои коди даъваткунанда мебардорад.",
       "en": "It stops the function and raises a ValueError carrying the message for the caller."
      },
+     "hint": {
+      "ru": "Сообщение об ошибке — не печать: исполнение функции сразу прекращается.",
+      "tg": "Хабари хато чоп нест: иҷрои функсия фавран қатъ мешавад.",
+      "en": "An error message is not a print: the function stops immediately."
+     },
+     "relatedSection": 0,
      "options": [
       {
        "ru": "Печатает сообщение и продолжает работу",
@@ -375,6 +464,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-02-q3",
+     "question": {
+      "ru": "Что лежит в переменной после вызова функции, в теле которой нет return?",
+      "tg": "Баъди даъвати функсияе, ки дар бадани он return нест, дар тағйирёбанда чӣ аст?",
+      "en": "What ends up in the variable after calling a function whose body has no return?"
+     },
+     "answer": {
+      "ru": "None: без return функция возвращает особое значение «ничего».",
+      "tg": "None: бе return функсия қиммати махсуси «ҳеҷ чиз»-ро мебарорад.",
+      "en": "None: without return the function hands back the special value meaning nothing."
+     },
+     "hint": {
+      "ru": "Функция всегда что-то возвращает — даже когда return в ней не написан.",
+      "tg": "Функсия ҳамеша чизе бармегардонад — ҳатто ҳангоме, ки дар он return навишта нашудааст.",
+      "en": "A function always returns something — even when no return is written in it."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "None",
+       "tg": "None",
+       "en": "None"
+      },
+      {
+       "ru": "Последнее напечатанное значение",
+       "tg": "Охирин қиммати чопшуда",
+       "en": "The last printed value"
+      },
+      {
+       "ru": "Пустую строку",
+       "tg": "Сатри холӣ",
+       "en": "An empty string"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -429,12 +555,12 @@
       "ru": "Строки и f-строки",
       "tg": "Сатр ва f-string чист?",
       "en": "Strings and f-strings"
-    },
+     },
      "body": {
       "ru": "Строка хранит текст. В f-строке Python подставляет результат выражения из фигурных скобок: f\"Total: {12 * 3}\" даёт \"Total: 36\". Без буквы f фигурные скобки останутся частью текста.\n\nПочти каждая программа общается с человеком текстом: имя покупателя, название города, сообщение об ошибке, строка чека. Такие тексты в Python называются строками (тип str) и записываются в кавычках. До сих пор вы работали в основном с числами, но настоящий вывод почти всегда комбинирует числа и текст: «Мумин из Душанбе» или «Итого: 36». Чтобы собрать такое сообщение, нужно уметь соединять куски текста, измерять их длину и приводить слова к одному регистру — например, привести имя, набранное строчными буквами, к нормальному виду. Отдельная ежедневная задача — вставка значений внутрь текста. Писать «Возраст: » + str(age) неудобно, поэтому в Python есть f-строки: перед кавычками ставится буква f, а в фигурных скобках записывается любое выражение. Этот приём встречается почти в каждой программе, поэтому освоим его сразу.",
       "tg": "Сатр матнро нигоҳ медорад. Дар f-string Python натиҷаи ҳисоби дар қавси фигуриро мегузорад: f\"Total: {12 * 3}\" мешавад \"Total: 36\". Бе f дохили қавс ҳамон матн мемонад.\n\nТақрибан ҳар як барнома бо инсон бо матн муошират мекунад: номи харидор, номи шаҳр, паёми хато, сатри ҳисобфактура. Чунин матнҳо дар Python сатр (намуди str) номида мешаванд ва дар нохунак навишта мешаванд. То ҳол асосан бо ададҳо кор мекардед, вале натиҷаи воқеӣ маъмулан адад ва матнро якҷа меомезад: «Мумин аз Душанбе» ё «Ҳамагӣ: 36». Барои сохтани чунин паём бояд дондан, ки чӣ тавр порчаҳои матнро пайваст кардан, дарозии онҳоро чен кардан ва калимаҳоро ба як регистр овардан мумкин аст — масалан, номи бо ҳарфҳои хурд навишташударо ба шакли дуруст даровардан. Вазифаи ҳаррӯзаи алоҳида дохил кардани қиматҳо ба дохили матн аст. Навиштани «Синну сол: » + str(age) осон нест, барои ҳамин дар Python f-сатрҳо мавҷуданд: пеш аз нохунак ҳарфи f гузошта мешавад ва дар қавсҳои шаклдор ифодаи дилхох навишта мешавад. Ин усул дар тақрибан ҳар барнома вомехӯрад, пас онро ҳозир омӯхта мегирем.",
       "en": "A string holds text. In an f-string, Python inserts the result of expressions in braces: f\"Total: {12 * 3}\" produces \"Total: 36\". Without f, the braces stay literal.\n\nAlmost every program talks to a human in text: a customer name, a city, an error message, a receipt line. Such text in Python is called a string (type str) and is written in quotes. So far you have mostly worked with numbers, but real output almost always mixes numbers and text: \"Mumin from Dushanbe\" or \"Total: 36\". To build such a message you need to join pieces of text, measure their length, and normalise words to a single case — for example, turn a name typed in lowercase into a properly capitalised one. A separate everyday task is inserting values into text. Writing \"Age: \" + str(age) is clumsy, so Python has f-strings: you put the letter f before the quotes and place any expression inside curly braces. You will meet this technique in nearly every program, so we master it right now."
-    }
+     }
     },
     {
      "title": {
@@ -481,18 +607,18 @@
     }
    ],
    "interview": {
-     "id": "python-day-03-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какую букву пишут перед кавычками, чтобы получить f-строку?",
-       "tg": "Барои f-string пеш аз нохунак кадом ҳарфро мемонӣ?",
-       "en": "Which letter goes before the quotes to make an f-string?"
-     },
-     "answer": {
-       "ru": "f",
-       "tg": "f",
-       "en": "f"
-     }
+    "id": "python-day-03-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какую букву пишут перед кавычками, чтобы получить f-строку?",
+     "tg": "Барои f-string пеш аз нохунак кадом ҳарфро мемонӣ?",
+     "en": "Which letter goes before the quotes to make an f-string?"
+    },
+    "answer": {
+     "ru": "f",
+     "tg": "f",
+     "en": "f"
+    }
    },
    "questions": [
     {
@@ -507,6 +633,12 @@
       "tg": "8 — len аломатҳои сатрро мешуморад, аз ҷумла ҳарфи калон.",
       "en": "8 — len counts the characters in the string, capital letter included."
      },
+     "hint": {
+      "ru": "len считает символы — посчитайте буквы в слове Dushanbe.",
+      "tg": "len аломатҳоро мебарад — ҳарфҳои калимаи Dushanbe-ро ҳисоб кунед.",
+      "en": "len counts characters — count the letters in Dushanbe."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "7",
@@ -543,6 +675,12 @@
       "tg": "5 — ифодаи дар дохили қавсҳои шаклдори f-сатр ҳисоб мешавад.",
       "en": "5 — the expression inside the f-string braces is evaluated."
      },
+     "hint": {
+      "ru": "Фигурные скобки f-строки вычисляют выражение, как обычный расчёт.",
+      "tg": "Қавси фигури f-сатр ифодаро ҳисоб мекунад, мисли ҳисоби оддӣ.",
+      "en": "The braces of an f-string evaluate the expression like an ordinary calculation."
+     },
+     "relatedSection": 0,
      "options": [
       {
        "ru": "{2 + 3}",
@@ -561,6 +699,43 @@
       }
      ],
      "correctIndex": 2
+    },
+    {
+     "id": "python-day-03-q3",
+     "question": {
+      "ru": "Что произойдёт при выполнении «Hello, » + 5?",
+      "tg": "Ҳангоми иҷрои «Hello, » + 5 чӣ мешавад?",
+      "en": "What happens when \"Hello, \" + 5 runs?"
+     },
+     "answer": {
+      "ru": "TypeError: + соединяет только строку со строкой; нужна f-строка или str(5).",
+      "tg": "TypeError: + танҳо сатрро бо сатр мепайвандад; f-сатр ё str(5) лозим аст.",
+      "en": "TypeError: + joins a string to a string only; you need an f-string or str(5)."
+     },
+     "hint": {
+      "ru": "Python не преобразует число в текст сам: сравните типы по обе стороны от +.",
+      "tg": "Python ададро худ ба сатр табдил намекунад: намудҳоро дар ду тарафи + муқоиса кунед.",
+      "en": "Python does not convert a number to text by itself: compare the types on both sides of the +."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "TypeError: строку нельзя сложить с числом",
+       "tg": "TypeError: сатрро бо адад ҷамъ кардан мумкин нест",
+       "en": "TypeError: a string cannot be added to a number"
+      },
+      {
+       "ru": "Напечатается Hello, 5",
+       "tg": "Hello, 5 чоп мешавад",
+       "en": "It prints Hello, 5"
+      },
+      {
+       "ru": "Напечатается Hello",
+       "tg": "Hello чоп мешавад",
+       "en": "It prints Hello"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -680,6 +855,12 @@
       "tg": "3 — // тақсими том аст, қисми касрӣ мепарад.",
       "en": "3 — // is floor division, the fractional part is dropped."
      },
+     "hint": {
+      "ru": "Деление нацело отбрасывает дробную часть, а не округляет.",
+      "tg": "Тақсими том қисми касриро мепартояд, на гирд мекунад.",
+      "en": "Floor division drops the fractional part, it does not round."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "3.4",
@@ -711,6 +892,12 @@
       "tg": "Ададҳои касрӣ дар шакли дуӣ бо дакикии охириноксанда нигоҳ дошта мешаванд — ин хусусияти формат аст, на хатои код.",
       "en": "Floats are stored in binary with finite precision — it is a property of the format, not a bug in your code."
      },
+     "hint": {
+      "ru": "Вспомните, в каком виде Python хранит дробные числа.",
+      "tg": "Ба ёд оред, ки Python ададҳои касриро дар кадом шакл нигоҳ медорад.",
+      "en": "Recall in which form Python stores fractional numbers."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Python ошибается при сложении",
@@ -729,6 +916,43 @@
       }
      ],
      "correctIndex": 2
+    },
+    {
+     "id": "python-day-04-q3",
+     "question": {
+      "ru": "Чему равно 17 % 5?",
+      "tg": "17 % 5 ба чӣ баробар аст?",
+      "en": "What is 17 % 5 equal to?"
+     },
+     "answer": {
+      "ru": "2: пять помещается в 17 три раза (15), остаётся 2.",
+      "tg": "2: панҷ дар 17 се бор ҷой мегирад (15), 2 боқӣ мемонад.",
+      "en": "2: five fits into 17 three times (15), leaving 2."
+     },
+     "hint": {
+      "ru": "Остаток — то, что не влезло в деление нацело: 5 × 3 = 15.",
+      "tg": "Боқимонда он аст, ки дар тақсими том ҷой намегунҷонад: 5 × 3 = 15.",
+      "en": "The remainder is what did not fit into whole division: 5 × 3 = 15."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "2",
+       "tg": "2",
+       "en": "2"
+      },
+      {
+       "ru": "3",
+       "tg": "3",
+       "en": "3"
+      },
+      {
+       "ru": "3.4",
+       "tg": "3.4",
+       "en": "3.4"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -848,6 +1072,12 @@
       "tg": "Танҳо аввалин шатри дуруст; боқӣ партофта мешаванд, ҳатто агар шарти онҳо низ дуруст бошад.",
       "en": "Only the first true branch; the rest are skipped even if their conditions are also true."
      },
+     "hint": {
+      "ru": "Python проверяет ветви по порядку и выполняет только одну.",
+      "tg": "Python шартҳоро бо навбат месанҷад ва танҳо якеро иҷро мекунад.",
+      "en": "Python checks the branches in order and runs only one."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Все ветви с истинными условиями",
@@ -879,6 +1109,12 @@
       "tg": "== муқоиса мекунад, = қимат мегузорад; навишти дуюм дар шарт хатои синтаксисӣ аст.",
       "en": "== compares, = assigns; the second form is a syntax error inside a condition."
      },
+     "hint": {
+      "ru": "Сравните количество знаков равенства: один знак — присваивание, два — сравнение.",
+      "tg": "Шумораи аломати баробариро муқоиса кунед: як аломат гузоштан аст, ду — муқоиса.",
+      "en": "Compare the number of equals signs: one is assignment, two is comparison."
+     },
+     "relatedSection": 2,
      "options": [
       {
        "ru": "Ничем, обе верны",
@@ -897,6 +1133,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-05-q3",
+     "question": {
+      "ru": "score = 95. Какой grade напечатает цепочка if score >= 90: «A» / elif score >= 80: «B» / else: «C»?",
+      "tg": "score = 95. Занҷири if score >= 90: «A» / elif score >= 80: «B» / else: «C» кадом grade-ро чоп мекунад?",
+      "en": "score = 95. Which grade does the chain if score >= 90: \"A\" / elif score >= 80: \"B\" / else: \"C\" print?"
+     },
+     "answer": {
+      "ru": "«A»: Python проверяет ветви сверху вниз и останавливается на первой истинной.",
+      "tg": "«A»: Python шартҳоро аз боло ба поён месанҷад ва дар аввалини дуруст меистад.",
+      "en": "\"A\": Python checks the branches top down and stops at the first true one."
+     },
+     "hint": {
+      "ru": "Ветви проверяются сверху вниз — до какой из них дойдёт очередь?",
+      "tg": "Шартҳоро аз боло ба поён месанҷанд — ба кадоме навбат мерасад?",
+      "en": "Branches are checked top down — which one does the checking reach?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "«B», потому что 95 >= 80 тоже истинно",
+       "tg": "«B», зеро 95 >= 80 ҳам дуруст аст",
+       "en": "\"B\", because 95 >= 80 is also true"
+      },
+      {
+       "ru": "«C», потому что else всегда срабатывает",
+       "tg": "«C», зеро else ҳамеша кор мекунад",
+       "en": "\"C\", because else always fires"
+      },
+      {
+       "ru": "«A»: выполняется первая истинная ветвь",
+       "tg": "«A»: аввалин шарти дуруст иҷро мешавад",
+       "en": "\"A\": the first true branch executes"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1016,6 +1289,12 @@
       "tg": "False: and дурустии ҳарду тарафро талаб мекунад.",
       "en": "False: and requires both parts to be true."
      },
+     "hint": {
+      "ru": "and даёт True только когда обе части истинны.",
+      "tg": "and танҳо ҳангоме True медиҳад, ки ҳар ду тараф дуруст бошанд.",
+      "en": "and gives True only when both sides are true."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "True",
@@ -1047,6 +1326,12 @@
       "tg": "0, сатри холӣ \"\", рӯйхати холӣ [], None — ҳамаашон қалбиянд; қиматҳои дигар ростанд.",
       "en": "0, the empty string \"\", the empty list [], None — all are falsy; other values are truthy."
      },
+     "hint": {
+      "ru": "Последняя строка примера показывает bool для 0 и пустой строки.",
+      "tg": "Сатри охири мисол bool-и сифр ва сатри холиро нишон медиҳад.",
+      "en": "The last line of the example shows bool for 0 and an empty string."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Только False",
@@ -1065,6 +1350,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-06-q3",
+     "question": {
+      "ru": "age = 15, и условие — age >= 18 and has_ticket. Будет ли проверена has_ticket?",
+      "tg": "age = 15 ва шарт — age >= 18 and has_ticket. Оё has_ticket санҷида мешавад?",
+      "en": "age = 15 and the condition is age >= 18 and has_ticket. Will has_ticket be checked?"
+     },
+     "answer": {
+      "ru": "Нет: короткое замыкание — при ложном age Python не вычисляет правую часть and.",
+      "tg": "Не: пӯшидани кӯтоҳ — ҳангоми age-и нодуруст Python қисми дуюми and-ро ҳисоб намекунад.",
+      "en": "No: short-circuiting — with a false age Python never evaluates the right side of and."
+     },
+     "hint": {
+      "ru": "Python вычисляет and слева направо и останавливается, как только ответ известен.",
+      "tg": "Python and-ро аз чап ба рост ҳисоб мекунад ва чун ҷавоб маълум шуд, меистад.",
+      "en": "Python evaluates and left to right and stops as soon as the answer is known."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Нет: ответ уже ясен, правая часть пропускается",
+       "tg": "Не: ҷавоб аллакай маълум аст, қисми рост гузашта мешавад",
+       "en": "No: the answer is already clear, the right side is skipped"
+      },
+      {
+       "ru": "Да: обе части проверяются всегда",
+       "tg": "Ҳа: ҳар ду тараф ҳамеша санҷида мешаванд",
+       "en": "Yes: both sides are always checked"
+      },
+      {
+       "ru": "Программа упадёт с ошибкой",
+       "tg": "Барнома бо хато меафтад",
+       "en": "The program crashes with an error"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1184,6 +1506,12 @@
       "tg": "Сикл беохир мешавад: шарт ҳамеша дуруст мемонад, барномаро қатъ кардан лозим аст.",
       "en": "The loop becomes infinite: the condition stays true forever and the program must be interrupted."
      },
+     "hint": {
+      "ru": "Посмотрите на тело цикла: что там меняет count?",
+      "tg": "Ба бадани сикл нигаред: он чӣ count-ро тағйир медиҳад?",
+      "en": "Look at the loop body: what changes count there?"
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Цикл выполнится 5 раз",
@@ -1215,6 +1543,12 @@
       "tg": "Сиклро фавран тамом мекунад; иҷро аз сатри баъди сикл давом меёбад.",
       "en": "It ends the loop immediately; execution continues from the line after the loop."
      },
+     "hint": {
+      "ru": "break и continue делают разное: одно завершает цикл, другое пропускает повтор.",
+      "tg": "break ва continue кори гуногун мекунанд: якӣ сиклро тамом мекунад, дигараш такрорро мепарад.",
+      "en": "break and continue do different things: one ends the loop, the other skips an iteration."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Пропускает один повтор",
@@ -1233,6 +1567,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-07-q3",
+     "question": {
+      "ru": "Сколько раз выполнится тело while count <= 5, если перед циклом count = 6?",
+      "tg": "Бадани while count <= 5 чанд бор иҷро мешавад, агар пеш аз сикл count = 6 бошад?",
+      "en": "How many times does the body of while count <= 5 run if count is 6 before the loop?"
+     },
+     "answer": {
+      "ru": "Ни разу: while проверяет условие до первого повтора, и при count = 6 оно уже ложно.",
+      "tg": "Ҳеч бор: while шартро пеш аз аввалин такрор месанҷад ва ҳангоми count = 6 он аллакай нодуруст аст.",
+      "en": "Not once: while checks the condition before the first iteration, and with count = 6 it is already false."
+     },
+     "hint": {
+      "ru": "Условие проверяется и перед самым первым повтором.",
+      "tg": "Шарт пеш аз ҳатто аввалин такрор ҳам санҷида мешавад.",
+      "en": "The condition is checked even before the very first iteration."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Ни разу: условие ложно уже при первой проверке",
+       "tg": "Ҳеч бор: шарт дар аввалин санҷиш нодуруст аст",
+       "en": "Not once: the condition is false already at the first check"
+      },
+      {
+       "ru": "Один раз",
+       "tg": "Як бор",
+       "en": "Once"
+      },
+      {
+       "ru": "Бесконечно",
+       "tg": "Беохир",
+       "en": "Infinitely"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1352,6 +1723,12 @@
       "tg": "1, 2, 3, 4, 5 — ҳудуди рост дар бар гирифта намешавад.",
       "en": "1, 2, 3, 4, 5 — the right bound is excluded."
      },
+     "hint": {
+      "ru": "Правая граница range никогда не включается.",
+      "tg": "Ҳудуди рости range ҳеҷ гоҳ дохил намешавад.",
+      "en": "The right boundary of range is never included."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "1, 2, 3, 4, 5, 6",
@@ -1383,6 +1760,12 @@
       "tg": "Ҷуфтҳои (1, \"a\") ва (2, \"b\") — рақам ва қимат якҷо.",
       "en": "The pairs (1, \"a\") and (2, \"b\") — the index and the value together."
      },
+     "hint": {
+      "ru": "enumerate отдаёт пары «номер, значение», а не одно из них.",
+      "tg": "enumerate ҷуфтҳои «рақам, қимат» медиҳад, на танҳо яке аз онҳо.",
+      "en": "enumerate yields pairs of number and value, not just one of them."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Только значения \"a\", \"b\"",
@@ -1401,6 +1784,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-08-q3",
+     "question": {
+      "ru": "Какие числа выдаёт range(10, 0, -3)?",
+      "tg": "range(10, 0, -3) кадом ададҳоро медиҳад?",
+      "en": "Which numbers does range(10, 0, -3) produce?"
+     },
+     "answer": {
+      "ru": "10, 7, 4, 1: шаг −3, и 0 не входит — стоп-граница всегда исключена.",
+      "tg": "10, 7, 4, 1: қадам −3 аст ва 0 дохил нест — ҳудуди охир ҳамеша ихроҷ мешавад.",
+      "en": "10, 7, 4, 1: the step is −3, and 0 is not included — the stop boundary is always excluded."
+     },
+     "hint": {
+      "ru": "Шаг −3 отсчитывает от старта, а стоп-граница и здесь исключена.",
+      "tg": "Қадами −3 аз оғоз мешиморад ва ҳудуди охир ин ҷо ҳам ихроҷ мешавад.",
+      "en": "The step −3 counts down from the start, and the stop boundary is excluded here too."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "10, 9, 8, … 1",
+       "tg": "10, 9, 8, … 1",
+       "en": "10, 9, 8, … 1"
+      },
+      {
+       "ru": "10, 7, 4, 1, 0",
+       "tg": "10, 7, 4, 1, 0",
+       "en": "10, 7, 4, 1, 0"
+      },
+      {
+       "ru": "10, 7, 4, 1",
+       "tg": "10, 7, 4, 1",
+       "en": "10, 7, 4, 1"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1521,6 +1941,12 @@
       "tg": "22 — индекси манфӣ аз охир мешуморад, −1 маънои элементи охиринро дорад.",
       "en": "22 — a negative index counts from the end; −1 means the last element."
      },
+     "hint": {
+      "ru": "Отрицательный индекс считает с конца: -1 — последний элемент.",
+      "tg": "Индекси манфӣ аз охир мешуморад: -1 элементи охирин аст.",
+      "en": "A negative index counts from the end: -1 is the last element."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "12",
@@ -1552,6 +1978,12 @@
       "tg": "0 — рақамзании элементҳо аз сифр сар мешавад.",
       "en": "0 — element numbering starts at zero."
      },
+     "hint": {
+      "ru": "Нумерация элементов списка начинается с нуля.",
+      "tg": "Рақамзании элементҳои рӯйхат аз сифр сар мешавад.",
+      "en": "List element numbering starts at zero."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "0",
@@ -1570,6 +2002,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "python-day-09-q3",
+     "question": {
+      "ru": "Что напечатает print(prices[5]) для списка из пяти элементов?",
+      "tg": "print(prices[5]) барои рӯйхати панҷэлементӣ чӣ чоп мекунад?",
+      "en": "What does print(prices[5]) print for a five-element list?"
+     },
+     "answer": {
+      "ru": "IndexError: валидные индексы списка из пяти элементов — от 0 до 4.",
+      "tg": "IndexError: индексҳои дурусти рӯйхати панҷэлементӣ аз 0 то 4 ҳастанд.",
+      "en": "IndexError: the valid indexes of a five-element list run from 0 to 4."
+     },
+     "hint": {
+      "ru": "Валидные индексы — от 0 до len − 1.",
+      "tg": "Индексҳои дуруст аз 0 то len − 1 ҳастанд.",
+      "en": "Valid indexes run from 0 to len − 1."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "22 — последний элемент",
+       "tg": "22 — элементи охирин",
+       "en": "22 — the last element"
+      },
+      {
+       "ru": "0",
+       "tg": "0",
+       "en": "0"
+      },
+      {
+       "ru": "IndexError",
+       "tg": "IndexError",
+       "en": "IndexError"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1689,6 +2158,12 @@
       "tg": "None — он рӯйхатро дар ҷои худ мураттаб мекунад, бе нусха.",
       "en": "None — it sorts the list in place, without a copy."
      },
+     "hint": {
+      "ru": "Метод меняет список на месте и ничего не возвращает.",
+      "tg": "Метод рӯйхатро дар ҳамон ҷо тағйир медиҳад ва ҳеҷ чиз намебарорад.",
+      "en": "The method changes the list in place and returns nothing."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Отсортированный список",
@@ -1720,6 +2195,12 @@
       "tg": "remove бо қимат (аввалин мавқеъ) нест мекунад, pop — бо индекс нест мекунад ва элементи несткардашударо бармегардонад.",
       "en": "remove deletes by value (the first occurrence); pop deletes by index and returns the removed element."
      },
+     "hint": {
+      "ru": "Один ищет значение, другой — позицию.",
+      "tg": "Яке қиматро меҷӯяд, дигараш ҷойро.",
+      "en": "One looks up a value, the other a position."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Ничем, это синонимы",
@@ -1738,6 +2219,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-10-q3",
+     "question": {
+      "ru": "Что сделает cart.insert(1, \"rice\") со списком [\"bread\", \"milk\"]?",
+      "tg": "cart.insert(1, \"rice\") бо рӯйхати [\"bread\", \"milk\"] чӣ мекунад?",
+      "en": "What does cart.insert(1, \"rice\") do to the list [\"bread\", \"milk\"]?"
+     },
+     "answer": {
+      "ru": "Вставит rice на позицию 1: [\"bread\", \"rice\", \"milk\"] — остальные сдвинутся вправо.",
+      "tg": "rice-ро ба мавқеи 1 мегузорад: [\"bread\", \"rice\", \"milk\"] — боқӣ ба рост тела мехӯранд.",
+      "en": "It places rice at position 1: [\"bread\", \"rice\", \"milk\"] — the rest shift right."
+     },
+     "hint": {
+      "ru": "Первый аргумент insert — индекс, на который встаёт элемент.",
+      "tg": "Аргументи аввали insert индексест, ки элемент ба он ҷой меравад.",
+      "en": "The first insert argument is the index the element takes."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Вставит rice второй позицией: [\"bread\", \"rice\", \"milk\"]",
+       "tg": "rice-ро бо ҷои дуюм мегузорад: [\"bread\", \"rice\", \"milk\"]",
+       "en": "It places rice second: [\"bread\", \"rice\", \"milk\"]"
+      },
+      {
+       "ru": "Добавит rice в конец списка",
+       "tg": "rice-ро ба охири рӯйхат меафзояд",
+       "en": "It appends rice to the end of the list"
+      },
+      {
+       "ru": "Заменит milk на rice",
+       "tg": "milk-ро ба rice иваз мекунад",
+       "en": "It replaces milk with rice"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1858,6 +2376,12 @@
       "tg": "Нусхаи пурраи рӯйхатро месозад — объекти нав бо ҳамон элементҳо.",
       "en": "It creates a full copy of the list — a new object with the same elements."
      },
+     "hint": {
+      "ru": "Это полный срез — от начала до конца.",
+      "tg": "Ин бурриши пурра аст — аз оғоз то охир.",
+      "en": "It is a full slice — from start to end."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Ничего не делает",
@@ -1889,6 +2413,12 @@
       "tg": "Се: индексҳои 1, 2, 3 — ҳудуди рост дар бар гирифта намешавад.",
       "en": "Three: indexes 1, 2 and 3 — the right bound is excluded."
      },
+     "hint": {
+      "ru": "Правая граница среза не входит, как у range.",
+      "tg": "Ҳудуди рости бурриш дохил намешавад, мисли range.",
+      "en": "The right slice bound is excluded, like range."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Четыре",
@@ -1907,6 +2437,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-11-q3",
+     "question": {
+      "ru": "Что вернёт letters[10:20] для списка из 6 элементов?",
+      "tg": "letters[10:20] барои рӯйхати 6-элементӣ чӣ бармегардонад?",
+      "en": "What does letters[10:20] return for a 6-element list?"
+     },
+     "answer": {
+      "ru": "Пустой список: срезы, в отличие от индексов, не падают на выходе за границы.",
+      "tg": "Рӯйхати холӣ: бурришҳо, баръакси индексҳо, аз ҳудуд хароҷот намеафтанд.",
+      "en": "An empty list: slices, unlike indexes, do not crash on out-of-range bounds."
+     },
+     "hint": {
+      "ru": "Срезы, в отличие от индексов, прощают выход за границы.",
+      "tg": "Бурришҳо, баръакси индексҳо, аз хатои ҳудуд намеафтанд.",
+      "en": "Slices, unlike indexes, forgive out-of-range bounds."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "IndexError",
+       "tg": "IndexError",
+       "en": "IndexError"
+      },
+      {
+       "ru": "Все шесть элементов",
+       "tg": "Ҳамаи шаш элемент",
+       "en": "All six elements"
+      },
+      {
+       "ru": "Пустой список",
+       "tg": "Рӯйхати холӣ",
+       "en": "An empty list"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2243,6 +2810,12 @@
       "tg": "None — методи .get намеафтад, балки None ё қимати пешфарзи додашударо бармегардонад.",
       "en": "None — the .get method does not crash; it returns None or a supplied default."
      },
+     "hint": {
+      "ru": "Сравните .get с чтением через квадратные скобки: как ведёт себя [] при отсутствии ключа?",
+      "tg": ".get-ро бо хондан аз қавсҳои чоркунҷа муқоиса кунед: [] ҳангоми набудани калид чӣ мекунад?",
+      "en": "Compare .get with reading through square brackets: what does [] do when the key is missing?"
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "KeyError",
@@ -2274,6 +2847,12 @@
       "tg": "Мавҷудияти калиди \"tea\"; барои ҷустуҷӯ аз рӯи қиматҳо методи .values() лозим аст.",
       "en": "Whether the key \"tea\" exists; searching values requires the .values() method."
      },
+     "hint": {
+      "ru": "in проверяет ключи словаря, а не значения.",
+      "tg": "in калидҳои луғатро месанҷад, на қиматҳоро.",
+      "en": "in checks dictionary keys, not values."
+     },
+     "relatedSection": 2,
      "options": [
       {
        "ru": "Есть ли ключ \"tea\"",
@@ -2292,6 +2871,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "python-day-13-q3",
+     "question": {
+      "ru": "prices[\"bread\"] = 15 при отсутствии ключа \"bread\" — что произойдёт?",
+      "tg": "prices[\"bread\"] = 15 ҳангоми набудани калиди \"bread\" — чӣ мешавад?",
+      "en": "prices[\"bread\"] = 15 when the key \"bread\" is absent — what happens?"
+     },
+     "answer": {
+      "ru": "Ключ bread будет создан со значением 15: присваивание и добавление — одно и то же.",
+      "tg": "Калиди bread бо қиммати 15 сохта мешавад: гузоштан ва илова кардан як чиз аст.",
+      "en": "The key bread is created with the value 15: assignment and addition are the same thing."
+     },
+     "hint": {
+      "ru": "Чтение и запись ведут себя по-разному: присваивание создаёт ключ.",
+      "tg": "Хондан ва навиштан дигар рафтор доранд: гузоштан калидро месозад.",
+      "en": "Reading and writing behave differently: assignment creates the key."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "KeyError: сначала ключ нужно объявить",
+       "tg": "KeyError: аввал калидро эълон кардан лозим аст",
+       "en": "KeyError: the key must be declared first"
+      },
+      {
+       "ru": "Ничего не произойдёт",
+       "tg": "Ҳеҷ чиз намешавад",
+       "en": "Nothing happens"
+      },
+      {
+       "ru": "Ключ bread будет создан со значением 15",
+       "tg": "Калиди bread бо қиммати 15 сохта мешавад",
+       "en": "The key bread is created with the value 15"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2411,6 +3027,12 @@
       "tg": "Ҷуфтҳои «калид, қимат», ки ба ду тағйирёбанда кушода мешаванд.",
       "en": "\"key, value\" pairs that can be unpacked into two variables."
      },
+     "hint": {
+      "ru": "Метод отдаёт и ключ, и значение одной парой.",
+      "tg": "Метод ҳам калид ва ҳам қиматро як ҷуфт месупорад.",
+      "en": "The method yields the key and the value as one pair."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Только ключи",
@@ -2442,6 +3064,12 @@
       "tg": "counts[key] = counts.get(key, 0) + 1 — ҳисоби ҷорӣ ё сифрро гирифта як меафзоем.",
       "en": "counts[key] = counts.get(key, 0) + 1 — take the current tally or zero and add one."
      },
+     "hint": {
+      "ru": "Нужна формула, которая у нового ключа берёт 0, а у старого — текущий счёт.",
+      "tg": "Формула лозим аст, ки барои калиди нав 0-ро мегирад ва барои калиди кӯҳна — ҳисоби ҷорӣ.",
+      "en": "You need the formula that takes 0 for a new key and the current tally for an old one."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "counts[key] += 1 всегда",
@@ -2460,6 +3088,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-14-q3",
+     "question": {
+      "ru": "Что попадёт в переменную key при for key in stock.items()?",
+      "tg": "Дар for key in stock.items() ба тағйирёбандаи key чӣ меафтад?",
+      "en": "What lands in the variable key in for key in stock.items()?"
+     },
+     "answer": {
+      "ru": "Целый кортеж пары, например (\"apple\", 4): одна переменная получает всю пару.",
+      "tg": "Кортежи пурраи ҷуфт, масалан (\"apple\", 4): як тағйирёбанда тамоми ҷуфтро мегирад.",
+      "en": "The whole pair tuple, for example (\"apple\", 4): one variable receives the entire pair."
+     },
+     "hint": {
+      "ru": "Одна переменная получает целую пару целиком.",
+      "tg": "Як тағйирёбанда тамоми ҷуфтро якбора мегирад.",
+      "en": "One variable receives the whole pair at once."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Целый кортеж пары",
+       "tg": "Кортежи пурраи ҷуфт",
+       "en": "The whole pair tuple"
+      },
+      {
+       "ru": "Только ключи",
+       "tg": "Танҳо калидҳо",
+       "en": "Only the keys"
+      },
+      {
+       "ru": "KeyError",
+       "tg": "KeyError",
+       "en": "KeyError"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2579,6 +3244,12 @@
       "tg": "3 — маҷмӯъ танҳо элементҳои беназирро нигоҳ медорад: 1, 2, 3.",
       "en": "3 — a set keeps only the unique elements: 1, 2, 3."
      },
+     "hint": {
+      "ru": "Множество хранит только уникальные значения.",
+      "tg": "Маҷмӯъ танҳо қиматҳои такрорнашавандаро нигоҳ медорад.",
+      "en": "A set keeps only unique values."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "6",
@@ -2610,6 +3281,12 @@
       "tg": "set() — зеро {} луғати холӣ месозад.",
       "en": "set() — because {} creates an empty dictionary."
      },
+     "hint": {
+      "ru": "Фигурные скобки без содержимого заняты словарём.",
+      "tg": "Қавсҳои шаклдори холӣ азони луғат ҳастанд.",
+      "en": "Empty curly braces are taken by dictionaries."
+     },
+     "relatedSection": 2,
      "options": [
       {
        "ru": "{}",
@@ -2628,6 +3305,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-15-q3",
+     "question": {
+      "ru": "Что вернёт tags_a & tags_b для {\"news\", \"sport\", \"python\"} и {\"python\", \"music\", \"news\"}?",
+      "tg": "tags_a & tags_b барои {\"news\", \"sport\", \"python\"} ва {\"python\", \"music\", \"news\"} чӣ бармегардонад?",
+      "en": "What does tags_a & tags_b return for {\"news\", \"sport\", \"python\"} and {\"python\", \"music\", \"news\"}?"
+     },
+     "answer": {
+      "ru": "Общие элементы обоих множеств: news и python — это пересечение.",
+      "tg": "Элементҳои муштараки ҳар ду маҷмӯъ: news ва python — ин буриш аст.",
+      "en": "The elements shared by both sets: news and python — the intersection."
+     },
+     "hint": {
+      "ru": "& оставляет элементы, которые есть в обоих множествах.",
+      "tg": "& элементҳои дар ҳар ду маҷмӯъ бударо мемонад.",
+      "en": "& keeps the elements present in both sets."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Все пять тегов",
+       "tg": "Ҳамаи панҷ тег",
+       "en": "All five tags"
+      },
+      {
+       "ru": "Пустое множество",
+       "tg": "Маҷмӯъи холӣ",
+       "en": "An empty set"
+      },
+      {
+       "ru": "Общие теги: news и python",
+       "tg": "Тегҳои муштарак: news ва python",
+       "en": "The shared tags: news and python"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2747,6 +3461,12 @@
       "tg": "None — қимати махсуси «ҳеҷ чиз».",
       "en": "None — the special \"nothing\" value."
      },
+     "hint": {
+      "ru": "Вспомните день 2: что получала переменная от функции с print.",
+      "tg": "Рӯзи 2-ро ба ёд оред: тағйирёбанда аз функсияи бо print чӣ мегирифт.",
+      "en": "Recall day 2: what did a variable get from a function with print."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Пустую строку",
@@ -2778,6 +3498,12 @@
       "tg": "Бо вергул: return a, b кортежро бармегардонад, ки ба тағйирёбандаҳо кушода мешавад.",
       "en": "With commas: return a, b returns a tuple that can be unpacked into variables."
      },
+     "hint": {
+      "ru": "Каждый return отдаёт ровно один объект; несколько значений через запятую собираются в кортеж.",
+      "tg": "Ҳар return дақиқ як объект медиҳад; якчанд қимат бо вергул ба кортеж ҷамъ мешаванд.",
+      "en": "Each return hands out exactly one object; several comma-separated values gather into a tuple."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Нельзя, только одно значение",
@@ -2796,6 +3522,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-16-q3",
+     "question": {
+      "ru": "Что окажется в переменной после result = average([1, 2]), если внутри average стоит print вместо return?",
+      "tg": "Баъди result = average([1, 2]), агар дар дохили average print ҷои return истода бошад, дар тағйирёбанда чӣ мешавад?",
+      "en": "What ends up in result = average([1, 2]) if average has print instead of return?"
+     },
+     "answer": {
+      "ru": "None: print только рисует на экране; наружу отдаёт значение только return.",
+      "tg": "None: print танҳо дар экран мебарорад; ба берун танҳо return қиммат медиҳад.",
+      "en": "None: print only draws on the screen; only return hands a value outward."
+     },
+     "hint": {
+      "ru": "print только рисует на экране; наружу отдаёт значение только return.",
+      "tg": "print танҳо дар экран мебарорад; ба берун танҳо return қиммат медиҳад.",
+      "en": "print only draws on the screen; only return hands a value outward."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "None",
+       "tg": "None",
+       "en": "None"
+      },
+      {
+       "ru": "1.5 — напечатанное значение",
+       "tg": "1.5 — қиммати чопшуда",
+       "en": "1.5 — the printed value"
+      },
+      {
+       "ru": "Ошибка NameError",
+       "tg": "Хатои NameError",
+       "en": "A NameError"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2915,6 +3678,12 @@
       "tg": "espresso + large: kind аз пешфарз, size аз нав дода шуд, milk хомӯш аст.",
       "en": "espresso + large: kind comes from the default, size is overridden, milk is off."
      },
+     "hint": {
+      "ru": "Аргумент size=\"large\" переопределяет умолчание size; kind и milk остаются по умолчанию.",
+      "tg": "Аргументи size=\"large\" пешфарзи size-ро иваз мекунад; kind ва milk пешфарз мемонанд.",
+      "en": "The argument size=\"large\" overrides the size default; kind and milk keep theirs."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "espresso + large",
@@ -2946,6 +3715,12 @@
       "tg": "Ба кортеж: total(2, 4, 6) дар дохили функсия prices = (2, 4, 6) медиҳад.",
       "en": "Into a tuple: total(2, 4, 6) makes prices = (2, 4, 6) inside the function."
      },
+     "hint": {
+      "ru": "Звёздочка собирает лишние позиционные аргументы в неизменяемую последовательность.",
+      "tg": "Ситора аргументҳои бе номи иловагиро ба пайдарпайии тағйирнашаванда ҷамъ мекунад.",
+      "en": "The star gathers extra positional arguments into an immutable sequence."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "В список",
@@ -2964,6 +3739,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-17-q3",
+     "question": {
+      "ru": "Какой вызов даст SyntaxError?",
+      "tg": "Кадом даъват SyntaxError медиҳад?",
+      "en": "Which call raises a SyntaxError?"
+     },
+     "answer": {
+      "ru": "make_coffee(size=\"large\", \"latte\"): позиционный аргумент не может стоять после именованного.",
+      "tg": "make_coffee(size=\"large\", \"latte\"): аргументи мавқеӣ наметавонад баъди номдор ҷой гирад.",
+      "en": "make_coffee(size=\"large\", \"latte\"): a positional argument cannot come after a named one."
+     },
+     "hint": {
+      "ru": "Позиционные аргументы не могут стоять после именованных.",
+      "tg": "Аргументҳои мавқеӣ наметавонанд баъди номдор ҷой гиранд.",
+      "en": "Positional arguments cannot come after named ones."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "make_coffee()",
+       "tg": "make_coffee()",
+       "en": "make_coffee()"
+      },
+      {
+       "ru": "make_coffee(size=\"large\", milk=True)",
+       "tg": "make_coffee(size=\"large\", milk=True)",
+       "en": "make_coffee(size=\"large\", milk=True)"
+      },
+      {
+       "ru": "make_coffee(size=\"large\", \"latte\")",
+       "tg": "make_coffee(size=\"large\", \"latte\")",
+       "en": "make_coffee(size=\"large\", \"latte\")"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3083,6 +3895,12 @@
       "tg": "8 0.1 — функсия rate-и локалиро истифода мекунад, глобалӣ тағйир намеёбад.",
       "en": "8 0.1 — the function uses its local rate; the global stays unchanged."
      },
+     "hint": {
+      "ru": "Присваивание внутри функции создаёт локальное имя; снаружи видна глобальная переменная.",
+      "tg": "Гузоштан дар дохили функсия номи локалӣ месозад; аз берун тағйирёбандаи глобалӣ дида мешавад.",
+      "en": "Assignment inside a function creates a local name; outside, the global variable is visible."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "8 2",
@@ -3114,6 +3932,12 @@
       "tg": "Дар атрибути __doc__; онро help(номи_функсия) нишон медиҳад.",
       "en": "In the __doc__ attribute; help(function_name) displays it."
      },
+     "hint": {
+      "ru": "Docstring — первая строка тела функции, и её можно достать как атрибут.",
+      "tg": "Docstring сатри аввали бадани функсия аст ва онро ҳамчун атрибут гирифтан мумкин аст.",
+      "en": "A docstring is the first string of the function body, and it can be fetched as an attribute."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "В комментарии #",
@@ -3132,6 +3956,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-18-q3",
+     "question": {
+      "ru": "Что произойдёт при count = count + 1 внутри функции, если count — глобальная переменная?",
+      "tg": "Ҳангоми count = count + 1 дар дохили функсия, агар count тағйирёбандаи глобалӣ бошад, чӣ мешавад?",
+      "en": "What happens with count = count + 1 inside a function when count is a global variable?"
+     },
+     "answer": {
+      "ru": "UnboundLocalError: присваивание в теле заранее объявляет имя локальным, и читать его до присваивания нельзя.",
+      "tg": "UnboundLocalError: гузоштан дар бадан номро пешакӣ локалӣ эълон мекунад ва хондани он пеш аз гузоштан мумкин нест.",
+      "en": "UnboundLocalError: an assignment in the body declares the name local in advance, so it cannot be read before assignment."
+     },
+     "hint": {
+      "ru": "Присваивание в теле заранее объявляет имя локальным.",
+      "tg": "Гузоштан дар бадан номро пешакӣ локалӣ эълон мекунад.",
+      "en": "An assignment in the body declares the name local in advance."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "UnboundLocalError",
+       "tg": "UnboundLocalError",
+       "en": "UnboundLocalError"
+      },
+      {
+       "ru": "Глобальный count увеличится",
+       "tg": "count-и глобалӣ меафзояд",
+       "en": "The global count increases"
+      },
+      {
+       "ru": "SyntaxError",
+       "tg": "SyntaxError",
+       "en": "SyntaxError"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -3251,6 +4112,12 @@
       "tg": "Ҳамеша — истисно бошад ё набошад; он манобеъро мепӯшад ва анҷомро чоп мекунад.",
       "en": "Always — exception or not; it closes resources and prints the ending."
      },
+     "hint": {
+      "ru": "finally выполняется в любом случае — и с исключением, и без.",
+      "tg": "finally дар ҳар ҳолат иҷро мешавад — бо истисно ва бе он.",
+      "en": "finally runs either way — with an exception and without."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Только при ошибке",
@@ -3282,6 +4149,12 @@
       "tg": "Истисноро бо паём месозад ва мебардорад; иҷрои функсия то наздиктарин except-и мувофиқ қатъ мешавад.",
       "en": "It creates and raises an exception with a message; execution stops until the nearest matching except."
      },
+     "hint": {
+      "ru": "raise создаёт ошибку, а print только рисует текст.",
+      "tg": "raise хато месозад, вале print танҳо матнро мебарорад.",
+      "en": "raise creates an error, while print only draws text."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Печатает сообщение и продолжает работу",
@@ -3300,6 +4173,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-19-q3",
+     "question": {
+      "ru": "Что напечатает to_number(\"4x\")?",
+      "tg": "to_number(\"4x\") чӣ чоп мекунад?",
+      "en": "What does to_number(\"4x\") print?"
+     },
+     "answer": {
+      "ru": "None: int(\"4x\") поднимет ValueError, но внутри try уже стоит except ValueError.",
+      "tg": "None: int(\"4x\") ValueError мебардорад, вале дар дохили try аллакай except ValueError истодааст.",
+      "en": "None: int(\"4x\") raises ValueError, but the try already has an except ValueError inside."
+     },
+     "hint": {
+      "ru": "int(\"4x\") поднимет ValueError, но внутри try уже стоит except ValueError.",
+      "tg": "int(\"4x\") ValueError мебардорад, вале дар дохили try аллакай except ValueError истодааст.",
+      "en": "int(\"4x\") raises ValueError, but the try already has an except ValueError inside."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "None — ValueError пойман внутри функции",
+       "tg": "None — ValueError дар дохили функсия дастгир мешавад",
+       "en": "None — the ValueError is caught inside the function"
+      },
+      {
+       "ru": "4 — цифры распознаются сами",
+       "tg": "4 — рақамҳо худашон шинохта мешаванд",
+       "en": "4 — the digits are recognized by themselves"
+      },
+      {
+       "ru": "Программа упадёт с ValueError",
+       "tg": "Барнома бо ValueError меафтад",
+       "en": "The program crashes with a ValueError"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -3419,6 +4329,12 @@
       "tg": "Барои навиштан мекушояд: файли мавҷуд то дарозии сифр мешавад, файли нав сохта мешавад.",
       "en": "It opens for writing: an existing file is truncated to zero length, a new one is created."
      },
+     "hint": {
+      "ru": "Режим «w» не дописывает: он начинает файл с чистого листа.",
+      "tg": "Режими «w» илова намекунад: он файлро аз сафҳаи холӣ оғоз мекунад.",
+      "en": "The \"w\" mode does not append: it starts the file from a clean slate."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Дописывает в конец",
@@ -3450,6 +4366,12 @@
       "tg": "with пӯшидани файлро кафолат медиҳад — ҳатто агар дар дохили блок истисно шавад.",
       "en": "with guarantees the file is closed — even if an exception occurs inside the block."
      },
+     "hint": {
+      "ru": "Запись буферизуется: без закрытия файл может остаться недописанным.",
+      "tg": "Навиштан дар буфер мемонад: бе пӯшидан файл метавонад нопурра бимонад.",
+      "en": "Writing is buffered: without closing, the file may stay half-written."
+     },
+     "relatedSection": 2,
      "options": [
       {
        "ru": "Так короче писать",
@@ -3468,6 +4390,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-20-q3",
+     "question": {
+      "ru": "Какой режим допишет новую строку в конец существующего файла?",
+      "tg": "Кадом режим сатри навро ба охири файли мавҷуд менависад?",
+      "en": "Which mode appends a new line to the end of an existing file?"
+     },
+     "answer": {
+      "ru": "\"a\" (append): открывает файл на запись без стирания старого содержимого.",
+      "tg": "\"a\" (append): файлро барои навиштан бе сӯхтани матни кӯҳна мекушояд.",
+      "en": "\"a\" (append): opens the file for writing without erasing old contents."
+     },
+     "hint": {
+      "ru": "Буква «a» означает append — добавить.",
+      "tg": "Ҳарфи «a» маънои append — илова кардан дорад.",
+      "en": "The letter \"a\" stands for append — add."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "\"w\"",
+       "tg": "\"w\"",
+       "en": "\"w\""
+      },
+      {
+       "ru": "\"r\"",
+       "tg": "\"r\"",
+       "en": "\"r\""
+      },
+      {
+       "ru": "\"a\"",
+       "tg": "\"a\"",
+       "en": "\"a\""
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3588,6 +4547,12 @@
       "tg": "2 — floor ба поён то адади том рост мекунад.",
       "en": "2 — floor rounds down to the integer."
      },
+     "hint": {
+      "ru": "floor — «пол»: округление вниз к целому.",
+      "tg": "floor — «пол»: рост кардан ба поён то адади бутун.",
+      "en": "floor means the floor: rounding down to a whole number."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "3",
@@ -3619,6 +4584,12 @@
       "tg": "То ки пайдарпаии ададҳои «тасодуфӣ» дар ҳар иҷро такрор шавад — ҳамин тавр мисолҳо ва тестҳо такроршаванда мешаванд.",
       "en": "So that the \"random\" sequence repeats on every run — this keeps examples and tests reproducible."
      },
+     "hint": {
+      "ru": "seed фиксирует стартовое состояние генератора.",
+      "tg": "seed ҳолати ибтидоии генераторро нигоҳ медорад.",
+      "en": "seed fixes the starting state of the generator."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Чтобы числа стали по-настоящему случайными",
@@ -3637,6 +4608,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-21-q3",
+     "question": {
+      "ru": "Что произойдёт при вызове math.sqrt(16) без import math?",
+      "tg": "Ҳангоми даъвати math.sqrt(16) бе import math чӣ мешавад?",
+      "en": "What happens when math.sqrt(16) is called without import math?"
+     },
+     "answer": {
+      "ru": "NameError: name \"math\" is not defined — стандартная библиотека есть «в комплекте», но импортировать её нужно самому.",
+      "tg": "NameError: name \"math\" is not defined — китобхонаи стандартӣ «дар маҷмӯъ» аст, вале импорти онро худ нависед.",
+      "en": "NameError: name \"math\" is not defined — the standard library ships with Python, but you still import it."
+     },
+     "hint": {
+      "ru": "Стандартная библиотека есть «в комплекте», но её всё равно нужно импортировать.",
+      "tg": "Китобхонаи стандартӣ «дар маҷмӯъ» аст, вале барои истифода импорт лозим аст.",
+      "en": "The standard library ships with Python, but you still have to import it."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "NameError: name \"math\" is not defined",
+       "tg": "NameError: name \"math\" is not defined",
+       "en": "NameError: name \"math\" is not defined"
+      },
+      {
+       "ru": "4.0 — модуль подключается автоматически",
+       "tg": "4.0 — модул худкор пайваст мешавад",
+       "en": "4.0 — the module connects automatically"
+      },
+      {
+       "ru": "TypeError",
+       "tg": "TypeError",
+       "en": "TypeError"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -3756,6 +4764,12 @@
       "tg": "[1, 4, 9] — квадрати ҳар элемент.",
       "en": "[1, 4, 9] — the square of each element."
      },
+     "hint": {
+      "ru": "Прочитайте справа налево: для каждого n взять n * n.",
+      "tg": "Аз рост ба чап бихонед: барои ҳар n, n * n гирифтан.",
+      "en": "Read it right to left: for every n take n * n."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "[1, 4, 9]",
@@ -3787,6 +4801,12 @@
       "tg": "Дар охири ифода, баъди for: [n for n in xs if n > 0].",
       "en": "At the very end, after the for: [n for n in xs if n > 0]."
      },
+     "hint": {
+      "ru": "Фильтр дописывается после for, в конце записи.",
+      "tg": "Филтр баъди for, дар охири навишт ҷой мегирад.",
+      "en": "The filter goes after the for, at the end of the expression."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Перед for",
@@ -3805,6 +4825,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-22-q3",
+     "question": {
+      "ru": "Что вернёт [n for n in [1, 2, 3, 4] if n % 2 == 0]?",
+      "tg": "[n for n in [1, 2, 3, 4] if n % 2 == 0] чӣ бармегардонад?",
+      "en": "What does [n for n in [1, 2, 3, 4] if n % 2 == 0] return?"
+     },
+     "answer": {
+      "ru": "[2, 4]: условие в конце отбирает только те n, для которых оно истинно.",
+      "tg": "[2, 4]: шарти дар охир танҳо он n-ҳоро мегирад, ки барои онҳо дуруст бошад.",
+      "en": "[2, 4]: the condition at the end keeps only those n for which it is true."
+     },
+     "hint": {
+      "ru": "Условие в конце отбирает только те n, для которых оно истинно.",
+      "tg": "Шарти дар охир танҳо он n-ҳоро мегирад, ки барои онҳо дуруст бошад.",
+      "en": "The condition at the end keeps only those n for which it is true."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "[1, 3]",
+       "tg": "[1, 3]",
+       "en": "[1, 3]"
+      },
+      {
+       "ru": "Все четыре числа",
+       "tg": "Ҳамаи чор адад",
+       "en": "All four numbers"
+      },
+      {
+       "ru": "[2, 4]",
+       "tg": "[2, 4]",
+       "en": "[2, 4]"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3924,6 +4981,12 @@
       "tg": "Рӯйхати [\"a\", \"b\"] аз ду сатр бе вергул.",
       "en": "The list [\"a\", \"b\"] — two strings without the comma."
      },
+     "hint": {
+      "ru": "split делит строку по разделителю и возвращает список кусков.",
+      "tg": "split сатрро аз рӯи тақсимкунанда мебуррад ва рӯйхати пораҳоро бармегардонад.",
+      "en": "split cuts the string by the separator and returns a list of pieces."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "[\"a\", \"b\"]",
@@ -3955,6 +5018,12 @@
       "tg": "Сатрҳо тағйирнапазиранд: метод сатри навро бармегардонад, ки онро бояд қимат гузошт.",
       "en": "Strings are immutable: the method returns a new string that must be assigned."
      },
+     "hint": {
+      "ru": "Методы строк возвращают новую строку; исходная не меняется.",
+      "tg": "Методҳои сатр сатри нав мебароранд; сатри аслӣ тағйир намеёбад.",
+      "en": "String methods return a new string; the original stays untouched."
+     },
+     "relatedSection": 2,
      "options": [
       {
        "ru": "Метод сломан",
@@ -3973,6 +5042,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-23-q3",
+     "question": {
+      "ru": "Как правильно собрать список items в строку через разделитель «, »?",
+      "tg": "Рӯйхати items-ро бо тақсимкунандаи «, » чӣ тавр дуруст ба сатр ҷамъ кардан?",
+      "en": "How do you correctly glue the list items into a string with the separator \", \"?"
+     },
+     "answer": {
+      "ru": "\", \".join(items): метод join живёт у строки-разделителя, а список передаётся в скобках.",
+      "tg": "\", \".join(items): методи join дар сатри тақсимкунанда аст ва рӯйхат дар қавс дода мешавад.",
+      "en": "\", \".join(items): the join method belongs to the separator string, the list goes into the brackets."
+     },
+     "hint": {
+      "ru": "Метод join живёт у строки-разделителя, а список передаётся в скобках.",
+      "tg": "Методи join дар сатри тақсимкунанда аст ва рӯйхат дар қавс дода мешавад.",
+      "en": "The join method belongs to the separator string, the list goes into the brackets."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "items.join(\", \")",
+       "tg": "items.join(\", \")",
+       "en": "items.join(\", \")"
+      },
+      {
+       "ru": "join(\", \", items)",
+       "tg": "join(\", \", items)",
+       "en": "join(\", \", items)"
+      },
+      {
+       "ru": "\", \".join(items)",
+       "tg": "\", \".join(items)",
+       "en": "\", \".join(items)"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4092,6 +5198,12 @@
       "tg": "65 — нуқтаи кодии ҳарфи лотинии A дар Юникод.",
       "en": "65 — the Unicode code point of the Latin letter A."
      },
+     "hint": {
+      "ru": "ord переводит символ в кодовую точку; латиница A начинается с 65.",
+      "tg": "ord аломатро ба code point табдил мекунад; ҳарфи лотинии A аз 65 сар мешавад.",
+      "en": "ord turns a character into its code point; the Latin letter A starts at 65."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "64",
@@ -4123,6 +5235,12 @@
       "tg": "Ду: ҳарфҳои кириллӣ, аз ҷумла тоҷикӣ, бо ду байт код мешаванд.",
       "en": "Two: Cyrillic letters, Tajik ones included, are encoded in two bytes."
      },
+     "hint": {
+      "ru": "Кириллица в UTF-8 занимает больше одного байта на букву.",
+      "tg": "Кириллӣ дар UTF-8 барои ҳар ҳарф зиёд аз як байт мегирад.",
+      "en": "Cyrillic in UTF-8 takes more than one byte per letter."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Один",
@@ -4141,6 +5259,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-24-q3",
+     "question": {
+      "ru": "Что вернёт chr(90)?",
+      "tg": "chr(90) чӣ бармегардонад?",
+      "en": "What does chr(90) return?"
+     },
+     "answer": {
+      "ru": "\"Z\": chr — обратная к ord, число превращается в символ.",
+      "tg": "\"Z\": chr баръакси ord аст, адад ба аломат табдил мешавад.",
+      "en": "\"Z\": chr is the inverse of ord, a number becomes a character."
+     },
+     "hint": {
+      "ru": "chr — обратная к ord: число превращается в символ.",
+      "tg": "chr баръакси ord аст: адад ба аломат табдил мешавад.",
+      "en": "chr is the inverse of ord: a number becomes a character."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "\"Z\"",
+       "tg": "\"Z\"",
+       "en": "\"Z\""
+      },
+      {
+       "ru": "\"90\"",
+       "tg": "\"90\"",
+       "en": "\"90\""
+      },
+      {
+       "ru": "\"A\"",
+       "tg": "\"A\"",
+       "en": "\"A\""
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -4260,6 +5415,12 @@
       "tg": "Аз охирин: дар он намуди хато ва паём; болотар — файл ва рақами сатр.",
       "en": "The last one: it holds the error type and message; above it, the file and line number."
      },
+     "hint": {
+      "ru": "Python пишет traceback снизу вверх: суть — в последних строках.",
+      "tg": "Python traceback-ро аз поён ба боло менависад: моҳият дар сатрҳои охирин аст.",
+      "en": "Python writes the traceback bottom up: the essence is in the last lines."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "С первой",
@@ -4291,6 +5452,12 @@
       "tg": "Ном ёфт нашуд: маъмулан хатои матн ё тағйирёбанда то истифода қимат нагирифтааст.",
       "en": "A name was not found: usually a typo or a variable never assigned before use."
      },
+     "hint": {
+      "ru": "Сопоставьте тип ошибки с её причиной: имя, тип, файл.",
+      "tg": "Намуди хаторо бо сабабаш муқоиса кунед: ном, намуд, файл.",
+      "en": "Match the error type with its cause: name, type, file."
+     },
+     "relatedSection": 0,
      "options": [
       {
        "ru": "Имя не определено",
@@ -4309,6 +5476,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "python-day-25-q3",
+     "question": {
+      "ru": "Что означает TypeError?",
+      "tg": "TypeError маънои чӣ дорад?",
+      "en": "What does TypeError mean?"
+     },
+     "answer": {
+      "ru": "Операция не подходит типу: например, строка + число.",
+      "tg": "Амал ба намуд мувофиқ нест: масалан, сатр + адад.",
+      "en": "An operation does not fit the type: for example, string + number."
+     },
+     "hint": {
+      "ru": "Вспомните: какая ошибка была в «Hello, » + 5?",
+      "tg": "Ба ёд оред: дар «Hello, » + 5 кадом хато буд?",
+      "en": "Recall: which error did \"Hello, \" + 5 give?"
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Имя не определено",
+       "tg": "Ном муайян нашудааст",
+       "en": "The name is not defined"
+      },
+      {
+       "ru": "Файл не найден",
+       "tg": "Файл ёфт нашуд",
+       "en": "The file was not found"
+      },
+      {
+       "ru": "Операция не подходит типу: строка + число",
+       "tg": "Амал ба намуд мувофиқ нест: сатр + адад",
+       "en": "The operation does not fit the type: string + number"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4428,6 +5632,12 @@
       "tg": "Номи скрипти иҷрошуда; аргументҳои корбар аз argv[1] сар мешаванд.",
       "en": "The name of the running script; user arguments start at argv[1]."
      },
+     "hint": {
+      "ru": "argv — это список строк; нулевой элемент хранит имя скрипта.",
+      "tg": "argv рӯйхати сатрҳост; элементи сифурӣ номи скриптро нигоҳ медорад.",
+      "en": "argv is a list of strings; element zero keeps the script name."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Первый аргумент пользователя",
@@ -4459,6 +5669,12 @@
       "tg": "Он main()-ро танҳо ҳангоми иҷрои мустақими файл оғоз мекунад ва аз иҷро шудани ҳангоми импорт пешгирӣ мекунад.",
       "en": "It runs main() only when the file is executed directly, preventing it from running on import."
      },
+     "hint": {
+      "ru": "При импорте модуля его __name__ не равно \"__main__\".",
+      "tg": "Ҳангоми импорти модул __name__-и он ба \"__main__\" баробар нест.",
+      "en": "When a module is imported its __name__ is not \"__main__\"."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Запускает main только при прямом запуске",
@@ -4477,6 +5693,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "python-day-26-q3",
+     "question": {
+      "ru": "Какой тип имеют элементы sys.argv?",
+      "tg": "Элементҳои sys.argv кадом намуданд?",
+      "en": "What type are the elements of sys.argv?"
+     },
+     "answer": {
+      "ru": "Строки: даже числа приходят как текст, поэтому нужен int(argv[1]).",
+      "tg": "Сатрҳо: ҳатто ададҳо ҳамчун матн меоянд, бинобар ин int(argv[1]) лозим аст.",
+      "en": "Strings: even numbers arrive as text, so int(argv[1]) is required."
+     },
+     "hint": {
+      "ru": "int(argv[1]) написан не случайно.",
+      "tg": "int(argv[1]) тасодуфӣ навишта нашудааст.",
+      "en": "int(argv[1]) is not written by accident."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Числа",
+       "tg": "Ададҳо",
+       "en": "Numbers"
+      },
+      {
+       "ru": "Зависит от того, что передали",
+       "tg": "Аз он вобаста аст, ки чӣ гузошта шуд",
+       "en": "It depends on what was passed"
+      },
+      {
+       "ru": "Строки",
+       "tg": "Сатрҳо",
+       "en": "Strings"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4591,6 +5844,12 @@
       "tg": "python -m venv .venv — аломати -m модули venv-и китобхонаи стандартиро оғоз мекунад.",
       "en": "python -m venv .venv — the -m flag runs the venv module of the standard library."
      },
+     "hint": {
+      "ru": "venv входит в состав Python; модуль вызывается через python -m.",
+      "tg": "venv дар ҳаҷми Python аст; модул бо python -m даъват мешавад.",
+      "en": "venv ships with Python; the module is invoked through python -m."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "pip install venv",
@@ -4622,6 +5881,12 @@
       "tg": "Намудҳои дақиқи ҳамаи пакетҳои насбшударо дар файл нигоҳ медорад, то ки муҳит бо фармони pip install -r requirements.txt барқарор шавад.",
       "en": "It saves exact versions of all installed packages to a file so the environment can be restored with pip install -r requirements.txt."
      },
+     "hint": {
+      "ru": "freeze печатает установленные пакеты с точными версиями.",
+      "tg": "freeze пакетҳои насбшударо бо версияҳои дақиқ чоп мекунад.",
+      "en": "freeze prints the installed packages with exact versions."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Удаляет лишние пакеты",
@@ -4640,6 +5905,43 @@
       }
      ],
      "correctIndex": 2
+    },
+    {
+     "id": "python-day-27-q3",
+     "question": {
+      "ru": "Зачем проекту виртуальное окружение?",
+      "tg": "Лоиҳа ба муҳити виртуалӣ барои чӣ ниёз дорад?",
+      "en": "Why does a project need a virtual environment?"
+     },
+     "answer": {
+      "ru": "Разные проекты могут держать разные версии одной библиотеки и не ломать друг друга.",
+      "tg": "Проектҳои гуногун метавонанд версияҳои гуногуни як пакетро нигоҳ доранд ва ҳамдигарро вайрон накунанд.",
+      "en": "Different projects can keep different versions of one library without breaking each other."
+     },
+     "hint": {
+      "ru": "Вспомните два проекта, которым нужны разные версии одного пакета.",
+      "tg": "Ба ду проекте, ки ба версияҳои гуногуни як пакет ниёз доранд, ёд оред.",
+      "en": "Recall two projects that need different versions of the same package."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Разные проекты могут держать разные версии одной библиотеки",
+       "tg": "Проектҳои гуногун метавонанд версияҳои гуногуни як библиотекаро нигоҳ доранд",
+       "en": "Different projects can keep different versions of one library"
+      },
+      {
+       "ru": "Программы в нём работают быстрее",
+       "tg": "Барномаҳо дар он тезтар кор мекунанд",
+       "en": "Programs run faster in it"
+      },
+      {
+       "ru": "Без него pip вообще не работает",
+       "tg": "Бе он pip умуман кор намекунад",
+       "en": "Without it pip does not work at all"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -4765,6 +6067,12 @@
       "tg": "id (рақам), title (ном) ва done (нишонаи иҷро, True/False).",
       "en": "id (the number), title (the name) and done (the True/False completion flag)."
      },
+     "hint": {
+      "ru": "Задача — словарь с тремя ключами: номер, название и флажок выполнения.",
+      "tg": "Вазифа луғати се калидӣ аст: рақам, ном ва парчами иҷро.",
+      "en": "A task is a dictionary with three keys: number, title and the done flag."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Только title",
@@ -4796,6 +6104,12 @@
       "tg": "Луғат ҳамаи маълумоти як вазифаро якҷо нигоҳ медорад: онҳоро бо несткунӣ ё мураттабкунӣ ғайриҳамзамон кардан мумкин нест.",
       "en": "A dictionary keeps all of one task's data together: it cannot be desynchronised by removals or sorting."
      },
+     "hint": {
+      "ru": "Что происходит с тремя списками при удалении одного элемента?",
+      "tg": "Ҳангоми несткунии як элемент бо се рӯйхат чӣ мешавад?",
+      "en": "What happens to three lists when one element is removed?"
+     },
+     "relatedSection": 2,
      "options": [
       {
        "ru": "Словари работают быстрее",
@@ -4814,6 +6128,43 @@
       }
      ],
      "correctIndex": 1
+    },
+    {
+     "id": "python-day-28-q3",
+     "question": {
+      "ru": "Какой id получит первая задача в пустом списке?",
+      "tg": "Вазифаи аввал дар рӯйхати холӣ кадом id мегирад?",
+      "en": "Which id does the first task get in an empty list?"
+     },
+     "answer": {
+      "ru": "1: правило id — len(tasks) + 1, а len пустого списка равен 0.",
+      "tg": "1: қоидаи id — len(tasks) + 1 аст ва len-и рӯйхати холӣ 0 мебошад.",
+      "en": "1: the id rule is len(tasks) + 1, and the len of an empty list is 0."
+     },
+     "hint": {
+      "ru": "Правило id — len(tasks) + 1; сколько вернёт len для пустого списка?",
+      "tg": "Қоидаи id — len(tasks) + 1 аст; len барои рӯйхати холӣ чӣ мебарорад?",
+      "en": "The id rule is len(tasks) + 1; what does len return for an empty list?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "0 — нумерация начинается с нуля",
+       "tg": "0 — рақамзанӣ аз сифр сар мешавад",
+       "en": "0 — numbering starts at zero"
+      },
+      {
+       "ru": "id назначает пользователь",
+       "tg": "id-ро корбар муайян мекунад",
+       "en": "The user assigns the id"
+      },
+      {
+       "ru": "1, потому что len([]) + 1 равно 1",
+       "tg": "1, зеро len([]) + 1 ба 1 баробар аст",
+       "en": "1, because len([]) + 1 equals 1"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4934,6 +6285,12 @@
       "tg": "False — функсия ростӣ хабар медиҳад, ки муайянкунанда ёфт нашуд, бе афтодан.",
       "en": "False — the function honestly reports the missing id instead of crashing."
      },
+     "hint": {
+      "ru": "Прочитайте конец функции: что возвращается, если цикл не нашёл совпадения?",
+      "tg": "Охири функсияро бихонед: агар сикл мувофиқат наёбад, чӣ бармегардонад?",
+      "en": "Read the end of the function: what is returned when the loop finds no match?"
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "KeyError",
@@ -4965,6 +6322,12 @@
       "tg": "Вазифаҳои иҷрошударо мешуморад: барои ҳар вазифаи done True як меафзояд.",
       "en": "It counts completed tasks: adds one for every task whose done is True."
      },
+     "hint": {
+      "ru": "Генератор выдаёт единицу для каждой выполненной задачи, sum их складывает.",
+      "tg": "Генератор барои ҳар вазифаи иҷрошуда як мебарорад ва sum онҳоро ҷамъ мекунад.",
+      "en": "The generator yields a one for each completed task and sum adds them."
+     },
+     "relatedSection": 0,
      "options": [
       {
        "ru": "Считает выполненные задачи",
@@ -4983,6 +6346,43 @@
       }
      ],
      "correctIndex": 0
+    },
+    {
+     "id": "python-day-29-q3",
+     "question": {
+      "ru": "Что вернёт remove_task, если убрать return True после tasks.remove(task)?",
+      "tg": "Агар return True-ро баъди tasks.remove(task) барорем, remove_task чӣ бармегардонад?",
+      "en": "What does remove_task return if the return True after tasks.remove(task) is removed?"
+     },
+     "answer": {
+      "ru": "False: после удаления цикл продолжается до конца и доходит до финального return False, хотя задача удалена.",
+      "tg": "False: баъди несткунӣ сикл то охир идома меёбад ва ба return False-и ниҳоӣ мерасад, ҳарчанд вазифа нест шудааст.",
+      "en": "False: after the removal the loop runs to the end and reaches the final return False, although the task was removed."
+     },
+     "hint": {
+      "ru": "Присмотритесь, что вернёт функция, если цикл закончится без ещё одного return.",
+      "tg": "Бинед, агар сикл бе return-и дигар тамом шавад, функсия чӣ бармегардонад.",
+      "en": "Look what the function returns when the loop ends without another return."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "True — задача всё же удалена",
+       "tg": "True — вале вазифа нест шуд",
+       "en": "True — the task was removed anyway"
+      },
+      {
+       "ru": "Ошибку",
+       "tg": "Хато",
+       "en": "An error"
+      },
+      {
+       "ru": "False — цикл дойдёт до конца и вернёт False",
+       "tg": "False — сикл то охир меравад ва False бармегардонад",
+       "en": "False — the loop runs to the end and returns False"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -5103,6 +6503,12 @@
       "tg": "Элементро бо калонтарин нарх: lambda мегӯяд «аз рӯи майдони дуюм муқоиса кун».",
       "en": "The element with the largest price: the lambda says \"compare by the second field\"."
      },
+     "hint": {
+      "ru": "Внутри lambda указано item[1] — сравнение идёт по второму полю кортежа.",
+      "tg": "Дар lambda item[1] навишта шудааст — муқоиса аз рӯи майдони дуюми кортеж мегузарад.",
+      "en": "The lambda says item[1] — the comparison goes by the second field of the tuple."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "Элемент с наибольшей ценой",
@@ -5134,6 +6540,12 @@
       "tg": "Луғати-ҷамъкунак: by_category[category] = by_category.get(category, 0) + price.",
       "en": "The accumulator dictionary: by_category[category] = by_category.get(category, 0) + price."
      },
+     "hint": {
+      "ru": "Ищите схему, которая прибавляет цену к уже накопленной сумме категории.",
+      "tg": "Он схемаро ҷӯед, ки нархро ба ҷамъи аллакай анборшудаи категория меафзояд.",
+      "en": "Look for the pattern that adds the price to the already accumulated category total."
+     },
+     "relatedSection": 1,
      "options": [
       {
        "ru": "by_category[category] = by_category.get(category, 0) + price",
@@ -5165,6 +6577,12 @@
       "tg": "Ҷамъ сифр ва хариди қиматтарин нест",
       "en": "Zero total and no most expensive purchase"
      },
+     "hint": {
+      "ru": "У пустого списка нет элемента, который можно сравнить по цене.",
+      "tg": "Дар рӯйхати холӣ хариде нест, ки нархашро муқоиса кунем.",
+      "en": "There is no element whose price you can compare in an empty list."
+     },
+     "relatedSection": 3,
      "options": [
       {
        "ru": "Итог 0 и первую покупку из списка",
@@ -5182,13 +6600,7 @@
        "en": "Zero total and no most expensive purchase"
       }
      ],
-     "correctIndex": 2,
-     "hint": {
-      "ru": "У пустого списка нет элемента, который можно сравнить по цене.",
-      "tg": "Дар рӯйхати холӣ хариде нест, ки нархашро муқоиса кунем.",
-      "en": "There is no element whose price you can compare in an empty list."
-     },
-     "relatedSection": 3
+     "correctIndex": 2
     }
    ],
    "practice": {

@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Task = { id: string; title: string; minutes: number };\n\nconst tasks: Task[] = [\n  { id: 'a1', title: 'Экран и структуры', minutes: 20 },\n  { id: 'a2', title: 'Списки и ключи', minutes: 30 },\n];\n\nexport function TaskRow({ task }: { task: Task }) {\n  return (\n    <View accessible style={styles.row}>\n      <Text style={styles.title}>{task.title}</Text>\n      <Text style={styles.minutes}>\n        {task.minutes} минут. Двойное нажатие откроет подробности.\n      </Text>\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Занятия на сегодня</Text>\n      {tasks.map(task => <TaskRow key={task.id} task={task} />)}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  row: { padding: 12, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8 },\n  title: { fontSize: 16, fontWeight: '600' },\n  minutes: { fontSize: 14, color: '#475569' },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Одна строка — одна фраза",
+        "tg": "Як сатр — як ибора",
+        "en": "One row — one phrase"
+      },
+      "body": {
+        "ru": "accessible собирает строку в один фокус, но по умолчанию диктор читает тексты детей подряд; accessibilityLabel превращает объявление в одну осмысленную фразу: «Занятие 3, 20 минут». Подпись собирают из данных, а не пишут «нажмите»: имя записи важнее слова «кнопка», потому что роль и так называет тип элемента. hint добавляют, когда результат действия не ясен из подписи; на Android hint нельзя отключить, поэтому лишние подсказки мешают. Связь с днём пятнадцатым: роль задаётся на Pressable, а здесь подписи собираются в строки списка.",
+        "tg": "accessible сатрро ба як фокус ҷамъ меорад, аммо бо нобаёнӣ хонанда матни кӯдаконро пайи ҳам мехонад; accessibilityLabel эълонро ба як ибораи маънодор табдил медиҳад: «Машғулияти 3, 20 дақиқа». Имаро аз додаҳо месозанд, на «пахш кунед» менависанд: номи қайд аз калимаи «тугма» муҳимтар аст, чунки нақш худ навъи элементро меномад. hint-ро ҳангоме илова мекунанд, ки натиҷаи амал аз имзо возеҳ набошад; дар Android hint-ро хомӯш кардан мумкин нест, бинобар ин маслиҳатҳои изофа халал медиҳанд. Пайванд бо рӯзи понздаҳум: нақш дар Pressable гузошта мешавад, ва дар ин ҷо имзоҳо ба сатрҳои рӯйхат ҷамъ меоянд.",
+        "en": "accessible gathers the row into one focus, but by default the reader recites the children's texts in a row; accessibilityLabel turns the announcement into one meaningful phrase: «Lesson 3, 20 minutes». Build the label from data rather than writing «press»: the record's name matters more than the word «button», because the role already names the element type. Add a hint when the action's result is unclear from the label; on Android a hint cannot be turned off, so extra hints get in the way. Connection to day fifteen: the role is set on Pressable, and here labels are assembled into list rows."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с диктором",
+        "tg": "Хатоҳои маъмулӣ бо хонандаи экран",
+        "en": "Common mistakes with the screen reader"
+      },
+      "body": {
+        "ru": "Первая ошибка — строка из двух Text без accessible: диктор читает их как два разных элемента, и пользователь не понимает, что это одна запись. Вторая — подпись без данных: «кнопка нажимается» не говорит, какая запись откроется; label собирают из полей записи. Третья — accessible={false} случайно унаследован от примера: элемент становится невидимым для диктора и пропадает из навигации. Четвёртая — hint дублирует label: «Занятие 3. Открывает занятие 3» читается дважды; hint описывает последствие, которого в label нет.",
+        "tg": "Хатои аввал — сатри аз ду Text бе accessible: хонанда онҳоро ҳамчун ду элементи алоҳида мехонад ва корбар нафаҳмад, ки ин як қайд аст. Хатои дуюм — имзо бе додаҳо: «тугма пахш мешавад» намегӯяд, ки кадом қайд кушода мешавад; label-ро аз майдонҳои қайд месозанд. Хатои сеюм — accessible={false} тасодуфан аз мисол боқӣ монд: элемент барои хонанда ноаён мешавад ва аз навигатсия гум мешавад. Хатои чорум — hint такрори label: «Машғулияти 3. Машғулияти 3-ро мекушояд» ду бор хонда мешавад; hint оқибатеро тавсиф мекунад, ки дар label нест.",
+        "en": "The first mistake is a row of two Text without accessible: the reader announces them as two separate elements, and the user cannot tell it is one record. The second is a label without data: «the button is pressed» says nothing about which record opens; build the label from the record's fields. The third is accessible={false} accidentally left from the example: the element becomes invisible to the reader and disappears from navigation. The fourth is a hint duplicating the label: «Lesson 3. Opens lesson 3» is read twice; a hint describes a consequence the label lacks."
+      }
     }
   ],
   "questions": [

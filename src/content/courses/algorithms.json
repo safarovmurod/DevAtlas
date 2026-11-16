@@ -49,12 +49,12 @@
       "ru": "Что такое алгоритм и результат",
       "tg": "Алгоритм ва натиҷа чист?",
       "en": "Algorithms and outputs"
-    },
+     },
      "body": {
       "ru": "Алгоритм объясняет, что делать с входными данными до нужного результата. Его можно описать словами или кодом. Если шаг «выберите лучший товар» не уточняет критерий, два исполнителя могут получить разные результаты.\n\nСлово «алгоритм» звучит наукообразно, но суть его проста: алгоритм — это точная последовательность шагов, которая превращает вход в нужный результат. Рецепт плова — алгоритм: вход — продукты, шаги — порядок действий, выход — готовое блюдо. Маршрут от дома до работы — тоже алгоритм, и если поменять шаги местами, можно оказаться совсем не там. Банкомат, таксометр, школьное расписание — везде порядок действий описан заранее.\nУ всякого алгоритма есть общие свойства. Есть вход: данные, с которыми он работает. Есть выход: результат, который он выдаёт. Есть конечность: шаги когда-нибудь заканчиваются, а не идут вечно. Есть определённость: каждый шаг понятен однозначно, без «примерно так». Программа — это алгоритм, записанный на языке программирования так, что его может выполнить машина. JavaScript — один из таких языков: он есть в каждом браузере, поэтому свой первый алгоритм вы запустите уже сегодня, ничего не устанавливая.",
       "tg": "Алгоритм қадамҳои расидан аз маълумоти аввал ба натиҷаро мегӯяд. Метавонӣ онро бо сухан ё код нависӣ. Агар «моли беҳтаринро гир» меъёр надошта бошад, ду кас ду натиҷа мегиранд.\n\nКалимаи «алгоритм» илмӣ менамояд, вале мазмунаш сода аст: алгоритм — замираи дақиқи қадамҳост, ки маълумоти вурудиро ба натиҷаи дилхоҳ табдил медиҳад. Тартиби омехтаи палав алгоритм аст: вурудӣ маҳсулот, қадамҳо тартиби амалҳо, натиҷа таоми омода. Роҳ аз хона то коргоҳ низ алгоритм аст: агар қадамҳоро ҷойиваз кунӣ, дигар ҷое мерасӣ. Банкомат, чарқи такси, ҷадвали дарс — дар ҳама ҷо тартиби амалҳо пешакӣ муайян шудааст.\nБа ҳар алгоритм хосиятҳои умумӣ хосанд. Вурудӣ мавҷуд аст: маълумотҳое, ки бо онҳо кор мекунад. Натиҷа ҳаст: он чизе, ки мебарорад. Қадамҳо тамом мешаванд ва абад давом намекунанд. Ҳар қадам якмаънӣ фаҳмида мешавад, бе «тахмиран». Барнома алгоритм аст, ки ба забони барномасозӣ навишта шудааст, то онро мошин иҷро кунад. JavaScript яке аз чунин забонҳост: дар ҳар браузер ҳаст, барои ҳамин алгоритми аввалини худро имрӯз, бе ягон насбкунӣ, иҷро мекунед.",
       "en": "An algorithm specifies how to turn input into a result. It can be written in words or code. Without a criterion for “pick the best product,” different people could get different results.\n\nThe word “algorithm” sounds scientific, but the idea is simple: an algorithm is an exact sequence of steps that turns an input into a desired result. A recipe for pilaf is an algorithm: the input is ingredients, the steps are the order of actions, the output is a finished dish. A route from home to work is also an algorithm, and if you swap the steps you may end up somewhere else entirely. A cash machine, a taxi meter, a school timetable — in each of them the order of actions is described in advance.\nEvery algorithm shares common properties. It has an input: the data it works with. It has an output: the result it produces. It is finite: the steps eventually end instead of running forever. It is unambiguous: every step is understood one way, with no “roughly like that”. A program is an algorithm written in a programming language so a machine can execute it. JavaScript is one of those languages: it lives in every browser, so you will run your first algorithm today without installing anything."
-    }
+     }
     },
     {
      "title": {
@@ -77,6 +77,18 @@
     },
     {
      "title": {
+      "ru": "Границы алгоритма: пустой вход и цена шагов",
+      "tg": "Марзи алгоритм: вуруди холӣ ва арзиши қадамҳо",
+      "en": "The algorithm boundary: empty input and the cost of steps"
+     },
+     "body": {
+      "ru": "У поиска максимума есть слабое место, которое в реальном проекте проверяют сразу: пустой массив. Если readings пуст, readings[0] вернёт undefined, цикл не выполнится ни разу, и программа напечатает «max: undefined». Формально алгоритм корректен — вход, шаги, конец, — но «ничего» устраивает не всякого вызова: пустой каталог магазина требует заглушки, а не undefined. Поэтому настоящий алгоритм пишут вместе с договорённостью о границах входа.\nВторой урок — цена: на тысяче показаний цикл делает почти тысячу сравнений, и это знакомство с линейной работой, которую на двенадцатом дне научимся мерить. Завтра запишем тот же поиск псевдокодом — и увидим: план короче кода, и ошибки в нём видны раньше.",
+      "tg": "Дар ҷустуҷӯи максимум нуқтаи заифе ҳаст, ки дар лоиҳаи воқеӣ фавран месанҷанд: массиви холӣ. Агар readings холӣ бошад, readings[0] арзиши undefined медиҳад, давр як бор ҳам иҷро намешавад ва барнома «max: undefined» чоп мекунад. Аз рӯи шарт алгоритм дуруст аст — вурудӣ, қадамҳо, охир — вале ҷавоби «ҳеҷ чиз» ба ҳар даъват мувофиқ нест: каталоги холии дукон огоҳинома талаб мекунад, на undefined. Барои ҳамин алгоритми воқеиро якҷо бо шартномаи марзҳои вуруд менависанд.\nДомузи дигар — арзиш: дар як ҳазор нишондиҳанда давр қариб як ҳазор муқоиса мекунад, ва ин аввалин вохӯрӣ бо кори хаттӣ аст, ки онро рӯзи двоздаҳум чен мекунем. Фардо ҳамин ҷустуҷӯро ба псевдокод менависем — ва мебинем: нақша аз код кӯтоҳтар аст ва хатоҳо дар он пештар пайдо мешаванд.",
+      "en": "The maximum finder has a weak spot that a real project checks immediately: the empty array. If readings is empty, readings[0] returns undefined, the loop never runs, and the program prints \"max: undefined\". Formally the algorithm is correct — input, steps, end — but \"nothing\" does not suit every caller: an empty shop catalogue needs a placeholder, not undefined. That is why a real algorithm is written together with an agreement about the edges of its input.\nThe second lesson is the cost: on a thousand readings the loop makes almost a thousand comparisons, a first meeting with linear work that we learn to measure on day twelve. Tomorrow we write the same search as pseudocode — and see that the plan is shorter than the code and mistakes show earlier in it."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и как думать над задачей",
       "tg": "Хатоҳои маъмул ва чӣ тавр ба вазифа фикр кардан",
       "en": "Common mistakes and how to think about a task"
@@ -89,20 +101,20 @@
     }
    ],
    "interview": {
-     "id": "algorithms-day-01-written",
-     "question": {
-       "ru": "Как называется последовательность точных шагов от входных данных к результату?",
-       "tg": "Тартиби қадамҳои аниқ аз маълумот то натиҷа чӣ ном дорад?",
-       "en": "What is a precise sequence of steps from input to a result called?"
-     },
-     "answer": {
-       "ru": "Алгоритм",
-       "tg": "Алгоритм",
-       "en": "Algorithm"
-     },
-     "acceptedAnswers": [
-       "an algorithm"
-     ]
+    "id": "algorithms-day-01-written",
+    "question": {
+     "ru": "Как называется последовательность точных шагов от входных данных к результату?",
+     "tg": "Тартиби қадамҳои аниқ аз маълумот то натиҷа чӣ ном дорад?",
+     "en": "What is a precise sequence of steps from input to a result called?"
+    },
+    "answer": {
+     "ru": "Алгоритм",
+     "tg": "Алгоритм",
+     "en": "Algorithm"
+    },
+    "acceptedAnswers": [
+     "an algorithm"
+    ]
    },
    "questions": [
     {
@@ -139,7 +151,13 @@
        "en": "A device for storing files"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Перечитайте первый раздел: у алгоритма есть вход, шаги и конец. Какой вариант называет именно такое устройство?",
+      "tg": "Бахши якумро дубора хонед: алгоритм вурудӣ дорад, қадамҳо дорад ва охир дорад. Кадом вариант барҳақ чунин сохторро меномад?",
+      "en": "Re-read the first section: an algorithm has an input, steps and an end. Which option names exactly that structure?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-01-q2",
@@ -175,7 +193,13 @@
        "en": "Having an input and an output"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В первом разделе перечислены свойства алгоритма: вход, выход, конечность и определённость. Сверьте с ними каждый вариант — чего в списке не было?",
+      "tg": "Дар бахши якум хусусиятҳои алгоритм номбар шудаанд: вурудӣ, натиҷа, тамомшавӣ ва аниқӣ. Ҳар вариантро бо онҳо муқоиса кунед — кадоме дар рӯйхат набуд?",
+      "en": "The first section lists the properties of an algorithm: input, output, finiteness and definiteness. Check each option against them — which one was not in the list?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-01-q3",
@@ -211,7 +235,13 @@
        "en": "Zero is not a number but a string"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел о частых ошибках разбирает именно этот случай: что станет с максимумом на отрицательных числах, если начать с нуля?",
+      "tg": "Бахши хатоҳои маъмул маҳз ҳамин ҳолатро таҳлил мекунад: агар максимум аз сифр оғоз шавад, дар ададҳои манфӣ чӣ мешавад?",
+      "en": "The section on common mistakes analyses exactly this case: what happens to the maximum on negative numbers if you start from zero?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -272,12 +302,12 @@
       "ru": "Что такое псевдокод",
       "tg": "Псевдокод чист?",
       "en": "What is pseudocode?"
-    },
+     },
      "body": {
       "ru": "Псевдокод — короткая запись логики без синтаксиса конкретного языка. Например, «если денег хватает, выдать чек, иначе сообщить об ошибке». Его читают и проверяют вручную до написания программы.\n\nНачинающие часто открывают редактор и пишут код одновременно с придумыванием алгоритма. Это две разные работы: придумать, что делать, и записать, как именно это сказать на языке программирования. Когда мозг делает обе сразу, логические ошибки прячутся за синтаксическими. Псевдокод решает проблему: это описание алгоритма пронумерованными шагами на обычном языке, без правил синтаксиса. Шаги пишутся короткими фразами: «счётчик = 0», «для каждой цены…», «если цена >= 50, увеличить счётчик».\nХороший шаг псевдокода обладает двумя качествами. Он конкретен: из него ясно, что именно делать, без «обработать данные». Он выполним: один шаг — одно простое действие, которое легко превратить в одну-две строки кода. План можно проверить до программирования: возьмите маленький пример и «проиграйте» шаги руками, как будто вы — исполнитель. Если на бумаге план работает, и в коде он почти наверняка сработает; если нет — вы нашли ошибку за минуту, а не за час отладки.",
       "tg": "Псевдокод навишти кӯтоҳи мантиқ бе синтаксиси забони муайян аст. Масалан «пул кофӣ бошад чек деҳ, набошад хато гӯй». Пеш аз код онро дастӣ месанҷанд.\n\nНавомӯзон аксар вақт муҳаррирро мекушоянд ва кодро ҳамзамон бо ихтирои алгоритм менависанд. Ин ду кори гуногун аст: чиро кардан ихтироъ кардан ва онро чӣ тавр ба забони барномасозӣ гуфтан. Вақте мағз ҳар дуро якбора иҷро мекунад, хатоҳои мантиқӣ паси хатоҳои синтаксисӣ пинҳон мешаванд. Псевдокод ин мушкилро ҳал мекунад: ин таърифи алгоритм бо қадамҳои рақамдоршуда бо забони оддӣ, бе қоидаҳои синтаксис аст. қадамҳо бо иборҳои кӯтоҳ навишта мешаванд: «ҳисобкунак = 0», «барои ҳар як нарх…», «агар нарх >= 50 бошад, ҳисобкунакро зиёд кун».\nҚадами хуби псевдокод ду сифат дорад. Он мушаххас аст: аз он маълум мешавад, ки айнан чӣ кор кардан, бе «маълумотҳоро коркард кун». Он иҷрошаванда аст: як қадам — як амали сода, ки ба як-ду сатри код осон табдил меёбад. Нақшаро пеш аз барномасозӣ санҷидан мумкин аст: мисоли хурдро гиред ва қадамҳоро дастӣ «бозӣ кунед», гӯё шумо иҷрокунанда бошед. Агар нақша дар коғаз кор кунад, дар код низ қариб ҳатман кор мекунад; агар накунад — хаторо дар як дақиқа ёфтед, на дар як соати ислоҳ.",
       "en": "Pseudocode describes logic without a specific language's syntax. For example, “if there is enough money, issue a receipt; otherwise report the problem.” Walk through it before writing the program.\n\nBeginners often open the editor and write code while inventing the algorithm at the same time. Those are two different jobs: inventing what to do, and writing down how to say it in a programming language. When the brain does both at once, logic errors hide behind syntax errors. Pseudocode fixes this: it is a description of the algorithm as numbered steps in ordinary language, with no syntax rules. Steps are written as short phrases: “counter = 0”, “for each price…”, “if price >= 50, increase the counter”.\nA good pseudocode step has two qualities. It is concrete: it is clear what exactly to do, with no “process the data”. It is executable: one step is one simple action that easily becomes one or two lines of code. The plan can be checked before programming: take a small example and “play” the steps by hand as if you were the executor. If the plan works on paper, it will almost certainly work in code; if not, you found the bug in a minute instead of an hour of debugging."
-    }
+     }
     },
     {
      "title": {
@@ -300,6 +330,18 @@
     },
     {
      "title": {
+      "ru": "Псевдокод в реальной работе: границы заказа и ревью плана",
+      "tg": "Псевдокод дар кори воқеӣ: марзҳои фармоиш ва баррасии нақша",
+      "en": "Pseudocode in real work: order boundaries and plan review"
+     },
+     "body": {
+      "ru": "В реальной работе псевдокод живёт не только в комментариях программы: его пишут в задачах и обсуждениях, и коллеги проверяют план до того, как кто-то сядет за код. Смотрите на границы уже в плане: «цена >= 50» — пятьдесят входит в крупные заказы или нет? Договоритесь об этом на бумаге, и спор о границе не дойдёт до готовой программы.\nПлан урока хранит и ловушку: шаг «поделить на количество» молчит о пустом списке — деление нуля на ноль даст NaN, и средняя цена станет нечислом. Настоящий план решает это заранее: вывести ноль, сообщить «нет заказов» или запретить пустой вызов. Завтра шаги плана станут ветвлениями, а на тринадцатом дне весь путь соберётся в шесть шагов, где план — четвёртый.",
+      "tg": "Дар кори воқеӣ псевдокод танҳо дар шарҳҳои барнома зиндагӣ намекунад: онро дар вазифаҳо ва баҳсҳо менависанд, ва ҳамкорон нақшаро пеш аз он ки касе дар пеши код нишинад, месанҷанд. Ба марзҳо дар ҳамин нақша нигоҳ кунед: «нарх >= 50» — оё панҷоҳ ба фармоишҳои калон дохил мешавад ё не? Инро дар коғаз ҳал кунед, ва баҳси марз то барномаи омодаро намерасад.\nНақшаи дарс хатари пинҳонӣ низ дорад: қадами «тақсим бар шумора» дар бораи рӯйхати холӣ хомӯш аст — тақсими сифр бар сифр NaN медиҳад, ва миёнаи нарх ададномешавад мегардад. Нақшаи воқеӣ инро пешакӣ ҳал мекунад: сифр чоп кардан, «фармоиш нест» гуфтан ё чунин даъватро манъ кардан. Фардо қадамҳои нақша шохаҳо мешаванд, ва дар рӯзи сенздаҳум тамоми роҳ дар шаш қадам ҷамъ мешавад, ки нақша чорумин аст.",
+      "en": "In real work pseudocode lives not only in program comments: it is written into tickets and discussions, and colleagues check the plan before anyone sits down to code. Watch the boundaries already in the plan: \"price >= 50\" — does fifty count as a large order or not? Settle that on paper, and the boundary dispute never reaches the finished program.\nThe lesson plan keeps a trap too: the step \"divide by the count\" is silent about an empty list — zero divided by zero gives NaN, and the average price becomes a non-number. A real plan decides this in advance: print zero, report \"no orders\", or forbid the empty call. Tomorrow the plan steps become branches, and on day thirteen the whole path gathers into six steps, where the plan is the fourth."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки планирования и как их избежать",
       "tg": "Хатоҳои банақшагирӣ ва чӣ тавр аз онҳо худдорӣ кардан",
       "en": "Planning mistakes and how to avoid them"
@@ -312,21 +354,21 @@
     }
    ],
    "interview": {
-     "id": "algorithms-day-02-written",
-     "question": {
-       "ru": "Как называется запись шагов алгоритма без синтаксиса конкретного языка?",
-       "tg": "Навишти қадамҳои алгоритм бе синтаксиси забони муайян чӣ ном дорад?",
-       "en": "What is a plain description of an algorithm without a particular language's syntax?"
-     },
-     "answer": {
-       "ru": "Псевдокод",
-       "tg": "Псевдокод",
-       "en": "Pseudocode"
-     },
-     "acceptedAnswers": [
-       "pseudo-code",
-       "pseudo code"
-     ]
+    "id": "algorithms-day-02-written",
+    "question": {
+     "ru": "Как называется запись шагов алгоритма без синтаксиса конкретного языка?",
+     "tg": "Навишти қадамҳои алгоритм бе синтаксиси забони муайян чӣ ном дорад?",
+     "en": "What is a plain description of an algorithm without a particular language's syntax?"
+    },
+    "answer": {
+     "ru": "Псевдокод",
+     "tg": "Псевдокод",
+     "en": "Pseudocode"
+    },
+    "acceptedAnswers": [
+     "pseudo-code",
+     "pseudo code"
+    ]
    },
    "questions": [
     {
@@ -363,7 +405,13 @@
        "en": "Code compressed into a single line"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните варианты с определением из первого раздела: что в псевдокоде есть всегда, а чего не бывает — кода-ловушки, скрытого текста, однострочника?",
+      "tg": "Вариантҳоро бо таърифи бахши якум муқоиса кунед: дар псевдокод ҳамеша чӣ ҳаст ва чӣ намебошад — коди хатогӣ, матни пинҳонӣ, яксатр?",
+      "en": "Compare the options with the first section's definition: what does pseudocode always have, and what does it never have — trap code, hidden text, a one-liner?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-02-q2",
@@ -399,7 +447,13 @@
        "en": "Make everything nice"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел про качества шага называет два требования: конкретность и выполнимость. Проверьте каждый вариант: можно ли его выполнить руками и ясно ли, что делать?",
+      "tg": "Бахши сифатҳои қадам ду талабро меномад: аниқӣ ва иҷропазирӣ. Ҳар вариантро санҷед: оё онро дастӣ иҷро кардан мумкин ва оё маълум аст, чӣ кардан лозим?",
+      "en": "The section on step quality names two requirements: concreteness and executability. Test every option: can you carry it out by hand, and is it clear what to do?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-02-q3",
@@ -435,7 +489,13 @@
        "en": "So that no code is written at all"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В списке ошибок планирования последняя — про проверку плана. Что дешевле: исправить бумажный шаг или отладить готовую программу?",
+      "tg": "Дар рӯйхати хатоҳои барномасозӣ охиринӣ дар бораи санҷиши нақша аст. Чӣ арзонтар: ислоҳи қадами коғазӣ ё ислоҳи барномаи омода?",
+      "en": "The last mistake in the planning list is about checking the plan. What is cheaper: fixing a paper step or debugging the finished program?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -496,12 +556,12 @@
       "ru": "Как ветвление выбирает действие",
       "tg": "Шарт чӣ хел амалро интихоб мекунад?",
       "en": "Choosing a branch"
-    },
+     },
      "body": {
       "ru": "Сравнение даёт ответ «да» или «нет». Ветвление использует его, чтобы выбрать шаг: при достаточном остатке продать товар, иначе сообщить об отсутствии. Проверьте и значение ровно на границе условия.\n\nПеременная — это коробка с ярлыком: let total = 250 кладёт число 250 в коробку с именем total. Позже содержимое можно заменить: total = total - 20. Так алгоритм запоминает состояние между шагами. Сравнение — операция, которая из двух значений делает одно из двух: true или false. Пять знаков — >, <, >=, <=, === — покрывают почти все вопросы: «больше?», «равно?». Результат сравнения тоже можно положить в переменную: const isBig = total >= 200.\nВетвление if соединяет обе идеи: если условие истинно, выполнить блок кода, иначе — пропустить или пойти в else. Несколько if подряд превращают функцию в дерево решений, где каждый вызов идёт по одной ветке. Отдельно стоят логические операторы: && («и») истинно, когда истинны обе части; || («или») — когда хотя бы одна; ! меняет true на false. С ними одно условие может проверять сразу два факта, например «участник клуба и сумма не меньше ста» — так и рождаются правила, похожие на настоящие магазинные.",
       "tg": "Муқоиса «ҳа» ё «не» медиҳад. Шарт аз рӯйи он қадамро интихоб мекунад: захира кофӣ бошад молро фурӯш, набошад хабар деҳ. Қимати дар худи сарҳадбударо ҳам санҷ.\n\nТағйирёбанда қуттӣ бо нишона аст: let total = 250 адади 250-ро ба қуттии номи total мегузорад. Баъдтар мазмунро иваз кардан мумкин аст: total = total - 20. Ҳамин тавр алгоритм ҳолатро байни қадамҳо дар ёд дорад. Муқоиса амалест, ки аз ду қиммат яке аз дуто месозад: true ё false. Панҷ аломат — >, <, >=, <=, === — қариб ҳамаи пурсишҳоро дар бар мегирад: «калонтар аст?», «баробар аст?». Натиҷаи муқоисаро низ ба тағйирёбанда гузоштан мумкин аст: const isBig = total >= 200.\nШохаи if ҳар ду фикрро мепайвандад: агар шарти рост бошад, блоки кодро иҷро кун, вагарна — гузарон ё ба равед. Чанд if пай дар пай функсияро ба дарахти қарорҳо табдил медиҳанд, ки ҳар даъват аз як шоха меравад. Операторҳои мантиқӣ алоҳида истодаанд: && («ва») ҳамоне рост аст, ки ҳар ду қисм рост бошанд; || («ё»), ки ҳадди ақал як бошад; ! true-ро ба false иваз мекунад. Бо онҳо як шарт фавран ду ҳақиқатро месанҷад, масалан «аъзои клуб ва маблағ на камтар аз сад» — ҳамин тавр қоидаҳои монанди қоидаҳои воқеии мағоза таваллуд мешаванд.",
       "en": "A comparison gives a yes-or-no result. A branch selects a step, such as selling an in-stock item or showing that it is unavailable. Test the value exactly at the boundary too.\n\nA variable is a box with a label: let total = 250 puts the number 250 into a box named total. Later the contents can be replaced: total = total - 20. This is how an algorithm remembers state between steps. A comparison is an operation that turns two values into one of two outcomes: true or false. Five signs — >, <, >=, <=, === — cover almost every question: “greater?”, “equal?”. A comparison result can also be stored: const isBig = total >= 200.\nThe if branch joins both ideas: when the condition is true, run the code block; otherwise skip it or take the else path. Several ifs in a row turn a function into a decision tree where every call walks a single branch. Logical operators stand apart: && (“and”) is true when both parts are true; || (“or”) when at least one is; ! flips true to false. With them a single condition can check two facts at once, for example “club member and the total is at least one hundred” — and that is how rules resembling real shop rules are born."
-    }
+     }
     },
     {
      "title": {
@@ -524,6 +584,18 @@
     },
     {
      "title": {
+      "ru": "Нечисло и стражи: границы в реальном проекте",
+      "tg": "Ададномешавад ва посбонҳо: марзҳо дар лоиҳаи воқеӣ",
+      "en": "The non-number and guards: boundaries in a real project"
+     },
+     "body": {
+      "ru": "У ветвлений из урока в реальном проекте появляется невидимый гость: нечисло. Сумма из поля ввода может оказаться строкой или NaN. Все сравнения с NaN ложны, поэтому такой заказ молча проскочит страж, не станет VIP или бесплатным и упадёт в последнюю ветку «paid» — программа не упадёт, а посчитает бред. Поэтому настоящие стражи пишут в два слоя: сначала «данные — честное число?», и только потом бизнес-правила.\nВторое правило больших проектов: ветку «всё остальное» делают намеренной. Последний else — не «забыли условия», а явное решение, и его стоит прокомментировать. Завтра ветвления заработают внутри циклов, и стражи превратятся в фильтр, пропускающий в обработку только честные значения.",
+      "tg": "Ба шохабандиҳои бахши дуюм дар лоиҳаи воқеӣ меҳмони ноаён меояд: ададномешавад. Маблағи аз майдони вуруд метавонад сатр бошад ё пас аз ҳисоби ноком NaN гардад. Ҳамаи муқоисаҳо бо NaN барҳатанд, барои ҳамин чунин фармоиш хомӯшона аз посбони «total < 0» мегузарад, на VIP мегардад, на ройгон, ва ба шохаи охирини «paid» меафтад — барнома намеафтад, вале чизи бемаъниро ҳисоб мекунад. Барои ҳамин посбонҳои воқеиро дар ду қабат менависанд: аввал «оё ин адади рост аст?», ва баъд қоидаҳои корӣ.\nҚоидаи дуюми лоиҳаҳои калон: шохаи «ҳамаи боқимонда»-ро иродаӣ мекунанд. охирин else — ин «шартҳоро фаромӯш кардем» нест, қарори ошкорост, ва онро шарҳ медиҳанд. Фардо шохабандиҳо дар дохили даврҳо кор мекунанд, ва посбонҳо ба полоӣ табдил меёбанд, ки танҳо арзишҳои ростро ба коркард мегузаронад.",
+      "en": "Real projects add an invisible guest to the branches of the second section: the non-number. A total from a text field can be a string, or become NaN after a failed calculation. Every comparison with NaN is false, so such an order silently slips past the \"total < 0\" guard, becomes neither VIP nor free, and lands in the final \"paid\" branch — the program does not crash, it simply computes nonsense. That is why real guards are written in two layers: first \"is this an honest number?\", and only then the business rules.\nA second rule of large projects: make the \"everything else\" branch deliberate. The final else is not \"we forgot the conditions\" but an explicit decision, and it deserves a comment. Tomorrow branches start working inside loops, and the guards turn into a filter that lets only honest values through to processing."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки в условиях",
       "tg": "Хатоҳо дар шартҳо",
       "en": "Mistakes in conditions"
@@ -536,22 +608,22 @@
     }
    ],
    "interview": {
-     "id": "algorithms-day-03-written",
-     "question": {
-       "ru": "Как называется выбор одной из веток алгоритма по условию?",
-       "tg": "Интихоби як қадами алгоритм аз рӯйи шарт чӣ ном дорад?",
-       "en": "What is choosing an algorithm path based on a condition called?"
-     },
-     "answer": {
-       "ru": "Ветвление",
-       "tg": "Шохабандӣ",
-       "en": "Branching"
-     },
-     "acceptedAnswers": [
-       "условное ветвление",
-       "conditional branching",
-       "интихоб аз рӯйи шарт"
-     ]
+    "id": "algorithms-day-03-written",
+    "question": {
+     "ru": "Как называется выбор одной из веток алгоритма по условию?",
+     "tg": "Интихоби як қадами алгоритм аз рӯйи шарт чӣ ном дорад?",
+     "en": "What is choosing an algorithm path based on a condition called?"
+    },
+    "answer": {
+     "ru": "Ветвление",
+     "tg": "Шохабандӣ",
+     "en": "Branching"
+    },
+    "acceptedAnswers": [
+     "условное ветвление",
+     "conditional branching",
+     "интихоб аз рӯйи шарт"
+    ]
    },
    "questions": [
     {
@@ -588,7 +660,13 @@
        "en": "= is faster, so loops use it"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первая ошибка в разделе про условия ровно об этом: сколько знаков равенства в настоящем сравнении и что делает одиночный знак вместо сравнения?",
+      "tg": "Хатои якум дар бахши шартҳо маҳз дар ин борааст: дар муқоисаи ҳақиқӣ чанд аломати баробар ҳаст ва аломати ягона ба ҷои муқоиса чӣ мекунад?",
+      "en": "The first mistake in the conditions section is exactly about this: how many equals signs does a real comparison use, and what does a single sign do instead of comparing?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "algorithms-day-03-q2",
@@ -624,7 +702,13 @@
        "en": "The first branch always runs faster"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Разбор функции называет такие проверки стражами и объясняет их место в начале. Подумайте, что делает дальнейший код, если отрицательные суммы отсечены сразу.",
+      "tg": "Таҳлили функсия чунин санҷишҳоро посбон меномад ва ҷояшонро дар оғоз мефаҳмонад. Андеша кунед, ки коди минбаъд чӣ мекунад, агар суммаҳои манфӣ фавран бурида шаванд.",
+      "en": "The function walkthrough calls such checks guards and explains why they stand first. Think about what the rest of the code does once negative totals are cut off immediately."
+     },
+     "relatedSection": 1
     },
     {
      "id": "algorithms-day-03-q3",
@@ -660,7 +744,13 @@
        "en": "When both parts are true: a member and a total of at least 100"
       }
      ],
-     "correctIndex": 3
+     "correctIndex": 3,
+     "hint": {
+      "ru": "Оператор && означает «и»: сколько истинных частей нужно для истины? Проверьте оба условия вопроса одновременно.",
+      "tg": "Оператор && маънои «ва» дорад: барои ростӣ чанд қисми рост лозим? Ҳар ду шарти суолро яквақт месанҷед.",
+      "en": "The operator && means \"and\": how many true parts does truth need? Check both conditions of the question at the same time."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -749,6 +839,18 @@
     },
     {
      "title": {
+      "ru": "Пустой список и среднее: границы цикла в реальном проекте",
+      "tg": "Рӯйхати холӣ ва миёна: марзи давр дар лоиҳаи воқеӣ",
+      "en": "The empty list and the average: a loop boundary in a real project"
+     },
+     "body": {
+      "ru": "У цикла из урока есть граница, которую в реальном проекте проверяют первой: пустой список продаж. Накопитель останется нулём, но среднее — ноль на ноль — даст NaN, и toFixed напечатает «NaN» в отчёте за день без выручки. Код не сломается: сломается отчёт, который уйдёт заказчику. О пустом входе думают до запуска: показать прочерк, вывести «нет данных» или запретить пустой отчёт — решение принимают до цикла, не после жалобы.\nТело цикла — самый дорогой участок программы: по разу на каждый элемент. Одна лишняя строка на тысяче элементов — тысяча лишних операций, и завтрашние поиски заплатят ту же цену. Ранний выход при найденном ответе — приём, который на шестом дне вернёт половину проверок.",
+      "tg": "Дар даври бахши дуюм марзе ҳаст, ки дар лоиҳаи воқеӣ аввал месанҷанд: рӯйхати холии фурӯш. Ҷамъкунанда ростона сифр мемонад, вале миёна — сифр бар тақсими сифр — NaN медиҳад, ва toFixed дар ҳисоботи рӯзи бефоида «NaN» чоп мекунад. Код намешиканад: ҳисобот мешиканад, ки ба муштарӣ меравад. Дар бораи вуруди холӣ пеш аз иҷро андеша мекунанд: хати тирӣ нишон додан, «маълумот нест» навиштан ё ҳисоботи холиро манъ кардан — қарор пеш аз давр қабул мешавад, на баъди шикоят.\nБадани давр қисми гаронтарини барнома аст: ҳар элементро як бор иҷро мекунад. Як сатри иловагӣ дар ҳазор элемент ҳазор амали иловагӣ мекунад, ва ҷустуҷӯҳои фардо ҳамин арзишро мепардозанд. Баромади зуд ҳангоми ёфтани ҷавоб — ҳамон воситаест, ки рӯзи шашум нисфи санҷишҳоро ба мо бармегардонад.",
+      "en": "The loop from the second section has an edge that a real project checks first: an empty sales list. The accumulator honestly stays zero, but the average — zero divided by zero — gives NaN, and toFixed prints \"NaN\" in the report for a day without sales. The code will not break: the report that reaches the customer will. Empty input is thought through before running: show a dash, print \"no data\" or forbid the empty report — the decision is made before the loop, not after a complaint.\nThe loop body is the most expensive part of the program: it runs once per element. One extra line over a thousand elements is a thousand extra operations, and tomorrow's searches will pay the same price. An early exit once the answer is found is the trick that gives us back half the checks on day six."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки в циклах",
       "tg": "Хатоҳо дар даврҳо",
       "en": "Loop mistakes"
@@ -795,7 +897,13 @@
        "en": "while is always faster than for"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В первом разделе оба цикла описаны рядом: у for число шагов известно заранее. Что отличается у while?",
+      "tg": "Дар бахши якум ҳар ду давр якҷо тавсиф шудаанд: for шумораи қадамҳоро пешакӣ медонад. Вале while аз он чӣ фарқ дорад?",
+      "en": "The first section describes both loops side by side: for knows the step count in advance. How does while differ?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-04-q2",
@@ -831,7 +939,13 @@
        "en": "The loop runs twice"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первая ошибка в списке ошибок циклов — ровно этот сценарий. Что происходит с условием, если тело ничего в нём не меняет?",
+      "tg": "Хатои якум дар рӯйхати хатоҳои давр маҳз ҳамин сенарийост. Бо шарт чӣ мешавад, агар бадан ҳеҷ чизро дар он тағйир надиҳад?",
+      "en": "The first mistake in the loop-mistakes list is exactly this scenario. What happens to the condition when the body changes nothing in it?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "algorithms-day-04-q3",
@@ -867,7 +981,13 @@
        "en": "The array automatically grows"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ошибка о границах массива объясняет связь длины и последнего индекса. Что вернёт чтение на один шаг дальше последнего элемента?",
+      "tg": "Хатои марзи массив робитаи дарозӣ ва индекси охиринро мефаҳмонад. Хониши як қадам аз элементи охирин дуртар чӣ бармегардонад?",
+      "en": "The mistake about array bounds explains how length relates to the last index. What does reading one step past the last element return?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -956,6 +1076,18 @@
     },
     {
      "title": {
+      "ru": "Срезы, копии и пустая строка в реальном проекте",
+      "tg": "Буридаҳо, нусхаҳо ва сатри холӣ дар лоиҳаи воқеӣ",
+      "en": "Slices, copies and the empty string in a real project"
+     },
+     "body": {
+      "ru": "Приёмы из урока в реальном проекте едут в страницы и отчёты. Каноническое word[word.length - 1] превращается в нарезку страниц: slice((page - 1) * 10, page * 10) выдаёт ровно десять элементов любой страницы, а пустая страница честно возвращает пустой массив. slice не меняет исходный список — правило, бережущее данные, читаемые другим кодом; завтра она станет обязательной: sort меняет массив на месте.\nПустая строка — край, о котором стоит помнить: длина ноль, последнего символа нет, а разворот из урока честно вернёт пустую строку — накопитель, к которому ничего не приклеилось. Счётчик букв из практики станет подсчётом слов, а потом — словарём частот девятого дня: индексы, проход, накопитель.",
+      "tg": "Воситаҳои бахши дуюм дар лоиҳаи воқеӣ ба саҳифаҳо ва ҳисоботҳо мекучанд. Ибораи маъруфи word[word.length - 1] ба буридани саҳифаҳо табдил меёбад: slice((page - 1) * 10, page * 10) дар ҳар саҳифа даҳ элементи дақиқ медиҳад, ва саҳифаи холӣ ростона массиви холӣ бармегардонад, на хато. Ҳозиршавед: slice рӯйхати аслиро тағйир намедиҳад — қоидае, ки маълумоти ба коди дигар хондашавандаро ҳифз мекунад; фардо ин эҳтиёткорӣ ҳатмӣ мешавад, зеро sort массивро дар ҷой тағйир медиҳад.\nСатри холӣ марзи иборат аст: дарозияаш сифр, аломати охирини он вуҷуд надорад, ва баргардонии дарс ростона сатри холӣ медиҳад — ҷамъкунандае, ки ба ҳеҷ чиз часпидааст. Ҳисобкунаки ҳарф аз амалия ба ҳисоби калимаҳо, баъд ба луғати басомадҳои рӯзи нӯҳум табдил меёбад: индексҳо, гузар, ҷамъкунанда.",
+      "en": "The tricks from the second section move into pages and reports in a real project. The canonical word[word.length - 1] turns into pagination: slice((page - 1) * 10, page * 10) returns exactly ten elements for any page, and an empty page honestly returns an empty array, not an error. Note that slice does not change the source list — a rule that protects data another piece of code may be reading; tomorrow this precaution becomes mandatory, because sort mutates the array in place.\nThe empty string is an edge worth remembering: its length is zero, it has no last character, and the reversal from the lesson honestly returns an empty string — an accumulator nothing ever stuck to. The letter counter from the practice becomes word counting, then the frequency dictionary of day nine: indexes, a pass, an accumulator."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки с индексами и строками",
       "tg": "Хатоҳои маъмул бо индексҳо ва сатрҳо",
       "en": "Common mistakes with indexes and strings"
@@ -1002,7 +1134,13 @@
        "en": "The last one has no index"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел объясняет связь номера и длины: нумерация начинается с нуля. Из этого следует простая формула для последнего индекса — какая?",
+      "tg": "Бахши якум робитаи шумора ва дарозиро мефаҳмонад: ҳисоб аз сифр оғоз мешавад. Аз ин барои индекси охирин формулаи сода меояд — кадом?",
+      "en": "The first section explains how numbering relates to length: counting starts at zero. A simple formula for the last index follows — what is it?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-05-q2",
@@ -1038,7 +1176,13 @@
        "en": "Only arrays of numbers can be changed that way"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В разделе про индексы сказано, что со строкой такая запись «молча ничего не сделает». Почему присваивание не работает именно со строками?",
+      "tg": "Дар бахши индексҳо гуфта шудааст, ки бо сатр чунин навишт «хомӯшона ҳеҷ чиз намекунад». Чаро гузоштани арзиш маҳз бо сатр кор намекунад?",
+      "en": "The section on indexes says that with a string such an assignment \"silently does nothing\". Why does assignment fail exactly with strings?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-05-q3",
@@ -1074,7 +1218,13 @@
        "en": "The string length at every step"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В списке ошибок for…of прямо противопоставляется for…in: что из них даёт сами значения, а что — индексы?",
+      "tg": "Дар рӯйхати хатоҳо for…of мустақиман бо for…in муқоиса мешавад: кадоме худи арзишҳоро медиҳад ва кадоме индексҳоро?",
+      "en": "In the mistakes list for…of is directly contrasted with for…in: which of them yields the values themselves, and which the indexes?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1164,6 +1314,18 @@
     },
     {
      "title": {
+      "ru": "Поиск в реальном проекте: ранний выход и встроенные помощники",
+      "tg": "Ҷустуҷӯ дар лоиҳаи воқеӣ: баромади зуд ва ёварҳои дарунсохт",
+      "en": "Search in a real project: early exit and built-in helpers"
+     },
+     "body": {
+      "ru": "В реальном проекте linearSearch почти не пишут руками: find, findIndex и includes делают тот же проход по одному и возвращают элемент, индекс или ответ да/нет. Их цена — тот же линейный поиск; на неотсортированных данных быстрее не бывает: лучший случай — цель первая, худший — проверка всего массива. Позиция решает: восьмёрка из урока стоила пяти проверок, семёрка с первого места — одной.\nПроверка «нет ли такого уже» в цикле по всем элементам — вложенный проход: сотня элементов даёт десять тысяч сравнений. На десятый день Set уберёт эту квадратичность одной структурой, и на двенадцатом дне мы её измерим. Если данные можно отсортировать, цена поиска падает скачком — завтрашний бинарный поиск.",
+      "tg": "Дар лоиҳаи воқеӣ linearSearch-ро кам дастӣ менависанд: find, findIndex ва includes ҳамин гузари як-якро мекунанд ва элемент, индекс ё ҷавоби ҳа/не бармегардонанд. Арзиши онҳо — ҳамон ҷустуҷӯи хаттӣ аст, ва дар маълумоти номураттаб зудтар намешавад: беҳтарин ҳолат — ҳадаф дар аввал, бадтарин — санҷиши тамоми массив. Мавқеъ қарор медиҳад: ҳаштум аз дарс панҷ санҷиш арзид, ҳафт дар ҷои аввал — як.\nСанҷиши «оё аллакай ҳаст» дар даври ҳамаи элементҳо — гузари тӯдаст: сад элемент даҳ ҳазор муқоиса медиҳад. Рӯзи даҳум Set ин кори квадратиро бо як сохтор хомӯш мекунад, ва рӯзи двоздаҳум мо онро чен мекунем. Агар маълумотро мураттаб кардан мумкин бошад, арзиши ҷустуҷӯ бо як ҷаҳиш меафтад — фардоҷустуҷӯи бинарӣ.",
+      "en": "In a real project linearSearch is almost never written by hand: find, findIndex and includes run the same one-by-one pass and return the element, the index or a yes/no answer. Their price is the same linear search, and on unsorted data nothing beats it: the best case is the target first, the worst is checking the whole array. Position decides: the eight from the lesson cost five checks, a seven at the first place — one.\nAn \"is it already there\" check in a loop over all elements is a nested pass: a hundred items give ten thousand comparisons. On day ten a Set will shut down that square with one structure, and on day twelve we will measure it. If the data can be sorted, the price of a search drops sharply — tomorrow's binary search."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки и границы применимости",
       "tg": "Хатоҳо ва ҳудуди истифода",
       "en": "Mistakes and limits of applicability"
@@ -1210,7 +1372,13 @@
        "en": "When there are over a million elements"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Раздел о границах применимости отвечает на этот вопрос прямо: что перевешивает для небольшого или неотсортированного массива?",
+      "tg": "Бахши ҳудуди истифода ин суолро мустақиман ҷавоб медиҳад: барои массиви хурд ё номураттаб чӣ муҳимтар аст?",
+      "en": "The section on applicability answers this question directly: what tips the scale for a small or unsorted array?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "algorithms-day-06-q2",
@@ -1246,7 +1414,13 @@
        "en": "The array is empty"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел объясняет выбор именно −1: почему это число не может быть настоящим индексом массива?",
+      "tg": "Бахши якум интихоби маҳз −1-ро мефаҳмонад: чаро ин адад наметавонад индекси ҳақиқии массив бошад?",
+      "en": "The first section explains the choice of exactly −1: why can this number never be a real array index?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-06-q3",
@@ -1282,7 +1456,13 @@
        "en": "Six"
       }
      ],
-     "correctIndex": 3
+     "correctIndex": 3,
+     "hint": {
+      "ru": "В разборе программы показан худший случай на живых числах: сколько проверок съел поиск значения, которого в массиве не было?",
+      "tg": "Дар таҳлили барнома бадтарин ҳолат дар ададҳои зинда нишон дода шудааст: ҷустуҷӯи арзише, ки дар массив набуд, чанд санҷиш хурд?",
+      "en": "The program walkthrough shows the worst case on live numbers: how many checks did the search for an absent value eat?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1372,6 +1552,18 @@
     },
     {
      "title": {
+      "ru": "Пустое окно и доказательство отсутствия",
+      "tg": "Даричаи холӣ ва исботи набудан",
+      "en": "The empty window and proving absence"
+     },
+     "body": {
+      "ru": "У бинарного поиска есть граница, которой не видно в выводе: пустой массив. Там low равен нулю, high равен −1, условие «low <= high» ложно сразу, и цикл не выполняется ни разу — функция честно отвечает «не найдено», потратив ноль проверок. Это не сбой, а правильный ответ для пустых данных — без отдельных проверок.\nОтсутствие цели бинарный поиск доказывает так же быстро, как находит присутствие: для отсутствующей тридцатки хватило четырёх проверок, линейному нужны все десять. Поэтому «делением пополам» ищут не только элементы: словари, пороги в настройках, даже шаг разработки, после которого всё сломалось — окно версий сжимают пополам до виновника. Число шагов — логарифм, как у halvingSteps.",
+      "tg": "Дар ҷустуҷӯи бинарӣ марзе ҳаст, ки дар натиҷа дида намешавад: массиви холӣ. Дар он low сифр аст, high манфии як, шарти «low <= high» фавран барҳат аст, ва давр як бор ҳам иҷро намешавад — функсия ростона «ёфт нашуд» ҷавоб медиҳад, нол санҷиш сарф карда. Ин вайронӣ нест, ҷавоби дуруст барои маълумоти холист — бе санҷишҳои алоҳида.\nНабудани ҳадафро ҷустуҷӯи бинарӣ ҳамин қадар зуд исбот мекунад, чунон ки ҳузурёро меёбад: барои сиюми номавҷуд чор санҷиш кифоя кард, вале хаттӣ тамоми даҳро талаб мекард. Бинобар ин бо «тақсим ба ним» танҳо элемент намеёбанд: луғатҳо, остонаҳои танзимот, ҳатто он қадами таҳия, ки баъд аз он ҳама чиз вайрон шуд — даричаи версияҳоро то гунаҳкор ним мекунанд. Шумораи қадамҳо — логарифм, мисли halvingSteps.",
+      "en": "Binary search has an edge the output does not show: the empty array. There low is zero and high is −1, the \"low <= high\" condition is false immediately, and the loop never runs — the function honestly answers \"not found\" having spent zero checks. That is not a failure but the right answer for empty data — no special cases needed.\nBinary search proves absence just as fast as it finds presence: four checks sufficed for the missing thirty, while linear needs all ten. That is why \"cutting in half\" finds more than elements: dictionaries, thresholds in configuration, even the development step after which everything broke — the window of versions is halved down to the culprit. The number of steps is a logarithm, like halvingSteps."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки бинарного поиска",
       "tg": "Хатоҳои ҷустуҷӯи дучанда",
       "en": "Binary search mistakes"
@@ -1418,7 +1610,13 @@
        "en": "The array must consist of numbers only"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Первый раздел сравнивает поиск со словарём: что должно быть верно для данных, чтобы сравнение со средним элементом имело смысл?",
+      "tg": "Бахши якум ҷустуҷӯро бо луғат муқоиса мекунад: чӣ бояд дар бораи маълумот рост бошад, то муқоиса бо элементи миёна маънӣ дошта бошад?",
+      "en": "The first section compares the search with a dictionary: what must be true of the data for the comparison with the middle element to mean anything?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-07-q2",
@@ -1454,7 +1652,13 @@
        "en": "Otherwise Math.floor misbehaves"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вторая ошибка в разделе про бинарный поиск объясняет судьбу окна: что будет, если проверенный элемент mid не исключить из окна?",
+      "tg": "Хатои дуюм дар бахши ҷустуҷӯи бинарӣ тақдири даричаро мефаҳмонад: чӣ мешавад, агар элементи санҷидашудаи mid-ро аз дарича набарорем?",
+      "en": "The second mistake in the binary search section explains the window's fate: what happens if the checked mid element is not excluded from the window?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "algorithms-day-07-q3",
@@ -1490,7 +1694,13 @@
        "en": "All one thousand"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В первом разделе есть готовая арифметика: каждая проверка делит окно пополам. Во что превращается тысяча после десяти делений?",
+      "tg": "Дар бахши якум арифметикаи омада ҳаст: ҳар санҷиш даричаро ним мекунад. Ҳазор баъди даҳ тақсим ба чӣ табдил меёбад?",
+      "en": "The first section has ready arithmetic: every check halves the window. What does a thousand become after ten halvings?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1580,6 +1790,18 @@
     },
     {
      "title": {
+      "ru": "Сортировка как подготовка: зачем данным порядок",
+      "tg": "Мураттабсозӣ ҳамчун омодагӣ: чаро маълумот тартиб мехоҳад",
+      "en": "Sorting as preparation: why data wants order"
+     },
+     "body": {
+      "ru": "В реальном проекте сортировка чаще готовит данные, чем сама является целью. Вчерашний бинарный поиск работал, только потому что массив был упорядочен: данные сортируют заранее, и поиск дешевеет. Порядок делает дубликаты видимыми: после сортировки одинаковые значения стоят рядом, и одна проверка соседа находит их без вложенных циклов — этим займёмся на десятом дне.\nЧестная цена: сортировка выбором делает примерно половину квадрата — на тысяче элементов около пятисот тысяч сравнений. Встроенная sort современных движков заметно быстрее: она построена как «разделяй и властвуй», а теория запрещает сравнениям быть быстрее порядка «n log n». Правило простое: учились на выбором — берём встроенную.",
+      "tg": "Дар лоиҳаи воқеӣ мураттабсозӣ бештар маълумотро омода мекунад, на худ ҳадаф аст. Ҷустуҷӯи бинарии дирӯз маҳз барои он кор мекард, ки массив мураттаб буд: маълумотро пешакӣ мураттаб мекунанд, ва ҷустуҷӯ арзон мешавад. Тартиб такрорҳоро намоён мекунад: баъди мураттабсозӣ арзишҳои баробар якин менишинанд, ва як санҷиши ҳамсоя онҳоро бе даврҳои тӯдор меёбад — рӯзи даҳум ҳамин машғул мешавем.\nАрзиши ростона: мураттабсозии интихобӣ қариб нисфи мураббаъро мекунад — дар як ҳазор элемент қариб панҷсад ҳазор муқоиса. sort-и дарунсохти муҳаррикҳои имрӯза хеле тезтар аст: он бар усули «тақсим кун ва ҳукм кун» сохта шудааст, ва назария муқоисаҳоро аз тартиби «n log n» тезтар манъ мекунад. Қоида сода аст: бо интихобӣ ёд гирифтем — дар кор дарунсохтро мегирем.",
+      "en": "In a real project sorting mostly prepares data rather than being the goal. Yesterday's binary search worked only because the array was ordered: data is sorted in advance, and searching gets cheaper. Order makes duplicates visible: after sorting, equal values sit side by side, and one neighbor check finds them without nested loops — day ten's business.\nThe honest price: selection sort makes about half of the square — roughly five hundred thousand comparisons for a thousand elements. The built-in sort of modern engines is markedly faster: it is built as divide-and-conquer, and theory forbids comparisons from ever beating the order of \"n log n\". The rule is simple: we learned on selection sort — in production we take the built-in one."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки при сортировке",
       "tg": "Хатоҳо ҳангоми тартибдиҳӣ",
       "en": "Sorting mistakes"
@@ -1626,7 +1848,13 @@
        "en": "200, 30, 40, 5"
       }
      ],
-     "correctIndex": 3
+     "correctIndex": 3,
+     "hint": {
+      "ru": "Второй раздел показывает этот вызов в программе урока с готовым выводом. Сравните его с правильным порядком тех же четырёх чисел.",
+      "tg": "Бахши дуюм ҳамин даъватро дар барномаи дарс бо натиҷаи омода нишон медиҳад. Онро бо тартиби дурусти ҳамин чор адад муқоиса кунед.",
+      "en": "The second section shows this very call in the lesson's program with a ready output. Compare it with the correct order of the same four numbers."
+     },
+     "relatedSection": 1
     },
     {
      "id": "algorithms-day-08-q2",
@@ -1662,7 +1890,13 @@
        "en": "It swaps only the first two elements"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Раздел про встроенную sort объясняет договорённость компаратора: что означает отрицательный результат вычитания?",
+      "tg": "Бахши sort-и дарунсохт шартномаи компараторро мефаҳмонад: натиҷаи манфии тариҳ чиро маъно дорад?",
+      "en": "The section on the built-in sort explains the comparator's agreement: what does a negative subtraction result mean?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "algorithms-day-08-q3",
@@ -1698,7 +1932,13 @@
        "en": "To remove duplicates"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В разборе selectionSort прямо сказано, для чего нужна первая строка с slice. Что достаётся вызывающему коду без неё?",
+      "tg": "Дар таҳлили selectionSort ростона гуфта шудааст, ки сатри якум бо slice барои чист. Бе он ба коди даъваткунанда чӣ мерасад?",
+      "en": "The selectionSort walkthrough states directly what the first line with slice is for. What does the calling code get without it?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1787,6 +2027,18 @@
     },
     {
      "title": {
+      "ru": "Словарь как кэш и индекс в реальном проекте",
+      "tg": "Луғат ҳамчун кэш ва индекс дар лоиҳаи воқеӣ",
+      "en": "The dictionary as cache and index in a real project"
+     },
+     "body": {
+      "ru": "Словарь из урока в реальном проекте становится кэшем и индексом. Вместо прохода списка при каждом запросе таблицу проходят один раз и строят словарь «код → товар»: каждый следующий запрос отвечает за один шаг. Учебники структур данных называют это «постоянным ожидаемым временем» — та разница между проходом и обращением по ключу.\nЛовушка больших систем: ключи объекта всегда превращаются в строки, поэтому числовые коды 7 и '7' сталкиваются в одном счётчике, а NaN тихо становится ключом 'NaN'. Map сохраняет настоящие числа и порядок вставки, поэтому для идентификаторов из базы данных берут Map. Дальше — вторая словарная структура: Set, которому важен не счёт, а сам факт присутствия.",
+      "tg": "Дар лоиҳаи воқеӣ луғати дарс кэш ва индекс мегардад. Ба ҷои гузари рӯйхат дар ҳар даъват ҷадвалро як бор мегузаронанд ва луғати «рамз → мол» месозанд: ҳар даъвати оянда бо як қадам ҷавоб медиҳад. Китобҳои сохторҳои маълумот инро «вақти интизории доимӣ» бар ҳар амал меноманд — маҳз ҳамон фарқи миёни гузар ва муроҷиати аз рӯи калид.\nДоми системаҳои калон: калидҳои объект ҳамеша сатр мешаванд, барои ҳамин рамзҳои ададии 7 ва '7' дар як ҳисобкунак бархӯрда мекунанд, ва NaN хомӯшона калиди 'NaN' мегардад. Map ададҳои рост ва тартиби гузоштаро нигоҳ медорад, барои ҳамин барои нишондиҳандаҳои пойгоҳи додаҳо Map мегиранд. Минбаъд — сохтори луғавии дуюм: Set, ки ба ҳисоб не, ба худи ҳузур меояд.",
+      "en": "In a real project the lesson's dictionary becomes a cache and an index. Instead of walking the list on every query, you walk the table once and build a \"code → product\" dictionary: every following query answers in one step. Data-structure textbooks call this \"constant expected time\" per operation — exactly the gap between a pass and a lookup by key.\nThe trap of large systems: an object's keys always become strings, so numeric codes 7 and '7' collide in one counter, and NaN quietly becomes the key 'NaN'. Map keeps real numbers and insertion order, so database identifiers get a Map. Next comes the second dictionary structure: the Set, which cares not about counts but about presence itself."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки со словарями",
       "tg": "Хатоҳо бо луғатҳо",
       "en": "Dictionary mistakes"
@@ -1833,7 +2085,13 @@
        "en": "Against keys turning into numbers"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Первая ошибка со словарями описывает судьбу счётчика без защиты. Что возвращает обращение к ключу, которого ещё нет, и что станет после сложения?",
+      "tg": "Хатои якуми луғатҳо тақдири ҳисобкунаки бе ҳимиятро тавсиф мекунад. Муроҷиат ба калиди ҳанӯзномавуҷуд чӣ бармегардонад ва баъди ҷамъ чӣ мешавад?",
+      "en": "The first dictionary mistake describes the counter's fate without protection. What does a lookup of a key that does not exist yet return, and what happens after adding one?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "algorithms-day-09-q2",
@@ -1869,7 +2127,13 @@
        "en": "Sort keys automatically"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В первом разделе оба инструмента сравниваются напрямую: что умеет Map с ключами и чем он сообщает свой размер?",
+      "tg": "Дар бахши якум ҳар ду абзор мустақиман муқоиса мешаванд: Map бо калидҳо чӣ метавонад ва андозаашро бо чӣ хабар медиҳад?",
+      "en": "The first section compares the two tools directly: what can Map do with keys, and how does it report its size?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-09-q3",
@@ -1905,7 +2169,13 @@
        "en": "Only after re-sorting the keys"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Полезные мелочи в конце раздела про ошибки дают путь: словарь превращается в массив пар — вспомните, чем обходили массивы.",
+      "tg": "Маслиҳатҳои охири бахши хатоҳо роҳ нишон медиҳанд: луғат ба массиви ҷуфт табдил меёбад — ба ёд биёред, ки массивҳоро бо чӣ убур мекардед.",
+      "en": "The closing tips of the mistakes section show the way: the dictionary turns into an array of pairs — recall what you used to walk arrays."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1995,6 +2265,18 @@
     },
     {
      "title": {
+      "ru": "Множества в реальном проекте: дедупликация и права",
+      "tg": "Маҷмуъҳо дар лоиҳаи воқеӣ: такрорзудоӣ ва ҳуқуқҳо",
+      "en": "Sets in a real project: deduplication and permissions"
+     },
+     "body": {
+      "ru": "В реальном проекте Set берут прежде всего против двойной работы. Перед пакетным запросом к серверу коды прогоняют через new Set: вместо шести одинаковых обращений — одно; то же — с тегами: «уникальные посетители» — просто size множества сессий. Проверка прав «есть ли роль admin» — тот же has, только мгновенный и без перебора списка ролей.\nПара с девятым днём: словарь отвечает «сколько раз», множество — «было ли вообще»; если считать появления не нужно, Set дешевле и короче. Объединение списков — [...a, ...b] через new Set: так сливают каталоги двух филиалов. Помните границу: у множества нет индексов — элементы достают разворотом в массив, а два на вид одинаковых объекта остаются разными.",
+      "tg": "Дар лоиҳаи воқеӣ Set-ро пеш аз ҳама барои пешгирии кори дукарата мегиранд. Пеш аз дархости бастаӣ ба сервер рамзҳо аз new Set мегузаронанд: ба ҷои шаш даъвати якхела — як даъват; ҳамин корро бо тегҳо мекунанд: «мехмонони ягона» — танҳо size-и маҷмуи сессияҳост. Санҷиши ҳуқуқ «оё вазифаи admin ҳаст» — ҳамон has, танҳо фавран ва бе гузари рӯйхати вазифаҳо.\nҶуфт бо рӯзи нӯҳум: луғат ҷавоб медиҳад «чанд бор», маҷмуъ — «оё вуҷуд дошт»; агар ҳисоби такрор лозим набояд, Set арзонтар ва кӯтоҳтар аст. Муттаҳидсозии рӯйхатҳо — [...a, ...b] аз тариқи new Set: тавре каталоги ду филиалро муттаҳид мекунанд. Марзро дар хотир доред: маҷмуъ индекс надорад — элементҳоро бо кушодан ба массив мегиранд, ва ду объект якхела аз назар ду узви гуногумемонанд.",
+      "en": "In a real project a Set is taken first of all against double work. Before a batch request to the server, codes go through new Set: instead of six identical calls — one; the same with tags: \"unique visitors\" is simply the size of a set of sessions. The permission check \"is there an admin role\" is the same has, only instant and without walking a list of roles.\nA pair with day nine: a dictionary answers \"how many times\", a set answers \"was it there at all\"; when appearances need no counting, a Set is cheaper and shorter. Merging lists is [...a, ...b] through new Set: this is how two branches' catalogues are merged. Keep the edge in mind: a set has no indexes — elements are reached by spreading into an array, and two visually identical objects remain distinct members."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки и границы Set",
       "tg": "Хатоҳо ва ҳудудҳои Set",
       "en": "Set mistakes and limits"
@@ -2041,7 +2323,13 @@
        "en": "A five-element Set"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первая строка вывода получена ровно этим выражением: множество хранит каждое значение один раз, а spread разворачивает его обратно в массив.",
+      "tg": "Сатри якуми натиҷа маҳз бо ҳамин ибора гирифта шудааст: маҷмуъ ҳар арзишро як бор нигоҳ медорад, ва spread онро боз ба массив мекушояд.",
+      "en": "The first output line comes from exactly this expression: the set keeps every value once, and the spread unfolds it back into an array."
+     },
+     "relatedSection": 1
     },
     {
      "id": "algorithms-day-10-q2",
@@ -2077,7 +2365,13 @@
        "en": "Remove duplicates from each list"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Разбор программы показывает пересечение как filter по одному списку с проверкой has у множества другого. Что остаётся после такого фильтра?",
+      "tg": "Таҳлили барнома байнуборӣ ҳамчун filter бар як рӯйхат бо санҷиши has-и маҷмуи дигар нишон медиҳад. Баъди чунин полоӣ чӣ мемонад?",
+      "en": "The walkthrough shows the intersection as a filter over one list with a has check against the other's set. What survives such a filter?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "algorithms-day-10-q3",
@@ -2113,7 +2407,13 @@
        "en": "Access an element by index s[0]"
       }
      ],
-     "correctIndex": 3
+     "correctIndex": 3,
+     "hint": {
+      "ru": "Первая ошибка в разделе про границы Set описывает попытку обратиться как к массиву. Чем множество отличается от массива в этом отношении?",
+      "tg": "Хатои якум дар бахши ҳудуди Set кӯшиши муроҷиат ҳамчун массивро тавсиф мекунад. Маҷмуъ дар ин муносибат аз массив чӣ фарқ дорад?",
+      "en": "The first mistake in the Set-boundaries section describes an attempt to address it like an array. How does a set differ from an array in this respect?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2203,6 +2503,18 @@
     },
     {
      "title": {
+      "ru": "Рекурсия в реальном проекте: деревья вместо чисел",
+      "tg": "Рекурсия дар лоиҳаи воқеӣ: дарахтон ба ҷои ададҳо",
+      "en": "Recursion in a real project: trees instead of numbers"
+     },
+     "body": {
+      "ru": "В настоящих проектах рекурсия живёт не на числах, а на деревьях. Вложенные комментарии, папки внутри папок, дерево категорий магазина, узлы страницы: каждый узел может содержать такие же узлы, и обойти это циклом нельзя — глубина заранее неизвестна. Здесь рекурсивный шаг из урока работает без переделки: обработай узел, потом те же действия для каждого ребёнка.\nГлубину ограничивают намеренно: параметр уровня спасает и от бесконечных ссылок, и от RangeError по переполнению стека. Если глубина велика, рекурсию заменяют циклом со списком задач под вашим контролем. А halvingSteps из урока — редкая рекурсия на числах: это логарифм по основанию два, как у бинарного поиска.",
+      "tg": "Дар лоиҳаҳои воқеӣ рекурсия на ададҳо, балки дарахтон зиндагӣ мекунад. Шарҳҳои тӯдор, қуттиҳо дар дохили қуттиҳо, дарахти категорияҳои дукон, гиреҳҳои саҳифа: ҳар гиреҳ метавонад гиреҳҳои монандро дар бар гирад, ва бо давр убур кардан мумкин нест — чуқурӣ пешакӣ номаълум аст. Дар ин ҷо қадами рекурсивии дарс бе тағйирот кор мекунад: гиреҳро коркард кун, баъд ҳамон корҳоро барои ҳар фарзанд такрор кун.\nЧуқуриро иродаӣ маҳдуд мекунанд: параметри сатҳ ҳам аз пайвандҳои абадӣ ҳифз мекунад, ҳам аз RangeError-и пуршавии стек. Агар чуқурӣ калон бошад, рекурсияро бо давре иваз мекунанд, ки вазифаҳоро дар рӯйхати ошкор нигоҳ медорад. Ҳолол halvingSteps-и дарс рекурсияи нодир бар ададҳост: ин логарифми асоси ду, мисли ҷустуҷӯи бинарӣ.",
+      "en": "In real projects recursion lives not on numbers but on trees. Nested comments, folders inside folders, a shop's category tree, the nodes of a page: every node can contain the same kind of nodes, and you cannot walk this with a loop — the depth is unknown in advance. Here the lesson's recursive step works unchanged: process the node, then do the very same for each child.\nDepth is limited deliberately: a level parameter saves you both from circular references and from a RangeError caused by stack overflow. If the depth can be large, recursion is replaced by a loop that keeps tasks in an explicit list under your control. And halvingSteps from the lesson is the rare recursion on numbers: it is the base-two logarithm, like binary search."
+     }
+    },
+    {
+     "title": {
       "ru": "Ошибки рекурсии и когда она уместна",
       "tg": "Хатоҳои рекурсия ва кай он мувофиқ аст",
       "en": "Recursion mistakes and when it fits"
@@ -2249,7 +2561,13 @@
        "en": "JavaScript adds a base case automatically"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел про ошибки рекурсии разбирает этот случай первым: что накапливается с каждым вызовом без базы и чем это заканчивается?",
+      "tg": "Бахши хатоҳои рекурсия ин ҳолатро аввал таҳлил мекунад: бо ҳар даъвати бе база чӣ ҷамъ мешавад ва ин ба чӣ анҷом меёбад?",
+      "en": "The section on recursion mistakes analyses this case first: what accumulates with every base-less call, and how does it end?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "algorithms-day-11-q2",
@@ -2285,7 +2603,13 @@
        "en": "There is no base case"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В разборе digitSum названа граница спуска: при каком значении функция отвечает сразу, без самовызова?",
+      "tg": "Дар таҳлили digitSum марзи фурӯдошт ошкор аст: дар кадом арзиш функсия фавран, бе даъвати худ ҷавоб медиҳад?",
+      "en": "The digitSum walkthrough names the descent's boundary: at what value does the function answer immediately, without calling itself?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "algorithms-day-11-q3",
@@ -2321,7 +2645,13 @@
        "en": "A random number was chosen that way"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Разбор программы прослеживает цепочку делений пополам от шестнадцати до базы. Выпишите её шаги и посчитайте их.",
+      "tg": "Таҳлили барнома занҷири тақсимҳои нимро аз шонздаҳ то база пай мекунад. Қадамҳояшро нависед ва шуморед.",
+      "en": "The walkthrough traces the chain of halvings from sixteen down to the base. Write out its steps and count them."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2411,6 +2741,18 @@
     },
     {
      "title": {
+      "ru": "Сложность в реальном проекте: где n² неожиданно",
+      "tg": "Мураккабӣ дар лоиҳаи воқеӣ: n² аз куҷо меояд",
+      "en": "Complexity in a real project: where n² sneaks in"
+     },
+     "body": {
+      "ru": "В реальном проекте квадратичность почти никогда не пишется специально — она просачивается. Сравнить каждого пользователя с каждым товаром «для рекомендаций», проверить «нет ли уже такого» в цикле, построить «все против всех» в отчёте — три обычных решения, каждое становится узким местом при росте данных. Признак один: цикл по тем же данным внутри цикла.\nДиагностика — приём на всю жизнь: удвойте n и посмотрите на счётчик. Не изменился — постоянное время, удвоился — линейное, вырос вчетверо — квадратичное. Медленная страница ловится этим тестом за минуты: подставьте удвоенный набор и сравните числа. На финальном дне вы прогоните такой замер сами — и увидите, зачем он в разговоре о скорости.",
+      "tg": "Дар лоиҳаи воқеӣ квадратиро касе бармаҳал менависад — он ба таври маҳз даромадан мекунад. Муқоиса кардани ҳар корбар бо ҳар мол «барои тавсияҳо», санҷидани «оё аллакай ҳаст» дар давр, сохтани «ҳама бо ҳама» дар ҳисобот — се қарори маъмул, ки ҳар яке бо калоншавии маълумот ҷои танг мешавад. Алома як аст: давр бар ҳамон маълумот дар дохили давр.\nТашхис — воситаест, ки бояд бо худ мебаред: n-ро ду баробар кунед ва ба ҳисобкунак нигоҳ кунед. Тағйир накард — вақти доимӣ, ду баробар шуд — хаттӣ, чор баробар шуд — квадратӣ. Саҳифаи сустшуда «баъди калон шудани маълумот» бо ҳамин санҷиш дар дақиқа ёфта мешавад: маълумоти дучандро гузоред ва ададҳоро муқоиса кунед. Дар рӯзи охирин чунин ченкуниро худ мегузаронед — ва мебинед, ки барои чӣ дар суҳбати суръат лозим аст.",
+      "en": "In a real project quadratic work is almost never written on purpose — it seeps in. Comparing every user with every product \"for recommendations\", checking \"is it already there\" in a loop, building an \"all against all\" table in a report — three ordinary decisions, each becoming the bottleneck as the data grows. The sign is one: a loop over the same data inside a loop.\nThe diagnostic is a trick for life: double n and watch the counter. Unchanged — constant time, doubled — linear, quadrupled — quadratic. A slow page \"after the data grew\" is caught by this test in minutes: plug in the doubled set and compare the numbers. On the final day you will run such a measurement yourself — and see what it is for in a speed discussion."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные заблуждения",
       "tg": "Фаҳмишҳои хатои маъмул",
       "en": "Common misconceptions"
@@ -2457,7 +2799,13 @@
        "en": "Browsers require it"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел объясняет, почему секунды лгут: от чего зависит время запуска и что остаётся неизменным у самого алгоритма?",
+      "tg": "Бахши якум мефаҳмонад, ки чаро сонияҳо дурӯғ мегӯянд: вақти иҷро аз чӣ вобаста аст ва дар худи алгоритм чӣ тағйирнопазир мемонад?",
+      "en": "The first section explains why seconds lie: what does run time depend on, and what stays unchanged in the algorithm itself?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-12-q2",
@@ -2493,7 +2841,13 @@
        "en": "It will not change"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Разбор таблицы вывода объясняет правило квадрата: во сколько раз растёт n и во сколько — произведение n на n?",
+      "tg": "Таҳлили ҷадвали натиҷа қоидаи мураббаъро мефаҳмонад: n чанд баробар калон мешавад ва ҳосили n бар n чанд баробар?",
+      "en": "The output-table walkthrough explains the square rule: how many times does n grow, and how many times does n times n?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "algorithms-day-12-q3",
@@ -2529,7 +2883,13 @@
        "en": "Enumerating all pairs of elements"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел приводит пример операции, которая не зависит от длины массива. Что из вариантов не требует прохода по данным?",
+      "tg": "Бахши якум намунаи амалие меорад, ки аз дарозии массив вобаста нест. Кадом вариант гузари маълумотро талаб намекунад?",
+      "en": "The first section gives an example of an operation that does not depend on the array's length. Which option requires no pass over the data?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -2614,6 +2974,18 @@
     },
     {
      "title": {
+      "ru": "Шесть шагов в реальной работе: примеры как тесты",
+      "tg": "Шаш қадам дар кори воқеӣ: мисолҳо ҳамчун санҷишҳо",
+      "en": "Six steps in real work: examples as tests"
+     },
+     "body": {
+      "ru": "Шесть шагов не заканчиваются с кодом: примеры второго шага превращаются в автотесты, которые сами пробегают все кривые случаи при каждой сборке. Выписал примеры честно — пустой список, один элемент, дубликаты, — получаешь тесты почти бесплатно: каждый пример знает ожидаемый ответ. Когда приходит баг, разбор начинается с воспроизведения наименьшего примера с неверным ответом — третий шаг, применённый к чужой программе.\nНа обзоре кода коллеги тоже читают порядок: каков был план, какие примеры покрывают ветвления, известна ли сложность на больших данных. Практика дня письменная — и это реальная работа: описание решения, которое поймёт товарищ без показа кода, — половина ценности программиста.",
+      "tg": "Шаш қадам бо код тамом намешаванд: мисолҳои қадами дуюм санҷишҳои худкор мешаванд, ки худ ҳамаи ҳолатҳои кайфиро дар ҳар тартиби нав иҷро мекунанд. Мисолҳоро ростона нависед — рӯйхати холӣ, як элемент, такрорҳо — санҷишҳоро қариб бе пул мегиред: ҳар мисол ҷавоби интизориро аллакай медонад. Ҳангоми омадани хато таҳлил аз такрори хурдтарин мисоле оғоз мешавад, ки ҷавобаш нодуруст аст — қадами сеюм, татбиқшуда ба барномаи дигарон.\nДар баррасии код ҳамкорон низ тартибро мехонанд: нақша чӣ буд, кадом мисолҳо шохаҳоро пӯшонидаанд, оё мураккабӣ дар маълумоти калон маълум аст. Амалияи имрӯза хаттӣ аст — ва ин кори воқеист: тавсифи ҳалли фаҳмо барои ҳамкор бе нишон додани код — нисфи арзиши барноманавис дар даста.",
+      "en": "The six steps do not end with the code: the examples of step two become automated tests that run every crooked case by themselves on every build. Write the examples honestly — empty list, single element, duplicates — and you get the tests almost for free: every example already knows its expected answer. When a bug arrives, the analysis starts with reproducing the smallest example that answers wrongly — step three, applied to someone else's program.\nIn code review, colleagues also read the order: what the plan was, which examples cover the branches, whether the complexity on large data is known. Today's practice is written — and that is real work: a solution description a teammate understands without seeing the code is half of a programmer's value in a team."
+     }
+    },
+    {
+     "title": {
       "ru": "Почему порядок спасает",
       "tg": "Чаро тартиб наҷот медиҳад",
       "en": "Why order saves you"
@@ -2660,7 +3032,13 @@
        "en": "With testing on large data"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Список шагов начинается с самого дешёвого действия. Какой шаг идёт раньше примеров, плана и кода?",
+      "tg": "Рӯйхати қадамҳо аз арзонтарин амал оғоз мешавад. Кадом қадам аз мисолҳо, нақша ва код пештар меояд?",
+      "en": "The list of steps starts with the cheapest action. Which step comes before examples, plan and code?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-13-q2",
@@ -2696,7 +3074,13 @@
        "en": "The simple case replaces all checks"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Третий шаг процесса описан в первом разделе: что даёт решение в уме на самом лёгком входе?",
+      "tg": "Қадами сеюми раванд дар бахши якум тавсиф шудааст: ҳалли дар сар бар вуруди осонтарин чӣ медиҳад?",
+      "en": "The process's third step is described in the first section: what does solving the easiest input in your head give you?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "algorithms-day-13-q3",
@@ -2732,7 +3116,13 @@
        "en": "Rewrite everything in another language"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Шестой шаг объясняет маршрут при несовпадении: куда возвращает проверка, прежде чем править код?",
+      "tg": "Қадами шашум роҳро дар ҳолати номувофиқӣ мефаҳмонад: санҷиш пеш аз ислоҳи код ба куҷо бармегардонад?",
+      "en": "Step six explains the route on a mismatch: where does the check send you back before any code is edited?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -2885,7 +3275,13 @@
        "en": "It made exactly as many checks as linear"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел про чтение результатов объясняет секрет числа: сколько раз окно из тысячи элементов делится пополам?",
+      "tg": "Бахши хондани натиҷаҳо сирри ададро мефаҳмонад: даричаи як ҳазор элементӣ чанд бор ба ним тақсим мешавад?",
+      "en": "The reading-results section explains the number's secret: how many times is a window of a thousand elements halved?"
+     },
+     "relatedSection": 2
     },
     {
      "id": "algorithms-day-14-q2",
@@ -2921,7 +3317,13 @@
        "en": "Only the maximum value"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Разбор полной программы показывает, что после первого прохода словарь уже полон: чем дополняется поиск самого частого значения?",
+      "tg": "Таҳлили барномаи пурра нишон медиҳад, ки баъди гузари якум луғат аллакай пур аст: ҷустуҷӯи маъмултарин арзиш бо чӣ пурраш мешавад?",
+      "en": "The full-program walkthrough shows that after the first pass the dictionary is already full: what completes the search for the most frequent value?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "algorithms-day-14-q3",
@@ -2957,7 +3359,13 @@
        "en": "The target lies in the middle of the array"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел про ошибки финала напоминает, почему финальному бинарному поиску вообще можно верить: чем массив обеспечен заранее?",
+      "tg": "Бахши хатоҳои анҷом меёд медорад, ки чаро ҷустуҷӯи бинарии охирин ба итиқод шавад: массив пешакӣ чӣ дорад?",
+      "en": "The finale-mistakes section recalls why the final binary search can be trusted at all: what does the array already have in advance?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {

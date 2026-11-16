@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\nexport default function App() {\n  const [name, setName] = useState('');\n\n  return (\n    <View style={styles.screen}>\n      <Text>Как вас зовут?</Text>\n      <TextInput\n        value={name}\n        onChangeText={setName}\n        placeholder=\"Имя\"\n        style={styles.input}\n      />\n      <Text>Салом, {name || 'друг'}!</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, padding: 24, gap: 12 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Управляемое поле в реальной форме",
+        "tg": "Майдони идорашаванда дар шакли воқеӣ",
+        "en": "A controlled field in a real form"
+      },
+      "body": {
+        "ru": "Управляемое поле — цикл: state показывает value, onChangeText возвращает каждый символ в setName, экран перерисовывается и показывает новый текст. Из цикла следуют возможности реальной формы: проверка на каждом вводе (день двадцать второй), кнопка, активная только при непустом поле, счётчик оставшихся символов рядом с maxLength. Placeholder — подсказка, а не данные: пустое поле с подсказкой хранит в state пустую строку. Связь с днём двадцатым: черновик поля живёт в состоянии экрана, пока экран в стеке навигации.",
+        "tg": "Майдони идорашаванда давр аст: ҳолат value-ро нишон медиҳад, onChangeText ҳар ҳарфро ба setName мебарорад, экран аз нав мешавад ва матни навро нишон медиҳад. Аз давр имкониятҳои шакли воқеӣ меоянд: санҷиш дар ҳар навиштан (рӯзи бисту дуюм), тугмае, ки танҳо ҳангоми майдони пур фаъол аст, ҳисобкунаки ҳарфҳои боқимонда паҳлуи maxLength. Placeholder маслиҳат аст, на дода: майдони холӣ бо маслиҳат дар ҳолат сатри холӣ нигоҳ медорад. Пайванд бо рӯзи бистум: лоиҳаи майдон дар ҳолати экран зиндагӣ мекунад, то экран дар стеки навигатсия бошад.",
+        "en": "A controlled field is a loop: state shows the value, onChangeText returns every character into setName, the screen re-renders and shows the new text. The loop yields the abilities of a real form: validation on every input (day twenty-two), a button active only for a non-empty field, a counter of remaining characters next to maxLength. A placeholder is a hint, not data: an empty field with a hint keeps an empty string in state. Connection to day twenty: the field's draft lives in the screen state while the screen stays in the navigation stack."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с TextInput",
+        "tg": "Хатоҳои маъмулӣ бо TextInput",
+        "en": "Common mistakes with TextInput"
+      },
+      "body": {
+        "ru": "Первая ошибка — value без onChangeText: поле выглядит замороженным, ввод не доходит до экрана; значение и обновление работают в паре. Вторая — onChangeText={setName()}: скобки вызывают функцию при отрисовке; передают setName или () => setName(...). Третья — попытка читать input.value из веба: в React Native ввод живёт только в state, отдельного «DOM-значения» нет. Четвёртая — maxLength считают валидацией: ограничение длины не проверяет содержимое; пустая строка и одни пробелы проходят через maxLength и отсекаются проверкой из дня двадцать второго.",
+        "tg": "Хатои аввал — value бе onChangeText: майдон яхкардашуда ба назар меояд, навиштан ба экран намерасад; қимат ва навсозӣ ҷуфт кор мекунанд. Хатои дуюм — onChangeText={setName()}: қавсҳо функсияро ҳангоми рендер мехонанд; setName ё () => setName(...) мегузоранд. Хатои сеюм — кӯшиши хондани input.value аз веб: дар React Native навиштан танҳо дар ҳолат зиндагӣ мекунад, «қимати DOM»-и алоҳида нест. Хатои чорум — maxLength-ро санҷиш мешуморанд: маҳдудияти дарозӣ мазмунро санҷидан намекунад; сатри холӣ ва танҳо пробелҳо тавассути name maxLength мегузаранд ва аз санҷиши рӯзи бисту дуюм буридан мешаванд.",
+        "en": "The first mistake is value without onChangeText: the field looks frozen, typing never reaches the screen; the value and the updater work as a pair. The second is onChangeText={setName()}: parentheses call the function during rendering; pass setName or () => setName(...). The third is trying to read input.value like on the web: in React Native the input lives only in state, there is no separate «DOM value». The fourth is counting maxLength as validation: a length limit does not check content; an empty string and spaces-only pass maxLength and are cut off by the day-twenty-two check."
+      }
     }
   ],
   "questions": [

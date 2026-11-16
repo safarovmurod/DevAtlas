@@ -2,13 +2,13 @@
 
 Генератор: `node scripts/delivery-report.mjs`; проверка: `--check`. Последние прямые инструкции пользователя имеют приоритет над историческими документами. Не начинайте проект заново и не объявляйте весь план выполненным по наличию файлов.
 
-Зафиксированный main: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29`. Фактический каталог: 43 IDs, 38 направлений, 1220 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
+Зафиксированный main: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29`. Фактический каталог: 43 IDs, 38 направлений, 1262 календарных дней, 114 стадий. Источник чисел — действующие loaders, не старый текст отчёта. Полный статус: [DEVATLAS-DELIVERY.md](DEVATLAS-DELIVERY.md), [delivery-state.json](delivery-state.json), [coverage-matrix.json](coverage-matrix.json).
 
 ## Сначала
 
 Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
 
-Следующее действие по сохранённому состоянию: Resume Personal Productivity at days 15–18 after its 14-day checkpoint. Reuse docs/curriculum-design/personal-productivity-days-15-17.draft.txt; author day 18 and review the full module, then finish days 19–22. Next unfinished modules start at day 10 for Content Creation, Digital Literacy and Management Foundations, and day 11 for English Foundations. Preserve existing lesson and quiz IDs, option order and learner progress. See AGENTS.md and docs/CURRICULUM-AUDIT-2026-11-15.md.
+Следующее действие по сохранённому состоянию: Continue management-foundations at day 24 using docs/curriculum-design/short-courses.draft.json. 7 short-course days remain. Reuse docs/curriculum-design/management-foundations-24-30-recovered.draft.json as an unreviewed draft rather than reauthoring it. Review missing project rubrics in Management days16/23. Preserve all authored lessons, quiz options and progress IDs. Recheck current loaders before editing other courses.
 
 ## Что сохранить
 
@@ -18,8 +18,6 @@ HTML day 1: optional learningFlow, восемь типов вопросов, д�
 
 ## Обязательные незавершённые программы
 
-- digital-literacy: в каталоге 9 из 30 запланированных дней. Осталось подготовить 21 дней, включая самостоятельную практику и итоговый проект.
-- management-foundations: в каталоге 9 из 30 запланированных дней. Осталось подготовить 21 дней, включая самостоятельную практику и итоговый проект.
 
 Углубить все 14-дневные курсы: typescript, algorithms, ai-fundamentals, context-engineering, agent-harness. Создать 34 Pro, 37 Expert и 1 отсутствующий Beginner, сохраняя отдельные программы и прогресс. Опубликованная карточка или Coming Soon не является готовым курсом.
 

@@ -45,6 +45,30 @@
       },
       "code": "import { Text, View } from 'react-native';\n\nfunction Greeting() {\n  return <Text>Добро пожаловать!</Text>;\n}\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Greeting />\n      <Greeting />\n    </View>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Компонент как повторяемая деталь",
+        "tg": "Компонент ҳамчун қисми такроршаванда",
+        "en": "A component as a reusable part"
+      },
+      "body": {
+        "ru": "Компонент — деталь, которую собирают один раз и ставят много раз: Greeting описывает приветствие один раз, а View собирает два экземпляра рядом. В реальном проекте работает правило: если одинаковый JSX копируют второй раз — выносят компонент; копия всегда отстаёт от оригинала при правке. Компонент объявляют на верхнем уровне файла и до использования, не внутри App: вложенное объявление создаёт новую функцию при каждой отрисовке, и React теряет её внутреннее состояние. Связь с седьмым днём: там компоненты получат props и перестанут быть одинаковыми.",
+        "tg": "Компонент қисмест, ки як бор сохта, бисёр бор гузошта мешавад: Greeting саломро як бор тавсиф мекунад, View ду нусхаро паҳлуи ҳам ҷамъ меорад. Дар лоиҳаи воқеӣ қоида чунин аст: агар як JSX-и якхела дубора нусхабардорӣ шавад — онро ба компонент мебароранд; нусха ҳамеша аз асл дар ислоҳҳо ақиб мемонад. Компонентро дар сатҳи болоии файл ва пеш аз истифода эълон мекунанд, на дар дохили App: эълони дохилӣ дар ҳар рендер функсияи нав месозад ва React ҳолати дохилии онро гум мекунад. Пайванд бо рӯзи ҳафтум: он ҷо компонентҳо props мегиранд ва аз ҳам фарқ мекунанд.",
+        "en": "A component is a part built once and placed many times: Greeting describes the greeting once, and a View assembles two instances side by side. In a real project the rule is: if identical JSX is copied a second time — extract a component; a copy always lags behind the original during edits. Declare a component at the top level of the file and before its use, not inside App: a nested declaration creates a new function on every render, and React loses its internal state. Connection to day seven: there components receive props and stop being identical."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с компонентами",
+        "tg": "Хатоҳои маъмулӣ бо компонентҳо",
+        "en": "Common mistakes with components"
+      },
+      "body": {
+        "ru": "Первая ошибка — имя компонента с маленькой буквы: greeting React считает обычным тегом и не выводит ничего; компоненты называют с большой буквы. Вторая — возвращение нескольких элементов без обёртки: у функции-компонента один return с одним корнем. Третья — объявление компонента внутри другого: он пересоздаётся на каждом рендере, а вложенное состояние ведёт себя непредсказуемо. Четвёртая — забытый return: функция возвращает undefined, и экран остаётся пустым без ошибок в логике, поэтому пустоту проверяют первыми.",
+        "tg": "Хатои аввал — номи компонент бо ҳарфи хурд: React greeting-ро теги одӣ меҳисобад ва ҳеҷ чиз намекашад; компонентҳоро бо ҳарфи калон менависанд. Хатои дуюм — баргардонидани якчанд элемент бе упакатсия: функсияи компонент як return бо як реша дорад. Хатои сеюм — эълони компонент дар дохили дигар: он дар ҳар рендер аз нав сохта мешавад ва ҳолати дохилӣ ноаён мешавад. Хатои чорум — return-и фаромӯшшуда: функсия undefined бармегардонад ва экран бе хато дар мантиқ холӣ мемонад, бинобар ин холиро аввал санҷед.",
+        "en": "The first mistake is a component name in lowercase: React treats greeting as an ordinary tag and renders nothing; components are named with a capital letter. The second is returning several elements without a wrapper: a component function has one return with one root. The third is declaring a component inside another: it is recreated on every render, and nested state behaves unpredictably. The fourth is a forgotten return: the function returns undefined, and the screen stays empty with no logic error, so emptiness is checked first."
+      }
     }
   ],
   "questions": [

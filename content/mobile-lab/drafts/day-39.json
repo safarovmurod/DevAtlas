@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\nexport type Task = { id: string; title: string; minutes: number; createdAt: number };\nexport type ScreenName = 'list' | 'add' | 'details';\nexport const STORAGE_KEY = 'devatlas-planner';\n\nexport function makeTask(title: string): Task {\n  return { id: `t${Date.now()}`, title, minutes: 20, createdAt: Date.now() };\n}\n\nconst sample = makeTask('Прочитать день 39');\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Модель данных планировщика</Text>\n      <View style={styles.card}>\n        <Text style={styles.title}>{sample.title}</Text>\n        <Text style={styles.body}>id: {sample.id}</Text>\n        <Text style={styles.body}>минуты: {sample.minutes}</Text>\n      </View>\n      <Text>Экраны: list, add, details. Ключ хранилища: {STORAGE_KEY}.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  card: { padding: 16, borderWidth: 1, borderColor: '#cbd5e1', borderRadius: 8, gap: 4 },\n  title: { fontSize: 16, fontWeight: '600' },\n  body: { fontSize: 14, color: '#475569' },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Модель как договор проекта",
+        "tg": "Модел ҳамчун шартномаи лоиҳа",
+        "en": "The model as the project contract"
+      },
+      "body": {
+        "ru": "Тип Task описывает запись: id, title, minutes, createdAt; ScreenName перечисляет экраны; STORAGE фиксирует ключ хранилища в одном месте. makeTask ставит границы: минуты целые и в пределах, название до сорока символов — та же функция валидации дня двадцать второго, но на уровне данных. id создаётся один раз и не меняется при редактировании: иначе поиск записи по id перестаёт находить её, и правка создаёт дубль. Связь с днём сорок: persist сохраняет ровно эти записи, и проверка формы данных из дня двадцать девятого читает их обратно.",
+        "tg": "Навъи Task қайдро тавсиф медиҳад: id, title, minutes, createdAt; ScreenName экранҳоро меномад; STORAGE калиди хазина-ро дар як ҷо сабт мекунад. makeTask ҳудудҳоро мегузорад: дақиқаҳо бутун ва дар ҳудуд, то 40 ҳарф — ҳамин функсияи валидатсияи рӯзи бисту дуюм, аммо дар сатҳи додаҳо. id як бор сохта мешавад ва ҳангоми таҳрир тағйир намеёбад: вагарна ҷустуҷӯи қайд аз рӯи id ёфтан ро намемонад ва таҳрир дучандӣ месозад. Пайванд бо рӯзи чилум: persist дақиқан ҳамин қайдҳоро нигоҳ медорад ва санҷиши шакли додаҳо аз рӯзи бисту нӯҳум онҳоро бармегардонад.",
+        "en": "The Task type describes a record: id, title, minutes, createdAt; ScreenName lists the screens; STORAGE fixes the storage key in one place. makeTask sets boundaries: whole minutes within limits, a title up to forty characters — the same validation function of day twenty-two, but at the data level. The id is created once and never changes on editing: otherwise finding the record by id stops working, and an edit creates a duplicate. Connection to day forty: persist saves exactly these records, and the data-shape check of day twenty-nine reads them back."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки модели данных",
+        "tg": "Хатоҳои маъмулии модели додаҳо",
+        "en": "Common mistakes of the data model"
+      },
+      "body": {
+        "ru": "Первая ошибка — id меняется при редактировании: правка становится «новой» записью, а старая остаётся; id рождается один раз при создании. Вторая — границы не заданы: минуты 0 и 300 проходят, и модель нарушается на первом же вводе; границы живут в makeTask, а не в проверках интерфейса. Третья — поля строкой вместо чисел: createdAt строкой ломает сортировку и сравнение дат; навъы объявляют сразу и не приводят «потом». Четвёртая — опечатка в ключе STORAGE: данные пишутся в один ключ, читаются из другого, и записи «исчезают»; ключ держат в константе.",
+        "tg": "Хатои аввал — id ҳангоми таҳрир тағйир меёбад: таҳрир қайди «нав» мешавад ва кӯҳна мемонад; id ҳангоми сохтан як бор ба дунё меояд. Хатои дуюм — ҳудудҳо гузошта нашудаанд: дақиқаҳои 0 ва 300 мегузаранд ва модел дар аввалин навиштан вайрон мешавад; ҳудудҳо дар makeTask зиндагӣ мекунанд, на дар санҷишҳои интерфейс. Хатои сеюм — майдонҳо бо сатр ба ҷои адад: createdAt-и сатрӣ сортировка ва муқоисаи санаҳоро меканад; навъҳоро фавран эълон мекунанд ва «баъдан» табдил намедиҳанд. Хатои чорум — хатогӣ дар калиди STORAGE: додаҳо ба як калид менависанд, аз дигар мехонанд ва қайдҳо «гум мешаванд»; калидро дар константа нигоҳ медоранд.",
+        "en": "The first mistake is the id changing on edit: an edit becomes a «new» record while the old one remains; the id is born once at creation. The second is missing boundaries: minutes 0 and 300 pass, and the model breaks on the first input; boundaries live in makeTask, not in interface checks. The third is fields as strings instead of numbers: a string createdAt breaks sorting and date comparison; declare types immediately and never convert «later». The fourth is a typo in the STORAGE key: data is written to one key and read from another, and records «disappear»; keep the key in a constant."
+      }
     }
   ],
   "questions": [

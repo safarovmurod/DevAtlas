@@ -45,6 +45,30 @@
       },
       "code": "import { NavigationContainer } from '@react-navigation/native';\nimport { createNativeStackNavigator } from '@react-navigation/native-stack';\nimport { Button, Text, View } from 'react-native';\n\nconst lessons = [\n  { id: 'a1', title: 'Первый шаг' },\n  { id: 'a2', title: 'Повторение' },\n];\n\nfunction ListScreen({ navigation }: { navigation: { navigate: (name: string, params?: { id: string }) => void } }) {\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      {lessons.map(lesson => (\n        <Button key={lesson.id} title={lesson.title} onPress={() => navigation.navigate('Details', { id: lesson.id })} />\n      ))}\n    </View>\n  );\n}\n\nfunction DetailsScreen({ route }: { route: { params?: { id?: string } } }) {\n  const lesson = lessons.find(item => item.id === route.params?.id);\n  return (\n    <View style={{ flex: 1, padding: 24, gap: 12 }}>\n      <Text accessibilityRole=\"header\">{lesson ? lesson.title : 'Занятие не найдено'}</Text>\n      {lesson ? <Text>Изучите тему этого занятия.</Text> : <Text>Вернитесь и выберите занятие.</Text>}\n    </View>\n  );\n}\n\nconst Stack = createNativeStackNavigator();\n\nexport default function App() {\n  return (\n    <NavigationContainer>\n      <Stack.Navigator>\n        <Stack.Screen name=\"List\" component={ListScreen} />\n        <Stack.Screen name=\"Details\" component={DetailsScreen} />\n      </Stack.Navigator>\n    </NavigationContainer>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Параметры как договор между экранами",
+        "tg": "Параметрҳо ҳамчун шартнома байни экранҳо",
+        "en": "Params as a contract between screens"
+      },
+      "body": {
+        "ru": "navigate('Details', { id }) кладёт данные в маршрут, а Details читает route.params.id: выбор едет вместе с переходом, а не живёт в глобальной переменной. Параметры — сериализуемые данные: строки, числа, простые объекты; функции и компоненты передавать нельзя. В реальном проекте тип параметров описывают вместе с типом экрана, и TypeScript подсказывает обязательное поле. Отсутствие обрабатывают всегда: route.params?.id с запасным вариантом, потому что экран может открыться без параметров — например, возврат после удаления записи. Связь с двадцать первым: общие данные живут у родителя, параметром передают только выбор.",
+        "tg": "navigate('Details', { id }) додаҳоро ба маршрут мемонад ва Details route.params.id-ро мехонад: интихоб бо гузариш меравад, на дар тағйирёбандаи умумӣ зиндагӣ мекунад. Параметрҳо додаҳои сериализуемӣанд: сатрҳо, ададҳо, объектҳои сода; функсия ва компонент фиристодан мумкин нест. Дар лоиҳаи воқеӣ навъи параметрҳоро ҳамроҳи навъи экран тавсиф мекунанд ва TypeScript майдони ҳатмиро ёдоварӣ мекунад. Набуданиро ҳамеша ҳал мекунанд: route.params?.id бо варианти иҳтиёти, чунки экран бе параметр ҳам кушода мешавад — масалан, бозгашт баъди ҳазфи қайд. Пайванд бо бисту як: додаҳои умумӣ назди волид ҳастанд, параметр танҳо интихобро мебарад.",
+        "en": "navigate('Details', { id }) puts data into the route, and Details reads route.params.id: the choice travels with the transition instead of living in a global variable. Params are serializable data: strings, numbers, plain objects; functions and components cannot be passed. In a real project the params type is described together with the screen type, and TypeScript prompts the required field. Absence is always handled: route.params?.id with a fallback, because a screen can open without params — for example, going back after a record was deleted. Connection to twenty-one: shared data lives at the parent, the param carries only the choice."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с параметрами",
+        "tg": "Хатоҳои маъмулӣ бо параметрҳо",
+        "en": "Common mistakes with params"
+      },
+      "body": {
+        "ru": "Первая ошибка — глобальная переменная вместо params: при возврате и повторном открытии экран читает чужой или старый выбор; выбор передают маршрутом. Вторая — нет обработки отсутствия params: прямое открытие экрана без параметров валит рендер на route.params.id. Третья — несовпадение типов: id как число и id как строка не равны строгим сравнением, и find возвращает undefined; тип приводят один раз при входе. Четвёртая — передали всю запись и мутируют её на втором экране: объект общий, и список меняется «сам»; на правку передают id, а запись правят в общем источнике.",
+        "tg": "Хатои аввал — тағйирёбандаи умумӣ ба ҷои params: ҳангоми бозгашт ва кушодани такрорӣ экран интихоби дигар ё кӯҳнаро мехонад; интихобро бо маршрут мебароранд. Хатои дуюм — ҳалли набудани params: кушодаи мустақими экран бе параметр рендерро бо route.params.id меканад. Хатои сеюм — номувофиқии навъҳо: id ҳамчун адад ва id ҳамчун сатр бо муқоисаи қатӣ баробар нестанд ва find undefined бармегардонад; навъро як бор ҳангоми даромадан табдил медиҳанд. Хатои чорум — фиристодани тамоми қайд ва мутатсияи он дар экрани дуюм: объект умумист ва рӯйхат «худаш» тағйир меёбад; барои тағйир id мефиристанд ва қайдро дар манбаи умумӣ тағйир медиҳанд.",
+        "en": "The first mistake is a global variable instead of params: after going back and reopening, the screen reads a foreign or stale choice; the choice travels in the route. The second is no handling of missing params: opening the screen directly without params crashes the render on route.params.id. The third is a type mismatch: id as a number and id as a string are not equal under strict comparison, and find returns undefined; convert the type once on entry. The fourth is passing the whole record and mutating it on the second screen: the object is shared, and the list changes «by itself»; pass the id for editing and change the record in the shared source."
+      }
     }
   ],
   "questions": [

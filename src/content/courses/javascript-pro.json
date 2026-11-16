@@ -162,6 +162,18 @@
       "tg": "summarizeTasks-ро мустақилона созед. Номи тағйирёбандаҳои маҳаллӣ ва алгоритм метавонанд дигар бошанд, агар шарт нигоҳ дошта шавад. Рӯйхати холӣ, як соҳиб, __proto__, owner бо фосила, done=false ва done=\"yes\"-и нодурустро санҷед. Вурудро пешу баъд муқоиса кунед; массиву элементҳо набояд тағйир ёбанд.",
       "en": "Implement summarizeTasks yourself. Local names and algorithms may differ if the contract holds. Check an empty list, one owner, __proto__, surrounding owner spaces, done=false and invalid done=\"yes\". Compare input before and after; neither the array nor its items may change."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при неизменяемой сводке",
+      "tg": "Хатоҳои маъмулӣ дар ҷамъбасти тағйирнопазир",
+      "en": "Common mistakes in an immutable summary"
+     },
+     "body": {
+      "ru": "Сортировка мутирует вход: tasks.sort() переставляет элементы в исходном массиве, и сравнить «до и после» уже нельзя — используйте [...tasks].sort(...) или toSorted. Накопление сводки в обычном объекте ловит чужие ключи: имя владельца \"constructor\" или \"__proto__\" попадает в цепочку прототипа, поэтому здесь нужен Map, у которого нет ключей по умолчанию. Spread-копия обманчива: {...task} копирует только верхний уровень, и вложенный объект остаётся общим с оригиналом. Наконец, проверка task.done на истинность вместо typeof task.done === \"boolean\" пропускает done=\"yes\" и done=0: строка и ноль ведут себя как значения, а не как флаг.",
+      "tg": "Тартибдиҳӣ вурудро тағйир медиҳад: tasks.sort() элементҳои массиви аслиро ҷойиваз мекунад ва муқоисаи «пешу баъд» дигар имконнопазир мешавад — [...tasks].sort(...) ё toSorted-ро истифода баред. Ҷамъбастро дар объекти оддӣ нигоҳ доштан калидҳои бегонаро мебарад: номи соҳиб \"constructor\" ё \"__proto__\" ба занҷири прототип мепарад, аз ин рӯ Map лозим аст, ки калиди пешфарз надорад. Spread-нусха firibgor аст: {...task} танҳо сатҳи болоиро нусха мекунад, объекти дарунӣ бо асл муштарак мемонад. Ниҳоят, санҷиши task.done барои «ҳақиқӣ» ба ҷои typeof task.done === \"boolean\" done=\"yes\" ва done=0-ро мегузаронад: сатр ва сифр мисли арзеш рафтор мекунанд, на мисли парчам.",
+      "en": "Sorting mutates the input: tasks.sort() reorders the original array, so comparing before and after becomes impossible — use [...tasks].sort(...) or toSorted. Accumulating the summary in a plain object catches foreign keys: an owner named \"constructor\" or \"__proto__\" lands in the prototype chain, which is why a Map with no default keys is needed. A spread copy is deceptive: {...task} copies only the top level, and the nested object stays shared with the original. Finally, checking task.done for truthiness instead of typeof task.done === \"boolean\" lets done=\"yes\" and done=0 slip through: a string and zero behave like values, not flags."
+     }
     }
    ],
    "interview": {
@@ -211,7 +223,13 @@
        "en": "Map sorts keys automatically on insertion"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Подумайте, где хранит ключи обычный объект, а где — Map: чьи ключи «по умолчанию» мешают имени владельца?",
+      "tg": "Фикр кунед, ки объекти оддӣ калидҳоро дар куҷо нигоҳ медорад ва Map дар куҷо: калидҳои «пешфарз»-и кадоме ба номи соҳиб халал мерасонанд?",
+      "en": "Think about where a plain object keeps its keys and where a Map does: whose default keys interfere with an owner name?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-01-q2",
@@ -242,7 +260,13 @@
        "en": "Object.freeze removes inherited properties"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Замороженные данные не защищают молча: чем оборачивается попытка изменить их?",
+      "tg": "Додаи яхкардашуда бесадо муҳофизат намешавад: кӯшиши тағйири он ба чӣ оварда мерасонад?",
+      "en": "Frozen data does not protect silently: what happens when someone tries to change it?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-01-q-understanding",
@@ -378,6 +402,18 @@
       "tg": "loadLessonCount-ро нависед. Коди HTTP-ро дар хато нигоҳ дошта, courseId ва массиви lessons-ро санҷед. Ҳолатҳои иловагӣ: массиви холӣ → 0; HTTP 401 → хато; JSON-и типи дигар → хато; радкунии fetcher бо Offline → ҳамон хато. Радкуниро бо рӯйхати холии муваффақ иваз накунед.",
       "en": "Write loadLessonCount. Preserve the HTTP status in errors and validate courseId and the lessons array. Add cases: empty array → 0; HTTP 401 → error; wrong JSON shape → error; fetcher rejecting Offline → propagated error. Do not turn failures into a successful empty list."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при разборе ответа HTTP",
+      "tg": "Хатоҳои маъмулӣ дар таҳлили ҷавоби HTTP",
+      "en": "Common mistakes when parsing an HTTP response"
+     },
+     "body": {
+      "ru": "Готовый Response ещё не успех: fetch отклоняется только при сетевом отказе, а 503 приходит обычным ответом — без проверки response.ok код начнёт разбирать JSON страницы ошибки. HTTP 200 тоже не обещает форму данных: тело может оказаться объектом с полем error или HTML-страницей, поэтому поля проверяют после разбора, а не «по статусу». Прямой вызов fetch внутри функции делает её нетестируемой: сценарии «успех, HTTP-ошибка, отказ сети» без живой сети не подставить — fetcher передают параметром. И ещё: таймаут через AbortSignal.timeout отклоняет обещание с AbortError — спутав её с HTTP-ошибкой, вы покажете пользователю неверное сообщение.",
+      "tg": "Response-и омода ҳанӯз муваффақият нест: fetch танҳо ҳангоми раддишавии шабака истисно медиҳад, вале 503 ҷавоби оддӣ меояд — бе санҷиши response.ok код таҳлили JSON-и саҳифаи хаторо оғоз мекунад. HTTP 200 ҳам шакли додаҳоро кафолат намедиҳад: бадан метавонад объекти бо майдони error ё саҳифаи HTML бошад, аз ин рӯ майдонҳоро баъди таҳлил месанҷанд, на «аз рӯйи статус». Даъвати мустақими fetch дар дохили функсия онро бесанҷ мекунад: сенарияҳои «муваффақият, хатои HTTP, раддишавии шабака» бе шабакаи ҳақиқӣ гузошта намешаванд — fetcher-ро ҳамчун параметр медиҳанд. Ва як нуктаи дигар: таймаут тавассути AbortSignal.timeout промис бо AbortError рад мешавад — омехта бо хатои HTTP ба корбар паёми нодуруст нишон медиҳад.",
+      "en": "A completed Response is not yet success: fetch rejects only on network failure, while 503 arrives as a normal response — without a response.ok check the code starts parsing the error page's JSON. HTTP 200 also does not promise the data shape: the body may be an object with an error field or an HTML page, so fields are validated after parsing, not \"by status\". Calling fetch directly inside the function makes it untestable: the \"success, HTTP error, network down\" scenarios cannot be injected without a live network — pass the fetcher as a parameter. And one more: a timeout via AbortSignal.timeout rejects with AbortError — confusing it with an HTTP error shows the user the wrong message."
+     }
     }
    ],
    "interview": {
@@ -428,7 +464,13 @@
        "en": "Only for responses with Content-Type: application/json"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что возвращает fetch при ответе 503 — исключение или обычный Response?",
+      "tg": "fetch ҳангоми ҷавоби 503 чӣ бармегардонад — истисно ё Response-и оддӣ?",
+      "en": "What does fetch return on a 503 response — an exception or a normal Response?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-02-q2",
@@ -459,7 +501,13 @@
        "en": "The parameter hides the HTTP status from the caller"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните, как тесты имитируют отказ сети, не выходя в интернет.",
+      "tg": "Ба ёд оред, ки тестҳо раддишавии шабакаро бе баромадан ба интернет чӣ тавр тақлид мекунанд.",
+      "en": "Recall how the tests emulate a network failure without leaving the machine."
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-02-q-understanding",
@@ -595,6 +643,18 @@
       "tg": "parsePreferences ва readPreferences-ро созед. JSON-и нодуруст, null, массив, версияи 2, fontSize=11/25 ва хатои getItem-ро санҷед. Танҳо version/theme/fontSize иҷозат аст: plan=\"expert\" набояд нигоҳ дошта шавад ва ҳеҷ гоҳ курси пулакиро кушояд.",
       "en": "Implement parsePreferences and readPreferences. Test invalid JSON, null, arrays, version 2, fontSize=11/25 and getItem throwing. Allow only version/theme/fontSize: an injected plan=\"expert\" must be discarded and must never unlock a paid course."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при чтении localStorage",
+      "tg": "Хатоҳои маъмулӣ дар хондани localStorage",
+      "en": "Common mistakes when reading localStorage"
+     },
+     "body": {
+      "ru": "Разбор без try/catch падает: JSON.parse на повреждённой или подрезанной строке бросает SyntaxError, и страница вместо настроек получает исключение — старое значение читают как недоверенное. Напрямую сохранить объект нельзя: хранилище держит строки, и без JSON.stringify там окажется \"[object Object]\". Сохранённый план — не доказательство Pro-доступа: данные мог записать другой проект на том же источнике или старая версия приложения, поэтому проверяют версию и разрешённые поля. И последняя мелочь: само обращение к localStorage может бросить ошибку при заблокированном хранилище, так что доступ тоже оборачивают в try.",
+      "tg": "Таҳлил бе try/catch меафтад: JSON.parse дар сатри вайроншуда ё бурида SyntaxError медиҳад ва саҳифа ба ҷои танзимот истисно мегирад — арзиши куҳонро ҳамчун номутмаин мехонанд. Объектро мустақим нигоҳ доштан мумкин нест: анбор сатрҳоро нигоҳ медорад ва бе JSON.stringify дар он \"[object Object]\" мемонад. Нақшаи нигоҳдошташуда исботи дастрасии Pro нест: додаҳоро лоиҳаи дигар дар ҳамон сарчашма ё версияи куҳони барнома навишта бошад, аз ин рӯ версия ва майдонҳои иҷозатшударо месанҷанд. Ва тартиби охирин: худи муроҷиат ба localStorage ҳангоми анбори манъшуда хато метапонад, аз ин рӯ дастрасиро низ дар try мепечонанд.",
+      "en": "Parsing without try/catch falls over: JSON.parse throws SyntaxError on a corrupted or truncated string, and the page gets an exception instead of settings — an old value is read as untrusted. Storing an object directly is impossible: the storage keeps strings, and without JSON.stringify you end up with \"[object Object]\". A saved plan is not proof of Pro access: another project on the same origin or an older app version could have written the data, so the version and allowed fields are checked. And the last detail: the localStorage access itself can throw when storage is blocked, so it is wrapped in try too."
+     }
     }
    ],
    "interview": {
@@ -646,7 +706,13 @@
        "en": "Yes, if the value is signed on the client before saving"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Кто может записать значение в localStorage и доказывает ли такая запись подписку?",
+      "tg": "Кӣ метавонад дар localStorage арзеш нависад ва оё чунин навишт мушаххасотро исбот мекунад?",
+      "en": "Who can write a value into localStorage, and does such a record prove a subscription?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-03-q2",
@@ -677,7 +743,13 @@
        "en": "It trusts new fields as extensions"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посмотрите, какую ветку проходит разбор при незнакомом значении version.",
+      "tg": "Бинед, ки ҳангоми арзиши номаълуми version кадом шохаи таҳлил иҷро мешавад.",
+      "en": "Look at which branch the parser takes for an unfamiliar version value."
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-03-q-understanding",
@@ -813,6 +885,18 @@
       "tg": "Трассаи худро созед: камаш ду нишонаи синхронӣ, микровазифа бо микровазифаи лонаадор, queueMicrotask-и алоҳида ва камаш ду таймер, ки яке аз онҳо боз якеро банақша мегирад. Аввал тартибро дар коғаз пешгӯӣ кунед, баъд иҷро карда муқоиса намоед. Камаш ҳашт муносибати тартибро бо assert тасдиқ кунед, ҳар якро бо тасдиқи алоҳида ва паёми фаҳмо. Алоҳида озмоиш кунед: агар микровазифаи лонаадор на аз реаксияи промис, балки аз queueMicrotask илова шавад, чӣ тағйир меёбад? Агар дар дохили таймер истисно партофта шавад, оё таймери навбатӣ иҷро мешавад? process.nextTick ва реаксияҳои промисро ҳамчун унсурҳои рақиб дар як трасса нагузоред: тартиби мутақобили онҳо ҷузъиёти иҷро аст, на шарт, ва тест аз рӯйи он шикастанопазар намешавад. Вазифаи иловагии бо ситора: дарозии журналро бо се сатҳи лонаадории микровазифаҳо чен карда, натиҷаро бо як ҷумла дар шарҳ баён кунед.",
       "en": "Build your own trace: at least two synchronous labels, a microtask with a nested microtask, a separate queueMicrotask, and at least two timers, one of which schedules another. Predict the order on paper first, then run and compare. Assert at least eight ordering relations, each as its own assert with a clear message. Experiment separately: what changes if the nested microtask is queued from queueMicrotask instead of from a promise reaction? If a timer callback throws, does the next timer still run? Do not include process.nextTick and promise reactions as competing elements in one trace: their mutual order is an implementation detail, not a contract, and a test built on it becomes brittle. A starred extra: measure the log length with three levels of nested microtasks and explain the result in a one-line comment."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при трассировке порядка",
+      "tg": "Хатоҳои маъмулӣ дар трассировкаи тартиб",
+      "en": "Common mistakes in execution-order tracing"
+     },
+     "body": {
+      "ru": "setTimeout(fn, 0) не значит «сразу после текущей строки»: сначала полностью осушается очередь микрозадач, и .then выполнится раньше таймера; микрозадачи, добавленные во время осушения, идут в том же заходе, до перехода к макрозадачам. Вторая ловушка — печатать метку в момент планирования: console.log(\"timer\") без обёртки в колбэк выводит текст синхронно, и трасса врёт о порядке исполнения. Третья — строить порядок на process.nextTick: у него отдельная очередь, и его позиция относительно реакций промисов не контракт, а деталь реализации. Не завязывайте утверждения на реальные миллисекунды: длинный синхронный расчёт сдвинет любой таймер — проверяют относительный порядок меток, а не время.",
+      "tg": "setTimeout(fn, 0) маънои «паймои сатри ҷорӣ»-ро намедиҳад: аввал навбати микровазифаҳо пурра кухонда мешавад ва then пеш аз таймер иҷро мешавад; микровазифаҳои дар давраи кухондан илова шуда дар ҳамон маврид, то гузариш ба макровазифаҳо мегузаранд. Доми дуюм — чопи нишона дар лаҳзаи банақшагирӣ: console.log(\"timer\") бе печонидан дар колбэк матнро синхронӣ менависад ва трасса дар бораи тартиби иҷро дурӯғ мегӯяд. Сеюм — сохтани тартиб аз рӯйи process.nextTick: навбати алоҳида дорад ва мавқеи он нисбат ба реаксияҳои промис шарт нест, тафсили татбиқ аст. Ниҳоят, тасдиқҳоро ба миллисекундҳои воқеӣ нагузоред: ҳисоби дарозии синхронӣ ҳар таймерро ҷойиваз мекунад, аз ин рӯ тартиби нисбии нишонаҳоро месанҷанд, на вақтро.",
+      "en": "setTimeout(fn, 0) does not mean \"right after the current line\": the microtask queue is drained completely first, so .then runs before the timer; microtasks added during that drain execute in the same pass, before control moves to macrotasks. The second trap is printing a label at scheduling time: console.log(\"timer\") without wrapping in a callback writes synchronously, and the trace lies about execution order. The third is building the order on process.nextTick: it has its own queue, and its position relative to promise reactions is an implementation detail, not a contract. Finally, do not tie assertions to real milliseconds: a long synchronous computation shifts any timer, so you assert the relative order of labels, not the time."
+     }
     }
    ],
    "questions": [
@@ -845,7 +929,13 @@
        "en": "They are discarded if the queue is already draining"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Очередь микрозадач осушается целиком: что происходит с метками, добавленными в этот самый момент?",
+      "tg": "Навбати микровазифаҳо пурра кухонда мешавад: бо нишонаҳое, ки дар ҳамин лаҳза илова мешаванд, чӣ мешавад?",
+      "en": "The microtask queue drains completely: what happens to labels added during that very pass?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-04-q2",
@@ -1018,6 +1108,18 @@
       "tg": "Маҷмӯи худро аз шаш сенария созед: се қимати муваффақ дар all; ҳисоботи allSettled бо ду радкунӣ; race, ки иҷро мебарад, на радкунӣ; any бо ду радкунӣ ва як иҷро; занҷира бо ду catch, ки аввалӣ қимат бармегардонад ва дуввумӣ дигар даъват намешавад; занҷира, ки catch худ хато мепартояд ва коркардкунандаи навбатӣ онро мегирад. Барои ҳар сенария сатри интизориро пеш аз иҷро сабт кунед. Тасдиқҳоро барои дарозии ҳисоботи allSettled, тартиби сабабҳо дар AggregateError ва қимати ниҳоии ҳар занҷира илова кунед. Санҷед, ки ҳеҷ радкунӣ бе коркардкунанда намемонад: як catch-ро муваққатан нест кунед, огоҳиро бинед ва онро баргардонед. Дар айни замон сенарияҳоро аз рӯйи афзоиши шумораи иштирокчиёни промис рақамгузорӣ кунед — ҳамин тавр дида мешавад, ки кадом комбинатор ба коди шумо воқеан лозим аст.",
       "en": "Assemble your own set of six scenarios: three successful values in all; an allSettled report with two rejections; a race where a fulfillment wins rather than a rejection; an any with two rejections and one fulfillment; a chain with two catch handlers where the first returns a value and the second is never called; and a chain where catch itself throws and the next handler catches it. Record the expected output line for each scenario before running. Add assertions for the allSettled report length, the order of reasons inside AggregateError, and the final value of every chain. Verify that no rejection is left without a handler: temporarily remove one catch, observe the warning, then restore it. While you are there, number the scenarios by how many promises participate — it becomes obvious which combinator your code actually needs."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки в цепочках промисов",
+      "tg": "Хатоҳои маъмулӣ дар занҷираҳои промисҳо",
+      "en": "Common mistakes in promise chains"
+     },
+     "body": {
+      "ru": "Promise.all не «дождётся всех»: первый отказ отклоняет общий промис, и результаты остальных вы теряете — когда нужен каждый исход, это allSettled, а «кто успел первым» — race или any. Комбинаторы не отменяют операции: после отклонения all остальные запросы продолжают идти в сеть — отмену делают через AbortController. Обрыв цепочки без catch — классика: один пропущенный обработчик превращает отказ в UnhandledPromiseRejection уже после того, как тесты закончились. И ещё одна мелочь: в map(async ...) забытый return обещания рвёт цепочку — следующий then получает undefined и ждёт не тот результат.",
+      "tg": "Promise.all «ҳамаро интизор намешавад»: раддишавии аввал промиси умумиро рад мекунад ва натиҷаҳои боқиро гум мекунед — ҳангоме ки ҳар натиҷа лозим аст, allSettled, ва «кӣ пештар расид» — race ё any аст. Комбинаторҳо амалиётҳоро бекор намекунанд: баъди ради all дархостҳои дигар ба шабака идома медиҳанд — бекоркунӣ тавассути AbortController мешавад. Қатъи занҷира бе catch классика аст: як коркардгари фаромӯшшуда радишиpадро баъди анҷоми тестҳо ба UnhandledPromiseRejection табдил медиҳад. Ва як тартиби дигар: дар map(async ...) return-и фаромӯшшудаи промис занҷираро меканад — then-и навбатӣ undefined мегирад ва натиҷаи дигарро интизор мешавад.",
+      "en": "Promise.all does not \"wait for everyone\": the first rejection rejects the combined promise and you lose the rest — when every outcome matters, that is allSettled, and \"whoever finished first\" is race or any. Combinators do not cancel operations: after all rejects, the remaining requests keep hitting the network — cancellation is done through AbortController. A chain cut short without catch is a classic: one missing handler turns the rejection into UnhandledPromiseRejection after the tests have already finished. And one more small thing: in map(async ...) a forgotten return of the promise breaks the chain — the next then receives undefined and waits for the wrong result."
+     }
     }
    ],
    "questions": [
@@ -1050,7 +1152,13 @@
        "en": "allSettled discards rejections and returns only values"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните, что делает all с первым же отказом и что возвращает allSettled для каждого промиса.",
+      "tg": "Муқоиса кунед, ки all бо аввалин раддишавӣ чӣ мекунад ва allSettled барои ҳар промис чӣ бармегардонад.",
+      "en": "Compare what all does at the first rejection and what allSettled returns for each promise."
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-05-q2",
@@ -1081,7 +1189,13 @@
        "en": "The resulting promise rejects with an AggregateError holding all reasons"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Подсказка в имени: any нужен «хоть один успех» — что произойдёт, если успехов нет вовсе?",
+      "tg": "Имтиёз дар ном аст: any «ҳадди ақал як муваффақият»-ро мехоҳад — агар муваффақият умуман набошад, чӣ мешавад?",
+      "en": "The name is the clue: any wants \"at least one success\" — what happens when there is none?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-05-q-understanding",
@@ -1217,6 +1331,18 @@
       "tg": "Амали бекоркунандаи худро бо журнали ҳодисаҳо созед. Сенарияҳои ҳатмӣ: бекоркунӣ аз ҷониби корбар ҳангоми иҷро; таймауте, ки аз кор кӯтоҳтар аст; анҷоми муваффақ бо тозакунӣ; сигнали аллакай кандашуда. Ҳар шоха бояд дар журнал start, дақиқ як released ва натиҷа — finished, aborted ё caught — боқӣ гузорад. Санҷед, ки баъди dispose emit-и такрорӣ коркардкунандагони гирифташударо даъват намекунад. Баъд писари ду амалро бо контроллери умумӣ илова кунед: ҳангоми бекоркунӣ ҳар ду промис бояд бо ҳамон сабаб рад шаванд ва журнал ду released нишон диҳад. Ҳатман санҷед, ки cleanup ҳам дар муваффақият ҳам дар бекоркунӣ даъват мешавад: clearTimeout-ро муваққатан нест кунед, аз журнал бинед ва баргардонед. Дархостҳои воқеии шабакавиро истифода накунед — таймерҳо кори дарозро кофӣ моделиро мекунанд. Санҷиши охирини худӣ: дар ҳалли дуруст ҳеҷ сенария released-и камтар аз як намемонад ва барои амали бекоршуда finished чоп намешавад.",
       "en": "Implement your own cancellable operation with an event log. Required scenarios: user cancellation during execution; a timeout shorter than the work; successful completion with cleanup; an already-aborted signal. Each branch must leave start, exactly one released, and an outcome — finished, aborted or caught — in the log. Verify that after dispose, a repeated emit does not invoke removed handlers. Then add a race of two operations sharing one controller: on abort both promises must reject with the same reason and the log must show two released entries. Make sure cleanup runs on both success and cancellation: temporarily remove clearTimeout, let the log expose it, then restore it. Do not use real network requests — timers model long work well enough."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при отмене операций",
+      "tg": "Хатоҳои маъмулӣ дар бекоркунии амалиётҳо",
+      "en": "Common mistakes when cancelling operations"
+     },
+     "body": {
+      "ru": "Один контроллер на все запуски не работает: сигнал можно отменить один раз, и для повторной операции нужен новый AbortController. Подписка на abort без предварительной проверки signal.aborted теряет уже случившуюся отмену: событие пришло раньше подписки и повторно не придёт — сначала проверяйте aborted или вызывайте throwIfAborted(). Обработчик, который только отклоняет промис, но не снимает таймеры и подписки, оставляет утечку: ресурсы освобождают до отклонения. И не ждите от отмены магии на сервере: клиент перестал ждать, но запись, которую сервер успел сделать, сама не откатывается.",
+      "tg": "Як контроллер барои ҳамаи оғозҳо кор намекунад: сигналро як бор бекор кардан мумкин аст ва барои амалиёти такрорӣ AbortController-и нав лозим аст. Обуна ба abort бе санҷиши пешакии signal.aborted раддишавии рӯйдодаро гум мекунад: ҳодиса пеш аз обуна омада буд ва такрор намеояд — аввал aborted-ро санҷед ё throwIfAborted() занед. Коркардгаре, ки танҳо промисро рад мекунад, вале таймерҳо ва обунаҳоро намебардорад, сарташниш мегузорад: захираҳоро то раддишавӣ озод мекунанд. Ва аз бекоркунӣ муоҷиза дар сервер интизор нашавед: муштарӣ интизористон шуд, вале сабте, ки сервер муваффақ шуд, худаш барнамегардад.",
+      "en": "One controller for every run does not work: a signal can be aborted once, and a repeated operation needs a fresh AbortController. Subscribing to abort without checking signal.aborted first loses a cancellation that already happened: the event fired before the subscription and will not fire again — check aborted or call throwIfAborted() first. A handler that only rejects the promise but leaves timers and subscriptions in place leaks: resources are released before rejecting. And do not expect server-side magic from cancellation: the client stopped waiting, but a record the server managed to write does not roll back by itself."
+     }
     }
    ],
    "questions": [
@@ -1249,7 +1375,13 @@
        "en": "The aborted property removes listeners automatically"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Событие abort приходит один раз: что увидит подписка, сделанная после отмены?",
+      "tg": "Ҳодисаи abort як бор меояд: обунае, ки баъди бекоркунӣ шудааст, чӣ мебинад?",
+      "en": "The abort event arrives once: what does a subscription made after the cancellation see?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-06-q2",
@@ -1280,7 +1412,13 @@
        "en": "Swallow the reason and return an empty result"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Начните с ресурсов, которые операция успела занять до отмены.",
+      "tg": "Аз захираҳо оғоз кунед, ки амалиёт пеш аз бекоркунӣ гирифта буд.",
+      "en": "Start with the resources the operation already holds before the cancellation."
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-06-q-understanding",
@@ -1416,6 +1554,18 @@
       "tg": "Сиёсати такрорҳои худро танзим кунед. baseMs, capMs ва паҳншавии ҷиттерро иваз карда, силсилаи нави таваққуфҳоро пешакӣ дар коғаз ҳисоб кунед — баъд журналро муқоиса намоед. Сенарияеро илова кунед, ки дар он хатои транзитӣ дар кӯшиши сеюм фаталӣ мешавад: масалан, сервер 404 доди кард — предикат бояд онро эътибор гирад ва журнал дақиқ ду таваққуф нишон диҳад. Маҳдудияти вақти умумиро илова кунед: агар ҷамъи таваққуфҳо буҷетро гузашт, кӯшишҳоро бо хатои алоҳидаи BudgetSpent қатъ кунед. Ҳудудҳоро санҷед: attempts=1 ҳеҷ таваққуф намекунад; capMs дар кӯшиши панҷум бо baseMs=100 ва capMs=400 фаъол мешавад — бо журнал исбот кунед. Дар шарҳ нависед, ки кадом амалҳои лоиҳаи шумо идемпотентӣанд ва чаро такрори дигарон бебехатар аст. Санҷиши охирини камолоти ҳал: силсилаи пешгӯишудаи таваққуфҳо бо журнал бе ягон фарқ мувофиқ аст, аз ҷумла дар нуқтаи фаъол шудани шифт.",
       "en": "Tune your own retry policy. Change baseMs, capMs and the jitter spread, compute the new pause series on paper in advance — then compare the log. Add a scenario where a transient error turns fatal on the third attempt: the server starts answering 404, say — the predicate must account for it and the log must show exactly two pauses. Add a total-time bound: when the sum of pauses exceeds a budget, stop with a dedicated BudgetSpent error. Probe the edges: attempts=1 never pauses; capMs engages on the fifth attempt with baseMs=100 and capMs=400 — prove it with the log. In a comment, explain which operations in your project are idempotent and why retrying the others is unsafe. A final maturity check: the predicted pause series matches the log with zero discrepancies, including the exact point where the cap engages."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки повторных попыток",
+      "tg": "Хатоҳои маъмулии кӯшишҳои такрорӣ",
+      "en": "Common mistakes in retry logic"
+     },
+     "body": {
+      "ru": "Повторы без паузы добивают сервис, который и так захлёбывается: экспоненциальная пауза существует, чтобы дать ему выдохнуть, а джиттер разводит клиентов, пришедших одновременно. Повторять фатальную ошибку бессмысленно: неверный запрос при повторе останется неверным — тратится бюджет попыток и время ожидания. Неидемпотентную запись повторяют «на всякий случай»: без ключа идемпотентности получаются дубликаты платежей и постов, поэтому перед повторами проверяют, как API их предотвращает. И главная — повтор «до победного»: без лимита попыток и общего срока операция крутится вечно; ограничивайте и число попыток, и суммарное время.",
+      "tg": "Такрор бе танаффус хизматрасониро, ки аллакай хазон аст, тамом мекунад: таъхири экспотенсиалӣ барои ҳамон мақсад аст, ки ӯ нафас гирад, ва jitter муштариёне, ки яквақт омадаанд, аз ҳам мепаҳлӯонад. Такрори хатои фаталӣ бемаънӣ аст: дархости нодуруст дар такрор нодуруст мемонад — бюджети кӯшишҳо ва вақти интизор исроф мешавад. Сабти нонидемпотентнокро «барои эҳтиёт» такрор мекунанд: бе калиди идемпотентнокӣ дубликатҳои пардохт ва постҳо пайдо мешаванд, аз ин рӯ пеш аз такрор месанҷанд, ки API онҳоро чӣ тавр пешгирӣ мекунад. Ва асосӣ — такрори «то ғалаба»: бе маҳдудияти кӯшишҳо ва муҳлати умумӣ амалиёт абад мегардад; ҳам шумораи кӯшишҳо, ҳам вақти умумиро маҳдуд кунед.",
+      "en": "Retries without a pause finish off a service that is already choking: the exponential pause exists to let it breathe, and jitter spreads out clients that arrived at the same moment. Retrying a fatal error is pointless: an invalid request stays invalid on retry — the attempt budget and waiting time burn for nothing. A non-idempotent write is retried \"just in case\": without an idempotency key you get duplicate payments and posts, so check how the API prevents them before retrying. And the main one — retrying \"until victory\": without an attempt cap and a total deadline the operation spins forever; limit both the number of attempts and the total time."
+     }
     }
    ],
    "questions": [
@@ -1448,7 +1598,13 @@
        "en": "Jitter makes the pauses uniform and predictable"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Представьте тысячу клиентов, у которых отказ случился в одну и ту же секунду.",
+      "tg": "Тасаввур кунед, ки ҳазор муштарӣ дар як сония раддишавӣ диданд.",
+      "en": "Picture a thousand clients whose failures land in the same second."
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-07-q2",
@@ -1479,7 +1635,13 @@
        "en": "Temporary service unavailability marked with status 503"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Изменится ли результат, если отправить тот же неверный запрос второй раз?",
+      "tg": "Оё натиҷа тағйир меёбад, агар ҳамон дархости нодурустро дубора фиристем?",
+      "en": "Will the result change if you send the same invalid request a second time?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-07-q-understanding",
@@ -1615,6 +1777,18 @@
       "tg": "Конвейери худро созед: генератори беохири ададҳои сеӣ; филтре, ки бешумораи панҷро мегузаронад; тасвир ба сатр бо префикс; интихоби шаштои аввал. Ҳисобкунаки кашиданҳоро илова карда, исбот кунед, ки конвейер ҳамон қадар унсур гирифт, чанд ки дод. take-и худро ду усул созед — бо санҷиши ҳудуд пеш аз кашидан ва баъди он — ва бо журнал фарқи ҳисобкунакро ба як элемент нишон диҳед. Генератори хониши саҳифа ба саҳифаро нависед, ки дар finally пӯшиданро сабт мекунад, ва онро тавассути for..of бо break дар саҳифаи сеюм истеъмол кунед; мутмаин шавед, ки пӯшидан кор кард. Пайдарпайиҳои беохирро бе take ҷамъ накунед — чунин даъват анҷом намеёбад ва ҳамин аст, ки танҳолӣ бе ҳудуд хатарнок аст. Ҳамчун таҷрибаи сеюм генератореро бо finally илова кунед, ки пӯшиданро ба журнал менависад, ва мутмаин шавед, ки баромади барвақт онро дақиқ як бор даъват мекунад.",
       "en": "Build your own pipeline: an infinite generator of multiples of three; a filter keeping those not divisible by five; a mapping to a prefixed string; a take of the first six. Add a pull counter and prove the pipeline pulled exactly as many elements as it yielded. Implement your own take twice — checking the limit before pulling and after — and show the one-element difference in the counter with a log. Write a page-by-page reading generator that marks closing in finally, consume it via for..of with a break on the third page, and confirm the closing ran. Never spread an infinite sequence without take — such a call never finishes, which is exactly why unbounded laziness is dangerous. As a third experiment, add a generator whose finally logs the closing, and confirm an early return triggers it exactly once."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки с генераторами",
+      "tg": "Хатоҳои маъмулӣ бо генераторҳо",
+      "en": "Common mistakes with generators"
+     },
+     "body": {
+      "ru": "Вызов генератора не запускает тело: до первого next() он просто возвращает объект-итератор, и «пустой» результат выглядит как поломка. Проверка done в ручном цикле обязательна: while (true) без if (next.done) break крутится вечно. yield и return путают часто: return внутри генератора завершает последовательность и приходит одним значением вместе с done=true, а не как обычный элемент. И не «прогревайте» генератор лишним next(): первое значение уходит в никуда, а вместе с ним и логика, которая его ждала; каждому next() соответствует ровно один yield.",
+      "tg": "Даъвати генератор баданро оғоз намекунад: то аввалин next() вай танҳо объекти итераторро бармегардонад ва натиҷаи «холӣ» мисли вайронӣ менамояд. Санҷиши done дар даври дастӣ ҳатмист: while (true) бе if (next.done) break абад мегардад. yield ва return-ро бисёр омехта мекунанд: return дар дохили генератор пайдарпақиро тамом мекунад ва ҳамчун як арзеш бо done=true меояд, на ҳамчун элементи муқаррарӣ. Ва генераторро бо next()-и изроҳӣ «гарм» накунед: арзиши аввал ба куҷо намеравад, бо он мантиқе, ки онро интизор буд; ба ҳар next() дақиқ як yield мувофиқат мекунад.",
+      "en": "Calling a generator does not run its body: until the first next() it simply returns an iterator object, and the \"empty\" result looks like a breakdown. The done check in a manual loop is mandatory: while (true) without if (next.done) break spins forever. yield and return get confused often: return inside a generator ends the sequence and arrives as a single value together with done=true, not as a regular element. And do not \"warm up\" a generator with an extra next(): the first value goes nowhere, along with the logic waiting for it; each next() matches exactly one yield."
+     }
     }
    ],
    "questions": [
@@ -1647,7 +1821,13 @@
        "en": "A { value, done } object, where done=true only after a return or exhaustion"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Что именно лежит в объекте, который возвращает next(), и когда done становится true?",
+      "tg": "Дар объекти аз next() бармегарданда ақнан чӣ ҷой дорад ва done кай true мешавад?",
+      "en": "What exactly sits in the object next() returns, and when does done become true?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-08-q2",
@@ -1678,7 +1858,13 @@
        "en": "The engine detects infinity and stops the computation itself"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Когда вычисляется следующее значение генератора — при создании или по требованию?",
+      "tg": "Арзиши ояндаи генератор кай ҳисоб мешавад — ҳангоми сохтан ё бо талаб?",
+      "en": "When is a generator's next value computed — at creation time or on demand?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-08-q-understanding",
@@ -1855,7 +2041,13 @@
        "en": "The binding is created only after the first function call"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сравните то, что видит импорт в момент обращения, с фотографией значения на момент старта.",
+      "tg": "Он чи ки импорт ҳангоми муроҷиат мебинад бо «акси» арзеш дар лаҳзаи оғоз муқоиса кунед.",
+      "en": "Compare what the import sees at access time with a snapshot taken at startup."
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-09-q2",
@@ -1886,7 +2078,13 @@
        "en": "A ReferenceError: reading the binding before initialization hits the dead zone"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В примере оба порядка входа запускались: вспомните, что печатает неудачный.",
+      "tg": "Дар мисол ҳар ду тартиби вуруд иҷро шуда буд: ба ёд оред, ки тартиби ноком чӣ чоп мекунад.",
+      "en": "Both entry orders were run in the example: recall what the failing one prints."
+     },
+     "relatedSection": 1
     },
     {
      "id": "javascript-pro-day-09-q-understanding",
@@ -2027,6 +2225,18 @@
       "tg": "Ҳарду моделро худӣ такрор кунед. Шинаи бо ҳисоби коркардкунандагонро созед ва компонентеро бо се давраи ҳаёт нависед: васлкунӣ — обуна, навсозӣ — танҳо додаҳо, ҷудокунӣ — азобуна. Журнал бояд нишон диҳад, ки баъди даҳ навсозӣ коркардкунанда боз як аст ва баъди ҷудокунӣ — сифр. Компоненти дуюмро бо талафи қасдӣ тавассути обуна дар усули навсозӣ илова кунед ва афзоиши ҳисобкунакро нишон диҳед. Барои кэш баланд кардани кӯҳнатаринро созед ва ҳудудҳоро санҷед: кэши холӣ, дақиқ дар шифт, зиёдшавӣ ба як. WeakMap-ро дар намоиши метадода ба Map иваз кунед ва дар шарҳ нависед, ки аз назари нигоҳдорӣ чӣ тағйир мешавад ва чаро size пайдо мешавад. Дар охир хаттӣ ҷавоб диҳед: се истиноди кадом талафи маъмулии коди шуморо медоранд ва кӣ онҳоро бояд озод кунад.",
       "en": "Reproduce both models yourself. Build a bus with listener counting and write a component with three lifecycle steps: mount subscribes, update only changes data, unmount unsubscribes. The log must show that after ten updates there is still one listener and after unmount there are zero. Add a second component with a deliberate leak via subscribing inside the update method and show the counter growing. For the cache, implement oldest-entry eviction and probe the edges: an empty cache, exactly at the ceiling, one over. Replace WeakMap with Map in the metadata demo and explain in a comment what changes from a retention standpoint and why size appears. Finish by answering in writing: which three references a typical leak in your code holds, and who is responsible for releasing them."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки, удерживающие память",
+      "tg": "Хатоҳои маъмулӣ, ки хотираро нигоҳ медоранд",
+      "en": "Common mistakes that retain memory"
+     },
+     "body": {
+      "ru": "Подписка без отписки — главный источник роста памяти: шина держит колбэк, колбэк держит замыкание, замыкание держит весь компонент, и страница толстеет с каждым рендером. Метаданные узлов в Map удерживают сами ключи: если запись нужна лишь пока жив элемент, это работа WeakMap. Надежда «сборщик сам разберётся» обманчива: он освобождает только то, до чего нет достижимых ссылок, поэтому чистят ссылки — снимают обработчик, делают clearInterval, — а не запускают «уборку» вручную. Отдельно setInterval без clearInterval: таймер сам держит колбэк живым до конца страницы.",
+      "tg": "Обуна бе баровардан манбаи асосии афзоиши хотира аст: автобус колбэкро нигоҳ медорад, колбэк замикунӣ, замикунӣ тамоми компонентро мекашад ва саҳифа бо ҳар render фарбех мешавад. Метадатаи гиреҳҳо дар Map худи калидҳоро нигоҳ медорад: агар сабт танҳо то зинда будани элемент лозим бошад, ин кори WeakMap аст. Умеди «ҷамъовари худаш мефаҳмад» firibgor аст: ӯ танҳо онро озод мекунад, ки истиноди дастёб набошад, аз ин рӯ истинодҳоро тоза мекунанд — коркардгарро мебардоранд, clearInterval мекунанд, — на «тозакунӣ»-ро дастӣ оғоз мекунанд. Чун дигар: setInterval бе clearInterval — таймер худаш колбэкро то охири саҳифа зинда медорад.",
+      "en": "A subscription without an unsubscription is the main source of memory growth: the bus holds the callback, the callback holds the closure, the closure holds the whole component, and the page grows with every render. Node metadata in a Map keeps the keys themselves alive: if an entry is needed only while the element lives, that is a WeakMap's job. The hope that \"the collector will figure it out\" is deceptive: it frees only what has no reachable references, so you clean the references — remove the handler, clearInterval — rather than run cleanup manually. Separately: setInterval without clearInterval keeps the callback alive until the page dies."
+     }
     }
    ],
    "questions": [
@@ -2059,7 +2269,13 @@
        "en": "The event is stored in the DOM and is never cleaned up"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Пройдите цепочку: шина держит что? а колбэк держит что?",
+      "tg": "Занҷирро гузаред: автобус чиро нигоҳ медорад? колбэк чиро?",
+      "en": "Walk the chain: the bus holds what? and the callback holds what?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-10-q2",
@@ -2090,7 +2306,13 @@
        "en": "WeakMap does not keep keys alive and does not let them be enumerated"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Спросите себя: должна ли запись жить дольше, чем сам элемент?",
+      "tg": "Аз худ бипурсед: оё сабт бояд аз худи элемент дарозтар зиндагӣ кунад?",
+      "en": "Ask yourself: should the entry outlive the element itself?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-10-q-understanding",
@@ -2226,6 +2448,18 @@
       "tg": "Версияҳои худии се усулро созед ва дар ҳудудҳо санҷед. Барои debounce: силсилае, ки ҳеҷ гоҳ ором намешавад — даъват нест; силсила бо таваққуфи дақиқ ба waitMs — даъват ҳаст; силсилаи такрорӣ баъди даъват аз таймери тоза кор мекунад. Барои throttle: ҳодиса дар худи интервал — бе даъвати хотимавӣ; ду ҳодиса пай дар пай — як пешгоҳӣ ва як хотимавӣ; интервал ду баробар аз тиреза калон. Барои мемоизатсия: функсияи калид барои функсияи дуаргументӣ; объект бо майдонҳои якхела дар тартиби гуногун — шарҳ диҳед, чаро калиди JSON промахи кэш медиҳад ва кай ин қобили қабул аст. Дар ҳама ҳолатҳо аввал шумораи интизории даъватҳоро сабт кунед, баъд бо ҳисобкунак тасдиқ намоед. Бекоркуниро илова кунед: dispose дар debounce таймери мавқуфро мегирад; мутмаин шавед, ки баъди бекоркунӣ даъват нест.",
       "en": "Implement your own versions of the three techniques and probe their edges. For debounce: a series that never quiets down — no call; a series with a pause of exactly waitMs — a call happens; a repeated series after a call starts from a clean timer. For throttle: an event landing exactly on the interval boundary — no trailing call; two back-to-back events — one leading and one trailing; an interval twice the window. For memoization: a key function for a two-argument function; an object with the same fields in a different order — explain why the JSON key misses the cache and when that is acceptable. In every case, write down the expected call count first, then confirm it with a counter. Add cancellation: a debounce dispose clears the pending timer; verify no call happens after disposal."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки debounce, throttle и мемоизации",
+      "tg": "Хатоҳои маъмулии debounce, throttle ва мемоизатсия",
+      "en": "Common mistakes with debounce, throttle and memoization"
+     },
+     "body": {
+      "ru": "Debounce на прокрутке «молчит»: пока события идут потоком, вызов всё откладывается — для скролла нужен throttle, который гарантирует вызов не чаще интервала. Debounce для автосохранения уместен, но помните цену: промежуточные состояния не сохраняются вовсе. Мемоизация нечистой функции кэширует зависимость от времени или сети: второй вызов вернёт устаревший результат, как будто это правда. Ключ через JSON.stringify стоит памяти и процессора на каждый вызов и склеивает разные аргументы ({a:1, b:2} и {b:2, a:1} — «одинаковые») либо разводит равные — стройте ключ из нормализованных полей.",
+      "tg": "Debounce ҳангоми скролл «хомӯш» мешавад: то ҳодисаҳо ҷараён медоранд, даъват таъхир мешавад — барои скролл throttle лозим аст, ки даъвати камтар аз байнро кафолат медиҳад. Debounce барои автонигаҳдорӣ мувофиқ аст, вале нархашро дар ёд доред: ҳолатҳои миёна тамоман нигоҳ дошта намешаванд. Мемоизатсияи функсияи нопок вобастагии вақт ё шабакаро кэш мекунад: даъвати дуюм натиҷаи куҳонро бармегардонад, гӯё он ҳақ аст. Калид тавассути JSON.stringify барои ҳар даъват хотира ва протсессор месӯзад ва далелҳои гуногунро якҷоя мекунад ({a:1, b:2} ва {b:2, a:1} — «якхела») ё ҳамроҳро ҷудо мекунад — калидро аз майдонҳои муқарраршуда созед.",
+      "en": "Debounce on scrolling \"keeps quiet\": while events stream in, the call keeps postponing — scrolling needs throttle, which guarantees a call no more often than the interval. Debounce for autosave is fitting, but mind the price: intermediate states are not saved at all. Memoizing an impure function caches its dependence on time or the network: the second call returns a stale result as if it were true. A key built through JSON.stringify costs memory and CPU on every call and glues different arguments together ({a:1, b:2} and {b:2, a:1} become \"equal\") or splits equal ones apart — build the key from normalized fields."
+     }
     }
    ],
    "questions": [
@@ -2258,7 +2492,13 @@
        "en": "There is no difference: both name the same timer"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Один ждёт тишины, другой гарантирует интервал: какой из них какой?",
+      "tg": "Яке оромиро интизор мешавад, дигаре байнро кафолат медиҳад: кадоме кадом аст?",
+      "en": "One waits for silence, the other guarantees an interval: which is which?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-11-q2",
@@ -2289,7 +2529,13 @@
        "en": "Memoization with a JSON key is always safe and free"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Подумайте о цене построения такого ключа и о том, какие разные аргументы он делает «одинаковыми».",
+      "tg": "Ба арзи сохтани чунин калид ва ба он фикр кунед, ки кадом далелҳои гуногуни ба якхела табдил медиҳад.",
+      "en": "Think about the cost of building such a key and which different arguments it makes \"equal\"."
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-11-q-understanding",
@@ -2425,6 +2671,18 @@
       "tg": "Функсияи худии дорои шохаҳоро интихоб кунед — масалан, парсери сатри дархост ё normalizatori телефон — ва ҳар шохаро бо ҳисобкунак муҷаҳҳаз кунед. Ҷадвали тест-кейсҳоро тавре созед, ки ҳар шоха камаш як бор фаро гирифта шавад ва қиматҳои марзӣ — ду бор: дар марз ва наздикӣ он. Тест барои радкунӣ илова кунед: типи нодуруст, сатри холӣ, null — ва мутмаин шавед, ки паёми хато мазмундор аст. Як тести қасдан афтодаро дароварда, сатри fail-ро бо паёми он сабт кунед, баъд интизориро ислоҳ кунед. Тестҳоро ба шакли node:test гузаронед: ҳамон рӯйхат тавассути test() ва describe() ва node --test-ро иҷро карда, ду протоколро муқоиса кунед. Хаттӣ ҷавоб диҳед: кадом шохаҳои функсияи шумо бе санҷиш мемонанд, агар танҳо як ҳолат аз ҷадвал нест шавад, ва чаро ин хатарнок аст.",
       "en": "Pick your own branching function — a query-string parser or a phone normalizer, say — and instrument every branch with a counter. Build the test-case table so each branch is covered at least once and boundary values twice: on the boundary and next to it. Add a rejection test: a wrong type, an empty string, null — and make sure the error message is meaningful. Include one knowingly failing test, pin its fail line with the message, then fix the expectation. Port the tests to node:test form: the same list via test() and describe(), run node --test, and compare how informative the two protocols are. Answer in writing: which branches of your function would remain untested if a single row left the table, and why that is dangerous."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при написании тестов",
+      "tg": "Хатоҳои маъмулӣ дар навиштани тестҳо",
+      "en": "Common mistakes when writing tests"
+     },
+     "body": {
+      "ru": "Копипаста проверок вместо таблицы тестов оставляет вас наедине с падением: непонятно, какой случай сломался, а новый случай — ещё один кусок кода, а не строка данных. Только счастливый путь — половина покрытия: ветка отказа без теста сработает впервые на проде. Общий изменяемый fixture между случаями создаёт зависимость от порядка: второй тест видит следы первого — каждому случаю нужны свои данные. Отдельная ловушка асинхронности: сравнение внутри обещания без await в тесте не дождётся выполнения — тест зелёный, хотя ни одна проверка не запускалась.",
+      "tg": "Нусхабардории санҷишҳо ба ҷои ҷадвали тестҳо шуморо бо афтиш танҳо мегузорад: маълум нест, кадом ҳолат вайрон шуд, ва ҳолати нав — як порчаи дигар аст, на сатри додаҳо. Танҳо роҳи бахт — нисфи пӯшонӣ: шохаи раддишавӣ бе тест нахустин бор дар прод кор мекунад. Фиксатураи умумии тағйирпазир байни ҳолатҳо вобастагии тартибро мебарад: тести дуюм асоми нахустинро мебинад — ҳар ҳолат додаҳои худро мехоҳад. Доми алоҳидаи асинхронӣ: муқоиса дар дохили промис бе await дар тест анҷомро интизор намешавад — тест сабз аст, ҳарчанд ягон санҷиш оғоз нашуда бошад.",
+      "en": "Copy-pasted checks instead of a test table leave you alone with the failure: it is unclear which case broke, and a new case is another block of code rather than a data row. The happy path alone is half the coverage: an error branch without a test fires for the first time in production. A shared mutable fixture across cases creates order dependence: the second test sees traces of the first — every case needs its own data. A separate async trap: a comparison inside a promise without await in the test never completes — the test is green even though no check ever ran."
+     }
     }
    ],
    "questions": [
@@ -2457,7 +2715,13 @@
        "en": "A table turns off error messages"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что вы увидите при падении: имя случая в данных или стектрейс третьей копии?",
+      "tg": "Ҳангоми нокомӣ чӣ мебинед — номи ҳолат дар додаҳо ё стектрейси нусхаи сеюм?",
+      "en": "On failure, what do you see: the case name in the data or a stack trace of the third copy?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-12-q2",
@@ -2488,7 +2752,13 @@
        "en": "Every line of the function has been read by a linter"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Перечислите ветки функции: сколько из них запускал ваш набор тестов?",
+      "tg": "Шохаҳои функсияро рақамгузорӣ кунед: кадоме аз маҷмаи тестҳои шумо иҷро шудааст?",
+      "en": "List the function's branches: how many of them did your test set ever run?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-12-q-understanding",
@@ -2663,7 +2933,13 @@
        "en": "A personal assessment of the author's working speed"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните схему замечания: наблюдение, сценарий, предложение, приоритет — где в ней место для стиля?",
+      "tg": "Схемаи мулоҳозаро ба ёд оред: мушоҳида, сенарий, пешниҳод, аҳамият — услуб дар он ҷои чӣ аст?",
+      "en": "Recall the remark scheme: observation, scenario, proposal, priority — where does style fit in?"
+     },
+     "relatedSection": 2
     },
     {
      "id": "javascript-pro-day-13-q2",
@@ -2694,7 +2970,13 @@
        "en": "The cache automatically protects the data from changes"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Найдите в сниппете правку строк на месте и кэш на функции: кто ещё видит те же данные?",
+      "tg": "Дар сниппет тағйири сатрҳоро дар ҷой ва кэш дар функсия ёбед: кӣ дигар ҳамин додаҳоро мебинад?",
+      "en": "Find the in-place row edits and the cache on the function in the snippet: who else sees the same data?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "javascript-pro-day-13-q-understanding",
@@ -2835,6 +3117,18 @@
       "tg": "Пайплайнро бо сенарияи худ васеъ кунед. Саҳифаи чорумро илова кунед, ки буҷети кӯшишҳоро тамом мекунад: pipeline бояд инро бо сатри алоҳида хабар диҳад ва коркардро бо саҳифаҳои дигар идома диҳад — афтодани як саҳифа набояд тамоми ҳисоботро афканад. Ба валидатсия қоидаи нав илова кунед: amount-и аз ҳазор зиёд бо огоҳӣ мечашикад, вале сатр боэътибор мемонад; огоҳиҳоро дар ҳисобот бо блоки алоҳида нишон диҳед. Агрегатсияро тағйир диҳед: миёнаи минтақаро илова карда, ROUND-ро то ададҳои пурра санҷед. Хуруҷи пурраро пеш аз иҷро, аз ҷумла журнали таваққуфҳоро, пешгӯӣ кунед ва муқоиса намоед. Курсро тамом карда, хаттӣ баён кунед, ки кадом қисмҳои пайплайнро ба модулҳо мебароред ва кадом тестҳо ҳар шартро мустаҳкам мекунанд: боркунӣ, валидатсия, агрегатсия, ҳисобот. Ҷавоб ба ин савол харитаи кори оянда аст: шарт бе тест мустаҳкам ҳисоб намешавад, ҳарчанд чӣ қадар возеҳ менамояд.",
       "en": "Extend the pipeline with your own scenario. Add a fourth page that exhausts the attempt budget: the pipeline must report it on a dedicated line and keep processing the remaining pages — one page failing must not take down the whole report. Add a validation rule: amounts above one thousand are flagged with a warning while the row stays valid; show the warnings as a separate report block. Change the aggregation: add a per-region average and verify rounding to integers. Predict the complete output before running, pause log included, then compare. As the course closes, state in writing which parts of the pipeline you would extract into modules and which tests would pin each contract: loading, validation, aggregation, reporting. The answer to that question is the map of future work: a contract without a test counts as unpinned, however obvious it looks."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки в пайплайне данных",
+      "tg": "Хатоҳои маъмулӣ дар пайплайни додаҳо",
+      "en": "Common mistakes in a data pipeline"
+     },
+     "body": {
+      "ru": "Повтор при фатальной ошибке сжигает бюджет: транзитный сбой заслуживает паузы и повтора, а «нет такого пользователя» не изменится никогда — его сразу передают выше. Отчёт из непроверенных строк недостоверен: одно испорченное значение делает итог сомнительным, поэтому валидация — отдельный этап, а отклонённые записи фиксируются с причиной. Без потолка общего времени пайплайн повторяет «до победного»: ограничивайте и число попыток, и срок. Мутация общих строк при агрегации подмешивает результат предыдущего этапа в следующий: считайте новые объекты, а не правьте входные.",
+      "tg": "Такрор ҳангоми хатои фаталӣ бюджет месӯзонад: хатои муваққатӣ таъхир ва такрорро сазовор аст, вале «чунин корбар нест» ҳеҷ гоҳ тағйир намеёбад — онро фавран боло мепезарад. Ҳисоби аз сатрҳои насанҷишуда бемаъно аст: як арзиши вайроншуда натиҷаро шаккок мекунад, аз ин рӯ санҷиши дурустӣ марҳалаи алоҳида аст ва сабтҳои радшуда бо сабаб гузошта мешаванд. Бе сарҳади вақти умумӣ пайплайн «то ғалаба» такрор мекунад: ҳам шумораи кӯшишҳо, ҳам муҳлатро маҳдуд кунед. Тағйири сатрҳои муштарак ҳангоми ҷамъбаст натиҷаи марҳалаи қаблиро ба минбаъда медохил мекунад: объекти нав ҳисоб кунед, на вурудро ислоҳ.",
+      "en": "Retrying on a fatal error burns the budget: a transient failure deserves a pause and a retry, while \"no such user\" never changes — pass it up immediately. A report built from unvalidated rows is not trustworthy: one corrupted value makes the total doubtful, so validation is a separate stage and rejected rows are recorded with a reason. Without a total-time ceiling the pipeline retries \"until victory\": cap both the attempt count and the deadline. Mutating shared rows while aggregating mixes the previous stage's result into the next one: compute new objects instead of editing the inputs."
+     }
     }
    ],
    "questions": [
@@ -2867,7 +3161,13 @@
        "en": "The distinction only affects the message text"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Разделите ошибки на «подождёт и пройдёт» и «не изменится никогда»: какая тратит бюджет повторов?",
+      "tg": "Хатоҳоро ба «интизор мешавад ва мегузарад» ва «ҳеҷ гоҳ тағйир намеёбад» ҷудо кунед: кадоме бюджети такрорро месӯзонад?",
+      "en": "Split errors into \"wait and it passes\" and \"never changes\": which one burns the retry budget?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-14-q2",
@@ -2898,7 +3198,13 @@
        "en": "Validation runs after aggregation anyway"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что стоит в отчёте, если одна строка не прошла проверку, но попала в сумму?",
+      "tg": "Дар ҳисоб чӣ менависад, агар як сатр санҷишро нагузашта, ба ҷамъ даромада бошад?",
+      "en": "What is the report worth if one row failed validation but still entered the total?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-14-q-understanding",
@@ -3002,7 +3308,7 @@
       "ru": "TypeScript добавляет к JavaScript проверку типов до запуска. Можно начать с @ts-check и комментариев JSDoc в существующем .js; typedef здесь даёт имя форме данных. При переходе на .ts аннотации типов не выполняются в браузере или Node.js. Если API прислал неверную запись, её может отвергнуть только реально работающая проверка данных.",
       "tg": "TypeScript ба JavaScript санҷиши типҳоро пеш аз иҷро илова мекунад. Дар .js-и мавҷуда бо @ts-check ва шарҳи JSDoc сар кун: typedef ба шакли дода ном медиҳад. Вақте ба .ts гузаштӣ, annotation-и тип дар браузер ё Node.js ҳамчун санҷиш кор намекунад. Сабти нодурусти API-ро фақат коди санҷиши дода рад карда метавонад.",
       "en": "TypeScript checks types before running JavaScript. Existing .js code can start with @ts-check and JSDoc, where a typedef names a data shape. Type annotations do not run as validation when code moves to .ts. Only an actual runtime check can reject a malformed API entry."
-    }
+     }
     },
     {
      "title": {
@@ -3033,6 +3339,18 @@
       "ru": "Реализуйте parseConfig по образцу примера: функция принимает объект настроек, описанный через typedef, и возвращает замороженный результат или бросает ошибку с точным именем поля. Шаги: 1) опишите typedef Config с полями port, host и retries; 2) напишите рантайм-охраны для каждого поля — целые числа в диапазоне, непустые строки; 3) добавьте // @ts-check вверху файла и убедитесь, что аннотации согласованы с охранами; 4) проверьте три неверных вызова через assert.throws; 5) сравните вход до и после вызова. Помните: проверщик не заменяет шаг 2 — он ловит несоответствия внутри вашего кода, но ничего не знает о данных извне. Когда оба контракта сходятся, файл можно переименовать в .ts без изменения ни одной строки логики. Полное задание и критерии приёма — в блоке практики ниже. Отдельно отметьте, что замороженный результат не мешает повторным вызовам: каждая проверка создаёт новый объект, а вход остаётся нетронутым от первого до последнего обращения.",
       "tg": "parseConfig-ро аз рӯи намунаи мисол созед: функсия объектеро, ки бо typedef тавсиф шудааст, қабул мекунад ва натиҷаи яхкардашударо баргардонад ё хато бо номи дақиқи майдон меафканад. Қадамҳо: 1) typedef Config бо майдонҳои port, host ва retries-ро тавсиф кунед; 2) барои ҳар майдон ҳимояи вақти иҷро нависед — ададҳои бутун дар ҳудуд, сатрҳои нобоши; 3) // @ts-check-ро дар болои файл илова кунед ва мувофиқии ҳошиянависҳо бо ҳимояҳоро санҷед; 4) се даъвати нодурустро тавассути assert.throws санҷед; 5) вурудро пеш аз даъват ва баъд аз он муқоиса кунед. Ба ёд доред: санҷишгар қадами 2-ро иваз намекунад — вай номувофиқиҳоро дар дохили рамзи шумо мебинад, вале дар бораи додаҳои аз берун ҳеҷ чиз намедонад. Вақте ки ҳар ду шарт мувофиқ меоянд, файлро метавон бе тағйири як сатри мантиқ ба .ts аз нав ном гузошт. Вазифаи пурра ва меъёрҳои қабул дар блоки амалияи поён аст.",
       "en": "Implement parseConfig following the example: a function that takes a settings object described by a typedef and returns a frozen result or throws an error naming the exact field. Steps: 1) describe a typedef Config with port, host and retries fields; 2) write runtime guards for every field — integers within a range, non-empty strings; 3) add // @ts-check at the top of the file and make sure annotations agree with the guards; 4) verify three invalid calls through assert.throws; 5) compare the input before and after the call. Remember: the checker does not replace step 2 — it catches inconsistencies inside your own code but knows nothing about external data. Once both contracts agree, the file can be renamed to .ts without changing a single line of logic. The full task and acceptance criteria are in the practice block below."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при переходе на TypeScript",
+      "tg": "Хатоҳои маъмулӣ дар гузариш ба TypeScript",
+      "en": "Common mistakes when moving to TypeScript"
+     },
+     "body": {
+      "ru": "Аннотации — не проверка: после компиляции типов нет, и JSON с неверным полем пройдёт в .ts-проекте так же свободно, как в .js — на границе ввода нужен исполняемый код проверки. Мягкую миграцию начинают не с переименования файлов, а со строки // @ts-check вверху файла: без неё проверщик молчит. Заливать всё any — способ выключить проверку: тип становится «правдой» без доказательств, и ошибки возвращаются в рантайм. И не плодите одинаковые typedef в каждом файле: именованная форма данных описывается один раз и переиспользуется импортом.",
+      "tg": "Аннотацияҳо — санҷиш нестанд: баъди компилятсия намудҳо вуҷуд надоранд ва JSON бо майдони нодуруст дар лоиҳаи .ts ҳамон тавр мегузарад, ки дар .js — дар марзи вуруд коди иҷрошавандаи санҷиш лозим аст. Миграцияи нармро аз гузоштани номи файл оғоз намекунанд, балки аз сатри // @ts-check дар болои файл: бе он санҷанда хомӯш аст. Пур кардани ҳама бо any — роҳи хомӯш кардани санҷиш аст: намуд бе исбот «ҳақ» мешавад ва хатоҳо ба рантайм бармегарданд. Ва typedef-и якхеларо дар ҳар файл зиёд накунед: шакли номдори додаҳо як бор тасвир мешавад ва тавассути import истифода мешавад.",
+      "en": "Annotations are not validation: after compilation there are no types, and JSON with a wrong field passes through a .ts project as freely as through .js — the input boundary needs executable checking code. A soft migration starts not with renaming files but with a // @ts-check line at the top of the file: without it the checker stays silent. Pouring everything into any is a way to switch checking off: the type becomes \"true\" without evidence, and the errors return at runtime. And do not multiply identical typedefs in every file: a named data shape is declared once and reused through imports."
      }
     }
    ],
@@ -3066,7 +3384,13 @@
        "en": "The type checker runs at execution time and slows down Node.js"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что остаётся от аннотаций после компиляции и кто тогда проверит данные с сервера?",
+      "tg": "Аз аннотатсияҳо баъди компилятсия чӣ мемонад ва он гоҳ кӣ додаҳои серверро месанҷад?",
+      "en": "What remains of annotations after compilation, and who then checks the server's data?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-15-q2",
@@ -3097,7 +3421,13 @@
        "en": "With the line // @ts-check at the top of the file: the checker reads JSDoc without changing the build"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Миграция начинается с одной строки вверху файла, а не с переименования .js в .ts.",
+      "tg": "Миграция аз як сатри болои файл оғоз мешавад, на аз гузоштани .js ба ҷои .ts.",
+      "en": "The migration starts with one line at the top of the file, not with renaming .js to .ts."
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-15-q3",
@@ -3128,7 +3458,13 @@
        "en": "Type coercion rules for arithmetic"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Это имя, которое проверщик применяет к форме данных: где его объявляют?",
+      "tg": "Ин номест, ки санҷанда ба шакли додаҳо татбиқ мекунад: онро дар куҷо эълон мекунанд?",
+      "en": "It is a name the checker applies to a data shape: where do you declare it?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3195,7 +3531,7 @@
       "ru": "Класс задаёт способ создавать объекты и методы для их общего использования. Когда у объекта нет своего свойства, JavaScript ищет его в прототипе. В вызове item.total() this указывает на item, но у вынутой отдельно функции такой связи уже нет. Наследование полезно для общего поведения; если нужен только один расчёт, проще передать отдельную функцию.",
       "tg": "Класс роҳи сохтани объект ва методҳои умумиро медиҳад. Агар хосият дар худи объект набошад, JavaScript онро аз прототип мекобад. Дар item.total() this ба item ишора мекунад. Агар методро ҷудо гирифта даъват кунӣ, ин пайванд гум мешавад. Барои як ҳисоб функсияи ҷудо одатан бас аст.",
       "en": "A class defines how to create objects and share methods. When an object has no own property, JavaScript looks along its prototype chain. In item.total(), this is item; a detached function call loses that receiver. Inheritance is useful for shared behavior. Pass a separate function if one calculation is all you need."
-    }
+     }
     },
     {
      "title": {
@@ -3226,6 +3562,18 @@
       "ru": "Реализуйте собственную иерархию и её альтернативу. Шаги: 1) класс Logger с приватным полем #count и методом log; 2) подкласс TimestampLogger, который перед печатью вызывает super.log и добавляет метку времени из инжектированных часов; 3) восстановите цепочку прототипов через Object.getPrototypeOf и напечатайте её; 4) отделите метод и покажите ошибку, затем верните поведение через bind; 5) соберите makeLogger на закрытии и сравните счётчики. Сравните оба решения честно: класс даёт общий тип и instanceof, закрытие даёт приватность и отсутствие this. Полное задание с пронумерованными шагами — в блоке практики ниже. Дополнительное упражнение: сделайте TimestampLogger так, чтобы он работал и без родительских часов — по умолчанию используйте Date.now, но позвольте переопределение. Проверьте, что bind не копирует приватное поле в новый объект, а лишь восстанавливает this: после привязки счётчик продолжает общий. И последнее: сравните размер экземпляров класса и замыкания в консоли Node.js, чтобы почувствовать разницу в устройстве памяти.",
       "tg": "Иерархияи худро ва бадели он татбиқ кунед. Қадамҳо: 1) синфи Logger бо майдони хусусии #count ва методи log; 2) зерсинфи TimestampLogger, ки пеш аз чоп super.log-ро фаро хонда, нишонии вақтро аз соатҳои инжектишуда илова мекунад; 3) занҷираи прототипҳоро тавассути Object.getPrototypeOf барқарор карда, чоп кунед; 4) методро ҷудо карда, хаторо нишон диҳед, баъд рафторро тавассути bind баргардонед; 5) makeLogger-ро дар асоси пӯшидан созед ва ҳисобкунакҳоро муқоиса кунед. Ҳар ду ҳалро самимӣ муқоиса кунед: синф навъи умумӣ ва instanceof медиҳад, пӯшидан пинҳонӣ ва набудани this. Вазифаи пурра бо қадамҳои рақамгузоришуда дар блоки амалияи поён аст. Машқи иловагӣ: TimestampLogger-ро чунин созед, ки бе соатҳои волидайн ҳам кор кунад — ба таври пешфраз Date.now-ро истифода баред, вале тағйир доданро иҷозат диҳед. Санҷед, ки bind майдони хусусиро ба объекти нав нусхабардорӣ намекунад, балки танҳо this-ро барқарор мекунад: баъди часпонидан ҳисобкунак умумиро идома медиҳад. Ва охирин: андозаи нусхаҳои синф ва пӯшиданро дар консоли Node.js муқоиса кунед, то фарқияти хотираро эҳсос кунед.",
       "en": "Implement your own hierarchy and its alternative. Steps: 1) a Logger class with a private #count field and a log method; 2) a TimestampLogger subclass that calls super.log before printing and adds a timestamp from injected clocks; 3) restore the prototype chain with Object.getPrototypeOf and print it; 4) detach the method, show the error, then restore the behavior with bind; 5) build makeLogger on a closure and compare counters. Compare both solutions honestly: a class gives a shared type and instanceof, a closure gives privacy and no this. The full task with numbered steps is in the practice block below. One extra exercise: make TimestampLogger work even without injected clocks — default to Date.now but allow an override. Verify that bind does not copy the private field into a new object; it only restores this, so after binding the counter keeps counting the shared total. Finally, compare the memory shape of a class instance and a closure in the Node.js console to feel the difference."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки с this и прототипами",
+      "tg": "Хатоҳои маъмулӣ бо this ва прототипҳо",
+      "en": "Common mistakes with this and prototypes"
+     },
+     "body": {
+      "ru": "Метод, вынутый из объекта и вызванный отдельно, теряет this: const f = item.total; f() — уже не вызов «для item», и вместо расчёта получается undefined или TypeError. Приватные поля не видны снаружи ни под каким именем: они живут во внутреннем слоте класса, а не в свойствах объекта, поэтому «достать» их через скобочную запись нельзя. Наследуя класс, забывают super() в конструкторе: обращение к this до super() бросает ReferenceError. И путают статический метод с обычным: Counter.kind() вызывается на классе, а total — на экземпляре; перестановка местами не работает.",
+      "tg": "Методе, ки аз объект бароварда ва ҷудо даъват мешавад, this-ро гум мекунад: const f = item.total; f() — дигар даъвати «барои item» нест ва ба ҷои ҳисоб undefined ё TypeError меояд. Майдонҳои хусусӣ аз берун бо ҳеҷ ном дида намешаванд: онҳо дар слоти дарунии синф зиндагӣ мекунанд, на дар хосиятҳои объект, аз ин рӯ тавассути сатри квадратӣ «кашидан» мумкин нест. Ҳангоми мероси синф super()-ро дар конструктор фаромӯш мекунанд: муроҷиат ба this пеш аз super() ReferenceError метапонад. Ва методи статикӣ бо муқаррариро омехта мекунанд: Counter.kind() дар синф даъват мешавад, total — дар намуна; иваз кардани ҷойҳо кор намекунад.",
+      "en": "A method pulled off the object and called separately loses this: const f = item.total; f() is no longer a call \"for item\", and instead of the computation you get undefined or a TypeError. Private fields are invisible outside under any name: they live in an internal slot of the class, not in the object's properties, so bracket access cannot reach them. When subclassing, people forget super() in the constructor: touching this before super() throws a ReferenceError. And static versus instance methods get swapped: Counter.kind() is called on the class, total on an instance — exchanging them does not work."
      }
     }
    ],
@@ -3259,7 +3607,13 @@
        "en": "A copy of the parent's properties on the instance itself"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Выпишите цепочку: с чьего prototype начинается поиск свойства у экземпляра BoundedCounter?",
+      "tg": "Занҷирро нависед: ҷустуҷӯи хосият дар намунаи BoundedCounter аз prototype-и кӣ оғоз мешавад?",
+      "en": "Write out the chain: whose prototype does a BoundedCounter instance search first?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "javascript-pro-day-16-q2",
@@ -3290,7 +3644,13 @@
        "en": "Methods are copied into the instance and lose the class reference"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "К этому вызову не привязан объект: куда указывает this и где хранятся приватные поля?",
+      "tg": "Ба ин даъват объект часпида нест: this ба куҷо нишон медиҳад ва майдонҳои хусусӣ дар куҷо нигоҳ дошта мешаванд?",
+      "en": "No object is bound to this call: where does this point, and where do private fields live?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-16-q3",
@@ -3321,7 +3681,13 @@
        "en": "When methods should live in the prototype and be visible to everyone"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Нужно ли здесь наследование и общий прототип — или достаточно состояния за замыканием?",
+      "tg": "Оё ин ҷо мерос ва прототипи умумӣ лозим аст — ё ҳолати пушти замикунӣ кофист?",
+      "en": "Do you actually need inheritance and a shared prototype here — or is state behind a closure enough?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3420,6 +3786,18 @@
       "tg": "Се стратегияро дар додаҳои худ татбиқ кунед ва ҳудудҳои онҳоро чен кунед. Қадамҳо: 1) объекти дорои ду сатҳи дарунӣ ях кунед ва нишон диҳед, ки кадом навишт ҳанӯз имконпазир аст; 2) нусхаи spread созед ва номбар кунед, кадом хосиятҳо мубодила мешаванд; 3) structuredClone созед ва мустақилияти ҳар ду тарафро исбот кунед; 4) луғати танзимотро тағйирнопазир навсозӣ кунед: объекти нав бо ивази як калид; 5) снапшот гиред ва ҳисоб кунед, чанд нусха сохта шуд. Барои ҳар қадам пешгӯиро пеш аз иҷро сабт кунед ва бо воқеият тавассути assert муқоиса намоед. Вазифаи пурра дар блоки амалияи поён аст. Мушкили фоиданок: freezeDeep-и рекурсивиро нависед ва рафтори онро бо structuredClone дар ҳамин дарахт муқоиса кунед. Санҷед, ки манбаи яхкардашуда ҳатто ҳангоми навишт ба массиви дарунӣ тағйир намеёбад ва қайд кунед, ки чунин ҳимоя дар навсозиҳои зиёд чӣ арзан меистад. Бо қоидаи кӯтоҳи барои лоиҳаи худ тамом кунед: дар куҷо spread кофист, дар куҷо clone лозим аст, дар куҷо яхкунӣ мӯътар.",
       "en": "Implement three strategies on your own data and measure their limits. Steps: 1) freeze an object with two levels of nesting and show which writes remain possible; 2) make a spread copy and list which properties are shared; 3) make a structuredClone and prove independence on both sides; 4) update a settings dictionary immutably: a new object with one key replaced; 5) take snapshots and count how many copies were created. For each step write the expectation before running and verify it with an assert. The full task is in the practice block below. A useful extension: write a recursive freezeDeep and compare its behavior with structuredClone on the same tree. Check that a frozen source does not change even when you write into a nested array, and note what such protection costs under frequent updates. Finish with a short rule for your own project: where spread suffices, where clone is needed, where freezing earns its price."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при копировании объектов",
+      "tg": "Хатоҳои маъмулӣ дар нусхабардории объектҳо",
+      "en": "Common mistakes when copying objects"
+     },
+     "body": {
+      "ru": "{ ...obj } создаёт новую оболочку, а не копию графа: вложенный объект после spread остаётся общим с оригиналом, и «безопасное» изменение меняет оба. structuredClone не копирует функции: попытка клонировать объект с методом заканчивается DataCloneError. Object.freeze защищает ровно один уровень: вложенный массив в «замороженном» объекте меняется свободно, если не заморозить каждый уровень отдельно. И помните про клон: structuredClone создаёт изменяемую копию — заморозка оригинала на неё не переносится, поэтому «копия тоже защищена» — неверное допущение.",
+      "tg": "{ ...obj } қабақи нав месозад, на нусхаи граф: объекти дарунӣ баъди spread бо асл муштарак мемонад ва тағйири «бехатар» ҳар дуро тағйир медиҳад. structuredClone функсияҳоро нусха намекунад: кӯшиши клон кардани объекти бо метод DataCloneError бо охир мерасад. Object.freeze дақиқ як сатҳро муҳофизат мекунад: массиви дарунӣ дар объекти «яхкардашуда» озод тағйир меёбад, агар ҳар сатҳро алоҳида ях накунӣ. Ва дар бораи клон дар ёд доред: structuredClone нусхаи тағйирпазир месозад — яхкунии асл ба он мегузарад не, аз ин рӯ «нусха ҳам муҳофизатшуда аст» — фарзи нодуруст.",
+      "en": "{ ...obj } builds a new shell, not a copy of the graph: the nested object stays shared with the original after spread, and a \"safe\" change mutates both. structuredClone does not copy functions: trying to clone an object with methods ends in DataCloneError. Object.freeze protects exactly one level: a nested array inside a \"frozen\" object changes freely unless every level is frozen separately. And remember the clone: structuredClone produces a mutable copy — the original's freeze does not carry over, so \"the copy is protected too\" is a wrong assumption."
+     }
     }
    ],
    "questions": [
@@ -3452,7 +3830,13 @@
        "en": "The top-level frozen flag"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте в примере: после spread измените вложенный объект и посмотрите на оригинал.",
+      "tg": "Дар мисол санҷед: баъди spread объекти даруниро тағйир диҳед ва ба асл нигоҳ кунед.",
+      "en": "Check the example: after spread, mutate the nested object and look at the original."
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-17-q2",
@@ -3483,7 +3867,13 @@
        "en": "It clones and freezes the clone in one step"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сравните заморозку оригинала и заморозку копии: что structuredClone переносит, а что нет?",
+      "tg": "Яхкунии асл ва яхкунии нусхаро муқоиса кунед: structuredClone чиро мегузаронад ва чиро не?",
+      "en": "Compare the original's freeze with the clone's: what does structuredClone carry over, and what not?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-17-q3",
@@ -3514,7 +3904,13 @@
        "en": "A full structuredClone of the whole array on every change"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Меняется ли позиция элемента? Если нет — какая операция создаёт новый массив, а какая правит старый?",
+      "tg": "Оё ҷойи элемент тағйир меёбад? Агар не — кадом амалиёт массиви нав месозад ва кадоме куҳонро ислоҳ мекунад?",
+      "en": "Does the element's position change? If not, which operation builds a new array and which edits the old one?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3581,7 +3977,7 @@
       "ru": "WeakMap связывает объект с дополнительными данными, не удерживая ключ в памяти только ради записи. Это удобно для метаданных, которые нужны, пока жив элемент. Нельзя перечислить его ключи или узнать размер. WeakRef хранит слабую ссылку: deref() может вернуть undefined. Когда отсутствие значения недопустимо, храните обычную ссылку и очищайте её явно.",
       "tg": "WeakMap ба объект додаи иловагӣ мепайвандад, бе он ки худи сабт калидро дар хотира нигоҳ дорад. Барои metadata-е, ки танҳо то зинда будани элемент даркор аст, қулай. Калидҳоро рӯйхат кардан ё андозаро гирифтан намешавад. WeakRef reference-и заиф аст: deref() метавонад undefined диҳад. Агар набудани қимат мумкин нест, reference-и одиро нигоҳ дор ва вақташ тоза кун.",
       "en": "WeakMap attaches metadata to an object without keeping the key alive just for that entry. Its keys cannot be enumerated or counted. WeakRef is a weak reference, so deref() can return undefined. When the value must remain available, use a regular reference and release it explicitly."
-    }
+     }
     },
     {
      "title": {
@@ -3612,6 +4008,18 @@
       "ru": "Соберите собственное демо слабых коллекций и запишите его границы. Шаги: 1) WeakMap как кэш вычислений по объекту-пользователю; 2) проверка, что примитивный ключ отклоняется; 3) печать отсутствия size и итерации; 4) WeakRef на объекте с сильной ссылкой и сравнение deref; 5) явный delete и проверка has; 6) абзац-комментарий: почему тест не может утверждать, что объект собран. Сверьте каждое наблюдение с документацией MDN, а не с предположениями. Полное задание — в блоке практики ниже. Сравнение для закрепления: проделайте тот же сценарий с обычным Map и посмотрите, чем отличается контракт — размер, итерация, поведение ключей-строк. Затем попробуйте зарегистрированный символ через Symbol.for как ключ WeakMap и убедитесь, что он допускается. Запишите в свой конспект два правила: где WeakMap обязателен, а где он создаёт ложное чувство безопасности.",
       "tg": "Намоиши худро аз маҷмуаҳои суст созед ва ҳудудҳояшро сабт кунед. Қадамҳо: 1) WeakMap ҳамчун кэши ҳисобҳо аз рӯйи объекти корбар; 2) санҷиш, ки калиди примитивӣ рад мешавад; 3) чопи набудани size ва итерация; 4) WeakRef дар объект бо истиноди қавӣ ва муқоисаи deref; 5) delete-и ошкор ва санҷиши has; 6) абзаци шарҳ: чаро тест наметавонад тасдиқ кунад, ки объект ҷамъоварда шудааст. Ҳар мушоҳидаро бо ҳуҷҷати MDN муқоиса кунед, на бо тахминҳо. Вазифаи пурра дар блоки амалияи поён аст. Муқоиса барои мустаҳкамкунӣ: ҳамин сенариро бо Map-и муқаррарӣ иҷро кунед ва бингаред, ки шарт чӣ фарқ дорад — андоза, итератсия, рафтори калидҳои сатрӣ. Баъд рамзи сабтишуда тавассути Symbol.for-ро ҳамчун калиди WeakMap санҷед ва боварӣ ҳосил кунед, ки қабул мешавад. Ба қайдҳои худ ду қоида сабт кунед: дар куҷо WeakMap ҳатмист ва дар куҷо эҳсоси бехатарии бардурӯғ месозад.",
       "en": "Build your own weak-collection demo and write down its limits. Steps: 1) a WeakMap as a computation cache keyed by a user object; 2) a check that a primitive key is rejected; 3) printing the absence of size and iteration; 4) a WeakRef over an object with a strong reference and a deref comparison; 5) an explicit delete and a has check; 6) a comment paragraph on why a test cannot claim an object was collected. Verify every observation against the MDN documentation, not against assumptions. The full task is in the practice block below. A comparison to lock it in: run the same scenario against an ordinary Map and see how the contract differs — size, iteration, string-key behavior. Then try a registered symbol through Symbol.for as a WeakMap key and confirm it is accepted. Write two rules into your notes: where WeakMap is mandatory and where it creates a false sense of safety."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки с WeakMap и WeakRef",
+      "tg": "Хатоҳои маъмулӣ бо WeakMap ва WeakRef",
+      "en": "Common mistakes with WeakMap and WeakRef"
+     },
+     "body": {
+      "ru": "WeakMap принимает ключами только объекты: weak.set(\"Ada\", {}) бросает TypeError, ведь строка не имеет времени жизни, которым могла бы управлять сборка мусора. Перечислить ключи WeakMap нельзя не «пока», а никогда: список зависел бы от состояния сборщика, поэтому size и итерации у коллекции нет. Результат deref() годится для немедленного использования: после одной проверки объект может исчезнуть — не сохраняйте deref() в поле «на потом». И никогда не держите критичные данные только в WeakRef: если отсутствие значения ломает логику, нужна обычная ссылка и явная очистка.",
+      "tg": "WeakMap танҳо объектҳоро ҳамчун калид мепазирад: weak.set(\"Ada\", {}) TypeError медиҳад, зеро сатр умри зиндагӣ надорад, ки ҷамъоварӣ онро идора мекард. Калидҳои WeakMap-ро на «ҳоло», балки ҳеҷ гоҳ рӯйхат кардан мумкин нест: рӯйхат аз ҳолати ҷамъовар вобаста мешуд, аз ин рӯ size ва такрор дар коллексия нест. Натиҷаи deref() барои истифодаи фаврӣ мувофиқ аст: баъди як санҷиш объект метавонад ғоиб шавад — deref()-ро дар майдони «баъдан» нигоҳ накунед. Ва ҳеҷ гоҳ додаҳои муҳимро танҳо дар WeakRef нигаҳдоред: агар набудани арзеш мантиқро вайрон кунад, истиноди муқаррарӣ ва тозакунии ошкор лозим аст.",
+      "en": "WeakMap accepts only objects as keys: weak.set(\"Ada\", {}) throws a TypeError, because a string has no lifetime garbage collection could manage. WeakMap keys cannot be enumerated not \"for now\" but ever: the list would depend on the collector's state, which is why the collection has no size or iteration. A deref() result is fit for immediate use: after one check the object may be gone — do not store deref() in a field \"for later\". And never keep critical data only in a WeakRef: if the absence of a value breaks the logic, you need a regular reference and explicit cleanup."
      }
     }
    ],
@@ -3645,7 +4053,13 @@
        "en": "WeakMap stores keys in another thread"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что пришлось бы сделать коллекции, чтобы дать вам список ключей?",
+      "tg": "Коллексия бояд чӣ мекард, то ба шумо рӯйхати калидҳоро медиҳад?",
+      "en": "What would the collection have to do to give you a list of keys?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-18-q2",
@@ -3676,7 +4090,13 @@
        "en": "The string would be auto-wrapped into a wrapper object"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Может ли строка «умереть» и освободиться сборщиком? Что принимает WeakMap?",
+      "tg": "Оё сатр метавонад «биморад» ва аз тарафи ҷамъовар озод шавад? WeakMap чиро мепазирад?",
+      "en": "Can a string ever be collected? What does WeakMap accept as a key?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-18-q3",
@@ -3707,7 +4127,13 @@
        "en": "That deref always returns a fresh copy of the object"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вернёт ли deref() объект и через минуту? Что гарантирует эта ссылка?",
+      "tg": "Оё deref() объектро баъди як дақиқа ҳам бармегардонад? Ин истинод чиро кафолат медиҳад?",
+      "en": "Will deref() still return the object a minute later? What does this reference guarantee?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -3806,6 +4232,18 @@
       "tg": "Маҷмуаи операторҳои танҳоли худро созед. Қадамҳо: 1) маҷмуаи Fib бо пайдарпайии беохири Фибоначчи тавассути генератор; 2) takeIter, маҳдудкунандаи шумори гирифтанҳо; 3) zipIter, пайвастандаи ду манбаъ ҷуфт-ҷуфт; 4) чен кардани шумори гирифтанҳо аз манбаъ ҳангоми ҷамъоварии панҷ натиҷаи аввал; 5) пӯшидани барвақт бо санҷиши finally. Бо варианти массивӣ муқоиса кунед: бе танҳолӣ чанд элементро бояд воқеӣ мекардед. Вазифаи пурра дар блоки амалияи поён аст. Мушкили ихтиёрӣ: flatMapIter-ро илова кунед, ки итератсияшавандаҳои дарунро мепайвандад, ва боварӣ ҳосил кунед, ки пӯшидани манбаи дохorӣ ба берун интиқол меёбад. Шумори гирифтанҳоро аз манбаъ ҳангоми ҷойҳои гуногуни take дар конвейер чен кунед — ин нишон медиҳад, ки тартиби марҳилаҳо ба ҳаҷми кор чӣ гуна таъсир мерасонад. Ва алоҳида санҷед, ки гузариши такрорӣ аз Range даъвати нави [Symbol.iterator]-ро талаб мекунад: итератори нигоҳдошташуда баъди аввалин гузариш холист.",
       "en": "Build your own lazy operator set. Steps: 1) a Fib collection with an infinite Fibonacci sequence via a generator; 2) takeIter limiting the number of pulls; 3) zipIter pairing two sources; 4) measuring how many pulls from the source are needed to collect the first five results; 5) early closing with a finally check. Compare with the array version: how many elements would have to be materialized without laziness. The full task is in the practice block below. An optional extension: add a flatMapIter operator that flattens nested iterables, and make sure closing the inner source propagates outward. Measure how many pulls the source receives depending on where take sits in the pipeline — that shows why stage order changes the amount of work. Separately, confirm that a second walk over Range requires a fresh [Symbol.iterator] call: a stored iterator is exhausted after the first pass."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки в протоколе итератора",
+      "tg": "Хатоҳои маъмулӣ дар протоколи итератор",
+      "en": "Common mistakes in the iterator protocol"
+     },
+     "body": {
+      "ru": "После done=true вызовы next() продолжают возвращать { value: undefined, done: true } — не «повторно значения», а пустоту: перечитать хвост не получится. Забытый return() у собственной коллекции превращает break в for...of в утечку: при раннем выходе именно return() запускает очистку, а у генератора её обязанность выполняет блок finally. Ленивый конвейер перестаёт быть ленивым, как только его собирают в массив «на всякий случай»: вся выгода памяти исчезает. И не раздавайте один итератор двум потребителям: каждый next() забирает значение навсегда, второй потребитель получит половину последовательности.",
+      "tg": "Баъди done=true даъватҳои next() идома дода, { value: undefined, done: true } бармегардонанд — на «арзешҳои такрорӣ», балки холӣ: хонидани боқимонда имконнопазир мешавад. return()-и фаромӯшшудаи коллексияи худсохт break-ро дар for...of ба сарташниш табдил медиҳад: дар хуруҷи барвақт дақиқ return() тозакуниро оғоз мекунад, ва дар генератор вазифаи онро блоки finally иҷро мекунад. Конвейери хастагӣ ҳамон гоҳ хастагӣ худро мекунад, ки онро «барои эҳтиёт» ба массив ҷамъ кунанд: тамоми фоидаи хотира гум мешавад. Ва як итераторро ба ду истеъмолкунанда надиҳед: ҳар next() арзешро то абад мебарад, истеъмолкунандаи дуюм нисфи пайдарпақиро мегирад.",
+      "en": "After done=true, next() calls keep returning { value: undefined, done: true } — not \"the values again\" but emptiness: there is no re-reading the tail. A forgotten return() on your own collection turns break in for...of into a leak: on early exit it is exactly return() that starts cleanup, and in a generator the finally block does that job. A lazy pipeline stops being lazy the moment it is collected into an array \"just in case\": the entire memory benefit disappears. And do not hand one iterator to two consumers: every next() takes a value forever, so the second consumer receives half the sequence."
+     }
     }
    ],
    "questions": [
@@ -3838,7 +4276,13 @@
        "en": "null"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что уже сказано о последовательности после done=true: сколько значений осталось вернуть?",
+      "tg": "Дар бораи пайдарпақӣ баъди done=true аллакай чӣ гуфта шудааст: чанд арзеш боқӣ мондааст?",
+      "en": "What is already settled after done=true: how many values are left to return?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-19-q2",
@@ -3869,7 +4313,13 @@
        "en": "Nothing: the iterator is simply forgotten"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните, какой метод итератора вызывает for...of при break, и что ему соответствует у генератора.",
+      "tg": "Ба ёд оред, ки for...of ҳангоми break кадом методи итераторро мекашад ва дар генератор он ба чӣ рост меояд.",
+      "en": "Recall which iterator method for...of calls on break, and what its counterpart inside a generator is."
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-19-q3",
@@ -3900,7 +4350,13 @@
        "en": "Generators delete elements after yielding"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Где живут промежуточные результаты в настоящем конвейере?",
+      "tg": "Натиҷаҳои миёна дар конвейери воқеан хастагӣ дар куҷо зиндагӣ мекунанд?",
+      "en": "Where do intermediate results live in a truly lazy pipeline?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -3967,7 +4423,7 @@
       "ru": "Асинхронный итератор выдаёт результат next() через Promise. for await...of ждёт следующую порцию перед тем, как обрабатывать её. Это удобно для страниц API и порций файла, которые появляются со временем. Такой цикл сам по себе не запускает всю обработку параллельно. Батч — группа элементов, которую можно обработать одним этапом.",
       "tg": "Дар async iterator натиҷаи next() аз Promise меояд. for await...of порсияи навбатиро интизор мешавад, баъд коркард мекунад. Барои саҳифаҳои API ё қисмҳои файл, ки оҳиста меоянд, қулай аст. Худи цикл ҳамаашро параллел сар намекунад. Batch як гурӯҳи элемент аст, ки якҷо коркард мешавад.",
       "en": "An async iterator supplies each next() result through a Promise. for await...of waits for the next batch before handling it. This suits API pages and file chunks that become available over time. The loop does not start all work in parallel. A batch is a group you can process together."
-    }
+     }
     },
     {
      "title": {
@@ -3998,6 +4454,18 @@
       "ru": "Соберите асинхронный конвейер на своих данных. Шаги: 1) асинхронный генератор, читающий страницы постранично из scripted-набора; 2) окна по времени: отдавать элементы, накопленные за N «тактов»; 3) переподключение: при ошибке страница запрашивается заново, максимум дважды; 4) последовательная обработка с журналом порядка; 5) сравнение с вариантом all: чем последовательная обработка отличается по времени готовности первого результата. Полное задание — в блоке практики ниже. Усложнение: добавьте в batches параметр flushAfter — максимальное число «тактов» ожидания перед отдачей неполного батча; так окно перестаёт зависеть только от размера. Проверьте поведение при пустом источнике и при размере больше длины. Отдельный вопрос на подумать: что произойдёт, если потребитель сломается посреди цикла и перестанет тянуть, — как очищается генератор? Сверяйте порядок журнала после каждого изменения и фиксируйте все расхождения в комментариях.",
       "tg": "Конвейери асинхрониро дар додаҳои худ созед. Қадамҳо: 1) генератори асинхронӣ, ки саҳифаҳоро аз набори scripted саҳифа ба саҳифа мехонад; 2) тирезаҳо аз рӯйи вақт: додани элементҳое, ки дар N «такт» ҷамъ шудаанд; 3) пайвасти нав: ҳангоми хато саҳифа дубора талаб карда мешавад, ҳадди аксар ду бор; 4) коркарди пайдарпай бо журнали тартиб; 5) муқоиса бо варианти all: коркарди пайдарпай аз рӯйи вақти омодагии натиҷаи аввал чӣ фарқ дорад. Вазифаи пурра дар блоки амалияи поён аст. Мушкилӣ: ба batches параметри flushAfter илова кунед — ҳадди аксари шумори «такт»-и интизор пеш аз додани гурӯҳи нопурра; тавре тиреза танҳо аз андоза вобаста намемонад. Рафторро ҳангоми манбаи холӣ ва андозаи аз дарозии манбаъ калон санҷед. Саволи алоҳида барои фикр: чӣ мешавад, агар истеъмолкунанда дар миёнаи ҳалқа вайрон шуда, кашиданро қатъ кунад — генератор чӣ тавр тоза мешавад?",
       "en": "Assemble an async pipeline over your own data. Steps: 1) an async generator reading pages from a scripted dataset page by page; 2) time windows: hand out elements gathered over N 'clocks'; 3) reconnection: on an error a page is requested again, at most twice; 4) sequential processing with an order journal; 5) compare with the all variant: how sequential processing differs by the readiness time of the first result. The full task is in the practice block below. An extension: give batches a flushAfter parameter — the maximum number of 'clocks' to wait before handing out a partial batch, so the window stops depending only on size. Check the behavior with an empty source and with a size larger than the source. A question to think about: what happens if the consumer breaks mid-loop and stops pulling — how does the generator clean up?"
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при асинхронном переборе",
+      "tg": "Хатоҳои маъмулӣ дар перебори асинхронӣ",
+      "en": "Common mistakes in async iteration"
+     },
+     "body": {
+      "ru": "Обычный Symbol.iterator не делает объект видимым для for await: нужен Symbol.asyncIterator, иначе цикл не найдёт перебор вовсе. for await не запускает обработку параллельно: элементы приходят и обрабатываются по одному — «батч» получается только если вы собираете его сами. Отказ внутри асинхронного генератора приходит как отклонение на очередном шаге цикла: без try/catch вокруг for await ошибка валит весь поток. И не «разгоняйте» цикл параллельными await в теле: порядок обработки становится неочевидным, а ошибки теряют связь со своим элементом.",
+      "tg": "Symbol.iterator-и муқаррарӣ объектро барои for await дида намешавад: Symbol.asyncIterator лозим аст, вагарна давр переборро тамоман намеёбад. for await коркардро ба таври параппелл оғоз намекунад: элементҳо як-як меоянд ва коркард мешаванд — «батч»-ро танҳо он гоҳ мегиред, ки худатон ҷамъ кунед. Раддишавӣ дар дохили генератори асинхронӣ ҳамчун истисно дар қадами навбатии давр меояд: бе try/catch дар атрофи for await хато тамоми ҷараёнро мерезад. Ва даврро бо await-ҳои параппелл дар бадан «тез» накунед: тартиби коркард номуаён мешавад ва хатоҳо робита бо элементи худро гум мекунанд.",
+      "en": "A plain Symbol.iterator does not make an object visible to for await: Symbol.asyncIterator is needed, otherwise the loop finds nothing to iterate. for await does not run the work in parallel: items arrive and are processed one by one — a \"batch\" appears only if you assemble it yourself. A rejection inside an async generator arrives as an exception at the next step of the loop: without try/catch around for await the error takes down the whole flow. And do not \"speed up\" the loop with parallel awaits in the body: the processing order becomes unclear and errors lose their link to their item."
      }
     }
    ],
@@ -4031,7 +4499,13 @@
        "en": "Symbol.for(\"async\")"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Какой Symbol ищет for await и чем он отличается от синхронного брата?",
+      "tg": "for await кадом Symbol-ро меҷӯяд ва он аз бародари синхронӣ чӣ фарқ дорад?",
+      "en": "Which Symbol does for await look up, and how does it differ from the synchronous one?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-20-q2",
@@ -4062,7 +4536,13 @@
        "en": "To process.on(\"beforeExit\")"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Ошибка внутри асинхронного генератора приходит к потребителю: в какой момент цикла?",
+      "tg": "Хатои даруни генератори асинхронӣ ба истеъмолкунанда мерасад: дар кадом лаҳзаи давр?",
+      "en": "An error inside an async generator reaches the consumer: at which point of the loop?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-20-q3",
@@ -4093,7 +4573,13 @@
        "en": "A Promise of an array does not support await"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сравните: что удобнее для страниц, которые появляются со временем — весь массив сразу или порции?",
+      "tg": "Муқоиса кунед: барои саҳифаҳое, ки бо мури гузашти вақт пайдо мешаванд, чӣ ирорат аст — тамоми массив якбора ё пораҳо?",
+      "en": "Compare: for pages that arrive over time, what is more convenient — the whole array at once or portions?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -4160,7 +4646,7 @@
       "ru": "Worker thread — отдельный поток JavaScript в Node.js. Долгий расчёт можно отдать воркеру, чтобы главный поток продолжал обслуживать запросы. Передавайте входные данные и принимайте результат сообщениями. Пул переиспользует несколько воркеров вместо создания нового на каждую задачу. Для лёгких задач накладные расходы могут превысить выигрыш.",
       "tg": "Worker thread ҷараёни ҷудои JavaScript дар Node.js аст. Ҳисоби дарозро ба worker деҳ, то ҷараёни асосӣ request-ҳоро қабул кунад. Додаи дохил ва натиҷа бо паёмҳо мегузаранд. Пул чанд worker-ро аз нав истифода мебарад, барои ҳар вазифа нав намесозад. Барои кори сабук харҷи иловагӣ метавонад аз фоида зиёдтар бошад.",
       "en": "A worker thread runs JavaScript on a separate Node.js thread. Move a long calculation there so the main thread can keep serving requests. Exchange inputs and results through messages. A pool reuses workers rather than creating one per task. For small jobs the overhead can outweigh the benefit."
-    }
+     }
     },
     {
      "title": {
@@ -4191,6 +4677,18 @@
       "ru": "Соберите мини-пул из двух воркеров. Шаги: 1) очередь из шести задач с индексами; 2) два воркера, каждый берёт следующую задачу через запрос-ответ с id; 3) результаты собираются в массив по индексам, печать после полного завершения; 4) замер wall-времени через performance.now и сравнение с последовательным вариантом; 5) обработка ошибки воркера через событие error. Сравните честно: на маленьких задачах пул проигрывает из-за накладных расходов. Полное задание — в блоке практики ниже. Дополнительный шаг: вынесите источник воркера в отдельный файл и сравните удобство eval-варианта в тестах и в продакшене. Проверьте поведение при ошибке внутри воркера: событие error в main и состояние очереди. И зафиксируйте правило: сколько воркеров поднимать — обычно не больше числа логических ядер минус один, если задачи не ожидают ввод-вывод. Оцените нагрузку на память после каждого прогона.",
       "tg": "Ҳавзи хурди аз ду коргар созед. Қадамҳо: 1) навбати аз шаш вазифа бо индексҳо; 2) ду коргар, ҳар кадом вазифаи ояндро тавассути дархост-посух бо id мегирад; 3) натиҷаҳо дар массив аз рӯйи индексҳо ҷамъ мешаванд, чоп баъди тамомшавии пурра; 4) чени wall-вақт тавассути performance.now ва муқоиса бо варианти пайдарпай; 5) коркарди хатои коргар тавассути ҳодисаи error. Самимӣ муқоиса кунед: дар вазифаҳои хурд ҳавз аз сабаби хароҷоти иловагӣ мебохад. Вазифаи пурра дар блоки амалияи поён аст. Қадами иловагӣ: манбаи коргарро ба файли алоҳида бароред ва роҳатии варианти eval-ро дар тестҳо ва дар продакшен муқоиса кунед. Рафторро ҳангоми хато дар дохorи коргар санҷед: ҳодисаи error дар main ва ҳолати навбат. Ва қоидаро муқаррар кунед: чанд коргар бояд оғоз кард — одатан на бештар аз адади ядраҳои мантиқӣ минус як, агар вазифаҳо интизори вуруду баромад набошанд.",
       "en": "Assemble a mini-pool of two workers. Steps: 1) a queue of six tasks with indexes; 2) two workers, each taking the next task through a request-response by id; 3) results gathered into an array by indexes, printed after full completion; 4) measuring wall time with performance.now and comparing with the sequential variant; 5) handling a worker error through the error event. Compare honestly: on tiny tasks a pool loses to overhead. The full task is in the practice block below. An extra step: move the worker source into its own file and compare the convenience of the eval variant in tests and in production. Check what happens on an error inside the worker: the error event at main and the queue state. And fix a rule for yourself: how many workers to start — usually no more than the logical core count minus one, unless the tasks wait on I/O."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки с worker threads",
+      "tg": "Хатоҳои маъмулӣ бо worker threads",
+      "en": "Common mistakes with worker threads"
+     },
+     "body": {
+      "ru": "workerData — копия, а не общий адрес: изменения данных в воркере никогда не видны главному потоку, обмен идёт сообщениями. Большой ArrayBuffer без transfer list уезжает копией байтов: быстрее передать владение — буфер отсоединяется у отправителя, но и сам отправитель его больше не увидит. Воркер с живым подписчиком на сообщения не завершается сам: порт удерживает цикл событий, поэтому нужен terminate() или unref(). И не отдавайте воркеру сетевые запросы: потоки созданы для вычислений, а I/O и так асинхронный — выигрыша не будет.",
+      "tg": "workerData — нусха аст, на суроғаи муштарак: тағйироти додаҳо дар воркер ҳеҷ гоҳ ба ҷараёни асосӣ дида намешаванд, мубодила бо паёмҳо мегузарад. ArrayBuffer-и калон бе transfer list бо нусхаи байтҳо меравад: соҳибиро додан тезтар аст — буфер аз фиристунанда ҷудо мешавад, вале худи фиристунанда дигар онро намебинад. Воркери бо обунаи фаъоли паёмҳо худаш анҷом намеёбад: порт даври ҳодисотро нигоҳ медорад, аз ин рӯ terminate() ё unref() лозим аст. Ва дархостҳои шабакавиро ба воркер надиҳед: ҷараёнҳо барои ҳисобҳо сохта шудаанд, I/O аллакай асинхронӣ аст — сӯд намешавад.",
+      "en": "workerData is a copy, not shared memory: changes made in the worker are never visible to the main thread, exchange goes through messages. A large ArrayBuffer without a transfer list travels as a byte copy: handing over ownership is faster — the buffer detaches from the sender, but the sender no longer sees it either. A worker with a live message listener does not finish on its own: the port holds the event loop, so terminate() or unref() is needed. And do not hand network requests to a worker: threads exist for computation, I/O is already asynchronous — there is no win."
      }
     }
    ],
@@ -4224,7 +4722,13 @@
        "en": "By writing to a shared file on disk"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Есть разница между «скопировать байты» и «отдать владение»: что делает transfer list?",
+      "tg": "Фарқи «нусха бардоштани байтҳо» ва «додани соҳибӣ» мавҷуд аст: transfer list чӣ мекунад?",
+      "en": "There is a difference between copying bytes and handing over ownership: what does the transfer list do?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-21-q2",
@@ -4255,7 +4759,13 @@
        "en": "Nothing: input can only be passed through files"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Воркер получил значение: копию или общий адрес? Изменится ли оно в главном потоке?",
+      "tg": "Воркер арзеш гирифт: нусха ё суроғаи муштарак? Дар ҷараёни асосӣ тағйир мекунад?",
+      "en": "The worker received a value: a copy or shared memory? Would changes show in the main thread?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-21-q3",
@@ -4286,7 +4796,13 @@
        "en": "on(\"message\") blocks the main thread"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что держит цикл событий живым, пока воркер ждёт сообщения?",
+      "tg": "Ҳангоме ки воркер паём интизор аст, чӣ даври ҳодисотро зинда нигоҳ медорад?",
+      "en": "What keeps the event loop alive while the worker waits for messages?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4385,6 +4901,18 @@
       "tg": "Агар манбаъ тезтар диҳад ва қабулкунанда сусттар нависад, навбат калон мешавад. Ҳангоми навишти дастӣ false аз write() мегӯяд, ки фиристоданро то event-и drain нигоҳ дорем. pipeline() таваққуфро байни stream-ҳо идора карда, хаторо ба коди даъваткунанда медиҳад. Барои хондани дуюм Readable-и нав аз ҳамон массив созед, чун якумаш тамом шуд.",
       "en": "When a source produces faster than a destination writes, its queue grows. While writing manually, a false result from write() tells you to wait for drain. pipeline() manages the pace between streams and passes failures to the caller. For a second read, make a new Readable from the same array because the first stream is already exhausted."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при работе с потоками",
+      "tg": "Хатоҳои маъмулӣ дар кор бо ҷараёнҳо",
+      "en": "Common mistakes when working with streams"
+     },
+     "body": {
+      "ru": "Ручной pipe() не переносит ошибки: отказ источника оставляет получатель открытым, и конвейер «висит» без конца — используйте pipeline(), он связывает этапы и закрывает всё при ошибке. highWaterMark — не лимит памяти, а порог подсказки: после write() === false продолжать писать значит копить буфер без границ. Transform, который накапливает хвост, обязан отдать его в flush(): без него последний неполный кусок теряется при закрытии потока. И не ждите, что медленный получатель «сам догонит»: backpressure — это и есть сигнал притормозить, а не баг.",
+      "tg": "pipe()-и дастӣ хатоҳоро интиқол намедиҳад: раддишавии манбаъ гирандаро кушода мегузорад ва конвейер бе анҷом «меовезад» — pipeline()-ро истифода баред, вай марҳалаҳоро мебандад ва ҳангоми хато ҳамаро мепӯшад. highWaterMark — маҳдудиёти хотира нест, остонаи ишора аст: баъди write() === false идомаи навиштан маънои андохтани буфери бе сарҳад дорад. Transform, ки думро андохта мекунад, ӯро дар flush() додан ҳатмист: бе он порчаи охирини нопурра ҳангоми пӯшидани ҷараён гум мешавад. Ва интизор нашавед, ки гирандаи суст «худаш месуроад»: backpressure ҳамон ишораи сусткунӣ аст, на хато.",
+      "en": "Manual pipe() does not forward errors: a source failure leaves the destination open and the pipeline \"hangs\" without an end — use pipeline(), which ties the stages together and closes everything on error. highWaterMark is not a memory limit but a hinting threshold: continuing to write after write() === false means buffering without bounds. A Transform that accumulates a tail must release it in flush(): without it the last incomplete chunk is lost when the stream closes. And do not expect the slow consumer to \"catch up by itself\": backpressure is exactly the signal to slow down, not a bug."
+     }
     }
    ],
    "questions": [
@@ -4417,7 +4945,13 @@
        "en": "Converts streams into strings automatically"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что происходит с ошибкой Readable при ручном pipe(): кто её передаёт дальше?",
+      "tg": "Ба хатои Readable ҳангоми pipe()-и дастӣ чӣ мешавад: кӣ онро минбаъд мегузаронад?",
+      "en": "What happens to a Readable's error with manual pipe(): who forwards it?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-22-q2",
@@ -4448,7 +4982,13 @@
        "en": "To raise the highWaterMark on the fly"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Поток закрывается, а часть данных ещё сидит во внутреннем буфере: кто её выпустит?",
+      "tg": "Ҷараён пӯш мешавад, вале порчаи додаҳо дар буфери дарунӣ монд: кӣ онро барорад?",
+      "en": "The stream is closing while data still sits in the internal buffer: who releases it?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-22-q3",
@@ -4479,7 +5019,13 @@
        "en": "Error handling inside a pipeline"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что означает write() === false, и что должен сделать источник, увидев его?",
+      "tg": "write() === false чӣ маъно дорад ва манбаъи дидагӣ чӣ бояд кунад?",
+      "en": "What does write() === false mean, and what should the source do on seeing it?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4546,7 +5092,7 @@
       "ru": "Кэш хранит результат, чтобы похожий запрос не повторял ту же дорогую работу. TTL ограничивает срок свежести. LRU освобождает место, удаляя давно не использованную запись, когда кэш заполнен. Ни одно правило не узнаёт автоматически, что товар изменился в базе: после изменения сбросьте соответствующий ключ или обновите его значение.",
       "tg": "Кэш натиҷаро нигоҳ медорад, то request-и ҳаммонанд кори вазнинро боз накунад. TTL муҳлати тару тозагиро маҳдуд мекунад. LRU дар кэши пур сабтеро мебарорад, ки аз ҳама дертар истифода шудааст. Ҳеҷ кадомаш худ аз худ намедонад, ки мол дар база иваз шуд. Баъди тағйир калиди дахлдорро тоза ё қиматашро нав кун.",
       "en": "A cache saves a result so a similar request does not repeat costly work. TTL limits freshness. LRU frees space by evicting the least recently used entry when capacity is full. Neither detects a changed product record by itself. Invalidate or refresh the matching key when the record changes."
-    }
+     }
     },
     {
      "title": {
@@ -4577,6 +5123,18 @@
       "ru": "Расширьте кэш и снимите его характеристики. Шаги: 1) добавьте peek — чтение без изменения свежести; 2) добавьте invalidate(key) и invalidateAll(); 3) прометризуйте TTL на ключ: более длинный для стабильных данных; 4) снимите коэффициент попаданий на сценарии из двадцати чтений и оцените, окупается ли кэш; 5) сравните LRU и FIFO на одном сценарии и объясните разницу. Каждое наблюдение — assert-ом. Полное задание — в блоке практики ниже. Усложнение: добавьте фоновое обновление — при попадании по «горячему» ключу планировщик может запросить свежую копию у источника и подменить значение. Снимите статистику на сценарии с чередующимся доступом и подумайте, какой порог TTL выбрать для своего случая. И проверьте поведение has после просрочки: запись мертва, но слот освобождается только при get или set. Сравните коэффициент попаданий до и после изменений.",
       "tg": "Кэшро васеъ карда, хусусиятҳояшро гиред. Қадамҳо: 1) peek-ро илова кунед — хондан бе тағйири тозагӣ; 2) invalidate(key) ва invalidateAll()-ро илова кунед; 3) TTL-ро ба калид параметр кунед: дарозтар барои додаҳои устувор; 4) коэффитсиенти зарбаҳоро дар сенарии аз бист хондан гиред ва баҳо диҳед, ки оё кэш мӯътар аст; 5) LRU ва FIFO-ро дар як сенарӣ муқоиса карда, фарқияatro баён кунед. Ҳар мушоҳида — бо assert. Вазифаи пурра дар блоки амалияи поён аст. Мушкилӣ: навсозии заминаиро илова кунед — ҳангоми зарба ба калиди «гарм» нақшабандиро метавон нусхаи тазаро аз манбаъ талаб карда, арзишро иваз кунад. Оморро дар сенарии бо дастрасии якдигаргузор гиред ва фикр кунед, кадом астонаи TTL-ро барои ҳолати худ интихоб кунед. Ва рафтори has-ро баъди аз мӯдата баромадан санҷед: сабт мурдааст, вале ҷой танҳо ҳангоми get ё set озод мешавад.",
       "en": "Extend the cache and profile it. Steps: 1) add peek — a read that does not refresh recency; 2) add invalidate(key) and invalidateAll(); 3) make TTL per-key: longer for stable data; 4) measure the hit ratio over a twenty-read scenario and judge whether the cache pays off; 5) compare LRU and FIFO on one scenario and explain the difference. Every observation gets an assert. The full task is in the practice block below. An extension: add background refresh — on a hit to a 'hot' key the scheduler may request a fresh copy from the source and swap the value. Collect statistics over a round-robin scenario and think through which TTL threshold fits your case. And check has behavior after expiry: the entry is dead, but the slot is freed only by get or set."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при кэшировании",
+      "tg": "Хатоҳои маъмулӣ дар кэшкунӣ",
+      "en": "Common mistakes in caching"
+     },
+     "body": {
+      "ru": "Обновление «свежести» через set по существующему ключу не работает: Map помнит первый момент вставки, и запись остаётся «самой старой» — для LRU нужен delete с последующим set. Кэш без инвалидации при записи возвращает старое значение после обновления данных: TTL определяет срок свежести, а изменение записи — сигнал сбросить ключ немедленно. Кэш без ёмкости растёт без границ: LRU существует именно чтобы выкинуть давно не нужное при заполнении. И высокий дол промахов на горячем ключе — не «так и надо»: порог TTL выбран неудачно, записи умирают раньше повторных чтений.",
+      "tg": "Навсозии «тозагӣ» тавассути set бо калиди мавҷуда кор намекунад: Map лаҳзаи аввали дарҷро дар ёд дорад ва сабт «куҳантарин» мемонад — барои LRU delete бо set-и пайрав лозим аст. Кэш бе бекоркунӣ ҳангоми навиштан баъди навсозии додаҳо арзиши куҳонро бармегардонад: TTL муҳлати тозагиро муайян мекунад, ва тағйири сабт — ишораи фаврии партофтани калид. Кэш бе ғунҷоиш бе сарҳад афзоиш меёбад: LRU мизон ҳамон барои партофтани аз ҳамон пеш бефоида аст, ки пур шавад. Ва доли баланди пешпоҳихӯриҳо дар калиди гарм — не «ҳамон тавр бояд»: остонаи TTL нодуруст интихоб шудааст, сабтҳо пеш аз хонишҳои такрорӣ мيرانд.",
+      "en": "Refreshing \"recency\" via set on an existing key does not work: a Map remembers the first insertion moment, and the entry stays \"the oldest\" — LRU needs a delete followed by a set. A cache without invalidation on write returns the old value after the data changed: the TTL bounds freshness, and a data change is a signal to drop the key immediately. A cache without capacity grows without bounds: LRU exists precisely to evict the long-unused once full. And a high miss ratio on a hot key is not \"how it should be\": the TTL threshold is chosen badly, entries die before re-reads."
      }
     }
    ],
@@ -4610,7 +5168,13 @@
        "en": "Map stores values outside the JavaScript heap"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что помнит Map о моменте вставки ключа — и что из этого следует для «самого старого»?",
+      "tg": "Map дар бораи лаҳзаи дарҷи калид чиро дар ёд дорад — ва барои «куҳантарин» аз ин чӣ натиҷа мепояд?",
+      "en": "What does Map remember about a key's insertion moment — and what follows for \"oldest\"?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-23-q2",
@@ -4641,7 +5205,13 @@
        "en": "Nothing: recency only changes in set"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "set() по существующему ключу не двигает запись: какое сочетание операций обновляет свежесть?",
+      "tg": "set() бо калиди мавҷуда сабтро ҷойиваз намекунад: омезиши кадом амалиётҳо тозагиро нав месозад?",
+      "en": "set() on an existing key does not move the entry: which combination of operations refreshes recency?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-23-q3",
@@ -4672,7 +5242,13 @@
        "en": "Capacity must immediately be doubled"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сколько живёт запись по сравнению с интервалом между повторными чтениями?",
+      "tg": "Сабт чанд зиндагӣ мекунад дар муқоиса бо байни хонишҳои такрорӣ?",
+      "en": "How long does an entry live compared with the gap between re-reads?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4739,7 +5315,7 @@
       "ru": "Регулярное выражение описывает шаблон текста: например, где в строке журнала находится уровень INFO или ERROR. Именованная группа даёт найденной части понятный ключ. Для обычного поиска подстроки достаточно includes. Для длинного или недоверенного ввода ограничьте размер, используйте простой шаблон и проверьте время работы на пограничных данных.",
       "tg": "Regular expression қолаби матнро нишон медиҳад. Масалан, дар сатри log ҷои INFO ё ERROR-ро меёбад. Гурӯҳи номдор ба қисми ёфташуда калиди фаҳмо медиҳад. Барои ҷустуҷӯи калимаи одӣ includes бас аст. Барои додаи дароз ё номаълум андозаро маҳдуд кун, қолаби сода гир ва вақти иҷрои ҳолатҳои сарҳадиро санҷ.",
       "en": "A regular expression describes a text pattern, such as where a log line records INFO or ERROR. Named groups give extracted pieces readable keys. includes is enough for a literal substring. For long or untrusted input, cap the size, keep patterns simple, and measure runtime on edge cases."
-    }
+     }
     },
     {
      "title": {
@@ -4770,6 +5346,18 @@
       "ru": "Соберите мини-парсер на регулярных выражениях. Шаги: 1) шаблон строки журнала с пятью именованными группами, включая длительность в мс; 2) массив из четырёх строк: две валидные, две мусорные; 3) печать разобранных полей и суммарной длительности; 4) валидатор email-подобных адресов с якорями и тестами на границах; 5) замена с функцией: превращение WARN и ERROR в верхний регистр, INFO в нижний; 6) комментарий о том, почему парсер не собирается из пользовательских строк. Полное задание — в блоке практики ниже. Дополнительно: постройте проверку на катастрофический откат безопасно — измерьте время сопоставления на вводах растущей длины и убедитесь, что ваш финальный шаблон линеен, а рискованный вложенный квантификатор не входит в финальный код. Добавьте журнал сопоставлений: какие входы и сколько времени заняли. Это же упражнение научит измерять регулярные выражения без лишних таймеров.",
       "tg": "Парсери хурдро дар ифодаҳои муқаррарӣ созед. Қадамҳо: 1) шаблони сатри лог бо панҷ гурӯҳи номдор, аз ҷумла давомнокӣ дар мс; 2) массиви аз чор сатр: ду воқеӣ, ду ахлот; 3) чопи майдонҳои таҳлилшуда ва давомнокии умумӣ; 4) санҷишгари адресҳои email-монанд бо лангари ва тестҳои канорӣ; 5) ҷойгузинӣ бо функсия: WARN ва ERROR-ро ба ҳарфи калон, INFO-ро ба хурд табдил додан; 6) шарҳ дар бораи он ки чаро парсер аз сатрҳои корбар сохта намешавад. Вазифаи пурра дар блоки амалияи поён аст. Иловагӣ: санҷиши пасп моҷарои катастрофиро бехавф созед — вақти муқоисатро дар вурудҳои дарозии афзоянда чен кунед ва боварӣ ҳосил кунед, ки шаблони ниҳоии шумо хаттӣ аст, вале шаблони хавфнок ба рамзи ниҳоӣ намеафтад. Журнали муқоисатҳоро илова кунед: кадом вурудро ва чанд вақт гирифт. Ҳамин машқ ченкунии ифодаҳои муқаррариро бе таймерҳои изофа меомӯзонад.",
       "en": "Assemble a mini-parser on regular expressions. Steps: 1) a log-line pattern with five named groups including a duration in ms; 2) an array of four lines: two valid, two garbage; 3) printing the parsed fields and the total duration; 4) an email-like address validator with anchors and boundary tests; 5) replacement by function: WARN and ERROR upper-cased, INFO lower-cased; 6) a comment on why the parser is never assembled from user strings. The full task is in the practice block below. An addition: probe catastrophic backtracking safely — measure matching time on inputs of growing length and confirm your final pattern stays linear, while the risky nested quantifier never makes it into the final code. Add a match journal: which inputs ran and how long they took. The same exercise teaches you to benchmark regular expressions without extra timers."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки в регулярных выражениях",
+      "tg": "Хатоҳои маъмулӣ дар ифодаҳои мунтазам",
+      "en": "Common mistakes in regular expressions"
+     },
+     "body": {
+      "ru": "Шаблон без якорей валидирует «часть строки»: /\\d+/ пройдёт для \"12abc\", потому что цифры нашлись где-то — для проверки целой строки нужны ^ и $. Пользовательский текст в строке замены — ловушка: \"$&\", \"$'\" и \"$1\" в replace имеют особый смысл, поэтому вставку делают функцией замены, возвращающей текст буквально. Вложенные квантификаторы на длинном недоверенном вводе могут уйти в катастрофический откат — минуты процессора на одну проверку: ограничивайте размер входа и держите шаблон простым. И не собирайте RegExp из пользовательского ввода без экранирования: точка в нём станет «любой символ».",
+      "tg": "Шаблони бе кайс «қисми сатр»-ро санҷад: /\\d+/ барои \"12abc\" мегузарад, зеро рақамҳо дар куҷое ёфт шуданд — барои санҷиши тамоми сатр ^ ва $ лозиманд. Матни корбар дар сатри иваз — дом аст: \"$&\", \"$'\" ва \"$1\" дар replace маънои махсус доранд, аз ин рӯ гузоштанро бо функсияи иваз мекунанд, ки матнро ҳамон тавр бармегардонад. Квантификаторҳои лонаадор дар вуруди дароз ва номутмаин ба қафкаштии офатнок рафтан метавонанд — дақиқаҳои протсессор барои як санҷиш: андозаи вурудро маҳдуд кунед ва шаблонро оддӣ нигоҳ доред. Ва RegExp-ро аз вуруди корбар бе escape насозед: нуқта дар он «ҳар аломат» мешавад.",
+      "en": "A pattern without anchors validates \"part of the string\": /\\d+/ passes for \"12abc\" because the digits were found somewhere — validating a whole string needs ^ and $. User text in the replacement string is a trap: \"$&\", \"$'\" and \"$1\" carry special meaning in replace, so insertion is done through a replacement function returning the text literally. Nested quantifiers on long untrusted input can fall into catastrophic backtracking — minutes of CPU for one check: limit the input size and keep the pattern simple. And never build a RegExp from user input without escaping: the dot becomes \"any character\"."
      }
     }
    ],
@@ -4803,7 +5391,13 @@
        "en": "Anchors disable quantifier greediness"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Где именно в строке шаблон без якорей может найти совпадение?",
+      "tg": "Шаблони бе кайс дар кадом ҷои сатр муҷоибат меёбад?",
+      "en": "Where in the string can an unanchored pattern still find a match?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-24-q2",
@@ -4834,7 +5428,13 @@
        "en": "They break named groups"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что делает движок, когда квантификаторы вложены, а совпадения нет и нет?",
+      "tg": "Ҳангоме ки квантификаторҳо лонаадоранд ва муҷоибат на меояд, муҳаррик чӣ мекунад?",
+      "en": "What does the engine do when quantifiers nest and a match keeps failing?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-24-q3",
@@ -4865,7 +5465,13 @@
        "en": "No way: user text in replace is forbidden"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Какие символы в строке замены имеют особый смысл и как вернуть текст «как есть»?",
+      "tg": "Дар сатри иваз кадом аломатҳо маънои махсус доранд ва чӣ тавр матнро «ҳамон тавр» бардоштан мумкин?",
+      "en": "Which characters in the replacement string carry special meaning, and how do you return text literally?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4932,7 +5538,7 @@
       "ru": "Result — обычное значение, которое прямо говорит об успехе или ожидаемом отказе. Например, { ok: false, reason: \"out-of-stock\" } можно обработать как часть сценария покупки. Исключение прерывает текущую последовательность и переходит в catch. Заранее решите, какие исходы ожидаемы для вызывающего кода.\n\nВ JavaScript неудача может вернуться двумя каналами, и путаница между ними — источник хрупких систем. Исключение — это выход из текущего потока исполнения: стек разматывается до ближайшего catch, промежуточные состояния остаются недостроенными, а сигнатура функции ничего не сообщает о возможности неудачи. Значение-ошибка — это обычное возвращаемое значение: { ok: false, error } или объект Err; неудача становится частью контракта, видна в типе результата и не может быть случайно проигнорирована — вызывающий обязан её распаковать. Исключения уместны там, где продолжать бессмысленно: нарушен инвариант, ошибка программиста, неверный вызов внутреннего API, исчерпание памяти. Result уместен там, где неудача — ожидаемый исход бизнеса: валидация формы, «файл не найден», «платёж отклонён банком». Опасная зона — проглатывание: catch без ре-броса и без записи оставляет систему жить в несогласованном состоянии; вторая опасность — смешение каналов, когда один и тот же модуль половину ошибок бросает, а половину возвращает.",
       "tg": "Result қимати одиест, ки муваффақият ё радди чашмдоштро мегӯяд. Масалан { ok: false, reason: \"out-of-stock\" } қисми одии харид шуда метавонад. Exception тартиби корро мебурад ва ба catch мегузарад. Пешакӣ қарор деҳ, ки коди даъваткунанда кадом натиҷаро интизор аст.\n\nДар JavaScript нокомӣ метавонад аз ду канал баргардад, ва омехтани онҳо манбаи системаҳои бетоҳ аст. Istisno аз ҷараёни ҳолии иҷро мебарояд: стек то наздиктарин catch кушида мешавад, ҳолатҳои миёна пурнасохта мемонанд, ва имзои функсия дар бораи имкони нокомӣ ҳеҷ намегӯяд. Арзиши-хато арзиши муқаррарии бозгашт аст: { ok: false, error } ё объекти Err; нокомӣ қисми шарт мешавад, дар навъи натиҷа дида мешавад ва тасодуфан нодида гирифта намешавад — даъваткунанда вайбод онро кушода мешавад. Istisnoҳо дар он ҷо мувофиқанд, ки идома маъно надорад: инвариант вайрон шудааст, хатои барномарез, даъвати нодурусти API-и дохorӣ, хота тамом шуд. Result дар он ҷо мувофиқ аст, ки нокомӣ натиҷаи интизоршудаи бизнес аст: санҷиши форма, «файл наёфт», «пардохт аз тарафи банк рад шуд». Манзили хавфнок — фурӯбурдан: catch бе бозпартоканӣ ва бе сабт системаи дар ҳолати номувофиқ зиндаро мегузорад; хавфи дуюм омехтани каналҳост, ки ҳамин модул як нисфи хатоҳоро мепартояд ва нисфи дигарро бармегардонад.",
       "en": "A Result is a regular value representing success or an expected failure. { ok: false, reason: \"out-of-stock\" } can be part of a normal purchase flow. An exception stops the current sequence and passes control to catch. Decide which outcomes callers should expect.\n\nIn JavaScript failure can return through two channels, and confusing them is how fragile systems are born. An exception is an exit from the current flow: the stack unwinds to the nearest catch, intermediate states stay half-built, and the function signature says nothing about possible failure. An error value is an ordinary return value: { ok: false, error } or an Err object; failure becomes part of the contract, visible in the result type and impossible to ignore by accident — the caller must unwrap it. Exceptions fit where continuing is meaningless: an invariant violated, a programmer mistake, a wrong call into an internal API, out of memory. Result fits where failure is an expected business outcome: form validation, 'file not found', 'payment declined by the bank'. The danger zone is swallowing: a catch without a re-throw and without logging leaves the system running in an inconsistent state; the second danger is mixing channels, when one module throws half its errors and returns the other half."
-    }
+     }
     },
     {
      "title": {
@@ -5003,7 +5609,13 @@
        "en": "The call stack unwinds to the nearest catch"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Одно из двух может вернуться: как вызывающий узнает об этом без чтения исходников?",
+      "tg": "Яке аз дуро метавонад баргардад: чӣ тавр даъваткунанда бе хондани код ба он мефаҳмад?",
+      "en": "Either of two outcomes can come back: how does the caller learn this without reading sources?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-25-q2",
@@ -5034,7 +5646,13 @@
        "en": "For every form validation error"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните, какие исходы ожидаемы бизнесом, а какие — признак сломанной логики.",
+      "tg": "Ба ёд оред, кадом натиҷаҳо барои бизнес интизоршуда ва кадоме нишонаи мантиқи вайронанд.",
+      "en": "Recall which outcomes are expected by the business and which signal broken logic."
+     },
+     "relatedSection": 2
     },
     {
      "id": "javascript-pro-day-25-q3",
@@ -5065,7 +5683,13 @@
        "en": "Nothing: a swallowed error is always safe"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что остаётся в состоянии системы, если отказ проглотили и продолжили как ни в чём не бывало?",
+      "tg": "Дар ҳолати система чӣ мемонад, агар раддишавиро фурӯ бурда, гӯё ҳеҷ нашуда идома диҳанд?",
+      "en": "What remains in the system state if a failure is swallowed and work continues as if nothing happened?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -5137,7 +5761,7 @@
       "ru": "Конфигурация — настройки запуска, например порт и уровень логов. Node.js отдаёт из окружения строки, а пропущенное поле — undefined. Перед Number проверьте, что строка не пустая: Number(\"\") даёт 0. Потом проверьте диапазон и сообщите имя неверного поля при запуске, чтобы приложение не упало позже при запросе.",
       "tg": "Конфигуратсия танзими оғози барнома аст, масалан порт ва сатҳи log. Node.js аз муҳит сатр медиҳад ва барои қимати набуда undefined. Пеш аз Number холӣ будани сатрро санҷ: Number(\"\") ба 0 баробар аст. Баъд диапазонро бин ва ҳангоми оғоз номи майдони хаторо гӯй.",
       "en": "Configuration supplies startup settings such as a port and log level. Node.js provides environment values as strings, and missing values as undefined. Check for empty text before using Number because Number(\"\") is 0. Validate the range and name the invalid field at startup instead of failing later during a request."
-    }
+     }
     },
     {
      "title": {
@@ -5168,6 +5792,18 @@
       "ru": "Соберите собственный загрузчик с расширенной схемой. Шаги: 1) добавьте поля DATABASE_URL со схемой префикса и TIMEOUT_MS с верхней границей; 2) добавьте профиль test с быстрыми таймаутами; 3) разделите публичные настройки и секреты: секреты не печатаются, даже в журнале старта; 4) покажите красный вариант — печать конфигурации с секретами — и объясните, почему он запрещён; 5) три assert.throws на новые поля. Полное задание — в блоке практики ниже. Продолжение: добавьте в загрузчик список обязательных полей для production — отсутствие секрета при старте должно падать с точным именем. Проверьте поведение при пустой строке и при строке из пробелов: это разные случаи для host. И убедитесь, что заморозка не мешает тестам: тесты собирают конфигурацию заново через loadConfig, а не мутируют общий объект. Каждое падение должно называть поле точно.",
       "tg": "Боркунандаи худро бо схемои васеъшуда созед. Қадамҳо: 1) майдонҳои DATABASE_URL бо схемои пешванд ва TIMEOUT_MS бо ҳудуди болоиро илова кунед; 2) профили test бо таймаутҳои тезро илова кунед; 3) танзимоти умумӣ ва сирҳоро ҷудо кунед: сирҳо чоп намешаванд, ҳатто дар логи оғоз; 4) варианти сурхро нишон диҳед — чопи конфигуратсия бо сирҳо — ва баён кунед, чаро манъ аст; 5) се assert.throws барои майдонҳои нав. Вазифаи пурра дар блоки амалияи поён аст. Идома: ба боркунанда рӯйхати майдонҳои ҳатмии production-ро илова кунед — набудани сир ҳангоми оғоз бояд бо номи дақиқ афтидан кунад. Рафторро ҳангоми сатри холӣ ва сатри аз фосилаҳо санҷед: ин ду ҳолати гуногун барои host ҳастанд. Ва боварӣ ҳосил кунед, ки яхкунӣ ба тестҳо халал намерасонад: тестҳо конфигуратсияро аз нав тавассути loadConfig мегиранд, на объекти умумиро тағйир медиҳанд.",
       "en": "Build your own loader with an extended schema. Steps: 1) add DATABASE_URL with a prefix scheme and TIMEOUT_MS with an upper bound; 2) add a test profile with fast timeouts; 3) separate public settings and secrets: secrets are never printed, not even in the startup log; 4) show the red variant — printing the configuration with secrets — and explain why it is forbidden; 5) three assert.throws on the new fields. The full task is in the practice block below. Continue: give the loader a list of fields required for production — a missing secret must fail at startup naming the exact field. Check the behavior with an empty string and with a whitespace-only string: those are different cases for host. And make sure freezing does not hurt tests: tests rebuild configuration through loadConfig instead of mutating a shared object."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при разборе конфигурации",
+      "tg": "Хатоҳои маъмулӣ дар таҳлили конфигуратсия",
+      "en": "Common mistakes when parsing configuration"
+     },
+     "body": {
+      "ru": "Number(process.env.PORT) молчит о проблемах: пустая строка даёт 0, отсутствующая — NaN, и приложение поднимается «на всякий случай» — сначала проверьте, что строка есть и непустая. Окружение передаёт только текст: пробел, запятая или локальный формат числа не вызовут исключения, а станут неверным значением — разбор и проверка диапазона обязательны. Падать лучше на старте и с именем поля: ошибка конфигурации, найденная первым запросом клиента, — это ошибка развёртывания, а не рантайма. И не мутируйте объект конфигурации по ходу работы: заморозка превращает случайное изменение в видимую ошибку.",
+      "tg": "Number(process.env.PORT) дар бораи мушкилот хомӯш аст: сатри холӣ 0 медиҳад, набудан — NaN, ва барнома «барои эҳтиёт» хез мекунад — аввал санҷед, ки сатр мавҷуд ва нон холӣ аст. Муҳит танҳо матн мегузаронад: фосила, вергул ё шакли маҳаллии адад истисно намедиҳанд, вале арзиши нодуруст мешаванд — таҳлил ва санҷиши ҳудуд ҳатмист. Афтодан дар оғоз бо номи майдон беҳтар аст: хатои конфигуратсия, ки аввалин дархости муштарӣ ёфт, хатои ҷойгиркунӣ аст, на рантайм. Ва объекти конфигуратсияро дар рафти кор тағйир надиҳед: яхкунӣ тағйири тасодуфиро ба хатои намоён табдил медиҳад.",
+      "en": "Number(process.env.PORT) stays silent about problems: an empty string yields 0, a missing one — NaN, and the app boots \"just in case\" — first check that the string exists and is not empty. The environment passes text only: a space, a comma, or a locale number format raises no exception and simply becomes a wrong value — parsing and a range check are mandatory. It is better to fail at startup with the field name: a configuration error discovered by the client's first request is a deployment error, not a runtime one. And do not mutate the configuration object during operation: freezing turns an accidental change into a visible error."
      }
     }
    ],
@@ -5201,7 +5837,13 @@
        "en": "Strings take less memory"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Какого типа значение лежит в process.env — и что нужно сделать, чтобы получить число?",
+      "tg": "Арзиши дар process.env аз чӣ намуд аст — ва барои гирифтани адад чӣ бояд кард?",
+      "en": "What type does a process.env value have — and what must you do to get a number?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-26-q2",
@@ -5232,7 +5874,13 @@
        "en": "On the first request that needs the configuration"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Когда дешевле узнать о неверной конфигурации: на старте или при первом запросе клиента?",
+      "tg": "Огоҳӣ аз конфигуратсияи нодуруст кай арзонтар аст: дар оғоз ё ҳангоми аввалин дархости муштарӣ?",
+      "en": "When is it cheaper to learn about a bad config: at startup or on the client's first request?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-26-q3",
@@ -5263,7 +5911,13 @@
        "en": "So neighboring modules cannot read it"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что произойдёт при попытке присвоить поле замороженному объекту настроек?",
+      "tg": "Ҳангоми кӯшиши гузоштани майдон ба объекти яхкардашудаи танзимот чӣ мешавад?",
+      "en": "What happens when someone assigns a field on the frozen settings object?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -5330,7 +5984,7 @@
       "ru": "Прототипное загрязнение — дефект, при котором недоверенные данные меняют свойства, наследуемые объектами. При обработке настроек принимайте только известные поля и типы, а для проверки своих свойств используйте Object.hasOwn. Для словаря с произвольными ключами рассмотрите Map. Фиксируйте версии зависимостей в lockfile и проверяйте найденные обновления тестами перед применением.",
       "tg": "Prototype pollution хатоест, ки додаи нобовар хосиятҳои меросгирифтаи объектҳоро иваз мекунад. Барои танзим танҳо майдон ва типи маълумро қабул кун. Object.hasOwn хосияти худи объектро месанҷад. Барои луғат бо калидҳои гуногун Map-ро бин. Версияи dependency-ро дар lockfile нигоҳ дор ва update-ро пеш аз истифода бо тест санҷ.",
       "en": "Prototype pollution is a bug in which untrusted data changes properties objects inherit. When reading settings, accept only known fields and types, and use Object.hasOwn to check for own properties. Consider a Map for dictionaries with arbitrary keys. Record dependency versions in the lockfile and test updates before adopting them."
-    }
+     }
     },
     {
      "title": {
@@ -5361,6 +6015,18 @@
       "ru": "Закрепите материал контрпримерами. Шаги: 1) покажите, что for...in при слиянии видит унаследованные ключи, а Object.keys нет; 2) реализуйте deepMerge с allow-list и проверьте на том же payload; 3) продемонстрируйте, как загрязнённый прототип ломает, например, подсчёт ключей через for...in; 4) составьте короткий чек-лист безопасности для своего репозитория; 5) каждый вывод — с assert. Полное задание — в блоке практики ниже. Дополнительный шаг: проверьте ваш любимый HTTP-клиент или парсер на поведение с ключом __proto__ — большинство безопасны, но это надо знать, а не предполагать. Затем соберите allow-list для своего API: список ключей, которые вы готовы принять, вместо списка запрещённых. И запишите в чек-лист своего репозитория три строки: lockfile в диффах, audit в CI, запрет eval на пользовательских данных. Проверьте allow-list тем же набором входов.",
       "tg": "Материлро бо зиддимисолҳо мустаҳкам кунед. Қадамҳо: 1) нишон диҳед, ки for...in ҳангоми омехта калидҳои меросиро мебинад, Object.keys — не; 2) deepMerge бо allow-list татбиқ карда, онро дар ҳамин payload санҷед; 3) намоиш диҳед, ки прототипи ифлосшуда, масалан, ҳисоби калидҳо тавассути for...in-ро вайрон мекунад; 4) чек-листи кӯтоҳи амният барои репозиторияи худ тартиб диҳед; 5) ҳар натиҷа — бо assert. Вазифаи пурра дар блоки амалияи поён аст. Қадами иловагӣ: муштарии HTTP-и дӯстдоштаи ё таҳлилгари худро аз рӯйи рафтор бо калиди __proto__ санҷед — бештариҳо бехавфанд, вале инро бояд донист, на тахмин кард. Баъд allow-list-ро барои API-и худ созед: рӯйхати калидҳое, ки қабул кардан омодаед, ба ҷои рӯйхати манъшудаҳо. Ва ба чек-листи репозиторияи худ се сатр сабт кунед: lockfile дар диффҳо, audit дар CI, манъи eval барои додаҳои корбар.",
       "en": "Reinforce the material with counterexamples. Steps: 1) show that for...in in a merge sees inherited keys while Object.keys does not; 2) implement deepMerge with an allow-list and test it on the same payload; 3) demonstrate how a polluted prototype breaks, say, key counting through for...in; 4) draft a short security checklist for your own repository; 5) every result with an assert. The full task is in the practice block below. An extra step: probe your favorite HTTP client or parser for behavior with a __proto__ key — most are safe, but you should know it rather than assume it. Then build an allow-list for your API: the set of keys you are willing to accept instead of the set of forbidden ones. And write three lines into your repository checklist: lockfile reviewed in diffs, audit in CI, no eval on user data."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки безопасности слияния данных",
+      "tg": "Хатоҳои маъмулии амнияти ҳамҷошавии додаҳо",
+      "en": "Common security mistakes when merging data"
+     },
+     "body": {
+      "ru": "Наивное глубокое слияние недоверенного JSON — классическое загрязнение прототипа: ключ \"__proto__\" внутри записи через рекурсию пишет в сам Object.prototype, и все новые объекты получают чужие поля — принимайте только известные поля и фильтруйте \"__proto__\", \"constructor\", \"prototype\". for...in обходит и унаследованные свойства: при слиянии приносит чужие ключи — Object.keys или Object.hasOwn ограничивают обход собственными полями. Вызов obj.hasOwnProperty(\"x\") доверяет самому объекту: переопределённый метод вернёт ложь — надёжнее статический Object.hasOwn. И держите версии зависимостей в lockfile: «обновить и не прогнать тесты» — способ внести чужой дефект в свой код.",
+      "tg": "Ҳамҷошавии амиқи омдаи JSON-и номутмаин — олудагии прототипи классикӣ: калиди \"__proto__\" дар дохили сабт тавассути рекурсия дар худи Object.prototype менависад ва ҳамаи объектҳои нав майдонҳои бегона мегиранд — танҳо майдонҳои маълумро мепазиред ва \"__proto__\", \"constructor\", \"prototype\"-ро поло мекунед. for...in хосиятҳои меросиро низ мегардад: ҳангоми ҳамҷошавӣ калидҳои бегона меорад — Object.keys ё Object.hasOwn гардишро ба майдонҳои хусусӣ маҳдуд мекунад. Даъвати obj.hasOwnProperty(\"x\") худи объектро бовар мекунад: методи азнавтаърифшуда дурӯғ медиҳад — Object.hasOwn-и статикӣ муътамадтар аст. Ва версияҳои вобастагиро дар lockfile нигоҳ доред: «навсозӣ кардам, тестҳоро нагузоштам» — роҳи ворид кардани нуқси бегона дар коди худ.",
+      "en": "A naive deep merge of untrusted JSON is classic prototype pollution: a \"__proto__\" key inside a record writes into Object.prototype itself through recursion, and every new object gains foreign fields — accept only known fields and filter out \"__proto__\", \"constructor\", \"prototype\". for...in walks inherited properties too: in a merge it brings foreign keys — Object.keys or Object.hasOwn bound the walk to own fields. Calling obj.hasOwnProperty(\"x\") trusts the object itself: an overridden method returns lies — the static Object.hasOwn is more reliable. And keep dependency versions in a lockfile: \"updated without running the tests\" is a way to import someone else's defect into your code."
      }
     }
    ],
@@ -5394,7 +6060,13 @@
        "en": "The length key"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Какой ключ в JSON меняет не сам объект, а прототип всех будущих объектов?",
+      "tg": "Калиди дар JSON кадоме на худи объектро, балки прототипи ҳамаи объектҳои ояндаро тағйир медиҳад?",
+      "en": "Which JSON key changes not the object itself but the prototype of all future objects?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-27-q2",
@@ -5425,7 +6097,13 @@
        "en": "Object.keys does not work with arrays"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Откуда for...in берёт лишние ключи, которых вы не записывали?",
+      "tg": "for...in калидҳои изроҳиро, ки шумо навишта нагузоштаед, аз куҷо мебарад?",
+      "en": "Where does for...in pick up the extra keys you never wrote?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-27-q3",
@@ -5456,7 +6134,13 @@
        "en": "An object with faster numeric-key access"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Посмотрите в примере, для каких ключей строят словарь без прототипа.",
+      "tg": "Дар мисол бинед, барои кадом калидҳо луғати бе прототип месозанд.",
+      "en": "Look at the example: for which keys is a prototype-less dictionary built?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -5555,6 +6239,18 @@
       "tg": "Мушоҳидпазириро барои сенарии худ созед. Қадамҳо: 1) гейҷро илова кунед — арзише, ки аз нав навишта мешавад, на афзуда; 2) ҳисоби давомнокиҳоро ба сабадҳо илова кунед: то 10 мс, то 50, бештар; 3) филтри сатҳҳо: логгере, ки аз сатҳи муайян поён ором меншинад; 4) баромадро параметр кунед: сатри JSON ба stdout, хатоҳо ба stderr; 5) снапшотро пеш ва баъди силсила гиред ва афзоишҳоро бо assert-ҳо исбот кунед. Вазифаи пурра дар блоки амалияи поён аст. Идома: майдони барчасбро илова кунед — request_id, ки аз ҳамаи сатрҳои як сенарӣ мегузарад, то трасса бо як филтр ҷамъ шавад. Санҷед, ки вақтсанҷ наҷӯяд: баъди stop ҳеч сабти идентификатор намемонад ва оғози такрорӣ бо ҳамин id аз сифр кор мекунад. Ва ду снапшотро дар сенарияҳои гуногун гиред, то онҳоро сатр ба сатр муқоиса кунед.",
       "en": "Assemble observability for your scenario. Steps: 1) add a gauge — a value that is overwritten, not incremented; 2) add duration bucketing: under 10 ms, under 50, more; 3) a level filter: a logger that stays silent below a configured level; 4) parameterize the output: JSON lines to stdout, errors to stderr; 5) take snapshots before and after a series and prove the increments with asserts. The full task is in the practice block below. Continue: add a tag field — request_id flowing through every line of one scenario, so the trace is collected by a single filter. Check that the timer does not leak: after stop there is no record for the identifier, and a fresh start with the same id works from zero. And take two snapshots on different scenarios to compare them line by line."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при ведении логов",
+      "tg": "Хатоҳои маъмулӣ дар навиштани логҳо",
+      "en": "Common mistakes in logging"
+     },
+     "body": {
+      "ru": "Склеенный текст в логе не фильтруется: чтобы найти записи уровня ERROR, машине нужно парсить строки по шаблону — JSON-строка с полями level и msg снимает эту работу. Длительности по Date.now() врут при переводе часов: для измерений нужно монотонное время вроде performance.now(). Лог с токенами и персональными данными — утечка по определению: чувствительные поля обезличивают до записи. И не меряйте тайминги реальными часами в тестах: инжектированные часы делают трассу детерминированной и проверяемой assert-ами.",
+      "tg": "Матни часпонидашуда дар лог полонӣ намешавад: барои ёфтани сабтҳои сатҳи ERROR мошин бояд сатрҳоро аз рӯйи шаблон таҳлил кунад — сатри JSON бо майдонҳои level ва msg ин корро сабук мекунад. Давомнокиҳо тавассути Date.now() ҳангоми гардондани соат дурӯғ мегӯянд: барои ченкунӣ вақти монотонӣ ба мисли performance.now() лозим аст. Логи бо токенҳо ва додаҳои шахсӣ — таҳтан аз рӯйи таъриф: майдонҳои ҳассос пеш аз сабт беном мешаванд. Ва таймингҳоро дар тестҳо бо соати воқеӣ чен накунед: соатҳои дохилшуда трассаро детерминистӣ ва бо assert-ҳо санҷишпазир мекунанд.",
+      "en": "Glued text in a log cannot be filtered: to find ERROR-level records the machine has to parse lines against patterns — a JSON line with level and msg fields removes that work. Durations measured with Date.now() lie when clocks are adjusted: measurements need monotonic time like performance.now(). A log holding tokens and personal data is a leak by definition: sensitive fields are anonymized before writing. And do not measure timings with the real clock in tests: injected clocks make the trace deterministic and assertable."
+     }
     }
    ],
    "questions": [
@@ -5587,7 +6283,13 @@
        "en": "The console cannot print plain text"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Как машина найдёт все записи уровня ERROR в тексте, склеенном по строчкам?",
+      "tg": "Мошин дар матни бо сатрҳо часпида чӣ тавр ҳамаи сабтҳои сатҳи ERROR-ро меёбад?",
+      "en": "How would a machine find every ERROR record inside text glued line by line?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-28-q2",
@@ -5618,7 +6320,13 @@
        "en": "A guarantee of firing at a set time"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что происходит с Date.now() при переводе системных часов назад?",
+      "tg": "Ба Date.now() ҳангоми гардондани соати система ба ақиб чӣ мешавад?",
+      "en": "What does Date.now() do when the system clock is moved backwards?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "javascript-pro-day-28-q3",
@@ -5649,7 +6357,13 @@
        "en": "So the code does not depend on process.env"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Чем отличается трасса, в которой время шагает под вашим контролем?",
+      "tg": "Трассае, ки вақташ зери назори шумо мегузарад, аз чӣ фарқ мекунад?",
+      "en": "What makes a trace deterministic when time advances under your control?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -5716,7 +6430,7 @@
       "ru": "Фасад — одна точка входа с функциями, которыми могут пользоваться другие части приложения. Например, reporting экспортирует buildReport, а обработка отдельных строк остаётся внутри. Поле exports в package.json задаёт доступные пути пакета. Это проверяемая граница интерфейса, а не защита содержимого файлов. Тестируйте обещанное поведение через публичные функции.",
       "tg": "Фасад як даромад бо функсияҳоест, ки қисмҳои дигари барнома мегиранд. Масалан, reporting buildReport-ро export мекунад ва кор бо сатрҳо дар дохилаш мемонад. exports дар package.json роҳҳои дастрасро мегӯяд. Ин сарҳади интерфейс аст, ҳифзи мазмуни файл не. Рафтори ваъдашударо аз функсияҳои дастрас санҷ.",
       "en": "A facade is one entry point exposing the functions other parts of the app use. reporting can export buildReport and keep its row handling internal. The exports field in package.json declares public package paths. It enforces an interface boundary, not filesystem secrecy. Test the promised behavior through public functions."
-    }
+     }
     },
     {
      "title": {
@@ -5787,7 +6501,13 @@
        "en": "Export names from being renamed"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что видит потребитель, попробовав импортировать путь, которого нет в exports?",
+      "tg": "Истеъмолкунанда ҳангоми кӯшиши ворид кардани роҳе, ки дар exports нест, чӣ мебинад?",
+      "en": "What does a consumer see when importing a path that exports does not list?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-29-q2",
@@ -5818,7 +6538,13 @@
        "en": "Nothing: a facade is a synonym for index.js"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сравните фасад с re-export «всего подряд»: что остаётся намеренным?",
+      "tg": "Фасадро бо re-export-и «ҳама чи дар як ҷо» муқоиса кунед: чӣ оқилӣ боқӣ мемонад?",
+      "en": "Compare a facade with re-exporting everything: what stays deliberate?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-29-q3",
@@ -5849,7 +6575,13 @@
        "en": "Cycles are cured only by renaming files"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Цикл показывает, что общее знание живёт слишком высоко: куда его вынести?",
+      "tg": "Давр нишон медиҳад, ки дониши умумӣ хеле боло зиндагӣ мекунад: онро ба куҷо барорад?",
+      "en": "A cycle shows shared knowledge lives too high up: where should it move?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -5921,7 +6653,7 @@
       "ru": "Планировщик решает, какая готовая задача стартует следующей. В проекте меньший номер означает более высокий приоритет, а при равенстве выигрывает ранняя вставка. Лимит параллелизма ограничивает число уже запущенных задач. Временный сбой возвращает задачу в очередь с новым readyAt; отказ без права повтора завершает задачу. Тест проверяет порядок и итоговый отчёт на виртуальном времени.",
       "tg": "Scheduler муайян мекунад, кадом вазифаи тайёр навбатӣ сар мешавад. Дар ин проект рақами хурд афзалияти баландтар медиҳад ва ҳангоми баробарӣ вазифаи пештар воридшуда мегузарад. Лимити параллел шумораи корҳои дар иҷро бударо маҳдуд мекунад. Хатои муваққатӣ бо readyAt-и нав ба навбат бармегардад, радди бе retry вазифаро тамом мекунад. Тест тартиб ва ҳисоботро бо вақти виртуалӣ месанҷад.",
       "en": "A scheduler decides which ready task starts next. In this project a lower number means higher priority, with earlier insertion breaking ties. The concurrency limit caps tasks already running. A temporary failure requeues a task with a new readyAt; a non-retryable failure ends it. The test checks execution order and the final report using virtual time."
-    }
+     }
     },
     {
      "title": {
@@ -5952,6 +6684,18 @@
       "ru": "Расширьте планировщик и измерьте последствия. Шаги: 1) добавьте паузу/возобновление очереди событием; 2) добавьте таймаут задачи на инжектированных часах: незавершившаяся к сроку задача считается транзитным отказом; 3) добавьте перцентиль длительностей p50/p95 в отчёт; 4) поднимите лимит до 4 и опишите, как изменился журнал; 5) прогоните оба варианта дважды и подтвердите детерминизм diff-ом. Полное задание — в блоке практики ниже. Усложнение для проверки понимания: добавьте в задачу поле deadline на виртуальных часах и убедитесь, что просрочка считается отказом с тем же путём ретрая. Затем добавьте fair-режим: после N успешных запусков высокий приоритет пропускает очередь за низким, чтобы предотвратить голодание, и сравните журналы двух режимов. Последнее упражнение — метрики: посчитайте среднюю задержку от готовности до фактического старта и добавьте её в отчёт; в перегруженной очереди именно эта цифра первым показывает деградацию.",
       "tg": "Вақтсандро васеъ карда, оқибатҳоро чен кунед. Қадамҳо: 1) таваққуф/идомаи навбатро бо ҳодиса илова кунед; 2) таймаути вазифаро дар соатҳои инжектишуда илова кунед: вазифаи то мӯҳлат нотамомшуда ҳамчун радшавии гузаро ҳисоб мешавад; 3) перцентилҳои давомнокӣ p50/p95-ро ба ҳисобот илова кунед; 4) маҳдудиятро то 4 баланд бароред ва баён кунед, ки журнал чӣ тавр тағйир ёфт; 5) ҳар ду вариантро ду маротиба иҷро карда, детерминизмро бо diff тасдиқ кунед. Вазифаи пурра дар блоки амалияи поён аст. Мушкилӣ барои санҷиши фаҳмиш: ба вазифа майдони deadline дар соатҳои виртуалӣ илова кунед ва боварӣ ҳосил кунед, ки гузаштан аз мӯҳлат ҳамчун радшавӣ бо ҳамин роҳи такрор ҳисоб мешавад. Баъд реҷими одилонаро илова кунед: баъди N оғози муваффақ аввалияти баланд навбатро ба пасти мегузорад, то гуруснагӣ пешгирӣ шавад, ва журналҳои ҳарду реҷимро муқоиса кунед. Машқи охирин — метрикаҳо: миёнаи деронии аз омодагӣ то оғози воқеиро ҳисоб карда, ба ҳисобот илова кунед; дар навбати пур маҳз ҳамин рақам аввал таназзулро нишон медиҳад.",
       "en": "Extend the scheduler and measure the consequences. Steps: 1) add a pause/resume of the queue as an event; 2) add a per-task timeout over the injected clock: a task unfinished by the deadline counts as a transient failure; 3) add p50/p95 duration percentiles to the report; 4) raise the limit to 4 and describe how the journal changed; 5) run both variants twice and confirm determinism with a diff. The full task is in the practice block below. A deeper extension: give a task a deadline on the virtual clock and make sure an overrun counts as a failure through the same retry path. Then add a fair mode: after N successful starts a high priority yields the queue to a lower one to prevent starvation, and compare the journals of both modes. The last exercise is metrics: compute the average delay from readiness to the actual start and add it to the report; in an overloaded queue this number is the first to show degradation."
+     }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки при устройстве планировщика",
+      "tg": "Хатоҳои маъмулӣ дар сохтани планировщик",
+      "en": "Common mistakes when building a scheduler"
+     },
+     "body": {
+      "ru": "При равных приоритетах порядок становится «случайным», если не хранить момент вставки: правильный выбор — минимальный номер приоритета, а при равенстве — более ранняя вставка. Ретрай без бюджета крутится вечно: у транзитных сбоев — новая пауза и потолок попыток, у фатальных — сразу завершение задачи. Лимит параллелизма через таймеры — источник гонок: считайте реально запущенные задачи и запускайте следующую при освобождении слота. И не смешивайте виртуальное время с настоящими таймерами: детерминированная трасса держится на инжектированных часах и микрозадачах.",
+      "tg": "Ҳангоми приоритетҳои баробар тартиб «тасодуфӣ» мешавад, агар лаҳзаи дарҷ нигоҳ дошта нашавад: интихоби дуруст — рақами хурдтарини приоритет, ва дар баробарӣ — дарҷи барвақтар. Ретрай бе бюджет абад мегардад: хатоҳои муваққатӣ — таъхири нав ва пулакаи кӯшишҳо, фаталӣ — фавран тамоми вазифа. Маҳдудиёти параллелизм тавассути таймерҳо манбаи гонкҳост: вазифаҳои воқеан оғозшударо ҳисоб кунед ва навбатиро ҳангоми озод шудани слот оғоз кунед. Ва вақти виртуалиро бо таймерҳои воқеӣ омехта накунед: трассаи детерминистӣ ба соатҳои дохилшуда ва микровазифаҳо такя мекунад.",
+      "en": "With equal priorities the order turns \"random\" unless the insertion moment is stored: the correct choice is the smallest priority number, and on a tie the earlier insertion. A retry without a budget spins forever: transient failures get a new pause and an attempt ceiling, fatal ones finish the task immediately. A concurrency limit built on timers is a source of races: count the tasks actually running and start the next one when a slot frees up. And do not mix virtual time with real timers: the deterministic trace rests on injected clocks and microtasks."
      }
     }
    ],
@@ -5985,7 +6729,13 @@
        "en": "Tasks run strictly one at a time"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что ограничивает лимит: число задач в очереди или число уже запущенных?",
+      "tg": "Маҳдудият чиро маҳдуд мекунад: шумораи вазифаҳо дар навбат ё шумораи оғозшудаҳо?",
+      "en": "What does the limit constrain: the queue length or the number of already running tasks?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-30-q2",
@@ -6016,7 +6766,13 @@
        "en": "By how long the task has already waited"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "При равных приоритетах чего не хватает для однозначного выбора?",
+      "tg": "Дар мавриди приоритетҳои баробар барои интихоби якмаъно чӣ камӣ ҳаст?",
+      "en": "With equal priorities, what is missing for an unambiguous choice?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "javascript-pro-day-30-q3",
@@ -6047,7 +6803,13 @@
        "en": "Tasks run synchronously without await"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Где «идут» задержки: в настоящих таймерах или в инжектированных часах и микрозадачах?",
+      "tg": "Таъхирҳо дар куҷо «мераванд» — дар таймерҳои воқеӣ ё дар соатҳои дохилшуда ва микровазифаҳо?",
+      "en": "Where do the delays actually happen: real timers or injected clocks and microtasks?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {

@@ -45,6 +45,30 @@
       },
       "code": "import { useState } from 'react';\nimport { Pressable, StyleSheet, Text, View } from 'react-native';\n\nexport default function App() {\n  const [done, setDone] = useState(0);\n\n  return (\n    <View style={styles.screen}>\n      <Text>Выполнено: {done}</Text>\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Отметить занятие выполненным\"\n        onPress={() => setDone(value => value + 1)}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Отметить</Text>\n      </Pressable>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Своя кнопка для реального приложения",
+        "tg": "Тугмаи худ барои барномаи воқеӣ",
+        "en": "Your own button for a real app"
+      },
+      "body": {
+        "ru": "Pressable позволяет собрать кнопку из любых детей: строка, значок и фон меняются вместе, а готовый Button платформа рисует сама. Функция style={({pressed}) => ...} возвращает один вид для покоя и другой для нажатия: пользователь видит отклик до обработки действия. Доступность здесь обязательна: accessibilityRole='button' называет элемент кнопкой для диктора, а accessibilityLabel даёт подпись из данных — тридцать второй день прочитает её вслух. hitSlop расширяет область касания без роста визуальной кнопки: пальцу легче попасть, а интерфейс не раздувается.",
+        "tg": "Pressable имкон медиҳад тугмаро аз ҳар кӯдакон созед: сатр, нишона ва замина якҷоя тағйир меёбанд, аммо Button-и омодаро платформа худаш мекашад. Функсияи style={({pressed}) => ...} барои оромӣ як намуд ва барои пахш дигар намуд мебарорад: корбар ҷавобро пеш аз иҷрои амал мебинад. Дастрасӣ дар ин ҷо ҳатмист: accessibilityRole='button' элементро барои хонанда тугма меномад, accessibilityLabel имзоро аз додаҳо медиҳад — рӯзи сию дуюм онро баланд мехонад. hitSlop майдони ламсро бе афзоиши тугмаи визуалӣ васеъ мекунад: ба панҷа расидан осонтар мешавад ва интерфейс калон намешавад.",
+        "en": "Pressable lets you build a button from any children: the line, the icon and the background change together, while the ready-made Button is drawn by the platform. The style function ({pressed}) => ... returns one look at rest and another while pressed: the user sees feedback before the action is processed. Accessibility is mandatory here: accessibilityRole='button' names the element a button for the screen reader, and accessibilityLabel gives a label from data — day thirty-two will read it aloud. hitSlop widens the touch area without growing the visual button: a finger lands easier and the interface does not inflate."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с Pressable",
+        "tg": "Хатоҳои маъмулӣ бо Pressable",
+        "en": "Common mistakes with Pressable"
+      },
+      "body": {
+        "ru": "Первая ошибка — кнопка без роли и подписи: диктор читает содержимое подряд и не говорит «кнопка»; роль и label ставят всегда. Вторая — нет отклика на нажатие: style-функция с pressed не задана, и пользователь жмёт «мёртвую» кнопку, не понимая, попал ли. Третья — onPress на маленьком Text вместо Pressable: область касания узкая, и половина нажатий теряется; касание расширяют через Pressable и hitSlop. Четвёртая — слишком большой hitSlop: области соседних кнопок перекрываются, и нажатие попадает не туда; расширяют умеренно и проверяют на устройстве.",
+        "tg": "Хатои аввал — тугма бе нақш ва имзо: хонанда мазмунро пайи ҳам мехонад ва «тугма» намегӯяд; нақш ва label-ро ҳамеша мегузоранд. Хатои дуюм — набудани ҷавоб ба пахш: style-функсия бо pressed гузошта нашудааст ва корбар тугмаи «мерда» мепешонад, нафаҳмад, ки расид ё не. Хатои сеюм — onPress дар Text-и хурд ба ҷои Pressable: майдони ламс танг аст ва нисфи пахшҳо гум мешаванд; ламсро тавассути Pressable ва hitSlop васеъ мекунанд. Хатои чорум — hitSlop-и аз ҳад зиёд: майдонҳои тугмаҳои ҳамсоя ҳамдигарро мепӯшонанд ва пахш ба ҷои дигар мерасад; бо андозаи мувофиқ васеъ кунед ва дар дастгоҳ санҷед.",
+        "en": "The first mistake is a button without role and label: the reader recites the content in a row and never says «button»; role and label are always set. The second is no press feedback: a style function with pressed is not defined, and the user presses a «dead» button unsure whether the touch landed. The third is onPress on a small Text instead of Pressable: the touch area is narrow and half of the presses are lost; widen the touch with Pressable and hitSlop. The fourth is an oversized hitSlop: neighboring button areas overlap and the press lands elsewhere; widen moderately and verify on a device."
+      }
     }
   ],
   "questions": [

@@ -226,10 +226,10 @@ export const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     'Letras, sonidos, acento y el verbo be. Practica presentarte en una conversación corta.',
   ),
   'digital-literacy': text(
-    'Устройства, файлы, папки, вкладки и загрузки. Потренируйтесь безопасно работать с браузером.',
-    'Devices, files, folders, tabs and downloads. Practice using a browser safely.',
-    'Дастгоҳ, файл, папка, вкладка ва боргирӣ. Бо браузер бехатар кор карданро машқ кунед.',
-    'Dispositivos, archivos, carpetas, pestañas y descargas. Practica el uso seguro del navegador.',
+    '30 дней: устройства и файлы, проверка источников, документы и таблицы, защита аккаунта, права доступа и план восстановления.',
+    '30 days: devices and files, source checks, documents and spreadsheets, account protection, sharing permissions and a recovery plan.',
+    '30 рӯз: дастгоҳу файлҳо, санҷиши манбаъҳо, документу ҷадвалҳо, ҳифзи аккаунт, ҳуқуқи дастрасӣ ва нақшаи барқароркунӣ.',
+    '30 días: dispositivos y archivos, verificación de fuentes, documentos y hojas de cálculo, protección de cuentas, permisos y un plan de recuperación.',
   ),
   'personal-productivity': text(
     'Цели, приоритеты, план недели и работа с отвлечениями. Соберите выполнимый личный план.',
@@ -238,10 +238,10 @@ export const DESCRIPTIONS: Record<CourseId, LocalizedText> = {
     'Metas, prioridades, plan semanal y distracciones. Crea un plan personal que puedas cumplir.',
   ),
   'management-foundations': text(
-    'Роли, границы проекта, зависимости и критерии готовности. Соберите план небольшой команды.',
-    'Roles, scope, dependencies and acceptance criteria. Put together a plan for a small team.',
-    'Нақшҳо, ҳудуди лоиҳа, вобастагии вазифаҳо ва шартҳои қабул. Барои дастаи хурд нақша созед.',
-    'Roles, alcance del proyecto, dependencias y criterios de aceptación. Elabora el plan de un equipo pequeño.',
+    '30 дней: цель и план команды, делегирование, обратная связь, риски, решения, рабочие конфликты и доступное участие.',
+    '30 days: team goals and planning, delegation, feedback, risks, decisions, disagreements and inclusive participation.',
+    '30 рӯз: ҳадафу нақшаи даста, супоридани вазифа, feedback, хавф, қарор, норозигии корӣ ва иштироки дастрас.',
+    '30 días: objetivos y planificación del equipo, delegación, retroalimentación, riesgos, decisiones, desacuerdos y participación inclusiva.',
   ),
   'ai-fundamentals': text(
     'Четырнадцать бесплатных дней: ИИ, LLM, токены и контекст, инструкции, галлюцинации, безопасность и мини-проект.',

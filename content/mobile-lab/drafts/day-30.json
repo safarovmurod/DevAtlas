@@ -45,6 +45,30 @@
       },
       "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\ntype Note = { id: string; text: string };\n\nconst KEY = 'devatlas-cache';\n\nexport function mergeNotes(local: Note[], remote: Note[]): Note[] {\n  const byId = new Map<string, Note>();\n  for (const note of local) byId.set(note.id, note);\n  for (const note of remote) {\n    const existing = byId.get(note.id);\n    if (!existing || existing.text !== note.text) byId.set(note.id, note);\n  }\n  return [...byId.values()];\n}\n\nexport default function App() {\n  const [notes, setNotes] = useState<Note[] | null>(null);\n  const [source, setSource] = useState('');\n\n  useEffect(() => {\n    const local: Note[] = [\n      { id: 'n1', text: 'Локальная заметка' },\n    ];\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        const cached: Note[] = raw ? (JSON.parse(raw) as Note[]) : [];\n        setNotes(mergeNotes(cached, local));\n        setSource(cached.length > 0 ? 'кэш + локальные' : 'только локальные');\n      })\n      .catch(() => {\n        setNotes(local);\n        setSource('только локальные');\n      });\n  }, []);\n\n  if (notes === null) return <View style={styles.screen}><Text>Загрузка…</Text></View>;\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Согласование данных</Text>\n      <Text>Источник: {source}</Text>\n      {notes.map(note => <Text key={note.id}>{note.text}</Text>)}\n      <Text>Сетевая часть появится в Pro-курсе; здесь правило — локальное и кэш объединяются по id.</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Правило выбора записи в коде",
+        "tg": "Қоидаи интихоби қайд дар рамз",
+        "en": "The record-choice rule in code"
+      },
+      "body": {
+        "ru": "mergeNotes кладёт сетевые записи поверх локальных по id: Map хранит одну запись на ключ, поэтому дубликаты невозможны по построению. Но «поверх» не всегда правильно: если у записи есть updatedAt, правило делают явным — побеждает новее, и оба источника сравнивают по числу. Даты сравнивают как числа timestamp, а не строки: строка «9» больше «10», и порядок «случайно» ломается при десятой записи. Связь с днём тридцать девятым: updatedAt — поле модели, как createdAt, и оно появляется в модели тогда, когда появляется второй источник записей.",
+        "tg": "mergeNotes қайдҳои шабакаиро болои маҳаллӣ аз рӯи id мемонад: Map ба ҳар калид як қайдро нигоҳ медорад, бинобар ин дучандшавӣ аз сохт мумкин нест. Аммо «боло» ҳамеша дуруст нест: агар қайд updatedAt дошта бошад, қоидаи возеҳ мекунанд — навтарин ғолиб мешавад ва ҳарду манбаъ аз рӯи адад муқоиса мешаванд. Санаҳоро ҳамчун адади timestamp муқоиса мекунанд, на сатр: сатри «9» аз «10» калон аст ва тартиб дар даҳумин қайд «тасодуфан» вайрон мешавад. Пайванд бо рӯзи сию нӯҳум: updatedAt майдони модел аст, мисли createdAt, ва он ҳангоми пайдоиши манбаи дуюми қайдҳо дар модел пайдо мешавад.",
+        "en": "mergeNotes puts network records over local ones by id: a Map keeps one record per key, so duplicates are impossible by construction. But «on top» is not always right: if a record has updatedAt, the rule is made explicit — the newer wins, and both sources compare by number. Dates are compared as timestamp numbers, not strings: the string «9» is greater than «10», and the order «accidentally» breaks at the tenth record. Connection to day thirty-nine: updatedAt is a model field like createdAt, and it appears in the model when the second source of records appears."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки объединения данных",
+        "tg": "Хатоҳои маъмулии муттаҳидкунии додаҳо",
+        "en": "Common mistakes of merging data"
+      },
+      "body": {
+        "ru": "Первая ошибка — конкатенация массивов вместо merge: записи дублируются по id, и на экране одна заметка видна дважды; объединяют через Map по ключу. Вторая — сравнение дат строками: '2026-9-1' больше '2026-10-1' как строка, и «новее» работает до десятого месяца; сравнивают числа timestamp. Третья — мутация локального массива при объединении: источник меняется, и повторный merge даёт другой результат; работают с копиями. Четвёртая — нет правила при конфликте: одна и та же пара записей то показывает локальную, то сетевую версию; правило выбора фиксируют в коде и в отчёте.",
+        "tg": "Хатои аввал — пайвастани массивҳо ба ҷои merge: қайдҳо аз рӯи id дучанд мешаванд ва дар экран як қайд ду бор дида мешавад; тавассути Map аз рӯи калид муттаҳид мекунанд. Хатои дуюм — муқоисаи санаҳо бо сатр: '2026-9-1' аз '2026-10-1' ҳамчун сатр калон аст ва «навтарин» то моҳи даҳум кор мекунад; ададҳои timestamp-ро муқоиса мекунанд. Хатои сеюм — мутатсияи массиви маҳаллӣ ҳангоми муттаҳидкунӣ: манбаъ тағйир меёбад ва merge-и такрорӣ натиҷаи дигар медиҳад; бо нусхаҳо кор мекунанд. Хатои чорум — қоидаи набудан ҳангоми зиддият: ҳамон ҷуфти қайд гоҳ версияи маҳаллӣ, гоҳ шабакавиро нишон медиҳад; қоидаи интихобро дар рамз ва ҳисобот сабт мекунанд.",
+        "en": "The first mistake is concatenating arrays instead of merging: records duplicate by id, and one note shows twice on screen; merge through a Map by key. The second is comparing dates as strings: '2026-9-1' is greater than '2026-10-1' as a string, and «newer» works until the tenth month; compare timestamp numbers. The third is mutating the local array during the merge: the source changes and a repeated merge gives a different result; work with copies. The fourth is no rule for conflicts: the same pair of records shows now the local, now the network version; fix the choice rule in code and in the report."
+      }
     }
   ],
   "questions": [

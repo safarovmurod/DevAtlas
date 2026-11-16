@@ -45,6 +45,30 @@
       },
       "code": "import { StyleSheet, Text, View } from 'react-native';\n\ntype Status = 'loading' | 'done' | 'error';\n\ntype FeedProps = { status: Status; items: string[] };\n\nexport function LessonFeed({ status, items }: FeedProps) {\n  return (\n    <View>\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && items.length === 0 ? <Text>Пока занятий нет.</Text> : null}\n      {status === 'done' && items.length > 0 ? items.map(item => <Text key={item}>{item}</Text>) : null}\n      {status === 'error' ? <Text>Не удалось загрузить. Попробуйте позже.</Text> : null}\n    </View>\n  );\n}\n\nexport default function App() {\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Три состояния ленты</Text>\n      <LessonFeed status=\"loading\" items={[]} />\n      <LessonFeed status=\"done\" items={['Экран', 'Стили']} />\n      <LessonFeed status=\"error\" items={[]} />\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 16, padding: 24 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Четыре состояния как договор компонента",
+        "tg": "Чор ҳолат ҳамчун шартномаи компонент",
+        "en": "Four states as a component contract"
+      },
+      "body": {
+        "ru": "LessonFeed получает status и items и рисует ровно одну ветку: loading, done без элементов, done со списком, error с кнопкой повтора. Это договор — у экрана не может быть двух состояний одновременно, и ветки не пересекаются. Пустой список — это данные: их ноль, а не сбой, поэтому «Пока занятий нет» отличается от сообщения об ошибке. В реальном проекте такой компонент переиспользуют на всех лентах приложения: состояние приходит извне, и компонент не знает, откуда данные. Связь с днём девятым: там пустое состояние было частью одного экрана, здесь — отдельный компонент с props.",
+        "tg": "LessonFeed status ва items-ро мегирад ва дақиқан як шохаро мекашад: loading, done бе элементҳо, done бо рӯйхат, error бо тугмаи такрор. Ин шартнома аст — экран ду ҳолатро якбора дошта наметавонад ва шохаҳо ҳамдигарро ба нафс намебаранд. Рӯйхати холӣ додаҳост: онҳо сиферанд, на вайроншавӣ, бинобар ин «Ҳанӯз машғулият нест» аз паёми хато фарқ мекунад. Дар лоиҳаи воқеӣ чунин компонентро дар ҳамаи лентаҳои барнома такрор менамоянд: ҳолат аз берун меояд ва компонент намедонад, ки додаҳо аз куҷоянд. Пайванд бо рӯзи нӯҳум: он ҷо ҳолати холӣ қисми як экран буд, ин ҷо — компоненти алоҳида бо props.",
+        "en": "LessonFeed receives status and items and draws exactly one branch: loading, done without items, done with a list, error with a retry button. This is a contract — a screen cannot hold two states at once, and the branches do not overlap. An empty list is data: it is zero, not a failure, so «No lessons yet» differs from an error message. In a real project such a component is reused on every feed of the app: state comes from outside, and the component does not know where the data is from. Connection to day nine: there the empty state was part of one screen, here it is a separate component with props."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки состояний экрана",
+        "tg": "Хатоҳои маъмулии ҳолатҳои экран",
+        "en": "Common mistakes of screen states"
+      },
+      "body": {
+        "ru": "Первая ошибка — две ветки вместо четырёх: «данные есть» и «данные не пришли» скрывают разницу между пусто, ошибкой сети и отказом сервера. Вторая — «Загрузка…» при пустых данных: статус и данные связаны неявно, и после done без элементов экран показывает спиннер бесконечно. Третья — ошибка без сообщения: пользователь видит пустоту и не знает, повторить или уйти; ветка ошибки называет причину и предлагает кнопку. Четвёртая — рассинхрон status и items: статус уже done, а данные не пришли; их обновляют вместе, в одном месте.",
+        "tg": "Хатои аввал — ду шоха ба ҷои чор: «додаҳо ҳаст» ва «додаҳо наомаданд» фарқи холӣ, хатои шабака ва радди серверро пинҳон мекунанд. Хатои дуюм — «Боркунӣ…» ҳангоми додаҳои холӣ: ҳолат ва додаҳо пайванди ғайривозеҳ доранд ва баъди done бе элементҳо экран спиннерро беохир нишон медиҳад. Хатои сеюм — хато бе паём: корбар холиро мебинад ва намедонад, такрор кунад ё равад; шохаи хато сабабро меномад ва тугмаро пешниҳод мекунад. Хатои чорум — ноҳамҳангии status ва items: ҳолат аллакай done, аммо додаҳо наомаданд; онҳоро якҷоя, дар як ҷо навсозӣ мекунанд.",
+        "en": "The first mistake is two branches instead of four: «data exists» and «data did not arrive» hide the difference between empty, network failure and server refusal. The second is «Loading…» with empty data: status and data are linked implicitly, and after done without items the screen shows a spinner forever. The third is an error without a message: the user sees emptiness and cannot tell whether to retry or leave; the error branch names the cause and offers a button. The fourth is status and items out of sync: the status is already done, but the data has not arrived; update them together, in one place."
+      }
     }
   ],
   "questions": [

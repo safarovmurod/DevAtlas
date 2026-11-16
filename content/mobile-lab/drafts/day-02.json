@@ -62,6 +62,18 @@
         "tg": "0 → 1 → 2 → 3 → Reset → 0",
         "en": "0 → 1 → 2 → 3 → Reset → 0"
       }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки со state",
+        "tg": "Хатоҳои маъмулӣ бо ҳолат",
+        "en": "Common mistakes with state"
+      },
+      "body": {
+        "ru": "Первая ошибка — обычная переменная вместо useState: присвоение count = count + 1 меняет значение, но React не узнаёт об этом и не перерисовывает экран. Вторая — два вызова setCount(count + 1) в одном обработчике: оба вызова видят один и тот же снимок count, поэтому счётчик растёт только на единицу; для двух прибавлений нужна функция setCount(n => n + 1), её подробно разберём на восьмом дне. Третья — вызов useState внутри условия или цикла: хуки вызывают на верхнем уровне компонента в одном и том же порядке при каждой отрисовке. Четвёртая — забытый import { useState } from 'react': ошибка «useState is not defined» появляется в консоли сразу.",
+        "tg": "Хатои аввал — тағйирёбандаи одӣ ба ҷои useState: гузоштани count = count + 1 қиматро тағйир медиҳад, аммо React аз он хабардор намешавад ва экранро аз нав намекашад. Хатои дуюм — ду даъвати setCount(count + 1) дар як коркард: ҳарду даъват як снимки count-ро мебинанд, бинобар ин ҳисобкунак танҳо ба як воҳид меафзояд; барои ду илова функсияи setCount(n => n + 1) лозим аст, онро рӯзи ҳаштум муфассал мебинем. Хатои сеюм — даъвати useState дар дохили шарт ё давр: ҳукҳоро дар сатҳи болоии компонент дар ҳар рендер бо як навбат мехонанд. Хатои чорум — import-и фаромӯшшуда { useState } from 'react': хатои «useState is not defined» фавран дар консол пайдо мешавад.",
+        "en": "The first mistake is a plain variable instead of useState: an assignment like count = count + 1 changes the value, but React never learns about it and does not re-render the screen. The second is two calls of setCount(count + 1) in one handler: both calls see the same snapshot of count, so the counter grows by one; for two increments you need the function form setCount(n => n + 1), covered in depth on day eight. The third is calling useState inside a condition or a loop: hooks are called at the top level of the component in the same order on every render. The fourth is a forgotten import { useState } from 'react': the error «useState is not defined» appears in the console immediately."
+      }
     }
   ],
   "interview": {

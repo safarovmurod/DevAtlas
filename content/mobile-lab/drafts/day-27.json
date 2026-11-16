@@ -45,6 +45,30 @@
       },
       "code": "import { useEffect, useState } from 'react';\nimport { StyleSheet, Text, TextInput, View } from 'react-native';\n\ntype Todo = { id: number; title: string };\n\nexport default function App() {\n  const [query, setQuery] = useState('');\n  const [titles, setTitles] = useState<string[]>([]);\n  const [status, setStatus] = useState<'loading' | 'done' | 'error'>('done');\n\n  useEffect(() => {\n    const trimmed = query.trim();\n    if (!trimmed) {\n      setTitles([]);\n      return;\n    }\n    const controller = new AbortController();\n    setStatus('loading');\n    fetch('https://jsonplaceholder.typicode.com/todos?_limit=20', { signal: controller.signal })\n      .then(response => response.json())\n      .then((data: Todo[]) => {\n        const found = data\n          .map(item => item.title)\n          .filter(title => title.toLowerCase().includes(trimmed.toLowerCase()));\n        setTitles(found);\n        setStatus('done');\n      })\n      .catch((error: unknown) => {\n        if ((error as { name?: string }).name === 'AbortError') return;\n        setStatus('error');\n      });\n    return () => controller.abort();\n  }, [query]);\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Поиск занятий</Text>\n      <TextInput value={query} onChangeText={setQuery} placeholder=\"Введите слово\" style={styles.input} />\n      {status === 'loading' ? <Text>Загрузка…</Text> : null}\n      {status === 'done' && titles.length === 0 ? <Text>Ничего не найдено.</Text> : null}\n      {titles.map(title => <Text key={title}>{title}</Text>)}\n      {status === 'error' ? <Text>Сеть недоступна.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Гонка ответов и её цена",
+        "tg": "Бонии ҷавобҳо ва баҳои он",
+        "en": "The response race and its price"
+      },
+      "body": {
+        "ru": "Быстрый ввод посылает запросы быстрее, чем приходят ответы: без отмены последним на экране окажется результат устаревшего запроса. AbortController отменяет активный запрос через signal, а cleanup useEffect отменяет его при каждом новом вводе и при уходе с экрана. AbortError — не сбой сети: отделяйте отмену от ошибки, иначе каждый быстрый набор выглядит сбоем, и пользователь теряет доверие к экрану. В реальном проекте отсюда же следует пауза после ввода: она экономит запросы, а отмена остаётся страховкой от гонки. Связь с днём двадцать четвёртым: тот же cleanup запрещает setState после размонтирования.",
+        "tg": "Навишти тез дархостҳоро зудтар аз омадани ҷавобҳо мефиристад: бе бекоркунӣ охирин натиҷа дар экран натиҷаи дархости куҳна мешавад. AbortController дархости фаъолро тавассути signal бекор мекунад ва cleanup-и useEffect онро дар ҳар навишти нав ва ҳангоми рафтан аз экран бекор мекунад. AbortError вайроншавии шабака нест: бекоркуниро аз хато ҷудо кунед, вагарна ҳар навишти тез ҳамчун вайроншавӣ ба назар меояд ва корбар ба экран бовар кӯтоҳ мекунад. Дар лоиҳаи воқеӣ аз ин паузаи баъди навиштан меояд: он дархостҳоро кам мекунад ва бекоркунӣ кафолати аз бонӣ мемонад. Пайванд бо рӯзи бисту чорум: ҳамин cleanup гузоштани setState-ро баъди нестшавӣ манъ мекунад.",
+        "en": "Fast typing sends requests faster than answers arrive: without cancellation the screen ends up showing the result of the stale request. AbortController cancels the active request through its signal, and the useEffect cleanup cancels it on every new input and when leaving the screen. AbortError is not a network failure: separate cancellation from errors, otherwise every fast typing looks like a failure and the user loses trust in the screen. In a real project this also implies a pause after typing: it saves requests, while cancellation remains the insurance against races. Connection to day twenty-four: the same cleanup forbids setState after unmounting."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки отмены запросов",
+        "tg": "Хатоҳои маъмулии бекоркунии дархостҳо",
+        "en": "Common mistakes of request cancellation"
+      },
+      "body": {
+        "ru": "Первая ошибка — нет отмены: ответы приходят не по порядку, и поиск показывает результат первого запроса после результата второго. Вторая — контроллер создан, но signal не передан в fetch: abort() отменяет «ничто», и гонка остаётся. Третья — AbortError попадает в общую ветку ошибок: каждая отмена рисует сообщение о сбое; отмену отличают по имени ошибки и молча пропускают. Четвёртая — пустой запрос уходит в сеть: «ко» и «» дают два запроса подряд; пустую строку очищают сразу и не ходят в сеть вовсе.",
+        "tg": "Хатои аввал — бекоркунӣ нест: ҷавобҳо ба навбат намеоянд ва ҷустуҷӯ натиҷаи дархости аввалро баъди натиҷаи дуюм нишон медиҳад. Хатои дуюм — контроллер сохта шудааст, аммо signal ба fetch дода нашудааст: abort() «ҳеҷ чиз»-ро бекор мекунад ва бонӣ мемонад. Хатои сеюм — AbortError ба шохаи умумии хатоҳо мерасад: ҳар бекоркунӣ паёми вайроншавиро мекашад; бекоркуниро аз номи хато мешиносанд ва бе овоз мегузаронанд. Хатои чорум — дархости холӣ ба шабака меравад: «ко» ва «» ду дархости пайиҳам медиҳанд; сатри холиро фавран тоза мекунанд ва ба шабака бармекунанд.",
+        "en": "The first mistake is no cancellation: answers arrive out of order, and search shows the first request's result after the second one's. The second is a controller created but its signal never passed to fetch: abort() cancels «nothing», and the race remains. The third is AbortError falling into the common error branch: every cancellation draws a failure message; recognize cancellation by the error name and skip it silently. The fourth is an empty query going to the network: «ko» and «» produce two requests in a row; clear the empty string immediately and skip the network entirely."
+      }
     }
   ],
   "questions": [

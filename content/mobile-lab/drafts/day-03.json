@@ -45,6 +45,30 @@
       },
       "code": "import { View, Text } from 'react-native';\n\nexport default function App() {\n  const learnerName = 'Мадина';\n  const completed = 2;\n  const total = 5;\n  const remaining = total - completed;\n\n  return (\n    <View style={{ padding: 24 }}>\n      <Text accessibilityRole=\"header\">Салом, {learnerName}!</Text>\n      <Text>Осталось занятий: {remaining}</Text>\n    </View>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Выражения в скобках и чистые вычисления",
+        "tg": "Ифодаҳо дар қавсҳо ва ҳисобҳои соф",
+        "en": "Expressions in braces and pure calculations"
+      },
+      "body": {
+        "ru": "Всё внутри фигурных скобок вычисляется заново при каждой отрисовке, поэтому значение на экране всегда согласовано с переменными. Сложную логику выносят в const перед return: экран читается как перечень готовых значений, а не цепочка формул. Деление в JavaScript даёт дробное число: 5/2 — это 2.5, а целую часть отдаёт Math.floor(5/2), остаток — оператор %: 5 % 2 равно 1. В реальном проекте так считают пары занятий: Math.floor(lessons / 2) — число пар, lessons % 2 — признак незанятой записи. Связь со вторым днём: если значение приходит из state, экран обновится после нажатия, потому что выражение пересчитается.",
+        "tg": "Ҳама чизи дохили қавсҳои фигурӣ дар ҳар рендер аз нав ҳисоб мешавад, бинобар ин қимат дар экран ҳамеша бо тағйирёбандаҳо мувофиқ аст. Мантиқи мураккабро ба const пеш аз return мебароранд: экран ҳамчун рӯйхати қиматҳои омода хонда мешавад, на ҳамчун занҷираи формулаҳо. Тақсим дар JavaScript адади касриро медиҳад: 5/2 — 2.5, қисми бутунро Math.floor(5/2) медиҳад, боқимонда — оператори %: 5 % 2 баробари 1 аст. Дар лоиҳаи воқеӣ ҷуфтҳои машғулиятҳоро ҳамин тавр ҳисоб мекунанд: Math.floor(lessons / 2) — шумораи ҷуфтҳо, lessons % 2 — нишонаи қайди ҷуфтинашуда. Пайванд бо рӯзи дуюм: агар қимат аз ҳолат ояд, экран баъди пахш нав мешавад, чунки ифода аз нав ҳисоб мешавад.",
+        "en": "Everything inside curly braces is recalculated on every render, so the value on the screen always agrees with the variables. Complex logic is moved into a const before the return: the screen reads as a list of ready values, not a chain of formulas. Division in JavaScript produces a fractional number: 5/2 is 2.5, the whole part comes from Math.floor(5/2), and the remainder comes from the % operator: 5 % 2 equals 1. In a real project this is how you count pairs of lessons: Math.floor(lessons / 2) is the number of pairs, lessons % 2 flags an unpaired record. Connection to day two: if the value comes from state, the screen updates after a press because the expression recalculates."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки со значениями",
+        "tg": "Хатоҳои маъмулӣ бо қиматҳо",
+        "en": "Common mistakes with values"
+      },
+      "body": {
+        "ru": "Первая ошибка — имя без скобок: запись name выводит на экран слово «name», а не содержимое переменной, потому что JSX печатает текст как есть. Вторая — ожидание целого результата от деления: 5/2 равно 2.5, и счётчик «половинного занятия» выглядит как чушь; целую часть дают Math.floor или Math.round. Третья — опечатка в имени переменной: totall вместо total вызывает ReferenceError и пустой экран, TypeScript подсвечивает это до запуска. Четвёртая — длинные вычисления прямо в JSX: вложенные скобки трудно читать, поэтому выражение выносят в const с говорящим именем.",
+        "tg": "Хатои аввал — ном бе қавс: навишти name дар экран калимаи «name»-ро нишон медиҳад, на мазмуни тағйирёбандаро, чунки JSX матнро ҳамон тавре ки ҳаст, чоп мекунад. Хатои дуюм — интизори натиҷаи бутун аз тақсим: 5/2 баробари 2.5 аст ва ҳисобкунаки «ниммашғулият» маънои бемаъни дорад; қисми бутунро Math.floor ё Math.round медиҳад. Хатои сеюм — хатогӣ дар номи тағйирёбанда: totall ба ҷои total ReferenceError мегирад ва экран холӣ мемонад, TypeScript онро то оғоз нишон медиҳад. Хатои чорум — ҳисобҳои дароз бевосита дар JSX: қавсҳои дохилӣ душвор хонда мешаванд, бинобар ин ифодаро ба const бо номи маънодор мебароранд.",
+        "en": "The first mistake is a name without braces: writing name prints the word «name» on the screen instead of the variable's content, because JSX prints text literally. The second is expecting a whole number from division: 5/2 equals 2.5, and a counter of «half a lesson» looks like nonsense; the whole part comes from Math.floor or Math.round. The third is a typo in a variable name: totall instead of total raises a ReferenceError and an empty screen, and TypeScript highlights it before launch. The fourth is long calculations right inside JSX: nested braces are hard to read, so move the expression into a const with a speaking name."
+      }
     }
   ],
   "interview": {

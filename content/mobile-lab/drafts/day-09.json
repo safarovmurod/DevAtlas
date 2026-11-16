@@ -45,6 +45,30 @@
       },
       "code": "import { Text, View } from 'react-native';\n\ntype Lesson = { id: string; title: string };\n\nexport function LessonList({ lessons }: { lessons: Lesson[] }) {\n  return (\n    <View>\n      {lessons.length === 0 ? (\n        <Text>Пока занятий нет</Text>\n      ) : (\n        lessons.map(lesson => <Text key={lesson.id}>{lesson.title}</Text>)\n      )}\n    </View>\n  );\n}\n\nexport default function App() {\n  const lessons = [\n    { id: 'one', title: 'Первый шаг' },\n    { id: 'two', title: 'Повторение' },\n  ];\n  return <LessonList lessons={lessons} />;\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Пустое состояние и устойчивые ключи",
+        "tg": "Ҳолати холӣ ва калидҳои устувор",
+        "en": "Empty state and stable keys"
+      },
+      "body": {
+        "ru": "Условие condition ? first : second выбирает, что показать при пустом массиве, — это часть интерфейса, а не украшение: пользователь должен понять, что список пуст, а экран сломался. Ключ key — договор React с элементом: при добавлении записи React сравнивает ключи и не пересоздаёт весь список. Индекс массива как ключ работает до первой вставки или сортировки: записи «переезжают», их содержимое путается, а состояние строк теряется. В реальном проекте ключ берут из данных — id записи, созданный один раз. Связь с шестнадцатым днём: FlatList требует тот же устойчивый ключ через keyExtractor.",
+        "tg": "Шарти condition ? first : second интихоб мекунад, ки ҳангоми массиви холӣ чӣ нишон дода шавад — ин қисми интерфейс аст, на ороиш: корбар бояд фаҳмад, ки рӯйхат холист, на экран вайрон. Калиди key шартномаи React бо элемент аст: ҳангоми иловаи қайд React калидҳоро муқоиса мекунад ва тамоми рӯйхатро аз нав намесозад. Индекси массив ҳамчун калид то аввалин илова ё сортировка кор мекунад: қайдҳо «мекӯчанд», мазмуни онҳо ошофта мешавад ва ҳолати сатрҳо гум мешавад. Дар лоиҳаи воқеӣ калидро аз додаҳо мегиранд — id-и қайде, ки як бор сохта шудааст. Пайванд бо рӯзи шонздаҳум: FlatList ҳамин калиди устуворро тавассути keyExtractor талаб мекунад.",
+        "en": "The condition condition ? first : second chooses what to show for an empty array — this is part of the interface, not decoration: the user must understand that the list is empty rather than the screen being broken. The key is React's contract with an element: when a record is added, React compares keys and does not rebuild the whole list. An array index as a key works until the first insertion or sort: records «move», their content gets confused, and row state is lost. In a real project the key comes from the data — the record's id created once. Connection to day sixteen: FlatList requires the same stable key through keyExtractor."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки списков и условий",
+        "tg": "Хатоҳои маъмулии рӯйхатҳо ва шартҳо",
+        "en": "Common mistakes of lists and conditions"
+      },
+      "body": {
+        "ru": "Первая ошибка — key={index}: при вставке в середину списка React путает строки, и правки попадают не в те записи; ключ должен быть устойчивым id. Вторая — нет ветки пустого состояния: массив пуст, экран молчит, и пользователь не понимает, что произошло. Третья — sort() прямо на массиве данных: сортировка меняет исходный массив, и следующий рендер рисует неожиданный порядок; сортируют копию [...items].sort(). Четвёртая — условие до вызовов useState: при переключении ветки число хуков меняется, и React сообщает об ошибке порядка хуков.",
+        "tg": "Хатои аввал — key={index}: ҳангоми илова ба миёни рӯйхат React сатрҳоро ошофта мекунад ва ислоҳҳо ба қайдҳои дигар мерасанд; калид бояд id-и устувор бошад. Хатои дуюм — набудани шохаи ҳолати холӣ: массив холист, экран хомӯш аст ва корбар нафаҳмад, ки чӣ шуд. Хатои сеюм — sort() бевосита дар массиви додаҳо: сортировка массиви аслиро тағйир медиҳад ва рендери оянда тартиби ногаҳон меяшад; нусхаро сорти мекунанд [...items].sort(). Хатои чорум — шарт пеш аз даъватҳои useState: ҳангоми ивази шоха шумораи ҳукҳо тағйир меёбад ва React дар бораи хатои тартиби ҳукҳо хабар медиҳад.",
+        "en": "The first mistake is key={index}: when inserting into the middle of the list React mixes up rows, and edits land on the wrong records; the key must be a stable id. The second is no empty-state branch: the array is empty, the screen is silent, and the user cannot tell what happened. The third is sort() right on the data array: sorting changes the source array, and the next render draws an unexpected order; sort a copy [...items].sort(). The fourth is a condition before useState calls: when the branch switches, the hook count changes, and React reports a hook-order error."
+      }
     }
   ],
   "questions": [

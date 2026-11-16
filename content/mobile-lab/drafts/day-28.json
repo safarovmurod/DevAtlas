@@ -45,6 +45,30 @@
       },
       "code": "import { useEffect, useState } from 'react';\nimport { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst KEY = 'devatlas-notes';\n\nexport default function App() {\n  const [draft, setDraft] = useState('');\n  const [notes, setNotes] = useState<string[]>([]);\n  const [savedOnce, setSavedOnce] = useState(false);\n\n  useEffect(() => {\n    AsyncStorage.getItem(KEY)\n      .then(raw => {\n        if (raw) setNotes(JSON.parse(raw) as string[]);\n      })\n      .catch(() => {});\n  }, []);\n\n  async function saveNote() {\n    const value = draft.trim();\n    if (!value) return;\n    const next = [...notes, value];\n    setNotes(next);\n    setDraft('');\n    await AsyncStorage.setItem(KEY, JSON.stringify(next));\n    setSavedOnce(true);\n  }\n\n  return (\n    <View style={styles.screen}>\n      <Text accessibilityRole=\"header\">Заметки с хранением</Text>\n      <TextInput value={draft} onChangeText={setDraft} placeholder=\"Новая заметка\" style={styles.input} />\n      <Pressable\n        accessibilityRole=\"button\"\n        accessibilityLabel=\"Сохранить заметку\"\n        onPress={saveNote}\n        style={({ pressed }) => [styles.button, pressed && styles.pressed]}\n      >\n        <Text style={styles.buttonText}>Сохранить</Text>\n      </Pressable>\n      {notes.length === 0 ? <Text>Заметок пока нет.</Text> : notes.map((note, index) => <Text key={index}>{note}</Text>)}\n      {savedOnce ? <Text>Заметка сохранена на устройстве.</Text> : null}\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  screen: { flex: 1, gap: 12, padding: 24 },\n  input: { borderWidth: 1, borderColor: '#94a3b8', borderRadius: 8, padding: 12 },\n  button: { backgroundColor: '#2563eb', padding: 16, borderRadius: 8, alignItems: 'center' },\n  pressed: { opacity: 0.7 },\n  buttonText: { color: '#ffffff', fontSize: 16 },\n});\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Что можно и что нельзя хранить",
+        "tg": "Чӣ нигоҳ доштан мумкин ва чӣ не",
+        "en": "What can and cannot be stored"
+      },
+      "body": {
+        "ru": "AsyncStorage хранит строки по ключу и не шифрует их, как прямо говорит документация: заметки и настройки хранить можно, пароли и токены — нет, для них нужны специальные хранилища платформы. Объекты сериализуют JSON.stringify, а JSON.parse при чтении оборачивают в try: повреждённая строка не должна валить запуск приложения. getItem возвращает строку или null — null означает «ключа нет», а не «сохранено пусто»; это различие станет основой двадцать девятого дня. Перезапуск — обязательная часть проверки: данные считаются сохранёнными только после закрытия и повторного открытия приложения.",
+        "tg": "AsyncStorage сатрҳоро бо калид нигоҳ медорад ва онҳоро рамзгузорӣ намекунад, чунки ҳуҷҷат мустақиман мегӯяд: қайдҳо ва танзимотро нигоҳ доштан мумкин, паролҳо ва токенҳоро — не, барои онҳо хазинаҳои махсуси платформа лозиманд. Объектҳоро тавассути JSON.stringify сериализ мекунанд ва JSON.parse-ро ҳангоми хондан дар try мепечонанд: сатри осебдида набояд оғози барномаро меканад. getItem сатр ё null бармегардонад — null маънои «калид нест»-ро дорад, на «ҳолӣ нигоҳ дошта шудааст»; ин фарқ асоси рӯзи бисту нӯҳум мешавад. Оғози нав қисми ҳатмии санҷиш аст: додаҳо танҳо баъди пӯшидан ва кушодани такрории барнома нигоҳдоришуда ҳисоб мешаванд.",
+        "en": "AsyncStorage stores strings by key and does not encrypt them, as the documentation says directly: notes and settings can be stored, passwords and tokens cannot — those need the platform's dedicated storage. Objects are serialized with JSON.stringify, and JSON.parse on reading is wrapped in try: a damaged string must not crash the app start. getItem returns a string or null — null means «the key is absent», not «saved as empty»; this difference becomes the basis of day twenty-nine. A relaunch is a mandatory part of the check: data counts as saved only after closing and reopening the app."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с хранилищем",
+        "tg": "Хатоҳои маъмулӣ бо хазина",
+        "en": "Common mistakes with storage"
+      },
+      "body": {
+        "ru": "Первая ошибка — сохранение объекта напрямую: setItem принимает строку, и без JSON.stringify вместо данных записывается '[object Object]'. Вторая — JSON.parse без try: одна повреждённая строка из прошлой версии ломает запуск; parse оборачивают и проверяют форму данных. Третья — синхронное чтение при рендере: getItem возвращает Promise, и данные «не приходят»; чтение делают в useEffect с статусом загрузки. Четвёртая — секреты в AsyncStorage: хранилище не шифрует значения, и пароль из настроек читается любым инструментом отладки.",
+        "tg": "Хатои аввал — нигоҳдории объект бевосита: setItem сатрро мегирад ва бе JSON.stringify ба ҷои додаҳо '[object Object]' навишта мешавад. Хатои дуюм — JSON.parse бе try: як сатри осебдида аз версияи қаблӣ оғозро меканад; parse-ро печонида, шакли додаҳоро санҷед. Хатои сеюм — хондани синхронӣ ҳангоми рендер: getItem Promise бармегардонад ва додаҳо «намеоянд»; хонданро дар useEffect бо ҳолати боркунӣ мекунанд. Хатои чорум — сиррҳо дар AsyncStorage: хазина қиматҳоро рамзгузорӣ намекунад ва парол аз танзимот бо ҳар абзори ислоҳ хонда мешавад.",
+        "en": "The first mistake is storing an object directly: setItem takes a string, and without JSON.stringify '[object Object]' is written instead of data. The second is JSON.parse without try: one damaged string from an old version breaks the start; wrap parse and check the data shape. The third is synchronous reading during render: getItem returns a Promise and data «never arrives»; read in useEffect with a loading status. The fourth is secrets in AsyncStorage: the storage does not encrypt values, and a password from settings is readable by any debug tool."
+      }
     }
   ],
   "questions": [

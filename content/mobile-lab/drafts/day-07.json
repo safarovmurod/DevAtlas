@@ -45,6 +45,30 @@
       },
       "code": "import { Text, View } from 'react-native';\n\ntype GreetingProps = { name: string };\n\nfunction Greeting({ name }: GreetingProps) {\n  return <Text>Салом, {name}!</Text>;\n}\n\nexport default function App() {\n  return (\n    <View style={{ padding: 24 }}>\n      <Greeting name=\"Мадина\" />\n      <Greeting name=\"Фарид\" />\n    </View>\n  );\n}\n",
       "language": "tsx"
+    },
+    {
+      "title": {
+        "ru": "Props читаются, но не меняются",
+        "tg": "Props хонда мешаванд, аммо тағйир дода намешаванд",
+        "en": "Props are read but never changed"
+      },
+      "body": {
+        "ru": "Props — вход, который родитель даёт при отрисовке; ребёнок читает и показывает их, но не присваивает заново. TypeScript охраняет договор: при поле name: string запись name={7} вызывает ошибку ещё до запуска. Поток данных один — сверху вниз; если значения должны меняться, ими владеет родитель через state, а ребёнок получает новые props (двадцать первый день покажет подъём состояния). Необязательное поле описывают через вопросительный знак и дают запасное значение: name ? name : 'Гость' выводит имя или слово «Гость» без пустоты на экране.",
+        "tg": "Props додаи вурудианд, ки волид дар рендер медиҳад; фарзанд онҳоро мехонад ва нишон медиҳад, аммо аз нав гузошта наметавонад. TypeScript шартномаро ҳифз мекунад: дар майдони name: string навишти name={7} то оғоз хато медиҳад. Ҷараёни додаҳо як аст — аз боло ба поён; агар қиматҳо тағйирёбанда бошанд, соҳиби онҳо волид тавассути ҳолат мешавад ва фарзанд props-и нав мегирад (рӯзи бисту як боло барда шудани ҳолатро нишон медиҳад). Майдони ихтиёриро бо аломати пурсиш тавсиф мекунанд ва қимати иҳтиётиро медиҳанд: name ? name : 'Меҳмон' ё ном ё калимаи «Меҳмон»-ро нишон медиҳад, бе холӣ дар экран.",
+        "en": "Props are the input a parent gives at render time; the child reads and displays them but never assigns them anew. TypeScript guards the contract: with a name: string field, writing name={7} raises an error even before launch. There is one data flow — from top to bottom; if values must change, the parent owns them through state and the child receives new props (day twenty-one shows lifting state up). An optional field is described with a question mark and given a fallback: name ? name : 'Guest' prints the name or the word «Guest» with no emptiness on the screen."
+      }
+    },
+    {
+      "title": {
+        "ru": "Частые ошибки с props",
+        "tg": "Хатоҳои маъмулӣ бо props",
+        "en": "Common mistakes with props"
+      },
+      "body": {
+        "ru": "Первая ошибка — присвоение внутри ребёнка: props.name = 'Азиз' не меняет данные родителя и путает поток; изменение делает родитель. Вторая — проп забыли передать: name остаётся undefined, и на экране пустота без явной ошибки; TypeScript показывает это в редакторе. Третья — опечатка при деструктуризации: { nmae } читает пустое поле и выводит запасной текст вместо имени. Четвёртая — мутация объекта-пропа: ребёнок меняет объект, полученный от родителя, и ломает односторонний поток; для изменений передают функцию-событие вверх.",
+        "tg": "Хатои аввал — гузоштан дар дохили фарзанд: props.name = 'Азиз' додаҳои волидро тағйир намедиҳад ва ҷараёнро ошофта мекунад; тағйирро волид мекунад. Хатои дуюм — проп гирифта нашуд: name undefined мемонад ва дар экран бе хатои возеҳ холӣ мешавад; TypeScript инро дар муҳаррир нишон медиҳад. Хатои сеюм — хатогӣ ҳангоми тақсим: { nmae } майдони холиро мехонад ва матни иҳтиётиро ба ҷои ном нишон медиҳад. Хатои чорум — мутатсияи объекти проп: фарзанд объекти аз волид гирифтаро тағйир медиҳад ва ҷараёни якҷонибаро вайрон мекунад; барои тағйирот функсияи рӯйдодро боло мефиристанд.",
+        "en": "The first mistake is an assignment inside the child: props.name = 'Aziz' does not change the parent's data and breaks the flow; changes belong to the parent. The second is a forgotten prop: name stays undefined, and the screen shows emptiness without an obvious error; TypeScript reveals this in the editor. The third is a typo during destructuring: { nmae } reads an empty field and prints the fallback text instead of the name. The fourth is mutating a prop object: the child edits an object received from the parent and breaks the one-way flow; for changes, pass an event function upward."
+      }
     }
   ],
   "questions": [

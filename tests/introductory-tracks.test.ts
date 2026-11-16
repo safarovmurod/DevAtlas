@@ -34,6 +34,28 @@ it('python publishes a full thirty-day schedule from zero to a final project', a
   expect(content.lessons).toHaveLength(30);
 });
 
+it('python keeps the authored-day structural contract: four sections, three linked-hint questions, original translations', async () => {
+  const content = await loadCourseContent('python');
+  for (const lesson of content.lessons) {
+    expect(lesson.sections, lesson.id).toHaveLength(4);
+    expect(lesson.questions, lesson.id).toHaveLength(3);
+    const questionIds = new Set(lesson.questions.map(question => question.id));
+    expect(questionIds.size, lesson.id).toBe(3);
+    for (const question of lesson.questions) {
+      expect(question.hint?.ru.trim() && question.hint?.tg.trim() && question.hint?.en?.trim(), `${lesson.id} ${question.id} hint`).toBeTruthy();
+      expect(question.relatedSection, `${lesson.id} ${question.id} relatedSection`).toBeLessThan(lesson.sections.length);
+      expect(question.options.length, question.id).toBeGreaterThanOrEqual(3);
+      if (question.id.endsWith('-q3')) expect(question.options, question.id).toHaveLength(3);
+    }
+    for (const section of lesson.sections) {
+      expect(section.body.tg, `${lesson.id} section ${section.title.ru} tg`).not.toBe(section.body.ru);
+    }
+    for (const question of lesson.questions) {
+      expect(question.question.tg, `${lesson.id} ${question.id} tg`).not.toBe(question.question.ru);
+    }
+  }
+});
+
 it.skipIf(!python)('every published Python example with documented output executes and matches it exactly', async () => {
   const content = await loadCourseContent('python');
   let verified = 0;
