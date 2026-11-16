@@ -24,7 +24,7 @@ test('author can finish publication lessons and save an honest four-criterion ca
     await expect(page.locator('[data-lesson-section]')).toHaveCount(4);
   }
   const lesson = course.lessons.find(lesson => lesson.day === endDay)!;
-  await page.goto(`/courses/content-creation/tests?day=${endDay}`);
+  await page.goto(`/courses/content-creation/tests?day=${endDay}`); await page.locator('[data-strict-start]').click();
   const question = page.locator('.course-question').first();
   await question.getByRole('radio', { name: lesson.questions[0].options[1].tg, exact: true }).check();
   await question.getByRole('button', { name: 'Проверить', exact: true }).click();

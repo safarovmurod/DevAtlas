@@ -16,6 +16,9 @@ import {
 import { cn } from '@/lib/utils';
 import { COMMUNITY_COPY } from './community-copy';
 
+/** Touch targets stay at least 44×44 px. */
+const TOUCH = { width: 44, height: 44 };
+
 export type CommunityMessage = {
   id: string;
   author_id: string;
@@ -284,6 +287,7 @@ function CommunitySession() {
                   <button
                     type="button"
                     className="icon-button"
+                    style={TOUCH}
                     aria-label={copy.remove}
                     onClick={() => {
                       setFile(null);
@@ -322,6 +326,7 @@ function CommunitySession() {
                 <button
                   type="button"
                   className="icon-button shrink-0"
+                  style={TOUCH}
                   aria-label={copy.attach}
                   title={copy.attach}
                   onClick={() => fileInput.current?.click()}
@@ -331,6 +336,7 @@ function CommunitySession() {
                 <button
                   type="button"
                   className={cn('icon-button shrink-0', codeMode && 'bg-primary-soft text-brand')}
+                  style={TOUCH}
                   aria-label={copy.codeOn}
                   aria-pressed={codeMode}
                   title={copy.code}

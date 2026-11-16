@@ -18,7 +18,7 @@ test('design principles are lesson text with feedback and a persistent written e
   await expect(page.locator('[data-lesson-section]')).toHaveCount(15);
   for (const section of lesson.sections.slice(3)) await expect(page.locator('[data-lesson-section] > summary').filter({ hasText: section.title.tg })).toHaveCount(1);
   await expect(page.locator('a[href$=".pdf"]')).toHaveCount(0);
-  await page.goto('/courses/ux-design/tests?day=19');
+  await page.goto('/courses/ux-design/tests?day=19'); await page.locator('[data-strict-start]').click();
   const question = page.locator('.course-question').nth(5);
   const q = lesson.questions[5];
   await question.getByRole('radio', { name: q.options[(q.correctIndex + 1) % 3].tg, exact: true }).check();

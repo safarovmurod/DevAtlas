@@ -12,6 +12,10 @@
 .agent-bubble {
   view-transition-name: site-agent;
 }
+/* Every view-transition-name must be unique, or the browser aborts the transition. */
+.agent-bubble.tutor-bubble {
+  view-transition-name: tutor-bubble;
+}
 @layer base {
   ::view-transition {
     pointer-events: none;
@@ -20,7 +24,8 @@
 @layer base {
   ::view-transition-group(app-header),
   ::view-transition-group(app-sidebar),
-  ::view-transition-group(site-agent) {
+  ::view-transition-group(site-agent),
+  ::view-transition-group(tutor-bubble) {
     animation: none;
     z-index: 100;
   }
@@ -28,14 +33,16 @@
 @layer base {
   ::view-transition-old(app-header),
   ::view-transition-old(app-sidebar),
-  ::view-transition-old(site-agent) {
+  ::view-transition-old(site-agent),
+  ::view-transition-old(tutor-bubble) {
     display: none;
   }
 }
 @layer base {
   ::view-transition-new(app-header),
   ::view-transition-new(app-sidebar),
-  ::view-transition-new(site-agent) {
+  ::view-transition-new(site-agent),
+  ::view-transition-new(tutor-bubble) {
     animation: none;
   }
 }

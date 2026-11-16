@@ -16,7 +16,7 @@ const copy: Record<
     failed: 'Неверно',
     expected: 'ожидается',
     actual: 'получено',
-    error: 'Код не выполнился: проверьте синтаксис и имя функции.',
+    error: 'Код не выполнился: проверьте синтаксис, имя функции и лимит 3 секунды.',
   },
   tg: {
     run: 'Санҷидани ҳал',
@@ -24,7 +24,7 @@ const copy: Record<
     failed: 'Нодуруст',
     expected: 'интизор',
     actual: 'натиҷа',
-    error: 'Код иҷро нашуд: синтаксис ва номи функсияро санҷед.',
+    error: 'Код иҷро нашуд: синтаксис, номи функсия ва лимити 3 сонияро санҷед.',
   },
   en: {
     run: 'Check solution',
@@ -32,7 +32,7 @@ const copy: Record<
     failed: 'Incorrect',
     expected: 'expected',
     actual: 'got',
-    error: 'The code did not run: check the syntax and the function name.',
+    error: 'The code did not run: check the syntax, the function name and the 3-second limit.',
   },
   es: {
     run: 'Comprobar solución',
@@ -40,7 +40,8 @@ const copy: Record<
     failed: 'Incorrecto',
     expected: 'se espera',
     actual: 'se obtuvo',
-    error: 'El código no se ejecutó: revisa la sintaxis y el nombre de la función.',
+    error:
+      'El código no se ejecutó: revisa la sintaxis, el nombre de la función y el límite de 3 segundos.',
   },
 };
 function printable(value: unknown) {
@@ -106,7 +107,7 @@ function Session({ code, execution }: { code: string; execution: Execution }) {
             <ul className="grid gap-1 text-sm">
               {active.map((check, index) =>
                 check.passed ? null : (
-                  <li key={index}>
+                  <li key={index} className="warning-text">
                     <code>
                       {execution.functionName}(
                       {execution.tests[index].args.map(printable).join(', ')})

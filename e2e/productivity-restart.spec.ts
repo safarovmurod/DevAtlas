@@ -23,7 +23,7 @@ for (const endDay of [18, 22]) test(`returning learner can study productivity da
     await expect(page.locator('[data-lesson-section]')).toHaveCount(4);
   }
   const lesson = course.lessons.find(lesson => lesson.day === endDay)!;
-  await page.goto(`/courses/personal-productivity/tests?day=${endDay}`);
+  await page.goto(`/courses/personal-productivity/tests?day=${endDay}`); await page.locator('[data-strict-start]').click();
   const question = page.locator('.course-question').first();
   await question.getByRole('radio', { name: lesson.questions[0].options[lesson.questions[0].correctIndex].tg, exact: true }).check();
   await question.getByRole('button', { name: 'Проверить', exact: true }).click();
