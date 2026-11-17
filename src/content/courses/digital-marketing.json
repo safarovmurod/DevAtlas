@@ -346,7 +346,87 @@
             "tg": "Ҳадаф амал, муҳлат ва ченак дорад.",
             "en": "The goal includes an action, deadline and metric."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "offer-audience-specific",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Предложение или аудитория не названы, либо аудитория — «все».",
+                  "tg": "Пешниҳод ё аудитория номбар нашудаанд, ё аудитория «ҳама» аст.",
+                  "en": "The offer or audience is not named, or the audience is “everyone”."
+                },
+                {
+                  "ru": "Предложение и аудитория названы, но остаются общими: без задачи, ситуации или места.",
+                  "tg": "Пешниҳод ва аудитория ҳастанд, вале умумӣ мондаанд: бе вазифа, вазъ ё ҷой.",
+                  "en": "Offer and audience are named but stay broad: no task, situation or place."
+                },
+                {
+                  "ru": "Одно предложение и одна аудитория с задачей и ситуацией; личные данные отсутствуют, допущения помечены.",
+                  "tg": "Як пешниҳод ва як аудитория бо вазифа ва вазъ; маълумоти шахсӣ нест, фарзияҳо ишора шудаанд.",
+                  "en": "One offer and one audience with a task and situation; no personal data and assumptions labeled."
+                }
+              ]
+            },
+            {
+              "id": "message-honest",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Сообщение обещает гарантированный результат или скрывает условие.",
+                  "tg": "Матн натиҷаи кафолатӣ ваъда мекунад ё шарти пинҳонӣ дорад.",
+                  "en": "The message promises guaranteed results or hides a condition."
+                },
+                {
+                  "ru": "Сообщение в целом честное, но одно слово без основания («лучшая», «уникальная») или условие лишь подразумевается.",
+                  "tg": "Матн асосан рӯякор аст, вале як калима бе асос («беҳтарин», «ягона») ё шарт танҳо дар назар аст.",
+                  "en": "The message is mostly truthful but one word lacks backing or a condition is only implied."
+                },
+                {
+                  "ru": "Каждое обещание имеет проверяемое основание; условия стоят рядом с обещанием.",
+                  "tg": "Ҳар ваъда асоси санҷишӣ дорад; шартҳо дар канори ваъда мебошанд.",
+                  "en": "Every promise has a checkable basis; conditions sit next to the promise."
+                }
+              ]
+            },
+            {
+              "id": "goal-action-deadline-metric",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Цель — настроение («узнают о нас») или без числа.",
+                  "tg": "Ҳадаф — ҳолат («моро мешиносанд») ё бе рақам.",
+                  "en": "The goal is a mood (“people learn about us”) or has no number."
+                },
+                {
+                  "ru": "Действие названо, но период или знаменатель отсутствует.",
+                  "tg": "Амал номбар шудааст, вале муҳлат ё махраҷ нест.",
+                  "en": "The action is named but the period or denominator is missing."
+                },
+                {
+                  "ru": "Одно наблюдаемое действие с числом и периодом; помечено как цель, а не измерение.",
+                  "tg": "Як амали дидашаванда бо рақам ва муҳлат; ҳамчун ҳадаф ишора шудааст, на ченкунӣ.",
+                  "en": "One observable action with a number and period, marked as a target rather than a measurement."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какое слово сообщения опирается на запись, а какое пока допущение?",
+              "tg": "Кадом калимаи матн ба сабт такя мекунад ва кадом ҳанӯз фарзия аст?",
+              "en": "Which word of the message rests on a record and which is still an assumption?"
+            },
+            {
+              "ru": "Что именно посчитаете для цели завтра и за какое окно?",
+              "tg": "Фардо барои ҳадаф дақиқ чиро месанҷед ва дар кадом муҳлат?",
+              "en": "What exactly would you count for the goal tomorrow and over which window?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -729,9 +809,9 @@
           ],
           "correctIndex": 0,
           "hint": {
-            "ru": "Значение в ссылке может попасть в журналы и аналитику.",
-            "tg": "Маълумоти ссылка ба журналу аналитика меравад.",
-            "en": "Link values can enter logs and analytics."
+            "ru": "Маленькая выборка не доказывает правило: нужна сравнимая проверка двух вариантов.",
+            "tg": "Намунаи хурд қоида исбот намекунад: муқоисаи санҷишии ду вариант лозим аст.",
+            "en": "A small sample does not prove a rule; a comparable test of two variants is needed."
           },
           "relatedSection": 2
         },
@@ -766,11 +846,11 @@
           ],
           "correctIndex": 0,
           "hint": {
-            "ru": "Нулевой знаменатель оставляет долю неопределённой.",
-            "tg": "Махраҷи сифр ҳиссаро номаълум мемонад.",
-            "en": "A zero denominator leaves the rate undefined."
+            "ru": "Значение в ссылке может попасть в журналы и аналитику.",
+            "tg": "Маълумоти ссылка ба журналу аналитика меравад.",
+            "en": "Link values can enter logs and analytics."
           },
-          "relatedSection": 2
+          "relatedSection": 0
         }
       ],
       "practice": {
@@ -807,7 +887,87 @@
             "tg": "Маҳдудият ва нақшаи санҷиши бе кафолат ҳаст.",
             "en": "A limitation and non-guaranteed test plan are stated."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "rates-with-denominators",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Доли посчитаны неверно или знаменатели не названы.",
+                  "tg": "Ҳиссаҳо нодуруст ҳисоб шудаанд ё махраҷҳо номбар нашудаанд.",
+                  "en": "The rates are wrong or denominators are absent."
+                },
+                {
+                  "ru": "Арифметика верна, но у одной доли нет знаменателя или названия метрики.",
+                  "tg": "Арифметика дуруст, вале як ҳисса махраҷ ё номи ченак надорад.",
+                  "en": "The arithmetic is right but one rate lacks a denominator or metric name."
+                },
+                {
+                  "ru": "Обе доли несут числитель, знаменатель и название; два совпавших 20% не приравнены.",
+                  "tg": "Ҳар ду ҳисса сурат, махраҷ ва ном доранд; ду 20%-и якхела баробар гузошта нашудаанд.",
+                  "en": "Both rates carry numerator, denominator and name; the two matching 20% values are not equated."
+                }
+              ]
+            },
+            {
+              "id": "change-targets-metric",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Изменение не привязано к метрике или обещает улучшить всё сразу.",
+                  "tg": "Тағйир ба ченак пайванд надорад ё ваъдаи беҳтари ҳамаашро медиҳад.",
+                  "en": "The change has no metric or promises to improve everything at once."
+                },
+                {
+                  "ru": "Метрика названа, но ожидаемое направление или этап размыты.",
+                  "tg": "Ченак номбар аст, вале самти интизорӣ ё марҳала торик аст.",
+                  "en": "A metric is named but the expected direction or stage is vague."
+                },
+                {
+                  "ru": "Одно изменение, одна метрика со знаменателем и ожидаемым направлением.",
+                  "tg": "Як тағйир, як ченак бо махраҷ ва самти интизорӣ.",
+                  "en": "One change, one metric with a denominator and an expected direction."
+                }
+              ]
+            },
+            {
+              "id": "limitation-test-plan",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Ограничения нет или победитель объявлен по 8 записям.",
+                  "tg": "Маҳдудият нест ё ғолиб бо 8 сабт эълон шудааст.",
+                  "en": "No limitation is stated or a winner is declared from 8 sign-ups."
+                },
+                {
+                  "ru": "Ограничение названо, но план проверки не обеспечивает сопоставимость или окно.",
+                  "tg": "Маҳдудият гуфта шудааст, вале нақшаи санҷиш мувофиқат ё муҳлат намедиҳад.",
+                  "en": "A limitation is named but the test plan lacks comparability or a window."
+                },
+                {
+                  "ru": "Записаны ограничение малой выборки и сопоставимая проверка двух вариантов с окном наблюдения.",
+                  "tg": "Маҳдудияти намунаи хурд ва муқоисаи санҷишии ду вариант бо муҳлат сабт шудаанд.",
+                  "en": "The thin-sample limitation and a comparable two-variant check with a window are recorded."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какой знаменатель у каждой доли и где он записан?",
+              "tg": "Махраҷи ҳар ҳисса кадом аст ва дар куҷо сабт шудааст?",
+              "en": "Which denominator does each rate use and where is it recorded?"
+            },
+            {
+              "ru": "Что в плане проверки может различаться у двух вариантов, кроме самого изменения?",
+              "tg": "Дар нақшаи санҷиш чи метавонад аз тағйир дигар байни ду вариант фарқ кунад?",
+              "en": "What could differ between the two variants besides the change itself?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -1266,7 +1426,87 @@
             "tg": "Аломатҳои насанҷидашаванда ҳамчун тахмин ишора шудаанд.",
             "en": "Uncheckable traits are marked as assumptions."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "narrowing-steps",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Широкая аудитория лишь переименована или сужена одним скачком.",
+                  "tg": "Аудиторияи васеъ танҳо аз нав ном гирифтааст ё бо як ҷаҳиш торик шудааст.",
+                  "en": "The broad audience is only renamed or narrowed in one jump."
+                },
+                {
+                  "ru": "Два шага есть, но один не отсеивает людей (нет задачи или контекста).",
+                  "tg": "Ду қадам ҳастанд, вале яке одамонро ҷудо намекунад (вазифа ё контекст нест).",
+                  "en": "Two steps exist but one filters nobody (no task or context)."
+                },
+                {
+                  "ru": "Два шага: отсеяны люди без задачи, затем добавлен контекст; результат — один рабочий сегмент.",
+                  "tg": "Ду қадам: одамони бевазифа ҷудо, баъд контекст илова; натиҷа — як сегменти корӣ.",
+                  "en": "Two steps: people without the task dropped, then context added; the result is one working segment."
+                }
+              ]
+            },
+            {
+              "id": "traits-observable",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Признаки отсутствуют или являются ярлыками характера.",
+                  "tg": "Аломатҳо нест ё ярлыки хислат мебошанд.",
+                  "en": "Traits are missing or are personality labels."
+                },
+                {
+                  "ru": "Четыре признака перечислены, но один нельзя увидеть или спросить без личных данных.",
+                  "tg": "Чор аломат рӯйхат шудаанд, вале якерояшро бе маълумоти шахсӣ дидан ё пурсидан мумкин нест.",
+                  "en": "The four traits are listed but one cannot be seen or asked about without personal data."
+                },
+                {
+                  "ru": "Задача, контекст, ограничение и канал записаны как наблюдаемые утверждения с источником проверки у каждого.",
+                  "tg": "Вазифа, контекст, монеъа ва канал ҳамчун мушоҳидаи санҷишӣ бо манбаъ барои ҳар як навишта шудаанд.",
+                  "en": "Task, context, constraint and channel are written as observable claims with a check source each."
+                }
+              ]
+            },
+            {
+              "id": "assumptions-marked",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Непроверяемый признак использован как факт.",
+                  "tg": "Аломати насанҷида ҳамчун факт истифода шудааст.",
+                  "en": "An uncheckable trait is used as a fact."
+                },
+                {
+                  "ru": "Допущение помечено, но всё ещё используется в сообщении.",
+                  "tg": "Фарзия ишора шудааст, вале дар матн истифода мешавад.",
+                  "en": "An assumption is marked but is still used in the message."
+                },
+                {
+                  "ru": "Непроверяемые признаки помечены «допущение» с планом проверки и не влияют на сообщение.",
+                  "tg": "Аломатҳои насанҷӣ бо ишораи «фарзия» ва нақшаи санҷиш, бе таъсир ба матн.",
+                  "en": "Uncheckable traits carry an assumption label and check plan and no message is built on them."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Как вы пронаблюдаете признак-ограничение завтра?",
+              "tg": "Фардо аломати монеъаро чӣ тавр мушоҳида мекунед?",
+              "en": "How would you observe the constraint trait tomorrow?"
+            },
+            {
+              "ru": "Какой признак остался допущением и какая проверка запланирована?",
+              "tg": "Кадом аломат фарзия монд ва кадом санҷиш нақша шудааст?",
+              "en": "Which trait stayed an assumption and what check is planned?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -1708,7 +1948,87 @@
             "tg": "Ҳолати таҳқиқот рӯякор нишон дода шудааст.",
             "en": "The research status is stated honestly."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "fact-quote-assumption",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Все реакции считаются фактами, либо записи отсутствуют.",
+                  "tg": "Ҳамаи вокунишҳо факт ҳисоб мешаванд, ё сабтҳо нест.",
+                  "en": "All reactions are treated as facts or records are missing."
+                },
+                {
+                  "ru": "Разделение есть, но цитата или обещание посчитаны за действие.",
+                  "tg": "Ҷудокунӣ ҳаст, вале иқтибос ё ваъда ҳамчун амал ҳисоб шудааст.",
+                  "en": "A split exists but a quote or promise is counted as an action."
+                },
+                {
+                  "ru": "Сообщения о поведении, слабые реплики и допущения разделены с источниками («собеседник 1»).",
+                  "tg": "Гузоришҳои рафтор, ҷавобҳои суст ва фарзияҳо бо манбаъ ҷудо шудаанд («сӯҳбаткунанда 1»).",
+                  "en": "Behavioural reports, weak remarks and assumptions are separated with sources."
+                }
+              ]
+            },
+            {
+              "id": "demand-type-justified",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Тип спроса объявлен без записей.",
+                  "tg": "Навъи талаб бе сабт эълон шудааст.",
+                  "en": "The demand type is declared without records."
+                },
+                {
+                  "ru": "Тип назван, но обоснование превращает один поиск в вывод о рынке.",
+                  "tg": "Навъ номбар шудааст, вале асос як ҷустуҷуро ба хулосаи бозор табдил медиҳад.",
+                  "en": "The type is named but the justification turns one search into a market claim."
+                },
+                {
+                  "ru": "Тип опирается на записи (платная замена, поиск без результата) с указанием предела выборки.",
+                  "tg": "Навъ ба сабт такя мекунад (ҷойгузини пулакӣ, ҷустуҷӯи бенатиҷа) бо ҳади намуна.",
+                  "en": "The type rests on records (a paid substitute, a search without results) with the sample limit stated."
+                }
+              ]
+            },
+            {
+              "id": "research-status-honest",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Вымышленные записи выданы за реальные интервью.",
+                  "tg": "Сабтҳои сохта ҳамчун суҳбати воқеӣ нишон дода шудаанд.",
+                  "en": "Fictional records are presented as real interviews."
+                },
+                {
+                  "ru": "Статус назван, но сегмент всё равно трактуется как подтверждённый.",
+                  "tg": "Ҳолат номбар аст, вале сегмент ҳанӯз тасдиқшуда ҳисоб мешавад.",
+                  "en": "Status is stated but the segment is still treated as confirmed."
+                },
+                {
+                  "ru": "Синтетический статус или согласие явны; сегмент остаётся гипотезой.",
+                  "tg": "Ҳолати сохта ё розигӣ ошкор аст; сегмент фарзия мемонад.",
+                  "en": "Synthetic or consented status is explicit; the segment stays a hypothesis."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какая строка — факт о словах, а не о действиях?",
+              "tg": "Кадом сатр факт дар бораи калимаҳост, на амалҳо?",
+              "en": "Which line is a fact about words rather than actions?"
+            },
+            {
+              "ru": "Что подтвердит или опровергнет гипотезу спроса дальше?",
+              "tg": "Баъд чӣ фарзияи талабро тасдиқ ё рад мекунад?",
+              "en": "What would confirm or refute the demand hypothesis next?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -2150,7 +2470,87 @@
             "tg": "Тахминҳо ишора шуда, истифода намешаванд.",
             "en": "Assumptions are marked and unused."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "property-sources",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Свойства без источников или выдуманная биография.",
+                  "tg": "Хусусиятҳо бе манбаъ ё тарҷумаи сохта.",
+                  "en": "Properties lack sources or are invented biography."
+                },
+                {
+                  "ru": "Большинство свойств со ссылками на записи, но одно — украшение.",
+                  "tg": "Бештари хусусиятҳо бо сабт пайванданд, вале якерояш ороиш аст.",
+                  "en": "Most properties cite records but one is decoration."
+                },
+                {
+                  "ru": "Каждое свойство ссылается на записи; без источников — помечены как допущения.",
+                  "tg": "Ҳар хусусият ба сабт ишора мекунад; бе манбаъ — ҳамчун фарзия ишора шудаанд.",
+                  "en": "Each property cites records; sourceless ones are labeled assumptions."
+                }
+              ]
+            },
+            {
+              "id": "maturity-decisions",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Проверка зрелости отсутствует.",
+                  "tg": "Санҷиши пуррагӣ вуҷуд надорад.",
+                  "en": "The maturity check is absent."
+                },
+                {
+                  "ru": "Решения есть, но часть свойств не меняет ни канал, ни сообщение, ни время.",
+                  "tg": "Қарорҳо ҳастанд, вале баъзе хусусиятҳо канал, матн ё вақтро дигар намекунанд.",
+                  "en": "Decisions exist but some properties change no channel, message or timing."
+                },
+                {
+                  "ru": "Каждое свойство ведёт к решению кампании: канал, сообщение или время.",
+                  "tg": "Ҳар хусусият ба қарори маърака мерасад: канал, матн ё вақт.",
+                  "en": "Every property moves to a campaign decision: channel, message or timing."
+                }
+              ]
+            },
+            {
+              "id": "assumptions-unused",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Допущение использовано как факт в персоне или сообщении.",
+                  "tg": "Фарзия дар персоно ё матн ҳамчун факт истифода шудааст.",
+                  "en": "An assumption is used as a fact in the persona or message."
+                },
+                {
+                  "ru": "Допущения помечены, но одно всё ещё управляет решением.",
+                  "tg": "Фарзияҳо ишора шудаанд, вале якерояш ҳанӯз қарор мегирад.",
+                  "en": "Assumptions are marked but one still drives a decision."
+                },
+                {
+                  "ru": "Помеченные допущения имеют план проверки, и ни одно решение на них не держится.",
+                  "tg": "Фарзияҳои ишорашуда нақшаи санҷиш доранд ва ҳич қарор ба онҳо такя намекунад.",
+                  "en": "Marked assumptions carry a check plan and no decision rests on them."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Из какой записи взята каждая строка персоны?",
+              "tg": "Ҳар сатри персоно аз кадом сабт гирифта шудааст?",
+              "en": "From which record does each persona line come?"
+            },
+            {
+              "ru": "Какое решение изменится, если помеченное допущение окажется неверным?",
+              "tg": "Агар фарзияи ишорашуда нодуруст барояд, кадом қарор тағйир меёбад?",
+              "en": "Which decision would change if the marked assumption proved false?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -2592,7 +2992,87 @@
             "tg": "Муқоисаи паёмҳо фарқияти оғозҳоро фаҳмонад.",
             "en": "The message comparison explains the difference of openings."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "pains-from-records",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Боли придуманы или скопированы из питча продукта.",
+                  "tg": "Дардҳо сохта ё аз пичи продукт нусхабардорӣ шудаанд.",
+                  "en": "Pains are invented or copied from the product pitch."
+                },
+                {
+                  "ru": "Боли взяты из записей, но мотивы угаданы.",
+                  "tg": "Дардҳо аз сабт гирифта шудаанд, вале ангезаҳо ҳадс зада шудаанд.",
+                  "en": "Pains come from records but motivations are guessed."
+                },
+                {
+                  "ru": "Боли и мотивы ссылаются на записи дней 4–8.",
+                  "tg": "Дард ва ангезаҳо ба сабтҳои рӯзҳои 4–8 ишора мекунанд.",
+                  "en": "Pains and motivations cite the day-4 records."
+                }
+              ]
+            },
+            {
+              "id": "job-no-product-test",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Формула называет продукт или является слоганом.",
+                  "tg": "Формула номи продуктро меорад ё слоган аст.",
+                  "en": "The formula names the product or is a slogan."
+                },
+                {
+                  "ru": "Формула по шаблону, но прячет продукт в другом слове.",
+                  "tg": "Формула мувофиқи қолаб аст, вале продуктро дар калимаи дигар пинҳон мекунад.",
+                  "en": "The formula follows the template but hides the product in another word."
+                },
+                {
+                  "ru": "«Когда [ситуация], я хочу [мотив], чтобы [результат]» звучит без названия продукта.",
+                  "tg": "«Вақте [вазъ], мехоҳам [ангеза], то [натиҷа]» бе номи продукт меистад.",
+                  "en": "The formula stands without the product name."
+                }
+              ]
+            },
+            {
+              "id": "message-openings-compared",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Два сообщения отсутствуют или одинаковы.",
+                  "tg": "Ду матн нест ё якхеланд.",
+                  "en": "The two messages are missing or identical."
+                },
+                {
+                  "ru": "Оба сообщения есть, но сравнение не называет разницу начал.",
+                  "tg": "Ҳар ду матн ҳастанд, вале муқоиса фарқияти оғозро номбар намекунад.",
+                  "en": "Both messages exist but the comparison does not name the opening difference."
+                },
+                {
+                  "ru": "Показаны сообщение от боли и от продукта; сравнение называет, чей вопрос открывает каждое.",
+                  "tg": "Матни аз дард ва аз продукт нишон дода шудаанд; муқоиса мегӯяд ҳар яки онҳо саволи киро мекушояд.",
+                  "en": "The pain-first and product-first messages are shown and the comparison names whose question each opens."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Работает ли формула задачи, если убрать из неё название продукта?",
+              "tg": "Оё формулаи вазифа бе номи продукт кор мекунад?",
+              "en": "Does the job formula still hold with the product name removed?"
+            },
+            {
+              "ru": "С чьего вопроса начинается каждое сообщение?",
+              "tg": "Ҳар матн бо саволи кӣ оғоз мешавад?",
+              "en": "Whose question does each message open with?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -3034,7 +3514,87 @@
             "tg": "Ваъдаҳои бе тасдиқ хориҷ ва номбар шудаанд.",
             "en": "Unbacked promises are removed and listed."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "proposition-four-parts",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Части отсутствуют или предложение — просто описание продукта.",
+                  "tg": "Қисмҳо нест ё пешниҳод танҳо тавсифи продукт аст.",
+                  "en": "Parts are missing or the proposition is a mere product description."
+                },
+                {
+                  "ru": "Все четыре части есть, но одна размыта: основание — обещание.",
+                  "tg": "Ҳамаи чор қисм ҳастанд, вале якерояш торик аст: асос — ваъда.",
+                  "en": "All four parts are present but one is vague: the evidence is a promise."
+                },
+                {
+                  "ru": "Сегмент, задача, польза и основание конкретны в одном предложении.",
+                  "tg": "Сегмент, вазифа, манфиат ва асос дар як ҷумла аниқанд.",
+                  "en": "Segment, job, benefit and evidence are concrete in one sentence."
+                }
+              ]
+            },
+            {
+              "id": "swap-test-differences",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Тест замены отсутствует или предложение остаётся верным для конкурента.",
+                  "tg": "Тести иваз нест ё пешниҳод барои рақиб ҳам дуруст мемонад.",
+                  "en": "The swap test is absent or the proposition stays true for a competitor."
+                },
+                {
+                  "ru": "Тест проведён, но проверен только один признак.",
+                  "tg": "Тест гузаронида шуд, вале танҳо як аломат санҷида шуд.",
+                  "en": "The test ran but only one attribute was checked."
+                },
+                {
+                  "ru": "Результат замены записан по признакам; названы сохранившиеся отличия.",
+                  "tg": "Натиҷаи иваз аз рӯи аломатҳо сабт шуд; фарқияти боқимонда номбар шудаанд.",
+                  "en": "The swap result is recorded per attribute and the surviving differences are named."
+                }
+              ]
+            },
+            {
+              "id": "promises-removed-listed",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "«Лучшая», «уникальная», «гарантированная» остались без основания.",
+                  "tg": "«Беҳтарин», «ягона», «кафолатӣ» бе асос монданд.",
+                  "en": "“Best/unique/guaranteed” remain without backing."
+                },
+                {
+                  "ru": "Слова убраны, но список удалений не ведён.",
+                  "tg": "Калимаҳо хориҷ шуданд, вале рӯйхати хориҷкардашудаҳо нест.",
+                  "en": "Words were removed but the list of removals is missing."
+                },
+                {
+                  "ru": "Удалённые слова перечислены; каждое оставшееся обещание опирается на запись или явное условие.",
+                  "tg": "Калимаҳои хориҷкардашуда рӯйхат шудаанд; ҳар ваъдаи мондагӣ ба сабт ё шаши ошкор такя мекунад.",
+                  "en": "Removed words are listed and each kept promise rests on a record or explicit condition."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какая польза переживает замену конкурента, а какая отпадает?",
+              "tg": "Кадом манфиат аз ивази рақиб мемонад ва кадом меафтад?",
+              "en": "Which benefit survives the competitor swap and which falls away?"
+            },
+            {
+              "ru": "Какое оставшееся слово всё ещё требует записи-основания?",
+              "tg": "Кадом калимаи мондагӣ ҳанӯз сабти асосро талаб мекунад?",
+              "en": "Which kept word still needs a backing record?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -3476,7 +4036,87 @@
             "tg": "Ҷойгиршавӣ ба ҳуҷайраи ягона такя мекунад.",
             "en": "The positioning rests on the unique cell."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "alternatives-varied",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Перечислены только похожие организации.",
+                  "tg": "Танҳо ташкилотҳои монанд рӯйхат шудаанд.",
+                  "en": "Only similar organizations are listed."
+                },
+                {
+                  "ru": "Неочевидная альтернатива названа, но в таблицу не разобрана.",
+                  "tg": "Варианти номаъён номбар шудааст, вале дар ҷадвал таҳлил нашудааст.",
+                  "en": "A non-obvious alternative is named but not analyzed in the table."
+                },
+                {
+                  "ru": "Минимум три непохожие альтернативы (клуб, кино, диван) вошли в таблицу.",
+                  "tg": "Ҳадди ақал се варианти гуногун (тӯй, синамо, курсӣ) ба ҷадвал дохил шудаанд.",
+                  "en": "At least three unlike alternatives enter the table."
+                }
+              ]
+            },
+            {
+              "id": "table-customer-traits",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Таблица оценивает конкурентов или использует внутренние признаки.",
+                  "tg": "Ҷадвал рақибонро баҳо медиҳад ё аломатҳои дохилӣ истифода мебарад.",
+                  "en": "The table judges competitors or uses internal traits."
+                },
+                {
+                  "ru": "Признаки клиента использованы, но одна клетка — оценка или неизвестное, поданное как факт.",
+                  "tg": "Аломатҳои муштарӣ истифода шудаанд, вале як ҳуҷайра баҳо ё номаълумест, ки факт нишон дода шудааст.",
+                  "en": "Customer traits are used but one cell is a judgment or an unknown presented as fact."
+                },
+                {
+                  "ru": "Клетки цена/время/расстояние/формат содержат факты; неизвестное помечено неизвестным.",
+                  "tg": "Ҳуҷайраҳои нарх/вақт/масофа/шакл факт доранд; номаълум ҳамчун номаълум ишора шудааст.",
+                  "en": "Price, time, distance and format cells hold facts; unknowns are marked unknown."
+                }
+              ]
+            },
+            {
+              "id": "positioning-unique-cell",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Позиционирование не следует из таблицы.",
+                  "tg": "Ҷойгиршавӣ аз ҷадвал набармеояд.",
+                  "en": "Positioning does not follow from the table."
+                },
+                {
+                  "ru": "Позиционирование называет отличие, которое есть и у другой строки.",
+                  "tg": "Ҷойгиршавӣ фарқиятеро меномад, ки дар сатри дигар ҳам ҳаст.",
+                  "en": "Positioning names a difference another row also has."
+                },
+                {
+                  "ru": "Позиционирование — одна фраза на сочетании, уникальном в этой таблице.",
+                  "tg": "Ҷойгиршавӣ — як ибора дар рӯи ороиши дар ин ҷадвал ягона.",
+                  "en": "Positioning is one phrase built on the combination unique in this table."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какую клетку мог бы заявить и конкурент?",
+              "tg": "Кадом ҳуҷайраро рақиб ҳам иддо мекунад?",
+              "en": "Which cell could a competitor claim too?"
+            },
+            {
+              "ru": "Есть ли в таблице клетка-допущение, а не факт?",
+              "tg": "Оё дар ҷадвал ҳуҷайраи фарзия ҳаст, на факт?",
+              "en": "Is any table cell an assumption rather than a fact?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -3918,7 +4558,87 @@
             "tg": "Бриф дар як саҳифа ҷой мегирад ва нуҳ бахш дорад.",
             "en": "The brief fits one page and contains nine sections."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "five-parts-present",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Части отсутствуют: нет основания или действия.",
+                  "tg": "Қисмҳо нест: асос ё амал наборад.",
+                  "en": "Parts are missing: no evidence or action."
+                },
+                {
+                  "ru": "Все пять есть, но одна слита с другой или размыта.",
+                  "tg": "Ҳамаи панҷ ҳастанд, вале якерояш бо дигаре омехта ё торик аст.",
+                  "en": "All five exist but one is merged with another or vague."
+                },
+                {
+                  "ru": "Заголовок, предложение, польза, основание и действие различимы в двух-трёх предложениях.",
+                  "tg": "Сарлавҳа, пешниҳод, манфиат, асос ва амал дар ду-се ҷумла фарқ мекунанд.",
+                  "en": "Headline, offer, benefit, evidence and action are distinct in two-three sentences."
+                }
+              ]
+            },
+            {
+              "id": "parts-backed",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Части выдумывают факты, которых нет в записях.",
+                  "tg": "Қисмҳо фактҳои бе сабт месозанд.",
+                  "en": "Parts invent facts absent from the records."
+                },
+                {
+                  "ru": "Большинство частей опираются на дни 4–8, но одна — украшение.",
+                  "tg": "Бештари қисмҳо ба рӯзҳои 4–8 такя мекунанд, вале якерояш ороиш аст.",
+                  "en": "Most parts cite the day 4–8 material but one is decoration."
+                },
+                {
+                  "ru": "Каждая часть ведёт к записи своего дня; проверяемый факт помечен.",
+                  "tg": "Ҳар қисм ба сабти рӯзи худ мерасад; фактсанҷиш ишора шудааст.",
+                  "en": "Each part maps to its day’s record and the checkable fact is marked."
+                }
+              ]
+            },
+            {
+              "id": "brief-nine-sections",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Бриф отсутствует или переписан с нуля.",
+                  "tg": "Бриф нест ё аз сифр навишта шудааст.",
+                  "en": "The brief is missing or written anew from scratch."
+                },
+                {
+                  "ru": "Девять разделов есть, но один не совпадает с результатом своего дня.",
+                  "tg": "Нӯҳ бахш ҳастанд, вале якерояш бо натиҷаи рӯзи худ мувофиқ нест.",
+                  "en": "Nine sections exist but one does not match its day’s output."
+                },
+                {
+                  "ru": "Одна страница, девять разделов, каждый прослеживается до своего дня.",
+                  "tg": "Як саҳифа, нӯҳ бахш, ҳар як ба рӯзи худ мерасад.",
+                  "en": "One page, nine sections, each traceable to its day."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какую часть сообщения читатель процитировал бы как доказательство?",
+              "tg": "Кадом қисми матнро хонанда ҳамчун исбот иқтибос мекард?",
+              "en": "Which message part would a reader quote as evidence?"
+            },
+            {
+              "ru": "Какой раздел брифа не прослеживается до своего дня?",
+              "tg": "Кадом бахши бриф ба рӯзи худ намепайвад?",
+              "en": "Which brief section cannot be traced to its course day?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -4360,7 +5080,87 @@
             "tg": "Дархосте, ки аз марҳала пеш меравад, нест.",
             "en": "No calls run ahead of their stage."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "stages-with-touchpoints",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Этапы отсутствуют или у каждого заявлена точка контакта без основания.",
+                  "tg": "Марҳалаҳо нест ё дар ҳар як нуқтаи тамос бе асос иддо шудааст.",
+                  "en": "Stages are missing or every stage claims a touchpoint without evidence."
+                },
+                {
+                  "ru": "Этапы названы, но один пропуск заполнен молча.",
+                  "tg": "Марҳалаҳо номбар шудаанд, вале як халигӣ бе изеҳ пур карда шудааст.",
+                  "en": "Stages are named but one gap is filled silently."
+                },
+                {
+                  "ru": "У каждого этапа конкретная точка контакта или явное «отсутствует».",
+                  "tg": "Дар ҳар марҳала нуқтаи тамоси мушаххас ё «нест»-и ошкор ҳаст.",
+                  "en": "Each stage has a concrete touchpoint or an explicit “absent”."
+                }
+              ]
+            },
+            {
+              "id": "empty-stage-message",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "У пустого этапа нет ни точки контакта, ни сообщения.",
+                  "tg": "Дар марҳалаи холӣ на нуқтаи тамос ҳаст, на матн.",
+                  "en": "The empty stage has no touchpoint or message."
+                },
+                {
+                  "ru": "Точка контакта придумана, но сообщение отвечает на вопрос другого этапа.",
+                  "tg": "Нуқтаи тамос сохта шудааст, вале матн саволи марҳалаи дигарро ҷавоб медиҳад.",
+                  "en": "A touchpoint is invented but the message answers another stage’s question."
+                },
+                {
+                  "ru": "Придуманная точка контакта несёт сообщение из одной фразы, отвечающее вопросу этого этапа.",
+                  "tg": "Нуқтаи сохта матни як иборанӣ дорад, ки саволи ҳамин марҳаларо ҷавоб медиҳад.",
+                  "en": "The invented touchpoint carries a one-phrase message answering that stage’s question."
+                }
+              ]
+            },
+            {
+              "id": "no-stage-skipping",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Материалы этапа осведомлённости требуют записи или покупки.",
+                  "tg": "Маводи марҳалаи огоҳӣ сабти ном ё харидро талаб мекунад.",
+                  "en": "Awareness-stage items demand sign-ups."
+                },
+                {
+                  "ru": "Один призыв забегает вперёд, остальные на месте.",
+                  "tg": "Як даъват пеш мегузорад, дигарон дар ҷоянд.",
+                  "en": "One call runs ahead but the rest fit."
+                },
+                {
+                  "ru": "Призыв каждого этапа отвечает его вопросу; пропусков этапов нет.",
+                  "tg": "Даъвати ҳар марҳала саволи ӯро ҷавоб медиҳад; ҷаҳиш аз марҳала нест.",
+                  "en": "Each stage’s call matches its question; no skipping."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какой этап пустой и каково его сообщение из одной фразы?",
+              "tg": "Кадом марҳала холист ва матни як иборании он чист?",
+              "en": "Which stage is empty and what is its one-phrase message?"
+            },
+            {
+              "ru": "Где сообщение просит больше, чем позволяет его этап?",
+              "tg": "Дар куҷо матн зиёда аз имконияти марҳалааш талаб мекунад?",
+              "en": "Where does a message ask for more than its stage allows?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -4802,7 +5602,87 @@
             "tg": "Санҷишҳои даҳсония ва дастрасӣ бо сабти натиҷаҳо гузаштаанд.",
             "en": "The ten-second and accessibility tests pass with recorded results."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "six-blocks-order",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Блоки отсутствуют или идут не по порядку.",
+                  "tg": "Блокҳо нест ё аз навбат берунанд.",
+                  "en": "Blocks are missing or out of order."
+                },
+                {
+                  "ru": "Блоки есть, но действие стоит раньше пользы и основания.",
+                  "tg": "Блокҳо ҳастанд, вале амал пеш аз манфиат ва асос меистад.",
+                  "en": "Blocks exist but the action sits before benefit and evidence."
+                },
+                {
+                  "ru": "Заголовок, подзаголовок, «для кого», ответы на страхи, детали и действие идут по порядку.",
+                  "tg": "Сарлавҳа, зерславҳа, «барои кӣ», ҷавоб ба тарсон, тафсилот ва амал бо навбат.",
+                  "en": "Headline, subheadline, for-whom, fear answers, details and action appear in order."
+                }
+              ]
+            },
+            {
+              "id": "headline-match",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Заголовок обещает больше, чем объявление.",
+                  "tg": "Сарлавҳа зиёда аз эълон ваъда медиҳад.",
+                  "en": "The headline promises more than the notice."
+                },
+                {
+                  "ru": "Заголовок совпадает по теме, но добавляет неподтверждённое украшение.",
+                  "tg": "Сарлавҳа аз рӯи мавзӯъ мувофиқ аст, вале ороиши беасос илова мекунад.",
+                  "en": "The headline matches the topic but adds unbacked decoration."
+                },
+                {
+                  "ru": "Заголовок повторяет обещание объявления почти дословно.",
+                  "tg": "Сарлавҳа ваъдаи эълонро тақрибан ба таври аслӣ такрор мекунад.",
+                  "en": "The headline repeats the notice’s promise almost verbatim."
+                }
+              ]
+            },
+            {
+              "id": "tests-recorded",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Проверки объявлены пройденными без запуска, или ответ незнакомца выдуман.",
+                  "tg": "Санҷишҳо бе иҷро «гузашта» иддо шудаанд ё ҷавоби бегона сохта аст.",
+                  "en": "Checks are claimed as passed without a run or a stranger’s answer is invented."
+                },
+                {
+                  "ru": "Планы есть, но результаты записаны без пометок «не проведено».",
+                  "tg": "Нақшаҳо ҳастанд, вале натиҷаҳо бе ишораи «нагузаронидашуда» сабт шудаанд.",
+                  "en": "Plans exist but results are recorded without unrun marks."
+                },
+                {
+                  "ru": "Проверки читателя, клавиатуры и цвета имеют планы и явный статус проведено/не проведено.",
+                  "tg": "Санҷишҳои хонанда, клавиатура ва ранг нақша ва ҳолати ошкори гузаронидашуда/нагузаронидашуда доранд.",
+                  "en": "Reader, keyboard and colour checks carry plans and explicit run/unrun statuses."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какая проверка помечена «не проведено» и что нужно для её запуска?",
+              "tg": "Кадом санҷиш «нагузаронидашуда» ишора шудааст ва барои иҷро чӣ лозим?",
+              "en": "Which check is marked unrun and what would running it need?"
+            },
+            {
+              "ru": "Где страница отвечает на обещание объявления слово в слово?",
+              "tg": "Дар куҷо саҳифа ваъдаи эълонро калима ба калима ҷавоб медиҳад?",
+              "en": "Where does the page answer the notice’s promise word for word?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -5244,7 +6124,87 @@
             "tg": "Ҳар ҳилаи фишор бо асос иваз ё хориҷ шудааст.",
             "en": "Every pressure trick is replaced or dropped with justification."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "failures-recorded",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Провалы не записаны или текст объявлен чистым без проверок.",
+                  "tg": "Нокомиҳо сабт нашудаанд ё матн бе санҷиш «пок» иддо шудааст.",
+                  "en": "Failures are not recorded or the text is declared clean without checks."
+                },
+                {
+                  "ru": "Провалы названы, но не сказано, какое слово какой тест провалило.",
+                  "tg": "Нокомиҳо номбар шудаанд, вале нагуфта шудааст кадом калима кадом тестро мегузаронад.",
+                  "en": "Failures are named without saying which word failed which test."
+                },
+                {
+                  "ru": "Каждое провалившее слово привязано к своему тесту: пять секунд, вслух, замена.",
+                  "tg": "Ҳар калимаи ноком ба тести худ пайваст аст: панҷ сония, баландхонӣ, иваз.",
+                  "en": "Each failing word is tied to its test: five seconds, aloud, replacement."
+                }
+              ]
+            },
+            {
+              "id": "rewrite-passes-tests",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "В переписанном тексте остались слова-украшения.",
+                  "tg": "Дар матни нав калимаҳои ороишӣ монданд.",
+                  "en": "The rewrite keeps decorative words."
+                },
+                {
+                  "ru": "Переписанный текст конкретен, но исход тестов заявлен, а не показан.",
+                  "tg": "Матни нав мушаххас аст, вале натиҷаи тестҳо иддо шудааст, на нишон дода шудааст.",
+                  "en": "The rewrite is concrete but test outcomes are asserted rather than shown."
+                },
+                {
+                  "ru": "Что, когда, где и сколько названы; исходы трёх тестов показаны.",
+                  "tg": "Чӣ, кай, куҷо ва чанд номбар шудаанд; натиҷаи се тест нишон дода шудааст.",
+                  "en": "What, when, where and how much are stated and the three tests’ outcomes are shown."
+                }
+              ]
+            },
+            {
+              "id": "tricks-replaced",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Приём давления остался с оправданием «но это работает».",
+                  "tg": "Воситаи фишор бо асоси «вале кор мекунад» монд.",
+                  "en": "A pressure trick stays with a “but it works” justification."
+                },
+                {
+                  "ru": "Приёмы убраны, но замены не опираются на проверяемые факты.",
+                  "tg": "Воситаҳо хориҷ шуданд, вале ивазҳо ба фактҳои санҷишӣ такя намекунанд.",
+                  "en": "Tricks are dropped but replacements lack checkable facts."
+                },
+                {
+                  "ru": "Каждый приём заменён реальным ограничением или фактом либо убран с обоснованием.",
+                  "tg": "Ҳар восита бо ҳади воқеӣ ё факт иваз ё бо асос хориҷ шудааст.",
+                  "en": "Each trick is replaced by a real limit or fact or dropped with a reason."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какой заменённый приём теперь опирается на реальное ограничение?",
+              "tg": "Кадом воситаи ивазшуда ҳоло ба ҳади воқеӣ такя мекунад?",
+              "en": "Which replaced trick now rests on a real limit?"
+            },
+            {
+              "ru": "Скрывается ли ещё какое-то условие за звёздочкой?",
+              "tg": "Оё ҳанӯз ягон шарт пас аз ситора пинҳон аст?",
+              "en": "Does any promise still hide its condition behind an asterisk?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -5686,7 +6646,87 @@
             "tg": "Ҳадди ақали техникӣ бо нақшаи мушаххаси ислоҳҳо санҷида шудааст.",
             "en": "The technical minimum is checked with a concrete fix plan."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "queries-classified",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Запросы перечислены без видов.",
+                  "tg": "Ҷустуҷӯҳо бе навъ рӯйхат шудаанд.",
+                  "en": "Queries are listed without kinds."
+                },
+                {
+                  "ru": "Виды присвоены, но неподтверждённый запрос не помечен гипотезой.",
+                  "tg": "Навъҳо гузошта шудаанд, вале ҷустуҷӯи тасдиқнашуда ҳамчун фарзия ишора нашудааст.",
+                  "en": "Kinds are assigned but an unconfirmed query is not marked as a hypothesis."
+                },
+                {
+                  "ru": "Каждый запрос информационный/навигационный/транзакционный; неподтверждённые несут пометку гипотезы.",
+                  "tg": "Ҳар ҷустуҷӯ иттилоотӣ/мураббӣ/муомилотӣ; тасдиқнашудаҳо ишораи фарзия доранд.",
+                  "en": "Each query is informational/navigational/transactional and unconfirmed ones carry the hypothesis mark."
+                }
+              ]
+            },
+            {
+              "id": "headline-audience-words",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Заголовок сохраняет внутренний жаргон.",
+                  "tg": "Сарлавҳа жаргони дохилиро нигоҳ медорад.",
+                  "en": "The headline keeps internal jargon."
+                },
+                {
+                  "ru": "Заголовок на словах аудитории, но теряет слово из запроса.",
+                  "tg": "Сарлавҳа бо калимаҳои аудитория аст, вале калимаи ҷустуҷӯро меафканад.",
+                  "en": "The headline uses audience words but drops a query word."
+                },
+                {
+                  "ru": "Переписанный заголовок содержит слова запросов, и читаемый адрес ему соответствует.",
+                  "tg": "Сарлавҳаи нав калимаҳои ҷустуҷӯро дорад ва суроғаи хондашаванда мувофиқ аст.",
+                  "en": "The rewritten headline contains the query words and the readable address matches."
+                }
+              ]
+            },
+            {
+              "id": "technical-fix-plan",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Технический минимум пропущен или «всё в порядке» без проверок.",
+                  "tg": "Ҳадди ақали техникӣ гузариш шудааст ё «ҳама дуруст» бе санҷиш иддо шудааст.",
+                  "en": "The technical minimum is skipped or declared fine without checks."
+                },
+                {
+                  "ru": "Проверки перечислены, но исправление без измеримой цели.",
+                  "tg": "Санҷишҳо рӯйхат шудаанд, вале ислоҳ ҳадафи ченшаванда надорад.",
+                  "en": "Checks are listed but the fix lacks a measurable target."
+                },
+                {
+                  "ru": "Заголовок, адрес и скорость на телефоне проверены с конкретным изменением и целью.",
+                  "tg": "Сарлавҳа, суроға ва суръати телефон бо тағйири мушаххас ва ҳадаф санҷида шудаанд.",
+                  "en": "Title, address and phone speed are checked with a concrete change and target."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какое слово запроса вошло в заголовок, а какое осталось гипотезой?",
+              "tg": "Кадом калимаи ҷустуҷӯ ба сарлавҳа даромад ва кадом фарзия монд?",
+              "en": "Which query word entered the headline and which stayed a hypothesis?"
+            },
+            {
+              "ru": "Что именно измените для скорости на телефоне и до какой цели?",
+              "tg": "Барои суръати телефон дақиқ чиро тағйир медиҳед ва то кадом ҳадаф?",
+              "en": "What exactly will you change for phone speed and to what target?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -6128,7 +7168,87 @@
             "tg": "Шартҳои мувофиқии канали пулакӣ рӯякор сабт шудаанд.",
             "en": "The conditions for paid appropriateness are recorded honestly."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "platform-justified",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Платформа выбрана по моде или тренду.",
+                  "tg": "Платформа аз рӯи мода ё тренд интихоб шудааст.",
+                  "en": "The platform is chosen by trend."
+                },
+                {
+                  "ru": "Обоснование называет сегмент, но факт формата отсутствует.",
+                  "tg": "Асос сегментро меномад, вале факти формат нест.",
+                  "en": "Justification cites the segment but the format fact is missing."
+                },
+                {
+                  "ru": "Записаны два факта (присутствие сегмента, соответствие формата); непроверенные помечены.",
+                  "tg": "Ду факт сабт шудаанд (ҳузури сегмент, мувофиқати формат); насанҷидаҳо ишора шудаанд.",
+                  "en": "Two facts are recorded (segment presence, format fit) and unchecked ones labeled."
+                }
+              ]
+            },
+            {
+              "id": "posts-match-stages",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Постов нет или оба работают только на осведомлённость.",
+                  "tg": "Постҳо нест ё ҳар ду танҳо огоҳӣ медиҳанд.",
+                  "en": "Posts are missing or both are awareness-only."
+                },
+                {
+                  "ru": "Два поста есть, но один отвечает на вопрос другого этапа.",
+                  "tg": "Ду пост ҳастанд, вале якерояш саволи марҳалаи дигарро ҷавоб медиҳад.",
+                  "en": "Two posts exist but one answers the other stage’s question."
+                },
+                {
+                  "ru": "Пост осведомлённости знакомит, пост интереса отвечает на страхи; каждый на своём этапе.",
+                  "tg": "Пости огоҳӣ шинос мекунад, пости шавқ ба тарсон ҷавоб медиҳад; ҳар я дар марҳалаи худ.",
+                  "en": "The awareness post introduces and the interest post answers fears, each on its stage."
+                }
+              ]
+            },
+            {
+              "id": "paid-conditions-honest",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Платное отвергнуто или принято без условий.",
+                  "tg": "Пулакӣ бе шарт рад ё қабул шудааст.",
+                  "en": "Paid is rejected or accepted without conditions."
+                },
+                {
+                  "ru": "Условия есть, но нет записи об аудитории и способе отличить от органики.",
+                  "tg": "Шартҳо ҳастанд, вале сабти аудитория ва роҳи ҷудо кардан аз органикӣ нест.",
+                  "en": "Conditions exist but the audience note and the organic-separation method are missing."
+                },
+                {
+                  "ru": "Записано, когда платное уместно, и что нужно записать перед покупкой показов.",
+                  "tg": "Сабт шудааст, ки пулакӣ кӣ мувофиқ мешавад ва пеш аз хариди намоишҳо чӣ навишта мешавад.",
+                  "en": "The record states when paid becomes appropriate and what to write down before buying impressions."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какой пост сработал бы, если читатель не видел первого?",
+              "tg": "Кадом пост кор мекард, агар хонанда аввалиро надида бошад?",
+              "en": "Which post would still work if the reader had not seen the first one?"
+            },
+            {
+              "ru": "Что именно непроверено в аудитории платформы?",
+              "tg": "Дар аудиторияи платформа дақиқ чӣ насанҷида аст?",
+              "en": "What exactly is unchecked about the platform’s audience?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -6571,7 +7691,87 @@
             "tg": "Додаҳои нигоҳдорӣ ҳадди ақал бо асоснокӣ.",
             "en": "Stored data is minimal with justification."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "consent-three-parts",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Согласие предполагается или галочка проставлена заранее.",
+                  "tg": "Розигӣ фарз шудааст ё чекбокс пешакӣ интихоб шудааст.",
+                  "en": "Consent is assumed or the checkbox is pre-ticked."
+                },
+                {
+                  "ru": "Текст согласия есть, но частота или способ отказа не названы.",
+                  "tg": "Матни розигӣ ҳаст, вале басомад ё роҳи рад номбар нашудааст.",
+                  "en": "Consent text exists but frequency or the opt-out is missing."
+                },
+                {
+                  "ru": "Содержание, частота и отказ названы явно; галочка изначально пустая.",
+                  "tg": "Муҳтаво, басомад ва рад ошкоранд; чекбокс аз ибтидо холист.",
+                  "en": "Content, frequency and opt-out are explicit and the checkbox starts empty."
+                }
+              ]
+            },
+            {
+              "id": "email-reason-action",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "В письме нет причины получения или сразу несколько действий.",
+                  "tg": "Дар мактуб сабаб нест ё чанд амал якҷо ҳастанд.",
+                  "en": "The email has no reason line or several actions."
+                },
+                {
+                  "ru": "Причина и действие есть, но тема письма обещает лишнее.",
+                  "tg": "Сабаб ва амал ҳастанд, вале мавзӯи мактуб ваъдаи изофӣ медиҳад.",
+                  "en": "Reason and action exist but the subject overpromises."
+                },
+                {
+                  "ru": "Тема, причина, одна мысль, одно действие и видимая отписка.",
+                  "tg": "Мавзӯъ, сабаб, як фикр, як амал ва раддидаи намоён.",
+                  "en": "Subject, reason, one idea, one action and a visible unsubscribe."
+                }
+              ]
+            },
+            {
+              "id": "stored-data-minimal",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Имена или телефоны хранятся «для персонализации».",
+                  "tg": "Ном ё телефонҳо «барои шахсигардонӣ» нигоҳ дошта мешаванд.",
+                  "en": "Names or phones are stored “for personalization”."
+                },
+                {
+                  "ru": "Список данных есть, но обоснование общее.",
+                  "tg": "Рӯйхати додаҳо ҳаст, вале асоси умумӣ аст.",
+                  "en": "The data list exists but the justification is generic."
+                },
+                {
+                  "ru": "У каждого хранимого элемента (адрес, доказательство согласия, дата, suppression) есть своё «зачем».",
+                  "tg": "Ҳар унсури нигоҳдоришуда (суроға, исботи розигӣ, сана, suppression) «чаро»-и худро дорад.",
+                  "en": "Each stored item (address, permission evidence, date, suppression) has its own why."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Почему каждый хранимый элемент оправдывает своё место?",
+              "tg": "Чаро ҳар унсури нигоҳдорӣ ҷои худро асос мекунад?",
+              "en": "Why does each stored field justify its place?"
+            },
+            {
+              "ru": "Что происходит после отказа и чем это отличается от удаления?",
+              "tg": "Баъди рад чӣ мешавад ва аз нест кардан чӣ тавр фарқ мекунад?",
+              "en": "What happens after opt-out and how does that differ from erasure?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -7013,7 +8213,87 @@
             "tg": "Сатри хориҷшудаи ороиш бо сабаб номбар шудааст.",
             "en": "The dropped decoration row is named with a reason."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "table-columns-rows",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "В таблице не хватает колонок или строк.",
+                  "tg": "Дар ҷадвал сутун ё сатр кам аст.",
+                  "en": "The table lacks columns or rows."
+                },
+                {
+                  "ru": "Шесть строк есть, но одна колонка пустая (например, метрика).",
+                  "tg": "Шаш сатр ҳастанд, вале як сутун холист (масалан, ченак).",
+                  "en": "Six rows exist but one column is empty (for example, metric)."
+                },
+                {
+                  "ru": "Дата, канал, этап, сообщение, действие и метрика заполнены в шести строках.",
+                  "tg": "Сана, канал, марҳала, матн, амал ва ченак дар шаш сатр пур шудаанд.",
+                  "en": "Date, channel, stage, message, action and metric fill six rows."
+                }
+              ]
+            },
+            {
+              "id": "stages-covered",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Этапы не покрыты (нет строки возврата).",
+                  "tg": "Марҳалаҳо пӯшонида нашудаанд (сатри баргашт нест).",
+                  "en": "Stages are not covered (no return row)."
+                },
+                {
+                  "ru": "Все четыре есть, но одна строка стоит не на своём этапе.",
+                  "tg": "Ҳамаи чор ҳастанд, вале як сатр дар марҳалаи нодуруст меистад.",
+                  "en": "All four appear but one row sits on the wrong stage."
+                },
+                {
+                  "ru": "Осведомлённость, интерес, действие и возврат — каждая на своём этапе.",
+                  "tg": "Огоҳӣ, шавқ, амал ва баргашт — ҳар я дар марҳалаи худ.",
+                  "en": "Awareness, interest, action and return each have a row on their stage."
+                }
+              ]
+            },
+            {
+              "id": "dropped-row-reason",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Ничего не отброшено или причина — «нет времени».",
+                  "tg": "Ҳеҷ чиз хориҷ нашудааст ё сабаб — «вақт нест».",
+                  "en": "Nothing is dropped or the reason is “no time”."
+                },
+                {
+                  "ru": "Строка отброшена, но причина не ссылается на вопрос этапа или метрику.",
+                  "tg": "Сатр хориҷ шудааст, вале сабаб ба саволи марҳала ё ченак ишора намекунад.",
+                  "en": "A row is dropped but the reason cites neither a stage question nor the metric."
+                },
+                {
+                  "ru": "Отброшенная строка названа, и причина связывает её ни с вопросом этапа, ни с метрикой.",
+                  "tg": "Сатри хориҷшуда номбар аст ва сабаб онро ба саволи марҳала ва ченак пайваст намекунад.",
+                  "en": "The dropped row is named and the reason ties it to neither stage question nor metric."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какая строка хуже всего пройдёт три вопроса связности и почему?",
+              "tg": "Кадом сатр се саволи пайвандиро бадтарин мегузаронад ва чаро?",
+              "en": "Which row would survive the three connectivity questions least and why?"
+            },
+            {
+              "ru": "Ведёт ли действие каждой строки к следующему этапу?",
+              "tg": "Оё амали ҳар сатр ба марҳалаи оянда мебарад?",
+              "en": "Does every row’s action lead to the next stage?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -7456,7 +8736,87 @@
             "tg": "Канали радшуда ва интихоби оғоз асоснок шудаанд.",
             "en": "The rejected channel and the starting choice are justified."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "matrix-honest",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Колонки пустые или заполнены догадками.",
+                  "tg": "Сутунҳо холӣ ё бо ҳадс пур шудаанд.",
+                  "en": "Columns are empty or filled with guesses."
+                },
+                {
+                  "ru": "Колонки заполнены, но «кто из сегмента» без записи из дней 3–5.",
+                  "tg": "Сутунҳо пур шудаанд, вале «ки аз сегмент» бе сабти рӯзҳои 3–5 аст.",
+                  "en": "Columns are filled but “who from the segment” cites no day 3–5 record."
+                },
+                {
+                  "ru": "Все пять колонок держат факты или явные неизвестные; присутствие сегмента ссылается на дни 3–5.",
+                  "tg": "Ҳамаи панҷ сутун факт ё номаълуми ошкор доранд; ҳузури сегмент ба рӯзҳои 3–5 ишора мекунад.",
+                  "en": "All five columns hold facts or explicit unknowns; segment presence cites days 3–5."
+                }
+              ]
+            },
+            {
+              "id": "costs-money-time",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Стоимость показана только деньгами.",
+                  "tg": "Арзиш танҳо бо пул нишон дода шудааст.",
+                  "en": "Cost shows only money."
+                },
+                {
+                  "ru": "Время названо без количества.",
+                  "tg": "Вақт номбар шудааст, вале бе миқдор.",
+                  "en": "Time is named without an amount."
+                },
+                {
+                  "ru": "Стоимость каждого канала несёт деньги (или «без платы за размещение») и количество времени.",
+                  "tg": "Арзиши ҳар канал пул (ё «бе пардохти ҷойгиршавӣ») ва миқдори вақт дорад.",
+                  "en": "Each channel’s cost carries money (or “no placement fee”) and a time amount."
+                }
+              ]
+            },
+            {
+              "id": "reject-and-start-justified",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Ничего не отклонено или отклонение по вкусу.",
+                  "tg": "Ҳеҷ чиз рад нашудааст ё рад аз рӯи завқ аст.",
+                  "en": "Nothing is rejected or the rejection is by taste."
+                },
+                {
+                  "ru": "Причина отклонения есть, но у стартового выбора нет роли.",
+                  "tg": "Сабаби рад ҳаст, вале интихоби ибтидоӣ нақш надорад.",
+                  "en": "A rejection reason exists but the starting choice lacks a role sentence."
+                },
+                {
+                  "ru": "Один канал отклонён с записанной причиной; у двух стартовых есть роли и горизонт пилота.",
+                  "tg": "Як канал бо сабти сабтшуда рад шудааст; ду канали ибтидоӣ нақш ва муҳлати пилот доранд.",
+                  "en": "One channel is rejected with a recorded reason and two starting channels have roles and a pilot horizon."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какая колонка отклонённого канала была пустой?",
+              "tg": "Кадом сутуни канали радшуда холӣ буд?",
+              "en": "Which column of the rejected channel was empty?"
+            },
+            {
+              "ru": "Что заставило бы пересмотреть стартовую пару каналов?",
+              "tg": "Чӣ ҷуфти ибтидоии каналҳоро аз нав дида баромадан мекард?",
+              "en": "What would make you revisit the starting pair of channels?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -7898,7 +9258,87 @@
             "tg": "Ҳодисаҳои ҳисобнашаванда бо ҳалли рӯякор ишора шудаанд.",
             "en": "Uncountable events are marked with an honest solution."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "event-formulas",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "У событий нет названий, мест или условий подсчёта.",
+                  "tg": "Ҳодисаҳо ном, ҷой ё шартҳои ҳисоб надоранд.",
+                  "en": "Events lack names, places or counting conditions."
+                },
+                {
+                  "ru": "Формулы есть, но одно условие завтра посчитает иначе.",
+                  "tg": "Формулаҳо ҳастанд, вале як шарт фардо дигар ҳисоб мекунад.",
+                  "en": "Formulas exist but one condition would count differently tomorrow."
+                },
+                {
+                  "ru": "Название + место + условие подсчёта у каждого события; условия проходят тест «завтра».",
+                  "tg": "Ном + ҷой + шарти ҳисоб барои ҳар ҳодиса; шартҳо тести «фардо»-ро мегузаранд.",
+                  "en": "Name, place and counting condition per event; conditions pass the “tomorrow” test."
+                }
+              ]
+            },
+            {
+              "id": "double-counting-closed",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Двойной счёт не рассмотрен.",
+                  "tg": "Ҳисоби дукарата дида баромада нашудааст.",
+                  "en": "Double counting is not addressed."
+                },
+                {
+                  "ru": "Место найдено, но защитное правило не записано.",
+                  "tg": "Ҷо ёфт шудааст, вале қоидаи ҳифз сабт нашудааст.",
+                  "en": "A spot is named but the guard rule is missing."
+                },
+                {
+                  "ru": "Место повторных действий названо, и правило «один раз на человека в день» его закрывает.",
+                  "tg": "Ҷои амалҳои такрорӣ номбар аст ва қоидаи «як бор дар рӯз барои як нафар» онро мепӯшонад.",
+                  "en": "The repeat-action spot is named and the once-per-person-per-day rule closes it."
+                }
+              ]
+            },
+            {
+              "id": "uncountable-marked",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Неисчислимому событию придумано правдоподобное число.",
+                  "tg": "Барои ҳодисаи ҳисобнашаванда рақами мувофиқ сохта шудааст.",
+                  "en": "An uncountable event gets an invented number."
+                },
+                {
+                  "ru": "События помечены неисчислимыми без последствий для воронки.",
+                  "tg": "Ҳодисаҳо ҳамчун ҳисобнашаванда ишора шудаанд, вале баҳои воронка нест.",
+                  "en": "Events are marked uncountable without a stated consequence."
+                },
+                {
+                  "ru": "Каждое неисчислимое событие помечено, и начало воронки честно скорректировано.",
+                  "tg": "Ҳар ҳодисаи ҳисобнашаванда ишора шудааст ва оғози воронка рӯякор ислоҳ шудааст.",
+                  "en": "Each uncountable event is marked and the funnel’s start is adjusted honestly."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Будет ли каждое условие подсчёта завтра считаться так же?",
+              "tg": "Оё ҳар шарти ҳисоб фардо ҳамон тавр ҳисоб мешавад?",
+              "en": "Will each counting condition count the same way tomorrow?"
+            },
+            {
+              "ru": "Где один и тот же человек может войти в воронку дважды?",
+              "tg": "Дар куҷо як ҳамон одам метавонад ду бор ба воронка дарояд?",
+              "en": "Where could the same person enter the funnel twice?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -8646,9 +10086,9 @@
             "en": "Attribution: the last touch"
           },
           "body": {
-            "ru": "Когда человек встречал кампанию несколько раз, большинство систем записывают источник последнего касания: увидел объявление, но записался из письма — засчитано письму. Это не ошибка, а соглашение, и у него есть цена: канал осведомлённости всегда выглядит хуже канала действия. Правило интерпретации: сравнивайте источники внутри одного этапа, а не «кто принёс запись» вообще. Для учебной кампании достаточно знать, что атрибуция — модель, а не истина.",
-            "tg": "Вақте шахс маъракаро якчанд бор дидааст, бештари системаҳо манбаи охирин тамосро сабт мекунанд: эълонро дид, вале аз мактуб сабт номид — ба мактуб ҳисоб шуд. Ин хато нест, созишнома аст ва нарх дорад: канали огоҳӣ ҳамеша аз канали амал бадтар менамояд. Қоидаи тафсир: манбаъҳоро дар дохили як марҳала муқоиса кунед, на «кӣ сабтро овард» умуман. Барои маъракаи омӯзишӣ донистан кофист, ки атрибутия модел аст, на ҳақиқат.",
-            "en": "When a person met the campaign several times, most systems record the last touch’s source: saw the notice but signed up from the email — credited to the email. That is not a bug but a convention, and it has a price: the awareness channel always looks worse than the action channel. The interpretation rule: compare sources within one stage, not “who brought the sign-up” overall. For a practice campaign it is enough to know attribution is a model, not truth."
+            "ru": "Когда человек встречал кампанию несколько раз, большинство систем записывают источник последнего касания: увидел объявление, но записался из письма — засчитано письму. Это не ошибка, а соглашение, и у него есть цена: канал осведомлённости обычно выглядит хуже канала действия — если действие закрыл другой канал, первому касанию засчёта нет. Правило интерпретации: сравнивайте источники внутри одного этапа, а не «кто принёс запись» вообще. Для учебной кампании достаточно знать, что атрибуция — модель, а не истина.",
+            "tg": "Вақте шахс маъракаро якчанд бор дидааст, бештари системаҳо манбаи охирин тамосро сабт мекунанд: эълонро дид, вале аз мактуб сабт номид — ба мактуб ҳисоб шуд. Ин хато нест, созишнома аст ва нарх дорад: канали огоҳӣ одатан аз канали амал бадтар менамояд — агар амалро канали дигар пӯшонад, тамоси якум баҳо намегирад. Қоидаи тафсир: манбаъҳоро дар дохили як марҳала муқоиса кунед, на «кӣ сабтро овард» умуман. Барои маъракаи омӯзишӣ донистан кофист, ки атрибутия модел аст, на ҳақиқат.",
+            "en": "When a person met the campaign several times, most systems record the last touch’s source: saw the notice but signed up from the email — credited to the email. That is not a bug but a convention, and it has a price: the awareness channel usually looks worse than the action channel — when another channel closes the action, the first touch gets no credit. The interpretation rule: compare sources within one stage, not “who brought the sign-up” overall. For a practice campaign it is enough to know attribution is a model, not truth."
           }
         },
         {
@@ -8807,29 +10247,29 @@
           ],
           "correctIndex": 0,
           "hint": {
-            "ru": "Одинаковая запись объединяет строки, но не доказывает причинность.",
-            "tg": "Номи яксон сатрро ҷамъ мекунад, сабабро исбот не.",
-            "en": "Consistent names group rows without proving causation."
+            "ru": "Большинство систем засчитывают запись источнику последнего касания.",
+            "tg": "Бештари системаҳо сабтро ба манбаи охирин тамос медиҳанд.",
+            "en": "Most systems credit the sign-up to the last touch’s source."
           },
-          "relatedSection": 3
+          "relatedSection": 2
         },
         {
           "id": "digital-marketing-day-20-q05",
           "question": {
-            "ru": "Почему канал осведомлённости при атрибуции последнего касания всегда выглядит хуже?",
-            "tg": "Чаро канали огоҳӣ ҳангоми атрибутияи охирин тамос ҳамеша бадтар менамояд?",
-            "en": "Why does the awareness channel always look worse under last-touch attribution?"
+            "ru": "Почему канал осведомлённости при атрибуции последнего касания обычно выглядит хуже?",
+            "tg": "Чаро канали огоҳӣ ҳангоми атрибутияи охирин тамос одатан бадтар менамояд?",
+            "en": "Why does the awareness channel usually look worse under last-touch attribution?"
           },
           "answer": {
             "ru": "Он первым знакомит, а запись обычно происходит через более поздний канал.",
             "tg": "Ӯ аввал огоҳ мекунад, вале сабти ном одатан тавассути канали баъдтар мешавад.",
-            "en": "It introduces first, while sign-ups happen through later channels."
+            "en": "It introduces first, while sign-ups usually happen through later channels."
           },
           "options": [
             {
               "ru": "Он первым знакомит, а запись обычно происходит через более поздний канал.",
               "tg": "Ӯ аввал огоҳ мекунад, вале сабти ном одатан тавассути канали баъдтар мешавад.",
-              "en": "It introduces first, while sign-ups happen through later channels."
+              "en": "It introduces first, while sign-ups usually happen through later channels."
             },
             {
               "ru": "Потому что его показы дороже.",
@@ -8844,11 +10284,11 @@
           ],
           "correctIndex": 0,
           "hint": {
-            "ru": "Контракт сборщика ограничивает базу без ? и #.",
-            "tg": "Базаи ҷамъкунанда бе ? ва # маҳдуд аст.",
-            "en": "The builder contract accepts bases without a query or fragment."
+            "ru": "Атрибуция последнего касания отдаёт засчёт записи более позднему каналу.",
+            "tg": "Атрибутияи тамоси охирин баҳои сабтро ба канали баъдӣ медиҳад.",
+            "en": "Last-touch attribution credits a later channel."
           },
-          "relatedSection": 3
+          "relatedSection": 2
         }
       ],
       "practice": {
@@ -9408,7 +10848,87 @@
             "tg": "Баннери розигӣ рӯякор аст ва додаҳои ҷамънашаванда номбар шудаанд.",
             "en": "The consent banner is honest and the non-collected data is named."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "events-justified",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "События существуют без вопросов плана и обоснований.",
+                  "tg": "Ҳодисаҳо бе саволҳои нақша ва асос ҳастанд.",
+                  "en": "Events exist without plan questions or justifications."
+                },
+                {
+                  "ru": "Вопросы есть, но у одного события нет строки-обоснования.",
+                  "tg": "Саволҳо ҳастанд, вале як ҳодиса сатри асос надорад.",
+                  "en": "Questions exist but one event lacks its justification row."
+                },
+                {
+                  "ru": "Сначала три вопроса; у каждого события и параметра своя строка-обоснование.",
+                  "tg": "Аввал се савол; барои ҳар ҳодиса ва параметр сатри асос ҳаст.",
+                  "en": "Three questions first; each event and parameter carries a justification row."
+                }
+              ]
+            },
+            {
+              "id": "counting-conditions-formula",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "У событий нет условий подсчёта.",
+                  "tg": "Ҳодисаҳо шарти ҳисоб надоранд.",
+                  "en": "Events have no counting conditions."
+                },
+                {
+                  "ru": "Условия есть, но ограничение нескольких устройств не названо.",
+                  "tg": "Шартҳо ҳастанд, вале маҳдудияти чанд дастгоҳ номбар нашудааст.",
+                  "en": "Conditions exist but the multi-device limit is missing."
+                },
+                {
+                  "ru": "Название, место, условие для каждого события; у псевдонимного ID названы окно и пределы устройств.",
+                  "tg": "Ном, ҷой, шарт барои ҳар ҳодиса; барои ID-и псевдонимӣ муҳлат ва маҳдудияти дастгоҳҳо номбаранд.",
+                  "en": "Name, place and condition per event; the pseudonymous ID’s window and device limits are stated."
+                }
+              ]
+            },
+            {
+              "id": "banner-and-noncollected",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Баннер загружает аналитику до выбора, или список несобираемых данных отсутствует.",
+                  "tg": "Баннер то интихоб таҳлилро бор мекунад ё рӯйхати додаҳои ҷамънашаванда нест.",
+                  "en": "The banner loads analytics before a choice or the not-collected list is absent."
+                },
+                {
+                  "ru": "У баннера две кнопки, но «не собираем» названо общо.",
+                  "tg": "Баннер ду тугма дорад, вале «ҷамъ намекунем» умумӣ гуфта шудааст.",
+                  "en": "The banner has two buttons but the not-collected list is generic."
+                },
+                {
+                  "ru": "Принять/отклонить до загрузки; не собираемые данные названы точно (имена, телефоны, точная геолокация).",
+                  "tg": "Қабул/рад то боркунӣ; додаҳои ҷамънашаванда дақиқ номбаранд (ном, телефон, ҷойгиршавии дақиқ).",
+                  "en": "Accept and decline before loading; the not-collected data is named precisely."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какое решение изменилось бы без события повторного визита?",
+              "tg": "Бе ҳодисаи боздида кадом қарор тағйир меёфт?",
+              "en": "Which decision would change without the return-visit event?"
+            },
+            {
+              "ru": "Что именно баннер обещает измерять и что не собирает?",
+              "tg": "Баннер дақиқ чиро чен кардан ваъда медиҳад ва чиро ҷамъ намекунад?",
+              "en": "What exactly does the banner promise to measure and not collect?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -10921,7 +12441,87 @@
             "tg": "Нигоҳдорӣ ҳамчун тахмин ишора шудааст, на факт.",
             "en": "Retention is marked an assumption, not a fact."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "unit-price-costs",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Юнит размыт или переменные затраты отсутствуют.",
+                  "tg": "Воҳид торик аст ё хароҷоти тағйирёбанда нест.",
+                  "en": "The unit is vague or variable costs are missing."
+                },
+                {
+                  "ru": "Юнит есть, но расход за встречу разложен на участника без арифметики.",
+                  "tg": "Воҳид ҳаст, вале харҷи вохӯрӣ бе ҳисоб ба ҳар иштирокчӣ тақсим шудааст.",
+                  "en": "The unit exists but a per-meeting cost is spread per attendee without arithmetic."
+                },
+                {
+                  "ru": "Один юнит с ценой и переменными затратами в одной валюте; расход за встречу и за участника не смешаны.",
+                  "tg": "Як воҳид бо нарх ва хароҷоти тағйирёбанда дар як асъор; харҷи вохӯрӣ ва ба ҳар иштирокчӣ омехта нашудаанд.",
+                  "en": "One unit with price and variable costs in one currency; per-meeting and per-attendee costs are not mixed."
+                }
+              ]
+            },
+            {
+              "id": "payback-or-undefined",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Окупаемость посчитана при нулевой или отрицательной марже либо молча опущена.",
+                  "tg": "Бозгардон дар маржаи сифр ё манфӣ ҳисоб шудааст ё бе овоз гузариш шудааст.",
+                  "en": "Payback is computed with zero or negative margin or omitted silently."
+                },
+                {
+                  "ru": "Окупаемость посчитана, но допущение об удержании не названо.",
+                  "tg": "Бозгардон ҳисоб шудааст, вале фарзияи нигоҳдорӣ номбар нашудааст.",
+                  "en": "Payback is computed but the retention assumption is missing."
+                },
+                {
+                  "ru": "Окупаемость CPA/маржа с помеченным допущением удержания или честное «не определена» с причиной.",
+                  "tg": "Бозгардони CPA/маржа бо фарзияи нигоҳдории ишорашуда ё «муайян нест»-и рӯякор бо сабаб.",
+                  "en": "The CPA/margin payback with the retention assumption labeled or an honest undefined with the reason."
+                }
+              ]
+            },
+            {
+              "id": "retention-assumption",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Удержание подано как измеренный факт.",
+                  "tg": "Нигоҳдорӣ ҳамчун факти ченшуда пешниҳод шудааст.",
+                  "en": "Retention is stated as a measured fact."
+                },
+                {
+                  "ru": "Удержание помечено допущением, но всё ещё питает трёхлетний LTV.",
+                  "tg": "Нигоҳдорӣ фарзия ишора шудааст, вале ҳанӯз LTV-и сесоларо мехурад.",
+                  "en": "Retention is marked an assumption but still feeds a three-year LTV."
+                },
+                {
+                  "ru": "Число удержания несёт пометку «допущение, не измерено» и его следствие для LTV.",
+                  "tg": "Рақами нигоҳдорӣ ишораи «фарзия, чен нашуда» ва оқибаташ барои LTV дорад.",
+                  "en": "The retention number carries the assumption-not-measured label and its LTV consequence."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какое число в расчёте измерено, а какое принято как допущение?",
+              "tg": "Кадом рақам дар ҳисоб ченшудааст ва кадом ҳамчун фарзия қабул шудааст?",
+              "en": "Which number in the calculation is measured and which is assumed?"
+            },
+            {
+              "ru": "Что случится с окупаемостью, если удержание вдвое меньше допущения?",
+              "tg": "Агар нигоҳдорӣ ду бор камтар аз фарзия бошад, бо бозгардон чӣ мешавад?",
+              "en": "What happens to payback if retention is half the assumption?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -11363,7 +12963,87 @@
             "tg": "Меъёр бо ҳад пеш аз оғоз дода шудааст.",
             "en": "The criterion with a threshold is set before launch."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "hypothesis-refutable",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Гипотеза — лозунг («станет лучше»).",
+                  "tg": "Фарзия — шиор («беҳтар мешавад»).",
+                  "en": "The hypothesis is a slogan (“it will get better”)."
+                },
+                {
+                  "ru": "Метрика названа, но без знаменателя или направления.",
+                  "tg": "Ченак номбар аст, вале бе махраҷ ё самт.",
+                  "en": "The metric is named but without a denominator or direction."
+                },
+                {
+                  "ru": "Изменение X улучшает метрику Y со знаменателем Z и названным направлением.",
+                  "tg": "Тағйири X ченаки Y-ро бо махраҷи Z ва самти номбаршуда беҳтар мекунад.",
+                  "en": "Change X improves metric Y with denominator Z and a stated direction."
+                }
+              ]
+            },
+            {
+              "id": "groups-randomness",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Группы — это два дня недели или «кто увидит».",
+                  "tg": "Гурӯҳҳо — ду рӯзи ҳафта ё «ки мебинад».",
+                  "en": "Groups are two weekdays or “whoever sees it”."
+                },
+                {
+                  "ru": "Случайное распределение упомянуто, но обработка повтора не описана.",
+                  "tg": "Тақсими тасодуфӣ зикр шудааст, вале муодилаи такрор тавсиф нашудааст.",
+                  "en": "Random assignment is mentioned but repeat handling is missing."
+                },
+                {
+                  "ru": "Описаны единица назначения, одноразовое случайное распределение и устойчивое правило на повтор; показ одновременный.",
+                  "tg": "Воҳиди тағйир, тақсими якбории тасодуфӣ ва қоидаи устувори такрор тавсиф шудаанд; нишонӣ ҳамзамон.",
+                  "en": "Assignment unit, one-time random allocation and a consistent repeat rule are described with concurrent exposure."
+                }
+              ]
+            },
+            {
+              "id": "criterion-before-launch",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Критерий выбран после просмотра результатов.",
+                  "tg": "Меъёр баъди дидани натиҷаҳо интихоб шудааст.",
+                  "en": "The criterion is chosen after seeing results."
+                },
+                {
+                  "ru": "Порог есть, но его статус практического эффекта не назван.",
+                  "tg": "Ҳад ҳаст, вале ҳолати таъсири амалии он номбар нашудааст.",
+                  "en": "A threshold exists but its practical-effect status is unstated."
+                },
+                {
+                  "ru": "Порог зафиксирован до запуска и помечен как выбранный практический эффект, а не значимость.",
+                  "tg": "Ҳад то оғоз муқарар шуда ва ҳамчун таъсири амалии интихобшуда, на аҳамияти статистикӣ ишора шудааст.",
+                  "en": "The threshold is fixed before launch and labeled a chosen practical effect, not significance."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Что остаётся одинаковым между A и B, кроме самого изменения?",
+              "tg": "Байни A ва B ба ҷуз тағйир чӣ якхела мемонад?",
+              "en": "What stays the same between A and B besides the change?"
+            },
+            {
+              "ru": "Какой результат будет считаться победой и когда это решено?",
+              "tg": "Кадом натиҷа ғалаба ҳисоб мешавад ва кӣ муқарар шудааст?",
+              "en": "What result counts as a win and when was it decided?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -12351,7 +14031,87 @@
             "tg": "Омили омехта бо таъсири имконпазир номбар шудааст.",
             "en": "The confounder is named with its possible influence."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "four-questions-answered",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Вопросы пропущены или отвечены «да, работает».",
+                  "tg": "Саволҳо гузариш шудаанд ё бо «ҳа, кор мекунад» ҷавобӣ шудаанд.",
+                  "en": "Questions are skipped or answered with “yes, it works”."
+                },
+                {
+                  "ru": "Ответы есть, но один вопрос (повтор, смешанный фактор) отсутствует.",
+                  "tg": "Ҷавобҳо ҳастанд, вале як савол (такрор, омили омехта) нест.",
+                  "en": "Answers exist but one question (reproduction, confounder) is missing."
+                },
+                {
+                  "ru": "Размер данных, воспроизводимость, другие изменения и направление связи получили ответы.",
+                  "tg": "Ҳаҷми додаҳо, такрорпазирӣ, тағйироти дигар ва самти алоқа ҷавоб гирифтанд.",
+                  "en": "Data size, reproduction, other changes and link direction each get an answer."
+                }
+              ]
+            },
+            {
+              "id": "conclusion-with-boundary",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Вывод сохранил универсальную форму («вопросы работают»).",
+                  "tg": "Хулоса шакли умумиро нигоҳ дошт («саволҳо кор мекунанд»).",
+                  "en": "The conclusion keeps the universal form (“questions work”)."
+                },
+                {
+                  "ru": "Граница есть, но число или размер выборки отсутствуют.",
+                  "tg": "Ҳудуд ҳаст, вале рақам ё ҳаҷми намуна нест.",
+                  "en": "The boundary is present but the number or sample size is missing."
+                },
+                {
+                  "ru": "Одна фраза с результатом, размером выборки и планом повтора.",
+                  "tg": "Як ибора бо натиҷа, ҳаҷми намуна ва нақшаи такрор.",
+                  "en": "One phrase with the result, the sample size and the repeat plan."
+                }
+              ]
+            },
+            {
+              "id": "confounder-named",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Смешанного фактора нет или заявлено «ничего больше не менялось».",
+                  "tg": "Омили омехта нест ё «дигар ҳеҷ чиз тағйир наёфт» иддо шудааст.",
+                  "en": "No confounder or a claim that nothing else changed."
+                },
+                {
+                  "ru": "Смешанный фактор назван, но механизм не описан.",
+                  "tg": "Омили омехта номбар аст, вале механизм тавсиф нашудааст.",
+                  "en": "A confounder is named but its mechanism is unstated."
+                },
+                {
+                  "ru": "Смешанный фактор (день недели) назван с тем, как он мог подействовать, и записан как возможный.",
+                  "tg": "Омили омехта (рӯзи ҳафта) бо он ки чӣ тавр таъсир мерсонид, номбар ва ҳамчун имконпазир сабт шудааст.",
+                  "en": "The confounder is named with how it could have acted, recorded as possible."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Ответ на какой вопрос чек-листа самый слабый?",
+              "tg": "Ҷавоб ба кадом саволи рӯйхат аз ҳама суст аст?",
+              "en": "Which checklist question has the weakest answer?"
+            },
+            {
+              "ru": "Как именно смешанный фактор мог дать тот же результат?",
+              "tg": "Омили омехта дақиқ чӣ тавр метавонист ҳамин натиҷаро диҳад?",
+              "en": "How exactly could the confounder have produced the same result?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -12543,9 +14303,9 @@
             "en": "Worked example"
           },
           "body": {
-            "ru": "Проверка библиотечной кампании по пяти правилам. Обещания: «бесплатно» — подтверждено (вход свободный), «час без экрана» — описание формата, не обещание результата; честно. Сравнения: в таблице дня 8 конкуренты описаны ценой и расстоянием — фактами; слово «скучный» не использовано. Согласие: письма — только по явной подписке (день 15). Данные: адрес и дата согласия, больше ничего (день 21). Отказ: отписка удаляет адрес, а не помечает. Найдено одно слабое место: карточка «следующая встреча» на выходе не объясняла, откуда у организатора право напоминать; исправлено формулировкой «вы согласились на напоминания на встрече».",
-            "tg": "Санҷиши маъракаи китобхона аз рӯи панҷ қоида. Ваъдаҳо: «ройгон» — тасдиқшуда (вуруд озод), «як соат бе экран» — тавсифи шакл аст, на ваъдаи натиҷа; рӯякор. Муқоисаҳо: дар ҷадвали рӯзи 8 рақибон бо нарх ва масофа тавсиф шудаанд — фактҳо; калимаи «шабеҳ» истифода нашуд. Розигӣ: мактубҳо танҳо бо обунаи ошкор (рӯзи 15). Додаҳо: суроға ва санаи розигӣ, дигар ҳеҷ чиз (рӯзи 21). Рад: баромадан суроғаро нест мекунад, на ишора мекунад. Як ҷои заиф ёфт шуд: кортаи «воҳӯрии оянда» дар баромадан нафаҳмонда буд, ки созандагӣ аз куҷо ҳаққи ёдоварӣ дорад; бо ибораси «шумо дар вохӯрӣ ба ёдоварӣҳо розӣ шудед» ислоҳ шуд.",
-            "en": "The library campaign against the five rules. Promises: “free” is confirmed (open entry), “an hour without screens” describes the format, not a result; honest. Comparisons: day 8’s table describes competitors by price and distance — facts; the word “boring” was never used. Consent: emails only via explicit subscription (day 15). Data: the address and consent date, nothing more (day 21). Refusal: unsubscribing deletes the address rather than flagging it. One weak spot found: the exit card “next meeting” did not explain the organizer’s right to remind; fixed with “you agreed to reminders at the meeting”."
+            "ru": "Проверка библиотечной кампании по пяти правилам. Обещания: «бесплатно» — подтверждено (вход свободный), «час без экрана» — описание формата, не обещание результата; честно. Сравнения: в таблице дня 8 конкуренты описаны ценой и расстоянием — фактами; слово «скучный» не использовано. Согласие: письма — только по явной подписке (день 15). Данные: адрес и дата согласия, больше ничего (день 21). Отказ: отписка немедленно останавливает отправки; удаление адреса — отдельный запрос, а сервис может хранить минимальную пометку suppression (день 15). Найдено одно слабое место: карточка «следующая встреча» на выходе не объясняла, откуда у организатора право напоминать; исправлено формулировкой «вы согласились на напоминания на встрече».",
+            "tg": "Санҷиши маъракаи китобхона аз рӯи панҷ қоида. Ваъдаҳо: «ройгон» — тасдиқшуда (вуруд озод), «як соат бе экран» — тавсифи шакл аст, на ваъдаи натиҷа; рӯякор. Муқоисаҳо: дар ҷадвали рӯзи 8 рақибон бо нарх ва масофа тавсиф шудаанд — фактҳо; калимаи «шабеҳ» истифода нашуд. Розигӣ: мактубҳо танҳо бо обунаи ошкор (рӯзи 15). Додаҳо: суроға ва санаи розигӣ, дигар ҳеҷ чиз (рӯзи 21). Рад: баромадан фавран фиристоданро мебандад; нест кардани суроға дархости алоҳида аст, ва сервис метавонад ишораи камтарини suppression нигоҳ дорад (рӯзи 15). Як ҷои заиф ёфт шуд: кортаи «воҳӯрии оянда» дар баромадан нафаҳмонда буд, ки созандагӣ аз куҷо ҳаққи ёдоварӣ дорад; бо ибораси «шумо дар вохӯрӣ ба ёдоварӣҳо розӣ шудед» ислоҳ шуд.",
+            "en": "The library campaign against the five rules. Promises: “free” is confirmed (open entry), “an hour without screens” describes the format, not a result; honest. Comparisons: day 8’s table describes competitors by price and distance — facts; the word “boring” was never used. Consent: emails only via explicit subscription (day 15). Data: the address and consent date, nothing more (day 21). Refusal: unsubscribing stops sends immediately; erasure is a separate request and a service may keep a minimal suppression mark (day 15). One weak spot found: the exit card “next meeting” did not explain the organizer’s right to remind; fixed with “you agreed to reminders at the meeting”."
           }
         },
         {
@@ -12772,11 +14532,11 @@
           "tg": "Ваъдаҳоро бо санҷиши «исботро нишон диҳ» бароед: ҳар калимаи таблиғӣ бояд манбаъ дошта бошад.",
           "en": "Check promises with the “show the evidence” test: every promotional word needs a source."
         },
-        "solution": "Чек-лист: обещания проверяемы; сравнения справедливы; согласие явное; данные минимальны; отказ уважается. Вердикты: сообщения — «бесплатно» подтверждено входом, «час без экрана» — описание формата; страница — адрес и время точны, скрытых условий нет; письма — только по подписке, отписка удаляет адрес; аналитика — анонимные события с согласия (день 21); таблица альтернатив — факты, без «скучно». Слабое место: карточка на выходе не объясняла основание напоминаний; исправление — фраза «вы согласились на напоминания на встрече» и возможность отказа сразу. Обходённые серые зоны: дефицит («мест мало») заменён реальной вместимостью зала; сравнение с кружком — только цена и расстояние, без оценок качества; детская аудитория исключена, публикации — в группе для взрослых.",
+        "solution": "Чек-лист: обещания проверяемы; сравнения справедливы; согласие явное; данные минимальны; отказ уважается. Вердикты: сообщения — «бесплатно» подтверждено входом, «час без экрана» — описание формата; страница — адрес и время точны, скрытых условий нет; письма — только по подписке, отписка сразу останавливает отправки, а удаление — отдельный запрос; аналитика — события с согласия под псевдонимным ID, без имён (день 21); таблица альтернатив — факты, без «скучно». Слабое место: карточка на выходе не объясняла основание напоминаний; исправление — фраза «вы согласились на напоминания на встрече» и возможность отказа сразу. Обходённые серые зоны: дефицит («мест мало») заменён реальной вместимостью зала; сравнение с кружком — только цена и расстояние, без оценок качества; детская аудитория исключена, публикации — в группе для взрослых.",
         "referenceAnswer": {
-          "ru": "Чек-лист: обещания проверяемы; сравнения справедливы; согласие явное; данные минимальны; отказ уважается. Вердикты: сообщения — «бесплатно» подтверждено входом, «час без экрана» — описание формата; страница — адрес и время точны, скрытых условий нет; письма — только по подписке, отписка удаляет адрес; аналитика — анонимные события с согласия (день 21); таблица альтернатив — факты, без «скучно». Слабое место: карточка на выходе не объясняла основание напоминаний; исправление — фраза «вы согласились на напоминания на встрече» и возможность отказа сразу. Обходённые серые зоны: дефицит («мест мало») заменён реальной вместимостью зала; сравнение с кружком — только цена и расстояние, без оценок качества; детская аудитория исключена, публикации — в группе для взрослых.",
-          "tg": "Рӯйхат: ваъдаҳо санҷишӣ; муқоисаҳо одилона; розигӣ ошкор; додаҳо ҳадди ақал; рад эҳтиром мешавад. Ҳукмҳо: паёмҳо — «ройгон» бо вуруд тасдиқ шуд, «як соат бе экран» — тавсифи шакл; саҳифа — суроға ва вақт дақиқ, шартҳои пинҳон нестанд; мактубҳо — танҳо бо обуна, баромадан суроғаро нест мекунад; таҳлил — ҳодисаҳои номаълум бо розигӣ (рӯзи 21); ҷадвали вариантҳо — фактҳо, бе «шабеҳ». Ҷои заиф: кортаи баромадан асоси ёдовариҳоро нафаҳмонда буд; ислоҳ — ибораси «шумо дар вохӯрӣ ба ёдоварӣҳо розӣ шудед» ва имконияти фаврӣ рад. Минтақаҳои гузаронидашуда: камбудшавӣ («ҷоҳо кам») бо ғунҷоиши воқеии толор иваз шуд; муқоиса бо тӯй — танҳо нарх ва масофа, бе баҳои сифат; аудиторияи кӯдакон истисно шуд, паёмҳо дар гурӯҳи калонсолон.",
-          "en": "Checklist: promises checkable; comparisons fair; consent explicit; data minimal; refusal respected. Verdicts: posts — “free” confirmed by entry, “an hour without screens” describes the format; the page — address and time exact, no hidden conditions; emails — subscription only, unsubscribing deletes the address; analytics — anonymous consented events (day 21); the alternatives table — facts, no “boring”. Weak spot: the exit card did not explain the grounds for reminders; the fix — the phrase “you agreed to reminders at the meeting” plus an immediate opt-out. Avoided gray zones: scarcity (“few spots”) replaced with the hall’s real capacity; the club comparison — only price and distance, no quality judgments; child audiences excluded, posts go to an adults’ group."
+          "ru": "Чек-лист: обещания проверяемы; сравнения справедливы; согласие явное; данные минимальны; отказ уважается. Вердикты: сообщения — «бесплатно» подтверждено входом, «час без экрана» — описание формата; страница — адрес и время точны, скрытых условий нет; письма — только по подписке, отписка сразу останавливает отправки, а удаление — отдельный запрос; аналитика — события с согласия под псевдонимным ID, без имён (день 21); таблица альтернатив — факты, без «скучно». Слабое место: карточка на выходе не объясняла основание напоминаний; исправление — фраза «вы согласились на напоминания на встрече» и возможность отказа сразу. Обходённые серые зоны: дефицит («мест мало») заменён реальной вместимостью зала; сравнение с кружком — только цена и расстояние, без оценок качества; детская аудитория исключена, публикации — в группе для взрослых.",
+          "tg": "Рӯйхат: ваъдаҳо санҷишӣ; муқоисаҳо одилона; розигӣ ошкор; додаҳо ҳадди ақал; рад эҳтиром мешавад. Ҳукмҳо: паёмҳо — «ройгон» бо вуруд тасдиқ шуд, «як соат бе экран» — тавсифи шакл; саҳифа — суроға ва вақт дақиқ, шартҳои пинҳон нестанд; мактубҳо — танҳо бо обуна, баромадан фавран фиристоданро мебандад, нест кардан — дархости алоҳида; таҳлил — ҳодисаҳо бо розигӣ бо ID-и псевдонимӣ, бе ном (рӯзи 21); ҷадвали вариантҳо — фактҳо, бе «шабеҳ». Ҷои заиф: кортаи баромадан асоси ёдовариҳоро нафаҳмонда буд; ислоҳ — ибораси «шумо дар вохӯрӣ ба ёдоварӣҳо розӣ шудед» ва имконияти фаврӣ рад. Минтақаҳои гузаронидашуда: камбудшавӣ («ҷоҳо кам») бо ғунҷоиши воқеии толор иваз шуд; муқоиса бо тӯй — танҳо нарх ва масофа, бе баҳои сифат; аудиторияи кӯдакон истисно шуд, паёмҳо дар гурӯҳи калонсолон.",
+          "en": "Checklist: promises checkable; comparisons fair; consent explicit; data minimal; refusal respected. Verdicts: posts — “free” confirmed by entry, “an hour without screens” describes the format; the page — address and time exact, no hidden conditions; emails — subscription only, unsubscribing stops sends immediately and erasure stays a separate request; analytics — consented pseudonymous events, no names (day 21); the alternatives table — facts, no “boring”. Weak spot: the exit card did not explain the grounds for reminders; the fix — the phrase “you agreed to reminders at the meeting” plus an immediate opt-out. Avoided gray zones: scarcity (“few spots”) replaced with the hall’s real capacity; the club comparison — only price and distance, no quality judgments; child audiences excluded, posts go to an adults’ group."
         },
         "criteria": [
           {
@@ -12794,7 +14554,87 @@
             "tg": "Минтақаҳои хокистарии гузаронидашуда бо механизми гузаронидан номбар шудаанд.",
             "en": "Avoided gray zones are named with the avoidance mechanism."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "five-rules-ran",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Материалы не прошли проверку или вердикты глобальные («всё честно»).",
+                  "tg": "Маводҳо аз санҷиш нагузаштаанд ё ҳукмҳо умумӣанд («ҳама рӯякор»).",
+                  "en": "Materials are missing from the check or verdicts are global."
+                },
+                {
+                  "ru": "Правила прошли, но у одного материала (страница, письмо, аналитика) нет вердикта.",
+                  "tg": "Қоидаҳо гузаштаанд, вале як мавод (саҳифа, мактуб, таҳлил) ҳукм надорад.",
+                  "en": "Rules ran but one material lacks a verdict."
+                },
+                {
+                  "ru": "Посты, страница, письма, аналитика и сравнения несут вердикт по каждому правилу.",
+                  "tg": "Постҳо, саҳифа, мактубҳо, таҳлил ва муқоисаҳо барои ҳар қоида ҳукм доранд.",
+                  "en": "Posts, page, emails, analytics and comparisons each carry a verdict per rule."
+                }
+              ]
+            },
+            {
+              "id": "weak-spot-fix",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Слабого места нет («всё честно») или исправление отсутствует.",
+                  "tg": "Ҷои заиф нест («ҳама рӯякор») ё ислоҳ нест.",
+                  "en": "No weak spot is found or no fix is described."
+                },
+                {
+                  "ru": "Слабое место есть, но исправление — обещание («будем аккуратнее»).",
+                  "tg": "Ҷои заиф ҳаст, вале ислоҳ — ваъда («бештар эҳтиёт мешавем»).",
+                  "en": "A weak spot exists but the fix is a promise."
+                },
+                {
+                  "ru": "Слабое место конкретно, а исправление — проверяемая правка формулировки.",
+                  "tg": "Ҷои заиф мушаххас аст ва ислоҳ — тағйири санҷишӣ дар ибора.",
+                  "en": "The weak spot is concrete and the fix is a checkable wording change."
+                }
+              ]
+            },
+            {
+              "id": "gray-zones-mechanism",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Серые зоны отрицаются или перечислены без механизмов.",
+                  "tg": "Минтақаҳои хокистарӣ рад шудаанд ё бе механизм рӯйхат шудаанд.",
+                  "en": "Gray zones are denied or listed without mechanisms."
+                },
+                {
+                  "ru": "Зоны названы, но один механизм размыт.",
+                  "tg": "Минтақаҳо номбар шудаанд, вале як механизм торик аст.",
+                  "en": "Zones are named but one mechanism is vague."
+                },
+                {
+                  "ru": "Каждая обойдённая зона (скрытая реклама, давление страхом, дети) несёт конкретный способ обхода.",
+                  "tg": "Ҳар минтақаи гузаридашуда (рекламаи пинҳонӣ, фишори тарс, кӯдакон) роҳи мушаххаси гузариш дорад.",
+                  "en": "Each avoided zone carries its concrete avoidance method."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "У какого материала вердикт с самым слабым основанием?",
+              "tg": "Барои кадом мавод ҳукм аз ҳама сустасос аст?",
+              "en": "Which material has the weakest verdict evidence?"
+            },
+            {
+              "ru": "Что именно меняет исправление в формулировке?",
+              "tg": "Ислоҳ дар ибора дақиқ чиро тағйир медиҳад?",
+              "en": "What exactly does the fix change in the wording?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -13214,11 +15054,11 @@
           "tg": "Агар бахш аз маводи курс пур намешавад ва аз нав навишта мешавад — ба рӯзи мутобиқ баргардед, на ихтироъ кунед.",
           "en": "If a section cannot be filled from course material and is written anew — return to the corresponding day instead of inventing."
         },
-        "solution": "Сборка (библиотека): 1) Цель: 20 переходов/неделя (день 1). 2) Аудитория: сегмент «взрослые с двумя часами», персона с пятью записями (дни 3, 5). 3) Ценность и позиционирование (дни 7–8). 4) Каналы: группа района + страница/SEO, платные отклонены (день 17). 5) Контент: шесть строк плана (день 16). 6) Воронка: визит → клик → приход с условиями счёта (день 18). 7) События и согласие (дни 20–21). 8) Борд и расчёты: четыре карточки, CPC/CPA с оговоркой ROAS (дни 22–24). 9) Эксперимент: вопрос против анонса, учебная победа, чек-лист интерпретации (дни 25–27). 10) Этика: пять правил, исправленная карточка (день 28). Ограничения: вымышленные данные, малая выборка, смешанный день недели. Тесты: целостность — звенья сходятся; ссылки — все десять разделов датированы; незнакомец — коллега понял кампанию за пять минут.",
+        "solution": "Сборка (библиотека): 1) Цель: 20 переходов/неделя (день 1). 2) Аудитория: сегмент «взрослые с двумя часами», персона с пятью записями (дни 3, 5). 3) Ценность и позиционирование (дни 7–8). 4) Каналы: группа района + страница/SEO, платные отклонены (день 17). 5) Контент: шесть строк плана (день 16). 6) Воронка: визит → клик → приход с условиями счёта (день 18). 7) События и согласие (дни 20–21). 8) Борд и расчёты: четыре карточки, CPC/CPA с оговоркой ROAS (дни 22–24). 9) Эксперимент: вопрос против анонса, учебная победа, чек-лист интерпретации (дни 25–27). 10) Этика: пять правил, исправленная карточка (день 28). Ограничения: вымышленные данные, малая выборка, смешанный день недели. Тесты: целостность — звенья сходятся; ссылки — все десять разделов датированы; незнакомец — проверка читателем не проведена: вопрос подготовлен, результат записан как «не проведён».",
         "referenceAnswer": {
-          "ru": "Сборка (библиотека): 1) Цель: 20 переходов/неделя (день 1). 2) Аудитория: сегмент «взрослые с двумя часами», персона с пятью записями (дни 3, 5). 3) Ценность и позиционирование (дни 7–8). 4) Каналы: группа района + страница/SEO, платные отклонены (день 17). 5) Контент: шесть строк плана (день 16). 6) Воронка: визит → клик → приход с условиями счёта (день 18). 7) События и согласие (дни 20–21). 8) Борд и расчёты: четыре карточки, CPC/CPA с оговоркой ROAS (дни 22–24). 9) Эксперимент: вопрос против анонса, учебная победа, чек-лист интерпретации (дни 25–27). 10) Этика: пять правил, исправленная карточка (день 28). Ограничения: вымышленные данные, малая выборка, смешанный день недели. Тесты: целостность — звенья сходятся; ссылки — все десять разделов датированы; незнакомец — коллега понял кампанию за пять минут.",
-          "tg": "Ҷамъбаст (китобхона): 1) Ҳадаф: 20 гузариш/ҳафта (рӯзи 1). 2) Аудитория: сегменти «калонсолон бо ду соат», персоно бо панҷ сабт (рӯзҳои 3, 5). 3) Қиммат ва ҷойгиршавӣ (рӯзҳои 7–8). 4) Каналҳо: гурӯҳи маҳалла + саҳифа/SEO, пулакиҳо рад шуданд (рӯзи 17). 5) Муҳтаво: шаш сатри нақша (рӯзи 16). 6) Пайдарпайӣ: ташриф → зер → омадан бо шартҳои ҳисоб (рӯзи 18). 7) Ҳодисаҳо ва розигӣ (рӯзҳои 20–21). 8) Тахта ва ҳисобҳо: чор корта, CPC/CPA бо тавзеҳи ROAS (рӯзҳои 22–24). 9) Таҷриба: пурсиш зидди эълон, ғалабаи омӯзишӣ, рӯйхати тафсир (рӯзҳои 25–27). 10) Ахлоқ: панҷ қоида, кортаи ислоҳшуда (рӯзи 28). Маҳдудиятҳо: додаҳои сохта, намунаи хурд, рӯзи ҳафтаи омехта. Санҷишҳо: тамомият — ҳалқаҳо мувофиқ; пайвандҳо — ҳамаи даҳ бахш сана доштанд; бегона — ҳамкор маъракаро дар панҷ дақиқа фаҳмид.",
-          "en": "Assembly (library): 1) Goal: 20 visits/week (day 1). 2) Audience: the “adults with two hours” segment, a persona with five records (days 3, 5). 3) Value and positioning (days 7–8). 4) Channels: the district group + the page/SEO, paid rejected (day 17). 5) Content: six plan rows (day 16). 6) Funnel: visit → click → attendance with counting conditions (day 18). 7) Events and consent (days 20–21). 8) Board and calculations: four cards, CPC/CPA with the ROAS caveat (days 22–24). 9) Experiment: question versus announcement, an educational win, the interpretation checklist (days 25–27). 10) Ethics: five rules, the fixed card (day 28). Limitations: fictional data, a small sample, a confounded weekday. Tests: integrity — the chain closes; citations — all ten sections dated; stranger — a colleague understood the campaign in five minutes."
+          "ru": "Сборка (библиотека): 1) Цель: 20 переходов/неделя (день 1). 2) Аудитория: сегмент «взрослые с двумя часами», персона с пятью записями (дни 3, 5). 3) Ценность и позиционирование (дни 7–8). 4) Каналы: группа района + страница/SEO, платные отклонены (день 17). 5) Контент: шесть строк плана (день 16). 6) Воронка: визит → клик → приход с условиями счёта (день 18). 7) События и согласие (дни 20–21). 8) Борд и расчёты: четыре карточки, CPC/CPA с оговоркой ROAS (дни 22–24). 9) Эксперимент: вопрос против анонса, учебная победа, чек-лист интерпретации (дни 25–27). 10) Этика: пять правил, исправленная карточка (день 28). Ограничения: вымышленные данные, малая выборка, смешанный день недели. Тесты: целостность — звенья сходятся; ссылки — все десять разделов датированы; незнакомец — проверка читателем не проведена: вопрос подготовлен, результат записан как «не проведён».",
+          "tg": "Ҷамъбаст (китобхона): 1) Ҳадаф: 20 гузариш/ҳафта (рӯзи 1). 2) Аудитория: сегменти «калонсолон бо ду соат», персоно бо панҷ сабт (рӯзҳои 3, 5). 3) Қиммат ва ҷойгиршавӣ (рӯзҳои 7–8). 4) Каналҳо: гурӯҳи маҳалла + саҳифа/SEO, пулакиҳо рад шуданд (рӯзи 17). 5) Муҳтаво: шаш сатри нақша (рӯзи 16). 6) Пайдарпайӣ: ташриф → зер → омадан бо шартҳои ҳисоб (рӯзи 18). 7) Ҳодисаҳо ва розигӣ (рӯзҳои 20–21). 8) Тахта ва ҳисобҳо: чор корта, CPC/CPA бо тавзеҳи ROAS (рӯзҳои 22–24). 9) Таҷриба: пурсиш зидди эълон, ғалабаи омӯзишӣ, рӯйхати тафсир (рӯзҳои 25–27). 10) Ахлоқ: панҷ қоида, кортаи ислоҳшуда (рӯзи 28). Маҳдудиятҳо: додаҳои сохта, намунаи хурд, рӯзи ҳафтаи омехта. Санҷишҳо: тамомият — ҳалқаҳо мувофиқ; пайвандҳо — ҳамаи даҳ бахш сана доштанд; бегона — санҷиш бо хонанда гузаронида нашуд: пурсиш омода аст, натиҷа ҳамчун «гузаронида нашуд» сабт шудааст.",
+          "en": "Assembly (library): 1) Goal: 20 visits/week (day 1). 2) Audience: the “adults with two hours” segment, a persona with five records (days 3, 5). 3) Value and positioning (days 7–8). 4) Channels: the district group + the page/SEO, paid rejected (day 17). 5) Content: six plan rows (day 16). 6) Funnel: visit → click → attendance with counting conditions (day 18). 7) Events and consent (days 20–21). 8) Board and calculations: four cards, CPC/CPA with the ROAS caveat (days 22–24). 9) Experiment: question versus announcement, an educational win, the interpretation checklist (days 25–27). 10) Ethics: five rules, the fixed card (day 28). Limitations: fictional data, a small sample, a confounded weekday. Tests: integrity — the chain closes; citations — all ten sections dated; stranger — the reader check did not run: the question is prepared and the result is recorded as unrun."
         },
         "criteria": [
           {
@@ -13232,11 +15072,91 @@
             "en": "Every section cites its source day."
           },
           {
-            "ru": "Три теста сборки пройдены с записью результатов.",
-            "tg": "Се санҷиши ҷамъбаст бо сабти натиҷаҳо гузаштаанд.",
-            "en": "The three assembly tests pass with recorded results."
+            "ru": "У трёх тестов сборки есть записанные результаты.",
+            "tg": "Се санҷиши ҷамъбаст натиҷаҳои сабтшуда доранд.",
+            "en": "The three assembly tests have recorded results."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "ten-sections-filled",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Разделы пусты или написаны заново из выдумки.",
+                  "tg": "Бахшҳо холӣ ё аз сохт нависташудаанд.",
+                  "en": "Sections are empty or written anew from invention."
+                },
+                {
+                  "ru": "Разделы заполнены, но один вводит материал, которого ни один день не давал.",
+                  "tg": "Бахшҳо пур шудаанд, вале якерояш маводе меорад, ки ҳеч рӯз надодааст.",
+                  "en": "Sections are filled but one introduces material no day produced."
+                },
+                {
+                  "ru": "Все десять разделов собирают готовые артефакты своих дней.",
+                  "tg": "Ҳамаи даҳ бахш артефактҳои омодаи рӯзҳои худро ҷамъ меоранд.",
+                  "en": "All ten sections reuse their days’ ready artefacts."
+                }
+              ]
+            },
+            {
+              "id": "citations-present",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Ссылки на дни отсутствуют.",
+                  "tg": "Пайвандҳо ба рӯзҳо нест.",
+                  "en": "Citations are missing."
+                },
+                {
+                  "ru": "Ссылки есть, но один раздел ссылается на безымянный «материал курса».",
+                  "tg": "Пайвандҳо ҳастанд, вале як бахш ба «маводи курс»-и беном ишора мекунад.",
+                  "en": "Citations exist but one section cites a vague “course material”."
+                },
+                {
+                  "ru": "Каждый раздел называет день, где родился его материал.",
+                  "tg": "Ҳар бахш рӯзеро меномад, ки маводи онҷо ба вуҷуд омадааст.",
+                  "en": "Each section names the day where its material was born."
+                }
+              ]
+            },
+            {
+              "id": "tests-recorded-results",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Результаты тестов отсутствуют или выдуманы («коллега понял»).",
+                  "tg": "Натиҷаҳои санҷишҳо нест ё сохтаанд («ҳамкор фаҳмид»).",
+                  "en": "Test results are missing or invented."
+                },
+                {
+                  "ru": "Результаты записаны, но непроведённая проверка читателем подана как пройденная.",
+                  "tg": "Натиҷаҳо сабт шудаанд, вале санҷиши хонандаи нагузаронида ҳамчун гузашта нишон дода шудааст.",
+                  "en": "Results are recorded but the unrun reader check is presented as passed."
+                },
+                {
+                  "ru": "Целостность и ссылки записаны; проверка читателем несёт честный статус проведено/не проведено.",
+                  "tg": "Тамомият ва пайвандҳо сабт шудаанд; санҷиши хонанда ҳолати рӯякори гузаронидашуда/нагузаронидашуда дорад.",
+                  "en": "Integrity and citations are recorded and the reader check carries its honest run/unrun status."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Какой раздел не удалось заполнить материалом дня и что вы сделали?",
+              "tg": "Кадом бахшро бо маводи рӯз пур кардан нашуд ва чӣ кардед?",
+              "en": "Which section could not be filled from a course day and what did you do?"
+            },
+            {
+              "ru": "Что записано как результат теста незнакомца?",
+              "tg": "Чӣ ҳамчун натиҷаи санҷиши бегона сабт шудааст?",
+              "en": "What is recorded as the stranger test’s result?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
@@ -13678,7 +15598,87 @@
             "tg": "Қадами оянда тарзи санҷиши натиҷаро дорад.",
             "en": "The next step has a way to verify its result."
           }
-        ]
+        ],
+        "rubric": {
+          "version": 1,
+          "criteria": [
+            {
+              "id": "criteria-tied-to-lines",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Критерии оценены без указания мест в материале.",
+                  "tg": "Меъёрҳо бе нишон додани ҷойҳо дар мавод баҳо гирифтанд.",
+                  "en": "Criteria are rated without pointing anywhere in the material."
+                },
+                {
+                  "ru": "Указания есть, но один критерий указывает на обещание, а не на строку.",
+                  "tg": "Нишонҳо ҳастанд, вале як меъёр ба ваъда ишора мекунад, на ба сатр.",
+                  "en": "Pointers exist but one criterion points to a promise instead of a line."
+                },
+                {
+                  "ru": "Каждый критерий называет точный артефакт и место, где он выполнен.",
+                  "tg": "Ҳар меёр артефакти дақиқ ва ҷои иҷроашро меномад.",
+                  "en": "Each criterion names the exact artefact and line that meets it."
+                }
+              ]
+            },
+            {
+              "id": "outcome-three-parts",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Итог перечисляет только успехи.",
+                  "tg": "Хулоса танҳо муваффақиятҳоро рӯйхат мекунад.",
+                  "en": "The outcome lists only successes."
+                },
+                {
+                  "ru": "Три части есть, но одна смешивает черновое с проверенным.",
+                  "tg": "Се қисм ҳастанд, вале якерояш хомро бо санҷидашуда омехта мекунад.",
+                  "en": "The three parts exist but one mixes draft with checked."
+                },
+                {
+                  "ru": "Проверенное (арифметика автотестов), черновое (стратегия и данные) и несделанное (пользователи, публикация, повтор) разделены.",
+                  "tg": "Санҷидашуда (арифметикаи автотестҳо), хом (стратегия ва додаҳо) ва иҷронашуда (корбарон, нашр, такрор) ҷудаанд.",
+                  "en": "Checked arithmetic, draft strategy and data, and undone users, publication and repeat are separate."
+                }
+              ]
+            },
+            {
+              "id": "next-step-verifiable",
+              "weight": 1,
+              "levels": [
+                {
+                  "ru": "Следующий шаг — «продолжать» или его нельзя проверить.",
+                  "tg": "Қадами оянда — «идома додан» ё онро санҷидан мумкин нест.",
+                  "en": "The next step is “keep going” or unverifiable."
+                },
+                {
+                  "ru": "Шаг конкретен, но способ проверки результата отсутствует.",
+                  "tg": "Қадам мушаххас аст, вале усули санҷиши натиҷа нест.",
+                  "en": "The step is concrete but the verification method is missing."
+                },
+                {
+                  "ru": "Шаг называет метрику, те же функции или метки и то, как результат будет записан.",
+                  "tg": "Қадам ченак, ҳамон функсияҳо ё меткаҳо ва он ки натиҷа чӣ тавр сабт мешавад, номбар мекунад.",
+                  "en": "The step names its metric, the same functions or tags and how the result will be recorded."
+                }
+              ]
+            }
+          ],
+          "reviewQuestions": [
+            {
+              "ru": "Указание какого критерия самое слабое и какая строка его усилит?",
+              "tg": "Нишони кадом меёр аз ҳама суст аст ва кадом сатр онро мустаҳкам мекунад?",
+              "en": "Which criterion’s pointer is weakest and what line would fix it?"
+            },
+            {
+              "ru": "Как вы узнаете, что следующий шаг сработал?",
+              "tg": "Аз куҷо мефаҳмед, ки қадами оянда кор кард?",
+              "en": "How will you know the next step worked?"
+            }
+          ]
+        }
       },
       "learningFlow": {
         "version": 1,
