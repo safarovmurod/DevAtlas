@@ -2,7 +2,7 @@
 
 Source: all actual application loaders and schedules, including the React two-month plan and Next.js overlays. This is a structural audit and review queue. It does not certify correctness, teaching effectiveness, source review, compiler execution or mastery.
 
-43 courses; 38 tracks; 1262 scheduled days. 9 courses have observed structural omissions under the imported-course four-section / three-question / linked-hint / complete-RU-TG-EN contract. 36 courses have a structural omission or a heuristic review signal. Authoring-plan deltas are counted separately below. Every course still requires its own semantic and evidence review before declaring it fully verified.
+43 courses; 38 tracks; 1262 scheduled days. 8 courses have observed structural omissions under the imported-course four-section / three-question / linked-hint / complete-RU-TG-EN contract. 36 courses have a structural omission or a heuristic review signal. Authoring-plan deltas are counted separately below. Every course still requires its own semantic and evidence review before declaring it fully verified.
 
 Short-course authoring remaining: none. Missing stage programs: 72. The five current 14-day courses require reviewed continuation; a desired new total is not invented here.
 
@@ -35,7 +35,7 @@ Short-course authoring remaining: none. Missing stage programs: 72. The five cur
 | kotlin | 30 | 0 | 0 | 0 | — | 0 | 0 | 43 / 40 |
 | ux-design | 30 | 0 | 0 | 0 | — | 0 | 0 | 83 / 90 |
 | ai-fundamentals | 14 | 0 | 0 | 0 | — | 0 | 0 | 33 / 69 |
-| context-engineering | 14 | 1 | 0 | 2 | — | 0 | 0 | 33 / 93 |
+| context-engineering | 14 | 0 | 0 | 0 | — | 0 | 0 | 33 / 93 |
 | agent-harness | 14 | 14 | 3 | 14 | — | 0 | 5 | 51 / 95 |
 | digital-marketing | 30 | 0 | 0 | 0 | — | 0 | 0 | 99 / 85 |
 | data-analytics | 30 | 30 | 0 | 30 | — | 0 | 2 | 99 / 92 |

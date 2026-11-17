@@ -240,6 +240,12 @@ export function CheckStep({
   );
 }
 
+/** First paragraph of a text, and the rest (folded under "More"). */
+export function splitLead(body: string): [string, string] {
+  const parts = body.trim().split(/\n\s*\n/);
+  return [parts[0] ?? '', parts.slice(1).join('\n\n')];
+}
+
 /**
  * One topic in a fixed, short order: What is it? → question → answer → example.
  * Only the presentation changes; the authored text and IDs stay the same.
@@ -250,12 +256,21 @@ function TopicParts({ lesson, index }: { lesson: CourseLesson; index: number }) 
   const text = (value: CourseLesson['title']) => courseText(value, contentLanguage);
   const part = lesson.sections[index];
   const question = lesson.questions.find((item) => item.relatedSection === index);
+  const [lead, rest] = splitLead(text(part.body));
   const label = 'text-xs font-semibold tracking-wide text-brand uppercase';
   return (
     <div className="grid gap-4" data-topic-parts="">
       <div className="grid gap-1">
         <span className={label}>{t('whatIs')}</span>
-        <p className="preserve-lines m-0">{text(part.body)}</p>
+        <p className="preserve-lines m-0">{lead}</p>
+        {rest && (
+          <details>
+            <summary className="cursor-pointer text-sm font-medium text-muted-foreground">
+              {t('more')}
+            </summary>
+            <p className="preserve-lines mt-2 mb-0">{rest}</p>
+          </details>
+        )}
       </div>
       {question && (
         <div className="grid gap-1">

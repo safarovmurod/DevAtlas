@@ -33,7 +33,7 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | kotlin | starter | 30 | 189/159/228 | 3 | 30 | 0 | 2 | 0 | — |
 | ux-design | starter | 30 | 271/215/779 | 5.8 | 0 | 30 | 2 | 0 | — |
 | ai-fundamentals | starter | 14 | 224/161/449 | 3 | 10 | 8 | 1 | 0 | — |
-| context-engineering | starter | 14 | 358/244/540 | 3 | 14 | 5 | 2 | 0 | — |
+| context-engineering | starter | 14 | 377/244/640 | 3 | 14 | 6 | 2 | 0 | — |
 | agent-harness | starter | 14 | 383/365/410 | 2.8 | 11 | 7 | 1 | 0 | — |
 | digital-marketing | starter | 30 | 253/224/284 | 5 | 0 | 25 | 1 | 0 | — |
 | data-analytics | starter | 30 | 192/107/241 | 5 | 0 | 20 | 2 | 0 | — |

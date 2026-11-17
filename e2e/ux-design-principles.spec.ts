@@ -19,9 +19,8 @@ test('design principles are lesson text with feedback and a persistent written e
   for (const section of lesson.sections.slice(3)) await expect(page.locator('[data-lesson-section] > summary').filter({ hasText: section.title.tg })).toHaveCount(1);
   await expect(page.locator('a[href$=".pdf"]')).toHaveCount(0);
 
-  // The lesson has its own quiz; the separate test page starts a formal attempt.
-  await page.goto('/courses/ux-design/tests?day=19'); await page.locator('[data-strict-start]').click();
-  const question = page.locator('.course-question').nth(5);
+  // The lesson includes its own quiz. The separate test page starts a formal attempt.
+  const question = page.locator(`#${lesson.id} .course-question`).nth(5);
   const q = lesson.questions[5];
   await expect(question.getByRole('heading', { level: 3 })).toHaveText(q.question.tg);
   await question.getByRole('radio', { name: q.options[(q.correctIndex + 1) % q.options.length].tg, exact: true }).check();

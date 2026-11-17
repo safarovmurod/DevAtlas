@@ -62,11 +62,21 @@ it.skipIf(!python)('every published Python example with documented output execut
   for (const lesson of content.lessons) {
     const section = lesson.sections.find(item => item.output?.en !== undefined);
     if (!section) continue;
-    const result = spawnSync(python!.command, [...python!.prefixArgs, '-c', lesson.practice!.solution], { encoding: 'utf8', timeout: 15000 });
+    // An output on a code section documents that example. A prose-only
+    // practice section (day 30) documents the independent solution instead.
+    const documented = section.code ?? lesson.practice!.solution;
+    const result = spawnSync(python!.command, [...python!.prefixArgs, '-c', documented], { encoding: 'utf8', timeout: 15000 });
     expect(result.error, `${lesson.id}: ${result.error?.message}`).toBeUndefined();
     expect(result.status, `${lesson.id}: ${result.stderr}`).toBe(0);
     // Windows Python text-mode emits CRLF; course JSON stores LF like a Linux CI.
     expect(result.stdout.trim().replace(/\r\n/g, '\n'), lesson.id).toBe(section.output!.en);
+    const practice = spawnSync(python!.command, [...python!.prefixArgs, '-c', lesson.practice!.solution], { encoding: 'utf8', timeout: 15000 });
+    expect(practice.status, `${lesson.id} practice: ${practice.stderr}`).toBe(0);
+    const example = lesson.sections.find(item => item.code?.trim())!.code!;
+    if (example !== documented) {
+      const guided = spawnSync(python!.command, [...python!.prefixArgs, '-c', example], { encoding: 'utf8', timeout: 15000 });
+      expect(guided.status, `${lesson.id} example: ${guided.stderr}`).toBe(0);
+    }
     verified++;
   }
   expect(verified).toBeGreaterThanOrEqual(27);
