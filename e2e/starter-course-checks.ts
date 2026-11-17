@@ -28,6 +28,7 @@ export function checkStarterModules(rawCourse: unknown) {
 
       const lesson = course.lessons.find(lesson => lesson.day === endDay)!;
       await page.goto(`/courses/${course.courseId}/tests?day=${endDay}`);
+      await page.locator('[data-strict-start]').click();
       const question = page.locator('.course-question').first();
       const wrong = (lesson.questions[0].correctIndex + 1) % 3;
       await question.getByRole('radio', { name: lesson.questions[0].options[wrong][locale]!, exact: true }).check();
