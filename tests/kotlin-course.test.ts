@@ -40,12 +40,12 @@ it('keeps guided examples separate from independent tasks and records each pract
 });
 
 const verifier=path.join(process.cwd(),'scripts/verify-kotlin-examples.mjs');
-const probe=spawnSync(process.execPath,[verifier,'--probe'],{encoding:'utf8',timeout:25000,windowsHide:true});
+const probe=spawnSync(process.execPath,[verifier,'--probe'],{encoding:'utf8',timeout:150000,windowsHide:true});
 it.skipIf(probe.status===2)('executes Kotlin examples and independent solutions and rejects broken project behavior',()=>{
   expect(probe.error).toBeUndefined();
   expect(probe.status,probe.stderr).toBe(0);
-  const result=spawnSync(process.execPath,[verifier],{encoding:'utf8',timeout:180000,maxBuffer:1024*1024,windowsHide:true});
+  const result=spawnSync(process.execPath,[verifier],{encoding:'utf8',timeout:480000,maxBuffer:1024*1024,windowsHide:true});
   expect(result.error).toBeUndefined();
   expect(result.status,result.stderr+'\n'+result.stdout).toBe(0);
   expect(result.stdout).toContain('30/30 guided examples and 30/30 independent solutions passed; negative input and overflow rejected; broken deletion detected.');
-},200000);
+},500000);

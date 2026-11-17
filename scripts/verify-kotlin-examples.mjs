@@ -47,7 +47,8 @@ const normalizeOutput=value=>value.replace(/\r\n/g,'\n').trim().split('\n').map(
 function main(){
   const probeOnly=process.argv.includes('--probe');
   const compiler=compilerInvocation();
-  const version=compiler?run(compiler.command,[...compiler.args,'-version'],root):null;
+  // A cold Kotlin compiler JVM on a hosted Windows runner can need well over 20 s just for -version.
+  const version=compiler?run(compiler.command,[...compiler.args,'-version'],root,120000):null;
   if(!version||version.error?.code==='ENOENT'){
     const message='Kotlin compiler or Java could not be found. Point KOTLINC at an installed compiler and JAVA at its Java executable.';
     if(probeOnly&&!process.env.KOTLINC&&!process.env.JAVA){
@@ -109,7 +110,7 @@ fun main() {
   assert.match(finalLesson.practice.solution,/tasks\.filter \{ it\.id != id \}/);
   writeFileSync(path.join(temporary,'Mutation.kt'),'package mutation\n'+finalLesson.practice.solution.replace('it.id != id','it.id == id'));
   // One compilation, separate packages: every example remains an independent main.
-  success(runHere(compiler.command,[...compiler.args,...files,'Boundaries.kt','PracticeBoundaries.kt','Mutation.kt','-include-runtime','-d','lessons.jar'],120000),'Compile guided examples and independent solutions');
+  success(runHere(compiler.command,[...compiler.args,...files,'Boundaries.kt','PracticeBoundaries.kt','Mutation.kt','-include-runtime','-d','lessons.jar'],300000),'Compile guided examples and independent solutions');
   for(const lesson of course.lessons){
     const day=String(lesson.day).padStart(2,'0');
     const guided=success(runHere(java,['-cp','lessons.jar',`guidedday${day}.GuidedLesson${day}Kt`]),`${lesson.id}: guided example`);
