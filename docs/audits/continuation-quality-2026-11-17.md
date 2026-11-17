@@ -2,9 +2,9 @@
 
 Source: all actual application loaders and schedules, including the React two-month plan and Next.js overlays. This is a structural audit and review queue. It does not certify correctness, teaching effectiveness, source review, compiler execution or mastery.
 
-43 courses; 38 tracks; 1255 scheduled days. 28 courses have observed structural omissions under the imported-course four-section / three-question / linked-hint / complete-RU-TG-EN contract. 37 courses have a structural omission or a heuristic review signal. The incomplete Management authoring plan is additional to those flags. Every course still requires its own semantic and evidence review before declaring it fully verified.
+43 courses; 38 tracks; 1262 scheduled days. 9 courses have observed structural omissions under the imported-course four-section / three-question / linked-hint / complete-RU-TG-EN contract. 36 courses have a structural omission or a heuristic review signal. Authoring-plan deltas are counted separately below. Every course still requires its own semantic and evidence review before declaring it fully verified.
 
-Short-course authoring remaining: management-foundations 23/30, resume day 24. Missing stage programs: 72. The five current 14-day courses require reviewed continuation; a desired new total is not invented here.
+Short-course authoring remaining: none. Missing stage programs: 72. The five current 14-day courses require reviewed continuation; a desired new total is not invented here.
 
 | Course | Days | <4 sections | <3 questions | Days missing linked hints | Empty React explanation days | Missing translation days | Theory/solution overlap candidates | Dominant answer % / longest RU % |
 |---|---:|---:|---:|---:|---:|---:|---:|---|
@@ -16,28 +16,28 @@ Short-course authoring remaining: management-foundations 23/30, resume day 24. M
 | nextjs | 20 | 0 | 0 | 0 | — | 0 | 1 | 48 / 69 |
 | git | 30 | 0 | 0 | 0 | — | 0 | 1 | 58 / 81 |
 | typescript | 14 | 0 | 0 | 0 | — | 0 | 0 | 38 / 62 |
-| algorithms | 14 | 13 | 0 | 14 | — | 0 | 13 | 33 / 57 |
-| python | 30 | 2 | 28 | 29 | — | 0 | 25 | 66 / 40 |
+| algorithms | 14 | 0 | 0 | 0 | — | 0 | 13 | 33 / 57 |
+| python | 30 | 0 | 0 | 0 | — | 0 | 25 | 46 / 43 |
 | backend | 44 | 43 | 0 | 0 | — | 0 | 3 | 48 / 64 |
-| mobile | 44 | 44 | 0 | 0 | — | 0 | 37 | 35 / 84 |
+| mobile | 44 | 0 | 0 | 0 | — | 0 | 37 | 35 / 84 |
 | cpp | 30 | 0 | 0 | 0 | — | 0 | 0 | 63 / 80 |
-| java | 30 | 30 | 30 | 30 | — | 0 | 29 | 57 / 75 |
-| csharp | 30 | 30 | 30 | 30 | — | 0 | 26 | 55 / 67 |
+| java | 30 | 0 | 0 | 0 | — | 0 | 29 | 39 / 74 |
+| csharp | 30 | 0 | 0 | 0 | — | 0 | 26 | 41 / 70 |
 | go | 30 | 0 | 0 | 0 | — | 0 | 0 | 33 / 34 |
-| rust | 30 | 30 | 30 | 30 | — | 0 | 26 | 73 / 88 |
-| php | 30 | 2 | 30 | 30 | — | 0 | 27 | 55 / 60 |
-| ruby | 30 | 30 | 30 | 30 | — | 0 | 19 | 70 / 73 |
-| sql | 30 | 14 | 30 | 30 | — | 0 | 28 | 60 / 72 |
-| bash | 30 | 28 | 30 | 30 | — | 0 | 25 | 63 / 92 |
-| nodejs | 30 | 9 | 30 | 30 | — | 0 | 28 | 58 / 67 |
-| mongodb | 30 | 13 | 30 | 30 | — | 0 | 27 | 100 / 97 |
-| swift | 30 | 30 | 28 | 30 | — | 0 | 27 | 94 / 94 |
-| kotlin | 30 | 30 | 30 | 30 | — | 0 | 29 | 67 / 38 |
-| ux-design | 30 | 28 | 0 | 30 | — | 0 | 1 | 87 / 88 |
-| ai-fundamentals | 14 | 14 | 5 | 14 | — | 0 | 1 | 35 / 76 |
-| context-engineering | 14 | 2 | 0 | 14 | — | 0 | 0 | 33 / 98 |
+| rust | 30 | 0 | 0 | 0 | — | 0 | 26 | 50 / 80 |
+| php | 30 | 0 | 0 | 0 | — | 0 | 27 | 37 / 59 |
+| ruby | 30 | 0 | 0 | 0 | — | 0 | 19 | 50 / 64 |
+| sql | 30 | 0 | 0 | 0 | — | 0 | 28 | 41 / 72 |
+| bash | 30 | 0 | 0 | 0 | — | 0 | 25 | 46 / 84 |
+| nodejs | 30 | 0 | 0 | 0 | — | 0 | 28 | 41 / 68 |
+| mongodb | 30 | 0 | 0 | 0 | — | 0 | 27 | 67 / 87 |
+| swift | 30 | 0 | 0 | 0 | — | 0 | 26 | 64 / 80 |
+| kotlin | 30 | 0 | 0 | 0 | — | 0 | 0 | 43 / 40 |
+| ux-design | 30 | 0 | 0 | 0 | — | 0 | 0 | 83 / 90 |
+| ai-fundamentals | 14 | 0 | 0 | 0 | — | 0 | 0 | 33 / 69 |
+| context-engineering | 14 | 1 | 0 | 2 | — | 0 | 0 | 33 / 93 |
 | agent-harness | 14 | 14 | 3 | 14 | — | 0 | 5 | 51 / 95 |
-| digital-marketing | 30 | 30 | 0 | 30 | — | 0 | 0 | 99 / 84 |
+| digital-marketing | 30 | 0 | 0 | 0 | — | 0 | 0 | 99 / 85 |
 | data-analytics | 30 | 30 | 0 | 30 | — | 0 | 2 | 99 / 92 |
 | business-foundations | 30 | 30 | 0 | 30 | — | 0 | 2 | 99 / 95 |
 | communication | 30 | 30 | 0 | 30 | — | 0 | 2 | 99 / 87 |
@@ -45,9 +45,9 @@ Short-course authoring remaining: management-foundations 23/30, resume day 24. M
 | english-foundations | 42 | 0 | 0 | 0 | — | 0 | 0 | 33 / 39 |
 | digital-literacy | 30 | 0 | 0 | 0 | — | 0 | 0 | 33 / 36 |
 | personal-productivity | 22 | 0 | 0 | 0 | — | 0 | 0 | 33 / 20 |
-| management-foundations | 23 | 0 | 0 | 0 | — | 0 | 0 | 33 / 20 |
-| javascript-pro | 30 | 26 | 0 | 30 | — | 0 | 24 | 57 / 87 |
-| backend-pro | 30 | 0 | 30 | 30 | — | 0 | 30 | 52 / 78 |
+| management-foundations | 30 | 0 | 0 | 0 | — | 0 | 0 | 33 / 23 |
+| javascript-pro | 30 | 0 | 0 | 0 | — | 0 | 24 | 57 / 87 |
+| backend-pro | 30 | 0 | 0 | 0 | — | 0 | 30 | 37 / 57 |
 | architecture-expert | 30 | 28 | 30 | 30 | — | 0 | 0 | 58 / 92 |
 | ux-pro | 30 | 30 | 30 | 30 | — | 0 | 3 | 70 / 85 |
 | business-pro | 30 | 30 | 30 | 30 | — | 0 | 3 | 90 / 75 |
@@ -55,7 +55,7 @@ Short-course authoring remaining: management-foundations 23/30, resume day 24. M
 ## How to use this queue
 
 - Assign one existing course to one author agent. Keep shared catalog, reports, loader configuration, progress semantics and final integration under the primary agent. Run as many course agents as the actual environment supports; queue the rest in waves.
-- Start Management at day24; preserve its authored first23 days. Digital Literacy already has30 days. Preserve first9 original lessons, identifiers and original option order in both courses. Verify pending checkpoint tests before adding more.
+- All twelve short-course plans currently meet their scheduled-day targets, including Management30/30 and Digital Literacy30/30. Preserve existing authored days, IDs, prerequisites and original option order. Remaining work is semantic/source/localization/independent-practice review; do not recreate completed short-course days.
 - Structural omissions contain exact day/question/field coordinates in the JSON. Heuristics identify candidates only: read the actual theory, task, expected answer and UI before deciding a change is necessary.
 - Four sections and three questions are the current minimum authored-day structural contract, not a definition of full delivery. Approved strict delivery also calls for meaningful assessment/retry variants, 5–10 checks where appropriate, projects, source/version/license evidence and honest review methods. Do not duplicate questions or pad prose to reach counts.
 - Empty React explanation fields are observed data, but the answer is still displayed by QuestionAnswer. This is a meaningful-feedback review candidate, not proof that the UI gives no feedback.

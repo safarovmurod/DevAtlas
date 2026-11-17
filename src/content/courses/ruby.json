@@ -43,12 +43,12 @@
       "ru": "Что такое Ruby и как увидеть результат",
       "tg": "Ruby чист ва натиҷаро чӣ хел мебинем?",
       "en": "Ruby and program output"
-    },
+     },
      "body": {
       "ru": "Ruby — язык программирования для скриптов и веб-приложений. Интерпретатор запускает инструкции из .rb. puts выводит значение и завершает строку.\n\nRuby интерпретирует main.rb. Локальная переменная получает значение через =; тип объекта определяется во время выполнения. puts выводит результат с переводом строки. Пример работает в Ruby CLI без Rails и без сервера.",
       "tg": "Ruby забони барномасозӣ барои скрипт ва барномаи веб аст. Интерпретатор .rb-ро иҷро мекунад. puts қиматро мебарорад ва ба сатри нав мегузарад.\n\nRuby main.rb-ро тафсир мекунад. Тағйирёбандаи маҳаллӣ бо = қимат мегирад; типи объект ҳангоми иҷро муайян мешавад. puts натиҷаро бо сатри нав мебарорад. Мисол дар Ruby CLI бе Rails ва сервер кор мекунад.",
       "en": "Ruby is a language for scripts and web apps. The interpreter runs instructions from a .rb file. puts displays a value and ends the line.\n\nRuby interprets main.rb. Assign a local variable with =; object types are determined at runtime. puts prints a result with a newline. This example uses Ruby CLI, not Rails or a server."
-    },
+     },
      "code": "price = 12\nquantity = 3\nputs price * quantity\n",
      "language": "ruby",
      "output": {
@@ -80,24 +80,36 @@
       "tg": "Ин рӯзи шиносоии курси сӣрӯза аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is the opening day of a thirty-day course. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Строка или число: что именно печатает puts",
+      "tg": "Сатр ё адад: puts аниқ чӣ мебарорад",
+      "en": "String or number: what exactly puts prints"
+     },
+     "body": {
+      "ru": "Число и строка могут выглядеть одинаково в терминале. puts 12 и puts \"12\" выводят 12. Поменяйте цену из первого примера на строку: puts \"12\" * 3 выводит 121212. Ruby повторяет текст три раза. Целое число 12 при умножении на 3 даёт 36. Если цена пришла из текстового поля, сначала проверьте, что это допустимое число, и преобразуйте её перед расчётом. В уроке 2 метод total получит два числа и проверит, что они неотрицательные.",
+      "tg": "Адад ва сатр дар терминал як хел намудор шуда метавонанд. puts 12 ва puts \"12\" ҳар ду 12 мебароранд. Нархи мисоли аввалро ба сатр иваз кунед: puts \"12\" * 3 натиҷаи 121212 медиҳад. Ruby матнро се бор такрор мекунад. Адади бутуни 12-ро ба 3 зарб занем, 36 мебарояд. Агар нарх аз майдони матнӣ омада бошад, аввал бинед, ки адади дуруст аст, баъд барои ҳисоб ба адад табдил диҳед. Дар дарси 2 методи total ду адад гирифта, месанҷад, ки манфӣ набошанд.",
+      "en": "A number and a string can look the same in the terminal. Both puts 12 and puts \"12\" print 12. Change the price in the first example to a string: puts \"12\" * 3 prints 121212. Ruby repeats the text three times. Multiplying the integer 12 by 3 gives 36. If a price comes from a text field, validate it and convert it to a number before calculating a total. In day 2, the total method receives two numbers and checks that both are nonnegative."
+     }
     }
    ],
    "interview": {
-     "id": "ruby-day-01-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Как называется метод Ruby для вывода строки с переводом строки?",
-       "tg": "Методи Ruby барои барориш бо гузаштан ба сатри нав чӣ ном дорад?",
-       "en": "Which Ruby method prints a line followed by a newline?"
-     },
-     "answer": {
-       "ru": "puts",
-       "tg": "puts",
-       "en": "puts"
-     },
-     "acceptedAnswers": [
-       "puts()"
-     ]
+    "id": "ruby-day-01-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Как называется метод Ruby для вывода строки с переводом строки?",
+     "tg": "Методи Ruby барои барориш бо гузаштан ба сатри нав чӣ ном дорад?",
+     "en": "Which Ruby method prints a line followed by a newline?"
+    },
+    "answer": {
+     "ru": "puts",
+     "tg": "puts",
+     "en": "puts"
+    },
+    "acceptedAnswers": [
+     "puts()"
+    ]
    },
    "questions": [
     {
@@ -129,7 +141,13 @@
        "en": "Writing the result to a file"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Перечитайте первый раздел: что puts делает с выводом после значения.",
+      "tg": "Бахши якумро аз нав хонед: puts баъди қимат бо натиҷа чӣ мекунад.",
+      "en": "Re-read the first section: what does puts do with the output after the value."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-01-q2",
@@ -160,7 +178,50 @@
        "en": "54"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сначала Ruby вычисляет арифметику, потом печатает результат — порядок важен.",
+      "tg": "Аввал Ruby ҳисобро иҷро мекунад, баъд натиҷаро мебарорад — тартиб муҳим аст.",
+      "en": "Ruby first evaluates the arithmetic and then prints the result — the order matters."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-01-q3",
+     "question": {
+      "ru": "Что напечатает puts \"3 + 2\"?",
+      "tg": "Фармони puts \"3 + 2\" чӣ мебарорад?",
+      "en": "What does puts \"3 + 2\" print?"
+     },
+     "answer": {
+      "ru": "Строку 3 + 2 — в кавычках это текст, Ruby печатает его без вычислений",
+      "tg": "Сатри 3 + 2 — дар кавҷак матн аст, Ruby онро бе ҳисоб мебарорад",
+      "en": "The string 3 + 2 — in quotes it is text and Ruby prints it without evaluating"
+     },
+     "options": [
+      {
+       "ru": "3 + 2",
+       "tg": "3 + 2",
+       "en": "3 + 2"
+      },
+      {
+       "ru": "5 — Ruby вычислит выражение в строке",
+       "tg": "5 — Ruby ибораи дар сатрро ҳисоб мекунад",
+       "en": "5 — Ruby evaluates the expression inside the string"
+      },
+      {
+       "ru": "Ошибку синтаксиса",
+       "tg": "Хатои синтаксис",
+       "en": "A syntax error"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Кавычки превращают содержимое в строку: интерпретатор печатает текст как есть, без вычислений.",
+      "tg": "Кавҷак мӯҳтаворо ба сатр табдил медиҳад: тафсиркунанда матнро ҳамон тавре ки ҳаст мебарорад, бе ҳисоб.",
+      "en": "Quotes turn the content into a string: the interpreter prints the text as is, without evaluating."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -221,12 +282,12 @@
       "ru": "Методы и неверные аргументы",
       "tg": "Метод ва аргументи нодуруст",
       "en": "Methods and invalid arguments"
-    },
+     },
      "body": {
       "ru": "Метод объединяет повторяемые шаги. В Ruby он обычно возвращает последнее вычисленное выражение. Когда аргумент непригоден для расчёта, можно сообщить об этом через ArgumentError.\n\ndef/end ограничивают метод. Последнее вычисленное выражение становится результатом без обязательного return. raise создаёт ошибку, rescue обрабатывает её у вызывающей стороны. Не используйте общий rescue для скрытия любых ошибок программы.",
       "tg": "Метод қадамҳои такрориро ҷамъ мекунад. Дар Ruby одатан ифодаи охиринро медиҳад. Агар argument барои ҳисоб мувофиқ набошад, ArgumentError инро нишон медиҳад.\n\ndef/end методро маҳдуд мекунанд. Ифодаи охирини ҳисобшуда бе return-и ҳатмӣ натиҷа мешавад. raise хато медиҳад, rescue онро дар тарафи даъваткунанда коркард мекунад. Барои пинҳон кардани ҳамаи хатоҳо rescue-и умумиро истифода набаред.",
       "en": "A method groups reusable steps. In Ruby it normally returns the last evaluated expression. ArgumentError reports when a supplied argument is unsuitable.\n\ndef/end delimit a method. The last evaluated expression becomes the result without a required return keyword. raise signals an error and rescue handles it at the call site. Do not use a broad rescue to hide all program errors."
-    },
+     },
      "code": "def total(price, quantity)\n  raise ArgumentError, \"Negative value\" if price < 0 || quantity < 0\n  price * quantity\nend\n\nputs total(12, 3)\nputs total(12, 0)\nbegin\n  total(12, -1)\nrescue ArgumentError\n  puts \"Invalid input rejected\"\nend\n",
      "language": "ruby",
      "output": {
@@ -258,21 +319,33 @@
       "tg": "Ин рӯзи шиносоии курси сӣрӯза аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is the opening day of a thirty-day course. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Текст ошибки: зачем в raise своё сообщение",
+      "tg": "Матни хато: чаро дар raise паёмҳои худро менависанд",
+      "en": "Error text: why raise carries its own message"
+     },
+     "body": {
+      "ru": "Метод из примера бросает ArgumentError с текстом Negative value — этот текст вы передали вторым аргументом raise сами. Проверьте граничный случай: замените сообщение на свою формулировку и увидите её в трассировке терминала вместо стандартной. Понятный текст ошибки — часть интерфейса: тот, кто вызовет ваш метод чужим кодом, должен понять причину без чтения исходников. Связь с днём 1 прямая: puts печатал результат работы, а raise печатает отказ работать — и почему. На дне 18 вы научитесь перехватывать такое исключение через rescue вместо падения программы.",
+      "tg": "Метод аз мисол ArgumentError бо матни Negative value меандозад — ин матнро шумо худ ҳамчун аргументи дуюми raise додаед. Ҳолати канориро санҷед: паёмро ба гуфтаи худ иваз кунед ва онро дар пайгирмии терминал ба ҷои матни стандартӣ мебинед. Матни возеҳи хато қисми интерфейс аст: он ки методи шуморо аз коди дигар даъват кунад, бояд сабабро бе хондани матни ибтидоӣ фаҳмад. Пайванд бо рӯзи 1 мустақим аст: puts натиҷаи корро мебарорад, вале raise аз корistream метарсонад. Ҳа, дар рӯзи 18 шумо ҳамин истисноро бо rescue бармегиред.",
+      "en": "The example method raises ArgumentError with the text Negative value — you passed that text yourself as the second argument of raise. Check the boundary case: replace the message with your own wording and see it in the terminal trace instead of the standard one. A clear error text is part of the interface: whoever calls your method from other code must understand the cause without reading the sources. The link to day 1 is direct: puts printed the result of the work, while raise prints a refusal to work — and why. On day 18 you will catch this exception with rescue instead of a crashing program."
+     }
     }
    ],
    "interview": {
-     "id": "ruby-day-02-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Как называется исключение Ruby для неподходящего аргумента?",
-       "tg": "Exception-и Ruby барои argument-и нодуруст чӣ ном дорад?",
-       "en": "Which Ruby exception reports an invalid argument?"
-     },
-     "answer": {
-       "ru": "ArgumentError",
-       "tg": "ArgumentError",
-       "en": "ArgumentError"
-     }
+    "id": "ruby-day-02-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Как называется исключение Ruby для неподходящего аргумента?",
+     "tg": "Exception-и Ruby барои argument-и нодуруст чӣ ном дорад?",
+     "en": "Which Ruby exception reports an invalid argument?"
+    },
+    "answer": {
+     "ru": "ArgumentError",
+     "tg": "ArgumentError",
+     "en": "ArgumentError"
+    }
    },
    "questions": [
     {
@@ -304,7 +377,13 @@
        "en": "The method's first argument"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел показывает метод без строки return — на чём он заканчивается?",
+      "tg": "Бахши якум методро бе сатри return нишон медиҳад — он дар куҷо тамом мешавад?",
+      "en": "The first section shows a method without a return line — where does it end?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-02-q2",
@@ -335,7 +414,50 @@
        "en": "When the arguments are equal"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Найдите в примере условие после raise и проверьте оба аргумента против него.",
+      "tg": "Шарти баъди raise-ро дар мисол ёбед ва ҳар ду аргументро бо он муқоиса кунед.",
+      "en": "Find the condition after raise in the example and check both arguments against it."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-02-q3",
+     "question": {
+      "ru": "Что произойдёт при вызове total(12, 3) из примера дня?",
+      "tg": "Ҳангоми даъвати total(12, 3) аз мисоли рӯз чӣ рӯй медиҳад?",
+      "en": "What happens when total(12, 3) from the day's example is called?"
+     },
+     "answer": {
+      "ru": "Метод вернёт 36 — оба аргумента прошли проверку, raise не сработает",
+      "tg": "Метод 36-ро бармегардонад — ҳар ду аргумент санҷишро мегузаранд, raise кор намекунад",
+      "en": "The method returns 36 — both arguments pass the check and raise does not fire"
+     },
+     "options": [
+      {
+       "ru": "ArgumentError — аргументы неверны",
+       "tg": "ArgumentError — аргументҳо нодурустанд",
+       "en": "ArgumentError — the arguments are invalid"
+      },
+      {
+       "ru": "nil — метод ничего не вернёт",
+       "tg": "nil — метод ҳеҷ чиз бармегардонад",
+       "en": "nil — the method returns nothing"
+      },
+      {
+       "ru": "36 — аргументы прошли проверку",
+       "tg": "36 — аргументҳо санҷишро гузаштанд",
+       "en": "36 — the arguments pass the check"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сверьте оба аргумента с условием проверки в примере: нуля и отрицательных значений среди них нет.",
+      "tg": "Ҳар ду аргументро бо шарти санҷиш дар мисол муқоиса кунед: сифру қиматҳои манфӣ дар байни онҳо нестанд.",
+      "en": "Check both arguments against the guard condition in the example: no zero or negative value is among them."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -396,12 +518,12 @@
       "ru": "Целые числа и дроби",
       "tg": "Адади бутун ва касрӣ",
       "en": "Whole numbers and fractions"
-    },
+     },
      "body": {
       "ru": "Integer и Float нужны для разных расчётов. При делении положительных целых Ruby возвращает целую часть, поэтому 7 / 2 даёт 3. С дробным операндом 7.0 / 2 результат будет 3.5.\n\nRuby различает два вида чисел: целые (Integer) и дробные (Float). Основные операции — +, -, *, /, % и **: сложение, вычитание, умножение, деление, остаток и возведение в степень. Главная ловушка начинающего: деление двух целых чисел даёт целое. Ruby отбрасывает дробную часть, поэтому 7 / 2 — это 3, а не 3.5. Если нужен дробный результат, сделайте хотя бы одно число дробным: 7.0 / 2 уже даёт 3.5. Остаток % помогает проверять делимость: 7 % 2 равно 1, а 8 % 2 равно 0. Степень записывается двумя звёздочками: 2 ** 10 — это 1024. Метод format('%.2f', x) превращает число в строку с двумя знаками после точки — так печатают цены и средние значения. Пример ниже собран в один main.rb. Сайт не исполняет Ruby — запустите его локально. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе.",
       "tg": "Integer ва Float барои ҳисобҳои гуногунанд. Ҳангоми тақсими ду адади бутуни мусбат Ruby қисми бутунро медиҳад: 7 / 2 мешавад 3. Бо 7.0 / 2 натиҷа 3.5 аст.\n\nRuby ду навъи рақамро фарқ мекунад: бутун (Integer) ва касрӣ (Float). Амалҳои асосӣ +, -, *, /, % ва ** мебошанд: ҷамъ, тарҳ, зарб, тақсим, боқимонда ва дараҷа. Тадбири асосии навомӯз: тақсими ду адади бутун адади бутун медиҳад. Ruby қисми касриро мепартояд, бинобар ин 7 / 2 ба 3 баробар аст, на ба 3.5. Агар натиҷаи касрӣ лозим бошад, ҳадди ақал як ададро касрӣ кунед: 7.0 / 2 аллакай 3.5 медиҳад. Боқимондаи % барои санҷиши тақсимшавандагӣ кӯмак мекунад: 7 % 2 ба 1, 8 % 2 ба 0 баробар аст. Дараҷаро бо ду ситора менависанд: 2 ** 10 — ин 1024 аст. Методи format('%.2f', x) ададро ба сатр бо ду аломат пас аз нуқта табдил медиҳад — ҳамин тавр нархҳо ва миёнаҳоро мебароранд. Мисоли зер дар як main.rb ҷамъ шудааст. Сайт Ruby-ро иҷро намекунад — онро локалӣ иҷро кунед.",
       "en": "Integer and Float support different calculations. Dividing the positive integers 7 / 2 returns 3. With a floating-point operand, 7.0 / 2 returns 3.5.\n\nRuby distinguishes two kinds of numbers: integers (Integer) and decimals (Float). The basic operators are +, -, *, /, % and **: addition, subtraction, multiplication, division, remainder and exponentiation. The main beginner trap: dividing two integers gives an integer. Ruby discards the fractional part, so 7 / 2 is 3, not 3.5. If you need a fractional result, make at least one number a Float: 7.0 / 2 already gives 3.5. The remainder operator % helps check divisibility: 7 % 2 is 1, while 8 % 2 is 0. Exponents use two asterisks: 2 ** 10 is 1024. The format('%.2f', x) method turns a number into a string with two digits after the point — this is how prices and averages are printed. The example below is one main.rb file. The website does not run Ruby — execute it locally."
-    },
+     },
      "code": "puts 7 / 2\nputs 7.0 / 2\nputs 7 % 2\nputs 2 ** 10\nputs format('%.2f', 10.0 / 3)\n",
      "language": "ruby",
      "output": {
@@ -424,6 +546,18 @@
     },
     {
      "title": {
+      "ru": "Целое против дробного: to_f и округление",
+      "tg": "Бутун муқобили касрӣ: to_f ва мудаввар кардан",
+      "en": "Integer versus fractional: to_f and rounding"
+     },
+     "body": {
+      "ru": "Вчера вы печатали числа через puts; сегодня главная ловушка — тип операндов. 7 / 2 даёт 3, потому что оба числа целые: дробная часть отбрасывается, а не округляется. Проверьте граничный случай: 7 / 2.0 и 7.0 / 2 вернут 3.5 — достаточно одной дробной части. В реальном проекте средний балл и средний чек считают через .to_f, а для показа пользователю используют format из примера; целочисленное деление денег и размеров одинаково неуместно. Частые ошибки ниже собирают типичные промахи с числами — сверьте свой результат с каждым пунктом.",
+      "tg": "Дирӯз шумо ададҳоро бо мебаровард мекардед; имрӯз тӯзи асосӣ — типи операндҳост. 7 / 2 натиҷаи 3 медиҳад, чунки ҳар ду адад бутунанд: қисми касрӣ меафтад, на мудаввар мешавад. Ҳолати канориро санҷед: 7 / 2.0 ва 7.0 / 2 натиҷаи 3.5 медиҳанд — як қисми касрӣ кофист. Дар лоиҳаи воқеӣ миёнаи балл ва миёнаи чек бо .to_f ҳисоб мешаванд, барои нишон додан ба корбар format аз мисол истифода мешавад; тақсими бутунии пул ва андозаҳо ҳамон қадар номатлуб аст. Хатоҳои маъмул дар поён хатоҳои маъмулии бо ададҳоро ҷамъ овардаанд — натиҷаи худро бо ҳар банд муқоиса кунед.",
+      "en": "Yesterday you printed numbers through puts; today the main trap is the operand type. 7 / 2 gives 3 because both numbers are integers: the fractional part is dropped, not rounded. Check the boundary case: 7 / 2.0 and 7.0 / 2 return 3.5 — a single fractional part is enough. In a real project the average grade and the average bill are computed through .to_f, and format from the example is used to display them to the user; integer division of money and sizes is equally inappropriate. The mistakes block below collects typical slips with numbers — compare your result with every item."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -436,17 +570,17 @@
     }
    ],
    "interview": {
-     "id": "ruby-day-03-written",
-     "question": {
-       "ru": "Что вернёт Ruby для 7 / 2? Напишите число.",
-       "tg": "Ruby барои 7 / 2 чӣ медиҳад? Ададро навис.",
-       "en": "What does Ruby return for 7 / 2? Enter the number."
-     },
-     "answer": {
-       "ru": "3",
-       "tg": "3",
-       "en": "3"
-     }
+    "id": "ruby-day-03-written",
+    "question": {
+     "ru": "Что вернёт Ruby для 7 / 2? Напишите число.",
+     "tg": "Ruby барои 7 / 2 чӣ медиҳад? Ададро навис.",
+     "en": "What does Ruby return for 7 / 2? Enter the number."
+    },
+    "answer": {
+     "ru": "3",
+     "tg": "3",
+     "en": "3"
+    }
    },
    "questions": [
     {
@@ -478,7 +612,13 @@
        "en": "4"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В разделе глубже показано, как тип операндов меняет деление.",
+      "tg": "Дар бахши амиқтар нишон дода шудааст, ки типи операндҳо тақсимро чӣ гуна тағйир медиҳад.",
+      "en": "The deeper section shows how operand types change division."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-03-q2",
@@ -509,7 +649,50 @@
        "en": "2"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Раздел глубже и частые ошибки разбирают работу с дробной частью и format.",
+      "tg": "Бахши амиқтар ва хатоҳои маъмул кор бо қисми касрӣ ва format-ро таҳлил мекунанд.",
+      "en": "The deeper section and the mistakes block cover the fractional part and format."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-03-q3",
+     "question": {
+      "ru": "Что вернёт 7 / 2.0?",
+      "tg": "7 / 2.0 чӣ бармегардонад?",
+      "en": "What does 7 / 2.0 return?"
+     },
+     "answer": {
+      "ru": "3.5 — достаточно одного дробного операнда, чтобы деление стало дробным",
+      "tg": "3.5 — як операнди касрӣ кофист, то тақсим касрӣ шавад",
+      "en": "3.5 — a single fractional operand is enough to make the division fractional"
+     },
+     "options": [
+      {
+       "ru": "3.5",
+       "tg": "3.5",
+       "en": "3.5"
+      },
+      {
+       "ru": "3 — тип операндов не влияет",
+       "tg": "3 — типи операндҳо таъсир намекунад",
+       "en": "3 — the operand types do not matter"
+      },
+      {
+       "ru": "Ошибку — типы нельзя смешивать",
+       "tg": "Хато — типҳоро омехта кардан mumkin nest",
+       "en": "An error — the types cannot be mixed"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните из раздела глубже: достаточно одной дробной части, чтобы деление стало дробным.",
+      "tg": "Аз бахши амиқтар ёд оред: як қисми касрӣ кофист, то тақсим касрӣ шавад.",
+      "en": "Recall from the deeper section: a single fractional part makes the division fractional."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -598,6 +781,18 @@
     },
     {
      "title": {
+      "ru": "Одинарные кавычки: где интерполяция не работает",
+      "tg": "Кавҷаки якта: дар куҷо интерполяция кор намекунад",
+      "en": "Single quotes: where interpolation does not work"
+     },
+     "body": {
+      "ru": "Интерполяция #{...} из примера — свойство двойных кавычек. Проверьте граничный случай: строка в одинарных кавычках напечатает текст буквально — Ruby не заглядывает внутрь такой строки и не вычисляет выражения. В реальном проекте одинарные кавычки берут для фиксированных надписей и имён файлов, двойные — для текста с подстановками. Связь с днём 3: число перед печатью нужно превратить в текст, и интерполяция делает это автоматически, но только в двойных кавычках. Блок частых ошибок ниже покажет, что ломается, когда кавычки перепутаны или метод строки назван неверно.",
+      "tg": "Интерполятсияи #{...} аз мисол хосияти кавҷаки дутарафа аст. Ҳолати канориро санҷед: сатри дар кавҷаки якта матнро ҳамон тавре ки ҳаст мебарорад — Ruby ба дохили чунин сатр наменигарад ва ибораҳоро ҳисоб намекунад. Дар лоиҳаи воқеӣ кавҷаки яктаро барои навиштаҷоти собит ва номи файлҳо мегиранд, дутарафаро — барои матни бо ҷойгузинӣ. Пайванд бо рӯзи 3: ададро пеш аз чоп ба сатр табдил додан лозим аст ва интерполятсия инро худкор мекунад, вале танҳо дар кавҷаки дутарафа. Банди хатоҳои маъмул дар поён нишон медиҳад, ки ҳангоми омехта шудани кавҷакҳо ё номи нодурусти метод чӣ мешиканад.",
+      "en": "The #{...} interpolation from the example is a property of double quotes. Check the boundary case: a string in single quotes prints the text literally — Ruby does not look inside such a string and evaluates no expressions. In a real project single quotes are used for fixed labels and file names, double quotes for text with substitutions. The link to day 3: a number must be turned into text before printing, and interpolation does it automatically — but only in double quotes. The mistakes block below shows what breaks when the quotes are mixed up or the string method is named wrongly."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -639,7 +834,13 @@
        "en": "a1b"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В примере дня строка построена двойными кавычками — вспомните, что вычисляется внутри.",
+      "tg": "Сатри мисоли рӯз бо кавҷаки дутарафа сохта шудааст — ёд оред, ки дар дохил чӣ ҳисоб мешавад.",
+      "en": "The day's example builds the string with double quotes — recall what gets evaluated inside."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-04-q2",
@@ -670,7 +871,50 @@
        "en": "6"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посчитайте символы строки из примера: length есть в первом разделе.",
+      "tg": "Аломатҳои сатри мисолро ҳисоб кунед: length дар бахши якум аст.",
+      "en": "Count the characters of the example string: length is in the first section."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-04-q3",
+     "question": {
+      "ru": "Что напечатает puts 'sum: #{2 + 3}'?",
+      "tg": "Фармони puts 'sum: #{2 + 3}' чӣ мебарорад?",
+      "en": "What does puts 'sum: #{2 + 3}' print?"
+     },
+     "answer": {
+      "ru": "sum: #{2 + 3} — в одинарных кавычках интерполяция не работает",
+      "tg": "sum: #{2 + 3} — дар кавҷаки якта интерполяция кор намекунад",
+      "en": "sum: #{2 + 3} — interpolation does not work in single quotes"
+     },
+     "options": [
+      {
+       "ru": "sum: 5",
+       "tg": "sum: 5",
+       "en": "sum: 5"
+      },
+      {
+       "ru": "Ошибку — так писать нельзя",
+       "tg": "Хато — чунин навиштан mumkin nest",
+       "en": "An error — this cannot be written"
+      },
+      {
+       "ru": "sum: #{2 + 3}",
+       "tg": "sum: #{2 + 3}",
+       "en": "sum: #{2 + 3}"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Одинарные кавычки не вычисляют #{...} — они берут текст между ними как есть.",
+      "tg": "Кавҷаки якта #{...}-ро ҳисоб намекунад — он матни байни онҳоро ҳамон тавр мегирад.",
+      "en": "Single quotes do not evaluate #{...} — they take the text between them as is."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -759,6 +1003,18 @@
     },
     {
      "title": {
+      "ru": "Порядок ветвей elsif: почему он меняет ответ",
+      "tg": "Тартиби варақаҳои elsif: чаро ҷавобро тағйир медиҳад",
+      "en": "The order of elsif branches: why it changes the answer"
+     },
+     "body": {
+      "ru": "if проверяет ветви сверху вниз и выполняет первую истинную. Проверьте граничный случай из примера: при temperature = 12 ветвь > 10 даёт Warm, но если переставить ветви местами и проверять > 0 раньше, тот же градус попадёт в другую ветвь — текст изменится, хотя данные те же. В реальном проекте порядок условий — часть логики: сначала узкие диапазоны, потом широкие, иначе общий случай перехватит всё. Связь с днём 4: сравнения строк в условиях работают так же — первая истинная ветвь побеждает. Внизу собраны типичные промахи с условиями.",
+      "tg": "if варақаҳоро аз боло ба поён санҷида, аввалин ростинро иҷро мекунад. Ҳолати канории аз мисолро санҷед: ҳангоми temperature = 12 варақаи > 10 Warm медиҳад, вале агар варақаҳоро ҷойиваз кунед ва > 0-ро пештар санҷед, ҳамон дараҷа ба варақаи дигар меафтад — матн тағйир меёбад, ҳол он ки маълумот ҳамон аст. Дар лоиҳаи воқеӣ тартиби шартҳо қисми мантиқ аст: аввал диапазонҳои танг, баъд васеъ, вагарна ҳолати умумӣ ҳамаро мегирад. Пайванд бо рӯзи 4: муқоисаи сатрҳо дар шартҳо ҳамон тавр кор мекунад — аввалин варақаи ростин ғолиб меояд. Дар поён хатоҳои маъмулии шартҳо ҷамъ шудаанд.",
+      "en": "if checks the branches top-down and runs the first true one. Check the boundary case from the example: at temperature = 12 the > 10 branch gives Warm, but if you swap the branches and test > 0 first, the same temperature falls into a different branch — the text changes although the data is the same. In a real project the order of conditions is part of the logic: narrow ranges first, wide ones later, otherwise the general case catches everything. The link to day 4: string comparisons in conditions work the same — the first true branch wins. Typical condition slips are collected below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -800,7 +1056,13 @@
        "en": "Cold"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сверьте 12 с каждым условием примера сверху вниз — важна первая истинная ветвь.",
+      "tg": "12-ро бо ҳар шарти мисол аз боло ба поён муқоиса кунед — аввалин варақаи ростин муҳим аст.",
+      "en": "Compare 12 with each condition in the example top-down — the first true branch wins."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-05-q2",
@@ -831,7 +1093,50 @@
        "en": "Always"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "unless — это «если не»: что должно случиться с условием, чтобы тело выполнилось?",
+      "tg": "unless маънои «агар не» дорад: бо шарт чӣ бояд рӯй диҳад, то тани он иҷро шавад?",
+      "en": "unless means «if not»: what must happen to the condition for the body to run?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-05-q3",
+     "question": {
+      "ru": "Что выведет пример дня при temperature = 30?",
+      "tg": "Мисоли рӯз ҳангоми temperature = 30 чӣ мебарорад?",
+      "en": "What does the day's example print when temperature = 30?"
+     },
+     "answer": {
+      "ru": "Hot — 30 проходит первую проверку temperature > 25",
+      "tg": "Hot — 30 аввалин санҷиши temperature > 25-ро мегузарад",
+      "en": "Hot — 30 passes the first check temperature > 25"
+     },
+     "options": [
+      {
+       "ru": "Warm",
+       "tg": "Warm",
+       "en": "Warm"
+      },
+      {
+       "ru": "Cold",
+       "tg": "Cold",
+       "en": "Cold"
+      },
+      {
+       "ru": "Hot",
+       "tg": "Hot",
+       "en": "Hot"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ветви проверяются сверху вниз: 30 попадает и в > 25, и в > 10 — побеждает первая истинная.",
+      "tg": "Варақаҳо аз боло ба поён санҷида мешаванд: 30 ба > 25 ва > 10 мувофиқ аст — аввалин варақаи ростин ғолиб меояд.",
+      "en": "Branches are checked top-down: 30 matches both > 25 and > 10 — the first true one wins."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -920,6 +1225,18 @@
     },
     {
      "title": {
+      "ru": "while без шага: как получают бесконечный цикл",
+      "tg": "while бе қадам: даври беохирро чӣ гуна мегиранд",
+      "en": "while without a step: how infinite loops happen"
+     },
+     "body": {
+      "ru": "times и each сами двигают счётчик, а while полагается на ваш код внутри тела. Проверьте граничный случай: уберите из примера строку count -= 1 — условие count > 0 останется истинным навсегда, и цикл зависнет; остановите такой запуск клавишами Ctrl+C. В реальном проекте бесконечный цикл съедает процессор и зависает на сервере, поэтому шаг к выходу из цикла пишут сразу после условия. Связь с днём 5: условие while — обычное условие if, проверяемое на каждом витке. Ниже — типичные ошибки циклов, включая забытый шаг и неверную границу.",
+      "tg": "times ва each ҳисобкунакро худ пеш мебаранд, вале while ба коди шумо дар дохили тан бовар мекунад. Ҳолати канориро санҷед: сатри count -= 1-ро аз мисол хориҷ кунед — шарти count > 0 ҳамеша рост мемонад ва давр меистад; чунин иҷроро бо Ctrl+C тухт кунед. Дар лоиҳаи воқеӣ даври беохир протсессорро мехӯрад ва дар сервер меистад, барои ин қадами баромадан аз даврро баъд аз шарт менависанд. Пайванд бо рӯзи 5: шарти while шарти маъмулии if аст, ки дар ҳар давр санҷида мешавад. Дар поён хатоҳои маъмулии даврҳо, аз ҷумла қадами фаромӯшшуда ва сари нодуруст.",
+      "en": "times and each advance the counter themselves, while while relies on your code inside the body. Check the boundary case: remove the count -= 1 line from the example — the condition count > 0 stays true forever and the loop hangs; stop such a run with Ctrl+C. In a real project an infinite loop eats the processor and freezes on the server, so the step towards exiting the loop is written right after the condition. The link to day 5: the while condition is an ordinary if condition checked on every turn. Below are typical loop mistakes, including the forgotten step and a wrong boundary."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -961,7 +1278,13 @@
        "en": "4"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Раздел глубже и пример показывают, с каких чисел стартует счётчик times.",
+      "tg": "Бахши амиқтар ва мисол нишон медиҳанд, ки ҳисобкунаки times аз кадом ададҳо оғоз мешавад.",
+      "en": "The deeper section and the example show which numbers the times counter starts from."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-06-q2",
@@ -992,7 +1315,50 @@
        "en": "Increases it to 4"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните из раздела глубже, во что разворачивается запись со знаком -=.",
+      "tg": "Аз бахши амиқтар ёд оред, ки навишт бо аломати -= ба чӣ табдил меёбад.",
+      "en": "Recall from the deeper section what the -= shorthand expands into."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-06-q3",
+     "question": {
+      "ru": "Что случится, если убрать count -= 1 из while count > 0?",
+      "tg": "Агар count -= 1-ро аз while count > 0 хориҷ кунем, чӣ мешавад?",
+      "en": "What happens if count -= 1 is removed from while count > 0?"
+     },
+     "answer": {
+      "ru": "Цикл не завершится: условие count > 0 остаётся истинным навсегда",
+      "tg": "Давр тамом намешавад: шарти count > 0 ҳамеша рост мемонад",
+      "en": "The loop never finishes: the condition count > 0 stays true forever"
+     },
+     "options": [
+      {
+       "ru": "Цикл не завершится — условие останется истинным навсегда",
+       "tg": "Давр тамом намешавад — шарт ҳамеша рост мемонад",
+       "en": "The loop never ends — the condition stays true forever"
+      },
+      {
+       "ru": "Тело выполнится ровно три раза и остановится",
+       "tg": "Тан дақиқ се бор иҷро шуда, меистад",
+       "en": "The body runs exactly three times and stops"
+      },
+      {
+       "ru": "Ruby сам остановит цикл, когда count станет нулём",
+       "tg": "Ruby худ даврро ҳангоми сифр шудани count меистонад",
+       "en": "Ruby stops the loop by itself when count reaches zero"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел глубже разбирает именно этот случай: кто двигает счётчик в while?",
+      "tg": "Бахши амиқтар маҳз ҳамин ҳолатро таҳлил мекунад: дар while ҳисобкунакро кӣ пеш мебарад?",
+      "en": "The deeper section analyses exactly this case: who advances the counter in a while loop?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -1081,6 +1447,18 @@
     },
     {
      "title": {
+      "ru": "Две точки или три: границы диапазона",
+      "tg": "Ду нуқта ё се: сарҳади диапазон",
+      "en": "Two dots or three: the range boundary"
+     },
+     "body": {
+      "ru": "Диапазон 1..5 включает оба конца, а 1...5 — с тремя точками — правую границу отбрасывает: в нём числа 1, 2, 3, 4. Проверьте граничный случай: (1..5).to_a даёт пять элементов, (1...5).to_a — четыре; такая разница решает, попадёт ли последний день месяца или последняя строка отчёта. В реальном проекте диапазоны заменяют ручные циклы из дня 6: each по диапазону читается короче, а to_a нужна, когда нужен именно массив. Связь с днём 3: границы диапазона могут быть и отрицательными числами. Ниже — частые ошибки работы с диапазонами.",
+      "tg": "Диапазони 1..5 ҳар ду сарро дар бар мегирад, вале 1...5 — бо се нуқта — сарҳади ростро меандозад: дар он ададҳои 1, 2, 3, 4 ҳастанд. Ҳолати канориро санҷед: (1..5).to_a панҷ унсур медиҳад, (1...5).to_a — чор; ҳамин фарқ муайян мекунад, оё рӯзи охирины моҳ ё сатри охирины ҳисобот дохил мешавад. Дар лоиҳаи воқеӣ диапазонҳо даврҳои дастии рӯзи 6-ро иваз мекунанд: each аз рӯи диапазон кӯтоҳтар хонда мешавад, to_a ҳамон гоҳ лозим аст, ки маҳз массив лозим бошад. Пайванд бо рӯзи 3: сарҳадҳои диапазон метавонанд ададҳои манфӣ ҳам бошанд. Дар поён хатоҳои маъмулии кор бо диапазонҳо.",
+      "en": "The range 1..5 includes both ends, while 1...5 — with three dots — drops the right boundary: it holds the numbers 1, 2, 3, 4. Check the boundary case: (1..5).to_a gives five elements, (1...5).to_a four; this difference decides whether the last day of the month or the last report line gets included. In a real project ranges replace the manual loops from day 6: each over a range reads shorter, and to_a is needed exactly when an array is required. The link to day 3: range boundaries can be negative numbers too. Common range mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -1122,7 +1500,13 @@
        "en": "6"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Диапазон с двумя точками включает обе границы — сверьтесь с разделом глубже.",
+      "tg": "Диапазон бо ду нуқта ҳар ду сарро дохил мекунад — бо бахши амиқтар муқоиса кунед.",
+      "en": "A range with two dots includes both ends — compare with the deeper section."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-07-q2",
@@ -1153,7 +1537,50 @@
        "en": "1..4"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В примере дня to_a вызывается у диапазона; что возвращает сам метод?",
+      "tg": "Дар мисоли рӯз to_a ба диапазон даъват мешавад; худи метод чӣ бармегардонад?",
+      "en": "In the day's example to_a is called on a range; what does the method itself return?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-07-q3",
+     "question": {
+      "ru": "Сколько чисел включает диапазон (1...5)?",
+      "tg": "Диапазони (1...5) чанд ададро дар бар мегирад?",
+      "en": "How many numbers does the range (1...5) include?"
+     },
+     "answer": {
+      "ru": "Четыре: 1, 2, 3, 4 — три точки отбрасывают правую границу",
+      "tg": "Чор: 1, 2, 3, 4 — се нуқта сари ростро меандозад",
+      "en": "Four: 1, 2, 3, 4 — three dots drop the right boundary"
+     },
+     "options": [
+      {
+       "ru": "Пять — как у 1..5",
+       "tg": "Панҷ — монанди 1..5",
+       "en": "Five — same as 1..5"
+      },
+      {
+       "ru": "Шесть — вместе с нулём",
+       "tg": "Шаш — бо сифр якҷо",
+       "en": "Six — together with zero"
+      },
+      {
+       "ru": "Четыре — без правой границы",
+       "tg": "Чор — бе сари рост",
+       "en": "Four — without the right boundary"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Три точки меняют правый конец диапазона; сравните с 1..5 из раздела глубже.",
+      "tg": "Се нуқта сари ростги диапазонро тағйир медиҳад; бо 1..5 аз бахши амиқтар муқоиса кунед.",
+      "en": "Three dots change the range's right end; compare with 1..5 from the deeper section."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -1242,6 +1669,18 @@
     },
     {
      "title": {
+      "ru": "Стартовое значение reduce: что вернёт пустой массив",
+      "tg": "Қимати оғозии reduce: массиви холӣ чӣ бармегардонад",
+      "en": "The reduce starting value: what an empty array returns"
+     },
+     "body": {
+      "ru": "В примере блок reduce задаёт операцию: он прибавляет очередное число к сумме. Число 0 в reduce(0) { |sum, n| sum + n } задаёт начальную сумму. Для [] блок ни разу не выполняется, поэтому выражение с блоком возвращает 0. Запишите также [].reduce { |sum, n| sum + n }: без начального значения и без первого элемента результат nil. В вызове без блока можно указать операцию символом: [].reduce(0, :+) тоже даёт 0. Сравните эти вызовы с тем же блоком для [2, 4], где сумма равна 6.",
+      "tg": "Дар мисол блоки reduce амалро муайян мекунад: адади навбатиро ба ҷамъ илова мекунад. Адади 0 дар reduce(0) { |sum, n| sum + n } қимати аввали ҷамъ аст. Барои [] блок ягон бор иҷро намешавад, барои ҳамин ифодаи бо блок 0 медиҳад. [].reduce { |sum, n| sum + n }-ро ҳам нависед: бе қимати аввал ва бе элементи аввал натиҷа nil аст. Ҳангоми даъвати бе блок амалро бо символ нишон додан мумкин: [].reduce(0, :+) ҳам 0 медиҳад. Ҳамин блокро барои [2, 4] санҷед: ҷамъ 6 мешавад.",
+      "en": "The reduce block in the example adds each number to a running total. In reduce(0) { |sum, n| sum + n }, 0 is the initial total. The block never runs for [], so that expression returns 0. Try [].reduce { |sum, n| sum + n } as well: with no initial value and no first element, the result is nil. To call reduce without a block, you can name the operation with a symbol. For example, [].reduce(0, :+) also returns 0. Compare those calls with the same block on [2, 4], which sums to 6."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -1283,7 +1722,13 @@
        "en": "[1, 2, 3]"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "map из раздела глубже не меняет исходный массив — он собирает новый.",
+      "tg": "map-и бахши амиқтар массиви ибтизоро тағйир намедиҳад — он массиви нав ҷамъ меорад.",
+      "en": "map from the deeper section does not change the source array — it builds a new one."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-08-q2",
@@ -1314,7 +1759,50 @@
        "en": "2"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "select оставляет элементы, для которых блок истинен; проверьте каждый элемент примера.",
+      "tg": "select унсурҳое мемонад, ки блок барои онҳо рост бошад; ҳар унсури мисолро санҷед.",
+      "en": "select keeps elements for which the block is true; test each element of the example."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-08-q3",
+     "question": {
+      "ru": "Что вернёт [].reduce(0) { |sum, n| sum + n }?",
+      "tg": "[].reduce(0) { |sum, n| sum + n } чӣ бармегардонад?",
+      "en": "What does [].reduce(0) { |sum, n| sum + n } return?"
+     },
+     "answer": {
+      "ru": "0 — стартовое значение",
+      "tg": "0 — қимати оғозӣ",
+      "en": "0 — the starting value"
+     },
+     "options": [
+      {
+       "ru": "nil",
+       "tg": "nil",
+       "en": "nil"
+      },
+      {
+       "ru": "Ошибку — массив пуст",
+       "tg": "Хато — массив холӣ аст",
+       "en": "An error — the array is empty"
+      },
+      {
+       "ru": "0 — стартовое значение",
+       "tg": "0 — қимати оғозӣ",
+       "en": "0 — the starting value"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Посчитайте, сколько раз Ruby вызовет блок для пустого массива.",
+      "tg": "Ҳисоб кунед, ки Ruby блокро барои массиви холӣ чанд бор иҷро мекунад.",
+      "en": "Count how many times Ruby calls the block for an empty array."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -1403,6 +1891,18 @@
     },
     {
      "title": {
+      "ru": "fetch против квадратных скобок: чтение отсутствующего ключа",
+      "tg": "fetch муқобили кавҷаки квадратӣ: хондани калиди набуда",
+      "en": "fetch versus square brackets: reading a missing key"
+     },
+     "body": {
+      "ru": "book[:missing] молча возвращает nil — и опечатка в ключе может остаться незамеченной. Проверьте граничный случай: book.fetch(:missing) не прощает — он вызывает KeyError и называет отсутствующий ключ; так проверяют, что ключ действительно должен существовать. В реальном проекте квадратные скобки берут для необязательных полей, fetch — для обязательных: если у книги обязан быть автор, чтение через fetch поймает испорченные данные сразу. Связь с днём 2: это тот же принцип, что у ArgumentError — падать рано и с понятным сообщением. Ниже — ошибки работы с хэшами.",
+      "tg": "book[:missing] бе садо nil бармегардонад ва хатои чопӣ дар калид метавонад аз чашм дур бимонад. Ҳолати канориро санҷед: book.fetch(:missing) намебахшад — он KeyError меандозад ва номи калиди набударо меномад; бо ҳамин санҷида мешавад, ки калид воқеан бояд мавҷуд бошад. Дар лоиҳаи воқеӣ кавҷаки квадратиро барои майдонҳои ихтиёрӣ мегиранд, fetch-ро — барои ҳатмӣ: агар китоб ҳатман муаллиф дошта бошад, хондан тариқи fetch маълумоти вайроншударо дархур мешарад. Пайванд бо рӯзи 2: ҳамин асл аст, ки дар ArgumentError — барвақт бо паёми возеҳ меистодан. Дар поён хатоҳои кор бо хэшҳо.",
+      "en": "book[:missing] silently returns nil — and a typo in the key may stay unnoticed. Check the boundary case: book.fetch(:missing) does not forgive — it raises KeyError and names the absent key; this is how you verify the key really must exist. In a real project square brackets serve optional fields and fetch serves mandatory ones: if a book must have an author, reading through fetch catches corrupted data at once. The link to day 2: this is the same principle as ArgumentError — fail early with a clear message. Hash mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -1444,7 +1944,13 @@
        "en": "book->title"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел разбирает чтение хэша по ключу в квадратных скобках.",
+      "tg": "Бахши якум хондани хэш бо калид дар кавҷаки квадратиро таҳлил мекунад.",
+      "en": "The first section covers reading a hash by key in square brackets."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-09-q2",
@@ -1475,7 +1981,50 @@
        "en": "NoMethodError"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В разделе глубже и в примере сказано, что возвращает обращение к отсутствующему ключу.",
+      "tg": "Дар бахши амиқтар ва мисол гуфта шудааст, ки муроҷиат ба калиди набуда чӣ бармегардонад.",
+      "en": "The deeper section and the example state what reading a missing key returns."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-09-q3",
+     "question": {
+      "ru": "Что сделает book.fetch(:missing), если ключа нет?",
+      "tg": "Агар калид набошад, book.fetch(:missing) чӣ мекунад?",
+      "en": "What does book.fetch(:missing) do when the key is absent?"
+     },
+     "answer": {
+      "ru": "Вызовет KeyError с именем отсутствующего ключа — fetch не прощает опечаток",
+      "tg": "KeyError бо номи калиди набударо меандозад — fetch хатои чопиро намебахшад",
+      "en": "It raises KeyError naming the missing key — fetch does not forgive typos"
+     },
+     "options": [
+      {
+       "ru": "Вернёт nil — как book[:missing]",
+       "tg": "nil бармегардонад — монанди book[:missing]",
+       "en": "Returns nil — like book[:missing]"
+      },
+      {
+       "ru": "Вернёт пустую строку",
+       "tg": "Сатри холӣ бармегардонад",
+       "en": "Returns an empty string"
+      },
+      {
+       "ru": "Вызовет KeyError с именем ключа",
+       "tg": "KeyError бо номи калидро меандозад",
+       "en": "Raises KeyError naming the key"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "fetch используется, когда ключ обязан существовать; его поведение описано в разделе глубже.",
+      "tg": "fetch ҳамон гоҳ истифода мешавад, ки калид ҳатман бояд мавҷуд бошад; рафтори он дар бахши амиқтар аст.",
+      "en": "fetch is used when the key must exist; its behavior is described in the deeper section."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -1564,6 +2113,18 @@
     },
     {
      "title": {
+      "ru": "Объект по умолчанию в Hash.new: почему это опасно",
+      "tg": "Объекти пешфрз дар Hash.new: чаро хавфнок аст",
+      "en": "The default object in Hash.new: why it is dangerous"
+     },
+     "body": {
+      "ru": "Hash.new(0) из примера безопасен: число нельзя изменить. Проверьте граничный случай: Hash.new([]) даёт всем отсутствующим ключам один и тот же массив — counts[:a] << 1 изменит массив, и counts[:b] вдруг тоже увидит единицу. Официальная документация прямо не советует mutable-объект как значение по умолчанию. В реальном проекте либо берут неизменяемый старт вроде 0, либо блок Hash.new { |hash, key| hash[key] = [] }, создающий новый массив для каждого ключа. Связь с днём 9: nil по умолчанию безопасен именно потому, что его нельзя менять. Ниже — ошибки подсчётов.",
+      "tg": "Hash.new(0) аз мисол бехатар аст: ададро тағйир додан mumkin nest. Ҳолати канориро санҷед: Hash.new([]) ба ҳамаи калидҳои набуда як массивро медиҳад — counts[:a] << 1 массивро тағйир медиҳад ва counts[:b] ногаҳон юнитро мебинад. Ҳуҷҷатаи расмӣ мустақиман объектро тағйирёбанда ҳамчун қимати пешфрз намесонад. Дар лоиҳаи воқеӣ ё оғози тағйирнопазир монанди 0 мегиранд, ё блоки Hash.new { |hash, key| hash[key] = [] }, ки барои ҳар калид массиви нав месозад. Пайванд бо рӯзи 9: nil ҳамчун пешфрз маҳз аз он бехатар аст, ки онро тағйир додан mumkin nest. Дар поён хатоҳои ҳисобкунакҳо.",
+      "en": "Hash.new(0) from the example is safe: a number cannot be modified. Check the boundary case: Hash.new([]) gives all missing keys the same array — counts[:a] << 1 changes the array, and counts[:b] suddenly sees the one as well. The official documentation explicitly advises against a mutable object as the default value. In a real project either take an immutable start like 0, or the block Hash.new { |hash, key| hash[key] = [] }, which creates a fresh array per key. The link to day 9: nil as the default is safe precisely because it cannot be modified. Counting mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -1605,7 +2166,13 @@
        "en": "An error"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Hash.new с аргументом задаёт стартовое значение для всех отсутствующих ключей.",
+      "tg": "Hash.new бо аргумент қимати оғозиро барои ҳамаи калидҳои набуда муқаррар мекунад.",
+      "en": "Hash.new with an argument sets the starting value for all missing keys."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-10-q2",
@@ -1636,7 +2203,50 @@
        "en": "counts + word"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел глубже разбирает запись с += : сначала берётся текущее значение.",
+      "tg": "Бахши амиқтар навишти += -ро таҳлил мекунад: аввал қимати ҷорӣ гирифта мешавад.",
+      "en": "The deeper section walks through += : the current value is read first."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-10-q3",
+     "question": {
+      "ru": "Почему Hash.new([]) считается опасным?",
+      "tg": "Чаро Hash.new([]) хавфнок ҳисоб мешавад?",
+      "en": "Why is Hash.new([]) considered dangerous?"
+     },
+     "answer": {
+      "ru": "Все отсутствующие ключи делят один и тот же массив — изменения видны всюду",
+      "tg": "Ҳамаи калидҳои набуда як массивро муштарак истифода мебаранд — тағйирот ҳамҷо намоён мешаванд",
+      "en": "All missing keys share the same array — changes are visible everywhere"
+     },
+     "options": [
+      {
+       "ru": "Хэш с массивом нельзя перебрать через each",
+       "tg": "Хэш бо массивро бо each гузаронидан mumkin nest",
+       "en": "A hash with an array cannot be iterated with each"
+      },
+      {
+       "ru": "Массив в значении нельзя изменить",
+       "tg": "Массиви дар қиматро тағйир додан mumkin nest",
+       "en": "The array value cannot be modified"
+      },
+      {
+       "ru": "Все ключи делят один и тот же массив",
+       "tg": "Ҳамаи калидҳо як массивро муштарак истифода мебаранд",
+       "en": "All keys share the same array"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Изменение по одному ключу отразится и на других; документация прямо не советует mutable-старт.",
+      "tg": "Тағйир дар як калид дигар калидҳоро ҳам фаро мегирад; ҳуҷҷат объекти тағйирёбандаро ҳамчун оғоз намесонад.",
+      "en": "A change through one key also affects the others; the documentation advises against a mutable default."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -1699,9 +2309,9 @@
       "en": "Understand the example"
      },
      "body": {
-      "ru": "Методы из дня 2 требовали передать все аргументы. Ruby позволяет дать параметру значение по умолчанию: def greet(name, greeting = \"Hello\") — если второй аргумент не передан, используется Hello. Это сокращает число методов: один greet обслуживает и короткие, и развёрнутые вызовы. Звёздочка *numbers — это splat-параметр: он собирает все оставшиеся аргументы вызова в массив. Внутри метода numbers — обычный массив, с которым работают map, reduce и each. Значит, sum(1, 2, 3) превращается в numbers = [1, 2, 3], а reduce(0) складывает их в 6. Вызов без аргументов sum() тоже допустим — массив пуст, reduce вернёт 0. Порядок параметров в объявлении: сначала обычные, затем со значениями по умолчанию, splat ставьте последним. Соберите пример в main.rb и запустите ruby main.rb локально — сайт Ruby не исполняет. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе.",
-      "tg": "Методҳои рӯзи 2 гузаронидани ҳамаи аргументҳоро талаб мекарданд. Ruby имкон медиҳад ба параметр қимати пешфрз диҳед: def greet(name, greeting = \"Hello\") — агар аргументи дуюм гузаронида нашавад, Hello истифода мешавад. Ин шумораи методҳоро кам мекунад: як greet ҳам даъватҳои кӯтоҳ, ҳам васеъро хизмат мекунад. Ситораи *numbers параметри splat аст: ҳамаи аргументҳои боқимондаро ба массив ҷамъ мекунад. Дар дохили метод numbers массиви оддӣ аст, ки бо он map, reduce ва each кор мекунанд. Яъне sum(1, 2, 3) ба numbers = [1, 2, 3] мегардад ва reduce(0) онҳоро ба 6 ҷамъ мекунад. Даъвати бе аргумент sum() ҳам иҷозатшуда аст — массив холӣ аст, reduce 0-ро бармегардонад. Тартиби параметрҳо дар эълон: аввал оддӣҳо, баъд бо қиматҳои пешфрз, splat-ро охир гузоред. Мисолро дар main.rb ҷамъ карда, ruby main.rb-ро локалӣ иҷро кунед — сайт Ruby-ро иҷро намекунад. Дар мисол як тафсилро ёбед, ки бе вайронӣ тағйир додан мумкин, ва якеро, ки бе он код кор намекунад.",
-      "en": "Day 2 methods required every argument. Ruby lets a parameter carry a default: def greet(name, greeting = \"Hello\") — if the second argument is not passed, Hello is used. This cuts the number of methods: one greet serves both short and full calls. The star *numbers is a splat parameter: it gathers all remaining call arguments into an array. Inside the method numbers is a regular array you can map, reduce and each over. So sum(1, 2, 3) becomes numbers = [1, 2, 3], and reduce(0) folds them into 6. A call with no arguments sum() is also valid — the array is empty and reduce returns 0. Parameter order in the definition: plain ones first, then defaults, and put the splat last. Assemble the example in main.rb and run ruby main.rb locally — the website does not execute Ruby."
+      "ru": "Методы из дня 2 требовали передать все аргументы. Ruby позволяет дать параметру значение по умолчанию: def greet(name, greeting = \"Hello\") — если второй аргумент не передан, используется Hello. Это сокращает число методов: один greet обслуживает и короткие, и развёрнутые вызовы. Звёздочка *numbers — это splat-параметр: он собирает все оставшиеся аргументы вызова в массив. Внутри метода numbers — обычный массив, с которым работают map, reduce и each. Значит, sum(1, 2, 3) превращается в numbers = [1, 2, 3], а reduce(0) складывает их в 6. Вызов без аргументов sum() тоже допустим — массив пуст, reduce вернёт 0. В этих примерах обязательный параметр greet идёт первым. У sum единственный параметр — splat. Соберите пример в main.rb и запустите ruby main.rb локально — сайт Ruby не исполняет. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе.",
+      "tg": "Методҳои рӯзи 2 гузаронидани ҳамаи аргументҳоро талаб мекарданд. Ruby имкон медиҳад ба параметр қимати пешфрз диҳед: def greet(name, greeting = \"Hello\") — агар аргументи дуюм гузаронида нашавад, Hello истифода мешавад. Ин шумораи методҳоро кам мекунад: як greet ҳам даъватҳои кӯтоҳ, ҳам васеъро хизмат мекунад. Ситораи *numbers параметри splat аст: ҳамаи аргументҳои боқимондаро ба массив ҷамъ мекунад. Дар дохили метод numbers массиви оддӣ аст, ки бо он map, reduce ва each кор мекунанд. Яъне sum(1, 2, 3) ба numbers = [1, 2, 3] мегардад ва reduce(0) онҳоро ба 6 ҷамъ мекунад. Даъвати бе аргумент sum() ҳам иҷозатшуда аст — массив холӣ аст, reduce 0-ро бармегардонад. Дар ин мисол параметри ҳатмии greet аввал меояд. sum як параметри splat дорад. Мисолро дар main.rb ҷамъ карда, ruby main.rb-ро локалӣ иҷро кунед — сайт Ruby-ро иҷро намекунад. Дар мисол як тафсилро ёбед, ки бе вайронӣ тағйир додан мумкин, ва якеро, ки бе он код кор намекунад.",
+      "en": "Day 2 methods required every argument. Ruby lets a parameter carry a default: def greet(name, greeting = \"Hello\") — if the second argument is not passed, Hello is used. This cuts the number of methods: one greet serves both short and full calls. The star *numbers is a splat parameter: it gathers all remaining call arguments into an array. Inside the method numbers is a regular array you can map, reduce and each over. So sum(1, 2, 3) becomes numbers = [1, 2, 3], and reduce(0) folds them into 6. A call with no arguments sum() is also valid — the array is empty and reduce returns 0. In these examples, greet puts its required parameter first and sum takes a single splat parameter. Assemble the example in main.rb and run ruby main.rb locally — the website does not execute Ruby."
      },
      "code": "def greet(name, greeting = \"Hello\")\n  \"#{greeting}, #{name}!\"\nend\n\ndef sum(*numbers)\n  numbers.reduce(0) do |total, n|\n    total + n\n  end\nend\n\nputs greet(\"Amina\")\nputs greet(\"Safar\", \"Hi\")\nputs sum(1, 2, 3)\nputs sum(10, 20)\n",
      "language": "ruby",
@@ -1725,14 +2335,26 @@
     },
     {
      "title": {
+      "ru": "Параметры по умолчанию и splat",
+      "tg": "Қимати пешфарз ва splat",
+      "en": "Default values and splat parameters"
+     },
+     "body": {
+      "ru": "В greet(name, greeting = \"Hello\") первым стоит обязательный параметр, затем параметр со значением по умолчанию. Это удобная форма для текущей задачи. Ruby допускает и обязательный параметр после группы значений по умолчанию. Например, def add_values(a = 1, b = 2, c) присваивает единственный аргумент параметру c. У f(*args, last) последний аргумент достаётся last, остальные попадают в args. В sum(*numbers) отдельного последнего параметра нет, поэтому numbers получает все аргументы. Вызов greet() по-прежнему даёт ArgumentError, поскольку name обязателен.",
+      "tg": "Дар greet(name, greeting = \"Hello\") аввал параметри ҳатмӣ ва баъд параметри дорои қимати пешфарз меояд. Ин шакл барои ҳамин вазифа қулай аст. Ruby баъди гурӯҳи қиматҳои пешфарз параметри ҳатмиро ҳам қабул мекунад. Масалан, дар def add_values(a = 1, b = 2, c) аргументи ягона ба c меравад. Дар f(*args, last) аргументи охир ба last ва боқимонда ба args меравад. Дар sum(*numbers) параметри ҷудогонаи охир нест, барои ҳамин numbers ҳамаи аргументҳоро мегирад. Даъвати greet() ҳоло ҳам ArgumentError медиҳад, чун name ҳатмӣ аст.",
+      "en": "In greet(name, greeting = \"Hello\"), a required parameter comes first and a parameter with a default follows. That shape suits this example. Ruby also allows a required parameter after a group of defaults. For example, def add_values(a = 1, b = 2, c) assigns its sole argument to c. In f(*args, last), the final argument goes to last and the rest go into args. In sum(*numbers), all arguments go into numbers. Calling greet() still raises ArgumentError because name is required."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
      },
      "body": {
-      "ru": "Частые ошибки этого дня.\n1) Splat не последним: def f(*args, x) запрещает Ruby при таком объявлении с обычным параметром после звёздочки на этом уровне знаний — ставьте splat в конец списка.\n2) Ожидание числа от *numbers: внутри метода это массив; сначала reduce или sum, потом печать.\n3) Путаница значений по умолчанию: greeting = \"Hello\" работает только в объявлении метода, а не при вызове.\n4) Опечатка в количестве аргументов: greet() без name вызовет ArgumentError — у name нет значения по умолчанию.\nВоспроизведите каждую ошибку, прочитайте сообщение Ruby, исправьте. Затем закройте пример и напишите оба метода по памяти, добившись того же вывода. После этого дня ваши методы станут гибкими: один и тот же код обслуживает вызовы разной длины без повторов. Заведите привычку записывать встреченные ошибки одной строкой: к концу курса получится личный справочник типичных ловушек. Воспроизведите каждую ошибку нарочно, прочитайте сообщение Ruby и лишь затем исправьте: прожитая ошибка узнаётся мгновенно.",
-      "tg": "Хатоҳои маъмули ин рӯз.\n1) Splat дар мобайн: def f(*args, x) дар ин дараҷаи дониш бо параметри оддӣ баъди ситора мамнӯъ аст — splat-ро ба охири рӯйхат гузоред.\n2) Интизори рақам аз *numbers: дар дохили метод ин массив аст; аввал reduce ё sum, баъд чоп.\n3) Омехтани қиматҳои пешфрз: greeting = \"Hello\" танҳо дар эълони метод кор мекунад, на ҳангоми даъват.\n4) Хатои шумораи аргументҳо: greet() бе name хатои ArgumentError медиҳад — барои name қимати пешфрз нест.\nҲар як хаторо такрор кунед, паёми Ruby-ро хонед, ислоҳ кунед. Баъд мисолро пӯшида, ҳар ду методро аз хотира нависед ва ҳамин натиҷаро гиред. Баъди ин рӯз методҳои шумо чандир мешаванд: як код даъватҳои гуногунро бе такрор хизмат мекунад. Одат кунед, ки ҳар хатои дидашударо бо як сатр сабт кунед: то охири курс маҷмӯаи шахсии тадбирҳо ҳосил мешавад. Ҳар хаторо аз рӯи қасд такрор кунед, паёми Ruby-ро хонед ва танҳо баъд ислоҳ кунед: хатои зиндашуда фавран шинохта мешавад.",
-      "en": "Common mistakes of this day.\n1) Splat not last: def f(*args, x) — at this level of knowledge a plain parameter after the star is forbidden; put the splat at the end of the list.\n2) Expecting a number from *numbers: inside the method it is an array; fold with reduce or sum first, print afterwards.\n3) Misunderstanding defaults: greeting = \"Hello\" works in the method definition, not at the call site.\n4) Wrong argument count: greet() without name raises ArgumentError — name has no default.\nReproduce each mistake, read Ruby's message, fix it. Then close the example and write both methods from memory, reaching the same output. After this day your methods become flexible: one code body serves calls of different lengths without duplication. Make a habit of logging every mistake you meet in one line: by the end of the course you will hold a personal reference of typical traps."
+      "ru": "Частые ошибки этого дня.\n1) При переносе примера проверьте сигнатуру. В def f(*args, last) вызов f(1, 2, 3) даёт args = [1, 2] и last = 3. В sum(*numbers) все три аргумента попадут в numbers.\n2) Ожидание числа от *numbers: внутри метода это массив; сначала reduce или sum, потом печать.\n3) Путаница значений по умолчанию: greeting = \"Hello\" работает только в объявлении метода, а не при вызове.\n4) Опечатка в количестве аргументов: greet() без name вызовет ArgumentError — у name нет значения по умолчанию.\nВоспроизведите каждую ошибку, прочитайте сообщение Ruby, исправьте. Затем закройте пример и напишите оба метода по памяти, добившись того же вывода. После этого дня ваши методы станут гибкими: один и тот же код обслуживает вызовы разной длины без повторов. Заведите привычку записывать встреченные ошибки одной строкой: к концу курса получится личный справочник типичных ловушек. Воспроизведите каждую ошибку нарочно, прочитайте сообщение Ruby и лишь затем исправьте: прожитая ошибка узнаётся мгновенно.",
+      "tg": "Хатоҳои маъмули ин рӯз.\n1) Ҳангоми иваз кардани мисол параметрҳоро санҷед. Дар def f(*args, last) даъвати f(1, 2, 3) args = [1, 2] ва last = 3 медиҳад. Дар sum(*numbers) ҳар се аргумент ба numbers меравад.\n2) Интизори рақам аз *numbers: дар дохили метод ин массив аст; аввал reduce ё sum, баъд чоп.\n3) Омехтани қиматҳои пешфрз: greeting = \"Hello\" танҳо дар эълони метод кор мекунад, на ҳангоми даъват.\n4) Хатои шумораи аргументҳо: greet() бе name хатои ArgumentError медиҳад — барои name қимати пешфрз нест.\nҲар як хаторо такрор кунед, паёми Ruby-ро хонед, ислоҳ кунед. Баъд мисолро пӯшида, ҳар ду методро аз хотира нависед ва ҳамин натиҷаро гиред. Баъди ин рӯз методҳои шумо чандир мешаванд: як код даъватҳои гуногунро бе такрор хизмат мекунад. Одат кунед, ки ҳар хатои дидашударо бо як сатр сабт кунед: то охири курс маҷмӯаи шахсии тадбирҳо ҳосил мешавад. Ҳар хаторо аз рӯи қасд такрор кунед, паёми Ruby-ро хонед ва танҳо баъд ислоҳ кунед: хатои зиндашуда фавран шинохта мешавад.",
+      "en": "Common mistakes of this day.\n1) Check the signature when adapting the example. In def f(*args, last), calling f(1, 2, 3) gives args = [1, 2] and last = 3. In sum(*numbers), all three arguments go into numbers.\n2) Expecting a number from *numbers: inside the method it is an array; fold with reduce or sum first, print afterwards.\n3) Misunderstanding defaults: greeting = \"Hello\" works in the method definition, not at the call site.\n4) Wrong argument count: greet() without name raises ArgumentError — name has no default.\nReproduce each mistake, read Ruby's message, fix it. Then close the example and write both methods from memory, reaching the same output. After this day your methods become flexible: one code body serves calls of different lengths without duplication. Make a habit of logging every mistake you meet in one line: by the end of the course you will hold a personal reference of typical traps."
      }
     }
    ],
@@ -1766,7 +2388,13 @@
        "en": "An error — the argument is missing"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сверьте вызов из вопроса с примером: сколько аргументов передано и сколько ожидается?",
+      "tg": "Даъвати аз саволро бо мисол муқоиса кунед: чанд аргумент дода шудааст ва чанд интизор мерафт?",
+      "en": "Compare the call with the example: how many arguments are passed and how many are expected?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-11-q2",
@@ -1797,7 +2425,50 @@
        "en": "A hash of options"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел глубже разбирает порядок параметров и роль звёздочки перед именем.",
+      "tg": "Бахши амиқтар тартиби параметрҳо ва нақши ситора пеш аз номро таҳлил мекунад.",
+      "en": "The deeper section explains parameter order and the role of the star before the name."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-11-q3",
+     "question": {
+      "ru": "Что случится при def f(a, b = 1) и вызове f?",
+      "tg": "Ҳангоми def f(a, b = 1) ва даъвати f чӣ рӯй медиҳад?",
+      "en": "What happens with def f(a, b = 1) when f is called?"
+     },
+     "answer": {
+      "ru": "ArgumentError: обязательный параметр a не получил аргумент",
+      "tg": "ArgumentError: параметри ҳатмии a аргумент нагирифт",
+      "en": "ArgumentError: the required parameter a received no argument"
+     },
+     "options": [
+      {
+       "ru": "b получит 1, метод выполнится",
+       "tg": "b 1-ро мегирад, метод иҷро мешавад",
+       "en": "b gets 1 and the method runs"
+      },
+      {
+       "ru": "a станет nil, и метод вернёт nil",
+       "tg": "a nil мешавад ва метод nil бармегардонад",
+       "en": "a becomes nil and the method returns nil"
+      },
+      {
+       "ru": "ArgumentError — обязательный a не передан",
+       "tg": "ArgumentError — a-и ҳатмӣ гузаронида нашуд",
+       "en": "ArgumentError — the required a was not passed"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Значение по умолчанию относится ко второму параметру; проверьте, что происходит с первым.",
+      "tg": "Қимати пешфрз ба параметри дуюм тааллуқ дорад; санҷед, ки бо якум чӣ мешавад.",
+      "en": "The default value belongs to the second parameter; check what happens to the first."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -1886,6 +2557,18 @@
     },
     {
      "title": {
+      "ru": "Вызов без блока: block_given?",
+      "tg": "Даъват бе блок: block_given?",
+      "en": "Calling without a block: block_given?"
+     },
+     "body": {
+      "ru": "yield внутри метода вызывает блок, переданный при вызове. Проверьте граничный случай: вызовите метод с yield без блока — Ruby остановится с LocalJumpError, передавать управление блоку нечего. Защита — block_given?: строка if block_given? ... yield ... end выполняет yield только когда блок реально передан, иначе метод спокойно отработает без блока. В реальном проекте так пишут методы с необязательным колбэком. Связь с днём 11: блок — ещё один аргумент метода, только невидимый в списке параметров. Ниже — типичные ошибки с блоками.",
+      "tg": "yield дар дохили метод блокеро, ки ҳангоми даъват дода шудааст, даъват мекунад. Ҳолати канориро санҷед: методи дорои yield-ро бе блок даъват кунед — Ruby бо LocalJumpError меистад, барои супурдани идора ба блок чизе нест. Ҳимоя — block_given?: сатри if block_given? ... yield ... end танҳо ҳангоми додани воқеии блок yield-ро иҷро мекунад, вагарна метод бе блок оромона кор мекунад. Дар лоиҳаи воқеӣ ҳамин тавр методҳо бо колбэки ихтиёрӣ менависанд. Пайванд бо рӯзи 11: блок як аргументи дигари метод аст, танҳо дар рӯйхати параметрҳо номаӣён. Дар поён хатоҳои маъмулии блокҳо.",
+      "en": "yield inside a method calls the block passed at the call. Check the boundary case: call a method with yield and no block — Ruby stops with LocalJumpError, there is nothing to hand control to. The guard is block_given?: the line if block_given? ... yield ... end runs yield only when a block was actually passed, otherwise the method works calmly without one. In a real project methods with an optional callback are written this way. The link to day 11: the block is one more method argument, just invisible in the parameter list. Typical block mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -1927,7 +2610,13 @@
        "en": "Raises an error"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел показывает, откуда метод берёт блок для yield.",
+      "tg": "Бахши якум нишон медиҳад, ки метод блокро барои yield аз куҷо мегирад.",
+      "en": "The first section shows where the method takes the block for yield from."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-12-q2",
@@ -1958,7 +2647,50 @@
        "en": "Three times"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посчитайте вызовы yield в методе из примера дня.",
+      "tg": "Даъватҳои yield-ро дар методи мисоли рӯз ҳисоб кунед.",
+      "en": "Count the yield calls inside the day's example method."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-12-q3",
+     "question": {
+      "ru": "Что произойдёт при вызове метода с yield без блока?",
+      "tg": "Ҳангоми даъвати методи дорои yield бе блок чӣ рӯй медиҳад?",
+      "en": "What happens when a method with yield is called without a block?"
+     },
+     "answer": {
+      "ru": "LocalJumpError: передавать управление блоку нечего",
+      "tg": "LocalJumpError: барои супурдани идора ба блок чизе нест",
+      "en": "LocalJumpError: there is no block to hand control to"
+     },
+     "options": [
+      {
+       "ru": "Блок создастся автоматически как пустой",
+       "tg": "Блок худкор ҳамчун холӣ сохта мешавад",
+       "en": "A block is created automatically as empty"
+      },
+      {
+       "ru": "Метод вернёт nil и продолжит работу",
+       "tg": "Метод nil бармегардонад ва кор идома меёбад",
+       "en": "The method returns nil and keeps running"
+      },
+      {
+       "ru": "LocalJumpError — блока нет",
+       "tg": "LocalJumpError — блок нест",
+       "en": "LocalJumpError — there is no block"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Существует метод-проверка, который спрашивает, передан ли блок; его имя есть в разделе глубже.",
+      "tg": "Методи санҷеш мавҷуд аст, ки мепурсад, оё блок дода шудааст; номи он дар бахши амиқтар аст.",
+      "en": "There is a check method that asks whether a block was given; its name is in the deeper section."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2047,6 +2779,18 @@
     },
     {
      "title": {
+      "ru": "Почему ключи-символы: сравнение и память",
+      "tg": "Чаро калидҳои символӣ: муқоиса ва хотира",
+      "en": "Why symbol keys: comparison and memory"
+     },
+     "body": {
+      "ru": "Каждая запись \"title\" в коде создаёт новый строковый объект, а :title — один объект на всю программу: Ruby хранит символы в общей таблице. Проверьте граничный случай: сравнение строки и символа даже с одинаковыми буквами даёт false — это объекты разных классов. В реальном проекте ключи хэшей делают символами: сравнение символа со символом — это сравнение самих объектов, оно быстрее строк, а имена не расходятся из-за копий. Связь с днём 9: хэши из примера используют символы именно по этой причине. Ниже — ошибки выбора между символами и строками.",
+      "tg": "Ҳар навишти \"title\" дар код объекти нави сатр месозад, вале :title — як объект барои тамоми барнома: Ruby символҳоро дар ҷадвали муштарак нигоҳ медорад. Ҳолати канориро санҷед: муқоисаи сатру символ ҳатто бо ҳарфҳои якхела false медиҳад — инҳо объектҳои классҳои гуногунанд. Дар лоиҳаи воқеӣ калидҳои хэшро символӣ мекунанд: муқоисаи символ бо символ муқоисаи худи объектҳост, он аз сатр тезтар аст ва номҳо аз рӯи нусхаҳо пароканда намешаванд. Пайванд бо рӯзи 9: хэшҳои аз мисол маҳз аз ҳамин сабаб символҳоро истифода мебаранд. Дар поён хатоҳои интихоб байни символҳову сатрҳо.",
+      "en": "Every \"title\" written in code creates a new string object, while :title is a single object for the whole program: Ruby keeps symbols in a shared table. Check the boundary case: comparing a string and a symbol with identical letters gives false — these are objects of different classes. In a real project hash keys are made symbols: comparing a symbol with a symbol compares the objects themselves, it is faster than strings, and names do not drift apart through copies. The link to day 9: the example hashes use symbols for exactly this reason. Symbol-versus-string mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -2088,7 +2832,13 @@
        "en": "Status"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Поставьте двоеточие перед именем — класс значения изменится; пример это показывает.",
+      "tg": "Пеш аз ном двунуқта гузоред — класси қимат тағйир меёбад; мисол ҳаминро нишон медиҳад.",
+      "en": "Put a colon before the name and the value's class changes; the example shows this."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-13-q2",
@@ -2119,7 +2869,50 @@
        "en": "Both are mutable"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В разделе глубже сказано, какой из двух типов нельзя менять после создания.",
+      "tg": "Дар бахши амиқтар гуфта шудааст, ки кадом аз ду тип баъди сохтан тағйирнопазир аст.",
+      "en": "The deeper section says which of the two types cannot be changed after creation."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-13-q3",
+     "question": {
+      "ru": "Что вернёт \"title\" == :title?",
+      "tg": "\"title\" == :title чӣ бармегардонад?",
+      "en": "What does \"title\" == :title return?"
+     },
+     "answer": {
+      "ru": "false — строка и символ даже с одинаковыми буквами остаются объектами разных классов",
+      "tg": "false — сатру символ ҳатто бо ҳарфҳои якхела объектҳои классҳои гуногун мемонанд",
+      "en": "false — a string and a symbol stay objects of different classes even with identical letters"
+     },
+     "options": [
+      {
+       "ru": "true — буквы совпадают",
+       "tg": "true — ҳарфҳо мувофиқанд",
+       "en": "true — the letters match"
+      },
+      {
+       "ru": "Ошибку сравнения",
+       "tg": "Хатои муқоиса",
+       "en": "A comparison error"
+      },
+      {
+       "ru": "false — это объекты разных классов",
+       "tg": "false — инҳо объектҳои классҳои гуногунанд",
+       "en": "false — these are objects of different classes"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сравниваются не буквы, а объекты; вспомните, чем символ отличается от строки.",
+      "tg": "Муқоиса ҳарфҳоро не, объектҳоро фаро мегирад; ёд оред, ки символ аз сатр чӣ гуна фарқ мекунад.",
+      "en": "The comparison is between objects, not letters; recall how a symbol differs from a string."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2208,6 +3001,18 @@
     },
     {
      "title": {
+      "ru": "attr_reader и attr_writer: доступ только в одну сторону",
+      "tg": "attr_reader ва attr_writer: дастрасӣ танҳо ба як тараф",
+      "en": "attr_reader and attr_writer: one-way access"
+     },
+     "body": {
+      "ru": "attr_accessor :pages создаёт и чтение, и запись, но полный доступ нужен не всегда. Проверьте граничный случай: после attr_reader :pages чтение book.pages работает, а запись book.pages = 190 упадёт с NoMethodError — метода записи просто нет. В реальном проекте так защищают поля, которые меняются только по правилам класса: каталог книг из дня 21 позже использует именно attr_reader. Связь с днём 2: NoMethodError, как и ArgumentError, называет недостающий метод в трассировке — его текст сразу подсказывает причину. Ниже — частые ошибки с классами.",
+      "tg": "attr_accessor :pages ҳам хондан ва ҳам навиштаро месозад, вале дастрасии пурра ҳамеша лозим нест. Ҳолати канориро санҷед: баъди attr_reader :pages хондани book.pages кор мекунад, вале навишти book.pages = 190 бо NoMethodError меистад — методи навишт дар асл нест. Дар лоиҳаи воқеӣ ҳамин тавр майдонҳое ҳифз мешаванд, ки танҳо аз рӯи қоидаҳои синф тағйир меёбанд: каталоги китобҳои рӯзи 21 баъдтар маҳз attr_reader-ро истифода мебарад. Пайванд бо рӯзи 2: NoMethodError монанди ArgumentError номи методи набударо дар пайгирмӣ меномад — матни он сабабро фавран мефаҳмонад. Дар поён хатоҳои маъмулии синфҳо.",
+      "en": "attr_accessor :pages creates both reading and writing, but full access is not always needed. Check the boundary case: after attr_reader :pages reading book.pages works, while writing book.pages = 190 fails with NoMethodError — the writing method simply does not exist. In a real project fields that change only under the class rules are protected this way: the day 21 book catalog later uses exactly attr_reader. The link to day 2: NoMethodError, like ArgumentError, names the missing method in the trace — its text points at the cause immediately. Common class mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -2249,7 +3054,13 @@
        "en": "A local variable"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "attr_accessor создаёт пару методов для каждого имени; названия подскажет первый раздел.",
+      "tg": "attr_accessor барои ҳар ном ҷуфти метод месозад; номҳоро бахши якум мефаҳмонад.",
+      "en": "attr_accessor creates a pair of methods per name; the first section names them."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-14-q2",
@@ -2280,7 +3091,50 @@
        "en": "In constants"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В примере и в разделе глубже состояние хранится в переменных с особым знаком.",
+      "tg": "Дар мисол ва бахши амиқтар ҳолат дар тағйирёбанда бо аломати махсус нигоҳ дошта мешавад.",
+      "en": "In the example and the deeper section state lives in variables with a special sign."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-14-q3",
+     "question": {
+      "ru": "Что произойдёт при attr_reader :pages и вызове book.pages = 190?",
+      "tg": "Ҳангоми attr_reader :pages ва даъвати book.pages = 190 чӣ рӯй медиҳад?",
+      "en": "What happens with attr_reader :pages when book.pages = 190 is called?"
+     },
+     "answer": {
+      "ru": "NoMethodError — attr_reader создаёт только метод чтения, метода pages= нет",
+      "tg": "NoMethodError — attr_reader танҳо методи хонданро месозад, методи pages= нест",
+      "en": "NoMethodError — attr_reader creates only the reader method; there is no pages="
+     },
+     "options": [
+      {
+       "ru": "Значение обновится на 190",
+       "tg": "Қимат ба 190 навсозӣ мешавад",
+       "en": "The value updates to 190"
+      },
+      {
+       "ru": "NoMethodError — метода pages= нет",
+       "tg": "NoMethodError — методи pages= нест",
+       "en": "NoMethodError — there is no pages= method"
+      },
+      {
+       "ru": "Ruby сам превратит reader в accessor",
+       "tg": "Ruby худ reader-ро ба accessor табдил медиҳад",
+       "en": "Ruby turns the reader into an accessor by itself"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "reader создаёт только метод чтения; какой метод будет отсутствовать при записи?",
+      "tg": "reader танҳо методи хонданро месозад; ҳангоми навиштан кадом метод набуда мемонад?",
+      "en": "A reader creates only the reading method; which method is missing on writing?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2369,6 +3223,18 @@
     },
     {
      "title": {
+      "ru": "inspect против to_s: два вида одного объекта",
+      "tg": "inspect муқобили to_s: ду намуди як объект",
+      "en": "inspect versus to_s: two views of one object"
+     },
+     "body": {
+      "ru": "to_s из примера делает вывод для человека, а inspect — технический вид для программиста: класс и поля объекта. Проверьте граничный случай: puts book печатает красивую строку из to_s, а p book печатает inspect — оба вызова правомерны, но назначение у них разное. В реальном проекте to_s пишут для отчётов и интерфейсов, inspect используют при отладке, чтобы увидеть внутренности объекта. Связь с днём 14: у каждого объекта Ruby есть оба метода, и ваш класс переопределяет только to_s — inspect достаётся от Object. Ниже — ошибки методов экземпляра.",
+      "tg": "to_s аз мисол барориш барои одам месозад, вале inspect — намуди техникалӣ барои барномасоз: класси унсурҳои объект. Ҳолати канориро санҷед: puts book сатри хушзабонро аз to_s мебарорад, вале p book inspect-ро мебарорад — ҳар ду даъват қонунӣ ҳастанд, вале мақсадашон гуногун. Дар лоиҳаи воқеӣ to_s-ро барои ҳисобот ва интерфейсҳо менависанд, inspect-ро ҳангоми ислоҳи хато истифода мебаранд, то дохили объектро бинанд. Пайванд бо рӯзи 14: ҳар объект Ruby ҳар ду методро дорад ва синфи шумо танҳо to_s-ро аз нав муайян мекунад — inspect аз Object мерос меафтад. Дар поён хатоҳои методҳои экземпяр.",
+      "en": "to_s from the example produces output for a person, while inspect is the technical view for the programmer: the object's class and fields. Check the boundary case: puts book prints the nice string from to_s, while p book prints inspect — both calls are legitimate, but their purposes differ. In a real project to_s is written for reports and interfaces, inspect is used when debugging to see the object's internals. The link to day 14: every Ruby object has both methods, and your class overrides only to_s — inspect is inherited from Object. Instance-method mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -2410,7 +3276,13 @@
        "en": "The new method"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел объясняет, какой метод печать вызывает у объекта автоматически.",
+      "tg": "Бахши якум мефаҳмонад, ки чоп кадом методи объектро худкор даъват мекунад.",
+      "en": "The first section explains which method printing calls on the object automatically."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-15-q2",
@@ -2441,7 +3313,50 @@
        "en": "The method becomes private"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Имена с вопросительным знаком в Ruby отвечают на вопрос да/нет — пример это показывает.",
+      "tg": "Номҳо бо аломати пурсиш дар Ruby ба саволи ҳа/не ҷавоб медиҳанд — мисол ҳаминро мебарорад.",
+      "en": "Names with a question mark answer yes/no in Ruby — the example shows this."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-15-q3",
+     "question": {
+      "ru": "Какой вызов печатает технический вид объекта?",
+      "tg": "Кадом даъват намуди техникалии объектро мебарорад?",
+      "en": "Which call prints the technical view of an object?"
+     },
+     "answer": {
+      "ru": "p book — он использует inspect, показывая класс и поля объекта",
+      "tg": "p book — он inspect-ро истифода мебарад, класси унсурҳои объектро нишон медиҳад",
+      "en": "p book — it uses inspect, showing the object's class and fields"
+     },
+     "options": [
+      {
+       "ru": "puts book — он всегда печатает inspect",
+       "tg": "puts book — он ҳамеша inspect-ро мебарорад",
+       "en": "puts book — it always prints inspect"
+      },
+      {
+       "ru": "book.to_s — он показывает внутренности",
+       "tg": "book.to_s — он дохилиятро нишон медиҳад",
+       "en": "book.to_s — it shows the internals"
+      },
+      {
+       "ru": "p book — использует inspect вместо to_s",
+       "tg": "p book — ба ҷои to_s inspect-ро истифода мебарад",
+       "en": "p book — uses inspect instead of to_s"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Есть отдельный метод печати, который использует inspect вместо to_s; он назван в разделе глубже.",
+      "tg": "Методи алоҳидаи чоп мавҷуд аст, ки ба ҷои to_s inspect-ро истифода мебарад; он дар бахши амиқтар номбар шудааст.",
+      "en": "There is a separate printing method that uses inspect instead of to_s; it is named in the deeper section."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2530,6 +3445,18 @@
     },
     {
      "title": {
+      "ru": "Чей initialize: наследование конструктора",
+      "tg": "initialize-и кӣ: меросгирии конструктор",
+      "en": "Whose initialize: constructor inheritance"
+     },
+     "body": {
+      "ru": "Класс EBook < Book получает все методы родителя, включая initialize. Проверьте граничный случай: если EBook не определяет свой initialize, Book.new работает и для электронных книг — конструктор наследуется, как любой метод. Если же EBook описывает свой initialize, он заменяет родительский, и super вызывает версию родителя внутри нового. В реальном проекте так добавляют поля подтипу: общий код остаётся в родителе, специфичный — в потомке. Связь с днём 14: initialize — обычный метод, к которому применимы те же правила переопределения. Ниже — ошибки наследования.",
+      "tg": "Синфи EBook < Book ҳамаи методҳои волидайн, аз ҷумла initialize-ро мегирад. Ҳолати канориро санҷед: агар EBook initialize-и худро муайян накунад, Book.new барои китобҳои электронӣ ҳам кор мекунад — конструктор мисли ҳар метод мерос мегирад. Агар EBook initialize-и худро тасвир кунад, он версияи волидайнро иваз мекунад ва super версияи волидайнро дар дохили нав даъват мекунад. Дар лоиҳаи воқеӣ ҳамин тавр ба зерсинф майдон меафзоянд: коди умумӣ дар волидайн мемонад, махсус — дар зерсинф. Пайванд бо рӯзи 14: initialize методи маъмулист, ки ба ҳамин қоидаҳои азнавмуайянкунии он тааллуқ дорад. Дар поён хатоҳои меросгирӣ.",
+      "en": "The class EBook < Book receives all the parent's methods, including initialize. Check the boundary case: if EBook does not define its own initialize, Book.new works for e-books too — the constructor is inherited like any method. If EBook describes its own initialize, it replaces the parent's, and super calls the parent's version inside the new one. In a real project subtype fields are added this way: the common code stays in the parent, the specific in the descendant. The link to day 14: initialize is an ordinary method governed by the same overriding rules. Inheritance mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -2571,7 +3498,13 @@
        "en": "The classes are compared"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел разбирает знак < в объявлении класса и что он меняет.",
+      "tg": "Бахши якум аломати < дар эълони синф ва он чиро, ки тағйир медиҳад, таҳлил мекунад.",
+      "en": "The first section covers the < sign in a class declaration and what it changes."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-16-q2",
@@ -2602,7 +3535,50 @@
        "en": "Ends the method"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел глубже показывает вызов метода родителя из переопределённого метода.",
+      "tg": "Бахши амиқтар даъвати методи волидайн аз методи азнавмуайяншударо нишон медиҳад.",
+      "en": "The deeper section shows calling the parent's method from the overridden one."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-16-q3",
+     "question": {
+      "ru": "Что будет, если EBook не определяет свой initialize?",
+      "tg": "Агар EBook initialize-и худро муайян накунад, чӣ мешавад?",
+      "en": "What happens if EBook does not define its own initialize?"
+     },
+     "answer": {
+      "ru": "Используется initialize родителя Book — конструктор наследуется, как любой метод",
+      "tg": "initialize-и волидайни Book истифода мешавад — конструктор мисли ҳар метод мерос мегирад",
+      "en": "The parent Book's initialize is used — the constructor is inherited like any method"
+     },
+     "options": [
+      {
+       "ru": "Ошибка — у подкласса обязан быть свой конструктор",
+       "tg": "Хато — синфи зер ҳатман конструктори худро бояд дошта бошад",
+       "en": "An error — a subclass must have its own constructor"
+      },
+      {
+       "ru": "Используется initialize родителя Book",
+       "tg": "initialize-и волидайни Book истифода мешавад",
+       "en": "The parent Book's initialize is used"
+      },
+      {
+       "ru": "Объект создастся без состояния — поля будут потеряны",
+       "tg": "Объект бе ҳолат сохта мешавад — майдонҳо гум мешаванд",
+       "en": "The object is created without state — fields are lost"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Наследуются все методы родителя; чем initialize отличается от остальных?",
+      "tg": "Ҳамаи методҳои волидайн мерос гирифта мешаванд; initialize аз дигарон чӣ гуна фарқ мекунад?",
+      "en": "All the parent's methods are inherited; how does initialize differ from the rest?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2691,6 +3667,18 @@
     },
     {
      "title": {
+      "ru": "Один родитель, много модулей",
+      "tg": "Як волидайн, модулҳои бисёр",
+      "en": "One parent, many modules"
+     },
+     "body": {
+      "ru": "В Ruby у класса может быть только один родительский класс, но включить можно сколько угодно модулей: include Describable, include Printable — и так далее. Проверьте граничный случай: если два модуля определяют метод с одним именем, побеждает последний включённый — это стоит держать в голове при комбинировании миксинов. В реальном проекте модули разделяют поведение по смыслу, а наследование оставляют для настоящей иерархии «является». Связь с днём 16: include вставляет методы в цепочку вызовов сразу после класса — между ним и родителем. Ниже — ошибки модулей.",
+      "tg": "Дар Ruby синф метавонад танҳо як синфи волидайн дошта бошад, вале ҳар қадре модулро дохил кардан mumkin аст: include Describable, include Printable — ва ҳамин тавр. Ҳолати канориро санҷед: агар ду модул метод бо як ном муайян кунанд, модули охирин ғолиб меояд — ҳаминро ҳангоми омезиши миксинҳо дар хотир доштан лозим аст. Дар лоиҳаи воқеӣ модулҳо рафторро аз рӯи маъно ҷудо мекунанд ва меросгириро барои иерархияи ҳақиқии «ҳаст» мегузоранд. Пайванд бо рӯзи 16: include методҳоро дар занҷири даъват фавран баъди синф меорад — байни он ва волидайн. Дар поён хатоҳои модулҳо.",
+      "en": "In Ruby a class has only one parent class, but it can include any number of modules: include Describable, include Printable — and so on. Check the boundary case: if two modules define a method with the same name, the last included one wins — keep this in mind when combining mixins. In a real project modules split behavior by meaning, and inheritance is left for a genuine «is a» hierarchy. The link to day 16: include inserts methods into the call chain right after the class — between it and the parent. Module mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -2732,7 +3720,13 @@
        "en": "Inherits the class"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "include подключает методы модуля классу; первый раздел описывает эффект.",
+      "tg": "include методҳои модулро ба синф пайваст мекунад; бахши якум натиҷаро тасвир мекунад.",
+      "en": "include wires a module's methods into the class; the first section describes the effect."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-17-q2",
@@ -2763,7 +3757,50 @@
        "en": "Describable"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В примере describe использует self.class.name — что он возвращает, сказано в первом разделе.",
+      "tg": "Дар мисол describe self.class.name-ро истифода мебарад — он чӣ бармегардонад, дар бахши якум аст.",
+      "en": "In the example describe uses self.class.name — the first section says what it returns."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-17-q3",
+     "question": {
+      "ru": "Сколько родительских классов может иметь один класс в Ruby?",
+      "tg": "Як синф дар Ruby чанд синфи волидайн дошта метавонад?",
+      "en": "How many parent classes can one class have in Ruby?"
+     },
+     "answer": {
+      "ru": "Один: наследование в Ruby одиночное, а поведение добирают миксинами",
+      "tg": "Як: меросгирӣ дар Ruby ягона аст, рафторро бо миксинҳо пур мекунанд",
+      "en": "One: inheritance in Ruby is single, and behavior is added through mixins"
+     },
+     "options": [
+      {
+       "ru": "Столько, сколько нужно — Ruby разрешает несколько",
+       "tg": "Ҳар қадре ки лозим бошад — Ruby якчандта-ро иҷозат медиҳад",
+       "en": "As many as needed — Ruby allows several"
+      },
+      {
+       "ru": "Ни одного — только модули дают поведение",
+       "tg": "Ҳеч кадом — танҳо модулҳо рафтор медиҳанд",
+       "en": "None — only modules give behavior"
+      },
+      {
+       "ru": "Один — недостающее поведение добирают через include",
+       "tg": "Як — рафтори костагиро тариқи include пур мекунанд",
+       "en": "One — missing behavior is added through include"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Множественное наследование классов в Ruby запрещено; чем его заменяют?",
+      "tg": "Меросгирии бисёртаи синфҳо дар Ruby манъ аст; онро бо чӣ иваз мекунанд?",
+      "en": "Multiple class inheritance is forbidden in Ruby; what replaces it?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2852,6 +3889,18 @@
     },
     {
      "title": {
+      "ru": "Какое исключение ловит rescue без класса",
+      "tg": "rescue бе класс кадом истисноро мегирад",
+      "en": "Which exception a classless rescue catches"
+     },
+     "body": {
+      "ru": "rescue ArgumentError ловит только указанный класс, а голое rescue — StandardError и его наследников: туда входят ArgumentError, NoMethodError, RuntimeError, KeyError. Проверьте граничный случай: raise \"упс\" со строкой создаёт RuntimeError — его поймает и голое rescue, и rescue RuntimeError. В реальном проекте классы исключений перечисляют явно, когда реакция зависит от типа: нехватку файла обрабатывают иначе, чем ошибку аргументов. Связь с днём 2: ArgumentError — один из наследников StandardError, поэтому общая форма rescue его тоже ловит. Ниже — ошибки обработки исключений.",
+      "tg": "rescue ArgumentError танҳо класси зикршударо мегирад, вале rescue-и урош — StandardError ва меросгирони он: дар он ArgumentError, NoMethodError, RuntimeError, KeyError ҳастанд. Ҳолати канориро санҷед: raise \"упс\" бо сатр RuntimeError месозад — онро ҳам rescue-и урош ва ҳам rescue RuntimeError мегирад. Дар лоиҳаи воқеӣ классҳои истисноро ҳамон гоҳ возеҳ меноманд, ки вокуниш аз тип вобаста аст: набудани файлро дигар гун кор мекунанд, ноди хатои аргументҳо. Пайванд бо рӯзи 2: ArgumentError яке аз меросгирони StandardError аст, барои ин шакли умумии rescue онро ҳам мегирад. Дар поён хатоҳои коркарди истисноҳо.",
+      "en": "rescue ArgumentError catches only the named class, while a bare rescue catches StandardError and its descendants: ArgumentError, NoMethodError, RuntimeError, KeyError among them. Check the boundary case: raise \"oops\" with a string creates a RuntimeError — both a bare rescue and rescue RuntimeError catch it. In a real project exception classes are named explicitly when the reaction depends on the type: a missing file is handled differently from an argument error. The link to day 2: ArgumentError is one of StandardError's descendants, so the general rescue form catches it too. Exception-handling mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -2893,7 +3942,13 @@
        "en": "raise"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел глубже объясняет, какой блок выполняется при любом исходе.",
+      "tg": "Бахши амиқтар мефаҳмонад, ки кадом блок дар ҳар ҳолат иҷро мешавад.",
+      "en": "The deeper section explains which block runs regardless of the outcome."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-18-q2",
@@ -2924,7 +3979,50 @@
        "en": "nil"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "После rescue с => идёт имя переменной, принимающей объект ошибки.",
+      "tg": "Баъди rescue бо => номи тағйирёбандае меояд, ки объекти хаторо мегирад.",
+      "en": "After rescue with => comes the variable name that receives the error object."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-18-q3",
+     "question": {
+      "ru": "Какое исключение создаёт raise \"упс\"?",
+      "tg": "raise \"упс\" кадом истисноро меофарад?",
+      "en": "Which exception does raise \"oops\" create?"
+     },
+     "answer": {
+      "ru": "RuntimeError — raise со строкой создаёт исключение класса по умолчанию",
+      "tg": "RuntimeError — raise бо сатр истиснои класси пешфрзро меофарад",
+      "en": "RuntimeError — raise with a string creates the default exception class"
+     },
+     "options": [
+      {
+       "ru": "ArgumentError — это класс по умолчанию",
+       "tg": "ArgumentError — ин класси пешфрз аст",
+       "en": "ArgumentError — it is the default class"
+      },
+      {
+       "ru": "RuntimeError",
+       "tg": "RuntimeError",
+       "en": "RuntimeError"
+      },
+      {
+       "ru": "KeyError",
+       "tg": "KeyError",
+       "en": "KeyError"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "raise со строкой берёт класс по умолчанию; какой именно — сказано в разделе глубже.",
+      "tg": "raise бо сатр класси пешфрзро мегирад; кадом — дар бахши амиқтар гуфта шудааст.",
+      "en": "raise with a string takes the default class; which one is stated in the deeper section."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2987,16 +4085,16 @@
       "en": "Understand the example"
      },
      "body": {
-      "ru": "nil означает «значения нет». Это обычный объект класса NilClass, и у него есть собственные методы. Поиск в хэше по отсутствующему ключу возвращает nil — в примере find_color(\"grass\") даёт nil, и .inspect делает это видимым. Метод nil? возвращает true, только если значение — nil: это честный способ проверить пустоту перед использованием. Вызов метода у nil падает с NoMethodError: nil.upcase невозможен, потому что у строк есть upcase, а у nil нет. Оператор безопасной навигации &. решает это: user&.upcase вызывает upcase, только если user не nil, иначе молча возвращает nil. Помните из дня 9: puts nil печатает пустую строку — поэтому в примере везде inspect. nil — не ошибка и не ноль; это честный ответ «ничего не нашлось». Соберите пример в main.rb и запустите ruby main.rb локально; сайт Ruby не исполняет. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе.",
-      "tg": "nil маънои «қимат нест»-ро дорад. Ин объектҳои оддии класси NilClass аст ва методҳои худро дорад. Ҷустуҷӯ дар хэш аз рӯи калиди набуда nil бармегардонад — дар мисол find_color(\"grass\") додаи nil медиҳад ва .inspect онро аён мекунад. Методи nil? танҳо ҳангоми nil будан true бармегардонад: ин роҳи мутмаини санҷиши холӣ пеш аз истифода аст. Даъвати метод аз рӯи nil бо NoMethodError мепарад: nil.upcase имконнопазир аст, зеро сатрҳо upcase доранд, nil надорад. Оператори навигатсияи бехатари &. инро ҳал мекунад: user&.upcase upcase-ро танҳо ҳангоми nil набудани user даъват мекунад, вагарна оромона nil бармегардонад. Аз рӯзи 9 дар ёд доред: puts nil сатри холиро чоп мекунад — бинобар ин дар мисол ҳамҷо inspect ҳаст. nil хато нест ва нол нест; ин ҷавоби ростқӯянаи «ҳеҷ чиз ёфт нашуд» аст. Мисолро дар main.rb ҷамъ карда, ruby main.rb-ро локалӣ иҷро кунед; сайт Ruby-ро иҷро намекунад.",
-      "en": "nil means «there is no value». It is an ordinary object of NilClass and has its own methods. A hash lookup by a missing key returns nil — find_color(\"grass\") in the example gives nil, and .inspect makes it visible. The nil? method returns true only when the value is nil: the honest way to check emptiness before use. Calling a method on nil crashes with NoMethodError: nil.upcase is impossible, because strings have upcase and nil does not. The safe navigation operator &. solves this: user&.upcase calls upcase only when user is not nil, otherwise it quietly returns nil. Recall day 9: puts nil prints an empty line — that is why the example uses inspect everywhere. nil is not an error and not zero; it is the honest answer «nothing found». Assemble the example in main.rb and run ruby main.rb locally; the website does not execute Ruby."
+      "ru": "nil означает «значения нет». Это обычный объект класса NilClass, и у него есть собственные методы. Поиск в хэше по отсутствующему ключу возвращает nil — в примере find_color(\"grass\") даёт nil, и .inspect делает это видимым. Метод nil? возвращает true, только если значение — nil: это честный способ проверить пустоту перед использованием. Вызов метода у nil падает с NoMethodError: nil.upcase невозможен, потому что у строк есть upcase, а у nil нет. Оператор безопасной навигации &. решает это: user&.upcase вызывает upcase, только если user не nil, иначе молча возвращает nil. Помните из дня 9: puts nil печатает пустую строку — поэтому в примере везде inspect. nil — не ошибка и не ноль; это честный ответ «ничего не нашлось». Соберите пример в main.rb и запустите ruby main.rb локально; сайт Ruby не исполняет. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе. В первой строке inspect выводит строку вместе с кавычками, поэтому видно \"red\".",
+      "tg": "nil маънои «қимат нест»-ро дорад. Ин объектҳои оддии класси NilClass аст ва методҳои худро дорад. Ҷустуҷӯ дар хэш аз рӯи калиди набуда nil бармегардонад — дар мисол find_color(\"grass\") додаи nil медиҳад ва .inspect онро аён мекунад. Методи nil? танҳо ҳангоми nil будан true бармегардонад: ин роҳи мутмаини санҷиши холӣ пеш аз истифода аст. Даъвати метод аз рӯи nil бо NoMethodError мепарад: nil.upcase имконнопазир аст, зеро сатрҳо upcase доранд, nil надорад. Оператори навигатсияи бехатари &. инро ҳал мекунад: user&.upcase upcase-ро танҳо ҳангоми nil набудани user даъват мекунад, вагарна оромона nil бармегардонад. Аз рӯзи 9 дар ёд доред: puts nil сатри холиро чоп мекунад — бинобар ин дар мисол ҳамҷо inspect ҳаст. nil хато нест ва нол нест; ин ҷавоби ростқӯянаи «ҳеҷ чиз ёфт нашуд» аст. Мисолро дар main.rb ҷамъ карда, ruby main.rb-ро локалӣ иҷро кунед; сайт Ruby-ро иҷро намекунад. Дар сатри аввал inspect сатрро бо нохунак мебарорад, барои ҳамин \"red\" дида мешавад.",
+      "en": "nil means «there is no value». It is an ordinary object of NilClass and has its own methods. A hash lookup by a missing key returns nil — find_color(\"grass\") in the example gives nil, and .inspect makes it visible. The nil? method returns true only when the value is nil: the honest way to check emptiness before use. Calling a method on nil crashes with NoMethodError: nil.upcase is impossible, because strings have upcase and nil does not. The safe navigation operator &. solves this: user&.upcase calls upcase only when user is not nil, otherwise it quietly returns nil. Recall day 9: puts nil prints an empty line — that is why the example uses inspect everywhere. nil is not an error and not zero; it is the honest answer «nothing found». Assemble the example in main.rb and run ruby main.rb locally; the website does not execute Ruby. The first inspect call includes quotation marks around the string, so the line is \"red\"."
      },
      "code": "def find_color(name)\n  colors = { \"apple\" => \"red\", \"sky\" => \"blue\" }\n  colors[name]\nend\n\nputs find_color(\"apple\").inspect\nputs find_color(\"grass\").inspect\n\nvalue = find_color(\"grass\")\nif value.nil?\n  puts \"Unknown object\"\nend\n\nuser = nil\nputs user&.upcase.inspect\nputs \"ok\"\n",
      "language": "ruby",
      "output": {
-      "ru": "red\nnil\nUnknown object\nnil\nok",
-      "tg": "red\nnil\nUnknown object\nnil\nok",
-      "en": "red\nnil\nUnknown object\nnil\nok"
+      "ru": "\"red\"\nnil\nUnknown object\nnil\nok",
+      "tg": "\"red\"\nnil\nUnknown object\nnil\nok",
+      "en": "\"red\"\nnil\nUnknown object\nnil\nok"
      }
     },
     {
@@ -3006,9 +4104,21 @@
       "en": "Run and verify"
      },
      "body": {
-      "ru": "Сохраните main.rb в отдельной учебной папке и выполните в её терминале:\nruby main.rb\nОжидаемый вывод:\nred\nnil\nUnknown object\nnil\nok\n\nСайт не исполняет Ruby — проверка только локальная. Предскажите и проверьте:\n1) find_color(\"sky\") → ожидается blue.\n2) value = find_color(\"apple\"); puts value.nil? → ожидается false.\n3) puts user.upcase.inspect без &. → ожидается NoMethodError: пример ошибки, которую предотвращает &.\nСравните два подхода: явная проверка if value.nil? читается развёрнуто и подходит для логики ветвления; &. удобна в цепочках, когда nil — приемлемый результат. Проговорите, когда какой стиль уместен. После совпадения сделайте ещё шаг: измените одно число или слово и предскажите новый вывод до запуска. Держите терминал и редактор рядом: правка, сохранение и запуск занимают секунды, и цикл проверки не разрывается. Расхождение вывода с прогнозом — не провал, а точное указание темы, которую стоит перечитать ещё раз. Прогноз, запуск, сравнение — главный навык курса; чем чаще вы предсказываете вывод до запуска, тем точнее внутренняя модель языка.",
-      "tg": "main.rb-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nruby main.rb\nНатиҷаи интизорӣ:\nred\nnil\nUnknown object\nnil\nok\n\nСайт Ruby-ро иҷро намекунад — санҷиш танҳо локалӣ аст. Пешгӯӣ карда санҷед:\n1) find_color(\"sky\") → интизорӣ blue.\n2) value = find_color(\"apple\"); puts value.nil? → интизорӣ false.\n3) puts user.upcase.inspect бе &. → интизорӣ NoMethodError: намунаи хатоест, ки &. пешгирӣ мекунад.\nДу услубро муқоиса кунед: санҷиши ошкори if value.nil? васеъ хонда мешавад ва барои мантиқи шохаҳо мувофиқ аст; &. дар занҷирҳо қулай аст, ки nil натиҷаи қабулшаванда аст. Гӯед, ки кадом услуб дар куҷо мувофиқ аст. Баъди мувофиқият як қадами дигар кунед: як рақам ё калимаро тағйир диҳед ва пеш аз иҷро натиҷаи навро пешгӯӣ кунед. Терминал ва муҳаррирро паҳлӯи ҳам нигоҳ доред: ислоҳ, сабт ва иҷро чанд сония мегирад ва ҳалқаи санҷиш қатъ намешавад.",
-      "en": "Save main.rb in a separate learning folder and run in that folder's terminal:\nruby main.rb\nExpected output:\nred\nnil\nUnknown object\nnil\nok\n\nThe website does not run Ruby — verification is local only. Predict and check:\n1) find_color(\"sky\") → expect blue.\n2) value = find_color(\"apple\"); puts value.nil? → expect false.\n3) puts user.upcase.inspect without &. → expect NoMethodError: the very error that &. prevents.\nCompare the two approaches: the explicit if value.nil? check reads verbosely and suits branching logic; &. suits chains where nil is an acceptable result. Say out loud when each style fits. After a match, take one more step: change a single number or word and predict the new output before running. Keep the terminal and the editor side by side: editing, saving and running take seconds, and the checking loop never breaks."
+      "ru": "Сохраните main.rb в отдельной учебной папке и выполните в её терминале:\nruby main.rb\nОжидаемый вывод:\n\"red\"\nnil\nUnknown object\nnil\nok\n\nСайт не исполняет Ruby — проверка только локальная. Предскажите и проверьте:\n1) find_color(\"sky\") → ожидается blue.\n2) value = find_color(\"apple\"); puts value.nil? → ожидается false.\n3) puts user.upcase.inspect без &. → ожидается NoMethodError: пример ошибки, которую предотвращает &.\nСравните два подхода: явная проверка if value.nil? читается развёрнуто и подходит для логики ветвления; &. удобна в цепочках, когда nil — приемлемый результат. Проговорите, когда какой стиль уместен. После совпадения сделайте ещё шаг: измените одно число или слово и предскажите новый вывод до запуска. Держите терминал и редактор рядом: правка, сохранение и запуск занимают секунды, и цикл проверки не разрывается. Расхождение вывода с прогнозом — не провал, а точное указание темы, которую стоит перечитать ещё раз. Прогноз, запуск, сравнение — главный навык курса; чем чаще вы предсказываете вывод до запуска, тем точнее внутренняя модель языка.",
+      "tg": "main.rb-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nruby main.rb\nНатиҷаи интизорӣ:\n\"red\"\nnil\nUnknown object\nnil\nok\n\nСайт Ruby-ро иҷро намекунад — санҷиш танҳо локалӣ аст. Пешгӯӣ карда санҷед:\n1) find_color(\"sky\") → интизорӣ blue.\n2) value = find_color(\"apple\"); puts value.nil? → интизорӣ false.\n3) puts user.upcase.inspect бе &. → интизорӣ NoMethodError: намунаи хатоест, ки &. пешгирӣ мекунад.\nДу услубро муқоиса кунед: санҷиши ошкори if value.nil? васеъ хонда мешавад ва барои мантиқи шохаҳо мувофиқ аст; &. дар занҷирҳо қулай аст, ки nil натиҷаи қабулшаванда аст. Гӯед, ки кадом услуб дар куҷо мувофиқ аст. Баъди мувофиқият як қадами дигар кунед: як рақам ё калимаро тағйир диҳед ва пеш аз иҷро натиҷаи навро пешгӯӣ кунед. Терминал ва муҳаррирро паҳлӯи ҳам нигоҳ доред: ислоҳ, сабт ва иҷро чанд сония мегирад ва ҳалқаи санҷиш қатъ намешавад.",
+      "en": "Save main.rb in a separate learning folder and run in that folder's terminal:\nruby main.rb\nExpected output:\n\"red\"\nnil\nUnknown object\nnil\nok\n\nThe website does not run Ruby — verification is local only. Predict and check:\n1) find_color(\"sky\") → expect blue.\n2) value = find_color(\"apple\"); puts value.nil? → expect false.\n3) puts user.upcase.inspect without &. → expect NoMethodError: the very error that &. prevents.\nCompare the two approaches: the explicit if value.nil? check reads verbosely and suits branching logic; &. suits chains where nil is an acceptable result. Say out loud when each style fits. After a match, take one more step: change a single number or word and predict the new output before running. Keep the terminal and the editor side by side: editing, saving and running take seconds, and the checking loop never breaks."
+     }
+    },
+    {
+     "title": {
+      "ru": "Что истинно в Ruby: 0 и пустая строка",
+      "tg": "Дар Ruby чӣ рост аст: 0 ва сатри холӣ",
+      "en": "What is truthy in Ruby: 0 and the empty string"
+     },
+     "body": {
+      "ru": "В условиях Ruby ложны только два значения: nil и false. Проверьте граничный случай: if 0 выполняет ветвь — ноль истинен, как и пустая строка \"\"; в JavaScript и Python это не так, и привычка из них приводит к багам. В реальном проекте проверки пишут явно: не if count, а if count > 0 — код не зависит от тонкостей истинности. Связь с днём 5: это правило работает во всех конструкциях — if, unless, тернарном операторе и while. Ниже — типичные ошибки с nil и безопасной навигацией.",
+      "tg": "Дар шартҳои Ruby танҳо ду қимат нодурустанд: nil ва false. Ҳолати канориро санҷед: if 0 варақаро иҷро мекунад — сифр рост аст, монанди сатри холӣ \"\"; дар JavaScript ва Python ҳамин тавр нест ва одати онҳо боғ меорад. Дар лоиҳаи воқеӣ санҷишҳоро возеҳ менависанд: на if count, балки if count > 0 — код аз дақиқиҳои ростӣ вобаста намешавад. Пайванд бо рӯзи 5: ин қоида дар ҳамаи сохтҳо кор мекунад — if, unless, оператори сеҷуманӣ ва while. Дар поён хатоҳои маъмулии nil ва навигатсияи бехатар.",
+      "en": "In Ruby conditions only two values are falsey: nil and false. Check the boundary case: if 0 runs the branch — zero is truthy, as is the empty string \"\"; in JavaScript and Python this is not so, and the habit from them leads to bugs. In a real project checks are written explicitly: not if count but if count > 0 — the code does not depend on truthiness subtleties. The link to day 5: this rule works in every construct — if, unless, the ternary operator and while. Typical nil and safe-navigation mistakes are below."
      }
     },
     {
@@ -3054,7 +4164,13 @@
        "en": "An error"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Проверьте nil? на единственном значении, для которого она истинна — пример это показывает.",
+      "tg": "nil?-ро танҳо барои он қимате санҷед, ки барои он рост аст — мисол ҳаминро мебарорад.",
+      "en": "Test nil? against the single value it is true for — the example shows it."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-19-q2",
@@ -3085,15 +4201,58 @@
        "en": "Returns an empty string"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Безопасная навигация пропускает вызов метода при nil; первый раздел это разбирает.",
+      "tg": "Навигатсияи бехатар ҳангоми nil даъвати методро мегузаронад; бахши якум ҳаминро таҳлил мекунад.",
+      "en": "Safe navigation skips the method call on nil; the first section covers this."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-19-q3",
+     "question": {
+      "ru": "Что напечатает код puts \"да\" if 0 ?",
+      "tg": "Коди puts \"да\" if 0 чӣ мебарорад?",
+      "en": "What does the code puts \"да\" if 0 print?"
+     },
+     "answer": {
+      "ru": "да — в Ruby ноль истинен: ложны только nil и false",
+      "tg": "да — дар Ruby сифр рост аст: танҳо nil ва false нодурустанд",
+      "en": "да — zero is truthy in Ruby: only nil and false are falsey"
+     },
+     "options": [
+      {
+       "ru": "Ничего — ноль считается ложью",
+       "tg": "Ҳеҷ чиз — сифр нодуруст ҳисоб мешавад",
+       "en": "Nothing — zero counts as falsey"
+      },
+      {
+       "ru": "Ошибку компиляции",
+       "tg": "Хатои тартибдиҳӣ",
+       "en": "A compilation error"
+      },
+      {
+       "ru": "да — 0 в Ruby истинен",
+       "tg": "да — 0 дар Ruby рост аст",
+       "en": "да — 0 is truthy in Ruby"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Список ложных значений в Ruby короче, чем в большинстве языков; он назван в разделе глубже.",
+      "tg": "Рӯйхати қиматҳои нодуруст дар Ruby аз бештари забонҳо кӯтоҳтар аст; он дар бахши амиқтар номбар шудааст.",
+      "en": "The list of falsey values in Ruby is shorter than in most languages; it is named in the deeper section."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1) В отдельной учебной папке создайте файл main.rb с кодом из первого раздела.\n2) Выполните в терминале папки: ruby main.rb\nОжидаемый вывод:\nred\nnil\nUnknown object\nnil\nok\n3) Предскажите и проверьте: find_color(\"sky\") → blue; user.upcase.inspect без &. → NoMethodError.\n4) Объясните вслух, почему в примере всюду используется .inspect, а не puts напрямую.",
-     "tg": "1) Дар папкаи алоҳидаи омӯзишӣ файл main.rb-ро бо коди бахши аввал созед.\n2) Дар терминали папка иҷро кунед: ruby main.rb\nНатиҷаи интизорӣ:\nred\nnil\nUnknown object\nnil\nok\n3) Пешгӯӣ карда санҷед: find_color(\"sky\") → blue; user.upcase.inspect бе &. → NoMethodError.\n4) Ба оҳон фаҳмонед, ки чаро дар мисол ҳамҷо .inspect истифода мешавад, на puts-и мустақим.",
-     "en": "1) In a separate learning folder create main.rb with the code from the first section.\n2) Run in the folder's terminal: ruby main.rb\nExpected output:\nred\nnil\nUnknown object\nnil\nok\n3) Predict and check: find_color(\"sky\") → blue; user.upcase.inspect without &. → NoMethodError.\n4) Explain aloud why the example uses .inspect everywhere instead of plain puts."
+     "ru": "1) В отдельной учебной папке создайте файл main.rb с кодом из первого раздела.\n2) Выполните в терминале папки: ruby main.rb\nОжидаемый вывод:\n\"red\"\nnil\nUnknown object\nnil\nok\n3) Предскажите и проверьте: find_color(\"sky\") → blue; user.upcase.inspect без &. → NoMethodError.\n4) Объясните вслух, почему в примере всюду используется .inspect, а не puts напрямую.",
+     "tg": "1) Дар папкаи алоҳидаи омӯзишӣ файл main.rb-ро бо коди бахши аввал созед.\n2) Дар терминали папка иҷро кунед: ruby main.rb\nНатиҷаи интизорӣ:\n\"red\"\nnil\nUnknown object\nnil\nok\n3) Пешгӯӣ карда санҷед: find_color(\"sky\") → blue; user.upcase.inspect бе &. → NoMethodError.\n4) Ба оҳон фаҳмонед, ки чаро дар мисол ҳамҷо .inspect истифода мешавад, на puts-и мустақим.",
+     "en": "1) In a separate learning folder create main.rb with the code from the first section.\n2) Run in the folder's terminal: ruby main.rb\nExpected output:\n\"red\"\nnil\nUnknown object\nnil\nok\n3) Predict and check: find_color(\"sky\") → blue; user.upcase.inspect without &. → NoMethodError.\n4) Explain aloud why the example uses .inspect everywhere instead of plain puts."
     },
     "hint": {
      "ru": "1) Отсутствующий ключ хэша даёт nil, а не ошибку.\n2) nil? отвечает true только для nil.\n3) &. вызывает метод, только если приёмник не nil.",
@@ -3174,6 +4333,18 @@
     },
     {
      "title": {
+      "ru": "Границы &: когда символ не подходит",
+      "tg": "Ҳудуди &: кай символ мувофиқ намеояд",
+      "en": "The limits of &: when the symbol does not fit"
+     },
+     "body": {
+      "ru": "Символ в &:upcase превращается в вызов этого метода у каждого элемента — но метод обязан существовать. Проверьте граничный случай: [1, 2].map(&:upcase) упадёт с NoMethodError — у целых чисел нет метода upcase. В реальном проекте &: делают короткие блоки читаемыми — names.map(&:upcase), words.map(&:length) — но для более сложной логики: два действия сразу, условие — остаётся обычный блок do...end из дня 12. Связь с днём 15: имя метода после &: должно быть публичным методом элемента, как thick? у книги. Ниже — ошибки компактных блоков.",
+      "tg": "Символи дар &:upcase ба даъвати ҳамин метод барои ҳар унсур табдил меёбад — вале метод ҳатман бояд мавҷуд бошад. Ҳолати канориро санҷед: [1, 2].map(&:upcase) бо NoMethodError меистад — ададҳои бутун методи upcase надоранд. Дар лоиҳаи воқеӣ &: блокҳои кӯтоҳро хондашаванда мекунад — names.map(&:upcase), words.map(&:length) — вале барои мантиқи мураккабтар: ду амал дар як вақт, шарт — блоки маъмулии do...end аз рӯзи 12 мемонад. Пайванд бо рӯзи 15: номи метод баъди &: бояд методи ошкори элемент бошад, мисли thick? дар китоб. Дар поён хатоҳои блокҳои компактӣ.",
+      "en": "The symbol in &:upcase turns into a call of that method on every element — but the method must exist. Check the boundary case: [1, 2].map(&:upcase) fails with NoMethodError — integers have no upcase method. In a real project &: keeps short blocks readable — names.map(&:upcase), words.map(&:length) — while for more complex logic, two actions at once or a condition, the ordinary do...end block from day 12 remains. The link to day 15: the method name after &: must be a public method of the element, like thick? on a book. Compact-block mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -3215,7 +4386,13 @@
        "en": "names.select(&:upcase)"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел глубже показывает развёрнутую форму той же операции.",
+      "tg": "Бахши амиқтар шакли кушодаи ҳамон амалро нишон медиҳад.",
+      "en": "The deeper section shows the expanded form of the same operation."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-20-q2",
@@ -3246,7 +4423,50 @@
        "en": "Only the strings inside it"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "map возвращает новый массив; что говорят об исходном пример и раздел глубже?",
+      "tg": "map массиви нав бармегардонад; дар бораи массиви ибтизоро мисол ва бахши амиқтар чӣ мегӯянд?",
+      "en": "map returns a new array; what do the example and the deeper section say about the original?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-20-q3",
+     "question": {
+      "ru": "Что произойдёт при [1, 2].map(&:upcase)?",
+      "tg": "Ҳангоми [1, 2].map(&:upcase) чӣ рӯй медиҳад?",
+      "en": "What happens with [1, 2].map(&:upcase)?"
+     },
+     "answer": {
+      "ru": "NoMethodError — у целых чисел нет метода upcase",
+      "tg": "NoMethodError — ададҳои бутун методи upcase надоранд",
+      "en": "NoMethodError — integers have no upcase method"
+     },
+     "options": [
+      {
+       "ru": "[\"1\", \"2\"] — числа превратятся в строки",
+       "tg": "[\"1\", \"2\"] — ададҳо ба сатр табдил меёбанд",
+       "en": "[\"1\", \"2\"] — the numbers become strings"
+      },
+      {
+       "ru": "NoMethodError — у Integer нет upcase",
+       "tg": "NoMethodError — Integer upcase надорад",
+       "en": "NoMethodError — Integer has no upcase"
+      },
+      {
+       "ru": "nil — map вернёт пустоту",
+       "tg": "nil — map холӣ бармегардонад",
+       "en": "nil — map returns nothing"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте, существует ли метод с этим именем у целого числа; границы &: разобраны в разделе глубже.",
+      "tg": "Санҷед, оё адади бутун метод бо ҳамин ном дорад; ҳудуди &: дар бахши амиқтар таҳлил шудааст.",
+      "en": "Check whether an integer has a method with this name; the limits of &: are covered in the deeper section."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -3335,6 +4555,18 @@
     },
     {
      "title": {
+      "ru": "attr_reader в каталоге: зачем только чтение",
+      "tg": "attr_reader дар каталог: чаро танҳо хондан",
+      "en": "attr_reader in the catalog: why reading only"
+     },
+     "body": {
+      "ru": "Класс Book из примера открывает поля только для чтения: attr_reader :title, :pages. Проверьте граничный случай: запись book.pages = 500 снаружи не пройдёт — метода записи нет, и данные каталога меняются только там, где класс сам это разрешает. В реальном проекте так защищают отчётные данные: название и число страниц книги после создания не переписываются. Связь с днём 14: attr_accessor нужен, когда поле обязано меняться снаружи — здесь такой нужды нет. Связь с днём 8: перебор каталога через each читает поля методами. Ниже — ошибки массивов объектов.",
+      "tg": "Синфи Book аз мисол майдонҳоро танҳо барои хондан мекушояд: attr_reader :title, :pages. Ҳолати канориро санҷед: навишти book.pages = 500 аз берун нагузашта мемонад — методи навишт нест ва маълумоти каталог танҳо дар он ҷо тағйир меёбад, ки синф худ иҷозат медиҳад. Дар лоиҳаи воқеӣ ҳамин тавр маълумоти ҳисоботӣ ҳифз мешаванд: ном ва шумораи саҳифаҳои китоб баъди сохтан аз нав навишта намешаванд. Пайванд бо рӯзи 14: attr_accessor ҳамон гоҳ лозим аст, ки майдон аз берун тағйир ёбад — дар ин ҷо чунин ниёз нест. Пайванд бо рӯзи 8: гузаронидани каталог тариқи each майдонҳоро бо методҳо мехонад. Дар поён хатоҳои массивҳои объектҳо.",
+      "en": "The example's Book class opens its fields for reading only: attr_reader :title, :pages. Check the boundary case: the write book.pages = 500 from outside will not go through — there is no writing method, and catalog data changes only where the class itself allows it. In a real project report data is protected this way: the book's title and page count are not rewritten after creation. The link to day 14: attr_accessor is needed when a field must change from outside — here there is no such need. The link to day 8: iterating the catalog through each reads the fields via methods. Array-of-objects mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -3376,7 +4608,13 @@
        "en": "Nothing — it is the same thing"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел сравнивает массив объектов с массивом хэшей и называет выигрыш.",
+      "tg": "Бахши якум массиви объектҳоро бо массиви хэш муқоиса мекунад ва бартариро меномад.",
+      "en": "The first section compares an array of objects with an array of hashes and names the gain."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-21-q2",
@@ -3407,7 +4645,50 @@
        "en": "A technical view of the array"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "puts печатает элементы массива построчно; важно, какой метод у них вызывается.",
+      "tg": "puts унсурҳои массивро сатр ба сатр мебарорад; муҳим аст, ки кадом методашон даъват мешавад.",
+      "en": "puts prints array elements line by line; what matters is which method is called on them."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-21-q3",
+     "question": {
+      "ru": "Почему для каталога выбран attr_reader, а не attr_accessor?",
+      "tg": "Чаро барои каталог attr_reader интихоб шуд, на attr_accessor?",
+      "en": "Why does the catalog use attr_reader rather than attr_accessor?"
+     },
+     "answer": {
+      "ru": "Полям достаточно чтения: менять название и число страниц снаружи не нужно",
+      "tg": "Ба майдонҳо танҳо хондан кофист: ном ва шумораи саҳифаҳоро аз берун тағйир додан лозим нест",
+      "en": "Reading is enough: title and page count do not need external changes"
+     },
+     "options": [
+      {
+       "ru": "attr_reader работает быстрее на больших массивах",
+       "tg": "attr_reader дар массивҳои калон тезтар кор мекунад",
+       "en": "attr_reader is faster on large arrays"
+      },
+      {
+       "ru": "attr_accessor не работает внутри массивов",
+       "tg": "attr_accessor дар дохили массивҳо кор намекунад",
+       "en": "attr_accessor does not work inside arrays"
+      },
+      {
+       "ru": "Полям достаточно чтения — менять их снаружи не нужно",
+       "tg": "Ба майдонҳо хондан кофист — аз берун тағйир додан лозим нест",
+       "en": "Reading suffices — no external changes are needed"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Подумайте, какие методы каталогу действительно нужны: чтение полей или запись?",
+      "tg": "Тааммул кунед, ки каталог ба кадом методҳо ҳақиқатан ниёз дорад: хондани майдонҳо ё навиштан?",
+      "en": "Think about which methods the catalog actually needs: reading fields or writing them?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -3496,6 +4777,18 @@
     },
     {
      "title": {
+      "ru": "Обратная сортировка: минус в ключе",
+      "tg": "Тартиби муқобил: минус дар калид",
+      "en": "Reverse sorting: a minus in the key"
+     },
+     "body": {
+      "ru": "sort_by { |b| b.pages } выстраивает книги по возрастанию — от тонких к толстым. Проверьте граничный случай: для убывающего порядка ключ делают отрицательным — sort_by { |b| -b.pages }; для строк минус не работает, там обратный порядок получают иначе. В реальном проекте выбор направления — часть требования: отчёт «самые большие книги» начинается с максимума. Связь с днём 8: sort_by возвращает новый массив и не меняет каталог — как map и select из того же дня. Ниже — ошибки сортировки.",
+      "tg": "sort_by { |b| b.pages } китобҳоро аз рӯи болоравӣ мебарорад — аз борик ба ғафс. Ҳолати канориро санҷед: барои тартиби пастравӣ калидро манфӣ мекунанд — sort_by { |b| -b.pages }; барои сатрҳо минус кор намекунад, тартиби муқобилро дигар мегиранд. Дар лоиҳаи воқеӣ интихоби самт қисми талабот аст: ҳисоботи «калитобҳои бузургтарин» аз максимум оғоз мешавад. Пайванд бо рӯзи 8: sort_by массиви нав бармегардонад ва каталогро тағйир намедиҳад — мисли map ва select-и ҳамин рӯз. Дар поён хатоҳои тартиб.",
+      "en": "sort_by { |b| b.pages } orders the books ascending — from thin to thick. Check the boundary case: for descending order the key is made negative — sort_by { |b| -b.pages }; for strings the minus does not work and the reverse order is obtained differently. In a real project choosing the direction is part of the requirement: a «biggest books» report starts from the maximum. The link to day 8: sort_by returns a new array and does not change the catalog — like map and select from the same day. Sorting mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -3537,7 +4830,13 @@
        "en": "The page count"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Блок отдаёт ключ сортировки; что возвращает сам sort_by, разобрано в первом разделе.",
+      "tg": "Блок калиди тартибро медиҳад; худи sort_by чӣ бармегардонад, дар бахши якум аст.",
+      "en": "The block supplies the sort key; what sort_by returns is covered in the first section."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-22-q2",
@@ -3568,7 +4867,50 @@
        "en": "reduce(&:title)"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Ключом становится то, что блок отдаёт для каждого элемента — сверьте с примером.",
+      "tg": "Калид ҳамон чизест, ки блок барои ҳар унсур медиҳад — бо мисол муқоиса кунед.",
+      "en": "The key is whatever the block returns per element — compare with the example."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-22-q3",
+     "question": {
+      "ru": "Как получить книги от самых толстых к самым тонким?",
+      "tg": "Чӣ тавр китобҳоро аз ғафсашон ба борикашон тартиб додан mumkin аст?",
+      "en": "How do you order the books from thickest to thinnest?"
+     },
+     "answer": {
+      "ru": "sort_by { |b| -b.pages } — отрицательный ключ переворачивает порядок",
+      "tg": "sort_by { |b| -b.pages } — калиди манфӣ тартибро вармегардонад",
+      "en": "sort_by { |b| -b.pages } — a negative key flips the order"
+     },
+     "options": [
+      {
+       "ru": "sort_by { |b| b.pages }",
+       "tg": "sort_by { |b| b.pages }",
+       "en": "sort_by { |b| b.pages }"
+      },
+      {
+       "ru": "sort_by { |b| -b.pages }",
+       "tg": "sort_by { |b| -b.pages }",
+       "en": "sort_by { |b| -b.pages }"
+      },
+      {
+       "ru": "reduce(&:pages)",
+       "tg": "reduce(&:pages)",
+       "en": "reduce(&:pages)"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Направление задаётся ключом блока: число можно сделать отрицательным.",
+      "tg": "Самти тартибро калиди блок муайян мекунад: ададро манфӣ кардан mumkin аст.",
+      "en": "The direction comes from the block's key: a number can be made negative."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -3631,16 +4973,16 @@
       "en": "Understand the example"
      },
      "body": {
-      "ru": "Две задачи повторяются постоянно: разложить элементы по группам и посчитать, сколько раз встречается каждое значение. group_by решает первую: блок возвращает ключ группы (в примере word[0] — первая буква слова), а результат — хэш, где ключу соответствует массив всех подходящих элементов. by_first[\"a\"] вернёт оба слова на «a». tally решает вторую: для массива он возвращает хэш «значение → сколько раз». В примере lengths — [5, 8, 6, 9, 6], и tally соберёт {5=>1, 8=>1, 6=>2, 9=>1}: число 6 встретилось дважды. Помните день 10: tally делает вручную то, что вы писали через Hash.new(0). group_by возвращает хэш, а не массив — обращайтесь к нему по ключу. Соберите пример в main.rb и запустите ruby main.rb локально; сайт Ruby не исполняет. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе. Читая код сверху вниз, проговаривайте каждую строку одним действием: что она создаёт, что меняет и что выведет на экран.",
-      "tg": "Ду вазифа доим такрор мешаванд: ҷудо кардани унсурҳо аз рӯи гурӯҳҳо ва ҳисоби он, ки ҳар қимат чанд маротиба вомехӯрад. group_by аввалро ҳал мекунад: блок калиди гурӯҳро бармегардонад (дар мисол word[0] — ҳарфи аввали калима) ва натиҷа хэшест, ки ба ҳар калид массиви ҳамаи унсурҳои мувофиқ мувофиқ аст. by_first[\"a\"] ҳарду калимаи бо «a»-ро медиҳад. tally дуюмро ҳал мекунад: барои массив хэши «қимат → чанд маротиба»-ро бармегардонад. Дар мисол lengths — [5, 8, 6, 9, 6] ва tally {5=>1, 8=>1, 6=>2, 9=>1}-ро меҷамъ оварад: рақами 6 ду маротиба омадааст. Рӯзи 10-ро дар ёд доред: tally ҳамин кори дастии Hash.new(0)-ро мекунад. group_by хэш бармегардонад, на массив — аз рӯи калид ба он муроҷиат кунед. Мисолро дар main.rb ҷамъ карда, ruby main.rb-ро локалӣ иҷро кунед; сайт Ruby-ро иҷро намекунад. Дар мисол як тафсилро ёбед, ки бе вайронӣ тағйир додан мумкин, ва якеро, ки бе он код кор намекунад.",
-      "en": "Two tasks come up constantly: distributing elements into groups and counting how often each value appears. group_by solves the first: the block returns the group key (here word[0] — the word's first letter), and the result is a hash mapping each key to the array of all matching elements. by_first[\"a\"] returns both words starting with «a». tally solves the second: for an array it returns the hash «value → how many times». In the example lengths is [5, 8, 6, 9, 6], and tally gathers {5=>1, 8=>1, 6=>2, 9=>1}: the number 6 appears twice. Recall day 10: tally does by hand what you wrote with Hash.new(0). group_by returns a hash, not an array — address it by key. Assemble the example in main.rb and run ruby main.rb locally; the website does not execute Ruby. Find one detail in the example you could change without breaking it, and one without which the code will not work at all."
+      "ru": "Две задачи повторяются постоянно: разложить элементы по группам и посчитать, сколько раз встречается каждое значение. group_by решает первую: блок возвращает ключ группы (в примере word[0] — первая буква слова), а результат — хэш, где ключу соответствует массив всех подходящих элементов. by_first[\"a\"] вернёт оба слова на «a». tally решает вторую: для массива он возвращает хэш «значение → сколько раз». В примере lengths — [5, 7, 6, 9, 6], и tally соберёт {5 => 1, 7 => 1, 6 => 2, 9 => 1}: число 6 встретилось дважды. Помните день 10: tally делает вручную то, что вы писали через Hash.new(0). group_by возвращает хэш, а не массив — обращайтесь к нему по ключу. Соберите пример в main.rb и запустите ruby main.rb локально; сайт Ruby не исполняет. Найдите в примере одну деталь, которую можно изменить без поломки, и одну, без которой код не заработает вовсе. Читая код сверху вниз, проговаривайте каждую строку одним действием: что она создаёт, что меняет и что выведет на экран. У avocado 7 букв. Пробелы в записанном выводе Hash#inspect соответствуют Ruby 3.4.12. В другой версии формат пробелов может отличаться при тех же парах.",
+      "tg": "Ду вазифа доим такрор мешаванд: ҷудо кардани унсурҳо аз рӯи гурӯҳҳо ва ҳисоби он, ки ҳар қимат чанд маротиба вомехӯрад. group_by аввалро ҳал мекунад: блок калиди гурӯҳро бармегардонад (дар мисол word[0] — ҳарфи аввали калима) ва натиҷа хэшест, ки ба ҳар калид массиви ҳамаи унсурҳои мувофиқ мувофиқ аст. by_first[\"a\"] ҳарду калимаи бо «a»-ро медиҳад. tally дуюмро ҳал мекунад: барои массив хэши «қимат → чанд маротиба»-ро бармегардонад. Дар мисол lengths — [5, 7, 6, 9, 6] ва tally {5 => 1, 7 => 1, 6 => 2, 9 => 1}-ро меҷамъ оварад: рақами 6 ду маротиба омадааст. Рӯзи 10-ро дар ёд доред: tally ҳамин кори дастии Hash.new(0)-ро мекунад. group_by хэш бармегардонад, на массив — аз рӯи калид ба он муроҷиат кунед. Мисолро дар main.rb ҷамъ карда, ruby main.rb-ро локалӣ иҷро кунед; сайт Ruby-ро иҷро намекунад. Дар мисол як тафсилро ёбед, ки бе вайронӣ тағйир додан мумкин, ва якеро, ки бе он код кор намекунад. Дар avocado 7 ҳарф ҳаст. Фосилаҳои Hash#inspect-и сабтшуда ба Ruby 3.4.12 мувофиқанд. Дар версияи дигар фосилаҳо метавонанд фарқ кунанд, вале ҷуфтҳо ҳамонанд.",
+      "en": "Two tasks come up constantly: distributing elements into groups and counting how often each value appears. group_by solves the first: the block returns the group key (here word[0] — the word's first letter), and the result is a hash mapping each key to the array of all matching elements. by_first[\"a\"] returns both words starting with «a». tally solves the second: for an array it returns the hash «value → how many times». In the example lengths is [5, 7, 6, 9, 6], and tally gathers {5 => 1, 7 => 1, 6 => 2, 9 => 1}: the number 6 appears twice. Recall day 10: tally does by hand what you wrote with Hash.new(0). group_by returns a hash, not an array — address it by key. Assemble the example in main.rb and run ruby main.rb locally; the website does not execute Ruby. Find one detail in the example you could change without breaking it, and one without which the code will not work at all. Avocado has 7 letters. The recorded Hash#inspect spacing matches Ruby 3.4.12. Other versions can format the same pairs with different spacing."
      },
      "code": "words = [\"apple\", \"avocado\", \"banana\", \"blueberry\", \"cherry\"]\n\nby_first = words.group_by do |word|\n  word[0]\nend\nputs by_first[\"a\"].inspect\nputs by_first[\"b\"].inspect\n\nlengths = words.map(&:length)\nputs lengths.tally.inspect\n",
      "language": "ruby",
      "output": {
-      "ru": "[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}",
-      "tg": "[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}",
-      "en": "[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}"
+      "ru": "[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}",
+      "tg": "[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}",
+      "en": "[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}"
      }
     },
     {
@@ -3650,9 +4992,21 @@
       "en": "Run and verify"
      },
      "body": {
-      "ru": "Сохраните main.rb в отдельной учебной папке и выполните в её терминале:\nruby main.rb\nОжидаемый вывод:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}\n\nСайт не исполняет Ruby — проверка только локальная. Предскажите и проверьте:\n1) puts by_first[\"c\"].inspect → ожидается [\"cherry\"]: одиночная группа.\n2) puts by_first.keys.inspect → ожидается [\"a\", \"b\", \"c\"] в порядке первого появления.\n3) words.tally вместо lengths.tally → ожидается {\"apple\"=>1, \"avocado\"=>1, ...}: tally работает и со строками.\nОбратите внимание на word[0]: в Ruby это строка из одного символа, а не число — поэтому ключи группы строковые. Проговорите, что вернёт by_first[\"z\"] — nil, и почему: такой группы не было. После совпадения сделайте ещё шаг: измените одно число или слово и предскажите новый вывод до запуска. Держите терминал и редактор рядом: правка, сохранение и запуск занимают секунды, и цикл проверки не разрывается. Расхождение вывода с прогнозом — не провал, а точное указание темы, которую стоит перечитать ещё раз.",
-      "tg": "main.rb-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nruby main.rb\nНатиҷаи интизорӣ:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}\n\nСайт Ruby-ро иҷро намекунад — санҷиш танҳо локалӣ аст. Пешгӯӣ карда санҷед:\n1) puts by_first[\"c\"].inspect → интизорӣ [\"cherry\"]: гурӯҳи якка.\n2) puts by_first.keys.inspect → интизорӣ [\"a\", \"b\", \"c\"] бо тартиби аввалин пайдошавӣ.\n3) words.tally ба ҷои lengths.tally → интизорӣ {\"apple\"=>1, \"avocado\"=>1, ...}: tally бо сатрҳо ҳам кор мекунад.\nБа word[0] таваҷҷӯҳ кунед: дар Ruby ин сатри як аломат аст, на рақам — бинобар ин калидҳои гурӯҳ сатрӣанд. Гӯед, ки by_first[\"z\"] чиро бармегардонад — nil, ва чаро: чунин гурӯҳ набуд. Баъди мувофиқият як қадами дигар кунед: як рақам ё калимаро тағйир диҳед ва пеш аз иҷро натиҷаи навро пешгӯӣ кунед. Терминал ва муҳаррирро паҳлӯи ҳам нигоҳ доред: ислоҳ, сабт ва иҷро чанд сония мегирад ва ҳалқаи санҷиш қатъ намешавад.",
-      "en": "Save main.rb in a separate learning folder and run in that folder's terminal:\nruby main.rb\nExpected output:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}\n\nThe website does not run Ruby — verification is local only. Predict and check:\n1) puts by_first[\"c\"].inspect → expect [\"cherry\"]: a single-element group.\n2) puts by_first.keys.inspect → expect [\"a\", \"b\", \"c\"] in first-appearance order.\n3) words.tally instead of lengths.tally → expect {\"apple\"=>1, \"avocado\"=>1, ...}: tally works on strings too.\nNote word[0]: in Ruby it is a one-character string, not a number — that is why the group keys are strings. Say what by_first[\"z\"] returns — nil, and why: that group never existed. After a match, take one more step: change a single number or word and predict the new output before running. Keep the terminal and the editor side by side: editing, saving and running take seconds, and the checking loop never breaks."
+      "ru": "Сохраните main.rb в отдельной учебной папке и выполните в её терминале:\nruby main.rb\nОжидаемый вывод:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}\n\nСайт не исполняет Ruby — проверка только локальная. Предскажите и проверьте:\n1) puts by_first[\"c\"].inspect → ожидается [\"cherry\"]: одиночная группа.\n2) puts by_first.keys.inspect → ожидается [\"a\", \"b\", \"c\"] в порядке первого появления.\n3) words.tally вместо lengths.tally → ожидается {\"apple\"=>1, \"avocado\"=>1, ...}: tally работает и со строками.\nОбратите внимание на word[0]: в Ruby это строка из одного символа, а не число — поэтому ключи группы строковые. Проговорите, что вернёт by_first[\"z\"] — nil, и почему: такой группы не было. После совпадения сделайте ещё шаг: измените одно число или слово и предскажите новый вывод до запуска. Держите терминал и редактор рядом: правка, сохранение и запуск занимают секунды, и цикл проверки не разрывается. Расхождение вывода с прогнозом — не провал, а точное указание темы, которую стоит перечитать ещё раз.",
+      "tg": "main.rb-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nruby main.rb\nНатиҷаи интизорӣ:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}\n\nСайт Ruby-ро иҷро намекунад — санҷиш танҳо локалӣ аст. Пешгӯӣ карда санҷед:\n1) puts by_first[\"c\"].inspect → интизорӣ [\"cherry\"]: гурӯҳи якка.\n2) puts by_first.keys.inspect → интизорӣ [\"a\", \"b\", \"c\"] бо тартиби аввалин пайдошавӣ.\n3) words.tally ба ҷои lengths.tally → интизорӣ {\"apple\"=>1, \"avocado\"=>1, ...}: tally бо сатрҳо ҳам кор мекунад.\nБа word[0] таваҷҷӯҳ кунед: дар Ruby ин сатри як аломат аст, на рақам — бинобар ин калидҳои гурӯҳ сатрӣанд. Гӯед, ки by_first[\"z\"] чиро бармегардонад — nil, ва чаро: чунин гурӯҳ набуд. Баъди мувофиқият як қадами дигар кунед: як рақам ё калимаро тағйир диҳед ва пеш аз иҷро натиҷаи навро пешгӯӣ кунед. Терминал ва муҳаррирро паҳлӯи ҳам нигоҳ доред: ислоҳ, сабт ва иҷро чанд сония мегирад ва ҳалқаи санҷиш қатъ намешавад.",
+      "en": "Save main.rb in a separate learning folder and run in that folder's terminal:\nruby main.rb\nExpected output:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}\n\nThe website does not run Ruby — verification is local only. Predict and check:\n1) puts by_first[\"c\"].inspect → expect [\"cherry\"]: a single-element group.\n2) puts by_first.keys.inspect → expect [\"a\", \"b\", \"c\"] in first-appearance order.\n3) words.tally instead of lengths.tally → expect {\"apple\"=>1, \"avocado\"=>1, ...}: tally works on strings too.\nNote word[0]: in Ruby it is a one-character string, not a number — that is why the group keys are strings. Say what by_first[\"z\"] returns — nil, and why: that group never existed. After a match, take one more step: change a single number or word and predict the new output before running. Keep the terminal and the editor side by side: editing, saving and running take seconds, and the checking loop never breaks."
+     }
+    },
+    {
+     "title": {
+      "ru": "Комбинация методов: map, затем tally",
+      "tg": "Омезиши методҳо: map, баъд tally",
+      "en": "Combining methods: map, then tally"
+     },
+     "body": {
+      "ru": "Методы из прошлых дней складываются в цепочки: words.map(&:length) превращает слова в их длины, и .tally сразу считает, сколько слов каждой длины — на выходе хэш вида 6=>2, 3=>1. Проверьте граничный случай: цепочка на пустом массиве даст пустой хэш — отчёт просто не найдёт ни одной группы. В реальном проекте такие связки заменяют ручные циклы с подсчётом из дня 10. Связь с днём 20: &:length — компактный блок из того же приёма. Ниже — ошибки group_by и tally.",
+      "tg": "Методҳои рӯзҳои гузашта ба занҷир ҳамроҳ мешаванд: words.map(&:length) калимаҳоро ба дарозиашон табдил медиҳад ва .tally фавран меҳисобад, ки аз ҳар дарозӣ чанд калима ҳаст — дар баромад хэши 6=>2, 3=>1-монанд. Ҳолати канориро санҷед: занҷир дар массиви холӣ хэши холӣ медиҳад — ҳисобот ҳеҷ гурӯҳро намеёбад. Дар лоиҳаи воқеӣ чунин пайвастҳо даврҳои дастии ҳисобро аз рӯзи 10 иваз мекунанд. Пайванд бо рӯзи 20: &:length — блоки компактӣ аз ҳамин усул. Дар поён хатоҳои group_by ва tally.",
+      "en": "Methods from earlier days compose into chains: words.map(&:length) turns words into their lengths, and .tally immediately counts how many words each length has — producing a hash like 6=>2, 3=>1. Check the boundary case: the chain over an empty array gives an empty hash — the report simply finds no group. In a real project such chains replace the manual counting loops from day 10. The link to day 20: &:length is a compact block from the same technique. group_by and tally mistakes are below."
      }
     },
     {
@@ -3698,7 +5052,13 @@
        "en": "The number of groups"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел описывает структуру результата group_by: ключ и элементы группы.",
+      "tg": "Бахши якум сохтори натиҷаи group_by-ро тасвир мекунад: калид ва унсурҳои гурӯҳ.",
+      "en": "The first section describes the shape of group_by's result: key and group members."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-23-q2",
@@ -3729,15 +5089,58 @@
        "en": "Removes duplicates"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "tally не сортирует и не удаляет — он считает; пример это показывает.",
+      "tg": "tally тартиб намедиҳад ва дур намекунад — он меҳисобад; мисол ҳаминро мебарорад.",
+      "en": "tally neither sorts nor deduplicates — it counts; the example shows this."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-23-q3",
+     "question": {
+      "ru": "Что вернёт [\"aa\", \"b\", \"cc\"].map(&:length).tally?",
+      "tg": "[\"aa\", \"b\", \"cc\"].map(&:length).tally чӣ бармегардонад?",
+      "en": "What does [\"aa\", \"b\", \"cc\"].map(&:length).tally return?"
+     },
+     "answer": {
+      "ru": "{2=>2, 1=>1} — сначала длины, потом tally считает повторы каждой",
+      "tg": "{2=>2, 1=>1} — аввал дарозиҳо, баъд tally такрори ҳар кадомро меҳисобад",
+      "en": "{2=>2, 1=>1} — first the lengths, then tally counts each repetition"
+     },
+     "options": [
+      {
+       "ru": "{\"aa\"=>1, \"b\"=>1, \"cc\"=>1}",
+       "tg": "{\"aa\"=>1, \"b\"=>1, \"cc\"=>1}",
+       "en": "{\"aa\"=>1, \"b\"=>1, \"cc\"=>1}"
+      },
+      {
+       "ru": "[2, 1, 2]",
+       "tg": "[2, 1, 2]",
+       "en": "[2, 1, 2]"
+      },
+      {
+       "ru": "{2=>2, 1=>1}",
+       "tg": "{2=>2, 1=>1}",
+       "en": "{2=>2, 1=>1}"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сначала массив превращается в длины, и только потом tally считает повторы.",
+      "tg": "Аввал массив ба дарозиҳо табдил меёбад ва танҳо баъд tally такрорҳоро меҳисобад.",
+      "en": "The array first becomes lengths, and only then tally counts the repetitions."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
     "kind": "code",
     "task": {
-     "ru": "1) В отдельной учебной папке создайте файл main.rb с кодом из первого раздела.\n2) Выполните в терминале папки: ruby main.rb\nОжидаемый вывод:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}\n3) Предскажите и проверьте: by_first[\"c\"].inspect → [\"cherry\"]; by_first[\"z\"] → nil.\n4) Объясните вслух, как tally связан с ручным подсчётом Hash.new(0) из дня 10.",
-     "tg": "1) Дар папкаи алоҳидаи омӯзишӣ файл main.rb-ро бо коди бахши аввал созед.\n2) Дар терминали папка иҷро кунед: ruby main.rb\nНатиҷаи интизорӣ:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}\n3) Пешгӯӣ карда санҷед: by_first[\"c\"].inspect → [\"cherry\"]; by_first[\"z\"] → nil.\n4) Ба оҳон фаҳмонед, ки tally бо ҳисоби дастии Hash.new(0)-и рӯзи 10 чӣ тавр алоқаманд аст.",
-     "en": "1) In a separate learning folder create main.rb with the code from the first section.\n2) Run in the folder's terminal: ruby main.rb\nExpected output:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5=>1, 8=>1, 6=>2, 9=>1}\n3) Predict and check: by_first[\"c\"].inspect → [\"cherry\"]; by_first[\"z\"] → nil.\n4) Explain aloud how tally relates to the manual Hash.new(0) counting of day 10."
+     "ru": "1) В отдельной учебной папке создайте файл main.rb с кодом из первого раздела.\n2) Выполните в терминале папки: ruby main.rb\nОжидаемый вывод:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}\n3) Предскажите и проверьте: by_first[\"c\"].inspect → [\"cherry\"]; by_first[\"z\"] → nil.\n4) Объясните вслух, как tally связан с ручным подсчётом Hash.new(0) из дня 10.",
+     "tg": "1) Дар папкаи алоҳидаи омӯзишӣ файл main.rb-ро бо коди бахши аввал созед.\n2) Дар терминали папка иҷро кунед: ruby main.rb\nНатиҷаи интизорӣ:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}\n3) Пешгӯӣ карда санҷед: by_first[\"c\"].inspect → [\"cherry\"]; by_first[\"z\"] → nil.\n4) Ба оҳон фаҳмонед, ки tally бо ҳисоби дастии Hash.new(0)-и рӯзи 10 чӣ тавр алоқаманд аст.",
+     "en": "1) In a separate learning folder create main.rb with the code from the first section.\n2) Run in the folder's terminal: ruby main.rb\nExpected output:\n[\"apple\", \"avocado\"]\n[\"banana\", \"blueberry\"]\n{5 => 1, 7 => 1, 6 => 2, 9 => 1}\n3) Predict and check: by_first[\"c\"].inspect → [\"cherry\"]; by_first[\"z\"] → nil.\n4) Explain aloud how tally relates to the manual Hash.new(0) counting of day 10."
     },
     "hint": {
      "ru": "1) group_by кладёт каждый элемент в группу по ключу из блока.\n2) Ключ группы из word[0] — строка из одного символа.\n3) tally строит хэш «значение → число появлений».",
@@ -3818,6 +5221,18 @@
     },
     {
      "title": {
+      "ru": "Чтение несуществующего файла: Errno::ENOENT",
+      "tg": "Хондани файли мавҷуднеста: Errno::ENOENT",
+      "en": "Reading a missing file: Errno::ENOENT"
+     },
+     "body": {
+      "ru": "File.read возвращает содержимое, только если файл есть. Проверьте граничный случай: File.read(\"no-such.txt\") остановит программу с исключением — «no such file or directory»; чтение не создаёт файлы, для записи существует File.write. В реальном проекте отсутствие файла обрабатывают через begin/rescue из дня 18 или проверку File.exist? перед чтением. Связь с днём 2: это исключение, как ArgumentError, несёт понятное сообщение о причине. Ниже — частые ошибки работы с файлами.",
+      "tg": "File.read мӯҳтаворо танҳо ҳамон гоҳ бармегардонад, ки файл мавҷуд бошад. Ҳолати канориро санҷед: File.read(\"no-such.txt\") барномаро бо истисно меистонад — «no such file or directory»; хондан файл месозад на, барои навиштан File.write мавҷуд аст. Дар лоиҳаи воқеӣ набудани файлро тариқи begin/rescue аз рӯзи 18 ё санҷиши File.exist? пеш аз хондан коркард мекунанд. Пайванд бо рӯзи 2: ин истисно мисли ArgumentError паёми возеҳи сабабро дорад. Дар поён хатоҳои маъмулии кор бо файлҳо.",
+      "en": "File.read returns the content only when the file exists. Check the boundary case: File.read(\"no-such.txt\") stops the program with an exception — «no such file or directory»; reading does not create files, File.write exists for writing. In a real project a missing file is handled through begin/rescue from day 18 or a File.exist? check before reading. The link to day 2: this exception, like ArgumentError, carries a clear message about the cause. Common file mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -3859,7 +5274,13 @@
        "en": "The file name"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сравните File.read и File.readlines из примера: что именно возвращает каждый.",
+      "tg": "File.read ва File.readlines-ро аз мисол муқоиса кунед: ҳар кадом аниқ чӣ бармегардонад.",
+      "en": "Compare File.read and File.readlines from the example: what exactly each returns."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-24-q2",
@@ -3890,7 +5311,50 @@
        "en": "A hash of strings"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "readlines делит содержимое по строкам; проверьте структуру результата в примере.",
+      "tg": "readlines мӯҳтаворо аз рӯи сатрҳо тақсим мекунад; сохтори натиҷаро дар мисол санҷед.",
+      "en": "readlines splits the content by lines; check the result's shape in the example."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-24-q3",
+     "question": {
+      "ru": "Что произойдёт при File.read(\"no-such.txt\")?",
+      "tg": "Ҳангоми File.read(\"no-such.txt\") чӣ рӯй медиҳад?",
+      "en": "What happens with File.read(\"no-such.txt\")?"
+     },
+     "answer": {
+      "ru": "Исключение Errno::ENOENT — файла с таким именем нет",
+      "tg": "Истиснои Errno::ENOENT — файл бо чунин ном мавҷуд нест",
+      "en": "The Errno::ENOENT exception — no file with that name exists"
+     },
+     "options": [
+      {
+       "ru": "Вернётся пустая строка",
+       "tg": "Сатри холӣ бармегардонад",
+       "en": "An empty string is returned"
+      },
+      {
+       "ru": "Файл создастся автоматически",
+       "tg": "Файл худкор сохта мешавад",
+       "en": "The file is created automatically"
+      },
+      {
+       "ru": "Исключение Errno::ENOENT",
+       "tg": "Истиснои Errno::ENOENT",
+       "en": "The Errno::ENOENT exception"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Чтение не создаёт файлы; вспомните из раздела глубже, что происходит при отсутствии файла.",
+      "tg": "Хондан файл месозад на; аз бахши амиқтар ёд оред, ки ҳангоми набудани файл чӣ рӯй медиҳад.",
+      "en": "Reading does not create files; recall from the deeper section what happens when the file is absent."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -3979,6 +5443,18 @@
     },
     {
      "title": {
+      "ru": "Ключи после JSON.parse: строки или символы",
+      "tg": "Калидҳо баъди JSON.parse: сатрҳо ё символҳо",
+      "en": "Keys after JSON.parse: strings or symbols"
+     },
+     "body": {
+      "ru": "Без опции symbolize_names: true JSON.parse делает ключи строками: parsed[\"title\"], а parsed[:title] вернёт nil — молча, как в дне 9. Проверьте граничный случай: в примере опция включена, и потому чтение идёт по символам; уберите её — и тот же код начнёт возвращать nil для всех обращений через символы. В реальном проекте выбирают один стиль для всего проекта и держатся его. Связь с днём 13: выбор между символами и строками здесь решает, найдёт ли ключ хэша. Ниже — ошибки разбора JSON.",
+      "tg": "Бе опсияи symbolize_names: true JSON.parse калидҳоро сатр мекунад: parsed[\"title\"], вале parsed[:title] nil бармегардонад — бе садо, мисли рӯзи 9. Ҳолати канориро санҷед: дар мисол опсия фаъол аст ва хондан тариқи символҳо мерафад; онро хориҷ кунед — ҳамин код барои ҳамаи муроҷиатҳои тариқи символҳо nil бармегардонад. Дар лоиҳаи воқеӣ як услуб барои тамоми лоиҳа интихоб карда, ба он мутеқид мемонанд. Пайванд бо рӯзи 13: интихоб байни символҳову сатрҳо дар ин ҷо муайян мекунад, ки калиди хэш ёфта мешавад ё не. Дар поён хатоҳои таҷзияи JSON.",
+      "en": "Without the option symbolize_names: true JSON.parse makes the keys strings: parsed[\"title\"], while parsed[:title] returns nil — silently, as in day 9. Check the boundary case: in the example the option is on, so reading goes through symbols; remove it and the same code starts returning nil for every symbol access. In a real project one style is chosen for the whole project and kept. The link to day 13: the choice between symbols and strings here decides whether the hash key is found. JSON-parsing mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -4020,7 +5496,13 @@
        "en": "Creates a JSON file"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел объясняет разницу между стандартной библиотекой и сторонними gem-ами.",
+      "tg": "Бахши якум фарқи китобхонаи стандартиву gem-ҳои тарафи сеюмро мефаҳмонад.",
+      "en": "The first section explains the difference between the standard library and third-party gems."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-25-q2",
@@ -4051,7 +5533,50 @@
        "en": "nil"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Опция symbolize_names меняет класс ключей; сверьте вызов в примере с вопросом.",
+      "tg": "Опсияи symbolize_names класси калидҳоро тағйир медиҳад; даъвати дар мисолро бо савол муқоиса кунед.",
+      "en": "The symbolize_names option changes the keys' class; compare the example call with the question."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-25-q3",
+     "question": {
+      "ru": "Что вернёт parsed[:title], если JSON.parse вызван без symbolize_names: true?",
+      "tg": "Агар JSON.parse бе symbolize_names: true даъват шавад, parsed[:title] чӣ бармегардонад?",
+      "en": "What does parsed[:title] return when JSON.parse is called without symbolize_names: true?"
+     },
+     "answer": {
+      "ru": "nil — ключи остались строками, а :title — символ",
+      "tg": "nil — калидҳо сатр мемонанд, вале :title символ аст",
+      "en": "nil — the keys stayed strings while :title is a symbol"
+     },
+     "options": [
+      {
+       "ru": "Строку \"Ruby Basics\"",
+       "tg": "Сатри \"Ruby Basics\"",
+       "en": "The string \"Ruby Basics\""
+      },
+      {
+       "ru": "nil — ключ остался строкой \"title\"",
+       "tg": "nil — калид сатри \"title\" мемонад",
+       "en": "nil — the key stayed the string \"title\""
+      },
+      {
+       "ru": "Символ :title",
+       "tg": "Символи :title",
+       "en": "The symbol :title"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Без опции ключи приходят в JSON-виде; к какому классу они принадлежат?",
+      "tg": "Бе опсия калидҳо ба шакли JSON меоянд; ба кадом класс тааллуқ доранд?",
+      "en": "Without the option the keys arrive in JSON form; which class do they belong to?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -4142,6 +5667,18 @@
       "tg": "Сохт ва вобастагиҳо то аввалин лоиҳаи якҷоя мавзӯъҳои бемаъно ба назар мерасанд. Ҳамин ки кодро одами дигар мекушояд, вазнаки якфайла хонда намешавад: фаҳмидан ҷойгиршавии ҳар синф номумкин аст. Файлҳои алоҳида бо номҳои маънодор лоиҳаро худтавсифмекаранда месозанд. Gemfile ҳамон нақшро барои китобхонаҳо мебозад: иштирокчии нав рӯйхати лозимиро мебинад ва бо як фармони bundle install муҳити кории омода мегирад, на бо тахминҳо онро меҷамъ оварад. Файли қулф кафолат медиҳад, ки ҳамагон версияҳои якхел хоҳанд дошт ва баги «дар назди ман кор мекард» камтар вомехӯрад. Ниҳоят, ҷудокунии коди худ аз китобхонаҳои берунӣ масъалаи эътимод аст: gemҳоро огоҳона, аз сарчашмаҳои маълум бгиред ва кодеро, ки асли онро намедонед, иҷро накунед. Ҳамаи инро дар лоиҳаи хурди рӯзҳои 27–29 истифода мебаред — ҳоло дар як файл, вале бо фаҳмиши он, ки ба куҷо калон мешавад. Пеш аз ислоҳ сабабро бо овоз гӯед: як ҷумла фаҳмишро беҳтар месанҷад, нисбат ба ислоҳи фаврии тибқи тахмин.",
       "en": "Structure and dependencies are boring topics until the first shared project. The moment another person opens the code, a one-file dump stops being readable: you cannot tell where each class lives. Separate files with meaningful names make the project self-documenting. The Gemfile plays the same role for libraries: a newcomer sees the list of what is needed and gets a working environment with one bundle install command, instead of assembling it by guesswork. The lock file guarantees everyone has the same versions, so the «works on my machine» bug appears less often. Finally, separating your code from external libraries is a trust question: install gems deliberately, from sources you understand, and never run code whose origin you do not know. You will apply all of this in the mini-project of days 27-29 — still in one file, but with an understanding of where it could grow."
      }
+    },
+    {
+     "title": {
+      "ru": "Gemfile.lock: одинаковые версии у всех",
+      "tg": "Gemfile.lock: версияҳои якхела барои ҳама",
+      "en": "Gemfile.lock: the same versions for everyone"
+     },
+     "body": {
+      "ru": "Gemfile перечисляет нужные gem-ы, а bundle install после установки создаёт Gemfile.lock с точными версиями каждого пакета и его зависимостей. Проверьте граничный случай: у одного участника gem версии 2.1, у другого 2.3 — код ведёт себя по-разному, и поиск причины занимает час; lock-файл, добавленный в репозиторий, устраняет этот случай: bundle install ставит ровно зафиксированное. Связь с днём 25: require \"json\" работает, потому что библиотека есть в стандартной поставке; сторонние gem-ы из Gemfile подключают так же, но их сначала ставит Bundler.",
+      "tg": "Gemfile gem-ҳои лозимиро меномад ва bundle install баъди насб Gemfile.lock-ро месозад бо версияҳои аниқи ҳар пакет ва вобастагиҳои он. Ҳолати канориро санҷед: назди як иштирокчӣ gem версияи 2.1, назди дигар 2.3 — код дигаргун рафтор мекунад ва ҷустуҷӯи сабаб соат мегирад; файли lock-и дар репозиторий гузошташуда ҳамин ҳолатро бартараф мекунад: bundle install дақиқ чизе-ро насб мекунад, ки собит шудааст. Пайванд бо рӯзи 25: require \"json\" кор мекунад, чунки китобхона дар маҷмӯи стандартии таъминот ҳаст; gem-ҳои тарафи сеюми Gemfile-ро ҳамин тавр пайваст мекунанд, вале аввал Bundler онҳоро насб мекунад.",
+      "en": "The Gemfile lists the needed gems, and bundle install creates Gemfile.lock after installation with the exact versions of every package and its dependencies. Check the boundary case: one participant has gem version 2.1, another 2.3 — the code behaves differently and finding the cause takes an hour; the lock file, added to the repository, removes this case: bundle install installs exactly what was pinned. The link to day 25: require \"json\" works because the library ships with the standard distribution; third-party gems from the Gemfile are connected the same way, but Bundler installs them first."
+     }
     }
    ],
    "questions": [
@@ -4174,7 +5711,13 @@
        "en": "The results of runs"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел о зависимостях описывает содержимое Gemfile построчно.",
+      "tg": "Бахши вобастагиҳо мӯҳтавои Gemfile-ро сатр ба сатр тасвир мекунад.",
+      "en": "The dependencies section describes what a Gemfile lists line by line."
+     },
+     "relatedSection": 1
     },
     {
      "id": "ruby-day-26-q2",
@@ -4205,7 +5748,50 @@
        "en": "ruby --install"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел о зависимостях называет команду установки Bundler.",
+      "tg": "Бахши вобастагиҳо фармони насби Bundler-ро меномад.",
+      "en": "The dependencies section names Bundler's install command."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "ruby-day-26-q3",
+     "question": {
+      "ru": "Зачем проекту Gemfile.lock?",
+      "tg": "Барои лоиҳа Gemfile.lock бар чӣ лозим аст?",
+      "en": "Why does a project need Gemfile.lock?"
+     },
+     "answer": {
+      "ru": "Он фиксирует точные версии — установка одинакова у всех участников",
+      "tg": "Он версияҳои аниқро собит мекунад — насб барои ҳамаи иштирокчиён якхела мешавад",
+      "en": "It pins exact versions — every participant gets the same installation"
+     },
+     "options": [
+      {
+       "ru": "Он заменяет Gemfile при разработке",
+       "tg": "Он ҳангоми таҳия Gemfile-ро иваз мекунад",
+       "en": "It replaces the Gemfile during development"
+      },
+      {
+       "ru": "В нём хранят пароли проекта",
+       "tg": "Дар он паролҳои лоиҳа нигоҳ дошта мешаванд",
+       "en": "Project passwords are stored in it"
+      },
+      {
+       "ru": "Он фиксирует точные версии — установка одинакова у всех",
+       "tg": "Он версияҳои аниқро собит мекунад — насб барои ҳама якхела аст",
+       "en": "It pins exact versions — everyone installs the same"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "У двух разработчиков на разных машинах версии должны совпасть; что это обеспечивает?",
+      "tg": "Дар ду таҳиягар дар мошинҳои гуногун версияҳо бояд мувофиқ бошанд; ин чиро таъмин мекунад?",
+      "en": "Two developers on different machines must get matching versions; what provides this?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4299,6 +5885,18 @@
     },
     {
      "title": {
+      "ru": "Пустой каталог: первый запуск",
+      "tg": "Каталоги холӣ: иҷрои аввал",
+      "en": "The empty catalog: the first run"
+     },
+     "body": {
+      "ru": "Мини-проект начинается с пустого массива catalog = []. Проверьте граничный случай: первый запуск до добавления книг печатает пустой список — each не выполнится ни разу, а reduce(0) из дня 8 вернёт 0, не упав. В реальном проекте это штатное состояние: новая база данных пуста, и отчёт обязан корректно показывать «ноль книг». Связь с днём 21: как только в массиве появятся объекты Book, каждый элемент отдаст свои методы блоку. Проверьте сами: запустите пример до добавления записей, затем добавьте первую книгу и сравните вывод. Ниже — ошибки первой сборки.",
+      "tg": "Лоиҳаи хурд бо массиви холии catalog = [] оғоз мешавад. Ҳолати канориро санҷед: иҷрои аввал пеш аз илова кардани китобҳо рӯйхати холиро мебарорад — each як бор ҳам иҷро намешавад ва reduce(0) аз рӯзи 8 натиҷаи 0 медиҳад, бе хато. Дар лоиҳаи воқеӣ ин ҳолати муқаррарӣ аст: пойгоҳи додаҳои нав холӣ аст ва ҳисобот бояд «сифр китоб»-ро дуруст нишон диҳад. Пайванд бо рӯзи 21: маҳз он гоҳ, ки дар массив объектҳои Book пайдо мешаванд, ҳар унсур методҳои худро ба блок медиҳад. Худи шумо санҷед: мисолро пеш аз илова кардани сабтҳо иҷро кунед, баъд аввалин китобро илова карда, бароришро муқоиса кунед. Дар поён хатоҳои ҳамҷо shudани аввал.",
+      "en": "The mini-project starts from the empty array catalog = []. Check the boundary case: the first run before adding books prints an empty list — each does not run even once, and reduce(0) from day 8 returns 0 without failing. In a real project this is the normal state: a new database is empty and the report must show «zero books» correctly. The link to day 21: as soon as Book objects appear in the array, every element hands its methods to the block. Check yourself: run the example before adding entries, then add the first book and compare the output. First-assembly mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -4340,7 +5938,13 @@
        "en": "Prints the object"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел разбирает оператор << и куда попадает новый объект.",
+      "tg": "Бахши якум оператори << ва он ҷойеро, ки объект нав меафтад, таҳлил мекунад.",
+      "en": "The first section covers the << operator and where the new object lands."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-27-q2",
@@ -4371,7 +5975,50 @@
        "en": "An array always prints as text"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните из дня 15, какой метод печать вызывает у каждого элемента.",
+      "tg": "Аз рӯзи 15 ёд оред, ки чоп барои ҳар унсур кадом методро даъват мекунад.",
+      "en": "Recall from day 15 which method printing calls on each element."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-27-q3",
+     "question": {
+      "ru": "Что напечатает отчёт по пустому каталогу с reduce(0)?",
+      "tg": "Ҳисоби каталоги холӣ бо reduce(0) чӣ мебарорад?",
+      "en": "What does the report over an empty catalog with reduce(0) print?"
+     },
+     "answer": {
+      "ru": "Сумму 0 — each не выполнится ни разу, reduce вернёт стартовое значение",
+      "tg": "Ҷамъи 0 — each як бор ҳам иҷро намешавад, reduce қимати оғозиро бармегардонад",
+      "en": "A sum of 0 — each never runs and reduce returns the starting value"
+     },
+     "options": [
+      {
+       "ru": "Ошибку — нельзя складывать пустой массив",
+       "tg": "Хато — массиви холиро ҷамъ кардан mumkin nest",
+       "en": "An error — an empty array cannot be summed"
+      },
+      {
+       "ru": "Сумму 0 — цикл не выполнится ни разу",
+       "tg": "Ҷамъи 0 — давр як бор ҳам иҷро намешавад",
+       "en": "A sum of 0 — the loop never runs"
+      },
+      {
+       "ru": "nil вместо суммы страниц",
+       "tg": "nil ба ҷои ҷамъи саҳифаҳо",
+       "en": "nil instead of the page sum"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните стартовое значение reduce из дня 8 и поведение each на пустом массиве.",
+      "tg": "Қимати оғозии reduce аз рӯзи 8 ва рафтори each дар массиви холиро ёд оред.",
+      "en": "Recall reduce's starting value from day 8 and each's behavior on an empty array."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -4460,6 +6107,18 @@
     },
     {
      "title": {
+      "ru": "Когда select ничего не находит",
+      "tg": "Кай select ҳеҷ чиз намеёбад",
+      "en": "When select finds nothing"
+     },
+     "body": {
+      "ru": "select с условием author == \"A. Karim\" вернёт книги этого автора. Проверьте граничный случай: если ни одна книга не подошла, вернётся пустой массив [] — это не ошибка, а честный ответ «совпадений нет»; sort_by по пустому массиву даст пустой список без падения, а first вернёт nil. В реальном проекте поиск без результатов — обычный сценарий: отчёт должен показать пустую страницу, а не упасть. Связь с днём 27: пустой каталог и пустой результат — родственные случаи, оба штатные. Ниже — ошибки поиска и сортировки.",
+      "tg": "select бо шарти author == \"A. Karim\" китобҳои ҳамин муаллифро бармегардонад. Ҳолати канориро санҷед: агар ҳеҷ китоб мувофиқ набошад, массиви холии [] бармегардад — ин хато нест, балки ҷавоби рост «мувофиқият нест»; sort_by дар массиви холӣ рӯйхати холиро бе хато медиҳад ва first nil бармегардонад. Дар лоиҳаи воқеӣ ҷустуҷӯи бе натиҷа сценарийи маъмулӣ аст: ҳисобот бояд саҳифаи холиро нишон диҳад, на меафтад. Пайванд бо рӯзи 27: каталоги холӣ ва натиҷаи холӣ ҳолатҳои хешовандӣ ҳастанд, ҳар ду муқаррарӣ. Дар поён хатоҳои ҷустуҷӯ ва тартиб.",
+      "en": "select with the condition author == \"A. Karim\" returns that author's books. Check the boundary case: when no book matches, an empty array [] returns — not an error but an honest answer «no matches»; sort_by over an empty array gives an empty list without failing, and first returns nil. In a real project a search without results is a routine scenario: the report must show an empty page, not crash. The link to day 27: the empty catalog and the empty result are related cases, both normal. Search and sorting mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -4501,7 +6160,13 @@
        "en": "true or false"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "select оставляет элементы, для которых блок истинен; сверьтесь с примером.",
+      "tg": "select унсурҳои бо блоки ростинро мемонад; бо мисол муқоиса кунед.",
+      "en": "select keeps elements for which the block is true; compare with the example."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-28-q2",
@@ -4532,7 +6197,50 @@
        "en": "A random book"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "sort_by упорядочивает по ключу; подумайте, кто окажется первым после него.",
+      "tg": "sort_by аз рӯи калид тартиб медиҳад; тааммул кунед, ки баъд аз он чӣ аввал меояд.",
+      "en": "sort_by orders by the key; think about what ends up first after it."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-28-q3",
+     "question": {
+      "ru": "Что вернёт select, если ни одна книга не подошла?",
+      "tg": "Агар ҳеҷ китоб мувофиқ набошад, select чӣ бармегардонад?",
+      "en": "What does select return when no book matches?"
+     },
+     "answer": {
+      "ru": "Пустой массив [] — честный ответ «совпадений нет», а не ошибка",
+      "tg": "Массиви холӣ [] — ҷавоби рост «мувофиқият нест», на хато",
+      "en": "An empty array [] — an honest «no matches», not an error"
+     },
+     "options": [
+      {
+       "ru": "nil",
+       "tg": "nil",
+       "en": "nil"
+      },
+      {
+       "ru": "Исключение о пустом результате",
+       "tg": "Истиснои натиҷаи холӣ",
+       "en": "An exception about the empty result"
+      },
+      {
+       "ru": "Пустой массив []",
+       "tg": "Массиви холӣ []",
+       "en": "An empty array []"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "«Ничего не найдено» — законный результат; какой объект его выражает?",
+      "tg": "«Ҳеҷ чиз ёфт нашуд» — натиҷаи қонунӣ аст; кадом объект онро ифода мекунад?",
+      "en": "«Nothing found» is a legitimate result; which object expresses it?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -4621,6 +6329,18 @@
     },
     {
      "title": {
+      "ru": "Среднее в отчёте: целочисленное деление",
+      "tg": "Миёна дар ҳисобот: тақсими бутун",
+      "en": "The average in the report: integer division"
+     },
+     "body": {
+      "ru": "Отчёт дня считает сумму страниц и количество книг — а среднее это total / catalog.length. Проверьте граничный случай: 500 / 3 вернёт 166: оба операнда целые, и дробная часть отбрасывается — ловушка из дня 3 возвращается в финале курса. Для честного среднего делите через .to_f: total.to_f / catalog.length, а печать с фиксированной точностью делайте format из дня 3. Связь с днём 8: reduce складывает страницы так же, как в примере того дня. Ниже — типичные ошибки финального отчёта.",
+      "tg": "Ҳисоботи рӯз ҷамъи саҳифаҳо ва шумораи китобҳоро меҳисобад — миёна total / catalog.length аст. Ҳолати канориро санҷед: 500 / 3 натиҷаи 166 медиҳад: ҳар ду операнд бутунанд ва қисми касрӣ меафтад — тӯзи рӯзи 3 дар ниҳояти курс бармегардад. Барои миёнаи ҳақиқӣ тариқи .to_f тақсим кунед: total.to_f / catalog.length ва чоп бо дақиқии собитро бо format аз рӯзи 3 кунед. Пайванд бо рӯзи 8: reduce саҳифаҳоро мисли мисоли ҳамин рӯз ҷамъ мекунад. Дар поён хатоҳои маъмулии ҳисоботи ниҳоӣ.",
+      "en": "The day's report computes the page sum and the book count — the average is total / catalog.length. Check the boundary case: 500 / 3 returns 166: both operands are integers and the fraction is dropped — the day 3 trap returns at the course finale. For an honest average divide through .to_f: total.to_f / catalog.length, and print with a fixed precision using format from day 3. The link to day 8: reduce sums the pages just like in that day's example. Typical final-report mistakes are below."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатоҳои маъмул",
       "en": "Common mistakes"
@@ -4662,7 +6382,13 @@
        "en": "The first book"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "reduce идёт по элементам с накоплением; стартовое значение задано нулём.",
+      "tg": "reduce бо ҷамъбаст аз рӯи унсурҳо мегузарад; қимати оғозӣ сифр дода шудааст.",
+      "en": "reduce accumulates across the elements; the starting value is zero."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-29-q2",
@@ -4693,7 +6419,50 @@
        "en": "A list without authors"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "tally считает повторы значений; проверьте, что получится после map(&:author).",
+      "tg": "tally такрори қиматҳоро меҳисобад; санҷед, ки баъди map(&:author) чӣ ҳосил мешавад.",
+      "en": "tally counts value repetitions; check what map(&:author) produces before it."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-29-q3",
+     "question": {
+      "ru": "Что вернёт 500 / 3 при подсчёте среднего?",
+      "tg": "Ҳангоми ҳисоби миёна 500 / 3 чӣ бармегардонад?",
+      "en": "What does 500 / 3 return when computing the average?"
+     },
+     "answer": {
+      "ru": "166 — оба операнда целые, и дробная часть отбрасывается",
+      "tg": "166 — ҳар ду операнд бутунанд ва қисми касрӣ меафтад",
+      "en": "166 — both operands are integers and the fraction is dropped"
+     },
+     "options": [
+      {
+       "ru": "166.67",
+       "tg": "166.67",
+       "en": "166.67"
+      },
+      {
+       "ru": "166 — дробная часть отброшена",
+       "tg": "166 — қисми касрӣ меафтад",
+       "en": "166 — the fractional part is dropped"
+      },
+      {
+       "ru": "Ошибку деления",
+       "tg": "Хатои тақсим",
+       "en": "A division error"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Оба операнда целые; как ведёт себя деление целых — вспомните день 3.",
+      "tg": "Ҳар ду операнд бутунанд; тақсими бутунҳо чӣ тавр кор мекунад — рӯзи 3-ро ёд оред.",
+      "en": "Both operands are integers; recall day 3 for how integer division behaves."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -4785,6 +6554,18 @@
       "tg": "Курс асос дод; минбаъд се роҳ мебарад. Якум — сарчашмаҳои расмӣ: ҳуҷҷати Ruby дар ruby-lang.org ва маҷмӯаи ядро дар ruby-doc.org, ки ҳамаи методҳои истифодашуда ва ҳамсояҳояшон тавсиф шудаанд. Одати санҷидани метод дар ҳуҷҷат муҳимтар аз ёд кардан аст. Дуюм — лоиҳаҳои худӣ: каталоги китобҳоро гиред ва васеъ кунед — майдони нав, ҳисоботи нав, сабт ба файл тавассути File.write ё JSON-и рӯзи 25. Лоиҳаи хурди ба анҷомрасонида аз даҳ лоиҳаи оғозшуда қиматтар аст. Сеюм — хондани коди дигарон: як скрипти хурди кушодаи Ruby-ро кушода, ҳар сатрро фаҳмонед; методҳои ношиносро дар ҳуҷҷат ҷӯяд. Ҳамаи зикршуда локалӣ, дар мошини шумо иҷро мешавад. Амалиёти хаттии имрӯз — харитаи курс ва нақшаи шахсӣ: мавзӯъҳоро нависед, дуто барои такрор қайд кунед ва се қадами муайян сабт кунед. Пеш аз ислоҳ сабабро бо овоз гӯед: як ҷумла фаҳмишро беҳтар месанҷад, нисбат ба ислоҳи фаврии тибқи тахмин.",
       "en": "The course laid the foundation; three roads lead onward. The first — official sources: the Ruby documentation at ruby-lang.org and the core reference at ruby-doc.org, which describe every method you used and their neighbours. The habit of checking a method in the docs matters more than memorising. The second — your own projects: take the book catalog and extend it — a new field, a new report, saving to a file via File.write or the JSON of day 25. A small project finished beats ten started. The third — reading other people's code: open a small open-source Ruby script and explain every line; look up unfamiliar methods in the docs. Everything listed runs locally, on your machine. Today's written practice is the course map and a personal plan: write out the topics, mark two for review and record three concrete steps."
      }
+    },
+    {
+     "title": {
+      "ru": "Чек-лист самопроверки перед следующим курсом",
+      "tg": "Рӯйхати худсанҷӣ пеш аз курси оянда",
+      "en": "A self-check list before the next course"
+     },
+     "body": {
+      "ru": "Запустите примеры мини-проекта из дней 27–29 по отдельности. На дне 27 сравните печать книг через to_s. На дне 28 проверьте два совпадения по автору и название самой короткой книги. На дне 29 сверьте число книг, сумму 590 страниц и количество книг по каждому автору. Чтобы повторить другие темы, вернитесь к исходным примерам отдельно: аргументы в дне 2, ключи-символы в дне 9, yield в дне 12, исключения в дне 18. Запишите два места, где ваш прогноз отличался от вывода. Ruby запускается в локальном терминале.",
+      "tg": "Мисолҳои лоиҳаи хурди рӯзҳои 27–29-ро ҷудо иҷро кунед. Дар рӯзи 27 чопи китобҳоро бо to_s муқоиса кунед. Дар рӯзи 28 ду китоби муаллиф ва номи китоби кӯтоҳтаринро бисанҷед. Дар рӯзи 29 шумораи китобҳо, ҷамъи 590 саҳифа ва чанд китоб доштани ҳар муаллифро санҷед. Барои такрори мавзӯъҳои дигар ба мисолҳои аслӣ ҷудогона баргардед: аргументҳо дар рӯзи 2, калидҳои символӣ дар рӯзи 9, yield дар рӯзи 12, exception дар рӯзи 18. Ду ҷойеро нависед, ки пешгӯиятон аз натиҷа фарқ кард. Ruby дар терминали маҳаллӣ иҷро мешавад.",
+      "en": "Run the mini-project examples from days 27–29 separately. On day 27, check how to_s formats each book. On day 28, check the two author matches and the shortest book title. On day 29, check the book count, the 590-page total and the counts by author. To revisit other topics, use their own examples for argument validation on day 2, symbol keys on day 9, yield on day 12 and exceptions on day 18. Record two places where your prediction differed from the output. Run Ruby in a local terminal."
+     }
     }
    ],
    "questions": [
@@ -4817,7 +6598,13 @@
        "en": "A method"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел «Карта пройденного» перечисляет структуры курса с примерами.",
+      "tg": "Бахши «Харитаи гузашта» сохторҳои курсро бо мисол меорад.",
+      "en": "The course-map section lists the course's structures with examples."
+     },
+     "relatedSection": 0
     },
     {
      "id": "ruby-day-30-q2",
@@ -4848,7 +6635,50 @@
        "en": "Creates a file"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел «Карта пройденного» упоминает raise и rescue вместе.",
+      "tg": "Бахши «Харитаи гузашта» raise ва rescue-ро якҷо зикр мекунад.",
+      "en": "The course-map section mentions raise and rescue together."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "ruby-day-30-q3",
+     "question": {
+      "ru": "Что из перечисленного проверяют на локальном Ruby, а не на сайте?",
+      "tg": "Кадоме аз рӯйхат дар Ruby-и маҳаллӣ санҷида мешавад, на дар сайт?",
+      "en": "Which of the listed things is checked on local Ruby rather than on the site?"
+     },
+     "answer": {
+      "ru": "Запуск main.rb и вывод в терминале — сайт Ruby не исполняет",
+      "tg": "Иҷрои main.rb ва барориши он дар терминал — сайт Ruby-ро иҷро намекунад",
+      "en": "Running main.rb and its terminal output — the site does not execute Ruby"
+     },
+     "options": [
+      {
+       "ru": "Читаемость текста урока",
+       "tg": "Хондашавандагии матни дарс",
+       "en": "The readability of the lesson text"
+      },
+      {
+       "ru": "Порядок разделов дня",
+       "tg": "Тартиби бахшҳои рӯз",
+       "en": "The order of the day's sections"
+      },
+      {
+       "ru": "Запуск main.rb и вывод в терминале",
+       "tg": "Иҷрои main.rb ва барориши он дар терминал",
+       "en": "Running main.rb and the terminal output"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сайт не исполняет Ruby — что остаётся для проверки практики?",
+      "tg": "Сайт Ruby-ро иҷро намекунад — барои санҷиши амалиёт чӣ мемонад?",
+      "en": "The site does not execute Ruby — what remains for checking the practice?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {

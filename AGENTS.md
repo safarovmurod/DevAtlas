@@ -8,32 +8,35 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-## DevAtlas curriculum handoff — 2026-11-17
+## DevAtlas curriculum handoff — 2026-11-17 (current local continuation)
 
-Use the existing checkout at `D:/Проектҳо/DevAtlas`; inspect git status, recent commits, open PRs and their actual head SHAs before editing. The old OneDrive react-mentor path is stale. [Current loader-based audit](docs/audits/course-quality-2026-11-17.md) supersedes stale gaps in the dated 2026-11-15 report.
+Use the existing checkout D:/Проектҳо/DevAtlas on main. Read actual git status and preserve all dirty work. The current owner request is local continuation through course authors and independent reviewers. NO commit, push, PR, merge, deploy, stash/reset/clean, new branch, history rewrite or credential/settings transfer. The owner will push. The old OneDrive checkout is stale.
 
-### Saved authored coverage
+Read docs/CURRICULUM-AGENT-PACK-2026-11-17.md for the 43-course queue, docs/audits/course-register-2026-11-17.md for real owners/status, and docs/audits/pending-batches-review-2026-11-17.md for concrete findings/accepted repair scope. The old dated checkpoint/resume prompt is historical, not the current instruction to stop after saving. Coordinator delegates authoring and integration and independently reviews; no hidden coordinator authorship.
 
-- Five Starter courses contain 147 scheduled lessons: Content Creation 30, English Foundations 42, Digital Literacy 30, Personal Productivity 22, Management Foundations 23. Targets remain in docs/curriculum-design/short-courses.draft.json.
-- Actual loader inventory: 43 courses, 38 tracks, 1255 scheduled days, 42 stages with published curricula and 72 missing stages. Authored availability is not Verified learning completion.
-- React already has at least four theory sections and three questions on all 60 days. Next.js has four sections and at least three questions on all 20 days, including distinct RU/TG/EN for days 1–12. Preserve these authored additions; do not recreate the stale React40/Next12 gaps.
-- TypeScript retains its complete authored 14-day block. Further continuation and the other four 14-day programs still require review against their accepted plans.
-- Digital Literacy 10–30 is authored. Source evidence: docs/curriculum-design/digital-literacy-10-30-source-review.md.
+### Current loader inventory and completed authoring
 
-### Resume here
+- Current loaders report 43 courses, 38 tracks and 1,262 scheduled days with zero catalog mismatches. Of 114 stages, 42 are Published and 72 are Missing. All 12 short-course plans meet their day targets, including Management and Digital Literacy at 30 days each. The current continuation audit lists 11 courses with structural gaps.
+- React 60 and Next 20 already have at least 4 sections and 3 questions on every day. Preserve authored RU/TG/EN, including distinct Next 1–12. The stale React 40/Next 12 gaps are superseded. TypeScript retains its 14-day block; the other 14-day continuation programs still need accepted-plan review.
+- All current courses are free. Pro/Expert metadata describes learning level; MEMBERS_ONLY in src/lib/courses/access.ts is empty. Interface EN/RU/TG/ES; lessons RU/TG/EN.
+- Published status records lessons available through application loaders. The 72 Missing stages require separate curricula and progress plans.
 
-Current complete-loader review queue: docs/audits/continuation-quality-2026-11-17.md and its JSON (28 structural-gap courses,29 including Management authoring,38 priority courses including heuristics). Read exact coordinates and distinguish observed omissions from review candidates.
+### Current repair and review boundaries
 
-Continue management-foundations at day 24 using docs/curriculum-design/short-courses.draft.json. 7 short-course days remain. Reuse docs/curriculum-design/management-foundations-24-30-recovered.draft.json as an unreviewed draft rather than reauthoring it. Review missing project rubrics in Management days16/23. Preserve all authored lessons, quiz options and progress IDs. Recheck current loaders before editing other courses.
+- Java/C#/Rust and SQL/Node/Mongo have source-backed factual repairs independently accepted with limits. Review artifact lists exact fields. Preserve all pending authored additions; do not regenerate them from older structural-gap reports.
+- Runtime evidence includes 27 Java references on OpenJDK 17, 26 PHP references on checksum-verified PHP 8.4.27, and 30 Kotlin examples plus 30 independent solutions on checksum-verified Kotlin 1.9.24 with OpenJDK 17. The Kotlin harness also checks invalid arguments, overflow and broken deletion. C#, Rust, Ruby, Swift and MongoDB runtime work remains in the review register.
+- Root accepted the four PHP repairs after runtime checks. Ruby repairs await independent runtime review. Swift needs the fixes listed in the review artifact. Use the register for UX rubric review and the active queue.
+- Existing accepted batches Management/Python/Mobile/JS-Pro/Bash/Algorithms still have independent-practice, source, translation, rubric and outcome review remaining. Self Reviewed cannot establish real device/account operations, team outcomes, pronunciation or assessed mastery.
 
-Preserve existing lesson IDs, day order, prerequisites, quiz IDs and original option order. Keep original RU/TG/EN explanations, useful linked feedback, independent practice and task-specific rubrics. Self Reviewed never proves actual device/account operations, real team outcomes, pronunciation or independently assessed mastery. Only count lessons loaded by the application.
+### Preservation and integration
 
-After count changes synchronize catalog-other.ts, localized scope copy and tests. Regenerate coverage-matrix.mjs, delivery-report.mjs, course-content-quality-report.mjs and audit-backlog.mjs; check blueprint, schema, relevant routes and tests. React navigation metadata only needs rebuilding after changes to React quiz content.
+Preserve course/lesson/quiz IDs, original option order, day order, prerequisites, progress, authored explanations, useful linked feedback and independent practice. Return concrete review findings to their author; do not weaken/skip tests to accept a change. Keep shared reports/tests/register under one integration owner. Run full tests/build once in a coherent file state; record executed checks and unavailable runtimes honestly.
 
-The latest owner request is to save the work to this point and write one continuation prompt. Read docs/CURRICULUM-CHECKPOINT-2026-11-17.md and docs/CURRICULUM-RESUME-PROMPT-2026-11-17.md. No PR was opened or pushed. An older Digital-only PR-preparation worktree exists; do not overwrite this owning checkout with it. External publication is a separate operation. Keep credentials/settings outside handoffs.
+After count/content changes regenerate coverage-matrix.mjs, delivery-report.mjs, course-content-quality-report.mjs, audit-backlog.mjs and continuation-quality-audit.mjs. Check blueprint/schema/relevant routes/tests. React navigation metadata needs rebuilding only for React quiz changes. Current audit is docs/audits/continuation-quality-2026-11-17.json; heuristic candidates require manual semantic review.
 
 ### Source provenance to retain
 
-- Content Creation 14–16, 17–23 and 24–30: the corresponding source-review files in docs/curriculum-design document OpenStax, W3C WAI, Creative Commons, original examples and Self Reviewed limits.
-- English Foundations 11–14 and 15–42: source-review files record Saylor/CMU checks, original explanations and written/oral-practice limits. Do not recreate finished English lessons or claim measured listening/pronunciation.
-- UX Design day19 contains the owner-supplied twelve design principles as original lesson text, twelve questions and practice. The PDF is not committed or published. Day21 fixes contrast/keyboard examples. Preserve existing options/IDs; see docs/curriculum-design/design-principles-source-review.md.
+- Content Creation 14–16,17–23,24–30: corresponding source-review files retain OpenStax/W 3 C WAI/Creative Commons, original examples and Self Reviewed limits.
+- English Foundations 11–14 and 15–42 source reviews retain Saylor/CMU evidence and written/oral practice limits. Do not recreate finished English lessons or claim measured listening/pronunciation.
+- Digital Literacy 10–30 source evidence: docs/curriculum-design/digital-literacy-10-30-source-review.md.
+- UX day 19 retains the owner-supplied twelve original design principles, twelve questions and practice. Its PDF is not committed/published. Day 21 contrast/keyboard fixes and existing IDs/options stay. See docs/curriculum-design/design-principles-source-review.md.

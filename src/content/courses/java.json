@@ -43,12 +43,12 @@
       "ru": "Что такое Java и где начинается программа",
       "tg": "Java чист ва барнома аз куҷо сар мешавад?",
       "en": "Java and its entry point"
-    },
+     },
      "body": {
       "ru": "Java — язык программирования. Компилятор создаёт байт-код, который выполняет JVM, среда Java. В консольном примере выполнение начинается с метода main.\n\nJava выполняет метод main класса Main. int хранит целые числа; переменную объявляют с типом. System.out.println выводит значение и перевод строки. Имя файла Main.java совпадает с именем public-класса. Для запуска исходного файла нужен JDK 21 или новее.",
       "tg": "Java забони барномасозӣ аст. Компилятор байт-код месозад ва JVM, муҳити Java, онро иҷро мекунад. Мисоли терминалӣ аз методи main сар мешавад.\n\nJava методи main-и класи Main-ро иҷро мекунад. int адади бутунро нигоҳ медорад; ҳангоми эълон типро менависанд. System.out.println қиматро бо сатри нав мебарорад. Номи Main.java бо номи public-клас мувофиқ аст. Барои иҷро JDK 21 ё навтар лозим аст.",
       "en": "Java is a programming language. The compiler produces bytecode that the Java Virtual Machine runs. This console example starts at the main method.\n\nJava runs the main method of class Main. int stores whole numbers; declare a variable with its type. System.out.println prints a value followed by a newline. The Main.java filename matches its public class. Running this source file requires JDK 21 or newer."
-    },
+     },
      "code": "public class Main {\n  public static void main(String[] args) {\n    int price = 12;\n    int quantity = 3;\n    System.out.println(price * quantity);\n  }\n}\n",
      "language": "java",
      "output": {
@@ -80,23 +80,35 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is a thirty-day introductory module. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки первой программы",
+      "tg": "Хатоҳои маъмули барномаи аввал",
+      "en": "Common mistakes in the first program"
+     },
+     "body": {
+      "ru": "При отдельной компиляции javac Hello.java public-класс Main должен быть в Main.java — компилятор отклонит несовпадение имён. Но команда java Hello.java использует другой режим: компилирует исходник в памяти и запускает первый класс, поэтому имя файла не обязано совпадать с Main. В уроке используется именно запуск исходника. javac только компилирует; java запускает. Забытый ; даёт ошибку компиляции; читайте сообщение целиком.\n\nСохраните исправный пример как Hello.java. Сравните javac Hello.java (ошибка имени) и java Hello.java (вывод 36). Затем уберите ; и прочитайте сообщение об этой отдельной ошибке.",
+      "tg": "Ҳангоми компилятсияи ҷудогона бо javac Hello.java класси public Main бояд дар Main.java бошад — компилятор номувофиқии номҳоро қабул намекунад. Вале java Hello.java режими дигар аст: исходникро дар хотира компилятсия карда, класси аввалро иҷро мекунад, барои ҳамин номи файл бо Main ҳатман якхела нест. Дар ин дарс ҳамин режими иҷрои исходник истифода мешавад. javac танҳо компилятсия мекунад; java иҷро мекунад. Агар ; набошад, ошибкаи компилятсия мебарояд; паёмро пурра хонед.\n\nМисоли дурустро ҳамчун Hello.java сабт кунед. javac Hello.java (ошибкаи ном) ва java Hello.java (натиҷаи 36)-ро муқоиса кунед. Баъд ; -ро гиред ва паёми ҳамин ошибкаи ҷудогонаро хонед.",
+      "en": "With separate compilation, javac Hello.java requires public class Main to be in Main.java and rejects the name mismatch. However, java Hello.java uses source-file mode: it compiles the source in memory and runs the first class, so the filename need not match Main. This lesson uses source-file mode. javac only compiles; java launches. A missing semicolon causes a compilation error; read the whole message.\n\nSave the working example as Hello.java. Compare javac Hello.java (name error) with java Hello.java (output 36). Then remove a semicolon and read the diagnostic for that separate error."
+     }
     }
    ],
    "interview": {
-     "id": "java-day-01-written",
-     "question": {
-       "ru": "Как называется виртуальная машина, исполняющая байт-код Java?",
-       "tg": "Мошини маҷозие, ки байт-коди Java-ро иҷро мекунад, чӣ ном дорад?",
-       "en": "Which virtual machine runs Java bytecode?"
-     },
-     "answer": {
-       "ru": "JVM",
-       "tg": "JVM",
-       "en": "JVM"
-     },
-     "acceptedAnswers": [
-       "Java Virtual Machine"
-     ]
+    "id": "java-day-01-written",
+    "question": {
+     "ru": "Как называется виртуальная машина, исполняющая байт-код Java?",
+     "tg": "Мошини маҷозие, ки байт-коди Java-ро иҷро мекунад, чӣ ном дорад?",
+     "en": "Which virtual machine runs Java bytecode?"
+    },
+    "answer": {
+     "ru": "JVM",
+     "tg": "JVM",
+     "en": "JVM"
+    },
+    "acceptedAnswers": [
+     "Java Virtual Machine"
+    ]
    },
    "questions": [
     {
@@ -128,7 +140,13 @@
        "en": "On line 36"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел описывает запуск: с какого метода JVM начинает выполнение программы и как это видно в коде Main?",
+      "tg": "Бахши аввал оғозишро тавсиф мекунад: JVM иҷрои барномаро аз кадом метод сар мекунад ва ин дар коди Main чӣ гуна дида мешавад?",
+      "en": "The first section describes the launch: which method does JVM start from, and how is that visible in the Main code?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-01-q2",
@@ -159,7 +177,50 @@
        "en": "run Main"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел «Запустите и проверьте» показывает саму команду запуска в терминале; сверьте с ней каждый вариант.",
+      "tg": "Бахши «Иҷро карда санҷед» худи фармони оғозро дар терминал нишон медиҳад; ҳар вариантро бо он муқоиса кунед.",
+      "en": "The \"Run and verify\" section shows the actual launch command in the terminal; compare every option against it."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "java-day-01-q3",
+     "question": {
+      "ru": "Почему javac Hello.java отклоняет файл, содержащий public class Main?",
+      "tg": "Чаро javac Hello.java файли дорои public class Main-ро қабул намекунад?",
+      "en": "Why does javac Hello.java reject a file containing public class Main?"
+     },
+     "answer": {
+      "ru": "Компилятор требует совпадения имени public-класса и имени файла",
+      "tg": "Компилятор мувофиқати номи класси public ва номи файлро талаб мекунад",
+      "en": "The compiler requires the public class name to match the file name"
+     },
+     "options": [
+      {
+       "ru": "Так JVM резервирует место в памяти под класс",
+       "tg": "Чунин JVM ҷои дар хотира барои класс захира мекунад",
+       "en": "That is how JVM reserves memory for the class"
+      },
+      {
+       "ru": "Имя файла задаёт пакет, к которому относится класс",
+       "tg": "Номи файл бастае (package)-ро муайян мекунад, ки класс ба он тааллук дорад",
+       "en": "The file name defines the package the class belongs to"
+      },
+      {
+       "ru": "Компилятор требует совпадения имени public-класса и имени файла",
+       "tg": "Компилятор мувофиқати номи класси public ва номи файлро талаб мекунад",
+       "en": "The compiler requires the public class name to match the file name"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сравните два режима в разделе о частых ошибках: какой из них требует совпадения имён файла и public-класса?",
+      "tg": "Ду режимро дар бахши хатоҳои маъмул муқоиса кунед: кадомаш мувофиқати номи файл ва класси public-ро талаб мекунад?",
+      "en": "Compare the two modes in the common-mistakes section: which requires the filename to match the public class name?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -219,12 +280,12 @@
       "ru": "Метод, аргументы и результат",
       "tg": "Метод, аргумент ва натиҷа",
       "en": "Methods, arguments, and results"
-    },
+     },
      "body": {
       "ru": "Метод — именованный блок действий в классе. Он получает аргументы и может вернуть значение. Проверка аргументов позволяет остановить расчёт, пока неправильный ввод не испортил итог.\n\nstatic-метод можно вызвать из main без создания объекта. return возвращает int. Отрицательные значения отклоняем IllegalArgumentException до расчёта; вызывающий код обрабатывает исключение в catch. Проверяйте поведение, а не название параметров.",
       "tg": "Метод блоки амал бо ном дар class аст. Argument мегирад ва натиҷа дода метавонад. Аргументро аввал санҷ, то аз қимати нодуруст натиҷаи хато набарояд.\n\nМетоди static-ро аз main бе сохтани объект даъват кардан мумкин аст. return қимати int-ро бармегардонад. Қиматҳои манфиро пеш аз ҳисоб бо IllegalArgumentException рад мекунем; рамзи даъваткунанда истисноро бо catch мегирад. Рафторро санҷед, на номи параметрҳоро.",
       "en": "A method is a named block of work in a class. It takes arguments and can return a value. Validate them before calculating to avoid a bad result.\n\nA static method can be called from main without constructing an object. return produces an int. Reject negative arguments with IllegalArgumentException before calculating; the caller handles the exception with catch. Test behavior rather than parameter spelling."
-    },
+     },
      "code": "public class Main {\n  static int total(int price, int quantity) {\n    if (price < 0 || quantity < 0) throw new IllegalArgumentException(\"Negative value\");\n    return Math.multiplyExact(price, quantity);\n  }\n  public static void main(String[] args) {\n    System.out.println(total(12, 3));\n    System.out.println(total(12, 0));\n    try { total(12, -1); }\n    catch (IllegalArgumentException error) { System.out.println(\"Invalid input rejected\"); }\n  }\n}\n",
      "language": "java",
      "output": {
@@ -256,21 +317,33 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is a thirty-day introductory module. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки метода и проверки аргументов",
+      "tg": "Хатоҳои маъмули метод ва санҷиши аргументҳо",
+      "en": "Common mistakes in methods and argument checks"
+     },
+     "body": {
+      "ru": "Ошибка первая: вызвать обычный метод из main напрямую — non-static method cannot be referenced from a static context; сделайте метод static или создайте объект. Ошибка вторая: вызвать бросающий метод без try/catch и без throws — терминал показывает стек исключения, а строки после точки падения не выполняются. Ошибка третья: проверять аргументы после расчёта — неверный результат уже родился; проверка обязана стоять первой строкой метода. Ошибка четвёртая: ловить Exception там, где ожидается IllegalArgumentException, — общий тип прячет причину.\n\nУберите try/catch вокруг total(12, -1) и прочитайте стек в терминале: Java назовёт класс исключения, метод и строку ",
+      "tg": "Хатои якум: даъвати методи оддӣ аз main бевосита — non-static method cannot be referenced from a static context; методро static кунед ё объект созед. Хатои дуюм: даъвати методи партоандаи истисно бе try/catch ва бе throws — терминал стеки истисноро нишон медиҳад ва сатрҳои баъди фурӯомадан иҷро намешаванд. Хатои сеюм: санҷиши аргументҳо баъди ҳисоб — натиҷаи нодурук аллакай таваллуд шуд; санҷиш бояд сатри аввали метод бошад. Хатои чорум: гирифтани Exception он ҷо, ки IllegalArgumentException интизор меравад — навъи умумӣ сабабро пинҳон мекунад.\n\ntry/catch-ро аз атрофи total(12, -1) тарк кунед ва стекро дар терминал хонед: Java класси истисно, метод ва сатрро меномад ",
+      "en": "Mistake one: calling a regular method straight from main — non-static method cannot be referenced from a static context; make the method static or create an object. Mistake two: calling a throwing method without try/catch and without throws — the terminal shows the exception stack and the lines after the crash never run. Mistake three: checking arguments after the calculation — the wrong result is already born; the check must be the first line of the method. Mistake four: catching Exception where IllegalArgumentException is expected — a general type hides the cause.\n\nRemove the try/catch around total(12, -1) and read the stack in the terminal: Java names the exception class, method and line"
+     }
     }
    ],
    "interview": {
-     "id": "java-day-02-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какое ключевое слово возвращает значение из метода Java?",
-       "tg": "Дар Java кадом калима қиматро аз метод бармегардонад?",
-       "en": "Which keyword returns a value from a Java method?"
-     },
-     "answer": {
-       "ru": "return",
-       "tg": "return",
-       "en": "return"
-     }
+    "id": "java-day-02-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какое ключевое слово возвращает значение из метода Java?",
+     "tg": "Дар Java кадом калима қиматро аз метод бармегардонад?",
+     "en": "Which keyword returns a value from a Java method?"
+    },
+    "answer": {
+     "ru": "return",
+     "tg": "return",
+     "en": "return"
+    }
    },
    "questions": [
     {
@@ -302,7 +375,13 @@
        "en": "To make the method faster"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел говорит о цели проверки: что должно случиться с недопустимыми данными до того, как они испортят результат?",
+      "tg": "Бахши аввал мақсади санҷишро мегӯяд: бо маълумоти ғайриимконӣ то вай натиҷаро вайрон накунад?",
+      "en": "The first section states the purpose of the check: what must happen to invalid data before it spoils the result?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-02-q2",
@@ -333,7 +412,50 @@
        "en": "The program ends with an error"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В «Запустите и проверьте» приведён полный ожидаемый вывод; найдите в нём строку, отвечающую второму вызову.",
+      "tg": "Дар «Иҷро карда санҷед» натиҷаи пурраи интизорӣ оварда шудааст; дар он сатри мутобиқи даъвати дуюмро ёбед.",
+      "en": "The \"Run and verify\" section lists the full expected output; find the line matching the second call."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "java-day-02-q3",
+     "question": {
+      "ru": "Почему метод total можно вызвать из main без создания объекта?",
+      "tg": "Чаро методи total-ро аз main бе сохтани объект даъват кардан мумкин аст?",
+      "en": "Why can the total method be called from main without creating an object?"
+     },
+     "answer": {
+      "ru": "total объявлен static — он принадлежит классу, а не объекту",
+      "tg": "total static эълон шудааст — ба класс тааллук дорад, на ба объект",
+      "en": "total is declared static — it belongs to the class, not to an object"
+     },
+     "options": [
+      {
+       "ru": "Методы с двумя параметрами не требуют объектов",
+       "tg": "Методҳои бо ду параметр объект талаб намекунанд",
+       "en": "Methods with two parameters do not need objects"
+      },
+      {
+       "ru": "main всегда создаёт объект автоматически",
+       "tg": "main ҳамеша худкор объект месозад",
+       "en": "main always creates an object automatically"
+      },
+      {
+       "ru": "total объявлен static — он принадлежит классу, а не объекту",
+       "tg": "total static эълон шудааст — ба класс тааллук дорад, на ба объект",
+       "en": "total is declared static — it belongs to the class, not to an object"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка первая в разделе о частых ошибках называет саму ошибку обращения из static-контекста; из неё следует ответ.",
+      "tg": "Хатои якум дар бахши хатоҳои маъмул худи хатои муроҷиат аз контексти static-ро меномад; аз он ҷавоб пай меояд.",
+      "en": "The first mistake in the common-mistakes section names the static-context call error itself; the answer follows from it."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -393,12 +515,12 @@
       "ru": "Типы для числа, текста и да/нет",
       "tg": "Тип барои адад, матн ва ҳа/не",
       "en": "Types for numbers, text, and decisions"
-    },
+     },
      "body": {
       "ru": "В Java int хранит целое число, double — число с плавающей точкой, String — текст, а boolean — true или false. По типу видно, какое значение можно присвоить переменной.\n\nПеременная — это подписанная ячейка памяти: у неё есть тип, имя и значение. Java строго относится к типам, поэтому объявление начинается с имени типа: int age = 20 означает «создай целочисленную ячейку age и положи туда 20». int хранит целые числа вроде 20 или -7, double — дробные вроде 12.5, boolean — только true или false, String — текст в двойных кавычках. Слово var (появилось в Java 10) тип не отменяет: компилятор сам выводит его из правой части, и count в примере становится int. В выводе обратите внимание: double печатается с дробной частью, boolean — словами true и false, а строки выводятся без кавычек. Читайте объявление слева направо: тип, имя, знак равенства, начальное значение — этот шаблон повторяется в каждой программе.",
       "tg": "Дар Java int адади бутун, double адади касрӣ, String матн ва boolean true ё false мегирад. Аз тип маълум мешавад, ба variable кадом қимат мувофиқ аст.\n\nТағйирёбанда — ҳуҷайраи номдори хотира аст: дорои намуд, ном ва қимат. Java ба намудҳо қатъӣ муносибат мекунад, аз ин рӯ эълон бо номи намуд оғоз мешавад: int age = 20 маънои «ҳуҷайраи бутуни age соз ва ба он 20 гузор»-ро дорад. int ададҳои бутун ба монанди 20 ё -7, double — ададҳои касрӣ ба монанди 12.5, boolean — танҳо true ё false, String — матн дар нохунакҳои дукарата нигоҳ медорад. Калимаи var (аз Java 10) намудро бесоҳта намекунад: компилятор онро аз тарафи рост худ муайян мекунад ва count дар мисол int мешавад. Дар натиҷа диққат кунед: double бо қисми касрӣ чоп мешавад, boolean бо калимаҳои true ва false, сатрҳо бе нохунак мебароянд. Эълонро аз чап ба рост хонед: намуд, ном, аломати баробарӣ, қимати ибтидоӣ — ин намуна дар ҳар барнома такрор мешавад.",
       "en": "In Java, int holds a whole number, double a floating-point number, String text, and boolean true or false. The declared type tells you which values an assignment can use.\n\nA variable is a labeled memory cell: it has a type, a name and a value. Java is strict about types, so a declaration starts with the type name: int age = 20 means \"create a whole-number cell named age and put 20 into it\". int stores whole numbers like 20 or -7, double stores decimals like 12.5, boolean holds only true or false, and String holds text in double quotes. The var keyword (added in Java 10) does not remove the type: the compiler infers it from the right-hand side, so count in the example becomes an int. In the output notice that double prints with a fractional part, boolean prints as the words true and false, and strings print without quotes. Read each declaration left to right: type, name, equals sign, initial value — this pattern repeats in every program."
-    },
+     },
      "code": "public class Main {\n  public static void main(String[] args) {\n    int age = 20;\n    double price = 12.5;\n    boolean isOpen = true;\n    String city = \"Dushanbe\";\n    var count = 7;\n\n    System.out.println(age);\n    System.out.println(price);\n    System.out.println(isOpen);\n    System.out.println(city);\n    System.out.println(count);\n  }\n}\n",
      "language": "java",
      "output": {
@@ -421,6 +543,18 @@
     },
     {
      "title": {
+      "ru": "Выбор типа в реальном проекте: границы значений",
+      "tg": "Интихоби тип дар лоиҳаи воқеӣ: марзҳои арзишҳо",
+      "en": "Choosing types in a real project: value boundaries"
+     },
+     "body": {
+      "ru": "В настоящем коде тип выбирают по смыслу значения. Счётчик — int: дробных книг не бывает; средний балл — double; признак «корзина открыта» — boolean с спрашивающим именем isOpen. Деньги в учебных задачах живут в double, но дробные числа хранятся приближённо — настоящие платёжные системы считают суммы целыми копейками, подробнее на дне 5. var уместен, когда тип очевиден справа: var count = 7; читается легко, а var result = compute(); прячет тип и заставляет идти в сигнатуру метода.\n\nПройдитесь по пяти переменным примера и для каждой назовите вслух: это целое или дробное, может ли значение отсутствовать. Если ответы звучат без запинки, выбор типов перестал быть угадыванием.",
+      "tg": "Дар коди воқеӣ типро аз маънои арзиш интихоб мекунанд. Шуморанда — int: китоби касрӣ вуҷуд надорад; миёнаи баҳо — double; аломати «сабад кушодааст» — boolean бо номи пурсии isOpen. Пул дар вазифаҳои таълимӣ дар double ҷой дорад, вале ададҳои касрӣ тақрибан нигоҳ дошта мешаванд — системаҳои воқеии пардохт маблағро бо воҳидҳои бутун ҳисоб мекунанд, тафсилот рӯзи 5. var он вақт мувофиқ аст, ки тип аз тарафи рост равшан бошад: var count = 7; осон хонда мешавад, вале var result = compute(); типро пинҳон карда, ба имзои метод мебарад.\n\nАз панҷ тағйирёбандаи мисол гузаред ва барои ҳар яке овоза нангезед: бутун аст ё касрӣ, арзиш метавонад набошад? Агар ҷавобҳо бе тӯқӣ садо диҳанд, интихоби типҳо дигар тахмин шудан намекунад.",
+      "en": "In real code a type is chosen from the meaning of the value. A counter is int: fractional books do not exist; an average grade is double; the \"cart is open\" flag is boolean with the questioning name isOpen. Money in exercises lives in double, but floating-point numbers are stored approximately — real payment systems count sums in whole minor units, details on day 5. var fits when the type is obvious on the right: var count = 7; reads easily, while var result = compute(); hides the type and sends you to the method signature.\n\nWalk through the five variables of the example and say aloud for each: is it whole or fractional, can the value be absent? If the answers come without hesitation, choosing types is no longer guesswork."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -433,18 +567,18 @@
     }
    ],
    "interview": {
-     "id": "java-day-03-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какой тип Java хранит результат «оплачен / не оплачен»?",
-       "tg": "Кадом типи Java ҳолати «пардохт шуд / нашуд»-ро мегирад?",
-       "en": "Which Java type represents a yes-or-no payment flag?"
-     },
-     "answer": {
-       "ru": "boolean",
-       "tg": "boolean",
-       "en": "boolean"
-     }
+    "id": "java-day-03-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какой тип Java хранит результат «оплачен / не оплачен»?",
+     "tg": "Кадом типи Java ҳолати «пардохт шуд / нашуд»-ро мегирад?",
+     "en": "Which Java type represents a yes-or-no payment flag?"
+    },
+    "answer": {
+     "ru": "boolean",
+     "tg": "boolean",
+     "en": "boolean"
+    }
    },
    "questions": [
     {
@@ -476,7 +610,13 @@
        "en": "System"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В первом разделе перечислены типы и их назначение; сверьте каждый вариант со смыслом слова «количество».",
+      "tg": "Дар бахши аввал типҳо ва мақсадашон оварда шудаанд; ҳар вариантро бо маънои калимаи «шумора» муқоиса кунед.",
+      "en": "The first section lists the types and their purpose; match each option against the meaning of \"quantity\"."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-03-q2",
@@ -507,7 +647,50 @@
        "en": "true"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел обещает, что double печатается с дробной частью; найдите это правило и сверьте с вариантами.",
+      "tg": "Бахши аввал ваъда медиҳад, ки double бо қисми касрӣ чоп мешавад; ин қоида ёбед ва бо вариантҳо муқоиса кунед.",
+      "en": "The first section promises that double prints with its fractional part; find that rule and compare the options."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-03-q3",
+     "question": {
+      "ru": "Что сделает компилятор со строкой var count = 7;?",
+      "tg": "Компилятор бо сатри var count = 7; чӣ мекунад?",
+      "en": "What does the compiler do with the line var count = 7;?"
+     },
+     "answer": {
+      "ru": "Выведет тип int из правой части присваивания",
+      "tg": "Навъи int-ро аз тарафи рости таъинот хулоса мекунад",
+      "en": "It infers the type int from the right side of the assignment"
+     },
+     "options": [
+      {
+       "ru": "Откажется компилировать: var запрещено внутри методов",
+       "tg": "Компилятсияро рад мекунад: var дар дохили метод манъ аст",
+       "en": "It refuses to compile: var is forbidden inside methods"
+      },
+      {
+       "ru": "Присвоит count универсальный тип String",
+       "tg": "Ба count навъи универсалии String медонад",
+       "en": "It assigns count the universal type String"
+      },
+      {
+       "ru": "Выведет тип int из правой части присваивания",
+       "tg": "Навъи int-ро аз тарафи рости таъинот хулоса мекунад",
+       "en": "It infers the type int from the right side of the assignment"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Первый раздел упоминает var: из какой стороны присваивания компилятор берёт тип?",
+      "tg": "Бахши аввал var-ро ёдовар мешавад: компилятор типро аз кадом тарафи таъинот мегирад?",
+      "en": "The first section mentions var: from which side of the assignment does the compiler take the type?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -596,6 +779,18 @@
     },
     {
      "title": {
+      "ru": "Форматирование в реальном проекте: ширина, локаль и читатель",
+      "tg": "Форматсозӣ дар лоиҳаи воқеӣ: паҳнӣ, локал ва хонанда",
+      "en": "Formatting in a real project: width, locale and the reader"
+     },
+     "body": {
+      "ru": "printf в настоящих программах выравнивает колонки и делает вывод предсказуемым. Кроме %d, %s и %.2f есть ширина: %5d резервирует пять позиций под число, поэтому таблица товаров и цен стоит ровными столбцами. Первый аргумент примера — java.util.Locale.US — закрепляет точку в дробях: без него машина с другой локалью напечатает запятую, и тест, сверяющий вывод посимвольно, сломается. И правило читаемости: если сообщение собирается из десятка кусков конкатенацией, шаблон printf сделает это одной строкой.\n\nСоберите маленький чек из трёх позиций с выравниванием через %5d и %8.2f и покажите его другому человеку: если он читает колонки без усилий, форматирование сделало своё дело.",
+      "tg": "printf дар барномаҳои воқеӣ сутунҳоро рост мекунад ва натиҷаро пешбинпазир месозад. Ба ғайри %d, %s ва %.2f паҳнӣ ҳам ҳаст: %5d панҷ ҷо барои адад захира мекунад, барои ҳамин ҷадвали мол ва нарх сутунҳои якандоз дорад. Аргументи аввали мисол — java.util.Locale.US — нуқтаро дар каср муқаррар мекунад: бе он мошини бо локали дигар вергул чоп мекунад ва санҷиши муқоисаи ҳарфбаҳарф мешиканад. Ва қоидаи хонандагӣ: агар паём аз даҳ парча бо илҳоқ ҷамъ ояд, шаблони printf инро дар як сатр мекунад.\n\nЧеки хурди се мавзеъ бо росткунии %5d ва %8.2f созед ва ба одами дигар нишон диҳед: агар ӯ сутунҳоро бе заҳмат бинад, форматсозӣ вазифаашро иҷро кардааст.",
+      "en": "In real programs printf aligns columns and makes output predictable. Beyond %d, %s and %.2f there is width: %5d reserves five positions for a number, so a table of goods and prices stands in even columns. The first argument of the example, java.util.Locale.US, pins the dot in fractions: a machine with another locale prints a comma for the same code, and a test comparing output character by character breaks. And the readability rule: if a message is glued from a dozen pieces by concatenation, a printf template does it in one line.\n\nAssemble a small receipt of three positions aligned via %5d and %8.2f and show it to another person: if they read the columns effortlessly, formatting has done its job."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -637,7 +832,13 @@
        "en": "3"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел объясняет %.2f: сколько знаков после точки он оставляет всегда?",
+      "tg": "Бахши аввал %.2f-ро шарҳ медиҳад: ӯ ҳамеша чанд аломат баъди нуқта мегузорад?",
+      "en": "The first section explains %.2f: how many digits after the dot does it always keep?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-04-q2",
@@ -668,7 +869,50 @@
        "en": "String"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Раздел «Как это работает» называет класс, который читает стандартный ввод; ищите имя класса, а не команду.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» синфиро меномад, ки вуруди стандартиро мехонад; номи синфро ҷустуҷӯ кунед, на фармон.",
+      "en": "The \"How it works\" section names the class that reads standard input; look for a class name, not a command."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "java-day-04-q3",
+     "question": {
+      "ru": "Что напечатает System.out.println(\"5\" + 5);?",
+      "tg": "System.out.println(\"5\" + 5); чӣ мебарорад?",
+      "en": "What does System.out.println(\"5\" + 5); print?"
+     },
+     "answer": {
+      "ru": "55 — строка и число склеиваются как текст",
+      "tg": "55 — сатр ва адад ҳамчун матн часпонида мешаванд",
+      "en": "55 — the string and the number glue together as text"
+     },
+     "options": [
+      {
+       "ru": "10 — Java автоматически превращает строку в число",
+       "tg": "10 — Java сатрро худкор адад мегардонад",
+       "en": "10 — Java converts the string to a number automatically"
+      },
+      {
+       "ru": "\"55\" — вместе с кавычками на экране",
+       "tg": "\"55\" — бо ҳамон қавсҳо дар экран",
+       "en": "\"55\" — with the quotes visible on screen"
+      },
+      {
+       "ru": "55 — строка и число склеиваются как текст",
+       "tg": "55 — сатр ва адад ҳамчун матн часпонида мешаванд",
+       "en": "55 — the string and the number glue together as text"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Последний абзац раздела о частых ошибках разбирает сложение строки и числа; найдите этот пример.",
+      "tg": "Банди охирини бахши хатоҳои маъмул ҷамъи сатр ва ададро таҳлил мекунад; ҳамин мисолро ёбед.",
+      "en": "The last paragraph of the common-mistakes section dissects string plus number; find that example."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -758,6 +1002,18 @@
     },
     {
      "title": {
+      "ru": "Числа в реальном проекте: деньги, средние и округление",
+      "tg": "Ададҳо дар лоиҳаи воқеӣ: пул, миёна ва мудавварсозӣ",
+      "en": "Numbers in a real project: money, averages and rounding"
+     },
+     "body": {
+      "ru": "Настоящие расчёты держат две ловушки этого дня на виду. Первая — среднее: (a + b) / 2 с целыми числами теряет половину, поэтому один операнд приводят к 2.0; приём встретится в каждом отчёте. Вторая — деньги: double хранит дроби приближённо, и 0.1 + 0.2 даёт 0.30000000000000004; платёжный код считает суммы целыми копейками или использует BigDecimal. Для показа пользователю есть Math.round и формат %.2f из дня 4: округление и хранение — разные операции.\n\nПосчитайте в терминале 0.1 + 0.2 и запишите результат в заметки: одна увиденная строка объясняет, почему настоящие системы не доверяют double ни одного сома.",
+      "tg": "Ҳисобҳои воқеӣ ду хатари ин рӯзро дар назар доранд. Аввалӣ — миёна: (a + b) / 2 бо ададҳои бутун нисфиро гум мекунад, барои ҳамин як операндро ба 2.0 мегардонанд; ин усул дар ҳар ҳисобот вомехӯрад. Дуюм — пул: double касрҳоро тақрибан нигоҳ медорад ва 0.1 + 0.2 — 0.30000000000000004; коди пардохт маблағро бо воҳидҳои бутун ҳисоб мекунад ё BigDecimal истифода мебарад. Барои нишон додан ба корбар Math.round ва формати %.2f-и рӯзи 4 ҳаст: мудавварсозӣ ва нигоҳдорӣ ду амали ҷудоанд.\n\nДар терминал 0.1 + 0.2-ро ҳисоб кунед ва натиҷаро дар ёддошт нависед: як сатри дидашуда мефаҳмонад, чаро системаҳои воқеӣ ба double як ҳам сомонро бовар намекунанд.",
+      "en": "Real calculations keep two traps of this day in plain sight. The first is the average: (a + b) / 2 with whole numbers loses the half, so one operand is cast to 2.0; the trick appears in every report. The second is money: double stores fractions approximately, and 0.1 + 0.2 gives 0.30000000000000004; payment code counts sums in whole minor units or uses BigDecimal. For showing to a user there is Math.round and the %.2f format of day 4: rounding and storing are different operations.\n\nCompute 0.1 + 0.2 in the terminal and write the result in your notes: one seen line explains why real systems trust double with not a single somoni."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -799,7 +1055,13 @@
        "en": "5"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Раздел «Как это работает» формулирует правило типа выражения: из чего складывается тип результата деления?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» қоидаи типи ифодаро менависад: типи натиҷаи тақсим аз чӣ ташкил меёбад?",
+      "en": "The \"How it works\" section states the expression type rule: what determines the type of a division result?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "java-day-05-q2",
@@ -830,7 +1092,50 @@
        "en": "7.9 — the cast changes nothing"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Там же описано сужение типов: что происходит с дробной частью при приведении к int — и почему это не округление.",
+      "tg": "Дар ҳамин ҷо тангкунии типҳо тавсиф шудааст: ба int мегардонидан бо қисми касрӣ чӣ мекунад — ва чаро ин мудавварсозӣ нест.",
+      "en": "The same section describes narrowing: what happens to the fractional part when casting to int — and why it is not rounding."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "java-day-05-q3",
+     "question": {
+      "ru": "Как получить честное деление 7 на 2 с результатом 3.5?",
+      "tg": "Тақсими ростин 7 ба 2 бо натиҷаи 3.5-ро чӣ гуна гирифтан мумкин аст?",
+      "en": "How do you get the honest division of 7 by 2 with the result 3.5?"
+     },
+     "answer": {
+      "ru": "Сделать один операнд дробным: 7.0 / 2",
+      "tg": "Як операндро касрӣ кардан: 7.0 / 2",
+      "en": "Make one operand fractional: 7.0 / 2"
+     },
+     "options": [
+      {
+       "ru": "Никак: целые числа в Java всегда делятся нацело",
+       "tg": "Ҳеҷ гуна: ададҳои бутун дар Java ҳамеша бе боқимонда тақсим мешаванд",
+       "en": "Not at all: whole numbers in Java always divide without remainder"
+      },
+      {
+       "ru": "Написать 7 / 2 и округлить результат вверх",
+       "tg": "7 / 2 нависед ва натиҷаро ба боло мудаввар кунед",
+       "en": "Write 7 / 2 and round the result up"
+      },
+      {
+       "ru": "Сделать один операнд дробным: 7.0 / 2",
+       "tg": "Як операндро касрӣ кардан: 7.0 / 2",
+       "en": "Make one operand fractional: 7.0 / 2"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Первый раздел показывает 7.0 / 2 рядом с 7 / 2; сравните два правила деления.",
+      "tg": "Бахши аввал 7.0 / 2-ро дар канори 7 / 2 нишон медиҳад; ду қоидаи тақсимро муқоиса кунед.",
+      "en": "The first section shows 7.0 / 2 next to 7 / 2; compare the two division rules."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -920,6 +1225,18 @@
     },
     {
      "title": {
+      "ru": "Switch в реальном проекте: меню и группировка case",
+      "tg": "Switch дар лоиҳаи воқеӣ: меню ва гурӯҳбандии case",
+      "en": "Switch in a real project: menus and case grouping"
+     },
+     "body": {
+      "ru": "Меню консольной программы — классическое место для switch: конечный список команд 1, 2, 3 и default для неправильного ввода. Группировка case 6: case 7: из примера работает и здесь: несколько значений — одно действие. С Java 14 есть и вторая форма, switch-выражение со стрелкой: case 6, 7 -> \"Weekend\"; в ней нет проваливания, и она возвращает значение прямо в переменную. Классическую форму вы будете читать в старом коде годами, поэтому break и fall-through остаются обязательным знанием.\n\nПерепишите switch примера в форму со стрелкой и сравните оба варианта: какая короче, а какая надёжнее против забытого break?",
+      "tg": "Менюи барномаи терминалӣ ҷои классикии switch аст: рӯйхати хотимавии фармонҳои 1, 2, 3 ва default барои вуруди нодурук. Гурӯҳбандии case 6: case 7: аз мисол дар ин ҷо ҳам кор мекунад: чанд арзиш — як амал. Аз Java 14 шакли дуюм ҳам ҳаст, switch-ифода бо тир: case 6, 7 -> \"Weekend\"; дар он фуро рафтан вуҷуд надорад ва арзишро бевосита ба тағйирёбанда медиҳад. Шакли классикиро дар коди кӯҳна солҳо хонед, барои ҳамин break ва fall-through дониши ҳатмӣ мемонанд.\n\nswitch-и мисолро ба шакли тирдор нависед ва ҳар ду вариантро муқоиса кунед: кадом кӯтоҳтар аст ва кадом нисбат ба break-и фаромӯшшуда беҳтар ҳифз мекунад?",
+      "en": "A console program menu is the classic place for switch: a finite list of commands 1, 2, 3 and a default for wrong input. The case 6: case 7: grouping from the example works here too: several values, one action. Since Java 14 there is a second form, the arrow switch expression: case 6, 7 -> \"Weekend\"; it has no fall-through and returns a value straight into a variable. You will be reading the classic form in old code for years, so break and fall-through stay mandatory knowledge.\n\nRewrite the example switch in the arrow form and compare the two: which is shorter, and which is safer against a forgotten break?"
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -961,7 +1278,13 @@
        "en": "Cold — else always runs"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проследите цепочку из первого раздела сверху вниз: какое условие при тридцати градусах окажется истинным первым?",
+      "tg": "Занҷирро аз бахши аввал аз боло ба поён пайрафа кунед: дар сию градус кадом шарти ростини аввал пайдо мешавад?",
+      "en": "Trace the chain from the first section top down: which condition at thirty degrees turns true first?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-06-q2",
@@ -992,7 +1315,50 @@
        "en": "The switch ends by itself automatically"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел описывает роль break в switch; представьте, что его нет, и вспомните слово урока для такого проваливания.",
+      "tg": "Бахши аввал нақши break-ро дар switch тавсиф мекунед; тасаввур кунед, ки вай набошад ва калимаи дарсро барои ин фуро рафтан ёд оваред.",
+      "en": "The first section describes the role of break in switch; imagine it missing and recall the lesson word for that fall-through."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-06-q3",
+     "question": {
+      "ru": "Почему в цепочке else if порядок веток важен?",
+      "tg": "Чаро дар занҷири else if тартиби шохаҳо муҳим аст?",
+      "en": "Why does the order of branches matter in an else-if chain?"
+     },
+     "answer": {
+      "ru": "Срабатывает первая истинная ветка, и широкое условие выше затенит частное ниже",
+      "tg": "Шохаи ростини аввал амал мекунад ва шарти васеъ дар боло хусусиро дар поён пӯшонида мегирад",
+      "en": "The first true branch wins, and a broad condition above shadows a specific one below"
+     },
+     "options": [
+      {
+       "ru": "Компилятор требует сортировать ветки по алфавиту",
+       "tg": "Компилятор талаб мекунад шохаҳоро аз рӯи алифбо мураттаб кардан",
+       "en": "The compiler requires branches to be sorted alphabetically"
+      },
+      {
+       "ru": "Выполняется каждая ветка, но в порядке кода",
+       "tg": "Ҳар шоха иҷро мешавад, вале бо тартиби код",
+       "en": "Every branch runs, in code order"
+      },
+      {
+       "ru": "Срабатывает первая истинная ветка, и широкое условие выше затенит частное ниже",
+       "tg": "Шохаи ростини аввал амал мекунад ва шарти васеъ дар боло хусусиро дар поён пӯшонида мегирад",
+       "en": "The first true branch wins, and a broad condition above shadows a specific one below"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка четвёртая в разделе о частых ошибках показывает ровно этот случай с переставленными ветками про temperature.",
+      "tg": "Хатои чорум дар бахши хатоҳои маъмул маҳз ҳамин ҳолат бо шохаҳои ҷойивазшудаи temperature-ро нишон медиҳад.",
+      "en": "The fourth mistake in the common-mistakes section shows exactly this case with the reordered temperature branches."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1082,6 +1448,18 @@
     },
     {
      "title": {
+      "ru": "Циклы в реальном проекте: вложенность и выход",
+      "tg": "Даврҳо дар лоиҳаи воқеӣ: дарунӣ гузоштан ва хуруҷ",
+      "en": "Loops in a real project: nesting and exiting"
+     },
+     "body": {
+      "ru": "Настоящие программы вкладывают циклы друг в друга: внешний перебирает строки таблицы, внутренний — ячейки строки; таблица умножения из практики — маленький пример двойного цикла. Второй навык — управляемый выход: break прерывает цикл досрочно, continue пропускает остаток текущего прохода. И помните: в for подготовка и шаг стоят в одной строке, а в while их расставляет программист, поэтому забытое n-- встречается чаще, чем кажется.\n\nНапишите вложенный цикл, печатающий прямоугольник 3 × 5 из звёздочек, и до запуска назовите вслух: сколько раз сработает внешний цикл, сколько — внутренний, сколько всего проходов тела.",
+      "tg": "Барномаҳои воқеӣ даврҳоро ба якдигар ҷой медиҳанд: берунӣ сатрҳои ҷадвалро мегардонад, дарунӣ ҳуҷайраҳои сатрро; ҷадвали зарб аз машқ намунаи хурди даври дукарата аст. Маҳорати дуюм — хуруҷи идорашаванда: break даврро пеш аз вақт мебурад, continue боқимондаи гузариши ҷориро мепарад. Ва дар хотир доред: дар for омодагӣ ва қадам дар як сатр ҳастанд, вале дар while онҳоро барномасоз мегузорад, барои ҳамин n-- фаромӯшшуда зиёда аз он чи маълум мешавад вомехӯрад.\n\nДаври дарунӣ нависед, ки росткунҷаи 3 × 5-ро аз ситорачаҳо чоп кунад, ва то иҷро овоза нангезед: даври берунӣ чанд бор амал мекунад, дарунӣ чанд, ҳамагӣ чанд гузариши бадан?",
+      "en": "Real programs nest loops inside each other: the outer one walks the rows of a table, the inner one the cells of a row; the multiplication table from practice is a small example of a double loop. The second skill is a controlled exit: break ends the loop early, continue skips the rest of the current pass. And remember: in for the setup and the step stand on one line, while in while the programmer places them, so a forgotten n-- shows up more often than expected.\n\nWrite a nested loop printing a 3 × 5 rectangle of asterisks, and before running say aloud: how many passes does the outer loop make, the inner one, and the body in total."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -1123,7 +1501,13 @@
        "en": "6 — including the last check"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посчитайте значения i от старта до последнего числа, которое ещё меньше пяти; сверьте свой список с вариантами.",
+      "tg": "Арзишҳои i-ро аз оғоз то охирин ададе, ки ҳоло камтар аз панҷ аст, ҳисоб кунед; рӯйхати худро бо вариантҳо муқоиса кунед.",
+      "en": "Count the values of i from the start to the last number still below five; match your list against the options."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-07-q2",
@@ -1154,7 +1538,50 @@
        "en": "while cannot be interrupted with break"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел показывает do-while с k = 10 и ложным условием; сколько раз отработало тело и почему?",
+      "tg": "Бахши аввал do-while-ро бо k = 10 ва шарти нодурук нишон медиҳад; бадан чанд бор иҷро шуд ва чаро?",
+      "en": "The first section shows do-while with k = 10 and a false condition; how many times did the body run and why?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-07-q3",
+     "question": {
+      "ru": "Что произойдёт, если в while забыть уменьшение счётчика n--?",
+      "tg": "Чӣ мешавад, агар дар while кам кардани шуморандаи n-- фаромӯш шавад?",
+      "en": "What happens if you forget to decrement the counter n-- inside while?"
+     },
+     "answer": {
+      "ru": "Условие никогда не станет ложным — цикл станет бесконечным",
+      "tg": "Шарт ҳеҷ гоҳ нодурук намешавад — давр беохир мешавад",
+      "en": "The condition never becomes false — the loop runs forever"
+     },
+     "options": [
+      {
+       "ru": "Цикл выполнится один раз и завершится",
+       "tg": "Давр як бор иҷро шуда, тамом мешавад",
+       "en": "The loop runs once and finishes"
+      },
+      {
+       "ru": "Компилятор добавит шаг автоматически",
+       "tg": "Компилятор қадамро худкор илова мекунад",
+       "en": "The compiler adds the step automatically"
+      },
+      {
+       "ru": "Условие никогда не станет ложным — цикл станет бесконечным",
+       "tg": "Шарт ҳеҷ гоҳ нодурук намешавад — давр беохир мешавад",
+       "en": "The condition never becomes false — the loop runs forever"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» разбирает источник бесконечного цикла; найдите там пример с забытым шагом.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» манбаи даври беохирро таҳлил мекунад; дар он ҷо мисоли қадами фаромӯшшударо ёбед.",
+      "en": "The \"How it works\" section dissects the source of the infinite loop; find the forgotten-step example there."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1243,6 +1670,18 @@
     },
     {
      "title": {
+      "ru": "Массивы в реальном проекте: печать, копии и ссылки",
+      "tg": "Массивҳо дар лоиҳаи воқеӣ: чоп, нусхаҳо ва ишораҳо",
+      "en": "Arrays in a real project: printing, copies and references"
+     },
+     "body": {
+      "ru": "Три факта о массивах, которые в настоящем коде проверяют первыми. Печать: System.out.println(scores) выведет не числа, а служебный текст вроде [I@1b6d3586 — у массива нет своего toString; для читаемого вывода переберите элементы циклом или подключите java.util.Arrays.toString. Копия: int[] copy = scores не копирует массив — две переменные указывают на один объект, и изменение через copy изменит scores; настоящую копию делает Arrays.copyOf. Параметр: Java передаёт копию значения ссылки на массив. Через неё метод меняет scores[0] в исходном массиве, но присваивание параметру другого массива не меняет переменную вызывающего кода.\n\nПроверьте обе ловушки в терминале: напечатайте scores целиком и создайте копию присваиванием, изменив элемент в ней.",
+      "tg": "Се ҳақиқат дар бораи массивҳо, ки дар коди воқеӣ аввал месанҷанд. Чоп: System.out.println(scores) ададҳоро не, матни хидматии [I@1b6d3586-ро мебарорад — массиви toString-и хос надорад; барои натиҷаи хонданӣ элементҳоро бо давр гардонед ё java.util.Arrays.toString-ро ҷӯр кунед. Нусха: int[] copy = scores массивро нусхабардорӣ намекунад — ду тағйирёбанда ба як объект ишора мекунанд ва тағйир аз тариқи copy scores-ро низ тағйир медиҳад; нусхаи ҳақиқиро Arrays.copyOf месозад. Параметр: Java нусхаи қимати истинод ба массивро медиҳад. Метод тавассути он scores[0]-и массиви аслиро иваз мекунад, вале ба параметр массиви дигар таъйин кардан тағйирёбандаи коди даъваткунандаро иваз намекунад.\n\nҲар ду хатарро дар терминал санҷед: scores-ро тамоман чоп кунед ва нусхаро бо таъинот созед, як элементи онро тағйир диҳед.",
+      "en": "Three facts about arrays that real code checks first. Printing: System.out.println(scores) shows not the numbers but service text like [I@1b6d3586 — an array has no toString of its own; for readable output walk the elements with a loop or bring in java.util.Arrays.toString. Copy: int[] copy = scores does not copy the array — two variables point at one object, and a change through copy changes scores; a real copy is made by Arrays.copyOf. Parameter: Java passes a copy of the array reference value. Through it, a method can change scores[0] in the original array, but assigning another array to the parameter does not reassign the caller variable.\n\nCheck both traps in the terminal: print scores whole and make a copy by assignment, changing one element in it."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -1284,7 +1723,13 @@
        "en": "It depends on the array length"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел объясняет нумерацию ячеек массива: с какого числа она начинается и почему?",
+      "tg": "Бахши аввал рақамгузории ҳуҷайраҳои массивро шарҳ медиҳад: аз кадом адад оғоз мешавад ва чаро?",
+      "en": "The first section explains array cell numbering: from which number does it start and why?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-08-q2",
@@ -1315,7 +1760,50 @@
        "en": "The array grows to four elements"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ошибка первая в разделе ошибок называет точное имя исключения; сверьте его с вариантами.",
+      "tg": "Хатои якум дар бахши хатоҳо номи дақиқи истисноро меномад; онро бо вариантҳо муқоиса кунед.",
+      "en": "The first mistake in the errors section names the exact exception; match it against the options."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "java-day-08-q3",
+     "question": {
+      "ru": "Как получить длину массива scores?",
+      "tg": "Дарозии массиви scores-ро чӣ гуна гирифтан мумкин аст?",
+      "en": "How do you get the length of the array scores?"
+     },
+     "answer": {
+      "ru": "scores.length — это поле, без скобок",
+      "tg": "scores.length — ин майдон аст, бе қавс",
+      "en": "scores.length — it is a field, no parentheses"
+     },
+     "options": [
+      {
+       "ru": "scores.length() — вызов метода",
+       "tg": "scores.length() — даъвати метод",
+       "en": "scores.length() — a method call"
+      },
+      {
+       "ru": "scores.size() — как у списков",
+       "tg": "scores.size() — мисли рӯйхатҳо",
+       "en": "scores.size() — like lists use"
+      },
+      {
+       "ru": "scores.length — это поле, без скобок",
+       "tg": "scores.length — ин майдон аст, бе қавс",
+       "en": "scores.length — it is a field, no parentheses"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка вторая в разделе ошибок — как раз про скобки у length; в каком виде length работает, а в каком ломается?",
+      "tg": "Хатои дуюм дар бахши хатоҳо маҳз дар бораи қавсҳои length аст; length дар кадом шакл кор мекунад ва дар кадом мешиканад?",
+      "en": "The second mistake in the errors section is exactly about parentheses on length; which form works and which breaks?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1404,6 +1892,18 @@
     },
     {
      "title": {
+      "ru": "Методы в реальном проекте: имя, одна задача и ранний return",
+      "tg": "Методҳо дар лоиҳаи воқеӣ: ном, як вазифа ва return-и пешин",
+      "en": "Methods in a real project: naming, one job and early return"
+     },
+     "body": {
+      "ru": "В настоящем коде метод проектируют вокруг одной задачи, которую называет глагол: findByTitle, calculateTotal, isAvailable. Если имя требует союза «и», это уже два метода. Второй приём — ранний выход: проверки аргументов и граничные случаи обрабатываются первыми строками с коротким return, а главная логика остаётся без лестницы вложенных условий. И помните: метод получает копию значения, а не саму переменную вызывающего кода; поле объекта метод изменить может, а примитивный параметр — нет.\n\nВозьмите любой метод из своей практики и задайте три вопроса: называет ли имя ровно одну задачу, стоят ли проверки до главной логики, читается ли тело сверху вниз без прыжков?",
+      "tg": "Дар коди воқеӣ методро дар атрофи як вазифае месозанд, ки феъл онро меномад: findByTitle, calculateTotal, isAvailable. Агар ном пайвандаки «ва»-ро талаб кунад, ин аллакай ду метод аст. Усули дуюм — хуруҷи пешин: санҷишҳои аргументҳо ва ҳолатҳои канорӣ дар сатрҳои аввал бо return-и кӯтоҳ ҳал мешаванд, мантиқи асосӣ бе зинапояи шартҳои дарунӣ мемонад. Ва дар хотир доред: метод нусхаи арзишро мегирад, на худи тағйирёбандаи коди даъваткунанда; метод майдони объектро тағйир дода метавонад, вале параметри примитивиро не.\n\nЯгон методи аз мошқи худро гиред ва се пурсиш кунед: ном дақиқ як вазифаро меномад, санҷишҳо пеш аз мантиқи асосӣ меистанд, бадан аз боло ба поён бе париш хонда мешавад?",
+      "en": "In real code a method is designed around one job that a verb names: findByTitle, calculateTotal, isAvailable. If the name needs the conjunction \"and\", it is already two methods. The second technique is the early exit: argument checks and edge cases are handled by the first lines with short returns, and the main logic stays free of a ladder of nested conditions. And remember: a method receives a copy of the value, not the caller variable itself; it can change an object field but not a primitive parameter.\n\nTake any method from your practice and ask three questions: does the name state exactly one job, do the checks stand before the main logic, does the body read top to bottom without jumps?"
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -1445,7 +1945,13 @@
        "en": "Recursion — the methods call each other"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел показывает два метода square с разными типами параметров; как одним словом называется этот приём?",
+      "tg": "Бахши аввал ду методи square бо типҳои гуногуни параметрро нишон медиҳад; ин усул бо як калима чӣ ном дорад?",
+      "en": "The first section shows two square methods with different parameter types; what is this technique called in one word?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-09-q2",
@@ -1476,7 +1982,50 @@
        "en": "16.0 — the double version runs"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Компилятор выбирает версию по типу аргумента: какой тип у 4 и какая формула выполнится?",
+      "tg": "Компилятор версияро аз рӯи типи аргумент интихоб мекунад: 4 кадом тип дорад ва кадом формула иҷро мешавад?",
+      "en": "The compiler picks the version by the argument type: what type is 4 and which formula runs?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-09-q3",
+     "question": {
+      "ru": "Что входит в сигнатуру метода?",
+      "tg": "Чӣ ба имзои метод дохил мешавад?",
+      "en": "What makes up a method signature?"
+     },
+     "answer": {
+      "ru": "Имя и список типов параметров; возвращаемый тип в сигнатуру не входит",
+      "tg": "Ном ва рӯйхати типҳои параметрҳо; типи баргардонӣ ба имзо дохил намешавад",
+      "en": "The name and the list of parameter types; the return type is not part of it"
+     },
+     "options": [
+      {
+       "ru": "Имя, список параметров и тип возвращаемого значения",
+       "tg": "Ном, рӯйхати параметрҳо ва типи баргардонӣ",
+       "en": "The name, the parameter list and the return type"
+      },
+      {
+       "ru": "Только имя метода",
+       "tg": "Танҳо номи метод",
+       "en": "Only the method name"
+      },
+      {
+       "ru": "Имя и список типов параметров; возвращаемый тип в сигнатуру не входит",
+       "tg": "Ном ва рӯйхати типҳои параметрҳо; типи баргардонӣ ба имзо дохил намешавад",
+       "en": "The name and the list of parameter types; the return type is not part of it"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» даёт определение сигнатуры; проверьте, что в его состав не входит.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» таърифи имзоро медиҳад; тафтиш кунед, ки чӣ ба он дохил намешавад.",
+      "en": "The \"How it works\" section defines the signature; check what is not part of it."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1565,6 +2114,18 @@
     },
     {
      "title": {
+      "ru": "Строки в реальном проекте: цепочки методов и экранирование",
+      "tg": "Сатрҳо дар лоиҳаи воқеӣ: занҷираҳои методҳо ва паноҳандагӣ",
+      "en": "Strings in a real project: method chains and escaping"
+     },
+     "body": {
+      "ru": "Цепочка name.trim().toLowerCase().startsWith(\"d\") использует разные типы результатов: trim и toLowerCase возвращают строки, а startsWith завершает цепочку результатом boolean. String неизменяем: методы обработки не меняют исходный текст; сохраните возвращённую строку, если она нужна дальше. Кавычку внутри строкового литерала записывают как \", обратный слэш — как \\. Без экранирования кавычка закончит литерал раньше нужного.\n\nСоберите эту цепочку над своим именем и предскажите true или false до запуска. Отдельно сохраните результат trim().toLowerCase() в String и сравните его с исходным именем.",
+      "tg": "Занҷираи name.trim().toLowerCase().startsWith(\"d\") типҳои гуногуни натиҷа дорад: trim ва toLowerCase сатр мегардонанд, вале startsWith занҷираро бо натиҷаи boolean тамом мекунад. String тағйирнопазир аст: методҳои коркарди матн сатри аслиро иваз намекунанд; агар сатри натиҷа баъд лозим бошад, онро сабт кунед. Дар дохили литерали сатр нохунакро бо \", слэши баръаксро бо \\ менависанд. Бе ин нохунак литералро пеш аз вақти лозим тамом мекунад.\n\nИн занҷираро барои номи худ созед ва пеш аз иҷро true ё false-ро пешгӯӣ кунед. Натиҷаи trim().toLowerCase()-ро ҷудогона дар String сабт карда, бо номи аслӣ муқоиса кунед.",
+      "en": "The chain name.trim().toLowerCase().startsWith(\"d\") uses different result types: trim and toLowerCase return strings, while startsWith ends the chain with a boolean. String is immutable: text-processing methods do not change the original text; save the returned string if you need it later. Inside a string literal, write a quotation mark as \", and a backslash as \\. Without escaping, the quotation mark ends the literal too early.\n\nBuild this chain over your own name and predict true or false before running. Separately store trim().toLowerCase() in a String and compare it with the original name."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -1606,7 +2167,13 @@
        "en": "With the = operator — it assigns and compares at once"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел печатает результаты a == b и a.equals(b) для одинакового текста; сравните оба результата и объясните разницу.",
+      "tg": "Бахши аввал натиҷаҳои a == b ва a.equals(b)-ро барои матни якхела чоп мекунад; ҳар ду натиҷаро муқоиса кунед ва фарқро шарҳ диҳед.",
+      "en": "The first section prints both a == b and a.equals(b) for the same text; compare the two results and explain the difference."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-10-q2",
@@ -1637,7 +2204,50 @@
        "en": "Jav — counting starts at one"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В первом разделе есть правило про конец диапазона substring: включается он или нет?",
+      "tg": "Дар бахши аввал қоидае дар бораи охири диапазони substring ҳаст: он дохил мешавад ё не?",
+      "en": "The first section has a rule about the end of the substring range: is it included or not?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-10-q3",
+     "question": {
+      "ru": "Что произойдёт с переменной a после вызова a.toUpperCase();?",
+      "tg": "Баъди даъвати a.toUpperCase(); бо тағйирёбандаи a чӣ мешавад?",
+      "en": "What happens to the variable a after calling a.toUpperCase();?"
+     },
+     "answer": {
+      "ru": "Ничего: метод вернёт новую строку, а a останется прежней",
+      "tg": "Ҳеҷ чиз: метод сатри нав мегардонад ва a ҳамон пешина мемонад",
+      "en": "Nothing: the method returns a new string and a stays the same"
+     },
+     "options": [
+      {
+       "ru": "Строка в a станет заглавной",
+       "tg": "Сатри дар a ба ҳарфҳои калон мегардад",
+       "en": "The string in a turns uppercase"
+      },
+      {
+       "ru": "Компилятор запретит вызов без присваивания",
+       "tg": "Компилятор даъватро бе таъинот манъ мекунад",
+       "en": "The compiler forbids the call without an assignment"
+      },
+      {
+       "ru": "Ничего: метод вернёт новую строку, а a останется прежней",
+       "tg": "Ҳеҷ чиз: метод сатри нав мегардонад ва a ҳамон пешина мемонад",
+       "en": "Nothing: the method returns a new string and a stays the same"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» формулирует неизменяемость строк: что метод делает со старой строкой?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» тағйирнопазирии сатрҳоро менависад: метод бо сатри куҳна чӣ мекунад?",
+      "en": "The \"How it works\" section states string immutability: what does the method do with the old string?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1726,6 +2336,18 @@
     },
     {
      "title": {
+      "ru": "Объекты в реальном проекте: ссылки и общее состояние",
+      "tg": "Объектҳо дар лоиҳаи воқеӣ: ишораҳо ва ҳолати муштарак",
+      "en": "Objects in a real project: references and shared state"
+     },
+     "body": {
+      "ru": "Главное отличие объектов от примитивов в настоящем коде: переменная хранит ссылку, а не сам объект. Присваивание Book b2 = b1 не копирует книгу — два имени указывают на один объект, и b2.pages = 0 изменит книгу, видимую и через b1. Примитив копируется, объект — нет; тем же объясняется передача параметров: поле объекта метод может изменить у вызывающего, а пересоздать саму ссылку снаружи нельзя. Второй навык — проверка конструктора: если объект обязан иметь title, конструктор — место проверить это один раз.\n\nСоздайте b3 через присваивание от b1, измените поле через b3 и напечатайте b1.title: одна строка вывода убедительнее любого объяснения, что копирования не произошло.",
+      "tg": "Фарқи асосии объектҳо аз примитивҳо дар коди воқеӣ: тағйирёбанда ишораро нигоҳ медорад, на худи объект. Таъиноти Book b2 = b1 китобро нусхабардорӣ намекунад — ду ном ба як объект ишора мекунанд ва b2.pages = 0 китоберо тағйир медиҳад, ки тавассути b1 ҳам дида мешавад. Примитив нусхабардорӣ мешавад, объект — не; ҳамин бо интиқоли параметрҳо шарҳ дода мешавад: метод майдони объектро тағйир дода метавонад, вале аз берун худи ишораро аз нав созед, намешавад. Маҳорати дуюм — санҷиш дар конструктор: агар объект бояд ҳатман title дошта бошад, конструктор ҷои дурусти як бор санҷидан аст.\n\nb3-ро тавассути таъинот аз b1 созед, майдонро тавассути b3 тағйир диҳед ва b1.title-ро чоп кунед: як сатри натиҷа аз ҳар гуна шарҳ далелноктар аст, ки нусхабардорӣ содир нашуд.",
+      "en": "The main difference between objects and primitives in real code: a variable stores a reference, not the object itself. The assignment Book b2 = b1 does not copy the book — two names point at one object, and b2.pages = 0 changes the book also visible through b1. Primitives copy, objects do not; the same explains parameter passing: a method can change an object field the caller sees, but cannot repoint the caller variable. The second skill is constructor validation: if the object must have a title, the constructor is the place to check it once.\n\nCreate b3 by assignment from b1, change a field through b3 and print b1.title: one line of output proves more than any explanation that no copy happened."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -1767,7 +2389,13 @@
        "en": "Prints object fields to the console"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел описывает работу new: что он выделяет и какой метод при этом запускает?",
+      "tg": "Бахши аввал кори new-ро тавсиф мекунад: ӯ чӣ захира мекунад ва кадом методро оғоз мекунад?",
+      "en": "The first section describes what new does: what does it allocate and which method does it run?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-11-q2",
@@ -1798,7 +2426,50 @@
        "en": "The name of the file declaring the class"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В конструкторе примера this.title стоит слева, параметр title — справа; сверьте каждый вариант с этой записью.",
+      "tg": "Дар конструктори мисол this.title дар чап ва параметри title дар рост меистад; ҳар вариантро бо ин навишт муқоиса кунед.",
+      "en": "In the example constructor this.title stands on the left and the parameter title on the right; check each option against this notation."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-11-q3",
+     "question": {
+      "ru": "Что произойдёт при чтении локальной переменной Book b; до присваивания?",
+      "tg": "Ҳангоми хондани тағйирёбандаи локалии Book b; пеш аз таъинот чӣ мешавад?",
+      "en": "What happens when reading the local variable Book b; before any assignment?"
+     },
+     "answer": {
+      "ru": "Компиляция не пройдёт: локальная переменная обязана получить значение",
+      "tg": "Компилятсия нагузаштан мемонад: тағйирёбандаи локалӣ бояд арзиш гирад",
+      "en": "Compilation fails: a local variable must be assigned first"
+     },
+     "options": [
+      {
+       "ru": "Программа напечатает null",
+       "tg": "Барнома null мебарорад",
+       "en": "The program prints null"
+      },
+      {
+       "ru": "Java подставит значение по умолчанию автоматически",
+       "tg": "Java арзиши пешфарзро худкор меҳаморад",
+       "en": "Java substitutes a default value automatically"
+      },
+      {
+       "ru": "Компиляция не пройдёт: локальная переменная обязана получить значение",
+       "tg": "Компилятсия нагузаштан мемонад: тағйирёбандаи локалӣ бояд арзиш гирад",
+       "en": "Compilation fails: a local variable must be assigned first"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка первая в разделе о частых ошибках описывает именно чтение неинициализированной переменной.",
+      "tg": "Хатои якум дар бахши хатоҳои маъмул маҳз хондани тағйирёбандаи бе арзишро тавсиф мекунад.",
+      "en": "The first mistake in the common-mistakes section describes exactly reading an unassigned variable."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1887,6 +2558,18 @@
     },
     {
      "title": {
+      "ru": "Инкапсуляция в реальном проекте: инварианты и одна точка контроля",
+      "tg": "Инкапсулятсия дар лоиҳаи воқеӣ: инвариантҳо ва як нуқтаи назорат",
+      "en": "Encapsulation in a real project: invariants and one control point"
+     },
+     "body": {
+      "ru": "Настоящая ценность инкапсуляции — защита инварианта: правила, которое обязано быть истинным всегда. «Баланс не бывает отрицательным», «книги на полке не дублируются» — такие правила живут в методах класса, а не в головах вызывающих. Геттеры и сеттеры — не ритуал: сеттер без проверки лишь переставляет private дальше от кода, ничего не защищая. Второй уровень полезен в настоящих проектах: поля, которые после создания не меняются, объявляют final — конструктор задаёт значение один раз.\n\nПеречислите инварианты Account из примера словами и найдите метод, который их охраняет: если для инварианта нет метода-стража, добавьте его — это и есть проектирование, а не набор геттеров.",
+      "tg": "Арзиши воқеии инкапсулятсия ҳимояи инвариант аст: қоидае, ки ҳамеша рост бояд бошад. «Тавозун манфӣ намешавад», «китобҳои дар раф такрор намешаванд» — чунин қоидаҳо дар методҳои синф зиндагӣ мекунанд, на дар сарҳои даъваткунандагон. Геттерҳо ва сеттерҳо — муросим нестанд: сеттери бе санҷиш танҳо private-ро дуртар аз код мекунад ва ҳеҷ чизро ҳимоя намекунад. Сатҳи дуюм дар лоиҳаҳои воқеӣ муфид аст: майдонҳое, ки баъди сохтан тағйир намеёбанд, final эълон мекунанд — конструктор арзишро як бор муқаррар мекунад.\n\nИнвариантҳои Account-ро аз мисол бо суханон номбар кунед ва методро ёбед, ки онҳоро посбонӣ мекунад: агар барои инвариант методи посбон набошад, илова кунед — ҳамин тарҳрезӣ аст, на маҷмуи геттерҳо.",
+      "en": "The real value of encapsulation is protecting an invariant: a rule that must be true at all times. \"The balance is never negative\", \"shelf books are never duplicated\" — such rules live in the methods of the class, not in the heads of callers. Getters and setters are not a ritual: a setter without checks merely moves private further from the code while protecting nothing. A second level helps in real projects: fields that never change after creation are declared final — the constructor assigns them once.\n\nList the invariants of the example Account in words and find the method guarding them: if an invariant has no guardian method, add one — that is design, not a pile of getters."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -1928,7 +2611,13 @@
        "en": "private speeds up the program"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел объясняет, что private меняет доступ, а не память и скорость; сверьте с этим каждый вариант.",
+      "tg": "Бахши аввал мефаҳмонад, ки private дастрасиро тағйир медиҳад, на ҳотира ва суръатро; ҳар вариантро бо ин муқоиса кунед.",
+      "en": "The first section explains that private changes access, not memory or speed; match each option against that."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-12-q2",
@@ -1959,7 +2648,50 @@
        "en": "Yes, and the check fires at run time"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ошибка третья в разделе о частых ошибках описывает именно попытку доступа к private-полю извне.",
+      "tg": "Хатои сеюм дар бахши хатоҳои маъмул маҳз кӯшиши дастрасӣ ба майдони private аз берунро тавсиф мекунад.",
+      "en": "The third mistake in the common-mistakes section describes exactly the outside access to a private field."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "java-day-12-q3",
+     "question": {
+      "ru": "Где живут проверки данных при инкапсуляции?",
+      "tg": "Ҳангоми инкапсулятсия санҷишҳои маълумот дар куҷо зиндагӣ мекунанд?",
+      "en": "Where do the data checks live under encapsulation?"
+     },
+     "answer": {
+      "ru": "Внутри методов класса — это одна точка контроля для всех изменений",
+      "tg": "Дар дохили методҳои синф — ҳамин як нуқтаи назорат барои ҳамаи тағйирот аст",
+      "en": "Inside the class methods — one control point for every change"
+     },
+     "options": [
+      {
+       "ru": "В коде каждого вызывающего класса отдельно",
+       "tg": "Дар коди ҳар синфи даъваткунанда алоҳида",
+       "en": "Separately in every calling class"
+      },
+      {
+       "ru": "Нигде: private сам запрещает плохие значения",
+       "tg": "Дар куҷо не: private худаш арзишҳои бадро манъ мекунад",
+       "en": "Nowhere: private alone forbids bad values"
+      },
+      {
+       "ru": "Внутри методов класса — это одна точка контроля для всех изменений",
+       "tg": "Дар дохили методҳои синф — ҳамин як нуқтаи назорат барои ҳамаи тағйирот аст",
+       "en": "Inside the class methods — one control point for every change"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» говорит о пользе одной точки контроля: где живёт проверка deposit?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» дар бораи фоидаи як нуқтаи назорат мегӯяд: санҷиши deposit дар куҷо зиндагӣ мекунад?",
+      "en": "The \"How it works\" section speaks about the value of one control point: where does the deposit check live?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2048,6 +2780,18 @@
     },
     {
      "title": {
+      "ru": "Static в реальном проекте: константы, утилиты и цена общего состояния",
+      "tg": "Static дар лоиҳаи воқеӣ: доимӣҳо, утилитҳо ва арзиши ҳолати муштарак",
+      "en": "Static in a real project: constants, utilities and the price of shared state"
+     },
+     "body": {
+      "ru": "В настоящих проектах static встречается в трёх честных ролях. Константы: static final String TAX_RATE — имя в верхнем регистре, значение задаётся один раз и живёт на уровне класса. Утилиты: методы без собственного состояния вроде Math.round или Integer.parseInt — им не нужно знать объект, только аргументы. И счётчики класса из примера: сколько объектов создано, какой идентификатор выдать следующим.\n\nПроверьте каждое static-употребление в своём коде вопросом: это константа, утилита или счётчик? Если ответ «ничего из перечисленного», переведите поле в объект — иначе будущая отладка заплатит за краткость.",
+      "tg": "Дар лоиҳаҳои воқеӣ static дар се нақши ростин вомехӯрад. Доимӣҳо: static final String TAX_RATE — ном бо ҳарфҳои калон, арзиш як бор муқаррар мешавад ва дар сатҳи синф зиндагӣ мекунад. Утилитҳо: методҳои бе ҳолати хос ба мисли Math.round ё Integer.parseInt — ба онҳо объект лозим нестанд, танҳо аргументҳо. Ва шуморандаҳои синф аз мисол: чанд объект сохта шуд, кадом идентификатори навбатӣ дода мешавад.\n\nҲар истифодаи static-ро дар коди худ бо пурсиш санҷед: ин доимӣ, утилита ё шуморанда? Агар ҷавоб «ҳеҷ яке аз инҳо» бошад, майдонро ба объект гузаронед — вагарна отладкаи оянда барои кӯтоҳӣ пардохт мекунад.",
+      "en": "In real projects static appears in three honest roles. Constants: static final String TAX_RATE — an uppercase name, a value assigned once, a life at class level. Utilities: stateless methods like Math.round or Integer.parseInt — they need no object, only arguments. And the class counters of the example: how many objects exist, which id goes next.\n\nCheck every static use in your code with a question: is it a constant, a utility or a counter? If the answer is \"none of those\", move the field into an object — otherwise future debugging pays for the brevity."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -2089,7 +2833,13 @@
        "en": "The main method"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел объясняет слово static как «относится к классу целиком»; сверьте с этим каждый вариант.",
+      "tg": "Бахши аввал калимаи static-ро чунин шарҳ медиҳад: «ба тамоми класс тааллук дорад»; ҳар вариантро бо ин муқоиса кунед.",
+      "en": "The first section explains static as \"belongs to the whole class\"; match every option against that."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-13-q2",
@@ -2120,7 +2870,50 @@
        "en": "static allows returning a value from main"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В первом разделе сказано, кто запускает main; подумайте, нужен ли этому источнику объект класса Main.",
+      "tg": "Дар бахши аввал гуфта шудааст, ки main-ро кӣ оғоз мекунад; ба андешагиед, оё ба ин манбаъ объекти класси Main лозим аст.",
+      "en": "The first section says who launches main; consider whether that launcher needs an object of class Main."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-13-q3",
+     "question": {
+      "ru": "Что произойдёт, если убрать static у поля created в примере?",
+      "tg": "Чӣ мешавад, агар static-ро аз майдони created дар мисол тарк кунанд?",
+      "en": "What happens if you remove static from the created field in the example?"
+     },
+     "answer": {
+      "ru": "У каждого объекта появится свой счётчик, и программа напечатает 1",
+      "tg": "Ҳар объект шуморандаи худро мегирад ва барнома 1 мебарорад",
+      "en": "Each object gets its own counter and the program prints 1"
+     },
+     "options": [
+      {
+       "ru": "Программа перестанет компилироваться: без static поля нельзя",
+       "tg": "Барнома компилятсия намешавад: бе static майдон гузоштан мумкин нест",
+       "en": "The program stops compiling: fields without static are illegal"
+      },
+      {
+       "ru": "Ничего: счётчик останется общим для всех объектов",
+       "tg": "Ҳеҷ чиз: шуморанда барои ҳамаи объектҳо муштарак мемонад",
+       "en": "Nothing: the counter stays shared for all objects"
+      },
+      {
+       "ru": "У каждого объекта появится свой счётчик, и программа напечатает 1",
+       "tg": "Ҳар объект шуморандаи худро мегирад ва барнома 1 мебарорад",
+       "en": "Each object gets its own counter and the program prints 1"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» предлагает именно этот мысленный эксперимент: сколько вызовов increment сделает один объект?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» маҳз ҳамин таҷрибаи ақлӣ пешниҳод мекунад: як объект чанд даъвати increment мекунад?",
+      "en": "The \"How it works\" section proposes exactly this thought experiment: how many increment calls does one object make?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2209,6 +3002,18 @@
     },
     {
      "title": {
+      "ru": "Наследование в реальном проекте: проверка «является» и композиция",
+      "tg": "Мерос дар лоиҳаи воқеӣ: санҷиши «ҳаст» ва композиция",
+      "en": "Inheritance in a real project: the is-a check and composition"
+     },
+     "body": {
+      "ru": "В настоящем проекте перед extends задают один вопрос: Dog является Animal? Если фраза звучит естественно — наследование уместно; если получается «Car является Engine», нужна не иерархия, а поле: Car has Engine — это композиция, и в промышленном коде она встречается чаще extends. Второй навык — чтение цепочки: любой класс Java в итоге наследует Object, поэтому toString и equals достаются всем — их переопределения вы видели на днях 10 и 26.\n\nВозьмите три пары классов из своей практики или придумайте: Rectangle и Square, Car и Engine, Cat и Animal; для каждой произнесите «является» и «имеет» и выберите extends или поле.",
+      "tg": "Дар лоиҳаи воқеӣ пеш аз extends як пурсиш мегузоранд: Dog ҳамон Animal-аст? Агар ибора табиӣ садо диҳад, мерос мувофиқ аст; агар «Car Engine-аст» барорад, иерархия лозим нестанд, майдон лозим аст: Car Engine дорад — ин композиция аст ва дар коди саноатӣ аз extends бештар вомехӯрад. Маҳорати дуюм — хондани занҷир: ҳар класси Java дар ниҳоят Object-ро мерос мегирад, барои ҳамин toString ва equals ба ҳама мерос мерасад — переопределенияшонро рӯзҳои 10 ва 26 дида будед.\n\nСе ҷуфти синфро аз мошқ ё аз худ интихоб кунед: Rectangle ва Square, Car ва Engine, Cat ва Animal; барои ҳар як «аст» ва «дорад»-ро базанед ва extends ё майдонро интихоб кунед.",
+      "en": "In a real project one question precedes extends: is Dog an Animal? If the phrase sounds natural, inheritance fits; if it becomes \"Car is an Engine\", you need a field, not a hierarchy: Car has an Engine — that is composition, and in production code it appears more often than extends. The second skill is reading the chain: every Java class ultimately inherits Object, so toString and equals reach everyone — you saw their overrides on days 10 and 26.\n\nTake three class pairs from practice or invent them: Rectangle and Square, Car and Engine, Cat and Animal; say \"is a\" and \"has a\" for each and choose extends or a field."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -2250,7 +3055,13 @@
        "en": "Forbids Animal from calling Dog methods"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел формулирует отношение, которое устанавливает extends; сверьте каждый вариант с формулировкой урока.",
+      "tg": "Бахши аввал муносибатеро менависад, ки extends муқаррар мекунад; ҳар вариантро бо формулиронӣ дарс муқоиса кунед.",
+      "en": "The first section states the relation extends establishes; match every option with the lesson wording."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-14-q2",
@@ -2281,7 +3092,50 @@
        "en": "To override the parent's speak method"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В коде примера super(name) стоит первой строкой конструктора Dog; найдите в уроке, чей конструктор это вызывает.",
+      "tg": "Дар коди мисол super(name) сатри аввали конструктори Dog аст; дар дарс ёбед, ки конструктори чиро даъват мекунад.",
+      "en": "In the example code super(name) is the first line of the Dog constructor; find in the lesson whose constructor it calls."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-14-q3",
+     "question": {
+      "ru": "Сколько прямых родителей может быть у класса в Java?",
+      "tg": "Дар Java як синф чанд волиди мустақим дошта метавонад?",
+      "en": "How many direct parents can a Java class have?"
+     },
+     "answer": {
+      "ru": "Один: наследование в Java одиночное",
+      "tg": "Якто: мерос дар Java якӣ аст",
+      "en": "One: inheritance in Java is single"
+     },
+     "options": [
+      {
+       "ru": "Два: по одному на поля и на методы",
+       "tg": "Дуто: якто барои майдонҳо ва якто барои методҳо",
+       "en": "Two: one for fields and one for methods"
+      },
+      {
+       "ru": "Сколько угодно, если перечислить через запятую",
+       "tg": "Ҳар қадар ки хоҳед, агар бо вергул номбар кунед",
+       "en": "As many as you like, listed with commas"
+      },
+      {
+       "ru": "Один: наследование в Java одиночное",
+       "tg": "Якто: мерос дар Java якӣ аст",
+       "en": "One: inheritance in Java is single"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» описывает одиночное наследование; а сколько контрактов-интерфейсов разрешено — узнаете на дне 16.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» мероси яккушаро тавсиф мекунад; чанд интерфейс-шартнома иҷозат аст — рӯзи 16 мефаҳмед.",
+      "en": "The \"How it works\" section describes single inheritance; how many interface contracts are allowed you will see on day 16."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2370,6 +3224,18 @@
     },
     {
      "title": {
+      "ru": "Абстракция в реальном проекте: общие поля и шаблонный метод",
+      "tg": "Абстрактсия дар лоиҳаи воқеӣ: майдонҳои муштарак ва методи қолабӣ",
+      "en": "Abstraction in a real project: shared fields and the template method"
+     },
+     "body": {
+      "ru": "Настоящий абстрактный класс редко состоит из одних абстрактных методов: обычно он хранит общие поля и готовые методы, нужные всем потомкам. Класс GameChar с полем name, готовым describe() и абстрактным attack() — потомки дают только атаку, имя и печать достаются по наследству. Такой приём называется шаблонным методом: базовый класс фиксирует порядок действий, потомки заполняют шаги. Выбор между абстрактным классом и интерфейсом подсказывают данные: есть общие поля и код — абстрактный класс; чистый набор обещаний — интерфейс дня 16.\n\nДобавьте в Shape готовый метод describe() и убедитесь, что Circle получает его бесплатно: общий код в базе — половина пользы абстракции.",
+      "tg": "Синфи абстрактӣ дар лоиҳаи воқеӣ каме аз методҳои танҳо-абстрактӣ иборат мешавад: маъмулан вай майдонҳои муштарак ва методҳои омодаи тамоми меросиёнро дорад. Класси GameChar бо майдони name, методи омодаи describe() ва абстракти attack() — меросиён танҳо ҳамларо мегузоранд, ном ва чоп аз мерос мерасад. Ин усул методи қолабӣ ном дорад: синфи асосӣ тартиби амалҳоро муқаррар мекунад, меросиён қадамҳоро пур мекунанд. Интихоби байни синфи абстрактӣ ва интерфейс додаҳо мегӯяд: майдонҳо ва коди муштарак — синфи абстрактӣ; маҷмуи софи ваъдаҳо — интерфейси рӯзи 16.\n\nБа Shape методи омодаи describe()-ро илова кунед ва бовар ҳосил кунед, ки Circle онро беғам мегирад: коди муштарак дар база — нисфи фоидаи абстраксия.",
+      "en": "A real abstract class rarely consists of abstract methods alone: it usually holds shared fields and ready-made methods that all descendants need. A GameChar class with a name field, a ready describe() and an abstract attack() — descendants supply only the attack, the name and the printing come inherited. This pattern is called the template method: the base class fixes the order of actions, descendants fill in the steps. Data suggest the choice between an abstract class and an interface: shared fields and code mean an abstract class; a pure set of promises means the day 16 interface.\n\nAdd a ready describe() method to Shape and check that Circle gets it for free: shared code in the base is half the benefit of abstraction."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -2411,7 +3277,13 @@
        "en": "Yes, if the class has no fields"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел говорит, для чего Shape существует, если new запрещён; какое назначение он называет?",
+      "tg": "Бахши аввал мегӯяд, Shape барои чи вуҷуд дорад, агар new манъ бошад; ӯ кадом мақсадро меномад?",
+      "en": "The first section says what Shape exists for if new is forbidden; which purpose does it name?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-15-q2",
@@ -2442,7 +3314,50 @@
        "en": "Copy the method under a new name"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел «Как это работает» описывает компилятор как надзирателя: что он требует от неп абстрактного потомка?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» компиляторро назоратчӣ меномад: ӯ аз меросиёни абстрактӣ надошта чӣ талаб мекунад?",
+      "en": "The \"How it works\" section casts the compiler as a supervisor: what does it demand from a non-abstract subclass?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "java-day-15-q3",
+     "question": {
+      "ru": "Может ли абстрактный класс иметь конструктор?",
+      "tg": "Оё синфи абстрактӣ метавонад конструктор дошта бошад?",
+      "en": "Can an abstract class have a constructor?"
+     },
+     "answer": {
+      "ru": "Да: его вызывают конструкторы потомков через super(...)",
+      "tg": "Ҳа: конструкторҳои меросиён онро тавассути super(...) даъват мекунанд",
+      "en": "Yes: subclass constructors call it through super(...)"
+     },
+     "options": [
+      {
+       "ru": "Нет: у абстрактных классов не бывает конструкторов",
+       "tg": "Не: синфҳои абстрактӣ конструктор надоранд",
+       "en": "No: abstract classes never have constructors"
+      },
+      {
+       "ru": "Да, но такой конструктор нельзя вызывать никогда",
+       "tg": "Ҳа, вале чунин конструкторро ҳеҷ гоҳ даъват кардан мумкин нест",
+       "en": "Yes, but such a constructor can never be called"
+      },
+      {
+       "ru": "Да: его вызывают конструкторы потомков через super(...)",
+       "tg": "Ҳа: конструкторҳои меросиён онро тавассути super(...) даъват мекунанд",
+       "en": "Yes: subclass constructors call it through super(...)"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка четвёртая в разделе о частых ошибках разбирает именно конструктор абстрактного класса.",
+      "tg": "Хатои чорум дар бахши хатоҳои маъмул маҳз конструктори класс абстрактиро таҳлил мекунад.",
+      "en": "The fourth mistake in the common-mistakes section dissects exactly the abstract class constructor."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2531,6 +3446,18 @@
     },
     {
      "title": {
+      "ru": "Интерфейсы в реальном проекте: List, Comparable и код против контракта",
+      "tg": "Интерфейсҳо дар лоиҳаи воқеӣ: List, Comparable ва код бар зидди шартнома",
+      "en": "Interfaces in a real project: List, Comparable and coding against the contract"
+     },
+     "body": {
+      "ru": "Интерфейсы встречаются в каждой строке настоящей Java: ArrayList реализует интерфейс List, поэтому переменные объявляют как List<String> names = new ArrayList<>(); — код против контракта, а не против класса. Смените реализацию на LinkedList, и остальной код не заметит замены. Второй пример из стандартной библиотеки — Comparable: класс, реализующий compareTo, умеет сравнивать себя, и sort из дня 23 заработает с вашими объектами. В проекте сервис знает Greeter, а не FormalGreeter.\n\nОткройте javadoc интерфейса List и найдите пять методов, которые уже знаете: счёт их появлений в днях 19 и 24 убедит, что интерфейсы вы уже читали, не называя их так.",
+      "tg": "Интерфейсҳо дар ҳар сатри Java-и воқеӣ вомехӯранд: ArrayList интерфейси List-ро иҷро мекунад, барои ҳамин тағйирёбандаҳоро List<String> names = new ArrayList<>(); эълон мекунанд — код бар зидди шартнома, на бар зидди синф. Амалисозиро ба LinkedList иваз кунед ва боқимондаи код ивазро намехонад. Намунаи дуюми китобхонаи стандартии Comparable аст: класс, ки compareTo-ро иҷро мекунад, худро муқоиса карда меоврад ва sort-и рӯзи 23 бо объектҳои шумо фаъол мешавад. Дар лоиҳа сервис Greeter-ро меномад, на FormalGreeter.\n\nJavadoc-и интерфейси List-ро кушоед ва панҷ методеро ёбед, ки аллакай мешиносед: ҳисоби вомехӯрӣҳояшон дар рӯзҳои 19 ва 24 муътамад мекунад, ки интерфейсҳоро аллакай мехонед, бе номидани онҳо.",
+      "en": "Interfaces appear in every line of real Java: ArrayList implements the List interface, so variables are declared List<String> names = new ArrayList<>(); — code against the contract, not the class. Swap the implementation for LinkedList and the rest of the code will not notice. The second example from the standard library is Comparable: a class implementing compareTo can compare itself, and the day 23 sort starts working with your objects. In a project the service knows Greeter, not FormalGreeter.\n\nOpen the javadoc of List and find five methods you already know: their appearances in days 19 and 24 convince you that you have been reading interfaces without calling them that."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -2572,7 +3499,13 @@
        "en": "To forbid other classes from implementing the interface"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел объясняет implements как подпись под обещанием; какое именно обещание даёт строка implements Greeter?",
+      "tg": "Бахши аввал implements-ро ҳамчун имзо зери ваъда шарҳ медиҳад; сатри implements Greeter маҳз кадом ваъдаро медиҳад?",
+      "en": "The first section explains implements as signing a promise; which exact promise does the line implements Greeter make?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-16-q2",
@@ -2603,7 +3536,50 @@
        "en": "None — interfaces are only for standard classes"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Раздел «Как это работает» показывает перечисление через запятую после implements; сколько имён умещается в этом списке?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» рӯйхатро бо вергул баъди implements нишон медиҳад; дар ин рӯйхат чанд ном ҷой мегирад?",
+      "en": "The \"How it works\" section shows the comma list after implements; how many names fit into that list?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "java-day-16-q3",
+     "question": {
+      "ru": "Что произойдёт при попытке new Greeter()?",
+      "tg": "Ҳангоми кӯшиши new Greeter() чӣ мешавад?",
+      "en": "What happens on an attempt to write new Greeter()?"
+     },
+     "answer": {
+      "ru": "Ошибка компиляции: интерфейс нельзя инстанцировать",
+      "tg": "Хатои компилятсия: интерфейсро объект сохтан мумкин нест",
+      "en": "A compilation error: an interface cannot be instantiated"
+     },
+     "options": [
+      {
+       "ru": "Создастся пустой объект интерфейса",
+       "tg": "Объекти холлии интерфейс сохта мешавад",
+       "en": "An empty interface object is created"
+      },
+      {
+       "ru": "Создастся объект первого класса-реализатора",
+       "tg": "Объекти аввалин класси реализатор сохта мешавад",
+       "en": "An object of the first implementing class is created"
+      },
+      {
+       "ru": "Ошибка компиляции: интерфейс нельзя инстанцировать",
+       "tg": "Хатои компилятсия: интерфейсро объект сохтан мумкин нест",
+       "en": "A compilation error: an interface cannot be instantiated"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка вторая в разделе о частых ошибках называет судьбу этой строки; сверьте её с вариантами.",
+      "tg": "Хатои дуюм дар бахши хатоҳои маъмул тақдири ҳамин сатрро меномад; онро бо вариантҳо муқоиса кунед.",
+      "en": "The second mistake in the common-mistakes section names the fate of this line; match it against the options."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2692,6 +3668,18 @@
     },
     {
      "title": {
+      "ru": "Полиморфизм в реальном проекте: обработчики и instanceof",
+      "tg": "Полиморфизм дар лоиҳаи воқеӣ: обработчикҳо ва instanceof",
+      "en": "Polymorphism in a real project: handlers and instanceof"
+     },
+     "body": {
+      "ru": "Массив животных из примера в настоящем коде превращается в список обработчиков: список платёжных способов, слушателей событий, конвертеров форматов. Общий тип интерфейса или базового класса позволяет главному циклу не знать ни одной конкретной реализации — подключение нового класса не трогает старый код, и это главный инженерный выигрыш полиморфизма. Частое instanceof в цикле — сигнал поднять метод в базовый класс.\n\nПерепишите цикл примера с instanceof: если элемент Dog — напечатайте Woof loud, если нет — просто вызовите speak(); убедитесь, что в блок instanceof попадают только собаки.",
+      "tg": "Массиви ҳайвони мисол дар коди воқеӣ ба рӯйхати обработчикҳо мегардад: рӯйхати усулҳои пардохт, гӯшкунандаҳои рӯйдод, табдилгарони форматҳо. Типи умумии интерфейс ё класс асосӣ ба даври асосӣ имкон медиҳад, ки ягон реализацияи мушаххасро намедонад — пайвасти синфи нав ба коди кӯҳна тағйирот намедиҳад ва ин фоидаи муҳандисии полиморфизм аст. instanceof-и зиёд дар давр сигнали баровардани метод ба синфи асосӣ аст.\n\nДаври мисолро бо instanceof аз нав нависед: агар элемент Dog бошад — Woof loud чоп кунед, вагарна танҳо speak()-ро даъват кунед; бовар ҳосил кунед, ки ба блоки instanceof танҳо сагон мефароянд.",
+      "en": "The animal array from the example becomes a handler list in real code: payment methods, event listeners, format converters. A common interface or base-class type lets the main loop know no concrete implementation — adding a new class touches no old code, and that is the engineering win of polymorphism. Frequent instanceof in a loop is a signal to lift the method into the base class.\n\nRewrite the example loop with instanceof: if the element is a Dog print Woof loud, otherwise just call speak(); make sure only dogs enter the instanceof block."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -2733,7 +3721,13 @@
        "en": "Both implementations in a row"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел формулирует правило выбора метода: переменная или объект — кто решает, какой код выполнится?",
+      "tg": "Бахши аввал қоидаи интихоби методро менависад: тағйирёбанда ё объект — кӣ муайян мекунад, ки код иҷро мешавад?",
+      "en": "The first section states the method-choice rule: variable or object — who decides which code runs?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-17-q2",
@@ -2764,7 +3758,50 @@
        "en": "The compiler removes unnecessary classes"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В первом разделе цикл не знает ни Dog, ни Cat; подумайте, что изменится при появлении нового подкласса.",
+      "tg": "Дар бахши аввал давр на Dog-ро меномад, на Cat-ро; ба андешагиед, бо пайдоиши подкласси нав чӣ тағйир меёбад.",
+      "en": "In the first section the loop knows neither Dog nor Cat; consider what changes when a new subclass appears."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-17-q3",
+     "question": {
+      "ru": "Как вызвать метод fetch, который есть только у Dog, по ссылке типа Animal?",
+      "tg": "Методи fetch-ро, ки танҳо дар Dog ҳаст, тавассути ишораи навъи Animal чӣ гуна даъват кардан мумкин аст?",
+      "en": "How do you call fetch, which only Dog has, through an Animal-typed reference?"
+     },
+     "answer": {
+      "ru": "Проверить instanceof и привести тип внутри условия",
+      "tg": "Бо instanceof санҷед ва навъро дар дохили шартабдил кунед",
+      "en": "Check with instanceof and cast inside the condition"
+     },
+     "options": [
+      {
+       "ru": "Никак: метод потомка через базовую ссылку недоступен навсегда",
+       "tg": "Ҳеҷ гуна: методи меросӣ тавассути ишораи асосӣ то абад дастрас нест",
+       "en": "Not at all: a subclass method is unreachable through a base reference forever"
+      },
+      {
+       "ru": "Ссылка сама найдёт метод, если он есть у любого потомка",
+       "tg": "Ишора худаш методро меёбад, агар ӯ дар ҳар меросӣ бошад",
+       "en": "The reference finds the method itself if any subclass has it"
+      },
+      {
+       "ru": "Проверить instanceof и привести тип внутри условия",
+       "tg": "Бо instanceof санҷед ва навъро дар дохили шартабдил кунед",
+       "en": "Check with instanceof and cast inside the condition"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» разбирает именно эту ситуацию и называет оба шага решения.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» маҳз ҳамин ҳолатро таҳлил мекунад ва ҳар ду қадами ҳалро меномад.",
+      "en": "The \"How it works\" section dissects exactly this situation and names both solution steps."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2853,6 +3890,18 @@
     },
     {
      "title": {
+      "ru": "Исключения в реальном проекте: свои типы и понятные сообщения",
+      "tg": "Истисноҳо дар лоиҳаи воқеӣ: типҳои хос ва паёмҳои фаҳмо",
+      "en": "Exceptions in a real project: own types and readable messages"
+     },
+     "body": {
+      "ru": "В настоящих программах делают свои типы исключений: class InsufficientFundsException extends RuntimeException с полезным сообщением. Свой тип решает две задачи: catch ловит ровно вашу ошибку, а не половину чужих, и сообщение объясняет человеку, что произошло: \"Недостаточно средств: не хватает 250\". Второй навык — граница обработки: ловите исключение там, где можете на него ответить; если метод не знает, что делать с ошибкой, он передаёт её выше через throws — ответственность поднимается к тому, кто знает.\n\nДайте своему исключению конструктор InsufficientFundsException(String message) { super(message); }. В Account из дня 12 есть deposit, но withdraw ещё нет. Добавьте withdraw(int amount): если amount <= 0 или amount > balance, бросьте InsufficientFundsException с числом amount в сообщении; иначе уменьшите balance. В main перехватите исключения и напечатайте getMessage() для withdraw(-1) и withdraw(10000). Затем проверьте успешное снятие 100 с баланса 500: остаток 400.",
+      "tg": "Дар барномаҳои воқеӣ типҳои хоси истисно месозанд: class InsufficientFundsException extends RuntimeException бо паёми муфид. Типи хос ду вазифаро ҳал мекунад: catch маҳз хатои шуморо мегирад, на нисфи хатоҳои дигарон, ва паём ба одам мефаҳмонад, ки чӣ сархезад: «Воситаҳо кофӣ нестанд: 250 кам аст». Маҳорати дуюм — марзи коркард: истисноро он ҷо гиред, ки ба он ҷавоб дода метавонед; агар метод надонад, бо хато чӣ кунад, вай онро тавассути throws боло мепартояд — масъулият ба он мерасад, ки медонад.\n\nБа истиснои худ конструктори InsufficientFundsException(String message) { super(message); } диҳед. Дар Account-и рӯзи 12 deposit ҳаст, вале withdraw ҳоло нест. withdraw(int amount) илова кунед: агар amount <= 0 ё amount > balance бошад, InsufficientFundsException партоед ва адади amount-ро дар паём нависед; вагарна balance-ро кам кунед. Дар main истисноҳоро гирифта, getMessage()-ро барои withdraw(-1) ва withdraw(10000) чоп кунед. Баъд аз баланси 500 маблағи 100-ро бомуваффақият гиред: боқимонда 400.",
+      "en": "Real programs define their own exception types: class InsufficientFundsException extends RuntimeException with a useful message. An own type solves two tasks: catch grabs exactly your error instead of half of everyone else's, and the message tells a human what happened: \"Insufficient funds: short by 250\". The second skill is the processing boundary: catch where you can respond; if a method does not know what to do with an error, it passes it up through throws — responsibility rises to whoever knows.\n\nGive your exception a constructor: InsufficientFundsException(String message) { super(message); }. The day 12 Account has deposit but no withdraw yet. Add withdraw(int amount): if amount <= 0 or amount > balance, throw InsufficientFundsException with amount in its message; otherwise decrease balance. In main, catch and print getMessage() for withdraw(-1) and withdraw(10000). Then test a successful withdrawal of 100 from a balance of 500: expect 400."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -2894,7 +3943,13 @@
        "en": "Speeds up risky code execution"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Проследите порядок строк в примере: что случилось со строкой после той, что бросила исключение?",
+      "tg": "Тартиби сатрҳои мисолро пайрафа кунед: ба сатри баъди сатри партоандаи истисно чӣ расид?",
+      "en": "Trace the order of lines in the example: what happened to the line after the one that threw?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-18-q2",
@@ -2925,7 +3980,50 @@
        "en": "Always — after try/catch, regardless of the exception"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В выводе примера строка finally видна и при перехвате, и его отсутствие не меняет её; какой вариант это повторяет?",
+      "tg": "Дар натиҷаи мисол сатри finally ҳатто ҳангоми гирифтан дида мешавад ва набудани перехват онро тағйир намедиҳад; кадом вариант ҳаминро такрор мекунад?",
+      "en": "In the example output the finally line shows even with the catch, and its absence changes nothing; which option repeats that?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-18-q3",
+     "question": {
+      "ru": "Какие исключения компилятор обязывает обработать?",
+      "tg": "Компилятор коркарди кадом истисноҳоро вазифа мегузорад?",
+      "en": "Which exceptions does the compiler force you to handle?"
+     },
+     "answer": {
+      "ru": "Checked-исключения, например IOException",
+      "tg": "Истисноҳои checked, масалан IOException",
+      "en": "Checked exceptions, for example IOException"
+     },
+     "options": [
+      {
+       "ru": "Все без исключения: любое исключение требует try/catch",
+       "tg": "Ҳама, бе истисно: ҳар истисно try/catch талаб мекунад",
+       "en": "All of them: every exception requires try/catch"
+      },
+      {
+       "ru": "Checked-исключения, например IOException",
+       "tg": "Истисноҳои checked, масалан IOException",
+       "en": "Checked exceptions, for example IOException"
+      },
+      {
+       "ru": "Только NullPointerException и деление на ноль",
+       "tg": "Танҳо NullPointerException ва тақсим ба сифр",
+       "en": "Only NullPointerException and division by zero"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Раздел «Как это работает» делит исключения на два семейства и называет, за каким следит компилятор.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» истисноҳоро ба ду хонаводагӣ тақсим мекунад ва меномад, ки компилятор аз кадом пайравӣ мекунад.",
+      "en": "The \"How it works\" section splits exceptions into two families and names the one the compiler watches."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3015,6 +4113,18 @@
     },
     {
      "title": {
+      "ru": "Списки в реальном проекте: List, неизменяемые источники и выбор",
+      "tg": "Рӯйхатҳо дар лоиҳаи воқеӣ: List, манбаъҳои тағйирнопазир ва интихоб",
+      "en": "Lists in a real project: List, immutable sources and the choice"
+     },
+     "body": {
+      "ru": "В настоящем коде тип переменной почти всегда интерфейс: List<String> names = new ArrayList<>(); — как и в дне 16, код против контракта. Второе отличие от учебных примеров — неизменяемые списки: List.of(\"a\", \"b\") создаёт список без add и remove; он идеален для констант вроде дней недели, и попытка дописать в него выдаёт UnsupportedOperationException. Выбор между массивом и списком диктует жизнь данных: количество известно навсегда и мало — массив; данные приходят из файла, пользователя или базы — список.\n\nСоздайте список дней недели через List.of и попробуйте add: сохраните текст исключения рядом с заметкой, почему константа не должна изменяться.",
+      "tg": "Дар коди воқеӣ типи тағйирёбанда қариб ҳамеша интерфейс аст: List<String> names = new ArrayList<>(); — мисли рӯзи 16, код бар зидди шартнома. Фарқи дуюм аз намунаҳои таълимӣ — рӯйхатҳои тағйирнопазир: List.of(\"a\", \"b\") рӯйхате месозад, ки add ва remove надорад; ӯ барои доимӣҳо мисли рӯзҳои ҳафта мукаммал аст ва кӯшиши илова UnsupportedOperationException медиҳад. Интихоби байни массив ва рӯйхатро ҳаёти додаҳо мегӯяд: шумора то абад маълум ва кам — массив; додаҳо аз файл, корбар ё пойгоҳ меоянд — рӯйхат.\n\nРӯйхати рӯзҳои ҳафтаро тавассути List.of созед ва add-ро санҷед: матни истисноро дар канори ёддошт нигоҳ доред, ки чаро доимӣ набояд тағйир ёбад.",
+      "en": "In real code the variable type is almost always the interface: List<String> names = new ArrayList<>(); — as in day 16, code against the contract. The second difference from training examples is immutable lists: List.of(\"a\", \"b\") builds a list without add and remove; it is perfect for constants like the days of the week, and appending throws UnsupportedOperationException. The choice between array and list follows the life of the data: the count known forever and small — array; data arriving from a file, user or database — list.\n\nCreate the days-of-week list via List.of and try add: keep the exception text next to a note on why a constant must not change."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -3056,7 +4166,13 @@
        "en": "Its elements are accessible via square brackets"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел сравнивает массив и список по размеру; какой из вариантов отвечает этому сравнению?",
+      "tg": "Бахши аввал массив ва рӯйхатро аз рӯи андоза муқоиса мекунад; кадом вариант ба ин муқоиса ҷавоб медиҳад?",
+      "en": "The first section compares array and list by size; which option answers that comparison?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-19-q2",
@@ -3087,7 +4203,50 @@
        "en": "The list length"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В коде примера get вызывается с индексом; с какого числа начинается нумерация элементов?",
+      "tg": "Дар коди мисол get бо индекс даъват мешавад; рақамгузории элементҳо аз кадом адад оғоз мешавад?",
+      "en": "In the example code get is called with an index; from which number does element numbering start?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-19-q3",
+     "question": {
+      "ru": "Что произойдёт при обращении names[0] к ArrayList?",
+      "tg": "Ҳангоми муроҷиати names[0] ба ArrayList чӣ мешавад?",
+      "en": "What happens on an attempt to write names[0] for an ArrayList?"
+     },
+     "answer": {
+      "ru": "Ошибка компиляции: у списков нет оператора индексации, только методы",
+      "tg": "Хатои компилятсия: рӯйхатҳо оператори индексатсия надоранд, танҳо методҳо",
+      "en": "A compilation error: lists have no indexing operator, only methods"
+     },
+     "options": [
+      {
+       "ru": "Вернётся первый элемент списка",
+       "tg": "Элементи аввали рӯйхат баргардонида мешавад",
+       "en": "The first element of the list is returned"
+      },
+      {
+       "ru": "Список переключится в режим массива",
+       "tg": "Рӯйхат ба режими массив мегузарад",
+       "en": "The list switches into array mode"
+      },
+      {
+       "ru": "Ошибка компиляции: у списков нет оператора индексации, только методы",
+       "tg": "Хатои компилятсия: рӯйхатҳо оператори индексатсия надоранд, танҳо методҳо",
+       "en": "A compilation error: lists have no indexing operator, only methods"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» формулирует правило обращения к элементам списка; какое правило?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» қоидаи муроҷиат ба элементҳои рӯйхатро менависад; кадом қоида?",
+      "en": "The \"How it works\" section states the rule for accessing list elements; which rule?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3177,6 +4336,18 @@
     },
     {
      "title": {
+      "ru": "Словари в реальном проекте: счётчики, группировка и ключи",
+      "tg": "Луғатҳо дар лоиҳаи воқеӣ: шуморандаҳо, гурӯҳбандӣ ва калидҳо",
+      "en": "Maps in a real project: counters, grouping and keys"
+     },
+     "body": {
+      "ru": "Два приёма из HashMap покрывают половину практических задач со словарями. Счётчик: map.put(word, map.getOrDefault(word, 0) + 1) считает вхождения — слова в тексте, товары в корзине, статусы заказов; getOrDefault убирает отдельную проверку на null. Группировка: ключ — общая часть (дата, автор, город), значение — список попаданий; такую структуру собирают итерацией по данным. Если порядок обхода важен, в проекте берут LinkedHashMap или TreeMap.\n\nСоберите частоту букв слова «Душанбе» через getOrDefault и напечатайте результат: сравните сумму значений с длиной слова — расхождение покажет ошибку раньше глаз.",
+      "tg": "Ду усули HashMap нисфи вазифаҳои амалии луғатро мепӯшонанд. Шуморанда: map.put(word, map.getOrDefault(word, 0) + 1) воҳӯрӣҳоро ҳисоб мекунад — калимаҳо дар матн, мол дар сабад, ҳолатҳои фармоиш; getOrDefault санҷиши алоҳидаи null-ро мебарад. Гурӯҳбандӣ: калид — қисми умумӣ (сана, муаллиф, шаҳр), арзиш — рӯйхати воҳӯрӣҳо; чунин сохторро бо давр аз додаҳо мекунанд. Агар тартиби гардониш муҳим бошад, дар лоиҳа LinkedHashMap ё TreeMap мегиранд.\n\nБасомади ҳарфҳои калимаи «Душанбе»-ро тавассути getOrDefault ҷамъ оваред ва натиҷаро чоп кунед: ҷамъи арзишҳоро бо дарозии калима муқоиса кунед — фарқ хаторо пеш аз чашм нишон медиҳад.",
+      "en": "Two HashMap patterns cover half the practical map tasks. The counter: map.put(word, map.getOrDefault(word, 0) + 1) counts occurrences — words in a text, items in a cart, order statuses; getOrDefault removes the separate null check. Grouping: the key is the shared part (date, author, city), the value is a list of hits; you build such a structure by iterating the data. When iteration order matters, real projects take LinkedHashMap or TreeMap.\n\nCollect the letter frequency of the word \"Dushanbe\" via getOrDefault and print it: compare the sum of values with the word length — a mismatch shows the mistake before your eyes."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -3218,7 +4389,13 @@
        "en": "Sorted whole numbers"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В примере ключ — название товара, значение — остаток; какой вариант описывает именно эту пару?",
+      "tg": "Дар мисол калид — номи мол, арзиш — боқимонда аст; кадом вариант маҳз ҳамин ҷуфтро тавсиф медиҳад?",
+      "en": "In the example the key is a product name and the value a stock count; which option describes exactly this pair?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-20-q2",
@@ -3249,7 +4426,50 @@
        "en": "It throws an exception"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В выводе примера есть строка null; свяжите её с тем, какого ключа не хватало.",
+      "tg": "Дар натиҷаи мисол сатри null ҳаст; онро бо ҳамон калиде пайвандед, ки набуд.",
+      "en": "The example output contains a null line; tie it to whichever key was missing."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-20-q3",
+     "question": {
+      "ru": "Чем getOrDefault(key, 0) безопаснее get(key) при подсчёте?",
+      "tg": "getOrDefault(key, 0) ҳангоми ҳисоб чаро аз get(key) беҳатар аст?",
+      "en": "Why is getOrDefault(key, 0) safer than get(key) when counting?"
+     },
+     "answer": {
+      "ru": "Она возвращает запасное значение вместо null для отсутствующего ключа",
+      "tg": "Вай ба ҷои null барои калиди набудан арзиши эҳтиётиро мегардонад",
+      "en": "It returns the fallback value instead of null for a missing key"
+     },
+     "options": [
+      {
+       "ru": "Она создаёт ключ автоматически, если его нет",
+       "tg": "Вай калидро худкор месозад, агар вай набошад",
+       "en": "It creates the key automatically if it is missing"
+      },
+      {
+       "ru": "Она работает быстрее на больших картах",
+       "tg": "Вай дар луғатҳои калон тезтар кор мекунад",
+       "en": "It runs faster on large maps"
+      },
+      {
+       "ru": "Она возвращает запасное значение вместо null для отсутствующего ключа",
+       "tg": "Вай ба ҷои null барои калиди набудан арзиши эҳтиётиро мегардонад",
+       "en": "It returns the fallback value instead of null for a missing key"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» показывает getOrDefault рядом с get; чем различаются возвраты для отсутствующего ключа?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» getOrDefault-ро дар канори get нишон медиҳад; барои калиди набудан гардишҳо чӣ гуна фарқ мекунанд?",
+      "en": "The \"How it works\" section shows getOrDefault next to get; how do the returns differ for a missing key?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3339,6 +4559,18 @@
     },
     {
      "title": {
+      "ru": "Множества в реальном проекте: дедупликация и пересечения",
+      "tg": "Маҷмуъҳо дар лоиҳаи воқеӣ: тоза кардани такрор ва буришҳо",
+      "en": "Sets in a real project: deduplication and intersections"
+     },
+     "body": {
+      "ru": "В настоящем коде HashSet чаще всего работает фильтром: из списка заказов, тегов или посещённых страниц получают список уникальных значений одной строкой new ArrayList<>(new HashSet<>(list));. Вторая роль — накопление посещённого: алгоритм пути по лабиринту кладёт клетку в множество и спрашивает contains, чтобы не ходить кругами. Порядок и индексы остаются невозможными — это цена мгновенного contains: HashSet променивает порядок на скорость поиска.\n\nСоберите пересечение двух списков увлечений через два HashSet и retainAll и напечатайте размер результата: он отвечает на вопрос «что у нас общее» за одно действие.",
+      "tg": "Дар коди воқеӣ HashSet бештар ҳамчун филтр кор мекунад: аз рӯйхати фармоишҳо, тегҳо ё саҳифаҳои дидашуда рӯйхати арзишҳои ягона дар як сатр new ArrayList<>(new HashSet<>(list)); гирифта мешавад. Нақши дуюм — андӯхтани дидашудаҳо: алгоритми роҳ дар лабиринт ҳуҷайраро ба маҷмуъ мегузорад ва contains-ро мепурсад, то давр зарба накунад. Тартибу индексҳо ҳамон тавр имконнопазир мемонанд — ин баҳои contains-и фаврӣ аст: HashSet тартибро ба суръати ҷустуҷӯ иваз мекунад.\n\nБуриши ду рӯйхати шавқро тавассути ду HashSet ва retainAll созед ва андозаи натиҷаро чоп кунед: ӯ ба пурсиши «чӣ мо дорим умумӣ» дар як амал ҷавоб медиҳад.",
+      "en": "In real code HashSet most often works as a filter: from a list of orders, tags or visited pages you get unique values in one line, new ArrayList<>(new HashSet<>(list));. The second role is collecting what was seen: a maze algorithm puts a cell into a set and asks contains, so it never walks in circles. The third is work between two sets: retainAll keeps the intersection, removeAll subtracts, addAll unions; that is how two users' permissions or two articles' tags get compared. Order and indexes remain impossible — that is the price of instant contains: HashSet trades order for lookup speed.\n\nCollect the intersection of two hobby lists through two HashSets and retainAll and print the result size: it answers \"what do we share\" in one action."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -3380,7 +4612,13 @@
        "en": "It sorts elements alphabetically"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел называет главное свойство HashSet одним словом; какой вариант его повторяет?",
+      "tg": "Бахши аввал хусусияти асосии HashSet-ро бо як калима меномад; кадом вариант ҳаминро такрор мекунад?",
+      "en": "The first section names the main HashSet property in one phrase; which option repeats it?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-21-q2",
@@ -3411,7 +4649,50 @@
        "en": "It throws a duplicate exception"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В выводе примера size не изменился после повторного add; сопоставьте это с возвращаемым значением.",
+      "tg": "Дар натиҷаи мисол size баъди add-и такрорӣ тағйир наёфт; онро бо арзиши баргардонида пайвандед.",
+      "en": "In the example output size did not change after the repeated add; match that with the returned value."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-21-q3",
+     "question": {
+      "ru": "Почему у HashSet нет метода get(0)?",
+      "tg": "Чаро HashSet методи get(0) надорад?",
+      "en": "Why does HashSet have no get(0) method?"
+     },
+     "answer": {
+      "ru": "У множества нет индексов: элементы не имеют порядка",
+      "tg": "Маҷмуъ индекс надорад: элементҳо тартиб надоранд",
+      "en": "A set has no indexes: elements carry no order"
+     },
+     "options": [
+      {
+       "ru": "Метод забыли добавить, он появится в новых версиях",
+       "tg": "Методро фаромӯш кардаанд, дар версияҳои нав пайдо мешавад",
+       "en": "The method was forgotten and will appear in newer versions"
+      },
+      {
+       "ru": "get есть, но работает только для малых множеств",
+       "tg": "get ҳаст, вале танҳо барои маҷмуъҳои хурд кор мекунад",
+       "en": "get exists but works only for small sets"
+      },
+      {
+       "ru": "У множества нет индексов: элементы не имеют порядка",
+       "tg": "Маҷмуъ индекс надорад: элементҳо тартиб надоранд",
+       "en": "A set has no indexes: elements carry no order"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка вторая в разделе о частых ошибках объясняет связь отсутствия порядка и отсутствия индексов.",
+      "tg": "Хатои дуюм дар бахши хатоҳои маъмул пайванди набудани тартибу набудани индексҳоро шарҳ медиҳад.",
+      "en": "The second mistake in the common-mistakes section links the absence of order and the absence of indexes."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -3500,6 +4781,18 @@
     },
     {
      "title": {
+      "ru": "Дженерики в реальном проекте: свой Box и границы стирания",
+      "tg": "Дженерикҳо дар лоиҳаи воқеӣ: Box-и хос ва марзи стирание",
+      "en": "Generics in a real project: your own Box and the erasure boundary"
+     },
+     "body": {
+      "ru": "Свой дженерик пишется так же просто, как читается: class Box<T> { private T value; void put(T v) { value = v; } T get() { return value; } } — один класс работает со всеми типами: Box<String>, Box<Integer>, Box<Book>. Важно знать границу инструмента: из-за стирания типов компилятор удаляет параметр при сборке, поэтому во время работы нельзя спросить instanceof List<String> — проверки живут только до запуска. В проектах дженерики стоят на границах слоёв: сервис объявляет List<Book>, и ни один слой не подбросит в список не-книгу.\n\nНапишите Box<Integer>, положите в него 7 и напечатайте get() + 1: распаковка из дженерика работает точно так же, как из ArrayList<Integer> этого дня.",
+      "tg": "Дженерики худро ҳамон тавр содда менависанд, ки мехонанд: class Box<T> { private T value; void put(T v) { value = v; } T get() { return value; } } — як синф бо ҳамаи типҳо кор мекунад: Box<String>, Box<Integer>, Box<Book>. Марзи абзорро донистан муҳим аст: ба сабаби нобудшавии типҳо (type erasure) компилятор параметрро ҳангоми ҷамъбаст меборад, барои ҳамин ҳангоми кор instanceof List<String>-ро пурсидан мумкин нест — санҷишҳо танҳо то иҷро зиндагӣ мекунанд. Дар лоиҳаҳо дженерикҳо дар марзҳои қабатҳо меистанд: сервис List<Book> эълон мекунад ва ҳеҷ қабат ба рӯйхат чизе ғайри китоб намегузорад.\n\nBox<Integer>-ро нависед, дар он 7 гузоред ва get() + 1-ро чоп кунед: кушидан аз дженерик ҳамон тавр кор мекунад, ки аз ArrayList<Integer> ин рӯз.",
+      "en": "Your own generic is as simple to write as to read: class Box<T> { private T value; void put(T v) { value = v; } T get() { return value; } } — one class serves every type: Box<String>, Box<Integer>, Box<Book>. Know the tool boundary: because of type erasure the compiler removes the parameter at build time, so at runtime you cannot ask instanceof List<String> — the checks live only before launch. In projects generics stand at layer boundaries: the service declares List<Book>, and no layer slips a non-book into the list.\n\nWrite Box<Integer>, put 7 inside and print get() + 1: unboxing from a generic works just like from this day's ArrayList<Integer>."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -3541,7 +4834,13 @@
        "en": "ArrayList does not support numbers at all"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел «Как это работает» формулирует правило примитивов в угловых скобках; какой тип заменяет int?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» қоидаи примитивҳоро дар қавсҳои кунҷӣ менависад; кадом тип int-ро иваз мекунад?",
+      "en": "The \"How it works\" section states the primitives rule for angle brackets; which type replaces int?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "java-day-22-q2",
@@ -3572,7 +4871,50 @@
        "en": "The list takes less memory"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел показывает add(42), который не скомпилировался; на каком этапе это поймали?",
+      "tg": "Бахши аввал add(42)-ро нишон медиҳад, ки компилятсия нашуд; дар кадом марҳила ин пайдо шуд?",
+      "en": "The first section shows the add(42) that failed to compile; at which stage was it caught?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-22-q3",
+     "question": {
+      "ru": "Что делает алмазный оператор <> в new ArrayList<>();?",
+      "tg": "Оператори алмосии <> дар new ArrayList<>(); чӣ мекунад?",
+      "en": "What does the diamond operator <> do in new ArrayList<>();?"
+     },
+     "answer": {
+      "ru": "Позволяет компилятору вывести тип из левой части присваивания",
+      "tg": "Ба компилятор имкон медиҳад типро аз тарафи чапи таъинот хулоса кунад",
+      "en": "Lets the compiler infer the type from the left side of the assignment"
+     },
+     "options": [
+      {
+       "ru": "Создаёт список без типа: в него можно класть что угодно",
+       "tg": "Рӯйхати бе тип месозад: дар он ҳар чизро гузоштан мумкин аст",
+       "en": "Creates a typeless list where anything can be put"
+      },
+      {
+       "ru": "Назначает списку тип Object по умолчанию",
+       "tg": "Ба рӯйхат типи Object-ро пешфарз медонад",
+       "en": "Assigns the list the default type Object"
+      },
+      {
+       "ru": "Позволяет компилятору вывести тип из левой части присваивания",
+       "tg": "Ба компилятор имкон медиҳад типро аз тарафи чапи таъинот хулоса кунад",
+       "en": "Lets the compiler infer the type from the left side of the assignment"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» объясняет алмазный оператор в правой части присваивания; откуда компилятор берёт тип?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» оператори алмосиро дар тарафи рости таъинот шарҳ медиҳад; компилятор типро аз куҷо мегирад?",
+      "en": "The \"How it works\" section explains the diamond operator on the assignment right side; where does the compiler take the type?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3661,6 +5003,18 @@
     },
     {
      "title": {
+      "ru": "Лямбды в реальном проекте: Comparator.comparing и ссылки на методы",
+      "tg": "Лямбдаҳо дар лоиҳаи воқеӣ: Comparator.comparing ва ишораро ба методҳо",
+      "en": "Lambdas in a real project: Comparator.comparing and method references"
+     },
+     "body": {
+      "ru": "В настоящем коде лямбда часто оказывается короче своего интерфейса: list.sort(Comparator.comparing(String::length)) — сортировка по длине одной строкой без тела и скобок. Запись Class::method называется ссылкой на метод: она передаёт существующий метод как поведение, и компилятор строит лямбду сам. Замыкание из дня остаётся строгим: локальные переменные снаружи лямбды менять нельзя, и настоящие проекты этим правилом защищают себя от скрытого состояния.\n\nПерепишите компаратор примера через Comparator.comparing(String::length) и сверьте вывод со старой записью: совпадение строк вывода — доказательство равнозначности двух форм.",
+      "tg": "Дар коди воқеӣ лямбда аксар вақт аз интерфейси худ кӯтоҳтар мешавад: list.sort(Comparator.comparing(String::length)) — сортировка бо дарозӣ дар як сатр, бе бадан ва қавсҳо. Навишти Class::method ишора ба метод ном дорад: вай методи вуҷуддодаро ҳамчун рафтор интиқол медиҳад ва компилятор худ лямбдаро месозад. Пӯшидан аз рӯз сахт мемонад: тағйирёбандаҳои локалиро аз берун лямбда тағйир додан мумкин нест ва лоиҳаҳои воқеӣ бо ҳамин қоида худро аз ҳолати пинҳонӣ ҳимоя мекунанд.\n\nКомпаратори мисолро тавассути Comparator.comparing(String::length) аз нав нависед ва натиҷаро бо навишти кӯҳна муқоиса кунед: мувофиқати сатрҳои натиҷа исботи баробарии ду шакл аст.",
+      "en": "In real code a lambda is often shorter than its interface: list.sort(Comparator.comparing(String::length)) — sorting by length in one line with no body or parentheses. The Class::method notation is a method reference: it passes an existing method as behaviour, and the compiler builds the lambda itself. Reading others' code suggests the boundary: a one-line lambda is perfect; five lines with nested conditions already deserve a named method. The closure rule of the day stays strict: local variables outside the lambda cannot change, and real projects use that rule to defend themselves from hidden state.\n\nRewrite the example comparator via Comparator.comparing(String::length) and match the output with the old form: identical output lines prove the two forms are equivalent."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -3702,7 +5056,13 @@
        "en": "A way to declare classes without a filename"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел описывает лямбду через функциональный интерфейс; сверьте оба определения из вариантов с ним.",
+      "tg": "Бахши аввал лямбдаро тавассути интерфейси функсионалӣ тавсиф мекунад; ҳар ду таърифро аз вариантҳо бо он муқоиса кунед.",
+      "en": "The first section describes the lambda through a functional interface; match both option definitions against it."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-23-q2",
@@ -3733,7 +5093,50 @@
        "en": "Any number, if the methods are short"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел «Как это работает» определяет функциональный интерфейс по числу абстрактных методов; какое число?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» интерфейси функсионалиро аз рӯи шумори методҳои абстрактӣ муайян мекунад; кадом шумора?",
+      "en": "The \"How it works\" section defines a functional interface by its abstract method count; which count?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "java-day-23-q3",
+     "question": {
+      "ru": "Какие локальные переменные может использовать лямбда извне?",
+      "tg": "Лямбда кадом тағйирёбандаҳои локалиро аз берун истифода карда метавонад?",
+      "en": "Which local variables can a lambda use from the outside?"
+     },
+     "answer": {
+      "ru": "Только effectively final: переменные, которые после инициализации не меняются",
+      "tg": "Танҳо effectively final: тағйирёбандаҳое, ки баъди ташаббус тағйир намеёбанд",
+      "en": "Only effectively final ones: variables never reassigned after initialization"
+     },
+     "options": [
+      {
+       "ru": "Любые: лямбда может менять их свободно",
+       "tg": "Ҳама: лямбда онҳоро озодона тағйир дода метавонад",
+       "en": "Any: the lambda may change them freely"
+      },
+      {
+       "ru": "Ни одной: лямбда видит только свои параметры",
+       "tg": "Ҳеҷ яке: лямбда танҳо параметрҳои худро мебинад",
+       "en": "None: the lambda sees only its own parameters"
+      },
+      {
+       "ru": "Только effectively final: переменные, которые после инициализации не меняются",
+       "tg": "Танҳо effectively final: тағйирёбандаҳое, ки баъди ташаббус тағйир намеёбанд",
+       "en": "Only effectively final ones: variables never reassigned after initialization"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» описывает замыкание и слово для переменных, которые нельзя переприсваивать.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» пӯшиданро тавсиф мекунад ва калимаеро меномад, ки ба тағйирёбандаҳои баъзавай намешаванда гузошта мешавад.",
+      "en": "The \"How it works\" section describes closures and names the term for variables that cannot be reassigned."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3823,6 +5226,18 @@
     },
     {
      "title": {
+      "ru": "Потоки в реальном проекте: ленивость, anyMatch и граница читаемости",
+      "tg": "Ҷараёнҳо дар лоиҳаи воқеӣ: камкорӣ, anyMatch ва марзи хонандагӣ",
+      "en": "Streams in a real project: laziness, anyMatch and the readability boundary"
+     },
+     "body": {
+      "ru": "Ленивость потоков в настоящем коде не просто свойство, а экономия: цепочка numbers.stream().filter(...).anyMatch(n -> n > 100) останавливает перебор на первом совпадении — на списке из миллиона элементов работа заканчивается раньше. Вторая граница — читаемость: цепочка из двух-трёх шагов читается как описание намерения, а восемь шагов с вложенными map — повод для промежуточных переменных или цикла. Поток не меняет источник: результат всегда собирается в новой коллекции.\n\nЗамените filter().count() из примера на anyMatch(n -> n > 100) для списка из десяти чисел и сравните поведение: одна операция считает всё, другая останавливается на первом совпадении.",
+      "tg": "Камкории ҷараёнҳо дар коди воқеӣ танҳо хусусият нест, сарфа аст: занҷири numbers.stream().filter(...).anyMatch(n -> n > 100) гардонро дар мувофиқати аввал мебандад — дар рӯйхати як миллионӣ кор пештар тамом мешавад. Марзи дуюм — хонандагӣ: занҷири ду-се қадам ҳамчун тавсифи мақсад хонда мешавад, вале ҳашт қадам бо map-и дарунӣ баҳонаи тағйирёбандаҳои миёна ё давр аст. Ҷараён манбаъро тағйир намедиҳад: натиҷа ҳамеша дар коллексияи нав ҷамъ меояд.\n\nfilter().count()-ро аз мисол бо anyMatch(n -> n > 100) барои рӯйхати даҳ адад иваз кунед ва рафторро муқоиса кунед: як амал ҳамаро ҳисоб мекунад, дигарӣ дар мувофиқати аввал меистад.",
+      "en": "Stream laziness in real code is not just a property but a saving: the chain numbers.stream().filter(...).anyMatch(n -> n > 100) stops the walk at the first match — on a million-element list the work ends earlier. The second boundary is readability: a chain of two or three steps reads as a statement of intent, while eight steps with nested maps call for intermediate variables or a loop. A stream never mutates the source: the result is always collected into a new collection.\n\nReplace the example filter().count() with anyMatch(n -> n > 100) for a ten-number list and compare behaviour: one operation counts everything, the other stops at the first match."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -3864,7 +5279,13 @@
        "en": "Sorts the stream ascending"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел объясняет filter через условие; какой вариант описывает его работу точнее?",
+      "tg": "Бахши аввал filter-ро тавассути шарт шарҳ медиҳад; кадом вариант кори онро дақиқтар менависад?",
+      "en": "The first section explains filter through a condition; which option describes its work most precisely?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-24-q2",
@@ -3895,7 +5316,50 @@
        "en": "The stream runs automatically on creation"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ошибка первая в разделе о частых ошибках описывает именно цепочку без терминала; прочитайте её формулировку.",
+      "tg": "Хатои якум дар бахши хатоҳои маъмул маҳз занҷири бе терминалро тавсиф мекунад; формулиронияшро бихонед.",
+      "en": "The first mistake in the common-mistakes section describes exactly the chain without a terminal; read its wording."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "java-day-24-q3",
+     "question": {
+      "ru": "Какие операции называются терминальными?",
+      "tg": "Кадом амалиётҳо терминӣ ном доранд?",
+      "en": "Which operations are called terminal?"
+     },
+     "answer": {
+      "ru": "Те, что запускают конвейер и выдают результат: toList, count, forEach",
+      "tg": "Онҳое, ки конвейерро оғоз карда, натиҷа медиҳанд: toList, count, forEach",
+      "en": "Those that start the pipeline and produce a result: toList, count, forEach"
+     },
+     "options": [
+      {
+       "ru": "Те, что объявляют источник потока",
+       "tg": "Онҳое, ки манбаи ҷараёнро эълон мекунанд",
+       "en": "Those that declare the stream source"
+      },
+      {
+       "ru": "Те, что между filter и map в цепочке",
+       "tg": "Онҳое, ки дар занҷир миёни filter ва map меанд",
+       "en": "Those standing between filter and map in the chain"
+      },
+      {
+       "ru": "Те, что запускают конвейер и выдают результат: toList, count, forEach",
+       "tg": "Онҳое, ки конвейерро оғоз карда, натиҷа медиҳанд: toList, count, forEach",
+       "en": "Those that start the pipeline and produce a result: toList, count, forEach"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» делит операции на промежуточные и терминальные; какая группа запускает выполнение?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» амалиётҳоро ба миёна ва терминӣ тақсим мекунад; кадом гурӯҳ иҷроро оғоз мекунад?",
+      "en": "The \"How it works\" section divides operations into intermediate and terminal; which group starts execution?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3985,6 +5449,18 @@
     },
     {
      "title": {
+      "ru": "Файлы в реальном проекте: кодировка, большие файлы и жизненный цикл",
+      "tg": "Файлҳо дар лоиҳаи воқеӣ: кодировка, файлҳои калон ва давраи ҳаёт",
+      "en": "Files in a real project: encoding, large files and the lifecycle"
+     },
+     "body": {
+      "ru": "Три темы, без которых файловый код в настоящем проекте не собирается. Кодировка: Files.writeString пишет UTF-8, и в файле спокойно живут и русские, и таджикские буквы; но файлы из внешних систем могут быть в Windows-1251, тогда чтение без указания кодировки превратит текст в знаки вопроса. Большие файлы: readAllLines держит весь файл в памяти, поэтому для журналов на гигабайты берут lines() — поток строк, читаемых по одной. Жизненный цикл: close обязан вызываться при любом исходе — try-with-resources делает это за вас.\n\nЗапишите в файл строку с таджикскими буквами, прочитайте обратно и напечатайте: символы должны вернуться ровно теми же — это простейший тест кодировки.",
+      "tg": "Се мавзӯъе, ки бе онҳо коди файлӣ дар лоиҳаи воқеӣ ҷамъ намеояд. Кодировка: Files.writeString бо UTF-8 менависад ва дар файл ҳарфҳои русӣ ва тоҷикӣ бехатар зиндагӣ мекунанд; вале файлҳои аз системаҳои берунӣ Windows-1251 метавонанд бошанд, он гоҳ хондан бе нишон додани кодировка матнро ба аломатҳои пурсиш табдил медиҳад. Файлҳои калон: readAllLines тамоми файлро дар хотира нигоҳ медорад, барои ҳамин барои журналҳои гигабайтӣ lines()-ро мегиранд — ҷараёни сатрҳо, ки як-як хонда мешаванд. Давраи ҳаёт: close ҳатман дар ҳамаи ҳолатҳо даъват мешавад — try-with-resources инро ба ҷои шумо мекунад.\n\nДар файл сатре бо ҳарфҳои тоҷикӣ нависед, боз хонед ва чоп кунед: аломатҳо бояд ҳамон бозгарданд — ин осонтарин санҷиши кодировка аст.",
+      "en": "Three topics without which file code in a real project never assembles. Encoding: Files.writeString writes UTF-8, and Russian and Tajik letters live comfortably in the file; but files from outside systems may be in Windows-1251, and reading without stating the encoding turns the text into question marks. Large files: readAllLines keeps the whole file in memory, so for gigabyte logs you take lines() — a stream of lines read one at a time. The lifecycle: close must happen on every outcome — try-with-resources does it for you.\n\nWrite a line with Tajik letters to a file, read it back and print: the characters must return exactly the same — the simplest encoding test."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -4026,7 +5502,13 @@
        "en": "It turns checked exceptions into unchecked"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел описывает закрытие reader при выходе из блока; вспомните, при каких исходах блока это происходит.",
+      "tg": "Бахши аввал пӯшидани reader-ро ҳангоми аз блок берун рафтан тавсиф мекунад; дар ёд оваред, дар кадом натиҷаҳои блок ин сархезад.",
+      "en": "The first section describes closing the reader when leaving the block; recall for which block outcomes that happens."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-25-q2",
@@ -4057,7 +5539,50 @@
        "en": "It throws IOException"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В примере цикл чтения построен на условии с readLine; какое значение останавливает цикл?",
+      "tg": "Дар мисол даври хондан бо шарте бо readLine сохта шудааст; кадом арзиш даврро мебандад?",
+      "en": "In the example the reading loop is built on a condition with readLine; which value stops the loop?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-25-q3",
+     "question": {
+      "ru": "Какие объекты разрешено объявлять в try-with-resources?",
+      "tg": "Кадом объектҳоро дар try-with-resources эълон кардан иҷозат дода мешавад?",
+      "en": "Which objects may be declared in try-with-resources?"
+     },
+     "answer": {
+      "ru": "Любые, реализующие интерфейс AutoCloseable",
+      "tg": "Ҳама, ки интерфейси AutoCloseable-ро амалисозӣ мекунанд",
+      "en": "Any that implement the AutoCloseable interface"
+     },
+     "options": [
+      {
+       "ru": "Только читатели из пакета java.io",
+       "tg": "Танҳо хонандагони бастаи java.io",
+       "en": "Only readers from the java.io package"
+      },
+      {
+       "ru": "Любые объекты: компилятор сам вызовет close",
+       "tg": "Ҳамаи объектҳо: компилятор худаш close-ро даъват мекунад",
+       "en": "Any objects: the compiler will call close itself"
+      },
+      {
+       "ru": "Любые, реализующие интерфейс AutoCloseable",
+       "tg": "Ҳама, ки интерфейси AutoCloseable-ро амалисозӣ мекунанд",
+       "en": "Any that implement the AutoCloseable interface"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» называет интерфейс, по которому компилятор узнаёт закрываемый ресурс.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» интерфейсеро меномад, ки тавассути он компилятор ресурсти пӯшиданшавандаро мешиносад.",
+      "en": "The \"How it works\" section names the interface by which the compiler recognises a closeable resource."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4146,6 +5671,18 @@
     },
     {
      "title": {
+      "ru": "Record в реальном проекте: ключи словаря и компактный конструктор",
+      "tg": "Record дар лоиҳаи воқеӣ: калидҳои луғат ва конструктори компактӣ",
+      "en": "Records in a real project: map keys and the compact constructor"
+     },
+     "body": {
+      "ru": "В настоящем проекте record — это данные, которые передаются между слоями: JSON-ответы API, строки отчёта, пары координат. Два свойства делают их любимцами словарей: equals и hashCode согласованы по компонентам, поэтому Point(2, 3) как ключ HashMap находит значение по равному ключу — то, что в днях 11 и 12 пришлось писать руками. Второй навык — компактный конструктор: Point { if (x < 0) throw new IllegalArgumentException(\"x\"); } — правила валидации живут внутри record, и невозможен объект с недопустимыми компонентами.\n\nИспользуйте Point как ключ HashMap<Point, String> и получите значение по new Point(2, 3): равенство по компонентам сработает без единого написанного вами equals.",
+      "tg": "Дар лоиҳаи воқеӣ record — додаҳое ҳаст, ки байни қабатҳо интиқол меёбанд: ҷавобҳои JSON-и API, сатрҳои ҳисобот, ҷуфтҳои координатҳо. Ду хусусият онҳоро дӯстони луғатҳо мекунад: equals ва hashCode аз рӯи компонентҳо мувофиқанд, барои ҳамин Point(2, 3) ҳамчун калиди HashMap арзиши бо калиди баробарро меёбад — ҳаминро дар рӯзҳои 11 ва 12 бо дасти худ навиштан лозим омад. Маҳорати дуюм — конструктори компактӣ: Point { if (x < 0) throw new IllegalArgumentException(\"x\"); } — қоидаҳои санҷиш дар дохили record зиндагӣ мекунанд ва объект бо компонентҳои ғайриимкон сохта намешавад.\n\nPoint-ро ҳамчун калиди HashMap<Point, String> истифода баред ва арзишро аз рӯи new Point(2, 3) гиред: баробарии аз рӯи компонентҳо бе як навишташудаи шумо equals кор мекунад.",
+      "en": "In a real project a record is data travelling between layers: JSON API responses, report rows, coordinate pairs. Two properties make them dictionary darlings: equals and hashCode agree on components, so Point(2, 3) as a HashMap key finds the value under an equal key — the thing days 11 and 12 had you write by hand. The second skill is the compact constructor: Point { if (x < 0) throw new IllegalArgumentException(\"x\"); } — validation rules live inside the record, and an object with invalid components cannot exist.\n\nUse Point as a HashMap<Point, String> key and fetch the value by new Point(2, 3): component equality works without a single equals written by you."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -4187,7 +5724,13 @@
        "en": "Nothing — record is only declaration syntax"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел перечисляет всё, что компилятор создаёт из заголовка record; сверьте список с вариантами.",
+      "tg": "Бахши аввал ҳама чизеро номбар мекунад, ки компилятор аз сарлавҳаи record месозад; рӯйхатро бо вариантҳо муқоиса кунед.",
+      "en": "The first section lists everything the compiler builds from the record header; match the list against the options."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-26-q2",
@@ -4218,7 +5761,50 @@
        "en": "Through the method p.getX()"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ошибка первая в разделе о частых ошибках показывает разницу между p.x и правильной записью.",
+      "tg": "Хатои якум дар бахши хатоҳои маъмул фарқи байни p.x ва навишти дурустро нишон медиҳад.",
+      "en": "The first mistake in the common-mistakes section shows the difference between p.x and the correct notation."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "java-day-26-q3",
+     "question": {
+      "ru": "Почему record удобен как ключ HashMap?",
+      "tg": "Чаро record ҳамчун калиди HashMap қулай аст?",
+      "en": "Why is a record convenient as a HashMap key?"
+     },
+     "answer": {
+      "ru": "Компилятор согласует equals и hashCode по компонентам автоматически",
+      "tg": "Компилятор equals ва hashCode-ро аз рӯи компонентҳо худкор мувофиқ мекунад",
+      "en": "The compiler keeps equals and hashCode consistent over components automatically"
+     },
+     "options": [
+      {
+       "ru": "Record нельзя использовать как ключ — это только для вывода",
+       "tg": "Record-ро ҳамчун калид истифода бурдан мумкин нест — ӯ танҳо барои чоп аст",
+       "en": "A record cannot be a key — it is only for printing"
+      },
+      {
+       "ru": "Record сортирует ключи автоматически",
+       "tg": "Record калидҳоро худкор мураттаб мекунад",
+       "en": "A record sorts keys automatically"
+      },
+      {
+       "ru": "Компилятор согласует equals и hashCode по компонентам автоматически",
+       "tg": "Компилятор equals ва hashCode-ро аз рӯи компонентҳо худкор мувофиқ мекунад",
+       "en": "The compiler keeps equals and hashCode consistent over components automatically"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» перечисляет то, что компилятор создаёт для record; какие два метода там названы для сравнения?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» онҳоро номбар мекунад, ки компилятор барои record месозад; кадом ду метод барои муқоиса номбар шудаанд?",
+      "en": "The \"How it works\" section lists what the compiler creates for a record; which two comparison methods are named?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4307,6 +5893,18 @@
     },
     {
      "title": {
+      "ru": "Отладка в реальном проекте: воспроизведение, гипотезы и чтение до конца",
+      "tg": "Ислоҳ дар лоиҳаи воқеӣ: такрорӣ пайдо кардан, тахминҳо ва хондан то охир",
+      "en": "Debugging in a real project: reproduction, hypotheses and reading to the end"
+     },
+     "body": {
+      "ru": "Настоящая отладка начинается не с правки кода, а с воспроизведения: если ошибка не повторяется по команде, вы чините призрак. Шаг второй — сократить пример: уберите половину кода так, чтобы ошибка осталась; десять строк, которые ломаются, честнее тысячи, которые иногда ломаются. Читая стектрейс, дойдите до конца: после основного исключения часто идёт Caused by с настоящей причиной — поспешная правка по первой строке чинит симптом. И помните: java печатает номер строки — сверьте его с кодом, а не с памятью о коде.\n\nВозьмите любое исключение из практики и разложите в четыре шага: воспроизведите, сократите, выдвиньте гипотезу, проверьте печатью; запишите каждый шаг словами.",
+      "tg": "Ислоҳи воқеӣ аз таъсири код сар намешавад, аз такрорӣ пайдо кардан мешавад: агар хато бо фармон такрор нашавад, шумо арваҳро таъмир мекунед. Қадами дуюм — кӯтоҳ кардани мисол: нисфи кодро тарк кунед, то ки хато боқӣ монад; даҳ сатри мешикананда росттар аз ҳазор сатри баъзан-мешикананда аст. Стектрейсро то охир хонед: баъди истиснои асосӣ аксар вақт Caused by бо сабаби ҳақиқӣ меояд — таъмири шитобона аз сатри аввал аломатро месозад, сабабро не. Ва дар хотир доред: java рақами сатрро чоп мекунад — онро бо код муқоиса кунед, на бо хотираи аз код.\n\nЯгон истисноро аз мошқ гиред ва ба чор қадам тақсим кунед: такрор пайдо кунед, кӯтоҳ кунед, тахмин созед, бо чоп санҷед; ҳар қадамро бо суханон нависед.",
+      "en": "Real debugging starts not with edits but with reproduction: if the error does not repeat on command, you are fixing a ghost. Step two — shrink the example: cut away half the code while the error stays; ten breaking lines are more honest than a thousand that sometimes break. Reading a stack trace, reach the end: after the main exception there is often a Caused by with the real cause — a hasty first-line fix repairs the symptom. And remember: java prints the line number — compare it with the code, not with your memory of the code.\n\nTake any exception from practice and lay it into four steps: reproduce, shrink, hypothesize, check with a print; write each step down in words."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -4348,7 +5946,13 @@
        "en": "The program file is too large"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Раздел «Как это работает» разбирает четыре исключения с причиной и лечением; какой из них описывает обращение к null?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» чор истисно бо сабаб ва табобатро таҳлил мекунад; кадомаш муроҷиат ба null-ро тавсиф мекунад?",
+      "en": "The \"How it works\" section dissects four exceptions with cause and cure; which one describes dereferencing null?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "java-day-27-q2",
@@ -4379,7 +5983,50 @@
        "en": "From the middle line, the cause is usually there"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый раздел советует начать с определённой строки стектрейса; какой из вариантов повторяет этот совет?",
+      "tg": "Бахши аввал аз оғоз бо сатри муайяни стектрейс маслиҳат медиҳад; кадом variant ҳамин маслиҳатро такрор мекунад?",
+      "en": "The first section advises starting from a specific stack trace line; which option repeats that advice?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-27-q3",
+     "question": {
+      "ru": "Какое исключение бросит Integer.parseInt(\"12a\")?",
+      "tg": "Integer.parseInt(\"12a\") кадом истисноро мепартояд?",
+      "en": "Which exception does Integer.parseInt(\"12a\") throw?"
+     },
+     "answer": {
+      "ru": "NumberFormatException — строка не является числом",
+      "tg": "NumberFormatException — сатр адад нест",
+      "en": "NumberFormatException — the string is not a number"
+     },
+     "options": [
+      {
+       "ru": "IllegalArgumentException с текстом про символ \"a\"",
+       "tg": "IllegalArgumentException бо матни дар бораи ҳарфи \"a\"",
+       "en": "IllegalArgumentException with a message about the \"a\" character"
+      },
+      {
+       "ru": "Ничего: метод вернёт 12, отбросив букву",
+       "tg": "Ҳеҷ чиз: метод 12 мегардонад, ҳарфро тарк мекунад",
+       "en": "Nothing: the method returns 12, dropping the letter"
+      },
+      {
+       "ru": "NumberFormatException — строка не является числом",
+       "tg": "NumberFormatException — сатр адад нест",
+       "en": "NumberFormatException — the string is not a number"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» перечисляет четыре частых исключения; найдите в списке то, что связано с parseInt.",
+      "tg": "Бахши «Чӣ тавр кор мекунад» чор истиснои маъмулро номбар мекунад; дар рӯйхат онеро ёбед, ки бо parseInt пайваст аст.",
+      "en": "The \"How it works\" section lists four common exceptions; find the one connected with parseInt."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4472,6 +6119,18 @@
       "tg": "Имрӯз бе иҷро: вазифа — баён кардани фаҳмиш бо калимаҳо. Чунин машқ на панҷа, на харитаи дар сарро месанҷад. Ба се савол ҷавоб диҳед: сатри package айнан чиро эълон мекунад ва агар онро нест ё иваз кунанд чӣ мешавад; import барои чист ва import java.util.*; чӣ маъно дорад; бастаҳо ва папкаҳои лоиҳа чӣ гуна пайванданд ва гурӯҳҳои model, service, app барои чӣ. Бо ҷумлаҳои пурра, бо суханони худ нависед, матни дарсро нусха нагиред — агар баён «наояд», маънои он аст, ки мавзӯъ ҳанӯз ҷамъ нашуд: ба мисоли боло баргардед ва бахши сохтро аз нав бихонед. Пас аз навиштан ҷавоби худро бо намунаи дар блоки машқ муқоиса кунед: мувофиқии калимаҳо муҳим нест, мувофиқии маъно муҳим аст: шумо бояд эълони баста, таъйиноти import ва мувофиқат бо папкаҳоро номбар карда бошед. Саволи иловагӣ ба худ: чаро классҳои java.lang импорт талаб намекунанд?",
       "en": "Today without running: the task is to put your understanding into words. Such an exercise tests not your fingers but the map in your head. Answer three questions: what exactly does the package line declare and what happens if it is removed or changed; why is import needed and what does import java.util.*; mean; how packages and project folders relate and why the model, service and app groups exist. Write in full sentences, in your own words, without copying the lesson text — if the wording \"does not come\", the topic has not settled: return to the example above and reread the structure section. After writing, compare your answer with the reference one in the practice block: matching words does not matter, matching meaning does: you should have named the package declaration, the purpose of imports, and the folder correspondence. A bonus question to yourself: why do java.lang classes need no import?"
      }
+    },
+    {
+     "title": {
+      "ru": "Частые ошибки с пакетами и import",
+      "tg": "Хатоҳои маъмул бо бастаҳо ва import",
+      "en": "Common mistakes with packages and imports"
+     },
+     "body": {
+      "ru": "Ошибка первая: файл переехал в папку shop, а строка package осталась прежней (или наоборот) — компилятор не найдёт класс: пакет и положение файла обязаны совпадать. Ошибка третьей важности: ожидать, что java Product запустит класс из пакета — из корня проекта правильная команда java shop.Product: имя пакета входит в полное имя класса. Ошибка четвёртая: забывать, что java.lang импортируется автоматически — String, Math и System не требуют строк import.\n\nСломайте соответствие намеренно: переименуйте папку, не трогая package, и прочитайте сообщение компилятора целиком — оно назовёт ожидаемое и фактическое расположение класса.",
+      "tg": "Хатои якум: файл ба папкаи shop кӯчид, вале сатри package пешина монд (ё баръакс) — компилятор классро наёбад: баста ва мавқеи файл бояд мувофиқ бошанд. Хатои сеюм: интизор рафтан, ки java Product синфи аз баста ро оғоз кунад — аз решаи лоиҳа фармони дуруст java shop.Product аст: номи баста ба номи пурраи класс дохил мешавад. Хатои чорум: фаромӯш кардан, ки java.lang худкор импорт мешавад — String, Math ва System сатри import талаб намекунанд.\n\nМувофиқатаро азнакӣ вайрон кунед: папкаро номгузорӣ кунед, бе даст задани package, ва паёми компиляторро то охир бихонед — вай мавқеи интизорӣ ва воқеии классро меномад.",
+      "en": "Mistake one: the file moved into the shop folder while the package line stayed (or vice versa) — the compiler cannot find the class: the package and the file location must agree. Mistake three: expecting java Product to launch a packaged class — from the project root the right command is java shop.Product: the package name is part of the fully qualified class name. Mistake four: forgetting that java.lang imports automatically — String, Math and System need no import lines.\n\nBreak the agreement on purpose: rename the folder without touching package, and read the compiler message end to end — it names both the expected and the actual class location."
+     }
     }
    ],
    "questions": [
@@ -4504,7 +6163,13 @@
        "en": "The name of the runnable main method"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Первый раздел объясняет, что объявляет package и что он требует от расположения файла.",
+      "tg": "Бахши аввал мефаҳмонад, ки package чиро эълон мекунад ва аз мавқеи файл чӣ талаб мекунад.",
+      "en": "The first section explains what package declares and what it demands from the file location."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-28-q2",
@@ -4535,7 +6200,50 @@
        "en": "To speed up program compilation"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В первом разделе есть пример короткого имени после import; какой вариант повторяет его смысл?",
+      "tg": "Дар бахши аввал намунаи кӯтоҳи ном баъди import ҳаст; кадом variant маънои онро такрор мекунад?",
+      "en": "The first section shows the short-name example after an import; which option repeats its meaning?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-28-q3",
+     "question": {
+      "ru": "Почему классы String и Math не требуют import?",
+      "tg": "Чаро классҳои String ва Math ба import ниёз надоранд?",
+      "en": "Why do the String and Math classes need no import?"
+     },
+     "answer": {
+      "ru": "Они лежат в пакете java.lang, который импортируется автоматически",
+      "tg": "Онҳо дар бастаи java.lang ҷой доранд, ки худкор импорт мешавад",
+      "en": "They live in the java.lang package, which is imported automatically"
+     },
+     "options": [
+      {
+       "ru": "Они встроены в компилятор и не являются классами",
+       "tg": "Онҳо дар компилятор дохил шудаанд ва синф нестанд",
+       "en": "They are built into the compiler and are not classes"
+      },
+      {
+       "ru": "Импорт нужен только для классов с буквами java в имени",
+       "tg": "Импорт танҳо барои классҳои бо ҳарфҳои java дар ном лозим аст",
+       "en": "Imports are only needed for classes with java in the name"
+      },
+      {
+       "ru": "Они лежат в пакете java.lang, который импортируется автоматически",
+       "tg": "Онҳо дар бастаи java.lang ҷой доранд, ки худкор импорт мешавад",
+       "en": "They live in the java.lang package, which is imported automatically"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка четвёртая в разделе о частых ошибках называет единственный пакет с автоматическим импортом.",
+      "tg": "Хатои чорум дар бахши хатоҳои маъмул ягона бастаи бо импорти худкорро меномад.",
+      "en": "The fourth mistake in the common-mistakes section names the only package with automatic import."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4630,6 +6338,18 @@
     },
     {
      "title": {
+      "ru": "Модель и сервис в реальном проекте: границы ответственности",
+      "tg": "Модел ва сервис дар лоиҳаи воқеӣ: марзҳои масъулият",
+      "en": "Model and service in a real project: responsibility boundaries"
+     },
+     "body": {
+      "ru": "Разделение «модель — сервис» из примера в настоящем проекте звучит так: Book знает только свои данные и красиво печатается; Catalog отвечает за коллекцию и вопросы к ней; main собирает сценарий. Дополнительный шаг настоящих команд: сервис не печатает. Catalog возвращает данные, а вывод остаётся в main — тот же Catalog завтра заработает в веб-интерфейсе, где println не существует. Второй навык — контракт поиска: findByTitle возвращает null, и вызывающий код обязан проверить; современная альтернатива — Optional<Book>, полезно знать о ней.\n\nЗадайте каждому классу примера один вопрос: «о чём этот класс ничего не должен знать?» — ответ на него очерчивает границу ответственности.",
+      "tg": "Тақсими «модел — сервис» аз мисол дар лоиҳаи воқеӣ чунин садо медиҳад: Book танҳо додаҳои худро медонад ва зебо чоп мешавад; Catalog барои коллексия ва пурсишҳо ба он масъул аст; main сенарияро мемонад. Қадами иловагии командаҳои воқеӣ: сервис чоп намекунад. Catalog додаҳоро мегардонад ва хуруҷ дар main мемонад — ҳамон Catalog фардо дар интерфейси веб кор мекунад, ки println вуҷуд надорад. Маҳорати дуюм — шартномаи ҷустуҷӯ: findByTitle null мегардонад ва коди даъваткунанда вайро санҷиш вазифа дорад; алтернативаи муосир — Optional<Book>, донистани он муфид аст.\n\nБа ҳар класси мисол як пурсиш гузоред: «ин класс дар бораи чӣ ҳеҷ чиз донан набояд?» — ҷавоб ба он марзи масъулиятро кашида менамояд.",
+      "en": "The \"model — service\" split from the example sounds in a real project like this: Book knows only its data and prints nicely; Catalog owns the collection and answers questions about it; main assembles the scenario. The extra step real teams take: the service does not print. Catalog returns data, output stays in main — the same Catalog tomorrow works in a web interface where println does not exist. The second skill is the search contract: findByTitle returns null, and the caller must check; the modern alternative is Optional<Book>, worth knowing.\n\nAsk each class of the example one question: \"what must this class never know about?\" — the answer draws the responsibility boundary."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -4671,7 +6391,13 @@
        "en": "The catalog's first book"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В коде примера findByTitle заканчивается строкой с null; вспомните, когда она выполняется.",
+      "tg": "Дар коди мисол findByTitle бо сатри null тамом мешавад; дар ёд оваред, ки вай кай иҷро мешавад.",
+      "en": "In the example code findByTitle ends with a line returning null; recall when that line runs."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-29-q2",
@@ -4702,7 +6428,50 @@
        "en": "Because the title field printed first"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В коде примера у Book есть метод с @Override, который собирает строку; какой метод его вызывает?",
+      "tg": "Дар коди мисол дар Book метод бо @Override ҳаст, ки сатрро мемонад; кадом метод онро даъват мекунад?",
+      "en": "In the example code Book has an @Override method assembling the string; which method calls it?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-29-q3",
+     "question": {
+      "ru": "Что напечатает println для объекта Book без переопределённого toString?",
+      "tg": "println барои объекти Book бе toString-и переопределёншаванда чӣ мебарорад?",
+      "en": "What does println print for a Book object without an overridden toString?"
+     },
+     "answer": {
+      "ru": "Служебный текст вида Book@1b6d3586",
+      "tg": "Матни хидматии Book@1b6d3586-монанд",
+      "en": "Service text like Book@1b6d3586"
+     },
+     "options": [
+      {
+       "ru": "Пустую строку, потому что toString отсутствует",
+       "tg": "Сатри холӣ, чунки набудани toString нест мешавад",
+       "en": "An empty line, because toString is missing"
+      },
+      {
+       "ru": "Ничего: println требует переопределения перед печатью",
+       "tg": "Ҳеҷ чиз: println пеш аз чоп переопределение талаб мекунад",
+       "en": "Nothing: println demands an override before printing"
+      },
+      {
+       "ru": "Служебный текст вида Book@1b6d3586",
+       "tg": "Матни хидматии Book@1b6d3586-монанд",
+       "en": "Service text like Book@1b6d3586"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка третья в разделе о частых ошибках приводит точный вид такой печати; сверьте его с вариантами.",
+      "tg": "Хатои сеюм дар бахши хатоҳои маъмул шакли дақиқи чунин чопро меорад; онро бо вариантҳо муқоиса кунед.",
+      "en": "The third mistake in the common-mistakes section quotes the exact look of such a print; match it against the options."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4792,6 +6561,18 @@
     },
     {
      "title": {
+      "ru": "Проект в реальной жизни: состояния, идентификаторы и следующие шаги",
+      "tg": "Лоиҳа дар ҳаёти воқеӣ: ҳолатҳо, идентификаторҳо ва қадамҳои баъдӣ",
+      "en": "A project in real life: states, identifiers and next steps"
+     },
+     "body": {
+      "ru": "Библиотека из примера в настоящем проекте столкнётся с тремя ограничениями, которые вы теперь умеете видеть. Состояние рассинхронизируется: available и будущий lent — два взгляда на одни книги, и правило «доступные плюс выданные равно добавленные» должно проверяться тестом, а не надеждой. Данные не живут в памяти: перезапуск стирает полку, поэтому следующий шаг — сохранить каталог в файл средствами дня 25. Дальше — официальные материалы dev.java/learn: коллекции глубже, интерфейсы Comparable, модульность.\n\nВыберите одно из трёх ограничений и напишите для Library второй метод-страж: тест, проверяющий сумму доступных и выданных, — первый настоящий тест в вашем портфолио.",
+      "tg": "Китобхонаи мисол дар лоиҳаи воқеӣ бо се маҳдудият рӯ ба рӯ мешавад, ки акнун шумо дидани онҳоро медонед. Ҳолат номутобиқ мешавад: available ва lent-и оянда — ду нигоҳ ба ҳамон китобҳо, ва қоидаи «дастрас ва додаашуда баробари илова кардашуда» бояд аз тариқи тест тасдиқ шавад, на аз тариқи умед. Додаҳо дар хотира зиндагӣ намекунанд: бозоғозӣ рафро пок мекунад, барои ҳамин қадами баъдӣ — нигоҳ доштани каталог дар файл воситаҳои рӯзи 25. Баъд — маводҳои расмии dev.java/learn: коллексияҳо амиқтар, интерфейси Comparable, модулнокӣ.\n\nЯке аз се маҳдудиятро интихоб кунед ва барои Library методи посбони дуюм нависед: тесте, ки ҷамъи дастрасу додаашударо санҷад, — аввалин тест воқеӣ дар портфолиои шумо.",
+      "en": "The example library in a real project meets three limits you can now see. State desyncs: available and the future lent are two views of the same books, and the rule \"available plus lent equals added\" must be checked by a test, not by hope. A title is not an identifier: two books with one heading are different copies, and a real project gives each an id — the same road as from String to record Book in this day's practice. Data do not live in memory: a restart wipes the shelf, so the next step is saving the catalog to a file with day 25 tools. Then — the official dev.java/learn materials: collections deeper, the Comparable interface, modularity.\n\nPick one of the three limits and write a second guardian method for Library: a test checking the sum of available and lent — the first real test in your portfolio."
+     }
+    },
+    {
+     "title": {
       "ru": "Типичные ошибки и практика",
       "tg": "Хатоҳои маъмулӣ ва машқ",
       "en": "Common mistakes and practice"
@@ -4833,7 +6614,13 @@
        "en": "The removed element"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В выводе примера второй checkout печатает false; вспомните, почему книга не нашлась на полке.",
+      "tg": "Дар натиҷаи мисол checkout-и дуюм false мебарорад; дар ёд оваред, чаро китоб дар раф наёфт.",
+      "en": "In the example output the second checkout prints false; recall why the book was not found on the shelf."
+     },
+     "relatedSection": 0
     },
     {
      "id": "java-day-30-q2",
@@ -4864,7 +6651,50 @@
        "en": "It wipes the whole list"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Код returnBook начинается с проверки contains; вспомните, от какого повторения она защищает.",
+      "tg": "Коди returnBook бо санҷиши contains оғоз мешавад; дар ёд оваред, аз кадом такрор вай ҳимоя мекунад.",
+      "en": "The returnBook code starts with a contains check; recall which duplication it guards against."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "java-day-30-q3",
+     "question": {
+      "ru": "Почему методы checkout и returnBook возвращают boolean?",
+      "tg": "Чаро методҳои checkout ва returnBook boolean мегардонанд?",
+      "en": "Why do the checkout and returnBook methods return boolean?"
+     },
+     "answer": {
+      "ru": "Чтобы вызывающий код сам решал, что делать с результатом операции",
+      "tg": "То ки коди даъваткунанда худ тасодир кунад, бо натиҷаи амал чӣ кунад",
+      "en": "So the calling code decides itself what to do with the operation result"
+     },
+     "options": [
+      {
+       "ru": "Так методы работают быстрее на больших списках",
+       "tg": "Чунин методҳо дар рӯйхатҳои калон тезтар кор мекунанд",
+       "en": "That makes the methods faster on large lists"
+      },
+      {
+       "ru": "boolean — единственный тип, который разрешён в void-классах",
+       "tg": "boolean — ягона типе, ки дар классҳои void иҷозат дода мешавад",
+       "en": "boolean is the only type allowed in void classes"
+      },
+      {
+       "ru": "Чтобы вызывающий код сам решал, что делать с результатом операции",
+       "tg": "То ки коди даъваткунанда худ тасодир кунад, бо натиҷаи амал чӣ кунад",
+       "en": "So the calling code decides itself what to do with the operation result"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Раздел «Как это работает» называет приём дня: кто принимает решение по возвращённому значению?",
+      "tg": "Бахши «Чӣ тавр кор мекунад» усули рӯзро меномад: кӣ тасодирро аз рӯи арзиши баргардонида мекунад?",
+      "en": "The \"How it works\" section names the technique of the day: who decides based on the returned value?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {

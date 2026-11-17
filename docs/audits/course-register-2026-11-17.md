@@ -1,49 +1,59 @@
-# Course register — 2026-11-17 continuation
+# Course register — 2026-11-17 local continuation
 
-Coordinator: primary agent. One owner per course. Statuses: queued / in-progress / review / done / clean-verified(remaining semantic review).
+Actual checkout: D:/Проектҳо/DevAtlas on main. Local files only: no commit, push, PR, merge or deploy; no stash/reset/clean. Authoring and independent review remain separate.
 
-| Course | Days | Owner | Status | Work items |
-|---|---:|---|---|---|
-| html | 30 | agent-html | queued-review | heuristic review (answer position/length/solution overlap) |
-| css | 30 | agent-css | queued-review | semantic/source/translation/practice review only |
-| javascript-1 | 30 | agent-javascript-1 | queued-review | heuristic review (answer position/length/solution overlap) |
-| javascript-2 | 30 | agent-javascript-2 | queued-review | heuristic review (answer position/length/solution overlap) |
-| react | 60 | agent-react | queued-review | heuristic review (answer position/length/solution overlap) |
-| nextjs | 20 | agent-nextjs | queued-review | heuristic review (answer position/length/solution overlap) |
-| git | 30 | agent-git | queued-review | heuristic review (answer position/length/solution overlap) |
-| typescript | 14 | agent-typescript | queued-review | heuristic review (answer position/length/solution overlap) |
-| algorithms | 14 | agent-algorithms | queued | <4 sections on 13 days; missing hints on 14 days |
-| python | 30 | agent-python | accepted by coordinator | day30 output fixed to real execution (45/25/20/25, verified via python -I); days 1-2 +1 section each; 28 new q3 questions; hint+relatedSection on all 58 existing questions; 11 python.org URLs fetched; 15 tests green; REMAINING (owner decision): 28 retype-run-modify practices could become independent solutions; 13 days cannot reach 3-distinct correctIndex without reordering original options; answerLongest 37% |
-| backend | 44 | agent-backend | queued | <4 sections on 43 days |
-| mobile | 44 | agent-mobile | accepted by coordinator | day-10 draft correctIndex 0→1 (published verified correct via section text) + learningFlow prediction 0→1; day-22 draft regex ^d+$→^\d+$; 86 new sections (44×4 now); drafts==published 44/44; 15 RN/Expo/React URLs fetched; tests green; REMAINING: 37 overlap-candidate semantic review; option-reorder for 84.1% longest-answer parked by owner (heuristic, order preserved per AGENTS.md) |
-| cpp | 30 | agent-cpp | queued-review | heuristic review (answer position/length/solution overlap) |
-| java | 30 | agent-java | queued | <4 sections on 30 days; <3 questions on 30 days; missing hints on 30 days |
-| csharp | 30 | agent-csharp | queued | <4 sections on 30 days; <3 questions on 30 days; missing hints on 30 days |
-| go | 30 | agent-go | queued-review | semantic/source/translation/practice review only |
-| rust | 30 | agent-rust | queued | <4 sections on 30 days; <3 questions on 30 days; missing hints on 30 days |
-| php | 30 | agent-php | queued | <4 sections on 2 days; <3 questions on 30 days; missing hints on 30 days |
-| ruby | 30 | agent-ruby | queued | <4 sections on 30 days; <3 questions on 30 days; missing hints on 30 days |
-| sql | 30 | agent-sql | queued | <4 sections on 14 days; <3 questions on 30 days; missing hints on 30 days |
-| bash | 30 | agent-bash | accepted by coordinator | day-30 solution made self-contained (no-arg → built-in fixture, real output valid=4/ok=1/redirects=1/errors=2/skipped=1; usage+exit1 kept for unreadable explicit path) + stale section output replaced (was from a different program); 28 new sections (30×4); 30 new q3 questions (per-day distinct correctIndex; overall dominant 63→45.6%); 60 hints+relatedSection; 26/26 solutions executed with bash; day-10 draft text caught 2 factual errors before commit (ca?t→cart not cat; [st]art→tart not start); GNU Bash manual 5.3 URLs fetched; REMAINING: 11 days have [0,0] existing pairs (3-distinct impossible without reordering); longest-answer 84.4% parked |
-| nodejs | 30 | agent-nodejs | queued | <4 sections on 9 days; <3 questions on 30 days; missing hints on 30 days |
-| mongodb | 30 | agent-mongodb | queued | <4 sections on 13 days; <3 questions on 30 days; missing hints on 30 days |
-| swift | 30 | agent-swift | queued | <4 sections on 30 days; <3 questions on 28 days; missing hints on 30 days |
-| kotlin | 30 | agent-kotlin | queued | <4 sections on 30 days; <3 questions on 30 days; missing hints on 30 days |
-| ux-design | 30 | agent-ux-design | queued | <4 sections on 28 days; missing hints on 30 days |
-| ai-fundamentals | 14 | agent-ai-fundamentals | queued | <4 sections on 14 days; <3 questions on 5 days; missing hints on 14 days |
-| context-engineering | 14 | agent-context-engineering | queued | <4 sections on 2 days; missing hints on 14 days |
-| agent-harness | 14 | agent-agent-harness | queued | <4 sections on 14 days; <3 questions on 3 days; missing hints on 14 days |
-| digital-marketing | 30 | agent-digital-marketing | queued | <4 sections on 30 days; missing hints on 30 days |
-| data-analytics | 30 | agent-data-analytics | queued | <4 sections on 30 days; missing hints on 30 days |
-| business-foundations | 30 | agent-business-foundations | queued | <4 sections on 30 days; missing hints on 30 days |
-| communication | 30 | agent-communication | queued | <4 sections on 30 days; missing hints on 30 days |
-| content-creation | 30 | agent-content-creation | queued-review | heuristic review (answer position/length/solution overlap) |
-| english-foundations | 42 | agent-english-foundations | queued-review | semantic/source/translation/practice review only |
-| digital-literacy | 30 | agent-digital-literacy | queued-review | semantic/source/translation/practice review only |
-| personal-productivity | 22 | agent-personal-productivity | queued-review | semantic/source/translation/practice review only |
-| management-foundations | 30 | coordinator→review-agent | accepted (fully verified) | days 24-30 appended from recovered draft; rubrics 16/23/30 authored; counts synced; general-course-content+published-curriculum+stage-coverage green; source review: 6/6 URLs fetched (OpenStax 17-7, GovS 002 via web-reader after 403, OpenStax OB 8-3, 2 Atlassian plays, W3C WAI), per-day comparison 0 conflicts; open metadata: GovS "version 2.1" label unconfirmed from page (documented in review limitations) |
-| javascript-pro | 30 | agent-javascript-pro | accepted by coordinator | premium test strengthened (independent solutions must execute cleanly; backend-pro/architecture-expert equality path intact); 26 new 4th sections; 75 hints+relatedSection; overlap review: 24 days are trust-example design (solution==example, NOT in prose) — allowed, unchanged; 23 MDN/Node/TS URLs fetched; 15+9+55 tests green; REMAINING: answerSameIdx 56%/answerLongest 84% need option reorder (requires owner authorization to touch original order); trust-example→independent conversion is a separate owner decision |
-| backend-pro | 30 | agent-backend-pro | queued | <3 questions on 30 days; missing hints on 30 days |
-| architecture-expert | 30 | agent-architecture-expert | queued | <4 sections on 28 days; <3 questions on 30 days; missing hints on 30 days |
-| ux-pro | 30 | agent-ux-pro | queued | <4 sections on 30 days; <3 questions on 30 days; missing hints on 30 days |
-| business-pro | 30 | agent-business-pro | queued | <4 sections on 30 days; <3 questions on 30 days; missing hints on 30 days |
+Actual tool-visible agents at integration: `/root` (coordinator/reviewer), `/root/pending_batch_review` (repairs/integration), `/root/kotlin_course` (Kotlin author), `/root/ux_course` (UX author). These are real canonical task names from collaboration.list_agents, not invented owners. Other queued tasks have no active worker. A running worker may be preparing review evidence; table status describes its batch.
+
+Application loaders report 43 courses, 38 tracks and 1,262 scheduled days. Of 114 stages, 42 are Published and 72 are Missing. All 12 short-course plans meet their scheduled-day targets. All current courses are free. Pro and Expert describe curriculum levels. The continuation audit identifies 11 courses with structural gaps and 36 with structural gaps or heuristic review flags.
+
+Statuses apply only to the stated batch. VERIFIED_WITH_LIMITS never means the complete course, its translations, source evidence and learner mastery were certified. Read [pending batch review](pending-batches-review-2026-11-17.md) for concrete coordinates and evidence.
+
+| Task | Course | Days | Actual owner / historical evidence | Batch status | Work and remaining evidence |
+|---|---|---:|---|---|---|
+| Task01 | backend-pro | 30 | Historical commit d852220, `/root` independent review | FIX_REQUIRED | Root reviewed all 30 added English questions and hints. Days 8, 15, 20, 21 and 23 need follow-up. Local Node 24 tests reproduced the response-body timeout gap and concurrent half-open probes. |
+| Task02 | java | 30 | `/root/pending_batch_review` repairs, `/root` independent review | VERIFIED_WITH_LIMITS | Four factual repairs accepted. All 27 code practice references matched their expected output on OpenJDK 17. Full course review remains pending. |
+| Task03 | csharp | 30 | `/root/pending_batch_review` repairs, `/root` independent review | VERIFIED_WITH_LIMITS | Four factual repairs accepted against Microsoft documentation. SDK execution and full course review remain pending. |
+| Task04 | rust | 30 | `/root/pending_batch_review` repairs, `/root` independent review | VERIFIED_WITH_LIMITS | Four factual repairs accepted against official Rust documentation. Compiler execution and full course review remain pending. |
+| Task05 | php | 30 | `/root/pending_batch_review` repairs, `/root` independent review | VERIFIED_WITH_LIMITS | Four scoped fixes passed independent source and runtime review. Root's checksum-verified portable PHP 8.4.27 ran all 26 code practice references and matched their recorded outputs. Full course review remains pending. |
+| Task06 | ruby | 30 | `/root/pending_batch_review` repairs, `/root` independent review | REVIEW | Four scoped fixes saved on days 1, 8, 11 and 30. Ruby execution remains pending. |
+| Task07 | sql | 30 | `/root/pending_batch_review` repairs, `/root` independent review | VERIFIED_WITH_LIMITS | Scoped RU/TG/EN factual repairs accepted after independent reads and SQLite reproductions. Full course practice and rubric review remains pending. |
+| Task08 | nodejs | 30 | `/root/pending_batch_review` repairs, `/root` independent review | VERIFIED_WITH_LIMITS | Scoped RU/TG/EN factual repairs accepted after independent reads and Node/npm reproductions. Full course practice and rubric review remains pending. |
+| Task09 | mongodb | 30 | `/root/pending_batch_review` repairs, `/root` independent review | VERIFIED_WITH_LIMITS | Scoped RU/TG/EN factual repairs accepted against MongoDB documentation. Live MongoDB execution and full course review remain pending. |
+| Task10 | swift | 30 | — (no active author) | FIX_REQUIRED | Concrete new semantic findings saved in pending-batches-review; no fix author assigned yet. 0 days <4 sections, 0 days <3 questions, 0 days without linked hints |
+| Task11 | kotlin | 30 | `/root/kotlin_course` author, `/root` reviewer, `/root/pending_batch_review` tests | VERIFIED_WITH_LIMITS | 30 independent practices, 120 sections, 90 quiz questions and 3 written question IDs. Root verified day 30 feedback and draft persistence in the browser. Kotlin 1.9.24 and OpenJDK 17 executed all 30 examples and 30 solutions. The shared verifier also passed negative/overflow and broken-deletion checks. |
+| Task12 | ux-design | 30 | `/root/ux_course` author, `/root` reviewer | RUNNING | Current loader has at least 4 sections and 3 quiz questions per day, with linked hints throughout. Author is finishing the project rubric and preparing the batch for review. |
+| Task13 | ai-fundamentals | 14 | — (no active author) | QUEUED | 14 days <4 sections, 5 days <3 questions, 14 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task14 | context-engineering | 14 | — (no active author) | QUEUED | 2 days <4 sections, 0 days <3 questions, 14 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task15 | agent-harness | 14 | — (no active author) | QUEUED | 14 days <4 sections, 3 days <3 questions, 14 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task16 | digital-marketing | 30 | — (no active author) | QUEUED | 30 days <4 sections, 0 days <3 questions, 30 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task17 | data-analytics | 30 | — (no active author) | QUEUED | 30 days <4 sections, 0 days <3 questions, 30 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task18 | business-foundations | 30 | — (no active author) | QUEUED | 30 days <4 sections, 0 days <3 questions, 30 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task19 | communication | 30 | — (no active author) | QUEUED | 30 days <4 sections, 0 days <3 questions, 30 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task20 | backend | 44 | — (no active author) | QUEUED | 43 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task21 | architecture-expert | 30 | — (no active author) | QUEUED | 28 days <4 sections, 30 days <3 questions, 30 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task22 | ux-pro | 30 | — (no active author) | QUEUED | 30 days <4 sections, 30 days <3 questions, 30 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task23 | business-pro | 30 | — (no active author) | QUEUED | 30 days <4 sections, 30 days <3 questions, 30 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task24 | html | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task25 | javascript-1 | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task26 | javascript-2 | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task27 | react | 60 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task28 | nextjs | 20 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task29 | git | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task30 | typescript | 14 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task31 | cpp | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task32 | content-creation | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task33 | css | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task34 | go | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task35 | english-foundations | 42 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task36 | digital-literacy | 30 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task37 | personal-productivity | 22 | — (no active author) | QUEUED | 0 days <4 sections, 0 days <3 questions, 0 days without linked hints; full semantic/source/localization/independent-practice/rubric review pending |
+| Task38 | management-foundations | 30 | Historical accepted batch; no active author | VERIFIED_WITH_LIMITS | Prior authored batch accepted; remaining independent practice, sentence-level RU/TG/EN, source/version/rubric and outcome review per agent pack. 0 days <4 sections, 0 days <3 questions, 0 days without linked hints |
+| Task39 | python | 30 | Historical accepted batch; no active author | VERIFIED_WITH_LIMITS | Prior authored batch accepted; remaining independent practice, sentence-level RU/TG/EN, source/version/rubric and outcome review per agent pack. 0 days <4 sections, 0 days <3 questions, 0 days without linked hints |
+| Task40 | mobile | 44 | Historical accepted batch; no active author | VERIFIED_WITH_LIMITS | Prior authored batch accepted; remaining independent practice, sentence-level RU/TG/EN, source/version/rubric and outcome review per agent pack. 0 days <4 sections, 0 days <3 questions, 0 days without linked hints |
+| Task41 | javascript-pro | 30 | Historical accepted batch; no active author | VERIFIED_WITH_LIMITS | Prior authored batch accepted; remaining independent practice, sentence-level RU/TG/EN, source/version/rubric and outcome review per agent pack. 0 days <4 sections, 0 days <3 questions, 0 days without linked hints |
+| Task42 | bash | 30 | Historical accepted batch; no active author | VERIFIED_WITH_LIMITS | Prior authored batch accepted; remaining independent practice, sentence-level RU/TG/EN, source/version/rubric and outcome review per agent pack. 0 days <4 sections, 0 days <3 questions, 0 days without linked hints |
+| Task43 | algorithms | 14 | Historical accepted batch; no active author | VERIFIED_WITH_LIMITS | Prior authored batch accepted; remaining independent practice, sentence-level RU/TG/EN, source/version/rubric and outcome review per agent pack. 0 days <4 sections, 0 days <3 questions, 0 days without linked hints |
+
+Root ran the integrated suite at 13:52 Dushanbe time with OpenJDK on PATH. All 116 files passed, with 926 passing tests and 8 skips. That run preceded the next AI course edits and final UX rubric revisions. The later Kotlin-only run with explicit compiler paths passed all 3 tests, including actual compilation and execution.
+
+Next free worker: fix PHP/Ruby/Swift findings, then continue the explicit 43-task queue. Do not recreate old React/Next/Management gaps. Preserve shared file ownership and original learner progress.

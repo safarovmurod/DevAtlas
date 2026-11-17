@@ -88,12 +88,12 @@
       "ru": "Что такое C# и .NET",
       "tg": "C# ва .NET чист?",
       "en": "C# and .NET"
-    },
+     },
      "body": {
       "ru": "C# — язык программирования, а .NET — платформа для его приложений. Первая программа в курсе считает сумму в консоли. Объявление var просит компилятор вывести тип из значения, тип всё равно остаётся определённым.\n\nСоздайте отдельную папку и выполните dotnet new console. Замените Program.cs примером. В современном C# разрешены инструкции верхнего уровня. var выводит тип из начального значения, но не делает переменную нетипизированной. Console.WriteLine печатает результат.",
       "tg": "C# забони барномасозӣ ва .NET платформаи барномаҳояш аст. Мисоли аввал дар консол ҳисоб мекунад. Бо var компилятор типро аз қимат мефаҳмад.\n\nПапкаи алоҳида сохта, dotnet new console-ро иҷро кунед. Program.cs-ро бо мисол иваз кунед. Дар C#-и муосир дастурҳои сатҳи боло иҷозат доранд. var типро аз қимати аввал муайян мекунад, вале типро нест намекунад. Console.WriteLine натиҷаро мебарорад.",
       "en": "C# is a language, and .NET is a platform for its applications. The first example calculates in the console. With var, the compiler infers a fixed type from the initializer.\n\nCreate a separate folder and run dotnet new console. Replace Program.cs with the example. Modern C# supports top-level statements. var infers a type from the initial value; it does not remove static typing. Console.WriteLine prints the result."
-    },
+     },
      "code": "using System;\nint price = 12;\nvar quantity = 3;\nConsole.WriteLine(price * quantity);\n",
      "language": "csharp",
      "output": {
@@ -125,21 +125,33 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is an introductory module of 30 days. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: var фиксирует тип один раз",
+      "tg": "Глубе: var типро як бор муайян мекунад",
+      "en": "Deeper: var fixes the type once"
+     },
+     "body": {
+      "ru": "var выводит тип из начального значения один раз: после var quantity = 3 переменная quantity остаётся int до конца программы, и присвоить ей строку уже нельзя. Отсюда правило реальных проектов: var — там, где тип очевиден из правой части, явный int — там, где он важен читателю. Переполнение int тоже стоит знать заранее: максимум около двух миллиардов, а checked из примера дня 2 его ловит. И ещё: объявления классов в файле с инструкциями верхнего уровня пишут после всех инструкций — этот порядок пригодится в дне 10, где появится первый класс Book.",
+      "tg": "var типро аз қимати аввал як бор муайян мекунад: баъд аз var quantity = 3 тағйирёбанда то охири барнома int мемонад ва ба он сатр додан имконнопазир аст. Аз ин қоидаи лоиҳаҳои воқеӣ бармеояд: var — он ҷо, ки тип аз қисми рост ошкор аст; int-и ошкор — он ҷо, ки тип барои хонанда муҳим аст. Пуршавии int-ро низ пешакӣ донистан лозим: максимум тақрибан ду миллиард аст ва checked-и мисоли рӯзи 2 онро мекашад. Ва ҳамчунин: эълони классҳо дар файли бо дастурҳои сатҳи боло баъд аз ҳамаи дастурҳо навишта мешавад — ин тартиб дар рӯзи 10, ки классҳои аввалини Book пайдо мешавад, лозим хоҳад шуд.",
+      "en": "var infers the type once: after var quantity = 3 the variable stays int for the whole program, and assigning a string to it becomes impossible. This gives the practical rule: use var where the type is obvious from the right side, and an explicit int where the type matters to the reader. Also know int overflow in advance: the maximum is about two billion, and checked from day 2 catches it. Finally, class declarations in a top-level-statements file go after all statements — this order matters in day 10, where the first Book class appears."
+     }
     }
    ],
    "interview": {
-     "id": "csharp-day-01-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какое слово предлагает C# вывести тип локальной переменной?",
-       "tg": "Кадом калимаи C# типи variable-и локалиро аз қимати аввал мефаҳмад?",
-       "en": "Which C# keyword infers a local variable's type from its initializer?"
-     },
-     "answer": {
-       "ru": "var",
-       "tg": "var",
-       "en": "var"
-     }
+    "id": "csharp-day-01-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какое слово предлагает C# вывести тип локальной переменной?",
+     "tg": "Кадом калимаи C# типи variable-и локалиро аз қимати аввал мефаҳмад?",
+     "en": "Which C# keyword infers a local variable's type from its initializer?"
+    },
+    "answer": {
+     "ru": "var",
+     "tg": "var",
+     "en": "var"
+    }
    },
    "questions": [
     {
@@ -171,7 +183,13 @@
        "en": "The reference type object"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Перечитайте абзац про var: тип выводится из начального значения и потом не меняется.",
+      "tg": "Абзац дар бораи var-ро аз нав бихонед: тип аз қимати аввал меояд ва дигар тағйир намеёбад.",
+      "en": "Re-read the paragraph about var: the type comes from the initial value and never changes."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-01-q2",
@@ -202,7 +220,50 @@
        "en": "72"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Умножьте 7 на 2 и вспомните, что печатает Console.WriteLine с числом.",
+      "tg": "7-ро ба 2 зарб кунед ва ёдовар шавед, ки Console.WriteLine бо адад чӣ чоп мекунад.",
+      "en": "Multiply 7 by 2 and recall what Console.WriteLine prints for a number."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "csharp-day-01-q3",
+     "question": {
+      "ru": "Что произойдёт после var quantity = 3; если следом написать quantity = \"три\";?",
+      "tg": "Баъд аз var quantity = 3 агар пас аз он quantity = \"три\" навишта шавад, чӣ рӯй медиҳад?",
+      "en": "What happens after var quantity = 3; if you then write quantity = \"три\";?"
+     },
+     "answer": {
+      "ru": "Компиляция завершится ошибкой: тип quantity уже int",
+      "tg": "Компиляция бо хатогӣ тамом мешавад: типи quantity аллакай int аст",
+      "en": "Compilation fails: the type of quantity is already int"
+     },
+     "hint": {
+      "ru": "Вспомните правило первого раздела: тип переменной после var фиксируется навсегда.",
+      "tg": "Қоидаи бахши аввалро ёдовар шавед: типи тағйирёбанда баъд аз var то абад собит мешавад.",
+      "en": "Recall the first section's rule: a variable's type after var is fixed forever."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Компиляция завершится ошибкой: тип quantity уже int",
+       "tg": "Компиляция бо хатогӣ тамом мешавад: типи quantity аллакай int аст",
+       "en": "Compilation fails: the type of quantity is already int"
+      },
+      {
+       "ru": "Тип quantity изменится на string",
+       "tg": "Типи quantity ба string иваз мешавад",
+       "en": "The type of quantity changes to string"
+      },
+      {
+       "ru": "Строка прибавится к числу",
+       "tg": "Сатр ба адад ҳамроҳ мешавад",
+       "en": "The string is added to the number"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -263,12 +324,12 @@
       "ru": "Функция и исключение",
       "tg": "Функсия ва exception",
       "en": "Functions and exceptions"
-    },
+     },
      "body": {
       "ru": "Функция получает параметры и возвращает результат. Исключение сообщает вызывающему коду, что результат получить нельзя. Слово throw передаёт ошибку вместо обычного return.\n\nЛокальная функция получает два int и возвращает int. Отрицательные аргументы вызывают ArgumentOutOfRangeException. checked обнаруживает переполнение при умножении. catch в вызывающем коде обрабатывает ожидаемую ошибку; не возвращайте 0 вместо ошибки.",
       "tg": "Функсия параметр мегирад ва натиҷа медиҳад. Exception мегӯяд, ки натиҷаи дуруст гирифтан нашуд. throw ба ҷои return-и одӣ хаторо мебарорад.\n\nФунксияи маҳаллӣ ду int гирифта, int бармегардонад. Аргументҳои манфӣ ArgumentOutOfRangeException медиҳанд. checked ҳангоми зарб пуршавии ҳудуди ададро меёбад. catch дар рамзи даъваткунанда хатои интизориро мегирад; ба ҷои хато 0 барнагардонед.",
       "en": "A function takes parameters and returns a result. An exception signals that it cannot supply a valid result. The throw keyword reports that failure.\n\nA local function takes two ints and returns an int. Negative arguments raise ArgumentOutOfRangeException. checked detects multiplication overflow. The caller catches the expected error; do not silently return 0 for invalid input."
-    },
+     },
      "code": "using System;\nint Total(int price, int quantity) {\n    if (price < 0 || quantity < 0) throw new ArgumentOutOfRangeException();\n    return checked(price * quantity);\n}\nConsole.WriteLine(Total(12, 3));\nConsole.WriteLine(Total(12, 0));\ntry { Total(12, -1); }\ncatch (ArgumentOutOfRangeException) { Console.WriteLine(\"Invalid input rejected\"); }\n",
      "language": "csharp",
      "output": {
@@ -300,21 +361,33 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is an introductory module of 30 days. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: исключение — часть контракта функции",
+      "tg": "Глубе: истисно — қисми шартномаи функсия",
+      "en": "Deeper: an exception is part of the function's contract"
+     },
+     "body": {
+      "ru": "Сигнатура int Total(int a, int b) обещает число, а throw обещает: при неверных аргументах функция не вернёт ничего. Возврат 0 вместо ошибки молчит и портит результат — настоящий код так не делает. Проверка аргументов в начале функции — первый шаг каждого метода: ArgumentOutOfRangeException из примера бросается до всяких вычислений. Соедините это с днём 17: там исключения встречаются в try/catch, и вы поймёте, кто отвечает за ошибку — функция её сообщает, вызывающий решает, что делать. Такой договор между двумя сторонами кода вы будете подписывать в каждом методе курса.",
+      "tg": "Имзои int Total(int a, int b) адад ваъда медиҳад, throw ваъда медиҳад: бо аргументҳои нодуруст функсия ҳеҷ чиз барнамегардонад. Баргардонидани 0 ба ҷои хатогӣ бесадо мемонад ва натиҷаро вайрон мекунад — коди воқеӣ чунин намекунад. Санҷиши аргументҳо дар ибтидои функсия — қадами аввали ҳар метод: ArgumentOutOfRangeException-и мисол пеш аз ҳисоббаркашӣ партофта мешавад. Инро бо рӯзи 17 пайванд кунед: дар он ҷо истисноҳо дар try/catch вохӯранд ва мефаҳмед, ки кист, ки барои хатогӣ ҷавобгар аст — функсия хабар медиҳад, коди даъваткунанда тасмим мегирад, чӣ кардан мумкин аст. Ин шартномаи байни ду тарафи кодро дар ҳар методи курс имзо хоҳед кард.",
+      "en": "The signature int Total(int a, int b) promises a number, and throw promises: with invalid arguments the function returns nothing. Returning 0 instead of an error stays silent and corrupts the result — real code does not do that. Validating arguments at the start is the first step of every method: the example's ArgumentOutOfRangeException is thrown before any calculation. Connect this with day 17: there exceptions meet try/catch, and you will see who answers for the error — the function reports it, the caller decides what to do. You will sign this contract between two sides of code in every method of the course."
+     }
     }
    ],
    "interview": {
-     "id": "csharp-day-02-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Каким ключевым словом C# выбрасывает исключение?",
-       "tg": "Бо кадом калима дар C# exception мебарорӣ?",
-       "en": "Which C# keyword raises an exception?"
-     },
-     "answer": {
-       "ru": "throw",
-       "tg": "throw",
-       "en": "throw"
-     }
+    "id": "csharp-day-02-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Каким ключевым словом C# выбрасывает исключение?",
+     "tg": "Бо кадом калима дар C# exception мебарорӣ?",
+     "en": "Which C# keyword raises an exception?"
+    },
+    "answer": {
+     "ru": "throw",
+     "tg": "throw",
+     "en": "throw"
+    }
    },
    "questions": [
     {
@@ -346,7 +419,13 @@
        "en": "Stops the whole program"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Перечитайте первый абзац раздела о функции: return — это передача результата, а не печать.",
+      "tg": "Абзаци аввали бахши дар бораи функсияро аз нав бихонед: return интиқоли натиҷа аст, на чоп.",
+      "en": "Re-read the first paragraph about the function: return hands over a result, it does not print."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-02-q2",
@@ -377,7 +456,50 @@
        "en": "The program prints 0"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните, кто обязан поймать исключение, если вызывающий код не пишет try/catch.",
+      "tg": "Ёдовар шавед, ки кист, ки истисноро мешарад, агар коди даъваткунанда try/catch навишта набошад.",
+      "en": "Recall who must catch the exception when the calling code has no try/catch."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-02-q3",
+     "question": {
+      "ru": "Что происходит с остальными строками функции после срабатывания throw?",
+      "tg": "Баъд аз фаъолшавии throw бо қаторҳои боқимондаи функсия чӣ мешавад?",
+      "en": "What happens to the remaining lines of the function after throw fires?"
+     },
+     "answer": {
+      "ru": "Выполнение функции немедленно прекращается, ошибка уходит вызывающему коду",
+      "tg": "Иҷрои функсия фавран қатъ мешавад, хатогӣ ба коди даъваткунанда меравад",
+      "en": "The function stops immediately and the error goes to the calling code"
+     },
+     "hint": {
+      "ru": "throw не возвращает управление — поищите в первом разделе, куда уходит ошибка.",
+      "tg": "throw идомаи идораро намебаргардонад — дар бахши аввал ҷустуҷӯ кунед, ки хатогӣ ба куҷо меравад.",
+      "en": "throw does not return control — search the first section for where the error goes."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Функция продолжает работу со следующей строки",
+       "tg": "Функсия корро аз қатори оянда давом медиҳад",
+       "en": "The function continues from the next line"
+      },
+      {
+       "ru": "Функция возвращает null",
+       "tg": "Функсия null бар месозад",
+       "en": "The function returns null"
+      },
+      {
+       "ru": "Выполнение функции немедленно прекращается, ошибка уходит вызывающему коду",
+       "tg": "Иҷрои функсия фавран қатъ мешавад, хатогӣ ба коди даъваткунанда меравад",
+       "en": "The function stops immediately and the error goes to the calling code"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -438,18 +560,30 @@
       "ru": "Значение, вывод типа и константа",
       "tg": "Қимат, type inference ва constant",
       "en": "Values, type inference, and constants"
-    },
+     },
      "body": {
       "ru": "var заменяет запись типа в объявлении локальной переменной. const задаёт константу, известную при компиляции. Значение const нельзя присвоить заново.\n\nДанные программы живут в переменных. C# строго типизирован: у каждой переменной есть тип, который нельзя поменять после объявления. Ключевое слово var просит компилятор вывести тип из начального значения: var weeks = 4 — это int, хотя слово int не написано. После объявления weeks остаётся int навсегда; присвоить ей строку не выйдет. Если тип важен для читателя, пишите его явно: int totalDays. Константа объявляется словом const: значение фиксируется на этапе компиляции и не может измениться. const int DaysPerWeek = 7 читается как «в неделе всегда семь дней» — намерение становится явным, случайная перезапись невозможна. Соглашения об именах: переменные — camelCase (totalDays), константы — PascalCase (DaysPerWeek). Компилятор отклонит чтение необъявленной переменной и потребует начального значения для var. В примере константа и две переменные считают дни в четырёх неделях; ожидаемый вывод — три строки.",
       "tg": "var навиштани типи variable-и локалиро иваз мекунад. const қимати доимие медиҳад, ки ҳангоми compile маълум аст. Ба const қимати дигар додан намешавад.\n\nМаълумоти барнома дар тағйирёбандаҳо нигоҳ дошта мешавад. C# ба типҳо сахт тобеъ аст: ҳар тағйирёбанда тип дорад, ки баъд аз эълон иваз намешавад. Калимаи калидии var аз компилятор мепурсад, ки типро аз қимати аввал муайян кунад: var weeks = 4 — int аст, ҳарчанд калимаи int навишта нашудааст. Баъд аз эълон weeks то охир int мемонад; ба он сатр дода намешавад. Агар тип барои хонанда муҳим бошад, онро ошкоро нависед: int totalDays. Собит бо калимаи const эълон мешавад: қимат дар марҳилаи компилятсия муқаррар мешавад ва дигар тағйир намёбад. const int DaysPerWeek = 7 чунин хонда мешавад: «дар ҳафта ҳамеша ҳафт рӯз» — нияти барномасоз ошкоро аст ва сабти тасодуфӣ ғайриимкон аст. Усули номгузорӣ: тағйирёбандаҳо — camelCase (totalDays), собитҳо — PascalCase (DaysPerWeek). Компилятор хондани тағйирёбандаи эълоннашударо рад мекунад ва барои var қимати аввал талаб мекунад. Дар мисол собит ва ду тағйирёбанда рӯзҳои чор ҳафтаро ҳисоб мекунанд; натиҷаи интизорӣ се сатр аст.",
       "en": "var omits the written type of a local variable. const declares a compile-time constant. You cannot reassign it.\n\nProgram data lives in variables. C# is strictly typed: every variable has a type that cannot change after declaration. The var keyword asks the compiler to infer the type from the initial value: var weeks = 4 is an int even though the word int is not written. After the declaration weeks stays an int forever; you cannot assign a string to it. If the type matters to the reader, write it explicitly: int totalDays. A constant is declared with const: the value is fixed at compile time and cannot change. const int DaysPerWeek = 7 reads as 'a week always has seven days' — the intent becomes explicit and accidental overwriting is impossible. Naming conventions: variables use camelCase (totalDays), constants use PascalCase (DaysPerWeek). The compiler rejects reading an undeclared variable and requires an initial value for var. In the example a constant and two variables count the days in four weeks; the expected output is three lines."
-    },
+     },
      "code": "using System;\n\nconst int DaysPerWeek = 7;\nvar weeks = 4;\nvar totalDays = DaysPerWeek * weeks;\nConsole.WriteLine(\"Weeks: \" + weeks);\nConsole.WriteLine(\"Days: \" + totalDays);\nConsole.WriteLine($\"In {weeks} weeks there are {totalDays} days.\");\n",
      "language": "csharp",
      "output": {
       "ru": "Weeks: 4\nDays: 28\nIn 4 weeks there are 28 days.",
       "tg": "Weeks: 4\nDays: 28\nIn 4 weeks there are 28 days.",
       "en": "Weeks: 4\nDays: 28\nIn 4 weeks there are 28 days."
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: const обязан быть известен при компиляции",
+      "tg": "Глубе: const ҳатман дар вақти компиляция маълум бошад",
+      "en": "Deeper: const must be known at compile time"
+     },
+     "body": {
+      "ru": "const принимает только значения, которые компилятор может вычислить до запуска: литералы и другие константы. Запись const int Today = DateTime.Now.Day; не скомпилируется — значение станет известно только во время работы программы. Это отличает const от обычной переменной, которую можно присвоить позже. Вторая грань: константа встраивается в места использования, поэтому её меняют вместе с перекомпиляцией проекта. Свяжите это с днём 5: там появятся числовые литералы, и вы сможете объявлять константы вроде const double Rate = 0.1;. Правило выбора простое: значение, которое не должно меняться никогда, — const; значение, которое меняется между запусками, — переменная.",
+      "tg": "const танҳо қиматҳои қабул мекунад, ки компилятор то иҷро ҳисоб карда метавонад: литералҳо ва константаҳои дигар. Навишти const int Today = DateTime.Now.Day; компиляция намешавад — қимат танҳо дар вақти кори барнома маълум мешавад. Ин const-ро аз тағйирёбандаи муқаррарӣ фарқ медиҳад, ки онро баъдтар таъйин кардан мумкин аст. Ҷанби дуюм: константа ба ҷойҳои истифода дохил мешавад, аз ин рӯ он бо азнавкомпилятсияи лоиҳа иваз мешавад. Инро бо рӯзи 5 пайванд кунед: дар он ҷо литералҳои ададӣ пайдо мешаванд ва метавонед константаҳое монанди const double Rate = 0.1; эълон кунед. Қоидаи интихоб содда аст: қимате, ки ҳеҷ гоҳ тағйир наёбад — const; қимате, ки байни иҷроҳо тағйир меёбад — тағйирёбанда.",
+      "en": "const accepts only values the compiler can compute before launch: literals and other constants. The line const int Today = DateTime.Now.Day; will not compile — the value becomes known only at runtime. This separates const from an ordinary variable, which can be assigned later. Another facet: a constant is inlined at its use sites, so it changes together with a project rebuild. Connect this with day 5: numeric literals appear there, and you will declare constants like const double Rate = 0.1;. The choice rule is simple: a value that must never change is const; a value that changes between runs is a variable."
      }
     },
     {
@@ -478,18 +612,18 @@
     }
    ],
    "interview": {
-     "id": "csharp-day-03-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Каким словом объявляют константу в C#?",
-       "tg": "Дар C# constant-ро бо кадом калима эълон мекунанд?",
-       "en": "Which C# keyword declares a compile-time constant?"
-     },
-     "answer": {
-       "ru": "const",
-       "tg": "const",
-       "en": "const"
-     }
+    "id": "csharp-day-03-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Каким словом объявляют константу в C#?",
+     "tg": "Дар C# constant-ро бо кадом калима эълон мекунанд?",
+     "en": "Which C# keyword declares a compile-time constant?"
+    },
+    "answer": {
+     "ru": "const",
+     "tg": "const",
+     "en": "const"
+    }
    },
    "questions": [
     {
@@ -521,7 +655,13 @@
        "en": "The value becomes zero"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните слово const из первого раздела: что делает попытка присвоить константе новое значение?",
+      "tg": "Калимаи const-ро аз бахши аввал ёдовар шавед: кӯшиши додани қимати нав ба константа чӣ мекунад?",
+      "en": "Recall const from the first section: what does an attempt to assign a new value to a constant do?"
+     },
+     "relatedSection": 2
     },
     {
      "id": "csharp-day-03-q2",
@@ -552,7 +692,50 @@
        "en": "string"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Начальное значение — целое число без точки; тип выводится из него.",
+      "tg": "Қимати аввал адади бутун бе нуқта аст; тип аз он меояд.",
+      "en": "The initial value is a whole number without a dot; the type is inferred from it."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-03-q3",
+     "question": {
+      "ru": "Какое объявление не скомпилируется?",
+      "tg": "Кадом эълон компиляция намешавад?",
+      "en": "Which declaration will not compile?"
+     },
+     "answer": {
+      "ru": "const int Today = DateTime.Now.Day;",
+      "tg": "const int Today = DateTime.Now.Day;",
+      "en": "const int Today = DateTime.Now.Day;"
+     },
+     "hint": {
+      "ru": "Только литералы и другие константы известны компилятору до запуска — вспомните условие const из раздела.",
+      "tg": "Танҳо литералҳо ва константаҳои дигар то иҷро ба компилятор маълуманд — шарти const-ро аз бахш ёдовар шавед.",
+      "en": "Only literals and other constants are known to the compiler before launch — recall const's condition from the section."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "const int DaysPerWeek = 7;",
+       "tg": "const int DaysPerWeek = 7;",
+       "en": "const int DaysPerWeek = 7;"
+      },
+      {
+       "ru": "var weeks = 4;",
+       "tg": "var weeks = 4;",
+       "en": "var weeks = 4;"
+      },
+      {
+       "ru": "const int Today = DateTime.Now.Day;",
+       "tg": "const int Today = DateTime.Now.Day;",
+       "en": "const int Today = DateTime.Now.Day;"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -629,6 +812,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: неизменяемость строк и сравнение без регистра",
+      "tg": "Глубе: тағйирнопазирии сатрҳо ва муқоиса бе регистр",
+      "en": "Deeper: string immutability and case-insensitive comparison"
+     },
+     "body": {
+      "ru": "Неизменяемость строки означает: любой метод возвращает новый объект, а старый остаётся как был. Отсюда следствие: name.ToUpperInvariant(); сам по себе бесполезен — результат теряется, если его не присвоить. Для сравнения без регистра есть string.Equals(a, b, StringComparison.OrdinalIgnoreCase): она сравнивает содержимое и игнорирует регистр, тогда как == всегда различает Firuza и firuza. В реальном проекте имена пользователей и пути сравнивают без регистра, а коды и идентификаторы — строго с регистром. Свяжите это с днём 18: там появится null, который, в отличие от пустой строки, не имеет ни Length, ни методов.",
+      "tg": "Тағйирнопазириши сатр маънои он дорад: ҳар метод объекте нав бар месозад ва кӯҳна ҳамон тавр мемонад. Натиҷа: name.ToUpperInvariant(); худ ба худ бефоида аст — натиҷа гум мешавад, агар таъйин нашавад. Барои муқоиса бе регистр string.Equals(a, b, StringComparison.OrdinalIgnoreCase) мавҷуд аст: он мӯҳтаворо муқоиса карда, регистрро ба назар намегирад, дар ҳоле ки == ҳамеша Firuza ва firuza-ро фарқ мегузорад. Дар лоиҳаи воқеӣ номи корбарон ва роҳҳоро бе регистр муқоиса мекунанд, кодҳо ва идентификаторҳоро — қатъӣ бо регистр. Инро бо рӯзи 18 пайванд кунед: дар он ҷо null пайдо мешавад, ки бар хилофи сатри холӣ на Length дорад ва на методҳо.",
+      "en": "String immutability means every method returns a new object while the old one stays as it was. Consequence: name.ToUpperInvariant(); on its own is useless — the result is lost unless assigned. For case-insensitive comparison there is string.Equals(a, b, StringComparison.OrdinalIgnoreCase): it compares content and ignores case, while == always distinguishes Firuza from firuza. In real projects user names and paths compare case-insensitively, codes and identifiers strictly with case. Connect this with day 18: null appears there, which — unlike an empty string — has neither Length nor methods."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -682,7 +877,13 @@
        "en": "Converts the string to upper case"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Строки неизменяемы: метод не правит исходную строку — он что-то возвращает.",
+      "tg": "Сатрҳо тағйирнопазиранд: метод сатри аслиро ислоҳ намекунад — он чизе бар месозад.",
+      "en": "Strings are immutable: the method does not fix the original string — it returns something."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-04-q2",
@@ -713,7 +914,50 @@
        "en": "A compilation error"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Оператор == сравнивает по содержимому; вопрос в том, различает ли он большие и маленькие буквы.",
+      "tg": "Оператори == мӯҳтаворо муқоиса мекунад; масъала дар он аст, ки оё ҳарфҳои калон ва хурдро фарқ мегузорад.",
+      "en": "The == operator compares content; the question is whether it distinguishes upper and lower case."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "csharp-day-04-q3",
+     "question": {
+      "ru": "Как сравнить две строки, не учитывая регистр букв?",
+      "tg": "Ду сатрро бо назардошти регистри ҳарфҳо чӣ тавр муқоиса кардан мумкин аст?",
+      "en": "How do you compare two strings ignoring letter case?"
+     },
+     "answer": {
+      "ru": "string.Equals(a, b, StringComparison.OrdinalIgnoreCase)",
+      "tg": "string.Equals(a, b, StringComparison.OrdinalIgnoreCase)",
+      "en": "string.Equals(a, b, StringComparison.OrdinalIgnoreCase)"
+     },
+     "hint": {
+      "ru": "Оператор == всегда различает регистр; посмотрите в разделе, какой метод сравнивает строки без него.",
+      "tg": "Оператори == ҳамеша регистрро фарқ мегузорад; дар бахш бингаред, кадом метод сатрҳоро бе он муқоиса мекунад.",
+      "en": "The == operator always distinguishes case; see in the section which method compares strings without it."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "string.Equals(a, b, StringComparison.OrdinalIgnoreCase)",
+       "tg": "string.Equals(a, b, StringComparison.OrdinalIgnoreCase)",
+       "en": "string.Equals(a, b, StringComparison.OrdinalIgnoreCase)"
+      },
+      {
+       "ru": "a == b — оператор сам игнорирует регистр",
+       "tg": "a == b — оператор худ регистрро ба назар намегирад",
+       "en": "a == b — the operator ignores case on its own"
+      },
+      {
+       "ru": "a.Trim() == b.Trim() — обрезка убирает регистр",
+       "tg": "a.Trim() == b.Trim() — буридан регистрро тоза мекунад",
+       "en": "a.Trim() == b.Trim() — trimming removes case"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -779,13 +1023,25 @@
       "ru": "int хранит целые числа, double — числа с дробной частью. Деление двух int отбрасывает дробь в сторону нуля: 17 / 5 даёт 3, а -17 / 5 даёт -3. Остаток 17 % 5 равен 2, поэтому n % 2 == 0 проверяет чётность. Для дробного результата один операнд должен быть дробным: 17.0 / 5 даёт 3.4. Приведение (int)3.99 также отбрасывает дробь. Формат exact.ToString(\"F2\", CultureInfo.InvariantCulture) показывает ровно два знака после точки независимо от языка компьютера. Умножение и деление выполняются раньше сложения; скобки позволяют явно задать порядок.",
       "tg": "int адади бутунро нигоҳ медорад, double — адади касриро. Ҳангоми тақсими ду int қисми касрӣ ба тарафи сифр партофта мешавад: 17 / 5 натиҷаи 3 ва -17 / 5 натиҷаи -3 медиҳад. Бақияи 17 % 5 ба 2 баробар аст, барои ҳамин n % 2 == 0 ҷуфт будани рақамро месанҷад. Барои натиҷаи касрӣ яке аз ададҳо касрӣ бошад: 17.0 / 5 ба 3.4 баробар аст. (int)3.99 ҳам қисми касриро мепартояд. exact.ToString(\"F2\", CultureInfo.InvariantCulture) ҳамеша пас аз нуқта ду рақам менависад. Зарбу тақсим пеш аз ҷамъ иҷро мешаванд ва қавсҳо тартибро дигар мекунанд.",
       "en": "int stores integers and double stores numbers with a fractional part. Dividing two int values truncates toward zero: 17 / 5 is 3 and -17 / 5 is -3. The remainder 17 % 5 is 2, so n % 2 == 0 tests evenness. Use a floating-point operand for a fractional result: 17.0 / 5 is 3.4. The cast (int)3.99 also discards the fraction. The format exact.ToString(\"F2\", CultureInfo.InvariantCulture) displays two decimal places with a dot regardless of the computer's language. Multiplication and division come before addition. Parentheses can set the order explicitly."
-    },
+     },
      "code": "using System;\n\nConsole.WriteLine(17 / 5);\nConsole.WriteLine(17 % 5);\nvar exact = 17.0 / 5;\nConsole.WriteLine(exact.ToString(\"F2\", System.Globalization.CultureInfo.InvariantCulture));\nConsole.WriteLine((int)3.99);\nConsole.WriteLine(3 + 4 * 2);\n",
      "language": "csharp",
      "output": {
       "ru": "3\n2\n3.40\n3\n11",
       "tg": "3\n2\n3.40\n3\n11",
       "en": "3\n2\n3.40\n3\n11"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: целые и дробные числа в одном расчёте",
+      "tg": "Глубе: ададҳои бутун ва касрӣ дар як ҳисоб",
+      "en": "Deeper: whole and fractional numbers in one calculation"
+     },
+     "body": {
+      "ru": "Смешанный расчёт подчиняется типу операндов: 17 / 5 даёт 3, а 17.0 / 5 даёт 3.4 — тип левой части решает раньше, чем вы этого ждёте. Приведение (double)(17 / 5) не спасёт: деление уже произошло в int, и дробь потеряна; приведение ставят до деления. Вторая грань — представление: double хранит число приблизительно, поэтому 0.1 + 0.2 не равно 0.3, а деньги считают в целых копейках и тийинах. Свяжите это с днём 22: метод Average вернёт double, и для его печати понадобится InvariantCulture, как в примере с ToString(\"F2\"). Правило: сначала решите, какой тип нужен результату, потом расставляйте операнды.",
+      "tg": "Ҳисоби омехта ба типи операндҳо итоат мекунад: 17 / 5 рақами 3 медиҳад, 17.0 / 5 рақами 3.4-ро — типи қисми чап пеш аз он, ки шумо интизор шавед, қарор мегирад. Касти (double)(17 / 5) наҷот намедиҳад: тақсим аллакай дар int шудааст ва каср гум шудааст; каст-ро пеш аз тақсим мегузоранд. Ҷанби дуюм — намоиш: double ададро тақрибан нигоҳ медорад, аз ин рӯ 0.1 + 0.2 ба 0.3 баробар нест, ва пулро дар дирамҳои бутун ҳисоб мекунанд. Инро бо рӯзи 22 пайванд кунед: методи Average double-ро бар месозад ва барои чопи он InvariantCulture лозим мешавад, мисли мисоли ToString(\"F2\"). Қоида: аввал қарор диҳед, кадом тип барои натиҷа лозим аст, баъд операндҳоро ҷойгир кунед.",
+      "en": "Mixed arithmetic follows the operand types: 17 / 5 gives 3, and 17.0 / 5 gives 3.4 — the left operand's type decides earlier than you expect. The cast (double)(17 / 5) will not save you: the division already happened in int and the fraction is lost; place the cast before the division. Another facet is representation: double stores numbers approximately, so 0.1 + 0.2 does not equal 0.3, and money is counted in whole minor units. Connect this with day 22: Average returns a double whose printing needs InvariantCulture, as in the ToString(\"F2\") example. The rule: first decide which type the result needs, then arrange the operands."
      }
     },
     {
@@ -843,7 +1099,13 @@
        "en": "4 — rounding happens"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Тип результата целочисленного деления — int; куда девается дробная часть, сказано в первом разделе.",
+      "tg": "Типи натиҷаи тақсими бутун int аст; каср ба куҷо меравад — дар бахши аввал гуфта шудааст.",
+      "en": "The type of integer division is int; where the fraction goes is stated in the first section."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-05-q2",
@@ -874,7 +1136,50 @@
        "en": "A percentage of 17"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Знак % — это не процент; вспомните пример проверки чётности из первого раздела.",
+      "tg": "Аломати % ин фоиз нест; мисоли санҷиши ҷуфтӣ-ёкиро аз бахши аввал ёдовар шавед.",
+      "en": "The % sign is not percent; recall the evenness check example from the first section."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-05-q3",
+     "question": {
+      "ru": "Как получить 3.4 при делении 17 на 5?",
+      "tg": "Ҳангоми тақсими 17 ба 5 рақами 3.4-ро чӣ тавр гирифтан мумкин аст?",
+      "en": "How do you get 3.4 when dividing 17 by 5?"
+     },
+     "answer": {
+      "ru": "17.0 / 5 — хотя бы один операнд дробный",
+      "tg": "17.0 / 5 — ҳадди ақал як операнд касрӣ бошад",
+      "en": "17.0 / 5 — at least one operand is fractional"
+     },
+     "hint": {
+      "ru": "Тип решает: целые операнды дают целое деление — найдите в разделе, как получить дробный результат.",
+      "tg": "Тип қарор медиҳад: операндҳои бутун тақсими бутун медиҳанд — дар бахш ёбед, ки натиҷаи касриро чӣ гуна гирифтан мумкин аст.",
+      "en": "The type decides: whole operands give whole division — find in the section how to get a fractional result."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "17 / 5 — деление само даст дробь",
+       "tg": "17 / 5 — тақсим худ каср медиҳад",
+       "en": "17 / 5 — division yields a fraction by itself"
+      },
+      {
+       "ru": "(double)(17 / 5) — приведение после деления",
+       "tg": "(double)(17 / 5) — каст баъд аз тақсим",
+       "en": "(double)(17 / 5) — a cast after the division"
+      },
+      {
+       "ru": "17.0 / 5 — хотя бы один операнд дробный",
+       "tg": "17.0 / 5 — ҳадди ақал як операнд касрӣ бошад",
+       "en": "17.0 / 5 — at least one operand is fractional"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -951,6 +1256,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: порядок условий и границы диапазонов",
+      "tg": "Глубе: тартиби шартҳо ва ҳудудҳои диапазон",
+      "en": "Deeper: condition order and range boundaries"
+     },
+     "body": {
+      "ru": "В switch-выражении порядок веток важен, но компилятор проверяет достижимость: если поставить >= 60 выше >= 90 без when, нижняя ветка недостижима и сборка остановится с CS8510. В цепочке if/else такой порядок разрешён и может дать неверную категорию — первое истинное условие побеждает. Границы проверяют отдельно: при > 25 значение 25 остаётся в Warm, при >= 25 попадает в Hot.\n\nПодставьте ровно 25 и 90. Затем переставьте ветки switch и прочитайте ошибку; восстановите порядок. Сравните с аналогичной цепочкой if/else. На дне 7 та же привычка проверки границ пригодится для циклов.",
+      "tg": "Дар ифодаи switch тартиби шохаҳо муҳим аст, вале компилятор дастрас будани онҳоро месанҷад: агар >= 60-ро бе when болотар аз >= 90 монед, шохаи поёнӣ дастнорас мешавад ва сборка бо CS8510 меистад. Дар if/else чунин тартиб иҷозат аст ва метавонад гурӯҳи нодуруст диҳад — шарти аввалини true ғолиб мешавад. Ҳудудҳоро ҷудо санҷед: бо > 25 қимати 25 дар Warm мемонад, бо >= 25 ба Hot медарояд.\n\nДақиқан 25 ва 90-ро гузоред. Баъд шохаҳои switch-ро ҷойиваз карда, ошибкаашро хонед; тартиби дурустро баргардонед. Бо if/else-и ҳамсон муқоиса кунед. Дар рӯзи 7 ҳамин одати санҷидани ҳудудҳо ба циклҳо ҳам даркор мешавад.",
+      "en": "Arm order matters in a switch expression, and the compiler checks reachability: putting an unguarded >= 60 above >= 90 makes the lower arm unreachable and compilation fails with CS8510. An if/else chain allows that order and can misclassify a mark because the first true condition wins. Test boundaries separately: with > 25, 25 stays in Warm; with >= 25 it becomes Hot.\n\nTest exactly 25 and 90. Then reorder the switch arms and read the diagnostic; restore their order. Compare with an equivalent if/else chain. Day 7 uses the same boundary-checking habit for loops."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -1004,7 +1321,13 @@
        "en": "Cold"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Ветви проверяются по порядку; 30 больше 25 — найдите первую подходящую проверку.",
+      "tg": "Паҳноҳо як ба як месанҷанд; 30 аз 25 калон аст — аввалин санҷиши мувофиқро ёбед.",
+      "en": "Arms check in order; 30 is greater than 25 — find the first matching check."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-06-q2",
@@ -1035,7 +1358,50 @@
        "en": "A compilation error"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Образец _ стоит последним в switch-выражении — подумайте, что он должен ловить.",
+      "tg": "Намунаи _ дар охири ифодаи switch истодааст — фикр кунед, ки он чиро сар мекунад.",
+      "en": "The _ pattern stands last in a switch expression — think about what it should catch."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-06-q3",
+     "question": {
+      "ru": "Ветка >= 90 → Excellent стоит выше ветки >= 60 → Pass. Что получит оценка 90?",
+      "tg": "Паҳнои >= 90 → Excellent болотар аз паҳнои >= 60 → Pass истодааст. Баҳои 90-ро чӣ мегирад?",
+      "en": "The arm >= 90 → Excellent stands above the arm >= 60 → Pass. What does the grade 90 get?"
+     },
+     "answer": {
+      "ru": "Excellent — сработает первая подходящая ветка",
+      "tg": "Excellent — аввалин паҳнои мувофиқ фаъол мешавад",
+      "en": "Excellent — the first matching arm fires"
+     },
+     "hint": {
+      "ru": "Ветки проверяются сверху вниз: первая подходящая прерывает остальные.",
+      "tg": "Паҳноҳо аз боло ба поён месанҷанд: аввалин мувофиқ боқимондаро қатъ мекунад.",
+      "en": "Arms are checked top-down: the first match short-circuits the rest."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Pass — нижняя ветка ближе к числу",
+       "tg": "Pass — паҳнои поёнӣ ба адад наздиктар аст",
+       "en": "Pass — the lower arm is closer to the number"
+      },
+      {
+       "ru": "Excellent — сработает первая подходящая ветка",
+       "tg": "Excellent — аввалин паҳнои мувофиқ фаъол мешавад",
+       "en": "Excellent — the first matching arm fires"
+      },
+      {
+       "ru": "Обе строки по очереди",
+       "tg": "Ҳарду сатр як ба як",
+       "en": "Both lines one after another"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -1112,6 +1478,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: вложенные циклы и приём накопителя",
+      "tg": "Глубе: ҳалқаҳои дохилӣ ва усули ҷамъкунанда",
+      "en": "Deeper: nested loops and the accumulator pattern"
+     },
+     "body": {
+      "ru": "Накопитель sum += i из примера — базовый шаблон реального кода: так считают суммы, количества и собирают строки. Вложенные циклы умножают шаги: внешний три шага и внутренний четыре дают двенадцать итераций — прикиньте масштаб до написания, потому что вложенность растёт быстро. break прерывает цикл целиком, continue пропускает шаг — оба работают и в for, и в while. Свяжите это с днём 8: массив обходят циклом по индексам от 0 до Length - 1, и навык счёта итераций из этого дня убережёт от off-by-one. Правило чтения: выпишите значения счётчика на каждом шаге на бумаге — цикл перестаёт быть магией.",
+      "tg": "Ҷамъкунандаи sum += i аз мисол — қолаби асосии коди воқеӣ: ба ин тариқ суммаро, шумораро ҳисоб карда, сатрҳоро ҷамъ меовард. Ҳалқаҳои дохилӣ қадамҳоро зарб мекунанд: берунӣ се қадам ва дохилӣ чор қадам дувоздаҳ такрор медиҳад — андозаи корро пеш аз навиштан пешбинӣ кунед, зеро тухмдорӣ зуд месабзад. break ҳалқаро тамоман қатъ мекунад, continue қадамро мепаронад — ҳарду дар for ва дар while кор мекунанд. Инро бо рӯзи 8 пайванд кунед: массивро бо ҳалқа аз индекси 0 то Length - 1 мегардонанд ва маҳорати ҳисоби такрорҳои ин рӯз аз off-by-one нигоҳ медорад. Қоидаи хондан: қиматҳои ҳисобкунакро дар ҳар қадам ба коғаз нависед — ҳалқа сеҳрнамехмон мешавад.",
+      "en": "The accumulator sum += i from the example is a basic pattern of real code: this is how sums, counts and strings are built. Nested loops multiply the steps: three outer steps and four inner ones give twelve iterations — estimate the scale before writing, because nesting grows fast. break ends the whole loop, continue skips a step — both work in for and while. Connect this with day 8: an array is walked by indices from 0 to Length - 1, and this day's skill of counting iterations saves you from off-by-one. The reading rule: write the counter values for every step on paper — the loop stops being magic."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -1165,7 +1543,13 @@
        "en": "4 times"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посчитайте шаги: i = 0, 1, 2 — каждый шаг проходит проверку i < 3.",
+      "tg": "Қадамҳоро ҳисоб кунед: i = 0, 1, 2 — ҳар қадам санҷиши i < 3-ро мегузарад.",
+      "en": "Count the steps: i = 0, 1, 2 — every step passes the check i < 3."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-07-q2",
@@ -1196,7 +1580,50 @@
        "en": "8"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Продолжите деление на 2: 16, 8, 4… и вспомните, когда цикл останавливается.",
+      "tg": "Тақсим ба 2-ро идома диҳед: 16, 8, 4… ва ёдовар шавед, ки ҳалқа кай истодааст.",
+      "en": "Continue dividing by 2: 16, 8, 4… and recall when the loop stops."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-07-q3",
+     "question": {
+      "ru": "Сколько итераций выполнит вложенный цикл: внешний делает 3 шага, внутренний — 4?",
+      "tg": "Ҳалқаҳои тухмдор чанд такрор иҷро мекунанд: берунӣ 3 қадам, дохилӣ — 4?",
+      "en": "How many iterations does a nested loop run: the outer one makes 3 steps, the inner one 4?"
+     },
+     "answer": {
+      "ru": "12 — шаги перемножаются",
+      "tg": "12 — қадамҳо зарб мешаванд",
+      "en": "12 — the steps multiply"
+     },
+     "hint": {
+      "ru": "Каждая итерация внутреннего цикла выполняется при каждом шаге внешнего.",
+      "tg": "Ҳар такрори ҳалқаи дохилӣ дар ҳар қадами ҳалқаи берунӣ иҷро мешавад.",
+      "en": "Every inner-loop iteration runs on every step of the outer loop."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "12 — шаги перемножаются",
+       "tg": "12 — қадамҳо зарб мешаванд",
+       "en": "12 — the steps multiply"
+      },
+      {
+       "ru": "7 — шаги складываются",
+       "tg": "7 — қадамҳо ҷамъ мешаванд",
+       "en": "7 — the steps add up"
+      },
+      {
+       "ru": "3 — внутренний цикл выполнится один раз",
+       "tg": "3 — ҳалқаи дохилӣ як бор иҷро мешавад",
+       "en": "3 — the inner loop runs once"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1273,6 +1700,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: массив копирует ссылку, а не элементы",
+      "tg": "Глубе: массив истинқро мекунад, на элементҳоро",
+      "en": "Deeper: an array copies the reference, not the elements"
+     },
+     "body": {
+      "ru": "Присваивание var copy = scores не создаёт второй массив: обе переменные указывают на один набор данных, и scores[0] = 100 через copy видно через scores. Для независимой копии нужен Array.Copy или пересоздание с поэлементным переносом — это первое настоящее «ссылка против значения» в курсе, и оно пригодится в дне 10 с объектами и в дне 16 со структурами. Вторая грань: foreach не даёт счётчик — он для чтения значений; менять элементы по индексу умеет только for. Проверьте себя: заполните массив нулями циклом, затем напечатайте — суммы и длины должны совпасть с ожиданием до запуска.",
+      "tg": "Таъйини var copy = scores массиви дуюм месозад: ҳар ду тағйирёбанда ба як маҷмӯи маълумот ишора мекунанд ва scores[0] = 100 аз тариқи copy аз тариқи scores ҳам дида мешавад. Барои нусхаи мустақил Array.Copy ё азнавсозӣ бо интиқоли элемент ба элемент лозим аст — ин аввалин истинқи ҳақиқии «ишора зидди қимат» дар курс аст ва дар рӯзи 10 бо объектҳо ва дар рӯзи 16 бо сохторҳо лозим мешавад. Ҷанби дуюм: foreach ҳисобкунак намедиҳад — он барои хондани қиматҳост; тағйир додани элементҳо аз рӯи индексро танҳо for месозад. Худро санҷед: массивро бо ҳалқа бо сифр пур кунед, баъд чоп кунед — суммаву дарозӣ бояд ба интизории пеш аз иҷро мувофиқ бошанд.",
+      "en": "The assignment var copy = scores does not create a second array: both variables point to one data set, and scores[0] = 100 made through copy is visible through scores. An independent copy needs Array.Copy or a rebuild with element-wise transfer — this is the course's first real «reference versus value» case, and it matters in day 10 with objects and day 16 with structs. Another facet: foreach gives no counter — it is for reading values; only for can change elements by index. Check yourself: fill an array with zeros in a loop, then print it — the sums and lengths must match the expectation you wrote before running."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -1326,7 +1765,13 @@
        "en": "It depends on the element type"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Индексация начинается не с единицы — это сказано в первом предложении раздела.",
+      "tg": "Индексация аз як оғоз намешавад — ин дар ҷумлаи аввали бахш гуфта шудааст.",
+      "en": "Indexing does not start at one — that is stated in the section's first sentence."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-08-q2",
@@ -1357,7 +1802,50 @@
        "en": "The array grows by one element"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Длина 4 значит валидные индексы 0–3; что происходит за этой границей, описано в разделе ошибок.",
+      "tg": "Дарозии 4 маънои индексҳои дурусти 0–3 дорад; он ки аз ин ҳудуд берун чӣ мешавад, дар бахши хатоҳо навишта шудааст.",
+      "en": "A length of 4 means valid indices 0–3; what happens past that boundary is described in the mistakes section."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "csharp-day-08-q3",
+     "question": {
+      "ru": "После var copy = scores; copy[0] = 100; что произойдёт с scores[0]?",
+      "tg": "Баъд аз var copy = scores; copy[0] = 100; бо scores[0] чӣ мешавад?",
+      "en": "After var copy = scores; copy[0] = 100; what happens to scores[0]?"
+     },
+     "answer": {
+      "ru": "scores[0] тоже станет 100 — это тот же массив",
+      "tg": "scores[0] ҳам 100 мешавад — ин ҳамон массив аст",
+      "en": "scores[0] also becomes 100 — it is the same array"
+     },
+     "hint": {
+      "ru": "Присваивание массива копирует ссылку, а не элементы — перечитайте раздел.",
+      "tg": "Таъйини массив истинқро нусхабардорӣ мекунад, на элементҳоро — бахшро аз нав бихонед.",
+      "en": "Assigning an array copies the reference, not the elements — re-read the section."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "scores[0] останется прежним — копия независима",
+       "tg": "scores[0] ҳамон монад — нусха мустақил аст",
+       "en": "scores[0] stays as it was — the copy is independent"
+      },
+      {
+       "ru": "Ошибку компиляции — так присваивать нельзя",
+       "tg": "Хатои компиляция — чунин таъйин кардан намешавад",
+       "en": "A compilation error — you cannot assign like that"
+      },
+      {
+       "ru": "scores[0] тоже станет 100 — это тот же массив",
+       "tg": "scores[0] ҳам 100 мешавад — ин ҳамон массив аст",
+       "en": "scores[0] also becomes 100 — it is the same array"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1423,13 +1911,25 @@
       "ru": "Метод — именованный блок кода, который может принимать параметры и возвращать результат. В объявлении (int Min, int Max, int Count) Analyze(int[] numbers) тип в начале описывает результат, а имя Analyze и типы параметров определяют сигнатуру этого метода. Только по типу результата перегрузить метод нельзя. Здесь результат — кортеж из трёх значений. Имена полей позволяют написать stats.Min вместо stats.Item1. Локальная функция объявляется внутри метода и доступна в своём блоке ещё до строки объявления. Параметр int[] передаётся по значению, но это копия ссылки, поэтому функция видит те же элементы массива.",
       "tg": "Метод — қисми номдори код аст. Вай метавонад параметр гирад ва натиҷа баргардонад. Дар (int Min, int Max, int Count) Analyze(int[] numbers) қисми аввал навъи натиҷаро мегӯяд, ном ва навъи параметрҳо бошанд, имзои ин методро муайян мекунанд. Барои overload танҳо навъи натиҷаро дигар кардан кифоя нест. Натиҷа ин ҷо кортежи се қимат аст: аз рӯйи ном stats.Min менависем. Функсияи маҳаллӣ дар дохили метод эълон мешавад ва дар ҳамон блок пеш аз сатри эълон ҳам даъват мешавад. int[] бо қимат мегузарад, аммо қимат нусхаи ссылка аст; элементҳои массив ҳамонанд.",
       "en": "A method is a named block of code that can accept parameters and return a result. In (int Min, int Max, int Count) Analyze(int[] numbers), the first part gives the result type, while the name and parameter types identify this method's signature. Changing only the return type cannot create an overload. The result is a tuple of three values. Their names let the caller write stats.Min instead of stats.Item1. A local function is declared inside a method and can be called earlier within its block. int[] is passed by value, but that value is a copy of the reference, so the method sees the same array elements."
-    },
+     },
      "code": "using System;\n\nvar stats = Analyze(new[] { 4, 8, 15 });\nConsole.WriteLine(stats.Min);\nConsole.WriteLine(stats.Max);\nConsole.WriteLine(stats.Count);\n\n(int Min, int Max, int Count) Analyze(int[] numbers)\n{\n    var min = numbers[0];\n    var max = numbers[0];\n    var count = 0;\n    foreach (var n in numbers)\n    {\n        if (n < min) min = n;\n        if (n > max) max = n;\n        count++;\n    }\n    return (min, max, count);\n}\n",
      "language": "csharp",
      "output": {
       "ru": "4\n15\n3",
       "tg": "4\n15\n3",
       "en": "4\n15\n3"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: деструктуризация кортежа",
+      "tg": "Глубе: таҷзияи tuple",
+      "en": "Deeper: tuple deconstruction"
+     },
+     "body": {
+      "ru": "Кортеж можно разобрать одной строкой: var (min, max, count) = Analyze(numbers); создаёт три отдельные переменные с именами полей — это деструктуризация. Безымянные элементы работают через Item1 и Item2, но имена Min, Max, Count — часть контракта: они делают вызов самодокументированным. Проверка на пустой массив перед вычислениями — обязательный шаг реального метода: numbers[0] на пустом наборе упадёт. Свяжите это с днём 29: там кортеж опишет выдачу книги (Reader, Title, Days), и навык именованных кортежей пригодится напрямую. Когда у данных появятся методы и правила — переводите кортеж в record: у него тот же синтаксис полей, но добавляются сравнение и with.",
+      "tg": "Tuple-ро бо як сатр тарқӣ кардан мумкин аст: var (min, max, count) = Analyze(numbers); се тағйирёбандаи алоҳида бо номҳои майдон месозад — ин таҷзия аст. Элементҳои беном аз тариқи Item1 ва Item2 кор мекунанд, вале номҳои Min, Max, Count қисми шартномаанд: даъватро худмустанад месозанд. Санҷиши массиви холӣ пеш аз ҳисоб — қадами ҳатмии методи воқеӣ: numbers[0] дар маҷмӯи холӣ меафтад. Инро бо рӯзи 29 пайванд кунед: дар он ҷо tuple додани китобро (Reader, Title, Days) тавсиф медиҳад ва маҳорати tuple-ҳои номдор мустақиман лозим мешавад. Вақте ки маълумот методҳо ва қоидаҳо пайдо кунанд — tuple-ро ба record гузаронед: ҳамон синтаксиси майдонҳо, аммо муқоиса ва with ҳам илова мешавад.",
+      "en": "A tuple can be unpacked in one line: var (min, max, count) = Analyze(numbers); creates three separate variables named after the fields — deconstruction. Unnamed elements work through Item1 and Item2, but the names Min, Max, Count are part of the contract: they make the call self-documenting. Checking for an empty array before computing is a mandatory step of a real method: numbers[0] on an empty set crashes. Connect this with day 29: a tuple there describes a book loan (Reader, Title, Days), and the named-tuple skill applies directly. When the data gains methods and rules, move the tuple to a record: same field syntax, plus comparison and with."
      }
     },
     {
@@ -1487,7 +1987,13 @@
        "en": "A string"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посмотрите на тип перед именем метода в объявлении: там три имени в скобках.",
+      "tg": "Ба типи пеш аз номи метод дар эълон нигоҳ кунед: дар он ҷо се ном дар қавс аст.",
+      "en": "Look at the type before the method name in the declaration: three names inside parentheses."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-09-q2",
@@ -1518,7 +2024,50 @@
        "en": "stats[2]"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Поля кортежа названы Min, Max, Count — доступ идёт через точку и имя поля.",
+      "tg": "Майдонҳои tuple Min, Max, Count ном доранд — дастрасӣ аз тариқи нуқта ва номи майдон мешавад.",
+      "en": "The tuple's fields are named Min, Max, Count — access goes through a dot and the field name."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-09-q3",
+     "question": {
+      "ru": "Что делает запись var (min, max, count) = Analyze(numbers);?",
+      "tg": "Навишти var (min, max, count) = Analyze(numbers); чӣ мекунад?",
+      "en": "What does var (min, max, count) = Analyze(numbers); do?"
+     },
+     "answer": {
+      "ru": "Раскладывает кортеж в три отдельные переменные",
+      "tg": "Tuple-ро ба се тағйирёбандаи алоҳида тақсим мекунад",
+      "en": "Unpacks the tuple into three separate variables"
+     },
+     "hint": {
+      "ru": "Скобки слева от равенства — это список новых переменных; как называются поля кортежа?",
+      "tg": "Қавсҳои тарафи чапи баробарӣ — рӯйхати тағйирёбандаҳои нав аст; майдонҳои tuple чӣ гуна ном доранд?",
+      "en": "The parentheses left of the equals sign list new variables; what are the tuple's fields called?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Создаёт массив из трёх значений",
+       "tg": "Аз се қимат массив месозад",
+       "en": "Creates an array of three values"
+      },
+      {
+       "ru": "Меняет порядок полей в кортеже",
+       "tg": "Тартиби майдонҳоро дар tuple иваз мекунад",
+       "en": "Reorders the tuple's fields"
+      },
+      {
+       "ru": "Раскладывает кортеж в три отдельные переменные",
+       "tg": "Tuple-ро ба се тағйирёбандаи алоҳида тақсим мекунад",
+       "en": "Unpacks the tuple into three separate variables"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1595,6 +2144,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: две переменные — один объект",
+      "tg": "Глубе: ду тағйирёбанда — як объект",
+      "en": "Deeper: two variables — one object"
+     },
+     "body": {
+      "ru": "Присваивание экземпляра класса копирует ссылку: после var other = book обе переменные указывают на один Book, и other.Pages = 500 видно через book. Структура при присваивании копирует значения полей; record class остаётся ссылочным типом — день 16 сравнит их. Локальная переменная Book b; без присваивания не содержит доступного значения: чтение b даёт ошибку CS0165 до запуска. Если явно задать Book? b = null;, вызов b.Method() может дать NullReferenceException; сначала проверьте null. На дне 12 private-поля и методы помогут контролировать изменения общего объекта.",
+      "tg": "Таъйини экземпляри класс истинодро нусха мекунад: баъди var other = book ҳар ду тағйирёбанда ба як Book ишора мекунанд ва other.Pages = 500 аз тариқи book ҳам дида мешавад. Struct ҳангоми таъйин қимати майдонҳоро нусха мекунад; record class типи истинодӣ мемонад — рӯзи 16 онҳоро муқоиса мекунад. Тағйирёбандаи локалии Book b; бе таъйин қимати хонданӣ надорад: хондани b пеш аз иҷро CS0165 медиҳад. Агар ошкоро Book? b = null; нависед, b.Method() метавонад NullReferenceException диҳад; аввал null-ро санҷед. Дар рӯзи 12 майдонҳои private ва методҳо тағйири объекти муштаракро назорат мекунанд.",
+      "en": "Assigning a class instance copies its reference: after var other = book, both variables point to one Book, and other.Pages = 500 is visible through book. Assigning a struct copies field values; a record class remains a reference type — day 16 compares them. A local declaration Book b; without assignment has no readable value: reading b causes CS0165 before execution. If explicitly initialized as Book? b = null;, b.Method() can throw NullReferenceException; check null first. Day 12 uses private fields and methods to control changes to a shared object."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -1648,7 +2209,13 @@
        "en": "Prints the object to the screen"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "new выделяет память и вызывает конструктор — вспомните первые строки первого раздела.",
+      "tg": "new ҳофизаро ҷудо карда, конструкторро даъват мекунад — қаторҳои аввали бахши аввалро ёдовар шавед.",
+      "en": "new allocates memory and calls the constructor — recall the first lines of the first section."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-10-q2",
@@ -1679,7 +2246,50 @@
        "en": "The name of the class file"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Поля хранят состояние объекта; метод — это поведение. Найдите в примере, что именно хранит Book.",
+      "tg": "Майдонҳо ҳолати объектро нигоҳ медоранд; метод рафтор аст. Дар мисол ёбед, ки Book чизе нигоҳ медорад.",
+      "en": "Fields store an object's state; a method is behavior. Find in the example what Book actually stores."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-10-q3",
+     "question": {
+      "ru": "После var a = new Book(\"Dilno\", 240); var b = a; b.Pages = 500; чему равен a.Pages?",
+      "tg": "Баъд аз var a = new Book(\"Dilno\", 240); var b = a; b.Pages = 500; a.Pages ба чӣ баробар аст?",
+      "en": "After var a = new Book(\"Dilno\", 240); var b = a; b.Pages = 500; what is a.Pages?"
+     },
+     "answer": {
+      "ru": "500 — обе переменные указывают на один объект",
+      "tg": "500 — ҳар ду тағйирёбанда ба як объект ишора мекунанд",
+      "en": "500 — both variables point to one object"
+     },
+     "hint": {
+      "ru": "Присваивание объектов копирует ссылку на один объект — вспомните раздел.",
+      "tg": "Таъйини объектҳо истинқи як объектро нусхабардорӣ мекунад — бахшро ёдовар шавед.",
+      "en": "Assigning objects copies the reference to one object — recall the section."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Старому значению — объекты независимы",
+       "tg": "Ба қимати кӯҳна — объектҳо мустақиланд",
+       "en": "The old value — the objects are independent"
+      },
+      {
+       "ru": "500 — обе переменные указывают на один объект",
+       "tg": "500 — ҳар ду тағйирёбанда ба як объект ишора мекунанд",
+       "en": "500 — both variables point to one object"
+      },
+      {
+       "ru": "Нулю — присваивание создало новый объект",
+       "tg": "Сифр — таъйин объекте нав сохт",
+       "en": "Zero — the assignment created a new object"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -1745,13 +2355,25 @@
       "ru": "Свойство — член типа, который код читает или присваивает через get и set. Запись public int Score { get; set; } создаёт автосвойство: компилятор сам добавляет скрытое поле для хранения. Свойство может возвращать вычисленное значение и тогда отдельное поле ему не нужно. Внутри явного set ключевое слово value содержит присваиваемое значение, например 120 в user.Score = 120. Свойству с одним get можно задать начальное значение при объявлении или в конструкторе. В примере имя задаётся при создании объекта, а счёт меняется после создания.",
       "tg": "Property узви тип аст. get қиматро мехонад ва set онро таъин мекунад. Барои public int Score { get; set; } компилятор худаш field-и пинҳонӣ месозад. Property метавонад натиҷаро аз маълумоти дигар ҳисоб кунад, дар ин ҳолат field-и ҷудо лозим нест. Дар дохили set калимаи value қимати таъиншавандаро дорад, масалан 120 дар user.Score = 120. Ба auto-property бо get-и танҳо ҳангоми эълон ё дар конструктор қимати аввал медодан мумкин аст. Дар мисол ном ҳангоми сохтани объект таъин мешавад ва хол баъд иваз мешавад.",
       "en": "A property is a type member accessed through get and set. For public int Score { get; set; }, the compiler creates hidden storage automatically. A property can also calculate its result on demand and use no separate field. In an explicit setter, value is the incoming value, such as 120 in user.Score = 120. A get-only auto-property can be initialized at declaration or in the constructor. In the example the name is set when the object is created and the score can change later."
-    },
+     },
      "code": "using System;\n\nvar user = new User(\"Safina\");\nConsole.WriteLine(user.Name);\nuser.Score = 120;\nConsole.WriteLine(user.Score);\n\nclass User\n{\n    public string Name { get; }\n\n    public int Score { get; set; }\n\n    public User(string name)\n    {\n        Name = name;\n    }\n}\n",
      "language": "csharp",
      "output": {
       "ru": "Safina\n120",
       "tg": "Safina\n120",
       "en": "Safina\n120"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: проверка значения в set",
+      "tg": "Глубе: санҷиши қимат дар set",
+      "en": "Deeper: validating the value in set"
+     },
+     "body": {
+      "ru": "Автосвойство компилятор расширяет до скрытого поля с get и set, поэтому проверку можно добавить позже, не трогая вызывающий код: замените { get; set; } на явную версию с if (value >= 0) — и все места, писавшие user.Score = 120, продолжат компилироваться. В этом преимущество свойства над публичным полем: контракт «читай и пиши» сохраняется, а правила меняются внутри. Вычислимое свойство без set, вроде public bool IsPro { get { return Score >= 100; } }, не хранит значение вовсе. Свяжите это с днём 12: проверка в set — первая линия защиты инварианта класса, а приватные поля закрывают остальные лазейки.",
+      "tg": "Автосвойство-ро компилятор то майдони пинҳон бо get ва set васеъ мекунад, аз ин рӯ санҷишро баъдтар илова кардан мумкин аст, бе тағйири коди даъваткунанда: { get; set; }-ро бо версияи ошкор бо if (value >= 0) иваз кунед — ҳамаи ҷойҳое, ки user.Score = 120 менавиштанд, компиляция мешаванд. Дар ин бартарии свойство аз майдони ошкор аст: шартномаи «бихон ва навис» нигоҳ дошта мешавад ва қоидаҳо дар дохил тағйир меёбанд. Свойствои ҳисобшаванда бе set, монанди public bool IsPro { get { return Score >= 100; } }, қиматро тамоман нигоҳ намедорад. Инро бо рӯзи 12 пайванд кунед: санҷиш дар set — хати аввали ҳимояи инварианти класс аст ва майдонҳои хусусӣ дигар шохаҳоро мебанданд.",
+      "en": "The compiler expands an auto-property into a hidden field with get and set, so validation can be added later without touching the calling code: replace { get; set; } with an explicit version containing if (value >= 0) — every place that wrote user.Score = 120 keeps compiling. That is the property's advantage over a public field: the «read and write» contract survives while the rules change inside. A computed property without set, like public bool IsPro { get { return Score >= 100; } }, stores nothing at all. Connect this with day 12: the check in set is the first line of defense for a class invariant, and private fields close the rest of the gaps."
      }
     },
     {
@@ -1809,7 +2431,13 @@
        "en": "The property is hidden from everyone"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "get и set — два доступа; если есть только один из них, второй недоступен снаружи.",
+      "tg": "get ва set — ду дастрасӣ; агар танҳо яке бошад, дигаре аз берун дастрас нест.",
+      "en": "get and set are two accesses; if only one exists, the other is unavailable from outside."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-11-q2",
@@ -1840,7 +2468,50 @@
        "en": "The property type"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Внутри set слово value приходит из присваивания user.Score = 120 — вспомните пример.",
+      "tg": "Дар дохили set калимаи value аз таъйини user.Score = 120 меояд — мисолро ёдовар шавед.",
+      "en": "Inside set the word value comes from the assignment user.Score = 120 — recall the example."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-11-q3",
+     "question": {
+      "ru": "Чем public int Score { get; set; } лучше публичного поля public int Score;?",
+      "tg": "public int Score { get; set; } аз майдони ошкори public int Score; ба чӣ беҳтар аст?",
+      "en": "Why is public int Score { get; set; } better than the public field public int Score;?"
+     },
+     "answer": {
+      "ru": "Позже в set можно добавить проверку, не меняя вызывающий код",
+      "tg": "Баъдтар дар set санҷиш илова кардан мумкин аст, бе тағйири коди даъваткунанда",
+      "en": "Later a check can be added in set without changing the calling code"
+     },
+     "hint": {
+      "ru": "Компилятор расширяет автосвойство до скрытого поля — подумайте, что можно добавить внутрь get и set позже.",
+      "tg": "Компилятор автосвойство-ро то майдони пинҳон васеъ мекунад — фикр кунед, ки баъдтар дар дохили get ва set чӣ илова кардан мумкин аст.",
+      "en": "The compiler expands an auto-property into a hidden field — think what can be added inside get and set later."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Свойство работает быстрее поля",
+       "tg": "Свойство аз майдон тезтар кор мекунад",
+       "en": "The property works faster than the field"
+      },
+      {
+       "ru": "Ничем — это две записи одного и того же",
+       "tg": "Ба ҳеҷ чиз — ин ду навишти як чиз аст",
+       "en": "Not at all — these are two spellings of the same thing"
+      },
+      {
+       "ru": "Позже в set можно добавить проверку, не меняя вызывающий код",
+       "tg": "Баъдтар дар set санҷиш илова кардан мумкин аст, бе тағйири коди даъваткунанда",
+       "en": "Later a check can be added in set without changing the calling code"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1917,6 +2588,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: инвариант и возврат копий",
+      "tg": "Глубе: инвариант ва баргардонидани нусхаҳо",
+      "en": "Deeper: the invariant and returning copies"
+     },
+     "body": {
+      "ru": "Инвариант «баланс не отрицателен» защищают не одна проверка, а архитектура: поле приватно, вход — только через Deposit и Withdraw с проверками, наружу — GetBalance, возвращающий копию int. Со ссылочными типами копия важнее: возврат внутренней List<Transaction> откроет её на изменение снаружи и обнулит всю защиту — возвращайте копию списка или тип только для чтения. Свяжите это с днём 11: проверка в set свойства и проверка в методе решают одну задачу — выбрать одно место, где живёт правило. Проверьте себя в практике: попытайтесь испортить баланс снаружи — компилятор обязан отказать, иначе инкапсуляция неполная.",
+      "tg": "Инварианти «мӯътадил манфӣ нест»-ро на як санҷиш, меъморӣ ҳимоя мекунад: майдон хусусист, даромадгоҳ — танҳо аз тариқи Deposit ва Withdraw бо санҷишҳо, барои берун — GetBalance, ки нусхаи int-ро бар месозад. Бо типҳои истинқӣ нусха муҳимтар аст: баргардонидани List<Transaction>-и дохилӣ онро барои тағйир аз берун мекушояд ва тамоми ҳимояро сифр мекунад — нусхаи рӯйхат ё типи танҳо-хонӣ баргардонед. Инро бо рӯзи 11 пайванд кунед: санҷиш дар set-и свойство ва санҷиш дар метод як вазифаро ҳал мекунанд — интихоби як ҷой, ки қоида дар он зиндагӣ мекунад. Дар амалия худро санҷед: кӯшиш кунед мӯътадилро аз берун вайрон кунед — компилятор вазифадор аст рад кунад, вагарна инкапсуляция нопурра аст.",
+      "en": "The invariant «the balance is never negative» is defended not by one check but by the architecture: the field is private, entry only through Deposit and Withdraw with checks, and outward — GetBalance returning a copy of the int. With reference types the copy matters more: returning the internal List<Transaction> opens it to outside mutation and nullifies the defense — return a copy of the list or a read-only type. Connect this with day 11: the check in a property's set and the check in a method solve one task — choosing a single place where the rule lives. Test yourself in practice: try to corrupt the balance from outside — the compiler must refuse, otherwise encapsulation is incomplete."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -1970,7 +2653,13 @@
        "en": "Speeds up the code"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "private и public — противоположности: первый виден только внутри класса.",
+      "tg": "private ва public — муқобилҳо: аввалӣ танҳо дар дохили класс дида мешавад.",
+      "en": "private and public are opposites: the former is visible only inside the class."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-12-q2",
@@ -2001,7 +2690,50 @@
        "en": "To make the method longer"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Инвариант — правило, верное всегда; где оно должно жить, чтобы его нельзя было обойти?",
+      "tg": "Инвариант қоидаест, ки ҳамеша дурустанд; он дар куҷо зиндагӣ кунад, то ба гардизи он гузашта нашавад?",
+      "en": "An invariant is a rule that always holds; where must it live so it cannot be bypassed?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-12-q3",
+     "question": {
+      "ru": "Почему возврат внутренней List<Transaction> наружу ослабляет инкапсуляцию?",
+      "tg": "Чӣ сабаб баргардонидани List<Transaction>-и дохилӣ ба берун инкапсуляцияро суст мекунад?",
+      "en": "Why does returning the internal List<Transaction> weaken encapsulation?"
+     },
+     "answer": {
+      "ru": "Внешний код сможет менять список в обход проверок класса",
+      "tg": "Коди берунӣ рӯйхатро ба гардизи санҷишҳои класс тағйир дода метавонад",
+      "en": "Outside code will be able to mutate the list bypassing the class's checks"
+     },
+     "hint": {
+      "ru": "Возврат списка отдаёт наружу сам объект, а не его копию — кто тогда сможет его менять?",
+      "tg": "Баргардонидани рӯйхат объектро худ ба берун медиҳад, на нусхаашро — он гоҳ кист, ки метавонад онро тағйир диҳад?",
+      "en": "Returning a list hands out the object itself, not a copy — who can mutate it then?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Список работает медленнее при внешнем доступе",
+       "tg": "Рӯйхат ҳангоми дастрасии беруна сусттар кор мекунад",
+       "en": "The list works slower under external access"
+      },
+      {
+       "ru": "Внешний код сможет менять список в обход проверок класса",
+       "tg": "Коди берунӣ рӯйхатро ба гардизи санҷишҳои класс тағйир дода метавонад",
+       "en": "Outside code will be able to mutate the list bypassing the class's checks"
+      },
+      {
+       "ru": "Компилятор запрещает возвращать списки",
+       "tg": "Компилятор баргардонидани рӯйхатҳоро мамнуъ мекунад",
+       "en": "The compiler forbids returning lists"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -2078,6 +2810,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: «является» против «имеет»",
+      "tg": "Глубе: «ҳаст» дар муқобили «дорад»",
+      "en": "Deeper: «is a» versus «has a»"
+     },
+     "body": {
+      "ru": "Тест связи простой: произнесите вслух. Dog является Animal — наследование; Car имеет Engine — поле-объект внутри класса, композиция. Наследование ради строк кода ломает модель: Robot не Animal, даже если у обоих есть лапы. Вторая грань: конструкторы не наследуются, и если наследнику нужен параметр базового конструктора, пишут : base(...) после объявления конструктора наследника, например public Dog(string name) : base(name) { }. sealed запрещает наследование — так фиксируют классы, не рассчитанные на расширение. Свяжите это с днём 14: интерфейс описывает способность без иерархии — Email и Sms не родственники, но оба умеют Send, и контракт IMessage их объединяет. Выбор «наследование или интерфейс или композиция» — главный вопрос проектирования этого дня.",
+      "tg": "Санҷиши пайванд содда аст: баланд гӯед. Dog ҳайвони Animal аст — мерос; Car муҳаррики Engine дорад — майдони объект дар дохили класс, таркиб. Мерос барои қаторҳои код моделро вайрон мекунад: Robot Animal нест, ҳатто агар ҳарду пой дошта бошанд. Ҷанби дуюм: конструкторҳо мерос намешаванд ва агар меросбаранда параметри конструктори асосиро талаб кунад, : base(...) баъди эълони конструктори меросбаранда меояд, масалан public Dog(string name) : base(name) { }. sealed меросро мамнуъ мекунад — чунин классҳои бе ҳисоби васеъшавиро устувор мекунанд. Инро бо рӯзи 14 пайванд кунед: интерфейс тавонистонро бе иерархия тавсиф мекунад — Email ва Sms хешованд нестанд, вале ҳарду Send месозанд ва шартномаи IMessage онҳоро муттаҳид мекунад. Интихоби «мерос ё интерфейс ё таркиб» — саволи асосии тарроҳии ин рӯз.",
+      "en": "The connection test is simple: say it aloud. Dog is an Animal — inheritance; Car has an Engine — an object field inside the class, composition. Inheritance for the sake of lines of code breaks the model: Robot is not an Animal even if both have legs. Another facet: constructors are not inherited, and if the subclass needs a base constructor parameter, : base(...) follows the derived constructor declaration, for example public Dog(string name) : base(name) { }. sealed forbids inheritance — that pins classes not designed for extension. Connect this with day 14: an interface describes an ability without a hierarchy — Email and Sms are not relatives, but both can Send, and the IMessage contract unites them. The choice «inheritance or interface or composition» is this day's main design question."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -2131,7 +2875,13 @@
        "en": "private in the base class"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Слова идут парой: одно в базовом классе, другое в наследнике — вспомните пример с Dog и Animal.",
+      "tg": "Калимаҳо ҷуфт меоянд: яке дар класси асосӣ, дигар дар меросбаранда — мисоли Dog ва Animal-ро ёдовар шавед.",
+      "en": "The words come as a pair: one in the base class, the other in the subclass — recall the Dog and Animal example."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-13-q2",
@@ -2162,7 +2912,50 @@
        "en": "A type mismatch error"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Массив типа Animal хранит разные объекты; у каждого — своя реализация Speak.",
+      "tg": "Массиви типи Animal объектҳои гуногунро нигоҳ медорад; ҳар яке татбиқи худи Speak-ро дорад.",
+      "en": "An Animal[] holds different objects; each has its own Speak implementation."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-13-q3",
+     "question": {
+      "ru": "Как правильно смоделировать, что у Car есть двигатель Engine?",
+      "tg": "Он ки Car-ро муҳаррики Engine дорад, чӣ тавр дуруст модел кардан мумкин аст?",
+      "en": "How do you correctly model that a Car has an Engine?"
+     },
+     "answer": {
+      "ru": "Поле private Engine engine внутри Car — связь «имеет»",
+      "tg": "Майдони private Engine engine дар дохили Car — пайванди «дорад»",
+      "en": "A private Engine engine field inside Car — the «has a» link"
+     },
+     "hint": {
+      "ru": "Произнесите связь вслух: машина — это двигатель или машина имеет двигатель?",
+      "tg": "Пайвандро баланд гӯед: мошин муҳаррик аст ё мошин муҳаррик дорад?",
+      "en": "Say the link aloud: is a car an engine, or does a car have an engine?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "class Car : Engine — наследовать двигатель",
+       "tg": "class Car : Engine — муҳаррикро мерос гирифтан",
+       "en": "class Car : Engine — inherit the engine"
+      },
+      {
+       "ru": "Скопировать поля Engine в класс Car",
+       "tg": "Майдонҳои Engine-ро ба класси Car нусхабардорӣ кардан",
+       "en": "Copy Engine's fields into the Car class"
+      },
+      {
+       "ru": "Поле private Engine engine внутри Car — связь «имеет»",
+       "tg": "Майдони private Engine engine дар дохили Car — пайванди «дорад»",
+       "en": "A private Engine engine field inside Car — the «has a» link"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2228,13 +3021,25 @@
       "ru": "Интерфейс описывает общий контракт для разных типов. В этом примере IMessage объявляет Send(), а Email и Sms задают своё поведение. В простом варианте реализация Send в классе открытая, поэтому код может вызывать её через IMessage. Цикл по IMessage[] работает с любым классом, который выполняет контракт. Класс может реализовать несколько интерфейсов и наследовать один базовый класс. В современном C# интерфейс также может содержать реализацию по умолчанию. Здесь достаточно обычного объявления метода без тела.",
       "tg": "Interface қоидаи умумии якчанд тип аст. Дар ин мисол IMessage методи Send()-ро эълон мекунад ва Email ва Sms ҳар кадом тарзи кори худро менависанд. Дар шакли оддӣ Send дар класс public аст, то код онро ба воситаи IMessage даъват карда тавонад. Даври IMessage[] бо ҳар классе, ки ин қоидаро иҷро мекунад, кор мекунад. Як класс метавонад якчанд interface ва як base class дошта бошад. Дар C# нав interface метавонад коди пешфарз ҳам дошта бошад, аммо дар ин мисол эълони метод бе бадан кифоя аст.",
       "en": "An interface describes a shared contract for different types. In this example IMessage declares Send(), and Email and Sms supply their own behavior. With the simple implementation used here, Send is public in the class, so callers can invoke it through IMessage. A loop over IMessage[] works with any class that fulfills that contract. A class can implement multiple interfaces and inherit one base class. Modern C# also supports default interface implementations. This example only needs a method declaration without a body."
-    },
+     },
      "code": "using System;\n\nIMessage[] messages = { new Email(), new Sms() };\nforeach (var m in messages)\n{\n    m.Send();\n}\n\ninterface IMessage\n{\n    void Send();\n}\n\nclass Email : IMessage\n{\n    public void Send()\n    {\n        Console.WriteLine(\"Email sent\");\n    }\n}\n\nclass Sms : IMessage\n{\n    public void Send()\n    {\n        Console.WriteLine(\"SMS sent\");\n    }\n}\n",
      "language": "csharp",
      "output": {
       "ru": "Email sent\nSMS sent",
       "tg": "Email sent\nSMS sent",
       "en": "Email sent\nSMS sent"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: несколько интерфейсов и один базовый класс",
+      "tg": "Глубе: чанд интерфейс ва як класси асосӣ",
+      "en": "Deeper: several interfaces and one base class"
+     },
+     "body": {
+      "ru": "Один класс наследует единственный базовый класс, но реализует сколько угодно интерфейсов: class Push : Notification, IMessage, IPrintable — базовый первым, интерфейсы через запятую. Так собирают способности из независимых ролей: класс остаётся в своей иерархии и одновременно обещает несколько контрактов. Экземпляр интерфейса создать нельзя: new IMessage() не скомпилируется — создают класс, а хранят в переменной типа IMessage. Свяжите это с днём 15: полиморфизм работает и через базовый класс, и через интерфейс — вызов решается по фактическому объекту в обоих случаях. В реальном проекте контракты добавляют позже, когда появляется второй класс с той же ролью, — не раньше.",
+      "tg": "Як класс танҳо як класси асосиро мерос мегирад, вале ҳар қадар интерфейс татбиқ мекунад: class Push : Notification, IMessage, IPrintable — асосӣ аввал, интерфейсҳо бо вергул. Чунин тавонистонҳо аз нақшҳои мустақил ҷамъ мешаванд: класс дар иерархияи худ мемонад ва ҳамзамон чанд шартномаро ваъда медиҳад. Нусхаи интерфейс сохтан мумкин нест: new IMessage() компиляция намешавад — классро месозанд ва дар тағйирёбандаи типи IMessage нигоҳ медоранд. Инро бо рӯзи 15 пайванд кунед: полиморфизм ҳам аз тариқи класси асосӣ ва ҳам аз тариқи интерфейс кор мекунад — даъват дар ҳарду ҳолат аз рӯи объект воқеӣ қарор мегирад. Дар лоиҳаи воқеӣ шартномаҳоро баъдтар илова мекунанд, вақте ки класси дуюм бо ҳамон нақш пайдо мешавад — на пештар.",
+      "en": "A class inherits exactly one base class but implements any number of interfaces: class Push : Notification, IMessage, IPrintable — base first, interfaces comma-separated. Abilities are thus assembled from independent roles: the class stays in its hierarchy while promising several contracts. An interface instance cannot be created: new IMessage() will not compile — you create the class and store it in an IMessage-typed variable. Connect this with day 15: polymorphism works through the base class and through the interface alike — the call resolves by the actual object in both cases. In real projects contracts are added later, when a second class with the same role appears — not earlier."
      }
     },
     {
@@ -2292,7 +3097,13 @@
        "en": "None — only inherit"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Класс может наследовать только один базовый класс; про интерфейсы правило другое — перечитайте раздел.",
+      "tg": "Класс танҳо як класси асосиро мерос мегирад; дар бораи интерфейсҳо қоидаи дигар аст — бахшро аз нав бихонед.",
+      "en": "A class inherits only one base class; interfaces follow a different rule — re-read the section."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-14-q2",
@@ -2323,7 +3134,50 @@
        "en": "The compiler duplicates the loop for each class"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Цикл обходит IMessage[] — на что он опирается: список классов или контракт?",
+      "tg": "Ҳалқа IMessage[]-ро мегардонад — он ба чӣ такя мекунад: рӯйхати классҳо ё шартнома?",
+      "en": "The loop walks an IMessage[] — what does it rely on: a list of classes or the contract?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-14-q3",
+     "question": {
+      "ru": "Как объявить класс Textbook, наследующий Book и реализующий IPrintable?",
+      "tg": "Класси Textbook-ро, ки Book-ро мерос мегирад ва IPrintable-ро татбиқ мекунад, чӣ тавр эълон кардан мумкин аст?",
+      "en": "How do you declare a Textbook class inheriting Book and implementing IPrintable?"
+     },
+     "answer": {
+      "ru": "class Textbook : Book, IPrintable — базовый класс первым",
+      "tg": "class Textbook : Book, IPrintable — класси асосӣ аввал",
+      "en": "class Textbook : Book, IPrintable — the base class first"
+     },
+     "hint": {
+      "ru": "Базовый класс в списке после двоеточия — один и первым; интерфейсы идут дальше.",
+      "tg": "Класси асосӣ дар рӯйхати баъди нуқтаи дарунӣ — як ва аввал аст; интерфейсҳо минбаъд меоянд.",
+      "en": "The base class in the colon list is one and first; interfaces follow."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "class Textbook : IPrintable, Book — порядок не важен",
+       "tg": "class Textbook : IPrintable, Book — тартиб муҳим нест",
+       "en": "class Textbook : IPrintable, Book — order does not matter"
+      },
+      {
+       "ru": "class Textbook implements Book, IPrintable",
+       "tg": "class Textbook implements Book, IPrintable",
+       "en": "class Textbook implements Book, IPrintable"
+      },
+      {
+       "ru": "class Textbook : Book, IPrintable — базовый класс первым",
+       "tg": "class Textbook : Book, IPrintable — класси асосӣ аввал",
+       "en": "class Textbook : Book, IPrintable — the base class first"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2400,6 +3254,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: безопасное приведение is и as",
+      "tg": "Глубе: касти бехатар is ва as",
+      "en": "Deeper: safe casting with is and as"
+     },
+     "body": {
+      "ru": "Приведение (Rect)s открывает методы Rect, но при несовпадении фактического типа бросит InvalidCastException. Безопасная пара: if (s is Rect r) проверяет и даёт переменную r сразу, а as вернёт null вместо исключения — после as обязательна проверка на null, знакомая по дню 18. Эти приёмы дополняют полиморфизм: сначала код зависит от абстракции, приведение — редкий шаг на границе, где абстракции не хватает. Свяжите это с днём 13: виртуальный метод выбирает версию по объекту, и приведение нужно лишь для членов, которых нет в базовом классе. Проверьте себя: вызовите Info() через переменную типа Shape для каждого объекта списка — вывод совпадёт с прямым вызовом.",
+      "tg": "Касти (Rect)s методҳои Rect-ро мекашад, вале дар номувофиқии типи воқеӣ InvalidCastException мепартофад. Ҷуфти бехатар: if (s is Rect r) месанҷад ва тағйирёбандаи r-ро фавран медиҳад, as бошад null бар месозад ба ҷои истисно — баъд аз as санҷиши null ҳатмист, ки аз рӯзи 18 ошно аст. Ин усулҳо полиморфизмро пурмекунанд: аввал код ба абстракция вобаста аст, каст — қадами нодир дар марз, ки абстракция кифоя нест. Инро бо рӯзи 13 пайванд кунед: методи виртуалӣ версияро аз рӯи объект интихоб мекунад ва каст танҳо барои узвҳое лозим аст, ки дар класси асосӣ нестанд. Худро санҷед: Info()-ро аз тариқи тағйирёбандаи типи Shape барои ҳар объектҳои рӯйхат даъват кунед — хуруҷ бо даъвати мустақим мувофиқ мешавад.",
+      "en": "The cast (Rect)s exposes Rect's methods but throws InvalidCastException when the actual type does not match. The safe pair: if (s is Rect r) checks and yields variable r at once, while as returns null instead of an exception — after as a null check is mandatory, familiar from day 18. These techniques complement polymorphism: the code depends on the abstraction first, and casting is a rare step at the boundary where the abstraction falls short. Connect this with day 13: a virtual method picks the version by object, and casting is only needed for members missing from the base class. Check yourself: call Info() through a Shape-typed variable for each list object — the output matches the direct call."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -2453,7 +3319,13 @@
        "en": "Both versions in turn"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Позднее связывание: решает фактический объект, а не тип переменной.",
+      "tg": "Пайвасти дер: объект воқеӣ қарор медиҳад, на типи тағйирёбанда.",
+      "en": "Late binding: the actual object decides, not the variable's type."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-15-q2",
@@ -2484,7 +3356,50 @@
        "en": "Object"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "GetType().Name возвращает имя фактического класса объекта — вспомните, что лежит в третьем элементе списка.",
+      "tg": "GetType().Name номи класс воқеии объектро бар месозад — ёдовар шавед, ки дар элементи сеюми рӯйхат чӣ аст.",
+      "en": "GetType().Name returns the object's actual class name — recall what the list's third element holds."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-15-q3",
+     "question": {
+      "ru": "Как безопасно получить переменную типа Rect из переменной s типа Shape?",
+      "tg": "Аз тағйирёбандаи s-и типи Shape тағйирёбандаи типи Rect-ро чӣ тавр бехатар гирифтан мумкин аст?",
+      "en": "How do you safely obtain a Rect-typed variable from a Shape-typed variable s?"
+     },
+     "answer": {
+      "ru": "if (s is Rect r) — проверка и переменная в одном шаге",
+      "tg": "if (s is Rect r) — санҷиш ва тағйирёбанда дар як қадам",
+      "en": "if (s is Rect r) — the check and the variable in one step"
+     },
+     "hint": {
+      "ru": "Обычное приведение бросает исключение при несовпадении типа; есть проверка, дающая переменную сразу.",
+      "tg": "Касти муқаррарӣ дар номувофиқии тип истисно мепартофад; санҷише ҳаст, ки тағйирёбандаро фавран медиҳад.",
+      "en": "A plain cast throws on a type mismatch; there is a check that yields the variable right away."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "if (s is Rect r) — проверка и переменная в одном шаге",
+       "tg": "if (s is Rect r) — санҷиш ва тағйирёбанда дар як қадам",
+       "en": "if (s is Rect r) — the check and the variable in one step"
+      },
+      {
+       "ru": "(Rect)s — приведение не может упасть",
+       "tg": "(Rect)s — каст наметавонад биафтад",
+       "en": "(Rect)s — the cast cannot fail"
+      },
+      {
+       "ru": "s.ToRect() — метод преобразования у Shape",
+       "tg": "s.ToRect() — методи табдил дар Shape",
+       "en": "s.ToRect() — Shape has a conversion method"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2550,13 +3465,25 @@
       "ru": "Присваивание struct копирует значения его полей. Если поле хранит ссылку, обе копии по-прежнему ссылаются на один объект. Поэтому b.Value = 50 в примере не меняет отдельное целое поле a.Value и выводится 5. У класса само присваивание копирует ссылку на экземпляр. Обычный record — ссылочный тип, record struct — тип значения. У записи компилятор создаёт сравнение по значениям. Выражение t1 with { Color = \"blue\" } создаёт поверхностную копию и меняет Color в ней. У t1 цвет остаётся red. Если классу важно различать отдельные экземпляры, обычно подходит обычный class.",
       "tg": "Вақти таъини struct қиматҳои field-ҳояш нусха мешаванд. Агар field ссылка дошта бошад, ҳар ду нусха боз ба ҳамон объект ишора мекунанд. Дар мисол b.Value = 50 ба field-и бутуни ҷудои a.Value таъсир намекунад ва 5 мебарояд. Ҳангоми таъини класс ссылка ба объект нусха мешавад. record-и оддӣ reference type аст ва record struct — value type. Барои record компилятор муқоисаро аз рӯйи қиматҳо месозад. t1 with { Color = \"blue\" } нусхаи рӯякӣ месозад ва Color-ро дар он дигар мекунад. Ранги t1 ҳамон red мемонад.",
       "en": "Assigning a struct copies its field values. If a field contains a reference, both copies still point to the same object through that field. In the example b.Value = 50 leaves the separate integer field a.Value unchanged at 5. Assigning a class variable copies the reference to the instance. A plain record is a reference type and a record struct is a value type. Records have compiler-generated value equality. The expression t1 with { Color = \"blue\" } makes a shallow copy and updates Color on the copy, leaving t1 red. A regular class is often a better choice when distinct instance identity matters."
-    },
+     },
      "code": "using System;\n\nvar a = new Cell { Value = 5 };\nvar b = a;\nb.Value = 50;\nConsole.WriteLine(a.Value);\n\nvar t1 = new Tag(\"red\");\nvar t2 = t1 with { Color = \"blue\" };\nConsole.WriteLine(t1.Color);\nConsole.WriteLine(t2.Color);\n\nstruct Cell\n{\n    public int Value;\n}\n\nrecord Tag(string Color);\n",
      "language": "csharp",
      "output": {
       "ru": "5\nred\nblue",
       "tg": "5\nred\nblue",
       "en": "5\nred\nblue"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: record сравнивается по значениям",
+      "tg": "Глубе: record аз рӯи қиматҳо муқоиса мешавад",
+      "en": "Deeper: a record compares by values"
+     },
+     "body": {
+      "ru": "Компилятор создаёт для record равенство по всем полям: t1 == new Tag(\"red\") даст True для двух разных объектов с одинаковым цветом — у обычного класса == сравнил бы ссылки и ответил False. Проверьте оба варианта в практике: превратите Tag в class и сравните ещё раз. Вторая грань: with создаёт поверхностную копию — вложенные объекты остаются общими, копируются только поля верхнего уровня. Свяжите это с днём 25: сериализация JSON печатает поля record — то же сравнение по значениям делает данные предсказуемыми. Правило выбора: данные без поведения и с равенством по содержимому — record; отдельные экземпляры со своей жизнью — class.",
+      "tg": "Компилятор барои record баробарии аз рӯи ҳамаи майдонҳо месозад: t1 == new Tag(\"red\") барои ду объектҳои гуногун бо ранги якхела True медиҳад — дар класс муқаррарӣ == истинқҳоро муқоиса карда, False мегуфт. Ҳарду вариантро дар амалия санҷед: Tag-ро ба class табдил диҳед ва боз як бор муқоиса кунед. Ҷанби дуюм: with нусхаи сатҳиро месозад — объектҳои дохилӣ муштарак мемонанд, танҳо майдонҳои сатҳи боло нусхабардорӣ мешаванд. Инро бо рӯзи 25 пайванд кунед: сериализацияи JSON майдонҳои record-ро чоп мекунад — ҳамон муқоисаи аз рӯи қиматҳо маълумотро пешбинипазир месозад. Қоидаи интихоб: маълумот бе рафтор ва бо баробарии аз рӯи мӯҳтаво — record; нусхаҳои алоҳида бо зиндагии худ — class.",
+      "en": "The compiler gives a record equality over all fields: t1 == new Tag(\"red\") is True for two distinct objects with the same color — a plain class's == would compare references and answer False. Test both variants in practice: turn Tag into a class and compare again. Another facet: with makes a shallow copy — nested objects stay shared, only top-level fields are copied. Connect this with day 25: JSON serialization prints the record's fields — the same value-based comparison makes data predictable. The choice rule: data without behavior and with content equality — record; distinct instances with their own life — class."
      }
     },
     {
@@ -2614,7 +3541,13 @@
        "en": "The field was zeroed on copying"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Присваивание структуры копирует значения полей — перечитайте первый абзац раздела.",
+      "tg": "Таъйини сохтор қиматҳои майдонҳоро нусхабардорӣ мекунад — абзаци аввали бахшро аз нав бихонед.",
+      "en": "Assigning a struct copies field values — re-read the section's first paragraph."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-16-q2",
@@ -2645,7 +3578,50 @@
        "en": "Deletes the t1 object"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "with не правит исходный объект — вспомните, что сказано про копию и цвет red.",
+      "tg": "with объект аслиро ислоҳ намекунад — ёдовар шавед, ки дар бораи нусха ва ранги red чӣ гуфта шудааст.",
+      "en": "with does not modify the original object — recall what was said about the copy and the red color."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-16-q3",
+     "question": {
+      "ru": "Что напечатает t1 == new Tag(\"red\") для record Tag(string Color) при t1 = new Tag(\"red\");?",
+      "tg": "t1 == new Tag(\"red\") барои record Tag(string Color) дар ҳолати t1 = new Tag(\"red\"); чиро чоп мекунад?",
+      "en": "What does t1 == new Tag(\"red\") print for record Tag(string Color) when t1 = new Tag(\"red\");?"
+     },
+     "answer": {
+      "ru": "True — record сравнивает значения полей",
+      "tg": "True — record қиматҳои майдонҳоро муқоиса мекунад",
+      "en": "True — a record compares field values"
+     },
+     "hint": {
+      "ru": "record создаёт компилятором равенство по всем полям — вспомните раздел.",
+      "tg": "record баробарии аз рӯи ҳамаи майдонҳоро бо компилятор месозад — бахшро ёдовар шавед.",
+      "en": "A record gets compiler-generated equality over all fields — recall the section."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "False — сравниваются ссылки на объекты",
+       "tg": "False — истинқҳои объектҳо муқоиса мешаванд",
+       "en": "False — object references are compared"
+      },
+      {
+       "ru": "Ошибку компиляции — == не определён для record",
+       "tg": "Хатои компиляция — == барои record муайян нашудааст",
+       "en": "A compilation error — == is not defined for record"
+      },
+      {
+       "ru": "True — record сравнивает значения полей",
+       "tg": "True — record қиматҳои майдонҳоро муқоиса мекунад",
+       "en": "True — a record compares field values"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2711,13 +3687,25 @@
       "ru": "Исключение прерывает обычный ход кода. try отмечает блок, где может возникнуть ошибка, а catch обрабатывает подходящий тип исключения. int.Parse(\"abc\") выдаёт FormatException, а число за пределами int — OverflowException. Если неверный ввод обычен, int.TryParse возвращает false и позволяет показать подсказку. finally обычно выполняется при выходе из try и catch, в том числе при return. Там освобождают ресурсы, например закрывают файл. При принудительной остановке процесса этот блок может не выполниться. В примере для строк 12 и abc сообщение проверки печатается в обоих случаях.",
       "tg": "Exception ҷараёни одии кодро қатъ мекунад. Дар try коде меистад, ки метавонад хато диҳад. catch хатои навъи мувофиқро мегирад. int.Parse(\"abc\") FormatException медиҳад ва рақами берун аз ҳудуди int — OverflowException. Агар воридкунии нодуруст муқаррарӣ бошад, int.TryParse натиҷаи false медиҳад ва ту метавонӣ шарҳ нишон диҳӣ. finally одатан ҳангоми баромадан аз try ё catch, ҳатто бо return, иҷро мешавад. Он ҷо метавон файлро пӯшид. Агар process-ро маҷбуран қатъ кунанд, finally метавонад иҷро нашавад. Дар мисол барои 12 ва abc паёми санҷиш ҳар ду бор мебарояд.",
       "en": "An exception interrupts the normal flow of code. try encloses code that may fail and catch handles a matching exception type. int.Parse(\"abc\") throws FormatException and a value outside the int range throws OverflowException. For expected invalid input, int.TryParse returns false so the program can show a hint. finally normally runs when control leaves try or catch, including through return. It is a place to release resources such as an open file. A forced process stop can prevent it from running. In the example both \"12\" and \"abc\" print the final check line."
-    },
+     },
      "code": "using System;\n\nstring[] texts = { \"12\", \"abc\" };\n\nforeach (var text in texts)\n{\n    try\n    {\n        var n = int.Parse(text);\n        Console.WriteLine(\"Parsed: \" + n);\n    }\n    catch (FormatException)\n    {\n        Console.WriteLine(\"Not a number: \" + text);\n    }\n    finally\n    {\n        Console.WriteLine(\"Checked: \" + text);\n    }\n}\n",
      "language": "csharp",
      "output": {
       "ru": "Parsed: 12\nChecked: 12\nNot a number: abc\nChecked: abc",
       "tg": "Parsed: 12\nChecked: 12\nNot a number: abc\nChecked: abc",
       "en": "Parsed: 12\nChecked: 12\nNot a number: abc\nChecked: abc"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: TryParse и using вместо ручного finally",
+      "tg": "Глубе: TryParse ва using ба ҷои finally-и дастӣ",
+      "en": "Deeper: TryParse and using instead of manual finally"
+     },
+     "body": {
+      "ru": "Для ожидаемых ситуаций у .NET есть пары без исключений: int.TryParse(\"12\", out var n) возвращает false при неверном вводе — программа продолжает работу с подсказкой, без затрат на выброс исключения. Parse оставляют там, где неверные данные — действительно чрезвычайное происшествие. Второй приём из того же семейства: using (var reader = new StreamReader(path)) { ... } заменяет try/finally — файл закрывается через Dispose даже при исключении, о файлах будет день 24. Свяжите это с днём 2: там первый throw сообщал о неверных аргументах; теперь вы знаете оба способа ответа — исключение для нарушенного контракта и bool для обычного варианта.",
+      "tg": "Барои ҳолатҳои интизорӣ дар .NET ҷуфтҳои бе истисно мавҷуд аст: int.TryParse(\"12\", out var n) дар вуруди нодуруст false бар месозад — барнома бо маслиҳат корро идома медиҳад, бе харҷи партофтани истисно. Parse-ро он ҷо мегузоранд, ки маълумоти нодуруст воқеан фавтиҳа бошад. Усули дуюми ҳамон хонавода: using (var reader = new StreamReader(path)) { ... } try/finally-ро иваз мекунад — файл ҳатто дар истисно аз тариқи Restore пӯшида мешавад, дар бораи файлҳо рӯзи 24 хоҳад буд. Инро бо рӯзи 2 пайванд кунед: дар он ҷо аввалин throw дар бораи аргументҳои нодуруст хабар медод; ҳоло ҳарду тарзи ҷавобро медонед — истисно барои шартномаи вайроншуда ва bool барои ҳолати муқаррарӣ.",
+      "en": "For expected situations .NET has exception-free pairs: int.TryParse(\"12\", out var n) returns false on bad input — the program keeps going with a hint, without the cost of throwing. Parse stays where bad data is truly an emergency. Another tool of the same family: using (var reader = new StreamReader(path)) { ... } replaces try/finally — the file is closed through Dispose even on an exception; files come in day 24. Connect this with day 2: the first throw there reported bad arguments; now you know both ways to answer — an exception for a broken contract and a bool for the ordinary case."
      }
     },
     {
@@ -2775,7 +3763,13 @@
        "en": "Only when there is no exception"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "finally — блок при выходе из try; вспомните пример, где сообщение печаталось в обоих случаях.",
+      "tg": "finally — блок ҳангоми баромад аз try; мисолеро ёдовар шавед, ки дар он ҳарду ҳолат хабар чоп мешуд.",
+      "en": "finally is the block on leaving try; recall the example where the message printed in both cases."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-17-q2",
@@ -2806,7 +3800,50 @@
        "en": "FileNotFoundException"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "abc — не число; тип исключения для неверного формата назван в первом разделе.",
+      "tg": "abc адад нест; типи истисно барои шакли нодуруст дар бахши аввал номбар шудааст.",
+      "en": "abc is not a number; the exception type for a bad format is named in the first section."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-17-q3",
+     "question": {
+      "ru": "Чем int.TryParse(text, out var n) удобнее int.Parse(text) для ввода пользователя?",
+      "tg": "int.TryParse(text, out var n) барои вуруди корбар аз int.Parse(text) чӣ тавр роҳатар аст?",
+      "en": "Why is int.TryParse(text, out var n) more convenient than int.Parse(text) for user input?"
+     },
+     "answer": {
+      "ru": "TryParse возвращает false вместо исключения при неверном вводе",
+      "tg": "TryParse дар вуруди нодуруст false бар месозад ба ҷои истисно",
+      "en": "TryParse returns false instead of an exception on bad input"
+     },
+     "hint": {
+      "ru": "Имя метода говорит само: Try — попытка, которая может не удасться и вернуть false.",
+      "tg": "Номи метод худ ме гӯяд: Try — кӯшишест, ки метавонад ноком шуда, false барсозад.",
+      "en": "The method's name says it: Try — an attempt that may fail and return false."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "TryParse работает быстрее Parse в два раза",
+       "tg": "TryParse аз Parse ду бор тезтар кор мекунад",
+       "en": "TryParse is twice as fast as Parse"
+      },
+      {
+       "ru": "Разницы нет — оба бросают FormatException",
+       "tg": "Фарқе нест — ҳарду FormatException мепартофанд",
+       "en": "No difference — both throw FormatException"
+      },
+      {
+       "ru": "TryParse возвращает false вместо исключения при неверном вводе",
+       "tg": "TryParse дар вуруди нодуруст false бар месозад ба ҷои истисно",
+       "en": "TryParse returns false instead of an exception on bad input"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2872,13 +3909,25 @@
       "ru": "null означает, что ссылка не указывает на объект. Обращение к свойству через такую ссылку выдаёт NullReferenceException. При включённых nullable reference types запись string? сообщает компилятору, что null разрешён, а string подразумевает значение. Это предупреждения при сборке, и они не добавляют проверку во время выполнения. nickname?.Length даёт null, если ссылка равна null, а оператор ?? выбирает запасное значение. Вместе nickname?.Length ?? 0 даёт 0 при null и 3 при \"Gul\". Пустая строка \"\" — существующее значение длиной 0.",
       "tg": "null маънои онро дорад, ки ссылка ба ягон объект ишора намекунад. Хондани property аз чунин ссылка NullReferenceException медиҳад. Агар nullable reference types фаъол бошад, string? ба компилятор мегӯяд, ки null мумкин аст, string бошад қиматро дар назар дорад. Компилятор ҳангоми ҷамъкунӣ огоҳӣ медиҳад, аммо санҷиши худкор дар вақти иҷро пайдо намешавад. nickname?.Length барои null қимати null медиҳад ва ?? қимати иловагиро интихоб мекунад. nickname?.Length ?? 0 барои null 0 ва барои \"Gul\" 3 аст. Сатри холии \"\" қимати воқеии дарозияш 0 аст.",
       "en": "null means the reference points to no object. Accessing a property through that reference throws NullReferenceException. With nullable reference types enabled, string? tells the compiler that null is allowed and string expresses the expectation of a value. These annotations produce build-time warnings and add no automatic runtime checks. nickname?.Length gives null when nickname is null, and ?? selects a fallback. Together, nickname?.Length ?? 0 gives 0 for null and 3 for \"Gul\". The empty string \"\" is an existing value with a length of 0."
-    },
+     },
      "code": "using System;\n\nstring? nickname = null;\n\nConsole.WriteLine(nickname ?? \"guest\");\nConsole.WriteLine(nickname?.Length ?? 0);\n\nnickname = \"Gul\";\nConsole.WriteLine(nickname?.Length ?? 0);\n",
      "language": "csharp",
      "output": {
       "ru": "guest\n0\n3",
       "tg": "guest\n0\n3",
       "en": "guest\n0\n3"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: int? — число, которого может не быть",
+      "tg": "Глубе: int? — ададе, ки метавонад набошад",
+      "en": "Deeper: int? — a number that may be absent"
+     },
+     "body": {
+      "ru": "Знак вопроса работает не только со строками: int? хранит либо число, либо null — «значение неизвестно». Так представляют отсутствующие данные: возраст не указан, счётчик ещё не посчитан. Чтение идёт через HasValue или операторы: count ?? -1 выбирает запасное значение, а явное приведение (int)count при null бросит InvalidOperationException. Свяжите это с днём 20: TryGetValue словаря возвращает bool, а GetValueOrDefault(key) даёт значение по умолчанию — та же мысль «значения может не быть», выраженная другим инструментом. Правило реального кода: тип без ? обещает значение, тип с ? честно предупреждает об отсутствии — читайте эту разницу в каждой сигнатуре.",
+      "tg": "Аломати савол танҳо бо сатрҳо кор намекунад: int? ё ададро нигоҳ медорад, ё null-ро — «қимат маълум нест». Чунин маълумоти набударо ифода мекунанд: синнолӣ нигоҳ дошта нашудааст, ҳисобкунак ҳанӯз ҳисоб нашудааст. Хондан аз тариқи HasValue ё операторҳо мегузарад: count ?? -1 қимати иовозиро интихоб мекунад, касти ошкори (int)count дар ҳолати null InvalidOperationException мепартофад. Инро бо рӯзи 20 пайванд кунед: TryGetValue-и луғат bool бар месозад ва GetValueOrDefault(key) қимати пешфарзро медиҳад — ҳамон фикри «қимат метавонад набошад», бо абзори дигар ифодашуда. Қоидаи коди воқеӣ: тип бе ? қимат ваъда медиҳад, тип бо ? огоҳи рӯз兴ро меорад — ин фарқро дар ҳар имзо бихонед.",
+      "en": "The question mark works beyond strings: int? stores either a number or null — «the value is unknown». Missing data is represented this way: an unstated age, a counter not yet computed. Reading goes through HasValue or operators: count ?? -1 picks a fallback, while an explicit (int)count cast throws InvalidOperationException on null. Connect this with day 20: the dictionary's TryGetValue returns a bool and GetValueOrDefault(key) supplies a default — the same «the value may be absent» thought in another tool. The real-code rule: a type without ? promises a value, a type with ? honestly warns of absence — read that difference in every signature."
      }
     },
     {
@@ -2936,7 +3985,13 @@
        "en": "A NullReferenceException"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Оператор ?. при null не обращается к объекту — результат тоже null.",
+      "tg": "Оператор ?. ҳангоми null ба объект муроҷиат намекунад — натиҷа ҳам null аст.",
+      "en": "The ?. operator does not touch the object on null — the result is null too."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-18-q2",
@@ -2967,7 +4022,50 @@
        "en": "The string is immutable"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Знак вопроса в типе — послание компилятору; перечитайте первый абзац раздела.",
+      "tg": "Аломати савол дар тип — паёми компилятор аст; абзаци аввали бахшро аз нав бихонед.",
+      "en": "The question mark in a type is a message to the compiler; re-read the section's first paragraph."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-18-q3",
+     "question": {
+      "ru": "Что напечатает Console.WriteLine(count ?? -1); при int? count = null;?",
+      "tg": "Console.WriteLine(count ?? -1); дар ҳолати int? count = null; чиро чоп мекунад?",
+      "en": "What does Console.WriteLine(count ?? -1); print when int? count = null;?"
+     },
+     "answer": {
+      "ru": "-1 — сработает запасное значение оператора ??",
+      "tg": "-1 — қимати иовозии оператори ?? фаъол мешавад",
+      "en": "-1 — the ?? operator's fallback fires"
+     },
+     "hint": {
+      "ru": "Оператор ?? выбирает запасное значение, когда слева null.",
+      "tg": "Оператори ?? қимати иовозиро интихоб мекунад, вақте тарафи чап null аст.",
+      "en": "The ?? operator picks a fallback when the left side is null."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "0 — null превращается в ноль",
+       "tg": "0 — null ба сифр табдил меёбад",
+       "en": "0 — null turns into zero"
+      },
+      {
+       "ru": "-1 — сработает запасное значение оператора ??",
+       "tg": "-1 — қимати иовозии оператори ?? фаъол мешавад",
+       "en": "-1 — the ?? operator's fallback fires"
+      },
+      {
+       "ru": "NullReferenceException",
+       "tg": "NullReferenceException",
+       "en": "NullReferenceException"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -3044,6 +4142,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: когда List, а когда массив",
+      "tg": "Глубе: кай List, кай массив",
+      "en": "Deeper: when a List, when an array"
+     },
+     "body": {
+      "ru": "Список выбирают для растущих данных, массив — для известного фиксированного размера: дни недели, координаты точки, таблица умножения. У списка есть ёмкость внутри — Add обычно быстрый, потому что массив под капотом удваивается с запасом. RemoveAll(t => условие) удаляет по предикату сразу и возвращает количество — это безопасная замена удалению внутри foreach, о котором писали частые ошибки. Свяжите это с днём 22: агрегаты LINQ считают по спискам так же свободно, как по массивам, — интерфейс IEnumerable общий для обоих. Проверьте себя: соберите список из пяти задач, удалите две через RemoveAll и предскажите Count до печати.",
+      "tg": "Рӯйхатро барои маълумоти сабзанда интихоб мекунанд, массивро — барои андозаи собит ва маълум: рӯзҳои ҳафта, координатаҳои нуқта, ҷадвали зарб. Дар рӯйхат ғунҷоиши дохилӣ ҳаст — Add маъмулан зуд аст, зеро массив дар зери капот бо иовоз дучанд мешавад. RemoveAll(t => шарт) аз рӯи предикат фавран меборад ва шумораро бар месозад — ин ивази бехатари пок кардан дар дохили foreach аст, ки дар бораи он хатоҳои маъмул менавиштанд. Инро бо рӯзи 22 пайванд кунед: агрегатҳои LINQ аз рӯи рӯйхатҳо ҳамон тавре озод ҳисоб мекунанд, ки аз рӯи массивҳо — интерфейси IEnumerable барои ҳарду муштарак аст. Худро санҷед: аз панҷ вазифа рӯйхат ҷамъ оред, дутояро бо RemoveAll пок кунед ва Count-ро пеш аз чоп пешбинӣ кунед.",
+      "en": "A list is chosen for growing data, an array for a known fixed size: weekdays, a point's coordinates, a multiplication table. The list has capacity inside — Add is usually fast because the underlying array doubles with headroom. RemoveAll(t => condition) removes by predicate at once and returns the count — the safe replacement for removing inside foreach, which the mistakes section warned about. Connect this with day 22: LINQ aggregates count over lists as freely as over arrays — the IEnumerable interface is common to both. Check yourself: build a list of five tasks, remove two via RemoveAll and predict Count before printing."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -3097,7 +4207,13 @@
        "en": "Does not support indexing"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Массив фиксирован; что умеет List с размером, сказано в первой строке раздела.",
+      "tg": "Массив собит аст; он ки List бо андоза месозад, дар қатори аввали бахш гуфта шудааст.",
+      "en": "An array is fixed; what List can do with the size is stated in the section's first line."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-19-q2",
@@ -3128,7 +4244,50 @@
        "en": "The number of elements"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Count — количество элементов; подумайте, какой элемент стоит по индексу Count - 1.",
+      "tg": "Count шумораи элементҳост; фикр кунед, ки аз рӯи индекси Count - 1 кадом элемент истодааст.",
+      "en": "Count is the number of elements; think which element sits at index Count - 1."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-19-q3",
+     "question": {
+      "ru": "Как удалить из списка tasks все элементы короче трёх символов?",
+      "tg": "Аз рӯйхати tasks ҳамаи элементҳои камтар аз се алифоро чӣ тавр нест кардан мумкин аст?",
+      "en": "How do you remove from the tasks list every element shorter than three characters?"
+     },
+     "answer": {
+      "ru": "tasks.RemoveAll(t => t.Length < 3) — удаляет по предикату",
+      "tg": "tasks.RemoveAll(t => t.Length < 3) — аз рӯи предикат меборад",
+      "en": "tasks.RemoveAll(t => t.Length < 3) — removes by predicate"
+     },
+     "hint": {
+      "ru": "Remove принимает элемент, а не условие; для условий у списка есть отдельный метод с -All в имени.",
+      "tg": "Remove элементро қабул мекунад, на шартро; барои шартҳо рӯйхат методи алоҳида бо -All дар ном дорад.",
+      "en": "Remove takes an element, not a condition; for conditions the list has a separate method with -All in the name."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "tasks.Remove(t => t.Length < 3) — Remove принимает условие",
+       "tg": "tasks.Remove(t => t.Length < 3) — Remove шартро қабул мекунад",
+       "en": "tasks.Remove(t => t.Length < 3) — Remove accepts a condition"
+      },
+      {
+       "ru": "foreach по списку с tasks.Remove внутри — это безопасно",
+       "tg": "foreach аз рӯи рӯйхат бо tasks.Remove дар дохил — ин бехатар аст",
+       "en": "A foreach over the list with tasks.Remove inside — this is safe"
+      },
+      {
+       "ru": "tasks.RemoveAll(t => t.Length < 3) — удаляет по предикату",
+       "tg": "tasks.RemoveAll(t => t.Length < 3) — аз рӯи предикат меборад",
+       "en": "tasks.RemoveAll(t => t.Length < 3) — removes by predicate"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3205,6 +4364,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: шаблон счётчика на словаре",
+      "tg": "Глубе: қолаби ҳисобкунак дар луғат",
+      "en": "Deeper: the counter pattern on a dictionary"
+     },
+     "body": {
+      "ru": "Частоты букв и голоса считают одним шаблоном: counts[word] = counts.GetValueOrDefault(word) + 1; — для первого вхождения GetValueOrDefault возвращает 0, дальше счёт растёт. Вручную тот же эффект даёт TryGetValue с присваиванием нуля в ветке else. Словарь не гарантирует порядок пар: для отчёта сортируйте ключи через keys.OrderBy(k => k) — об этом будет день 21. Свяжите это с днём 22: GroupBy группирует данные за один проход — когда шаблон счётчика станет привычным, сравните оба способа на одном наборе слов и почувствуйте, что LINQ делает за вас. Проверьте себя: посчитайте частоты букв своего имени и предскажите словарь до запуска.",
+      "tg": "Басомади ҳарфҳо ва овозҳоро бо як қолаб ҳисоб мекунанд: counts[word] = counts.GetValueOrDefault(word) + 1; — барои вуруди аввал GetValueOrDefault 0 бар месозад ва ҳисоб минбаъд месабзад. дастӣ ҳамон натиҷаро TryGetValue бо таъйини сифр дар паҳнои else медиҳад. Луғат тартиби ҷуфтҳоро кафолат намедиҳад: барои ҳисобот калидҳоро аз тариқи keys.OrderBy(k => k) мураттаб кунед — дар бораи он рӯзи 21 хоҳад буд. Инро бо рӯзи 22 пайванд кунед: GroupBy маълумотро дар як гузарш гурӯҳбандӣ мекунад — вақте қолаби ҳисобкунак муътод шуд, ҳарду тарзро дар як маҷмӯи калима муқоиса кунед ва ҳис кунед, ки LINQ чиро барои шумо мекунад. Худро санҷед: басомади ҳарфҳои номи худро ҳисоб карда, луғатро пеш аз иҷро пешбинӣ кунед.",
+      "en": "Letter frequencies and votes are counted with one pattern: counts[word] = counts.GetValueOrDefault(word) + 1; — on first occurrence GetValueOrDefault returns 0, then the count grows. By hand the same effect comes from TryGetValue with a zero assignment in the else branch. A dictionary does not guarantee pair order: sort the keys with keys.OrderBy(k => k) for a report — day 21 covers this. Connect this with day 22: GroupBy groups data in one pass — once the counter pattern feels familiar, compare both approaches on the same word set and sense what LINQ does for you. Check yourself: count the letters of your own name and predict the dictionary before running."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -3258,7 +4429,13 @@
        "en": "The key is created automatically"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Квадратные скобки с отсутствующим ключом ведут себя строго — вспомните TryGetValue из раздела.",
+      "tg": "Қавсҳои квадратӣ бо калиди набуда қатъӣ рафтор мекунанд — TryGetValue-ро аз бахш ёдовар шавед.",
+      "en": "Square brackets with a missing key behave strictly — recall TryGetValue from the section."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-20-q2",
@@ -3289,7 +4466,50 @@
        "en": "Removes the apple pair"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ключ apple уже есть в словаре; += меняет его значение.",
+      "tg": "Калиди apple аллакай дар луғат ҳаст; += қиматашро тағйир медиҳад.",
+      "en": "The apple key already exists in the dictionary; += changes its value."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-20-q3",
+     "question": {
+      "ru": "Как увеличить счётчик по ключу word, которого может ещё не быть в counts?",
+      "tg": "Ҳисобкунакро аз рӯи калиди word, ки ҳанӯз метавонад дар counts набошад, чӣ тавр зиёд кардан мумкин аст?",
+      "en": "How do you increment the counter for a word key that may not yet exist in counts?"
+     },
+     "answer": {
+      "ru": "counts[word] = counts.GetValueOrDefault(word) + 1; — ноль вместо исключения",
+      "tg": "counts[word] = counts.GetValueOrDefault(word) + 1; — сифр ба ҷои истисно",
+      "en": "counts[word] = counts.GetValueOrDefault(word) + 1; — zero instead of an exception"
+     },
+     "hint": {
+      "ru": "GetValueOrDefault(key) возвращает 0 для отсутствующего ключа — сложение не бросит исключения.",
+      "tg": "GetValueOrDefault(key) барои калиди набуда 0 бар месозад — ҷамъбаст истисно мепартофад.",
+      "en": "GetValueOrDefault(key) returns 0 for a missing key — the addition throws nothing."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "counts[word] += 1; — словарь сам создаст ключ",
+       "tg": "counts[word] += 1; — луғат худ калидро месозад",
+       "en": "counts[word] += 1; — the dictionary creates the key itself"
+      },
+      {
+       "ru": "counts.Add(word, 1) при каждом вызове — Add создаст ключ повторно",
+       "tg": "counts.Add(word, 1) дар ҳар даъват — Add калидро такроран месозад",
+       "en": "counts.Add(word, 1) on every call — Add would create the key again"
+      },
+      {
+       "ru": "counts[word] = counts.GetValueOrDefault(word) + 1; — ноль вместо исключения",
+       "tg": "counts[word] = counts.GetValueOrDefault(word) + 1; — сифр ба ҷои истисно",
+       "en": "counts[word] = counts.GetValueOrDefault(word) + 1; — zero instead of an exception"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3355,13 +4575,25 @@
       "ru": "LINQ — набор операций для запросов к последовательностям C#. Where оставляет подходящие элементы, OrderBy сортирует их по ключу, а Select преобразует элементы в другой вид. У LINQ to Objects эта цепочка выполняется при переборе, например в foreach. Исходная коллекция сама не меняется. Повторный перебор заново выполнит запрос и может увидеть изменения источника. ToList() запускает запрос сразу и собирает результаты в список. Count() и Sum() тоже выполняются сразу и возвращают число. В примере условие s => s >= 70 оставляет 72, 95 и 88, после чего числа сортируются и превращаются в строки.",
       "tg": "LINQ маҷмӯи амалҳо барои пурсидани маълумот аз пайдарпаии C# аст. Where элементҳои мувофиқро мемонад, OrderBy аз рӯйи калид тартиб медиҳад ва Select шакли элементҳоро дигар мекунад. Дар LINQ to Objects ин занҷир вақти гузаштан аз элементҳо, масалан дар foreach, иҷро мешавад. Коллексияи аслӣ худаш дигар намешавад. Гузашти дуюм дархостро аз нав иҷро мекунад ва тағйири манбаъро дида метавонад. ToList() ҳозир дархостро иҷро карда натиҷаҳоро дар рӯйхат мегузорад. Count() ва Sum() ҳам фавран рақам медиҳанд. Дар мисол s => s >= 70 танҳо 72, 95 ва 88-ро нигоҳ медорад.",
       "en": "LINQ is a set of operations for querying C# sequences. Where keeps matching elements, OrderBy sorts by a key, and Select transforms the elements. In LINQ to Objects this chain runs when enumerated, for example by foreach. The source collection stays intact. Enumerating again runs the query again and may observe a changed source. ToList() runs the query immediately and collects the results. Count() and Sum() also run immediately and return a number. In the example s => s >= 70 keeps 72, 95, and 88, which are then sorted and turned into strings."
-    },
+     },
      "code": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nvar scores = new List<int> { 72, 95, 60, 88, 45 };\n\nvar passed = scores.Where(s => s >= 70);\nvar ordered = passed.OrderBy(s => s);\nvar labels = ordered.Select(s => \"score \" + s);\n\nforeach (var label in labels)\n{\n    Console.WriteLine(label);\n}\n",
      "language": "csharp",
      "output": {
       "ru": "score 72\nscore 88\nscore 95",
       "tg": "score 72\nscore 88\nscore 95",
       "en": "score 72\nscore 88\nscore 95"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: запрос выполняется при переборе",
+      "tg": "Глубе: дархост ҳангоми гардонидан иҷро мешавад",
+      "en": "Deeper: the query runs when you enumerate"
+     },
+     "body": {
+      "ru": "Цепочка Where(...).Select(...) для LINQ to Objects — описание запроса, а не результат: выполнение начинается при переборе, например в foreach, и повторный обход выполнит запрос заново. Отсюда два следствия: изменения источника между обходами видны в результатах, а для многократного использования результат материализуют — var labels = query.ToList(); запускает запрос сразу и отсоединяет список от источника. Агрегаты Count() и Sum() из завтрашнего дня выполняются немедленно. Свяжите это с днём 19: список хранит данные, запрос — правила выборки; разделение делает код гибче. Проверьте себя: добавьте элемент в список после создания запроса и посмотрите, что напечатает foreach.",
+      "tg": "Занҷири Where(...).Select(...) барои LINQ to Objects тавсифи дархост аст, на натиҷа: иҷро ҳангоми гардонидан, масалан дар foreach, оғоз мешавад ва гардонидани такрорӣ дархостро аз нав иҷро мекунад. Аз ин ду натиҷа меояд: тағйироти манбаъ байни гардонишҳо дар натиҷаҳо дида мешаванд ва барои истифодаи бисёркарата натиҷаро модел мекунанд — var labels = query.ToList(); дархостро фавран мегузорад ва рӯйхатро аз манбаъ ҷудо мекунад. Агрегатҳои Count() ва Sum()-и рӯзи фардо фавран иҷро мешаванд — онҳо бояд ҳамаро гардонанд, то адад барсозанд. Инро бо рӯзи 19 пайванд кунед: рӯйхат маълумотро нигоҳ медорад, дархост — қоидаҳои интихоб; ҷудоӣ кодро гуногунҷонибатар месозад. Худро санҷед: баъд аз сохтани дархост ба рӯйхат элемент илова кунед ва бингаред, ки foreach чӣ чоп мекунад.",
+      "en": "The Where(...).Select(...) chain for LINQ to Objects is a description of the query, not the result: execution starts on enumeration, for example in foreach, and walking it again runs the query anew. Two consequences follow: source changes between walks show up in results, and for repeated use the result is materialized — var labels = query.ToList(); runs the query immediately and detaches the list from the source. Tomorrow's aggregates Count() and Sum() execute immediately — they must walk everything to return a number. Connect this with day 19: the list stores data, the query stores selection rules; the separation makes code more flexible. Check yourself: add an item to the list after creating the query and see what foreach prints."
      }
     },
     {
@@ -3419,7 +4651,13 @@
        "en": "Only the first matching element"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Where не трогает исходный список — подумайте, что тогда он возвращает.",
+      "tg": "Where рӯйхати аслиро тағйир намедиҳад — фикр кунед, ки он чиро бар месозад.",
+      "en": "Where does not touch the original list — think about what it returns instead."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-21-q2",
@@ -3450,7 +4688,50 @@
        "en": "Sorts ascending"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Лямбда выполняется для каждого элемента: число s превращается в строку с подписью.",
+      "tg": "Лямбда барои ҳар элемент иҷро мешавад: адади s ба сатри бо зернавис табдил меёбад.",
+      "en": "The lambda runs per element: the number s becomes a labeled string."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-21-q3",
+     "question": {
+      "ru": "Когда выполняется запрос scores.Where(s => s >= 70);?",
+      "tg": "Дархости scores.Where(s => s >= 70); кай иҷро мешавад?",
+      "en": "When does the query scores.Where(s => s >= 70); execute?"
+     },
+     "answer": {
+      "ru": "При переборе результата, например в foreach",
+      "tg": "Ҳангоми гардонидани натиҷа, масалан дар foreach",
+      "en": "When the result is enumerated, for example in foreach"
+     },
+     "hint": {
+      "ru": "Запрос — это описание; посмотрите в разделе, когда оно начинает выполняться.",
+      "tg": "Дархост тавсиф аст; дар бахш бингаред, ки он кай иҷро шудан оғоз мекунад.",
+      "en": "The query is a description; see in the section when it starts executing."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Сразу в строке создания запроса",
+       "tg": "Фавран дар қатори сохтани дархост",
+       "en": "Immediately on the line that creates the query"
+      },
+      {
+       "ru": "Только если написать ToList",
+       "tg": "Танҳо агар ToList навишта шавад",
+       "en": "Only if you write ToList"
+      },
+      {
+       "ru": "При переборе результата, например в foreach",
+       "tg": "Ҳангоми гардонидани натиҷа, масалан дар foreach",
+       "en": "When the result is enumerated, for example in foreach"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3527,6 +4808,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: пустая коллекция и агрегаты",
+      "tg": "Глубе: маҷмӯи холӣ ва агрегатҳо",
+      "en": "Deeper: an empty collection and aggregates"
+     },
+     "body": {
+      "ru": "Для пустого List<int> Sum() возвращает 0, а Average() и Max() бросают InvalidOperationException. Сначала проверьте Any() или осознанно выберите DefaultIfEmpty. Тип важен: Max() для пустого List<string> возвращает null, а Sum() без селектора у строк нет. Для слов используйте Sum(w => w.Length). Count() с предикатом выполняется сразу. GroupBy отложен до перебора, но перед выдачей первой группы читает весь источник и собирает группы.\n\nСравните пустой List<int>: Sum() → 0, Max() → исключение. Затем пустой List<string>: Max() → null, Sum(w => w.Length) → 0. Это разные контракты, а не противоречие.",
+      "tg": "Барои List<int>-и холӣ Sum() қимати 0 медиҳад, вале Average() ва Max() InvalidOperationException мепартоянд. Аввал Any()-ро санҷед ё DefaultIfEmpty-ро бо мақсади аниқ интихоб кунед. Тип муҳим аст: Max() барои List<string>-и холӣ null медиҳад, вале сатрҳо Sum()-и бе selector надоранд. Барои калимаҳо Sum(w => w.Length)-ро истифода баред. Count() бо predicate фавран иҷро мешавад. GroupBy то перебор интизор мешавад, вале пеш аз додани гурӯҳи аввал тамоми манбаъро хонда, гурӯҳҳоро ҷамъ мекунад.\n\nList<int>-и холиро санҷед: Sum() → 0, Max() → истисно. Баъд List<string>-и холӣ: Max() → null, Sum(w => w.Length) → 0. Инҳо шартномаҳои гуногунанд.",
+      "en": "For an empty List<int>, Sum() returns 0, while Average() and Max() throw InvalidOperationException. Check Any() first or deliberately choose DefaultIfEmpty. The element type matters: Max() on an empty List<string> returns null, and strings have no Sum() without a numeric selector. Use Sum(w => w.Length) for words. Count() with a predicate executes immediately. GroupBy is deferred until enumeration, but reads the entire source and builds its groups before yielding the first group.\n\nCompare an empty List<int>: Sum() → 0, Max() → exception. Then an empty List<string>: Max() → null, Sum(w => w.Length) → 0. These are different contracts."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -3580,7 +4873,13 @@
        "en": "3"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сложите длины слов вручную: 3 + 4 + 3 + 3 — сверьте с примером из раздела.",
+      "tg": "Дарозиҳои калимаҳоро дастӣ ҷамъ кунед: 3 + 4 + 3 + 3 — бо мисоли бахш муқоиса кунед.",
+      "en": "Add the word lengths by hand: 3 + 4 + 3 + 3 — compare with the section's example."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-22-q2",
@@ -3611,7 +4910,50 @@
        "en": "The number of groups"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Группировка идёт по w[0] — первому символу слова; что тогда окажется в Key?",
+      "tg": "Гурӯҳбандӣ аз рӯи w[0] — аломати аввали калима мегузарад; он гоҳ дар Key чӣ мемонад?",
+      "en": "Grouping goes by w[0] — the word's first character; what ends up in Key then?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-22-q3",
+     "question": {
+      "ru": "Что вернёт words.Sum(w => w.Length) для пустого списка?",
+      "tg": "words.Sum(w => w.Length) барои рӯйхати холӣ чиро бар месозад?",
+      "en": "What does words.Sum(w => w.Length) return for an empty list?"
+     },
+     "answer": {
+      "ru": "0 — Sum пустой коллекции равен нулю",
+      "tg": "0 — Sum-и маҷмӯи холӣ ба сифр баробар аст",
+      "en": "0 — Sum of an empty collection is zero"
+     },
+     "hint": {
+      "ru": "Sum складывает и не находит ничего — что вернёт сумма нуля слагаемых?",
+      "tg": "Sum ҷамъ мекунад ва ҳеҷ чиз намеронад — ҷамъи сифр ҷамъшаванда чиро бар месозад?",
+      "en": "Sum adds and finds nothing — what does the sum of zero addends return?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "null",
+       "tg": "null",
+       "en": "null"
+      },
+      {
+       "ru": "Исключение — как Max и Average",
+       "tg": "Истисно — монанди Max ва Average",
+       "en": "An exception — like Max and Average"
+      },
+      {
+       "ru": "0 — Sum пустой коллекции равен нулю",
+       "tg": "0 — Sum-и маҷмӯи холӣ ба сифр баробар аст",
+       "en": "0 — Sum of an empty collection is zero"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3677,13 +5019,25 @@
       "ru": "Делегат — тип, который описывает подходящую сигнатуру вызываемого метода. Значение такого типа можно сохранить, передать в другой метод и вызвать позднее. Action<int> принимает int и возвращает void. У Func<int, int> первый int — тип параметра, второй int — тип результата. Поэтому Func<int, int> square = x => x * x подходит: лямбда принимает число и возвращает число, а square(6) даёт 36. List<Action> хранит действия без параметров, которые цикл вызывает по очереди. По этому принципу работают обработчики событий и передаваемые функции обратного вызова.",
       "tg": "Delegate типест, ки шакли методи даъватшавандаро муайян мекунад. Қимати онро мешавад нигоҳ дошт, ба методи дигар дод ва баъд даъват кард. Action<int> int мегирад ва void бармегардонад. Дар Func<int, int> int-и аввал типи параметр ва int-и дуюм типи натиҷа аст. Барои ҳамин Func<int, int> square = x => x * x мувофиқ аст: lambda рақам мегирад ва рақам медиҳад. square(6) ба 36 баробар аст. List<Action> амалҳои бепараметрро нигоҳ медорад ва давр онҳоро як ба як даъват мекунад. Handler-и event ва callback ҳам бо ҳамин фикр кор мекунанд.",
       "en": "A delegate is a type that describes the signature a callable method must match. A delegate value can be stored, passed to another method, and called later. Action<int> takes an int and returns void. In Func<int, int>, the first int describes the parameter and the second describes the result. Therefore Func<int, int> square = x => x * x fits: the lambda takes a number and returns a number. square(6) gives 36. List<Action> stores parameterless actions that a loop calls in order. Event handlers and callbacks use the same principle."
-    },
+     },
      "code": "using System;\nusing System.Collections.Generic;\n\nvar actions = new List<Action>\n{\n    () => Console.WriteLine(\"step 1\"),\n    () => Console.WriteLine(\"step 2\")\n};\n\nforeach (var action in actions)\n{\n    action();\n}\n\nFunc<int, int> square = x => x * x;\nConsole.WriteLine(square(6));\n",
      "language": "csharp",
      "output": {
       "ru": "step 1\nstep 2\n36",
       "tg": "step 1\nstep 2\n36",
       "en": "step 1\nstep 2\n36"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: делегаты как сменное поведение",
+      "tg": "Глубе: делегатҳо ҳамчун рафтори ивазшаванда",
+      "en": "Deeper: delegates as swappable behavior"
+     },
+     "body": {
+      "ru": "Метод, принимающий делегат, получает поведение как параметр: Find(tasks, t => t.Length > 3) ищет по любому правилу без нового метода на каждый случай — так устроены предикаты LINQ в днях 21 и 22. Безопасный вызов делегата, который может быть пуст: a?.Invoke() — вместо NullReferenceException при a() без присваивания. Захват переменной цикла лямбдой — поведение, о котором стоит знать заранее: лямбда помнит переменную, а не её значение. Свяжите это с днём 26: продолжение после await — это «вызови меня позже», реализованное языком, как делегат-колбэк. Проверьте себя: передайте лямбду в метод, печатающий её результат.",
+      "tg": "Методе, ки делегат қабул мекунад, рафторро ҳамчун параметр мегирад: Find(tasks, t => t.Length > 3) аз рӯи ҳар қоидае меҷӯяд, бе методи нав барои ҳар ҳолат — предикатҳои LINQ дар рӯзҳои 21 ва 22 чунин сохта шудаанд. Даъвати бехатари делегате, ки метавонад холӣ бошад: a?.Invoke() — ба ҷои NullReferenceException ҳангоми a() бе таъйин. Гирифтани тағйирёбандаи ҳалқа аз тариқи лямбда — рафторест, ки пешакӣ донистани он лозим аст: лямбда тағйирёбандаро ёд медорад, на қиматашро. Инро бо рӯзи 26 пайванд кунед: идома баъд аз await — ин «маро баъдтар даъват кун» аст, ки бо забон татбиқ шудааст, мисли делегати колбэк. Худро санҷед: лямбдаро ба методе, ки натиҷаашро чоп мекунад, гузаронед.",
+      "en": "A method taking a delegate receives behavior as a parameter: Find(tasks, t => t.Length > 3) searches by any rule without a new method per case — LINQ predicates in days 21 and 22 are built this way. The safe call of a possibly empty delegate: a?.Invoke() — instead of NullReferenceException from bare a(). Lambda capture of a loop variable is behavior worth knowing in advance: the lambda remembers the variable, not its value. Connect this with day 26: the continuation after await is «call me later» implemented by the language, like a callback delegate. Check yourself: pass a lambda to a method that prints its result."
      }
     },
     {
@@ -3741,7 +5095,13 @@
        "en": "Action accepts only strings"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Последний тип-параметр Func — это тип результата; у Action результата нет.",
+      "tg": "Тип-параметри охири Func типи натиҷа аст; дар Action натиҷа вуҷуд надорад.",
+      "en": "Func's last type parameter is the result type; Action has no result."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-23-q2",
@@ -3772,7 +5132,50 @@
        "en": "66"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Лямбда x => x * x возводит в квадрат — подставьте 6.",
+      "tg": "Лямбдаи x => x * x квадрат месозад — 6-ро гузоред.",
+      "en": "The lambda x => x * x squares — substitute 6."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-23-q3",
+     "question": {
+      "ru": "Как безопасно вызвать делегат a, который может оказаться null?",
+      "tg": "Делегати a-ро, ки метавонад null ояд, чӣ тавр бехатар даъват кардан мумкин аст?",
+      "en": "How do you safely invoke delegate a that may be null?"
+     },
+     "answer": {
+      "ru": "a?.Invoke(); — вызов случится только если a не null",
+      "tg": "a?.Invoke(); — даъват танҳо он гоҳ мешавад, ки a null набошад",
+      "en": "a?.Invoke(); — the call happens only when a is not null"
+     },
+     "hint": {
+      "ru": "У оператора ?. есть вызов-компаньон для делегатов — вспомните раздел.",
+      "tg": "Оператори ?. барои делегатҳо даъвати ҳамроҳ дорад — бахшро ёдовар шавед.",
+      "en": "The ?. operator has a companion invoke for delegates — recall the section."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "a(); — пустой делегат вызывается без последствий",
+       "tg": "a(); — делегати холӣ бе оқибат даъват мешавад",
+       "en": "a(); — an empty delegate invokes without consequences"
+      },
+      {
+       "ru": "if (a == 0) a(); — сравнение делегата с нулём",
+       "tg": "if (a == 0) a(); — муқоисаи делегат бо сифр",
+       "en": "if (a == 0) a(); — comparing the delegate to zero"
+      },
+      {
+       "ru": "a?.Invoke(); — вызов случится только если a не null",
+       "tg": "a?.Invoke(); — даъват танҳо он гоҳ мешавад, ки a null набошад",
+       "en": "a?.Invoke(); — the call happens only when a is not null"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3849,6 +5252,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: using закрывает файл сам",
+      "tg": "Глубе: using файлро худ пӯшида мекунад",
+      "en": "Deeper: using closes the file for you"
+     },
+     "body": {
+      "ru": "Файл после чтения нужно закрыть: открытый дескриптор держит ресурс и может мешать другим программам. Современная запись — using var reader = new StreamReader(path); — вызывает Dispose при выходе из блока, даже если внутри случилось исключение из дня 17; это компактная замена ручного try/finally. Построчное чтение reader.ReadLine() возвращает следующую строку или null в конце — проверка на null из дня 18 работает и здесь. Свяжите это с днём 25: JSON сохраняют в файл и читают обратно — вместе File.WriteAllText и Deserialize дают программе память между запусками. Проверьте себя: запишите две строки через WriteAllText с переносом \\n, прочитайте построчно и посчитайте строки.",
+      "tg": "Файлро баъд аз хондан пӯшидан лозим аст: дескриптори кушода захираро нигоҳ медорад ва метавонад барномаҳои дигарро халалдор кунад. Навишти муосир — using var reader = new StreamReader(path); — Dispose-ро ҳангоми баромад аз блок даъват мекунад, ҳатто агар дар дохил истиснои рӯзи 17 рӯй дода бошад; ин ивзи компактӣ барои try/finally-и дастӣ аст. Хондани қатор ба қатор reader.ReadLine() сатри оянда ё null-ро дар охир бар месозад — санҷиши null-и рӯзи 18 дар ин ҷо ҳам кор мекунад. Инро бо рӯзи 25 пайванд кунед: JSON-ро дар файл нигоҳ дошта, аз нав меконанд — File.WriteAllText ва Deserialize якҷоя барномаро ёддиҳии байни иҷроҳо медиҳанд. Худро санҷед: ду сатрро бо WriteAllText бо гузариши \\n нависед, қатор ба қатор бихонед ва сатрҳоро ҳисоб кунед.",
+      "en": "A file must be closed after reading: an open descriptor holds the resource and can get in other programs' way. The modern spelling — using var reader = new StreamReader(path); — calls Dispose on leaving the block, even if day 17's exception happens inside; it is a compact replacement for manual try/finally. Line-by-line reading with reader.ReadLine() returns the next line or null at the end — day 18's null check works here too. Connect this with day 25: JSON is saved to a file and read back — File.WriteAllText and Deserialize together give the program memory between runs. Check yourself: write two lines via WriteAllText with \\n, read them line by line and count the lines."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -3902,7 +5317,13 @@
        "en": "Throws an exception"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "WriteAllText пишет текст целиком; что он делает со старым содержимым, сказано с восклицательным знаком в разделе.",
+      "tg": "WriteAllText матнро тамоман менависад; он ки бо мӯҳтавои кӯҳна чӣ мекунад, дар бахш бо аломати хушнавис гуфта шудааст.",
+      "en": "WriteAllText writes the text whole; what it does to the old content is stated with an exclamation mark in the section."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-24-q2",
@@ -3933,7 +5354,50 @@
        "en": "NullReferenceException"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Файла нет — какой тип исключения про файлы назван в разделе?",
+      "tg": "Файл вуҷуд надорад — кадом типи истисно дар бораи файлҳо дар бахш номбар шудааст?",
+      "en": "The file is missing — which file-related exception type is named in the section?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-24-q3",
+     "question": {
+      "ru": "Что делает конструкция using (var reader = new StreamReader(path)) { ... }?",
+      "tg": "Сохти using (var reader = new StreamReader(path)) { ... } чӣ мекунад?",
+      "en": "What does the using (var reader = new StreamReader(path)) { ... } construct do?"
+     },
+     "answer": {
+      "ru": "Гарантированно закрывает файл при выходе из блока — даже при исключении",
+      "tg": "Ҳангоми баромад аз блок файлро кафолатнопазир пӯшида мекунад — ҳатто дар истисно",
+      "en": "Guarantees the file closes when leaving the block — even on an exception"
+     },
+     "hint": {
+      "ru": "using — про гарантированное завершение работы с ресурсом; что происходит с файлом при выходе из блока?",
+      "tg": "using дар бораи хотимаи кафолатнопазири кор бо захира аст; ҳангоми баромад аз блок бо файл чӣ мешавад?",
+      "en": "using is about guaranteed release of a resource; what happens to the file when leaving the block?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Создаёт папку для файла по пути path",
+       "tg": "Барои файл аз рӯи роҳи path папка месозад",
+       "en": "Creates a folder for the file at path"
+      },
+      {
+       "ru": "Гарантированно закрывает файл при выходе из блока — даже при исключении",
+       "tg": "Ҳангоми баромад аз блок файлро кафолатнопазир пӯшида мекунад — ҳатто дар истисно",
+       "en": "Guarantees the file closes when leaving the block — even on an exception"
+      },
+      {
+       "ru": "Открывает файл навсегда — закрывать его не нужно",
+       "tg": "Файлро то абад мекушояд — пӯшидани он лозим нест",
+       "en": "Opens the file forever — no need to close it"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -3999,13 +5463,25 @@
       "ru": "JSON — текстовый формат для обмена данными. У объекта имена свойств в двойных кавычках, а значениями могут быть строки, числа, true, false, null, массивы и объекты. JsonSerializer.Serialize(city) преобразует объект C# в строку JSON. JsonSerializer.Deserialize<City>(json) читает строку и создаёт City. В примере получаем {\"Name\":\"Dushanbe\",\"Population\":1200}, а потом считываем Name и Population из City. Если строка пришла извне, обработайте JsonException и проверьте результат на null. После чтения отдельно проверяйте правила приложения, например что население неотрицательное.",
       "tg": "JSON формати матнӣ барои мубодилаи маълумот аст. Номи property-и объект дар нохунаки дугона меистад. Қимат метавонад сатр, рақам, true, false, null, массив ё объект бошад. JsonSerializer.Serialize(city) объекти C#-ро ба сатри JSON мегардонад. JsonSerializer.Deserialize<City>(json) аз ҳамон сатр City месозад. Дар мисол {\"Name\":\"Dushanbe\",\"Population\":1200} мегирем ва боз Name ва Population-ро мехонем. Барои матни аз берун омада JsonException-ро ба назар гиред ва натиҷаро ба null санҷед. Қоидаи барнома, масалан манфӣ набудани Population, ҷудо санҷида мешавад.",
       "en": "JSON is a text format for exchanging data. Object property names use double quotes, and values can be strings, numbers, true, false, null, arrays, or objects. JsonSerializer.Serialize(city) turns a C# object into JSON text. JsonSerializer.Deserialize<City>(json) reads that text into a City. In the example we get {\"Name\":\"Dushanbe\",\"Population\":1200}, then read Name and Population from the resulting City. For external input, handle JsonException and check the result for null. Validate business rules separately, such as a nonnegative population."
-    },
+     },
      "code": "using System;\nusing System.Text.Json;\n\nvar city = new City(\"Dushanbe\", 1200);\nvar json = JsonSerializer.Serialize(city);\nConsole.WriteLine(json);\n\nvar loaded = JsonSerializer.Deserialize<City>(json);\nConsole.WriteLine(loaded.Name);\nConsole.WriteLine(loaded.Population);\n\nrecord City(string Name, int Population);\n",
      "language": "csharp",
      "output": {
       "ru": "{\"Name\":\"Dushanbe\",\"Population\":1200}\nDushanbe\n1200",
       "tg": "{\"Name\":\"Dushanbe\",\"Population\":1200}\nDushanbe\n1200",
       "en": "{\"Name\":\"Dushanbe\",\"Population\":1200}\nDushanbe\n1200"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: объект, файл и обратно",
+      "tg": "Глубе: объект, файл ва бозгашт",
+      "en": "Deeper: the object, the file and back"
+     },
+     "body": {
+      "ru": "Полный круг выглядит так: объект → JsonSerializer.Serialize → строка → File.WriteAllText → файл; обратный путь ReadAllText и Deserialize<City> возвращает объект. После перезапуска программы данные живы — это простейшая память приложения без базы данных. Подводный камень — регистр: JSON с ключом name не заполнит свойство Name, потому что сопоставление по умолчанию чувствительно к регистру; держите имена одинаковыми на обеих сторонах. Свяжите это с днём 24: там вы уже писали и читали текстовые файлы — сегодня текст стал структурой. Проверьте себя: сохраните список городов в файл, перезапустите программу и соберите каталог обратно из JSON.",
+      "tg": "Давираи пурра чунин менамояд: объект → JsonSerializer.Serialize → сатр → File.WriteAllText → файл; роҳи бозгардан ReadAllText ва Deserialize<City> объектро бар месозад. Баъд аз азнавоғозинамонии барнома маълумот зинда мемонад — ин соддатарин ёддошти барнома бе пойгоҳи додаҳост. Санги зероб — регистр: JSON бо калиди name свойствои Name-ро пур намекунад, зеро мутобиқсозии пешфарз ба регистр ҳассос аст; номҳоро дар ҳарду тараф якхела нигоҳ доред. Инро бо рӯзи 24 пайванд кунед: дар он ҷо аллакай файлҳои матниро навишта мебароед — имрӯз матн сохтор шуд. Худро санҷед: рӯйхати шаҳрҳоро дар файл нигоҳ доред, барномаро аз нав оғоз кунед ва каталогро аз JSON аз нав ҷамъ оред.",
+      "en": "The full circle looks like this: object → JsonSerializer.Serialize → string → File.WriteAllText → file; the way back, ReadAllText and Deserialize<City>, returns the object. After a program restart the data is alive — the simplest application memory without a database. The hidden trap is case: JSON with a name key will not fill the Name property because default matching is case-sensitive; keep the names identical on both sides. Connect this with day 24: you already wrote and read text files there — today the text became structure. Check yourself: save a list of cities to a file, restart the program and rebuild the catalog from JSON."
      }
     },
     {
@@ -4063,7 +5539,13 @@
        "en": "Name=Dushanbe Population=1200"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Serialize печатает объект как JSON: имена свойств в кавычках, значения через двоеточие.",
+      "tg": "Serialize объектро ҳамчун JSON чоп мекунад: номҳои свойствоҳо дар қавс, қиматҳо бо нуқтаи дарунӣ.",
+      "en": "Serialize prints the object as JSON: property names quoted, values after colons."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-25-q2",
@@ -4094,7 +5576,50 @@
        "en": "Prints JSON to the console"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Deserialize читает строку и строит объект — вспомните направление преобразования в разделе.",
+      "tg": "Deserialize сатрро хонда, объект месозад — самти табдилро дар бахш ёдовар шавед.",
+      "en": "Deserialize reads a string and builds an object — recall the conversion direction in the section."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-25-q3",
+     "question": {
+      "ru": "Какую строку вернёт JsonSerializer.Serialize для record City(string Name) с new City(\"Khujand\");?",
+      "tg": "JsonSerializer.Serialize барои record City(string Name) бо new City(\"Khujand\"); кадом сатрро бар месозад?",
+      "en": "Which string does JsonSerializer.Serialize return for record City(string Name) with new City(\"Khujand\");?"
+     },
+     "answer": {
+      "ru": "{\"Name\":\"Khujand\"}",
+      "tg": "{\"Name\":\"Khujand\"}",
+      "en": "{\"Name\":\"Khujand\"}"
+     },
+     "hint": {
+      "ru": "Serialize пишет имена свойств в кавычках и значения через двоеточие — вспомните пример с Name и Population.",
+      "tg": "Serialize номҳои свойствоҳоро дар қавс ва қиматҳоро бо нуқтаи дарунӣ менависад — мисоли Name ва Population-ро ёдовар шавед.",
+      "en": "Serialize writes property names quoted and values after colons — recall the Name and Population example."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "[Khujand]",
+       "tg": "[Khujand]",
+       "en": "[Khujand]"
+      },
+      {
+       "ru": "Name=Khujand",
+       "tg": "Name=Khujand",
+       "en": "Name=Khujand"
+      },
+      {
+       "ru": "{\"Name\":\"Khujand\"}",
+       "tg": "{\"Name\":\"Khujand\"}",
+       "en": "{\"Name\":\"Khujand\"}"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4160,13 +5685,25 @@
       "ru": "Асинхронный метод может приостановить выполнение на await и продолжить, когда операция завершится. Сам async не создаёт поток. await Task.Delay(500) ждёт примерно полсекунды без блокирования потока. Если ожидаемая задача уже завершилась, код может продолжиться сразу. Task сообщает о завершении операции, а Task<int> также даёт результат. Ошибку из завершившейся с ошибкой задачи можно перехватить через try/catch вокруг await. Используйте await вместо блокирующих .Result и .Wait(). В примере Order finished печатается после Tea is ready, потому что вызывающий код ждёт MakeTeaAsync().",
       "tg": "Методи async метавонад дар await муваққатан истад ва баъд аз анҷоми амал давом диҳад. Худи async thread-и нав намесозад. await Task.Delay(500) қариб ним сония мунтазир мешавад ва thread-ро банд намекунад. Агар Task аллакай тамом бошад, код метавонад ҳамон замон давом кунад. Task аз анҷоми кор хабар медиҳад ва Task<int> боз натиҷаи int дорад. Хатои Task-ро бо try/catch дар гирди await гирифтан мумкин аст. Ба ҷойи .Result ё .Wait(), ки thread-ро банд мекунанд, await истифода баред. Дар мисол Order finished пас аз Tea is ready мебарояд, чунки код MakeTeaAsync()-ро мунтазир мешавад.",
       "en": "An asynchronous method can pause at await and resume when the operation finishes. Marking a method async creates no thread by itself. await Task.Delay(500) waits about half a second without blocking a thread. If the awaited task is already complete, the method can continue immediately. Task represents completion, and Task<int> also carries an integer result. A try/catch around await can handle an exception from a failed task. Prefer await to the blocking .Result and .Wait(). The example prints Order finished after Tea is ready because its caller awaits MakeTeaAsync()."
-    },
+     },
      "code": "using System;\nusing System.Threading.Tasks;\n\nConsole.WriteLine(\"Order started\");\nawait MakeTeaAsync();\nConsole.WriteLine(\"Order finished\");\n\nasync Task MakeTeaAsync()\n{\n    Console.WriteLine(\"Boiling water...\");\n    await Task.Delay(500);\n    Console.WriteLine(\"Tea is ready\");\n}\n",
      "language": "csharp",
      "output": {
       "ru": "Order started\nBoiling water...\nTea is ready\nOrder finished",
       "tg": "Order started\nBoiling water...\nTea is ready\nOrder finished",
       "en": "Order started\nBoiling water...\nTea is ready\nOrder finished"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: два ожидания по порядку и вместе",
+      "tg": "Глубе: ду интизорӣ як ба як ва якҷоя",
+      "en": "Deeper: two awaits in order and together"
+     },
+     "body": {
+      "ru": "Два await подряд выполняют операции последовательно: сначала чай, затем мытьё чашки, и порядок строк детерминирован. Когда операции независимы и ждать по очереди расточительно, их запускают вместе и ждут одной командой Task.WhenAll — пока это знакомство, а не навык. Task<int> возвращает результат: var n = await ComputeAsync(); и дальше код работает с числом, а не с задачей. Свяжите это с днём 23: продолжение после await — это «вызови меня позже», реализованное языком, как делегат-колбэк. Проверьте себя: напишите две функции с Task.Delay разной длины и предскажите порядок строк до запуска; затем объясните себе, почему порядок совпал с ожиданием.",
+      "tg": "Ду await як ба як амалиётро пайдарпайӣ иҷро мекунанд: аввал чой, баъд шустани пиёла ва тартиби сатрҳо муайян аст. Вақте амалиётҳо мустақиланд ва интизории як ба як харҷоти бекор аст, онҳоро якҷоя мегузоранд ва бо як фармони Task.WhenAll интизор мешаванд — то ин шиносоӣ аст, на маҳорат. Task<int> натиҷаро бар месозад: var n = await ComputeAsync(); ва баъд код бо адад кор мекунад, на бо вазифа. Инро бо рӯзи 23 пайванд кунед: идома баъд аз await — ин «маро баъдтар даъват кун» аст, ки бо забон татбиқ шудааст, мисли делегати колбэк. Худро санҷед: ду функсия бо Task.Delay-и гуногун дарозӣ нависед ва тартиби сатрҳоро пеш аз иҷро пешбинӣ кунед; баъд худро санҷед, ки чаро тартиб бо интизор мувофиқ шуд.",
+      "en": "Two awaits in a row run operations sequentially: first the tea, then washing the cup, and the line order is deterministic. When operations are independent and waiting in turn is wasteful, they are started together and awaited with one command, Task.WhenAll — for now it is an acquaintance, not a skill. Task<int> returns a result: var n = await ComputeAsync(); and the code then works with a number, not a task. Connect this with day 23: the continuation after await is «call me later» implemented by the language, like a callback delegate. Check yourself: write two functions with different Task.Delay lengths and predict the line order before running; then explain to yourself why the order matched."
      }
     },
     {
@@ -4224,7 +5761,13 @@
        "en": "Speeds up the code"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Task.Delay ждёт без блокирования потока; в чём разница с блокировкой, сказано в разделе.",
+      "tg": "Task.Delay бе блокилавии навбат интизор мешавад; фарқ бо блокилавӣ дар бахш гуфта шудааст.",
+      "en": "Task.Delay waits without blocking the thread; the difference from blocking is stated in the section."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-26-q2",
@@ -4255,7 +5798,50 @@
        "en": "The name itself makes the method asynchronous"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Суффикс Async — соглашение об именах асинхронных методов; компилятор имя не требует.",
+      "tg": "Пасванди Async — созишномаи номгузории методҳои асинхронӣ аст; компилятор номро талаб намекунад.",
+      "en": "The Async suffix is a naming convention for async methods; the compiler does not require it."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-26-q3",
+     "question": {
+      "ru": "Что напечатает последовательность await Task.Delay(200); Console.Write(\"A\"); await Task.Delay(100); Console.Write(\"B\");?",
+      "tg": "Пайдарпаии await Task.Delay(200); Console.Write(\"A\"); await Task.Delay(100); Console.Write(\"B\"); чиро чоп мекунад?",
+      "en": "What does the sequence await Task.Delay(200); Console.Write(\"A\"); await Task.Delay(100); Console.Write(\"B\"); print?"
+     },
+     "answer": {
+      "ru": "AB — await выполняет продолжения по порядку",
+      "tg": "AB — await идомаҳоро як ба як иҷро мекунад",
+      "en": "AB — await runs the continuations in order"
+     },
+     "hint": {
+      "ru": "Каждый await ждёт завершения своей задачи до следующей строки — продолжения по порядку.",
+      "tg": "Ҳар await то қатори оянда тамоми вазифаи худро интизор мешавад — идомаҳо як ба як.",
+      "en": "Each await waits for its task before the next line — continuations in order."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "BA — вторая задержка короче, B успеет раньше",
+       "tg": "BA — интизории дуюм кӯтоҳтар аст, B зудтар месуръад",
+       "en": "BA — the second delay is shorter, B makes it first"
+      },
+      {
+       "ru": "A и B в один момент — задержки идут параллельно",
+       "tg": "A ва B дар як лаҳза — интизориҳо ҳамроҳ мегузаранд",
+       "en": "A and B at one moment — the delays run in parallel"
+      },
+      {
+       "ru": "AB — await выполняет продолжения по порядку",
+       "tg": "AB — await идомаҳоро як ба як иҷро мекунад",
+       "en": "AB — await runs the continuations in order"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4327,6 +5913,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: Arrange-Act-Assert в одном тесте",
+      "tg": "Глубе: Arrange-Act-Assert дар як тест",
+      "en": "Deeper: Arrange-Act-Assert in one test"
+     },
+     "body": {
+      "ru": "Каждый тест читается по трём шагам: Arrange готовит данные — список из двух книг; Act вызывает один метод — BuildReport; Assert сравнивает факт с ожиданием — Assert.Equal(2, report.Count). Один тест — одно поведение: при падении сразу ясно, что сломалось, и второй тест на то же место пишут отдельно. Тесты независимы: каждый сам создаёт свои данные и не рассчитывает на порядок запуска. Свяжите это с днём 12: тестируют публичное поведение — приватные правила проверяются через публичные методы, как инвариант баланса через Deposit. Проверьте себя: сформулируйте три теста для метода Withdraw словами: что готовим, что вызываем, что ждём.",
+      "tg": "Ҳар тест аз се қадам хонда мешавад: Arrange маълумотро омода мекунад — рӯйхати аз ду китоб; Act як методро даъват мекунад — BuildReport; Assert фактро бо интизорӣ муқоиса мекунад — Assert.Equal(2, report.Count). Як тест — як рафтор: ҳангоми афтодан фавран ояд, ки чӣ вайрон шуд ва тестҳои дуюмро ҳамон ҷойро алоҳида менависанд. Тестҳо мустақиланд: ҳар яке маълумоти худро месозад ва ба тартиби иҷро ҳисоб намекунад. Инро бо рӯзи 12 пайванд кунед: рафтори ошкорро месанҷанд — қоидаҳои хусусӣ аз тариқи методҳои ошкор санҷида мешаванд, мисли инварианти мӯътадил аз тариқи Deposit. Худро санҷед: се тестро барои методи Withdraw бо суханон шакл диҳед: чӣ омода мекунем, чӣ даъват мекунем, чӣ интизорем.",
+      "en": "Every test reads in three steps: Arrange prepares the data — a list of two books; Act calls one method — BuildReport; Assert compares fact with expectation — Assert.Equal(2, report.Count). One test, one behavior: on failure it is immediately clear what broke, and the second test for the same spot is written separately. Tests are independent: each builds its own data and never counts on run order. Connect this with day 12: public behavior is tested — private rules are verified through public methods, like the balance invariant through Deposit. Check yourself: phrase three tests for Withdraw in words: what we prepare, what we call, what we expect."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -4380,7 +5978,13 @@
        "en": "Publishes the project to the internet"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "dotnet test запускает тесты и печатает отчёт — вспомните, что именно печатается.",
+      "tg": "dotnet test тестҳоро мегузорад ва ҳисобот чоп мекунад — ёдовар шавед, ки айнан чӣ чоп мешавад.",
+      "en": "dotnet test runs the tests and prints a report — recall what exactly is printed."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-27-q2",
@@ -4411,7 +6015,50 @@
        "en": "A version control system"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "NuGet упоминается в разделе практики — вспомните, что ставится одной командой.",
+      "tg": "NuGet дар бахши амалия зикр шудааст — ёдовар шавед, ки чӣ бо як фармон гузошта мешавад.",
+      "en": "NuGet is mentioned in the practice section — recall what one command installs."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "csharp-day-27-q3",
+     "question": {
+      "ru": "Как называется структура теста: подготовить данные, вызвать код, проверить результат?",
+      "tg": "Сохти тест чӣ ном дорад: маълумотро омода кардан, кодро даъват кардан, натиҷаро санҷидан?",
+      "en": "What is the test structure called: prepare data, call code, check the result?"
+     },
+     "answer": {
+      "ru": "Arrange-Act-Assert",
+      "tg": "Arrange-Act-Assert",
+      "en": "Arrange-Act-Assert"
+     },
+     "hint": {
+      "ru": "Три шага теста названы словами подготовка-действие-проверка на английском.",
+      "tg": "Се қадами тест бо калимаҳои омодагӣ-амал-санҷиш ба англисӣ ном доранд.",
+      "en": "The test's three steps are named preparation-action-check in English."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Input-Process-Output",
+       "tg": "Input-Process-Output",
+       "en": "Input-Process-Output"
+      },
+      {
+       "ru": "Arrange-Act-Assert",
+       "tg": "Arrange-Act-Assert",
+       "en": "Arrange-Act-Assert"
+      },
+      {
+       "ru": "Load-Compute-Save",
+       "tg": "Load-Compute-Save",
+       "en": "Load-Compute-Save"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -4483,13 +6130,25 @@
       "ru": "Модель описывает одну книгу, а каталог держит несколько книг, среди которых можно искать. Здесь record Book хранит название и категорию, а List<Book> живёт в памяти: изменения списка исчезают после завершения программы.\n\nСобираем всё изученное в мини-проект «библиотека книг». Часть 1 — модель и каталог. Модель — record Book(string Title, string Category): чистые данные без поведения — идеальный случай для record. Каталог — List<Book> вместо массива: список растёт сам. Поиск — LINQ: Where(b => b.Category == \"Code\") фильтрует по категории, FirstOrDefault(b => b.Title.StartsWith(\"Clean\")) находит первую подходящую книгу или null, если совпадений нет. Проверка found == null обязательна: обращение к Title у null даст NullReferenceException — тернарник печатает not found вместо падения. Разделяйте этапы: сначала модель, потом данные, потом запросы; после каждого шага программа компилируется и запускается. Такой порядок — маленькие проверяемые приращения — ключевой навык разработчика. В примере печатаются две книги категории Code — Learn C# и Clean Code, а затем результат поиска по префиксу Clean — снова Clean Code.",
       "tg": "Model як китобро тасвир мекунад, catalog бошад якчанд китобро барои ҷустуҷӯ нигоҳ медорад. Дар ин ҷо record Book ном ва категория дорад ва List<Book> дар хотира меистад. Баъди пӯшидани барнома тағйироти рӯйхат гум мешаванд.\n\nҲамаи омӯхташударо ба лоиҳаи хурди «китобхона» ҷамъ меоврем. Қисми 1 — модель ва каталог. Модель — record Book(string Title, string Category): маълумоти соф бе рафтор — ҳолати идеалии record. Каталог — List<Book> ба ҷои массив: рӯйхат худ афзоуда аст. Ҷустуҷӯ — LINQ: Where(b => b.Category == \"Code\") аз рӯи категория поло мекунад, FirstOrDefault(b => b.Title.StartsWith(\"Clean\")) аввалин китоби мувофиқро ё null-ро меёбад, агар мувофиқа набошад. Санҷиши found == null ҳатмист: муроҷиат ба Title болои null истиснои NullReferenceException медиҳад — тернарник ба ҷои афтодан not found мебарад. Марҳилаҳоро ҷудо кунед: аввал модель, баъд маълумот, баъд дархостҳо; баъд аз ҳар қадам барнома компилятсия мешавад ва иҷро мешавад. Ҳамин тартиб — афзудани хурди санҷиданӣ — малакаи калидии таҳиягар. Дар мисол ду китоби категорияи Code чоп мешаванд — Learn C# ва Clean Code, баъд натиҷаи ҷустуҷӯ аз рӯи пешванди Clean — боз Clean Code.",
       "en": "The model describes one book, and the catalog holds books the program can search. Here record Book holds a title and category, and List<Book> lives in memory. Changes to the list disappear when the program exits.\n\nWe assemble everything learned into the mini-project 'a book library'. Part 1 — the model and the catalog. The model is record Book(string Title, string Category): pure data without behavior — a perfect case for a record. The catalog is List<Book> instead of an array: the list grows by itself. Search — LINQ: Where(b => b.Category == \"Code\") filters by category, FirstOrDefault(b => b.Title.StartsWith(\"Clean\")) finds the first matching book or null when nothing matches. The check found == null is mandatory: accessing Title on null throws NullReferenceException — the ternary prints not found instead of crashing. Separate the stages: first the model, then the data, then the queries; after each step the program compiles and runs. This order — small verifiable increments — is a developer's key skill. In the example two Code-category books print — Learn C# and Clean Code — then the search result for the prefix Clean — Clean Code again."
-    },
+     },
      "code": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nvar catalog = new List<Book>\n{\n    new Book(\"Epic of Somoni\", \"History\"),\n    new Book(\"Learn C#\", \"Code\"),\n    new Book(\"Clean Code\", \"Code\")\n};\n\nvar codeBooks = catalog.Where(b => b.Category == \"Code\");\nforeach (var b in codeBooks)\n{\n    Console.WriteLine(b.Title);\n}\n\nvar found = catalog.FirstOrDefault(b => b.Title.StartsWith(\"Clean\"));\nConsole.WriteLine(found == null ? \"not found\" : found.Title);\n\nrecord Book(string Title, string Category);\n",
      "language": "csharp",
      "output": {
       "ru": "Learn C#\nClean Code\nClean Code",
       "tg": "Learn C#\nClean Code\nClean Code",
       "en": "Learn C#\nClean Code\nClean Code"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: First или FirstOrDefault",
+      "tg": "Глубе: First ё FirstOrDefault",
+      "en": "Deeper: First or FirstOrDefault"
+     },
+     "body": {
+      "ru": "Выбор оператора зависит от вопроса: FirstOrDefault(b => b.Title.StartsWith(\"Clean\")) допускает «ничего не нашлось» и возвращает null, а First на пустом ответе бросит InvalidOperationException. Рядом стоят Single — «ровно один, иначе исключение» и Any() — «есть ли хоть один», возвращающий bool. Правило реального проекта: сформулируйте вопрос по-русски — «найди первую или скажи, что нет» — и оператор станет очевиден. Свяжите это с днём 21: Where возвращает последовательность, а одиночный элемент достают этими операторами; завтра на выдачах те же правила будут работать с кортежами. Проверьте себя: вызовите First и FirstOrDefault по несуществующему префиксу и сравните поведение.",
+      "tg": "Интихоби оператор аз савол вобаста аст: FirstOrDefault(b => b.Title.StartsWith(\"Clean\")) «ҳеҷ чиз ёфт нашуд»-ро иҷозат медиҳад ва null бар месозад, First бошад дар ҷавоби холӣ InvalidOperationException мепартофад. Дар паҳлӯ Single — «дақиқ якто, вагарна истисно» ва Any() — «оё ҳадди ақал яке ҳаст» истодаанд, ки bool бар месозанд. Қоидаи лоиҳаи воқеӣ: саволро ба тоҷикӣ шакл диҳед — «аввалинро ёб ё гӯ, ки нест» — ва оператор ошкор мешавад. Инро бо рӯзи 21 пайванд кунед: Where пайдарпаиро бар месозад ва элементи ягонаро бо ин операторҳо мегиранд; фардо дар доданҳо ҳамон қоидаҳо бо tuple-ҳо кор хоҳанд кард. Худро санҷед: First ва FirstOrDefault-ро аз рӯи пешванди набуда даъват кунед ва рафторашонро муқоиса кунед.",
+      "en": "The operator choice depends on the question: FirstOrDefault(b => b.Title.StartsWith(\"Clean\")) tolerates «nothing found» and returns null, while First throws InvalidOperationException on an empty answer. Nearby stand Single — «exactly one, otherwise an exception» — and Any() — «is there at least one», returning a bool. The real-project rule: phrase the question out loud — «find the first or say there is none» — and the operator becomes obvious. Connect this with day 21: Where returns a sequence, and a single element is fetched with these operators; tomorrow the same rules will work with tuples on loans. Check yourself: call First and FirstOrDefault with a non-existent prefix and compare the behavior."
      }
     },
     {
@@ -4547,7 +6206,13 @@
        "en": "An exception"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Имя оператора содержит подсказку: Default — что вернётся вместо исключения?",
+      "tg": "Номи оператор маслиҳат дорад: Default — ба ҷои истисно чӣ бар месозад?",
+      "en": "The operator's name carries a hint: Default — what comes back instead of an exception?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-28-q2",
@@ -4578,7 +6243,50 @@
        "en": "LINQ requires it"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "record — про данные без поведения; сравните с классом, у которого есть методы.",
+      "tg": "record — дар бораи маълумоти бе рафтор; бо классе, ки методҳо дорад, муқоиса кунед.",
+      "en": "record — about data without behavior; compare it with a class that has methods."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-28-q3",
+     "question": {
+      "ru": "Чем FirstOrDefault(...) безопаснее First(...) для поиска в каталоге?",
+      "tg": "FirstOrDefault(...) барои ҷустуҷӯ дар каталог аз First(...) ба чӣ бехатартар аст?",
+      "en": "Why is FirstOrDefault(...) safer than First(...) for a catalog search?"
+     },
+     "answer": {
+      "ru": "FirstOrDefault возвращает null вместо исключения, если совпадений нет",
+      "tg": "FirstOrDefault дар набудани мувофиқ null бар месозад ба ҷои истисно",
+      "en": "FirstOrDefault returns null instead of an exception when nothing matches"
+     },
+     "hint": {
+      "ru": "Default в имени оператора — подсказка о поведении при пустом ответе.",
+      "tg": "Default дар номи оператор — маслиҳат дар бораи рафтор ҳангоми ҷавоби холӣ.",
+      "en": "Default in the operator's name hints at the behavior on an empty answer."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "FirstOrDefault ищет быстрее — не обходит весь список",
+       "tg": "FirstOrDefault зудтар меҷӯяд — тамоми рӯйхатро гардон намедиҳад",
+       "en": "FirstOrDefault searches faster — it skips the whole list"
+      },
+      {
+       "ru": "Разницы нет — оба бросают исключение при пустом ответе",
+       "tg": "Фарқе нест — ҳарду дар ҷавоби холӣ истисно мепартофанд",
+       "en": "No difference — both throw on an empty answer"
+      },
+      {
+       "ru": "FirstOrDefault возвращает null вместо исключения, если совпадений нет",
+       "tg": "FirstOrDefault дар набудани мувофиқ null бар месозад ба ҷои истисно",
+       "en": "FirstOrDefault returns null instead of an exception when nothing matches"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4656,6 +6364,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: кортеж или record — граница перехода",
+      "tg": "Глубе: tuple ё record — марзи гузариш",
+      "en": "Deeper: tuple or record — the migration boundary"
+     },
+     "body": {
+      "ru": "Кортеж оправдан, пока данные — разовая связка без правил: (Reader, Title, Days) читается как строка отчёта. Первый признак перехода — поведение: появились методы Loan, Return или проверки дней — переносите в record Loan(string Reader, string Title, int Days), и получите сравнение по значениям и with бесплатно. Безымянный кортеж теряет читаемость: l.Item3 говорит меньше, чем l.Days. Свяжите это с днём 9: там кортеж вернул статистику массива — тот же приём, теперь в проекте. Проверьте себя: опишите выдачу и безымянным кортежем, и record, и сравните, в каком варианте чтение кода потребовало меньше взгляда.",
+      "tg": "Tuple то маълумот пайвасти яккаратаи бе қоида аст, саҳеҳ аст: (Reader, Title, Days) ҳамчун сатри ҳисобот хонда мешавад. Аввалин нишонаи гузариш — рафтор аст: методҳои Loan, Return ё санҷишҳои рӯзҳо пайдо шуданд — ба record Loan(string Reader, string Title, int Days) гузаронед ва муқоисаи аз рӯи қиматҳо ва with-ро бекор мегиред. Tuple-и беном хоноӣ гум мекунад: l.Item3 камтар аз l.Days мегӯяд. Инро бо рӯзи 9 пайванд кунед: дар он ҷо tuple омори массивро бар овард — ҳамон усул, имрӯз дар лоиҳа. Худро санҷед: доданро ҳам бо tuple-и беном ва ҳам бо record тавсиф кунед ва муқоиса кунед, ки дар кадом вариант хондани код нигаронии камтарталаб шуд.",
+      "en": "A tuple is justified while the data is a one-off bundle without rules: (Reader, Title, Days) reads like a report line. The first migration sign is behavior: Loan, Return methods or day checks appear — move to record Loan(string Reader, string Title, int Days) and get value comparison and with for free. An unnamed tuple loses readability: l.Item3 says less than l.Days. Connect this with day 9: a tuple there returned array statistics — the same technique, now in a project. Check yourself: describe the loan both as an unnamed tuple and as a record, and compare which variant needed fewer looks to read."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки",
       "tg": "Хатогиҳои маъмул",
       "en": "Common mistakes"
@@ -4709,7 +6429,13 @@
        "en": "The number of readers"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Фильтр <= 10 отбирает выдачи в срок, Count считает их.",
+      "tg": "Филтри <= 10 доданҳои муҳлатдорро интихоб мекунад, Count онҳоро ҳисоб мекунад.",
+      "en": "The <= 10 filter picks on-time loans, Count counts them."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-29-q2",
@@ -4740,7 +6466,50 @@
        "en": "The book title"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Безымянные элементы кортежа нумеруются с единицы: Item1, Item2…",
+      "tg": "Элементҳои беноми tuple аз як рақамгузорӣ мешаванд: Item1, Item2…",
+      "en": "Unnamed tuple elements are numbered from one: Item1, Item2…"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-29-q3",
+     "question": {
+      "ru": "Когда кортеж (string Reader, string Title, int Days) стоит заменить на record?",
+      "tg": "Tuple-и (string Reader, string Title, int Days)-ро кай ба record иваз кардан ҳаққонӣ аст?",
+      "en": "When should the tuple (string Reader, string Title, int Days) be replaced with a record?"
+     },
+     "answer": {
+      "ru": "Когда у данных появляются правила поведения и методы",
+      "tg": "Вақте маълумот қоидаҳои рафтор ва методҳо пайдо мекунад",
+      "en": "When the data gains behavior rules and methods"
+     },
+     "hint": {
+      "ru": "Вспомните раздел: первый признак перехода — появление чего нового у данных?",
+      "tg": "Бахшро ёдовар шавед: аввалин нишонаи гузариш — пайдоиши чии нав дар маълумот аст?",
+      "en": "Recall the section: the first migration sign is the data gaining what new thing?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Когда полей становится больше одного",
+       "tg": "Вақте майдонҳо аз як зиёд мешаванд",
+       "en": "When there is more than one field"
+      },
+      {
+       "ru": "Сразу — record всегда лучше кортежа",
+       "tg": "Фавран — record ҳамеша аз tuple беҳтар аст",
+       "en": "Right away — a record is always better than a tuple"
+      },
+      {
+       "ru": "Когда у данных появляются правила поведения и методы",
+       "tg": "Вақте маълумот қоидаҳои рафтор ва методҳо пайдо мекунад",
+       "en": "When the data gains behavior rules and methods"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4807,13 +6576,25 @@
       "ru": "Отчёт считает результаты из каталога. Count с условием считает доступные книги, а GroupBy создаёт группы по категории, в которых Key — имя категории и Count() — размер группы. Эти операции читают список и не меняют книги.\n\nФинал. Модель получает флаг: record Book(string Title, string Category, bool IsAvailable). Программа отвечает на три вопроса: сколько книг доступно — Count с предикатом; каково состояние каждой — тернарник печатает in stock или on loan; сколько книг в каждой категории — GroupBy. Всё это инструменты дней 19–22 в одной программе: List, LINQ-фильтры, агрегаты и группировка. Ожидаемый вывод: Available: 2, затем три строки статусов, затем Code: 2 и History: 1. Порядок групп — по первому вхождению: Code, потому что первая книга категории Code, затем History. Куда развиваться: добавьте методы Loan и Return, меняющие флаг через единственное место; сохраняйте каталог в JSON из дня 25; покройте логику тестами xUnit из дня 27; вынесите классы в отдельные файлы и соберите решение из двух проектов, как в дне 27. Дальше курса — базы данных, веб-API на ASP.NET Core. Вы прошли путь от первого Console.WriteLine до многочастного проекта: теперь читайте чужой код и переписывайте примеры по памяти.",
       "tg": "Ҳисобот натиҷаҳоро аз catalog мегирад. Count бо шарт китобҳои дастрасро мешуморад ва GroupBy китобҳоро ба гурӯҳҳои категория ҷудо мекунад. Key номи категория ва Count() шумораи китобҳои гурӯҳ аст. Ин амалҳо рӯйхатро мехонанд ва худи китобҳоро иваз намекунанд.\n\nНиҳоят. Модел аломат мегирад: record Book(string Title, string Category, bool IsAvailable). Барнома ба се савол ҷавоб медиҳад: чанд китоб дастрас аст — Count бо предикат; ҳолати ҳар китоб чист — тернарник in stock ё on loan мебарад; дар ҳар категория чанд китоб ҳаст — GroupBy. Ҳамааш воситаҳои рӯзҳои 19–22 дар як барнома: List, полои LINQ, агрегатҳо ва гурӯҳбандӣ. Натиҷаи интизорӣ: Available: 2, баъд се сатри ҳолатҳо, баъд Code: 2 ва History: 1. Тартиби гурӯҳҳо — аз рӯи аввалин вуруд: Code, чунки китоби аввал категорияи Code дорад, баъд History. Ба куҷо инкишоф: методҳои Loan ва Return илова кунед, ки аломатро аз тариқи ягона ҷо тағйир медиҳанд; каталогро ба рӯзи 25 ба JSON сабт кунед; мантиқро ба рӯзи 27 бо тестҳои xUnit пӯшонед; синфҳоро ба файлҳои алоҳида бароред ва ҳаллро аз ду лоиҳа созед, мисоли рӯзи 27. Баъд аз курс — пойгоҳҳои маълумот, веб-API дар ASP.NET Core. Шумо роҳро аз аввалин Console.WriteLine то лоиҳаи бисёрқисматӣ гузаштед: ҳоло рамзи дигаронро хонед ва мисолҳоро аз ёд аз нав нависед.",
       "en": "A report derives results from the catalog. Count with a predicate measures available books, and GroupBy makes category groups whose Key is the category name and whose Count() is the group size. These operations read the list and leave the books intact.\n\nThe finale. The model gains a flag: record Book(string Title, string Category, bool IsAvailable). The program answers three questions: how many books are available — Count with a predicate; what each book's state is — the ternary prints in stock or on loan; how many books per category — GroupBy. All of it is the toolkit of days 19–22 in one program: List, LINQ filters, aggregates and grouping. Expected output: Available: 2, then three status lines, then Code: 2 and History: 1. Group order follows first occurrence: Code, because the first book is Code category, then History. Where to grow: add Loan and Return methods changing the flag through a single place; save the catalog to JSON from day 25; cover the logic with xUnit tests from day 27; move classes into separate files and build a solution of two projects, as in day 27. After the course — databases, web APIs on ASP.NET Core. You went from the first Console.WriteLine to a multi-part project: now read other people's code and retype the examples from memory."
-    },
+     },
      "code": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nvar books = new List<Book>\n{\n    new Book(\"Learn C#\", \"Code\", true),\n    new Book(\"Clean Code\", \"Code\", false),\n    new Book(\"Epic Tales\", \"History\", true)\n};\n\nvar available = books.Count(b => b.IsAvailable);\nConsole.WriteLine(\"Available: \" + available);\n\nforeach (var book in books)\n{\n    var status = book.IsAvailable ? \"in stock\" : \"on loan\";\n    Console.WriteLine(book.Title + \" - \" + status);\n}\n\nvar byCategory = books.GroupBy(b => b.Category);\nforeach (var group in byCategory)\n{\n    Console.WriteLine(group.Key + \": \" + group.Count());\n}\n\nrecord Book(string Title, string Category, bool IsAvailable);\n",
      "language": "csharp",
      "output": {
       "ru": "Available: 2\nLearn C# - in stock\nClean Code - on loan\nEpic Tales - in stock\nCode: 2\nHistory: 1",
       "tg": "Available: 2\nLearn C# - in stock\nClean Code - on loan\nEpic Tales - in stock\nCode: 2\nHistory: 1",
       "en": "Available: 2\nLearn C# - in stock\nClean Code - on loan\nEpic Tales - in stock\nCode: 2\nHistory: 1"
+     }
+    },
+    {
+     "title": {
+      "ru": "Глубже: один вход для правила — Loan и Return",
+      "tg": "Глубе: як даромадгоҳ барои қоида — Loan ва Return",
+      "en": "Deeper: one entry point for the rule — Loan and Return"
+     },
+     "body": {
+      "ru": "Флаг IsAvailable — инвариант из дня 12 в миниатюре: менять его разрешено только методам Loan и Return, потому что правило «книга выдана» должно жить в одном месте. Прямое присваивание book.IsAvailable = false снаружи обходит правило — после перевода поля в приватное со свойством { get; private set; } такая строка перестанет компилироваться. Дальше проект растёт тем же шагом: сохранение каталога в JSON из дня 25, тесты xUnit из дня 27 на методах Loan и Return. Свяжите три дня в один приём: данные закрываются, правило — в одном методе, поведение — под тестом. Проверьте себя: спрячьте флаг и убедитесь, что программа компилируется без изменений вызовов.",
+      "tg": "Прапори IsAvailable — инварианти рӯзи 12 дар шакли хурд: тағйир додани он танҳо методҳои Loan ва Return иҷозат дода мешавад, зеро қоидаи «китоб дода шудааст» бояд дар як ҷой зиндагӣ кунад. Таъйини мустақими book.IsAvailable = false аз берун қоидаро мегардонад — баъд аз хусусӣ кардани майдон бо свойствои { get; private set; } чунин сатр компиляция намешавад. Минбаъд лоиҳа бо ҳамон қадам месабзад: нигоҳдории каталог дар JSON-и рӯзи 25, тестҳои xUnit-и рӯзи 27 аз рӯи методҳои Loan ва Return. Се рӯзро ба як усул пайванд кунед: маълумот пӯшида мешавад, қоида — дар як метод, рафтор — зери тест. Худро санҷед: прапорро пинҳон кунед ва боварӣ ҳосил кунед, ки барнома бе тағйири даъватҳо компиляция мешавад.",
+      "en": "The IsAvailable flag is day 12's invariant in miniature: only the Loan and Return methods may change it, because the rule «the book is on loan» must live in one place. A direct book.IsAvailable = false from outside bypasses the rule — after making the field private with a { get; private set; } property, that line stops compiling. The project then grows by the same step: saving the catalog to JSON from day 25, xUnit tests from day 27 over Loan and Return. Tie the three days into one technique: the data is closed, the rule lives in one method, the behavior is under test. Check yourself: hide the flag and confirm the program still compiles without changing the calls."
      }
     },
     {
@@ -4871,7 +6652,13 @@
        "en": "Sorts by availability"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Count с предикатом считает только элементы, подходящие под условие IsAvailable.",
+      "tg": "Count бо предикат танҳо элементҳои мувофиқи шартҳои IsAvailable-ро ҳисоб мекунад.",
+      "en": "Count with a predicate counts only elements matching the IsAvailable condition."
+     },
+     "relatedSection": 0
     },
     {
      "id": "csharp-day-30-q2",
@@ -4902,7 +6689,50 @@
        "en": "null"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Тернарник печатает on loan для недоступных книг — вспомните раздел про статусы.",
+      "tg": "Тернарник барои китобҳои дастрасонашуда on loan чоп мекунад — бахши дар бораи ҳолатҳоро ёдовар шавед.",
+      "en": "The ternary prints on loan for unavailable books — recall the section about statuses."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "csharp-day-30-q3",
+     "question": {
+      "ru": "Почему флаг IsAvailable стоит менять только через методы Loan и Return?",
+      "tg": "Чӣ сабаб прапори IsAvailable-ро танҳо аз тариқи методҳои Loan ва Return тағйир додан лозим аст?",
+      "en": "Why should the IsAvailable flag be changed only through the Loan and Return methods?"
+     },
+     "answer": {
+      "ru": "Правило «книга выдана» живёт в одном месте — инвариант защищён",
+      "tg": "Қоидаи «китоб дода шудааст» дар як ҷой зиндагӣ мекунад — инвариант ҳимояшуда аст",
+      "en": "The rule «the book is on loan» lives in one place — the invariant is protected"
+     },
+     "hint": {
+      "ru": "Правило должно быть защищено от обхода — где оно живёт в классе из дня 12?",
+      "tg": "Қоида бояд аз гардизи гузаштан ҳимоя шавад — он дар классҳои рӯзи 12 дар куҷо зиндагӣ мекунад?",
+      "en": "The rule must be protected from bypass — where does it live in the day 12 class?"
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Прямое присваивание запрещено компилятором для bool",
+       "tg": "Таъйини мустақим аз тарафи компилятор барои bool мамнуъ аст",
+       "en": "Direct assignment is forbidden by the compiler for bool"
+      },
+      {
+       "ru": "Флаг иначе сбрасывается при каждом запуске программы",
+       "tg": "Прапор вагарна дар ҳар оғози барнома хотир мешавад",
+       "en": "Otherwise the flag resets on every program start"
+      },
+      {
+       "ru": "Правило «книга выдана» живёт в одном месте — инвариант защищён",
+       "tg": "Қоидаи «китоб дода шудааст» дар як ҷой зиндагӣ мекунад — инвариант ҳимояшуда аст",
+       "en": "The rule «the book is on loan» lives in one place — the invariant is protected"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {

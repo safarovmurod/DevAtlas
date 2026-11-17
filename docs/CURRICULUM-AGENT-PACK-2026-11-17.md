@@ -12,7 +12,7 @@
 
 AGENTS.md, CLAUDE.md, skills-и мувофиқ, package.json, schema ва actual loaders-ро хон. Пеш аз кодҳои Next.js relevant guide-и `node_modules/next/dist/docs/`-ро хон. `git status --short --branch`, `git log -12 --oneline` ва agent-ҳои воқеан фаъолро бин. Кори agent-и чати дигарро дубли накун.
 
-Далели ҳозираи санҷидашуда дар commit `9826d8a7e5ea51e2687705cf81a4da205d1a2ad7`:
+Checkpoint-и таърихӣ дар commit `9826d8a7e5ea51e2687705cf81a4da205d1a2ad7`:
 
 - 43 курс, 38 track, 1 262 рӯзи дарсӣ; catalog ва loader мувофиқанд.
 - Ҳамаи 12 нақшаи short-course ба шумораи рӯзҳои нақша расидаанд. Management ва Digital Literacy ҳар кадом 30/30 мебошанд. Management-ро аз рӯзи24 аз нав нанавис.
@@ -31,7 +31,7 @@ AGENTS.md, CLAUDE.md, skills-и мувофиқ, package.json, schema ва actual
 - `docs/course-authoring-prompt.md`, `docs/curriculum-design/short-courses.draft.json`;
 - `docs/coverage-matrix.json`, `docs/audits/2026-10-26-tasks.json`.
 
-Баъзе ҳуҷҷатҳо қафо мондаанд: register ҳанӯз Algorithms-ро queued мегӯяд, аммо commit9826d8a ва review қабулашро тасдиқ мекунанд. AGENTS/CLAUDE ва audit-и кӯҳна 1255 рӯз, Management23 ё чор test failure-и пешинаро гуфта метавонанд. Source, commit, review ва test-и навро муқоиса кун; матни кӯҳна натиҷаи ҳозира нест. Integration agent рақамҳоро аз loader нав кунад. Чор нокомии пешинаи Python/Mobile/JS-Pro/Bash-ро бе run-и нав ноком эълон накун.
+Дар `main`-и маҳаллӣ ҳолати охирин дар [реестри курсҳо](audits/course-register-2026-11-17.md) ва [audit аз loader](audits/continuation-quality-2026-11-17.md) сабт шудааст. Реестр batch-ҳои қаблан қабулшудаи Algorithms, Management, Python, Mobile, JS Pro ва Bash-ро бо кори боқимонда нишон медиҳад. Барои рақамҳои нав audit-ро аз loader гиред. Ҳолати санҷишҳоро аз run-и охир хонед.
 
 ## 3. Ҳамин аввал 20 task-ро ба register гузор
 

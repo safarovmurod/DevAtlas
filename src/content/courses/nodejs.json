@@ -103,12 +103,12 @@
       "ru": "Что такое Node.js",
       "tg": "Node.js чист?",
       "en": "What is Node.js?"
-    },
+     },
      "body": {
       "ru": "Node.js — среда выполнения JavaScript вне браузера. В ней можно читать файлы, запускать инструменты и обрабатывать HTTP-запросы. Объект document страницы в обычном Node.js недоступен.\n\nNode.js выполняет JavaScript вне страницы браузера. Расширение .mjs включает ES-модули. console.log выводит результат в терминал. В этом примере нет DOM, сервера и HTTP-порта; window и document не являются API Node.js.",
       "tg": "Node.js муҳити иҷрои JavaScript берун аз браузер аст. Бо он файл мехонӣ, абзорро иҷро мекунӣ ё HTTP request мегирӣ. document-и саҳифа дар Node.js-и одӣ нест.\n\nNode.js JavaScript-ро берун аз саҳифаи браузер иҷро мекунад. Пасванди .mjs ES-модулҳоро фаъол мекунад. console.log натиҷаро дар терминал мебарорад. Дар ин мисол DOM, сервер ва HTTP-порт нест; window ва document API-и Node.js нестанд.",
       "en": "Node.js runs JavaScript outside the browser. It can read files, run tools, and handle HTTP requests. The browser's page document is unavailable in ordinary Node.js.\n\nNode.js runs JavaScript outside a browser page. The .mjs extension selects ES modules. console.log writes to the terminal. This example has no DOM, server or HTTP port; window and document are not Node.js APIs."
-    },
+     },
      "code": "const prices = [12, 7, 5];\nconst total = prices.reduce((sum, price) => sum + price, 0);\nconsole.log(total);\n",
      "language": "javascript",
      "output": {
@@ -155,24 +155,24 @@
     }
    ],
    "interview": {
-     "id": "nodejs-day-01-written",
-     "question": {
-       "ru": "Какая среда запускает JavaScript в терминале в этом курсе?",
-       "tg": "Кадом муҳит JavaScript-ро дар терминал иҷро мекунад?",
-       "en": "Which runtime runs JavaScript from a terminal in this course?"
-     },
-     "answer": {
-       "ru": "Node.js",
-       "tg": "Node.js",
-       "en": "Node.js"
-     },
-     "acceptedAnswers": [
-       "node.js",
-       "Node",
-       "node",
-       "NodeJS",
-       "Node JS"
-     ]
+    "id": "nodejs-day-01-written",
+    "question": {
+     "ru": "Какая среда запускает JavaScript в терминале в этом курсе?",
+     "tg": "Кадом муҳит JavaScript-ро дар терминал иҷро мекунад?",
+     "en": "Which runtime runs JavaScript from a terminal in this course?"
+    },
+    "answer": {
+     "ru": "Node.js",
+     "tg": "Node.js",
+     "en": "Node.js"
+    },
+    "acceptedAnswers": [
+     "node.js",
+     "Node",
+     "node",
+     "NodeJS",
+     "Node JS"
+    ]
    },
    "questions": [
     {
@@ -204,7 +204,13 @@
        "en": "In a file on disk"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Подумайте, где работает программа, запущенная командой node: у неё нет страницы и DOM. Куда обычно попадают сообщения console.log в программах без окна?",
+      "tg": "Барномае, ки бо фармони node оғоз мешавад, дар куҷо кор мекунад: саҳифа ва DOM надорад. Паёмҳои console.log дар барномаҳои бе тиреза ба куҷо мерасанд?",
+      "en": "Think about where a program launched with the node command runs: it has no page and no DOM. Where do console.log messages usually go in windowless programs?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "nodejs-day-01-q2",
@@ -235,7 +241,50 @@
        "en": ".txt"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Есть два режима модулей: CommonJS и ES-модули. В примере дня файл назван main.mjs — какую роль играет последняя буква расширения?",
+      "tg": "Ду реҷаи модулҳо вуҷуд дорад: CommonJS ва ES-модулҳо. Дар мисоли рӯз файл main.mjs ном дорад — ҳарфи охирини пасванд кадом нақшро дорад?",
+      "en": "There are two module modes: CommonJS and ES modules. The day example names the file main.mjs — what role does the last letter of the extension play?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "nodejs-day-01-q3",
+     "question": {
+      "ru": "Что произойдёт с переменной let count = 0 из main.mjs после завершения работы node main.mjs?",
+      "tg": "Баъди анҷоми кори node main.mjs бо тағйирёбандаи let count = 0 аз main.mjs чӣ мешавад?",
+      "en": "What happens to the let count = 0 variable from main.mjs after node main.mjs finishes?"
+     },
+     "options": [
+      {
+       "ru": "Переменная сохранится в файле на диске",
+       "tg": "Тағйирёбанда дар файли диск нигоҳ дошта мешавад",
+       "en": "The variable is saved to a file on disk"
+      },
+      {
+       "ru": "Она останется ждать следующего запуска в терминале",
+       "tg": "Он то иҷрои навбатӣ дар терминал мемонад",
+       "en": "It stays in the terminal waiting for the next run"
+      },
+      {
+       "ru": "Она исчезнет вместе с процессом",
+       "tg": "Он бо процесс нобуд мешавад",
+       "en": "It disappears together with the process"
+      }
+     ],
+     "answer": {
+      "ru": "Она исчезнет вместе с процессом",
+      "tg": "Он бо процесс нобуд мешавад",
+      "en": "It disappears together with the process"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Программа — это процесс операционной системы, который когда-то заканчивается. В какой момент Node.js запишет переменную куда-то на долгое хранение?",
+      "tg": "Барнома — процесси системаи оператсионӣ аст, ки рӯзе тамом мешавад. Node.js дар кадом лаҳза тағйирёбандаро ба чо нигоҳ медорад?",
+      "en": "A program is an operating-system process that eventually ends. At what point does Node.js store a variable somewhere for the long term?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -296,12 +345,12 @@
       "ru": "Модули и автоматическая проверка",
       "tg": "Модул ва санҷиши автоматӣ",
       "en": "Modules and assertions"
-    },
+     },
      "body": {
       "ru": "Модуль отдаёт наружу часть кода для повторного использования. Тест импортирует функцию и передаёт известные данные. Assertion сравнивает ожидаемый результат с фактическим и останавливает тест при расхождении.\n\nСтандартный node:assert/strict сравнивает фактические результаты с ожидаемыми. assert.throws проверяет отказ. Функция ничего не знает о названиях переменных вызывающего кода: важны аргументы и результат. Ввод ограничен неотрицательными безопасными целыми; проверяем и переполнение результата.",
       "tg": "Модул қисми кодро ба файли дигар медиҳад. Тест функсияро import мекунад ва маълумоти маълумро медиҳад. Assert натиҷаи воқеиро бо чашмдошт муқоиса мекунад.\n\nМодули стандартии node:assert/strict натиҷаи воқеиро бо интизорӣ муқоиса мекунад. assert.throws радкуниро месанҷад. Функсия номи тағйирёбандаҳои рамзи даъваткунандаро намедонад: аргументҳо ва натиҷа муҳиманд. Вуруд ададҳои бутуни бехатари ғайриманфӣ аст; аз ҳудуд гузаштани натиҷаро ҳам месанҷем.",
       "en": "A module exposes code for reuse. A test imports a function and feeds it known input. An assertion compares the actual and expected results and fails the test if they differ.\n\nThe built-in node:assert/strict compares actual and expected results. assert.throws checks rejection. A function does not depend on its caller’s variable names: arguments and output matter. Restrict inputs to nonnegative safe integers and check result overflow too."
-    },
+     },
      "code": "import assert from \"node:assert/strict\";\n\nexport function total(price, quantity) {\n  if (![price, quantity].every(value => Number.isSafeInteger(value) && value >= 0)) {\n    throw new RangeError(\"Use nonnegative safe integers\");\n  }\n  const result = price * quantity;\n  if (!Number.isSafeInteger(result)) throw new RangeError(\"Total too large\");\n  return result;\n}\nassert.equal(total(12, 3), 36);\nassert.equal(total(12, 0), 0);\nassert.throws(() => total(12, -1), RangeError);\nconsole.log(\"3 checks passed\");\n",
      "language": "javascript",
      "output": {
@@ -333,24 +382,36 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is a thirty-day introductory module. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: проверки как документация будущих изменений",
+      "tg": "Чуқуртар: санҷишҳо ҳамчун ҳуҷҷати тағйиротҳои оянда",
+      "en": "Deeper: checks as documentation of future changes"
+     },
+     "body": {
+      "ru": "assert полезен и через недели: когда вы измените total, старые проверки сразу скажут, не сломалось ли умножение. Граница случая: assert.throws(() => total(12, -1), RangeError) сверяет только тип ошибки — сообщение внутри не проверяется, поэтому RangeError с любым текстом пройдёт. Связь с прошлым: упавшая проверка — тот же стектрейс, который вы научитесь читать в дне 10. Связь с будущим: в дне 24 проверки переезжают в node:test, а npm-скрипты из дня 5 дают команду npm test для запуска всего набора. Проверьте край: total(12, 0) законно даёт 0 — ноль товаров не ошибка; NaN, дробные и переполнение результата — ошибки, и assert.throws должен их ловить.",
+      "tg": "assert нафақат ҳангоми навиштани функсия, балки ҳафтаҳо баъд ҳам муфид аст: агар total-ро тағйир диҳед, санҷишҳои кӯҳна фавран мегӯянд, ки зарб нашудааст. Ҳолати канорӣ: assert.throws(() => total(12, -1), RangeError) танҳо навъи хаторо муқоиса мекунад — паём дар дохилаш санҷида намешавад, бинобар ин RangeError бо ҳар матне мегузарад. Пайванд бо гузашта: санҷиши иштибо — ҳамон стектрейс, ки дар рӯзи 10 хоҳед хонд. Пайванд бо оянда: дар рӯзи 24 санҷишҳо ба node:test мегузаранд, ва скриптҳои npm-и рӯзи 5 фармони npm test-ро медиҳанд. Канорро санҷед: total(12, 0) қонуни 0 медиҳад — сифри мол хато нест; NaN, касрӣ ва аз ҳад зиёди натиҷа — хатоҳоянд ва assert.throws бояд онҳоро бигирад.",
+      "en": "assert pays off weeks later: change total, and the old checks immediately tell you whether multiplication broke. Edge case: assert.throws(() => total(12, -1), RangeError) compares only the error type — the message inside is not checked, so a RangeError with any text passes. Link to the past: a failed check produces the same stack trace you learn to read on day 10. Link to the future: on day 24 the checks move into node:test, and npm scripts from day 5 give you an npm test command for the whole set. Check the boundary: total(12, 0) legitimately gives 0 — zero items is not an error; NaN, fractions and result overflow are errors, and assert.throws must catch them."
+     }
     }
    ],
    "interview": {
-     "id": "nodejs-day-02-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какой модуль Node.js даёт строгие проверки в примере?",
-       "tg": "Дар мисол кадом модули Node.js санҷиши қатъӣ медиҳад?",
-       "en": "Which Node.js module supplies strict assertions in the example?"
-     },
-     "answer": {
-       "ru": "node:assert/strict",
-       "tg": "node:assert/strict",
-       "en": "node:assert/strict"
-     },
-     "acceptedAnswers": [
-       "assert/strict"
-     ]
+    "id": "nodejs-day-02-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какой модуль Node.js даёт строгие проверки в примере?",
+     "tg": "Дар мисол кадом модули Node.js санҷиши қатъӣ медиҳад?",
+     "en": "Which Node.js module supplies strict assertions in the example?"
+    },
+    "answer": {
+     "ru": "node:assert/strict",
+     "tg": "node:assert/strict",
+     "en": "node:assert/strict"
+    },
+    "acceptedAnswers": [
+     "assert/strict"
+    ]
    },
    "questions": [
     {
@@ -382,7 +443,13 @@
        "en": "Continue silently without messages"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "assert.equal сравнивает ожидаемое с фактическим. Что вы видите в терминале, когда значения не совпадают, и продолжается ли программа?",
+      "tg": "assert.equal интизориро бо воқеӣ муқоиса мекунад. Ҳангоми мувофиқанабудани арзишҳо дар терминал чӣ мебинед ва оё барнома идома меёбад?",
+      "en": "assert.equal compares expected with actual. What do you see in the terminal when values differ, and does the program continue?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "nodejs-day-02-q2",
@@ -413,7 +480,50 @@
        "en": "Skips the check silently"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "assert.throws ждёт выброс ошибки. Что должно произойти с проверкой, если обещанного отказа нет?",
+      "tg": "assert.throws интизори паррондани хато аст. Бо санҷиш чӣ бояд шавад, агар радкунии ваъдашуда набошад?",
+      "en": "assert.throws expects an error to be thrown. What should happen to the check when the promised failure never occurs?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "nodejs-day-02-q3",
+     "question": {
+      "ru": "Что напечатает assert.equal(1 + 1, 3) из node:assert/strict?",
+      "tg": "assert.equal(1 + 1, 3) аз node:assert/strict чӣ чоп мекунад?",
+      "en": "What does assert.equal(1 + 1, 3) from node:assert/strict print?"
+     },
+     "options": [
+      {
+       "ru": "Предупреждение, после которого программа продолжит работу",
+       "tg": "Огоҳинома, баъди он барнома корро идома медиҳад",
+       "en": "A warning, after which the program keeps running"
+      },
+      {
+       "ru": "Молчаливая запись расхождения в файл отчёта",
+       "tg": "Сабти беовози вобастагӣ дар файли ҳисобот",
+       "en": "A silent note of the mismatch in a report file"
+      },
+      {
+       "ru": "AssertionError, и программа остановится",
+       "tg": "AssertionError, ва барнома истода мемонад",
+       "en": "An AssertionError, and the program stops"
+      }
+     ],
+     "answer": {
+      "ru": "AssertionError, и программа остановится",
+      "tg": "AssertionError, ва барнома истода мемонад",
+      "en": "An AssertionError, and the program stops"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Вспомните первую секцию дня: assertion сравнивает ожидаемое с фактическим. Что происходит с процессом node:assert/strict при расхождении?",
+      "tg": "Бахши аввали рӯзро ба ёд оред: assertion интизориро бо воқеӣ муқоиса мекунад. Бо процесси node:assert/strict ҳангоми вобастагӣ чӣ мешавад?",
+      "en": "Recall the first section: an assertion compares expected with actual. What does the node:assert/strict process do on a mismatch?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -474,12 +584,12 @@
       "ru": "Что такое CommonJS",
       "tg": "CommonJS чист?",
       "en": "What is CommonJS?"
-    },
+     },
      "body": {
       "ru": "CommonJS — формат модулей Node.js. Один файл публикует значение через module.exports, другой получает его через require. В ES-модулях для этой задачи служат import и export.\n\nВ первых уроках весь код жил в одном файле main.mjs, и этого хватало. Но настоящая программа быстро растёт: появляются функции расчётов, работы с файлами, диалог с пользователем. Держать всё в одном файле неудобно — код трудно читать и почти невозможно переиспользовать. Поэтому код делят на модули: каждый файл — отдельный модуль со своей областью видимости. Переменные одного модуля не видны другому, пока их явно не передать наружу. В Node.js две системы модулей. Старая и до сих пор очень распространённая — CommonJS: файл отдаёт значения наружу через объект module.exports, а чужие значения забирает функцией require. Новая система — ES-модули, о них следующий день. CommonJS важно знать: миллионы опубликованных пакетов и старых проектов написаны именно так, и вы постоянно будете встречать require в документации и чужом коде. В этом уроке мы работаем с файлами .cjs — расширение явно говорит Node.js, что здесь используется CommonJS.",
       "tg": "CommonJS формати модулҳои Node.js аст. Як файл қиматашро бо module.exports медиҳад, дигар файл бо require мегирад. Дар ES module барои ин кор import ва export ҳастанд.\n\nДар дарсҳои аввал тамоми код дар як файл нигоҳ дошта мешуд ва ин кифоя буд. Вале барномаи воқеӣ зуд калон мешавад: функсияҳои ҳисоб, кор бо файлҳо, сӯҳбат бо корбар пайдо мешаванд. Нигоҳ доштани ҳама чиз дар як файл номусоид аст — кодро хондан душвор ва такроран истифода бурдан қариб ғайриимкон мешавад. Барои ин кодро ба модулҳо тақсим мекунем: ҳар файл — модули алоҳида бо соҳаи дидани худ. Тағйирёбандаҳои як модул дигар модулро намебинанд, то онҳоро возеҳ берун надиҳем. Дар Node.js ду системаи модулҳо вуҷуд дорад. Системаи кӯҳна ва то имрӯз паҳншуда — CommonJS: файл арзишҳоро тавассути объекти module.exports берун мебарорад, арзишҳои модули дигарро бо функсияи require мегирад. Системаи нав — ES-модулҳо; онҳоро рӯзи оянда меомӯзем. CommonJS-ро донистан муҳим аст: миллионҳо бастаи нашршуда ва лоиҳаҳои кӯҳна маҳз бо ҳамин система навишта шудаанд, аз ин рӯз require-ро дар ҳуҷҷатҳо ва коди дигарон доим дучор мешавед. Дар ин дарс бо файлҳои .cjs кор мекунем — пасванди .cjs ба Node.js возеҳ мегӯяд, ки ин ҷо CommonJS аст.",
       "en": "CommonJS is a module format used in Node.js. One file exposes a value in module.exports, and another loads it with require. ES modules use import and export for that job.\n\nIn the first lessons all code lived in one file, main.mjs, and that was enough. A real program grows quickly, though: calculation functions, file helpers and user dialogs appear. Keeping everything in one file becomes inconvenient — the code is hard to read and almost impossible to reuse. So we split code into modules: every file is a separate module with its own scope. Variables of one module are invisible to another until they are explicitly shared. Node.js has two module systems. The older one, still extremely common, is CommonJS: a file publishes values through the object module.exports and takes foreign values with the require function. The newer system is ES modules — that is the next day. CommonJS matters because millions of published packages and old projects are written this way, so you will keep meeting require in documentation and other people's code. In this lesson we work with .cjs files: the extension clearly tells Node.js that CommonJS is used here."
-    }
+     }
     },
     {
      "title": {
@@ -526,21 +636,21 @@
     }
    ],
    "interview": {
-     "id": "nodejs-day-03-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какая функция загружает модуль CommonJS?",
-       "tg": "Кадом функсия модули CommonJS-ро мехонад?",
-       "en": "Which function loads a CommonJS module?"
-     },
-     "answer": {
-       "ru": "require",
-       "tg": "require",
-       "en": "require"
-     },
-     "acceptedAnswers": [
-       "require()"
-     ]
+    "id": "nodejs-day-03-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какая функция загружает модуль CommonJS?",
+     "tg": "Кадом функсия модули CommonJS-ро мехонад?",
+     "en": "Which function loads a CommonJS module?"
+    },
+    "answer": {
+     "ru": "require",
+     "tg": "require",
+     "en": "require"
+    },
+    "acceptedAnswers": [
+     "require()"
+    ]
    },
    "questions": [
     {
@@ -609,7 +719,50 @@
        "en": "On the internet, without a prior install"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Путь без ./ — не папка проекта: Node ищет не там, где ваш файл. Где находится node_modules и кто его создаёт из дня 5?",
+      "tg": "Роҳи бе ./ — папкаи лоиҳа нест: Node он ҷое ҷустуҷӯ мекунад, ки файли шумо нест. node_modules дар куҷост ва кӣ онро аз рӯзи 5 меофарад?",
+      "en": "A path without ./ is not the project folder: Node searches elsewhere. Where does node_modules live, and who creates it on day 5?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "nodejs-day-03-q3",
+     "question": {
+      "ru": "Что произойдёт при повторном вызове require('./math.cjs') в той же программе?",
+      "tg": "Ҳангоми даъвати такрории require('./math.cjs') дар ҳамон барнома чӣ мешавад?",
+      "en": "What happens when require('./math.cjs') is called a second time in the same program?"
+     },
+     "options": [
+      {
+       "ru": "Файл прочитается и выполнится второй раз с нуля",
+       "tg": "Файл бор нашуда дуюм маротиба аз сар иҷро мешавад",
+       "en": "The file is read and executed a second time from scratch"
+      },
+      {
+       "ru": "require выбросит ошибку о двойной загрузке",
+       "tg": "require хатои боркунӣ-и дукарата мепарронад",
+       "en": "require throws a double-load error"
+      },
+      {
+       "ru": "Node вернёт закешированный module.exports без повторного выполнения",
+       "tg": "Node module.exports-и кешшударо бе иҷрои такрорӣ бармегардонад",
+       "en": "Node returns the cached module.exports without re-executing"
+      }
+     ],
+     "answer": {
+      "ru": "Node вернёт закешированный module.exports без повторного выполнения",
+      "tg": "Node module.exports-и кешшударо бе иҷрои такрорӣ бармегардонад",
+      "en": "Node returns the cached module.exports without re-executing"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Node не читает один и тот же файл дважды за запуск: у загрузчика модулей есть память. Как в документации Node.js называется это поведение?",
+      "tg": "Node дар як иҷро як файлро ду маротиба намехонад: боркунандаи модулҳо хотира дорад. Ин рафтор дар ҳуҷҷатҳои Node.js чӣ гуна ном дорад?",
+      "en": "Node does not read the same file twice per run: the module loader has a memory. What is this behavior called in the Node.js documentation?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -751,7 +904,13 @@
        "en": "include './util.mjs'"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сопоставьте имена в фигурных скобках с именами export: какой синтаксис связывает файл и нужное имя?",
+      "tg": "Номҳои дар қавсҳои фигурӣ-ро бо номҳои export муқоиса кунед: кадом синтаксис файл ва номи лозимиро мепайвандад?",
+      "en": "Match the names in braces against the export names: which syntax links the file and the needed name?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "nodejs-day-04-q2",
@@ -787,6 +946,43 @@
       "ru": "Сравните имя внутри фигурных скобок с именованными экспортами файла.",
       "tg": "Номи даруни қавсҳои {}-ро бо export-ҳои номдори файл муқоиса кунед.",
       "en": "Compare the name inside braces against the file's named exports."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-04-q3",
+     "question": {
+      "ru": "Что увидит Node.js в строке import { add } from './calc.mjs', если файл экспортирует имя sum?",
+      "tg": "Дар сатри import { add } from './calc.mjs' Node.js чӣ мебинад, агар файл номи sum-ро содир кунад?",
+      "en": "What does Node.js see in import { add } from './calc.mjs' when the file exports the name sum?"
+     },
+     "options": [
+      {
+       "ru": "Импортирует файл целиком и молча пропустит имя",
+       "tg": "Файлро тамоман импорт мекунад ва номро беовоз мегузаронад",
+       "en": "Imports the whole file and silently skips the name"
+      },
+      {
+       "ru": "Автоматически переименует sum в add",
+       "tg": "sum-ро худкор ба add азнавномгузорӣ мекунад",
+       "en": "Renames sum to add automatically"
+      },
+      {
+       "ru": "SyntaxError: экспорта add в файле нет",
+       "tg": "SyntaxError: содироти add дар файл нест",
+       "en": "SyntaxError: the file has no add export"
+      }
+     ],
+     "answer": {
+      "ru": "SyntaxError: экспорта add в файле нет",
+      "tg": "SyntaxError: содироти add дар файл нест",
+      "en": "SyntaxError: the file has no add export"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Имена в фигурных скобках import обязаны совпадать с именами export. Что делает Node.js, когда совпадения нет?",
+      "tg": "Номҳои дар қавсҳои фигурӣ-и import бояд бо номҳои export мувофиқ бошанд. Node.js ҳангоми номувофиқӣ чӣ мекунад?",
+      "en": "Names in the import braces must match the export names. What does Node.js do when there is no match?"
      },
      "relatedSection": 3
     }
@@ -888,9 +1084,9 @@
       "en": "Project instructions and resolved versions"
      },
      "body": {
-      "ru": "package.json описывает допустимые версии зависимостей и команды, а package-lock.json сохраняет выбранное дерево версий. Когда коллега запускает npm ci в проекте с согласованными файлами, он устанавливает версии из lock-файла. npm run start обращается к scripts.start и выполняет команду оттуда.",
-      "tg": "package.json ҳудуди версияҳо ва командаҳоро менависад. package-lock.json версияҳои интихобшуда ва вобастагиҳои онҳоро нигоҳ медорад. Агар ин ду файл мувофиқ бошанд, npm ci версияҳои lock-файлро насб мекунад. npm run start фармони scripts.start-ро иҷро мекунад.",
-      "en": "package.json describes dependency ranges and project commands. package-lock.json records the resolved dependency tree. With both files in sync, npm ci installs from the lockfile. npm run start looks up scripts.start and runs its command."
+      "ru": "package.json описывает допустимые версии зависимостей и команды, а package-lock.json сохраняет выбранное дерево версий. Когда коллега запускает npm ci в проекте с согласованными файлами, он устанавливает версии из lock-файла. npm run start обращается к scripts.start и выполняет команду оттуда. Для нового проекта сначала выполните npm init -y в его папке: эта команда создаёт package.json. npm install сам по себе не гарантирует создание манифеста; npm может выбрать проект в родительской папке.",
+      "tg": "package.json ҳудуди версияҳо ва командаҳоро менависад. package-lock.json версияҳои интихобшуда ва вобастагиҳои онҳоро нигоҳ медорад. Агар ин ду файл мувофиқ бошанд, npm ci версияҳои lock-файлро насб мекунад. npm run start фармони scripts.start-ро иҷро мекунад. Барои проекти нав аввал дар папкааш npm init -y иҷро кунед: ҳамин фармон package.json месозад. Худи npm install сохтани манифестро кафолат намедиҳад; npm метавонад проекти папкаи болоро интихоб кунад.",
+      "en": "package.json describes dependency ranges and project commands. package-lock.json records the resolved dependency tree. With both files in sync, npm ci installs from the lockfile. npm run start looks up scripts.start and runs its command. For a new project first run npm init -y in its folder: that creates package.json. npm install alone does not guarantee a new manifest; npm may select an ancestor project."
      }
     }
    ],
@@ -924,7 +1120,13 @@
        "en": "package install"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "package.json перечисляет зависимости проекта. Какая команда npm читает этот список и кладёт пакеты в node_modules?",
+      "tg": "package.json вобастагиҳои лоиҳаро рӯйхат мекунад. Кадом фармони npm ин рӯйхатро мехонад ва бастаҳоро ба node_modules мегузорад?",
+      "en": "package.json lists the project dependencies. Which npm command reads this list and puts the packages into node_modules?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "nodejs-day-05-q2",
@@ -955,7 +1157,50 @@
        "en": "Any version is allowed, including 9.9.9"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Значок ^ означает «разрешай совместимые обновления». Что в semver меняется в патчах и минорах, а что требует изменения мажора?",
+      "tg": "Ишораи ^ маънои «навсозиҳои мувофиқ роҳ бидиҳ» дорад. Дар semver дар патчҳо ва минорҳо чӣ тағйир меёбад ва кадом тағйир мажор талаб мекунад?",
+      "en": "The caret means \"allow compatible updates\". What changes in patches and minors in semver, and what requires a major bump?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-05-q3",
+     "question": {
+      "ru": "Как явно создать package.json для нового проекта в текущей учебной папке?",
+      "tg": "Чӣ хел package.json-ро барои проекти нав дар папкаи ҳозираи омӯзишӣ ошкоро месозед?",
+      "en": "How do you explicitly create package.json for a new project in the current learning folder?"
+     },
+     "options": [
+      {
+       "ru": "Выполнить npm init -y в этой папке",
+       "tg": "Дар ҳамин папка npm init -y иҷро кардан",
+       "en": "Run npm init -y in that folder"
+      },
+      {
+       "ru": "npm упадёт с фатальной ошибкой и ничего не создаст",
+       "tg": "npm бо хатои ҷиддӣ мепарад ва ҳеҷ чиз намеофарад",
+       "en": "npm crashes with a fatal error and creates nothing"
+      },
+      {
+       "ru": "npm установит все популярные пакеты заранее",
+       "tg": "npm ҳамаи бастаҳои маъмулро пешакӣ насб мекунад",
+       "en": "npm pre-installs all popular packages"
+      }
+     ],
+     "answer": {
+      "ru": "Выполнить npm init -y в этой папке",
+      "tg": "Дар ҳамин папка npm init -y иҷро кардан",
+      "en": "Run npm init -y in that folder"
+     },
+     "correctIndex": 0,
+     "hint": {
+      "ru": "npm install устанавливает зависимости; создание нового манифеста — отдельная команда init. Проверьте текущую папку перед запуском.",
+      "tg": "npm install dependency-ҳоро насб мекунад; сохтани манифести нав фармони ҷудогонаи init аст. Пеш аз иҷро папкаи ҳозираро санҷед.",
+      "en": "npm install installs dependencies; initializing a new manifest is the separate init command. Check the current folder first."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1102,7 +1347,13 @@
        "en": "At index length + 1"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Не забудьте нумерацию с нуля и два элемента перед пользовательскими данными: где в этом списке начинается ввод пользователя?",
+      "tg": "Рақамгузории аз сифр ва ду унсури пеш аз маълумоти истифодакунандаро фаромӯш накунед: вуруди истифодакунанда дар ин рӯйхат аз куҷо оғоз мешавад?",
+      "en": "Remember zero-based numbering and the two elements before the user data: where does user input start in this list?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "nodejs-day-06-q2",
@@ -1133,7 +1384,50 @@
        "en": "200"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Скрипты автоматизации проверяют код выхода предыдущей команды. Что принято возвращать при успехе в Unix-традиции?",
+      "tg": "Скриптҳои автоматизатсия коди хуруҷи фармони пешинро месанҷанд. Дар анъанаи Unix ҳангоми муваффақият чӣ бармегардонанд?",
+      "en": "Automation scripts check the previous command's exit code. What does Unix tradition return on success?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "nodejs-day-06-q3",
+     "question": {
+      "ru": "Что вернёт process.argv[3] при запуске node main.mjs greet Firdaus?",
+      "tg": "process.argv[3] ҳангоми иҷрои node main.mjs greet Firdaus чӣ бармегардонад?",
+      "en": "What does process.argv[3] return for node main.mjs greet Firdaus?"
+     },
+     "options": [
+      {
+       "ru": "'greet'",
+       "tg": "'greet'",
+       "en": "'greet'"
+      },
+      {
+       "ru": "undefined",
+       "tg": "undefined",
+       "en": "undefined"
+      },
+      {
+       "ru": "'Firdaus'",
+       "tg": "'Firdaus'",
+       "en": "'Firdaus'"
+      }
+     ],
+     "answer": {
+      "ru": "'Firdaus'",
+      "tg": "'Firdaus'",
+      "en": "'Firdaus'"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Нумерация argv начинается с нуля, и первые элементы заняты не пользователем: где стоят путь к node и путь к скрипту?",
+      "tg": "Рақамгузории argv аз сифр оғоз мешавад ва унсурҳои аввал ба истифодакунанда тааллуқ надоранд: роҳ ба node ва роҳ ба скрипт дар куҷост?",
+      "en": "argv numbering starts at zero and the first elements are not the user's: where are the path to node and the path to the script?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1222,6 +1516,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: объём файла, кодировка и пути из дня 9",
+      "tg": "Чуқуртар: ҳаҷми файл, кодировка ва роҳҳо аз рӯзи 9",
+      "en": "Deeper: file size, encoding and paths from day 9"
+     },
+     "body": {
+      "ru": "Чтение целиком удобно, пока файл помещается в память: учебные записи — да, журнал на сотни мегабайт — нет: процесс займёт всю память ради одной строки. Граница случая — пустой файл: split('\n') вернёт одну пустую строку, поэтому «нет строк» проверяйте по длине текста, а не по массиву. Кодировка 'utf8' — обещание превратить байты в символы: латиница и кириллица, включая таджикские буквы, живут в UTF-8 честно, а бинарный файл — картинку — текстом читать нельзя: символы потеряют смысл. Связь с днём 9: path.join соединяет части пути, но относительный путь всё ещё зависит от папки запуска. Для файла рядом с main.mjs используйте абсолютную основу: path.join(import.meta.dirname, \"note.txt\"). В CommonJS такой основой служит __dirname. Связь с днём 22: большие файлы читают потоком — сегодня только маленькие файлы.",
+      "tg": "Хондани пурра то он вақт қулай аст, ки файл дар хотира ҷой гирад: сабтҳои омӯзишии чандсатр — бале, маҷаллаи садҳо мегабайт — не: процесс тамоми хотираро ишғол мекунад барои як сатр. Ҳолати канорӣ — файли холӣ: split('\n') як сатри холӣ медиҳад, бинобар ин «сатр нест»-ро аз дарозии матн санҷед, на аз массив. Кодировкаи 'utf8' — ваъдаи табдили байтҳо ба аломатҳо: лотинӣ ва кириллӣ, аз ҷумла ҳарфҳои тоҷикӣ, дар UTF-8 росткорӣ мекунанд, файлҳои бинарӣ — тасвирҳо — ҳамчун матн хондан мумкин нест: аломатҳо маъно тарк мекунанд. Пайванд бо рӯзи 9: path.join қисмҳои роҳро мепайвандад, вале роҳи нисбӣ ҳоло ҳам ба папкаи оғоз вобаста аст. Барои файл дар паҳлуи main.mjs асоси абсолютӣ гиред: path.join(import.meta.dirname, \"note.txt\"). Дар CommonJS чунин асос __dirname аст. Пайванд бо рӯзи 22: файлҳои калонро ҷараёнан пора-пора мехонанд — имрӯз кор бо файлҳои хурд аст.",
+      "en": "Reading a whole file is fine while it fits in memory: a few learning lines — yes, a hundreds-of-megabytes log — no: the process consumes all memory for one line. Edge case — an empty file: split('\n') returns one empty line, so check \"no lines\" by text length, not by the array. The 'utf8' encoding is a promise to turn bytes into characters: Latin and Cyrillic, including Tajik letters, live honestly in UTF-8, while a binary file — a picture — must not be read as text: the characters lose meaning. Link to day 9: path.join joins path segments, but a relative result still depends on the launch folder. For a file next to main.mjs, use an absolute anchor: path.join(import.meta.dirname, \"note.txt\"). In CommonJS use __dirname as that anchor. Link to day 22: large files are read as streams in chunks — today you only handle small files."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и самостоятельная работа",
       "tg": "Хатоҳои маъмулӣ ва кори мустақилона",
       "en": "Common mistakes and independent work"
@@ -1263,7 +1569,13 @@
        "en": "An error object"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Без опции кодировки fs не знает, как превратить байты в строку. Какой объект вернёт fs в этом случае — вспомните раздел про частые ошибки.",
+      "tg": "Бе опсияи кодировка fs намедонад, ки байтҳоро чӣ тавр ба сатр табдил диҳад. fs дар ин ҳолат кадом объектро бармегардонад — бахши хатоҳои маъмулро ба ёд оред.",
+      "en": "Without the encoding option fs does not know how to turn bytes into a string. Which object does fs return then — recall the common-mistakes section."
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-07-q2",
@@ -1294,7 +1606,50 @@
        "en": "Not enough permissions to read"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Код ошибки — строка в свойстве error.code. ENOENT расшифровывается как ERROR NO ENTRY: о какой ситуации файловой системы он говорит?",
+      "tg": "Коди хато сатр дар хосияти error.code аст. ENOENT ҳамчун ERROR NO ENTRY тафсир мешавад: дар бораи кадом вазъияти системаи файлӣ сухан мегӯяд?",
+      "en": "The error code is a string on error.code. ENOENT stands for ERROR NO ENTRY: which filesystem situation does it describe?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-07-q3",
+     "question": {
+      "ru": "Почему нельзя читать картинку через readFileSync('photo.png', 'utf8') и сохранять результат как текст?",
+      "tg": "Чаро тасвирро тавассути readFileSync('photo.png', 'utf8') хондан ва натиҷаро ҳамчун матн нигоҳ доштан мумкин нест?",
+      "en": "Why must you not read a picture via readFileSync('photo.png', 'utf8') and store the result as text?"
+     },
+     "options": [
+      {
+       "ru": "Байты картинки пройдут декодирование UTF-8 и необратимо испортятся",
+       "tg": "Байтҳои тасвир аз декодкунӣ-и UTF-8 мегузаранд ва бе баргардон вайрон мешаванд",
+       "en": "The picture bytes go through UTF-8 decoding and are irreversibly corrupted"
+      },
+      {
+       "ru": "readFileSync отказывается работать с файлами нетекстовых расширений",
+       "tg": "readFileSync бо файлҳои пасванди ғайриматнӣ кор карданро рад мекунад",
+       "en": "readFileSync refuses to work with non-text file extensions"
+      },
+      {
+       "ru": "Картинка прочитается нормально, изменится только тип переменной",
+       "tg": "Тасвир дуруст мехонда мешавад, танҳо навъи тағйирёбанда тағйир меёбад",
+       "en": "The picture reads fine; only the variable type changes"
+      }
+     ],
+     "answer": {
+      "ru": "Байты картинки пройдут декодирование UTF-8 и необратимо испортятся",
+      "tg": "Байтҳои тасвир аз декодкунӣ-и UTF-8 мегузаранд ва бе баргардон вайрон мешаванд",
+      "en": "The picture bytes go through UTF-8 decoding and are irreversibly corrupted"
+     },
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Кодировка превращает байты в символы по правилам UTF-8. Что случится с байтами, которые не были текстом и не имеют осмысленного символа?",
+      "tg": "Кодировка байтҳоро бо қоидаҳои UTF-8 ба аломат табдил медиҳад. Ба байтҳое, ки матн набуданд ва аломати маънонадошта надоштанд, чӣ мешавад?",
+      "en": "Encoding turns bytes into characters according to UTF-8 rules. What happens to bytes that were never text and have no meaningful character?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1383,6 +1738,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: режимы записи и пара «записал — прочитал»",
+      "tg": "Чуқуртар: реҷаҳои навиштан ва ҷуфти «нависид — хонед»",
+      "en": "Deeper: write modes and the write-then-read pair"
+     },
+     "body": {
+      "ru": "Разница между writeFileSync и appendFileSync — в режиме открытия файла: перезапись с нуля или дописывание в конец; у асинхронных writeFile и appendFile в следующих днях поведение то же. Граница случая: дописывание без \n склеит записи в одну строку, и счётчик строк из дня 7 обманется — перенос строки часть каждой записи. Пара «записал — прочитал» — привычка настоящего проекта: после записи прочитайте файл и сверьте содержимое, как делает пример с diary.txt. Путь в реальной программе собирают через path.join (день 9): скрипт могут запустить из другой папки. unlinkSync корзины не имеет: удаляют только то, что создал сам скрипт; к чужому файлу — existsSync и вежливое сообщение.",
+      "tg": "Фарқи writeFileSync ва appendFileSync дар реҷаи кушодани файл аст: аз сар навиштан ё ба охир илова кардан; дар writeFile ва appendFile-и асинхронии рӯзҳои оянда рафтор ҳамон аст. Ҳолати канорӣ: илова кардан бе \n сабтҳоро ба як сатр мечаспонад ва шуморандаи сатрҳои рӯзи 7 фиреб мехӯрад — интиқоли сатр қисми ҳар сабт аст. Ҷуфти «нависид — хонед» одати лоиҳаи воқеӣ аст: баъди навиштан файлро хонед ва мазмунро муқоиса кунед, мисли мисоли diary.txt. Роҳро дар барномаи воқеӣ бо path.join ҷамъ мекунанд (рӯзи 9): скриптро аз папкаи дигар оғоз кардан мумкин. unlinkSync сандуқ надорад, бинобар ин танҳо онро нест мекунанд, ки худи скрипт офаридааст; барои файли дигарон — existsSync аз ҳамон се ва паёми мулоим ба ҷои сукут.",
+      "en": "The difference between writeFileSync and appendFileSync is the open mode: rewrite from scratch or append to the end; the asynchronous writeFile and appendFile in later days behave the same. Edge case: appending without \n glues records into one line, and the line counter from day 7 is fooled — the line break is part of each record. The write-then-read pair is a real-project habit: after writing, read the file back and compare, as the diary.txt example does. In a real program the path is built with path.join (day 9): the script may be launched from another folder. unlinkSync has no recycle bin, so only remove what the script itself created; for someone else's file use existsSync from the same trio and a polite message instead of a crash."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и самостоятельная работа",
       "tg": "Хатоҳои маъмулӣ ва кори мустақилона",
       "en": "Common mistakes and independent work"
@@ -1424,7 +1791,13 @@
        "en": "Nothing — the write will fail"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Перечитайте первую секцию: у записи и дописывания разные режимы открытия файла. Что происходит со старым содержимым при writeFileSync?",
+      "tg": "Бахши аввалро аз нав бихонед: навиштан ва илова кардан реҷаҳои гуногуни кушодани файл доранд. Ба мазмуни кӯҳна ҳангоми writeFileSync чӣ мешавад?",
+      "en": "Re-read the first section: writing and appending use different file open modes. What happens to the old content on writeFileSync?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "nodejs-day-08-q2",
@@ -1455,7 +1828,50 @@
        "en": "appendFileSync"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Название функции говорит само: append — дописать в конец. Что произойдёт с существующими строками журнала?",
+      "tg": "Номи функсия худ сухан мегӯяд: append — ба охир илова кардан. Бо сатрҳои мавҷудаи маҷалла чӣ мешавад?",
+      "en": "The function name says it: append — add to the end. What happens to the existing log lines?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-08-q3",
+     "question": {
+      "ru": "Что произойдёт при unlinkSync('diary.txt'), если файла нет, а проверка и try/catch отсутствуют?",
+      "tg": "Ҳангоми unlinkSync('diary.txt'), агар файл набошад ва санҷиш ва try/catch набошанд, чӣ мешавад?",
+      "en": "What happens on unlinkSync('diary.txt') when the file does not exist and there is no check or try/catch?"
+     },
+     "options": [
+      {
+       "ru": "Функция выбросит ошибку ENOENT, и программа упадёт",
+       "tg": "Функсия хатои ENOENT мепарронад ва барнома мепарад",
+       "en": "The function throws an ENOENT error and the program crashes"
+      },
+      {
+       "ru": "Файл будет создан пустым и сразу удалён",
+       "tg": "Файли холӣ офарида мешавад ва фавран нест карда мешавад",
+       "en": "An empty file is created and immediately removed"
+      },
+      {
+       "ru": "unlinkSync молча вернёт false",
+       "tg": "unlinkSync беовоз false бармегардонад",
+       "en": "unlinkSync silently returns false"
+      }
+     ],
+     "answer": {
+      "ru": "Функция выбросит ошибку ENOENT, и программа упадёт",
+      "tg": "Функсия хатои ENOENT мепарронад ва барнома мепарад",
+      "en": "The function throws an ENOENT error and the program crashes"
+     },
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните день 7: какой error.code выдаёт fs, когда файла по пути нет, и что нужно обернуть вокруг опасной операции?",
+      "tg": "Рӯзи 7-ро ба ёд оред: fs ҳангоми набудани файл дар роҳ кадом error.code-ро медиҳад ва атрофи амалиёти хатарнок чӣ бояд бошад?",
+      "en": "Recall day 7: what error.code does fs produce when the file is missing, and what should wrap the risky operation?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1597,7 +2013,13 @@
        "en": "'photo'"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Функция смотрит на последнюю точку последней части пути: что идёт от неё до конца строки?",
+      "tg": "Функсия ба нуқтаи охирини қисми охирини роҳ нигоҳ мекунад: аз он то охири сатр чӣ меояд?",
+      "en": "The function looks at the last dot in the last part of the path: what follows it to the end of the string?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-09-q2",
@@ -1628,7 +2050,50 @@
        "en": "there is no difference, it is the same thing"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Склейка строк не знает о разделителях платформы и не чистит путь от лишних слешей и точек. Что делает path.join со всеми сегментами?",
+      "tg": "Пайвасти сатрҳо дар бораи ҷудокунандаҳои платформа намедонад ва роҳро аз слешҳо ва нуқтаҳои зиёдатӣ тоза намекунад. path.join бо ҳамаи сегментҳо чӣ мекунад?",
+      "en": "String concatenation knows nothing about platform separators and does not clean extra slashes and dots. What does path.join do with all segments?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-09-q3",
+     "question": {
+      "ru": "Что вернёт path.extname('archive.tar.gz')?",
+      "tg": "path.extname('archive.tar.gz') чӣ бармегардонад?",
+      "en": "What does path.extname('archive.tar.gz') return?"
+     },
+     "options": [
+      {
+       "ru": "'.tar.gz' — обе части расширения",
+       "tg": "'.tar.gz' — ҳарду қисми пасванд",
+       "en": "'.tar.gz' — both extension parts"
+      },
+      {
+       "ru": "'.tar' — первое расширение",
+       "tg": "'.tar' — аввалин пасванд",
+       "en": "'.tar' — the first extension"
+      },
+      {
+       "ru": "'.gz' — от последней точки до конца",
+       "tg": "'.gz' — аз нуқтаи охирин то охир",
+       "en": "'.gz' — from the last dot to the end"
+      }
+     ],
+     "answer": {
+      "ru": "'.gz' — от последней точки до конца",
+      "tg": "'.gz' — аз нуқтаи охирин то охир",
+      "en": "'.gz' — from the last dot to the end"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "path.extname смотрит только на последнее вхождение точки в последней части пути. До какого места строки он дойдёт?",
+      "tg": "path.extname танҳо ба вуруди охирини нуқта дар қисми охирини роҳ нигоҳ мекунад. То куҷои сатр мерасад?",
+      "en": "path.extname looks only at the last dot in the last portion of the path. Where in the string does it stop?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1718,6 +2183,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: асинхронная ошибка и воспроизведение бага",
+      "tg": "Чуқуртар: хатои асинхронӣ ва такрори хато",
+      "en": "Deeper: the asynchronous error and reproducing a bug"
+     },
+     "body": {
+      "ru": "Синхронный стектрейс вы уже читали: кадры ведут от точки падения к вашей строке. У ошибки в колбэке таймера кадры другие: между вашим кодом и точкой падения появятся внутренние файлы Node.js — ищите первую строку своего файла. Граница случая: try/catch вокруг setTimeout не поймает исключение из колбэка — стек синхронного вызова давно завершён; оно всплывает как необработанное. Воспроизведение — половина отладки: уменьшите данные до одного элемента, сохраните вход, включите node --watch. Связь с днями: провалившийся assert из дня 2 печатает тот же стектрейс; в дне 19 ловля ошибок станет кодом 500. Логируйте ошибку с входными данными: «divide(10, 0) упал с RangeError» воспроизводится сразу.",
+      "tg": "Стектрейси синхрониро аллакай хонед: кадрҳо аз нуқтаи сукут ба сатри шумо мебаранд. Дар хатои колбэки таймер кадрҳо дигаранд: миёни коди шумо ва нуқтаи сукут файлҳои дохилии Node.js пайдо мешаванд — аввалин сатри файли худро ҷустуҷӯ кунед ва аз номаълум набарсеед. Ҳолати канорӣ: try/catch атрофи setTimeout истиснои колбэкро намегирад — стекси даъвати синхронӣ давно тамом шудааст; он ҳамчун корнашуда бармеояд. Такрор кардани хато — нимаи дурустии барнома: маълумотро то як унсур кам кунед, вурудро нигоҳ доред ва node --watch-ро оғоз кунед, то тағйир фавран барномаро аз нав оғоз кунад. Пайванд бо рӯзҳо: assert-и сукуткунандаи рӯзи 2 ҳамон стектрейсро чоп мекунад; дар рӯзи 19 гирифтани хатоҳо коди 500-и рӯшан мегардад. Хаторо бо вурудро сабт кунед: «divide(10, 0) бо RangeError сукут» фавран такрор мешавад, «чизе вайрон шуд» — ҳеғиз.",
+      "en": "You already read a synchronous stack trace: frames lead from the crash point to your line. For an error in a timer callback the frames differ: internal Node.js files appear between your code and the crash point — find the first line of your own file and do not fear the strangers. Edge case: try/catch around setTimeout will not catch an exception from the callback — the synchronous stack has long finished; it surfaces as an unhandled error. Reproduction is half of debugging: shrink the data to one item, keep the input, and run node --watch so every edit restarts the program. Links: a failing assert from day 2 prints the same trace; on day 19 error handling becomes an honest 500. Log the error together with the input: \"divide(10, 0) failed with RangeError\" reproduces at once; \"something broke\" never does."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и самостоятельная работа",
       "tg": "Хатоҳои маъмулӣ ва кори мустақилона",
       "en": "Common mistakes and independent work"
@@ -1759,7 +2236,13 @@
        "en": "A stack trace is read in random order"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Верхние кадры часто указывают на внутренности Node.js. Где в списке назван ваш файл?",
+      "tg": "Кадрҳои болоӣ аксаран ба дохилияти Node.js ишора мекунанд. Файли шумо дар рӯйхат дар куҷо номбар шудааст?",
+      "en": "The top frames often point at Node.js internals. Where in the list is your own file named?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "nodejs-day-10-q2",
@@ -1790,7 +2273,50 @@
        "en": "It only works in Windows"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Разница не в цвете текста, а в потоке вывода: у процесса есть stdout и stderr. Какой из них использует console.error и почему это важно для логов?",
+      "tg": "Фарқ дар ранги матн не, дар ҷараёни барориш аст: процесс stdout ва stderr дорад. console.error кадомро истифода мебарад ва чаро барои логҳо муҳим аст?",
+      "en": "The difference is not the text color but the output stream: a process has stdout and stderr. Which one does console.error use, and why does it matter for logs?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-10-q3",
+     "question": {
+      "ru": "Что произойдёт с исключением, выброшенным внутри колбэка setTimeout, если его никто не ловит?",
+      "tg": "Бо истисное, ки дар колбэки setTimeout парронда шуда ва ҳеҷ кас намегирад, чӣ мешавад?",
+      "en": "What happens to an exception thrown inside a setTimeout callback when nobody catches it?"
+     },
+     "options": [
+      {
+       "ru": "try/catch вокруг setTimeout поймает её при следующем тике",
+       "tg": "try/catch-и атрофи setTimeout онро дар таки навбатӣ мегирад",
+       "en": "A try/catch around setTimeout catches it on the next tick"
+      },
+      {
+       "ru": "Она молча исчезнет, и процесс продолжит работу",
+       "tg": "Он беовоз нобуд мешавад ва процесс корро идома медиҳад",
+       "en": "It silently disappears and the process keeps running"
+      },
+      {
+       "ru": "Node напечатает стектрейс как необработанную ошибку, и процесс упадёт",
+       "tg": "Node стектрейсро ҳамчун хатои корнашуда чоп мекунад ва процесс мепарад",
+       "en": "Node prints a stack trace as an uncaught error, and the process crashes"
+      }
+     ],
+     "answer": {
+      "ru": "Node напечатает стектрейс как необработанную ошибку, и процесс упадёт",
+      "tg": "Node стектрейсро ҳамчун хатои корнашуда чоп мекунад ва процесс мепарад",
+      "en": "Node prints a stack trace as an uncaught error, and the process crashes"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Стек вызова синхронного кода уже завершён, когда таймер срабатывает: try/catch из другого времени не подоспеет. Куда попадает исключение без обработчика?",
+      "tg": "Стекси даъвати коди синхронӣ ҳангоми кори таймер давно тамом шудааст: try/catch-и вақти дигар дарс намегарбад. Бо истиснои бе коргар чӣ мешавад?",
+      "en": "The synchronous call stack has already finished when the timer fires: a try/catch from another time will not arrive. Where does an unhandled exception go?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1932,7 +2458,13 @@
        "en": "The function returned undefined"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "error-first договорённость: первый аргумент — место для ошибки. Что означает его отсутствие для второй ветки кода?",
+      "tg": "Шартномаи error-first: аргументи аввал ҷои хато аст. Набудани он барои шохаи дуюми код чӣ маъно дорад?",
+      "en": "The error-first convention: the first argument is the slot for an error. What does its absence mean for the success branch?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-11-q2",
@@ -1963,7 +2495,50 @@
        "en": "As many times as needed, without limits"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Одна операция — один итог: либо ошибка, либо результат. Сколько вызовов соответствует этому контракту и что будет при повторном?",
+      "tg": "Як амалиёт — як натиҷа: ё хато ё натиҷа. Ба ин шартнома чанд даъват мувофиқ аст ва ҳангоми такрор чӣ мешавад?",
+      "en": "One operation — one outcome: either an error or a result. How many calls fit this contract, and what happens on a repeat?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-11-q3",
+     "question": {
+      "ru": "Что произойдёт, если в error-first колбэке после callback(err) забыть return?",
+      "tg": "Агар дар колбэки error-first баъди callback(err) return фаромӯш шавад, чӣ мешавад?",
+      "en": "What happens if you forget return after callback(err) in an error-first callback?"
+     },
+     "options": [
+      {
+       "ru": "Ничего: Node сам остановит выполнение функции после callback(err)",
+       "tg": "Ҳеҷ чиз: Node иҷрои функсияро баъди callback(err) худ мебандад",
+       "en": "Nothing: Node stops the function itself after callback(err)"
+      },
+      {
+       "ru": "Функция продолжит работу и вызовет callback второй раз с результатом",
+       "tg": "Функсия корро идома дода callback-ро дуюм маротиба бо натиҷа даъват мекунад",
+       "en": "The function keeps running and calls the callback a second time with a result"
+      },
+      {
+       "ru": "Колбэк нельзя вызвать дважды — будет TypeError",
+       "tg": "Колбэкро ду маротиба даъват кардан мумкин нест — TypeError мешавад",
+       "en": "A callback cannot be called twice — a TypeError is raised"
+      }
+     ],
+     "answer": {
+      "ru": "Функция продолжит работу и вызовет callback второй раз с результатом",
+      "tg": "Функсия корро идома дода callback-ро дуюм маротиба бо натиҷа даъват мекунад",
+      "en": "The function keeps running and calls the callback a second time with a result"
+     },
+     "correctIndex": 1,
+     "hint": {
+      "ru": "return останавливает вашу функцию, а не вызов callback: продумайте порядок строк после if (error) { callback(error); }.",
+      "tg": "return функсияи шуморо мебандад, на даъвати callback: тартиби сатрҳоро баъди if (error) { callback(error); } ба назар гузаронед.",
+      "en": "return stops your function, not the callback call: think through the line order after if (error) { callback(error); }."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2105,7 +2680,13 @@
        "en": "Nothing — the chain breaks"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Цепочка ждёт, когда промис разрешится: какой шаг .then получит его итоговое значение?",
+      "tg": "Занҷир интизор аст, ки промис ҳал шавад: кадом қадами .then арзиши ниҳоии вайро мегирад?",
+      "en": "The chain waits for the promise to settle: which .then step receives its final value?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "nodejs-day-12-q2",
@@ -2136,7 +2717,50 @@
        "en": "node:file"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Импорт в примере дня берёт функции из node:fs/promises. Какое преимущество даёт эта версия API по сравнению с колбэками?",
+      "tg": "Импорти дар мисоли рӯз функсияҳоро аз node:fs/promises мегирад. Ин версияи API нисбат ба колбэкҳо кадом бартариро медиҳад?",
+      "en": "The example imports functions from node:fs/promises. What advantage does this API version have over callbacks?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-12-q3",
+     "question": {
+      "ru": "Что произойдёт с ошибкой из readFile в цепочке .then(...), если в конце нет .catch?",
+      "tg": "Бо хатои readFile дар занҷири .then(...), агар дар охир .catch набошад, чӣ мешавад?",
+      "en": "What happens to an error from readFile in a .then(...) chain when there is no .catch at the end?"
+     },
+     "options": [
+      {
+       "ru": "Промис заново выбросит ошибку в самый первый .then",
+       "tg": "Промис хаторо аз нав дар аввалин .then мепарронад",
+       "en": "The promise rethrows the error into the very first .then"
+      },
+      {
+       "ru": "Промис останется pending, и программа зависнет",
+       "tg": "Промис pending мемонад ва барнома меистад",
+       "en": "The promise stays pending and the program hangs"
+      },
+      {
+       "ru": "Промис перейдёт в rejected, а отказ станет необработанным",
+       "tg": "Промис ба rejected мегузарад ва радкунӣ корнашуда мемонад",
+       "en": "The promise turns rejected and the rejection goes unhandled"
+      }
+     ],
+     "answer": {
+      "ru": "Промис перейдёт в rejected, а отказ станет необработанным",
+      "tg": "Промис ба rejected мегузарад ва радкунӣ корнашуда мемонад",
+      "en": "The promise turns rejected and the rejection goes unhandled"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "У промиса три состояния: pending, fulfilled и rejected. Что происходит с rejected-промисом, на чей отказ никто не подписался?",
+      "tg": "Промис се ҳолат дорад: pending, fulfilled ва rejected. Бо промиси rejected, ки ба радкунии вай касе обуна нашудааст, чӣ мешавад?",
+      "en": "A promise has three states: pending, fulfilled, rejected. What happens to a rejected promise whose rejection nobody subscribed to?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2278,7 +2902,13 @@
        "en": "Removes the promise from memory"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "await — пауза внутри async-функции: что делает функция, пока промис не разрешится, и что получает строка после await?",
+      "tg": "await — таваққуф даруни async-функсия аст: функсия то ҳалшавии промис чӣ мекунад ва сатри баъди await чӣ мегирад?",
+      "en": "await is a pause inside an async function: what does the function do until the promise settles, and what does the line after await receive?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "nodejs-day-13-q2",
@@ -2316,6 +2946,43 @@
       "en": "Check whether the second read needs the first result before it can start."
      },
      "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-13-q3",
+     "question": {
+      "ru": "В каком порядке напечатаются строки: console.log('A'); Promise.resolve().then(() => console.log('B')); console.log('C');?",
+      "tg": "Сатрҳо бо кадом тартиб чоп мешаванд: console.log('A'); Promise.resolve().then(() => console.log('B')); console.log('C');?",
+      "en": "In what order do these print: console.log('A'); Promise.resolve().then(() => console.log('B')); console.log('C');?"
+     },
+     "options": [
+      {
+       "ru": "A, C, B: колбэк промиса ждёт, пока синхронный код закончится",
+       "tg": "A, C, B: колбэки промис интизор аст, ки коди синхронӣ тамом шавад",
+       "en": "A, C, B: the promise callback waits for the sync code to finish"
+      },
+      {
+       "ru": "A, B, C: колбэк промиса выполняется сразу",
+       "tg": "A, B, C: колбэки промис фавран иҷро мешавад",
+       "en": "A, B, C: the promise callback runs immediately"
+      },
+      {
+       "ru": "Порядок не гарантирован и меняется между запусками",
+       "tg": "Тартиб кафолат надорад ва байни иҷроҳо тағйир меёбад",
+       "en": "The order is not guaranteed and changes between runs"
+      }
+     ],
+     "answer": {
+      "ru": "A, C, B: колбэк промиса ждёт, пока синхронный код закончится",
+      "tg": "A, C, B: колбэки промис интизор аст, ки коди синхронӣ тамом шавад",
+      "en": "A, C, B: the promise callback waits for the sync code to finish"
+     },
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Синхронный код не отдаёт управление, пока не закончится. Когда у колбэка промиса появляется шанс выполниться?",
+      "tg": "Коди синхронӣ то тамомшудан идора намедиҳад. Колбэки промис кадом лаҳза имкон иҷро меёбад?",
+      "en": "Synchronous code does not yield control until it finishes. When does the promise callback get its chance to run?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2457,7 +3124,13 @@
        "en": "There is no difference"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Название once — «один раз». Что происходит с подпиской после первого срабатывания события?",
+      "tg": "Номи once — «як маротиба» аст. Бо обуна баъди аввалин фаъолшавии ҳодиса чӣ мешавад?",
+      "en": "The name once means \"one time\". What happens to the subscription after the event fires for the first time?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-14-q2",
@@ -2488,7 +3161,50 @@
        "en": "Node.js creates a handler automatically"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Кухня из примера объявляет заказ: что произойдёт с заказом, если в зале никого нет? Событие — просто вызов подписчиков.",
+      "tg": "Ошхонаи мисол фармоиш эълон мекунад: бо фармоиш чӣ мешавад, агар дар зал касе набошад? Ҳодиса танҳо даъвати обунашавандагон аст.",
+      "en": "The kitchen in the example announces an order: what happens to it when nobody is in the hall? An event is just a call to subscribers."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-14-q3",
+     "question": {
+      "ru": "Что вернёт bus.emit('order'), если подписчиков на 'order' нет?",
+      "tg": "bus.emit('order') чӣ бармегардонад, агар обунашавандаи 'order' набошад?",
+      "en": "What does bus.emit('order') return when there are no subscribers to 'order'?"
+     },
+     "options": [
+      {
+       "ru": "true: событие всё равно было отправлено",
+       "tg": "true: ҳодиса ба ҳар ҳол фиристода шуд",
+       "en": "true: the event was dispatched anyway"
+      },
+      {
+       "ru": "Автоматически создаст нового подписчика",
+       "tg": "Худкор обунашавандаи нав мемеофарад",
+       "en": "It creates a new subscriber automatically"
+      },
+      {
+       "ru": "false: событие не имело слушателей",
+       "tg": "false: ҳодиса шунаванда надошт",
+       "en": "false: the event had no listeners"
+      }
+     ],
+     "answer": {
+      "ru": "false: событие не имело слушателей",
+      "tg": "false: ҳодиса шунаванда надошт",
+      "en": "false: the event had no listeners"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Документация node:api events описывает возвращаемое значение emit. Сверьтесь с ней: что она говорит про событие без слушателей?",
+      "tg": "Ҳуҷҷатҳои node:api events арзиши баргашти emit-ро тавсиф мекунад. Бо он муқоиса кунед: дар бораи ҳодисаи бе шунаванда чӣ мегӯяд?",
+      "en": "The node:api events documentation describes emit's return value. Check it: what does it say about an event without listeners?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2630,7 +3346,13 @@
        "en": "The server broke internally"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Коды статусов — договорённости: 2xx успех, 4xx вина клиента. Что означает четвёртая сотня для запрошенного маршрута?",
+      "tg": "Кодҳои вазъият — шартномаанд: 2xx муваффақият, 4xx гунаҳкории муштарӣ. Садачаи чорум барои роҳи дархостшуда чӣ маъно дорад?",
+      "en": "Status codes are conventions: 2xx success, 4xx client fault. What does the 4-hundred class mean for the requested route?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-15-q2",
@@ -2661,7 +3383,50 @@
        "en": "It encrypts the response"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Браузер решает по заголовкам, как обрабатывать тело ответа: отрисовать HTML, исполнить JS, показать картинку. Что произойдёт без этой подсказки?",
+      "tg": "Браузер аз рӯи сарлавҳаҳо қарор мекунад, ки тани ҷавобро чӣ тавр коркард кунад: HTML тарҳрезӣ, иҷрои JS, нишон додани тасвир. Бе ин ишора чӣ мешавад?",
+      "en": "The browser decides from headers how to handle the body: render HTML, run JS, show an image. What happens without that hint?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-15-q3",
+     "question": {
+      "ru": "Что содержит request.url при запросе GET /status?name=ryan?",
+      "tg": "request.url ҳангоми дархости GET /status?name=ryan чиро дар бар дорад?",
+      "en": "What does request.url contain for the GET /status?name=ryan request?"
+     },
+     "options": [
+      {
+       "ru": "Объект с полями pathname и search",
+       "tg": "Объект бо майдонҳои pathname ва search",
+       "en": "An object with pathname and search fields"
+      },
+      {
+       "ru": "Только путь '/status' без строки запроса",
+       "tg": "Танҳо роҳи '/status' бе сатри дархост",
+       "en": "Only the path '/status' without the query string"
+      },
+      {
+       "ru": "Строку '/status?name=ryan' — путь вместе со строкой запроса",
+       "tg": "Сатри '/status?name=ryan' — роҳ ҳамроҳ бо сатри дархост",
+       "en": "The string '/status?name=ryan' — the path together with the query string"
+      }
+     ],
+     "answer": {
+      "ru": "Строку '/status?name=ryan' — путь вместе со строкой запроса",
+      "tg": "Сатри '/status?name=ryan' — роҳ ҳамроҳ бо сатри дархост",
+      "en": "The string '/status?name=ryan' — the path together with the query string"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "request.url — строка из первой строки HTTP-запроса: браузер шлёт путь целиком. Где заканчивается путь и начинается строка запроса?",
+      "tg": "request.url — сатри аз сатри аввали дархости HTTP аст: браузер роҳро тамоман мефиристад. Роҳ дар куҷо тамом ва сатри дархост оғоз мешавад?",
+      "en": "request.url is the string from the HTTP request line: the browser sends the path whole. Where does the path end and the query begin?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -2803,7 +3568,13 @@
        "en": "JSON.toString"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В примере дня объект задачи превращается в строку для response.end: какая функция пары stringify/parse здесь нужна?",
+      "tg": "Дар мисоли рӯз объекти вазифа ба сатр барои response.end табдил мешавад: кадом функсияи ҷуфти stringify/parse ин ҷо лозим аст?",
+      "en": "In the day example the todo object becomes a string for response.end: which function of the stringify/parse pair is needed here?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-16-q2",
@@ -2841,6 +3612,43 @@
       "en": "Separate bad input text from a program failure after parsing."
      },
      "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-16-q3",
+     "question": {
+      "ru": "Что произойдёт при вызове JSON.parse('undefined')?",
+      "tg": "Ҳангоми даъвати JSON.parse('undefined') чӣ мешавад?",
+      "en": "What happens when JSON.parse('undefined') is called?"
+     },
+     "options": [
+      {
+       "ru": "Вернёт undefined",
+       "tg": "undefined бармегардонад",
+       "en": "It returns undefined"
+      },
+      {
+       "ru": "Вернёт null",
+       "tg": "null бармегардонад",
+       "en": "It returns null"
+      },
+      {
+       "ru": "Выбросит SyntaxError: это не валидный JSON",
+       "tg": "SyntaxError мепарронад: ин JSON-и дуруст нест",
+       "en": "It throws a SyntaxError: this is not valid JSON"
+      }
+     ],
+     "answer": {
+      "ru": "Выбросит SyntaxError: это не валидный JSON",
+      "tg": "SyntaxError мепарронад: ин JSON-и дуруст нест",
+      "en": "It throws a SyntaxError: this is not valid JSON"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "JSON.parse принимает только корректный JSON-текст. Проверьте, является ли слово undefined допустимым JSON-значением.",
+      "tg": "JSON.parse танҳо матни JSON-и дуруст қабул мекунад. Санҷед, ки оё калимаи undefined арзиши ҷоизи JSON аст.",
+      "en": "JSON.parse accepts only well-formed JSON text. Check whether the word undefined is a valid JSON value."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2982,7 +3790,13 @@
        "en": "It throws an exception"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "get возвращает значение найденного поля. Что вернётся, если такого ключа в разобранных данных вообще нет?",
+      "tg": "get арзиши майдони ёфташударо бармегардонад. Агар чунин калид дар маълумоти таҳлилшуда тамоман набошад, чӣ бармегардад?",
+      "en": "get returns the value of a found field. What comes back when such a key is entirely absent from the parsed data?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-17-q2",
@@ -3013,7 +3827,50 @@
        "en": "An XML document"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Формы знали этот формат задолго до JSON: content-type из первой секции дня носит слово urlencoded. Что отправляет HTML-форма с методом POST, если атрибут enctype не указан?",
+      "tg": "Формҳо ин форматро хеле пеш аз JSON мешинохтанд: content-type-и бахши аввали рӯз калимаи urlencoded дорад. Формаи HTML бо усули POST чӣ мефиристад, агар атрибути enctype нишон дода нашуда бошад?",
+      "en": "HTML forms knew this format long before JSON: the day section's content-type carries the word urlencoded. What does an HTML form with method POST send when the enctype attribute is absent?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "nodejs-day-17-q3",
+     "question": {
+      "ru": "Что вернёт form.get('email') при отправке формы, где поле email есть, но осталось пустым?",
+      "tg": "form.get('email') ҳангоми ирсоли формае, ки майдони email ҳаст вале холӣ мондааст, чӣ бармегардонад?",
+      "en": "What does form.get('email') return when the email field is present but left empty?"
+     },
+     "options": [
+      {
+       "ru": "undefined",
+       "tg": "undefined",
+       "en": "undefined"
+      },
+      {
+       "ru": "null — как у отсутствующего поля",
+       "tg": "null — мисли майдони набуданӣ",
+       "en": "null — same as a missing field"
+      },
+      {
+       "ru": "'' — пустая строка",
+       "tg": "'' — сатри холӣ",
+       "en": "'' — an empty string"
+      }
+     ],
+     "answer": {
+      "ru": "'' — пустая строка",
+      "tg": "'' — сатри холӣ",
+      "en": "'' — an empty string"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Различите два случая: поле вообще отсутствует в данных и поле есть, но пользователь его не заполнил. Что вернёт get в каждом?",
+      "tg": "Ду ҳолатро фарқ кунед: майдон дар маълумот тамоман набошад ва майдон бошад вале истифодакунанда пур накунад. get дар ҳар кадом чӣ бармегардонад?",
+      "en": "Distinguish two cases: the field is entirely absent from the data, and the field is present but left unfilled. What does get return in each?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3103,6 +3960,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: полный цикл раздачи и крайние ветки маршрута",
+      "tg": "Чуқуртар: даври пурраи супориш ва шохаҳои канории роҳ",
+      "en": "Deeper: the full serving cycle and edge route branches"
+     },
+     "body": {
+      "ru": "Проверка пути — середина истории: обработчик после allowed читает файл с диска и отправляет его с content-type из таблицы, а файла нет — отвечает 404, как в дне 15. Крайняя ветка первая: запрос '/' имени файла не содержит — настоящие серверы сопоставляют его с index.html. Крайняя ветка вторая: расширения нет в таблице — вместо угадывания честно ответить 404, потому что неправильный content-type смутит браузер. Крупные картинки и видео отдают потоком из дня 22, не держа в памяти. Связь с днём 26: таблица типов и граница пути — две привычки безопасности; код safeFilePath переезжает в папку lib из дня 25 без единой правки. Пути запроса всегда начинаются со слеша, в отличие от путей file://.",
+      "tg": "Санҷиши роҳ — миёнаи ҳикоя: коргар баъди allowed файлро аз диск мехонад ва бо content-type-и ҷадвал мефиристад, набошад — 404 ҷавоб медиҳад, мисли рӯзи 15. Шохаи канории аввал: дархости '/' номи файл надорад — серверҳои воқеӣ онро бо index.html муқоиса мекунанд, бинобар ин шохаи алоҳида лозим. Шохаи канории дуюм: пасванд дар ҷадвал нест — ба ҷои маҳз гуфтан, 404-и рӯшан дуруст аст, чунки content-type-и хато браузерро сардор мекунад. Тасвирҳо ва видеоҳои калонро пурра намехонанд: онҳоро ҷараёнан аз рӯзи 22 мефиристанд, бе нигоҳ доштан дар хотира. Пайванд бо рӯзи 26: ҷадвали навъҳо ва ҳудуди роҳ — ду одати амният; коди safeFilePath ба папкаи lib-и рӯзи 25 бе як тағйир мекӯчад. Дар браузер муқоиса кунед: роҳҳои дархост ҳамеша бо слеш оғоз мешаванд, бар хилофи роҳҳои file://.",
+      "en": "Path checking is the middle of the story: after allowed the handler reads the file from disk and sends it with the table's content-type; if the file is missing it answers 404, as on day 15. First edge branch: the '/' request has no file name — real servers map it to index.html, so it needs a separate branch. Second edge branch: the extension is not in the table — answer 404 honestly instead of guessing, because a wrong content-type confuses the browser. Large images and videos are not read whole: they are served as a stream from day 22 without holding them in memory. Link to day 26: the type table and the path boundary are two security habits; the safeFilePath code moves into the lib folder of day 25 without a single edit. Compare in a browser: request paths always start with a slash, unlike file:// paths."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и самостоятельная работа",
       "tg": "Хатоҳои маъмулӣ ва кори мустақилона",
       "en": "Common mistakes and independent work"
@@ -3144,7 +4013,13 @@
        "en": "It deletes files on the server"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посчитайте шаги пути: что означает переход .. из папки public и куда попадёт итоговый путь?",
+      "tg": "Қадамҳои роҳро ҳисоб кунед: гузариши .. аз папкаи public чӣ маъно дорад ва роҳи ниҳоӣ ба куҷо мерасад?",
+      "en": "Count the path steps: what does going .. from the public folder mean, and where does the final path land?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-18-q2",
@@ -3175,7 +4050,50 @@
        "en": "The file size"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Содержимое файла не меняется, но браузер ведёт себя по-разному для .css и .png. Какой заголовок ответа это определяет?",
+      "tg": "Мазмуни файл тағйир намеёбад, вале браузер барои .css ва .png ба таври гуногун рафтор мекунад. Кадом сарлавҳаи ҷавоб инро муайян мекунад?",
+      "en": "The file contents do not change, yet the browser behaves differently for .css and .png. Which response header decides that?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-18-q3",
+     "question": {
+      "ru": "Что должен сделать обработчик на GET /../secret.txt, когда safeFilePath вернул null?",
+      "tg": "Коргари GET /../secret.txt ҳангоми null баргаштани safeFilePath чӣ бояд кунад?",
+      "en": "What should the handler for GET /../secret.txt do when safeFilePath returned null?"
+     },
+     "options": [
+      {
+       "ru": "Ответить статусом 403 или 404, но не отдать файл",
+       "tg": "Бо вазъияти 403 ё 404 ҷавоб диҳад, вале файл надиҳад",
+       "en": "Answer with status 403 or 404, but never send the file"
+      },
+      {
+       "ru": "Отправить содержимое файла с предупреждением в заголовке",
+       "tg": "Мазмуни файлро бо огоҳинома дар сарлавҳа мефиристад",
+       "en": "Send the file contents with a warning header"
+      },
+      {
+       "ru": "Редиректить на главную и там отдать файл",
+       "tg": "Ба саҳифаи асосӣ равона кунад ва он ҷо файл диҳад",
+       "en": "Redirect to the home page and serve the file there"
+      }
+     ],
+     "answer": {
+      "ru": "Ответить статусом 403 или 404, но не отдать файл",
+      "tg": "Бо вазъияти 403 ё 404 ҷавоб диҳад, вале файл надиҳад",
+      "en": "Answer with status 403 or 404, but never send the file"
+     },
+     "correctIndex": 0,
+     "hint": {
+      "ru": "safeFilePath вернул null — цель лежит вне папки публикации. Какое поведение безопасно для файла, который клиент не должен увидеть?",
+      "tg": "safeFilePath null баргардонид — ҳадаф аз папкаи нашр берун аст. Барои файле, ки муштарир набояд бирад, кадом рафтор бехатар аст?",
+      "en": "safeFilePath returned null — the target lies outside the published folder. What behavior is safe for a file the client must never see?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3318,7 +4236,13 @@
        "en": "404 — no such route"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ошибка не предвидена, её причина неизвестна: какой класс кодов честно говорит «на сервере что-то сломалось» — 4xx или 5xx?",
+      "tg": "Хато пешбинӣ нашудааст ва сабабаш маълум нест: кадом синфи кодҳо росткорона мегӯяд «дар сервер чизе вайрон шуд» — 4xx ё 5xx?",
+      "en": "The error was unforeseen and its cause unknown: which code class honestly says \"something broke on the server\" — 4xx or 5xx?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "nodejs-day-19-q2",
@@ -3349,7 +4273,50 @@
        "en": "The client will not understand it anyway"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сообщение ошибки создавалось для разработчика: какие детали внутри него — пути, запросы, версии — могут помочь злоумышленнику?",
+      "tg": "Паёми хато барои таҳиягар офарида шудааст: кадом тафсилоти даруни он — роҳҳо, дархостҳо, версияҳо — метавонад ба мухлифи гӯёҳӣ кумак кунад?",
+      "en": "The error message was made for the developer: which inner details — paths, queries, versions — could help an attacker?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-19-q3",
+     "question": {
+      "ru": "Что стоит записать в лог сервера, когда обработчик упал с непредвиденной ошибкой?",
+      "tg": "Ҳангоми сукути коргар бо хатои номаълум дар лог-и сервер чӣ бояд сабт шавад?",
+      "en": "What should be written to the server log when a handler crashes with an unexpected error?"
+     },
+     "options": [
+      {
+       "ru": "Ничего: клиент уже получил код 500",
+       "tg": "Ҳеҷ чиз: муштарир аллакай коди 500 гирифт",
+       "en": "Nothing: the client already received code 500"
+      },
+      {
+       "ru": "Только номер строки без данных запроса",
+       "tg": "Танҳо рақами сатр бе маълумоти дархост",
+       "en": "Only the line number without request data"
+      },
+      {
+       "ru": "Стектрейс и входные данные запроса для воспроизведения",
+       "tg": "Стектрейс ва маълумоти вуруди дархост барои такрор",
+       "en": "The stack trace and the request input for reproduction"
+      }
+     ],
+     "answer": {
+      "ru": "Стектрейс и входные данные запроса для воспроизведения",
+      "tg": "Стектрейс ва маълумоти вуруди дархост барои такрор",
+      "en": "The stack trace and the request input for reproduction"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Клиент видит только код, а разработчику нужен контекст. Раздел дня противопоставляет то, что видит клиент, и то, что видите вы: что нужно вам для поиска причины?",
+      "tg": "Муштарир танҳо код мебинад ва ба таҳиягар контекст лозим аст. Бахши рӯз ончиро, ки муштарир мебинад бо ончи шумо мебинед муқоиса мекунад: барои ёфтани сабаб чӣ лозим аст?",
+      "en": "The client sees only the code, while the developer needs context. The section contrasts what the client sees with what you see: what do you need to find the cause?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -3439,14 +4406,26 @@
     },
     {
      "title": {
+      "ru": "Глубже: строки вместо чисел и порядок чтения настроек",
+      "tg": "Чуқуртар: сатрҳо ба ҷои ададҳо ва тартиби хондани танзимот",
+      "en": "Deeper: strings instead of numbers and the config reading order"
+     },
+     "body": {
+      "ru": "Заданные значения process.env — строки; отсутствующий ключ даёт undefined, поэтому typeof PORT не всегда string. Для порта сначала выберите источник: const raw = process.env.PORT ?? \"3000\"; затем const port = Number(raw);. Проверьте raw.trim() !== \"\", Number.isInteger(port), port > 0 и port <= 65535. Иначе явно отклоните настройку: ||3000 скрывает мусор и не отсекает отрицательные числа или Infinity. Здесь0 недопустим по контракту фиксированного порта; автоматический выбор порта — отдельный режим.\n\nСравните отсутствующий PORT, пустую строку, \"abc\", \"-1\", \"Infinity\" и \"4000\". ?? заменяет только null/undefined, а || — все falsy; выбор зависит от смысла настройки.",
+      "tg": "Қиматҳои таъйиншудаи process.env сатр ҳастанд; калиди набуда undefined медиҳад, барои ҳамин typeof PORT ҳамеша string нест. Барои порт аввал манбаъро интихоб кунед: const raw = process.env.PORT ?? \"3000\"; баъд const port = Number(raw);. raw.trim() !== \"\", Number.isInteger(port), port > 0 ва port <= 65535-ро санҷед. Вагарна настройкаро ошкоро рад кунед: ||3000 маълумоти вайронро пинҳон мекунад ва адади манфӣ ё Infinity-ро намебандад. Дар ин контракт порти0 иҷозат нест; интихоби автоматии порт режими ҷудогона аст.\n\nPORT-и набуда, сатри холӣ, \"abc\", \"-1\", \"Infinity\" ва \"4000\"-ро муқоиса кунед. ?? танҳо null/undefined, вале || ҳамаи falsy-ро иваз мекунад; интихоб аз маънои настройка вобаста аст.",
+      "en": "Defined process.env values are strings; an absent key yields undefined, so typeof PORT is not always string. For a port select the source first: const raw = process.env.PORT ?? \"3000\"; then const port = Number(raw);. Require raw.trim() !== \"\", Number.isInteger(port), port > 0 and port <= 65535. Otherwise reject the setting explicitly: ||3000 hides malformed input and does not exclude negative values or Infinity. This fixed-port contract excludes0; automatic port selection is a separate mode.\n\nCompare absent PORT, an empty string, \"abc\", \"-1\", \"Infinity\" and \"4000\". ?? replaces only null/undefined; || replaces all falsy values. Choose according to the setting contract."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и самостоятельная работа",
       "tg": "Хатоҳои маъмулӣ ва кори мустақилона",
       "en": "Common mistakes and independent work"
      },
      "body": {
-      "ru": "Три частые ошибки. Первая: положить .env в репозиторий — весь смысл метода в том, что файл с секретами остаётся только на вашей машине; его вносят в .gitignore сразу. Вторая: забывать, что значения окружения — всегда строки: process.env.PORT имеет тип string, и '3000' + 1 даст '30001'; переведите число через Number. Третья: хранить секреты в коде «на минутку» — такие строки забываются и утекают вместе с первым коммитом. Правило жизни: код — публичный по умолчанию, секреты — только в окружении. Для самостоятельной работы: соберите объект config = { port: Number(process.env.PORT) || 3000, host: process.env.HOST ?? '127.0.0.1' } и напечатайте его; затем прочитайте значения из собственного config-объекта, полученного из .env, и запустите сервер из дня 15 с портом из конфигурации — проверьте, что base строится от config.port.",
-      "tg": "Се хатои маъмулӣ. Якум: гузоштани .env дар репозиторий — тамоми маънои усул дар он аст, ки файли сиррҳо танҳо дар мошини шумо мемонад; онро фавран ба .gitignore мегузоранд. Дуюм: фаромӯш кардани он, ки қиматҳои муҳит ҳамеша сатр ҳастанд: process.env.PORT намуди string дорад ва '3000' + 1 '30001' медиҳад; ададро бо Number табдил диҳед. Сеюм: нигоҳ доштани сиррҳо дар код «то як лаҳза» — чунин сатрҳо фаромӯш мешаванд ва бо аввалин commit мераванд. Қоидаи ҳаёт: код — умумӣ аз рӯзи сохтан, сиррҳо — танҳо дар муҳит. Барои кори мустақилона: объекти config = { port: Number(process.env.PORT) || 3000, host: process.env.HOST ?? '127.0.0.1' }-ро созед ва чоп кунед; баъд қиматҳоро аз объекти конфиги хондашуда аз .env гиред ва сервери рӯзи 15-ро бо порти аз конфигуратсия оғоз кунед — санҷед, ки base аз config.port сохта мешавад.",
-      "en": "Three common mistakes. First: putting .env into the repository — the whole point of the approach is that the secrets file stays on your machine only; it goes into .gitignore immediately. Second: forgetting that environment values are always strings: process.env.PORT has the string type, and '3000' + 1 gives '30001'; convert with Number. Third: keeping secrets in code just for a minute — such lines are forgotten and leak with the first commit. The life rule: code is public by default, secrets live only in the environment. For independent work: assemble config = { port: Number(process.env.PORT) || 3000, host: process.env.HOST ?? '127.0.0.1' } and print it; then read values from your own config object loaded from .env and start the day 15 server with the configured port — check that base is built from config.port."
+      "ru": "Три частые ошибки. Первая: положить .env в репозиторий — весь смысл метода в том, что файл с секретами остаётся только на вашей машине; его вносят в .gitignore сразу. Вторая: забывать, что заданное значение окружения — строка, а отсутствующее — undefined: process.env.PORT имеет тип string только когда PORT задан, и '3000' + 1 даст '30001'; переведите число через Number. Третья: хранить секреты в коде «на минутку» — такие строки забываются и утекают вместе с первым коммитом. Правило жизни: код — публичный по умолчанию, секреты — только в окружении. Для самостоятельной работы: соберите объект config = { port: Number(process.env.PORT) || 3000, host: process.env.HOST ?? '127.0.0.1' } и напечатайте его; затем прочитайте значения из собственного config-объекта, полученного из .env, и запустите сервер из дня 15 с портом из конфигурации — проверьте, что base строится от config.port. Учебное || 3000 подставляет запасной порт для falsy, но не отклоняет -1, Infinity или 70000. Для обычного фиксированного порта проверьте Number.isInteger(port) && Number.isFinite(port) && port >= 1 && port <= 65535; неверный ввод отклоните понятной ошибкой.",
+      "tg": "Се хатои маъмулӣ. Якум: гузоштани .env дар репозиторий — тамоми маънои усул дар он аст, ки файли сиррҳо танҳо дар мошини шумо мемонад; онро фавран ба .gitignore мегузоранд. Дуюм: фаромӯш кардани он, ки қимати таъйиншудаи муҳит сатр аст, вале қимати набуда undefined: process.env.PORT танҳо ҳангоми таъйин шудани PORT намуди string дорад ва '3000' + 1 '30001' медиҳад; ададро бо Number табдил диҳед. Сеюм: нигоҳ доштани сиррҳо дар код «то як лаҳза» — чунин сатрҳо фаромӯш мешаванд ва бо аввалин commit мераванд. Қоидаи ҳаёт: код — умумӣ аз рӯзи сохтан, сиррҳо — танҳо дар муҳит. Барои кори мустақилона: объекти config = { port: Number(process.env.PORT) || 3000, host: process.env.HOST ?? '127.0.0.1' }-ро созед ва чоп кунед; баъд қиматҳоро аз объекти конфиги хондашуда аз .env гиред ва сервери рӯзи 15-ро бо порти аз конфигуратсия оғоз кунед — санҷед, ки base аз config.port сохта мешавад. || 3000-и омӯзишӣ барои falsy порти захиравӣ медиҳад, вале -1, Infinity ё 70000-ро рад намекунад. Барои порти одии собит Number.isInteger(port) && Number.isFinite(port) && port >= 1 && port <= 65535-ро санҷед; вводи хаторо бо паёми фаҳмо рад кунед.",
+      "en": "Three common mistakes. First: putting .env into the repository — the whole point of the approach is that the secrets file stays on your machine only; it goes into .gitignore immediately. Second: forgetting that defined environment values are strings and missing ones are undefined: process.env.PORT has the string type only when PORT is set, and '3000' + 1 gives '30001'; convert with Number. Third: keeping secrets in code just for a minute — such lines are forgotten and leak with the first commit. The life rule: code is public by default, secrets live only in the environment. For independent work: assemble config = { port: Number(process.env.PORT) || 3000, host: process.env.HOST ?? '127.0.0.1' } and print it; then read values from your own config object loaded from .env and start the day 15 server with the configured port — check that base is built from config.port. The exercise fallback || 3000 substitutes for falsy values but does not reject -1, Infinity or70000. For an ordinary fixed port validate Number.isInteger(port) && Number.isFinite(port) && port >= 1 && port <= 65535; reject invalid input with a clear error."
      }
     }
    ],
@@ -3480,7 +4459,13 @@
        "en": "In the stack trace"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Окружение передаётся процессу системой при запуске: в каком свойстве глобального объекта дня 6 они лежат?",
+      "tg": "Муҳит ҳангоми оғоз аз тарафи система ба процесс интиқол дода мешавад: дар кадом хосияти объекти глобалии рӯзи 6 онҳо нигоҳ дошта мешаванд?",
+      "en": "The environment is handed to the process by the system at launch: in which property of the day-6 global object do they live?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "nodejs-day-20-q2",
@@ -3511,7 +4496,50 @@
        "en": "Node.js does not read repository files"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В .env живут значения, которые не должны увидеть чужие люди. Кто получит доступ к файлам, попавшим в публичный репозиторий?",
+      "tg": "Дар .env арзишҳое зиндагӣ мекунанд, ки одамони ғайр бояд набинанд. Ба файлҳои расида ба репозиторийи оммавӣ кӣ дастрасӣ меёбад?",
+      "en": "The .env holds values strangers must never see. Who gains access to files that end up in a public repository?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-20-q3",
+     "question": {
+      "ru": "Какой тип имеет значение process.env.PORT, даже если оно выглядит как число?",
+      "tg": "process.env.PORT кадом навъро дорад, ҳатто агар ададнамуд бошад?",
+      "en": "What type does process.env.PORT have even when it looks like a number?"
+     },
+     "options": [
+      {
+       "ru": "number: Node сам преобразует числоподобные строки",
+       "tg": "number: Node сатрҳои ададнамудро худ табдил медиҳад",
+       "en": "number: Node converts number-like strings itself"
+      },
+      {
+       "ru": "Тип зависит от записанного значения",
+       "tg": "Навъ аз арзиши сабтшуда вобаста аст",
+       "en": "The type depends on the stored value"
+      },
+      {
+       "ru": "string: окружение всегда передаёт строки",
+       "tg": "string: муҳит ҳамеша сатр мегузаронад",
+       "en": "string: the environment always passes strings"
+      }
+     ],
+     "answer": {
+      "ru": "string: окружение всегда передаёт строки",
+      "tg": "string: муҳит ҳамеша сатр мегузаронад",
+      "en": "string: the environment always passes strings"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Попробуйте typeof process.env.PORT в терминале с заданной переменной. Откуда Node берёт переменные окружения и в каком виде их хранит операционная система?",
+      "tg": "typeof process.env.PORT-ро дар терминал бо тағйирёбандаи таъиншуда санҷед. Node тағйирёбандаҳои муҳитро аз куҷо мегирад ва системаи оператсионӣ онҳоро бо кадом шакл нигоҳ медорад?",
+      "en": "Try typeof process.env.PORT in a terminal with the variable set. Where does Node get environment variables from, and in what form does the OS keep them?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3653,7 +4681,13 @@
        "en": "Restarts the timer from the beginning"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Идентификатор — кнопка будильника: что происходит с запланированным вызовом после отмены?",
+      "tg": "Идентификатор — тугмаи соати зангзор аст: бо даъвати нақшашуда баъди бекоркунӣ чӣ мешавад?",
+      "en": "The identifier is the alarm button: what happens to the scheduled call after cancellation?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-21-q2",
@@ -3689,6 +4723,43 @@
       "ru": "Вспомните, в каких единицах задают delay и что происходит, пока JavaScript занят.",
       "tg": "Воҳиди delay ва рафтори таймерро дар вақти банд будани JavaScript ёд кунед.",
       "en": "Recall the unit of delay and what happens if JavaScript is still busy."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "nodejs-day-21-q3",
+     "question": {
+      "ru": "Что произойдёт с программой, в которой живёт незакрытый setInterval(fn, 1000), когда весь остальной код уже выполнился?",
+      "tg": "Бо барномае, ки setInterval-и нопӯшидаи (fn, 1000) дорад, ҳангоми иҷрошавии тамоми коди дигар, чӣ мешавад?",
+      "en": "What happens to a program whose only remaining task is an uncleared setInterval(fn, 1000)?"
+     },
+     "options": [
+      {
+       "ru": "Таймер завершится сам на следующем тике",
+       "tg": "Таймер дар таки навбатӣ худ тамом мешавад",
+       "en": "The timer finishes by itself on the next tick"
+      },
+      {
+       "ru": "Node спросит подтверждение в терминале",
+       "tg": "Node дар терминал тасдиқ мепурсад",
+       "en": "Node asks for confirmation in the terminal"
+      },
+      {
+       "ru": "Программа не завершится: живой таймер удерживает event loop",
+       "tg": "Барнома тамом намешавад: таймери зинда event loop-ро нигоҳ медорад",
+       "en": "The program does not exit: the live timer keeps the event loop busy"
+      }
+     ],
+     "answer": {
+      "ru": "Программа не завершится: живой таймер удерживает event loop",
+      "tg": "Барнома тамом намешавад: таймери зинда event loop-ро нигоҳ медорад",
+      "en": "The program does not exit: the live timer keeps the event loop busy"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Node завершает процесс, когда event loop нечего делать. Что является «работой» для loop, кроме ваших синхронных строк кода?",
+      "tg": "Node процессро ҳангоми бикори event loop тамом мекунад. Барои loop «кор» ғайр аз сатрҳои синхронии шумо чӣ аст?",
+      "en": "Node exits the process when the event loop has nothing to do. What counts as \"work\" for the loop besides your synchronous lines?"
      },
      "relatedSection": 0
     }
@@ -3870,7 +4941,50 @@
        "en": "The number of transferred bytes"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "pipeline собирает цепочку потоков в одну операцию: что вернёт соответствующая функция из node:stream/promises при завершении и при ошибке?",
+      "tg": "pipeline занҷири ҷараёнҳоро ба як амалиёт ҷамъ меорад: функсияи мутобиқ аз node:stream/promises ҳангоми анҷом ва ҳангоми хато чӣ бармегардонад?",
+      "en": "pipeline assembles the stream chain into one operation: what does the matching function from node:stream/promises return on completion and on error?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-22-q3",
+     "question": {
+      "ru": "Что означает false, возвращённое writable.write(chunk)?",
+      "tg": "false, ки writable.write(chunk) бармегардонад, чӣ маъно дорад?",
+      "en": "What does the false returned by writable.write(chunk) mean?"
+     },
+     "options": [
+      {
+       "ru": "Запись не удалась, данные потеряны",
+       "tg": "Навиштан ноком шуд, маълумот нобуд шуд",
+       "en": "The write failed and the data is lost"
+      },
+      {
+       "ru": "Поток закрыт и данные не приняты",
+       "tg": "Ҷараён пӯшида шуд ва маълумот қабул нашуд",
+       "en": "The stream is closed and the data was rejected"
+      },
+      {
+       "ru": "Внутренний буфер полон: ждите события drain перед следующей записью",
+       "tg": "Буфери дохилӣ пур аст: то навишти навбатӣ интизори ҳодисаи drain шавед",
+       "en": "The internal buffer is full: wait for the drain event before the next write"
+      }
+     ],
+     "answer": {
+      "ru": "Внутренний буфер полон: ждите события drain перед следующей записью",
+      "tg": "Буфери дохилӣ пур аст: то навишти навбатӣ интизори ҳодисаи drain шавед",
+      "en": "The internal buffer is full: wait for the drain event before the next write"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Это не ошибка записи: буфер потока имеет размер highWaterMark. Что документация node:stream советует делать, пока не придёт событие drain?",
+      "tg": "Ин хатои навиштан нест: буфери ҷараён андозаи highWaterMark дорад. Ҳуҷҷати node:stream то расидани ҳодисаи drain чӣ маслиҳат медиҳад?",
+      "en": "This is not a write error: the stream buffer has a highWaterMark size. What does the node:stream documentation advise until the drain event arrives?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3960,6 +5074,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: утилита в цепочке автоматизации",
+      "tg": "Чуқуртар: утилита дар занҷири автоматизатсия",
+      "en": "Deeper: a utility inside an automation chain"
+     },
+     "body": {
+      "ru": "Коды выхода нужны не человеку, а следующей программе: в Git Bash цепочка a && b запускает b только при нулевом коде a. В цепочке a; b вторая команда выполняется и после ошибки первой. Проверьте: echo $? после вашего скрипта покажет последний код; из node-программы тот же вызов делают через spawnSync. Граница случая: аргумент с пробелом — один аргумент в кавычках, без кавычек он развалится на два: node main.mjs greet 'Firdaus Dev' и greet Firdaus Dev дают разный argv; те же кавычки спасают в npm-скриптах дня 5. Связь с днём 6: argv, exitCode и честные сообщения — зеркало того дня. Связь с днём 24: провалившийся тест возвращает ненулевой код, и npm test узнаёт о падении без чтения вывода. Названия команд — глаголы; справка — и без аргументов, и по help.",
+      "tg": "Кодҳои хуруҷ ба инсон на, ба барномаи оянда лозиманд: дар Git Bash занҷираи a && b танҳо ҳангоми коди0-и a фармони b-ро оғоз мекунад. Дар a; b фармони дуюм баъди ошибкаи аввал ҳам иҷро мешавад. Санҷед: echo $? баъди скрипти шумо охирин кодро нишон медиҳад; аз барномаи node ҳамон даъватро бо spawnSync мекунанд — код дар объект натиҷа меояд. Ҳолати канорӣ: аргумент бо фосила — як аргумент дар ковокӣ, бе ковокӣ ба ду тақсим мешавад: node main.mjs greet 'Firdaus Dev' ва node main.mjs greet Firdaus Dev argv-и гуногун медиҳанд; ҳамон ковокӣ дар скриптҳои npm-и рӯзи 5 наҷот медиҳад. Пайванд бо рӯзи 6: argv, exitCode ва паёмҳои рӯшак — оинаи ҳамон рӯз; стектрейсҳои рӯзи 10 ба истифодакунандаи утилитаи шумо лозим нестанд. Пайванд бо рӯзи 24: санҷиши сукуткунанда коди ғайрисефр бармегардонад ва npm test аз сукут бе хондани натиҷа хабар меёбад. Номҳои фармонҳо — феълҳо; кӯмак — ҳам бе аргумент, ҳам бо help.",
+      "en": "Exit codes are for the next program, not for a human: in Git Bash, a && b runs b only when a exits with zero. In a; b, the second command runs even when the first fails. Verify: echo $? after your script prints the last code; from a node program the same call is made with spawnSync — the code arrives in the result object. Edge case: an argument with a space is one argument in quotes; without quotes it falls apart into two: node main.mjs greet 'Firdaus Dev' and node main.mjs greet Firdaus Dev give different argv; the same quotes save you in the npm scripts of day 5. Link to day 6: argv, exitCode and honest messages mirror that day; the stack traces of day 10 are not for your utility's user. Link to day 24: a failing test returns a non-zero code, and npm test learns of the failure without reading the output. Command names are verbs; help works both without arguments and via help."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и самостоятельная работа",
       "tg": "Хатоҳои маъмулӣ ва кори мустақилона",
       "en": "Common mistakes and independent work"
@@ -4001,7 +5127,13 @@
        "en": "No difference, they are synonyms"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "process.exit() обрывает процесс немедленно, не дожидаясь асинхронных задач: что успеет дойти до терминала и какой вариант позволяет завершиться естественно?",
+      "tg": "process.exit() процессро фавран қатъ мекунад, бе интизори вазифаҳои асинхронӣ: то терминал чӣ мерасад ва кадом вариант анҷоми табиӣ имкон медиҳад?",
+      "en": "process.exit() terminates the process immediately without waiting for async work: what reaches the terminal, and which option lets the process exit naturally?"
+     },
+     "relatedSection": 3
     },
     {
      "id": "nodejs-day-23-q2",
@@ -4032,7 +5164,50 @@
        "en": "Silently do nothing"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Пользователь опечатался. Что делает приличная утилита: падает со стектрейсом, молчит или помогает найти правильную команду — и какой код выхода при этом?",
+      "tg": "Истифодакунанда хато навишт. Утилитаи муътадил чӣ мекунад: бо стектрейс мепарад, худмукот мебошад ё ёфтани фармони дурустро кӯмак мекунад — ва дар ин ҳолат кадом коди хуруҷ?",
+      "en": "The user made a typo. What does a decent utility do: crash with a stack trace, stay silent, or help find the right command — and with what exit code?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-23-q3",
+     "question": {
+      "ru": "Что напечатает node main.mjs add 2 из примера дня и с каким кодом выхода завершится?",
+      "tg": "node main.mjs add 2 аз мисоли рӯз чӣ чоп мекунад ва бо кадом коди хуруҷ тамом мешавад?",
+      "en": "What does node main.mjs add 2 print in the day example, and with what exit code does it end?"
+     },
+     "options": [
+      {
+       "ru": "Sum: 2 и код 0",
+       "tg": "Sum: 2 ва коди 0",
+       "en": "Sum: 2 and exit code 0"
+      },
+      {
+       "ru": "Error: add needs two numbers и код 1",
+       "tg": "Error: add needs two numbers ва коди 1",
+       "en": "Error: add needs two numbers and exit code 1"
+      },
+      {
+       "ru": "NaN и код 0",
+       "tg": "NaN ва коди 0",
+       "en": "NaN and exit code 0"
+      }
+     ],
+     "answer": {
+      "ru": "Error: add needs two numbers и код 1",
+      "tg": "Error: add needs two numbers ва коди 1",
+      "en": "Error: add needs two numbers and exit code 1"
+     },
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посчитайте аргументы: process.argv[4] не передан. Что вернёт Number(undefined) и какая ветка примера это проверяет?",
+      "tg": "Аргументҳоро ҳисоб кунед: process.argv[4] интиқол дода нашудааст. Number(undefined) чӣ бармегардонад ва кадом шохаи мисол инро месанҷад?",
+      "en": "Count the arguments: process.argv[4] was not passed. What does Number(undefined) return, and which branch of the example checks it?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4175,7 +5350,13 @@
        "en": "Returns the result 5"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравнение прошло успешно: что видит runner для этого теста и как выглядит строка отчёта?",
+      "tg": "Муқоиса муваффақ шуд: runner барои ин санҷиш чӣ мебинад ва сатри ҳисобот чӣ гуна менамояд?",
+      "en": "The comparison passed: what does the runner see for this test, and what does the report line look like?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-24-q2",
@@ -4206,7 +5387,50 @@
        "en": "npm node-test"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "У Node есть встроенный runner тестов: файлы примера дня названы в его стиле. Какой флаг запускает все тестовые файлы папки?",
+      "tg": "Дар Node runner-и дарунсохти санҷишҳо ҳаст: файлҳои мисоли рӯз ба услуби он номгузорӣ шудаанд. Кадом байрақ ҳамаи файлҳои санҷиши папкаро оғоз мекунад?",
+      "en": "Node has a built-in test runner: the example files are named in its style. Which flag runs every test file of the folder?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "nodejs-day-24-q3",
+     "question": {
+      "ru": "Что произойдёт при запуске node --test, если один из тестов упал?",
+      "tg": "Ҳангоми иҷрои node --test, агар яке аз санҷишҳо сукут кунад, чӣ мешавад?",
+      "en": "What happens when node --test runs and one of the tests fails?"
+     },
+     "options": [
+      {
+       "ru": "Runner остановится без отчёта и без кода выхода",
+       "tg": "Runner бе ҳисобот ва бе коди хуруҷ истода мемонад",
+       "en": "The runner stops without a report and without an exit code"
+      },
+      {
+       "ru": "Runner спросит, продолжать ли остальные тесты",
+       "tg": "Runner мепурсад, ки оё боқимондаи санҷишҳо идома дода шавад",
+       "en": "The runner asks whether to continue the remaining tests"
+      },
+      {
+       "ru": "Runner напечатает отчёт с падением и вернёт ненулевой код выхода",
+       "tg": "Runner ҳисобот бо сукут чоп мекунад ва коди ғайрисефри хуруҷ бармегардонад",
+       "en": "The runner prints a report with the failure and returns a non-zero exit code"
+      }
+     ],
+     "answer": {
+      "ru": "Runner напечатает отчёт с падением и вернёт ненулевой код выхода",
+      "tg": "Runner ҳисобот бо сукут чоп мекунад ва коди ғайрисефри хуруҷ бармегардонад",
+      "en": "The runner prints a report with the failure and returns a non-zero exit code"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Вспомните день 23: ненулевой код выхода сообщает провал следующей программе. Что делает runner node:test при неудачном тесте?",
+      "tg": "Рӯзи 23-ро ба ёд оред: коди ғайрисефри хуруҷ сукутро ба барномаи оянда хабар медиҳад. Runner-и node:test ҳангоми санҷиши ноком чӣ мекунад?",
+      "en": "Recall day 23: a non-zero exit code reports failure to the next program. What does the node:test runner do for a failing test?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4295,6 +5519,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: фасад в настоящем проекте и граница папки",
+      "tg": "Чуқуртар: фасад дар лоиҳаи воқеӣ ва ҳудуди папка",
+      "en": "Deeper: the facade in a real project and the folder boundary"
+     },
+     "body": {
+      "ru": "Фасад — витрина папки: снаружи import { greet } from './src/lib/index.mjs', внутри — сколько файлов. Граница случая: файлы внутри lib импортируют друг друга по './' путям; если внешний файл подключит внутренний мимо фасада, при реорганизации сломаются его импорты. В настоящем проекте разнесение идёт по обязанностям: утилита дня 23 превращается в commands.mjs с doGreet и doAdd, маска из дня 26 — в lib/mask.mjs, а main.mjs остаётся тонким разбором argv. Связь с днями 3 и 4: CommonJS и ESM дают одинаковый результат — идея экспорта контракта та же. Проверка зрелости: main.mjs с двумя обязанностями — разбирать аргументы и считать — просится на деление; файл, помещающийся в голове, делить рано.",
+      "tg": "Фасад — витринаи папка: аз берун import { greet } from './src/lib/index.mjs', аз дарун — то чанд файл. Ҳолати канорӣ: файлҳои даруни lib ба ҳамдигар бо роҳҳои нисбии './' импорт мекунанд ва фасадро намеламсанд; агар файли берунӣ файлҳои дохилиро аз фасад гузаранда пайванд кунад, ҳангоми азнайсохтан ҳамаи импортҳои вай вайрон мешаванд. Дар лоиҳаи воқеӣ тақсим бо вазифаҳо меравад: утилитаи рӯзи 23 ба commands.mjs бо doGreet ва doAdd мегардад, маскаи токени рӯзи 26 — ба lib/mask.mjs, ва main.mjs тahlil-и борики argv мемонад. Пайванд бо рӯзҳои 3 ва 4: CommonJS ва ESM натиҷаи якхела медиҳанд — синтаксис тағйир меёбад, идеяи содироти шартнома ҳамон аст. Санҷиши пухтагӣ: main.mjs бо ду вазифа — таҳлили аргументҳо ва ҳисоб — аллакай тақсим талаб мекунад; файли дар сар ҷойгиранда тақсим кардан барвақт аст.",
+      "en": "A facade is the shop window of a folder: outside, import { greet } from './src/lib/index.mjs'; inside — as many files as you like. Edge case: files inside lib import each other via relative './' paths and leave the facade alone; if an external file reaches past the facade into an inner one, every one of its imports breaks during reorganization. In a real project splitting follows responsibilities: the day-23 utility becomes commands.mjs with doGreet and doAdd, the token mask from day 26 becomes lib/mask.mjs, and main.mjs stays a thin argv parser. Link to days 3 and 4: CommonJS and ESM produce the same result — the syntax changes, the idea of exporting a contract is identical. Readiness check: a main.mjs with two responsibilities — parsing arguments and computing — already asks to be split; a file that fits in your head is too early to split."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и самостоятельная работа",
       "tg": "Хатоҳои маъмулӣ ва кори мустақилона",
       "en": "Common mistakes and independent work"
@@ -4336,7 +5572,13 @@
        "en": "It speeds up imports"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Папка может подключаться одним импортом без указания файла: какой файл папки выступает витриной-фасадом?",
+      "tg": "Папка бо як импорт бе нишон додани файл пайванд мешавад: кадом файли папка витринаи фасад мешавад?",
+      "en": "A folder can be imported with one import without naming a file: which file of the folder acts as the facade?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-25-q2",
@@ -4367,7 +5609,50 @@
        "en": "Project secrets live here"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Оговорка из первой секции: какие папки держат исходный код, а какие — собранные или вспомогательные материалы?",
+      "tg": "Тавзеҳи аз бахши аввал: кадом папкаҳо коди аслиро нигоҳ медоранд ва кадомҳо матиёрҳои ҷамъшуда ё ёрирасонро?",
+      "en": "The note from the first section: which folders keep the source code, and which hold built or auxiliary materials?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-25-q3",
+     "question": {
+      "ru": "Что произойдёт с импортами других файлов после переименования greet.mjs внутри lib, если они подключают папку через index.mjs-фасад?",
+      "tg": "Баъди азнавномгузории greet.mjs даруни lib, бо импортҳои файлҳои дигар, ки папкаро тавассути фасади index.mjs пайванд мекунанд, чӣ мешавад?",
+      "en": "What happens to other files' imports after renaming greet.mjs inside lib when they import the folder through the index.mjs facade?"
+     },
+     "options": [
+      {
+       "ru": "Node подберёт похожее имя автоматически",
+       "tg": "Node номи монандро худкор меёбад",
+       "en": "Node picks a similar name automatically"
+      },
+      {
+       "ru": "Все импорты сломаются и потребуют правки",
+       "tg": "Ҳамаи импортҳо вайрон мешаванд ва ислоҳ талаб мекунанд",
+       "en": "All imports break and require edits"
+      },
+      {
+       "ru": "Импорты продолжат работать: наружное имя greet не менялось",
+       "tg": "Импортҳо кор мекунанд: номи берунӣ-и greet тағйир нашудааст",
+       "en": "Imports keep working: the outward name greet never changed"
+      }
+     ],
+     "answer": {
+      "ru": "Импорты продолжат работать: наружное имя greet не менялось",
+      "tg": "Импортҳо кор мекунанд: номи берунӣ-и greet тағйир нашудааст",
+      "en": "Imports keep working: the outward name greet never changed"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Фасад экспортирует наружу имена контракта, а не пути к внутренним файлам. Что видит вызывающий файл?",
+      "tg": "Фасад номҳои шартномаро ба берун содир мекунад, на роҳҳо ба файлҳои дохилӣ. Файли даъваткунанда чӣ мебинад?",
+      "en": "The facade exports contract names outward, not paths to inner files. What does the calling file see?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4457,6 +5742,18 @@
     },
     {
      "title": {
+      "ru": "Глубже: граница доверия в сервере из дней 15 и 29",
+      "tg": "Чуқуртар: ҳудуди эътимод дар сервери рӯзҳои 15 ва 29",
+      "en": "Deeper: the trust boundary in the day-15 and day-29 server"
+     },
+     "body": {
+      "ru": "Три привычки — фильтры одной границы доверия, и работают вместе: маршрут из дня 15 проверяется до обработчика, путь статического файла — через safeFilePath из дня 18, секреты живут только в окружении из дня 20. Граница случая: одной проверки мало — POST /todos проверяет тип title, длину и trim: строка из пробелов пуста по смыслу, хотя length не ноль. Второй край: маска в логах — половина привычки; вторая — не печатать весь конфиг: один console.log(config) покажет токен целиком и сотрёт все маски. Проверки в браузере не заменяют серверных: запрос можно отправить и без браузера. Связь с днями 29–30: TODO API валидирует каждый маршрут, а коды 400 и 404 сообщают о плохом входе.",
+      "tg": "Се одат — филтрҳои як ҳудуди эътимоданд ва ҳамроҳ кор мекунанд: роҳи рӯзи 15 то коргар санҷида мешавад, роҳи файли статикӣ — тавассути safeFilePath-и рӯзи 18, сирҳо танҳо дар муҳити рӯзи 20 зиндагӣ мекунанд. Ҳолати канорӣ: як санҷиш кофӣ нест — POST /todos-и лоиҳаи хурд ҳам навъи title, ҳам дарозии он, ҳам trim-ро месанҷад: сатри аз фосилахо маънои холӣ дорад, гарчанде length-аш сифр нест. Канори дуюм: маска дар лог нимаи одат аст; нимаи дуюм — наш чоп кардани тамоми объекти конфиг: як console.log(config) дар коргари хато токенро тамоман нишон медиҳад ва ҳама маскаҳоро нест мекунад. Санҷишҳои браузерро санҷишҳои сервер иваз намекунанд: дархостро бе браузер фиристан мумкин аст, бинобар ин сервер вазифа дорад ҳама чизро худ санҷад. Пайванд бо рӯзҳои 29–30: TODO API ҳар роҳро валидация мекунад, ва кодҳои 400 ва 404 дар бораи вуруди бад бе тафсилоти хатои дохилӣ хабар медиҳанд.",
+      "en": "The three habits are filters on one trust boundary and work together: the day-15 route is checked before the handler, the static file path goes through day-18's safeFilePath, and secrets live only in the day-20 environment. Edge case: one check is not enough — the mini-project's POST /todos validates the title's type, length and trim: a string of spaces is empty by meaning although its length is not zero. Second edge: a masked log entry is half the habit; the other half is never printing the whole config object — one console.log(config) in an error handler shows the token in full and erases every mask. Browser checks do not replace server checks: a request can be sent without a browser, so the server must validate everything itself. Link to days 29–30: the TODO API validates every route, and codes 400 and 404 report bad input without exposing internal error details."
+     }
+    },
+    {
+     "title": {
       "ru": "Частые ошибки и самостоятельная работа",
       "tg": "Хатоҳои маъмулӣ ва кори мустақилона",
       "en": "Common mistakes and independent work"
@@ -4498,7 +5795,13 @@
        "en": "The full value, but only once"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Функция mask из примера показывает первые два символа и скрывает остальное: зачем логу вообще что-то печатать о токене?",
+      "tg": "Функсияи mask аз мисол ду аломати аввалро нишон медиҳад ва боқиро пинҳон мекунад: лог чаро ҳар ҳол чизе дар бораи токен чоп мекунад?",
+      "en": "The mask function from the example shows the first two characters and hides the rest: why should the log print anything about the token at all?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-26-q2",
@@ -4529,7 +5832,50 @@
        "en": "In a separate file in the repository"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Код публичен по умолчанию. В какой среде хранят секреты так, что файлы репозитория их не содержат?",
+      "tg": "Код бо пешфарз оммавӣ аст. Дар кадом муҳит сирҳоро чунин нигоҳ медоранд, ки файлҳои репозиторий онҳоро дар бар надошта бошанд?",
+      "en": "Code is public by default. In which environment are secrets kept so repository files never contain them?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "nodejs-day-26-q3",
+     "question": {
+      "ru": "Что опасного в ответе сервера, который печатает клиенту полный текст ошибки из обработчика?",
+      "tg": "Дар ҷавоби сервере, ки муштарир матни пурраи хаторо чоп мекунад, чӣ хатарнок аст?",
+      "en": "What is dangerous about a server response that prints the full error text to the client?"
+     },
+     "options": [
+      {
+       "ru": "Ничего: клиент увидит понятную причину",
+       "tg": "Ҳеҷ чиз: муштарир сабаби фаҳмо мебинад",
+       "en": "Nothing: the client sees an understandable cause"
+      },
+      {
+       "ru": "Ответ станет слишком длинным",
+       "tg": "Ҷавоб хеле дароз мешавад",
+       "en": "The response becomes too long"
+      },
+      {
+       "ru": "Текст ошибки раскрывает внутренности: пути, запросы к базе, версии",
+       "tg": "Матни хато дохилиятро ошкор мекунад: роҳҳо, дархостҳо ба база, версияҳо",
+       "en": "The error text exposes internals: paths, database queries, versions"
+      }
+     ],
+     "answer": {
+      "ru": "Текст ошибки раскрывает внутренности: пути, запросы к базе, версии",
+      "tg": "Матни хато дохилиятро ошкор мекунад: роҳҳо, дархостҳо ба база, версияҳо",
+      "en": "The error text exposes internals: paths, database queries, versions"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Вспомните день 19: почему клиенту нельзя отправлять текст ошибки как есть — какую информацию о сервере может раскрыть сообщение?",
+      "tg": "Рӯзи 19-ро ба ёд оред: чаро ба муштарир матни хаторо ҳамчун он аст фиристодан мумкин нест — паём кадом маълумот дар бораи сервер ошкор карда метавонад?",
+      "en": "Recall day 19: why must the raw error text not go to the client — what information about the server can the message expose?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -4672,7 +6018,13 @@
        "en": "Such behavior is a Node.js bug"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "setTimeout(fn, 3) обещает минимум 3 мс, не точное время: чем занят единственный поток, пока цикл не закончится?",
+      "tg": "setTimeout(fn, 3) ҳадди ақали 3 мс ваъда медиҳад, на вақти дақиқ: ягона ҷараён то тамомшавии давр бо чӣ машғул аст?",
+      "en": "setTimeout(fn, 3) promises at least 3 ms, not an exact time: what occupies the single thread until the loop ends?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-27-q2",
@@ -4703,7 +6055,50 @@
        "en": "Write functions"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Какая пара форм API у node:fs — и какая из них останавливает event loop до завершения операции?",
+      "tg": "node:fs кадом ҷуфти шаклҳои API дорад ва кадоми онҳо event loop-ро то анҷоми амалиёт манъ мекунад?",
+      "en": "Which pair of API forms does node:fs have — and which one stops the event loop until the operation completes?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "nodejs-day-27-q3",
+     "question": {
+      "ru": "Почему readFileSync в обработчике запроса живого сервера замораживает все остальные запросы?",
+      "tg": "Чаро readFileSync дар коргари дархости сервери зинда ҳамаи дархостҳои дигар ях менаторонад?",
+      "en": "Why does readFileSync in a live server's request handler freeze all other requests?"
+     },
+     "options": [
+      {
+       "ru": "Файл слишком велик для одного запроса",
+       "tg": "Файл барои як дархост хеле калон аст",
+       "en": "The file is too large for one request"
+      },
+      {
+       "ru": "readFileSync не умеет читать в обработчиках",
+       "tg": "readFileSync дар коргарон хондан намедонад",
+       "en": "readFileSync cannot read inside handlers"
+      },
+      {
+       "ru": "Node исполняет JavaScript в одном потоке: синхронный вызов блокирует event loop для всех",
+       "tg": "Node JavaScript-ро дар як ҷараён иҷро мекунад: даъвати синхронӣ event loop-ро барои ҳама манъ мекунад",
+       "en": "Node runs JavaScript on one thread: a synchronous call blocks the event loop for everyone"
+      }
+     ],
+     "answer": {
+      "ru": "Node исполняет JavaScript в одном потоке: синхронный вызов блокирует event loop для всех",
+      "tg": "Node JavaScript-ро дар як ҷараён иҷро мекунад: даъвати синхронӣ event loop-ро барои ҳама манъ мекунад",
+      "en": "Node runs JavaScript on one thread: a synchronous call blocks the event loop for everyone"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Вспомните первую секцию дня и пример с таймером: что происходит с таймером, пока выполняется длинный синхронный цикл?",
+      "tg": "Бахши аввали рӯз ва мисоли таймерро ба ёд оред: бо таймер ҳангоми иҷрои даври дарози синхронӣ чӣ мешавад?",
+      "en": "Recall the first section and the timer example: what happens to the timer while a long synchronous loop runs?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -4839,7 +6234,13 @@
        "en": "The port is always fixed: 3000"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Приложение читает настройку при старте: какой механизм из дня 20 хостинг использует для передачи порта?",
+      "tg": "Барнома танзимотро ҳангоми оғоз мехонад: хостинг кадом механизми рӯзи 20-ро барои интиқоли порт истифода мебарад?",
+      "en": "The app reads its setting at startup: which day-20 mechanism does hosting use to pass the port?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-28-q2",
@@ -4870,7 +6271,50 @@
        "en": "They move into logs"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Процесс — это живой участок памяти: что остаётся в операционной системе после его завершения? Где тогда хранят долгоживущие данные?",
+      "tg": "Процесс қисми зиндаи хотира аст: баъди анҷомаш дар системаи оператсионӣ чӣ мемонад? Он гоҳ маълумоти дарозумрро дар куҷо нигоҳ медоранд?",
+      "en": "A process is a live piece of memory: what remains in the OS after it ends? Where do long-lived data live then?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-28-q3",
+     "question": {
+      "ru": "Почему приложение на хостинге обязано слушать порт из process.env.PORT, а не жёстко 3000?",
+      "tg": "Чаро барнома дар хостинг бояд порти process.env.PORT-ро шунавад, на 3000-и собит?",
+      "en": "Why must an app on hosting listen on the port from process.env.PORT rather than a hardcoded 3000?"
+     },
+     "options": [
+      {
+       "ru": "Порты выше 3000 запрещены хостингами",
+       "tg": "Портҳои болотар аз 3000 аз тарафи хостингҳо манъ шудаанд",
+       "en": "Ports above 3000 are forbidden by hostings"
+      },
+      {
+       "ru": "Хостинг проверяет исходный код на цифры",
+       "tg": "Хостинг коди аслиро ба ададҳо месанҷад",
+       "en": "The hosting scans the source code for digits"
+      },
+      {
+       "ru": "Хостинг распределяет порты между процессами и сообщает выбранный через окружение",
+       "tg": "Хостинг портҳоро миёни процессҳо тақсим мекунад ва интихобшударо тавассути муҳит хабар медиҳад",
+       "en": "The hosting distributes ports between processes and reports the chosen one via the environment"
+      }
+     ],
+     "answer": {
+      "ru": "Хостинг распределяет порты между процессами и сообщает выбранный через окружение",
+      "tg": "Хостинг портҳоро миёни процессҳо тақсим мекунад ва интихобшударо тавассути муҳит хабар медиҳад",
+      "en": "The hosting distributes ports between processes and reports the chosen one via the environment"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "На одном сервере живут много приложений: кто решает, какому процессу достанется какой порт, и как он об этом сообщает?",
+      "tg": "Дар як сервер бисёр барномаҳо зиндагӣ мекунанд: кӣ қарор медиҳад, кадом процесс кадом портро мегирад ва чӣ тавр онро хабар медиҳад?",
+      "en": "Many apps live on one server: who decides which process gets which port, and how does it announce that?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -5055,7 +6499,50 @@
        "en": "Without Number the array gets re-sorted"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "request.url — строки: '/todos/1' даёт '1', не 1. Чем отличается сравнение строк от сравнения чисел при поиске в массиве задач?",
+      "tg": "request.url — сатрҳост: '/todos/1' '1' медиҳад, на 1. Муқоисаи сатрҳо аз муқоисаи ададҳо ҳангоми ҷустуҷӯ дар массиви вазифаҳо чӣ гуна фарқ мекунад?",
+      "en": "request.url gives strings: '/todos/1' yields '1', not 1. How does string comparison differ from number comparison when searching the todo array?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "nodejs-day-29-q3",
+     "question": {
+      "ru": "Что вернёт GET /todos/99 из примера дня, если задачи с id 99 нет?",
+      "tg": "GET /todos/99 аз мисоли рӯз чӣ бармегардонад, агар вазифа бо id 99 набошад?",
+      "en": "What does GET /todos/99 return in the day example when no todo with id 99 exists?"
+     },
+     "options": [
+      {
+       "ru": "201 и пустую задачу",
+       "tg": "201 ва вазифаи холӣ",
+       "en": "201 and an empty todo"
+      },
+      {
+       "ru": "200 и null",
+       "tg": "200 ва null",
+       "en": "200 and null"
+      },
+      {
+       "ru": "404 и JSON { error: 'not found' }",
+       "tg": "404 ва JSON { error: 'not found' }",
+       "en": "404 and the JSON { error: 'not found' }"
+      }
+     ],
+     "answer": {
+      "ru": "404 и JSON { error: 'not found' }",
+      "tg": "404 ва JSON { error: 'not found' }",
+      "en": "404 and the JSON { error: 'not found' }"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Проследите ветку примера: после Number происходит поиск в массиве. Какая отправка sendJson ждёт, если find не нашёл совпадения?",
+      "tg": "Шохаи мисолро пайравӣ кунед: баъди Number ҷустуҷӯ дар массив мешавад. Кадом фиристодани sendJson интизор аст, агар find мувофиқ наёбад?",
+      "en": "Trace the example branch: after Number a search runs over the array. Which sendJson call waits when find finds nothing?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -5198,7 +6685,13 @@
        "en": "Answers 500"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "trim убирает пробелы с концов строки: что остаётся от строки из одних пробелов и к какой ветке валидации это приводит?",
+      "tg": "trim фосилаҳоро аз сари ва охири сатр меборад: аз сатри танҳо аз фосилаҳо чӣ мемонад ва ба кадом шохаи валидация меорад?",
+      "en": "trim removes spaces from the string ends: what remains of a string of only spaces, and which validation branch does it hit?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "nodejs-day-30-q2",
@@ -5229,7 +6722,50 @@
        "en": "PATCH works faster"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "PATCH меняет часть ресурса, PUT описывает его целиком: что происходит с остальными полями задачи при переключении одного флага?",
+      "tg": "PATCH қисми ресурсро тағйир медиҳад, PUT онро тамоман тавсиф мекунад: бо майдонҳои дигари вазифа ҳангоми ивази як парточ чӣ мешавад?",
+      "en": "PATCH changes part of a resource, PUT describes it whole: what happens to the todo's other fields when one flag toggles?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "nodejs-day-30-q3",
+     "question": {
+      "ru": "Что вернёт PATCH /todos/5 из примера дня, если задачи с id 5 нет?",
+      "tg": "PATCH /todos/5 аз мисоли рӯз чӣ бармегардонад, агар вазифа бо id 5 набошад?",
+      "en": "What does PATCH /todos/5 return in the day example when no todo with id 5 exists?"
+     },
+     "options": [
+      {
+       "ru": "201 и новую задачу",
+       "tg": "201 ва вазифаи нав",
+       "en": "201 and a new todo"
+      },
+      {
+       "ru": "500 без тела ответа",
+       "tg": "500 бе тани ҷавоб",
+       "en": "500 without a response body"
+      },
+      {
+       "ru": "404 и JSON { error: 'not found' }",
+       "tg": "404 ва JSON { error: 'not found' }",
+       "en": "404 and the JSON { error: 'not found' }"
+      }
+     ],
+     "answer": {
+      "ru": "404 и JSON { error: 'not found' }",
+      "tg": "404 ва JSON { error: 'not found' }",
+      "en": "404 and the JSON { error: 'not found' }"
+     },
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ветка PATCH примера сначала ищет задачу: что возвращает sendJson, когда todo не нашлась?",
+      "tg": "Шохаи PATCH-и мисол аввал вазифаро меҷӯяд: sendJson ҳангоми ёфтанашавии todo чӣ бармегардонад?",
+      "en": "The example's PATCH branch searches for the todo first: what does sendJson return when the todo is not found?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {

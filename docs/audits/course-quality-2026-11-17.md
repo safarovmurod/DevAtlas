@@ -1,96 +1,71 @@
 # Актуальная проверка curriculum DevAtlas — 17 ноября 2026
 
-Числа получены из действующих application loaders. Структурная проверка показывает доступность уроков, но не подтверждает педагогическую эффективность, качество каждого перевода или освоение учеником.
+Числа ниже получены из действующих application loaders. Структура и доступность уроков не подтверждают правильность каждой строки, качество каждого перевода или освоение учеником.
 
-Локально: 43 курсов, 38 направлений, 1255 учебных дней. В матрице 114 стадий: 42 Published и 72 Missing.
+Локально: 43 курса, 38 направлений, 1262 учебных дней. Матрица:114 стадий,42 Published,72 Missing,0 Verified. Все 12 short-course планов достигли запланированного числа дней; Management 30/30 и Digital Literacy 30/30 уже написаны. В пяти Starter-программах 154 дня. Management не нужно заново писать с дня 24.
 
-| Курс | В loader / план | Осталось |
-|---|---:|---:|
-| content-creation | 30 / 30 | 0 |
-| english-foundations | 42 / 42 | 0 |
-| digital-literacy | 30 / 30 | 0 |
-| personal-productivity | 22 / 22 | 0 |
-| management-foundations | 23 / 30 | 7 |
+Загрузчики выявили структурные пропуски в 11 курсах. Всего 36 курсов имеют структурный пропуск или эвристический признак для ручной проверки. [Точные координаты loader-аудита](continuation-quality-2026-11-17.json).
 
-В пяти Starter-курсах 147 дней. Для всех двенадцати коротких программ осталось 7 запланированных дней. Существующие дни, prerequisiteDays, quiz IDs и порядок вариантов в первых девяти днях Digital Literacy и Management Foundations сохраняются.
+| Курс | Дней | <4 sections | <3 questions | Дней без linked hints | Без practice |
+|---|---:|---:|---:|---:|---:|
+| html | 30 | 0 | 0 | 0 | 0 |
+| css | 30 | 0 | 0 | 0 | 0 |
+| javascript-1 | 30 | 0 | 0 | 0 | 0 |
+| javascript-2 | 30 | 0 | 0 | 0 | 0 |
+| react | 60 | 0 | 0 | отдельная модель | 0 |
+| nextjs | 20 | 0 | 0 | 0 | 0 |
+| git | 30 | 0 | 0 | 0 | 0 |
+| typescript | 14 | 0 | 0 | 0 | 0 |
+| algorithms | 14 | 0 | 0 | 0 | 0 |
+| python | 30 | 0 | 0 | 0 | 0 |
+| backend | 44 | 43 | 0 | 0 | 0 |
+| mobile | 44 | 0 | 0 | 0 | 0 |
+| cpp | 30 | 0 | 0 | 0 | 0 |
+| java | 30 | 0 | 0 | 0 | 0 |
+| csharp | 30 | 0 | 0 | 0 | 0 |
+| go | 30 | 0 | 0 | 0 | 0 |
+| rust | 30 | 0 | 0 | 0 | 0 |
+| php | 30 | 0 | 0 | 0 | 0 |
+| ruby | 30 | 0 | 0 | 0 | 0 |
+| sql | 30 | 0 | 0 | 0 | 0 |
+| bash | 30 | 0 | 0 | 0 | 0 |
+| nodejs | 30 | 0 | 0 | 0 | 0 |
+| mongodb | 30 | 0 | 0 | 0 | 0 |
+| swift | 30 | 0 | 0 | 0 | 0 |
+| kotlin | 30 | 0 | 0 | 0 | 0 |
+| ux-design | 30 | 0 | 0 | 0 | 0 |
+| ai-fundamentals | 14 | 14 | 5 | 14 | 0 |
+| context-engineering | 14 | 2 | 0 | 14 | 0 |
+| agent-harness | 14 | 14 | 3 | 14 | 0 |
+| digital-marketing | 30 | 30 | 0 | 30 | 0 |
+| data-analytics | 30 | 30 | 0 | 30 | 0 |
+| business-foundations | 30 | 30 | 0 | 30 | 0 |
+| communication | 30 | 30 | 0 | 30 | 0 |
+| content-creation | 30 | 0 | 0 | 0 | 0 |
+| english-foundations | 42 | 0 | 0 | 0 | 0 |
+| digital-literacy | 30 | 0 | 0 | 0 | 0 |
+| personal-productivity | 22 | 0 | 0 | 0 | 0 |
+| management-foundations | 30 | 0 | 0 | 0 | 0 |
+| javascript-pro | 30 | 0 | 0 | 0 | 0 |
+| backend-pro | 30 | 0 | 0 | 0 | 0 |
+| architecture-expert | 30 | 28 | 30 | 30 | 0 |
+| ux-pro | 30 | 30 | 30 | 30 | 0 |
+| business-pro | 30 | 30 | 30 | 30 | 0 |
 
-## Что показала повторная проверка
+## Доказательства и границы
 
-Старые указания про 40 дней React с недостаточной теорией и первые 12 дней Next.js устарели. Реальные источники React (`react-concepts.ts`, `react-walkthroughs.ts`) и Next.js (`nextjs-foundations.ts`, `nextjs-foundation-review.ts`) уже дополняют loader оригинальным материалом. Все 60 дней React имеют минимум четыре раздела и три вопроса. Все 20 дней Next.js имеют четыре раздела и минимум три вопроса; у дней 1–12 разные RU/TG/EN тексты. Это структурный результат, а не независимая сертификация качества.
+Старые React 40/Next 12 gaps устарели: React 60 и Next 20 уже имеют минимум 4 sections и 3 questions в каждом дне. Их дальнейший review касается смысла, практики, assessment и переводов. TypeScript 14 сохраняется.72 Missing stages — отдельные отсутствующие программы, не пропуски параграфов в существующих курсах.
 
-| Курс | Дней | Дней с <4 разделами | Дней с <3 вопросами | Без практики |
-|---|---:|---:|---:|---:|
-| html | 30 | 0 | 0 | 0 |
-| css | 30 | 0 | 0 | 0 |
-| javascript-1 | 30 | 0 | 0 | 0 |
-| javascript-2 | 30 | 0 | 0 | 0 |
-| react | 60 | 0 | 0 | 0 |
-| nextjs | 20 | 0 | 0 | 0 |
-| git | 30 | 0 | 0 | 0 |
-| typescript | 14 | 0 | 0 | 0 |
-| algorithms | 14 | 13 | 0 | 0 |
-| python | 30 | 2 | 28 | 0 |
-| backend | 44 | 43 | 0 | 0 |
-| mobile | 44 | 44 | 0 | 0 |
-| cpp | 30 | 0 | 0 | 0 |
-| java | 30 | 30 | 30 | 0 |
-| csharp | 30 | 30 | 30 | 0 |
-| go | 30 | 0 | 0 | 0 |
-| rust | 30 | 30 | 30 | 0 |
-| php | 30 | 2 | 30 | 0 |
-| ruby | 30 | 30 | 30 | 0 |
-| sql | 30 | 14 | 30 | 0 |
-| bash | 30 | 28 | 30 | 0 |
-| nodejs | 30 | 9 | 30 | 0 |
-| mongodb | 30 | 13 | 30 | 0 |
-| swift | 30 | 30 | 28 | 0 |
-| kotlin | 30 | 30 | 30 | 0 |
-| ux-design | 30 | 28 | 0 | 0 |
-| ai-fundamentals | 14 | 14 | 5 | 0 |
-| context-engineering | 14 | 2 | 0 | 0 |
-| agent-harness | 14 | 14 | 3 | 0 |
-| digital-marketing | 30 | 30 | 0 | 0 |
-| data-analytics | 30 | 30 | 0 | 0 |
-| business-foundations | 30 | 30 | 0 | 0 |
-| communication | 30 | 30 | 0 | 0 |
-| content-creation | 30 | 0 | 0 | 0 |
-| english-foundations | 42 | 0 | 0 | 0 |
-| digital-literacy | 30 | 0 | 0 | 0 |
-| personal-productivity | 22 | 0 | 0 | 0 |
-| management-foundations | 23 | 0 | 0 | 0 |
-| javascript-pro | 30 | 26 | 0 | 0 |
-| backend-pro | 30 | 0 | 30 | 0 |
-| architecture-expert | 30 | 28 | 30 | 0 |
-| ux-pro | 30 | 30 | 30 | 0 |
-| business-pro | 30 | 30 | 30 | 0 |
+Все текущие курсы доступны бесплатно, включая Pro/Expert; это уровни обучения. Реальная карта доступа MEMBERS_ONLY в src/lib/courses/access.ts пуста. Interface EN/RU/TG/ES; учебный контент RU/TG/EN.
 
-## Новые блоки
+[Реестр 43 задач и реальных owners](course-register-2026-11-17.md) отделяет queued от running/review. [Независимый review и конкретные исправления](pending-batches-review-2026-11-17.md) хранит фактические ошибки, источники и ограничения. Java/C#/Rust и SQL/Node/Mongo имеют ограниченно принятые исправления; это не принятие целого курса. PHP/Ruby/Swift требуют следующих исправлений. Kotlin/UX сохраняют авторские additions и проходят интеграцию.
 
-Digital Literacy 10–30: поиск и проверка информации; документы и таблицы; защита аккаунта; права доступа, версии и восстановление; итоговый вымышленный цифровой набор. [Проверенные источники и ограничения](../curriculum-design/digital-literacy-10-30-source-review.md).
+Root выполнил 27 Java reference-практик на OpenJDK 17 и 26 PHP reference-практик на PHP 8.4.27. Все ожидаемые outputs совпали. Kotlin 1.9.24 выполнил 30 примеров и 30 самостоятельных решений. Общий verifier также проверил граничные аргументы, overflow и обнаружение сломанного удаления. Ruby runtime-проверка продолжается. C#, Rust, Swift и MongoDB execution остаются непроверенными. Последний полный run root перед новыми AI-правками и завершением UX rubric дал 116 файлов, 926 passed, 8 skipped.
 
+Self Reviewed не подтверждает реальные настройки устройства/аккаунта, реальные командные результаты, pronunciation или независимо оценённое mastery. Для оставшегося review нужны task-specific rubrics, независимая практика, sentence-level RU/TG/EN, источники и реальные runtime checks. Green structural tests не заменяют semantic review.
 
-Новые письменные задания проверяются по критериям и предметным рубрикам. Self Reviewed не подтверждает реальные настройки устройства, защищённость аккаунта, качество работы сотрудников или независимое освоение. Задания не требуют ввода настоящих паролей, кодов и персональных данных.
+## Продолжение
 
-## Следующая работа
+Продолжать локально на main через авторов и независимых reviewer. Commit/push/PR/merge/deploy запрещены текущим запросом; шеф сам отправит работу. Не использовать stash/reset/clean и не откатывать dirty work. Следующие точные findings — в pending batch review; после текущих исправлений выполнять оставшуюся очередь 43 курсов.
 
-Continue management-foundations at day 24 using docs/curriculum-design/short-courses.draft.json. 7 short-course days remain. Reuse docs/curriculum-design/management-foundations-24-30-recovered.draft.json as an unreviewed draft rather than reauthoring it. Review missing project rubrics in Management days16/23. Preserve all authored lessons, quiz options and progress IDs. Recheck current loaders before editing other courses.
-
-72 отсутствующие стадии не созданы этой партией. Продолжение пяти 14-дневных программ, независимая языковая/педагогическая проверка, повторные варианты assessment и human review остаются в реестре. Старые датированные отчёты сохраняют исторические результаты; текущие числа брать из loader и свежих coverage/delivery отчётов.
-
-## Воспроизведение
-
-```bash
-node scripts/check-short-course-blueprints.mjs
-node scripts/coverage-matrix.mjs --check
-node scripts/delivery-report.mjs --check
-node scripts/audit-backlog.mjs --check
-python -I scripts/course-authoring/audit.py digital-literacy
-python -I scripts/course-authoring/audit.py management-foundations
-npm run test
-npm run typecheck
-npm run lint
-npm run build
-npx playwright test e2e/digital-literacy-modules.spec.ts e2e/management-foundations-modules.spec.ts
-```
-
-Результаты реально выполненных проверок указаны в описаниях соответствующих PR и source-review. Этот список команд сам по себе не является заявлением об их успешном выполнении.
+Генераторы: coverage-matrix.mjs, delivery-report.mjs, course-content-quality-report.mjs, audit-backlog.mjs, continuation-quality-audit.mjs. Их успешный run обновляет инвентарь, а не выдаёт образовательную сертификацию.

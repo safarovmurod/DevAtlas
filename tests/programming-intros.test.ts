@@ -43,10 +43,18 @@ describe('programming course examples', () => {
     for (const lesson of course.lessons) {
       expect(lesson.id).toBe(`kotlin-day-${String(lesson.day).padStart(2,'0')}`);
       expect(lesson.prerequisiteDays).toEqual(lesson.day===1?[]:[lesson.day!-1]);
-      expect(lesson.practice?.solution).toBe(lesson.sections[0].code);
+      // Guided examples and independent practice have separate scenarios and outputs.
+      expect(lesson.practice?.solution, lesson.id).not.toBe(lesson.sections[0].code);
+      expect(lesson.practice?.solution, lesson.id).toMatch(/\n\/\/ Expected output:\n\/\/ .+/);
       expect(lesson.sections[0].output?.en).toBeTruthy();
-      expect(lesson.questions.length).toBeGreaterThanOrEqual(lesson.day! <= 2 ? 1 : 2);
-      for(const question of lesson.questions) expect(question.options[question.correctIndex]).toEqual(question.answer);
+      expect(lesson.sections.length, lesson.id).toBeGreaterThanOrEqual(4);
+      expect(lesson.questions.length, lesson.id).toBeGreaterThanOrEqual(3);
+      for(const question of lesson.questions) {
+        expect(question.options[question.correctIndex]).toEqual(question.answer);
+        expect(question.relatedSection, question.id).toBeGreaterThanOrEqual(0);
+        expect(question.relatedSection, question.id).toBeLessThan(lesson.sections.length);
+        for(const locale of ['ru', 'tg', 'en'] as const) expect(question.hint?.[locale]?.trim(), question.id).toBeTruthy();
+      }
       for (const locale of ['ru', 'tg', 'en'] as const) {
         expect(lesson.title[locale]?.length).toBeGreaterThan(8);
         expect(lesson.sections[0].body[locale]?.length).toBeGreaterThan(90);

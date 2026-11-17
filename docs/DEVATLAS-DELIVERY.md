@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-Recorded main checkpoint: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29` (recorded 2026-10-31; historical audit baseline `d5ed179175d3f524ec1d14956ff44ff98164467e`). 43 course IDs; 38 tracks; 114 stage requirements; 1262 actual scheduled days (1112 free, 150 premium). 38 Starter, 4 Pro and 1 Expert course IDs.
+Recorded main checkpoint: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29` (recorded 2026-10-31; historical audit baseline `d5ed179175d3f524ec1d14956ff44ff98164467e`). 43 course IDs, 38 tracks, 114 stage requirements and 1262 scheduled days (1262 free, 0 membership-restricted). Curriculum levels include 38 Starter, 4 Pro and 1 Expert course IDs.
 
 42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
 
@@ -10,51 +10,51 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 
 ## Published inventory
 
-| Course ID | Access tier | Actual days |
-|---|---|---:|
-| html | starter | 30 |
-| css | starter | 30 |
-| javascript-1 | starter | 30 |
-| javascript-2 | starter | 30 |
-| react | starter | 60 |
-| nextjs | starter | 20 |
-| git | starter | 30 |
-| typescript | starter | 14 |
-| algorithms | starter | 14 |
-| python | starter | 30 |
-| backend | starter | 44 |
-| mobile | starter | 44 |
-| cpp | starter | 30 |
-| java | starter | 30 |
-| csharp | starter | 30 |
-| go | starter | 30 |
-| rust | starter | 30 |
-| php | starter | 30 |
-| ruby | starter | 30 |
-| sql | starter | 30 |
-| bash | starter | 30 |
-| nodejs | starter | 30 |
-| mongodb | starter | 30 |
-| swift | starter | 30 |
-| kotlin | starter | 30 |
-| ux-design | starter | 30 |
-| ai-fundamentals | starter | 14 |
-| context-engineering | starter | 14 |
-| agent-harness | starter | 14 |
-| digital-marketing | starter | 30 |
-| data-analytics | starter | 30 |
-| business-foundations | starter | 30 |
-| communication | starter | 30 |
-| content-creation | starter | 30 |
-| english-foundations | starter | 42 |
-| digital-literacy | starter | 30 |
-| personal-productivity | starter | 22 |
-| management-foundations | starter | 30 |
-| javascript-pro | pro | 30 |
-| backend-pro | pro | 30 |
-| architecture-expert | expert | 30 |
-| ux-pro | pro | 30 |
-| business-pro | pro | 30 |
+| Course ID | Curriculum level | Current access | Actual days |
+|---|---|---|---:|
+| html | starter | free | 30 |
+| css | starter | free | 30 |
+| javascript-1 | starter | free | 30 |
+| javascript-2 | starter | free | 30 |
+| react | starter | free | 60 |
+| nextjs | starter | free | 20 |
+| git | starter | free | 30 |
+| typescript | starter | free | 14 |
+| algorithms | starter | free | 14 |
+| python | starter | free | 30 |
+| backend | starter | free | 44 |
+| mobile | starter | free | 44 |
+| cpp | starter | free | 30 |
+| java | starter | free | 30 |
+| csharp | starter | free | 30 |
+| go | starter | free | 30 |
+| rust | starter | free | 30 |
+| php | starter | free | 30 |
+| ruby | starter | free | 30 |
+| sql | starter | free | 30 |
+| bash | starter | free | 30 |
+| nodejs | starter | free | 30 |
+| mongodb | starter | free | 30 |
+| swift | starter | free | 30 |
+| kotlin | starter | free | 30 |
+| ux-design | starter | free | 30 |
+| ai-fundamentals | starter | free | 14 |
+| context-engineering | starter | free | 14 |
+| agent-harness | starter | free | 14 |
+| digital-marketing | starter | free | 30 |
+| data-analytics | starter | free | 30 |
+| business-foundations | starter | free | 30 |
+| communication | starter | free | 30 |
+| content-creation | starter | free | 30 |
+| english-foundations | starter | free | 42 |
+| digital-literacy | starter | free | 30 |
+| personal-productivity | starter | free | 22 |
+| management-foundations | starter | free | 30 |
+| javascript-pro | pro | free | 30 |
+| backend-pro | pro | free | 30 |
+| architecture-expert | expert | free | 30 |
+| ux-pro | pro | free | 30 |
+| business-pro | pro | free | 30 |
 
 ## Implemented and bounded
 
@@ -67,7 +67,7 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 - Backend currently has 44 authored days with RU/TG/EN explanations and five checks per day, including its 44-day capstone sequence. Supported function tasks reuse the isolated browser runner; code traces are explanatory and local Node.js project tests are separate. Daily CLI graders exercise learner files against actual Node/SQLite cases; capstone gates load the supplied project modules and reject broken ownership. Reference success does not establish learner authorship or server attestation.
 - React function labs retain their existing isolated browser runner. Other native languages are not advertised as browser-compiled merely because an editor exists. Provision and test isolated trusted runners before enabling them.
 - Existing TutorDrawer and Floating Site Agent remain the two assistants. Owner-scoped local Agent history, cancellation and mandatory persistent AI budget reservations are implemented; live budget migration/configuration and shared persistent multi-chat remain pending. Do not represent local chat history as complete server history.
-- Beginner remains free. Pro/Expert bodies, solutions, tutor references and paid attachments retain server authorization and private/no-store caching. Without the Dodo settings billing stays billing_not_configured; with them, membership is granted only by the verified Dodo webhook (docs/BILLING.md). A browser flag or fake redirect never grants membership.
+- Current course access comes from `courseAccessTier` in src/lib/courses/access.ts. 43 courses are free and 0 require membership. Starter, Pro and Expert in the inventory describe curriculum levels. The independent billing feature uses verified Dodo membership webhooks when configured.
 
 ## Required remaining work
 

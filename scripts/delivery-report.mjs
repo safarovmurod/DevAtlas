@@ -6,7 +6,7 @@ import {reportMatches} from './lib/report-text.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const {rows,tracks,matrix}=await loadAuditData();
 const state=JSON.parse(await readFile(path.join(root,'docs/delivery-state.json'),'utf8'));
-const total=rows.reduce((sum,row)=>sum+row.publishedDays,0),free=rows.filter(row=>row.tier==='starter'),paid=rows.filter(row=>row.tier!=='starter');
+const total=rows.reduce((sum,row)=>sum+row.publishedDays,0),free=rows.filter(row=>row.requiredAccessTier==='starter'),paid=rows.filter(row=>row.requiredAccessTier!=='starter');
 const days=items=>items.reduce((sum,row)=>sum+row.publishedDays,0);
 const {courses:blueprints}=JSON.parse(await readFile(path.join(root,'docs/curriculum-design/short-courses.draft.json'),'utf8'));
 const short=blueprints.flatMap(plan=>{
@@ -25,7 +25,7 @@ const delivery=[
  '',
  'Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.',
  '',
- `Recorded main checkpoint: \`${state.currentCheckpoint?.mainSha??state.baselineCommit}\`${state.currentCheckpoint?` (recorded ${state.currentCheckpoint.recordedAt}; historical audit baseline \`${state.baselineCommit}\`)`:''}. ${rows.length} course IDs; ${tracks.length} tracks; ${matrix.length} stage requirements; ${total} actual scheduled days (${days(free)} free, ${days(paid)} premium). ${free.length} Starter, ${rows.filter(row=>row.tier==='pro').length} Pro and ${rows.filter(row=>row.tier==='expert').length} Expert course IDs.`,
+ `Recorded main checkpoint: \`${state.currentCheckpoint?.mainSha??state.baselineCommit}\`${state.currentCheckpoint?` (recorded ${state.currentCheckpoint.recordedAt}; historical audit baseline \`${state.baselineCommit}\`)`:''}. ${rows.length} course IDs, ${tracks.length} tracks, ${matrix.length} stage requirements and ${total} scheduled days (${days(free)} free, ${days(paid)} membership-restricted). Curriculum levels include ${rows.filter(row=>row.tier==='starter').length} Starter, ${rows.filter(row=>row.tier==='pro').length} Pro and ${rows.filter(row=>row.tier==='expert').length} Expert course IDs.`,
  '',
  `${matrix.filter(row=>row.status==='Published').length} stages have published curricula; ${missing.length} stages are missing (${stageCount('beginner')} Beginner, ${stageCount('pro')} Pro, ${stageCount('expert')} Expert). ${fullyPublished} tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.`,
  '',
@@ -33,9 +33,9 @@ const delivery=[
  '',
  '## Published inventory',
  '',
- '| Course ID | Access tier | Actual days |',
- '|---|---|---:|',
- ...rows.map(row=>`| ${row.courseId} | ${row.tier} | ${row.publishedDays} |`),
+ '| Course ID | Curriculum level | Current access | Actual days |',
+ '|---|---|---|---:|',
+ ...rows.map(row=>`| ${row.courseId} | ${row.tier} | ${row.requiredAccessTier==='starter'?'free':row.requiredAccessTier} | ${row.publishedDays} |`),
  '',
  '## Implemented and bounded',
  '',
@@ -48,7 +48,7 @@ const delivery=[
  `- Backend currently has ${rows.find(row=>row.courseId==='backend').publishedDays} authored days with RU/TG/EN explanations and five checks per day, including its 44-day capstone sequence. Supported function tasks reuse the isolated browser runner; code traces are explanatory and local Node.js project tests are separate. Daily CLI graders exercise learner files against actual Node/SQLite cases; capstone gates load the supplied project modules and reject broken ownership. Reference success does not establish learner authorship or server attestation.`,
  '- React function labs retain their existing isolated browser runner. Other native languages are not advertised as browser-compiled merely because an editor exists. Provision and test isolated trusted runners before enabling them.',
  '- Existing TutorDrawer and Floating Site Agent remain the two assistants. Owner-scoped local Agent history, cancellation and mandatory persistent AI budget reservations are implemented; live budget migration/configuration and shared persistent multi-chat remain pending. Do not represent local chat history as complete server history.',
- '- Beginner remains free. Pro/Expert bodies, solutions, tutor references and paid attachments retain server authorization and private/no-store caching. Without the Dodo settings billing stays billing_not_configured; with them, membership is granted only by the verified Dodo webhook (docs/BILLING.md). A browser flag or fake redirect never grants membership.',
+ `- Current course access comes from \`courseAccessTier\` in src/lib/courses/access.ts. ${free.length} courses are free and ${paid.length} require membership. Starter, Pro and Expert in the inventory describe curriculum levels. The independent billing feature uses verified Dodo membership webhooks when configured.`,
  '',
  '## Required remaining work',
  '',
@@ -89,9 +89,9 @@ const continuation=[
  '',
  '## Сначала',
  '',
- 'Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.',
+ 'Проверьте текущий локальный main и сохраните незавершённые изменения. Продолжайте работу через владельцев курсов и независимую проверку. Публикацию выполняет шеф отдельно.',
  '',
- `Следующее действие по сохранённому состоянию: ${state.resume.nextAction}`,
+ 'Текущие задачи и результаты проверок находятся в [реестре курсов](audits/course-register-2026-11-17.md). Порядок работы указан в [плане продолжения](CURRICULUM-AGENT-PACK-2026-11-17.md).',
  '',
  '## Что сохранить',
  '',
@@ -111,7 +111,7 @@ const continuation=[
  '- Поток: Learn → Understand → Watch → Try → Practice → Test → Review → Master. Объяснять термины, важные строки, изменения входных данных, ошибки и самостоятельное решение. Сохранять полезную старую теорию.',
  '- Для полноценных дней — 5–10 содержательных проверок, разные варианты повторной попытки, подсказки и ссылки на теорию. Mastered: реальная успешная практика, ≥80%, все критические вопросы. Self Reviewed даёт продолжение, но не Auto Verified; AI Feedback не является Human Reviewed.',
  '- Subjective capstone требует объективных проверок и настоящего уполномоченного human review. Старые checkbox-записи нельзя повышать до новых подтверждённых результатов.',
- '- Beginner FREE. Pro/Expert защищены сервером; готовность к уровню и подписка независимы. Никаких localStorage-entitlements или фиктивной оплаты.',
+ `- По текущему правилу доступа ${free.length} курсов бесплатны и ${paid.length} требуют подписку. Pro и Expert в каталоге обозначают уровень обучения.`,
  '- Не исполнять недоверенный код в основном серверном процессе, не имитировать компиляторы и не утверждать, что установленный Docker означает готовый изолированный runner.',
  '- Не создавать третьего помощника. Объединить архитектуру существующих TutorDrawer/Site Agent: per-account multi-chat, серверная история, guest-local, поиск/удаление, устойчивые квоты и лимиты стоимости. Сохранить бесплатные детерминированные ответы.',
  '- Не подключать новые платные сервисы без разрешения. Billing fail-closed; online AI требует согласованного провайдера и cost caps. Отсутствующие credentials — объективный blocker, а не повод выдумать успешную интеграцию.',
@@ -124,7 +124,7 @@ const continuation=[
  '',
  '`node scripts/coverage-matrix.mjs --check`; `node scripts/delivery-report.mjs --check`; `node scripts/course-content-quality-report.mjs`; typecheck/lint; тесты по изменениям; production build; browser desktop/mobile и auth-регрессии. Запускайте реальные примеры в доступных безопасных средах. Незапущенный runtime не считается проверенным.',
  '',
- 'Работайте небольшими завершёнными PR. После зелёных проверок выполняйте обычное слияние и проверяйте CI main/Vercel. Сохраняйте точные SHAs, реальные результаты и остаток задач. Не останавливайтесь на описании плана и не объявляйте завершённым то, что ещё не реализовано.',
+ 'Текущая работа выполняется только локально в существующем main. Не создавайте ветку, commit, push, PR, merge или deploy; не используйте stash/reset/clean. Шеф сам отправляет изменения. Сохраняйте реальные результаты проверок и оставшуюся очередь. Продолжайте через настоящих авторов и независимых reviewer; coordinator не пишет скрытые исправления сам.',
  '',
 ];
 for(const [relative,lines] of [['docs/DEVATLAS-DELIVERY.md',delivery],['docs/CONTINUATION-PROMPT.md',continuation]]){

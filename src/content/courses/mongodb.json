@@ -103,12 +103,12 @@
       "ru": "Что такое MongoDB, документ и коллекция",
       "tg": "MongoDB, ҳуҷҷат ва collection чист?",
       "en": "MongoDB, documents, and collections"
-    },
+     },
      "body": {
       "ru": "MongoDB — база данных, которая хранит записи как документы. Документ содержит поля и может включать массивы и вложенные объекты. Коллекция группирует документы, например товары.\n\nНужны отдельный локальный MongoDB и mongosh. Используйте только учебную базу devatlas_learning. Коллекция хранит документы; _id однозначно определяет документ. updateOne с upsert создаёт документ, если его нет, а $set задаёт поля. Повторный запуск с тем же _id не добавляет дубликат.",
       "tg": "MongoDB базаест, ки сабтро ҳамчун ҳуҷҷат нигоҳ медорад. Ҳуҷҷат майдонҳо дорад ва дарунаш массив ё объекти дигар ҳам мешавад. Collection ҳуҷҷатҳои як гурӯҳро ҷамъ мекунад.\n\nMongoDB-и маҳаллӣ ва mongosh лозиманд. Танҳо пойгоҳи омӯзишии devatlas_learning-ро истифода баред. Маҷмуа ҳуҷҷатҳоро нигоҳ медорад; _id ҳуҷҷатро якмаъно муайян мекунад. updateOne бо upsert ҳуҷҷати набударо месозад, $set майдонҳоро таъйин мекунад. Иҷрои такрорӣ бо ҳамон _id нусхаи зиёдатӣ намесозад.",
       "en": "MongoDB stores records as documents. A document can contain fields, arrays, and nested objects. A collection groups documents, such as products.\n\nA separate local MongoDB server and mongosh are required. Use only the devatlas_learning teaching database. Collections contain documents; _id uniquely identifies one. updateOne with upsert creates a missing document and $set assigns fields. Repeating the same _id does not add a duplicate."
-    },
+     },
      "code": "const learning = db.getSiblingDB(\"devatlas_learning\");\nlearning.lesson_day1.updateOne(\n  { _id: \"tea\" },\n  { $set: { name: \"Tea\", stock: 5 } },\n  { upsert: true }\n);\nconst product = learning.lesson_day1.findOne({ _id: \"tea\" });\nprint(product.stock);\n",
      "language": "javascript",
      "output": {
@@ -155,21 +155,21 @@
     }
    ],
    "interview": {
-     "id": "mongodb-day-01-written",
-     "question": {
-       "ru": "Как MongoDB называет группу документов о товарах?",
-       "tg": "Дар MongoDB гурӯҳи ҳуҷҷатҳои молҳо чӣ ном дорад?",
-       "en": "What does MongoDB call a group of product documents?"
-     },
-     "answer": {
-       "ru": "Коллекция",
-       "tg": "Коллексия",
-       "en": "Collection"
-     },
-     "acceptedAnswers": [
-       "collection of documents",
-       "маҷмӯаи ҳуҷҷатҳо"
-     ]
+    "id": "mongodb-day-01-written",
+    "question": {
+     "ru": "Как MongoDB называет группу документов о товарах?",
+     "tg": "Дар MongoDB гурӯҳи ҳуҷҷатҳои молҳо чӣ ном дорад?",
+     "en": "What does MongoDB call a group of product documents?"
+    },
+    "answer": {
+     "ru": "Коллекция",
+     "tg": "Коллексия",
+     "en": "Collection"
+    },
+    "acceptedAnswers": [
+     "collection of documents",
+     "маҷмӯаи ҳуҷҷатҳо"
+    ]
    },
    "questions": [
     {
@@ -201,7 +201,13 @@
        "en": "Sorts documents by a field"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните, что происходит при первом запуске, когда документа с таким _id в коллекции ещё нет.",
+      "tg": "Дар хотир оред, ки ҳангоми иҷрои аввал, вақте ки ҳуҷҷат бо чунин _id дар коллексия ҳанӯз нест, чӣ мешавад.",
+      "en": "Recall what happens on the first run, when no document with this _id exists in the collection yet."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-01-q2",
@@ -232,7 +238,50 @@
        "en": "The database name"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Подумайте, как база различает два разных документа одной и той же коллекции.",
+      "tg": "Биёндешед, ки база чӣ тавр ду ҳуҷҷати гуногуни як коллексияро фарқ мекунад.",
+      "en": "Think about how the database tells two different documents of the same collection apart."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "mongodb-day-01-q3",
+     "question": {
+      "ru": "Что вернёт findOne({ _id: \"tea\" }), если документа с таким ключом нет?",
+      "tg": "findOne({ _id: \"tea\" }) чӣ бармегардонад, агар ҳуҷҷат бо чунин калид вуҷуд надошта бошад?",
+      "en": "What does findOne({ _id: \"tea\" }) return when no document with that key exists?"
+     },
+     "answer": {
+      "ru": "null — совпадений нет",
+      "tg": "null — мувофиқа нест",
+      "en": "null — there is no match"
+     },
+     "hint": {
+      "ru": "Сравните с find, который возвращает курсор: что удобно вернуть, когда речь об одном документе.",
+      "tg": "Бо find, ки курсор бармегардонад, муқоиса кунед: чиро баргардонидан қулай аст, вақте ки сухан дар бораи як ҳуҷҷат аст.",
+      "en": "Compare with find, which returns a cursor: what is convenient to return when it is about one document."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "null — совпадений нет",
+       "tg": "null — мувофиқа нест",
+       "en": "null — there is no match"
+      },
+      {
+       "ru": "Пустой массив документов",
+       "tg": "Массиви холии ҳуҷҷатҳо",
+       "en": "An empty array of documents"
+      },
+      {
+       "ru": "Ошибку соединения с сервером",
+       "tg": "Хатои пайвасти бо сервер",
+       "en": "A connection error to the server"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -292,12 +341,12 @@
       "ru": "Что означает атомарное обновление",
       "tg": "Навсозии атомарӣ чӣ маъно дорад?",
       "en": "Atomic updates"
-    },
+     },
      "body": {
       "ru": "Одно обновление документа применяет свои изменения как единое целое. Для остатка поставьте условие «достаточно товара» прямо в запрос обновления. Отдельные чтение и запись оставляют между собой окно для другого запроса.\n\nУсловие stock: {$gte: 2} и уменьшение $inc выполняются одним обновлением документа. Не читайте остаток и не списывайте его отдельными несогласованными запросами. matchedCount=0 означает, что условие не выполнено. Пример сначала сбрасывает только свой учебный документ к stock=5 для повторяемого результата.",
       "tg": "Як навсозии ҳуҷҷат ҳама тағйироти худашро якҷо сабт мекунад. Шарти миқдори кофиро дар худи query-и update мон. Байни хондану сабти ҷудо query-и дигар омада метавонад.\n\nШарти stock: {$gte: 2} ва камкунӣ бо $inc дар як навсозии ҳуҷҷат иҷро мешаванд. Бақияро хонда, бо дархости алоҳидаи номувофиқ кам накунед. matchedCount=0 маънои иҷро нашудани шартро дорад. Барои натиҷаи такроршаванда мисол аввал танҳо ҳуҷҷати омӯзишии худро ба stock=5 мегузорад.",
       "en": "One document update applies its changes as a unit. Put the stock check in the update filter. Separate reads and writes leave time for another request to change the record.\n\nThe stock: {$gte: 2} condition and $inc decrement run in one document update. Do not read stock and subtract it with separate uncoordinated requests. matchedCount=0 means the condition was not met. The example first resets only its own teaching document to stock=5 for repeatable output."
-    },
+     },
      "code": "const learning = db.getSiblingDB(\"devatlas_learning\");\nlearning.lesson_day2.updateOne({ _id: \"tea\" }, { $set: { stock: 5 } }, { upsert: true });\nlearning.lesson_day2.updateOne({ _id: \"tea\", stock: { $gte: 2 } }, { $inc: { stock: -2 } });\nprint(learning.lesson_day2.findOne({ _id: \"tea\" }).stock);\nconst refused = learning.lesson_day2.updateOne({ _id: \"tea\", stock: { $gte: 9 } }, { $inc: { stock: -9 } });\nprint(refused.matchedCount);\n",
      "language": "javascript",
      "output": {
@@ -344,18 +393,18 @@
     }
    ],
    "interview": {
-     "id": "mongodb-day-02-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какой оператор MongoDB меняет числовое поле на заданную величину?",
-       "tg": "Кадом оператори MongoDB майдони ададиро ба миқдори додашуда иваз мекунад?",
-       "en": "Which MongoDB operator changes a numeric field by a given amount?"
-     },
-     "answer": {
-       "ru": "$inc",
-       "tg": "$inc",
-       "en": "$inc"
-     }
+    "id": "mongodb-day-02-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какой оператор MongoDB меняет числовое поле на заданную величину?",
+     "tg": "Кадом оператори MongoDB майдони ададиро ба миқдори додашуда иваз мекунад?",
+     "en": "Which MongoDB operator changes a numeric field by a given amount?"
+    },
+    "answer": {
+     "ru": "$inc",
+     "tg": "$inc",
+     "en": "$inc"
+    }
    },
    "questions": [
     {
@@ -387,7 +436,13 @@
        "en": "To remove duplicates"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните с подходом «сначала прочитать остаток, потом отдельно записать новый».",
+      "tg": "Бо равиши «аввал боқимондаро хон, баъд алоҳида навбатиро навис» муқоиса кунед.",
+      "en": "Compare it with the approach \"first read the stock, then write the new one separately\"."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-02-q2",
@@ -425,6 +480,43 @@
       "en": "Check whether the document satisfies the filter when updateOne runs."
      },
      "relatedSection": 3
+    },
+    {
+     "id": "mongodb-day-02-q3",
+     "question": {
+      "ru": "Что вернёт updateOne({ _id: \"tea\", stock: { $gte: 9 } }, { $inc: { stock: -9 } }), когда stock равен 3?",
+      "tg": "updateOne({ _id: \"tea\", stock: { $gte: 9 } }, { $inc: { stock: -9 } }) чӣ бармегардонад, вақте ки stock ба 3 баробар аст?",
+      "en": "What does updateOne({ _id: \"tea\", stock: { $gte: 9 } }, { $inc: { stock: -9 } }) return when stock is 3?"
+     },
+     "answer": {
+      "ru": "matchedCount 0 и ничего не изменит",
+      "tg": "matchedCount 0 ва ҳеҷ чизро тағйир намедиҳад",
+      "en": "matchedCount 0 and it changes nothing"
+     },
+     "hint": {
+      "ru": "Проверьте условие: удовлетворяет ли остаток 3 требованию «не меньше девяти».",
+      "tg": "Шартро санҷед: оё боқимондаи 3 талаби «камтар аз нӯҳ не»-ро қонеъ мекунад.",
+      "en": "Check the condition: does a stock of 3 satisfy the requirement \"at least nine\"."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Списывает 9, и остаток становится отрицательным",
+       "tg": "9-ро менависад ва боқимонда манфӣ мешавад",
+       "en": "Subtracts 9 and the stock becomes negative"
+      },
+      {
+       "ru": "Ошибку «условие невыполнимо»",
+       "tg": "Хатои «шарт иҷронашаванда»",
+       "en": "An error saying the condition is impossible"
+      },
+      {
+       "ru": "matchedCount 0 и ничего не изменит",
+       "tg": "matchedCount 0 ва ҳеҷ чизро тағйир намедиҳад",
+       "en": "matchedCount 0 and it changes nothing"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -485,12 +577,12 @@
       "ru": "Как устроены вложенные документы",
       "tg": "Ҳуҷҷати дарунӣ чӣ хел сохта мешавад?",
       "en": "Nested documents"
-    },
+     },
      "body": {
       "ru": "При вложенности поле документа может содержать другой объект. Например, address хранит city и street внутри записи клиента. Это удобно, когда эти данные читаются вместе; для общих данных выбирают модель осознанно.\n\nВ реляционной базе данные о товаре пришлось бы разложить по нескольким плоским таблицам: товары, характеристики, поставщики — и собирать их обратно операцией соединения. MongoDB хранит запись целиком как документ: внутри одного объекта лежат и цена, и вложенный объект поставщика с его городом и рейтингом, и массив тегов. Такая форма похожа на JSON, с которым вы уже встречались в JavaScript, поэтому фронтенду она понятна без переводчика. Документы одной коллекции не обязаны быть одинаковыми: у хлеба может не быть тегов, и это не ошибка — поле просто отсутствует. Сегодня мы создаём учебную коллекцию магазина и учимся читать из документа и простые поля, и вложенные, и элементы массива. Всё выполняется в вашей локальной mongosh; сайт сам этот код не запускает.",
       "tg": "Ҳангоми вложенность майдони ҳуҷҷат метавонад объекти дигар дошта бошад. Масалан address даруни сабти муштарӣ city ва street дорад. Ин вақте қулай аст, ки ҳамаро якҷо мехонанд.\n\nДар пойгоҳи додаҳои релятсионӣ маълумоти як молро бояд ба чанд ҷадвали алоҳидаи ҳамвор тақсим кард: молҳо, хусусиятҳо, таъминкунандагон — ва баъд онҳоро бо амали пайвастшавӣ ба ҳам баргардонд. MongoDB ёддоштро пурра ба шакли ҳуҷҷат нигоҳ медорад: дар дохили як объект ҳам нарх, ҳам объекти дарунсохти таъминкунанда бо шаҳр ва рейтинги ӯ, ҳам массиви тегҳо ҷой мегирад. Ин шакл ба JSON монанд аст, ки онро дар JavaScript дидаед, барои фронти фаҳмо аст. Ҳуҷҷатҳои як маҷмуа ҳатман якхела нестанд: дар нон тегҳо набошанд, ин хато нест — майдон оддӣ нест. Имрӯз маҷмуаи омӯзишии дукон месозем ва аз ҳуҷҷат майдонҳои оддӣ, дарунсохтҳо ва унсурҳои массивро мехонем. Ҳама чиз дар mongoshi маҳаллии худ иҷро мешавад; сайт ин кодро иҷро намекунад.",
       "en": "A field can contain another object. For example, a customer's address can hold city and street. Embedding is useful for details usually read together; choose the model deliberately for shared records.\n\nIn a relational database, one product's data would be split across several flat tables — products, attributes, suppliers — and stitched back together with a join. MongoDB stores the whole record as a document: inside one object live the price, a nested supplier object with its city and rating, and an array of tags. The shape mirrors JSON, which you have already met in JavaScript, so it reads naturally for a frontend developer. Documents in one collection do not have to be identical: bread may carry no tags, and that is not corruption — the field is simply absent. Today we create a teaching shop collection and learn to read plain fields, nested fields, and array elements from a document. Everything runs in your local mongosh; this site does not execute the code."
-    }
+     }
     },
     {
      "title": {
@@ -522,28 +614,40 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nTea\nDushanbe\nhot\nundefined\n\nБаъд скриптро тағйир диҳед ва худатонро санҷед: print(tea.tags[1]) — интизор мешавад bulk; шаҳри таъминкунандаи термоси p8 — интизор мешавад Kulob. Хатоҳои маъмул: муроҷиат ба майдони набуда хато намедиҳад, балки undefined медиҳад — онро бо хатои ҳарф дар номи майдони мавҷуд омехта накунед; дар ёд доред, ки ҳисоби унсурҳои массив аз сифр сар мешавад. Агар натиҷа фарқ кунад, ба регистри ҳарфҳо дар _id ва номҳои майдонҳо назар андозед: MongoDB ҳарфҳои калон ва хурдро фарқ мекунад. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скриптро метавон такроран фиристод, он маълумотро аз нав месозад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nTea\nDushanbe\nhot\nundefined\n\nThen edit the script and check yourself: print(tea.tags[1]) — expect bulk; the supplier city of Thermos p8 — expect Kulob. Common mistakes: reading a missing field does not crash, it yields undefined — do not confuse that with a typo in the name of an existing field; remember that array indexes count from zero. If the output differs, check the letter case of _id values and field names: MongoDB is case-sensitive. The site does not run the code — use your own learning mongosh; you can rerun the script, it rebuilds the data each time."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: отсутствие поля и null — не одно и то же",
+      "tg": "Глубже: набудани майдон ва null — як чиз нестанд",
+      "en": "Going deeper: a missing field and null are not the same"
+     },
+     "body": {
+      "ru": "В каталоге у хлеба нет поля tags, и typeof в примере честно печатает undefined. Но отсутствие поля и явное значение null — разные вещи: фильтр {tags:null} находит и документы без поля, и документы с записанным null, поэтому он шире, чем кажется. Если нужно строго «поля нет вообще», используйте {$exists:false}, а «есть поле» — {$exists:true}; этот оператор пригодится и для вложенных путей вроде \"supplier.city\", с которыми вы будете работать в дне 9. Проекция из дня 5 показывает или скрывает поля, но не создаёт их: несуществующий tags не появится в результате чтения. Проверьте себя подсчётом из дня 18: countDocuments({tags:{$exists:false}}) на учебном каталоге возвращает 1 — только хлеб.",
+      "tg": "Дар каталоги мо нон майдони tags надорад ва typeof дар мисол undefined чоп мекунад. Аммо набудани майдон ва қимати ошкорои null — ду чизи гуногунанд: филтри {tags:null} ҳуҷҷатҳоро бо набудани майдон ва бо null навишташуда ҳам меёбад, яъне васеътар аз он аст, ки ба назар мерасад. Агар тамоман «майдон набошад» лозим бошад, {$exists:false}-ро истифода баред, барои «майдон ҳаст» — {$exists:true}; ин оператор барои роҳҳои дохилӣ монанди \"supplier.city\", ки рӯзи 9 кор хоҳед кард, фоидаовар аст. Проексияи рӯзи 5 майдонҳоро нишон медиҳад ё пинҳон мекунад, вале намеофарад: tags-и набуда дар натиҷа пайдо намешавад. Худро бо ҳисоби рӯзи 18 санҷед: countDocuments({tags:{$exists:false}}) дар каталоги таълимӣ 1 бармегардонад — танҳо нон.",
+      "en": "In our catalog bread has no tags field, and typeof in the example honestly prints undefined. But a missing field and an explicit null are different things: the filter {tags:null} matches documents without the field and documents storing null, so it is wider than it looks. For a strict \"field is absent entirely\" use {$exists:false}, and {$exists:true} for \"field is present\"; this operator will also help with nested paths like \"supplier.city\" that you will query on day 9. The projection from day 5 shows or hides fields but never creates them: a nonexistent tags will not appear in a read result. Check yourself with a count from day 18: countDocuments({tags:{$exists:false}}) returns 1 on the training catalog — only bread."
+     }
     }
    ],
    "interview": {
-     "id": "mongodb-day-03-written",
-     "question": {
-       "ru": "Как называется размещение адреса объектом внутри записи клиента, а не отдельной записью?",
-       "tg": "Гузоштани address ҳамчун объект даруни сабти муштарӣ чӣ ном дорад?",
-       "en": "What is storing an address as an object inside the customer record called?"
-     },
-     "answer": {
-       "ru": "Вложение",
-       "tg": "Вложенность",
-       "en": "Embedding"
-     },
-     "acceptedAnswers": [
-       "вложенный документ",
-       "встраивание",
-       "embedding a document",
-       "ҳуҷҷати дарунӣ",
-       "nested document",
-       "embedded document"
-     ]
+    "id": "mongodb-day-03-written",
+    "question": {
+     "ru": "Как называется размещение адреса объектом внутри записи клиента, а не отдельной записью?",
+     "tg": "Гузоштани address ҳамчун объект даруни сабти муштарӣ чӣ ном дорад?",
+     "en": "What is storing an address as an object inside the customer record called?"
+    },
+    "answer": {
+     "ru": "Вложение",
+     "tg": "Вложенность",
+     "en": "Embedding"
+    },
+    "acceptedAnswers": [
+     "вложенный документ",
+     "встраивание",
+     "embedding a document",
+     "ҳуҷҷати дарунӣ",
+     "nested document",
+     "embedded document"
+    ]
    },
    "questions": [
     {
@@ -575,7 +679,13 @@
        "en": "A backup copy of a document"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Загляните в структуру товара: где внутри него живёт объект supplier.",
+      "tg": "Ба сохти мол нигоҳ кунед: объекти supplier дар куҷои дохили ӯ зиндагӣ мекунад.",
+      "en": "Look inside the product structure: where does the supplier object live within it."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-03-q2",
@@ -606,7 +716,50 @@
        "en": "The tags field is mandatory for every document"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните с жёсткими таблицами реляционной базы: обязателен ли здесь одинаковый набор полей.",
+      "tg": "Бо ҷадвалҳои сахти пойгоҳи релятсионӣ муқоиса кунед: оё маҷмӯи якхелаи майдонҳо ин ҷо ҳатмист.",
+      "en": "Compare with the rigid tables of a relational database: is an identical set of fields required here."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-03-q3",
+     "question": {
+      "ru": "Как получить город поставщика чая из документа p1?",
+      "tg": "Аз ҳуҷҷати p1 шаҳри таъминкунандаи чойро чӣ тавр гирифтан мумкин аст?",
+      "en": "How do you get the tea supplier's city from document p1?"
+     },
+     "answer": {
+      "ru": "tea.supplier.city — путь через вложенный объект",
+      "tg": "tea.supplier.city — роҳи объекти дохилӣ",
+      "en": "tea.supplier.city — a path through the nested object"
+     },
+     "hint": {
+      "ru": "В примере дня этот город уже печатается: посмотрите, через какой путь к полю.",
+      "tg": "Дар мисоли рӯз ин шаҳр аллакай чоп мешавад: бинед, бо кадом роҳи майдон.",
+      "en": "The example of the day already prints this city: look at which field path it uses."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "tea.supplier.city — путь через вложенный объект",
+       "tg": "tea.supplier.city — роҳи объекти дохилӣ",
+       "en": "tea.supplier.city — a path through the nested object"
+      },
+      {
+       "ru": "tea[\"supplier city\"] — пробел вместо точки",
+       "tg": "tea[\"supplier city\"] — фосила ба ҷои нуқта",
+       "en": "tea[\"supplier city\"] — a space instead of a dot"
+      },
+      {
+       "ru": "tea.city — имя вложенного поля без пути",
+       "tg": "tea.city — номи майдони дохилӣ бе роҳ",
+       "en": "tea.city — the nested field name without a path"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -748,7 +901,13 @@
        "en": "A second copy with the same _id is created"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Подумайте, что делает страховка уникальности ключа при попытке второй вставки.",
+      "tg": "Биёндешед, ки кафолати ягонаии калид ҳангоми кӯшиши гузоштани дуюм чӣ мекунад.",
+      "en": "Think about what the key-uniqueness safeguard does on an attempt to insert a second time."
+     },
+     "relatedSection": 3
     },
     {
      "id": "mongodb-day-04-q2",
@@ -779,7 +938,50 @@
        "en": "It deletes the documents listed in an array"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните с insertOne и обратите внимание на форму аргумента.",
+      "tg": "Бо insertOne муқоиса кунед ва ба шакли аргумент таваччуҳ намоед.",
+      "en": "Compare with insertOne and pay attention to the shape of the argument."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-04-q3",
+     "question": {
+      "ru": "Что произойдёт, если вставить документ без явного _id?",
+      "tg": "Агар ҳуҷҷатро бе _id-и ошкоро гузорӣ, чӣ мешавад?",
+      "en": "What happens if you insert a document without an explicit _id?"
+     },
+     "answer": {
+      "ru": "MongoDB сгенерирует _id автоматически как ObjectId",
+      "tg": "MongoDB _id-ро худкориона ҳамчун ObjectId месозад",
+      "en": "MongoDB generates the _id automatically as an ObjectId"
+     },
+     "hint": {
+      "ru": "Вспомните, почему в учебных скриптах ключи вроде p9 задают явно.",
+      "tg": "Дар хотир оред, ки дар скриптҳои таълимӣ калидҳои монанди p9 чаро ошкоро таъйин мешаванд.",
+      "en": "Recall why training scripts set keys like p9 explicitly."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Ошибка: _id обязателен при вставке",
+       "tg": "Хато: _id ҳангоми гузоштан ҳатмист",
+       "en": "An error: _id is required on insert"
+      },
+      {
+       "ru": "Документ сохранится вообще без ключа",
+       "tg": "Ҳуҷҷат умуман бе калид нигоҳ дошта мешавад",
+       "en": "The document is stored without any key at all"
+      },
+      {
+       "ru": "MongoDB сгенерирует _id автоматически как ObjectId",
+       "tg": "MongoDB _id-ро худкориона ҳамчун ObjectId месозад",
+       "en": "MongoDB generates the _id automatically as an ObjectId"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -958,7 +1160,50 @@
        "en": "find cannot be called without a projection"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните, сколько документов возвращает findOne и что происходит, если совпадений нет.",
+      "tg": "Дар хотир оред, ки findOne чанд ҳуҷҷат бармегардонад ва агар мувофиқа набошад чӣ мешавад.",
+      "en": "Recall how many documents findOne returns and what happens when there is no match."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-05-q3",
+     "question": {
+      "ru": "Возвращает ли find готовый массив документов?",
+      "tg": "Оё find массиви омодаи ҳуҷҷатҳоро бармегардонад?",
+      "en": "Does find return a ready-made array of documents?"
+     },
+     "answer": {
+      "ru": "Нет: find возвращает курсор",
+      "tg": "Не: find курсор бармегардонад",
+      "en": "No: find returns a cursor"
+     },
+     "hint": {
+      "ru": "В примере результат find обходят методом forEach — вспомните, зачем.",
+      "tg": "Дар мисол натиҷаи find бо усули forEach давр мезананд — дар хотир оред, чаро.",
+      "en": "In the example the find result is walked with forEach — recall why."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Нет: find возвращает курсор",
+       "tg": "Не: find курсор бармегардонад",
+       "en": "No: find returns a cursor"
+      },
+      {
+       "ru": "Да: массив всех документов коллекции",
+       "tg": "Ҳа: массиви ҳамаи ҳуҷҷатҳои коллексия",
+       "en": "Yes: an array of all collection documents"
+      },
+      {
+       "ru": "Да, но только один документ",
+       "tg": "Ҳа, вале танҳо як ҳуҷҷат",
+       "en": "Yes, but only one document"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1056,6 +1301,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nCoffee\nHoney\nKettle\nThermos\nBread: 35\nChocolate: 95\n5\n\nХатоҳои маъмул: навиштани {price:$gt(300)} — оператор ҳамеша сатр бо аломати доллар дар дохили объект аст; муқоисаи сатр бо адад {price:{$gt:\"300\"}} — навъҳо бояд мувофиқ бошанд; фаромӯш кардан, ки $gte ва $lte сарҳадро дар бар мегиранд, вале $gt ва $lt не: Tea бо нархи айнан 120 на ба {$gt:120}, на ба {$lt:120} меафтад. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт маълумотро аз нав месозад, бинобар ин натиҷа дар иҷроҳои такрорӣ устувор аст.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nCoffee\nHoney\nKettle\nThermos\nBread: 35\nChocolate: 95\n5\n\nCommon mistakes: writing {price:$gt(300)} — the operator is always a dollar-prefixed string inside an object; comparing a string with a number like {price:{$gt:\"300\"}} — types must match; forgetting that $gte and $lte include the boundary while $gt and $lt do not: Tea, priced exactly 120, matches neither {$gt:120} nor {$lt:120}. The site does not run the code — use your own learning mongosh; the script rebuilds its data, so the output is stable across reruns."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: типы и границы в реальном проекте",
+      "tg": "Глубже: типҳо ва ҳудуд дар лоиҳаи воқеӣ",
+      "en": "Going deeper: types and boundaries in a real project"
+     },
+     "body": {
+      "ru": "Операторы сравнения чувствительны к типам: {price:{$gt:\"300\"}} сравнивает со строкой и молча пропускает числовые цены — на учебном каталоге такой фильтр вернёт 0. В реальных проектах эта ловушка живёт в формах, где цена приходит строкой. Вторая тонкость — границы: $gte включает границу, $gt нет, и ровно на граничном значении чай с ценой 120 не попадает ни в {$gt:120}, ни в {$lt:120}. Третья — «не еда» из примера: $ne засчитал и документы без поля, а так бывает в коллекциях с необязательными полями, как tags у хлеба из дня 3. Перед запуском в рабочей базе прикидывайте кандидатов тем же фильтром через countDocuments — приём подсчётов, к которому вы придёте в дне 18.",
+      "tg": "Операторҳои муқоиса ба типҳо ҳассосанд: {price:{$gt:\"300\"}} бо сатр муқоиса мекунад ва қиматҳои рақамиро бесадо мегузаронад — дар каталоги таълимӣ чунин филтр 0 бармегардонад. Дар лоиҳаҳои воқеӣ ин тӯр дар шаклҳое зиндагӣ мекунад, ки қимат ҳамчун сатр меояд. Нуктаи дуюм — ҳудудҳо: $gte ҳудудро дохил мекунад, $gt не, ва маҳз дар арзиши марзӣ чой бо қимати 120 ба {$gt:120} ва {$lt:120}-и якҷоя намебарояд. Сеюм — «ғайри хӯрок» аз мисол: $ne ҳуҷҷатҳоро бе майдон ҳам ҳисоб кард, ва ин дар коллексияҳо бо майдонҳои ихтиёриёне мешавад, монанди tags-и нон аз рӯзи 3. Пеш аз иҷро дар базаи корӣ миқдори номзадҳоро бо ҳамин филтр тавассути countDocuments баҳо диҳед — усули ҳисобҳое, ки рӯзи 18 ба он мерасед.",
+      "en": "Comparison operators are type-sensitive: {price:{$gt:\"300\"}} compares against a string and silently skips numeric prices — on the training catalog such a filter returns 0. In real projects this trap lives in forms where a price arrives as a string. The second subtlety is boundaries: $gte includes the boundary, $gt does not, and exactly at the boundary a tea priced 120 falls into neither {$gt:120} nor {$lt:120}. Third, the \"not food\" from the example: $ne also counted documents without the field — this happens in collections with optional fields, like bread's tags from day 3. Before running against a working base, estimate candidates with the same filter via countDocuments — the counting technique you will meet on day 18."
+     }
     }
    ],
    "questions": [
@@ -1088,7 +1345,13 @@
        "en": "The price is exactly 100"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте, входит ли сама граница 100 в этот фильтр.",
+      "tg": "Санҷед, ки оё худи ҳудуди 100 ба ин филтр дохил мешавад.",
+      "en": "Check whether the boundary 100 itself falls inside this filter."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-06-q2",
@@ -1119,7 +1382,50 @@
        "en": "They are always skipped"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните про хлеб, у которого нет поля tags, и как оператор отрицания относится к отсутствующим полям.",
+      "tg": "Дар бораи нон, ки майдони tags надорад, ва муносибати оператори инкор ба майдонҳои набуда ёд оред.",
+      "en": "Recall bread, which has no tags field, and how the negation operator treats missing fields."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-06-q3",
+     "question": {
+      "ru": "Какой фильтр выбирает цены от 100 до 500 включительно?",
+      "tg": "Кадом филтр қиматҳоро аз 100 то 500 дохилан интихоб мекунад?",
+      "en": "Which filter selects prices from 100 to 500 inclusive?"
+     },
+     "answer": {
+      "ru": "{ price: { $gte: 100, $lte: 500 } } — с включёнными границами",
+      "tg": "{ price: { $gte: 100, $lte: 500 } } — бо ҳудудҳои дохилшуда",
+      "en": "{ price: { $gte: 100, $lte: 500 } } — with the boundaries included"
+     },
+     "hint": {
+      "ru": "Проверьте сами границы: должны ли 100 и 500 попасть в выборку.",
+      "tg": "Худи ҳудудҳоро санҷед: оё 100 ва 500 бояд ба интихоб дароянд.",
+      "en": "Check the boundaries themselves: should 100 and 500 fall into the result."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "{ price: { $gt: 100, $lt: 500 } } — без границ",
+       "tg": "{ price: { $gt: 100, $lt: 500 } } — бе ҳудудҳо",
+       "en": "{ price: { $gt: 100, $lt: 500 } } — without the boundaries"
+      },
+      {
+       "ru": "Два отдельных запроса: { price: 100 } и { price: 500 }",
+       "tg": "Ду дархости алоҳида: { price: 100 } ва { price: 500 }",
+       "en": "Two separate queries: { price: 100 } and { price: 500 }"
+      },
+      {
+       "ru": "{ price: { $gte: 100, $lte: 500 } } — с включёнными границами",
+       "tg": "{ price: { $gte: 100, $lte: 500 } } — бо ҳудудҳои дохилшуда",
+       "en": "{ price: { $gte: 100, $lte: 500 } } — with the boundaries included"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1217,6 +1523,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nTea\nCoffee\nMug\nKettle\nThermos\nThermos\n5\n\nThermos ду бор чоп мешавад — ин такрори маълумот нест, балки ду дархости гуногун аст: аввал вай аз рӯи категория ба «раста» афтод, баъд — аз рӯи теги travel. Хатоҳои маъмул: $in-ро дар ноҳунҳои барорӣ иҳота кардан {category:\"$in\"}; аз $nin танҳо молҳои бо тег интизор будан — нони бе майдони tags низ ҳисоб мешавад; регистрро муқоиса кардан: Gift ва gift фарқ мекунанд. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт маълумотро аз нав месозад, бинобар ин натиҷа такроршаванда аст.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nTea\nCoffee\nMug\nKettle\nThermos\nThermos\n5\n\nThermos prints twice — that is not duplicated data but two different queries: first it joined the shelf by category, then matched the travel tag. Common mistakes: wrapping $in in stray equality quotes {category:\"$in\"}; expecting $nin to return only tagged products — Bread without a tags field is counted as well; ignoring case: Gift and gift differ. The site does not run the code — use your own learning mongosh; the script rebuilds its data, so the result is reproducible."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: пустой список и динамические фильтры",
+      "tg": "Глубже: рӯйхати холӣ ва филтрҳои динамикӣ",
+      "en": "Going deeper: empty lists and dynamic filters"
+     },
+     "body": {
+      "ru": "Пустой $in — крайний случай, о котором нельзя забывать: {category:{$in:[]}} не совпадает ни с чем, потому что «одно из пустого списка» не существует. В реальном проекте список категорий часто собирается из галочек интерфейса, и пользователь может снять все: фильтр соберётся пустым и молча вернёт 0 строк, будто данных нет. Защита простая — проверять список на пустоту и в этом случае не добавлять условие вовсе. Вторая связка с курсом: $nin, как и $ne из дня 6, засчитывает документы без поля, поэтому «всё, кроме gift» включает и хлеб без tags. Для отладки комбинируйте $in с проекцией дня 5: видеть только имена дешевле, чем целые документы.",
+      "tg": "$in-и холӣ ҳолати ниҳоист, ки фаромӯш кардан мумкин нест: {category:{$in:[]}} бо ҳеҷ чиз мувофиқ намеояд, зеро «яке аз рӯйхати холӣ» вуҷуд надорад. Дар лоиҳаи воқеӣ рӯйхати категорияҳо аксар вақт аз белгияҳои интерфейс ҷамъ меояд, ва корбар метавонад ҳамаро тоза кунад: филтр холӣ ҷамъ мешавад ва бесадо 0 сатр бармегардонад, гӯё маълумот нест. Ҳимоя сода аст — рӯйхатро барои холӣ санҷед ва дар ин ҳолат шартро умуман илова накунед. Пайванди дуюм бо курс: $nin, монанди $ne-и рӯзи 6, ҳуҷҷатҳоро бе майдон ҳам ҳисоб мекунад, бинобар ин «ҳама, бе gift» нонро бе tags ҳам дарбар мегирад. Барои ислоҳи хатоҳо $in-ро бо проексияи рӯзи 5 ғулла кунед: дидани танҳо номҳо арзонтар аз ҳуҷҷатҳои пурра аст.",
+      "en": "An empty $in is an edge case you cannot forget: {category:{$in:[]}} matches nothing, because \"one of an empty list\" does not exist. In a real project the category list is often assembled from interface checkboxes, and a user can uncheck all of them: the filter builds up empty and silently returns 0 rows, as if there were no data. The protection is simple — check the list for emptiness and omit the condition in that case. The second link with the course: $nin, like $ne from day 6, counts documents without the field, so \"everything except gift\" includes bread without tags as well. For debugging combine $in with the projection of day 5: seeing only names is cheaper than whole documents."
+     }
     }
    ],
    "questions": [
@@ -1249,7 +1567,13 @@
        "en": "It sorts by drinks first, then by home"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Прочитайте фильтр вслух как «категория — одна из перечисленных».",
+      "tg": "Филтро баланд бихонед ҳамчун «категория — яке аз рӯйхати номбаршуда».",
+      "en": "Read the filter aloud as \"the category is one of the listed values\"."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-07-q2",
@@ -1280,7 +1604,50 @@
        "en": "Documents that have exactly one tag, gift"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните хлеб без поля tags из примера: попал ли он в подсчёт.",
+      "tg": "Нонро бе майдони tags аз мисол дар хотир оред: оё ӯ ба ҳисоб даромад.",
+      "en": "Recall bread without the tags field from the example: did it get counted."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-07-q3",
+     "question": {
+      "ru": "Что найдёт фильтр { category: { $in: [] } } с пустым массивом?",
+      "tg": "Филтри { category: { $in: [] } } бо массиви холӣ чиро меёбад?",
+      "en": "What does the filter { category: { $in: [] } } with an empty array find?"
+     },
+     "answer": {
+      "ru": "Ничего: «одно из пустого списка» не существует",
+      "tg": "Ҳеҷ чиз: «яке аз рӯйхати холӣ» вуҷуд надорад",
+      "en": "Nothing: \"one of an empty list\" does not exist"
+     },
+     "hint": {
+      "ru": "Вспомните, о каком случае при отладке динамических фильтров предупреждала теория.",
+      "tg": "Дар хотир оред, ки назария ҳангоми ислоҳи филтрҳои динамикӣ дар бораи кадом ҳолат огоҳ кард.",
+      "en": "Recall which case the theory warned about when debugging dynamic filters."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Ничего: «одно из пустого списка» не существует",
+       "tg": "Ҳеҷ чиз: «яке аз рӯйхати холӣ» вуҷуд надорад",
+       "en": "Nothing: \"one of an empty list\" does not exist"
+      },
+      {
+       "ru": "Все документы всей коллекции",
+       "tg": "Ҳамаи ҳуҷҷатҳои тамоми коллексия",
+       "en": "All documents of the whole collection"
+      },
+      {
+       "ru": "Документы без поля category",
+       "tg": "Ҳуҷҷатҳои бе майдони category",
+       "en": "Documents without the category field"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1378,6 +1745,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nBread\nMug\nKettle\nChocolate\nThermos\nHoney\n2\n\nХатоҳои маъмул: фаромӯш кардан, ки $or ва $and массиви шароҳҳоро дар қавсҳои чоркунҷа мепазиранд; навиштани {$not:{price:{$gt:100}}} — $not дар дохили майдон назди оператори инкоршаванда зиндагӣ мекунад; интизор будан, ки $not ҳуҷҷатҳои бе майдонро мебарорад — баръакс, онҳо низ мувофиқ меоянд. Одати муфид: пеш аз ҳисобкунӣ ҳамон филтрро тавассути find гардонед ва рӯйхатро бо чашм санҷед. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; маълумот аз нав сохта мешавад, натиҷа устувор аст.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nBread\nMug\nKettle\nChocolate\nThermos\nHoney\n2\n\nCommon mistakes: forgetting that $or and $and take an array of conditions in square brackets; writing {$not:{price:{$gt:100}}} — $not lives inside the field next to the operator it negates; expecting $not to exclude documents without the field — on the contrary, they match too. A useful habit: before counting, run the same filter through find and eyeball the list. The site does not run the code — use your own learning mongosh; the data is rebuilt, the output is stable."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: $not и отсутствующие поля",
+      "tg": "Глубже: $not ва майдонҳои набуда",
+      "en": "Going deeper: $not and missing fields"
+     },
+     "body": {
+      "ru": "Крайний случай $not — документ без поля: он тоже подходит, потому что «цена не больше ста» верна и тогда, когда цены нет вовсе. На учебном каталоге цена есть у всех, поэтому счёт 2 выглядит очевидным, но в реальной коллекции с необязательными полями тот же фильтр принесёт лишние строки — та же особенность, что у $ne и $nin из дней 6 и 7. Если нужно строго «поле есть и значение в диапазоне», сравните диапазоном {$gte:0,$lte:100}: он сам требует числового поля. Проговаривайте каждый фильтр вслух, как в примере: «дом или дешевле ста» — так расхождение с ожиданием слышно сразу, ещё до подсчёта.",
+      "tg": "Ҳолати ниҳоии $not — ҳуҷҷати бе майдон: он ҳам мувофиқ меояд, зеро «қимат аз сад зиёд нест» дар ҳолати набудани қимат ҳам дуруст аст. Дар каталоги таълимӣ қимат ҳама доранд, бинобар ин рақами 2 возеҳ ба назар мерасад, вале дар коллексияи воқеӣ бо майдонҳои ихтиёрӣ ҳамин филтр сатрҳои изофа меорад — ҳамин хусусияти $ne ва $nin-и рӯзҳои 6 ва 7. Агар дақиқ «майдон ҳаст ва арзиш дар диапазон» лозим бошад, бо диапазони {$gte:0,$lte:100} муқоиса кунед: он худ майдони рақамиро талаб мекунад. Ҳар филтро баланд гӯед, мисли мисол: «хона ё арзонтар аз сад» — чунин изҳорот аз интизори фавран маълум мешавад, ҳатто пеш аз ҳисоб.",
+      "en": "The edge case of $not is a document without the field: it also matches, because \"price is not greater than a hundred\" is true even when there is no price at all. On the training catalog every product has a price, so the count 2 looks obvious, but in a real collection with optional fields the same filter brings extra rows — the same trait as $ne and $nin from days 6 and 7. If you strictly need \"field exists and value is in range\", compare with the range {$gte:0,$lte:100}: it itself requires a numeric field. Say every filter out loud, as in the example: \"home or cheaper than a hundred\" — a mismatch with expectation becomes audible immediately, before any counting."
+     }
     }
    ],
    "questions": [
@@ -1410,7 +1789,13 @@
        "en": "A list of fields to sort by"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посмотрите на скобки в примере: что именно стоит внутри $or.",
+      "tg": "Ба қавсҳо дар мисол нигоҳ кунед: маҳз чӣ дар дохили $or истодааст.",
+      "en": "Look at the brackets in the example: what exactly sits inside $or."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-08-q2",
@@ -1441,7 +1826,50 @@
        "en": "There is no difference, they are synonyms"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Один оператор отрицает значение, другой — целое выражение с оператором. Где живёт $not в фильтре.",
+      "tg": "Як оператор арзишро инкор мекунад, дигар — тамоми ибора бо оператор. $not дар филтр куҷо зиндагӣ мекунад.",
+      "en": "One operator negates a value, the other negates a whole expression with an operator. Where does $not live inside the filter."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-08-q3",
+     "question": {
+      "ru": "Как прочитать вслух фильтр { $or: [{ category: \"home\" }, { price: { $lt: 100 } }] }?",
+      "tg": "Филтри { $or: [{ category: \"home\" }, { price: { $lt: 100 } }] }-ро чӣ тавр баланд хондан мумкин аст?",
+      "en": "How would you read the filter { $or: [{ category: \"home\" }, { price: { $lt: 100 } }] } aloud?"
+     },
+     "answer": {
+      "ru": "«Категория home или цена меньше 100»",
+      "tg": "«Категория home ё қимат камтар аз 100»",
+      "en": "\"The category is home or the price is below 100\""
+     },
+     "hint": {
+      "ru": "Ключевой оператор здесь — $or: он означает «хотя бы одно из условий».",
+      "tg": "Оператори асосӣ дар ин ҷо $or аст: ӯ маънои «дар он ҳолат ками як шарт»-ро дорад.",
+      "en": "The key operator here is $or: it means \"at least one of the conditions\"."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "«Категория home и цена меньше 100»",
+       "tg": "«Категория home ва қимат камтар аз 100»",
+       "en": "\"The category is home and the price is below 100\""
+      },
+      {
+       "ru": "«Сначала категория home, затем цена меньше 100»",
+       "tg": "«Аввал категория home, баъд қимат камтар аз 100»",
+       "en": "\"First the category home, then the price below 100\""
+      },
+      {
+       "ru": "«Категория home или цена меньше 100»",
+       "tg": "«Категория home ё қимат камтар аз 100»",
+       "en": "\"The category is home or the price is below 100\""
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1539,6 +1967,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nTea\nBread\nChocolate\nTea\nHoney\n1\n\nХатоҳои маъмул: фаромӯш кардани ноҳунӣ дар гирифтаи калиди нуқтадор — {supplier.city:\"Dushanbe\"} аз рӯи синтаксис нодуруст аст; иваз кардани тартиби майдонҳо дар муқоисаи объект пурра — {supplier:{rating:5,city:\"Dushanbe\"}} дар каталоги мо 0 бармегардонад; интизор будан, ки объект-филтр «қисман кор мекунад»: мутобиқат ҳамеша пурра аст. Tea ду бор бо сабабҳои гуногун чоп мешавад — шаҳр ва рейтинг; ҳар хатти натиҷаро овоз баланд шарҳ додан муфид аст. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт маълумотро аз нав месозад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nTea\nBread\nChocolate\nTea\nHoney\n1\n\nCommon mistakes: forgetting the quotes around a dotted key — {supplier.city:\"Dushanbe\"} is syntactically invalid; swapping field order in a whole-object comparison — {supplier:{rating:5,city:\"Dushanbe\"}} returns 0 on our catalog; expecting the object filter to \"match partially\": the match is always complete. Tea prints twice for different reasons — city and rating; it helps to narrate each output line. The site does not run the code — use your own learning mongosh; the script rebuilds its data."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: сравнение объекта целиком на практике",
+      "tg": "Глубже: муқоисаи объект дар тамомият дар амалия",
+      "en": "Going deeper: whole-object comparison in practice"
+     },
+     "body": {
+      "ru": "Сравнение вложенного объекта целиком легко перепутать с точечным путём: {supplier:{city:\"Dushanbe\",rating:5}} требует полного совпадения набора полей и их порядка, поэтому на каталоге находит только чай, а точечный путь \"supplier.city\" из основного примера сравнивает одно поле и не заботится о соседях. В реальном проекте сравнение целиком ломается первым же новым полем: добавите в supplier город-дубликат или измените порядок ключей — и запрос перестанет находить то, что находил. Правило дня 3 «точный поиск — точкой» закрепите на практике: задайте одинаковый вопрос двумя способами и сравните ответы countDocuments — на нашем каталоге это 3 против 1.",
+      "tg": "Муқоисаи объекти дохилӣ дар тамомият бо роҳи нуқтадор осон омехта мешавад: {supplier:{city:\"Dushanbe\",rating:5}} мувофиқаи пурраи маҷмӯи майдонҳо ва тартиби онҳоро талаб мекунад, бинобар ин дар каталог танҳо чойро меёбад, вале роҳи нуқтадори \"supplier.city\" аз мисоли асосӣ танҳо як майдонро муқоиса мекунад ва ба ҳамсоягон таваччуҳ намекунад. Дар лоиҳаи воқеӣ муқоисаи тамомият аввалин майдони нав мешиканад: дар supplier шаҳри такрорӣ илова кунед ё тартиби калидҳоро тағйир диҳед — ва дархост дигар он чиро меёфт, намеёбад. Қоидаи рӯзи 3 «ҷустуҷӯи дақиқ — бо нуқта»-ро дар амалия мустаҳкам кунед: як саволро бо ду роҳ гузоред ва ҷавобҳои countDocuments-ро муқоиса кунед — дар каталоги мо ин 3 зидди 1 аст.",
+      "en": "Comparing a nested object as a whole is easy to confuse with a dot path: {supplier:{city:\"Dushanbe\",rating:5}} requires the exact same set of fields in the same order, so on our catalog it finds only tea, while the dot path \"supplier.city\" from the main example compares one field and ignores its neighbors. In a real project whole-object comparison breaks with the very first new field: add a duplicate city to supplier or change the key order — and the query stops finding what it found. Make the day-3 rule \"exact search goes through a dot\" practical: ask the same question two ways and compare the countDocuments answers — on our catalog it is 3 versus 1."
+     }
     }
    ],
    "questions": [
@@ -1571,7 +2011,13 @@
        "en": "Only by comparing the whole object"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ключ содержит точку — как его нужно записать, чтобы MongoDB прочла путь.",
+      "tg": "Калид нуқта дорад — онро чӣ тавр навиштан лозим, то MongoDB роҳро бихонад.",
+      "en": "The key contains a dot — how should it be written so MongoDB reads the path."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-09-q2",
@@ -1602,7 +2048,50 @@
        "en": "Documents whose rating is at least 5"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните поля и их порядок в фильтре с полями хранимого объекта: совпадение частичное или полное.",
+      "tg": "Майдонҳо ва тартиби онҳоро дар филтр бо майдонҳои объекти нигоҳдошташуда муқоиса кунед: мувофиқа қисман аст ё пурра.",
+      "en": "Compare the fields and their order in the filter with the fields of the stored object: is the match partial or exact."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-09-q3",
+     "question": {
+      "ru": "Почему { supplier: { rating: 5, city: \"Dushanbe\" } } вернёт 0 на каталоге курса?",
+      "tg": "Чаро { supplier: { rating: 5, city: \"Dushanbe\" } } дар каталоги курс 0 бармегардонад?",
+      "en": "Why does { supplier: { rating: 5, city: \"Dushanbe\" } } return 0 on the course catalog?"
+     },
+     "answer": {
+      "ru": "Сравнение объекта целиком требует и совпадения порядка полей",
+      "tg": "Муқоисаи объекти пурра мувофиқаи тартиби майдонҳоро ҳам талаб мекунад",
+      "en": "Whole-object comparison also requires the field order to match"
+     },
+     "hint": {
+      "ru": "В практике вы меняли порядок полей в фильтре: сравните его с порядком в хранимых документах.",
+      "tg": "Дар амалия шумо тартиби майдонҳоро дар филтр иваз кардед: онро бо тартиби ҳуҷҷатҳои нигоҳдошташуда муқоиса кунед.",
+      "en": "In the practice you changed the field order in the filter: compare it with the order in the stored documents."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Сравнение объекта целиком требует и совпадения порядка полей",
+       "tg": "Муқоисаи объекти пурра мувофиқаи тартиби майдонҳоро ҳам талаб мекунад",
+       "en": "Whole-object comparison also requires the field order to match"
+      },
+      {
+       "ru": "Поля rating и city нельзя менять местами ни в одном запросе",
+       "tg": "Майдонҳои rating ва city-ро дар ҳеҷ дархост ҷойиваз кардан мумкин нест",
+       "en": "The fields rating and city cannot be swapped in any query"
+      },
+      {
+       "ru": "rating всегда пишется со знаком доллара",
+       "tg": "rating ҳамеша бо аломати доллар навишта мешавад",
+       "en": "rating is always written with a dollar sign"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1744,7 +2233,13 @@
        "en": "Nothing: arrays cannot be searched this way"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте каталог: у скольких товаров hot встречается среди тегов.",
+      "tg": "Каталогро санҷед: дар чанд мол hot дар байни тегҳо вомехӯрад.",
+      "en": "Check the catalog: in how many products does hot appear among the tags."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-10-q2",
@@ -1782,6 +2277,43 @@
       "en": "Compare the filter value to the whole tags array, including element order."
      },
      "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-10-q3",
+     "question": {
+      "ru": "Что требует фильтр { tags: { $all: [\"kitchen\", \"gift\"] } }?",
+      "tg": "Филтри { tags: { $all: [\"kitchen\", \"gift\"] } } чиро талаб мекунад?",
+      "en": "What does the filter { tags: { $all: [\"kitchen\", \"gift\"] } } require?"
+     },
+     "answer": {
+      "ru": "Оба тега в массиве, порядок не важен",
+      "tg": "Ҳар ду тег дар массив, тартиб муҳим нест",
+      "en": "Both tags in the array, order does not matter"
+     },
+     "hint": {
+      "ru": "Сравните его с точным равенством массива из основного примера: что там важнее — состав или порядок.",
+      "tg": "Онро бо баробарии дақиқи массив аз мисоли асосӣ муқоиса кунед: он ҷо чӣ муҳимтар аст — таркиб ё тартиб.",
+      "en": "Compare it with the exact array equality from the main example: what matters more there — the set or the order."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Ровно эти два тега и ничего больше",
+       "tg": "Маҳз ҳамин ду тег ва ҳеҷ чизи дигар",
+       "en": "Exactly these two tags and nothing else"
+      },
+      {
+       "ru": "Хотя бы один из двух тегов",
+       "tg": "Ками яке аз ду тег номбаршуда",
+       "en": "At least one of the two tags"
+      },
+      {
+       "ru": "Оба тега в массиве, порядок не важен",
+       "tg": "Ҳар ду тег дар массив, тартиб муҳим нест",
+       "en": "Both tags in the array, order does not matter"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1923,7 +2455,13 @@
        "en": "It expands the array into separate documents"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Подумайте, где живут оба условия: в одном элементе массива или в разных.",
+      "tg": "Биёндешед, ки ҳарду шарт дар куҷо зиндагӣ мекунанд: дар як унсури массив ё дар гуногун.",
+      "en": "Think about where the two conditions live: in the same array element or in different ones."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-11-q2",
@@ -1961,6 +2499,43 @@
       "en": "Mark which array entry meets sku and which meets qty."
      },
      "relatedSection": 3
+    },
+    {
+     "id": "mongodb-day-11-q3",
+     "question": {
+      "ru": "Что проверяет $elemMatch: все элементы массива или хотя бы один?",
+      "tg": "$elemMatch чиро санҷад: ҳамаи унсурҳои массив ё ками як?",
+      "en": "What does $elemMatch check: all elements of the array or at least one?"
+     },
+     "answer": {
+      "ru": "Хотя бы один элемент, отвечающий всем условиям сразу",
+      "tg": "Ками як унсуре, ки ҳамаи шартҳоро якҷо қонеъ мекунад",
+      "en": "At least one element that satisfies all conditions at once"
+     },
+     "hint": {
+      "ru": "В примере Нигина прошла наивный фильтр, но не прошла $elemMatch — объясните себе почему.",
+      "tg": "Дар мисол Нигина филтри соддаро гузашт, вале $elemMatch-ро не — чаро, ба худ шарҳ диҳед.",
+      "en": "In the example Nigina passed the naive filter but not $elemMatch — explain to yourself why."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Хотя бы один элемент, отвечающий всем условиям сразу",
+       "tg": "Ками як унсуре, ки ҳамаи шартҳоро якҷо қонеъ мекунад",
+       "en": "At least one element that satisfies all conditions at once"
+      },
+      {
+       "ru": "Все элементы массива без исключений",
+       "tg": "Ҳамаи унсурҳои массив бе истисно",
+       "en": "All elements of the array without exceptions"
+      },
+      {
+       "ru": "Только первый элемент массива документов",
+       "tg": "Танҳо унсури аввали массиви ҳуҷҷатҳо",
+       "en": "Only the first element of the document array"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2139,7 +2714,50 @@
        "en": "The document gets deleted"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните сообщение mongosh про atomic operators: что он требует в объекте обновления.",
+      "tg": "Паёми mongosh дар бораи atomic operators-ро ёд оред: ӯ дар объекти навсозӣ чӣ талаб мекунад.",
+      "en": "Recall the mongosh message about atomic operators: what does it require in the update object."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-12-q3",
+     "question": {
+      "ru": "Что произойдёт с городом поставщика после $set { \"supplier.rating\": 5 }?",
+      "tg": "Баъди $set { \"supplier.rating\": 5 } бо шаҳри таъминкунанда чӣ мешавад?",
+      "en": "What happens to the supplier's city after $set { \"supplier.rating\": 5 }?"
+     },
+     "answer": {
+      "ru": "Город останется прежним: правится только rating",
+      "tg": "Шаҳр ҳамон монда мемонад: танҳо rating-ро идора мекунад",
+      "en": "The city stays as it is: only rating is touched"
+     },
+     "hint": {
+      "ru": "В примере чайник менял рейтинг при городе Bokhtar — сверьте вывод скрипта.",
+      "tg": "Дар мисол чойникrating-ро бо шаҳри Bokhtar тағйир медод — баромади скриптро муқоиса кунед.",
+      "en": "In the example the kettle changed its rating while the city was Bokhtar — verify the script output."
+     },
+     "relatedSection": 1,
+     "options": [
+      {
+       "ru": "Город сотрётся: $set перепишет весь объект supplier",
+       "tg": "Шаҳр поин меравад: $set объекти supplier-ро аз нав менависад",
+       "en": "The city is wiped: $set rewrites supplier entirely"
+      },
+      {
+       "ru": "Город будет заменён на значение null",
+       "tg": "Шаҳр ба арзиши null иваз карда мешавад",
+       "en": "The city becomes the value null"
+      },
+      {
+       "ru": "Город останется прежним: правится только rating",
+       "tg": "Шаҳр ҳамон монда мемонад: танҳо rating-ро идора мекунад",
+       "en": "The city stays as it is: only rating is touched"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2237,6 +2855,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\nHoney: 470\nBread: 45\nChocolate: 105\nMug: 375\nKettle: 1335\nThermos: 1080\n\nХатоҳои маъмул: такрори иҷро бо ҷамъшавӣ — скрипти мо маълумотро аз нав месозад, бинобар ин нархҳо ҳамеша аз ибтидоӣ сар мекунанд; $mul бо зарбкунандаҳои «ноҳамвор», ки каср медиҳанд; филтри фаромӯшшуда — updateMany({}, ...) тамоман ҳамаи ҳуҷҷатҳоро навсозӣ мекунад. matchedCount-ро дар қимати баргардонда бо шумораи сатрҳои натиҷа муқоиса кунед. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; натиҷа дар ҳар иҷро такроршаванда аст.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\nHoney: 470\nBread: 45\nChocolate: 105\nMug: 375\nKettle: 1335\nThermos: 1080\n\nCommon mistakes: reruns accumulating — our script rebuilds the data, so prices always start from the originals; $mul with \"unround\" factors producing fractions; a forgotten filter — updateMany({}, ...) updates literally every document. Compare matchedCount in the return value with the number of output lines. The site does not run the code — use your own learning mongosh; the output reproduces on every run."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: арифметика на реальных данных",
+      "tg": "Глубже: арифметика барои маълумоти воқеӣ",
+      "en": "Going deeper: arithmetic on real data"
+     },
+     "body": {
+      "ru": "У $mul есть крайний случай, который полезно знать заранее: если поля нет, $mul создаёт его со значением 0, а $inc — с указанной прибавкой. На учебном каталоге поля есть у всех, но в реальной коллекции со смешанными документами массовый $mul молча наделит нулевыми ценами те записи, где поля не было. Вторая ловушка — накопление: повторный $inc:+10 не «исправляет» цену, а прибавляет ещё раз; именно поэтому наш скрипт пересоздаёт данные перед каждым запуском. В рабочей базе сверяйте matchedCount и modifiedCount после updateMany: расхождение означает, что часть документов уже была в нужном состоянии. Приём «изменил — перечитал — сверил» из дня 12 здесь работает сразу на всю категорию.",
+      "tg": "$mul ҳолати ниҳоӣ дорад, ки пешакӣ донистан фоидаовар аст: агар майдон набошад, $mul онро бо арзиши 0 меофарад, вале $inc — бо музди ишоратшуда. Дар каталоги таълимӣ ҳама майдон доранд, вале дар коллексияи воқеӣ бо ҳуҷҷатҳои омехта $mul-и умумӣ ба сабтҳое, ки майдон надоштанд, бесадо қиматҳои сифрӣ мебахшад. Тӯри дуюм — ангӯхтан: $inc-и такрории +10 қиматро «ислоҳ намекунад», балки як бори дигар меафзояд; маҳз барои ҳамин скрипти мо маълумотро пеш аз ҳар иҷро аз нав месозад. Дар базаи корӣ баъди updateMany matchedCount ва modifiedCount-ро муқоиса кунед: ихтилоф маънои онро дорад, ки қисми ҳуҷҷатҳо аллакай дар ҳолати лозимӣ буданд. Усули «тағйир додам — аз нав хондам — санҷидам» аз рӯзи 12 дар ин ҷо якбора ба тамоми категория кор мекунад.",
+      "en": "$mul has an edge case worth knowing in advance: if the field does not exist, $mul creates it with the value 0, while $inc creates it with the specified increment. In the training catalog every product has the field, but in a real collection with mixed documents a bulk $mul silently endows records that lacked the field with zero prices. The second trap is accumulation: a repeated $inc:+10 does not \"fix\" a price, it adds another ten; that is exactly why our script rebuilds the data before every run. In a working base compare matchedCount and modifiedCount after updateMany: a mismatch means some documents were already in the desired state. The \"change — reread — verify\" habit from day 12 here works for a whole category at once."
+     }
     }
    ],
    "questions": [
@@ -2269,7 +2899,13 @@
        "en": "It multiplies price by 10"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните с $set: один оператор прибавляет к значению, другой назначает его.",
+      "tg": "Бо $set муқоиса кунед: як оператор ба арзиш меафзояд, дигар онро таъйин мекунад.",
+      "en": "Compare with $set: one operator adds to the value, the other assigns it."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-13-q2",
@@ -2300,7 +2936,50 @@
        "en": "updateMany only works with arrays"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте matchedCount: сколько документов подошло под фильтр и сколько из них изменилось.",
+      "tg": "matchedCount-ро санҷед: чанд ҳуҷҷат ба филтр мувофиқ омад ва чандтои онҳо тағйир ёфт.",
+      "en": "Check matchedCount: how many documents matched the filter and how many of them changed."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-13-q3",
+     "question": {
+      "ru": "Что сделает $mul с числовым полем, которого в документе нет?",
+      "tg": "$mul бо майдони рақамие, ки дар ҳуҷҷат нест, чӣ мекунад?",
+      "en": "What does $mul do to a numeric field that is missing from the document?"
+     },
+     "answer": {
+      "ru": "Создаст поле со значением 0",
+      "tg": "Майдонро бо арзиши 0 месозад",
+      "en": "It creates the field with the value 0"
+     },
+     "hint": {
+      "ru": "Сравните поведение с $inc: у него на отсутствие поля другая реакция.",
+      "tg": "Рафторро бо $inc муқоиса кунед: ба набудани майдон ӯ дигар ҷавоб медиҳад.",
+      "en": "Compare the behavior with $inc: it reacts differently to a missing field."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Создаст поле со значением 0",
+       "tg": "Майдонро бо арзиши 0 месозад",
+       "en": "It creates the field with the value 0"
+      },
+      {
+       "ru": "Создаст поле со значением множителя",
+       "tg": "Майдонро бо арзиши зарбкунанда месозад",
+       "en": "It creates the field with the value of the multiplier"
+      },
+      {
+       "ru": "Вернёт ошибку, не меняя документ",
+       "tg": "Хато бармегардонад ва ҳуҷҷатро тағйир намедиҳад",
+       "en": "It returns an error without changing the document"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2442,7 +3121,13 @@
        "en": "It deletes all documents in the collection"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните слово «upsert»: update плюс insert. Что произойдёт при пустом совпадении.",
+      "tg": "Калимаи «upsert»-ро ёд оред: update ҳамроҳи insert. Ҳангоми мувофиқаи холӣ чӣ мешавад.",
+      "en": "Recall the word \"upsert\": update plus insert. What happens with an empty match."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-14-q2",
@@ -2480,6 +3165,43 @@
       "en": "After the first insert, check whether its saved _id matches the second call's filter."
      },
      "relatedSection": 3
+    },
+    {
+     "id": "mongodb-day-14-q3",
+     "question": {
+      "ru": "Какое поле результата отличает вставку от обновления при upsert?",
+      "tg": "Кадом майдони натиҷа гузоштанро аз навсозӣ дар upsert фарқ мекунад?",
+      "en": "Which result field tells an insert from an update in an upsert?"
+     },
+     "answer": {
+      "ru": "upsertedCount",
+      "tg": "upsertedCount",
+      "en": "upsertedCount"
+     },
+     "hint": {
+      "ru": "В примере первый вызов печатал 1, а повторный 0 — разберитесь, что это за число.",
+      "tg": "Дар мисол даъвати аввал 1 чоп мекард, такрорӣ 0 — тафтиш кунед, ин чӣ рақам аст.",
+      "en": "In the example the first call printed 1 and the repeat 0 — figure out what this number is."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "deletedCount",
+       "tg": "deletedCount",
+       "en": "deletedCount"
+      },
+      {
+       "ru": "matchedCount",
+       "tg": "matchedCount",
+       "en": "matchedCount"
+      },
+      {
+       "ru": "upsertedCount",
+       "tg": "upsertedCount",
+       "en": "upsertedCount"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2577,6 +3299,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\n7\n2\n5\n\nХатоҳои маъмул: нест кардан пеш аз санҷиши филтр — ҳамеша аввал countDocuments ва find бо ҳамон филтр; навиштани deleteMany({}) дар пойгоҳи омӯзишӣ байни корҳо — ин ҳамаи ҳуҷҷатҳоро мебарад; омехта кардани несткунии ҳуҷҷатҳо бо несткунии маҷмуа. Машқи муфид барои ҳушьёрӣ: пеш аз ҳар deleteMany овоз баланд гӯед, чанд сатр бояд нопадид шавад. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт каталогро аз нав месозад, бинобар ин натиҷа ҳамеша якхела аст.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\n7\n2\n5\n\nCommon mistakes: deleting before checking the filter — always run countDocuments and find with the same filter first; typing deleteMany({}) in the learning database offhand — it wipes every document; confusing document deletion with dropping the collection. A useful vigilance drill: before each deleteMany, say out loud how many rows should disappear. The site does not run the code — use your own learning mongosh; the script rebuilds the catalog, so the output is always the same."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: удалить или пересоздать",
+      "tg": "Глубже: нест кардан ё аз нав сохтан",
+      "en": "Going deeper: delete or recreate"
+     },
+     "body": {
+      "ru": "Крайний случай удаления — очистка всей коллекции. deleteMany({}) стирает все документы, но сохраняет саму коллекцию с её индексами — в том числе теми, которые вы создадите в дне 19. Полностью удалить коллекцию умеет отдельная команда drop, которой в учебных скриптах мы сознательно не пользуемся: она сносит и данные, и метаданные. В рабочем проекте перед массовым удалением пересчитайте кандидатов тем же фильтром через countDocuments и find — контрольная лента 7, 2, 5 из примера получается ровно потому, что каждый шаг проверялся отдельным числом. Помните: у удаления нет кнопки «отменить», страховка — только протокол «посчитай — посмотри — удали — сверь».",
+      "tg": "Ҳолати ниҳоии нест кардан — тозакунии тамоми коллексия. deleteMany({}) ҳамаи ҳуҷҷатҳоро меборад, вале худи коллексия бо индексҳояш нигоҳ медорад — аз ҷумла индексҳое, ки рӯзи 19 месозед. Коллексияро пурра нест кардан ба фармони алоҳидаи drop муталиқ аст, ки дар скриптҳои таълимӣ оқибона истифода намебарем: ӯ ҳам маълумот, ҳам метамаълумотро мекашад. Дар лоиҳаи корӣ пеш аз несткунии умумӣ номзадҳоро бо ҳамин филтр тавассути countDocuments ва find аз нав ҳисоб кунед — лентаи назоратии 7, 2, 5 аз мисол маҳз барои он меояд, ки ҳар қадам бо рақами алоҳида санҷида шуд. Дар хотир доред: барои нест кардан тугмаи «баргардонидан» нест, кафолат танҳо протоколи «ҳисоб кун — бинед — нест кун — муқоиса кун» аст.",
+      "en": "The edge case of deletion is clearing a whole collection. deleteMany({}) erases all documents but keeps the collection itself with its indexes — including the ones you will build on day 19. Removing the collection entirely is a separate drop command, which we deliberately avoid in training scripts: it takes down both the data and the metadata. In a working project, before a bulk delete, recount the candidates with the same filter via countDocuments and find — the control tape 7, 2, 5 from the example comes out exactly because every step was checked by its own number. Remember: deletion has no undo button; the only protection is the protocol \"count — look — delete — verify\"."
+     }
     }
    ],
    "questions": [
@@ -2609,7 +3343,13 @@
        "en": "Only documents with empty fields"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Пустой фильтр означает «все совпадения». Кто совпадает с пустым условием.",
+      "tg": "Филтри холӣ маънои «ҳамаи мувофиқаҳо»-ро дорад. Кӣ бо шартҳои холӣ мувофиқ меояд.",
+      "en": "An empty filter means \"all matches\". Who matches an empty condition."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-15-q2",
@@ -2640,7 +3380,50 @@
        "en": "The number of collections in the database"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сверьте это число с расчётом кандидатов перед удалением.",
+      "tg": "Ин рақамро бо ҳисоби номзадҳо пеш аз нест кардан муқоиса кунед.",
+      "en": "Verify this number against the candidate count made before deleting."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-15-q3",
+     "question": {
+      "ru": "Почему для удаления по одному _id удобнее deleteOne, чем deleteMany?",
+      "tg": "Чаро барои нест кардан бо як _id deleteOne аз deleteMany қулайтар аст?",
+      "en": "Why is deleteOne more convenient than deleteMany for deleting by a single _id?"
+     },
+     "answer": {
+      "ru": "deleteOne не удалит второй документ даже при лишних совпадениях фильтра",
+      "tg": "deleteOne дигар ҳуҷҷатро нест намекунад, ҳатто бо мувофиқаҳои изофаи филтр",
+      "en": "deleteOne never removes a second document even on extra filter matches"
+     },
+     "hint": {
+      "ru": "Подумайте, что случится с deleteMany, если фильтр окажется шире, чем вы думали.",
+      "tg": "Биёндешед, ки бо deleteMany чӣ мешавад, агар филтр васеътар аз тахмини шумо барояд.",
+      "en": "Think about what happens to deleteMany if the filter turns out wider than you assumed."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "deleteOne не удалит второй документ даже при лишних совпадениях фильтра",
+       "tg": "deleteOne дигар ҳуҷҷатро нест намекунад, ҳатто бо мувофиқаҳои изофаи филтр",
+       "en": "deleteOne never removes a second document even on extra filter matches"
+      },
+      {
+       "ru": "deleteMany запрещено вызывать с фильтром по _id в mongosh",
+       "tg": "Даъвати deleteMany бо филтри _id дар mongosh манъ аст",
+       "en": "deleteMany must not be called with an _id filter in mongosh"
+      },
+      {
+       "ru": "deleteOne работает в два раза быстрее deleteMany",
+       "tg": "deleteOne ду бор тезтар аз deleteMany кор мекунад",
+       "en": "deleteOne works twice as fast as deleteMany"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2782,7 +3565,13 @@
        "en": "It removes the most expensive product"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте направление: что стоит на вершине списка после такой сортировки.",
+      "tg": "Самтарофро санҷед: баъди чунин мураттабсозӣ дар болои рӯйхат чӣ истодааст.",
+      "en": "Check the direction: what stands at the top of the list after such sorting."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-16-q2",
@@ -2813,7 +3602,50 @@
        "en": "It makes document insertion faster"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните порядок операций: что сервер делает сначала — сортировку или обрезку.",
+      "tg": "Тартиби амалиётро дар хотир оред: сервер аввал чӣ мекунад — мураттабсозиро ё буридан.",
+      "en": "Recall the order of operations: does the server sort first or cut first."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-16-q3",
+     "question": {
+      "ru": "Что гарантировано для документов с равными ценами без второго ключа сортировки?",
+      "tg": "Барои ҳуҷҷатҳои қиматашон баробар бе калиди дуюми мураттабсозӣ чӣ кафолат дода мешавад?",
+      "en": "What is guaranteed for documents with equal prices without a second sort key?"
+     },
+     "answer": {
+      "ru": "Ничего: порядок равных документов не гарантирован",
+      "tg": "Ҳеҷ чиз: тартиби ҳуҷҷатҳои баробар кафолат нест",
+      "en": "Nothing: the order of equal documents is not guaranteed"
+     },
+     "hint": {
+      "ru": "В теории сортировка названа неустойчивой — что это значит для равных ключей.",
+      "tg": "Дар назария мураттабсозӣ ноустувор номида шуд — ин барои калидҳои баробар чӣ маъно дорад.",
+      "en": "The theory calls sorting unstable — what does that mean for equal keys."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Порядок вставки документов в коллекцию",
+       "tg": "Тартиби гузоштани ҳуҷҷатҳо ба коллексия",
+       "en": "The order in which documents were inserted"
+      },
+      {
+       "ru": "Алфавитный порядок по имени товара",
+       "tg": "Тартиби алифбоӣ аз рӯи номи мол",
+       "en": "Alphabetical order by the product name"
+      },
+      {
+       "ru": "Ничего: порядок равных документов не гарантирован",
+       "tg": "Ҳеҷ чиз: тартиби ҳуҷҷатҳои баробар кафолат нест",
+       "en": "Nothing: the order of equal documents is not guaranteed"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2911,6 +3743,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ — ҳашт хат аз Bread: 35 то Kettle: 890 (рӯйхати пурра боло). Хатоҳои маъмул: пагинатсия бе sort — тартиб байни саҳифаҳо шино мекунад; хатои як воҳид дар skip — саҳифаи ду бояд аз мавқеи чорум, skip(3) сар шавад, на skip(2); интизори хато аз skip(8) ва зиёдтар — оддан натиҷаи холӣ мешавад. Сарҳадҳои саҳифаҳоро санҷед: унсури охирини саҳифаи N ва унсури аввали саҳифаи N+1 бояд дар тартиби сорт бе тарқиш раванд. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; маълумот аз нав сохта мешавад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output — eight lines from Bread: 35 to Kettle: 890 (the full list above). Common mistakes: paginating without sort — the order drifts between pages; an off-by-one in skip — page two must start at position four, skip(3), not skip(2); expecting an error from skip(8) and beyond — you simply get empty output. Check page seams: the last item of page N and the first of page N+1 must follow each other in sort order with no gap. The site does not run the code — use your own learning mongosh; the data is rebuilt."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: цена глубокой пагинации",
+      "tg": "Глубже: баҳои саҳифабандии амиқ",
+      "en": "Going deeper: the cost of deep pagination"
+     },
+     "body": {
+      "ru": "skip за пределами данных возвращает пустой результат без ошибки — мы убедились в этом на странице 5, но в реальном приложении пустая страница означает «данных больше нет», и интерфейс должен показать именно это, а не крутить загрузку. Вторая цена пагинации — рост: skip(99000) на большой коллекции заставляет сервер просчитать девяносто девять тысяч строк перед выводом десяти, поэтому на глубокой пагинации часто переходят к диапазонам: «следующая страница — товары дороже последней видимой цены». Такой фильтр вы уже умеете писать со дня 6. И помните про сортировку из дня 16: без стабильного порядка страницы стыкуются с зазорами, если между запросами кто-то изменил данные.",
+      "tg": "skip-и берун аз маълумот натиҷаи холӣ бе хато бармегардонад — мо дар саҳифаи 5 ба ин мутмаин шудем, вале дар барномаи воқеӣ саҳифаи холӣ маънои «маълумоти дигар нест» дорад, ва интерфейс бояд маҳз инро нишон диҳад, на боркуниро чархонад. Баҳои дуюми саҳифабандӣ — афзоиш: skip(99000) дар коллексияи калон серверро водор мекунад, ки пеш аз барорани даҳ сатр навадуҳазор сатрро ҳисоб кунад, бинобар ин дар саҳифабандии амиқ аксар вақт ба диапазонҳо мегузаранд: «саҳифаи оянда — молҳои арзонтар аз охирин қимати диданшуда». Чунин филтрро аз рӯзи 6 навишта метонед. Ва дар бораи мураттабсозии рӯзи 16 ёд доред: бе тартиби устувор саҳифаҳо бо шикоф мепайванданд, агар дар байни дархостҳо касе маълумотро тағйир диҳад.",
+      "en": "skip beyond the data returns an empty result without an error — we made sure of that on page 5, but in a real application an empty page means \"there is no more data\", and the interface should show exactly that instead of spinning a loader. The second cost of pagination is growth: skip(99000) on a large collection makes the server walk ninety-nine thousand rows before returning ten, so deep pagination often switches to ranges: \"next page — products more expensive than the last visible price\". You have been able to write such a filter since day 6. And remember sorting from day 16: without a stable order, pages join with gaps if someone changed the data between requests."
+     }
     }
    ],
    "questions": [
@@ -2943,7 +3787,13 @@
        "en": "skip(6)"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Подставьте номер страницы и размер в формулу из теории.",
+      "tg": "Рақами саҳифа ва андозаро ба формулаи назария ҷойгузорӣ кунед.",
+      "en": "Substitute the page number and size into the formula from the theory."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-17-q2",
@@ -2974,7 +3824,50 @@
        "en": "The first page again"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте на практике skip(8) при восьми товарах: будет ли ошибка.",
+      "tg": "skip(8)-ро дар амалия бо ҳашт мол санҷед: оё хато мешавад.",
+      "en": "Test skip(8) with eight products in practice: is there an error."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-17-q3",
+     "question": {
+      "ru": "Какой skip нужен для страницы 2 при размере страницы 3?",
+      "tg": "Барои саҳифаи 2 бо андозаи саҳифаи 3 кадом skip лозим аст?",
+      "en": "Which skip is needed for page 2 with a page size of 3?"
+     },
+     "answer": {
+      "ru": "skip(3): (2 − 1) × 3",
+      "tg": "skip(3): (2 − 1) × 3",
+      "en": "skip(3): (2 − 1) × 3"
+     },
+     "hint": {
+      "ru": "Подставьте номер страницы и размер в формулу skip = (n − 1) × size.",
+      "tg": "Рақами саҳифа ва андозаро ба формулаи skip = (n − 1) × size ҷойгузорӣ кунед.",
+      "en": "Substitute the page number and size into the formula skip = (n − 1) × size."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "skip(3): (2 − 1) × 3",
+       "tg": "skip(3): (2 − 1) × 3",
+       "en": "skip(3): (2 − 1) × 3"
+      },
+      {
+       "ru": "skip(2) — по номеру страницы",
+       "tg": "skip(2) — аз рӯи рақами саҳифа",
+       "en": "skip(2) — by the page number"
+      },
+      {
+       "ru": "skip(6) — на два шага больше",
+       "tg": "skip(6) — ду қадам зиёдтар",
+       "en": "skip(6) — two steps higher"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -3073,6 +3966,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\n8\n3\n4\n1\n8\n\nХатоҳои маъмул: аз estimatedDocumentCount филтр интизор будан — он шароҳҳоро намепазирад; countDocuments-ро бо length-и массиви find().toArray() омехта кардан — дар маълумоти хурд монанд, дар калон интиқоли зиёдатист; фаромӯш кардан, ки countDocuments ҳар гуна оператори find-ро мепазирад. Ҳар ададро бо ҳисоби дастӣ аз рӯи маълумоти скрипт муқоиса кунед — ин беҳтарин машқи хондани филтрҳост. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт пеш аз ҳисобҳо каталогро аз нав месозад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\n8\n3\n4\n1\n8\n\nCommon mistakes: expecting a filter from estimatedDocumentCount — it takes no conditions; confusing countDocuments with the length of a find().toArray() array — similar on small data, wasteful on large; forgetting that countDocuments accepts any find operators. Check each number against a manual count over the script's data — the best filter-reading drill. The site does not run the code — use your own learning mongosh; the script rebuilds the catalog before counting."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: ноль — тоже ответ",
+      "tg": "Глубже: сифр — ҳам ҷавоб аст",
+      "en": "Going deeper: zero is an answer too"
+     },
+     "body": {
+      "ru": "Крайний случай подсчёта — ноль: countDocuments({price:{$gt:900}}) возвращает 0, и это полноценный деловой ответ «товаров дороже девятисот нет», а не ошибка запроса. В интерфейсе ноль строит тот же бейдж, что и любое число: «заканчивается: 0» говорит владельцу больше, чем пустой экран. Вторая тонкость — estimatedDocumentCount вообще не принимает фильтр: попытка посчитать «приблизительно еду» не заработает; оценка отвечает только на вопрос о размере всей коллекции. В рабочем проекте правило простое: бизнес-число пользователю — точный countDocuments с фильтром, внутренняя метрика объёма — оценка из метаданных, как и написано в теории.",
+      "tg": "Ҳолати ниҳоии ҳисоб — сифр: countDocuments({price:{$gt:900}}) 0 бармегардонад, ва ин ҷавоби пурраи тиҷоратӣ «молҳои аз нӯҳсад болотар нестанд» аст, на хатои дархост. Дар интерфейс сифр ҳамон белгиро месозад, ки ҳар рақам: «тамом мешавад: 0» ба соҳиб аз экрани холӣ бештар мегӯяд. Нуктаи дуюм — estimatedDocumentCount умуман филтр намепазирад: кӯшиши ҳисоби «тақрибан хӯрок» кор намекунад; баҳзаван танҳо ба савол дар бораи ҳаҷми тамоми коллексия ҷавоб медиҳад. Дар лоиҳаи корӣ қоида сода аст: рақами тиҷоратӣ ба корбар — countDocuments-и дақиқ бо филтр, нишондиҳандаи дохилии ҳаҷм — баҳо аз метамаълумот, мисли дар назария навишта шуд.",
+      "en": "The edge case of counting is zero: countDocuments({price:{$gt:900}}) returns 0, and that is a full business answer \"no products above nine hundred\", not a query error. In an interface zero builds the same badge as any number: \"running out: 0\" tells the owner more than a blank screen. The second subtlety — estimatedDocumentCount takes no filter at all: an attempt to count \"food approximately\" will not work; the estimate answers only the question about the size of the whole collection. In a working project the rule is simple: a business number for the user is an exact countDocuments with a filter, an internal volume metric is an estimate from metadata, exactly as the theory says."
+     }
     }
    ],
    "questions": [
@@ -3105,7 +4010,13 @@
        "en": "It returns the first three documents"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните с бейджем «3 товара» в интерфейсе: точное ли это число.",
+      "tg": "Бо белгии «3 мол» дар интерфейс муқоиса кунед: оё ин рақами дақиқ аст.",
+      "en": "Compare with the \"3 products\" badge in an interface: is this an exact number."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-18-q2",
@@ -3136,7 +4047,50 @@
        "en": "There is no difference at all"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Один способ сканирует документы, другой читает метаданные. Какой из них принимает фильтр.",
+      "tg": "Як роҳ ҳуҷҷатҳоро мекобад, дигар метамаълумотро мехонад. Кадоме филтр мепазираад.",
+      "en": "One way scans documents, the other reads metadata. Which one accepts a filter."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-18-q3",
+     "question": {
+      "ru": "Что означает ответ 0 от countDocuments({ price: { $gt: 900 } })?",
+      "tg": "Ҷавоби 0 аз countDocuments({ price: { $gt: 900 } } чӣ маъно дорад?",
+      "en": "What does the answer 0 from countDocuments({ price: { $gt: 900 } }) mean?"
+     },
+     "answer": {
+      "ru": "Подходящих товаров нет: это деловой ответ",
+      "tg": "Молҳои мувофиқ нестанд: ин ҷавоби тиҷоратӣ аст",
+      "en": "No matching products: that is a business answer"
+     },
+     "hint": {
+      "ru": "Проверьте каталог: есть ли в нём товар дороже девятисот.",
+      "tg": "Каталогро санҷед: оё дар ӯ моле аз нӯҳсад гаронтар ҳаст.",
+      "en": "Check the catalog: is there any product above nine hundred."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Фильтр написан с ошибкой в скрипте",
+       "tg": "Филтр дар скрипт бо хато навишта шудааст",
+       "en": "The filter is written incorrectly in the script"
+      },
+      {
+       "ru": "Запрос не был выполнен сервером",
+       "tg": "Дархост аз ҷониби сервер иҷро нашуд",
+       "en": "The query was not executed by the server"
+      },
+      {
+       "ru": "Подходящих товаров нет: это деловой ответ",
+       "tg": "Молҳои мувофиқ нестанд: ин ҷавоби тиҷоратӣ аст",
+       "en": "No matching products: that is a business answer"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3278,7 +4232,13 @@
        "en": "To make the field's values unique"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните аналогию с предметным указателем в конце учебника.",
+      "tg": "Мисоли феҳристи мавзӯъӣ дар охири китоби дарсиро ёд оред.",
+      "en": "Recall the analogy with the subject index at the back of a textbook."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-19-q2",
@@ -3309,7 +4269,50 @@
        "en": "Indexes slow down all reads"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что происходит с каждым справочником при каждой вставке и обновлении.",
+      "tg": "Ба ҳар феҳрист ҳангоми ҳар гузоштан ва навсозӣ чӣ мешавад.",
+      "en": "What happens to every index on every insert and update."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-19-q3",
+     "question": {
+      "ru": "Что произойдёт при повторном createIndex({ price: 1 })?",
+      "tg": "Ҳангоми такрори createIndex({ price: 1 }) чӣ мешавад?",
+      "en": "What happens when createIndex({ price: 1 }) is run again?"
+     },
+     "answer": {
+      "ru": "Ничего: индекс с той же спецификацией уже существует",
+      "tg": "Ҳеҷ чиз: индекс бо ҳамин спецификация аллакай вуҷуд дорад",
+      "en": "Nothing: an index with the same specification already exists"
+     },
+     "hint": {
+      "ru": "Скрипт дня запускался дважды: сверьте вывод обоих запусков.",
+      "tg": "Скрипти рӯз ду бор иҷро шуд: баромади ҳар ду иҷроро муқоиса кунед.",
+      "en": "The day script was run twice: compare the output of both runs."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Ничего: индекс с той же спецификацией уже существует",
+       "tg": "Ҳеҷ чиз: индекс бо ҳамин спецификация аллакай вуҷуд дорад",
+       "en": "Nothing: an index with the same specification already exists"
+      },
+      {
+       "ru": "Создастся дубликат индекса price_1_2",
+       "tg": "Дубликати индекси price_1_2 сохта мешавад",
+       "en": "A duplicate index price_1_2 is created"
+      },
+      {
+       "ru": "Ошибка «индекс уже существует» при запуске",
+       "tg": "Хатои «индекс аллакай вуҷуд дорад» ҳангоми иҷро",
+       "en": "An error \"index already exists\" on the run"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -3446,7 +4449,13 @@
        "en": "Embedded data is indexed automatically"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сколько запросов нужно, чтобы показать заказ с позициями, если данные встроены.",
+      "tg": "Чанд дархост лозим аст, то фармонро бо мавқеъҳояш нишон диҳад, агар маълумот дохил шуда бошад.",
+      "en": "How many queries are needed to show an order with its line items when the data is embedded."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-20-q2",
@@ -3477,7 +4486,50 @@
        "en": "References require no fields in the document"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сколько копий названия товара пришлось бы менять, если бы оно лежало в каждом заказе.",
+      "tg": "Агар номи мол дар ҳар фармон нигоҳ дошта мешуд, чанд нусхаи онро бояд тағйир дод.",
+      "en": "How many copies of the product name would have to be changed if it were stored in every order."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-20-q3",
+     "question": {
+      "ru": "Почему в строке заказа хранится снимок цены, а не ссылка на текущую цену?",
+      "tg": "Чаро дар сатри фармон сурати қимат нигоҳ дошта мешавад, на ишора ба қимати ҷорӣ?",
+      "en": "Why does an order line store a price snapshot rather than a link to the current price?"
+     },
+     "answer": {
+      "ru": "Цена меняется со временем, история заказа должна быть неизменной",
+      "tg": "Қимат бо вақт тағйир меёбад, таърихи фармон тағйирнопазир аст",
+      "en": "The price changes over time, the order history must stay unchanged"
+     },
+     "hint": {
+      "ru": "Что произойдёт со старыми заказами, когда товар подорожает, а цена берётся из каталога.",
+      "tg": "Бо фармонҳои кӯҳна чӣ мешавад, вақте ки мол гарон мешавад, вале қимат аз каталог гирифта мешавад.",
+      "en": "What happens to old orders when the product becomes more expensive and the price is taken from the catalog."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Снимок занимает меньше места, чем ссылка",
+       "tg": "Сурат нисбат ба ишора ҷои камтар мегирад",
+       "en": "A snapshot takes less space than a link"
+      },
+      {
+       "ru": "Ссылки запрещены внутри массива items",
+       "tg": "Ишораҳо дар дохили массиви items манъанд",
+       "en": "Links are forbidden inside the items array"
+      },
+      {
+       "ru": "Цена меняется со временем, история заказа должна быть неизменной",
+       "tg": "Қимат бо вақт тағйир меёбад, таърихи фармон тағйирнопазир аст",
+       "en": "The price changes over time, the order history must stay unchanged"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3580,6 +4632,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\n2\no1: 490\no5: 460\n2\n\nХатоҳои маъмул: интизор будан, ки массиви дарунсохт бо пайдо шудани фармоишҳои нав худаш нав мешавад — онро коди барнома ҳамоҳанг мекунад; омехта кардани майдонҳои id ва _id: дар ин ҷо дар дохили массив майдон id ном дорад ва _id танҳо дар худи ҳуҷҷати c1 ҳаст; кӯшиши гузоштани тамоми таърихи фармоишҳои дукони воқеӣ дар як ҳуҷҷат — ба 16 МБ ва хониши суст мерасед. Хатти чорумро бо якум муқоиса кунед: ҳар ду дуто бояд мувофиқ бошанд. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; ҳарду маҷмуа аз тарафи скрипт аз нав сохта мешаванд.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\n2\no1: 490\no5: 460\n2\n\nCommon mistakes: expecting the embedded array to refresh itself when new orders arrive — the application code must keep it in sync; confusing the fields id and _id: inside the array the field is named id, while _id belongs to document c1 itself; trying to fit a real shop's entire order history into one document — you will hit 16 MB and slow reads. Compare the fourth line with the first: both twos must agree. The site does not run the code — use your own learning mongosh; both collections are rebuilt by the script."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: 16 МБ и синхронизация выписки",
+      "tg": "Глубже: 16 МБ ва ҳамоҳангсозии истихроҷ",
+      "en": "Going deeper: 16 MB and keeping the summary in sync"
+     },
+     "body": {
+      "ru": "Предел 16 МБ — не теоретическая цифра: BSON-документ большего размера сервер просто не сохранит, и приложение получит ошибку на записи. Выписка из двух заказов далека от предела, но массив заказов клиента за десять лет — нет, поэтому встроенную историю в реальных проектах ограничивают: например, «последние двадцать заказов внутри, остальное — отдельной коллекцией», как shop_orders из дня 11. Вторая дисциплина — синхронизация: встроенный массив не обновится сам, каждый новый заказ должен быть дописан тем же кодом, который создаёт документ заказа; забытая ветка кода даёт вечное расхождение двух чисел из примера. Сверка length и countDocuments из практики — простая проверка целостности схемы.",
+      "tg": "Ҳадди 16 МБ рақами назариявӣ нест: ҳуҷҷати BSON-и калонтарро сервер танҳо нигоҳ намедорад ва барнома хатои навишт мегирад. Истихроҷи мо аз ду фармон аз ҳад дур аст, вале массиви фармонҳои муштарӣ дар даҳ сол — не, бинобар ин таърихи дохилшударо дар лоиҳаҳои воқеӣ маҳдуд мекунанд: масалан, «бист фармони охирин дар дохил, боқимонда — коллексияи алоҳида», мисли shop_orders-и рӯзи 11. Интизоми дуюм — ҳамоҳангсозӣ: массиви дохилшуда худ нав намешавад, ҳар фармони нав бояд бо ҳамон коде навишта шавад, ки ҳуҷҷати фармон месозад; шохаи фаромӯшшудаи код ихтилофи абадии ду рақами мисол медиҳад. Муқоисаи length ва countDocuments аз амалия — содатарин санҷиши дарустии чунин схема.",
+      "en": "The 16 MB limit is not a theoretical figure: the server simply will not store a larger BSON document, and the application gets a write error. Our two-order summary is far from the limit, but a ten-year array of customer orders is not, so real projects cap the embedded history: for example, \"the latest twenty orders inside, the rest as a separate collection\" like shop_orders from day 11. The second discipline is synchronization: the embedded array does not update itself, every new order must be appended by the same code that creates the order document; a forgotten code branch yields an eternal mismatch of the two numbers from the example. The length-versus-countDocuments check from the practice is the simplest integrity test for such a schema."
+     }
     }
    ],
    "questions": [
@@ -3612,7 +4676,13 @@
        "en": "When there are fewer than three fields"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что происходит с документом, массив в котором растёт годами. Вспомните предел BSON.",
+      "tg": "Ба ҳуҷҷате, ки массиви он солҳо меафзояд, чӣ мешавад. Ҳадди BSON-ро ёд оред.",
+      "en": "What happens to a document whose array grows for years. Recall the BSON limit."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-21-q2",
@@ -3643,7 +4713,50 @@
        "en": "There is no limit"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Это предел, о котором стоит помнить заранее: он измеряется в мегабайтах.",
+      "tg": "Ин ҳаддест, ки пешакӣ донистан лозим: ӯ бо мегабайт чен карда мешавад.",
+      "en": "This is a limit worth knowing in advance: it is measured in megabytes."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-21-q3",
+     "question": {
+      "ru": "Кто должен дописать новый заказ во встроенную «выписку» клиента?",
+      "tg": "Кӣ бояд фармони навро ба «истихроҷ»-и дохилшудаи муштарӣ илова кунад?",
+      "en": "Who should append a new order to the customer's embedded summary?"
+     },
+     "answer": {
+      "ru": "Код приложения: массив сам не обновится",
+      "tg": "Коди барнома: массив худ нав намешавад",
+      "en": "The application code: the array does not update itself"
+     },
+     "hint": {
+      "ru": "В примере встроенная выписка и коллекция заказов существуют одновременно: что их связывает.",
+      "tg": "Дар мисол истахроҷи дохилшуда ва коллексияи фармонҳо яквақта вуҷуд доранд: онҳоро чӣ пайваст мекунад.",
+      "en": "In the example the embedded summary and the orders collection exist at the same time: what connects them."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Код приложения: массив сам не обновится",
+       "tg": "Коди барнома: массив худ нав намешавад",
+       "en": "The application code: the array does not update itself"
+      },
+      {
+       "ru": "MongoDB синхронизирует выписку при каждой вставке заказа",
+       "tg": "MongoDB истахроҷро ҳангоми ҳар гузоштани фармон ҳамоҳанг мекунад",
+       "en": "MongoDB syncs the summary on every order insert"
+      },
+      {
+       "ru": "Никто: выписка обновляется сама при чтении",
+       "tg": "Ҳеҷ кас: истахроҷ ҳангоми хондан худ нав мешавад",
+       "en": "No one: the summary updates itself on read"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -3785,7 +4898,13 @@
        "en": "The sort order of groups"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посмотрите на результат конвейера: что попало в _id каждой строки-итога.",
+      "tg": "Ба натиҷаи конвейер нигоҳ кунед: чӣ ба _id-и ҳар сатри ҷамъбаст даромадааст.",
+      "en": "Look at the pipeline output: what ended up in the _id of each summary row."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-22-q2",
@@ -3823,6 +4942,43 @@
       "en": "Track which records reach $group and which fields they still have."
      },
      "relatedSection": 3
+    },
+    {
+     "id": "mongodb-day-22-q3",
+     "question": {
+      "ru": "Что означает агрегат { $sum: 1 } в $group?",
+      "tg": "Агрегати { $sum: 1 } дар $group чӣ маъно дорад?",
+      "en": "What does the aggregate { $sum: 1 } mean in $group?"
+     },
+     "answer": {
+      "ru": "Количество документов в группе",
+      "tg": "Миқдори ҳуҷҷатҳо дар гурӯҳ",
+      "en": "The number of documents in the group"
+     },
+     "hint": {
+      "ru": "Каждый документ группы добавляет в сумму одно и то же число.",
+      "tg": "Ҳар ҳуҷҷати гурӯҳ ба ҷамъ як рақами якхела меафзояд.",
+      "en": "Every document of the group adds the same number to the sum."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Сумму значений поля с именем «1»",
+       "tg": "Ҷамъи арзишҳои майдони бо номи «1»",
+       "en": "The sum of the values of a field named \"1\""
+      },
+      {
+       "ru": "Первый документ группы",
+       "tg": "Аввалин ҳуҷҷати гурӯҳ",
+       "en": "The first document of the group"
+      },
+      {
+       "ru": "Количество документов в группе",
+       "tg": "Миқдори ҳуҷҷатҳо дар гурӯҳ",
+       "en": "The number of documents in the group"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3920,6 +5076,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\no2: 1730\no4: 1365\no1: 490\nFaridun 1730\nSitora 1365\n\nХатоҳои маъмул: ҷойиваз кардани $sort ва $limit — «се ҳуҷҷати намедонам кадом, баъд сорт кардани се-то» мешавад; сорт аз рӯи майдоне, ки баъди $group нест — баъди гурӯҳбандӣ танҳо _id ва агрегатҳо дастрасанд; фаромӯш кардан, ки -1 камшавӣ аст. Бо даст санҷед: 1730 > 1365 > 490 ва воқеан харҷи Фаридун ва Ситора калонтарин аст. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; фармоишҳо аз тарафи скрипт аз нав сохта мешаванд.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\no2: 1730\no4: 1365\no1: 490\nFaridun 1730\nSitora 1365\n\nCommon mistakes: swapping $sort and $limit — you get \"three arbitrary documents, then sort the three\"; sorting by a field that no longer exists after $group — after grouping only _id and the aggregates remain; forgetting that -1 means descending. Verify by hand: 1730 > 1365 > 490, and Faridun and Sitora really are the biggest spenders. The site does not run the code — use your own learning mongosh; the script rebuilds the orders."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: порядок стадий на реальных отчётах",
+      "tg": "Глубже: тартиби марҳилаҳо дар ҳисоботҳои воқеӣ",
+      "en": "Going deeper: stage order in real reports"
+     },
+     "body": {
+      "ru": "Крайний случай конвейера — $limit первым: он оставит три «каких-то» документа, и сортировка упорядочит уже только их; топ по всей коллекции так не собрать. Второй случай — сортировка по полю заказа после $group: после группировки существуют только _id и вычисленные агрегаты вроде spent, а total из дня 22 там уже не живёт. В реальных отчётах стадий пять и больше, и каждая следующая видит только выход предыдущей — правило потока из теории. Отладка простая: временно уберите хвост конвейера и посмотрите, что течёт на середине, как в примере с таблицей лидеров. Так ловится большинство ошибок порядка стадий ещё до запуска на больших данных.",
+      "tg": "Ҳолати ниҳоии конвейер — $limit дар аввал: ӯ се ҳуҷҷати «ягон»-ро мемонад ва мураттабсозӣ дигар танҳо ҳамонҳо мураттаб мекунад; тези тамоми коллексияро чунин ҷамъ овардан мумкин нест. Ҳолати дуюм — мураттабсозӣ барои майдони фармон баъди $group: баъди гурӯҳбандӣ танҳо _id ва агрегатҳои ҳисобшуда монанди spent вуҷуд доранд, ва total-и рӯзи 22 он ҷо дигар зиндагӣ намекунад. Дар ҳисоботҳои воқеӣ марҳилаҳо панҷ ва бештар мешаванд, ва ҳар марҳилаи оянда танҳо баромади пешинро мебинад — қоидаи ҷараёни назария. Ислоҳи хато сода аст: муваққатан думи конвейерро гирефта, бинед, ки дар миёна чӣ ҷорӣ аст, мисли мисол бо ҷадвали пешбарандаҳо. Бештари хатогиҳои тартиби марҳилаҳо ҳамин тавр пеш аз иҷро дар маълумоти калон дошта мешаванд.",
+      "en": "The edge case of a pipeline is $limit first: it leaves three \"whatever\" documents and the sort then orders only them; a top across the whole collection cannot be gathered this way. The second case — sorting by an order field after $group: after grouping only _id and computed aggregates like spent exist, and total from day 22 no longer lives there. In real reports there are five or more stages, and each next stage sees only the output of the previous one — the flow rule from the theory. Debugging is simple: temporarily cut off the pipeline tail and look at what flows in the middle, as in the leaderboard example. Most stage-order mistakes are caught this way before any run on big data."
+     }
     }
    ],
    "questions": [
@@ -3952,7 +5120,13 @@
        "en": "It groups documents by the field"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните с методом sort курсора find: что делает эта стадия внутри конвейера.",
+      "tg": "Бои усули sort-и курсори find муқоиса кунед: ин марҳила дар дохили конвейер чӣ мекунад.",
+      "en": "Compare with the sort method of a find cursor: what does this stage do inside the pipeline."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-23-q2",
@@ -3983,7 +5157,50 @@
        "en": "N random documents"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проследите поток документов: в каком порядке они проходят стадии.",
+      "tg": "Ҷараёни ҳуҷҷатҳоро пайгирӣ кунед: бо чӣ тартиб онҳо аз марҳилаҳо мегузаранд.",
+      "en": "Trace the document flow: in what order do the documents pass through the stages."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-23-q3",
+     "question": {
+      "ru": "Почему после $group нельзя сортировать по полю total заказа?",
+      "tg": "Чаро баъди $group мураттабсозӣ аз рӯи майдони total-и фармон мумкин нест?",
+      "en": "Why can you not sort by the order field total after $group?"
+     },
+     "answer": {
+      "ru": "После группировки доступны только _id и вычисленные агрегаты",
+      "tg": "Баъди гурӯҳбандӣ танҳо _id ва агрегатҳои ҳисобшуда дастрасанд",
+      "en": "After grouping only the _id key and computed aggregates are available"
+     },
+     "hint": {
+      "ru": "Посмотрите на строки-итоги в выводе примера: какие поля у них есть.",
+      "tg": "Ба сатрҳои ҷамъбаст дар баромади мисол нигоҳ кунед: онҳо кадом майдонҳоро доранд.",
+      "en": "Look at the summary rows in the example output: which fields do they have."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "После группировки доступны только _id и вычисленные агрегаты",
+       "tg": "Баъди гурӯҳбандӣ танҳо _id ва агрегатҳои ҳисобшуда дастрасанд",
+       "en": "After grouping only the _id key and computed aggregates are available"
+      },
+      {
+       "ru": "total при группировке переименовывается в _id",
+       "tg": "Ҳангоми гурӯҳбандӣ total ба _id иваз мешавад",
+       "en": "total is renamed to _id during grouping"
+      },
+      {
+       "ru": "$sort внутри конвейера не работает вовсе",
+       "tg": "$sort дар дохили конвейер умуман кор намекунад",
+       "en": "$sort does not work inside a pipeline at all"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -4125,7 +5342,13 @@
        "en": "It writes the result back into the collection"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Одна проекция только выбирает поля, другая умеет вычислять новые. Вспомните $size.",
+      "tg": "Як проексия танҳо майдонҳоро интихоб мекунад, дигар навҳоро ҳисоб карда метонад. $size-ро ёд оред.",
+      "en": "One projection only selects fields, the other can compute new ones. Recall $size."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-24-q2",
@@ -4156,7 +5379,50 @@
        "en": "_id cannot be excluded in $project"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте вывод примера: попал ли ключ документа в таблицу. Как его скрыть.",
+      "tg": "Баромади мисолро санҷед: оё калиди ҳуҷҷат ба ҷадвал даромад. Онро чӣ тавр пинҳон кардан мумкин.",
+      "en": "Check the example output: did the document key end up in the table. How can it be hidden."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-24-q3",
+     "question": {
+      "ru": "Что вернёт выражение { $size: \"$items\" } в $project?",
+      "tg": "Ибораи { $size: \"$items\" } дар $project чиро бармегардонад?",
+      "en": "What does the expression { $size: \"$items\" } return in $project?"
+     },
+     "answer": {
+      "ru": "Число элементов массива items",
+      "tg": "Миқдори унсурҳои массиви items",
+      "en": "The number of elements in the items array"
+     },
+     "hint": {
+      "ru": "В выводе примера третья колонка для заказа o5 равна 1 — разберитесь, что это за число.",
+      "tg": "Дар баромади мисол сутуни сешума барои фармони o5 ба 1 баробар аст — тафтиш кунед, ин чӣ рақам аст.",
+      "en": "In the example output the third column for order o5 equals 1 — figure out what this number is."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Сам массив items без изменений",
+       "tg": "Худи массиви items бе тағйирот",
+       "en": "The items array itself unchanged"
+      },
+      {
+       "ru": "Сумму цен позиций",
+       "tg": "Ҷамъи қиматҳои мавқеъҳо",
+       "en": "The sum of the item prices"
+      },
+      {
+       "ru": "Число элементов массива items",
+       "tg": "Миқдори унсурҳои массиви items",
+       "en": "The number of elements in the items array"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4254,6 +5520,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\npaid 750 375\npending 1365 1365\nshipped 2190 1095\n\nХатоҳои маъмул: навиштани {$sum:\"total\"} бе доллар — он гоҳ ин сатр аст, на майдон, ва сумма сифр мешавад; омехта кардани $sum ва $avg дар ҳисоботҳои «даромад аз рӯи гурӯҳҳо» — даромад ҳамеша сумма аст, на миёна; фаромӯш кардани муқоисаи суммаи гурӯҳҳо бо натиҷаи умумӣ: 750 + 1365 + 2190 = 4305 ва ҳамин ададро $group бо _id:null медиҳад. Ин санҷишро дар қадами 2-и машқ иҷро кунед. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт фармоишҳоро аз нав месозад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\npaid 750 375\npending 1365 1365\nshipped 2190 1095\n\nCommon mistakes: writing {$sum:\"total\"} without the dollar — that is a string, not a field, and the sum becomes zero; mixing up $sum and $avg in \"revenue by group\" reports — revenue is always a sum, never an average; forgetting to reconcile group sums with the grand total: 750 + 1365 + 2190 = 4305, the same number a $group with _id:null returns. Do this reconciliation in step 2 of the practice. The site does not run the code — use your own learning mongosh; the script rebuilds the orders."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: сверка итогов",
+      "tg": "Глубже: муқоисаи ҷамъбастҳо",
+      "en": "Going deeper: cross-checking totals"
+     },
+     "body": {
+      "ru": "Перекрёстная сверка: 750+1365+2190=4305, как и $group с _id:null по тем же пяти заказам. $sum игнорирует нечисловые значения; если группа есть, но в поле нет чисел, сумма0. При полностью пустом входе $group не выдаёт строку группы. $avg считает среднее только числовых значений; без них возвращает null.\n\n$match до $group фильтрует исходные заказы и может менять выручку и среднее. $match после $group фильтрует уже готовые группы. Переставлять их можно только при доказанной равнозначности условий. Для отчёта paid сначала отберите status:\"paid\", затем сгруппируйте: итог750; общий итог всех заказов остаётся4305.",
+      "tg": "Муқоисаи ҷамъбастҳо: 750+1365+2190=4305, мисли $group бо _id:null аз ҳамон панҷ фармоиш. $sum қимати ғайриададиро намегирад; агар гурӯҳ ҳасту адад нест, ҷамъ0 мешавад. Вале барои input-и тамоман холӣ $group сатри гурӯҳ намедиҳад. $avg танҳо аз қиматҳои ададӣ миёна мегирад; бе онҳо null медиҳад.\n\n$match пеш аз $group фармоишҳои аслиро filter мекунад ва метавонад даромаду миёнаро иваз кунад. $match баъди $group гурӯҳҳои тайёрро filter мекунад. Ҷойи онҳоро танҳо бо далели якхелагии шартҳо иваз кунед. Барои ҳисоботи paid аввал status:\"paid\"-ро гиред, баъд group кунед: ҷамъ750; ҷамъи ҳамаи фармоишҳо4305 мемонад.",
+      "en": "Cross-check totals: 750+1365+2190=4305, as does $group with _id:null over the same five orders. $sum ignores non-numeric values; an existing group with no numeric field values sums to0. With completely empty input, $group emits no group row. $avg averages only numeric values and returns null without any.\n\n$match before $group filters source orders and can change revenue and averages. $match afterward filters the resulting groups. Reorder them only when the predicates are proven equivalent. For a paid-only report filter status:\"paid\" before grouping: the total is750; the all-orders total remains4305."
+     }
     }
    ],
    "questions": [
@@ -4286,7 +5564,13 @@
        "en": "It takes the total field of the group's first document"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравните с {$sum:1}: один оператор считает документы, другой — значения поля.",
+      "tg": "Бо {$sum:1} муқоиса кунед: як оператор ҳуҷҷатҳоро ҳисоб мекунад, дигар — арзишҳои майдонро.",
+      "en": "Compare with {$sum:1}: one operator counts documents, the other sums the values of a field."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-25-q2",
@@ -4317,7 +5601,50 @@
        "en": "An error: null is not allowed in _id"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сколько групп получится, если ключ один и тот же у всех документов.",
+      "tg": "Агар калид ҳамаи ҳуҷҷатҳоро якхела дошта бошад, чанд гурӯҳ ҳосил мешавад.",
+      "en": "How many groups result if the key is the same for every document."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-25-q3",
+     "question": {
+      "ru": "Почему средний чек может выйти дробным числом?",
+      "tg": "Чаро миёнаи чек метавонад рақами касрӣ барояд?",
+      "en": "Why can the average order value come out as a fractional number?"
+     },
+     "answer": {
+      "ru": "$avg делит сумму на количество, результат не обязан быть целым",
+      "tg": "$avg ҷамъро ба миқдор тақсим мекунад, натиҷа ҳатман бутун набояд бошад",
+      "en": "$avg divides the sum by the count, the result need not be an integer"
+     },
+     "hint": {
+      "ru": "Вспомните прикидку из теории: что происходит, если сумма не делится ровно.",
+      "tg": "Тахмини аз назарияро ёд оред: агар ҷамъ якҷо тақсим нашавад, чӣ мешавад.",
+      "en": "Recall the estimate from the theory: what happens when the sum does not divide evenly."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "$avg делит сумму на количество, результат не обязан быть целым",
+       "tg": "$avg ҷамъро ба миқдор тақсим мекунад, натиҷа ҳатман бутун набояд бошад",
+       "en": "$avg divides the sum by the count, the result need not be an integer"
+      },
+      {
+       "ru": "mongosh всегда добавляет дробную часть к целым числам",
+       "tg": "mongosh ҳамеша ба бутун рақамҳо қисми касрӣ меафзояд",
+       "en": "mongosh always adds a fractional part to integer numbers"
+      },
+      {
+       "ru": "$avg умножает все значения на 1.5 перед делением",
+       "tg": "$avg ҳама арзишҳоро пеш аз тақсим ба 1.5 зарб мекунад",
+       "en": "$avg multiplies all values by 1.5 before dividing"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -4415,6 +5742,18 @@
       "tg": "main.js-ро дар папкаи алоҳидаи омӯзишӣ сабт карда, дар терминали он иҷро кунед:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nНатиҷаи интизорӣ:\n2\n3\n2026-01-05T00:00:00.000Z\n\nХатоҳои маъмул: муқоисаи сана бо сатри \"2026-01-10\" — навъҳо мувофиқ намеоянд ва муқоиса ҳамчун мақсуд кор намекунад; фаромӯш кардани ноҳунӣ дар дохили ISODate; нигоҳ доштани санаҳо ҳамчун сатрҳои «10.01.2026» — сорт ва фосилаҳо вайрон мешаванд. Хатти сеюм бояд дар ҳамаи мошинҳо якхела бошад: агар натиҷаи шумо фарқ кунад, шумо санааро мустакиман чоп кардед, на тавассути toISOString. Сарҳадҳоро санҷед: фармоиши o3 аз 10 январ ба ҳисоби $gte дохил мешавад ва ба $lt намешавад. Сайт кодро иҷро намекунад — дар mongoshi омӯзишии худ иҷро кунед; скрипт фармоишҳоро бо санаҳо аз нав месозад.",
       "en": "Save main.js in a separate learning folder and run in that folder's terminal:\nmongosh \"mongodb://127.0.0.1:27017/devatlas_learning\" --file main.js\nExpected output:\n2\n3\n2026-01-05T00:00:00.000Z\n\nCommon mistakes: comparing a date with the string \"2026-01-10\" — the types do not match and the comparison misbehaves; forgetting the quotes inside ISODate; storing dates as \"10.01.2026\" strings — sorting and ranges break. The third line must be identical on every machine: if yours differs, you printed the date directly instead of using toISOString. Check the boundaries: order o3 of January 10 counts in $gte and not in $lt. The site does not run the code — use your own learning mongosh; the script rebuilds the dated orders."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: часовые пояса и границы периода",
+      "tg": "Глубже: минатақаҳои вақт ва ҳудуди давра",
+      "en": "Going deeper: time zones and period boundaries"
+     },
+     "body": {
+      "ru": "ISODate(\"2026-01-10\") — это полночь UTC, и в другом часовом поясе она «показывает» 10-е утром или 9-е вечером: сам момент времени один и тот же. Поэтому в учебных скриптах мы печатаем только toISOString — единый вид 2026-01-10T00:00:00.000Z на любой машине, как в примере. Крайний случай границы периода: заказ o3 от 10 января входит в $gte и не входит в $lt, потому что «раньше границы» и «от границы включительно» вместе покрывают все пять заказов, но не пересекаются. В реальном проекте помните главное из теории: дата — тип BSON Date, а не строка; строковые даты ломают сортировку и диапазоны, которые вы уже умеете писать со дня 16.",
+      "tg": "ISODate(\"2026-01-10\") нимашаби UTC аст, ва дар минатақаи дигар ӯ «нишон медиҳад» 10-ум субҳ ё 9-ум бегоҳ: худи лаҳзаи вақт якӣ аст. Бинобар ин дар скриптҳои таълимӣ танҳо toISOString-ро чоп мекунем — намуди ягонаи 2026-01-10T00:00:00.000Z дар ҳар мошин, мисли мисол. Ҳолати ниҳоии ҳудуди давра: фармони o3 аз 10 январ ба $gte даромада, ба $lt намедарояд, зеро «пеш аз ҳудуд» ва «аз ҳудуд дохилан» якҷо ҳамаи панҷ фармонро фаро мегиранд, вале якдигарро каҷ намекунанд. Дар лоиҳаи воқеӣ асосии назарияро дар хотир доред: сана — типи BSON Date аст, на сатр; санайи сатрӣ мураттабсозӣ ва диапазонҳоро мешикананд, ки аз рӯзи 16 навишта метонед.",
+      "en": "ISODate(\"2026-01-10\") is midnight UTC, and in another time zone it \"shows\" the 10th in the morning or the 9th in the evening: the instant itself is the same. That is why training scripts print only toISOString — the single form 2026-01-10T00:00:00.000Z on any machine, as in the example. The edge case of a period boundary: order o3 from January 10 falls into $gte and not into $lt, because \"before the boundary\" and \"from the boundary inclusive\" together cover all five orders without overlapping. In a real project remember the main point of the theory: a date is a BSON Date type, not a string; string dates break the sorting and ranges you have been able to write since day 16."
+     }
     }
    ],
    "questions": [
@@ -4447,7 +5786,13 @@
        "en": "Only the current date"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте тип результата: строка это или объект Date, и какой у него часовой пояс.",
+      "tg": "Типи натиҷаро санҷед: сатр аст ё объекти Date, ва минатақааш чӣ аст.",
+      "en": "Check the type of the result: is it a string or a Date object, and what is its time zone."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-26-q2",
@@ -4478,7 +5823,50 @@
        "en": "MongoDB forbids strings in date fields"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Попробуйте мысленно сравнить «10.01.2026» и «05.02.2026» как строки: что сломается.",
+      "tg": "Кӯшиш кунед дар фикр «10.01.2026»-ро бо «05.02.2026» ҳамчун сатр муқоиса кунед: чӣ мешиканад.",
+      "en": "Try mentally comparing \"10.01.2026\" and \"05.02.2026\" as strings: what breaks."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-26-q3",
+     "question": {
+      "ru": "Что произойдёт при сравнении поля Date со строкой \"2026-01-10\"?",
+      "tg": "Ҳангоми муқоисаи майдони Date бо сатри \"2026-01-10\" чӣ мешавад?",
+      "en": "What happens when comparing a Date field with the string \"2026-01-10\"?"
+     },
+     "answer": {
+      "ru": "Типы не совпадут, и сравнение не сработает как задумано",
+      "tg": "Типҳо мувофиқ намеоянд ва муқоиса дуруст кор намекунад",
+      "en": "The types do not match and the comparison does not work as intended"
+     },
+     "hint": {
+      "ru": "В теории сказано: дата — специальный тип BSON. Совпадают ли типы у Date и строки.",
+      "tg": "Дар назария омадааст: сана типи махсуси BSON аст. Оё типҳои Date ва сатр мувофиқ меоянд.",
+      "en": "The theory says: a date is a special BSON type. Do the types of Date and a string match."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Строка будет автоматически превращена в дату",
+       "tg": "Сатр худкориона ба сана табдил дода мешавад",
+       "en": "The string is automatically converted to a date"
+      },
+      {
+       "ru": "Сравнение вернёт все документы коллекции",
+       "tg": "Муқоиса ҳамаи ҳуҷҷатҳои коллексияро бармегардонад",
+       "en": "The comparison returns all collection documents"
+      },
+      {
+       "ru": "Типы не совпадут, и сравнение не сработает как задумано",
+       "tg": "Типҳо мувофиқ намеоянд ва муқоиса дуруст кор намекунад",
+       "en": "The types do not match and the comparison does not work as intended"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4616,7 +6004,13 @@
        "en": "A driver for JavaScript applications"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните рабочее место: какая из его частей отправляет команды, а какая хранит данные.",
+      "tg": "Ҷои кориро дар хотир оред: кадом қисми он фармонҳоро мефиристад, ва кадоме маълумотро нигоҳ медорад.",
+      "en": "Recall the workplace: which of its parts sends commands, and which stores the data."
+     },
+     "relatedSection": 3
     },
     {
      "id": "mongodb-day-27-q2",
@@ -4647,7 +6041,50 @@
        "en": "A collection name"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Что должно быть в строке, чтобы найти сервер в сети. Вспомните пример mongodb://127.0.0.1:27017.",
+      "tg": "Дар сатр чӣ бояд бошад, то серверро дар шабака ёфт. Мисоли mongodb://127.0.0.1:27017-ро ёд оред.",
+      "en": "What must the string contain to find the server on the network. Recall the example mongodb://127.0.0.1:27017."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-27-q3",
+     "question": {
+      "ru": "Чем mongod отличается от mongosh?",
+      "tg": "mongod аз mongosh бо чӣ фарқ мекунад?",
+      "en": "How does mongod differ from mongosh?"
+     },
+     "answer": {
+      "ru": "mongod — сервер базы, mongosh — клиентская оболочка для команд",
+      "tg": "mongod — сервери база, mongosh — восаи муштарии фармонҳо",
+      "en": "mongod is the database server, mongosh is the client shell for commands"
+     },
+     "hint": {
+      "ru": "Рабочее место состоит из двух частей: какая из них хранит данные.",
+      "tg": "Ҷои кор аз ду қисм иборат аст: кадоме маълумотро нигоҳ медорад.",
+      "en": "The workplace consists of two parts: which one stores the data."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "mongod — сервер базы, mongosh — клиентская оболочка для команд",
+       "tg": "mongod — сервери база, mongosh — восаи муштарии фармонҳо",
+       "en": "mongod is the database server, mongosh is the client shell for commands"
+      },
+      {
+       "ru": "mongod — графический интерфейс, mongosh — сервер",
+       "tg": "mongod — интерфейси графикаӣ, mongosh — сервер",
+       "en": "mongod is a graphical interface, mongosh is the server"
+      },
+      {
+       "ru": "Это одно и то же с разными названиями",
+       "tg": "Ин як ҳамон чиз бо номҳои гуногун аст",
+       "en": "They are the same thing with different names"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -4788,7 +6225,13 @@
        "en": "To keep different data on different servers"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Подумайте, что происходит с сервисом, если основной узел внезапно выключился.",
+      "tg": "Биёндешед, ки бо хизматрасонӣ чӣ мешавад, агар гиреҳи асосӣ ногаҳон хомӯш шавад.",
+      "en": "Think about what happens to the service if the main node suddenly goes down."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-28-q2",
@@ -4826,6 +6269,43 @@
       "en": "Ask whether the nodes hold copies of the same data or different parts of the set."
      },
      "relatedSection": 3
+    },
+    {
+     "id": "mongodb-day-28-q3",
+     "question": {
+      "ru": "Почему для голосующих участников replica set обычно выбирают нечётное количество?",
+      "tg": "Чаро барои иштирокчиёни овоздиҳандаи replica set одатан шумораи тоқ мегиранд?",
+      "en": "Why is an odd number of voting replica-set members usually chosen?"
+     },
+     "answer": {
+      "ru": "Это эффективнее для большинства голосов; выборы всё равно требуют доступного большинства и подходящего кандидата",
+      "tg": "Ин барои аксарияти овозҳо самараноктар аст; интихоб ҳоло ҳам аксарияти дастрас ва кандидати мувофиқ мехоҳад",
+      "en": "It uses voting majority efficiently; an election still needs a reachable majority and an eligible candidate"
+     },
+     "hint": {
+      "ru": "Три голосующих участника требуют два голоса, четыре — три. Нечётность не восстанавливает потерянную сеть: без доступного большинства выборы невозможны.",
+      "tg": "Се иштирокчии овоздиҳанда ду овоз мехоҳад, чорто — се. Тоқ будан шабакаи қатъшударо барқарор намекунад: бе аксарияти дастрас интихоб намешавад.",
+      "en": "Three voting members need two votes; four need three. An odd count cannot repair a lost network: without a reachable majority no primary can be elected."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Нечётное число узлов экономит память сервера",
+       "tg": "Рақами тоқи гиреҳҳо хотираи серверро расонидан мекунад",
+       "en": "An odd number of nodes saves server memory"
+      },
+      {
+       "ru": "Чётное число запрещено протоколом репликации",
+       "tg": "Рақами ҷуфт аз ҷониби протоколи репликация манъ аст",
+       "en": "An even number is forbidden by the replication protocol"
+      },
+      {
+       "ru": "Это эффективнее для большинства голосов; выборы всё равно требуют доступного большинства и подходящего кандидата",
+       "tg": "Ин барои аксарияти овозҳо самараноктар аст; интихоб ҳоло ҳам аксарияти дастрас ва кандидати мувофиқ мехоҳад",
+       "en": "It uses voting majority efficiently; an election still needs a reachable majority and an eligible candidate"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4973,7 +6453,13 @@
        "en": "It removes empty arrays from documents"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проследите один заказ с двумя позициями: сколько документов выйдет из стадии.",
+      "tg": "Як фармонро бо ду мавқеъ пайгирӣ кунед: чанд ҳуҷҷат аз марҳила баромада истодаст.",
+      "en": "Trace one order with two line items: how many documents come out of the stage."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-29-q2",
@@ -5004,7 +6490,50 @@
        "en": "Through a JavaScript loop after the query"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вспомните, какие два числа перемножаются внутри $multiply и что делает $sum дальше.",
+      "tg": "Дар хотир оред, ки кадом ду рақам дар дохили $multiply зарб мешаванд ва $sum баъд чӣ мекунад.",
+      "en": "Recall which two numbers are multiplied inside $multiply and what $sum does next."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-29-q3",
+     "question": {
+      "ru": "Сколько документов даст $unwind: \"$items\" для заказа с тремя позициями?",
+      "tg": "$unwind: \"$items\" барои фармоне бо се мавқеъ чанд ҳуҷҷат медиҳад?",
+      "en": "How many documents does $unwind: \"$items\" produce for an order with three line items?"
+     },
+     "answer": {
+      "ru": "Три: по одному на каждый элемент массива",
+      "tg": "Се: якто барои ҳар унсури массив",
+      "en": "Three: one per each element of the array"
+     },
+     "hint": {
+      "ru": "Проследите в примере заказ o2 с двумя позициями: сколько строк он дал после $unwind.",
+      "tg": "Дар мисол фармони o2-ро бо ду мавқеъ пайгирӣ кунед: баъди $unwind чанд сатр дод.",
+      "en": "Trace order o2 with two line items in the example: how many rows did it produce after $unwind."
+     },
+     "relatedSection": 0,
+     "options": [
+      {
+       "ru": "Три: по одному на каждый элемент массива",
+       "tg": "Се: якто барои ҳар унсури массив",
+       "en": "Three: one per each element of the array"
+      },
+      {
+       "ru": "Один: массив останется на месте",
+       "tg": "Як: массив дар ҷои худ мемонад",
+       "en": "One: the array stays in place"
+      },
+      {
+       "ru": "Ноль: $unwind удаляет массив",
+       "tg": "Сифр: $unwind массивро нест мекунад",
+       "en": "Zero: $unwind removes the array"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -5147,7 +6676,13 @@
        "en": "find({ stock: { $gt: 10 } })"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Проверьте оператор: он означает «строго меньше» или «больше».",
+      "tg": "Операторро санҷед: ӯ маънои «қатъиян камтар»-ро дорад ё «бештар».",
+      "en": "Check the operator: does it mean \"strictly less\" or \"greater\"."
+     },
+     "relatedSection": 0
     },
     {
      "id": "mongodb-day-30-q2",
@@ -5178,7 +6713,50 @@
        "en": "A single document with data"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Вернитесь к первому дню: из чего состоит база данных.",
+      "tg": "Ба рӯзи аввал баргардед: пойгоҳи додаҳо аз чӣ иборат аст.",
+      "en": "Go back to day one: what does a database consist of."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "mongodb-day-30-q3",
+     "question": {
+      "ru": "Что возвращает distinct(\"category\")?",
+      "tg": "distinct(\"category\") чиро бармегардонад?",
+      "en": "What does distinct(\"category\") return?"
+     },
+     "answer": {
+      "ru": "Массив уникальных значений поля category",
+      "tg": "Массиви арзишҳои ягонаи майдони category",
+      "en": "An array of the unique values of the category field"
+     },
+     "hint": {
+      "ru": "В примере его длина печатается третьей строкой отчёта.",
+      "tg": "Дар мисол дарозии он сатри сешумаи ҳисобот чоп мешавад.",
+      "en": "In the example its length is printed as the third line of the report."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Документы каталога по алфавиту",
+       "tg": "Ҳуҷҷатҳои каталог бо тартиби алифбоӣ",
+       "en": "The catalog documents in alphabetical order"
+      },
+      {
+       "ru": "Количество категорий одним числом",
+       "tg": "Миқдори категорияҳо бо як рақам",
+       "en": "The number of categories as a single number"
+      },
+      {
+       "ru": "Массив уникальных значений поля category",
+       "tg": "Массиви арзишҳои ягонаи майдони category",
+       "en": "An array of the unique values of the category field"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {

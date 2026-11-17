@@ -48,12 +48,12 @@
       "ru": "Что такое SQL и таблица",
       "tg": "SQL ва ҷадвал чист?",
       "en": "SQL and tables"
-    },
+     },
      "body": {
       "ru": "SQL — язык запросов к реляционной базе. Таблица хранит записи в строках, а поля вроде цены — в столбцах. SELECT читает записи; хранением данных занимается СУБД, например SQLite.\n\nИспользуем SQLite и временную базу :memory:, чтобы не менять рабочие данные. CREATE TABLE задаёт столбцы и ограничения; INSERT добавляет строку; SELECT выбирает данные. INTEGER хранит целые числа. Для учебного запроса используем фиксированные значения, не пользовательский ввод.",
       "tg": "SQL забони query барои базаи релясионӣ аст. Сабт дар сатр ва хосият мисли нарх дар сутун меистад. SELECT мехонад, маълумотро бошад худи SQLite ё барномаи база нигоҳ медорад.\n\nSQLite ва пойгоҳи муваққатии :memory:-ро истифода мебарем, то додаҳои корӣ тағйир наёбанд. CREATE TABLE сутунҳо ва маҳдудиятҳоро муайян мекунад; INSERT сатр илова мекунад; SELECT додаҳоро интихоб мекунад. INTEGER ададҳои бутунро нигоҳ медорад. Дар дархости омӯзишӣ қиматҳои собит ҳастанд, на вуруди корбар.",
       "en": "SQL is a query language for relational databases. Tables store records in rows and attributes in columns. SELECT reads records, while a database engine such as SQLite handles storage.\n\nUse SQLite with the temporary :memory: database to avoid changing real data. CREATE TABLE defines columns and constraints; INSERT adds a row; SELECT retrieves data. INTEGER stores whole numbers. This teaching query uses fixed values, not user input."
-    },
+     },
      "code": "CREATE TABLE products (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  price INTEGER NOT NULL CHECK (price >= 0)\n);\nINSERT INTO products (id, name, price) VALUES (1, 'Tea', 12);\nSELECT name, price * 3 AS total FROM products WHERE id = 1;\n",
      "language": "sql",
      "output": {
@@ -100,17 +100,17 @@
     }
    ],
    "interview": {
-     "id": "sql-day-01-written",
-     "question": {
-       "ru": "Какое слово начинает запрос чтения из таблицы?",
-       "tg": "Query барои хондан аз ҷадвал бо кадом калима сар мешавад?",
-       "en": "Which keyword starts a query that reads rows from a table?"
-     },
-     "answer": {
-       "ru": "SELECT",
-       "tg": "SELECT",
-       "en": "SELECT"
-     }
+    "id": "sql-day-01-written",
+    "question": {
+     "ru": "Какое слово начинает запрос чтения из таблицы?",
+     "tg": "Query барои хондан аз ҷадвал бо кадом калима сар мешавад?",
+     "en": "Which keyword starts a query that reads rows from a table?"
+    },
+    "answer": {
+     "ru": "SELECT",
+     "tg": "SELECT",
+     "en": "SELECT"
+    }
    },
    "questions": [
     {
@@ -142,7 +142,13 @@
        "en": "The order of rows in the result"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "WHERE проверяет условие для каждой строки; вспомните третий раздел о выборе строк и столбцов.",
+      "tg": "WHERE шартро ба ҳар сатр тафтиш мекунад; бахши сеюмро дар бораи интихоби сатрҳо ва сутунҳо дар ёд биёред.",
+      "en": "WHERE tests the condition against every row; recall the third section on choosing rows and columns."
+     },
+     "relatedSection": 3
     },
     {
      "id": "sql-day-01-q2",
@@ -173,7 +179,50 @@
        "en": "CREATE TABLE"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Одна команда читает данные, другая добавляет строку, а третья описывает новую таблицу со столбцами.",
+      "tg": "Як фармон маълумотро мехонад, дигарӣ сатр илова мекунад, сеюмӣ ҷадвали нав бо сутунҳоро тавсиф мекунад.",
+      "en": "One command reads data, another adds a row, and the third describes a new table with its columns."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "sql-day-01-q3",
+     "question": {
+      "ru": "Что вернёт SELECT * FROM products?",
+      "tg": "SELECT * FROM products чиро бармегардонад?",
+      "en": "What does SELECT * FROM products return?"
+     },
+     "answer": {
+      "ru": "Все столбцы всех строк таблицы",
+      "tg": "Ҳамаи сутунҳои ҳамаи сатрҳои ҷадвал",
+      "en": "All columns of all rows of the table"
+     },
+     "options": [
+      {
+       "ru": "Все столбцы всех строк таблицы",
+       "tg": "Ҳамаи сутунҳои ҳамаи сатрҳои ҷадвал",
+       "en": "All columns of all rows of the table"
+      },
+      {
+       "ru": "Только имена товаров",
+       "tg": "Танҳо номҳои молҳо",
+       "en": "Only the product names"
+      },
+      {
+       "ru": "Только первые девять столбцов",
+       "tg": "Танҳо нуҳ сутуни аввал",
+       "en": "Only the first nine columns"
+      }
+     ],
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Звёздочка заменяет весь список столбцов; строки при этом не фильтруются. Вспомните, чем выбор столбцов отличается от выбора строк.",
+      "tg": "Ситора ҳамаи рӯйхати сутунҳоро иваз мекунад; сатрҳо филтр намешаванд. Дар ёд биёред, ки интихоби сутунҳо аз интихоби сатрҳо чӣ гуна фарқ мекунад.",
+      "en": "The star replaces the whole column list; no rows are filtered meanwhile. Recall how choosing columns differs from choosing rows."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -233,12 +282,12 @@
       "ru": "Как UPDATE выбирает строки",
       "tg": "UPDATE чӣ хел сатрҳоро интихоб мекунад?",
       "en": "Updating selected rows"
-    },
+     },
      "body": {
       "ru": "UPDATE меняет существующие строки. WHERE ограничивает выборку: для списания проверьте и нужный товар, и достаточный остаток. Без WHERE меняются все строки.\n\nUPDATE меняет подходящие строки. Условие stock >= 2 не позволяет списать больше имеющегося. CHECK защищает таблицу от отрицательного остатка. changes() сообщает число строк предыдущего UPDATE. Каждый пример создаёт новую базу в памяти; это не работающая товарная система.",
       "tg": "UPDATE сатрҳои мавҷударо иваз мекунад. WHERE интихобро маҳдуд мекунад: барои кам кардани захира ҳам моли дуруст ва ҳам миқдори кофиро санҷ. Бе WHERE ҳамаи сатрҳо иваз мешаванд.\n\nUPDATE сатрҳои мувофиқро тағйир медиҳад. Шарти stock >= 2 аз бақия зиёд кам карданро манъ мекунад. CHECK ҷадвалро аз бақияи манфӣ муҳофизат мекунад. changes() шумораи сатрҳои UPDATE-и пешинаро медиҳад. Ҳар мисол пойгоҳи нави хотиравӣ месозад; ин низоми воқеии анбор нест.",
       "en": "UPDATE changes existing rows. WHERE restricts the change: for inventory, check both the product and sufficient stock. Without WHERE, the update applies to every row.\n\nUPDATE changes matching rows. The stock >= 2 condition prevents subtracting more than is available. CHECK protects against negative stock. changes() reports rows affected by the previous UPDATE. Each example creates a fresh in-memory database; this is not a production inventory system."
-    },
+     },
      "code": "CREATE TABLE products (id INTEGER PRIMARY KEY, stock INTEGER NOT NULL CHECK (stock >= 0));\nINSERT INTO products VALUES (1, 5);\nUPDATE products SET stock = stock - 2 WHERE id = 1 AND stock >= 2;\nSELECT stock FROM products WHERE id = 1;\nUPDATE products SET stock = stock - 9 WHERE id = 1 AND stock >= 9;\nSELECT changes();\n",
      "language": "sql",
      "output": {
@@ -285,17 +334,17 @@
     }
    ],
    "interview": {
-     "id": "sql-day-02-written",
-     "question": {
-       "ru": "Какое слово начинает условие, которое ограничивает строки для UPDATE?",
-       "tg": "Шарте, ки сатрҳои UPDATE-ро маҳдуд мекунад, бо чӣ сар мешавад?",
-       "en": "Which keyword introduces the condition that limits rows affected by UPDATE?"
-     },
-     "answer": {
-       "ru": "WHERE",
-       "tg": "WHERE",
-       "en": "WHERE"
-     }
+    "id": "sql-day-02-written",
+    "question": {
+     "ru": "Какое слово начинает условие, которое ограничивает строки для UPDATE?",
+     "tg": "Шарте, ки сатрҳои UPDATE-ро маҳдуд мекунад, бо чӣ сар мешавад?",
+     "en": "Which keyword introduces the condition that limits rows affected by UPDATE?"
+    },
+    "answer": {
+     "ru": "WHERE",
+     "tg": "WHERE",
+     "en": "WHERE"
+    }
    },
    "questions": [
     {
@@ -327,7 +376,13 @@
        "en": "UPDATE returns the sum of stock"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Функция после UPDATE сообщает число затронутых строк; что она скажет, если условие ни с чем не совпало?",
+      "tg": "Функсия пас аз UPDATE шумораи сатрҳои таъсисрасидаро мегӯяд; агар шарт бо ҳеҷ чиз мувофиқ наояд, чӣ мегӯяд?",
+      "en": "The function after UPDATE reports the number of affected rows; what does it say when the condition matched nothing?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-02-q2",
@@ -358,7 +413,50 @@
        "en": "It deletes rows with zero stock"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Ограничение проверяется при записи; подумайте, что произойдёт при попытке сохранить минус.",
+      "tg": "Маҳдудият ҳангоми навишт тафтиш мешавад; фикр кунед, ки ҳангоми кӯшиши нигоҳ доштани манфӣ чӣ мешавад.",
+      "en": "The constraint is checked at write time; think about what happens when you try to store a minus."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "sql-day-02-q3",
+     "question": {
+      "ru": "Сколько строк изменит UPDATE products SET stock = 5 WHERE id = 99, если товара с id = 99 нет?",
+      "tg": "UPDATE products SET stock = 5 WHERE id = 99 чанд сатрро тағйир медиҳад, агар мол бо id = 99 набошад?",
+      "en": "How many rows does UPDATE products SET stock = 5 WHERE id = 99 change when no product has id = 99?"
+     },
+     "answer": {
+      "ru": "Ноль — changes() вернёт 0",
+      "tg": "Сифр — changes() 0 бармегардонад",
+      "en": "Zero — changes() returns 0"
+     },
+     "options": [
+      {
+       "ru": "Ошибку выполнения",
+       "tg": "Хатои иҷро",
+       "en": "A runtime error"
+      },
+      {
+       "ru": "Одну строку",
+       "tg": "Як сатр",
+       "en": "One row"
+      },
+      {
+       "ru": "Ноль — changes() вернёт 0",
+       "tg": "Сифр — changes() 0 бармегардонад",
+       "en": "Zero — changes() returns 0"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Условие с несуществующим id не совпадёт ни с одной строкой; вспомните, что сообщает changes() после такого UPDATE.",
+      "tg": "Шарти бо id-и номавҷуд бо ягон сатр мувофиқ намеояд; дар ёд биёред, ки changes() пас аз чунин UPDATE чӣ мегӯяд.",
+      "en": "A condition with a nonexistent id matches no row; recall what changes() reports after such an UPDATE."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -418,18 +516,30 @@
       "ru": "Как WHERE фильтрует записи",
       "tg": "WHERE чӣ хел сабтҳоро филтр мекунад?",
       "en": "Filtering with WHERE"
-    },
+     },
      "body": {
       "ru": "WHERE проверяет условие для каждой строки. Условие price > 20 пропускает строки дороже 20 и исключает цену ровно 20. Список после SELECT выбирает столбцы.\n\nSELECT без условий возвращает все строки таблицы, но настоящие вопросы всегда уже: какие товары дороже двадцати, что лежит в категории bakery. Ответы даёт WHERE — часть запроса, которую SQLite проверяет для каждой строки отдельно. Строка попадает в результат, только если условие истинно. Условия собираются из сравнений: = означает «равно», <> — «не равно», > и < сравнивают величины, а >= и <= добавляют границу. Два условия объединяются словом AND, когда должны выполняться оба, и словом OR, когда достаточно хотя бы одного; AND связывает сильнее, поэтому в третьем запросе сначала выбирается категория, а затем OR добавляет дорогие товары. Текст пишется в одинарных кавычках, например 'bakery', числа — без кавычек. Сегодняшняя таблица — наш учебный магазин: девять товаров с ценой, категорией и остатком на складе. Все примеры выполняются в SQLite во временной базе :memory:, записанный вывод получен реальным запуском этого скрипта и воспроизводится у вас локально.",
       "tg": "WHERE барои ҳар сатр шарт месанҷад. price > 20 нархи аз 20 калонро мегирад, нархи худи 20 намегузарад. Рӯйхати баъди SELECT сутунҳоро мегирад.\n\nSELECT бе шартҳо ҳамаи сатрҳои ҷадвалро бармегардонад, вале саволҳои воқеӣ ҳамеша хурдтаранд: кадом маҳсулот аз бист норон аст, чи дар категорияи bakery ҳаст. Ҷавобро WHERE медиҳад — қисми дархосте, ки SQLite барои ҳар сатр алоҳида санҷад. Сатр танҳо дар сурате ба натиҷа дохил мешавад, ки шарт рост бошад. Шартҳо аз муқоисаҳо сохта мешаванд: = маънои «баробар»-ро дорад, <> — «набаробар», > ва < андозаҳоро муқоиса мекунанд, >= ва <= ҳудудро ҳам дар бар мегиранд. Ду шарт бо калимаи AND якҷоя мешаванд, агар ҳарду бояд иҷро шаванд, ва бо OR, агар якеро бас бошад; AND пурқувваттар аст, бинобар ин дар дархости сеюм аввал категория интихоб мешавад, баъд OR молҳои гаронро илова мекунад. Матн дар ковӯқҳои якғона навишта мешавад, масалан 'bakery', ададҳо — бе ковӯқ. Ҷадвали имрӯза — мағозаи омӯзишии мо: нуҳ маҳсулот бо нарх, категория ва боқимонда. Ҳамаи мисолҳо дар SQLite дар пойгоҳи муваққатии :memory: иҷро мешаванд; натиҷаи сабтшуда аз иҷрои воқеии ҳамин скрипт гирифта шудааст.",
       "en": "WHERE tests each row. The condition price > 20 keeps prices above 20 and excludes exactly 20. The list after SELECT picks columns.\n\nSELECT without conditions returns every row of a table, but real questions are always narrower: which products cost more than twenty, what belongs to the bakery category. WHERE is the part of a SELECT that answers such questions. SQLite takes each row, evaluates the condition written after WHERE, and keeps the row only when the condition is true. Conditions are built from comparisons: = means equal, <> means not equal, > and < compare sizes, and >= and <= include the boundary. Two conditions are combined with AND when both must hold, and with OR when at least one is enough; AND binds stronger than OR, so the third query first applies the category and then adds expensive products with OR. Text values are written in single quotes, for example 'bakery'; numbers are written without quotes. Today's table is our learning shop: nine products with a price, a category and a stock count. All examples run in SQLite on the temporary :memory: database, and the recorded output was produced by actually running this script."
-    },
+     },
      "code": "CREATE TABLE products (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  price INTEGER NOT NULL CHECK (price >= 0),\n  category TEXT,\n  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0)\n);\nINSERT INTO products (id, name, price, category, stock) VALUES\n  (1, 'Tea', 12, 'drinks', 30),\n  (2, 'Coffee', 25, 'drinks', 20),\n  (3, 'Juice', 18, 'drinks', 15),\n  (4, 'Bread', 6, 'bakery', 40),\n  (5, 'Cake', 35, 'bakery', 8),\n  (6, 'Cookie', 4, 'bakery', 100),\n  (7, 'Water', 3, NULL, 50),\n  (8, 'Honey', 45, NULL, 10),\n  (9, 'Salt', 5, NULL, 60);\nSELECT name, price FROM products WHERE price > 20;\nSELECT name FROM products WHERE category = 'bakery' AND price < 10;\nSELECT name FROM products WHERE category = 'drinks' OR price > 40;\nSELECT name, price, stock FROM products WHERE stock < 10;\n",
      "language": "sql",
      "output": {
       "ru": "Coffee|25\nCake|35\nHoney|45\nBread\nCookie\nTea\nCoffee\nJuice\nHoney\nCake|35|8",
       "tg": "Coffee|25\nCake|35\nHoney|45\nBread\nCookie\nTea\nCoffee\nJuice\nHoney\nCake|35|8",
       "en": "Coffee|25\nCake|35\nHoney|45\nBread\nCookie\nTea\nCoffee\nJuice\nHoney\nCake|35|8"
+     }
+    },
+    {
+     "title": {
+      "ru": "WHERE в реальном проекте: границы и NULL",
+      "tg": "WHERE дар лоиҳаи воқеӣ: марзҳо ва NULL",
+      "en": "WHERE in a real project: boundaries and NULL"
+     },
+     "body": {
+      "ru": "В рабочем отчёте условие редко живёт одно: обычно это цепочка AND и OR, и ошибки прячутся на границах. price > 20 — строгое сравнение: товар с ценой ровно 20 в результат не попадёт; тот же принцип мы видели во втором дне, где stock >= 2 защищал списание, поэтому каждую границу проверяйте отдельным запросом, пока выборка мала. Вторая ловушка — NULL: для товара без категории ни category = 'drinks', ни category <> 'drinks' не истинно — любое сравнение с NULL даёт NULL, и строка отсеивается даже там, где условие выглядит как «всё остальное». Это правило в полный рост проявится в пятом дне. И следите за типами: '20' с кавычками — текст, 20 — число; сравниваются они по правилам типов.",
+      "tg": "Дар ҳисоботи корӣ шарти танҳо камёб аст: маъмулан занҷири AND ва OR мегузорад ва хатоҳо дар марзҳо пинҳон мешаванд. price > 20 муқоисаи қатъӣ аст: мол бо нархи дақиқи 20 ба натиҷа намеафтад; ҳамин принсипро дар рӯзи дуюм дидем, ки stock >= 2 сарфакориро муҳофизат мекард, бинобар ин ҳар марзро бо дархости алоҳида санҷед, ҳоле ки интихоб хурд аст. Доми дуюм — NULL: барои моли бе категория на category = 'drinks' ва на category <> 'drinks' ҳақиқӣ аст, зеро ҳар муқоиса бо NULL NULL медиҳад ва сатр ҳатто онҷо дур меафтад, ки шарт «ҳамаи боқимонда» менамояд. Ин қоида дар рӯзи панҷум пурра зоҳир мешавад. Доми сеюм — навъҳо: '20' бо кавакс ва 20 бе кавакс — матн ва адад, ва SQLite онҳоро аз рӯи қоидаҳои навъҳо муқоиса мекунад, на аз рӯи интизории ҳисобот.",
+      "en": "In a working report a condition rarely stands alone: usually it is a chain of AND and OR, and mistakes hide at the boundaries. price > 20 is a strict comparison: a product priced exactly 20 does not enter the result; we saw the same principle on day two, where stock >= 2 protected the write-off, so test every boundary with a separate query while the table is small. The second trap is NULL: for a product without a category neither category = 'drinks' nor category <> 'drinks' is true, because any comparison with NULL yields NULL, and the row drops out even where the condition looks like 'everything else'. That rule returns in full on day five. The third trap is types: '20' with quotes and 20 without are text and number, and SQLite compares them by its type rules, not by your report's expectations."
      }
     },
     {
@@ -458,17 +568,17 @@
     }
    ],
    "interview": {
-     "id": "sql-day-03-written",
-     "question": {
-       "ru": "Какой знак оставляет цены строго выше 20 в условии WHERE?",
-       "tg": "Дар WHERE кадом аломат нархи аз 20 калонро мегирад?",
-       "en": "Which operator in WHERE keeps prices strictly above 20?"
-     },
-     "answer": {
-       "ru": ">",
-       "tg": ">",
-       "en": ">"
-     }
+    "id": "sql-day-03-written",
+    "question": {
+     "ru": "Какой знак оставляет цены строго выше 20 в условии WHERE?",
+     "tg": "Дар WHERE кадом аломат нархи аз 20 калонро мегирад?",
+     "en": "Which operator in WHERE keeps prices strictly above 20?"
+    },
+    "answer": {
+     "ru": ">",
+     "tg": ">",
+     "en": ">"
+    }
    },
    "questions": [
     {
@@ -500,7 +610,13 @@
        "en": "Deletes rows from the table"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Часть запроса работает со строками до вывода; какие строки проходят дальше?",
+      "tg": "Як қисми дархост бо сатрҳо пеш аз барориш кор мекунад; кадом сатрҳо ба пеш мегузаранд?",
+      "en": "One part of the query works on rows before output; which rows pass on?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-03-q2",
@@ -531,7 +647,50 @@
        "en": "An empty result"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Пройдитесь по ценам таблицы и отметьте те, что строго больше тридцати; вывод примера тоже подскажет.",
+      "tg": "Аз нархҳои ҷадвал гузаред ва онҳое, ки айнан зиёди сӣ ҳастанд, қайд кунед; натиҷаи намуна ҳам ёрӣ медиҳад.",
+      "en": "Walk through the table's prices and mark those strictly above thirty; the example output hints too."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-03-q3",
+     "question": {
+      "ru": "Какое условие найдёт товары категории drinks с ценой больше 20?",
+      "tg": "Кадом шарт молҳои категорияи drinks бо нархи зиёди 20-ро меёбад?",
+      "en": "Which condition finds drinks-category products priced above 20?"
+     },
+     "answer": {
+      "ru": "WHERE category = 'drinks' AND price > 20",
+      "tg": "WHERE category = 'drinks' AND price > 20",
+      "en": "WHERE category = 'drinks' AND price > 20"
+     },
+     "options": [
+      {
+       "ru": "WHERE category = 'drinks' OR price > 20",
+       "tg": "WHERE category = 'drinks' OR price > 20",
+       "en": "WHERE category = 'drinks' OR price > 20"
+      },
+      {
+       "ru": "WHERE price > 20 AND price < 20",
+       "tg": "WHERE price > 20 AND price < 20",
+       "en": "WHERE price > 20 AND price < 20"
+      },
+      {
+       "ru": "WHERE category = 'drinks' AND price > 20",
+       "tg": "WHERE category = 'drinks' AND price > 20",
+       "en": "WHERE category = 'drinks' AND price > 20"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Оба требования должны быть истинны одновременно; вспомните, что OR берёт и лишние строки, а первое предложение вообще противоречиво.",
+      "tg": "Ҳарду талаб бояд ҳамзамон ҳақиқӣ бошанд; дар ёд биёред, ки OR сатрҳои изофиро низ мегирад, вале ибтидои дуюм умуман зиддист.",
+      "en": "Both requirements must be true at once; recall that OR also takes extra rows, while the second option is contradictory outright."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -608,6 +767,18 @@
     },
     {
      "title": {
+      "ru": "LIKE и BETWEEN в реальном проекте",
+      "tg": "LIKE ва BETWEEN дар лоиҳаи воқеӣ",
+      "en": "LIKE and BETWEEN in a real project"
+     },
+     "body": {
+      "ru": "На живых данных шаблоны и диапазоны приходят вместе. Классический кейс: найти позиции с ценой от 10 до 30 и именем на C — два условия соединяются AND, и каждый работает как вчера в WHERE: BETWEEN включает оба конца, поэтому цена ровно 10 и ровно 30 тоже попадает в отчёт, а если граница не нужна, честно пишите price > 10 AND price < 30. Ещё одна грань: шаблон с процентом в начале, вроде '%a%', проверяет каждую строку, потому что поиск не может опереться на начало значения — сегодня на девяти строках это незаметно, а на тысячах станет медленным; к индексам вернёмся в двадцать четвёртом дне. Проверяйте крайние значения диапазона отдельными запросами: на границе сидят самые тихие ошибки.",
+      "tg": "Дар маълумоти корӣ қолабҳо ва диапазонҳо якҷо меоянд. Мавриди классикӣ: ёфтани маводи бо нарх аз 10 то 30 ва ном бо ҳарфи C — ду шарт бо AND пайваст мешаванд ва ҳар яке мисоли дирузии WHERE кор мекунад: BETWEEN ҳарду сарро дохил мекунад, бинобар ин нархи дақиқи 10 ва дақиқи 30 ҳам ба ҳисобот меафтад, ва агар марз лозим набошад, ростикона price > 10 AND price < 30 нависед. Ҳолати дигари муфид: қолаб бо фоиз дар аввал, монанди '%a%', ҳар сатрро тафтиш мекунад, зеро ҷустуҷӯ ба аввали арзиш такя карда наметавонад — имрӯз дар нуҳ сатр намоён нест, вале дар ҳазор сатр суст мешавад; дар рӯзи бистуму чаҳорум ба индексҳо ва нақшаҳо бармегардем. Арзишҳои канории диапазонро бо дархостҳои алоҳида санҷед: дар ҳамин марзҳо сусттарин хатоҳо ниҳонанд.",
+      "en": "On live data patterns and ranges arrive together. The classic case: find items priced from 10 to 30 with a name starting at C — two conditions joined by AND, each behaving exactly as in yesterday's WHERE: BETWEEN includes both ends, so a price of exactly 10 and exactly 30 also enters the report, and if a boundary is not wanted, write price > 10 AND price < 30 honestly. One more facet worth knowing early: a pattern with a leading percent, like '%a%', checks every row, because the search cannot anchor at the start of the value — invisible on nine rows today, slow on thousands; we return to indexes and plans on day twenty-four. Test the extreme values of your range with separate queries: the quietest mistakes sit exactly on the boundary."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -661,7 +832,13 @@
        "en": "A percent used as a number in calculations"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Один знак шаблона растягивается на любое продолжение, второй строго на один символ.",
+      "tg": "Як аломати қолаб ба ҳар идома дароз мешавад, дуюмӣ айнан ба як аломат.",
+      "en": "One pattern sign stretches over any continuation, the other strictly one character."
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-04-q2",
@@ -692,7 +869,50 @@
        "en": "Four"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Границы диапазона включены; проверьте цены по порядку и посчитайте те, что попали внутрь.",
+      "tg": "Марзҳои диапазон дохиланд; нархҳоро бо тартииб санҷед ва онҳое, ки дарун афтоданд, ҳисоб кунед.",
+      "en": "Range boundaries are included; check the prices in order and count the ones that fell inside."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-04-q3",
+     "question": {
+      "ru": "Чем price BETWEEN 10 AND 30 отличается от price > 10 AND price < 30?",
+      "tg": "price BETWEEN 10 AND 30 аз price > 10 AND price < 30 чӣ фарқ дорад?",
+      "en": "How does price BETWEEN 10 AND 30 differ from price > 10 AND price < 30?"
+     },
+     "answer": {
+      "ru": "BETWEEN включает обе границы",
+      "tg": "BETWEEN ҳарду марзро дохил мекунад",
+      "en": "BETWEEN includes both boundaries"
+     },
+     "options": [
+      {
+       "ru": "Ничем — это два написания одного условия",
+       "tg": "Ҳеҷ — ин ду навишти як шарт аст",
+       "en": "Nothing — two spellings of one condition"
+      },
+      {
+       "ru": "BETWEEN работает только с текстом",
+       "tg": "BETWEEN танҳо бо матн кор мекунад",
+       "en": "BETWEEN works only with text"
+      },
+      {
+       "ru": "BETWEEN включает обе границы",
+       "tg": "BETWEEN ҳарду марзро дохил мекунад",
+       "en": "BETWEEN includes both boundaries"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Проверьте мысленно товар с ценой ровно 10: в какой из двух записей он останется в результате?",
+      "tg": "Мол бо нархи дақиқи 10-ро дар ҳофиз санҷед: дар кадом навишт ӯ дар натиҷа мемонад?",
+      "en": "Check mentally a product priced exactly 10: in which of the two spellings does it stay in the result?"
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -835,7 +1055,13 @@
        "en": "category LIKE NULL"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Сравнение через равно с неизвестным не работает; для проверки отсутствия значения есть свой оператор.",
+      "tg": "Муқоиса бо баробар бо номаълум кор намекунад; барои санҷиши набудани арзиш оператори алоҳида ҳаст.",
+      "en": "Equals-comparison with an unknown does not work; there is a dedicated operator to test absence."
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-05-q2",
@@ -873,6 +1099,43 @@
       "en": "Evaluate category = NULL first, then ask which results WHERE keeps."
      },
      "relatedSection": 3
+    },
+    {
+     "id": "sql-day-05-q3",
+     "question": {
+      "ru": "Сколько вернут COUNT(*) и COUNT(category) на таблице из 9 товаров, если у 3 категория NULL?",
+      "tg": "COUNT(*) ва COUNT(category) дар ҷадвали 9 мол чанд медиҳанд, агар 3-то категорияи NULL дошта бошанд?",
+      "en": "What do COUNT(*) and COUNT(category) return on a 9-product table when 3 categories are NULL?"
+     },
+     "answer": {
+      "ru": "9 и 6",
+      "tg": "9 ва 6",
+      "en": "9 and 6"
+     },
+     "options": [
+      {
+       "ru": "6 и 6",
+       "tg": "6 ва 6",
+       "en": "6 and 6"
+      },
+      {
+       "ru": "9 и 9",
+       "tg": "9 ва 9",
+       "en": "9 and 9"
+      },
+      {
+       "ru": "9 и 6",
+       "tg": "9 ва 6",
+       "en": "9 and 6"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Один счётчик видит строки, другой пропускает NULL-значения; обе цифры есть в выводе примера.",
+      "tg": "Як ҳисобкунак сатрҳоро мебинад, дигар арзишҳои NULL-ро мегузаронад; ҳарду адад дар натиҷаи намуна ҳастанд.",
+      "en": "One counter sees rows, the other skips NULL values; both numbers are in the example's output."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1015,7 +1278,13 @@
        "en": "Removes duplicate prices"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "ASC идёт от меньшего к большему; в какую сторону смотрит DESC?",
+      "tg": "Аз хурд ба калон ASC мегузарад; DESC ба кадом тараф нигоҳ мекунад?",
+      "en": "ASC goes from smaller to larger; which way does DESC look?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-06-q2",
@@ -1046,7 +1315,50 @@
        "en": "ORDER BY speeds up LIMIT"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "LIMIT отрезает первые строки результата; какой становится порядок без сортировки?",
+      "tg": "LIMIT сатрҳои аввали натиҷаро мебурад; бе ҷудокунӣ тартииб чӣ гуна мешавад?",
+      "en": "LIMIT cuts the first rows of the result; what happens to the order without sorting?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-06-q3",
+     "question": {
+      "ru": "Как сделать порядок стабильным, если у двух товаров одинаковая цена?",
+      "tg": "Чӣ гуна тартиибро устувор кардан мумкин аст, агар ду мол нархи якхела дошта бошанд?",
+      "en": "How do you make the order stable when two products share the same price?"
+     },
+     "answer": {
+      "ru": "Добавить второй ключ сортировки, например id",
+      "tg": "Илова кардани калиди дуюми ҷудокунӣ, масалан id",
+      "en": "Add a second sort key, for example id"
+     },
+     "options": [
+      {
+       "ru": "Убрать ORDER BY — база сама решит",
+       "tg": "ORDER BY-ро бардоштан — пойгоҳ худаш қарор медиҳад",
+       "en": "Drop ORDER BY — the database decides by itself"
+      },
+      {
+       "ru": "Добавить LIMIT 3",
+       "tg": "Илова кардани LIMIT 3",
+       "en": "Add LIMIT 3"
+      },
+      {
+       "ru": "Добавить второй ключ сортировки, например id",
+       "tg": "Илова кардани калиди дуюми ҷудокунӣ, масалан id",
+       "en": "Add a second sort key, for example id"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "При равных значениях первого ключа нужен другой столбец, который точно различает строки.",
+      "tg": "Ҳангоми арзишҳои баробари калидси аввал сутуни дигаре лозим аст, ки сатрҳоро дақиқ фарқ мекунад.",
+      "en": "When the first key ties, another column is needed that distinguishes the rows exactly."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1124,6 +1436,18 @@
     },
     {
      "title": {
+      "ru": "DISTINCT в реальном проекте: комбинации и цена",
+      "tg": "DISTINCT дар лоиҳаи воқеӣ: омезиши арзишҳо ва нарх",
+      "en": "DISTINCT in a real project: combinations and cost"
+     },
+     "body": {
+      "ru": "В настоящем проекте DISTINCT чаще всего открывает поиск дублей: SELECT DISTINCT по нескольким столбцам оставляет только неповторяющиеся комбинации значений — дешёвый способ увидеть, где одинаковые пары склеились. Цена приёма: база сравнивает значения между собой, поэтому на большой таблице DISTINCT без фильтра дорог — сужайте выборку WHERE-ом, как мы делали с категорией, прежде чем убирать повторы. NULL здесь ведёт себя как отдельное значение: третий запрос собрал все товары без категории в одну группу None — продолжение пятого дня, где мы отделяли «неизвестно» от нуля и пустой строки. Он не защищает таблицу от дублей — лишь показывает, какие значения уже есть; за защиту отвечает UNIQUE.",
+      "tg": "Дар лоиҳаи воқеӣ DISTINCT бештар дар ибтиёи ҷустуҷӯи нусхаҳои такрорӣ меистад: SELECT DISTINCT дар якчанд сутун фавран танҳо омезиши такрорнашавандаи арзишҳоро боқӣ мегузорад ва роҳи арзон барои дидани он аст, ки ҷуфтҳои якхела куҷо пайвастаанд. Нархи ин воситаро дар хотир доред: пойгоҳ маҷбур аст арзишҳоро бо якдигар муқоиса кунад, бинобар ин дар ҷадвали калон DISTINCT бе филтр кори намоён мешавад — интихобро пеш аз бардоштани такрорҳо бо WHERE танг кунед, мисли мо бо категория кардем. NULL ин ҷо ҳамчун арзиши алоҳида рафтор мекунад: дархости сеюм ҳамаи молҳои бе категорияро дар як гурӯҳи None ҷамъ овард — идомаи рӯзи панҷум, ки «номаълум»-ро аз сифр ва сатри холӣ ҷудо мекардем. DISTINCT-ро бо санҷиши беназирӣ омехта накунед: вай ҷадвалро аз такрор муҳофизат намекунад, танҳо нишон медиҳад, кадом арзишҳо аллакай ҳастанд; барои муҳофизат UNIQUE аз рӯзи бистуму сеюм масъул аст.",
+      "en": "In a real project DISTINCT most often opens the search for duplicates: SELECT DISTINCT over several columns immediately keeps only non-repeating value combinations — a cheap way to see where identical pairs have glued together. Remember the cost: the database has to compare values with each other, so on a large table an unfiltered DISTINCT becomes noticeable work — narrow the selection with WHERE, as we did with the category, before removing duplicates. NULL behaves here as a separate value: the third query collected all products without a category into a single None group — a continuation of day five, where we separated 'unknown' from zero and the empty string. And do not confuse DISTINCT with a uniqueness check: it does not protect the table from duplicates, it only shows which values already exist; protection is UNIQUE's job from day twenty-three."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -1177,7 +1501,13 @@
        "en": "Sorts ascending"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Речь не про удаление строк и не про сортировку; что происходит с одинаковыми значениями?",
+      "tg": "Сухан дар бораи ҳазфи сатрҳо ва на ҷудокунӣ нест; бо арзишҳои якхела чӣ мешавад?",
+      "en": "It is not about deleting rows and not about sorting; what happens to equal values?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-07-q2",
@@ -1208,7 +1538,50 @@
        "en": "9"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "NULL в подсчёт не попадает; посчитайте разные непустые категории в нашей таблице.",
+      "tg": "NULL ба ҳисоб намеафтад; категорияҳои гуногуни ғайрихолии ҷадвали моро ҳисоб кунед.",
+      "en": "NULL does not enter the count; count the distinct non-empty categories in our table."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-07-q3",
+     "question": {
+      "ru": "Сколько строк вернёт DISTINCT по столбцу, где все девять значений разные?",
+      "tg": "DISTINCT дар сутуне, ки ҳамаи нуҳ арзиш гуногунанд, чанд сатр мебарорад?",
+      "en": "How many rows does DISTINCT return over a column where all nine values differ?"
+     },
+     "answer": {
+      "ru": "Девять — убирать нечего",
+      "tg": "Нуҳ — такроре нест",
+      "en": "Nine — there is nothing to collapse"
+     },
+     "options": [
+      {
+       "ru": "Одну",
+       "tg": "Як",
+       "en": "One"
+      },
+      {
+       "ru": "Ни одной",
+       "tg": "Ҳеҷ",
+       "en": "None"
+      },
+      {
+       "ru": "Девять — убирать нечего",
+       "tg": "Нуҳ — такроре нест",
+       "en": "Nine — there is nothing to collapse"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "DISTINCT схлопывает только одинаковые значения; вспомните результат DISTINCT по уникальному id.",
+      "tg": "DISTINCT танҳо арзишҳои якхеларо меёд мекунад; натиҷаи DISTINCT аз рӯи id-и беназирро дар ёд биёред.",
+      "en": "DISTINCT collapses only equal values; recall the result of DISTINCT over a unique id."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1350,7 +1723,13 @@
        "en": "153"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "AVG даёт дробное число; вспомните сумму цен и число строк, по которым она считается.",
+      "tg": "AVG адади касрӣ медиҳад; ҷамъи нархҳо ва шумораи сатрҳои ҳисобшавандаро дар ёд биёред.",
+      "en": "AVG yields a fractional number; recall the sum of prices and the row count it divides by."
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-08-q2",
@@ -1388,6 +1767,43 @@
       "en": "Suppose the filter leaves no prices. Compare SUM to COUNT."
      },
      "relatedSection": 0
+    },
+    {
+     "id": "sql-day-08-q3",
+     "question": {
+      "ru": "Что вернёт COUNT(*) на пустой таблице?",
+      "tg": "COUNT(*) дар ҷадвали холӣ чиро бармегардонад?",
+      "en": "What does COUNT(*) return on an empty table?"
+     },
+     "answer": {
+      "ru": "0",
+      "tg": "0",
+      "en": "0"
+     },
+     "options": [
+      {
+       "ru": "NULL — считать нечего",
+       "tg": "NULL — ҳисоб карданӣ нест",
+       "en": "NULL — nothing to count"
+      },
+      {
+       "ru": "Ошибку выполнения",
+       "tg": "Хатои иҷро",
+       "en": "A runtime error"
+      },
+      {
+       "ru": "0",
+       "tg": "0",
+       "en": "0"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "У COUNT нет пустого набора: строк ноль, и счётчик это честно показывает. Сравните с SUM.",
+      "tg": "COUNT маҷмӯи холӣ надорад: сатрҳо сифранд ва ҳисобкунак инро ростикона нишон медиҳад. Бо SUM муқоиса кунед.",
+      "en": "COUNT has no empty-set case: there are zero rows, and the counter reports that honestly. Compare with SUM."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1567,7 +1983,50 @@
        "en": "3"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Фильтр IS NOT NULL убирает товары без категории; сколько групп осталось?",
+      "tg": "Филтри IS NOT NULL молҳои бе категорияро мебарад; чанд гурӯҳ монд?",
+      "en": "The IS NOT NULL filter drops products without a category; how many groups remain?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-09-q3",
+     "question": {
+      "ru": "В какой части запроса можно использовать AVG(price) как условие?",
+      "tg": "Дар кадом қисми дархост AVG(price)-ро ҳамчун шарт истифода бурдан мумкин аст?",
+      "en": "In which part of a query can AVG(price) be used as a condition?"
+     },
+     "answer": {
+      "ru": "В HAVING",
+      "tg": "Дар HAVING",
+      "en": "In HAVING"
+     },
+     "options": [
+      {
+       "ru": "В WHERE",
+       "tg": "Дар WHERE",
+       "en": "In WHERE"
+      },
+      {
+       "ru": "В LIMIT",
+       "tg": "Дар LIMIT",
+       "en": "In LIMIT"
+      },
+      {
+       "ru": "В HAVING",
+       "tg": "Дар HAVING",
+       "en": "In HAVING"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Фильтр работает по уже собранным группам; вспомните порядок FROM → WHERE → GROUP BY → …",
+      "tg": "Филтр аз рӯи гурӯҳҳои аллакай ҷамъшуда кор мекунад; тартиби FROM → WHERE → GROUP BY → …-ро дар ёд биёред.",
+      "en": "The filter works over already-built groups; recall the order FROM → WHERE → GROUP BY → …"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1710,7 +2169,13 @@
        "en": "Any query with MIN or MAX"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Внешний запрос сравнивает цену каждой строки с одним числом; сколько значений возвращает внутренний?",
+      "tg": "Дархости берунӣ нархи ҳар сатрро бо як адад муқоиса мекунад; дархости дохилӣ чанд арзиш бармегардонад?",
+      "en": "The outer query compares each row's price with one number; how many values does the inner query return?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-10-q2",
@@ -1741,7 +2206,50 @@
        "en": "Honey|45"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Четвёртый запрос ищет максимум по пекарне; переберите её цены.",
+      "tg": "Дархости чорум максимуми пекарняро меҷӯяд; нархҳояшро як-як диққат диҳед.",
+      "en": "The fourth query looks for the bakery's maximum; go through its prices one by one."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-10-q3",
+     "question": {
+      "ru": "Что вернёт запрос с price = (SELECT MIN(price) FROM products), если минимальную цену имеют два товара?",
+      "tg": "Дархости price = (SELECT MIN(price) FROM products) чиро бармегардонад, агар нархи ҳаддӣ ду мол дошта бошад?",
+      "en": "What does price = (SELECT MIN(price) FROM products) return when two products share the minimum price?"
+     },
+     "answer": {
+      "ru": "Обе строки с этой ценой",
+      "tg": "Ҳарду сатри бо ҳамин нарх",
+      "en": "Both rows with that price"
+     },
+     "options": [
+      {
+       "ru": "Только первую случайно",
+       "tg": "Танҳо якумро тасодуфан",
+       "en": "Only the first one, arbitrarily"
+      },
+      {
+       "ru": "Ошибку выполнения",
+       "tg": "Хатои иҷро",
+       "en": "A runtime error"
+      },
+      {
+       "ru": "Обе строки с этой ценой",
+       "tg": "Ҳарду сатри бо ҳамин нарх",
+       "en": "Both rows with that price"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Внешний запрос сравнивает цену каждой строки с одним числом; сколько строк пройдут сравнение?",
+      "tg": "Дархости берунӣ нархи ҳар сатрро бо як адад муқоиса мекунад; чанд сатр муқоисаро мегузаронанд?",
+      "en": "The outer query compares each row's price with one number; how many rows pass the comparison?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -1819,6 +2327,18 @@
     },
     {
      "title": {
+      "ru": "INSERT в реальном проекте: неполные данные",
+      "tg": "INSERT дар лоиҳаи воқеӣ: маълумоти нопурра",
+      "en": "INSERT in a real project: incomplete data"
+     },
+     "body": {
+      "ru": "В рабочей вставке данные редко бывают полными: форма пришла без города, счётчик создал запись до расчёта суммы. Таблица отвечает как в примере: столбец без значения получает DEFAULT, а если DEFAULT нет — NULL. Отсюда два вопроса перед каждой вставкой. Первый: какие столбцы обязательны? Столбец с NOT NULL без значения остановит вставку с ошибкой — и это хорошо: лучше отказ в момент записи, чем молчаливая дыра в данных, как CHECK во втором дне защищал остаток. Второй: что означают пропуски? NULL в категории — честное «неизвестно», а не пустота, и пятый день показал, как такие строки ищутся IS NULL. Перечисляйте столбцы явно: список столбцов — контракт, который не сломается молча.",
+      "tg": "Дар сарфи корӣ маълумот камбағал аст: шакл бе шаҳр омадааст, ҳисобкунак сабтро пеш аз ҳисоби маблағ сохтааст. Ҷадвал мисли дар намуна ҷавоб медиҳад: сутуне, ки арзиш надорад, DEFAULT мегирад, ва агар DEFAULT набошад — NULL. Аз ин ду савол пеш аз ҳар сарф пайдо мешавад. Якум: кадом сутунҳо ҳаттианд? Сутуни NOT NULL бе арзиш сарфро бо хато меборад — ва ин хуб аст: беҳтар аст бозхост дар лаҳзаи навишт бошад, на ковокии бе овоз дар маълумот, мисли CHECK дар рӯзи дуюм боқимондаро аз манфӣ ҳифз мекард. Дуюм: маънии ҷойҳои холӣ чист? NULL дар сутуни категория «номаълум»-и ростӣ аст, на холӣ, ва рӯзи панҷум нишон дод, ки чунин сатрҳо бо IS NULL ҷустуҷӯ мешаванд. Ҳатто дар сарфҳои кӯтоҳ сутунҳоро ошкоро номбар кунед: рӯйхати сутунҳо шартнома аст, ки баъди калон шудани ҷадвал бе овоз naшикаста намемонад.",
+      "en": "In a working insert the data is rarely complete: a form arrived without a city, a counter created a record before the sum was computed. The table answers as we saw in the example: a column without a value takes its DEFAULT, and if there is no DEFAULT — NULL. Two questions follow before every insert. First: which columns are required? A NOT NULL column without a value stops the insert with an error — and that is good: better a refusal at write time than a silent hole in the data, just as CHECK protected the stock from minus on day two. Second: what do the gaps mean? NULL in the category column is an honest 'unknown', not emptiness, and day five showed how such rows are found with IS NULL. List the columns explicitly even in short inserts: the column list is a contract that will not silently break when the table grows."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -1872,7 +2392,13 @@
        "en": "Zero"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "INTEGER PRIMARY KEY сам находит номер; что он делает с максимальным существующим?",
+      "tg": "INTEGER PRIMARY KEY худаш рақамро меёбад; бо рақами мавҷудаи калонтарин чӣ мекунад?",
+      "en": "INTEGER PRIMARY KEY finds the number by itself; what does it do with the existing maximum?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-11-q2",
@@ -1903,7 +2429,50 @@
        "en": "An insert error"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Столбцы без значения получают разное; категория и остаток в примере получили разное.",
+      "tg": "Сутунҳои бе арзиш гуногун мегиранд; категория ва боқимонда дар намуна гуногун гирифтанд.",
+      "en": "Columns without values receive different things; category and stock in the example received different ones."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-11-q3",
+     "question": {
+      "ru": "Что случится при INSERT, если не указать обязательный NOT NULL столбец без DEFAULT?",
+      "tg": "Ҳангоми INSERT чӣ мешавад, агар сутуни ҳаттии NOT NULL бе DEFAULT нишон дода нашавад?",
+      "en": "What happens on INSERT when a required NOT NULL column without DEFAULT is omitted?"
+     },
+     "answer": {
+      "ru": "Вставка отклонится с ошибкой",
+      "tg": "Сарф бо хато рад мешавад",
+      "en": "The insert is rejected with an error"
+     },
+     "options": [
+      {
+       "ru": "Вставится NULL",
+       "tg": "NULL сарф мешавад",
+       "en": "NULL is inserted"
+      },
+      {
+       "ru": "Вставится 0",
+       "tg": "0 сарф мешавад",
+       "en": "0 is inserted"
+      },
+      {
+       "ru": "Вставка отклонится с ошибкой",
+       "tg": "Сарф бо хато рад мешавад",
+       "en": "The insert is rejected with an error"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "База не придумывает значения за вас; вспомните, кто защищает таблицу от пропусков.",
+      "tg": "Пойгоҳ ба ҷои шумо арзиш ихтироъ намекунад; дар ёд биёред, ки кӣ ҷадвалро аз ковокӣ муҳофизат мекунад.",
+      "en": "The database does not invent values for you; recall who protects the table from gaps."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1980,6 +2549,18 @@
     },
     {
      "title": {
+      "ru": "UPDATE в реальном проекте: репетиция условия",
+      "tg": "UPDATE дар лоиҳаи воқеӣ: машқи шарт",
+      "en": "UPDATE in a real project: rehearsing the condition"
+     },
+     "body": {
+      "ru": "Опасный UPDATE в настоящем проекте выполняют в три шага. Сначала репетиция: SELECT с тем же WHERE, который вы готовите для UPDATE, показывает, какие строки попадут под изменение; вчера мы доверяли изменениям changes(), сегодня доверяем условию до того, как оно коснётся данных. Второй шаг — изменение внутри транзакции, о которой пойдёт речь в двадцать седьмом дне: до COMMIT всё ещё можно отменить. До изменения сохраните устойчивые id выбранных строк. Третий шаг — SELECT по этим id и сверка с предсказанием: если UPDATE изменил столбец из WHERE, прежнее условие больше не найдёт строку. Тихий случай: если условие не нашло ни одной строки, UPDATE не ошибётся — changes() вернёт 0, и только привычка сверять это число спасает отчёт. Правило простое: нет SELECT-репетиции — нет UPDATE в рабочей таблице.",
+      "tg": "UPDATE-и хатарнокро дар лоиҳаи воқеӣ дар се қадам иҷро мекунанд. Аввал машқ: SELECT бо ҳамон WHERE, ки барои UPDATE омода мекунед, нишон медиҳад, кадом сатрҳо тағйир меёбанд; дируз ба тағйирот бо changes() бовар мекардем, имрӯз пеш аз расидан ба маълумот ба шарт бовар мекунем. Қадами дуюм — тағйир дохили транзитсия, ки дар рӯзи бистуму ҳафтум меояд: то COMMIT ҳама чизро бартараф кардан мумкин аст. Пеш аз тағйир id-ҳои собити сатрҳои интихобшударо сабт кунед. Сеюм — SELECT аз рӯи ҳамин id-ҳо ва муқоиса бо пешгӯӣ: агар UPDATE сутуни WHERE-ро иваз кунад, шарти пешина сатрро дигар намеёбад. Ба ҳолати бе овоз таваҷҷӯҳ кунед: агар шарт ягон сатрро наёбад, UPDATE хато намекунад ва огоҳ намекунад — changes() 0 бармегардонад ва танҳо одати муқоисаи ин адад бо интизорӣ ҳисоботро наҷот медиҳад. Қоида содда аст: машқи SELECT бо ҳамон шарт набошад — дар ҷадвали корӣ UPDATE набошад.",
+      "en": "A dangerous UPDATE in a real project runs in three steps. First a rehearsal: a SELECT with the same WHERE you prepared for the UPDATE shows which rows will be affected; yesterday we trusted changes() to report what changed, today we trust the condition before it touches the data. The second step is the change inside a transaction, which arrives on day twenty-seven: before COMMIT everything can still be undone. Before changing anything, record stable ids of the selected rows. Third — verify with SELECT by those ids and compare with the prediction: if UPDATE changed a column in WHERE, the old condition may no longer find the row. Note the silent case: if the condition matched no rows, the UPDATE neither fails nor warns — changes() returns 0, and only the habit of checking that number against expectations saves the report. The rule is simple: no SELECT rehearsal with the same condition, no UPDATE in a working table."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -2033,7 +2614,13 @@
        "en": "It raises a syntax error"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Условие выбирает строки; что произойдёт со всеми остальными без него?",
+      "tg": "Шарт сатрҳоро интихоб мекунад; бо тамоми дигарон бе он чӣ мешавад?",
+      "en": "The condition selects rows; what happens to all the rest without it?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-12-q2",
@@ -2064,7 +2651,50 @@
        "en": "The total row count of the table"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "После изменения функция сообщает число; какое именно число она возвращает?",
+      "tg": "Пас аз тағйир функсия ададро мегӯяд; айнан кадом ададро бармегардонад?",
+      "en": "After the change the function reports a number; which exact number does it return?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-12-q3",
+     "question": {
+      "ru": "С чего начать опасный UPDATE в рабочей таблице?",
+      "tg": "UPDATE-и хатарнокро дар ҷадвали корӣ аз куҷо оғоз кардан лозим аст?",
+      "en": "How do you start a risky UPDATE on a working table?"
+     },
+     "answer": {
+      "ru": "С SELECT с тем же условием WHERE",
+      "tg": "Бо SELECT бо ҳамон шарт ва WHERE",
+      "en": "With a SELECT using the same WHERE condition"
+     },
+     "options": [
+      {
+       "ru": "С копии таблицы в файл",
+       "tg": "Бо нусхаи ҷадвал ба файл",
+       "en": "By copying the table to a file"
+      },
+      {
+       "ru": "С увеличения LIMIT",
+       "tg": "Бо зиёд кардани LIMIT",
+       "en": "By increasing LIMIT"
+      },
+      {
+       "ru": "С SELECT с тем же условием WHERE",
+       "tg": "Бо SELECT бо ҳамон шарт ва WHERE",
+       "en": "With a SELECT using the same WHERE condition"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Изменение должно коснуться ровно нужных строк; сначала посмотрите их глазами.",
+      "tg": "Тағйир бояд айнан сатрҳои лозимиро фаро гирад; аввал онҳоро бо чашмон бинед.",
+      "en": "The change must touch exactly the right rows; look at them with your own eyes first."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2141,6 +2771,18 @@
     },
     {
      "title": {
+      "ru": "Возврат данных после мягкого удаления",
+      "tg": "Бозгашти маълумот пас аз ҳазфи мулоим",
+      "en": "Bringing data back after a soft delete"
+     },
+     "body": {
+      "ru": "Мягкое удаление, которое мы применили к Cake, обладает незаметным плюсом: строку можно вернуть. UPDATE products SET deleted = 0 WHERE id = 5 — и товар снова виден; настоящее DELETE ничего не возвращает. За это платят дисциплиной: каждый читающий запрос обязан помнить про WHERE deleted = 0, и забытый фильтр вернёт «удалённые» строки в отчёт — та же ловушка, что в разделе запуска. В настоящем проекте под мягкое удаление добавляют служебные столбцы: кто пометил и когда. Проверьте: пометьте Cake удалённым, убедитесь, что список его не показывает, верните флаг и сравните счётчики — COUNT(*) не менялся ни разу: пометка не удалила ни одной строки.",
+      "tg": "Ҳазфи мулоим, ки ба Cake татбиқ кардем, фоидаи ноаёнӣ дорад: сатрро баргардонидан мумкин аст. UPDATE products SET deleted = 0 WHERE id = 5 — ва мол боз намоён мешавад, зеро физикӣ ҷое нарафта буд; ҳазфи воқеӣ, мисли дидем, ҳеҷ чизро намегардонад. Барои ин бо тартииб пардохт мешавад: ҳар дархости хонанда вазифа дорад WHERE deleted = 0-ро дар хотир дошта бошад ва филтри фаромӯшшуда сатрҳои «ҳазфшударо» ба ҳисобот бармегардонад — ҳамон доме, ки дар бахши иҷро омадааст. Дар лоиҳаи воқеӣ ба ҳазфи мулоим сутунҳои хидматӣ илова мекунанд: кӣ нишон додааст ва кай — он гоҳ баргардонидан ва тафтиш маънӣ меёбанд. Дар ҷадвали худ санҷед: Cake-ро ҳазфшуда нишон дед, мутмаин шавед, ки рӯйхат вайро наменишонад, парчамро баргардонед ва ҳисобкунакҳоро муқоиса кунед — COUNT(*) як бор ҳам тағйир наёфтааст, зеро нишон ягон сатрро ҳазф накардааст.",
+      "en": "The soft delete we applied to Cake has an invisible bonus: the row can be brought back. UPDATE products SET deleted = 0 WHERE id = 5 — and the product is visible again, because physically it never left; a real DELETE, as we saw, returns nothing. The price is discipline: every reading query must remember WHERE deleted = 0, and a forgotten filter brings the 'deleted' rows back into the report — the same trap described in the run section. A real project adds service columns for the soft delete: who marked and when — then restoring and auditing make sense. Check it on our table: mark Cake deleted, make sure the list hides it, flip the flag back and compare the counters — COUNT(*) never changed, because marking did not delete a single row."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -2194,7 +2836,13 @@
        "en": "It deletes nothing"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сравните с UPDATE без WHERE: условие ограничивает круг строк, и без него круг — вся таблица.",
+      "tg": "Бо UPDATE-и бе WHERE муқоиса кунед: шарт доираи сатрҳоро танг мекунад ва бе он доира тамоми ҷадвал аст.",
+      "en": "Compare with UPDATE without WHERE: the condition narrows the set of rows, and without it the set is the whole table."
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-13-q2",
@@ -2225,7 +2873,50 @@
        "en": "Locks the table against changes"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Строка физически остаётся; чем её помечают и какой запрос её прячет?",
+      "tg": "Сатр физикӣ мемонад; бо чӣ нишон медиҳанд ва кадом дархост онро пинҳон мекунад?",
+      "en": "The row physically remains; what marks it and which query hides it?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-13-q3",
+     "question": {
+      "ru": "Чем DROP TABLE products отличается от DELETE FROM products?",
+      "tg": "DROP TABLE products аз DELETE FROM products чӣ фарқ дорад?",
+      "en": "How does DROP TABLE products differ from DELETE FROM products?"
+     },
+     "answer": {
+      "ru": "DROP удаляет саму таблицу, DELETE — только строки",
+      "tg": "DROP худи ҷадвалро меҳазфад, DELETE — танҳо сатрҳоро",
+      "en": "DROP removes the table itself, DELETE removes only rows"
+     },
+     "options": [
+      {
+       "ru": "Ничем — это синонимы",
+       "tg": "Ҳеҷ — ин ҳаммаъноҳанд",
+       "en": "Nothing — they are synonyms"
+      },
+      {
+       "ru": "DROP удаляет только первую строку",
+       "tg": "DROP танҳо сатри аввалро меҳазфад",
+       "en": "DROP removes only the first row"
+      },
+      {
+       "ru": "DROP удаляет саму таблицу, DELETE — только строки",
+       "tg": "DROP худи ҷадвалро меҳазфад, DELETE — танҳо сатрҳоро",
+       "en": "DROP removes the table itself, DELETE removes only rows"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Один запрос оставляет пустую, но живую таблицу; другой убирает её из схемы целиком.",
+      "tg": "Як дархост ҷадвали холӣ, вале зиндаро боқӣ мегузорад; дигарӣ онро аз схема комилан меборад.",
+      "en": "One query leaves an empty but living table; the other removes it from the schema entirely."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2368,7 +3059,13 @@
        "en": "An ordinary column with no special meaning"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "В SQLite этот столбец связан с внутренним номером строки; назовите связь.",
+      "tg": "Дар SQLite ин сутун бо рақами дохилии сатр пайваст аст; пайвандро номбар кунед.",
+      "en": "In SQLite this column is tied to the row's internal number; name the connection."
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-14-q2",
@@ -2399,7 +3096,50 @@
        "en": "NULL"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Без AUTOINCREMENT новый номер считается от максимума; что с удалённым максимумом?",
+      "tg": "Бе AUTOINCREMENT рақами нав аз максимум ҳисоб мешавад; бо максимуми ҳазфшуда чӣ мешавад?",
+      "en": "Without AUTOINCREMENT the new number counts from the maximum; what about the deleted maximum?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-14-q3",
+     "question": {
+      "ru": "Что произойдёт при попытке вставить строку с уже занятым id?",
+      "tg": "Ҳангоми кӯшиши сарфи сатри бо id-и аллакай ишғолшуда чӣ мешавад?",
+      "en": "What happens when you try to insert a row with an already occupied id?"
+     },
+     "answer": {
+      "ru": "Ошибка UNIQUE constraint failed",
+      "tg": "Хатои UNIQUE constraint failed",
+      "en": "A UNIQUE constraint failed error"
+     },
+     "options": [
+      {
+       "ru": "Новая строка перезапишет старую",
+       "tg": "Сатри нав кӯҳнаро аз нав менависад",
+       "en": "The new row overwrites the old one"
+      },
+      {
+       "ru": "id присвоится автоматически",
+       "tg": "id худкор таъин мешавад",
+       "en": "id is assigned automatically"
+      },
+      {
+       "ru": "Ошибка UNIQUE constraint failed",
+       "tg": "Хатои UNIQUE constraint failed",
+       "en": "A UNIQUE constraint failed error"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Первичный ключ обязан быть один на строку; база не может молча разрешить конфликт.",
+      "tg": "Калидси асосӣ бояд ба як сатр тааллуқ дошта бошад; пойгоҳ низоъро бе овоз ҳал карда наметавонад.",
+      "en": "A primary key must be one per row; the database cannot silently resolve the conflict."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2541,7 +3281,13 @@
        "en": "It sorts orders by customers"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Столбец заказа ссылается на строку в другой таблице; что именно задаёт эта ссылка?",
+      "tg": "Сутуни фармоиш ба сатри ҷадвали дигар ишора мекунад; айнан ин ишора чиро муайян мекунад?",
+      "en": "The order column references a row in another table; what exactly does the reference define?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-15-q2",
@@ -2577,6 +3323,43 @@
       "ru": "Проверка относится к соединению. Найдите команду, которая задаёт настройку до BEGIN.",
       "tg": "Санҷиш ба пайваст дахл дорад. Фармонеро ёбед, ки танзимро пеш аз BEGIN мегузорад.",
       "en": "The setting belongs to the connection. Find the command that sets it before BEGIN."
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "sql-day-15-q3",
+     "question": {
+      "ru": "Что вернёт вставка заказа с customer_id = 99, если покупателя 99 нет и PRAGMA foreign_keys = ON включён?",
+      "tg": "Сарфи фармоиш бо customer_id = 99 чиро бармегардонад, агар харидори 99 набошад ва PRAGMA foreign_keys = ON фаъол бошад?",
+      "en": "What does inserting an order with customer_id = 99 return when customer 99 does not exist and PRAGMA foreign_keys = ON is enabled?"
+     },
+     "answer": {
+      "ru": "Ошибка FOREIGN KEY constraint failed",
+      "tg": "Хатои FOREIGN KEY constraint failed",
+      "en": "A FOREIGN KEY constraint failed error"
+     },
+     "options": [
+      {
+       "ru": "Заказ вставится молча",
+       "tg": "Фармоиш бе овоз сарф мешавад",
+       "en": "The order is inserted silently"
+      },
+      {
+       "ru": "Заказ вставится с NULL вместо ссылки",
+       "tg": "Фармоиш бо NULL ба ҷои ишора сарф мешавад",
+       "en": "The order is inserted with NULL instead of the link"
+      },
+      {
+       "ru": "Ошибка FOREIGN KEY constraint failed",
+       "tg": "Хатои FOREIGN KEY constraint failed",
+       "en": "A FOREIGN KEY constraint failed error"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ссылка — обещание, которое проверяет база, когда включена проверка; вспомните, что бывает без пары.",
+      "tg": "Ишора — ваъдаест, ки пойгоҳ ҳангоми фаъол будани санҷиш тафтиш мекунад; дар ёд биёред, ки бе ҷуфт чӣ мешавад.",
+      "en": "The link is a promise the database checks when enforcement is on; recall what happens without a pair."
      },
      "relatedSection": 3
     }
@@ -2721,7 +3504,13 @@
        "en": "It removes duplicates from the result"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Склейка проверяет условие для каждой пары строк; что определяет условие?",
+      "tg": "Пайваст шартро ба ҳар ҷуфти сатр тафтиш мекунад; шарт чиро муайян мекунад?",
+      "en": "The join tests the condition for every pair of rows; what does the condition define?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-16-q2",
@@ -2759,6 +3548,43 @@
       "en": "Write down the pairs that meet ON for Sitora. Is there a matching order?"
      },
      "relatedSection": 0
+    },
+    {
+     "id": "sql-day-16-q3",
+     "question": {
+      "ru": "Сколько строк INNER JOIN даст для клиента, у которого три заказа?",
+      "tg": "INNER JOIN барои харидоре, ки се фармоиш дорад, чанд сатр медиҳад?",
+      "en": "How many rows does INNER JOIN produce for a customer with three orders?"
+     },
+     "answer": {
+      "ru": "Три — по одной на каждый заказ",
+      "tg": "Се — ба ҳар фармоиш як сатр",
+      "en": "Three — one per order"
+     },
+     "options": [
+      {
+       "ru": "Одну",
+       "tg": "Як",
+       "en": "One"
+      },
+      {
+       "ru": "Ни одной",
+       "tg": "Ҳеҷ",
+       "en": "None"
+      },
+      {
+       "ru": "Три — по одной на каждый заказ",
+       "tg": "Се — ба ҳар фармоиш як сатр",
+       "en": "Three — one per order"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "INNER оставляет по строке на каждую удачную пару; считайте пары, а не клиентов.",
+      "tg": "INNER ба ҳар ҷуфти муваффақ як сатр боқӣ мегузорад; ҷуфтҳоро ҳисоб кунед, на харидорон.",
+      "en": "INNER keeps one row per successful pair; count pairs, not customers."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -2901,7 +3727,13 @@
        "en": "It joins three tables at once"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Один JOIN выбрасывает непарные строки слева; другой сохраняет их.",
+      "tg": "Як JOIN сатрҳои ҷуфтнашавандаи чапро мебарорад; дигарӣ онҳоро нигоҳ медорад.",
+      "en": "One JOIN drops unpaired left rows; the other keeps them."
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-17-q2",
@@ -2939,6 +3771,43 @@
       "en": "Look at o.id in the customer row with no order."
      },
      "relatedSection": 0
+    },
+    {
+     "id": "sql-day-17-q3",
+     "question": {
+      "ru": "Что окажется в столбцах правой таблицы, если у строки слева нет пары в LEFT JOIN?",
+      "tg": "Дар сутунҳои ҷадвали рост чӣ меафтад, агар сатри чап дар LEFT JOIN ҷуфт надошта бошад?",
+      "en": "What appears in the right table's columns when a left row has no pair in LEFT JOIN?"
+     },
+     "answer": {
+      "ru": "NULL",
+      "tg": "NULL",
+      "en": "NULL"
+     },
+     "options": [
+      {
+       "ru": "0",
+       "tg": "0",
+       "en": "0"
+      },
+      {
+       "ru": "Пустая строка",
+       "tg": "Сатри холӣ",
+       "en": "An empty string"
+      },
+      {
+       "ru": "NULL",
+       "tg": "NULL",
+       "en": "NULL"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Левая строка сохраняется целиком; вспомните, чем база заполняет несовпавшие поля справа.",
+      "tg": "Сатри чап пурра боқӣ мемонад; дар ёд биёред, ки пойгоҳ майдонҳои мутобиқнашавандаи ростро бо чи пур мекунад.",
+      "en": "The left row is kept whole; recall what the database fills the unmatched right-side fields with."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -3016,6 +3885,18 @@
     },
     {
      "title": {
+      "ru": "Алиасы в реальном отчёте и неоднозначные столбцы",
+      "tg": "Тахаллусҳо дар ҳисоботи воқеӣ ва сутунҳои ноаён",
+      "en": "Aliases in a real report and ambiguous columns"
+     },
+     "body": {
+      "ru": "В настоящем отчёте алиасы решают ту же задачу, что короткие имена таблиц в шестнадцатом дне: читаемость. Вычисляемым столбцам вроде p.price * oi.quantity дают осмысленное имя — иначе заголовок отчёта будет выражением, а не словом. Вторая роль — борьба с неоднозначностью: у соединённых customers и orders есть общий столбец id, и без префиксов SQLite ответит ошибкой ambiguous column name; префикс c.id против o.id — способ сказать базе, чей столбец имеется в виду. Третья роль — стабильность: отчёт по алиасам не сломается, когда внутреннее выражение перепишут. Граница: алиас доступен ORDER BY, потому что сортировка идёт после SELECT, но в WHERE того же запроса лучше повторить выражение. SQLite допускает алиасы SELECT в WHERE как расширение, но другие СУБД могут это отклонить. Для переносимого запроса повторите выражение или используйте подзапрос.",
+      "tg": "Дар ҳисоботи воқеӣ тахаллусҳо ҳамон вазифаро иҷро мекунанд, ки номҳои кӯтоҳи ҷадвалҳо дар рӯзи шонздаҳум: хонандагӣ. Сутунҳои ҳисобшаванда, монанди p.price * oi.quantity, ҳатман номи маънодор мегиранд — вагарна сарлавҳаи ҳисобот ифода мешавад, на калима. Вазифаи дуюм — мубориза бо ноаёнӣ: дар customers ва orders-и пайваста сутуни умумии id ҳаст, ва бе префикс SQLite бо хатои ambiguous column name ҷавоб медиҳад; префикси c.id дар муқобили o.id услуб нест, роҳи баён кардан ба пойгоҳ аст, ки кадом сутун маънидор аст. Вазифаи сеюм — устуворӣ: ҳисоботе, ки аз рӯи тахаллус сохта шудааст, бо азнавнависии ифодаи дохилӣ нашиканад. Ва марзро дар хотир доред: тахаллус ба ORDER BY дастрас аст, зеро ҷудокунӣ пас аз SELECT меояд, вале дар WHERE-и ҳамон дархост беҳтар аст ифодаро такрор кунед. SQLite тахаллуси SELECT-ро дар WHERE ҳамчун extension қабул мекунад, вале дигар СУБД метавонад рад кунад. Барои дархости гузаранда ифодаро такрор кунед ё зердархост гиред.",
+      "en": "In a real report aliases do the same job short table names did on day sixteen: readability. Computed columns like p.price * oi.quantity always get a meaningful name — otherwise the report header is an expression, not a word. The second role is fighting ambiguity: joined customers and orders share the id column, and without prefixes SQLite answers with the ambiguous column name error; the prefix c.id against o.id is not style, it is the way to tell the database whose column you mean. The third role is stability: a report built on aliases does not break when the inner expression is rewritten. And remember the boundary: an alias is available to ORDER BY, because sorting runs after SELECT, but in the WHERE of the same query it is better to repeat the expression. SQLite accepts SELECT aliases in WHERE as an extension, but other database systems may reject them. Repeat the expression or use a subquery for portability."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -3069,7 +3950,13 @@
        "en": "To speed up the query"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Заголовок в выводе становится словом, а не выражением; что переименование даёт читателю?",
+      "tg": "Сарлавҳа дар барориш калима мешавад, на ифода; азнавномгузорӣ ба хонанда чӣ медиҳад?",
+      "en": "The header in the output becomes a word, not an expression; what does renaming give the reader?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-18-q2",
@@ -3100,7 +3987,50 @@
        "en": "They are stored in a separate index"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Имя живёт внутри одного запроса; что остаётся после его выполнения?",
+      "tg": "Ном дар дохили як дархост зиндагӣ мекунад; пас аз иҷроаш чӣ мемонад?",
+      "en": "The name lives inside one query; what remains after it executes?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-18-q3",
+     "question": {
+      "ru": "Что вернёт запрос с одинаковым столбцом name в двух соединённых таблицах без префиксов?",
+      "tg": "Дархост бо сутуни якхелаи name дар ду ҷадвали пайваста бе префикс чиро бармегардонад?",
+      "en": "What does a query referencing the same column name in two joined tables without prefixes return?"
+     },
+     "answer": {
+      "ru": "Ошибку ambiguous column name",
+      "tg": "Хатои ambiguous column name",
+      "en": "The ambiguous column name error"
+     },
+     "options": [
+      {
+       "ru": "Значение из первой таблицы",
+       "tg": "Арзиш аз ҷадвали аввал",
+       "en": "The value from the first table"
+      },
+      {
+       "ru": "Объединение двух значений",
+       "tg": "Пайвасти ду арзиш",
+       "en": "A combination of both values"
+      },
+      {
+       "ru": "Ошибку ambiguous column name",
+       "tg": "Хатои ambiguous column name",
+       "en": "The ambiguous column name error"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "База не угадывает, чей столбец вы имели в виду; префикс таблицы снимает вопрос.",
+      "tg": "Пойгоҳ нахалад, ки сутуни киро маънидор доштед; префикси ҷадвал саволро ҳал мекунад.",
+      "en": "The database does not guess whose column you mean; the table prefix removes the question."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3243,7 +4173,13 @@
        "en": "All nine products"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Внутренний запрос даёт максимальную цену; кто в таблице дороже всех?",
+      "tg": "Дархости дохилӣ нархи калонтаринро медиҳад; дар ҷадвал аз ҳама кӣ қиматтар аст?",
+      "en": "The inner query yields the maximum price; who in the table is the most expensive?"
+     },
+     "relatedSection": 2
     },
     {
      "id": "sql-day-19-q2",
@@ -3274,7 +4210,50 @@
        "en": "LIKE"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Результат внутреннего запроса — много строк; какой оператор проверяет вхождение в список?",
+      "tg": "Натиҷаи дархости дохилӣ сатрҳои бисёр аст; кадом оператор аъзоияти рӯйхатро тафтиш мекунад?",
+      "en": "The inner query's result is many rows; which operator tests membership in a list?"
+     },
+     "relatedSection": 3
+    },
+    {
+     "id": "sql-day-19-q3",
+     "question": {
+      "ru": "Что вернёт скалярный подзапрос, который не нашёл ни одной строки?",
+      "tg": "Зердархости скаляре, ки ягон сатрро наёфтааст, чиро бармегардонад?",
+      "en": "What does a scalar subquery that found no rows return?"
+     },
+     "answer": {
+      "ru": "NULL",
+      "tg": "NULL",
+      "en": "NULL"
+     },
+     "options": [
+      {
+       "ru": "0",
+       "tg": "0",
+       "en": "0"
+      },
+      {
+       "ru": "Пустой список",
+       "tg": "Рӯйхати холӣ",
+       "en": "An empty list"
+      },
+      {
+       "ru": "NULL",
+       "tg": "NULL",
+       "en": "NULL"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Скалярный подзапрос обязан дать одно значение даже из нуля строк; вспомните, какое.",
+      "tg": "Зердархости скалярӣ вазифа дорад ҳатто аз сифр сатр як арзиш диҳад; дар ёд биёред, кадомро.",
+      "en": "A scalar subquery must yield one value even from zero rows; recall which one."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3351,6 +4330,18 @@
     },
     {
      "title": {
+      "ru": "CASE в реальном отчёте: порядок веток",
+      "tg": "CASE дар ҳисоботи воқеӣ: тартииби шохаҳо",
+      "en": "CASE in a real report: branch order"
+     },
+     "body": {
+      "ru": "Порядок CASE важен при пересечении условий: для price=30 истинны и price>=10, и price>=25; SQLite берёт первую истинную ветку. Поэтому дорогой диапазон ставят первым, а пороги проверяют отдельно. Для Tea с ценой12 истинна только проверка >=10 из этой пары. Без ELSE несовпавшая строка получает NULL. При GROUP BY по такому CASE эти строки не исчезают: они входят в общую NULL-группу. А COUNT(метка) не считает NULL, в отличие от COUNT(*).\n\nСравните группы для CASE с ELSE и без него. Проверьте и цену30, и цену ниже всех порогов. CASE вычисляет метку в запросе, не меняя сохранённую таблицу.",
+      "tg": "Тартиби CASE ҳангоми ба ҳам расидани шартҳо муҳим аст: барои price=30 ҳам price>=10 ва ҳам price>=25 true мешавад; SQLite шохаи аввалини true-ро мегирад. Барои ҳамин диапазони гаронро аввал монда, ҳудудҳоро ҷудо месанҷанд. Барои Tea бо нархи12 аз ин ду шарт танҳо >=10 true аст. Бе ELSE сатри номувофиқ NULL мегирад. Ҳангоми GROUP BY аз рӯи ҳамин CASE ин сатрҳо гум намешаванд: ба гурӯҳи умумии NULL медароянд. Вале COUNT(метка) NULL-ро намешуморад, COUNT(*) мешуморад.\n\nГурӯҳҳоро бо ELSE ва бе он муқоиса кунед. Ҳам нархи30, ҳам нархи поёнтар аз ҳамаи ҳудудҳоро санҷед. CASE меткаро дар дархост ҳисоб мекунад ва ҷадвали сабтшударо иваз намекунад.",
+      "en": "CASE order matters for overlapping conditions: at price=30, both price>=10 and price>=25 are true; SQLite takes the first true arm. Put the expensive range first and test thresholds separately. For Tea priced12, only >=10 of that pair is true. Without ELSE an unmatched row gets NULL. GROUP BY on that CASE does not discard such rows: they form one NULL group. COUNT(label), however, excludes NULL, unlike COUNT(*).\n\nCompare groups with and without ELSE. Test both price30 and a price below every threshold. CASE computes a label in the query without changing the stored table."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -3368,9 +4359,9 @@
       "en": "Practice and self-check"
      },
      "body": {
-      "ru": "Три шага. Первый — запуск и построчное сведение двенадцати строк. Второй — граничный порог 40: предскажите сдвиг Coffee в medium, запустите, сверьте. Третий — самостоятельная задача: посчитайте CASE-ом дорогие и дешёвые товары одним запросом — SELECT SUM(CASE WHEN price >= 25 THEN 1 ELSE 0 END) AS pricey, SUM(CASE WHEN price < 25 THEN 1 ELSE 0 END) AS budget FROM products; ожидаемая строка — 3|6. Полезный контроль: что будет, если убрать ELSE из первого запроса? Правильный ответ: дешёвые товары получат NULL вместо cheap, и запускатель напечатает None — CASE без ELSE честно вернёт пустоту. Когда шаги сходятся, объясните вслух, почему порядок веток важен, и приведите свой пример отчёта, где CASE уместнее отдельного столбца в таблице. Дальше — агрегаты на связанных таблицах: двадцать первый день.",
-      "tg": "Се қадам. Якум — иҷро ва мувофиқсозии дувоздаҳ сатр. Дуюм — ароғи канории 40: ҷойивазшавии Coffee-ро ба medium пешгӯӣ кунед, иҷро кунед, биёед санҷед. Сеюм — вазифаи мустақил: дар як дархост молҳои гарон ва арзонро тавассути CASE ҳисоб кунед — SELECT SUM(CASE WHEN price >= 25 THEN 1 ELSE 0 END) AS pricey, SUM(CASE WHEN price < 25 THEN 1 ELSE 0 END) AS budget FROM products; сатри интизорӣ — 3|6. Санҷиши муфид: агар ELSE-ро аз дархости аввал бгирем чӣ мешавад? Ҷавоби дуруст: молҳои арзон ба ҷои cheap NULL мегиранд ва иҷрокунанда None чоп мекунад — CASE бе ELSE ростқавл холӣ бармегардонад. Вақте қадамҳо ҳамроҳ шуданд, муҳим будани тартиби шохаҳоро бо овоз изҳор кунед ва мисоли худро биёред — ҳисоботе, ки дар он CASE аз сутуни алоҳидаи ҷадвал муносибтар аст. Баъд — функсияҳои агрегатӣ дар ҷадвалҳои пайвастшуда: рӯзи бисту якум.",
-      "en": "Three steps. First: run and match the twelve lines. Second: the boundary threshold 40 — predict Coffee sliding into medium, run, compare. Third: an independent task: count expensive and cheap products with CASE in one query — SELECT SUM(CASE WHEN price >= 25 THEN 1 ELSE 0 END) AS pricey, SUM(CASE WHEN price < 25 THEN 1 ELSE 0 END) AS budget FROM products; the expected row is 3|6. A useful check: what happens if ELSE is removed from the first query? The correct answer: cheap products receive NULL instead of cheap, and the runner prints None — CASE without ELSE honestly returns emptiness. When the steps agree, say out loud why branch order matters and give your own example of a report where CASE fits better than a separate column. Next — aggregates on related tables: day twenty-one."
+      "ru": "Три шага. Первый — запуск и построчное сведение двенадцати строк. Второй — граничный порог 40: предскажите сдвиг Coffee в medium, запустите, сверьте. Третий — самостоятельная задача: посчитайте CASE-ом дорогие и дешёвые товары одним запросом — SELECT SUM(CASE WHEN price >= 25 THEN 1 ELSE 0 END) AS pricey, SUM(CASE WHEN price < 25 THEN 1 ELSE 0 END) AS budget FROM products; ожидаемая строка — 3|6. Полезный контроль: что будет, если убрать ELSE из первого запроса? Правильный ответ: дешёвые товары получат NULL вместо cheap, а отображение NULL зависит от клиента: Python-проверка выводит None, SQLite CLI обычно пустое поле. SQL-значение в обоих случаях NULL. Когда шаги сходятся, объясните вслух, почему порядок веток важен, и приведите свой пример отчёта, где CASE уместнее отдельного столбца в таблице. Дальше — агрегаты на связанных таблицах: двадцать первый день.",
+      "tg": "Се қадам. Якум — иҷро ва мувофиқсозии дувоздаҳ сатр. Дуюм — ароғи канории 40: ҷойивазшавии Coffee-ро ба medium пешгӯӣ кунед, иҷро кунед, биёед санҷед. Сеюм — вазифаи мустақил: дар як дархост молҳои гарон ва арзонро тавассути CASE ҳисоб кунед — SELECT SUM(CASE WHEN price >= 25 THEN 1 ELSE 0 END) AS pricey, SUM(CASE WHEN price < 25 THEN 1 ELSE 0 END) AS budget FROM products; сатри интизорӣ — 3|6. Санҷиши муфид: агар ELSE-ро аз дархости аввал бгирем чӣ мешавад? Ҷавоби дуруст: молҳои арзон ба ҷои cheap NULL мегиранд вале нишон додани NULL аз client вобаста аст: санҷиши Python None мебарорад, SQLite CLI одатан майдони холӣ. Қимати SQL дар ҳар ду ҳолат NULL аст. Вақте қадамҳо ҳамроҳ шуданд, муҳим будани тартиби шохаҳоро бо овоз изҳор кунед ва мисоли худро биёред — ҳисоботе, ки дар он CASE аз сутуни алоҳидаи ҷадвал муносибтар аст. Баъд — функсияҳои агрегатӣ дар ҷадвалҳои пайвастшуда: рӯзи бисту якум.",
+      "en": "Three steps. First: run and match the twelve lines. Second: the boundary threshold 40 — predict Coffee sliding into medium, run, compare. Third: an independent task: count expensive and cheap products with CASE in one query — SELECT SUM(CASE WHEN price >= 25 THEN 1 ELSE 0 END) AS pricey, SUM(CASE WHEN price < 25 THEN 1 ELSE 0 END) AS budget FROM products; the expected row is 3|6. A useful check: what happens if ELSE is removed from the first query? The correct answer: cheap products receive NULL instead of cheap, and NULL display depends on the client: the Python verifier prints None, whereas SQLite CLI normally shows an empty field. Both represent the SQL value NULL. When the steps agree, say out loud why branch order matters and give your own example of a report where CASE fits better than a separate column. Next — aggregates on related tables: day twenty-one."
      }
     }
    ],
@@ -3404,7 +4395,13 @@
        "en": "It sorts the result descending"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Ветки проверяются сверху вниз; что происходит, когда ни одна не истинна?",
+      "tg": "Шохаҳо аз боло ба поён тафтиш мешаванд; вақте ки ҳеҷ як ҳақиқӣ нест, чӣ мешавад?",
+      "en": "Branches are checked top to bottom; what happens when none is true?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-20-q2",
@@ -3435,7 +4432,50 @@
        "en": "They gather into the bakery group"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "NULL-категории превращаются в ярлык через IS NULL внутри CASE.",
+      "tg": "Категорияҳои NULL бо IS NULL дар дохили CASE ба нишон табдил меёбанд.",
+      "en": "NULL categories become a label through IS NULL inside CASE."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-20-q3",
+     "question": {
+      "ru": "Что получит строка, не подошедшая ни под одну ветку WHEN, если ELSE нет?",
+      "tg": "Сатре, ки ба ягон шохаи WHEN намеафтад, ҳангоми набудани ELSE чӣ мегирад?",
+      "en": "What does a row that fits no WHEN branch get when there is no ELSE?"
+     },
+     "answer": {
+      "ru": "NULL",
+      "tg": "NULL",
+      "en": "NULL"
+     },
+     "options": [
+      {
+       "ru": "0",
+       "tg": "0",
+       "en": "0"
+      },
+      {
+       "ru": "Значение последней ветки",
+       "tg": "Арзиши шохаи охирин",
+       "en": "The value of the last branch"
+      },
+      {
+       "ru": "NULL",
+       "tg": "NULL",
+       "en": "NULL"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "CASE обязан вернуть что-то для каждой строки; что он вернёт без страховочной ветки?",
+      "tg": "CASE вазифа дорад ба ҳар сатр чизе баргардонад; бе шохаи кафолатӣ чӣ бармегардонад?",
+      "en": "CASE must return something for every row; what does it return without the fallback branch?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3578,7 +4618,13 @@
        "en": "INNER JOIN only shows the first four customers"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "INNER JOIN требует пары; есть ли у Sitora заказы?",
+      "tg": "INNER JOIN ҷуфт талаб мекунад; оё Sitora фармоиш дорад?",
+      "en": "INNER JOIN requires a pair; does Sitora have orders?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-21-q2",
@@ -3609,7 +4655,50 @@
        "en": "Water costs five coins"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Второй отчёт группирует по товару и складывает количество; что именно складывается?",
+      "tg": "Ҳисоботи дуюм аз рӯи мол гурӯҳбандӣ карда, шумораро ҷамъ мекунад; айнан чи ҷамъ мешавад?",
+      "en": "The second report groups by product and sums the quantity; what exactly is summed?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-21-q3",
+     "question": {
+      "ru": "Какое выражение считает выручку одной позиции заказа?",
+      "tg": "Кадом ифода даромади як маводи фармоишро меҳисобад?",
+      "en": "Which expression computes the revenue of one order item?"
+     },
+     "answer": {
+      "ru": "quantity * price",
+      "tg": "quantity * price",
+      "en": "quantity * price"
+     },
+     "options": [
+      {
+       "ru": "quantity + price",
+       "tg": "quantity + price",
+       "en": "quantity + price"
+      },
+      {
+       "ru": "price",
+       "tg": "price",
+       "en": "price"
+      },
+      {
+       "ru": "quantity * price",
+       "tg": "quantity * price",
+       "en": "quantity * price"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Штуки и деньги — разные величины; вспомните, где именно в соединении рождаются деньги.",
+      "tg": "Доно ва пул — бузургии гуногун; дар ёд биёред, ки дар пайвастшавӣ пул айнан дар куҷо таваллуд мешавад.",
+      "en": "Units and money are different magnitudes; recall where exactly in the join the money is born."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -3686,6 +4775,18 @@
     },
     {
      "title": {
+      "ru": "Даты в реальном проекте: смешанные форматы",
+      "tg": "Санаҳо дар лоиҳаи воқеӣ: форматҳои омехта",
+      "en": "Dates in a real project: mixed formats"
+     },
+     "body": {
+      "ru": "Настоящие базы приходят с датами разных эпох: один импорт дал '2026-10-01', другой — '01.10.2026', третий — число эпохи. В SQLite нет отдельного типа дат, поэтому защита — договорённость о формате: всё приводят к ISO-тексту YYYY-MM-DD при загрузке и только потом сравнивают; наш учебный магазин соблюдает это с первого дня. Смешанный формат — тихая беда: сравнение строк не ошибётся, но '01.10.2026' отсортируется по символам, а не по календарю, и отчёт покажет перепутанную хронологию — шестой день показывал, как сортировка строит топы. Помогают функции: date() и strftime() требуют честного ISO-входа и вернут NULL на незнакомом формате, так что NULL в колонке дат — повод проверить источник.",
+      "tg": "Пойгоҳҳои воқеӣ бо санаҳои давраҳои гуногун меоянд: як воридот '2026-10-01' дод, дигар — '01.10.2026', сеюм — адади давра. Дар SQLite навъи алоҳидаи сана нест, бинобар ин ҳимоя — созишнома дар бораи формат: ҳама чиз ҳангоми боркунӣ ба матни ISO-и YYYY-MM-DD оварда мешавад ва баъд муқоиса мешавад; дукони таълимии мо аз рӯзи аввал инро риоя мекунад. Формати омехта — балаи бе овоз: муқоисаи сатрхо хато намешавад, вале '01.10.2026' на аз рӯи тақвим, балки аз рӯи ҳарфҳо ҷудо мешавад ва ҳисобот тартиби рӯзномагиро олӯш нишон медиҳад — рӯзи шашумро дар хотир биёред, ки ҷудокунӣ топҳо месохт. Функсияҳо кӯмак мекунанд: date() ва strftime() вуруди ростии ISO талаб мекунанд ва дар формати номаълум NULL бармегардонанд, бинобар ин NULL дар сутуни санаҳо баҳонаи санҷиши манбаъ аст, на танҳо баҳонаи ёдоварии рӯзи панҷум. Формати ҳар порсияи нави маълумотро пеш аввал муқоиса санҷед.",
+      "en": "Real databases arrive with dates from different eras: one import gave '2026-10-01', another — '01.10.2026', a third — an epoch number. SQLite has no dedicated date type, so the protection is an agreement on format: everything is converted to ISO text YYYY-MM-DD at load time and compared only afterwards; our learning shop has kept this rule since day one. A mixed format is a quiet disaster: string comparison will not fail, but '01.10.2026' sorts by characters, not by the calendar, and the report shows a scrambled chronology — recall day six, where sorting built the tops. Functions help: date() and strftime() require an honest ISO input and return NULL on an unfamiliar format, so a NULL in the date column is a reason to check the source, not only a reason to recall day five. Check the format of every new batch of data before the first comparison."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -3739,7 +4840,13 @@
        "en": "Dates in SQLite are always numbers"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Порядок символов в формате YYYY-MM-DD совпадает с чем?",
+      "tg": "Тартииби аломатҳо дар формати YYYY-MM-DD бо чӣ мувофиқ аст?",
+      "en": "The character order in the YYYY-MM-DD format matches what?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-22-q2",
@@ -3770,7 +4877,50 @@
        "en": "2026-10-12"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Модификатор прибавляет дни к дате; сложите два дня с первым октября.",
+      "tg": "Модификатор ба сана рӯзҳо илова мекунад; ду рӯзро ба якуми октябр ҷамъ кунед.",
+      "en": "The modifier adds days to the date; add two days to October the first."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-22-q3",
+     "question": {
+      "ru": "Почему хранение дат как '01.10.2026' опасно для отчётов?",
+      "tg": "Чаро нигоҳдории санаҳо ҳамчун '01.10.2026' барои ҳисоботҳо хатарнок аст?",
+      "en": "Why is storing dates as '01.10.2026' dangerous for reports?"
+     },
+     "answer": {
+      "ru": "Текстовое сравнение перепутает хронологию",
+      "tg": "Муқоисаи матнӣ тартиби рӯзномагиро олӯш мекунад",
+      "en": "Text comparison scrambles the chronology"
+     },
+     "options": [
+      {
+       "ru": "SQLite выдаст ошибку при сравнении",
+       "tg": "SQLite ҳангоми муқоиса хато медиҳад",
+       "en": "SQLite raises an error on comparison"
+      },
+      {
+       "ru": "Даты станут NULL",
+       "tg": "Санаҳо NULL мешаванд",
+       "en": "The dates become NULL"
+      },
+      {
+       "ru": "Текстовое сравнение перепутает хронологию",
+       "tg": "Муқоисаи матнӣ тартиби рӯзномагиро олӯш мекунад",
+       "en": "Text comparison scrambles the chronology"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ошибка не будет громкой: строки отсортируются по символам, а не по календарю.",
+      "tg": "Хато баландовоз нахоҳад буд: сатрҳо аз рӯи ҳарфҳо ҷудо мешаванд, на аз рӯи тақвим.",
+      "en": "The failure will not be loud: rows sort by characters, not by the calendar."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3848,14 +4998,26 @@
     },
     {
      "title": {
+      "ru": "Ограничения при изменении живой схемы",
+      "tg": "Маҳдудиятҳо ҳангоми тағйири схемаи зинда",
+      "en": "Constraints while the schema evolves"
+     },
+     "body": {
+      "ru": "При изменении схемы различайте новое поле и новое правило старого поля. ALTER TABLE ADD COLUMN допускает CHECK для нового столбца; начиная с SQLite3.37.0 этот CHECK проверяет и существующие строки, и при нарушении команда отклоняется. Для NOT NULL нового поля нужен ненулевой DEFAULT. Добавить произвольный CHECK к существующему столбцу отдельной командой ALTER TABLE нельзя: обычно таблицу пересоздают и переносят проверенные данные. CREATE UNIQUE INDEX обеспечивает уникальность, а не заменяет любой CHECK.\n\nСначала проверьте sqlite_version(), затем опробуйте изменение на отдельной учебной таблице с подходящими и нарушающими правило старыми строками.",
+      "tg": "Ҳангоми тағйири схема майдони навро аз қоидаи нави майдони кӯҳна ҷудо кунед. ALTER TABLE ADD COLUMN барои сутуни нав CHECK қабул мекунад; аз SQLite3.37.0 ҳамин CHECK сатрҳои мавҷударо ҳам месанҷад ва агар вайронӣ бошад, фармон рад мешавад. Барои NOT NULL-и майдони нав DEFAULT-и ғайриNULL даркор. Ба сутуни мавҷуда CHECK-и худсарона бо фармони ҷудогонаи ALTER TABLE илова намешавад: одатан ҷадвалро аз нав сохта, маълумоти санҷидашударо мекӯчонанд. CREATE UNIQUE INDEX беназириро нигоҳ медорад, ҳар CHECK-ро иваз намекунад.\n\nАввал sqlite_version()-ро санҷед. Баъд дар ҷадвали алоҳидаи омӯзишӣ тағйирро бо сатрҳои кӯҳнаи дурусту нодуруст озмоед.",
+      "en": "When evolving a schema, distinguish a new field from a new rule on an existing field. ALTER TABLE ADD COLUMN permits CHECK on the new column; since SQLite3.37.0 that CHECK also tests existing rows, and a violation rejects the command. A new NOT NULL column needs a non-NULL DEFAULT. An arbitrary CHECK cannot be attached to an existing column with a separate ALTER TABLE command: usually rebuild the table and transfer validated data. CREATE UNIQUE INDEX enforces uniqueness; it does not replace an arbitrary CHECK.\n\nCheck sqlite_version() first, then try the change on an isolated learning table with both valid and violating old rows."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
      },
      "body": {
-      "ru": "Сохраните решение как lesson.sql и выполните его в SQLite; ожидаемый вывод — пять строк: три отзыва с оценками и два покупателя с адресами. Частые ошибки: ожидать, что CHECK починит старые данные — он работает только с новыми вставками и обновлениями; слишком строгий CHECK, который блокирует легальные данные, — например, запрет нуля там, где ноль — норма; UNIQUE на имя клиента — имена повторяются в жизни сплошь и рядом, это нормальное явление. Граничный эксперимент: попробуйте INSERT INTO reviews (product_name, rating) VALUES ('Tea', 7); — получите ошибку CHECK constraint failed; записанного вывода у этого опыта нет, потому что скрипт содержит только успешные вставки. Затем поменяйте оценку на 5 — вставка пройдёт. Так вы своими руками почувствуете, где проходит граница. Читайте текст ошибки целиком: там названы таблица и нарушенное правило.",
-      "tg": "Ҳалли дарсро ҳамчун lesson.sql сабт карда, дар SQLite иҷро кунед; натиҷаи интизорӣ панҷ сатр аст: се баррасӣ бо баҳоҳо ва ду харидор бо суроғаҳо. Хатогиҳои маъмул: интизори он ки CHECK додаҳои кӯҳнаро ислоҳ мекунад — вай танҳо бо дарҷҳо ва навсозиҳои нав кор мекунад; CHECK-и аз ҳад қатъӣ, ки додаҳои қонуниро монеъ мешавад — масалан мамнӯъ кардани нол он ҷо, ки нол муқаррарист; UNIQUE барои номи харидор — номҳо дар зиндагӣ доимо такрор меёбанд, ин падидаи муқаррарист. Таҷрибаи канорӣ: INSERT INTO reviews (product_name, rating) VALUES ('Tea', 7);-ро биёед — хатогии CHECK constraint failed мегиред; натиҷаи сабтшудаи ин таҷриба нест, чунки скрипт танҳо дарҷҳои муваффақро дорад. Баъд баҳоро ба 5 иваз кунед — дарҷ мегузарад. Чунин бо дастони худ ҳудудро ҳис мекунед.",
-      "en": "Save the solution as lesson.sql and run it in SQLite; the expected output is five lines: three reviews with ratings and two customers with addresses. Common mistakes: expecting CHECK to fix old data — it only works on new inserts and updates; an overly strict CHECK that blocks legitimate data — say, banning zero where zero is normal; UNIQUE on the customer name — names repeat constantly in real life, that is ordinary. Boundary experiment: try INSERT INTO reviews (product_name, rating) VALUES ('Tea', 7); — you get a CHECK constraint failed error; there is no recorded output for that experiment, because the script contains only successful inserts. Then change the rating to 5 — the insert passes. This is how you feel the boundary with your own hands."
+      "ru": "Сохраните решение как lesson.sql и выполните его в SQLite; ожидаемый вывод — пять строк: три отзыва с оценками и два покупателя с адресами. Частые ошибки: ожидать, что CHECK исправит неверные значения: он отклоняет нарушения, а не чинит строки. Существующий CHECK контролирует INSERT/UPDATE; ADD COLUMN с CHECK в SQLite3.37+ проверяет и старые строки; слишком строгий CHECK, который блокирует легальные данные, — например, запрет нуля там, где ноль — норма; UNIQUE на имя клиента — имена повторяются в жизни сплошь и рядом, это нормальное явление. Граничный эксперимент: попробуйте INSERT INTO reviews (product_name, rating) VALUES ('Tea', 7); — получите ошибку CHECK constraint failed; записанного вывода у этого опыта нет, потому что скрипт содержит только успешные вставки. Затем поменяйте оценку на 5 — вставка пройдёт. Так вы своими руками почувствуете, где проходит граница. Читайте текст ошибки целиком: там названы таблица и нарушенное правило.",
+      "tg": "Ҳалли дарсро ҳамчун lesson.sql сабт карда, дар SQLite иҷро кунед; натиҷаи интизорӣ панҷ сатр аст: се баррасӣ бо баҳоҳо ва ду харидор бо суроғаҳо. Хатогиҳои маъмул: интизор шудан, ки CHECK қимати хаторо дуруст мекунад: он вайрониро рад мекунад, сатрро ислоҳ намекунад. CHECK-и мавҷуда INSERT/UPDATE-ро месанҷад; ADD COLUMN бо CHECK дар SQLite3.37+ сатрҳои кӯҳнаро ҳам месанҷад; CHECK-и аз ҳад қатъӣ, ки додаҳои қонуниро монеъ мешавад — масалан мамнӯъ кардани нол он ҷо, ки нол муқаррарист; UNIQUE барои номи харидор — номҳо дар зиндагӣ доимо такрор меёбанд, ин падидаи муқаррарист. Таҷрибаи канорӣ: INSERT INTO reviews (product_name, rating) VALUES ('Tea', 7);-ро биёед — хатогии CHECK constraint failed мегиред; натиҷаи сабтшудаи ин таҷриба нест, чунки скрипт танҳо дарҷҳои муваффақро дорад. Баъд баҳоро ба 5 иваз кунед — дарҷ мегузарад. Чунин бо дастони худ ҳудудро ҳис мекунед.",
+      "en": "Save the solution as lesson.sql and run it in SQLite; the expected output is five lines: three reviews with ratings and two customers with addresses. Common mistakes: expecting CHECK to repair invalid values: it rejects violations rather than repairing rows. An existing CHECK controls INSERT/UPDATE; ADD COLUMN with CHECK in SQLite3.37+ also validates old rows; an overly strict CHECK that blocks legitimate data — say, banning zero where zero is normal; UNIQUE on the customer name — names repeat constantly in real life, that is ordinary. Boundary experiment: try INSERT INTO reviews (product_name, rating) VALUES ('Tea', 7); — you get a CHECK constraint failed error; there is no recorded output for that experiment, because the script contains only successful inserts. Then change the rating to 5 — the insert passes. This is how you feel the boundary with your own hands."
      }
     },
     {
@@ -3901,7 +5063,13 @@
        "en": "The speed of query execution"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Ограничение проверяет значение при записи; что именно оно контролирует?",
+      "tg": "Маҳдудият арзишро ҳангоми навишт тафтиш мекунад; айнан чиро назорат мекунад?",
+      "en": "The constraint validates the value at write time; what exactly does it control?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-23-q2",
@@ -3932,7 +5100,50 @@
        "en": "The old row is deleted"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Ограничение не пропускает повторяющиеся значения; что произойдёт со вторым таким же email?",
+      "tg": "Маҳдудият арзишҳои такрориро намегузаронад; бо дуюм email-и якхела чӣ мешавад?",
+      "en": "The constraint rejects duplicate values; what happens to the second identical email?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-23-q3",
+     "question": {
+      "ru": "Пропустит ли CHECK (rating BETWEEN 1 AND 5) вставку со значением rating = NULL?",
+      "tg": "Оё CHECK (rating BETWEEN 1 AND 5) сарф бо арзиши rating = NULL-ро мегузаронад?",
+      "en": "Does CHECK (rating BETWEEN 1 AND 5) pass an insert with rating = NULL?"
+     },
+     "answer": {
+      "ru": "Да — NULL не проваливает CHECK",
+      "tg": "Ҳа — NULL CHECK-ро намешиканад",
+      "en": "Yes — NULL does not fail the CHECK"
+     },
+     "options": [
+      {
+       "ru": "Нет — будет ошибка CHECK constraint failed",
+       "tg": "Не — хатои CHECK constraint failed мешавад",
+       "en": "No — a CHECK constraint failed error occurs"
+      },
+      {
+       "ru": "Вставится как 0",
+       "tg": "Ҳамчун 0 сарф мешавад",
+       "en": "It is inserted as 0"
+      },
+      {
+       "ru": "Да — NULL не проваливает CHECK",
+       "tg": "Ҳа — NULL CHECK-ро намешиканад",
+       "en": "Yes — NULL does not fail the CHECK"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Вспомните день про NULL: выражение с NULL даёт NULL, а не ложь; как CHECK трактует это?",
+      "tg": "Рӯзи дар бораи NULL-ро дар ёд биёред: ифода бо NULL NULL медиҳад, на дурӯғ; CHECK инро чӣ гуна мефаҳмонад?",
+      "en": "Recall the NULL day: an expression with NULL yields NULL, not false; how does CHECK treat that?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4111,7 +5322,50 @@
        "en": "Data loss on restart"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Индекс — служебная структура; что он занимает и что замедляет?",
+      "tg": "Индекс сохтаи хидматӣ аст; чиро ишғол мекунад ва чиро суст мекунад?",
+      "en": "An index is a service structure; what does it occupy and what does it slow down?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "sql-day-24-q3",
+     "question": {
+      "ru": "Какое условие не даёт фиксированного начала строки для диапазонного поиска по индексу name?",
+      "tg": "Кадом шарт барои ҷустуҷӯи диапазонӣ бо индекси name аввали собити сатр намедиҳад?",
+      "en": "Which condition provides no fixed starting prefix for a range lookup using the name index?"
+     },
+     "answer": {
+      "ru": "WHERE name LIKE '%a%'",
+      "tg": "WHERE name LIKE '%a%'",
+      "en": "WHERE name LIKE '%a%'"
+     },
+     "options": [
+      {
+       "ru": "WHERE name = 'Tea'",
+       "tg": "WHERE name = 'Tea'",
+       "en": "WHERE name = 'Tea'"
+      },
+      {
+       "ru": "WHERE name LIKE 'Te%'",
+       "tg": "WHERE name LIKE 'Te%'",
+       "en": "WHERE name LIKE 'Te%'"
+      },
+      {
+       "ru": "WHERE name LIKE '%a%'",
+       "tg": "WHERE name LIKE '%a%'",
+       "en": "WHERE name LIKE '%a%'"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ведущий % не задаёт начальный префикс. Полный просмотр индекса всё ещё возможен; возможность SEARCH для других условий зависит и от collation и планировщика.",
+      "tg": "% дар аввал prefix-и собит намедиҳад. Индексро пурра дидан ҳоло ҳам мумкин; SEARCH барои шартҳои дигар ба collation ва planner ҳам вобаста аст.",
+      "en": "A leading % gives no fixed prefix. A full index scan can still occur; range SEARCH for other conditions also depends on collation and the planner."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -4203,6 +5457,18 @@
       "tg": "Ин рӯзи хаттӣ аст: скрипти SQL ва натиҷа нест, вале се савол дар блоки вазифа ҳаст. Бо хаттӣ, бо суханони худ ҷавоб диҳед ва баъд бо ҷавоби намунавӣ дар practice муқоиса кунед — онро чунин навиштаанд, ки ҷавоби шуморо дар суҳбат чӣ гуна дидан мехоҳем. На ҳарф ба ҳарф, аз рӯи маъно биёед санҷед: оё ҳарду ҷадвал номбар шудаанд, нақши order_items шарҳ дода шудааст, калидҳои ибтидоӣ ва берунӣ ёдовар шудаанд? Иловае муфид: фикр кунед, барои мағозаи воқеӣ ба схема чӣ меиловаед — email ва телефони харидор, майдони deleted барои несткунии мулоим, санаи навсозии сатр. Ва машқи баръакс: расми худро гиред ва кӯшиш кунед саволе ёбед, ки схема ба он ноқулай ҷавоб медиҳад — каманд, вале ҳастанд ва дидани онҳо лоиҳакунандаро аз оператор ҷудо мекунад. Баъди муқоиса ба рӯзи бисту шашум гузаред: намудҳо дархостҳои дарозро ба номҳои кӯтоҳ ҷамъ мекунанд.",
       "en": "This is a written day: there is no SQL script and no output, but there are three questions in the task block. Answer in writing, in your own words, then compare with the reference answer in practice — it is written the way we would like to see your answer at an interview. Compare by meaning, not letter by letter: are all four tables named, is the role of order_items explained, are primary and foreign keys mentioned? A useful extra: think what you would add for a real shop — customer email and phone, a deleted field for soft deletion, a row update timestamp. And a reverse exercise: take our drawing and try to invent a question the schema answers awkwardly — there are few, but they exist, and spotting them distinguishes a designer from an operator. After the comparison, move to day twenty-six: views will fold long queries into short names."
      }
+    },
+    {
+     "title": {
+      "ru": "Пределы нормализации: цена в истории заказа",
+      "tg": "Ҳадҳои нормалионсозӣ: нарх дар таърихи фармоиш",
+      "en": "The limits of normalization: price inside order history"
+     },
+     "body": {
+      "ru": "У принципа «каждый факт в одном месте» есть известная цена: беря цену из products запросом, мы позволяем истории меняться задним числом. Во взрослых схемах выбирают компромисс — фиксируют цену прямо в order_items: цена на момент покупки становится фактом самого заказа. Правило простое: значение, которое должно остаться таким, каким его увидел клиент, хранится в строке события; всегда актуальное живёт в справочнике. Другая граница — число связей: четыре таблицы легко держать в голове, но в больших схемах появляются мосты из мостов, и их честно документируют. На рисунке из первого раздела проверьте оба типа полей: какие описывают заказ навсегда, а какие обновляются при правке справочников.",
+      "tg": "Принсипи «ҳар далел дар як ҷой» нархи маълум дорад, ки аллакай қайд кардем: мубодилаи нарх аз products бо дархост ба мо имкон медиҳад, ки таърих баъдан тағйир ёбад. Дар схемаҳои расиг воситаи миёна интихоб мешавад — нархро мустақиман дар order_items муқаррар мекунанд ва ин ихроҷи огоҳона аз нормалионсозӣ аст: нарх дар лаҳзаи харид факти худи фармоиш мешавад. Қоидаи интихоб содда аст: агар арзиш бояд он тавр нигоҳ дошта шавад, ки муштарӣ дидааст, вай дар сатри воқеа нигоҳ дошта мешавад; агар арзиш ҳамеша нав буданаш лозим бошад, вай дар дастурандома зиндагӣ мекунад. Марзи дигар — шумораи пайвандҳо: чор ҷадвалро дар ҳофиз нигоҳ доштан осон аст, вале дар схемаҳои калон пул аз болои пул пайдо мешавад ва онҳоро ростикона ҳуҷҷатгузорӣ мекунанд. Дар расми аз бахши аввал ҳарду навъи майдонро санҷед: кадомҳо худи фармоишро то абад тавсиф мекунанд ва кадомҳо бояд ҳангоми ислоҳи дастурандома навсозӣ шаванд.",
+      "en": "The principle 'every fact in one place' has a known price we already noted: by taking the price from products with a query, we allow history to change retroactively. Adult schemas choose a compromise — the price is fixed directly in order_items, and that is a deliberate step away from normalization: the price at the moment of purchase becomes a fact of the order itself. The choice rule is simple: if a value must stay exactly as the customer saw it, it is stored in the event row; if a value must always be current, it lives in the reference table. Another boundary is the number of links: four tables are easy to hold in your head, but large schemes grow bridges on bridges, and they are honestly documented. On the picture from the first section check both kinds of fields: which describe the order itself forever, and which must update when the reference tables are edited."
+     }
     }
    ],
    "questions": [
@@ -4235,7 +5501,13 @@
        "en": "A log of price changes"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Между заказами и товарами нужен связующий стол; какая таблица его играет?",
+      "tg": "Байни фармоишҳо ва молҳо сутуни пайвасткунанда лозим аст; кадом ҷадвал ин вазифаро мебарад?",
+      "en": "Orders and products need a bridging stand; which table plays that role?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "sql-day-25-q2",
@@ -4266,7 +5538,50 @@
        "en": "Every row has a unique id"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Вспомните беды одной большой таблицы: повторение данных при изменении и опечатки.",
+      "tg": "Балаҳои як ҷадвали калонро дар ёд биёред: такрори маълумот ҳангоми тағйир ва хатоҳои чоп.",
+      "en": "Recall the woes of one big table: data repetition on change and typos."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "sql-day-25-q3",
+     "question": {
+      "ru": "Зачем во взрослых схемах фиксируют цену прямо в строке заказа?",
+      "tg": "Чаро дар схемаҳои расиг нархро мустақиман дар сатри фармоиш мустаҳкам мекунанд?",
+      "en": "Why do adult schemas fix the price directly in the order line?"
+     },
+     "answer": {
+      "ru": "Чтобы история покупок не менялась при смене цены",
+      "tg": "То таърихи харидҳо ҳангоми тағйири нарх тағйир наёбад",
+      "en": "So that purchase history does not change when the price changes"
+     },
+     "options": [
+      {
+       "ru": "Чтобы сэкономить место",
+       "tg": "Барои сарфаи ҷо",
+       "en": "To save space"
+      },
+      {
+       "ru": "Потому что цена никогда не меняется",
+       "tg": "Зеро нарх ҳеҷгоҳ тағйир намешавад",
+       "en": "Because the price never changes"
+      },
+      {
+       "ru": "Чтобы история покупок не менялась при смене цены",
+       "tg": "То таърихи харидҳо ҳангоми тағйири нарх тағйир наёбад",
+       "en": "So that purchase history does not change when the price changes"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Наш способ брать цену из справочника допускает изменение задним числом; что это значит для старых отчётов?",
+      "tg": "Роҳи мо — гирифтани нарх аз дастурандома — тағйири баъдинро имконпазир мекунад; ин барои ҳисоботҳои кӯҳна чӣ маънӣ дорад?",
+      "en": "Our way of taking the price from a reference table allows retroactive change; what does that mean for old reports?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4349,14 +5664,26 @@
     },
     {
      "title": {
+      "ru": "VIEW в реальном проекте: переопределение и зависимости",
+      "tg": "VIEW дар лоиҳаи воқеӣ: азнавтаъриф ва вобастагиҳо",
+      "en": "VIEW in a real project: redefinition and dependencies"
+     },
+     "body": {
+      "ru": "В SQLite изменение определения VIEW обычно выполняют через DROP VIEW и новый CREATE VIEW; текст запроса держат в репозитории. Зависимости требуют проверки, но RENAME COLUMN не обязан ломать view: начиная с SQLite3.25.0 переименование переписывает ссылки на столбец в связанных представлениях и триггерах. Если преобразование создаёт неоднозначность, SQLite отклоняет переименование без изменений. Удаление нужной таблицы — другой случай: view не сможет выполнить запрос.\n\nВ учебной базе создайте view, переименуйте используемый столбец и прочитайте определение из sqlite_schema. Затем выполните SELECT из view: данные должны оставаться доступными.",
+      "tg": "Дар SQLite барои иваз кардани таърифи VIEW одатан DROP VIEW ва CREATE VIEW-и нав мегиранд; матни дархостро дар репозиторий нигоҳ медоранд. Вобастагиҳоро санҷидан даркор, вале RENAME COLUMN ҳатман view-ро вайрон намекунад: аз SQLite3.25.0 переименование истинодҳои сутунро дар view ва trigger-ҳои вобаста аз нав менависад. Агар тағйир нофаҳмии номҳоро созад, SQLite фармонро бе тағйир рад мекунад. Нест кардани ҷадвали лозим ҳолати дигар аст: view дархостро иҷро карда наметавонад.\n\nДар базаи омӯзишӣ view созед, сутуни истифодашударо rename кунед ва таърифашро аз sqlite_schema хонед. Баъд SELECT аз view кунед: маълумот бояд дастрас монад.",
+      "en": "Changing a SQLite VIEW definition usually uses DROP VIEW followed by a new CREATE VIEW; keep its query text in the repository. Dependencies need checking, but RENAME COLUMN need not break a view: since SQLite3.25.0 it rewrites column references in dependent views and triggers. If the change creates semantic ambiguity, SQLite rejects the rename without changes. Dropping a required table is different: the view can no longer run its query.\n\nIn a learning database create a view, rename a column it uses and inspect the definition in sqlite_schema. SELECT from the view afterward: its data should remain accessible."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
      },
      "body": {
-      "ru": "Сохраните решение как lesson.sql и выполните его в SQLite; ожидаемый вывод — восемь строк. Три напитка с ценами, затем два дешёвых напитка и три дорогих товара по убыванию цены. Частые ошибки: думать, что view хранит копию данных на момент создания — он хранит только текст запроса, что и есть его ценность; пытаться UPDATE сложный view с GROUP BY — простые представления обновляемы, сложные нет, и SQLite честно ответит ошибкой; дать view имя, совпавшее с таблицей, — получите конфликт. Граничный эксперимент: после создания view выполните UPDATE products SET price = 100 WHERE id = 2; и снова SELECT * FROM drinks ORDER BY id; — Coffee должен показаться с ценой 100: view живой, а не слепок. Сверьте, что вывод обоих представлений совпал с ожидаемым порядком сортировки.",
-      "tg": "Ҳалли дарсро ҳамчун lesson.sql сабт карда, дар SQLite иҷро кунед; натиҷаи интизорӣ ҳашт сатр аст. Се нӯшокӣ бо нархҳо, баъд ду нӯшокии арзон ва се моли гарон бо коҳиши нарх. Хатогиҳои маъмул: фикр кардан, ки view нусхаи додаҳоро дар лаҳзаи сохтан нигоҳ медорад — вай танҳо матни дархостро дорад ва ҳамин арзишаш аст; кӯшиши UPDATE-и view-и мураккаб бо GROUP BY — намудҳои оддӣ навсозишавандаанд, мураккабҳо не, ва SQLite ростқавл бо хатогӣ ҷавоб медиҳад; гузоштани номи view, ки бо ҷадвал мувофиқ ояд — тазозуд мегиред. Таҷрибаи канорӣ: баъди сохтани view UPDATE products SET price = 100 WHERE id = 2;-ро иҷро кунед ва бори дигар SELECT * FROM drinks ORDER BY id; — Coffee бояд бо нархи 100 пайдо шавад: view зинд аст, на акс.",
-      "en": "Save the solution as lesson.sql and run it in SQLite; the expected output is eight lines. Three drinks with prices, then two cheap drinks and three expensive goods by descending price. Common mistakes: thinking the view stores a snapshot of the data from creation time — it stores only the query text, which is exactly its value; trying to UPDATE a complex view with GROUP BY — simple views are updatable, complex ones are not, and SQLite will honestly answer with an error; giving the view a name colliding with a table — you get a conflict. Boundary experiment: after creating the view run UPDATE products SET price = 100 WHERE id = 2; and again SELECT * FROM drinks ORDER BY id; — Coffee must appear with price 100: the view is live, not a snapshot."
+      "ru": "Сохраните решение как lesson.sql и выполните его в SQLite; ожидаемый вывод — восемь строк. Три напитка с ценами, затем два дешёвых напитка и три дорогих товара по убыванию цены. Частые ошибки: думать, что view хранит копию данных на момент создания — он хранит только текст запроса, что и есть его ценность; пытаться напрямую UPDATE любого view: в SQLite все представления read-only. Для обработки изменений через view нужны явно созданные INSTEAD OF triggers; без них изменяйте исходную таблицу; дать view имя, совпавшее с таблицей, — получите конфликт. Граничный эксперимент: после создания view выполните UPDATE products SET price = 100 WHERE id = 2; и снова SELECT * FROM drinks ORDER BY id; — Coffee должен показаться с ценой 100: view живой, а не слепок. Сверьте, что вывод обоих представлений совпал с ожидаемым порядком сортировки.",
+      "tg": "Ҳалли дарсро ҳамчун lesson.sql сабт карда, дар SQLite иҷро кунед; натиҷаи интизорӣ ҳашт сатр аст. Се нӯшокӣ бо нархҳо, баъд ду нӯшокии арзон ва се моли гарон бо коҳиши нарх. Хатогиҳои маъмул: фикр кардан, ки view нусхаи додаҳоро дар лаҳзаи сохтан нигоҳ медорад — вай танҳо матни дархостро дорад ва ҳамин арзишаш аст; кӯшиши UPDATE-и мустақими ҳар view: дар SQLite ҳамаи view-ҳо read-only мебошанд. Барои коркарди тағйир аз тариқи view INSTEAD OF trigger-и ошкоро сохташуда даркор; бе он ҷадвали аслиро тағйир диҳед; гузоштани номи view, ки бо ҷадвал мувофиқ ояд — тазозуд мегиред. Таҷрибаи канорӣ: баъди сохтани view UPDATE products SET price = 100 WHERE id = 2;-ро иҷро кунед ва бори дигар SELECT * FROM drinks ORDER BY id; — Coffee бояд бо нархи 100 пайдо шавад: view зинд аст, на акс.",
+      "en": "Save the solution as lesson.sql and run it in SQLite; the expected output is eight lines. Three drinks with prices, then two cheap drinks and three expensive goods by descending price. Common mistakes: thinking the view stores a snapshot of the data from creation time — it stores only the query text, which is exactly its value; trying to UPDATE any view directly: all SQLite views are read-only. Explicit INSTEAD OF triggers are needed to handle changes through a view; otherwise update the underlying table; giving the view a name colliding with a table — you get a conflict. Boundary experiment: after creating the view run UPDATE products SET price = 100 WHERE id = 2; and again SELECT * FROM drinks ORDER BY id; — Coffee must appear with price 100: the view is live, not a snapshot."
      }
     },
     {
@@ -4402,7 +5729,13 @@
        "en": "Yes, a copy of the whole table"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "CREATE VIEW запоминает запрос; что именно попадает в базу?",
+      "tg": "CREATE VIEW дархостро дар ҳофиз мегирад; айнан чӣ ба пойгоҳ меравад?",
+      "en": "CREATE VIEW memorizes the query; what exactly lands in the base?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-26-q2",
@@ -4433,7 +5766,50 @@
        "en": "An error until the view is recreated"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "SELECT * FROM drinks выполняет запрос заново; какие цены он увидит?",
+      "tg": "SELECT * FROM drinks дархостро аз нав иҷро мекунад; кадом нархҳоро мебинад?",
+      "en": "SELECT * FROM drinks runs the query again; which prices will it see?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-26-q3",
+     "question": {
+      "ru": "Что случится с представлением drinks после DROP TABLE products?",
+      "tg": "Пас аз DROP TABLE products бо намуди drinks чӣ мешавад?",
+      "en": "What happens to the drinks view after DROP TABLE products?"
+     },
+     "answer": {
+      "ru": "Сломается при обращении — no such table",
+      "tg": "Ҳангоми муроҷиат мешиканад — no such table",
+      "en": "It breaks on the next touch — no such table"
+     },
+     "options": [
+      {
+       "ru": "Продолжит показывать товары",
+       "tg": "Нишон додани молҳоро идома медиҳад",
+       "en": "It keeps showing the products"
+      },
+      {
+       "ru": "Удалится автоматически вместе с таблицей",
+       "tg": "Якҷо бо ҷадвал худкор ҳазф мешавад",
+       "en": "It is deleted automatically with the table"
+      },
+      {
+       "ru": "Сломается при обращении — no such table",
+       "tg": "Ҳангоми муроҷиат мешиканад — no such table",
+       "en": "It breaks on the next touch — no such table"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "View хранит текст запроса, а не данные; когда он проверяет свои ссылки?",
+      "tg": "Намуд матни дархостро нигоҳ медорад, на маълумот; вай ишораҳояшро кай тафтиш мекунад?",
+      "en": "A view stores the query text, not the data; when does it check its references?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4613,7 +5989,50 @@
        "en": "Transactions encrypt transfer amounts"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Два UPDATE должны быть вместе; вспомните перевод денег и атомарность.",
+      "tg": "Ду UPDATE бояд якҷо бошанд; интиқоли пул ва атомарнокиро дар ёд биёред.",
+      "en": "Two UPDATEs must go together; recall the money transfer and atomicity."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "sql-day-27-q3",
+     "question": {
+      "ru": "Что произойдёт с изменениями, если соединение закроется без COMMIT?",
+      "tg": "Агар пайвастшавӣ бе COMMIT пӯшида шавад, бо тағйирот чӣ мешавад?",
+      "en": "What happens to the changes if the connection closes without COMMIT?"
+     },
+     "answer": {
+      "ru": "Изменения пропадут — откатятся",
+      "tg": "Тағйирот нобуд мешаванд — бармегарданд",
+      "en": "The changes are lost — they roll back"
+     },
+     "options": [
+      {
+       "ru": "Закрепятся автоматически",
+       "tg": "Худкор мустаҳкам мешаванд",
+       "en": "They are committed automatically"
+      },
+      {
+       "ru": "Останутся ждать следующего COMMIT",
+       "tg": "Мунтазири COMMIT-и оянда мемонанд",
+       "en": "They stay waiting for the next COMMIT"
+      },
+      {
+       "ru": "Изменения пропадут — откатятся",
+       "tg": "Тағйирот нобуд мешаванд — бармегарданд",
+       "en": "The changes are lost — they roll back"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "До COMMIT изменения невидимы снаружи и ничем не закреплены; что с ними при закрытии соединения?",
+      "tg": "Пеш аз COMMIT тағйирот аз берун ноаён ва бе мустаҳкамӣ ҳастанд; бо пӯшидани пайвастшавӣ бо онҳо чӣ мешавад?",
+      "en": "Before COMMIT the changes are invisible outside and not yet fixed; what happens to them when the connection closes?"
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -4704,6 +6123,18 @@
       "tg": "Ин рӯзи хаттӣ аст: дар блоки вазифа — навиштани нақшаи ҳифзи додаҳо бо хаттӣ. Дар нақша бояд бошад: чи нусхабардорӣ мекунем (рӯйхати ҷадвалҳо ё тамоми пойгоҳ), ба куҷо (диски дигар ва, беҳтараш, компютери дигар), чанд маротиба (аз рӯи нархи кори гумшуда), чӣ тавр месанҷем (барқароркунӣ дар пойгоҳи холӣ ва COUNT(*) аз рӯи ҷадвалҳо). Ба нақша бехатариро илова кунед: дампи SQL — додаҳои шумо ҳамчун матн аст, дар он набояд гузарвожаҳо ва додаҳои шахсӣ бошанд ва коммит кардани дампҳои муштариёни воқеӣ дар репозиторий — хатои дағал аст. Аз рӯи маъно бо ҷавоби намунавӣ биёед санҷед: .dump, .backup, содири CSV оварда шудаанд, оё санҷиши барқароркунӣ ва ҷадвали вақтӣ ҳаст? Машқи иловагӣ аз намуна: versionи дуюми нақша барои пойгоҳи хотиравиро нависед ва бовар кунед, ки он кӯтоҳтар аст: скрипти SQL-и такроршаванда худаш нусхаи эҳтиётии худ аст. Баъд — лоиҳаҳои хурд: рӯзи бисту нӯҳум.",
       "en": "This is a written day: the task block asks you to write a data protection plan. The plan must include: what we copy (a list of tables or the whole database), where (another disk and, ideally, another computer), how often (priced by lost work), how we verify (a restore into an empty database and COUNT(*) over the tables). Add security to the plan: an SQL dump is your data as text — it must contain no passwords or personal data, and committing dumps with real customers to a repository is a gross mistake. Compare with the reference answer by meaning: are .dump, .backup and CSV export listed, is there a restore check and a schedule? An extra exercise beyond the reference: write a second version of the plan for the in-memory learning base — and make sure it is shorter: a reproducible SQL script is a backup of itself. Next — mini-projects: day twenty-nine."
      }
+    },
+    {
+     "title": {
+      "ru": "Копии в реальном проекте: расписание и учёт",
+      "tg": "Нусхаҳо дар лоиҳаи воқеӣ: ҷадвали вақт ва ҳисобдорӣ",
+      "en": "Copies in a real project: schedule and bookkeeping"
+     },
+     "body": {
+      "ru": "План защиты данных держится на двух числах: сколько работы вы готовы потерять и как долго идёт восстановление. Расписание: копия раз в день терпима для учебной базы, для денег интервалы короче — решение о цене, а не о технике. Второе число — проверка восстановления: копия, которую ни разу не поднимали в пустой базе, копией не считается; наш план сверяет COUNT(*) по таблицам — размер файла ничего не доказывает. Третья грань — учёт: где копия, кто её снимает, когда проверена. Дамп SQL — текст данных: паролей и личных данных в нём быть не должно, коммитить в репозиторий — ошибка. COMMIT закрепляет изменения на диске; копия нужна на случай, когда закрепилось лишнее.",
+      "tg": "Нақшаи муҳофизати маълумот дар лоиҳаи воқеӣ бар ду адад истодааст: чанд кори гум кардан омодаед ва барқарорсозӣ чанд тул мекашад. Аз ин ҷадвали вақт: нусхаи як маротиба дар як рӯз барои пойгоҳи таълимӣ гувориш аст, барои пули корӣ байнҳои кӯтоҳтар — ва ин қарори нарх аст, на техникӣ. Адади дуюм — санҷиши барқарорсозӣ: нусхае, ки як бор ҳам дар пойгоҳи холӣ балнашудааст, нусха ҳисоб намешавад; нақшаи мо COUNT(*)-ро аз рӯи ҷадвалҳо муқоиса мекунад, зеро андозаи файли «ба нусха мондагӣ» ҳеҷ чизро собит намекунад. Ҳолати сеюм — ҳисобдорӣ: нусха куҷост, кӣ мегирад, кай санҷида шудааст. Дампи SQL матни маълумот аст ва ба он дарси рӯзи бистуму сеюм рост меояд: дар дампҳо гузарвожаҳо ва маълумоти шахсӣ набояд бошанд ва онҳоро ба репозиторий комит кардан хато аст, на нусхаи эҳтиётӣ. Пайванд бо рӯзи бистуму ҳафтум мустақим аст: COMMIT тағйиротро ба диск мустаҳкам мекунад ва нусха ҳамон барои мавриде лозим аст, ки он чи набояд мустаҳкам мешуд, мустаҳкам шудааст.",
+      "en": "A data-protection plan in a real project stands on two numbers: how much work you are ready to lose and how long a restore takes. Hence the schedule: a copy once a day is tolerable for a learning base; for working money the intervals are shorter — and that is a decision about price, not about technique. The second number is the restore check: a copy that has never been raised in an empty base is not a copy; our plan compares COUNT(*) across the tables, because the size of a file that 'looks like a copy' proves nothing. The third facet is bookkeeping: where the copy lives, who takes it, when it was verified. An SQL dump is data as text, and day twenty-three's lesson applies: no passwords or personal data in dumps, and committing them to a repository is a mistake, not a backup. The link with day twenty-seven is direct: COMMIT fixes changes on disk, and the copy exists exactly for the case when what should not have been fixed got fixed."
+     }
     }
    ],
    "questions": [
@@ -4736,7 +6167,13 @@
        "en": "SQLite forbids copying files"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Отказ носителя уничтожает всё на нём; где тогда копия?",
+      "tg": "Харобии восита ҳама чизи дар онро нобуд мекунад; он гоҳ нусха куҷост?",
+      "en": "A media failure destroys everything on it; where is the copy then?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-28-q2",
@@ -4767,7 +6204,50 @@
        "en": "Deletes old tables"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Команда печатает схему и данные одним текстом; чем этот текст полезен?",
+      "tg": "Фармон схему ва маълумотро бо як матн чоп мекунад; ин матн бо чи муфид аст?",
+      "en": "The command prints the schema and the data as one text; what makes that text useful?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "sql-day-28-q3",
+     "question": {
+      "ru": "Как убедиться, что копия базы действительно восстановима?",
+      "tg": "Чӣ гуна мутмаин шудан мумкин аст, ки нусхаи пойгоҳ воқеан барқароршаванда аст?",
+      "en": "How do you make sure the database copy is really restorable?"
+     },
+     "answer": {
+      "ru": "Восстановить её в пустой базе и сверить COUNT(*)",
+      "tg": "Онро дар пойгоҳи холӣ барқарор карда, COUNT(*)-ро муқоиса кардан",
+      "en": "Restore it into an empty base and compare COUNT(*)"
+     },
+     "options": [
+      {
+       "ru": "Сравнить размер файла с оригиналом",
+       "tg": "Андозаи файлро бо нусхаи аслӣ муқоиса кардан",
+       "en": "Compare the file size with the original"
+      },
+      {
+       "ru": "Открыть файл в текстовом редакторе",
+       "tg": "Файлро дар муҳаррири матнӣ кушодан",
+       "en": "Open the file in a text editor"
+      },
+      {
+       "ru": "Восстановить её в пустой базе и сверить COUNT(*)",
+       "tg": "Онро дар пойгоҳи холӣ барқарор карда, COUNT(*)-ро муқоиса кардан",
+       "en": "Restore it into an empty base and compare COUNT(*)"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Копию, которую ни разу не поднимали, копией считать нельзя; что проверяют после восстановления?",
+      "tg": "Нусхае, ки як бор ҳам балнашудааст, нусха ҳисоб намешавад; пас аз барқарорсозӣ чиро тафтиш мекунанд?",
+      "en": "A copy that has never been raised is not a copy; what do you verify after the restore?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -4915,7 +6395,13 @@
        "en": "Stock on October 1st"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Первый отчёт группирует выручку по датам; что означает дата и число в строке?",
+      "tg": "Ҳисоботи аввал даромадро аз рӯи санаҳо гурӯҳбандӣ мекунад; сана ва адад дар сатр чӣ маънӣ доранд?",
+      "en": "The first report groups revenue by dates; what do the date and the number in a row mean?"
+     },
+     "relatedSection": 2
     },
     {
      "id": "sql-day-29-q2",
@@ -4946,7 +6432,50 @@
        "en": "DISTINCT over the orders list"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Клиент без заказов не имеет пары; какой JOIN сохраняет его и какой фильтр ловит?",
+      "tg": "Харидори бе фармоиш ҷуфт надорад; кадом JOIN ӯро нигоҳ медорад ва кадом филтр мегирад?",
+      "en": "A customer without orders has no pair; which JOIN keeps him and which filter catches him?"
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "sql-day-29-q3",
+     "question": {
+      "ru": "Зачем в топ-3 товаров стоит LIMIT 3 после ORDER BY?",
+      "tg": "Чаро дар топ-3 молҳо LIMIT 3 баъд аз ORDER BY меистад?",
+      "en": "Why does the top-3 products report put LIMIT 3 after ORDER BY?"
+     },
+     "answer": {
+      "ru": "Оставить три строки уже отсортированного результата",
+      "tg": "Се сатри натиҷаи аллакай ҷудокардашударо боқӣ гузоштан",
+      "en": "To keep three rows of the already sorted result"
+     },
+     "options": [
+      {
+       "ru": "Обрезать саму таблицу в базе",
+       "tg": "Худи ҷадвалро дар пойгоҳ буридан",
+       "en": "To trim the table in the database"
+      },
+      {
+       "ru": "Ускорить вставку новых данных",
+       "tg": "Сарфи маълумоти навро тез кардан",
+       "en": "To speed up inserting new data"
+      },
+      {
+       "ru": "Оставить три строки уже отсортированного результата",
+       "tg": "Се сатри натиҷаи аллакай ҷудокардашударо боқӣ гузоштан",
+       "en": "To keep three rows of the already sorted result"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Сначала строится полный порядок, потом отрезается окно; что было бы без ORDER BY?",
+      "tg": "Аввал тартииби пурра сохта мешавад, баъд тиреза бурида мешавад; бе ORDER BY чӣ мешавид?",
+      "en": "First the full order is built, then the window is cut; what would happen without ORDER BY?"
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -5024,6 +6553,18 @@
     },
     {
      "title": {
+      "ru": "Отчёт в реальном проекте: пороги и параметры",
+      "tg": "Ҳисобот дар лоиҳаи воқеӣ: ҳадҳо ва параметрҳо",
+      "en": "A report in a real project: thresholds and parameters"
+     },
+     "body": {
+      "ru": "Готовый скрипт — шаблон, и в настоящем проекте шаблон живёт параметрами: порог топа, окно дат, граница HAVING меняются под вопрос заказчика, а сам скрипт не переписывается. В приложении значения подставляют параметрами драйвера, а не склейкой строк — урок первого дня, который теперь работает и в отчётах. Вторая грань — регламент: отчёт запускают по расписанию и сверяют с предыдущим прогоном; перекрёстные проверки 216 становятся автоматическими условиями. Третья — честность: суммы считаются по данным базы, но интерпретация «почему выросло» остаётся за человеком; SQL показывает факты, а не причины. Поменяйте пороги на свои вопросы — и получите новую витрину без переписывания маршрута данных.",
+      "tg": "Скрипти тайёри имрӯза — шаблон аст ва дар лоиҳаи воқеӣ шаблон бо параметрҳо зиндагӣ мекунад: ҳади топ, давраи санаҳо, ҳади HAVING мутобиқи саволи фармоиш тағйир меёбанд ва худи скрипт азнавнавис намешавад. Дар дархост арзишҳоро бо часпондани сатрхо не, бо параметрҳои драйвер мегузоранд — дарси рӯзи аввал, ки имрӯз дар ҳисоботҳо ҳам кор мекунад. Ҳолати дуюм — низомнома: ҳисоботро мувофиқи ҷадвал мегузоранд ва натиҷаашро бо иҷрои пешкин муқоиса мекунанд; санҷишҳои чорратибаи 216, ки дастӣ мекардем, дар ҳисоботи корӣ шартҳои худкор мешаванд. Сеюм — ростигӣ: маблағҳо аз маълумоти пойгоҳ ҳисоб мешаванд, вале таъвили «чаро зиёд шуд» дар дасти одам мемонад; SQL воқеъиятҳоро нишон медиҳад, на сабабҳо. Ин шаблонро дар портфолио нишон додан мумкин аст: ҳадҳоро ба саволҳои худ тағйир диҳед ва бе азнавнависии роҳи маълумот витринаи нав гиред.",
+      "en": "The finished script of this day is a template, and in a real project the template lives by parameters: the top cutoff, the date window, the HAVING boundary change with the customer's question, while the script itself is not rewritten. In an application values are substituted not by string concatenation but with driver parameters — the day-one lesson that now works for reports too. The second facet is the schedule: the report runs on a timetable and its output is compared with the previous run; the cross-checks of 216 we did by hand become automatic conditions in a working report. The third is honesty: sums are computed from the base's data, but interpreting 'why it grew' stays with a person; SQL shows facts, not causes. Such a template can go into a portfolio: change the thresholds to your own questions and get a new showcase without rewriting the data route."
+     }
+    },
+    {
+     "title": {
       "ru": "Запустите и проверьте",
       "tg": "Иҷро карда санҷед",
       "en": "Run and verify"
@@ -5077,7 +6618,13 @@
        "en": "DISTINCT speeds up counting"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Заказ встречается в отчёте столько раз, сколько у него позиций; сколько раз он должен считаться?",
+      "tg": "Фармоиш дар ҳисобот ҳамон қадар маротиба меояд, ки маводи дорад; чанд маротиба бояд ҳисоб шавад?",
+      "en": "An order appears in the report as many times as it has items; how many times should it be counted?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "sql-day-30-q2",
@@ -5108,7 +6655,50 @@
        "en": "It is mandatory ROUND syntax"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Деление целых в SQLite отбрасывает дробную часть; как сделать деление дробным?",
+      "tg": "Тақсими ададҳои бутун дар SQLite қисми касриро меандозад; тақсимро касрӣ чӣ гуна кардан мумкин аст?",
+      "en": "Integer division in SQLite drops the fractional part; how do you make the division fractional?"
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "sql-day-30-q3",
+     "question": {
+      "ru": "О чём говорит совпадение итогов 216 в трёх разных отчётах?",
+      "tg": "Мутобиқати ҷамъи 216 дар се ҳисоботи гуногун аз чи даълолат мекунад?",
+      "en": "What does the 216 total matching across three different reports indicate?"
+     },
+     "answer": {
+      "ru": "Отчёты согласованы — перекрёстная проверка прошла",
+      "tg": "Ҳисоботҳо мувофиқанд — санҷиши мутақобил гузашт",
+      "en": "The reports agree — the cross-check passed"
+     },
+     "options": [
+      {
+       "ru": "Это случайное совпадение",
+       "tg": "Ин тасодуф аст",
+       "en": "It is a coincidence"
+      },
+      {
+       "ru": "База почти пуста",
+       "tg": "Пойгоҳ қариб холӣ аст",
+       "en": "The base is nearly empty"
+      },
+      {
+       "ru": "Отчёты согласованы — перекрёстная проверка прошла",
+       "tg": "Ҳисоботҳо мувофиқанд — санҷиши мутақобил гузашт",
+       "en": "The reports agree — the cross-check passed"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Три суммы считались разными маршрутами по одним данным; что означает их встреча в одном числе?",
+      "tg": "Се ҷамъ бо роҳҳои гуногун аз як маълумот ҳисоб шудаанд; вохӯрии онҳо дар як адад чӣ маънӣ дорад?",
+      "en": "Three sums were computed by different routes over the same data; what does their meeting in one number mean?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {

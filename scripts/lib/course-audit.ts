@@ -1,6 +1,7 @@
 import {COURSE_CATALOG, LEARNING_TRACKS} from '@/content/courses/catalog';
 import {COURSE_IDS} from '@/lib/courses/ids';
 import {loadCourseContent} from '@/lib/courses/content';
+import {courseAccessTier} from '@/lib/courses/access';
 import type {CourseContent, CourseLesson} from '@/lib/courses/schema';
 import {reactMonthDays} from '@/lib/react-plan';
 import {questionsForTopic} from '@/content/course';
@@ -119,7 +120,7 @@ export async function loadAuditData() {
     const lessons=content?importedAuditLessons(content):reactAuditLessons();
     const summary=summarizeCourse(entry.id,lessons,content?.sources.length??new Set(reactMonthDays(1).concat(reactMonthDays(2)).flatMap(day=>day.topics.map(topic=>topic.source))).size);
     if(summary.publishedDays!==entry.publishedDays)throw new Error(`${entry.id}: catalog declares ${entry.publishedDays} days, audited ${summary.publishedDays}.`);
-    return {tier:entry.accessTier??'starter',...summary};
+    return {tier:entry.accessTier??'starter',requiredAccessTier:courseAccessTier(entry.id),...summary};
   }));
   return {rows,tracks:LEARNING_TRACKS,matrix:buildStageCoverage(rows,LEARNING_TRACKS)};
 }

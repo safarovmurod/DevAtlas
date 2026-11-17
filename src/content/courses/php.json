@@ -128,12 +128,12 @@
       "ru": "Что такое PHP и где выполняется код",
       "tg": "PHP чист ва код дар куҷо иҷро мешавад?",
       "en": "PHP and its runtime"
-    },
+     },
      "body": {
       "ru": "PHP — язык программирования, часто используемый на сервере. Он может собрать HTML и отправить браузеру результат. В первом уроке PHP CLI запускает файл из терминала.\n\nДля запуска нужен PHP CLI. Файл начинается с <?php; имена переменных начинаются с $. echo выводит значение, PHP_EOL добавляет перевод строки. Запуск через CLI не требует веб-сервера и не создаёт HTTP API.",
       "tg": "PHP забони барномасозӣ аст, ки бисёр вақт дар сервер кор мекунад. Метавонад HTML тайёр карда ба браузер ҷавоб диҳад. Дар дарси аввал файлро PHP CLI дар терминал иҷро мекунад.\n\nБарои иҷро PHP CLI лозим аст. Файл аз <?php сар мешавад; номи тағйирёбанда аз $ оғоз меёбад. echo қиматро мебарорад, PHP_EOL сатри нав илова мекунад. Иҷро дар CLI веб-сервер талаб намекунад ва HTTP API намесозад.",
       "en": "PHP is a programming language often used on servers. It can produce HTML and send the result to a browser. This lesson runs a file from the terminal with PHP CLI.\n\nPHP CLI is required. The file begins with <?php and variable names begin with $. echo outputs a value; PHP_EOL adds a newline. CLI execution requires no web server and does not create an HTTP API."
-    },
+     },
      "code": "<?php\n$price = 12;\n$quantity = 3;\necho $price * $quantity, PHP_EOL;\n",
      "language": "php",
      "output": {
@@ -165,21 +165,33 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is an introductory module of 30 days. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Глубже: регистр имён и вычисление в echo",
+      "tg": "Амиқтар: ҳарфи номҳо ва ҳисоб дар echo",
+      "en": "Deeper: name case and evaluation in echo"
+     },
+     "body": {
+      "ru": "Имена переменных в PHP чувствительны к регистру: $name и $Name — две разные переменные, и после опечатки в регистре скрипт увидит пустое значение вместо ожидаемого. В реальном проекте выбирают один стиль написания, например camelCase, и придерживаются его во всех файлах, чтобы такие «двойники» не появлялись.\n\nЗначение после echo вычисляется до печати: сначала PHP считает выражение, затем выводит готовый результат. Поэтому echo 2 + 3; печатает 5, а не текст самого выражения. В одном echo можно перечислить несколько значений через запятую — каждое будет вычислено и выведено по порядку, а PHP_EOL между ними добавит перевод строки.",
+      "tg": "Номҳои тағйирёбандаҳо дар PHP ба ҳарфҳои калону хурд ҳассосанд: $name ва $Name — ду тағйирёбандаи гуногун, ва баъди хатои ҳарфӣ скрипт ба ҷои қимати интизорӣ қимати холӣ мебинад. Дар лоиҳаи воқеӣ як услуби навиштро интихоб мекунанд, масалан camelCase, ва дар ҳамаи файлҳо ба он риоя мекунанд, то чунин «ҷуфтҳо» пайдо нашаванд.\n\nҚимати баъди echo пеш аз чоп ҳисоб мешавад: аввал PHP ифодаро ҳисоб мекунад, баъд натиҷаи омодаро мебарорад. Аз ин рӯ echo 2 + 3; адади 5-ро мебарорад, на матни худи ифодаро. Дар як echo метавон якчанд қимат бо вергул навишт — ҳар яке ҳисоб ва бо тартиб бароварда мешавад, ва PHP_EOL байни онҳо сатри нав илова мекунад.",
+      "en": "PHP variable names are case-sensitive: $name and $Name are two different variables, and after a case typo the script sees an empty value instead of the expected one. In a real project you pick one naming style, such as camelCase, and keep it across all files so such twins never appear.\n\nThe value after echo is evaluated before printing: PHP first computes the expression, then outputs the finished result. That is why echo 2 + 3; prints 5, not the expression text. A single echo may list several values separated by commas — each is evaluated and printed in order, with PHP_EOL adding newlines between them."
+     }
     }
    ],
    "interview": {
-     "id": "php-day-01-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какой символ ставят перед именем переменной в PHP?",
-       "tg": "Пеш аз номи variable дар PHP кадом аломат меояд?",
-       "en": "Which symbol goes before a PHP variable name?"
-     },
-     "answer": {
-       "ru": "$",
-       "tg": "$",
-       "en": "$"
-     }
+    "id": "php-day-01-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какой символ ставят перед именем переменной в PHP?",
+     "tg": "Пеш аз номи variable дар PHP кадом аломат меояд?",
+     "en": "Which symbol goes before a PHP variable name?"
+    },
+    "answer": {
+     "ru": "$",
+     "tg": "$",
+     "en": "$"
+    }
    },
    "questions": [
     {
@@ -211,6 +223,12 @@
        "en": "#"
       }
      ],
+     "hint": {
+      "ru": "Имена переменных в PHP начинаются с особого знака, отличающего их от обычных слов в коде.",
+      "tg": "Номҳои тағйирёбандаҳо дар PHP аз аломати махсус сар мешаванд, ки онҳоро аз калимаҳои оддии код фарқ медиҳад.",
+      "en": "PHP variable names start with a special character that distinguishes them from ordinary words in the code."
+     },
+     "relatedSection": 0,
      "correctIndex": 1
     },
     {
@@ -242,7 +260,50 @@
        "en": "2 + 3"
       }
      ],
+     "hint": {
+      "ru": "echo сначала вычисляет арифметическое выражение и только потом печатает готовый результат.",
+      "tg": "echo аввал ифодаи арифметикро ҳисоб мекунад ва танҳо баъд натиҷаи омодаро чоп мекунад.",
+      "en": "echo first evaluates the arithmetic expression and only then prints the finished result."
+     },
+     "relatedSection": 0,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-01-q3",
+     "question": {
+      "ru": "$name и $Name в одном скрипте — это одна переменная или две?",
+      "tg": "$name ва $Name дар як скрипт — як тағйирёбанда ё дуто?",
+      "en": "Are $name and $Name in one script the same variable or two different ones?"
+     },
+     "answer": {
+      "ru": "Две разные переменные",
+      "tg": "Ду тағйирёбандаи гуногун",
+      "en": "Two different variables"
+     },
+     "options": [
+      {
+       "ru": "Одна и та же переменная",
+       "tg": "Як тағйирёбанда",
+       "en": "The same variable"
+      },
+      {
+       "ru": "Синтаксическая ошибка",
+       "tg": "Хатои синтаксӣ",
+       "en": "A syntax error"
+      },
+      {
+       "ru": "Две разные переменные",
+       "tg": "Ду тағйирёбандаи гуногун",
+       "en": "Two different variables"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "PHP читает регистр букв в имени: проверьте, считаются ли два имени с разными буквами одним и тем же.",
+      "tg": "PHP ҳарфҳои калон ва хурдро дар ном фарқ мекунад: санҷед, оё ду ном бо ҳарфҳои гуногун ягон чиз ҳисоб мешаванд.",
+      "en": "PHP reads letter case in names: check whether two names differing in case count as one."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -302,12 +363,12 @@
       "ru": "Типы в параметрах и результате функции",
       "tg": "Типи параметр ва натиҷаи функсия",
       "en": "Parameters and return types"
-    },
+     },
      "body": {
       "ru": "Функция с типами объявляет, какие значения принимает и возвращает. Тип int запрещает неподходящий тип аргумента при строгом вызове, но проверка отрицательного количества всё равно нужна.\n\ndeclare(strict_types=1) включает строгую передачу скалярных аргументов из этого файла. Параметры и возвращаемый результат помечены int. InvalidArgumentException отклоняет отрицательные значения. Используйте целые небольшие значения; для реальных денег нужна отдельная модель точности и валют.",
       "tg": "Функсия бо тип мегӯяд, кадом қиматро мегирад ва медиҳад. Дар даъвати strict типи int қимати навъи дигарро намегирад. Манфӣ будани миқдорро алоҳида санҷ.\n\ndeclare(strict_types=1) додани аргументҳои скаляриро аз ин файл қатъӣ мекунад. Параметрҳо ва натиҷа int мебошанд. InvalidArgumentException қиматҳои манфиро рад мекунад. Ададҳои хурди бутунро истифода баред; барои пули воқеӣ модели алоҳидаи дақиқӣ ва асъор лозим аст.",
       "en": "A typed function states what it takes and returns. In a strict call, int rejects other scalar types. Still check the range, such as a negative item count.\n\ndeclare(strict_types=1) enables strict scalar argument passing from this file. Parameters and return values are marked int. InvalidArgumentException rejects negative values. Use small whole numbers; real money needs a separate precision and currency model."
-    },
+     },
      "code": "<?php\ndeclare(strict_types=1);\nfunction total(int $price, int $quantity): int {\n    if ($price < 0 || $quantity < 0) throw new InvalidArgumentException(\"Negative value\");\n    return $price * $quantity;\n}\necho total(12, 3), PHP_EOL;\necho total(12, 0), PHP_EOL;\ntry { total(12, -1); }\ncatch (InvalidArgumentException $error) { echo \"Invalid input rejected\", PHP_EOL; }\n",
      "language": "php",
      "output": {
@@ -339,21 +400,33 @@
       "tg": "Ин модули шиносоӣ аз 30 рӯз иборат аст. Муҳити маҳаллии зикршуда лозим аст; сайт ин кодро иҷро намекунад ва аз рӯи худсанҷӣ аттестатсияи серверӣ намедиҳад.",
       "en": "This is an introductory module of 30 days. The stated local runtime is required; this website does not execute this code or grant server-verified assessment from a self-check."
      }
+    },
+    {
+     "title": {
+      "ru": "Конец функции и тип результата",
+      "tg": "Охири функсия ва типи натиҷа",
+      "en": "Reaching the end of a function"
+     },
+     "body": {
+      "ru": "Если функция без объявленного типа результата доходит до конца, PHP возвращает null. Например, function noResult() {} и вызов var_dump(noResult()) выводят NULL. У total объявлен результат : int. Если убрать return $price * $quantity; и вызвать total(12, 3), PHP выбросит TypeError в этом вызове. Параметры прошли проверку, но функция завершилась без обещанного целого числа. Проверь обычный пример отдельно, а затем восстанови return в total.",
+      "tg": "Агар функсия бе типи эълоншудаи натиҷа то охир расад, PHP null бармегардонад. Масалан, барои function noResult() {} даъвати var_dump(noResult()) дар экран NULL мебарорад. Функсияи total натиҷаи : int ваъда медиҳад. Агар return $price * $quantity;-ро гирӣ ва total(12, 3)-ро даъват кунӣ, PHP дар ҳамин даъват TypeError медиҳад. Параметрҳо аз санҷиш гузаштанд, вале функсия бе адади бутуни ваъдашуда тамом шуд. Мисоли одиро ҷудо санҷ ва баъд return-ро дар total барқарор кун.",
+      "en": "If a function reaches the end without declaring a return type, PHP returns null. For example, after function noResult() {}, var_dump(noResult()) prints NULL. The total function declares an int return type. If you remove return $price * $quantity; and call total(12, 3), PHP throws TypeError in that call. The arguments pass validation, but the function ends without providing the promised integer. Compare the two cases separately, then restore the return in total."
+     }
     }
    ],
    "interview": {
-     "id": "php-day-02-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какой тип возвращаемого значения указать для целого количества в функции PHP?",
-       "tg": "Барои натиҷаи бутуни функсияи PHP кадом типро мемонӣ?",
-       "en": "Which PHP return type fits a whole-number count?"
-     },
-     "answer": {
-       "ru": "int",
-       "tg": "int",
-       "en": "int"
-     }
+    "id": "php-day-02-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какой тип возвращаемого значения указать для целого количества в функции PHP?",
+     "tg": "Барои натиҷаи бутуни функсияи PHP кадом типро мемонӣ?",
+     "en": "Which PHP return type fits a whole-number count?"
+    },
+    "answer": {
+     "ru": "int",
+     "tg": "int",
+     "en": "int"
+    }
    },
    "questions": [
     {
@@ -385,6 +458,12 @@
        "en": "Removes the variable from memory"
       }
      ],
+     "hint": {
+      "ru": "return не печатает значение — он передаёт его тому коду, который вызвал функцию.",
+      "tg": "return қиматро чоп намекунад — он ба коде, ки функсияро даъват кардааст, мегузаронад.",
+      "en": "return does not print a value — it hands it to the code that called the function."
+     },
+     "relatedSection": 0,
      "correctIndex": 1
     },
     {
@@ -416,7 +495,50 @@
        "en": "#strict types"
       }
      ],
+     "hint": {
+      "ru": "Объявление начинается со слова declare и должно стоять в самом начале файла.",
+      "tg": "Эълон аз калимаи declare сар мешавад ва бояд дар ҳамагон аввали файл истад.",
+      "en": "The declaration starts with the word declare and must sit at the very top of the file."
+     },
+     "relatedSection": 0,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-02-q3",
+     "question": {
+      "ru": "Что вернёт функция без объявленного типа результата, если она дошла до конца без return?",
+      "tg": "Функсияе, ки типи натиҷааш эълон нашудааст, бе return то охир расад, чӣ бармегардонад?",
+      "en": "What does a function with no declared return type return if it reaches the end without a return statement?"
+     },
+     "answer": {
+      "ru": "null",
+      "tg": "null",
+      "en": "null"
+     },
+     "options": [
+      {
+       "ru": "false",
+       "tg": "false",
+       "en": "false"
+      },
+      {
+       "ru": "Пустую строку",
+       "tg": "Сатри холӣ",
+       "en": "An empty string"
+      },
+      {
+       "ru": "null",
+       "tg": "null",
+       "en": "null"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Посмотри на пример noResult(). У этой функции после скобок нет объявления : int.",
+      "tg": "Мисоли noResult()-ро бин. Баъди қавсҳои ин функсия : int эълон нашудааст.",
+      "en": "Look at noResult(). Its declaration has no : int after the parentheses."
+     },
+     "relatedSection": 3
     }
    ],
    "practice": {
@@ -476,12 +598,12 @@
       "ru": "Типы PHP и значение null",
       "tg": "Типҳои PHP ва қимати null",
       "en": "PHP types and null"
-    },
+     },
      "body": {
       "ru": "PHP связывает тип с текущим значением: строка \"0\", число 0 и null означают разные вещи. null нужен, когда значение отсутствует. Строгое сравнение === учитывает и тип.\n\nВ любой программе данные имеют тип: целое число, дробное, текст, истина/ложь или «ничего». PHP определяет тип сам, в момент присваивания, поэтому новичку кажется, что типов «нет». Это не так: от типа зависит, что произойдёт при сложении, сравнении и выводе. Слабая типизация удобна, но коварна: PHP молча превращает «5» в 5, и ошибка в данных может остаться незамеченной. Поэтому мы сразу включаем declare(strict_types=1) и учимся видеть типы явно. Пять базовых типов покрывают почти весь вводный курс: int для счётчиков и лет, float для средних значений, string для текста, bool для флагов, null для «значения ещё нет». Сегодня вы научитесь спрашивать у PHP тип через gettype и предсказывать результат простых операций. Слово gettype здесь работает как линейка: без неё типы остаются догадками, с ней — фактом. Привычка спрашивать тип перед операцией спасает от половины неожиданностей слабой типизации.",
       "tg": "Дар PHP тип ба қимати ҳозира вобаста аст. Сатри \"0\", адади 0 ва null ҳар кадом маънои ҷудо доранд. null вақте аст, ки қимат нест. === типро ҳам месанҷад.\n\nДар ҳар барнома маълумот тип дорад: адади бутун, адади касрӣ, матн, рост/нодуруст ё «ҳеҷ чиз». PHP типро худ муайян мекунад, дар лаҳзаи додани қимат, бинобар ин ба навомӯз чунин менамояд, ки типҳо «нестанд». Ин дуруст нест: аз тип вобаста аст, ки дар ҷамъбаст, муқоиса ва барориш чӣ рӯй медиҳад. Типизатсияи суст роҳат аст, вале хатарнок: PHP «5»-ро бепарво ба 5 табдил медиҳад ва хато дар маълумот ноаён боқӣ мемонад. Барои мо фавран declare(strict_types=1)-ро фаъол мекунем ва меомӯзем типҳоро ошкоро дида бошем. Панҷ типи асосӣ қариб тамоми курси шиносоиро мепушонанд: int барои ҳисобкунакҳо ва солҳо, float барои миёнаҳо, string барои матн, bool барои парчамҳо, null барои «ҳанӯз қимат нест». Имрӯз шумо меомӯзед аз PHP бо gettype тип пурсед ва натиҷаи амалиётҳои оддиро пешгӯӣ кунед. Сухани gettype дар ин ҷо ҳамчун хаткашак кор мекунад: бе он типҳо тахмин мемонанд, бо он — воқеият. Одати пурсидани тип пеш аз амал аз ниме аз ногоҳидиҳои типизатсияи суст ҳифз мекунад.",
       "en": "PHP values have types. The string \"0\", the number 0, and null mean different things. null represents a missing value. Strict equality === also checks the type.\n\nEvery value in a program has a type: a whole number, a decimal, text, true/false, or nothing. PHP decides the type itself at assignment time, so beginners often think types do not exist. They do: the type decides what happens during addition, comparison, and output. Weak typing is convenient but sneaky — PHP quietly turns \"5\" into 5, and a data error can stay invisible. That is why we switch on declare(strict_types=1) from the start and learn to see types explicitly. Five basic types cover almost the whole beginner course: int for counters and years, float for averages, string for text, bool for flags, null for no value yet. Today you will ask PHP for a type with gettype and predict the result of simple operations. Treat gettype as a ruler: without it types are guesses, with it they are facts. The habit of asking for a type before an operation saves you half of weak-typing surprises."
-    }
+     }
     },
     {
      "title": {
@@ -528,21 +650,21 @@
     }
    ],
    "interview": {
-     "id": "php-day-03-written",
-     "caseSensitive": true,
-     "question": {
-       "ru": "Какой литерал PHP обозначает отсутствие значения?",
-       "tg": "Дар PHP кадом қимат набудани маълумотро нишон медиҳад?",
-       "en": "Which PHP literal represents the absence of a value?"
-     },
-     "answer": {
-       "ru": "null",
-       "tg": "null",
-       "en": "null"
-     },
-     "acceptedAnswers": [
-       "NULL"
-     ]
+    "id": "php-day-03-written",
+    "caseSensitive": true,
+    "question": {
+     "ru": "Какой литерал PHP обозначает отсутствие значения?",
+     "tg": "Дар PHP кадом қимат набудани маълумотро нишон медиҳад?",
+     "en": "Which PHP literal represents the absence of a value?"
+    },
+    "answer": {
+     "ru": "null",
+     "tg": "null",
+     "en": "null"
+    },
+    "acceptedAnswers": [
+     "NULL"
+    ]
    },
    "questions": [
     {
@@ -574,6 +696,12 @@
        "en": "number"
       }
      ],
+     "hint": {
+      "ru": "В примере gettype вызывался для разных типов; посмотрите, что он вернул для числа с точкой.",
+      "tg": "Дар мисол gettype барои намудҳои гуногун даъват шуда буд; бингаред, барои адади бо нуқта чӣ гардонд.",
+      "en": "In the example gettype was called on several types; look at what it returned for a decimal number."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -605,7 +733,50 @@
        "en": "empty"
       }
      ],
+     "hint": {
+      "ru": "null — отдельный тип: у него нет значения, и gettype сообщает его имя заглавными буквами.",
+      "tg": "null — намуди ҷудогона аст: қиматаш нест ва gettype номашро бо ҳарфҳои калон мегӯяд.",
+      "en": "null is its own type: it has no value, and gettype reports its name in capital letters."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-03-q3",
+     "question": {
+      "ru": "Что вернёт gettype('42')?",
+      "tg": "gettype('42') чӣ мегардонад?",
+      "en": "What does gettype('42') return?"
+     },
+     "answer": {
+      "ru": "string",
+      "tg": "string",
+      "en": "string"
+     },
+     "options": [
+      {
+       "ru": "integer",
+       "tg": "integer",
+       "en": "integer"
+      },
+      {
+       "ru": "string",
+       "tg": "string",
+       "en": "string"
+      },
+      {
+       "ru": "NULL",
+       "tg": "NULL",
+       "en": "NULL"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Кавычки вокруг значения меняют тип: сравните с тем, что gettype вернул для целого числа в примере.",
+      "tg": "Нохунакҳо атрофи қимат намудро тағйир медиҳанд: бо он муқоиса кунед, ки gettype барои адади бутуни мисол чӣ гардонд.",
+      "en": "Quotes around a value change the type: compare with what gettype returned for the integer in the example."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -671,7 +842,7 @@
       "ru": "Строка хранит текст. Оператор . склеивает части, например \"Hi, \" . $name. В двойных кавычках PHP подставляет значение переменной: \"Hi, $name\". В одинарных имя останется текстом. strlen считает байты; чтобы посчитать символы UTF-8, используйте mb_strlen при включённом расширении mbstring.",
       "tg": "Сатр матнро нигоҳ медорад. Оператори . қисмҳоро мепайвандад, мисли \"Hi, \" . $name. Дар нохунаки дугона PHP қимати variable-ро мегузорад: \"Hi, $name\". Дар нохунаки якка ном матн мемонад. strlen байтро мешуморад; барои аломатҳои UTF-8 бо mbstring аз mb_strlen истифода бар.",
       "en": "A string holds text. The . operator joins pieces such as \"Hi, \" . $name. Double quotes interpolate variables, as in \"Hi, $name\", while single quotes leave the name as text. strlen counts bytes; use mb_strlen with the mbstring extension to count UTF-8 characters."
-    }
+     }
     },
     {
      "title": {
@@ -747,6 +918,12 @@
        "en": "An empty string"
       }
      ],
+     "hint": {
+      "ru": "Сравните поведение одинарных и двойных кавычек в примере интерполяции.",
+      "tg": "Рафтори нохунакҳои якка ва дугонаро дар мисоли интерполяция муқоиса кунед.",
+      "en": "Compare how single and double quotes behave in the interpolation example."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -778,7 +955,50 @@
        "en": "5"
       }
      ],
+     "hint": {
+      "ru": "strlen считает байты. Каждая ASCII-буква в слове code занимает один байт.",
+      "tg": "strlen байтҳоро мешуморад. Ҳар ҳарфи ASCII дар калимаи code як байт ҷой мегирад.",
+      "en": "strlen counts bytes. Each ASCII letter in code takes one byte."
+     },
+     "relatedSection": 2,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-04-q3",
+     "question": {
+      "ru": "Какой оператор склеивает две строки в PHP?",
+      "tg": "Дар PHP кадом оператор ду сатрро мепайвандад?",
+      "en": "Which operator joins two strings in PHP?"
+     },
+     "answer": {
+      "ru": ".",
+      "tg": ".",
+      "en": "."
+     },
+     "options": [
+      {
+       "ru": "+",
+       "tg": "+",
+       "en": "+"
+      },
+      {
+       "ru": "&",
+       "tg": "&",
+       "en": "&"
+      },
+      {
+       "ru": ".",
+       "tg": ".",
+       "en": "."
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Вспомните строку из примера, где имя и значение соединялись в один текст.",
+      "tg": "Сатре аз мисолро ба ёд оред, ки ном ва қимат ба як матн пайвастанд.",
+      "en": "Recall the line in the example where a name and a value were joined into one text."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -844,7 +1064,7 @@
       "ru": "В PHP 9 / 2 даёт 4.5. Если результат деления двух целых точный, он может быть целым. intdiv(9, 2) даёт целое частное 4, а 9 % 2 даёт остаток 1. intdiv отбрасывает дробную часть; round округляет по правилу. Выбирайте операцию по задаче: количество коробок и цена за единицу требуют разных правил.",
       "tg": "Дар PHP 9 / 2 натиҷаи 4.5 медиҳад. Агар ду адади бутун бебақия тақсим шаванд, натиҷа метавонад бутун бошад. intdiv(9, 2) қисми бутуни 4, 9 % 2 бақияи 1 медиҳад. intdiv касрро мепартояд, round бошад гирд мекунад. Шумораи қуттӣ ва нархи як дона ҳисобҳои ҷудоянд.",
       "en": "In PHP, 9 / 2 yields 4.5. An exact division of two integers can return an integer. intdiv(9, 2) gives the integer quotient 4 and 9 % 2 gives the remainder 1. intdiv discards the fractional part; round rounds according to its rule. A box count and a unit price can need different operations."
-    }
+     }
     },
     {
      "title": {
@@ -920,6 +1140,12 @@
        "en": "4"
       }
      ],
+     "hint": {
+      "ru": "intdiv отбрасывает дробную часть, а не округляет по правилам round.",
+      "tg": "intdiv қисми касриро мепартояд, на он ки ба тарзи round мудаввар мекунад.",
+      "en": "intdiv drops the fractional part rather than rounding like round does."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -951,7 +1177,50 @@
        "en": "0"
       }
      ],
+     "hint": {
+      "ru": "Остаток — то, что не поделилось нацело: вспомните деление с остатком из школьной программы.",
+      "tg": "Боқимонда он аст, ки тамоман тақсим нашуд: тақсими бо боқимондаро аз барномаи мактабӣ ба ёд оред.",
+      "en": "The remainder is what did not divide evenly: recall division with a remainder from school."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-05-q3",
+     "question": {
+      "ru": "Что выведет echo round(2.5);?",
+      "tg": "echo round(2.5); чӣ мебарорад?",
+      "en": "What does echo round(2.5); output?"
+     },
+     "answer": {
+      "ru": "3",
+      "tg": "3",
+      "en": "3"
+     },
+     "options": [
+      {
+       "ru": "2",
+       "tg": "2",
+       "en": "2"
+      },
+      {
+       "ru": "2.5",
+       "tg": "2.5",
+       "en": "2.5"
+      },
+      {
+       "ru": "3",
+       "tg": "3",
+       "en": "3"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Некоторые языки округляют 2.5 к 2. Сравните правило PHP с привычным вам поведением других языков.",
+      "tg": "Баъзе забонҳо 2.5-ро ба 2 мудаввар мекунанд. Қоидаи PHP-ро бо рафтори забонҳои дигар, ки ба шумо маълум аст, муқоиса кунед.",
+      "en": "Some languages round 2.5 to 2. Compare the PHP rule with the behaviour you know from other languages."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1093,6 +1362,12 @@
        "en": "="
       }
      ],
+     "hint": {
+      "ru": "Один оператор сравнивает и значение, и тип сразу; его записывают тремя знаками.",
+      "tg": "Як оператор ҳам қимат, ҳам намудро якбора муқоиса мекунад; он бо се аломат навишта мешавад.",
+      "en": "One operator compares both value and type at once; it is written with three characters."
+     },
+     "relatedSection": 0,
      "correctIndex": 1
     },
     {
@@ -1124,7 +1399,50 @@
        "en": "The first case line runs"
       }
      ],
+     "hint": {
+      "ru": "Подумайте, что произойдёт, если ни один вариант match не совпал, а ветки default нет.",
+      "tg": "Ба ин андеша намоед, ки агар ягон вариантҳои match мувофиқат накунанд ва default набошад, чӣ мешавад.",
+      "en": "Think about what happens when no match arm matches and there is no default branch."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-06-q3",
+     "question": {
+      "ru": "Какая из этих строк превращается в true при приведении к bool?",
+      "tg": "Кадом аз ин сатрҳо ҳангоми табдил ба bool true мешавад?",
+      "en": "Which of these strings becomes true when converted to bool?"
+     },
+     "answer": {
+      "ru": "'PHP'",
+      "tg": "'PHP'",
+      "en": "'PHP'"
+     },
+     "options": [
+      {
+       "ru": "'0'",
+       "tg": "'0'",
+       "en": "'0'"
+      },
+      {
+       "ru": "''",
+       "tg": "''",
+       "en": "''"
+      },
+      {
+       "ru": "'PHP'",
+       "tg": "'PHP'",
+       "en": "'PHP'"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Только одна из трёх строк не входит в список «ложных» значений.",
+      "tg": "Танҳо як сатр аз се сатр ба рӯйхати қиматҳои «дурӯғӣ» дохил намешавад.",
+      "en": "Only one of the three strings is not in the list of falsy values."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1266,6 +1584,12 @@
        "en": "4 times"
       }
      ],
+     "hint": {
+      "ru": "Считайте итерации от $i = 0 включительно до первого значения, при котором условие становится ложным.",
+      "tg": "Такрорҳоро аз $i = 0 (бо худаш) то аввалин қимате бишморед, ки шарт нодуруст мешавад.",
+      "en": "Count the iterations from $i = 0 inclusive up to the first value where the condition becomes false."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -1297,7 +1621,50 @@
        "en": "for with an empty condition"
       }
      ],
+     "hint": {
+      "ru": "Один цикл из трёх создан специально для перебора элементов массива без счётчика.",
+      "tg": "Як ҳалқа аз се ҳалқа махсус барои гардидани элементҳои массив бе ҳисобкунак сохта шудааст.",
+      "en": "One of the three loops exists specifically to walk over array elements without a counter."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-07-q3",
+     "question": {
+      "ru": "Как получить в foreach одновременно ключ и значение?",
+      "tg": "Дар foreach ҳамзамон калид ва қимат чӣ тавр мегиранд?",
+      "en": "How do you get both key and value in a foreach?"
+     },
+     "answer": {
+      "ru": "foreach ($arr as $key => $value)",
+      "tg": "foreach ($arr as $key => $value)",
+      "en": "foreach ($arr as $key => $value)"
+     },
+     "options": [
+      {
+       "ru": "foreach ($arr as $key, $value)",
+       "tg": "foreach ($arr as $key, $value)",
+       "en": "foreach ($arr as $key, $value)"
+      },
+      {
+       "ru": "foreach ($arr in $key => $value)",
+       "tg": "foreach ($arr in $key => $value)",
+       "en": "foreach ($arr in $key => $value)"
+      },
+      {
+       "ru": "foreach ($arr as $key => $value)",
+       "tg": "foreach ($arr as $key => $value)",
+       "en": "foreach ($arr as $key => $value)"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Между ключом и значением ставится тот же знак, которым соединяется пара «ключ – значение» при описании массива.",
+      "tg": "Байни калид ва қимат ҳамон аломат мегузарад, ки ҳангоми тавсифи массив ҷуфти «калид – қимат»-ро мепайвандад.",
+      "en": "Between key and value stands the same arrow used for key–value pairs in an array literal."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1363,7 +1730,7 @@
       "ru": "Массив PHP хранит значения в порядке вставки под ключами. Для списка [\"tea\", \"bread\"] ключи по умолчанию равны 0 и 1. Синтаксис $items[] добавляет элемент, count считает элементы. После удаления ключи могут стать непоследовательными; foreach обходит существующие записи без догадок об индексах.",
       "tg": "Массиви PHP қиматҳоро бо калид ва тартиби илова нигоҳ медорад. Дар рӯйхати [\"tea\", \"bread\"] калидҳои пешфарз 0 ва 1 ҳастанд. $items[] элемент илова мекунад ва count мешуморад. Баъди несткунӣ калидҳо метавонанд пайдарпай набошанд; foreach худи сабтҳои мавҷударо мегирад.",
       "en": "A PHP array stores values under keys in insertion order. The list [\"tea\", \"bread\"] receives keys 0 and 1. Append with $items[] and count entries with count. Removing an item can leave gaps in numeric keys. foreach visits the entries that actually exist."
-    }
+     }
     },
     {
      "title": {
@@ -1439,6 +1806,12 @@
        "en": "-1"
       }
      ],
+     "hint": {
+      "ru": "Индексация начинается не с единицы: посмотрите, как в примере достаётся первый элемент.",
+      "tg": "Индексатсия аз як сар намешавад: бингаред, дар мисол аввалин элемент чӣ тавр гирифта мешавад.",
+      "en": "Indexing does not start at one: look at how the example fetches the first element."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -1470,7 +1843,50 @@
        "en": "15"
       }
      ],
+     "hint": {
+      "ru": "count отвечает на вопрос «сколько элементов», а не «каково последнее значение».",
+      "tg": "count ба саволи «чанд элемент» ҷавоб медиҳад, на ба «охирин қимат чӣ аст».",
+      "en": "count answers \"how many elements\", not \"what is the last value\"."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-08-q3",
+     "question": {
+      "ru": "Как дописать число 5 в конец массива $nums?",
+      "tg": "Адади 5-ро ба охири массиви $nums чӣ тавр илова мекунанд?",
+      "en": "How do you append the number 5 to the array $nums?"
+     },
+     "answer": {
+      "ru": "$nums[] = 5;",
+      "tg": "$nums[] = 5;",
+      "en": "$nums[] = 5;"
+     },
+     "options": [
+      {
+       "ru": "$nums.append(5);",
+       "tg": "$nums.append(5);",
+       "en": "$nums.append(5);"
+      },
+      {
+       "ru": "$nums{5} = 5;",
+       "tg": "$nums{5} = 5;",
+       "en": "$nums{5} = 5;"
+      },
+      {
+       "ru": "$nums[] = 5;",
+       "tg": "$nums[] = 5;",
+       "en": "$nums[] = 5;"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В примере к массиву $nums уже дописывали новый элемент без указания индекса — найдите эту строку.",
+      "tg": "Дар мисол ба массиви $nums аллакай элементи нав бе нишон додани индекс илова карда шуда буд — ҳамон сатрро ёбед.",
+      "en": "In the example a new element was appended to $nums without naming an index — find that line."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1536,7 +1952,7 @@
       "ru": "Ассоциативный массив связывает понятный ключ со значением, например [\"name\" => \"Ali\", \"city\" => \"Dushanbe\"]. Прочитайте поле через $user[\"city\"]. PHP также допускает целые ключи, а строка вида \"8\" становится ключом 8. Не допускайте случайного совпадения ключей, если строите массив из внешних данных.",
       "tg": "Массиви ассоциативӣ калиди фаҳморо ба қимат мебандад, мисли [\"name\" => \"Ali\", \"city\" => \"Dushanbe\"]. Майдонро бо $user[\"city\"] хон. PHP калиди бутунро ҳам қабул мекунад ва сатри \"8\" ба калиди 8 табдил мешавад. Агар массив аз додаи берунӣ тартиб ёбад, як шудани калидҳоро санҷ.",
       "en": "An associative array connects a readable key to a value, as in [\"name\" => \"Ali\", \"city\" => \"Dushanbe\"]. Read the field with $user[\"city\"]. PHP also accepts integer keys and converts a string key such as \"8\" to integer 8. Check for key collisions when deriving keys from external data."
-    }
+     }
     },
     {
      "title": {
@@ -1612,6 +2028,12 @@
        "en": "key: value"
       }
      ],
+     "hint": {
+      "ru": "Знак пары «ключ – значение» в PHP такой же, как в описании массива из примера: стрелка из знаков = и >.",
+      "tg": "Аломати ҷуфти «калид – қимат» дар PHP ҳамон аст, ки дар тавсифи массиви мисол: тири аз аломатҳои = ва >.",
+      "en": "The key–value pair symbol in PHP matches the array notation in the example: an arrow built from = and >."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -1643,7 +2065,50 @@
        "en": "count"
       }
      ],
+     "hint": {
+      "ru": "Эта функция возвращает true, если ключ существует и не равен null, и не выдаёт предупреждения при отсутствии.",
+      "tg": "Ин функсия ҳангоми мавҷуд будани калид ва нобаробар буданаш ба null true мегардонад ва ҳангоми набудан огоҳинома намедиҳад.",
+      "en": "This function returns true when the key exists and is not null, without emitting a warning when it is missing."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-09-q3",
+     "question": {
+      "ru": "Как прочитать значение по ключу name из массива $user?",
+      "tg": "Қиматро бо калиди name аз массиви $user чӣ тавр мегиранд?",
+      "en": "How do you read the value under the key name from the array $user?"
+     },
+     "answer": {
+      "ru": "$user['name']",
+      "tg": "$user['name']",
+      "en": "$user['name']"
+     },
+     "options": [
+      {
+       "ru": "$user->name",
+       "tg": "$user->name",
+       "en": "$user->name"
+      },
+      {
+       "ru": "$user(name)",
+       "tg": "$user(name)",
+       "en": "$user(name)"
+      },
+      {
+       "ru": "$user['name']",
+       "tg": "$user['name']",
+       "en": "$user['name']"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Стрелка -> принадлежит объектам; для доступа к ключам массива служат квадратные скобки.",
+      "tg": "Тир -> ба объектҳо тааллуқ дорад; барои дастрасӣ ба калидҳои массив қавси квадратӣ хизмат мекунад.",
+      "en": "The arrow -> belongs to objects; array keys are reached with square brackets."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -1709,7 +2174,7 @@
       "ru": "sort переставляет элементы исходного массива и заново нумерует ключи; его результат не является отсортированным массивом. array_map строит значения по одному правилу, например удваивает цены. array_filter оставляет подходящие записи и сохраняет их ключи. Если дальше нужен список с индексами подряд, примените array_values.",
       "tg": "sort элементҳои массивро дар ҷояш ҷойиваз мекунад ва калидҳоро аз нав рақам медиҳад. Натиҷаи даъваташ массиви тартибшуда нест. array_map аз рӯйи як қоида қиматҳои нав месозад, мисли ду баробар кардани нарх. array_filter сабтҳои мувофиқ ва калидҳояшонро мемонад. Барои индексҳои пайдарпай array_values гир.",
       "en": "sort reorders the original array and renumbers its keys. Its return value is not the sorted array. array_map transforms values, for example by doubling each price. array_filter keeps matching entries and preserves their keys. Use array_values when subsequent code expects consecutive numeric indexes."
-    }
+     }
     },
     {
      "title": {
@@ -1785,6 +2250,12 @@
        "en": "The number of elements"
       }
      ],
+     "hint": {
+      "ru": "Это классическая ошибка из раздела «Типичные ошибки»: функция сортирует на месте и лишь сообщает об успехе.",
+      "tg": "Ин хатои классикии бахши «Хатоҳои маъмулӣ» аст: функсия дар ҷо мураттаб мекунад ва танҳо муваффақиятро хабар медиҳад.",
+      "en": "This is the classic mistake from the common-errors section: the function sorts in place and merely reports success."
+     },
+     "relatedSection": 2,
      "correctIndex": 0
     },
     {
@@ -1816,7 +2287,50 @@
        "en": "Sorts elements descending"
       }
      ],
+     "hint": {
+      "ru": "Название функции читается как «фильтр»: элементы, для которых условие не выполнено, отбрасываются.",
+      "tg": "Номи функсия ҳамчун «филтр» хонда мешавад: элементҳое, ки шарт иҷро намешавад, партофта мешаванд.",
+      "en": "The function name reads as \"filter\": elements failing the condition are discarded."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-10-q3",
+     "question": {
+      "ru": "Какая функция сортирует массив по убыванию?",
+      "tg": "Кадом функсия массивро аз калон ба хурд мураттаб мекунад?",
+      "en": "Which function sorts an array in descending order?"
+     },
+     "answer": {
+      "ru": "rsort",
+      "tg": "rsort",
+      "en": "rsort"
+     },
+     "options": [
+      {
+       "ru": "sort",
+       "tg": "sort",
+       "en": "sort"
+      },
+      {
+       "ru": "asort",
+       "tg": "asort",
+       "en": "asort"
+      },
+      {
+       "ru": "rsort",
+       "tg": "rsort",
+       "en": "rsort"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "sort сортирует по возрастанию; в названии нужной функции первая буква означает «обратный».",
+      "tg": "sort аз хурд ба калон мураттаб мекунад; дар номи функсияи лозимӣ ҳарфи аввал маънои «баръакс» дорад.",
+      "en": "sort goes ascending; in the name of the right function the first letter stands for \"reverse\"."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -1958,6 +2472,12 @@
        "en": "Anywhere — PHP figures it out"
       }
      ],
+     "hint": {
+      "ru": "PHP заполняет параметры слева направо, поэтому значения по умолчанию не должны стоять впереди обязательных.",
+      "tg": "PHP параметрҳоро аз чап ба рост пур мекунад, аз ин рӯ қиматҳои пешфарз набояд пеш аз ҳатмӣ ҳамҷой шаванд.",
+      "en": "PHP fills parameters left to right, so default values must not precede required ones."
+     },
+     "relatedSection": 0,
      "correctIndex": 0
     },
     {
@@ -1989,7 +2509,50 @@
        "en": "34 is returned"
       }
      ],
+     "hint": {
+      "ru": "При strict_types=1 строка не превращается в число: посмотрите, какой тип ожидает функция.",
+      "tg": "Бо strict_types=1 сатр ба адад табдил намеёбад: бингаред, функсия кадом намудро интизор аст.",
+      "en": "With strict_types=1 a string is not converted to a number: check which type the function expects."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-11-q3",
+     "question": {
+      "ru": "Что произойдёт при вызове функции с меньшим числом аргументов, чем обязательных параметров?",
+      "tg": "Ҳангоми даъвати функсия бо аргументҳои камтар аз параметрҳои ҳатмӣ чӣ мешавад?",
+      "en": "What happens when you call a function with fewer arguments than required parameters?"
+     },
+     "answer": {
+      "ru": "Будет выброшена ошибка ArgumentCountError",
+      "tg": "Хатои ArgumentCountError партофта мешавад",
+      "en": "An ArgumentCountError is thrown"
+     },
+     "options": [
+      {
+       "ru": "На месте пропущенного аргумента подставится null",
+       "tg": "Дар ҷои аргументи нофақида null гузошта мешавад",
+       "en": "null is substituted for the missing argument"
+      },
+      {
+       "ru": "Будет выдано предупреждение, но функция выполнится",
+       "tg": "Огоҳинома дода мешавад, вале функсия иҷро мешавад",
+       "en": "A warning is emitted, but the function still runs"
+      },
+      {
+       "ru": "Будет выброшена ошибка ArgumentCountError",
+       "tg": "Хатои ArgumentCountError партофта мешавад",
+       "en": "An ArgumentCountError is thrown"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Начиная с PHP 7.1 нехватка обязательных аргументов не проходит тихо — это ошибка-наследник TypeError.",
+      "tg": "Аз PHP 7.1 камбудии аргументҳои ҳатмӣ бе овоз намегузорад — ин хатои меросгурӯғи TypeError аст.",
+      "en": "Since PHP 7.1 missing required arguments do not pass silently — it is a TypeError subclass."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -2055,7 +2618,7 @@
       "ru": "Область видимости показывает, где доступно имя. Переменная снаружи функции не становится видимой внутри неё автоматически. Передайте значение параметром, чтобы зависимость была явной. Локальная static сохраняет своё значение между вызовами функции в рамках данного выполнения скрипта. Это не способ хранить данные между запросами.",
       "tg": "Область видимости ҷои дастрас будани номро муайян мекунад. Variable-и берунӣ худ аз худ даруни функсия намедарояд. Қиматро ҳамчун параметр деҳ, то вобастагӣ намоён бошад. static-и локалӣ байни даъватҳои функсия дар як иҷрои скрипт қиматашро нигоҳ медорад. Ин сабти доимӣ байни request-ҳо нест.",
       "en": "Scope defines where a name is visible. A variable outside a function does not automatically become available inside it. Pass its value as a parameter to make the dependency explicit. A static local retains its value between function calls in that execution of the script. It is not persistent storage across requests."
-    }
+     }
     },
     {
      "title": {
@@ -2131,6 +2694,12 @@
        "en": "A runtime error"
       }
      ],
+     "hint": {
+      "ru": "У каждой функции собственная изолированная область: имя совпадает, но переменная другая.",
+      "tg": "Барои ҳар функсия соҳаи ҷудогона мавҷуд аст: ном мувофиқ аст, вале тағйирёбанда дигар аст.",
+      "en": "Each function has its own isolated scope: the name matches, but the variable is a different one."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -2162,7 +2731,50 @@
        "en": "It cannot be changed"
       }
      ],
+     "hint": {
+      "ru": "static придаёт локальной переменной «память»: инициализация происходит один раз, а не при каждом вызове.",
+      "tg": "static ба тағйирёбандаи маҳаллӣ «ҳофиза» медиҳад: оғози қимат як бор мешавад, на дар ҳар даъват.",
+      "en": "static gives a local variable \"memory\": initialization happens once, not on every call."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-12-q3",
+     "question": {
+      "ru": "Что нужно написать внутри функции, чтобы работать с глобальной $counter?",
+      "tg": "Барои кор бо тағйирёбандаи умумии $counter дар дохили функсия чӣ навиштан лозим аст?",
+      "en": "What must you write inside a function to work with the global $counter?"
+     },
+     "answer": {
+      "ru": "global $counter;",
+      "tg": "global $counter;",
+      "en": "global $counter;"
+     },
+     "options": [
+      {
+       "ru": "extern $counter;",
+       "tg": "extern $counter;",
+       "en": "extern $counter;"
+      },
+      {
+       "ru": "static $counter;",
+       "tg": "static $counter;",
+       "en": "static $counter;"
+      },
+      {
+       "ru": "global $counter;",
+       "tg": "global $counter;",
+       "en": "global $counter;"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ключевое слово совпадает с названием области, где живут переменные вне функций.",
+      "tg": "Калимаи калидӣ бо номи соҳае мувофиқ аст, ки тағйирёбандаҳои берубар функсияҳо дар он зиндагӣ мекунанд.",
+      "en": "The keyword matches the name of the scope where variables outside functions live."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -2228,7 +2840,7 @@
       "ru": "include выполняет указанный PHP-файл в этом месте. __DIR__ даёт папку текущего файла, поэтому подключение не зависит от папки, из которой запустили команду. При обязательном файле используйте require, чтобы отсутствие остановило запуск. Варианты с _once помогают не объявить одну функцию дважды. Подключайте известные пути проекта.",
       "tg": "include файли PHP-ро дар ҳамин ҷой иҷро мекунад. __DIR__ папкаи файли ҳозираро медиҳад ва аз папкаи оғоз вобаста нест. Барои файли ҳатмӣ require гир, то агар набошад барнома сар нашавад. Варианти _once ёрӣ медиҳад, ки як функсия ду бор эълон нашавад. Танҳо роҳи маълуми проектро пайваст кун.",
       "en": "include evaluates a PHP file at that point. __DIR__ gives you the directory of the current file so the path does not depend on where the command started. Use require for an essential file so startup stops if it is missing. The _once variants avoid redeclaring a function. Include files from known project paths."
-    }
+     }
     },
     {
      "title": {
@@ -2304,6 +2916,12 @@
        "en": "The program hangs forever"
       }
      ],
+     "hint": {
+      "ru": "require считается обязательным подключением: без файла программа не может продолжаться.",
+      "tg": "require пайвасти ҳатмӣ ҳисоб мешавад: бе файл барнома идома ёфта наметавонад.",
+      "en": "require is treated as a mandatory include: without the file the program cannot continue."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -2335,7 +2953,50 @@
        "en": "__DIR__ encrypts the file name"
       }
      ],
+     "hint": {
+      "ru": "__DIR__ — константа папки, в которой лежит сам подключающий файл, а не текущий рабочий каталог.",
+      "tg": "__DIR__ — доимии папкае, ки худи файли пайвасткунанда дар он ҷой дорад, на феҳристи кории ҷорӣ.",
+      "en": "__DIR__ is the constant of the folder holding the including file itself, not the current working directory."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-13-q3",
+     "question": {
+      "ru": "Что произойдёт, если существующий helpers.php подключить после первого echo greet('Mentor') в примере?",
+      "tg": "Агар helpers.php-и мавҷударо дар мисол баъди echo greet('Mentor') пайваст кунӣ, чӣ мешавад?",
+      "en": "What happens if the example requires the existing helpers.php after the first echo greet('Mentor')?"
+     },
+     "answer": {
+      "ru": "PHP сообщит, что функция greet не определена",
+      "tg": "PHP мегӯяд, ки функсияи greet муайян нашудааст",
+      "en": "PHP reports an undefined function greet"
+     },
+     "options": [
+      {
+       "ru": "Сначала напечатается Hello, Mentor!",
+       "tg": "Аввал Hello, Mentor! мебарояд",
+       "en": "Hello, Mentor! prints first"
+      },
+      {
+       "ru": "PHP сам подключит файл при вызове greet",
+       "tg": "PHP ҳангоми даъвати greet файлро худаш пайваст мекунад",
+       "en": "PHP loads the file automatically when greet runs"
+      },
+      {
+       "ru": "PHP сообщит, что функция greet не определена",
+       "tg": "PHP мегӯяд, ки функсияи greet муайян нашудааст",
+       "en": "PHP reports an undefined function greet"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В примере greet объявлена внутри helpers.php. Проверь порядок выполнения этих двух строк.",
+      "tg": "Дар мисол greet дар дохили helpers.php эълон шудааст. Тартиби иҷрои ин ду сатрро бин.",
+      "en": "In the example, helpers.php defines greet. Trace the order of the two statements."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2477,6 +3138,12 @@
        "en": "42000"
       }
      ],
+     "hint": {
+      "ru": "Флаг 0 и ширина 5 дополняют число нулями слева до пяти знаков.",
+      "tg": "Прапори 0 ва паҳноии 5 ададро аз чап бо сифр то панҷ аломат пур мекунад.",
+      "en": "The 0 flag with width 5 pads the number with zeros on the left up to five characters."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -2508,7 +3175,50 @@
        "en": "A single % works as is"
       }
      ],
+     "hint": {
+      "ru": "Чтобы напечатать сам символ-признак шаблона, его нужно удвоить — это экранирование.",
+      "tg": "Барои чоп кардани худи аломати-монии шаблон бояд онро дучанд кунед — ин экраниронист.",
+      "en": "To print the template marker character itself, double it — that is escaping."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-14-q3",
+     "question": {
+      "ru": "Что выведет printf('%s: %d', 'cart', 3)?",
+      "tg": "printf('%s: %d', 'cart', 3) чӣ мебарорад?",
+      "en": "What does printf('%s: %d', 'cart', 3) output?"
+     },
+     "answer": {
+      "ru": "cart: 3",
+      "tg": "cart: 3",
+      "en": "cart: 3"
+     },
+     "options": [
+      {
+       "ru": "%s: %d",
+       "tg": "%s: %d",
+       "en": "%s: %d"
+      },
+      {
+       "ru": "'cart': 3",
+       "tg": "'cart': 3",
+       "en": "'cart': 3"
+      },
+      {
+       "ru": "cart: 3",
+       "tg": "cart: 3",
+       "en": "cart: 3"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Подставьте аргументы по порядку: первый — вместо %s, второй — вместо %d.",
+      "tg": "Аргументҳоро бо тартиб ҷойгузин кунед: аввалӣ — ба ҷои %s, дуюм — ба ҷои %d.",
+      "en": "Substitute the arguments in order: the first for %s, the second for %d."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2650,6 +3360,12 @@
        "en": "An error"
       }
      ],
+     "hint": {
+      "ru": "Оператор подставляет правую часть, когда ключа ещё нет: при первом голосе счётчик начинается с нуля.",
+      "tg": "Оператор қисми ростро ҷойгузин мекунад, ки калид ҳанӯз набошад: дар овози аввал ҳисобкунак аз сифр сар мешавад.",
+      "en": "The operator substitutes the right side when the key does not exist yet: the counter starts at zero on the first vote."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -2681,7 +3397,50 @@
        "en": "Indexed arrays cannot store numbers"
       }
      ],
+     "hint": {
+      "ru": "Поиск по названию языка как по ключу не требует перебора всего списка.",
+      "tg": "Ҷустуҷӯ бо номи забон ҳамчун калид ба тамоми рӯйхатро гардидан ниёз надорад.",
+      "en": "Looking up a language name as a key does not require walking the whole list."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-15-q3",
+     "question": {
+      "ru": "Что хранится в $counts после подсчёта голосов?",
+      "tg": "Баъди ҳисоби овозҳо дар $counts чӣ нигоҳ дошта мешавад?",
+      "en": "What does $counts hold after the votes are counted?"
+     },
+     "answer": {
+      "ru": "Ключ — название языка, значение — сколько голосов он набрал",
+      "tg": "Калид — номи забон, қимат — чанд овоз гирифтааст",
+      "en": "Key — the language name, value — how many votes it got"
+     },
+     "options": [
+      {
+       "ru": "Ключ — номер голоса, значение — название языка",
+       "tg": "Калид — рақами овоз, қимат — номи забон",
+       "en": "Key — the vote number, value — the language name"
+      },
+      {
+       "ru": "Значения — списки всех голосов подряд",
+       "tg": "Қиматҳо — рӯйхатҳои тамоми овозҳо пай дар пай",
+       "en": "Values — lists of all votes in sequence"
+      },
+      {
+       "ru": "Ключ — название языка, значение — сколько голосов он набрал",
+       "tg": "Калид — номи забон, қимат — чанд овоз гирифтааст",
+       "en": "Key — the language name, value — how many votes it got"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Вспомните строку $counts[$lang] = ($counts[$lang] ?? 0) + 1: что здесь растёт на единицу?",
+      "tg": "Сатри $counts[$lang] = ($counts[$lang] ?? 0) + 1-ро ба ёд оред: дар ин ҷо чӣ ба як меафзояд?",
+      "en": "Recall the line $counts[$lang] = ($counts[$lang] ?? 0) + 1: what grows by one here?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2823,6 +3582,12 @@
        "en": "A global variable"
       }
      ],
+     "hint": {
+      "ru": "Метод может быть вызван у разных объектов: внутри класса к «тому, кого вызвали», обращаются особой псевдопеременной.",
+      "tg": "Метород дар объектҳои гуногун даъват шавад: дар дохили синф ба «он, ки даъват шуд» бо тағйирёбандаи махсус муроҷиат мекунанд.",
+      "en": "A method can be called on different objects: inside the class, the invoked object is reached via a special pseudo-variable."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -2854,7 +3619,50 @@
        "en": "class"
       }
      ],
+     "hint": {
+      "ru": "Ключевое слово из трёх букв стоит перед именем класса в примере создания объекта.",
+      "tg": "Калимаи калидии се ҳарфӣ пеш аз номи синф дар мисоли сохтани объект истодааст.",
+      "en": "The three-letter keyword stands before the class name in the object-creation example."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-16-q3",
+     "question": {
+      "ru": "Как вызвать метод describe() у объекта $item?",
+      "tg": "Методи describe()-и объектҳои $item чӣ тавр даъват мекунанд?",
+      "en": "How do you call the describe() method on the object $item?"
+     },
+     "answer": {
+      "ru": "$item->describe()",
+      "tg": "$item->describe()",
+      "en": "$item->describe()"
+     },
+     "options": [
+      {
+       "ru": "$item.describe()",
+       "tg": "$item.describe()",
+       "en": "$item.describe()"
+      },
+      {
+       "ru": "describe($item)",
+       "tg": "describe($item)",
+       "en": "describe($item)"
+      },
+      {
+       "ru": "$item->describe()",
+       "tg": "$item->describe()",
+       "en": "$item->describe()"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Тот же знак, каким метод внутри класса обращается к $this->title.",
+      "tg": "Ҳамон аломат, ки метод дар дохили синф ба $this->title муроҷиат мекунад.",
+      "en": "The same sign a method inside the class uses to reach $this->title."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -2996,6 +3804,12 @@
        "en": "At the end of the program"
       }
      ],
+     "hint": {
+      "ru": "Имя метода начинается с двух подчёркиваний; PHP вызывает его сам в момент создания объекта.",
+      "tg": "Номи метод бо ду хатти зерин сар мешавад; PHP онро худ дар лаҳзаи сохтани объект даъват мекунад.",
+      "en": "The method name starts with two underscores; PHP calls it itself when the object is created."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -3027,7 +3841,50 @@
        "en": "The property is hidden from inheritors forever"
       }
      ],
+     "hint": {
+      "ru": "В примере вывод заголовка идёт через отдельный публичный метод, а не напрямую к свойству.",
+      "tg": "Дар мисол бароришои сарлавҳа тавассути методи ҷамъавии алоҳида мегузарад, на мустақиман ба хусусият.",
+      "en": "In the example the title is printed through a separate public method, not directly on the property."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-17-q3",
+     "question": {
+      "ru": "Может ли внешний код прочитать $book->title напрямую, если title объявлен как private?",
+      "tg": "Агар title ҳамчун private эълон шуда бошад, оё коди берунӣ $book->title-ро мустақиман хонда метавонад?",
+      "en": "Can outside code read $book->title directly when title is declared private?"
+     },
+     "answer": {
+      "ru": "Нет — нужен публичный метод, например геттер",
+      "tg": "Не — методи ҷамъавӣ лозим аст, масалан геттер",
+      "en": "No — a public method such as a getter is needed"
+     },
+     "options": [
+      {
+       "ru": "Да, если объект создан через new",
+       "tg": "Ҳа, агар объект бо new сохта шуда бошад",
+       "en": "Yes, if the object was created with new"
+      },
+      {
+       "ru": "Нет — нужен публичный метод, например геттер",
+       "tg": "Не — методи ҷамъавӣ лозим аст, масалан геттер",
+       "en": "No — a public method such as a getter is needed"
+      },
+      {
+       "ru": "Да — private влияет только на запись",
+       "tg": "Ҳа — private танҳо ба навиштан таъсир мекунад",
+       "en": "Yes — private affects only writing"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "В примере заголовок печатается отдельным методом класса — найдите его и посмотрите, кто его вызывает.",
+      "tg": "Дар мисол сарлавҳа бо методи алоҳидаи синф чоп мешавад — онро ёбед ва бингаред, кӣ онро даъват мекунад.",
+      "en": "In the example the title is printed by a separate class method — find it and see who calls it."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3093,7 +3950,7 @@
       "ru": "extends создаёт класс на основе другого, например Dog на основе Animal. Собака использует доступное общее поведение и может переопределить свой звук. Члены private недоступны напрямую в коде потомка; для общей настройки подходит метод родителя. Если у потомка есть свой конструктор, parent::__construct явно запускает настройку родителя.",
       "tg": "extends классро аз рӯйи класси дигар месозад, масалан Dog аз Animal. Dog рафтори умумии дастрасро истифода мебарад ва садои худро иваз карда метавонад. Ба private коди класси поёнӣ бевосита намерасад. Агар constructor-и худаш бошад, parent::__construct танзими класси болоиро даъват мекунад.",
       "en": "extends builds one class on another, such as Dog on Animal. Dog reuses accessible behavior and can override its sound. Methods in the subclass cannot directly access private members. If the subclass defines its own constructor, call parent::__construct explicitly when it needs the parent’s setup."
-    }
+     }
     },
     {
      "title": {
@@ -3169,6 +4026,12 @@
        "en": "Nothing — extends is just a marker"
       }
      ],
+     "hint": {
+      "ru": "Потомок получает всё, что объявил родитель, и может переопределять поведение.",
+      "tg": "Фарзанд ҳама чизе, ки падинш эълон кардааст, мегирад ва метавонад рафторро аз нав муайян кунад.",
+      "en": "The child receives everything the parent declared and may override behaviour."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -3200,7 +4063,50 @@
        "en": "No difference — they are synonyms"
       }
      ],
+     "hint": {
+      "ru": "protected шире, чем private: загляните, кто кроме самого класса получает доступ.",
+      "tg": "protected васеътар аз private аст: бингаред, кӣ ғайр аз худи синф дастрасӣ мегирад.",
+      "en": "protected is wider than private: see who besides the class itself gets access."
+     },
+     "relatedSection": 2,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-18-q3",
+     "question": {
+      "ru": "Как из метода потомка вызвать переопределённый метод родителя?",
+      "tg": "Аз методи фарзанд методи азнавмуайянкардаи падинш чӣ тавр даъват мекунанд?",
+      "en": "How do you call an overridden parent method from a child method?"
+     },
+     "answer": {
+      "ru": "parent::describe()",
+      "tg": "parent::describe()",
+      "en": "parent::describe()"
+     },
+     "options": [
+      {
+       "ru": "super::describe()",
+       "tg": "super::describe()",
+       "en": "super::describe()"
+      },
+      {
+       "ru": "base->describe()",
+       "tg": "base->describe()",
+       "en": "base->describe()"
+      },
+      {
+       "ru": "parent::describe()",
+       "tg": "parent::describe()",
+       "en": "parent::describe()"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Ключевое слово в PHP буквально называет «родителя», а не super или base из других языков.",
+      "tg": "Калимаи калидӣ дар PHP аслан «падинш»-ро меномад, на super ё base-и забонҳои дигар.",
+      "en": "The PHP keyword literally names the \"parent\", not super or base from other languages."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3342,6 +4248,12 @@
        "en": "Private properties"
       }
      ],
+     "hint": {
+      "ru": "В интерфейсе важен контракт: сигнатура есть, тела метода — нет.",
+      "tg": "Дар интерфейс муҳим аст шартнома: имзо ҳаст, вале бадани метод нест.",
+      "en": "In an interface the contract matters: the signature exists, the method body does not."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
     },
     {
@@ -3373,7 +4285,50 @@
        "en": "Nothing, PHP adds an empty method"
       }
      ],
+     "hint": {
+      "ru": "Контракт обязателен к исполнению: недостающий метод обнаруживается при запуске, а не молча.",
+      "tg": "Шартнома иҷроаш ҳатмӣ аст: методи нофақидан ҳангоми иҷро ошкор мешавад, на бе овоз.",
+      "en": "The contract must be fulfilled: the missing method is discovered at runtime, not silently skipped."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-19-q3",
+     "question": {
+      "ru": "Может ли класс реализовать несколько интерфейсов одновременно?",
+      "tg": "Оё синф метавонад якбора якчанд интерфейсро татбиқ кунад?",
+      "en": "Can a class implement several interfaces at once?"
+     },
+     "answer": {
+      "ru": "Да, перечислив их через запятую после implements",
+      "tg": "Ҳа, онҳоро бо вергул баъди implements рӯйхат карда",
+      "en": "Yes, listing them comma-separated after implements"
+     },
+     "options": [
+      {
+       "ru": "Нет, только один интерфейс",
+       "tg": "Не, танҳо як интерфейс",
+       "en": "No, only one interface"
+      },
+      {
+       "ru": "Да, но не больше двух",
+       "tg": "Ҳа, вале на зиёда аз ду",
+       "en": "Yes, but no more than two"
+      },
+      {
+       "ru": "Да, перечислив их через запятую после implements",
+       "tg": "Ҳа, онҳоро бо вергул баъди implements рӯйхат карда",
+       "en": "Yes, listing them comma-separated after implements"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В примере реализован один интерфейс, но синтаксис implements допускает список контрактов.",
+      "tg": "Дар мисол як интерфейс татбиқ шудааст, вале синтаксиси implements рӯйхати шартномаҳоро иҷозат медиҳад.",
+      "en": "The example implements one interface, but the implements syntax accepts a list of contracts."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -3515,6 +4470,12 @@
        "en": "getMessage($error)"
       }
      ],
+     "hint": {
+      "ru": "Объект исключения в блоке catch содержит сообщение — достают его методом со словом «get».",
+      "tg": "Объекти истисно дар блоки catch паёмро дар бар дорад — он бо методе, ки калимаи «get» дорад, гирифта мешавад.",
+      "en": "The exception object in the catch block carries the message — fetch it with the method containing \"get\"."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -3546,7 +4507,50 @@
        "en": "Only for a successful try without exceptions"
       }
      ],
+     "hint": {
+      "ru": "Блок «напоследок» выполняется независимо от того, было исключение или нет.",
+      "tg": "Блоки «дар охир» мустақил аз он ки истисно буд ё не, иҷро мешавад.",
+      "en": "The \"finally\" block runs regardless of whether an exception occurred or not."
+     },
+     "relatedSection": 1,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-20-q3",
+     "question": {
+      "ru": "Каким ключевым словом создают исключение в PHP?",
+      "tg": "Дар PHP истисноро бо кадом калимаи калидӣ месозанд?",
+      "en": "Which keyword raises an exception in PHP?"
+     },
+     "answer": {
+      "ru": "throw new Exception('...')",
+      "tg": "throw new Exception('...')",
+      "en": "throw new Exception('...')"
+     },
+     "options": [
+      {
+       "ru": "raise Exception('...')",
+       "tg": "raise Exception('...')",
+       "en": "raise Exception('...')"
+      },
+      {
+       "ru": "exception Exception('...')",
+       "tg": "exception Exception('...')",
+       "en": "exception Exception('...')"
+      },
+      {
+       "ru": "throw new Exception('...')",
+       "tg": "throw new Exception('...')",
+       "en": "throw new Exception('...')"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Слово из Python здесь не сработает: в PHP исключение «бросают».",
+      "tg": "Калимае, ки дар Python истифода мешавад, дар ин ҷо кор намекунад: дар PHP истисноро «меандозанд».",
+      "en": "The Python word will not work here: in PHP an exception is \"thrown\"."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3688,6 +4692,12 @@
        "en": "Only on false"
       }
      ],
+     "hint": {
+      "ru": "Оператор срабатывает там, где isset вернул бы false: на null и отсутствующих значениях.",
+      "tg": "Оператор он ҷо кор мекунад, ки isset false медод: дар null ва қиматҳои мавҷудндашуда.",
+      "en": "The operator fires where isset would return false: on null and missing values."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -3719,7 +4729,50 @@
        "en": "An empty string"
       }
      ],
+     "hint": {
+      "ru": "Знак вопроса перед стрелкой гасит ошибку и возвращает то, что и оператор ?? вернул бы для null.",
+      "tg": "Аломати савол пеш аз тир хаторо мешиканад ва ҳамон чизро мегардонад, ки ?? барои null мегардонд.",
+      "en": "The question mark before the arrow suppresses the error and returns what ?? would return for null."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-21-q3",
+     "question": {
+      "ru": "Что вернёт $a ?? $b, если $a равно null, а $b равно 5?",
+      "tg": "Агар $a баробари null ва $b баробари 5 бошад, $a ?? $b чӣ мегардонад?",
+      "en": "What does $a ?? $b return when $a is null and $b is 5?"
+     },
+     "answer": {
+      "ru": "5",
+      "tg": "5",
+      "en": "5"
+     },
+     "options": [
+      {
+       "ru": "null",
+       "tg": "null",
+       "en": "null"
+      },
+      {
+       "ru": "5",
+       "tg": "5",
+       "en": "5"
+      },
+      {
+       "ru": "Ошибку",
+       "tg": "Хато",
+       "en": "An error"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Оператор возвращает первое значение из перечисленных, которое не является null.",
+      "tg": "Оператор аввалин қимати аз рӯйхатро мегардонад, ки null набошад.",
+      "en": "The operator returns the first listed value that is not null."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -3861,6 +4914,12 @@
        "en": "array_push(new Book(...));"
       }
      ],
+     "hint": {
+      "ru": "Пустые квадратные скобки после имени массива дописывают элемент в конец.",
+      "tg": "Қавси квадратии холӣ баъди номи массив элементро ба охир илова мекунад.",
+      "en": "Empty square brackets after the array name append an element to the end."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -3892,7 +4951,50 @@
        "en": "The element index"
       }
      ],
+     "hint": {
+      "ru": "Переменная цикла — очередной объект каталога; у объектов есть стрелка.",
+      "tg": "Тағйирёбандаи ҳалқа — объектҳои навбатии каталог; объектҳо тир доранд.",
+      "en": "The loop variable is the next catalog object; objects use the arrow."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-22-q3",
+     "question": {
+      "ru": "Каталог из примера содержит Book с годами 2020, 2018 и 2022. Если foreach ($catalog as $book) { $book->year += 1; } выполнить перед подсчётом среднего, что напечатает последняя строка?",
+      "tg": "Дар каталоги мисол солҳои китобҳо 2020, 2018 ва 2022 ҳастанд. Агар foreach ($catalog as $book) { $book->year += 1; }-ро пеш аз ҳисоб кардани миёна иҷро кунӣ, сатри охир чӣ мебарорад?",
+      "en": "The example catalog contains books from 2020, 2018 and 2022. If foreach ($catalog as $book) { $book->year += 1; } runs before the average is calculated, what does the final line print?"
+     },
+     "answer": {
+      "ru": "2021.0",
+      "tg": "2021.0",
+      "en": "2021.0"
+     },
+     "options": [
+      {
+       "ru": "2020.0",
+       "tg": "2020.0",
+       "en": "2020.0"
+      },
+      {
+       "ru": "2023.0",
+       "tg": "2023.0",
+       "en": "2023.0"
+      },
+      {
+       "ru": "2021.0",
+       "tg": "2021.0",
+       "en": "2021.0"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В цикле обновляется свойство каждого уже существующего объекта. Затем сложи годы и раздели сумму на число книг.",
+      "tg": "Дар ҳалқа майдони ҳар объекти мавҷуда нав мешавад. Баъд солҳоро ҷамъ кун ва ба шумораи китобҳо тақсим кун.",
+      "en": "The loop updates a property on each existing object. Then add the years and divide by the number of books."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -4034,6 +5136,12 @@
        "en": "true"
       }
      ],
+     "hint": {
+      "ru": "Знак ответа компаратора задаёт порядок: минус значит «левый раньше правого».",
+      "tg": "Аломати ҷавоби муқоисакунанда тартибро муайян мекунад: манфӣ маънои «чап пеш аз рост» дорад.",
+      "en": "The sign of the comparator result sets the order: minus means \"left before right\"."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -4065,7 +5173,50 @@
        "en": "1"
       }
      ],
+     "hint": {
+      "ru": "При равных значениях «кораблик» даёт нейтральный ответ — порядок элементов не меняется.",
+      "tg": "Ҳангоми қиматҳои баробар «киштӣ» ҷавоби бетараф медиҳад — тартиби элементҳо тағйир намеёбад.",
+      "en": "With equal values the spaceship gives a neutral answer — element order stays unchanged."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-23-q3",
+     "question": {
+      "ru": "Что вернёт выражение 3 <=> 5?",
+      "tg": "Ифодаи 3 <=> 5 чӣ мегардонад?",
+      "en": "What does the expression 3 <=> 5 return?"
+     },
+     "answer": {
+      "ru": "-1",
+      "tg": "-1",
+      "en": "-1"
+     },
+     "options": [
+      {
+       "ru": "1",
+       "tg": "1",
+       "en": "1"
+      },
+      {
+       "ru": "0",
+       "tg": "0",
+       "en": "0"
+      },
+      {
+       "ru": "-1",
+       "tg": "-1",
+       "en": "-1"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Компаратор возвращает минус, когда левая сторона должна встать раньше правой.",
+      "tg": "Муқоисакунанда манфӣ мегардонад, ки тарафи чап бояд пеш аз рост истад.",
+      "en": "The comparator returns minus when the left side must come before the right."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4131,7 +5282,7 @@
       "ru": "Файл сохраняет данные после завершения скрипта. file_put_contents записывает строку целиком и без дополнительных флагов заменяет прежнее содержимое. file_get_contents возвращает прочитанный текст или false при ошибке. Пустая строка — тоже успешный результат, поэтому проверяйте ошибку через === false. Для примеров берите отдельный учебный файл.",
       "tg": "Файл баъди анҷоми скрипт маълумотро нигоҳ медорад. file_put_contents тамоми сатрро менависад ва бе flag мазмуни пешинаро иваз мекунад. file_get_contents матн ё ҳангоми хато false медиҳад. Сатри холӣ ҳам натиҷаи дуруст аст, хаторо бо === false санҷ. Барои мисол файли ҷудои машқ гир.",
       "en": "A file can preserve data after the script ends. file_put_contents writes a complete string and replaces previous content by default. file_get_contents returns the text or false on failure. An empty string can be a valid result, so test failure with === false. Work with a dedicated practice file."
-    }
+     }
     },
     {
      "title": {
@@ -4207,6 +5358,12 @@
        "en": "Refuses to write and returns false"
       }
      ],
+     "hint": {
+      "ru": "Без флага записи в конец файл заменяется новым содержимым целиком.",
+      "tg": "Бе прапори навиштан ба охир файл тамоман бо мундариҷаи нав иваз мешавад.",
+      "en": "Without the append flag the file is replaced entirely with the new content."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -4238,7 +5395,50 @@
        "en": "Creates the file and returns an empty string"
       }
      ],
+     "hint": {
+      "ru": "Функция возвращает false при неудаче и одновременно выдаёт предупреждение.",
+      "tg": "Функсия ҳангоми нокомӣ false мегардонад ва якбора огоҳинома медиҳад.",
+      "en": "The function returns false on failure and simultaneously emits a warning."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-24-q3",
+     "question": {
+      "ru": "Какая функция читает весь файл сразу в одну строку?",
+      "tg": "Кадом функсия тамоми файлро якбора ба як сатр мехонад?",
+      "en": "Which function reads the whole file into one string at once?"
+     },
+     "answer": {
+      "ru": "file_get_contents",
+      "tg": "file_get_contents",
+      "en": "file_get_contents"
+     },
+     "options": [
+      {
+       "ru": "fopen",
+       "tg": "fopen",
+       "en": "fopen"
+      },
+      {
+       "ru": "file_read",
+       "tg": "file_read",
+       "en": "file_read"
+      },
+      {
+       "ru": "file_get_contents",
+       "tg": "file_get_contents",
+       "en": "file_get_contents"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Одна функция в списке возвращает содержимое целиком, остальные либо открывают дескриптор, либо не существуют.",
+      "tg": "Як функсия аз рӯйхат мундариҷаро тамоман мегардонад; дигарон ё дескриптор мекушоянд ё вуҷуд надоранд.",
+      "en": "One function in the list returns the entire content; the others either open a handle or do not exist."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4304,7 +5504,7 @@
       "ru": "JSON записывает данные текстом для обмена или хранения. json_encode преобразует значение PHP, а json_decode читает обратно. Передайте true вторым аргументом, чтобы JSON-объекты стали ассоциативными массивами. С JSON_THROW_ON_ERROR неверный текст приводит к исключению; это отличает ошибку разбора от допустимого значения JSON null.",
       "tg": "JSON додаҳоро барои фиристодан ё сабт ҳамчун матн менависад. json_encode қимати PHP-ро табдил медиҳад, json_decode онро боз мехонад. Аргументи дуюми true объекти JSON-ро ба массиви ассоциативӣ мегардонад. Бо JSON_THROW_ON_ERROR матни вайрон exception медиҳад, то онро аз JSON null фарқ кунӣ.",
       "en": "JSON represents data as text for exchange or storage. json_encode converts a PHP value, and json_decode reads it back. Pass true as the second argument to make JSON objects associative arrays. JSON_THROW_ON_ERROR turns malformed input into an exception, which distinguishes a parse failure from the valid JSON value null."
-    }
+     }
     },
     {
      "title": {
@@ -4380,6 +5580,12 @@
        "en": "A string of PHP code"
       }
      ],
+     "hint": {
+      "ru": "Второй аргумент true включает режим «массив вместо объектов» — именно он и возвращается.",
+      "tg": "Аргументи дуюми true реҷаи «массив ба ҷои объект»-ро фаъол мекунад — ҳамон натиҷа мегардад.",
+      "en": "The second argument true switches to \"array instead of objects\" mode — that is what comes back."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -4411,7 +5617,50 @@
        "en": "Any PHP values including functions"
       }
      ],
+     "hint": {
+      "ru": "JSON хранит структуры: строки, числа, списки, объекты и логические значения.",
+      "tg": "JSON сохторҳоро нигоҳ медорад: сатрҳо, ададҳо, рӯйхатҳо, объектҳо ва қиматҳои мантиқӣ.",
+      "en": "JSON stores structures: strings, numbers, lists, objects and boolean values."
+     },
+     "relatedSection": 0,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-25-q3",
+     "question": {
+      "ru": "Что вернёт json_decode, если строка не является корректным JSON?",
+      "tg": "Агар сатр JSON-и дуруст набошад, json_decode чӣ мегардонад?",
+      "en": "What does json_decode return when the string is not valid JSON?"
+     },
+     "answer": {
+      "ru": "null",
+      "tg": "null",
+      "en": "null"
+     },
+     "options": [
+      {
+       "ru": "false",
+       "tg": "false",
+       "en": "false"
+      },
+      {
+       "ru": "Исключение",
+       "tg": "Истисно",
+       "en": "An exception"
+      },
+      {
+       "ru": "null",
+       "tg": "null",
+       "en": "null"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "В «Типичных ошибках» объясняется, почему после разбора проверяют json_last_error.",
+      "tg": "Дар «Хатоҳои маъмулӣ» шарҳ дода мешавад, ки чаро баъди таҳлил json_last_error-ро месанҷанд.",
+      "en": "The common-errors section explains why json_last_error is checked after parsing."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {
@@ -4478,7 +5727,7 @@
       "ru": "Форма отправляет браузеру указанный метод и адрес, а сервер получает запрос. $_GET содержит параметры адреса даже у POST-запроса. $_POST заполняется полями обычной POST-формы, но не JSON-телом. Для поиска подходит GET, для добавления — POST. Сам метод POST не скрывает данные: используйте HTTPS и проверяйте ввод на сервере.",
       "tg": "Форма метод ва адресро ба браузер медиҳад, сервер request мегирад. $_GET ҳатто дар POST параметрҳои адресро дорад. $_POST майдонҳои формаи одии POST-ро мегирад, JSON-и body-ро не. Барои ҷустуҷӯ GET, барои илова POST мувофиқ аст. Худи POST додаҳоро пинҳон намекунад: HTTPS ва санҷиши сервер лозиманд.",
       "en": "The form tells the browser which method and address to use, and the server receives the request. $_GET contains URL parameters even on POST requests. $_POST contains fields from ordinary POST forms, not a JSON body. Use GET for searching and POST for adding. POST itself provides no confidentiality; use HTTPS and validate on the server."
-    }
+     }
     },
     {
      "title": {
@@ -4548,6 +5797,12 @@
        "en": "In browser cookies"
       }
      ],
+     "hint": {
+      "ru": "Пароль не должен светиться в адресной строке — вспомните, какой метод передаёт данные в теле запроса.",
+      "tg": "Рамз набояд дар сатри суроға пайдо шавад — ба ёд оред, кадом метод маълумотро дар бадани дархост мегузаронад.",
+      "en": "A password must not appear in the address bar — recall which method sends data in the request body."
+     },
+     "relatedSection": 0,
      "correctIndex": 1
     },
     {
@@ -4579,7 +5834,50 @@
        "en": "Encrypts the string"
       }
      ],
+     "hint": {
+      "ru": "Функция превращает опасные спецсимволы в безопасные HTML-сущности, чтобы текст не стал кодом.",
+      "tg": "Функсия аломатҳои махсуси хавфнокро ба воҳидҳои бехатари HTML табдил медиҳад, то матн код нашавад.",
+      "en": "The function converts dangerous special characters into safe HTML entities so text cannot become code."
+     },
+     "relatedSection": 2,
      "correctIndex": 1
+    },
+    {
+     "id": "php-day-26-q3",
+     "question": {
+      "ru": "В каком массиве PHP-скрипт находит данные формы, отправленной методом POST?",
+      "tg": "Скрипти PHP маълумоти формаи тавассути методи POST фиристодашударо дар кадом массив меёбад?",
+      "en": "In which array does a PHP script find data submitted by a POST form?"
+     },
+     "answer": {
+      "ru": "$_POST",
+      "tg": "$_POST",
+      "en": "$_POST"
+     },
+     "options": [
+      {
+       "ru": "$_GET",
+       "tg": "$_GET",
+       "en": "$_GET"
+      },
+      {
+       "ru": "$_POST",
+       "tg": "$_POST",
+       "en": "$_POST"
+      },
+      {
+       "ru": "$_SERVER",
+       "tg": "$_SERVER",
+       "en": "$_SERVER"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Имя массива совпадает с названием HTTP-метода, которым отправили форму.",
+      "tg": "Номи массив бо номи методи HTTP, ки форма бо он фиристода шудааст, мувофиқ аст.",
+      "en": "The array name matches the HTTP method used to submit the form."
+     },
+     "relatedSection": 0
     }
    ],
    "practice": {
@@ -4650,7 +5948,7 @@
       "ru": "Модель описывает одну книгу: какие данные есть и какие значения допустимы. Каталог отвечает за коллекцию книг. Например, проверку года можно держать в модели, а поиск по заголовку — в каталоге. На этом шаге работаем с объектами в памяти; постоянное хранилище требует отдельного решения.\n\nПервые двадцать шесть дней были отдельными упражнениями; теперь три дня складываются в один маленький, но настоящий проект — каталог книг. Задача части 1: описать модель книги и уметь добавлять её в каталог. Класс Book берёт всё лучшее из пройденного: три типизированных свойства — заголовок, автор, год — и конструктор, который сразу приводит объект в корректное состояние. Добавление оформим функцией addBook: она принимает массив и книгу, возвращает новый массив с книгой в конце. Почему функция, а не прямое $catalog[]? Потому что так появилось одно место, где решается, как добавлять: завтра сюда можно добавить проверку дублей, ничего не меняя в остальном коде. Такой стиль — маленький шаг к аккуратным программам. Проект — проверка курса на прочность: каждая строка опирается на предыдущие дни, и слабое место видно сразу.",
       "tg": "Модел як китобро шарҳ медиҳад: кадом дода ва кадом қиматаш дуруст аст. Каталог ба коллексияи китобҳо ҷавобгар аст. Масалан, солро дар модел санҷ, ҷустуҷӯи номро дар каталог мон. Дар ин қадам объектҳо дар хотираанд; барои сабти доимӣ роҳи алоҳида лозим.\n\nБисту шаш рӯзи аввал мошқҳои ҷудо буданд; ҳоло се рӯз ба як лоиҳаи хурд, вале ҳақиқии каталоги китобҳо ҷамъ мешаванд. Вазифаи қисми 1: тавсифи модели китоб ва қобилияти илова кардани он ба каталог. Синфи Book ҳамаи беҳтарини гузаштаро мегирад: се хосияти типдор — сарлавҳа, муаллиф, сол — ва конструкторе, ки объектро фавран ба ҳолати дуруст меорад. Илова карданро функсияи addBook иҷро мекунад: он массив ва китобро қабул мекунад, массиви нав бо китоб дар охир бармегардонад. Чаро функсия, на мустақими $catalog[]? Зеро ҳоло як ҷое пайдо шуд, ки дар он ҳал мешавад, ки чӣ тавр илова кардан: фардо метавон санҷиши нусхаҳоро ҳамин ҷо гузошт, бе тағйири рамзи боқимонда. Ин сабк — қадами хурд ба барномаҳои тоза. Лоиҳа санҷиши мустаҳкамии курс аст: ҳар сатр ба рӯзҳои қаблӣ такя мекунад ва ҷои суст фавран дида мешавад.",
       "en": "The model describes one book, its fields, and what values are allowed. The catalog manages the collection. Keep a publication year check in the model and title search in the catalog. This step uses in-memory objects; persistent storage requires a separate decision.\n\nThe first twenty-six days were separate exercises; now three days fold into one small but real project — a book catalog. Part 1's task: describe the book model and be able to add books to the catalog. The Book class takes the best from the course: three typed properties — title, author, year — and a constructor that brings the object into a valid state right away. Adding goes through an addBook function: it takes an array and a book, and returns a new array with the book at the end. Why a function instead of a direct $catalog[]? Because there is now a single place that decides how adding works: tomorrow a duplicate check can go here without touching the rest of the code. That style is a small step toward tidy programs. A project stress-tests the course: every line leans on earlier days, and the weak spot shows immediately."
-    }
+     }
     },
     {
      "title": {
@@ -4726,6 +6024,12 @@
        "en": "Just because it is shorter to write"
       }
      ],
+     "hint": {
+      "ru": "Модель из примера не изменяет переданный каталог: посмотрите, что стоит после return.",
+      "tg": "Модели аз мисол каталоги гузарондашударо тағйир намедиҳад: бингаред, баъди return чӣ истодааст.",
+      "en": "The example model does not mutate the passed catalog: look at what stands after return."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -4757,7 +6061,50 @@
        "en": "1"
       }
      ],
+     "hint": {
+      "ru": "Каждый вызов добавляет ровно одну книгу — считайте вызовы, а не книги в исходном массиве.",
+      "tg": "Ҳар даъват дақиқ як китоб илова мекунад — даъватҳоро бишморед, на китобҳои массиви ибтиқоиро.",
+      "en": "Each call adds exactly one book — count the calls, not the books in the original array."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-27-q3",
+     "question": {
+      "ru": "Что вернёт addBook, если передать ей массив каталога и новую книгу?",
+      "tg": "Агар ба addBook массиви каталог ва китоби нав гузорем, он чӣ мегардонад?",
+      "en": "What does addBook return when given the catalog array and a new book?"
+     },
+     "answer": {
+      "ru": "Новый массив с добавленной книгой",
+      "tg": "Массиви нав бо китоби иловашуда",
+      "en": "A new array with the book added"
+     },
+     "options": [
+      {
+       "ru": "Тот же массив, изменённый на месте",
+       "tg": "Ҳамон массив, ки дар ҷо тағйир ёфтааст",
+       "en": "The same array, mutated in place"
+      },
+      {
+       "ru": "true при успехе",
+       "tg": "true ҳангоми муваффақият",
+       "en": "true on success"
+      },
+      {
+       "ru": "Новый массив с добавленной книгой",
+       "tg": "Массиви нав бо китоби иловашуда",
+       "en": "A new array with the book added"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Посмотрите на return функции addBook в примере: что именно возвращается?",
+      "tg": "Ба return-и функсияи addBook дар мисол нигоҳ кунед: дақиқ чӣ мегардонад?",
+      "en": "Look at the return of addBook in the example: what exactly comes back?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -4899,6 +6246,12 @@
        "en": "It is just a code style choice"
       }
      ],
+     "hint": {
+      "ru": "Приведение к нижнему регистру с обеих сторон делает сравнение независимым от заглавных букв.",
+      "tg": "Табдил ба ҳарфи хурд аз ҳар ду тараф муқоисаро аз ҳарфҳои калон мустақил мекунад.",
+      "en": "Lowercasing both sides makes the comparison independent of capital letters."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -4930,7 +6283,50 @@
        "en": "sort($catalog) — it will understand what to sort by itself"
       }
      ],
+     "hint": {
+      "ru": "Поменяйте стороны компаратора местами — и порядок сортировки перевернётся.",
+      "tg": "Тарафҳои муқоисакунандаро ҷойиваз кунед — ва тартиби мураттабсозӣ бармегардад.",
+      "en": "Swap the comparator sides — and the sort order flips."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-28-q3",
+     "question": {
+      "ru": "Что должно быть вторым аргументом usort?",
+      "tg": "Аргументи дуюми usort чӣ бояд бошад?",
+      "en": "What should the second argument of usort be?"
+     },
+     "answer": {
+      "ru": "Функция-компаратор",
+      "tg": "Функсияи муқоисакунанда",
+      "en": "A comparator function"
+     },
+     "options": [
+      {
+       "ru": "Имя поля для сортировки",
+       "tg": "Номи майдон барои мураттабсозӣ",
+       "en": "The field name to sort by"
+      },
+      {
+       "ru": "Направление сортировки строкой 'desc'",
+       "tg": "Самти мураттабсозӣ бо сатри 'desc'",
+       "en": "The sort direction as the string 'desc'"
+      },
+      {
+       "ru": "Функция-компаратор",
+       "tg": "Функсияи муқоисакунанда",
+       "en": "A comparator function"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "usort не знает ваших полей — ему передают правило сравнения двух элементов.",
+      "tg": "usort майдонҳои шуморо намедонад — ба он қоидаи муқоисаи ду элемент мегузоранд.",
+      "en": "usort does not know your fields — it is given a rule to compare two elements."
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -5072,6 +6468,12 @@
        "en": "4040"
       }
      ],
+     "hint": {
+      "ru": "min выбирает наименьшее значение списка — это самый ранний год.",
+      "tg": "min хурдтарин қимати рӯйхатро интихоб мекунад — ин соли зудтар аст.",
+      "en": "min picks the smallest value of the list — the earliest year."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
     },
     {
@@ -5103,7 +6505,50 @@
        "en": "Keys turn into strings"
       }
      ],
+     "hint": {
+      "ru": "array_filter оставляет ключи как были, поэтому после него иногда нужна array_values.",
+      "tg": "array_filter калидҳоро ҳамон тавр боқӣ мегузорад, аз ин рӯ баъдан баъзан array_values лозим мешавад.",
+      "en": "array_filter keeps the original keys, so array_values is sometimes needed afterwards."
+     },
+     "relatedSection": 1,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-29-q3",
+     "question": {
+      "ru": "Что вернёт count(array_filter([0, 1, 2, 3]))?",
+      "tg": "count(array_filter([0, 1, 2, 3])) чӣ мегардонад?",
+      "en": "What does count(array_filter([0, 1, 2, 3])) return?"
+     },
+     "answer": {
+      "ru": "3",
+      "tg": "3",
+      "en": "3"
+     },
+     "options": [
+      {
+       "ru": "4",
+       "tg": "4",
+       "en": "4"
+      },
+      {
+       "ru": "1",
+       "tg": "1",
+       "en": "1"
+      },
+      {
+       "ru": "3",
+       "tg": "3",
+       "en": "3"
+      }
+     ],
+     "correctIndex": 2,
+     "hint": {
+      "ru": "array_filter без callback выбрасывает «ложные» значения: какой элемент этого массива считается ложным?",
+      "tg": "array_filter бе callback қиматҳои «дурӯғӣ»-ро мепартояд: кадом элементи ин массив дурӯғӣ ҳисоб мешавад?",
+      "en": "array_filter without a callback drops falsy values: which element of this array is falsy?"
+     },
+     "relatedSection": 1
     }
    ],
    "practice": {
@@ -5238,6 +6683,12 @@
        "en": "CSS layout"
       }
      ],
+     "hint": {
+      "ru": "Пройдите «Карту курса»: только один из вариантов совпадает с темами этих тридцати дней.",
+      "tg": "«Харитаи курс»-ро гузаронед: танҳо як вариант бо мавзӯъҳои ин сӣ рӯз мувофиқ аст.",
+      "en": "Walk the \"course map\": only one of the options matches the topics of these thirty days."
+     },
+     "relatedSection": 0,
      "correctIndex": 0
     },
     {
@@ -5269,7 +6720,50 @@
        "en": "file_get_contents"
       }
      ],
+     "hint": {
+      "ru": "Менеджер зависимостей упоминается в разделе «Куда дальше».",
+      "tg": "Мудири вобастагиҳо дар бахши «Ба сӯи куҷо» зикр шудааст.",
+      "en": "The dependency manager is mentioned in the \"where to go next\" section."
+     },
+     "relatedSection": 2,
      "correctIndex": 0
+    },
+    {
+     "id": "php-day-30-q3",
+     "question": {
+      "ru": "Какая команда Composer устанавливает библиотеки, перечисленные в composer.json?",
+      "tg": "Кадом фармони Composer китобхонаҳои дар composer.json зикршударо насб мекунад?",
+      "en": "Which Composer command installs the libraries listed in composer.json?"
+     },
+     "answer": {
+      "ru": "composer install",
+      "tg": "composer install",
+      "en": "composer install"
+     },
+     "options": [
+      {
+       "ru": "composer download",
+       "tg": "composer download",
+       "en": "composer download"
+      },
+      {
+       "ru": "composer install",
+       "tg": "composer install",
+       "en": "composer install"
+      },
+      {
+       "ru": "php composer-get",
+       "tg": "php composer-get",
+       "en": "php composer-get"
+      }
+     ],
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Команда называется глаголом «установить» — найдите его английское название в списке.",
+      "tg": "Фармон бо феъли «насб кардан» ном дорад — номи англисии онро дар рӯйхат ҷустуҷӯ кунед.",
+      "en": "The command is named after the verb \"install\" — find its English form in the list."
+     },
+     "relatedSection": 2
     }
    ],
    "practice": {

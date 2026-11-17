@@ -6,9 +6,9 @@
 
 ## Сначала
 
-Получите актуальный HEAD, открытые PR и CI. Не повторяйте уже подготовленные изменения. Сливайте только проверенный ожидаемый SHA обычным merge без force-push. Успешный Vercel build не заменяет live-проверку. Не теряйте незавершённую работу и точный checkpoint.
+Проверьте текущий локальный main и сохраните незавершённые изменения. Продолжайте работу через владельцев курсов и независимую проверку. Публикацию выполняет шеф отдельно.
 
-Следующее действие по сохранённому состоянию: Continue management-foundations at day 24 using docs/curriculum-design/short-courses.draft.json. 7 short-course days remain. Reuse docs/curriculum-design/management-foundations-24-30-recovered.draft.json as an unreviewed draft rather than reauthoring it. Review missing project rubrics in Management days16/23. Preserve all authored lessons, quiz options and progress IDs. Recheck current loaders before editing other courses.
+Текущие задачи и результаты проверок находятся в [реестре курсов](audits/course-register-2026-11-17.md). Порядок работы указан в [плане продолжения](CURRICULUM-AGENT-PACK-2026-11-17.md).
 
 ## Что сохранить
 
@@ -27,7 +27,7 @@ HTML day 1: optional learningFlow, восемь типов вопросов, д�
 - Поток: Learn → Understand → Watch → Try → Practice → Test → Review → Master. Объяснять термины, важные строки, изменения входных данных, ошибки и самостоятельное решение. Сохранять полезную старую теорию.
 - Для полноценных дней — 5–10 содержательных проверок, разные варианты повторной попытки, подсказки и ссылки на теорию. Mastered: реальная успешная практика, ≥80%, все критические вопросы. Self Reviewed даёт продолжение, но не Auto Verified; AI Feedback не является Human Reviewed.
 - Subjective capstone требует объективных проверок и настоящего уполномоченного human review. Старые checkbox-записи нельзя повышать до новых подтверждённых результатов.
-- Beginner FREE. Pro/Expert защищены сервером; готовность к уровню и подписка независимы. Никаких localStorage-entitlements или фиктивной оплаты.
+- По текущему правилу доступа 43 курсов бесплатны и 0 требуют подписку. Pro и Expert в каталоге обозначают уровень обучения.
 - Не исполнять недоверенный код в основном серверном процессе, не имитировать компиляторы и не утверждать, что установленный Docker означает готовый изолированный runner.
 - Не создавать третьего помощника. Объединить архитектуру существующих TutorDrawer/Site Agent: per-account multi-chat, серверная история, guest-local, поиск/удаление, устойчивые квоты и лимиты стоимости. Сохранить бесплатные детерминированные ответы.
 - Не подключать новые платные сервисы без разрешения. Billing fail-closed; online AI требует согласованного провайдера и cost caps. Отсутствующие credentials — объективный blocker, а не повод выдумать успешную интеграцию.
@@ -40,4 +40,4 @@ HTML day 1: optional learningFlow, восемь типов вопросов, д�
 
 `node scripts/coverage-matrix.mjs --check`; `node scripts/delivery-report.mjs --check`; `node scripts/course-content-quality-report.mjs`; typecheck/lint; тесты по изменениям; production build; browser desktop/mobile и auth-регрессии. Запускайте реальные примеры в доступных безопасных средах. Незапущенный runtime не считается проверенным.
 
-Работайте небольшими завершёнными PR. После зелёных проверок выполняйте обычное слияние и проверяйте CI main/Vercel. Сохраняйте точные SHAs, реальные результаты и остаток задач. Не останавливайтесь на описании плана и не объявляйте завершённым то, что ещё не реализовано.
+Текущая работа выполняется только локально в существующем main. Не создавайте ветку, commit, push, PR, merge или deploy; не используйте stash/reset/clean. Шеф сам отправляет изменения. Сохраняйте реальные результаты проверок и оставшуюся очередь. Продолжайте через настоящих авторов и независимых reviewer; coordinator не пишет скрытые исправления сам.
