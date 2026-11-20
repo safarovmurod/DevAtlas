@@ -70,8 +70,11 @@ export function AccountShell({
     return (
       <div className="account-screen">
         <section className="auth-card">
+          <Brand variant="auth" />
           <h1>{copy.restoring}</h1>
-          <p role="alert">{copy[accountErrorKey(account.error, 'restoreError')]}</p>
+          <p role="alert" className="error-message">
+            {copy[accountErrorKey(account.error, 'restoreError')]}
+          </p>
           <button className="button primary" onClick={account.reload}>
             {copy.retry}
           </button>
@@ -84,8 +87,11 @@ export function AccountShell({
     return (
       <div className="account-screen">
         <section className="auth-card">
+          <Brand variant="auth" />
           <h1>{copy.openFailed}</h1>
-          <p role="alert">{copy[accountErrorKey(account.error, 'openError')]}</p>
+          <p role="alert" className="error-message">
+            {copy[accountErrorKey(account.error, 'openError')]}
+          </p>
           <button className="button primary" onClick={account.reload}>
             {copy.retry}
           </button>

@@ -36,7 +36,7 @@ npm run dev
 
 ## 3. Сначала проверить базу на тестовом Supabase-проекте
 
-Откройте [Supabase Dashboard](https://supabase.com/dashboard). Для репетиции используйте отдельный тестовый проект. Существующий проект владельца `sqveszluhdargkiqowjp` может обслуживать и другое приложение: не удаляйте его таблицы, пользователей, провайдеры или прежние адреса возврата.
+Откройте [Supabase Dashboard](https://supabase.com/dashboard). Для репетиции используйте отдельный тестовый проект. Перед работой сверьте ID целевого проекта с `NEXT_PUBLIC_SUPABASE_URL`. Сохраните существующих пользователей, таблицы, провайдеров и адреса возврата.
 
 Сохраните резервную копию рабочей базы и убедитесь, что умеете её восстановить. Перед применением проверьте, какие миграции уже выполнены. Их нельзя слепо запускать повторно.
 
@@ -46,6 +46,14 @@ npm run dev
 2. `supabase/migrations/20261005000000_progress_conflict.sql`.
 3. `supabase/migrations/20261022000000_verified_practice.sql`.
 4. `supabase/migrations/20261022010000_memberships_chat.sql`.
+5. `supabase/migrations/20261026000000_assessment_evidence.sql`.
+6. `supabase/migrations/20261026010000_tutor_budgets.sql`.
+7. `supabase/migrations/20261115000000_chat_ultra_only.sql`.
+8. `supabase/migrations/20261116000000_admin_tools.sql`.
+9. `supabase/migrations/20261117000000_billing_dodo.sql`.
+10. `supabase/migrations/20261118000000_community_all_members.sql`.
+11. `supabase/migrations/20261118010000_progress_revision_guard.sql`.
+12. `supabase/migrations/20261118020000_course_storage.sql` для закрытого хранилища курсов.
 
 Первые две миграции могут уже присутствовать в рабочем проекте. Старую `20261001000000_init_schema.sql` не нужно добавлять в эту последовательность автоматически: самостоятельные аккаунты используют отдельные таблицы с префиксом `react_mentor_`. Подробности — в [accounts-setup.md](accounts-setup.md).
 

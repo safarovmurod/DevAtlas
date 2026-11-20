@@ -38,7 +38,7 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label={labels.nav}
-      className="mobile-tab-bar fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 border-t border-border bg-card/85 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl min-[861px]:hidden"
+      className="mobile-tab-bar fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 border-t border-border bg-card/88 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-16px_rgba(15,23,42,0.22)] backdrop-blur-xl min-[861px]:hidden"
     >
       {tabs.map(({ href, label, icon: Icon, active }) => (
         <Link
@@ -48,17 +48,17 @@ export function MobileTabBar() {
           aria-current={active ? 'page' : undefined}
           className={cn(
             'flex min-h-16 flex-col items-center justify-center gap-0.5 text-[11px] font-medium no-underline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring',
-            active ? 'text-brand' : 'text-muted-foreground',
+            active ? 'font-semibold text-brand' : 'text-muted-foreground',
           )}
         >
           <span
             className={cn(
-              'flex h-8 w-14 items-center justify-center rounded-2xl transition-all duration-300 ease-out',
+              'flex h-8 w-14 items-center justify-center rounded-2xl transition-all duration-200 ease-out',
               active &&
-                '-translate-y-0.5 bg-primary text-primary-foreground shadow-[0_10px_16px_-10px_var(--primary)]',
+                '-translate-y-0.5 bg-primary text-primary-foreground shadow-[0_8px_18px_-8px_rgba(79,70,229,0.72)]',
             )}
           >
-            <Icon size={21} strokeWidth={1.8} aria-hidden="true" />
+            <Icon size={21} strokeWidth={1.85} aria-hidden="true" />
           </span>
           {label}
         </Link>

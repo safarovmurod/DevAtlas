@@ -111,6 +111,12 @@ export async function POST(request: Request) {
         source: 'admin',
         granted_by: check.user.id,
         granted_at: stamp,
+        provider: null,
+        provider_customer_id: null,
+        provider_subscription_id: null,
+        provider_status: null,
+        cancel_at_period_end: false,
+        provider_event_at: null,
       },
       { onConflict: 'user_id' },
     );

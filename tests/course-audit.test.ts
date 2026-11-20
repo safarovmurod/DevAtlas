@@ -2,6 +2,8 @@
 import {execFileSync} from 'node:child_process';
 import path from 'node:path';
 import {describe,expect,it,vi} from 'vitest';
+import { GET as getCatalogStatus } from '@/app/api/courses/route';
+import { LEARNING_TOPICS } from '@/content/course';
 import {COURSE_CATALOG} from '@/content/courses/catalog';
 import {COURSE_IDS} from '@/lib/courses/ids';
 import {importedAuditLessons,loadAuditData,summarizeCourse,type AuditLesson} from '../scripts/lib/course-audit';
@@ -9,6 +11,33 @@ import type {CourseContent} from '@/lib/courses/schema';
 import * as contentLoader from '@/lib/courses/content';
 
 describe('complete source-backed course audits',()=>{
+  it('serves catalog status metadata that agrees with every real course', async () => {
+    const expected = await Promise.all(COURSE_CATALOG.map(async (course) => {
+      if (course.id === 'react') {
+        return {
+          id: course.id,
+          ready: true,
+          lessons: LEARNING_TOPICS.filter((topic) => topic.month <= 2).length,
+          files: 0,
+        };
+      }
+
+      const { lessons, files } = await contentLoader.loadLocalCourseContent(course.id);
+      return {
+        id: course.id,
+        ready: lessons.length > 0,
+        lessons: lessons.filter((lesson) => lesson.day !== undefined).length || lessons.length,
+        files: files.length,
+        accessTier: course.accessTier ?? 'starter',
+      };
+    }));
+
+    const response = getCatalogStatus();
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Cache-Control')).toBe('public, max-age=60');
+    expect(await response.json()).toEqual(expected);
+  }, 30000);
+
   it('loads all catalog courses, including React and Next.js, with honest day totals',async()=>{
     const {rows}=await loadAuditData();
     expect(new Set(rows.map(row=>row.courseId))).toEqual(new Set(COURSE_IDS));
@@ -24,8 +53,8 @@ describe('complete source-backed course audits',()=>{
   },30000);
 
   it('fails if a real course loader is missing or broken instead of reporting partial coverage',async()=>{
-    const original=contentLoader.loadCourseContent;
-    const loader=vi.spyOn(contentLoader,'loadCourseContent').mockImplementation(id=>id==='nextjs'?Promise.reject(new Error('Missing Next.js curriculum')):original(id));
+    const original=contentLoader.loadLocalCourseContent;
+    const loader=vi.spyOn(contentLoader,'loadLocalCourseContent').mockImplementation(id=>id==='nextjs'?Promise.reject(new Error('Missing Next.js curriculum')):original(id));
     try {await expect(loadAuditData()).rejects.toThrow('Missing Next.js curriculum');}
     finally {loader.mockRestore();}
   },30000);

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { isCourseId } from '@/lib/courses/ids';
 import { CourseWorkspace } from '@/components/courses/course-workspace';
 import { loadCourseContent } from '@/lib/courses/content';
+import { publicCourseContent } from '@/lib/courses/delivery';
 import { coursePublishedDays } from '@/content/courses/catalog';
 import { redirect } from 'next/navigation';
 
@@ -52,7 +53,9 @@ export default async function CoursePage({
         section={section}
         day={day}
         initialContent={
-          courseAccessTier(courseId) === 'starter' ? await loadCourseContent(courseId) : undefined
+          courseAccessTier(courseId) === 'starter'
+            ? await loadCourseContent(courseId).then(publicCourseContent, () => undefined)
+            : undefined
         }
       />
     </PageTransition>

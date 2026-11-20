@@ -3,6 +3,18 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { SHOWCASE_SLIDES } from '@/lib/auth-showcase-content';
 
+/** Cohesive Atlas Precision Studio per-slide accents (Cobalt + Sky-Cyan + cool studio jewel tones). */
+const STUDIO_ACCENTS = [
+  '#4f46e5',
+  '#38bdf8',
+  '#22d3ee',
+  '#818cf8',
+  '#6366f1',
+  '#60a5fa',
+  '#a78bfa',
+  '#34d399',
+] as const;
+
 /** One local PBR studio scene. Geometry, textures and listeners are released on unmount. */
 export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean) {
   const renderer = new THREE.WebGLRenderer({
@@ -10,10 +22,10 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
     antialias: true,
     powerPreference: 'low-power',
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+  renderer.toneMappingExposure = 1.18;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.setClearColor(0x000000, 0);
@@ -23,15 +35,15 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
   const pmrem = new THREE.PMREMGenerator(renderer);
   const environment = pmrem.fromScene(room, 0.045);
   scene.environment = environment.texture;
-  scene.environmentIntensity = 0.8;
+  scene.environmentIntensity = 0.88;
   room.dispose();
   pmrem.dispose();
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 40);
   camera.position.set(0, 0.7, 7.15);
   camera.lookAt(0, -0.05, 0);
-  scene.add(new THREE.HemisphereLight(0xeaf2ff, 0x303545, 0.65));
-  const key = new THREE.DirectionalLight(0xfff2e4, 3.2);
-  key.position.set(-3.5, 5, 4);
+  scene.add(new THREE.HemisphereLight(0xdbeafe, 0x0f172a, 0.82));
+  const key = new THREE.DirectionalLight(0xf8fafc, 3.05);
+  key.position.set(-3.5, 5.2, 4.2);
   key.castShadow = true;
   key.shadow.mapSize.set(1024, 1024);
   Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: 0.5, far: 15 });
@@ -39,11 +51,13 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
   key.shadow.bias = -0.0001;
   key.shadow.radius = 4;
   scene.add(key);
-  const rim = new THREE.DirectionalLight(0xf5b37f, 2.5);
-  rim.position.set(4, 2, -3);
+  // Precision Sky-Cyan specular rim light
+  const rim = new THREE.DirectionalLight(0x38bdf8, 2.75);
+  rim.position.set(4.2, 2.4, -3.2);
   scene.add(rim);
-  const fill = new THREE.DirectionalLight(0xb6d6ff, 1.3);
-  fill.position.set(2, 1, 5);
+  // Atlas Indigo-Cobalt studio fill light
+  const fill = new THREE.DirectionalLight(0x818cf8, 1.55);
+  fill.position.set(2.2, 1.2, 5.0);
   scene.add(fill);
   const model = new THREE.Group();
   scene.add(model);
@@ -69,13 +83,13 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
     materials.push(value);
     return value;
   }
-  function physical(color: string, clearcoat = 0.8) {
+  function physical(color: string, clearcoat = 0.85) {
     const value = new THREE.MeshPhysicalMaterial({
       color,
-      metalness: 0.15,
-      roughness: 0.17,
+      metalness: 0.24,
+      roughness: 0.16,
       clearcoat,
-      clearcoatRoughness: 0.15,
+      clearcoatRoughness: 0.14,
     });
     materials.push(value);
     return value;
@@ -117,7 +131,7 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
   }
   function surface(texture: THREE.Texture, lit = false) {
     const value = lit
-      ? new THREE.MeshStandardMaterial({ map: texture, roughness: 0.6 })
+      ? new THREE.MeshStandardMaterial({ map: texture, roughness: 0.52 })
       : new THREE.MeshBasicMaterial({ map: texture, toneMapped: false });
     materials.push(value);
     return value;
@@ -128,7 +142,7 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
     tile.position.set(x, y, z);
     tile.rotation.set(-0.1, -0.05, -0.1);
     model.add(tile);
-    box(size, size, 0.11, physical('#f4f1eb'), 0, 0, 0, tile);
+    box(size, size, 0.11, physical('#eef2ff', 0.9), 0, 0, 0, tile);
     const texture = new THREE.TextureLoader().load(`/course-icons/${icon}.svg`, () => {
       if (disposed || generation !== currentGeneration) {
         texture.dispose();
@@ -157,21 +171,21 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
     group.rotation.z = -0.23;
     const body = mesh(new THREE.CylinderGeometry(0.055, 0.055, 1.7, 6), accent, group);
     body.position.y = 0.1;
-    const wood = mesh(new THREE.ConeGeometry(0.055, 0.2, 6), material('#d7ac79'), group);
+    const wood = mesh(new THREE.ConeGeometry(0.055, 0.2, 6), material('#cbd5e1', 0.35, 0.4), group);
     wood.position.y = -0.85;
     wood.rotation.z = Math.PI;
-    const graphite = mesh(new THREE.ConeGeometry(0.022, 0.08, 6), material('#262a30'), group);
+    const graphite = mesh(new THREE.ConeGeometry(0.022, 0.08, 6), material('#0f172a'), group);
     graphite.position.y = -0.97;
     graphite.rotation.z = Math.PI;
     const ferrule = mesh(
       new THREE.CylinderGeometry(0.06, 0.06, 0.16, 24),
-      material('#d7b477', 0.9, 0.25),
+      material('#94a3b8', 0.9, 0.22),
       group,
     );
     ferrule.position.y = 0.91;
   }
   function notebook(accent: THREE.Material, open = false) {
-    const paper = material('#f3eee3', 0, 0.85);
+    const paper = material('#eef2ff', 0, 0.82);
     const book = new THREE.Group();
     book.rotation.set(-0.04, 0.08, -0.09);
     model.add(book);
@@ -182,12 +196,12 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
       box(1.36, 1.78, 0.15, paper, -0.7, 0, 0.05, book);
       box(1.36, 1.78, 0.15, paper, 0.7, 0, 0.05, book);
       const notes = artwork((ctx) => {
-        ctx.fillStyle = '#f7f2e8';
+        ctx.fillStyle = '#f1f5f9';
         ctx.fillRect(0, 0, 1024, 640);
-        ctx.fillStyle = '#283344';
+        ctx.fillStyle = '#1e293b';
         ctx.font = '600 46px sans-serif';
         ctx.fillText('DevAtlas', 72, 95);
-        ctx.strokeStyle = '#b6bdc5';
+        ctx.strokeStyle = '#94a3b8';
         ctx.lineWidth = 2;
         for (let i = 0; i < 9; i++) {
           ctx.beginPath();
@@ -203,34 +217,45 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
           0.84 - i * 0.065,
           0.015,
           0.008,
-          material('#a4aeb9'),
+          material('#94a3b8'),
           -0.75,
           0.45 - i * 0.19,
           0.132,
           book,
         );
-      box(0.035, 1.85, 0.035, material('#c2b7a4'), 0, 0, 0.15, book);
+      box(0.035, 1.85, 0.035, material('#64748b'), 0, 0, 0.15, book);
     } else {
       box(1.85, 2.15, 0.08, accent, 0, 0, -0.2, book);
       box(1.67, 2.02, 0.3, paper, 0.05, 0, 0, book);
       box(1.85, 2.15, 0.08, accent, 0, 0, 0.2, book);
       for (let i = 0; i < 14; i++)
-        box(1.6, 0.008, 0.012, material('#cfc8bc'), 0.07, -1.015, -0.13 + i * 0.02, book);
+        box(1.6, 0.008, 0.012, material('#cbd5e1'), 0.07, -1.015, -0.13 + i * 0.02, book);
       box(0.09, 2.18, 0.49, accent, -0.88, 0, 0, book);
       const cover = artwork(
         (ctx) => {
-          ctx.fillStyle = '#b85f35';
+          const surfaceGrad = ctx.createLinearGradient(0, 0, 768, 1024);
+          surfaceGrad.addColorStop(0, '#131b38');
+          surfaceGrad.addColorStop(0.45, '#1e2858');
+          surfaceGrad.addColorStop(1, '#0b1122');
+          ctx.fillStyle = surfaceGrad;
           ctx.fillRect(0, 0, 768, 1024);
-          ctx.strokeStyle = '#d58f64';
+          ctx.fillStyle = '#818cf818';
+          for (let row = 4; row < 1024; row += 6) ctx.fillRect(0, row, 768, 1);
+          ctx.fillStyle = '#38bdf814';
+          for (let column = 4; column < 768; column += 10) ctx.fillRect(column, 0, 1, 1024);
+
+          ctx.strokeStyle = '#818cf8';
           ctx.lineWidth = 2;
           ctx.strokeRect(35, 35, 698, 954);
-          ctx.fillStyle = '#fff0da';
+          ctx.strokeStyle = '#38bdf878';
+          ctx.strokeRect(47, 47, 674, 930);
+          ctx.fillStyle = '#f8fafc';
           ctx.font = '600 65px sans-serif';
           ctx.fillText('DevAtlas', 65, 160);
           ctx.font = '24px monospace';
-          ctx.fillStyle = '#e9bb96';
-          ctx.fillText('01 / LEARNING', 65, 225);
-          ctx.strokeStyle = '#e4b38d';
+          ctx.fillStyle = '#38bdf8';
+          ctx.fillText('01 / STUDIO', 65, 225);
+          ctx.strokeStyle = '#818cf8';
           ctx.lineWidth = 5;
           for (let i = 0; i < 3; i++) {
             ctx.beginPath();
@@ -244,17 +269,17 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
       );
       const face = mesh(new THREE.PlaneGeometry(1.72, 2.02), surface(cover, true), book);
       face.position.set(0, 0, 0.245);
-      const ribbon = box(0.12, 0.42, 0.025, material('#e0b46e'), 0.52, -1.12, 0.12, book);
+      const ribbon = box(0.12, 0.42, 0.025, material('#38bdf8', 0.2, 0.3), 0.52, -1.12, 0.12, book);
       ribbon.rotation.z = -0.05;
     }
-    pencil(1.4, -0.1, 0.4, material('#2f5264', 0.35));
+    pencil(1.4, -0.1, 0.4, material('#312e81', 0.45, 0.28));
   }
   function laptop(accent: THREE.Material, debug: boolean) {
-    const silver = material('#a7b3bf', 0.92, 0.24);
-    const dark = material('#141b25', 0.2, 0.34);
+    const silver = material('#b2c1d6', 0.9, 0.21);
+    const dark = material('#0b1120', 0.24, 0.3);
     box(3.0, 0.12, 1.72, silver, 0, -0.9, 0.6);
-    box(2.82, 0.025, 1.48, material('#53606d', 0.8), 0, -0.825, 0.6);
-    box(0.83, 0.012, 0.41, material('#82909e', 0.8), 0, -0.802, 1.12);
+    box(2.82, 0.025, 1.48, material('#475569', 0.82, 0.28), 0, -0.825, 0.6);
+    box(0.83, 0.012, 0.41, material('#94a3b8', 0.78, 0.25), 0, -0.802, 1.12);
     for (let row = 0; row < 4; row++)
       for (let column = 0; column < 12; column++)
         box(0.175, 0.024, 0.145, dark, -1.14 + column * 0.207, -0.795, 0.12 + row * 0.19);
@@ -266,12 +291,12 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
     box(2.91, 1.88, 0.11, silver, 0, 0.94, 0, screen);
     box(2.78, 1.74, 0.025, dark, 0, 0.94, 0.067, screen);
     const screenTexture = artwork((ctx) => {
-      ctx.fillStyle = '#101a29';
+      ctx.fillStyle = '#060913';
       ctx.fillRect(0, 0, 1024, 640);
-      ctx.fillStyle = '#1c2a3c';
+      ctx.fillStyle = '#0e1526';
       ctx.fillRect(0, 0, 1024, 65);
       ctx.font = '20px monospace';
-      ctx.fillStyle = '#b7c6d8';
+      ctx.fillStyle = '#cbd5e1';
       ctx.fillText('DevAtlas / practice.tsx', 35, 42);
       const lines = [
         'const Learning = () => {',
@@ -285,15 +310,15 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
       ];
       ctx.font = '27px monospace';
       lines.forEach((line, i) => {
-        ctx.fillStyle = '#475a73';
+        ctx.fillStyle = '#475569';
         ctx.fillText(String(i + 1), 30, 118 + i * 49);
-        ctx.fillStyle = i === 0 ? '#bba2ff' : i % 2 ? '#87c8d9' : '#e0ba87';
+        ctx.fillStyle = i === 0 ? '#818cf8' : i % 2 ? '#38bdf8' : '#e2e8f0';
         ctx.fillText(line, 85, 118 + i * 49);
       });
-      ctx.fillStyle = '#172b34';
+      ctx.fillStyle = '#0f1c32';
       ctx.fillRect(0, 556, 1024, 84);
       ctx.font = '22px monospace';
-      ctx.fillStyle = '#9ac8b1';
+      ctx.fillStyle = '#38bdf8';
       ctx.fillText(debug ? 'TypeScript / diagnostics' : 'React / preview', 35, 605);
     });
     const display = mesh(new THREE.PlaneGeometry(2.65, 1.58), surface(screenTexture), screen);
@@ -308,11 +333,11 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
       model.add(lens);
       mesh(new THREE.TorusGeometry(0.37, 0.055, 16, 64), accent, lens);
       const glass = new THREE.MeshPhysicalMaterial({
-        color: '#b8dcea',
+        color: '#7dd3fc',
         transparent: true,
-        opacity: 0.25,
+        opacity: 0.28,
         roughness: 0.05,
-        metalness: 0.1,
+        metalness: 0.12,
         clearcoat: 1,
       });
       materials.push(glass);
@@ -335,11 +360,21 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
     spinOffset = 0;
     host.dataset.spin = 'idle';
     const slide = SHOWCASE_SLIDES[index];
-    const accent = physical(slide.theme);
-    const ivory = material('#e9e6de', 0.1, 0.38);
-    const chrome = material('#d6c4a6', 0.95, 0.2);
-    // Dark, low-profile studio plinth and real cast shadows ground the composition.
-    box(3.8, 0.08, 2.85, material('#23313f', 0.4, 0.28), 0, -1.25, 0.2);
+    const accentColor = STUDIO_ACCENTS[index % STUDIO_ACCENTS.length];
+    const accent = physical(accentColor);
+    const ivory = material('#e2e8f0', 0.14, 0.34);
+    const chrome = material('#cbd5e1', 0.92, 0.19);
+    // Obsidian anodized studio plinth with subtle cyan-cobalt metallic edge accent
+    box(3.85, 0.08, 2.88, material('#0f172a', 0.58, 0.24), 0, -1.25, 0.2);
+    const plinthTrim = new THREE.MeshBasicMaterial({
+      color: '#38bdf8',
+      transparent: true,
+      opacity: 0.35,
+    });
+    materials.push(plinthTrim);
+    const trimMesh = mesh(new THREE.BoxGeometry(3.86, 0.012, 2.89), plinthTrim);
+    trimMesh.position.set(0, -1.21, 0.2);
+    trimMesh.castShadow = false;
     if (index === 0 || index === 4) notebook(accent, index === 4);
     else if (index === 1 || index === 3) laptop(accent, index === 3);
     else if (index === 2) {
@@ -347,13 +382,17 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
       atom.position.y = 0.05;
       atom.rotation.set(0.12, -0.1, 0.05);
       model.add(atom);
-      mesh(new THREE.SphereGeometry(0.24, 40, 28), physical('#75d0e0'), atom);
+      mesh(new THREE.SphereGeometry(0.24, 40, 28), physical('#38bdf8', 0.95), atom);
       for (let i = 0; i < 3; i++) {
         const orbit = new THREE.Group();
         orbit.rotation.z = (i * Math.PI) / 3;
         orbit.rotation.y = 0.18;
         atom.add(orbit);
-        const ring = mesh(new THREE.TorusGeometry(1.05, 0.04, 18, 100), accent, orbit);
+        const ring = mesh(
+          new THREE.TorusGeometry(1.05, 0.04, 18, 100),
+          i === 1 ? physical('#818cf8') : accent,
+          orbit,
+        );
         ring.scale.y = 0.4;
         const electron = mesh(new THREE.SphereGeometry(0.075, 20, 16), chrome, orbit);
         electron.position.set(0.77, 0.28, 0);
@@ -371,7 +410,7 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
         const second = box(0.07, 0.3, 0.03, accent, 0.06, 0.4, 0.13, card);
         second.rotation.z = -0.55;
         for (let j = 0; j < 3; j++)
-          box(0.68 - j * 0.1, 0.025, 0.02, material('#a3adb7'), 0, -0.15 - j * 0.17, 0.1, card);
+          box(0.68 - j * 0.1, 0.025, 0.02, material('#94a3b8'), 0, -0.15 - j * 0.17, 0.1, card);
       }
     } else if (index === 6) {
       const tiles = [
@@ -392,7 +431,7 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
           0.035,
           i % 3 === 0 ? 0.13 : 0.07,
           0.02,
-          material('#5d6c77'),
+          material('#475569'),
           Math.sin((i * Math.PI) / 6) * 0.72,
           Math.cos((i * Math.PI) / 6) * 0.72,
           0.08,
@@ -400,7 +439,7 @@ export function createShowcaseScene(host: HTMLDivElement, reducedMotion: boolean
         );
         tick.rotation.z = (-i * Math.PI) / 6;
       }
-      const hour = box(0.055, 0.42, 0.03, material('#283747'), -0.12, 0.15, 0.11, clock);
+      const hour = box(0.055, 0.42, 0.03, material('#1e293b'), -0.12, 0.15, 0.11, clock);
       hour.rotation.z = 0.6;
       const minute = box(0.035, 0.61, 0.035, accent, 0.18, 0.22, 0.14, clock);
       minute.rotation.z = -0.65;

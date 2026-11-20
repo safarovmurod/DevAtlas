@@ -92,11 +92,21 @@ test('an incorrect answer persists with no XP award', async ({ page }) => {
   expect(Object.values(stored.answers)).toEqual([expect.objectContaining({ correct: false, questionId: 'quiz-q001' })]);
 });
 
+const productionPlanGate = process.env.PLAYWRIGHT_PROD_SERVER === 'true';
+
 test('Tutor opens, replies from actual local course material and closes with Escape', async ({ page }) => {
   await page.goto('/home');
   await page.getByRole('button', { name: 'AI Tutor', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
+  if (productionPlanGate) {
+    await expect(dialog.getByLabel('Вопрос к Tutor')).toBeDisabled();
+    await expect(dialog.getByRole('link', { name: 'Pro', exact: true })).toHaveAttribute('href', '/plans');
+    await page.keyboard.press('Escape');
+    await expect(dialog).not.toBeVisible();
+    await expect(page.getByRole('button', { name: 'AI Tutor', exact: true })).toBeFocused();
+    return;
+  }
   await expect(dialog.getByLabel('Вопрос к Tutor')).toBeFocused();
   await expect(dialog.getByRole('link',{name:'Вход / регистрация',exact:true})).toHaveAttribute('href','/login');
   await dialog.getByLabel('Вопрос к Tutor').fill('useState чиба даркорай?');
@@ -119,6 +129,12 @@ test('Tutor handles online chat history and API errors without token counters (m
   await page.goto('/home');
   await page.getByRole('button', { name: 'AI Tutor', exact: true }).click();
   const dialog = page.getByRole('dialog');
+  if (productionPlanGate) {
+    await expect(dialog.getByLabel('Вопрос к Tutor')).toBeDisabled();
+    await expect(dialog.getByRole('button', { name: 'Отправить', exact: true })).toBeDisabled();
+    expect(requests).toEqual([]);
+    return;
+  }
   await dialog.getByLabel('Вопрос к Tutor').fill('useState чиба даркорай?');
   await dialog.getByRole('button', { name: 'Отправить', exact: true }).click();
   await expect(dialog.locator('.tutor-message.assistant').last()).toContainText('useState хотираи компонент аст.');
@@ -146,6 +162,11 @@ test('deep tutor uses the displayed quiz answer and keeps its source through rep
   await page.locator('.answer-content').getByRole('button', { name: 'Объясни подробнее', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByLabel('Вопрос к Tutor')).toHaveValue(question.question);
+  if (productionPlanGate) {
+    await expect(dialog.getByRole('button', { name: 'Объясни подробнее', exact: true })).toBeDisabled();
+    await expect(dialog.getByRole('link', { name: 'Pro', exact: true })).toHaveAttribute('href', '/plans');
+    return;
+  }
   for (let index = 0; index < 3; index++) {
     await dialog.getByRole('button', { name: 'Объясни подробнее', exact: true }).click();
     const response = dialog.locator('.tutor-message.assistant').last();
@@ -177,6 +198,13 @@ test('Tajik Tutor controls preserve an independently selected English content la
   await page.goto('/home');
   await page.getByRole('button', { name: 'AI Tutor', exact: true }).click();
   const dialog = page.getByRole('dialog');
+  if (productionPlanGate) {
+    await expect(dialog.getByLabel('Савол ба Tutor')).toBeDisabled();
+    await expect(dialog.getByRole('link', { name: 'Pro', exact: true })).toHaveAttribute('href', '/plans');
+    await dialog.getByRole('button', { name: 'Пӯшидани Tutor', exact: true }).click();
+    await expect(dialog).not.toBeVisible();
+    return;
+  }
   await expect(dialog.getByLabel('Савол ба Tutor')).toBeFocused();
   await expect(dialog.getByRole('link', { name: 'Воридшавӣ / регистрация', exact: true })).toHaveAttribute('href', '/login');
   await dialog.getByRole('button', { name: 'useState?', exact: true }).click();

@@ -94,8 +94,12 @@
   font-weight: 600;
 }
 .course-options label:has(input:checked) {
-  border-color: var(--accent);
+  border-color: var(--active-border);
   background: var(--primary-soft);
+}
+.course-options label:has(input:checked) .course-option-letter {
+  background: var(--accent-solid);
+  color: var(--text-on-accent);
 }
 .loading-state {
   display: grid;
@@ -103,6 +107,7 @@
   color: var(--text-muted);
 }
 .loading-placeholder {
+  width: 100%;
   display: grid;
   gap: 10px;
   padding: 20px;

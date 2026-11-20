@@ -197,7 +197,7 @@ export function CourseCatalog() {
   const searching = query.trim() !== '';
   const found = searching
     ? CATALOG_COURSES.filter((course) => matchesSearch(course, query, language))
-    : [];
+    : CATALOG_COURSES;
 
   return (
     <section className="course-catalog">
@@ -236,21 +236,16 @@ export function CourseCatalog() {
         </label>
       </div>
 
-      {searching ? (
-        <>
-          <CourseGroupList courses={found} />
-          {found.length === 0 && (
-            <div role="status" className="catalog-empty">
-              <Search size={25} />
-              <p>{browse.noResults}</p>
-              <button className="button subtle" onClick={() => setQuery('')}>
-                {browse.reset}
-              </button>
-            </div>
-          )}
-        </>
-      ) : (
-        <CatalogCategoryGrid courses={CATALOG_COURSES} />
+      {!searching && <CatalogCategoryGrid courses={CATALOG_COURSES} />}
+      <CourseGroupList courses={found} />
+      {found.length === 0 && (
+        <div role="status" className="catalog-empty">
+          <Search size={25} />
+          <p>{browse.noResults}</p>
+          <button className="button subtle" onClick={() => setQuery('')}>
+            {browse.reset}
+          </button>
+        </div>
       )}
     </section>
   );

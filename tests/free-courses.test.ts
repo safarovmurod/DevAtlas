@@ -9,18 +9,29 @@ import { planName } from '@/lib/billing/plans';
 import { courseAccessTier } from '@/lib/courses/access';
 import { GET } from '@/app/api/courses/[courseId]/route';
 
-describe('every course is free', () => {
-  it('needs no membership for any course, Pro and Expert levels included', () => {
-    for (const course of COURSE_CATALOG) expect(courseAccessTier(course.id)).toBe('starter');
+describe('published course access tiers', () => {
+  it('protects only the catalog courses explicitly assigned to Pro or Ultra', () => {
+    expect(
+      COURSE_CATALOG.filter((course) => courseAccessTier(course.id) === 'pro').map(
+        (course) => course.id,
+      ),
+    ).toEqual(['javascript-pro', 'backend-pro', 'ux-pro', 'business-pro']);
+    expect(
+      COURSE_CATALOG.filter((course) => courseAccessTier(course.id) === 'expert').map(
+        (course) => course.id,
+      ),
+    ).toEqual(['architecture-expert']);
+    expect(courseAccessTier('html')).toBe('starter');
     expect(courseAccessTier('unknown')).toBeNull();
   });
 
-  it('serves a Pro and an Expert course without any sign-in', async () => {
+  it('does not send Pro or Ultra lessons to a signed-out request', async () => {
     for (const courseId of ['javascript-pro', 'architecture-expert']) {
       const response = await GET(new Request('https://example.test/api/courses/' + courseId), {
         params: Promise.resolve({ courseId }),
       });
-      expect(response.status).toBe(200);
+      expect(response.status).toBe(401);
+      expect(response.headers.get('cache-control')).toBe('private, no-store');
     }
   });
 
@@ -33,10 +44,9 @@ describe('every course is free', () => {
     }
   });
 
-  it('keeps the plan split without locking any course while payments are not connected', () => {
+  it('keeps display names distinct from stored tiers', () => {
     expect(planName('starter')).toBe('Start');
     expect(planName('pro')).toBe('Pro');
     expect(planName('expert')).toBe('Ultra');
-    for (const course of COURSE_CATALOG) expect(courseAccessTier(course.id)).toBe('starter');
   });
 });

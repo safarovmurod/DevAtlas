@@ -59,18 +59,21 @@ export function CourseCard({
   return (
     <article
       className={cn(
-        'course-card group relative flex min-w-0 flex-col gap-4 rounded-2xl border bg-card p-5 transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-16px_rgb(40_25_10/0.35)]',
-        isSelected ? 'course-selected border-primary' : 'border-border hover:border-primary/50',
+        'course-card group relative flex min-w-0 flex-col gap-4 rounded-2xl border bg-card p-5 shadow-[var(--depth-1)] transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 hover:shadow-[var(--depth-2)]',
+        isSelected
+          ? 'course-selected border-primary ring-1 ring-primary/30'
+          : 'border-border hover:border-primary/50',
       )}
       data-course={course.id}
       data-category={course.category}
       data-access-tier={tier}
     >
       <div className="flex items-start justify-between gap-3">
-        <span className="course-symbol flex size-14 items-center justify-center rounded-2xl bg-muted shadow-sm">
+        <span className="course-symbol flex size-14 items-center justify-center rounded-2xl bg-muted shadow-xs">
           <CourseIcon courseId={course.id} size={40} shared />
         </span>
         <div className="flex flex-wrap items-start justify-end gap-1.5">
+          {tier !== 'starter' && <Badge>{tier === 'expert' ? 'Ultra' : 'Pro'}</Badge>}
           {isSelected ? (
             <Badge variant="active">
               <CheckCircle2 size={14} aria-hidden="true" />
@@ -110,7 +113,7 @@ export function CourseCard({
       {/* The whole card is the target: the button stretches over it. */}
       <button
         type="button"
-        className="course-open flex items-center justify-between gap-2 rounded-xl text-sm font-medium text-brand before:absolute before:inset-0 before:rounded-2xl focus-visible:outline-2 focus-visible:outline-ring"
+        className="course-open flex min-h-11 items-center justify-between gap-2 rounded-xl text-sm font-medium text-brand before:absolute before:inset-0 before:rounded-2xl focus-visible:outline-2 focus-visible:outline-ring"
         aria-pressed={isSelected}
         aria-label={labels.choose + ' ' + name}
         onClick={() =>

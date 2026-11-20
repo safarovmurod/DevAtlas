@@ -3,7 +3,16 @@
 .dashboard {
   display: flex;
   flex-direction: column;
+  gap: 18px;
+}
+.react-day-content {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  min-width: 0;
+}
+.react-day-content > .section-heading {
+  margin-bottom: 0;
 }
 .dashboard-heading {
   display: flex;
@@ -27,13 +36,16 @@
 .stat {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-1);
+  border-radius: 16px;
+  box-shadow: var(--depth-1, var(--shadow-1));
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
+  padding: 15px 16px;
   color: var(--primary);
+}
+.stat > svg {
+  flex: none;
 }
 .stat span {
   color: var(--text-muted);

@@ -15,17 +15,24 @@ export class TutorProviderError extends Error {
 export function selectTutorProvider(
   env: Record<string, string | undefined> = process.env,
 ): TutorProvider | null {
-  const kind = env.AI_TUTOR_PROVIDER || (env.GEMINI_API_KEY ? 'gemini' : 'anymodel');
-  if (kind === 'gemini' && env.GEMINI_API_KEY?.trim()) {
-    const configured = env.GEMINI_MODEL || 'gemini-2.5-flash';
+  const geminiKey = env.GEMINI_API_KEY?.trim();
+  const anymodelKey = env.AI_PROVIDER_KEY?.trim();
+  const configuredKind = env.AI_TUTOR_PROVIDER?.trim();
+  const kind = configuredKind || (geminiKey ? 'gemini' : 'anymodel');
+  if (kind === 'gemini' && geminiKey) {
+    const configured = env.GEMINI_MODEL?.trim() || 'gemini-2.5-flash';
     return {
       kind: 'gemini',
-      key: env.GEMINI_API_KEY,
+      key: geminiKey,
       model: /^gemini-[a-z0-9.-]+$/.test(configured) ? configured : 'gemini-2.5-flash',
     };
   }
-  if (kind === 'anymodel' && env.AI_PROVIDER_KEY?.trim())
-    return { kind: 'anymodel', key: env.AI_PROVIDER_KEY, model: env.AI_MODEL || 'cx/gpt-6.1-sol' };
+  if (kind === 'anymodel' && anymodelKey)
+    return {
+      kind: 'anymodel',
+      key: anymodelKey,
+      model: env.AI_MODEL?.trim() || 'cx/gpt-6.1-sol',
+    };
   return null;
 }
 const safeUsage = (n: unknown) =>

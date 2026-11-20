@@ -5,6 +5,7 @@ import { isCourseId } from '@/lib/courses/ids';
 import { coursePublishedDays } from '@/content/courses/catalog';
 import { courseAccessTier } from '@/lib/courses/access';
 import { loadCourseContent } from '@/lib/courses/content';
+import { publicCourseContent } from '@/lib/courses/delivery';
 import { notFound } from 'next/navigation';
 export default async function Page({
   searchParams,
@@ -34,7 +35,7 @@ export default async function Page({
           day={day}
           initialContent={
             courseAccessTier(params.course) === 'starter'
-              ? await loadCourseContent(params.course)
+              ? await loadCourseContent(params.course).then(publicCourseContent, () => undefined)
               : undefined
           }
         />

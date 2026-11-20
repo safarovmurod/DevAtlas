@@ -4,6 +4,8 @@ import { DataMode, StateManagerType, PracticeLevel } from '@/types';
 interface AppState {
   // Navigation & UI state
   sidebarOpen: boolean;
+  desktopSidebarCollapsed: boolean;
+  toggleDesktopSidebar: () => void;
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
 
@@ -36,6 +38,9 @@ interface AppState {
 
 export const useAppStore = create<AppState>((set) => ({
   sidebarOpen: false,
+  desktopSidebarCollapsed: false,
+  toggleDesktopSidebar: () =>
+    set((state) => ({ desktopSidebarCollapsed: !state.desktopSidebarCollapsed })),
   toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
 

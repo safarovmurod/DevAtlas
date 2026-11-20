@@ -7,14 +7,14 @@ The phone QR opens this site's login page. Signing into the **same account**
 connects the phone to the same progress; scanning alone does not log anyone in.
 No SMS provider or paid phone verification is required.
 
-## Existing shared Supabase project
+## DevAtlas Supabase project
 
-Target: `sqveszluhdargkiqowjp` (safarovmurod's Project), selected by the owner after
-the setup token confirmed access to this project. One Supabase project can serve
-two applications. `REACT_MENTOR_SUPABASE_PROJECT_REF` overrides the setup script's
-default when an explicitly selected project changes.
+The owner confirmed `fqboksromagjdzrpijeb` as the current DevAtlas project. Its
+public URL matches the application's local configuration. The setup script
+requires an explicit target in `REACT_MENTOR_SUPABASE_PROJECT_REF`.
 Apply `supabase/migrations/20261004000000_accounts.sql` and the incremental
-`supabase/migrations/20261005000000_progress_conflict.sql` for this feature.
+`supabase/migrations/20261005000000_progress_conflict.sql`, followed by
+`supabase/migrations/20261118010000_progress_revision_guard.sql` for this feature.
 It is standalone and uses `react_mentor_profiles`, `react_mentor_progress`,
 `react-mentor-avatars` and prefixed functions/policies. It does not modify the
 other application's tables or require the older workspace migration.
@@ -38,12 +38,11 @@ use; they are not encrypted against someone with browser/device access.
 
 1. In Supabase Authentication, enable Google using the existing Google Cloud
    OAuth client (or create a Web application OAuth client). Authorized redirect
-   URI: `https://sqveszluhdargkiqowjp.supabase.co/auth/v1/callback`.
+   URI: `https://fqboksromagjdzrpijeb.supabase.co/auth/v1/callback`.
    Google credentials stay in Supabase. A shared project uses the same Auth
    users and MFA factors for both apps; do not change another app's OAuth setup.
-2. Add allowed redirect URLs:
-   - `https://react-mentor-opal.vercel.app/auth/callback`
-   - `https://react-mentor-opal.vercel.app/auth/callback?recovery=1`
+2. Add `/auth/callback` and `/auth/callback?recovery=1` for the verified public
+   DevAtlas domain to the allowed redirect URLs.
    Preserve the existing Site URL and all other app redirects. Add development
    callbacks only for development environments. Enable email signup/confirmation
    and TOTP enrollment/verification. Supabase's default email sender is limited;
@@ -51,13 +50,15 @@ use; they are not encrypted against someone with browser/device access.
    Supabase's built-in sender restricts recipients to project team addresses;
    this is a provider restriction, not a successful global registration setup.
 3. Vercel project environment variables, Production:
-   - `NEXT_PUBLIC_SUPABASE_URL=https://sqveszluhdargkiqowjp.supabase.co`
+   - `NEXT_PUBLIC_SUPABASE_URL=https://fqboksromagjdzrpijeb.supabase.co`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY=<publishable or anon key>`
    **Never** use a service-role key for a NEXT_PUBLIC variable. Redeploy after
    changing these variables: Next.js includes them at build time.
-4. Optional automated migration/redirect setup: bind `SUPABASE_ACCESS_TOKEN`
-   securely for `api.supabase.com`, then `node scripts/setup-accounts.mjs`.
-   It only targets this project, preserves other redirects and does not print
+4. Optional automated account setup: set `REACT_MENTOR_SUPABASE_PROJECT_REF` and
+   securely bind `SUPABASE_ACCESS_TOKEN` for `api.supabase.com`, then run
+   `node scripts/setup-accounts.mjs`. Set `REACT_MENTOR_SITE_URL` to the verified
+   public HTTPS origin to update its authentication callbacks as well.
+   It targets the specified project, preserves other redirects and does not print
    keys. It cannot create Google OAuth credentials or configure Vercel by itself.
    Updating Auth callbacks also required `project_admin_write` on this scoped
    token in the live API, even with Auth Config read-write. Dashboard URL changes
@@ -70,7 +71,46 @@ answers stay public/local and cost zero tokens. Paid AI requires a verified
 account for every deployment. Missing Supabase configuration blocks paid AI
 instead of falling back to anonymous access; durable billing quotas remain separate.
 
-## Production diagnosis, 2026-10-05
+## Course files in Supabase Storage
+
+`node scripts/course-storage-release.mjs --verify` checks the repository's 42
+imported courses, referenced downloads and React practice HTML locally. It emits
+a deterministic release ID and file counts. Existing authoring sources remain
+available for development and verification.
+
+The private `devatlas-course-content` bucket is created by
+`supabase/migrations/20261118020000_course_storage.sql`. After verifying the
+target, use `node scripts/course-storage-release.mjs --publish --project-ref fqboksromagjdzrpijeb`
+with the server credential supplied securely in the process environment. It
+stores immutable bytes by SHA-256, checks each read-back and publishes the
+release manifest last. It has no account, progress or billing writes.
+
+Set the returned `release` as the server-only `DEVATLAS_COURSE_RELEASE` and
+create a new build. The API keeps the existing course URLs and access checks.
+The build omits the local JSON files and download assets from server traces in
+release mode. Use the same release ID at build time and runtime. An older
+verified Storage release can be selected by its ID. To return to repository
+files, clear the variable and build again so those files are included.
+
+## Hosted migration checkpoint, 2026-11-18
+
+In the owner-confirmed project `fqboksromagjdzrpijeb`, the existing Ultra-only,
+admin-tools and Dodo-billing migration metadata was matched before the next
+three migrations were applied: `20261118000000_community_all_members.sql`,
+`20261118010000_progress_revision_guard.sql` and
+`20261118020000_course_storage.sql`. The owner-authorized hosted application
+succeeded. These incremental changes retain the existing accounts and progress;
+they do not recreate users or grant paid plans.
+
+The course release was uploaded and verified as 45 private artifacts: 42 course
+JSON objects, one attachment, one React practice HTML document and the manifest.
+The verified release is
+`035e2f60703867221034c1a55ca199926424b5c20aec21aed5d04226b87887e5`.
+The Vercel Production release setting was added; a new deployment using that
+setting is still pending. Full live account/MFA and payment lifecycle
+verification is separate from successful migration and asset verification.
+
+## Historical production diagnosis, 2026-10-05
 
 The deployed `/login` returned HTTPS 200. Its served client chunk still contained
 unresolved `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` references,

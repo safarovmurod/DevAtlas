@@ -1,7 +1,26 @@
 import type { NextConfig } from "next";
+const storedCourseRelease = Boolean(process.env.DEVATLAS_COURSE_RELEASE?.trim());
+const localCourses = './src/content/courses/*.json';
+const localDownloads = './content/course-files/**/*';
+const localPracticeLibrary = './content/practice-local-global.html';
+
 const nextConfig: NextConfig = {
   devIndicators: false,
-  outputFileTracingIncludes: {'/course-files/*':['./content/course-files/**/*']},
+  ...(storedCourseRelease
+    ? { outputFileTracingExcludes: { '/*': [localCourses, localDownloads, localPracticeLibrary] } }
+    : {
+        outputFileTracingIncludes: {
+          '/api/courses/*': [localCourses],
+          '/api/tutor': [localCourses],
+          '/courses/*': [localCourses],
+          '/tests': [localCourses],
+          '/course-files/*': [localCourses, localDownloads],
+          '/api/practice/react-library': [localPracticeLibrary],
+        },
+      }),
+  async redirects() {
+    return [{ source: '/practice-local-global.html', destination: '/courses/react/practice-library?view=full', permanent: false }];
+  },
   async headers() {
     return [{
       source: '/:path*',
@@ -19,12 +38,8 @@ const nextConfig: NextConfig = {
       source: '/answers/export',
       headers: [{ key: 'Content-Security-Policy', value: "sandbox; default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" }],
     }, {
-      source: '/practice-local-global.html',
-      headers: [
-        // The original user-authored HTML executes scripts only in an opaque sandbox.
-        { key: 'Content-Security-Policy', value: "sandbox allow-scripts; default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: https:; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'" },
-        { key: 'X-Content-Type-Options', value: 'nosniff' },
-      ],
+      source: '/course-files/:path*',
+      headers: [{ key: 'Content-Security-Policy', value: "sandbox; default-src 'none'" }],
     }];
   },
 };

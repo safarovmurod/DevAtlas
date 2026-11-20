@@ -1,14 +1,17 @@
 'use client';
 import Link from 'next/link';
-import { ArrowRight, BookOpen, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, BookOpen, CheckCircle2, LockKeyhole } from 'lucide-react';
 import type { CourseProgress } from '@/lib/account/progress';
 import type { ImportedCourseId } from '@/lib/courses/ids';
 import { courseSectionHref } from '@/lib/courses/links';
 import type { CourseDayItem } from '@/lib/courses/plan';
+import { blockingCourseDay } from '@/lib/courses/strict-attempt';
 import { courseText, type CourseLesson } from '@/lib/courses/schema';
 import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import { useLearningStore } from '@/stores/learning-store';
 import { MASTERY_LABELS } from './course-workspace-copy';
+import { DAY_COPY } from './course-day';
 
 /** Days from 15 onwards are marked as the harder half of a course. */
 const HARDER_FROM_DAY = 15;
@@ -29,6 +32,7 @@ export function CoursePlan({
   const contentLanguage = useLearningStore((state) => state.contentLanguage);
   const ui = LEARNING_UI_COPY[language];
   const text = (value: CourseLesson['title']) => courseText(value, contentLanguage);
+  const [blocked, setBlocked] = useState<number | null>(null);
 
   const isMastered = (questionId: string) => progress.masteredQuestions.includes(questionId);
   const doneDays = days.filter((entry) => entry.status === 'done').length;
@@ -54,9 +58,15 @@ export function CoursePlan({
           </div>
         </div>
       </div>
+      {blocked !== null && (
+        <p role="status" className="panel mb-4 p-4">
+          {DAY_COPY[language].blocked(blocked)}
+        </p>
+      )}
 
       <div className="day-card-grid">
         {days.map((entry) => {
+          const blocker = blockingCourseDay(days, entry.day, progress.confirmedDays);
           const questions = entry.lesson.questions;
           const allMastered = questions.length > 0 && questions.every((q) => isMastered(q.id));
           const className =
@@ -65,19 +75,15 @@ export function CoursePlan({
             (entry.status === 'done' ? ' is-done' : '') +
             (entry.status === 'current' ? ' is-next' : '');
 
-          return (
-            <Link
-              prefetch={false}
-              key={entry.day}
-              href={courseSectionHref(courseId, 'home', entry.day)}
-              className={className}
-              aria-current={selectedDay === entry.day ? 'step' : undefined}
-            >
+          const contents = (
+            <>
               <div className="between">
                 <span className="eyebrow">
                   {ui.day} {entry.day}
                 </span>
-                {entry.status === 'done' ? (
+                {blocker ? (
+                  <LockKeyhole size={18} aria-hidden="true" />
+                ) : entry.status === 'done' ? (
                   <CheckCircle2 size={18} />
                 ) : (
                   <span className="badge">
@@ -97,6 +103,28 @@ export function CoursePlan({
               <span className="text-link">
                 {ui.openDay} <ArrowRight size={15} />
               </span>
+            </>
+          );
+          return blocker ? (
+            <button
+              key={entry.day}
+              type="button"
+              className={className + ' text-left'}
+              title={DAY_COPY[language].blocked(blocker.day)}
+              onClick={() => setBlocked(blocker.day)}
+            >
+              {contents}
+            </button>
+          ) : (
+            <Link
+              prefetch={false}
+              key={entry.day}
+              href={courseSectionHref(courseId, 'home', entry.day)}
+              className={className}
+              aria-current={selectedDay === entry.day ? 'step' : undefined}
+              transitionTypes={['nav-forward']}
+            >
+              {contents}
             </Link>
           );
         })}

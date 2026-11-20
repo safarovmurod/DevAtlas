@@ -11,10 +11,12 @@ import {
   emptyCourseProgress,
   progressSnapshot,
   type CourseProgress,
+  type DaySubmission,
   type Progress,
 } from '@/lib/account/progress';
 import type { CourseId, ImportedCourseId } from '@/lib/courses/ids';
 import { courseDayReady, type CoursePlanDay } from '@/lib/courses/plan';
+import { blockingCourseDay, gradeCourseDay } from '@/lib/courses/strict-attempt';
 import { contentLocaleFor, persistManualLocale, type InterfaceLocale } from '@/lib/locale';
 import { canConfirmReactDay } from './react-day-progress';
 import { flushPendingStudyTime } from './study-time';
@@ -36,7 +38,7 @@ interface LearningState extends Progress {
   ensureDailySet: (month: number, today?: string) => string[];
   markStudied: (questionId: string) => void;
   recordAnswer: (
-    question: LearningQuestion,
+    question: Pick<LearningQuestion, 'id' | 'topicId'>,
     mode: StudyMode,
     correct: boolean,
     answer: string,
@@ -51,6 +53,14 @@ interface LearningState extends Progress {
     practiceRequired?: boolean,
   ) => boolean;
   confirmReactDay: (month: number, day: number) => boolean;
+  submitCourseDay: (
+    courseId: CourseId,
+    day: number,
+    plan: CoursePlanDay[],
+    choices: Record<string, number>,
+    written: string,
+    react?: { month: number; studied: readonly string[]; topicIds: Record<string, string> },
+  ) => DaySubmission | null;
   saveDraft: (id: string, code: string) => void;
   saveNote: (note: { id: string; title: string; content: string }) => void;
   deleteNote: (id: string) => void;
@@ -212,6 +222,85 @@ export const useLearningStore = create<LearningState>()(
           set({ confirmedDays: [...get().confirmedDays, `${month}:${day}`] });
           return true;
         },
+        submitCourseDay(courseId, day, plan, choices, written, react) {
+          if (courseId === 'react' && !react) return null;
+          const progress = courseId === 'react' ? get() : courseProgress(courseId);
+          const item = plan.find((entry) => entry.day === day);
+          const completed =
+            courseId === 'react' && react
+              ? react.studied.every((id) => progress.completedTopics.includes(id))
+              : !!item && progress.completedTopics.includes(item.lesson.id);
+          const confirmed =
+            courseId === 'react' && react
+              ? progress.confirmedDays
+                  .filter((id) => id.startsWith(react.month + ':'))
+                  .map((id) => id.split(':')[1])
+              : progress.confirmedDays;
+          if (!get().ready || !item || !completed || blockingCourseDay(plan, day, confirmed))
+            return null;
+          if (
+            react?.month === 2 &&
+            Array.from({ length: 30 }, (_, index) => '1:' + (index + 1)).some(
+              (id) => !progress.confirmedDays.includes(id),
+            )
+          )
+            return null;
+          const existing = progress.daySubmissions?.[item.lesson.id];
+          if (existing) return existing;
+          const answers = gradeCourseDay(item.lesson, day, choices, written);
+          const today = dateKey();
+          const now = new Date();
+          const result: DaySubmission = {
+            day,
+            date: now.toISOString(),
+            score: answers.length
+              ? Math.round(
+                  (100 * answers.filter((answer) => answer.correct).length) / answers.length,
+                )
+              : 0,
+            answers,
+          };
+          const records = { ...progress.answers };
+          const reviews = { ...progress.reviews };
+          const clocks = { ...progress.reviewClock };
+          const mastered = new Set(progress.masteredQuestions);
+          for (const answer of answers) {
+            const topicId = react?.topicIds[answer.id] ?? item.lesson.id;
+            records[`day:${item.lesson.id}:${answer.mode}:${answer.id}`] = {
+              questionId: answer.id,
+              topicId,
+              mode: answer.mode,
+              correct: answer.correct,
+              answer: answer.answer,
+              date: today,
+            };
+            reviews[answer.id] = nextReview(
+              reviews[answer.id],
+              answer.id,
+              topicId,
+              answer.correct,
+              today,
+            );
+            clocks[answer.id] = now.getTime();
+            if (answer.mode === 'test' && answer.correct) mastered.add(answer.id);
+          }
+          const changes = {
+            daySubmissions: { ...progress.daySubmissions, [item.lesson.id]: result },
+            confirmedDays: [
+              ...new Set([
+                ...progress.confirmedDays,
+                react ? `${react.month}:${day}` : String(day),
+              ]),
+            ],
+            answers: records,
+            reviews,
+            reviewClock: clocks,
+            masteredQuestions: [...mastered],
+          };
+          if (courseId === 'react') set(changes);
+          else updateCourse(courseId, changes);
+          return result;
+        },
         saveDraft(id, code) {
           set({
             drafts: { ...get().drafts, [id]: code },
@@ -272,9 +361,13 @@ export const useLearningStore = create<LearningState>()(
         },
         chooseCourse(selectedCourse) {
           if (selectedCourse !== get().selectedCourse) flushPendingStudyTime();
+          const visibility = get().courseVisibility;
           set({
             selectedCourse,
             courseChosen: true,
+            courseVisibility: visibility[selectedCourse]?.hidden
+              ? { ...visibility, [selectedCourse]: { hidden: false, at: Date.now() } }
+              : visibility,
             preferenceClock: {
               ...get().preferenceClock,
               selectedCourse: Date.now(),

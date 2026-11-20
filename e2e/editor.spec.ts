@@ -1,4 +1,5 @@
 import {expect,test} from '@playwright/test';
+import {productionPracticeGate} from './starter-course-checks';
 
 test('TypeScript editor shows real syntax diagnostics and inserts a completion',async({page})=>{
   test.setTimeout(60000);
@@ -7,6 +8,12 @@ test('TypeScript editor shows real syntax diagnostics and inserts a completion',
     if(request.resourceType()==='script'&&/^https?:/.test(request.url())&&new URL(request.url()).hostname!=='127.0.0.1')externalScripts.push(request.url());
   });
   await page.goto('/practice?course=react&month=1');
+  if(productionPracticeGate){
+    await expect(page.locator('[data-practice-locked]')).toBeVisible();
+    await expect(page.locator('.monaco-editor')).toHaveCount(0);
+    expect(externalScripts).toEqual([]);
+    return;
+  }
   await page.getByRole('tab',{name:'Функции: тесты',exact:true}).click();
   await expect(page.locator('.monaco-editor')).toBeVisible({timeout:30000});
   const setCode=(source:string)=>page.evaluate(code=>{

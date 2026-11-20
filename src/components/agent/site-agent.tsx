@@ -4,9 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Bot, Loader2, Mic, Sparkles, Square, X } from 'lucide-react';
 import { useAccount } from '@/components/account/account-provider';
+import { usePlanAccess } from '@/components/courses/use-practice-access';
+import { MEMBERSHIP_COPY } from '@/lib/billing/copy';
 import { removeOldAgentChat } from '@/lib/agent/agent-reply';
 import { useAppStore } from '@/stores/app-store';
 import { useLearningStore } from '@/stores/learning-store';
+import { AssistantPet } from './assistant-pet';
 import { AGENT_COPY } from './site-agent-copy';
 import { useVoiceAssistant, type VoiceNotice } from './use-voice-assistant';
 
@@ -32,6 +35,7 @@ function SiteAgentSession({ owner }: { owner: string | null }) {
   const voice = useVoiceAssistant({ language, owner, courseId, progress });
 
   const [open, setOpen] = useState(false);
+  const voiceAccess = usePlanAccess('voiceAssistant', open);
   const bubble = useRef<HTMLButtonElement>(null);
   const mic = useRef<HTMLButtonElement>(null);
 
@@ -106,7 +110,7 @@ function SiteAgentSession({ owner }: { owner: string | null }) {
           title={copy.assistant}
           onClick={() => (open ? close() : setOpen(true))}
         >
-          <Bot size={24} />
+          <AssistantPet phase={voice.phase} compact />
           <span className="agent-pulse" aria-hidden="true" />
         </button>
       )}
@@ -115,9 +119,9 @@ function SiteAgentSession({ owner }: { owner: string | null }) {
         <aside
           role="dialog"
           aria-label={copy.assistant}
-          className="fixed right-[22px] bottom-[90px] z-[var(--z-panel)] w-[min(340px,calc(100vw-32px))] overflow-hidden rounded-[18px] border border-border bg-card text-foreground shadow-[var(--shadow-3)] max-[860px]:bottom-[148px] max-[560px]:right-4"
+          className="fixed right-[22px] bottom-[90px] z-[var(--z-panel)] flex max-h-[calc(100dvh-106px)] w-[min(340px,calc(100vw-32px))] flex-col overflow-hidden rounded-[18px] border border-border bg-card text-foreground shadow-[var(--shadow-3)] max-[860px]:bottom-[148px] max-[860px]:max-h-[calc(100dvh-164px)] max-[560px]:right-4"
         >
-          <header className="flex items-center justify-between gap-3 border-b border-border bg-primary-soft px-4 py-3">
+          <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border bg-primary-soft px-4 py-3">
             <h2 className="m-0 flex items-center gap-2 text-[15px]">
               <Bot size={18} aria-hidden="true" />
               {copy.assistant}
@@ -127,8 +131,16 @@ function SiteAgentSession({ owner }: { owner: string | null }) {
             </button>
           </header>
 
-          <div className="flex flex-col items-center gap-3 px-4 pt-6 pb-5 text-center">
-            {voice.supported ? (
+          <div className="flex min-h-0 flex-col items-center gap-3 overflow-y-auto px-4 pt-4 pb-5 text-center">
+            <AssistantPet phase={voice.phase} />
+            {voiceAccess !== 'open' ? (
+              <div className="grid justify-items-center gap-2">
+                <p role="status">{MEMBERSHIP_COPY[language].features.voiceAssistant} · Ultra</p>
+                <Link href="/plans" className="button primary" onClick={close}>
+                  Ultra
+                </Link>
+              </div>
+            ) : voice.supported ? (
               <>
                 <button
                   ref={mic}
@@ -139,7 +151,7 @@ function SiteAgentSession({ owner }: { owner: string | null }) {
                   aria-label={listening ? copy.micStop : copy.micStart}
                   title={listening ? copy.micStop : copy.micStart}
                   className={
-                    'grid size-[72px] place-items-center rounded-full border-0 text-primary-foreground transition-colors disabled:opacity-70 ' +
+                    'grid size-[72px] shrink-0 place-items-center rounded-full border-0 text-primary-foreground transition-colors disabled:opacity-70 ' +
                     (listening ? 'bg-destructive' : 'bg-primary hover:bg-primary-hover')
                   }
                 >

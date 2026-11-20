@@ -1,38 +1,20 @@
 import { COURSE_CATALOG } from '@/content/courses/catalog';
-import { loadCourseContent } from '@/lib/courses/content';
-import { LEARNING_TOPICS } from '@/content/course';
+import type { CourseId } from '@/lib/courses/ids';
 
-export async function GET() {
-  const courses = await Promise.all(
-    COURSE_CATALOG.map(async (course) => {
-      if (course.id === 'react')
-        return {
-          id: course.id,
-          ready: true,
-          lessons: LEARNING_TOPICS.filter((topic) => topic.month <= 2).length,
-          files: 0,
-        };
-      try {
-        const content = await loadCourseContent(course.id);
-        return {
-          id: course.id,
-          ready: content.lessons.length > 0,
-          lessons:
-            content.lessons.filter((lesson) => lesson.day !== undefined).length ||
-            content.lessons.length,
-          files: content.files.length,
-          accessTier: course.accessTier ?? 'starter',
-        };
-      } catch {
-        return {
-          id: course.id,
-          ready: false,
-          lessons: 0,
-          files: 0,
-          accessTier: course.accessTier ?? 'starter',
-        };
-      }
-    }),
-  );
+// The course audit checks these metadata counts against the actual curriculum.
+const courseFileCounts: Partial<Record<CourseId, number>> = { backend: 1 };
+
+export function GET() {
+  const courses = COURSE_CATALOG.map((course) => {
+    const lessons = course.publishedDays ?? 0;
+    const status = {
+      id: course.id,
+      ready: lessons > 0,
+      lessons,
+      files: courseFileCounts[course.id] ?? 0,
+    };
+
+    return course.id === 'react' ? status : { ...status, accessTier: course.accessTier ?? 'starter' };
+  });
   return Response.json(courses, { headers: { 'Cache-Control': 'public, max-age=60' } });
 }

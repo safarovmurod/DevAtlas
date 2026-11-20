@@ -40,7 +40,8 @@ export async function GET(request: Request) {
     return json(assessmentView(bank, requested));
   }
   const candidates = bank.variants.filter((variant) => variant.id !== params.get('excludeVariant'));
-  const selected = candidates[randomInt(candidates.length)];
+  const pool = candidates.length ? candidates : bank.variants;
+  const selected = pool[randomInt(pool.length)];
   return json(assessmentView(bank, selected.id));
 }
 

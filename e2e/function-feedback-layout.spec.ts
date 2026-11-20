@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { expectGuestPracticeGate, productionPracticeGate } from './starter-course-checks';
 
 const course = JSON.parse(readFileSync(path.join(process.cwd(), 'src/content/courses/ai-fundamentals.json'), 'utf8'));
 const practice = course.lessons[0].practice;
@@ -30,6 +31,13 @@ test('function failure feedback wraps inline values on desktop and mobile', asyn
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/courses/ai-fundamentals/home?day=1');
+  await page.getByRole('group', { name: 'My day', exact: true }).getByRole('button', { name: 'Practice', exact: true }).click();
+  if (productionPracticeGate) {
+    await expectGuestPracticeGate(page, 'ai-fundamentals');
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    expect(errors).toEqual([]);
+    return;
+  }
   const panel = page.locator('.function-practice');
   const run = panel.getByRole('button', { name: 'Check solution', exact: true });
 

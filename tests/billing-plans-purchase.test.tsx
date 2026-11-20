@@ -210,6 +210,23 @@ describe('plans page with payments', () => {
     expect(mocks.billingFetch).toHaveBeenCalledWith('/api/billing/portal', { method: 'POST' });
   });
 
+  it('refuses to navigate to non-Dodo or javascript: checkout and portal URLs', async () => {
+    current = { ...current, membership: paid() };
+    await ready();
+    for (const badUrl of ['javascript:alert(1)', 'https://evil.example/checkout']) {
+      mocks.billingFetch.mockImplementation(async (path: string) =>
+        path === '/api/billing/checkout' || path === '/api/billing/portal'
+          ? { url: badUrl }
+          : current,
+      );
+      fireEvent.click(await within(card('ultra')).findByRole('button', { name: copy.upgrade }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(copy.errors.provider_error);
+      fireEvent.click(await screen.findByRole('button', { name: copy.manage }));
+      expect(await screen.findByRole('alert')).toHaveTextContent(copy.errors.provider_error);
+    }
+    expect(assign).not.toHaveBeenCalled();
+  });
+
   it('upgrades a paid Pro in place and waits for the database before saying it worked', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     current = { ...current, membership: paid() };

@@ -58,7 +58,7 @@ function Stat({
   tone: string;
 }) {
   return (
-    <div className="flex flex-col items-start gap-3 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:gap-4 sm:p-5 shadow-[0_14px_30px_-22px_rgb(40_25_10/0.45)] transition-[transform,box-shadow] duration-200 ease-out">
+    <div className="flex flex-col items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-[var(--depth-1)] transition-[transform,box-shadow,border-color] duration-200 ease-out sm:flex-row sm:items-center sm:gap-4 sm:p-5">
       <span
         className={cn(
           'flex size-10 shrink-0 items-center justify-center rounded-2xl sm:size-12',
@@ -68,7 +68,7 @@ function Stat({
         <Icon size={24} strokeWidth={1.8} aria-hidden="true" />
       </span>
       <div className="grid">
-        <strong className="text-2xl leading-8 font-semibold tracking-tight sm:text-[28px]">
+        <strong className="text-2xl leading-8 font-semibold tracking-tight tabular-nums sm:text-[28px]">
           {value}
         </strong>
         <span className="text-sm text-muted-foreground">{label}</span>
@@ -88,18 +88,18 @@ export function CatalogOverview() {
       <Link
         href={href}
         transitionTypes={['nav-forward']}
-        className="group relative flex flex-col justify-between gap-5 overflow-hidden rounded-2xl bg-[#17120f] p-5 text-white no-underline shadow-[0_22px_40px_-24px_rgb(23_18_15/0.8)] transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 col-span-3 xl:col-span-1"
+        className="group relative col-span-3 flex flex-col justify-between gap-5 overflow-hidden rounded-2xl border border-indigo-400/20 bg-[linear-gradient(145deg,#0f172a_0%,#1e1b4b_100%)] p-5 text-white no-underline shadow-[0_22px_42px_-24px_rgba(15,23,42,0.85)] transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 xl:col-span-1"
       >
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-10 -right-10 size-40 rounded-full bg-[#ff9301]/25 blur-3xl"
+          className="pointer-events-none absolute -top-10 -right-10 size-40 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.28),rgba(79,70,229,0.2)_48%,transparent_72%)] blur-3xl"
         />
-        <div className="flex items-center gap-3">
-          <span className="flex size-12 items-center justify-center rounded-2xl bg-white/10">
+        <div className="relative flex items-center gap-3">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/10">
             <CourseIcon courseId={course} size={34} />
           </span>
           <div className="grid min-w-0">
-            <small className="text-xs text-white/60">{copy.current}</small>
+            <small className="text-xs text-slate-300/75">{copy.current}</small>
             <strong className="truncate text-base font-semibold">
               {courseDisplayName(course, language)}
             </strong>
@@ -107,26 +107,30 @@ export function CatalogOverview() {
           <ArrowUpRight
             size={20}
             aria-hidden="true"
-            className="ml-auto text-white/60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="ml-auto shrink-0 text-slate-300/70 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
           />
         </div>
-        <div className="grid gap-2">
+        <div className="relative grid gap-2">
           <div
             role="progressbar"
             aria-label={label}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(percent)}
-            className="h-1.5 overflow-hidden rounded-full bg-white/15"
+            className="h-1.5 overflow-hidden rounded-full bg-white/12"
           >
             <span
-              className="block h-full rounded-full bg-[#ff9301]"
+              className="block h-full rounded-full bg-gradient-to-r from-[#6366f1] to-[#38bdf8]"
               style={{ width: `${Math.round(percent)}%` }}
             />
           </div>
-          <div className="flex items-baseline justify-between text-sm">
-            <span className="font-mono text-xs text-white/60">{label}</span>
-            <span className="font-medium text-[#ffb84d]">{copy.resume}</span>
+          <div className="flex items-center justify-between gap-2 text-sm">
+            <span className="min-w-0 truncate whitespace-nowrap font-mono text-xs tabular-nums text-slate-300/80">
+              {label}
+            </span>
+            <span className="shrink-0 whitespace-nowrap text-xs font-semibold text-[#7dd3fc]">
+              {copy.resume}
+            </span>
           </div>
         </div>
       </Link>
@@ -134,14 +138,14 @@ export function CatalogOverview() {
         icon={Library}
         value={CATALOG.length}
         label={copy.courses}
-        tone="bg-violet-500/12 text-violet-600"
+        tone="bg-primary-soft text-brand"
       />
-      <Stat icon={Gift} value={FREE} label={copy.free} tone="bg-emerald-500/12 text-emerald-600" />
+      <Stat icon={Gift} value={FREE} label={copy.free} tone="bg-success-soft text-success" />
       <Stat
         icon={GraduationCap}
         value={LESSONS}
         label={copy.lessons}
-        tone="bg-amber-500/15 text-amber-600"
+        tone="bg-primary-soft text-brand"
       />
     </section>
   );

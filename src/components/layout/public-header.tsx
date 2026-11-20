@@ -19,9 +19,9 @@ type HeaderCopy = {
 };
 
 const linkClass =
-  'rounded-full px-3.5 py-2 text-sm font-medium text-white/70 no-underline transition-colors hover:bg-white/10 hover:text-white';
+  'inline-flex min-h-11 items-center rounded-full px-3.5 py-2 text-sm font-medium text-slate-300 no-underline transition-colors hover:bg-slate-400/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] motion-reduce:transition-none';
 
-/** Dark glass bar, full width, fixed on top of the landing page. */
+/** Obsidian glass navigation bar, full width, fixed on top of the landing page. */
 export function PublicHeader({ copy }: { copy: HeaderCopy }) {
   const [open, setOpen] = useState(false);
   const container = useRef<HTMLElement>(null);
@@ -72,10 +72,10 @@ export function PublicHeader({ copy }: { copy: HeaderCopy }) {
   return (
     <header
       ref={container}
-      className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#07080d]/80 backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-50 border-b border-slate-400/15 bg-[#060913]/85 backdrop-blur-md"
     >
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-4 px-4 sm:px-6">
-        <div className="[&_.public-brand>span:last-child]:!text-white">
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-2 px-3 sm:gap-4 sm:px-6">
+        <div className="min-w-0 [&_.public-brand]:inline-flex [&_.public-brand]:min-h-11 [&_.public-brand]:items-center [&_.public-brand>span:last-child]:!text-white">
           <Brand variant="public" />
         </div>
         <nav className="hidden items-center gap-1 md:flex" aria-label={copy.platform}>
@@ -85,11 +85,11 @@ export function PublicHeader({ copy }: { copy: HeaderCopy }) {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <Link
             href="/login"
             transitionTypes={['nav-forward']}
-            className="hidden px-3 py-2 text-sm font-medium text-white/80 no-underline transition-colors hover:text-white sm:inline"
+            className="hidden min-h-11 items-center px-3 py-2 text-sm font-medium text-slate-300 no-underline transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] sm:inline-flex"
           >
             {copy.signIn}
           </Link>
@@ -97,7 +97,7 @@ export function PublicHeader({ copy }: { copy: HeaderCopy }) {
             href="/login"
             transitionTypes={['nav-forward']}
             aria-label={copy.start}
-            className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-[#c2410c] px-4 text-sm font-semibold text-white no-underline transition-colors hover:bg-[#ea580c]"
+            className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl bg-[#4f46e5] px-3 text-sm font-semibold text-white no-underline ring-1 ring-inset ring-white/15 transition-colors hover:bg-[#4338ca] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] motion-reduce:transition-none sm:px-4"
           >
             <span className="hidden sm:inline">{copy.start}</span>
             <span className="sm:hidden" aria-hidden="true">
@@ -108,7 +108,7 @@ export function PublicHeader({ copy }: { copy: HeaderCopy }) {
           <button
             ref={trigger}
             type="button"
-            className="inline-flex size-11 items-center justify-center rounded-xl border border-white/15 text-white md:hidden"
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-slate-400/20 bg-[#0e1526]/70 text-white transition-colors hover:border-[#38bdf8]/40 hover:bg-[#131d33] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] md:hidden"
             aria-label={copy.openMenu}
             aria-expanded={open}
             aria-controls="public-mobile-navigation"
@@ -120,7 +120,7 @@ export function PublicHeader({ copy }: { copy: HeaderCopy }) {
       </div>
       {open && (
         <div
-          className="border-t border-white/10 bg-[#07080d]/95 p-4 md:hidden"
+          className="border-t border-slate-400/15 bg-[#060913]/95 p-4 md:hidden"
           id="public-mobile-navigation"
           role="dialog"
           aria-label={copy.openMenu}
@@ -129,7 +129,7 @@ export function PublicHeader({ copy }: { copy: HeaderCopy }) {
         >
           <button
             type="button"
-            className="mb-2 ml-auto flex size-11 items-center justify-center rounded-xl border border-white/15 text-white"
+            className="mb-2 ml-auto flex size-11 items-center justify-center rounded-xl border border-slate-400/20 bg-[#0e1526] text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8]"
             aria-label={copy.closeMenu}
             onClick={close}
           >

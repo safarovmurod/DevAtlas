@@ -19,7 +19,7 @@ export interface CourseCatalogEntry {
   /** Execution setup guidance, not a claim that the site executes this runtime. */
   runtime?: 'browser' | 'local';
   introductoryDays?: number;
-  /** Learning level (Beginner, Pro, Expert). It does not lock the course: every course is free. */
+  /** Learning level and minimum plan (Expert courses require Ultra). */
   accessTier?: 'starter' | 'pro' | 'expert';
   /** Number of real scheduled days; library-only reference lessons are not counted. */
   publishedDays?: number;
@@ -40,7 +40,7 @@ export function coursePublishedDays(id: CourseId) {
 
 /* ============ Learning tracks ============
    A track is one discipline studied across three levels: Beginner, Pro and
-   Expert. All levels are free. Level membership is derived from accessTier so
+   Expert. Level membership is derived from accessTier so
    a course can never claim a level its tier contradicts. Tracks with
    unpublished stages list only what actually exists — the UI renders missing
    stages as "not published yet", never as finished courses. */

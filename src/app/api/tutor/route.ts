@@ -21,12 +21,14 @@ import { courseName } from '@/content/courses/catalog';
 import { readBoundedJson, RequestBodyError } from '@/lib/security/request';
 import { courseAccessTier } from '@/lib/courses/access';
 import { authorizeCourseContent } from '@/lib/courses/access-server';
+import { featurePlanDenial } from '@/lib/practice/plan-access';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 const schema = z.object({
   action: z.enum(['ask', 'grade_interview', 'explain_code']),
+  channel: z.enum(['chat', 'voice']).default('chat'),
   courseId: z.enum(COURSE_IDS).default('react'),
   topicId: z.string().max(100).optional(),
   questionId: z.string().max(100).optional(),
@@ -45,10 +47,29 @@ const schema = z.object({
     .default([]),
 });
 
-// Cheap process-local backpressure supplements the durable per-user/global
+// Cheap per-user process-local backpressure supplements the durable per-user/global
 // reservation below; it never substitutes for persistent cost/rate enforcement.
-let inFlight = false;
-let nextRequestAt = 0;
+const TUTOR_COOLDOWN_MS = 3000;
+const MAX_TRACKED_USERS = 5000;
+type UserTutorBackpressure = { inFlight: boolean; nextRequestAt: number };
+const userBackpressure = new Map<string, UserTutorBackpressure>();
+
+function pruneUserBackpressure(nowMs: number) {
+  if (userBackpressure.size <= MAX_TRACKED_USERS) return;
+  for (const [userId, state] of userBackpressure) {
+    if (!state.inFlight && nowMs >= state.nextRequestAt) {
+      userBackpressure.delete(userId);
+    }
+  }
+  if (userBackpressure.size > MAX_TRACKED_USERS) {
+    for (const [userId, state] of userBackpressure) {
+      if (!state.inFlight) {
+        userBackpressure.delete(userId);
+        if (userBackpressure.size <= MAX_TRACKED_USERS) break;
+      }
+    }
+  }
+}
 
 function error(message: string, status: number) {
   return NextResponse.json(
@@ -75,6 +96,7 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) return error('Савол ё таърихи чат нодуруст ё хеле дароз аст.', 400);
   const {
     action,
+    channel,
     courseId,
     topicId,
     questionId,
@@ -84,6 +106,15 @@ export async function POST(req: NextRequest) {
     history,
     language,
   } = parsed.data;
+  // Grading is also used by free course assessments. Chat and code explanation belong to Pro.
+  if (action !== 'grade_interview') {
+    const denied = await featurePlanDenial(req, channel === 'voice' ? 'voiceAssistant' : 'aiTutor');
+    if (denied) return denied;
+  }
+  if (courseAccessTier(courseId) !== 'starter') {
+    const access = await authorizeCourseContent(req, courseId);
+    if (!access.allowed) return access.response;
+  }
   // Lessons exist in Tajik, Russian and English. A Spanish interface reads them in
   // English; greetings, definitions and system replies are written in Spanish.
   const materialLanguage = language === 'es' ? 'en' : language;
@@ -96,8 +127,7 @@ export async function POST(req: NextRequest) {
       ? previousUserMessage
       : undefined;
 
-  // Everyday messages and "what is HTML?" are answered at once and for free: no
-  // account, no course lookup and no paid model call.
+  // Everyday messages and definitions do not require a model call.
   if (action === 'ask' && !codeContext?.trim()) {
     const talk = smalltalkKind(userText);
     if (talk)
@@ -115,13 +145,6 @@ export async function POST(req: NextRequest) {
       return tutorJson({ mode: 'local', ...definition, usage: { totalTokens: 0 } });
   }
 
-  // Local references are course material too: protect paid answers before lookup.
-  // Existing free/React references still require no account or provider setup.
-  if (courseAccessTier(courseId) !== 'starter') {
-    const access = await authorizeCourseContent(req, courseId);
-    if (!access.allowed) return access.response;
-  }
-
   // Official grading stays deterministic and consumes no provider tokens.
   if (action === 'grade_interview') {
     if (courseId !== 'react')
@@ -136,6 +159,11 @@ export async function POST(req: NextRequest) {
   const deep = isDeep || wantsDeepExplanation(userText);
   const query = isDeepFollowUp(userText) ? previousUserQuestion || '' : userText;
   if (action === 'ask') {
+    const findReference = () => localReference(courseId, query, {
+      questionId,
+      deep,
+      language: materialLanguage,
+    }).catch(() => undefined);
     const scope = tutorScope(userText, previousUserQuestion, codeContext);
     if (scope !== 'allowed') {
       // An explicit source ID may resolve a generic request locally, after the
@@ -146,11 +174,8 @@ export async function POST(req: NextRequest) {
           userText,
         );
       if (scope === 'outside' && questionId && referenceIntent) {
-        const reference = await localReference(courseId, query, {
-          questionId,
-          deep,
-          language: materialLanguage,
-        });
+        const reference = await findReference();
+        if (reference === undefined) return error('course_unavailable', 503);
         if (reference?.source?.questionId === questionId)
           return tutorJson({ mode: 'local', ...reference, usage: { totalTokens: 0 } });
       }
@@ -171,11 +196,8 @@ export async function POST(req: NextRequest) {
         usage: { totalTokens: 0 },
       });
     }
-    const local = await localReference(courseId, query, {
-      questionId,
-      deep,
-      language: materialLanguage,
-    });
+    const local = await findReference();
+    if (local === undefined) return error('course_unavailable', 503);
     // A paid reference is returned only for the exact question requested.
     const sourceMatches = !questionId || local?.source?.questionId === questionId;
     if (local && sourceMatches)
@@ -210,9 +232,9 @@ export async function POST(req: NextRequest) {
       usage: { totalTokens: 0 },
     });
   }
-  // Registration is mandatory for paid AI, including deployments whose account
-  // configuration is missing. Course material above stays free for guests.
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  // Online completions also require configured registration and a verified user.
+  // The feature and course guards above apply to local Tutor replies as well.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()) {
     return error(
       'Воридшавӣ ба аккаунт ҳоло пайваст нашудааст. AI баъди пайваст шудани воридшавӣ дастрас мешавад.',
       503,
@@ -226,11 +248,21 @@ export async function POST(req: NextRequest) {
       'Калиди AI дар сервер танзим нашудааст. Аз дарсҳои платформа истифода баред.',
       503,
     );
-  if (inFlight || Date.now() < nextRequestAt)
+  const nowMs = Date.now();
+  const existingBackpressure = userBackpressure.get(user.id);
+  if (
+    existingBackpressure &&
+    (existingBackpressure.inFlight || nowMs < existingBackpressure.nextRequestAt)
+  )
     return error('Каме интизор шавед: дархости AI аллакай фиристода шудааст.', 429);
 
-  inFlight = true;
-  nextRequestAt = Date.now() + 3000;
+  const userState: UserTutorBackpressure = {
+    inFlight: true,
+    nextRequestAt: nowMs + TUTOR_COOLDOWN_MS,
+  };
+  userBackpressure.delete(user.id);
+  userBackpressure.set(user.id, userState);
+  pruneUserBackpressure(nowMs);
   try {
     const messages: TutorMessage[] = [
       { role: 'system', content: TUTOR_SYSTEM_PROMPT },
@@ -259,6 +291,9 @@ export async function POST(req: NextRequest) {
     if (caught instanceof TutorProviderError) return error(caught.message, caught.status);
     return error('AI ҷавоб надод ё пайвастшавӣ қатъ шуд. Баъдтар кӯшиш кунед.', 502);
   } finally {
-    inFlight = false;
+    userState.inFlight = false;
+    if (userBackpressure.get(user.id) === userState && Date.now() >= userState.nextRequestAt) {
+      userBackpressure.delete(user.id);
+    }
   }
 }

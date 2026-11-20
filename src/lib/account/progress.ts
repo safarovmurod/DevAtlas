@@ -34,6 +34,26 @@ export const studyProgressSchema = z.object({
   completedTopics: z.array(id).default([]),
   completedPractice: z.array(id).default([]),
   confirmedDays: z.array(id).default([]),
+  daySubmissions: z
+    .record(
+      id,
+      z.object({
+        day: z.number().int().positive(),
+        date: z.string().max(30),
+        score: z.number().int().min(0).max(100),
+        answers: z
+          .array(
+            z.object({
+              id,
+              mode: z.enum(['test', 'interview']),
+              correct: z.boolean(),
+              answer: z.string().max(1500),
+            }),
+          )
+          .max(100),
+      }),
+    )
+    .default({}),
   drafts: z.record(z.string(), z.string().max(200000)).default({}),
   // Question ids answered correctly in test mode at least once — durable mastery
   // evidence, distinct from the per-day review answers which reset by date.
@@ -48,6 +68,7 @@ export const studyProgressSchema = z.object({
   studySeconds: z.record(z.string(), z.number().int().nonnegative()).default({}),
 });
 export type CourseProgress = z.infer<typeof studyProgressSchema>;
+export type DaySubmission = CourseProgress['daySubmissions'][string];
 export const emptyCourseProgress = (): CourseProgress => studyProgressSchema.parse({});
 export const progressSchema = studyProgressSchema.extend({
   language: interfaceLanguage.default('ru'),
@@ -116,6 +137,27 @@ export function mergeStudyProgress(remote: CourseProgress, local: CourseProgress
   ] as const)
     merged[key] = [...new Set([...remote[key], ...local[key]])];
   merged.answers = { ...local.answers, ...remote.answers };
+  merged.daySubmissions = { ...local.daySubmissions, ...remote.daySubmissions };
+  for (const [key, submission] of Object.entries(local.daySubmissions ?? {}))
+    if (submission.date < (remote.daySubmissions?.[key]?.date ?? '\uffff'))
+      merged.daySubmissions[key] = submission;
+  // The immutable original result and its exam records must come from the same attempt.
+  // Keep that attempt's topic and local calendar date; normal dated retries merge separately.
+  for (const [lessonId, submission] of Object.entries(merged.daySubmissions)) {
+    const original = submission === local.daySubmissions[lessonId] ? local : remote;
+    for (const submitted of submission.answers) {
+      const key = `day:${lessonId}:${submitted.mode}:${submitted.id}`;
+      const record = original.answers[key];
+      if (record)
+        merged.answers[key] = {
+          ...record,
+          questionId: submitted.id,
+          mode: submitted.mode,
+          answer: submitted.answer,
+          correct: submitted.correct,
+        };
+    }
+  }
   merged.dailySets = { ...local.dailySets, ...remote.dailySets };
   for (const key of ['awards', 'studySeconds'] as const) {
     merged[key] = { ...remote[key] };

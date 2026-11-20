@@ -1,5 +1,10 @@
 import { expect, test } from '@playwright/test';
 import course from '../src/content/courses/english-foundations.json';
+import { courseContentSchema } from '../src/lib/courses/schema';
+import { dayExamQuiz } from '../src/lib/courses/strict-attempt';
+import { expectGuestPracticeGate, productionPracticeGate } from './starter-course-checks';
+
+const parsedCourse = courseContentSchema.parse(course);
 
 test('learner studies count nouns and demonstratives, gets grammar feedback and retains a written answer', async ({ page }) => {
   const endDay = 14;
@@ -23,25 +28,35 @@ test('learner studies count nouns and demonstratives, gets grammar feedback and 
     await expect(page.locator(`#${lesson.id} > header > h2`)).toHaveText(lesson.title.tg);
     await expect(page.locator('[data-lesson-section]')).toHaveCount(4);
   }
-  const lesson = course.lessons.find(lesson => lesson.day === endDay)!;
-  await page.goto(`/courses/english-foundations/tests?day=${endDay}`); await page.locator('[data-strict-start]').click();
-  const question = page.locator('.course-question').first();
-  await question.getByRole('radio', { name: lesson.questions[0].options[1].tg, exact: true }).check();
-  await question.getByRole('button', { name: 'Проверить', exact: true }).click();
-  await expect(question.locator('.question-feedback')).toContainText(lesson.questions[0].hint.tg);
-  await expect(question.locator('.question-feedback a')).toHaveAttribute('href', `/courses/english-foundations/home?day=14#${lesson.id}-section-${lesson.questions[0].relatedSection}`);
-  const second = page.locator('.course-question').nth(1);
-  await second.getByRole('radio', { name: lesson.questions[1].options[lesson.questions[1].correctIndex].tg, exact: true }).check();
-  await second.getByRole('button', { name: 'Проверить', exact: true }).click();
-  await expect(second.getByRole('status')).toHaveText('Верно');
+  const lesson = parsedCourse.lessons.find(item => item.day === endDay)!;
 
   await page.goto(`/practice?course=english-foundations&day=${endDay}`);
-  const answer = 'This is a ticket. That is a window. These are lamps. Those are bags. Those are bags; This is a ticket. This ticket is a phrase; This is a ticket is a sentence. Number and distance both matter. Written work only; pronunciation was not checked.';
-  await page.locator('.written-practice textarea').fill(answer);
-  await page.reload();
-  await expect(page.locator('.written-practice textarea')).toHaveValue(answer);
+  if (productionPracticeGate) {
+    await expectGuestPracticeGate(page, 'english-foundations');
+  } else {
+    const answer = 'This is a ticket. That is a window. These are lamps. Those are bags. Those are bags; This is a ticket. This ticket is a phrase; This is a ticket is a sentence. Number and distance both matter. Written work only; pronunciation was not checked.';
+    await page.locator('.written-practice textarea').fill(answer);
+    await page.reload();
+    await expect(page.locator('.written-practice textarea')).toHaveValue(answer);
+  }
   const progress = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state.courses['english-foundations']);
   expect(progress.confirmedDays).not.toContain(String(endDay));
   expect(progress.completedPractice).not.toContain(lesson.id);
+
+  await page.goto(`/courses/english-foundations/home?day=${endDay}`);
+  const article = page.locator(`#${lesson.id}`);
+  await article.getByRole('button', { name: 'Прочитал и понял', exact: true }).click();
+  await article.getByRole('link', { name: 'Ответы и интервью', exact: true }).click();
+  const exam = page.getByRole('region', { name: 'Проверка дня', exact: true });
+  await exam.getByRole('button', { name: 'Начать', exact: true }).click();
+  const quiz = dayExamQuiz(lesson, endDay);
+  const [first, second] = quiz;
+  const wrong = (first.correctIndex + 1) % first.options.length;
+  await exam.locator('.course-question').first().getByRole('radio', { name: first.options[wrong].tg!, exact: true }).check();
+  await exam.locator('.course-question').nth(1).getByRole('radio', { name: second.options[second.correctIndex].tg!, exact: true }).check();
+  await exam.getByRole('button', { name: 'Отправить ответы', exact: true }).click();
+  const result = page.getByRole('region', { name: 'Разбор результата', exact: true });
+  await expect(result).toContainText(first.hint!.tg!);
+  await expect(result.locator(`a[href="/courses/english-foundations/home?day=14#${lesson.id}-section-${first.relatedSection}"]`).first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

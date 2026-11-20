@@ -11,7 +11,8 @@ import { courseAccessTier } from '@/lib/courses/access';
 import { fetchCourseContent } from '@/lib/courses/fetch-course';
 import type { ImportedCourseId } from '@/lib/courses/ids';
 import { courseDayProgress, courseMonthPlan } from '@/lib/courses/plan';
-import { courseTextLanguage, type CourseContent } from '@/lib/courses/schema';
+import { blockingCourseDay } from '@/lib/courses/strict-attempt';
+import { courseTextLanguage } from '@/lib/courses/schema';
 import { COPY } from '@/lib/i18n';
 import {
   LEARNING_UI_COPY,
@@ -21,7 +22,6 @@ import {
 import { PREMIUM_COPY } from '@/lib/premium-copy';
 import { useAppStore } from '@/stores/app-store';
 import { useLearningStore } from '@/stores/learning-store';
-import { CourseAnswers } from './course-answers';
 import { CourseDay } from './course-day';
 import { CourseHeader } from './course-header';
 import { JavaScriptMonths, TrackPath } from './course-navigation';
@@ -29,6 +29,9 @@ import { CoursePlan } from './course-plan';
 import { CourseReview } from './course-review';
 import { MATERIALS_TITLE } from './course-workspace-copy';
 import { CourseWorkspaceHeader } from './course-workspace-header';
+import { useAccount } from '@/components/account/account-provider';
+import { usePracticeAccess } from './use-practice-access';
+import type { CourseDelivery } from '@/lib/courses/schema';
 
 const EMPTY_PROGRESS = emptyCourseProgress();
 const SELECTED_DAY_KEY = 'selected-day-v3';
@@ -52,7 +55,7 @@ const readHash = () => {
  * the course is missing. It comes from the same rule that picks the text, so the note
  * always names the language the learner really reads. Null when nothing is missing.
  */
-function contentFallbackLanguage(content: CourseContent, language: 'tg' | 'ru' | 'en') {
+function contentFallbackLanguage(content: CourseDelivery, language: 'tg' | 'ru' | 'en') {
   for (const lesson of content.lessons) {
     const values = [
       lesson.title,
@@ -76,7 +79,7 @@ function contentFallbackLanguage(content: CourseContent, language: 'tg' | 'ru' |
 }
 
 /** Downloadable files attached to the course. One closed line until the learner opens it. */
-function CourseMaterials({ content }: { content: CourseContent }) {
+function CourseMaterials({ content }: { content: CourseDelivery }) {
   const language = useLearningStore((state) => state.language);
   if (!content.files.length) return null;
   return (
@@ -162,7 +165,7 @@ export function CourseWorkspace({
 }: {
   courseId: ImportedCourseId;
   section: string;
-  initialContent?: CourseContent;
+  initialContent?: CourseDelivery;
   day?: number;
 }) {
   const state = useLearningStore();
@@ -171,11 +174,29 @@ export function CourseWorkspace({
   const progress = state.courses[courseId] || EMPTY_PROGRESS;
   const legacyLessonId = useSyncExternalStore(subscribeHash, readHash, () => '');
   const requiredTier = courseAccessTier(courseId);
-
-  const [content, setContent] = useState<CourseContent | null>(initialContent || null);
-  const [error, setError] = useState(false);
-  const [accessStatus, setAccessStatus] = useState<number | null>(null);
+  const account = useAccount();
+  const practiceAccess = usePracticeAccess();
+  const userId = account.user?.id ?? null;
+  const accountKey = account.configured ? (account.loading ? 'loading' : userId ?? 'guest') : 'offline';
+  const includePractice = practiceAccess === 'open';
+  const requestKey = `${courseId}:${accountKey}:${includePractice ? 'practice' : 'lesson'}`;
+  const [loaded, setLoaded] = useState<{ key: string; content: CourseDelivery } | null>(null);
+  const [publicLoaded, setPublicLoaded] = useState<{ courseId: string; content: CourseDelivery } | null>(null);
+  const [failure, setFailure] = useState<{ key: string; status: number | null } | null>(null);
   const [retry, setRetry] = useState(0);
+  if (loaded && loaded.key !== requestKey) setLoaded(null);
+  if (failure && failure.key !== requestKey) setFailure(null);
+  const publicContent = requiredTier === 'starter'
+    ? initialContent ?? (publicLoaded?.courseId === courseId ? publicLoaded.content : null)
+    : null;
+  // Owner mismatch hides private material during render, before effect cleanup runs.
+  const content = loaded?.key === requestKey && !account.loading ? loaded.content : publicContent;
+  const activeFailure = failure?.key === requestKey ? failure : null;
+  const error = Boolean(activeFailure && !publicContent);
+  const accessStatus = activeFailure?.status ?? null;
+  const deliveredPracticeAccess = includePractice
+    ? loaded?.key === requestKey && !account.loading ? 'open' : activeFailure ? 'locked' : 'loading'
+    : practiceAccess;
 
   // Opening a course page makes it the selected course and closes side panels.
   const { selectedCourse, courseChosen, chooseCourse } = state;
@@ -185,35 +206,41 @@ export function CourseWorkspace({
     useAppStore.setState({ sidebarOpen: false, tutorDrawerOpen: false, tutorQuestion: null });
   }, [courseId, selectedCourse, courseChosen, chooseCourse]);
 
-  // Free courses arrive from the server render. Paid courses load here with the access token.
+  // Free SSR never contains paid tasks. Enrichment is an authenticated, owner-bound request.
   useEffect(() => {
-    if (initialContent) return;
+    if (account.loading && requiredTier !== 'starter') return;
+    if (requiredTier === 'starter' && initialContent && !includePractice) return;
     const controller = new AbortController();
     const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(15_000)]);
-    fetchCourseContent(courseId, requiredTier, signal)
+    fetchCourseContent(courseId, requiredTier, signal, { includePractice, expectedUserId: userId })
       .then((result) => {
         if (controller.signal.aborted) return;
         if ('content' in result) {
-          setContent(result.content);
-          setError(false);
-          setAccessStatus(null);
+          if (requiredTier === 'starter' && !includePractice)
+            setPublicLoaded({ courseId, content: result.content });
+          else setLoaded({ key: requestKey, content: result.content });
+          setFailure(null);
           return;
         }
-        if (requiredTier !== 'starter' && ACCESS_STATUSES.includes(result.status))
-          setAccessStatus(result.status);
-        setError(true);
+        setFailure({ key: requestKey, status: ACCESS_STATUSES.includes(result.status) ? result.status : null });
       })
       .catch(() => {
-        if (!controller.signal.aborted) setError(true);
+        if (!controller.signal.aborted) setFailure({ key: requestKey, status: null });
       });
     return () => controller.abort();
-  }, [courseId, retry, initialContent, requiredTier]);
+  }, [courseId, retry, initialContent, requiredTier, includePractice, userId, account.loading, requestKey]);
 
   const plan = courseMonthPlan(content?.lessons || []);
   const statuses = courseDayProgress(
     plan,
     progress.completedTopics,
-    progress.completedPractice,
+    // The optional paid practice is not a prerequisite for a submitted day.
+    [
+      ...progress.completedPractice,
+      ...plan
+        .filter((item) => progress.confirmedDays.includes(String(item.day)))
+        .map((item) => item.lesson.id),
+    ],
     progress.confirmedDays,
   );
   const doneDays = statuses.days.filter((item) => item.status === 'done').length;
@@ -227,23 +254,23 @@ export function CourseWorkspace({
         ? Number(oldSelection) + 1
         : progress.drafts['selected-day']),
   );
-  const remembered = statuses.days.find((entry) => entry.day === rememberedDay);
+  const remembered = blockingCourseDay(plan, rememberedDay, progress.confirmedDays)
+    ? undefined
+    : statuses.days.find((entry) => entry.day === rememberedDay);
   const day = requestedDay ?? remembered?.day ?? statuses.current?.day ?? plan.at(-1)?.day ?? 1;
 
   const legacyLesson = legacyLessonId
     ? content?.lessons.find((lesson) => lesson.id === legacyLessonId)
     : null;
   const lesson = legacyLesson || plan.find((item) => item.day === day)?.lesson;
-  const entry = statuses.days.find(
-    (item) => item.lesson.id === lesson?.id && item.day === (legacyLesson?.day ?? day),
-  );
 
   const saveCourseDraft = state.saveCourseDraft;
+  const lockedDay = Boolean(blockingCourseDay(plan, day, progress.confirmedDays));
   useEffect(() => {
     const isValidDay = day >= 0 && day <= coursePublishedDays(courseId);
-    if (isValidDay && progress.drafts[SELECTED_DAY_KEY] !== String(day))
+    if (!lockedDay && isValidDay && progress.drafts[SELECTED_DAY_KEY] !== String(day))
       saveCourseDraft(courseId, SELECTED_DAY_KEY, String(day));
-  }, [courseId, day, progress.drafts, saveCourseDraft]);
+  }, [courseId, day, lockedDay, progress.drafts, saveCourseDraft]);
 
   const fallbackLanguage = content ? contentFallbackLanguage(content, state.contentLanguage) : null;
   const translationNotice = fallbackLanguage
@@ -261,7 +288,7 @@ export function CourseWorkspace({
     'weak-topics': copy.revision,
   };
 
-  function renderSection(content: CourseContent) {
+  function renderSection(content: CourseDelivery) {
     // Revision and weak topics are one page: everything worth repeating, in one list.
     if (section === 'revision' || section === 'weak-topics') {
       return (
@@ -283,21 +310,16 @@ export function CourseWorkspace({
         />
       );
     }
-    if (section === 'answers') {
-      return (
-        <CourseAnswers courseId={courseId} lessons={content.lessons} initialDay={requestedDay} />
-      );
-    }
     return (
       <CourseDay
         courseId={courseId}
-        section={section === 'practice' ? 'home' : section}
+        section={section}
         plan={plan}
         days={statuses.days}
         day={day}
         lesson={lesson}
-        entry={entry}
         progress={progress}
+        practiceAccess={deliveredPracticeAccess}
       />
     );
   }
@@ -336,8 +358,7 @@ export function CourseWorkspace({
           courseId={courseId}
           accessStatus={accessStatus}
           onRetry={() => {
-            setError(false);
-            setAccessStatus(null);
+            setFailure(null);
             setRetry((count) => count + 1);
           }}
         />

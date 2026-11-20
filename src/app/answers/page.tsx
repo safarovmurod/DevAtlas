@@ -1,5 +1,6 @@
 import { PageTransition } from '@/components/layout/page-transition';
 import { AnswersLibrary } from '@/components/learning/answers-library';
+import { ReactDayAssessment } from '@/components/learning/react-day-assessment';
 import {
   ANSWER_COUNT,
   ANSWER_PROGRESS_IDS,
@@ -15,6 +16,13 @@ export default async function AnswersPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
+  const day = Number(params.day);
+  if (typeof params.day === 'string' && Number.isInteger(day) && day >= 1 && day <= 30)
+    return (
+      <PageTransition>
+        <ReactDayAssessment month={Number(params.month)} day={day} />
+      </PageTransition>
+    );
   const source: AnswerSource = ['deep', 'quiz', 'interview'].includes(String(params.source))
     ? (params.source as AnswerSource)
     : 'all';

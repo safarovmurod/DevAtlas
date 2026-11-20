@@ -2,7 +2,7 @@
 
 Source: all actual application loaders and schedules, including the React two-month plan and Next.js overlays. This is a structural audit and review queue. It does not certify correctness, teaching effectiveness, source review, compiler execution or mastery.
 
-43 courses; 38 tracks; 1262 scheduled days. 8 courses have observed structural omissions under the imported-course four-section / three-question / linked-hint / complete-RU-TG-EN contract. 36 courses have a structural omission or a heuristic review signal. Authoring-plan deltas are counted separately below. Every course still requires its own semantic and evidence review before declaring it fully verified.
+43 courses; 38 tracks; 1262 scheduled days. 0 courses have observed structural omissions under the imported-course four-section / three-question / linked-hint / complete-RU-TG-EN contract. 36 courses have a structural omission or a heuristic review signal. Authoring-plan deltas are counted separately below. Every course still requires its own semantic and evidence review before declaring it fully verified.
 
 Short-course authoring remaining: none. Missing stage programs: 72. The five current 14-day courses require reviewed continuation; a desired new total is not invented here.
 
@@ -18,7 +18,7 @@ Short-course authoring remaining: none. Missing stage programs: 72. The five cur
 | typescript | 14 | 0 | 0 | 0 | — | 0 | 0 | 38 / 62 |
 | algorithms | 14 | 0 | 0 | 0 | — | 0 | 13 | 33 / 57 |
 | python | 30 | 0 | 0 | 0 | — | 0 | 25 | 46 / 43 |
-| backend | 44 | 43 | 0 | 0 | — | 0 | 3 | 48 / 64 |
+| backend | 44 | 0 | 0 | 0 | — | 0 | 3 | 48 / 64 |
 | mobile | 44 | 0 | 0 | 0 | — | 0 | 37 | 35 / 84 |
 | cpp | 30 | 0 | 0 | 0 | — | 0 | 0 | 63 / 80 |
 | java | 30 | 0 | 0 | 0 | — | 0 | 29 | 39 / 74 |
@@ -36,21 +36,21 @@ Short-course authoring remaining: none. Missing stage programs: 72. The five cur
 | ux-design | 30 | 0 | 0 | 0 | — | 0 | 0 | 83 / 90 |
 | ai-fundamentals | 14 | 0 | 0 | 0 | — | 0 | 0 | 33 / 69 |
 | context-engineering | 14 | 0 | 0 | 0 | — | 0 | 0 | 33 / 93 |
-| agent-harness | 14 | 14 | 3 | 14 | — | 0 | 5 | 51 / 95 |
+| agent-harness | 14 | 0 | 0 | 0 | — | 0 | 0 | 48 / 95 |
 | digital-marketing | 30 | 0 | 0 | 0 | — | 0 | 0 | 99 / 85 |
-| data-analytics | 30 | 30 | 0 | 30 | — | 0 | 2 | 99 / 92 |
-| business-foundations | 30 | 30 | 0 | 30 | — | 0 | 2 | 99 / 95 |
-| communication | 30 | 30 | 0 | 30 | — | 0 | 2 | 99 / 87 |
+| data-analytics | 30 | 0 | 0 | 0 | — | 0 | 0 | 99 / 92 |
+| business-foundations | 30 | 0 | 0 | 0 | — | 0 | 2 | 99 / 95 |
+| communication | 30 | 0 | 0 | 0 | — | 0 | 2 | 99 / 87 |
 | content-creation | 30 | 0 | 0 | 0 | — | 0 | 0 | 36 / 48 |
 | english-foundations | 42 | 0 | 0 | 0 | — | 0 | 0 | 33 / 39 |
 | digital-literacy | 30 | 0 | 0 | 0 | — | 0 | 0 | 33 / 36 |
 | personal-productivity | 22 | 0 | 0 | 0 | — | 0 | 0 | 33 / 20 |
 | management-foundations | 30 | 0 | 0 | 0 | — | 0 | 0 | 33 / 23 |
 | javascript-pro | 30 | 0 | 0 | 0 | — | 0 | 24 | 57 / 87 |
-| backend-pro | 30 | 0 | 0 | 0 | — | 0 | 30 | 37 / 57 |
-| architecture-expert | 30 | 28 | 30 | 30 | — | 0 | 0 | 58 / 92 |
-| ux-pro | 30 | 30 | 30 | 30 | — | 0 | 3 | 70 / 85 |
-| business-pro | 30 | 30 | 30 | 30 | — | 0 | 3 | 90 / 75 |
+| backend-pro | 30 | 0 | 0 | 0 | — | 0 | 0 | 37 / 57 |
+| architecture-expert | 30 | 0 | 0 | 0 | — | 0 | 0 | 46 / 92 |
+| ux-pro | 30 | 0 | 0 | 0 | — | 0 | 3 | 51 / 68 |
+| business-pro | 30 | 0 | 0 | 0 | — | 0 | 5 | 69 / 66 |
 
 ## How to use this queue
 

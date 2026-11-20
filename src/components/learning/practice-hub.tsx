@@ -8,20 +8,26 @@ import { exercisesForTopic, createProjectPrompt, FUNCTION_LABS } from '@/content
 import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
 import { tr } from '@/lib/translate';
+import { PracticeLock } from '@/components/courses/practice-lock';
+import { usePracticeAccess } from '@/components/courses/use-practice-access';
 import { PageHeading } from './page-heading';
 import { PracticeWorkspace } from './practice-workspace';
 const SourcePractice = dynamic(() =>
   import('./source-practice').then((module) => module.SourcePractice),
 );
-export function PracticeHub({
-  initialMonth,
-  initialTopic,
-  initialDay,
-}: {
+type PracticeHubProps = {
   initialMonth?: number;
   initialTopic?: string;
   initialDay?: number;
-}) {
+};
+
+export function PracticeHub(props: PracticeHubProps) {
+  const access = usePracticeAccess();
+  if (access !== 'open') return <PracticeLock access={access} />;
+  return <PracticeHubContent {...props} />;
+}
+
+function PracticeHubContent({ initialMonth, initialTopic, initialDay }: PracticeHubProps) {
   const state = useLearningStore();
   const copy = COPY[state.language];
   const [month, setMonth] = useState(

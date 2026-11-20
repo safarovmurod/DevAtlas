@@ -8,7 +8,6 @@ import {
   RotateCcw,
   BookOpenCheck,
   BarChart3,
-  NotebookPen,
   Settings2,
   X,
   Crown,
@@ -17,6 +16,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useAppStore } from '@/stores/app-store';
+import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
 import { useAccount } from '@/components/account/account-provider';
 import { AccountAvatar } from '@/components/account/account-avatar';
@@ -31,39 +31,16 @@ const items = [
   { key: 'revision', href: '/revision', icon: RotateCcw },
   { key: 'answers', href: '/answers', icon: BookOpenCheck },
   { key: 'progress', href: '/progress', icon: BarChart3 },
-  { key: 'notes', href: '/notes', icon: NotebookPen },
 ] as const;
 
-const TONES = {
-  plan: 'bg-violet-500/12 text-violet-600',
-  home: 'bg-orange-500/12 text-orange-600',
-  tests: 'bg-emerald-500/12 text-emerald-600',
-  revision: 'bg-amber-500/15 text-amber-600',
-  progress: 'bg-sky-500/12 text-sky-600',
-  notes: 'bg-teal-500/12 text-teal-600',
-  answers: 'bg-indigo-500/12 text-indigo-600',
-  community: 'bg-pink-500/12 text-pink-600',
-  plans: 'bg-yellow-500/15 text-yellow-600',
-  settings: 'bg-slate-500/12 text-slate-600',
-  admin: 'bg-rose-500/12 text-rose-600',
-} as const;
-
-function NavIcon({
-  icon: Icon,
-  tone,
-  active,
-}: {
-  icon: typeof CalendarCheck;
-  tone: keyof typeof TONES;
-  active?: boolean;
-}) {
+function NavIcon({ icon: Icon, active }: { icon: typeof CalendarCheck; active?: boolean }) {
   return (
     <span
       className={
-        'flex size-8 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover/nav:-translate-y-px ' +
+        'flex size-8 shrink-0 items-center justify-center rounded-xl transition-[transform,background-color,color,box-shadow] duration-200 group-hover/nav:-translate-y-px ' +
         (active
-          ? 'bg-primary text-primary-foreground shadow-[0_8px_14px_-8px_var(--primary)]'
-          : TONES[tone])
+          ? 'bg-primary-soft text-brand ring-1 ring-primary/35'
+          : 'bg-muted text-muted-foreground ring-1 ring-border/80 group-hover/nav:text-foreground')
       }
     >
       <Icon size={17} strokeWidth={1.9} aria-hidden="true" />
@@ -136,6 +113,8 @@ export function Sidebar() {
   const account = useAccount();
   const pathname = usePathname();
   const open = useAppStore((state) => state.sidebarOpen);
+  const collapsed = useAppStore((state) => state.desktopSidebarCollapsed);
+  const reactSelection = useLearningStore((state) => state.drafts['react-selected-day']);
   const setOpen = useAppStore((state) => state.setSidebarOpen);
   const [mobile, setMobile] = useState(false);
   const drawer = useRef<HTMLElement>(null);
@@ -194,6 +173,8 @@ export function Sidebar() {
   } = useCourseProgress();
   const copy = COPY[language];
   const labels = NAV_LABELS[language];
+  const [savedMonth, savedDay] = (reactSelection ?? '').split(':').map(Number);
+  const answersHref = `/answers?month=${reactMonth}&day=${savedMonth === reactMonth && savedDay >= 1 && savedDay <= 30 ? savedDay : 1}`;
   return (
     <>
       {open && (
@@ -206,11 +187,11 @@ export function Sidebar() {
       <aside
         id="learning-sidebar"
         ref={drawer}
-        className={'sidebar ' + (open ? 'is-open' : '')}
+        className={'sidebar ' + (open ? 'is-open ' : '') + (collapsed ? 'is-collapsed' : '')}
         role={mobile && open ? 'dialog' : undefined}
         aria-modal={mobile && open ? true : undefined}
         aria-label={labels.navigation}
-        inert={mobile && !open}
+        inert={mobile ? !open : collapsed}
       >
         <div className="sidebar-top">
           <span className="eyebrow">{labels.eyebrow}</span>
@@ -227,24 +208,24 @@ export function Sidebar() {
           transitionTypes={['nav-fade']}
           href="/courses"
           aria-current={pathname === '/courses' ? 'page' : undefined}
-          className="group relative mx-1 mb-3 block shrink-0 overflow-hidden rounded-2xl !bg-[#17120f] p-4 !text-white no-underline shadow-[0_18px_32px_-20px_rgb(23_18_15/0.85)] transition-transform duration-300 hover:-translate-y-0.5"
+          className="group relative mx-1 mb-3 block shrink-0 overflow-hidden rounded-2xl border border-indigo-400/20 !bg-[linear-gradient(145deg,#0f172a_0%,#1e1b4b_100%)] p-4 !text-white no-underline shadow-[0_18px_34px_-20px_rgba(15,23,42,0.85)] transition-transform duration-300 hover:-translate-y-0.5"
           onClick={() => setOpen(false)}
         >
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-8 -right-8 size-28 rounded-full bg-[#ff9301]/25 blur-2xl"
+            className="pointer-events-none absolute -top-8 -right-8 size-28 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.28),rgba(79,70,229,0.2)_48%,transparent_72%)] blur-2xl"
           />
           <span className="relative flex items-center gap-3">
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/10">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/10">
               <CourseIcon courseId={course} size={30} />
             </span>
             <span className="grid min-w-0">
-              <small className="text-xs text-white/60">{labels.choose}</small>
+              <small className="text-xs text-slate-300/75">{labels.choose}</small>
               <strong className="truncate text-sm font-semibold text-white">
                 {courseDisplayName(course, language)}
               </strong>
             </span>
-            <ChevronsUpDown size={16} aria-hidden="true" className="ml-auto text-white/50" />
+            <ChevronsUpDown size={16} aria-hidden="true" className="ml-auto text-slate-300/60" />
           </span>
           <span
             role="progressbar"
@@ -252,14 +233,14 @@ export function Sidebar() {
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(progressPercent)}
-            className="relative mt-4 block h-1.5 overflow-hidden rounded-full bg-white/15"
+            className="relative mt-4 block h-1.5 overflow-hidden rounded-full bg-white/12"
           >
             <span
-              className="block h-full rounded-full bg-[#ff9301]"
+              className="block h-full rounded-full bg-gradient-to-r from-[#6366f1] to-[#38bdf8]"
               style={{ width: `${Math.round(progressPercent)}%` }}
             />
           </span>
-          <small className="relative mt-2 block font-mono text-xs text-white/60">
+          <small className="relative mt-2 block font-mono text-xs tabular-nums text-slate-300/75">
             {progressLabel}
           </small>
         </Link>
@@ -269,14 +250,16 @@ export function Sidebar() {
             const href =
               course === 'react' && item.key === 'plan'
                 ? `/plan/${reactMonth}`
-                : course === 'react' || item.key === 'notes' || item.key === 'progress'
-                  ? item.href
-                  : `/courses/${course}${item.href}`;
+                : course === 'react' && item.key === 'answers'
+                  ? answersHref
+                  : course === 'react' || item.key === 'progress'
+                    ? item.href
+                    : `/courses/${course}${item.href}`;
             const active =
               pathname === href ||
               (course === 'react' &&
                 item.href === '/answers' &&
-                pathname.startsWith('/answers/')) ||
+                (pathname === '/answers' || pathname.startsWith('/answers/'))) ||
               (course === 'react' &&
                 item.href === '/plan' &&
                 (pathname.startsWith('/lesson/') || pathname.startsWith('/plan/')));
@@ -289,7 +272,7 @@ export function Sidebar() {
                 className={'nav-item group/nav gap-3 ' + (active ? 'active' : '')}
                 onClick={() => setOpen(false)}
               >
-                <NavIcon icon={Icon} tone={item.key} active={active} />
+                <NavIcon icon={Icon} active={active} />
                 <span>
                   {item.key === 'answers'
                     ? labels.answers
@@ -310,7 +293,7 @@ export function Sidebar() {
             className={'nav-item group/nav gap-3 ' + (pathname === '/community' ? 'active' : '')}
             onClick={() => setOpen(false)}
           >
-            <NavIcon icon={MessagesSquare} tone="community" active={pathname === '/community'} />
+            <NavIcon icon={MessagesSquare} active={pathname === '/community'} />
             <span>{EXTRA_NAV[language].community}</span>
           </Link>
           <Link
@@ -319,7 +302,7 @@ export function Sidebar() {
             className={'nav-item group/nav gap-3 ' + (pathname === '/plans' ? 'active' : '')}
             onClick={() => setOpen(false)}
           >
-            <NavIcon icon={Crown} tone="plans" active={pathname === '/plans'} />
+            <NavIcon icon={Crown} active={pathname === '/plans'} />
             <span>{EXTRA_NAV[language].plans}</span>
           </Link>
         </nav>
@@ -333,7 +316,7 @@ export function Sidebar() {
               className={'nav-item group/nav gap-3 ' + (pathname === '/admin' ? 'active' : '')}
               onClick={() => setOpen(false)}
             >
-              <NavIcon icon={ShieldCheck} tone="admin" active={pathname === '/admin'} />
+              <NavIcon icon={ShieldCheck} active={pathname === '/admin'} />
               {ADMIN_LABEL[language]}
             </Link>
           )}
@@ -344,7 +327,7 @@ export function Sidebar() {
             className={'nav-item group/nav gap-3 ' + (pathname === '/settings' ? 'active' : '')}
             onClick={() => setOpen(false)}
           >
-            <NavIcon icon={Settings2} tone="settings" active={pathname === '/settings'} />
+            <NavIcon icon={Settings2} active={pathname === '/settings'} />
             {copy.settings}
           </Link>
           <Link

@@ -602,6 +602,18 @@
             "tg": "Checks passed",
             "en": "Checks passed"
           }
+        },
+        {
+          "title": {
+            "ru": "Крайние значения и эквивалентные входы",
+            "tg": "Қиматҳои ниҳоӣ ва вуруди баробар",
+            "en": "Extreme values and equivalent inputs"
+          },
+          "body": {
+            "ru": "Валидация в проекте не заканчивается одним диапазоном: после привычных отказов приходят значения, которые проходят проверки и всё равно меняют смысл. Крайний случай — ноль в количестве: расчёт корректен, но вместе с платной доставкой он превращает заказ в бесплатный, и это правило решает бизнес, а не код умножения. Второй приём — эквивалентные входы: 7×2 и 2×7 обязаны дать один результат, и пара таких утверждений ловит случайный порядок аргументов. Связь с днём 1 прямая: первый сервер принимал любой запрос, поэтому повторная проверка на сервере становится обязательной уже сегодня, а в день 3 эти значения придут строками.",
+            "tg": "Валидация дар лоиҳа бо як ҳудуд тамом намешавад: баъди раддҳои оддӣ қиматҳое меоянд, ки санҷишро мегузаранд вале маъниро тағйир медиҳанд. Ҳолати ниҳоӣ — сифр дар шумора: ҳисоб дуруст аст, вале бо расолати пулакӣ фармоишро бепул мегардонад ва ин қоидаро бизнес ҳал мекунад, на рамзи зарб. Усули дуюм — вуруди баробар: 7×2 ва 2×7 бояд як натиҷа диҳанд ва ҷуфти чунин тасдиқҳо тартиби тасодуфии аргументҳоро мегирад. Пайванд бо рӯзи 1 мустақим: сервери аввал ҳар дархостро мепазируфт, бинобар ин такрори санҷиш дар сервер имрӯз ҳатмист, ва дар рӯзи 3 ин қиматҳо сатр мешаванд.",
+            "en": "Validation in a project does not end with one range: after the usual rejections come values that pass the checks and still change the meaning. The edge case is zero quantity: the calculation is correct, but together with paid delivery it turns the order into a free one, and the business rule decides this, not the multiplication code. The second technique is equivalent inputs: 7×2 and 2×7 must return the same result, and a pair of such assertions catches an accidental argument order. The link to day 1 is direct: the first server accepted every request, so repeating the check on the server becomes mandatory today, and on day 3 these values arrive as strings."
+          }
         }
       ],
       "interview": {
@@ -1037,6 +1049,18 @@
             "ru": "Форма присылает значение «3» строкой. Такую строку нельзя сравнивать с количеством как число, пока сервер не проверил формат и не преобразовал её. В учебном JSON число 3 уже число, а \"3\" остаётся строкой. Пропущенное поле, 0 и \"3\" — три разных случая.",
             "tg": "Форма «3»-ро ҳамчун сатр фиристода метавонад. Сервер аввал формати онро месанҷад, баъд ба адад мегардонад. Дар JSON адади 3 ва сатри \"3\" ду қимати гуногунанд. Майдони норасида, 0 ва \"3\"-ро алоҳида санҷед.",
             "en": "A form may send “3” as a string. The server checks its format before converting it for arithmetic. In JSON, the number 3 and the string \"3\" already have different types. Test a missing field, 0 and \"3\" separately."
+          }
+        },
+        {
+          "title": {
+            "ru": "Когда преобразование обманывает",
+            "tg": "Вақте ки табдил фиреб медиҳад",
+            "en": "When conversion deceives"
+          },
+          "body": {
+            "ru": "Приведение к числу — осознанный шаг, а не ремонт по умолчанию. Number(\"12\") даёт 12, и Number(\" 12 \") тоже 12: пробелы вокруг числа преобразование прощает. Крайний случай — \"12px\": результат NaN, и ошибка всплывёт позже, в арифметике, а не в месте ошибки. Поэтому порядок обратный: сначала проверка формы значения, затем преобразование, затем вычисление. Связь с днём 2 прямая: валидация без понимания типов отвергает нужное и пропускает опасное. Три случая дня 3 — пропущенное поле, 0 и \"3\" — остаются тремя разными решениями и в больших проектах, где конфигурация вроде порта приходит той же строкой.",
+            "tg": "Табдил ба адад қадами огоҳона аст, на таъмири нобаҳо. Number(\"12\") адади 12 медиҳад ва Number(\" 12 \") ҳам 12: табдил фосилаҳои канориро мебахшад. Ҳолати ниҳоӣ — \"12px\": натиҷа NaN аст ва хато дертар, дар ҳисоб, на дар ҷои хато ошкор мешавад. Бинобар ин тартиб муқобил аст: аввал санҷиши шакли қимат, баъд табдил, баъд ҳисоб. Пайванд бо рӯзи 2 мустақим: валидация бе фаҳмиши навъҳо лозимиро рад ва хатарро мегузаронад. Се ҳолати рӯзи 3 — майдони набуда, 0 ва \"3\" — дар лоиҳаҳои калон ҳам се қарори гуногун мемонанд, ки конфигуратсия ба монанди порт ҳамон сатрро меорад.",
+            "en": "Conversion to a number is a deliberate step, not a default repair. Number(\"12\") gives 12 and Number(\" 12 \") also gives 12: conversion forgives surrounding spaces. The edge case is \"12px\": the result is NaN, and the error surfaces later, in arithmetic, not at the place of the mistake. Hence the reversed order: first check the shape of the value, then convert, then compute. The link to day 2 is direct: validation without understanding types rejects the necessary and lets the dangerous through. The three cases of day 3, a missing field, 0 and \"3\", remain three different decisions in large projects too, where configuration such as the port arrives as the same string."
           }
         }
       ],
@@ -1522,6 +1546,18 @@
             "tg": "Дар мағоза ду мол ҳар кадом 30 сомонӣ аст. price * quantity натиҷаи 60 медиҳад. Нархи расондан 10 аст ва баъд илова мешавад: ҷамъ 70. Агар price сатри \"30\" бошад, қоидаи API ва типро пеш аз ҳисоб санҷед, то + матнро ба ҳам начаспонад.",
             "en": "A shop sells two items at 30 each. The expression price * quantity yields 60. Add delivery of 10 afterward to get 70. If price arrives as the string \"30\", check the API contract and type before computing so addition cannot concatenate text."
           }
+        },
+        {
+          "title": {
+            "ru": "Отсутствующее поле не равно пустой строке",
+            "tg": "Майдони набуда ба сатри холӣ баробар нест",
+            "en": "A missing field is not an empty string"
+          },
+          "body": {
+            "ru": "Отсутствие значения приходит в трёх формах: поле не пришло вовсе, пришло пустым и пришло null — и все три надо различать до вычисления. Крайний случай счёта: доставка указана, цена отсутствует. Умножение на undefined даст NaN, и итог счёта станет нечислом без единого понятного сообщения. Отсюда правило проекта: сначала собрать все входы, проверить наличие каждого и только потом запускать расчёт. Связь с днём 3 прямая: три случая строки и числа продолжаются тремя формами отсутствия. Связь с днём 5: корректный расчёт возможен, когда функция получает полные значения, а не половину счёта.",
+            "tg": "Набудани қимат дар се шакл меояд: майдон тамоман наомад, холӣ омад ё null омад — ва ҳар се бояд пеш аз ҳисоб фарқ кунанд. Ҳолати ниҳоии ҳисоб: расолат нишон дода шудааст, вале нарх набаст. Зарб бо undefined NaN медиҳад ва ҷамъи ҳисоб бе ягон паёми фаҳмо беадад мешавад. Аз ин қоидаи лоиҳа: аввал ҳама вурундоро ҷамъ кунед, мавҷудияти ҳар кадомро санҷед ва танҳо баъд ҳисобро оғоз кунед. Пайванд бо рӯзи 3 мустақим: се ҳолати сатр ва адад бо се шакли набудан идома меёбанд. Пайванд бо рӯзи 5: ҳисоби дуруст он гоҳ имкон аст, ки функсия қиматҳои пурра мегирад, на нисфи ҳисобро.",
+            "en": "Absence of a value arrives in three shapes: the field did not arrive at all, arrived empty, or arrived as null, and all three must be distinguished before the calculation. The invoice edge case: delivery is specified while the price is missing. Multiplication by undefined gives NaN, and the invoice total becomes not-a-number without a single understandable message. Hence the project rule: first gather every input, check the presence of each, and only then start the calculation. The link to day 3 is direct: the three cases of string and number continue as three shapes of absence. The link to day 5: a correct calculation is possible when the function receives complete values, not half an invoice."
+          }
         }
       ],
       "questions": [
@@ -1986,6 +2022,18 @@
             "tg": "Автобус 12 ҷой дорад ва 8 ҷой банд аст. Ба функсия 12 ва 8 медиҳем, он 4 бармегардонад. Қисми дигар метавонад санҷад, ки барои панҷ кас ҷой ҳаст ё не. console.log(4) ададро танҳо чоп мекунад. Барои истифодаи натиҷа return 4 лозим аст.",
             "en": "A bus has 12 seats and 8 are taken. The function receives 12 and 8 and returns 4. The caller can check whether a group of five fits. console.log(4) only displays the number. The caller needs return 4 to use the value."
           }
+        },
+        {
+          "title": {
+            "ru": "Функция в проекте вызывается много раз",
+            "tg": "Функсия дар лоиҳа бисёр даъват мешавад",
+            "en": "A function is called many times in a project"
+          },
+          "body": {
+            "ru": "Определение функции только описывает операцию; польза появляется при вызовах, которых в реальном проекте много. Одна и та же функция считается для каждой строки таблицы, каждого запроса и каждого пользователя. Крайний случай — вызов с результатом прошлого вызова как входом: так из маленьких операций собираются длинные расчёты. return заканчивает функцию немедленно, поэтому код после return в той же ветви не выполняется — это частая ошибка при чтении чужого кода. Связь с днём 4: сумма счёта была обычным числом, теперь она становится результатом функции, который можно передавать, проверять и сохранять.",
+            "tg": "Эълони функсия танҳо амалро тавсиф мекунад; фоида бо даъватҳо пайдо мешавад, ки дар лоиҳаи воқеӣ бисёранд. Ҳамин функсия барои ҳар сатри ҷадвал, ҳар дархост ва ҳар корбар ҳисоб мешавад. Ҳолати ниҳоӣ — даъват бо натиҷаи даъвати гузашта ҳамчун вуруд: аз амалҳои хурд ҳисобҳои дароз ҷамъ меоянд. return функсияро фавран анҷом медиҳад, бинобар ин рамзи баъди return дар ҳамон шоха ҳеҷ гоҳ иҷро намешавад — ин хатои маъмул ҳангоми хондани рамзи дигарон аст. Пайванд бо рӯзи 4: ҷамъи ҳисоб адади оддӣ буд, ҳоло натиҷаи функсия мешавад, ки онро гирифтан, санҷидан ва нигоҳ доштан мумкин аст.",
+            "en": "Defining a function only describes the operation; the benefit appears with calls, and a real project makes many of them. The same function runs for every table row, every request and every user. The edge case is a call that uses the previous call's result as input: long calculations are assembled from small operations this way. return ends the function immediately, so code after return in the same branch never runs, which is a common reading mistake in someone else's code. The link to day 4: the invoice total was a plain number, now it becomes a function result that can be passed, checked and stored."
+          }
         }
       ],
       "questions": [
@@ -2444,6 +2492,18 @@
             "ru": "Сначала счётчик показывает 2 использованные попытки из 3. Следующая разрешённая попытка доводит его до 3. При ещё одном запросе ранний return отдаёт отказ до записи. Граничное условие count >= limit проверяют именно при count = limit: эта точка ловит лишнюю попытку.",
             "tg": "Аз 3 кӯшиш 2-то истифода шудааст. Кӯшиши навбатӣ иҷозат дорад ва ҳисоб 3 мешавад. Дархости баъдӣ пеш аз сабт бо return-и барвақт рад мешавад. Шартро маҳз дар count = limit санҷед, то кӯшиши изофагӣ нагузарад.",
             "en": "Two of three attempts are used. The next allowed attempt increases the count to 3. On the following request, an early return rejects it before recording another attempt. Test count = limit exactly to catch an off-by-one allowance."
+          }
+        },
+        {
+          "title": {
+            "ru": "Предел на границе нуля",
+            "tg": "Ҳадд дар марзи сифр",
+            "en": "The limit at the zero boundary"
+          },
+          "body": {
+            "ru": "Лимит из примера приобретает крайние случаи, которые легко пропустить. Нулевой лимит — легальная конфигурация: клиент ещё не ошибался, но доступ закрыт целиком, и именно логика должна показать это решением, а не случайным порядком условий. Второй крайний случай — used и limit равны: остаток ноль, запрос всё ещё корректен, а следующий уже нет. Ранний return сохраняет порядок чтения: сначала отказ по недопустимым входам, затем ветвь блокировки, затем расчёт остатка. Связь с днём 2 двусторонняя: валидация отвергает бесконечность, а бизнес-правило легально отвечает «blocked» правильному клиенту — эти два вида ответов различают по смыслу.",
+            "tg": "Лимити мисол ҳолатҳои ниҳоӣ дорад, ки осон мегузаранд. Лимити сифр конфигуратсияи қонунӣ аст: клиент ҳанӯз хато накардааст, вале дастрасӣ пурра пӯшида аст ва бояд худи мантиқ инро бо қарор нишон диҳад, на тартиби тасодуфии шартҳо. Ҳолати дуюми ниҳоӣ — used ва limit баробаранд: боқимонда сифр аст, дархост ҳанӯз дуруст аст ва ояндааш аллакай не. Баргашти зуд тартиби хондро нигоҳ медорад: аввал радди вуруди ғайридуруст, баъд шохаи блок, баъд ҳисоби боқимонда. Пайванд бо рӯзи 2 дутарафа аст: валидация беохириро рад мекунад, вале қоидаи кор ба клиенти дуруст қонунӣ «blocked» медиҳад — ин ду навъи ҷавобро аз рӯзи маънӣ фарқ мекунанд.",
+            "en": "The allowance from the example carries edge cases that are easy to miss. A zero limit is a legal configuration: the client has made no mistakes, yet access is closed entirely, and the logic itself must show this through a decision, not the accidental order of conditions. The second edge case is used equal to limit: the remainder is zero, the request is still valid, and the next one already is not. Early return keeps the reading order: first the rejection of invalid inputs, then the blocking branch, then the remainder calculation. The link with day 2 works both ways: validation rejects infinity, while the business rule legitimately answers \"blocked\" to a correct client, and these two kinds of answers are distinguished by meaning."
           }
         }
       ],
@@ -2924,6 +2984,18 @@
             "ru": "В массиве две задачи: первая у владельца 7, вторая у 9. Для проверенного пользователя 7 фильтр оставит только первую. Из неё обработчик соберёт публичный объект с id и title. Если сначала вернуть весь массив и скрыть строку в интерфейсе, данные второй задачи уже попадут в браузер.",
             "tg": "Массив ду вазифа дорад: якум аз соҳиби 7, дуюм аз 9. Барои корбари тасдиқшудаи 7 филтр танҳо якумро мемонад. Handler аз он объекти ҷавоб бо id ва title месозад. Агар сервер ҳар ду сабтро фиристад, пинҳон кардан дар UI додаҳои дуюмро аз браузер намегирад.",
             "en": "Two tasks belong to users 7 and 9. Filtering for verified user 7 keeps the first task. The handler builds the response with its id and title. If the server sends both and the UI hides one, the second task's data has already reached the browser."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пустой список — тоже ответ",
+            "tg": "Рӯйхати холӣ ҳам ҷавоб аст",
+            "en": "An empty list is also an answer"
+          },
+          "body": {
+            "ru": "В реальном списке крайний случай встречается чаще исключения: фильтр по владельцу работает правильно и находит ноль задач. Пустой результат — это честный ответ, а не сбой, и подменять его null или ошибкой нельзя: клиент получит данные, которые нельзя перебрать, и код сломается в другом месте. Второй крайний случай — коллекция без владельцев: у записей поле ownerId отсутствует, и фильтр должен решать, считать ли такую запись чужой. Связь с днём 6 прямая: решение «найдено или нет» — та же двухветвевая логика, только на коллекции, а не на числах. В проектных днях курса каждая операция CRUD будет возвращать либо записи, либо осмысленное «ничего».",
+            "tg": "Дар рӯйхати воқеӣ ҳолати ниҳоӣ бештар аз истисно меояд: филтри соҳиб дуруст кор мекунад ва сифр вазифа меёбад. Натиҷаи холӣ ҷавоби садоқатманд аст, на хатогӣ, ва иваз кардани он бо null ё хато нодуруст аст: клиент маълумот мегирад, ки гардонидан намешавад ва рамз дар ҷои дигар мешиканад. Ҳолати дуюми ниҳоӣ — маҷмӯи бе соҳиб: сабтҳо майдони ownerId надоранд ва филтр бояд қатъ кунад, ки чунин сабт дигарон ҳисоб мешавад ё не. Пайванд бо рӯзи 6 мустақим: қарори «ёфт шуд ё не» ҳамон мантиқи душоха аст, танҳо барои маҷмӯъ, на барои ададҳо. Дар рӯзҳои лоиҳавии курс ҳар амали CRUD ё сабтҳо мегирад ё «ҳеҷ»-и маънодор.",
+            "en": "In a real list the edge case appears more often than an exception: the owner filter works correctly and finds zero tasks. An empty result is an honest answer, not a failure, and replacing it with null or an error is wrong: the client would receive data it cannot iterate and the code would break elsewhere. The second edge case is a collection without owners: records lack the ownerId field, and the filter must decide whether such a record counts as foreign. The link to day 6 is direct: the found-or-not decision is the same two-branch logic, applied to a collection instead of numbers. In the project days every CRUD operation returns either records or a meaningful nothing."
           }
         }
       ],
@@ -3422,6 +3494,18 @@
             "tg": "Масалан billing.mjs функсияи ҳисобро export мекунад ва main.mjs онро import мекунад. Ду даъват барои 30 ва 60 як қоидаро дар як ҷо месанҷанд. Агар номи export иваз шуд, ном дар import ҳам бояд мувофиқ бошад. Вақте файл ёфт нашуд, аввал ./ ва .mjs-ро бинед.",
             "en": "Suppose billing.mjs exports a total function and main.mjs imports it. Calls for totals of 30 and 60 exercise one shared rule. When renaming the export, update the import name. If the module file cannot be found, check ./ and the .mjs extension first."
           }
+        },
+        {
+          "title": {
+            "ru": "Два файла, одна ответственность",
+            "tg": "Ду файл, як масъулият",
+            "en": "Two files, one responsibility"
+          },
+          "body": {
+            "ru": "Разделение на файлы в примере — маленькая модель настоящего проекта: расчёт живёт в одном файле, сеть и печать — в другом. Крайний случай появляется, когда кто-то кладёт вычисление в файл с сетью «на минуту»: тест расчёта теперь тянет сеть и падает без неё. Правило простое: если кусок можно проверить без HTTP, он заслуживает собственного файла. Связь с днём 5: функции появились ради повторного использования, а файловые модули делают это использование явным через export и import. В больших проектах граница файла — это граница проверки: что разделено, то проверяется раздельно, и падение сразу показывает виновный файл.",
+            "tg": "Тақсим ба файлҳо дар мисол модели хурди лоиҳаи воқеӣ аст: ҳисоб дар як файл зиндагӣ мекунад, шабака ва чоп дар файли дигар. Ҳолати ниҳоӣ вақте ба миён меояд, ки касе ҳисобро «барои як дақиқа» ба файли шабака мегузорад: санҷиши ҳисоб ҳоло шабакаро мекашад ва бе он меафтад. Қоида содда аст: агар қисматро бе HTTP санҷидан мумкин бошад, он файли худро мехоҳад. Пайванд бо рӯзи 5: функсияҳо барои истифодаи такрорӣ пайдо шуданд ва модулҳои файлӣ ин истифодаро бо export ва import ошкор мекунанд. Дар лоиҳаҳои калон марзи файл марзи санҷиш аст: он чи ҷудо шудааст, алоҳида санҷида мешавад ва афтан файлро фавран нишон медиҳад.",
+            "en": "Splitting into files in the example is a small model of a real project: the calculation lives in one file, the network and printing live in another. The edge case appears when somebody puts the computation into the network file just for a minute: the calculation test now pulls in the network and fails without it. The rule is simple: if a piece can be checked without HTTP, it deserves its own file. The link to day 5: functions exist for reuse, and file modules make that reuse explicit through export and import. In large projects the file boundary is the boundary of testing: what is separated is tested separately, and a failure immediately names the guilty file."
+          }
         }
       ],
       "questions": [
@@ -3887,6 +3971,18 @@
             "tg": "Боркунии ном аввал Promise медиҳад. Агар онро ҳамчун сатр истифода баред, ба ҷойи ном объекти интизорӣ мегиред. Дар async-функсия await баъди муваффақият «Фирдавс» медиҳад. Агар боркунӣ хато диҳад, код ба catch мегузарад ва ҷавоби фаҳмо баргардонда метавонад.",
             "en": "Loading a name first gives a Promise. Reading it as a string yields an object representing pending work instead of the name. Inside an async function, await returns “Firdaus” on success. A rejected load transfers control to catch, where the handler can choose a clear response."
           }
+        },
+        {
+          "title": {
+            "ru": "Ошибка всплывает далеко от причины",
+            "tg": "Хато дур аз сабаб ошкор мешавад",
+            "en": "The error surfaces far from the cause"
+          },
+          "body": {
+            "ru": "Тихая асинхронная ошибка в проекте всплывает далеко от причины: await забыли в одном месте, а падение увидели в другом модуле через секунды работы. Отсюда привычка чтения: цепочка из двух асинхронных шагов требует двух await — каждый шаг ждёт свой результат, и пропуск одного превращает второй в работу с обещанием. Второй крайний случай — ошибка внутри обещания без catch: сбой внешнего сервиса теряется, и пользователь видит «ничего не произошло». Связь с днём 5 прямая: return отдаёт значение немедленно, а async-функция всегда отдаёт обещание. В проектных днях каждый вызов базы асинхронен, и await становится обязательным шагом каждого обработчика.",
+            "tg": "Хатои ороми асинхронӣ дар лоиҳа дур аз сабаб ошкор мешавад: await-ро дар як ҷо фаромӯш карданд ва афтанро дар модули дигар баъди сонҳои кор мебинанд. Аз ин одати хондан: занҷираи ду қадами асинхронӣ ду await талаб мекунад — ҳар қадам натиҷаи худро интизор мешавад ва гузоштани яке дуюмро бо ваъда коркунанда месозад. Ҳолати дуюми ниҳоӣ — хато дар дохили ваъда бе catch: нокомии хизматрасонии берунӣ гум мешавад ва корбар «ҳеҷ чиз рӯй надод» мебинад. Пайванд бо рӯзи 5 мустақим: return қиматро фавран медиҳад, вале async-функсия ҳамеша ваъда медиҳад. Дар рӯзҳои лоиҳавӣ ҳар даъвати пойгоҳ асинхронист ва await қадами ҳатмии ҳар коркардкунанда мешавад.",
+            "en": "A silent asynchronous error in a project surfaces far from its cause: await was forgotten in one place and the failure is seen in another module seconds later. Hence a reading habit: a chain of two asynchronous steps requires two awaits, each step waits for its own result, and skipping one turns the second step into work with a promise. The second edge case is an error inside a promise without catch: the failure of an external service is lost, and the user sees that nothing happened. The link to day 5 is direct: return hands out a value instantly, while an async function always hands out a promise. In the project days every database call is asynchronous, and await becomes a mandatory step of every handler."
+          }
         }
       ],
       "questions": [
@@ -4302,6 +4398,18 @@
             "ru": "В GET /tasks?done=true метод GET говорит «прочитать», /tasks называет ресурс, а done=true задаёт фильтр. Accept: application/json сообщает желаемый формат ответа. Если сделать POST на тот же путь, это уже другое действие. Заголовок Accept не описывает формат тела самого запроса.",
             "tg": "Дар GET /tasks?done=true, GET «хондан» мегӯяд, /tasks номи захира аст ва done=true филтр медиҳад. Accept: application/json формати дилхоҳи ҷавобро мегӯяд. POST ба ҳамин роҳ амали дигар аст. Accept формати body-и худи дархостро нишон намедиҳад.",
             "en": "In GET /tasks?done=true, GET means read, /tasks identifies the resource, and done=true filters it. Accept: application/json expresses the desired response format. POST to the same path is a different action. Accept does not describe the request body's format."
+          }
+        },
+        {
+          "title": {
+            "ru": "Клиент присылает больше, чем вы ждёте",
+            "tg": "Мизоҷ бештар аз интизори шумо мефиристад",
+            "en": "The client sends more than you expect"
+          },
+          "body": {
+            "ru": "Настоящий клиент присылает методы и пути, которых нет в вашем плане: браузер сам просит /favicon.ico, поисковый робот перебирает пути, а curl без опций отправляет GET туда, куда вы писали POST. Крайний случай — запрос с query, закодированным в процентах: пробел превращается в %20, и pathname после разбора через URL остаётся правильным, а сырая строка — нет. Связь с днём 1 прямая: тот первый сервер молча отвечал 404 на всё незнакомое, и это было честным поведением, а не недоработкой. В реальном проекте незнакомые маршруты получают осмысленный статус из дня 11, а не случайный отказ.",
+            "tg": "Мизоҷи воқеӣ бештар аз нақшаи шумо мефиристад: браузер худаш /favicon.ico мехоҳад, роботи ҷустуҷӯ роҳҳоро месанҷад ва curl бе имконот ҳамон ҷо GET мефиристад, ки шумо POST навишта будед. Ҳолати ниҳоӣ — дархост бо query-и кодашуда: фосила %20 мешавад ва pathname баъди таҷзия бо URL дуруст мемонад, вале сатри хом — не. Пайванд бо рӯзи 1 мустақим: он сервери аввал ба ҳама чизи номаълум оромона 404 медод ва ин рафтори садоқатманд буд, на камбудӣ. Дар лоиҳаи воқеӣ роҳҳои номаълум ҳолати маънодор аз рӯзи 11 мегиранд, на радди тасодуфӣ.",
+            "en": "A real client sends methods and paths that are missing from your plan: the browser itself asks for /favicon.ico, a crawler walks through paths, and curl without options sends GET where you wrote POST. The edge case is a request with percent-encoded query: a space becomes %20, and the pathname after parsing with URL stays correct, while the raw string does not. The link to day 1 is direct: that first server silently answered 404 to everything unfamiliar, which was honest behavior, not an omission. In a real project unfamiliar routes receive a meaningful status from day 11 rather than an accidental rejection."
           }
         }
       ],
@@ -4784,6 +4892,18 @@
             "tg": "Баъди сохтани вазифа сервер метавонад 201 ва JSON-и сабти навро диҳад. Статус натиҷаи амал, Content-Type формат ва body худи сабт аст. Агар сервер хатои JSON бо 400 диҳад, fetch одатан Response медиҳад. Пеш аз нишон додани «сабт шуд» UI response.ok-ро месанҷад.",
             "en": "A task creation can return 201 and the record in JSON. The status describes the outcome, Content-Type describes the format, and the body carries the record. With a JSON error and 400, fetch usually still resolves to a Response. Check response.ok before showing a saved message."
           }
+        },
+        {
+          "title": {
+            "ru": "Статусы и когда их брать",
+            "tg": "Ҳолатҳо ва вақти интихоби онҳо",
+            "en": "Statuses and when to pick them"
+          },
+          "body": {
+            "ru": "Семейства статусов соответствуют источнику проблемы: 2xx — успех, 4xx — виноват клиент, 5xx — сервер не справился. Крайний случай, который ломает клиенты, — успешный статус с сообщением об ошибке в теле: 200 и {error} — это ложь в протоколе, из-за которой клиент празднует неудачу. Различайте 400 (запрос невозможно понять), 401 (неизвестный пользователь), 403 (известный, но прав нет), 404 (ресурса нет) и 429 (слишком часто). Связь с днём 10: метод и путь выбирают ресурс, а статус объясняет, что с ним сделали. Обещание «всегда 200» экономит минуты сегодня и добавляет часы отладки завтра.",
+            "tg": "Гурӯҳҳои ҳолат ба сарчашмаи мушкил мувофиқанд: 2xx — муваффақият, 4xx — гунаҳкор мизоҷ аст, 5xx — сервер қувва наёфт. Ҳолати ниҳоӣ, ки клиентҳоро мебшиканад, — ҳолати муваффақ бо паёми хато дар бадан: 200 ва {error} дар протокол дурӯғ аст ва клиент нокомиро ҷашн мегирад. 400 (дархост фаҳмо нест), 401 (корбар номаълум), 403 (маълум, вале ҳуқуқ нест), 404 (захира нест) ва 429 (хеле зуд-зуд)-ро аз ҳам ҷудо кунед. Пайванд бо рӯзи 10: усул ва роҳ захираро интихоб мекунанд, ҳолат баён мекунад, ки бо он чӣ карда шуд. Ваъдаи «ҳамеша 200» имрӯз дақиқа сарфа мекунад ва фардо соатҳои ислоҳ меоварад.",
+            "en": "Status families match the source of the problem: 2xx is success, 4xx blames the client, 5xx means the server could not cope. The edge case that breaks clients is a successful status with an error message in the body: 200 with {error} is a lie at the protocol level, and the client celebrates a failure. Distinguish 400 (the request cannot be understood), 401 (unknown user), 403 (known but no rights), 404 (resource missing) and 429 (too frequent). The link to day 10: method and path choose the resource, while the status explains what was done with it. A promise of \"always 200\" saves minutes today and adds hours of debugging tomorrow."
+          }
         }
       ],
       "questions": [
@@ -5221,6 +5341,18 @@
             "ru": "В /tasks/7?limit=10 идентификатор 7 находится в пути, а limit — в query. URL разбирает части, после чего searchParams.get('limit') даст строку \"10\". Для подсчёта сервер сам проверяет допустимый диапазон и преобразует значение. Отсутствующий параметр и пустое значение требуют отдельной проверки.",
             "tg": "Дар /tasks/7?limit=10, 7 дар роҳ аст ва limit дар query. URL қисмҳоро ҷудо мекунад ва searchParams.get('limit') сатри \"10\" медиҳад. Барои ҳисоб сервер ҳудуди иҷозатшударо месанҷад ва қиматро ба адад мегардонад. Параметри норасида ва қимати холиро ҷудо кунед.",
             "en": "In /tasks/7?limit=10, 7 is in the path while limit belongs to the query. URL separates the parts, and searchParams.get('limit') gives the string \"10\". The server validates the range before converting it for arithmetic. Check a missing parameter separately from an empty one."
+          }
+        },
+        {
+          "title": {
+            "ru": "Параметр отсутствует — это значение",
+            "tg": "Параметри набуда қимат аст",
+            "en": "An absent parameter is a value"
+          },
+          "body": {
+            "ru": "В реальных ссылках параметра может не быть вовсе, и это не сбой, а значение: /tasks без done означает «покажи всё». Разбор через URL и query возвращает null для отсутствующего имени, и код обязан решить, что с этим делать, до использования. Второй крайний случай — повторяющиеся имена: /tasks?tag=a&tag=b даёт два значения одного параметра, и простой поиск возьмёт только первое. Связь с днём 10 прямая: вы уже отделяли путь от query, теперь решается судьба каждого параметра. Проверка наличия и значений параметров — та же валидация дня 2, только её вход приходит в самом пути запроса.",
+            "tg": "Дар истинодҳои воқеӣ параметр мумкин аст тамоман набошад ва ин хато нест, балки қимат аст: /tasks бе done маънои «ҳамаро нишон деҳ» дорад. Таҷзия бо URL ва query барои номи набуда null медиҳад ва рамз бояд пеш аз истифода қатъ кунад, ки бо он чӣ мекунад. Ҳолати дуюми ниҳоӣ — номҳои такрорӣ: /tasks?tag=a&tag=b ду қимати як параметрро медиҳад ва ҷустуҷӯи содда танҳо аввалинро мегирад. Пайванд бо рӯзи 10 мустақим: шумо аллакай роҳро аз query ҷудо мекардед, ҳоло тақдири ҳар параметр ҳал мешавад. Санҷиши мавҷудият ва қиматҳои параметрҳо ҳамон валидацияи рӯзи 2 аст, танҳо вуруди он дар худи роҳи дархост меояд.",
+            "en": "In real links a parameter may be absent entirely, and that is a value, not a failure: /tasks without done means show everything. Parsing through URL and query returns null for a missing name, and the code must decide what to do with it before use. The second edge case is repeated names: /tasks?tag=a&tag=b supplies two values for one parameter, and a simple lookup takes only the first. The link to day 10 is direct: you were already separating path from query; now each parameter's fate is decided. Checking parameter presence and values is the same day 2 validation, with its input arriving inside the request path itself."
           }
         }
       ],
@@ -5723,6 +5855,18 @@
             "tg": "Се дархостро ҷудо кунед. GET /tasks рӯйхатро мехонад, POST /tasks мувофиқи шарт сабт месозад ва GET /missing ба суроғаи дигар меравад. Агар /tasks маълум бошад, вале метод дар он иҷозат надошта бошад, сервер 405 ва методҳои иҷозатшударо дар Allow медиҳад. Ин ҳолат ҷавоби рӯйхати муваффақ нест.",
             "en": "Compare three requests. GET /tasks reads a collection, POST /tasks creates a record under the contract, and GET /missing targets another address. When /tasks exists but the method is unsupported there, return 405 with allowed methods in Allow. Do not return a successful list for that case."
           }
+        },
+        {
+          "title": {
+            "ru": "Чтение не изменяет данные",
+            "tg": "Хондан маълумотро тағйир намедиҳад",
+            "en": "Reading does not change data"
+          },
+          "body": {
+            "ru": "Метод GET по договору только читает: он безопасен и одинаково отвечает при повторах, поэтому браузеры, кэши и поисковые роботы свободно повторяют его. Крайний случай проектирования — маршрут GET, который записывает данные «заодно»: он ломает повторяемость и приглашает робота создать сотню записей случайным обходом. Изменяющие действия остаются за POST, PUT и DELETE, и их повтор ведёт себя иначе: повтор PUT с тем же телом заменяет то же самое. Связь с днём 10 прямая: пара метода и пути — это выбор действия, а не красивый адрес. Связь с днём 11: статус объясняет, что именно не совпало в запросе.",
+            "tg": "Усули GET бо шартнома танҳо мехонад: он бехатар аст ва ҳангоми такрор ҳамон ҷавобро медиҳад, бинобар ин браузерҳо, кэшҳо ва роботҳо онро озодона такрор мекунанд. Ҳолати ниҳоии тарҳбандӣ — маршрути GET, ки «барои ҳатм» маълумот менависад: ӯ такрорпазириро мешиканад ва роботро ба сохтани сад сабт бо гардиши тасодуфӣ даъват мекунад. Амалҳои тағйирдиҳанда бо POST, PUT ва DELETE мемонанд ва такрори онҳо дигар рафтор дорад: такрири PUT бо ҳамон бадан ҳамон чизро иваз мекунад. Пайванд бо рӯзи 10 мустақим: ҷуфти усул ва роҳ интихоби амал аст, на суроғаи зебо. Пайванд бо рӯзи 11: ҳолат баён мекунад, ки дар дархост айнан чӣ номувофиқ шуд.",
+            "en": "By contract GET only reads: it is safe and answers the same under repetition, so browsers, caches and crawlers repeat it freely. The design edge case is a GET route that writes data on the side: it breaks repeatability and invites a crawler to create a hundred records through random walking. Changing actions stay with POST, PUT and DELETE, and their repetition behaves differently: repeating PUT with the same body replaces the same thing. The link to day 10 is direct: the method and path pair is the choice of action, not a pretty address. The link to day 11: the status explains what exactly did not match in the request."
+          }
         }
       ],
       "questions": [
@@ -6212,6 +6356,18 @@
             "ru": "Клиент заявляет формат в Content-Type, а сервер читает байты тела. Тело может прийти в нескольких кусках. Неподдерживаемый формат даёт 415, слишком большой объём — 413, испорченный JSON — 400. Валидный JSON всё ещё может содержать пустой title, поэтому проверка полей идёт отдельно.",
             "tg": "Мизоҷ форматро дар Content-Type мегӯяд ва сервер байтҳои body-ро мехонад. Body метавонад чанд қисм дошта бошад. Формати дигар 415, андозаи аз ҳад зиёд 413 ва JSON-и вайрон 400 медиҳад. JSON-и дуруст ҳам метавонад title-и холӣ дошта бошад, барои ҳамин майдонҳоро ҷудо санҷед.",
             "en": "The client declares a format in Content-Type, and the server reads body bytes. The body can arrive in multiple chunks. Unsupported format gives 415, excess size gives 413, and malformed JSON gives 400. Valid JSON can still contain an empty title, so field validation is separate."
+          }
+        },
+        {
+          "title": {
+            "ru": "Сборка кусков тела и цена памяти",
+            "tg": "Ҷамъ кардани қисмҳои бадан ва баҳои хотира",
+            "en": "Assembling body chunks and the price of memory"
+          },
+          "body": {
+            "ru": "Тело приходит кусками, и собирать его — работа обработчика: пока идут данные, накапливаем, по окончании собираем целое. Крайний случай — разбор первого куска как всего тела: короткие сообщения проходят тест, а настоящий длинный JSON теряет хвост и падает на разборе. Второй крайний случай — накопление без предела: клиент шлёт гигантское тело, память процесса растёт, и сервер умирает без единой ошибки в логике. Лимит размера останавливает накопление раньше, чем оно станет проблемой. Связь с днём 10 прямая: заголовки приходят первыми и целиком, тело — после них и по частям. Связь с днём 15: собранное тело идёт на разбор, но разбор ещё не валидация.",
+            "tg": "Бадан қисм-қисм меояд ва ҷамъ кардани он кори коркардкунанда аст: ҳар замон маълумот меояд, ҷамъ мекунем, баъди анҷом тамомаро мегирем. Ҳолати ниҳоӣ — таҷзияи аввалин қисм ҳамчун тамоми бадан: паёмҳои кӯтоҳ тестро мегузаранд, вале JSON-и дароз пояшро гум мекунад ва дар таҷзия меафтад. Ҳолати дуюми ниҳоӣ — ҷамъкунии беҳудуд: клиент бадани бузург мефиристад, хотираи process месӯзад ва сервер бе як хатои мантиқӣ мемурад. Лимити андоза ҷамъкуниро пеш аз он, ки мушкил шавад, меистонад. Пайванд бо рӯзи 10 мустақим: сарлавҳаҳо аввал ва пурра меоянд, бадан — баъди онҳо ва қисм-қисм. Пайванд бо рӯзи 15: бадани ҷамъшуда ба таҷзия меравад, вале таҷзия ҳанӯз валидация нест.",
+            "en": "The body arrives in chunks, and assembling it is the handler's work: while data arrives, accumulate; when it ends, take the whole. The edge case is parsing the first chunk as the whole body: short messages pass the test, while a real long JSON loses its tail and fails at parsing. The second edge case is unbounded accumulation: the client sends a giant body, the process memory grows, and the server dies without a single logic error. A size limit stops the accumulation before it becomes a problem. The link to day 10 is direct: headers arrive first and whole, the body comes after them and in parts. The link to day 15: the assembled body goes to parsing, but parsing is not yet validation."
           }
         }
       ],
@@ -6716,6 +6872,18 @@
             "ru": "Тело {\"title\":\"   \"} — корректный JSON. После trim заголовок пустой, поэтому сервер не добавляет строку. Клиентская подсказка рядом с полем помогает, но запросы могут прийти из другого клиента. Сервер повторно применяет правила перед записью и возвращает ответ с конкретным полем.",
             "tg": "Body-и {\"title\":\"   \"} JSON-и дуруст аст. Баъди trim сарлавҳа холӣ мешавад ва сервер сабтро илова намекунад. Паёми назди майдони форма ёрӣ медиҳад, лекин дархост аз барномаи дигар ҳам меояд. Сервер қоидаҳоро пеш аз сабт месанҷад ва майдони хатодорро дар ҷавоб мегӯяд.",
             "en": "The body {\"title\":\"   \"} is valid JSON. Trimming leaves an empty title, so the server writes no row. Inline form feedback helps, but other clients can send the same request. The server applies the rules before writing and names the invalid field in its response."
+          }
+        },
+        {
+          "title": {
+            "ru": "Что писать в отказе валидации",
+            "tg": "Чӣ навиштан дар радди валидация",
+            "en": "What to write in a validation rejection"
+          },
+          "body": {
+            "ru": "Отказ валидации отвечает на вопрос «что исправить»: имя поля, ожидаемая форма и стабильная причина. Крайний случай плохого сообщения — «некорректный запрос» без имени поля: пользователь видит отказ, но не знает, какое поле править, и шлёт тот же запрос снова. В проекте курса два уровня различаются статусами: неразбираемый JSON получает 400, а разобранный с неверным значением — 422 с конкретным полем. Связь с днём 2 прямая: правила функции превращаются в понятные ответы, а не только в исключения тестов. Связь с днём 16: причина вписывается в один формат ошибок, чтобы у клиента была одна проверка вместо многих.",
+            "tg": "Радди валидация ба саволи «чиро ислоҳ кунам» ҷавоб медиҳад: номи майдон, шакли интизорӣ ва сабаби устувор. Ҳолати ниҳоии паёми бад — «дархости нодуруст» бе номи майдон: корбар радро мебинад, вале намедонад кадом майдонро ислоҳ кунад ва ҳамон дархостро дубора мефиристад. Дар лоиҳаи курс ду сатҳ бо ҳолатҳо фарқ мекунанд: JSON-и таҷзиянашаванда 400 мегирад ва таҷзияшуда бо қимати нодуруст — 422 бо майдони дақиқ. Пайванд бо рӯзи 2 мустақим: қоидаҳои функсия ба ҷавобҳои фаҳмо табдил мешаванд, на танҳо ба истисноҳои тестҳо. Пайванд бо рӯзи 16: сабаб дар як шакли хатоҳо навишта мешавад, то клиент як санҷиш дошта бошад.",
+            "en": "A validation rejection answers the question \"what to fix\": the field name, the expected shape and a stable reason. The edge case of a bad message is \"invalid request\" without a field name: the user sees the rejection but does not know which field to correct and sends the same request again. In the course project the two levels differ by statuses: an unparseable JSON receives 400, while a parsed one with an invalid value receives 422 with the specific field. The link to day 2 is direct: the rules of the function turn into understandable answers, not only into test exceptions. The link to day 16: the reason fits into the single error format, so the client has one check instead of many."
           }
         }
       ],
@@ -7228,6 +7396,18 @@
             "ru": "Если title пустой, интерфейс может выделить это поле. Если база недоступна, подсветка поля бессмысленна: клиент получает общий 500 и requestId, а подробность идёт в журнал сервера. Один формат ошибок позволяет показать оба случая разными действиями, не разбирая текст SQL или stack trace.",
             "tg": "Агар title холӣ бошад, UI метавонад майдонро нишон диҳад. Агар база дастнорас бошад, сурх кардани майдон ёрӣ намедиҳад: мизоҷ 500 ва requestId мегирад, сабаби муфассал ба журнали сервер меравад. Формати ягонаи хато ба UI имкон медиҳад, ки ҳар ҳолатро дуруст нишон диҳад.",
             "en": "If title is empty, the UI can highlight that field. If storage is unavailable, highlighting the field cannot help: the client gets a generic 500 and a requestId, while details go to the server log. A shared error shape lets the UI handle both cases without parsing SQL or a stack trace."
+          }
+        },
+        {
+          "title": {
+            "ru": "Чего не должно быть в ответе об ошибке",
+            "tg": "Чӣ бояд дар ҷавоби хато набошад",
+            "en": "What must be absent from an error response"
+          },
+          "body": {
+            "ru": "Устойчивый формат ошибок содержит минимум: имя проблемы и стабильный код причины, без внутренностей сервера. Крайний случай противоположного подхода — ответ, который склеивает трассировку стека в тело: клиент узнаёт имена файлов и строки, а злоумышленник — карту сервера. Правило проекта: подробности ошибки уходят в журнал сервера (день 35), а клиент получает один и тот же контур {error} для всех причин. Связь с днём 15 прямая: неразбираемый JSON и неверное значение поля дают одинаковый каркас ответа с разными словами причины. Один формат — не украшение, а условие того, что клиент напишет одну проверку вместо пяти.",
+            "tg": "Шакли устувори хатоҳо камтаринро дорад: номи мушкил ва рамзи устувори сабаб, бе дохили сервер. Ҳолати ниҳоии муқобил — ҷавобе, ки трассировкаро ба бадан мечаспонад: клиент номҳои файлҳо ва сатрҳоро меомӯзад ва зиёнкор харитаи серверро мегирад. Қоидаи лоиҳа: тафсилоти хато ба журнали сервер меравад (рӯзи 35) ва клиент барои ҳама сабабҳо ҳамон контури {error}-ро мегирад. Пайванд бо рӯзи 15 мустақим: JSON-и таҷзиянашаванда ва қимати нодурусти майдон дар ҳамон каркас бо калимаҳои гуногуни сабаб ҷавоб медиҳанд. Як шакл ороиш нест, балки шарти он аст, ки клиент як санҷиш ба ҷои панҷ нависад.",
+            "en": "A durable error format keeps a minimum: the problem name and a stable reason code, without server internals. The edge case of the opposite approach is a response that glues a stack trace into the body: the client learns file names and line numbers, and an attacker gets a map of the server. The project rule: error details go to the server log (day 35), while the client receives the same {error} outline for every reason. The link to day 15 is direct: an unparseable JSON and an invalid field value produce the same skeleton with different reason words. One format is not decoration; it is the condition for the client writing one check instead of five."
           }
         }
       ],
@@ -7754,6 +7934,18 @@
             "tg": "Ду вазифа метавонанд номи «Чой харидан» дошта бошанд. Бо ном маълум нест, корбар кадомашро иҷро кард. Сабтҳои id 7 ва 8 ҳатто бо title-и якхела фарқ мекунанд. Як сабтро илова карда, идро бо SELECT санҷед. Иловаи дуюм бо ҳамон primary key бояд рад шавад.",
             "en": "Two tasks can both be called “Buy tea”. The title alone cannot tell you which one a user completed. Rows with id 7 and id 8 stay distinct. Insert a row, then use SELECT to verify its id. A second insertion with that primary key must be rejected."
           }
+        },
+        {
+          "title": {
+            "ru": "Порядок строк никто не обещал",
+            "tg": "Тартиби сатрҳоро касе ваъда накардааст",
+            "en": "Nobody promised row order"
+          },
+          "body": {
+            "ru": "Схема фиксирует колонки и их типы, но порядок строк в таблице никто не гарантирует: база возвращает их так, как ей удобно, и две выборки подряд могут отличаться. Крайний случай — отображение списка без ORDER BY: у пользователя задачи каждый раз переставляются, а ошибка не воспроизводится. Отсюда правило проекта: порядок — часть запроса, а не свойство хранения. Связь с днём 3 усиливается: типы колонок строго фиксированы, и строка в колонке INTEGER — та же проблема типов, что и \"12\" в арифметике. В проектных днях каждая выборка владельца сортируется явно, и тест сверяет не только строки, но и их порядок.",
+            "tg": "Схема сутунҳо ва навъҳояшонро муқаррар мекунад, вале тартиби сатрҳоро дар ҷадвал касе кафолат намедиҳад: пойгоҳ онҳоро чунин, ки барояш қулай аст, медиҳад ва ду интихоби пайиҳам метавонанд фарқ кунанд. Ҳолати ниҳоӣ — нишон додани рӯйхат бе ORDER BY: вазифаҳои корбар ҳар бор ҷой иваз мекунанд ва хато такрор намешавад. Аз ин қоидаи лоиҳа: тартиб қисми дархост аст, на хосияти нигоҳдорӣ. Пайванд бо рӯзи 3 мустаҳкам мешавад: навъҳои сутунҳо қатъӣ муқарраранд ва сатр дар сутуни INTEGER ҳамон мушкили навъҳост, ки \"12\" дар ҳисоб. Дар рӯзҳои лоиҳавӣ ҳар интихоби соҳиб ошкоро тартиб дода мешавад ва тест на танҳо сатрҳо, балки тартибашонро ҳам муқоиса мекунад.",
+            "en": "The schema fixes columns and their types, but nobody guarantees row order in a table: the database returns rows as convenient, and two consecutive selects may differ. The edge case is displaying a list without ORDER BY: a user's tasks shuffle on every visit, and the defect cannot be reproduced. Hence the project rule: order is part of the query, not a property of storage. The link to day 3 strengthens: column types are strictly fixed, and a string in an INTEGER column is the same type problem as \"12\" in arithmetic. In the project days every owner selection is sorted explicitly, and the test compares not only the rows but also their order."
+          }
         }
       ],
       "questions": [
@@ -8191,6 +8383,18 @@
             "ru": "Запишите задачу «Оплатить» и закройте соединение. При :memory: новое соединение начинает с пустой базы. При том же пути к файлу оно читает сохранённую запись. Успешный запрос в одном процессе не доказывает сохранность: нужен второй запуск с тем же файлом и явное чтение.",
             "tg": "Вазифаи «Пардохт»-ро сабт карда, пайвастро пӯшед. Бо :memory: пайвасти нав аз базаи холӣ сар мекунад. Бо ҳамон роҳи файл сабти нигоҳдоштаро мехонад. Ҷавоби муваффақ дар як процесс кофӣ нест: файлро аз нав кушоеду сабтро бихонед.",
             "en": "Write a task named “Pay” and close the connection. With :memory:, a new connection starts with an empty database. Opening the same database file reads the saved row. A successful response in one process does not prove persistence. Reopen the same file and explicitly read the result."
+          }
+        },
+        {
+          "title": {
+            "ru": "Кто владеет файлом базы",
+            "tg": "Кӣ соҳиби файли пойгоҳ аст",
+            "en": "Who owns the database file"
+          },
+          "body": {
+            "ru": "Файл базы в реальном проекте — общая граница: один процесс открывает его для записи, и второй процесс с тем же файлом рискует упереться в блокировку или записать поверх чужих изменений. Крайний случай — два запущенных сервера на один файл: оба «работают», а данные получают противоречивые. Отсюда привычка лаборатории: перед запуском убедитесь, что прежний процесс node закрыт, а копия файла делается в момент, когда запись не идёт. Связь с днём 17 прямая: схема живёт в том же файле, поэтому её изменения проходят через миграции дня 23, а не через редактирование на живой базе.",
+            "tg": "Файли пойгоҳ дар лоиҳаи воқеӣ марзи умумӣ аст: як process онро барои навиштан мекушояд ва process-и дуюм бо ҳамон файл ба блокка мехӯрад ё дар болои тағйироти дигарон менависад. Ҳолати ниҳоӣ — ду сервери коранда ба як файл: ҳарду «кор мекунанд» ва маълумот мухолифат меёбад. Аз ин одати лаборатория: пеш аз оғоз мутмаин шавед, ки process-и қаблӣ пӯшида аст ва нусхаи файл дар лаҳзае, ки навиштан намеравад, сохта мешавад. Пайванд бо рӯзи 17 мустақим: схема дар ҳамон файл зиндагӣ мекунад, бинобар ин тағйироти он аз миграцияҳои рӯзи 23 мегузарад, на аз тағйири пойгоҳи зинда.",
+            "en": "The database file in a real project is a shared boundary: one process opens it for writing, and a second process on the same file runs into a lock or writes over someone else's changes. The edge case is two running servers on one file: both \"work\" while the data becomes contradictory. Hence the laboratory habit: before starting, make sure the previous node process is closed, and take a copy of the file at a moment when no write is in progress. The link to day 17 is direct: the schema lives in the same file, so its changes go through the day 23 migrations, not through editing a live database."
           }
         }
       ],
@@ -8630,6 +8834,18 @@
             "tg": "Дар WHERE id = ? аломати ? як қимат мегирад. Бо id 7 база сабти 7-ро меҷӯяд, бо 99 шояд натиҷа набошад. Матни SQL дар ҳар ду даъват як аст. Натиҷаи холӣ хатои SQL нест: handler ҷудо қарор мекунад, рӯйхати холӣ диҳад ё барои як вазифа 404.",
             "en": "The ? in WHERE id = ? takes one value. With id 7, the database looks for record 7. With id 99, no row may match. Both calls use identical SQL text. An empty result is a normal query outcome. The handler can return an empty list or 404 for an individual task."
           }
+        },
+        {
+          "title": {
+            "ru": "Склейка строк и параметры",
+            "tg": "Часпонидани сатр ва параметрҳо",
+            "en": "String concatenation and parameters"
+          },
+          "body": {
+            "ru": "Параметры запроса отличаются от склейки строк тем, что значение никогда не становится частью команды: база исполняет план запроса, а присланное остаётся данными. Крайний случай склейки — значение с кавычкой внутри: одна вставка ломает запрос, а специально собранная строка способна добавить к чтению чужую команду. Связь с днём 7 усиливается: фильтр владельца в параметре защищает и от опечатки, и от подмены значения клиентом. Второй крайний случай — повторный запуск одного prepare с разными значениями: база не строит план заново, и это дешевле на реальных объёмах. В проекте каждое значение в запросе приходит параметром, без исключений.",
+            "tg": "Параметрҳои дархост аз часпонидани сатр бо он фарқ мекунанд, ки қимат ҳеҷ гоҳ қисми фармон намешавад: пойгоҳ нақшаи дархстро иҷро мекунад ва фиристодашуда маълумот мемонад. Ҳолати ниҳоии часпонидан — қимате, ки кавс дорад: як ҷойгиркунӣ дархостро мешиканад ва сатри махсус ҷамъшуда метавонад ба хондан фармони дигар илова кунад. Пайванд бо рӯзи 7 мустаҳкам мешавад: филтри соҳиб дар параметр ҳам аз хатои чопӣ ҳам аз ивази қимат аз ҷониби клиент ҳимоя мекунад. Ҳолати дуюми ниҳоӣ — иҷрои такрории як prepare бо қиматҳои гуногун: пойгоҳ нақшаро нав намесозад ва ин дар ҳаҷми воқеӣ арзонтар аст. Дар лоиҳа ҳар қимат дар дархост параметр меояд, бе истисно.",
+            "en": "Query parameters differ from string concatenation in that the value never becomes part of the command: the database executes the query plan and what was sent stays data. The concatenation edge case is a value containing a quote: one insertion breaks the query, and a specially assembled string can attach a foreign command to a read. The link to day 7 strengthens: the owner filter in a parameter protects against both a typo and a value swapped in by the client. The second edge case is running the same prepare repeatedly with different values: the database does not rebuild the plan, which is cheaper at real volumes. In a project every value in a query arrives as a parameter, without exceptions."
+          }
         }
       ],
       "questions": [
@@ -9067,6 +9283,18 @@
             "ru": "Пустую строку можно отсеять в обработчике и показать понятную подсказку. CHECK в таблице защищает от той же ошибки, если другой обработчик забыл проверку. Сравните NOT NULL и CHECK: \"\" не равна NULL, поэтому NOT NULL сам по себе разрешает пустой текст. После отказа убедитесь, что новых строк нет.",
             "tg": "Сатри холиро handler рад карда, паёми равшан медиҳад. CHECK дар ҷадвал ҳамон хаторо мегирад, агар handler-и дигар санҷишро фаромӯш кунад. \"\" ва NULL гуногунанд: NOT NULL худ аз худ матни холиро манъ намекунад. Баъди рад санҷед, ки сабти нав нест.",
             "en": "The handler can reject an empty string with a helpful message. A table CHECK protects against the same mistake when another handler forgets validation. An empty string differs from NULL, so NOT NULL alone accepts empty text. After a rejected request, confirm that no new row exists."
+          }
+        },
+        {
+          "title": {
+            "ru": "Что проверяет база, а что приложение",
+            "tg": "Чӣ пойгоҳ месанҷад ва чӣ барнома",
+            "en": "What the database checks and what the application"
+          },
+          "body": {
+            "ru": "Приложение и база проверяют разное, и это разделение — часть проекта. Сообщение с именем поля удобно строить в обработчике: пользователь сразу видит, что title пуст. Ограничение в схеме защищает от всех остальных путей записи: другой процесс, другой язык, забытая проверка — база всё равно отвергнет вставку. Крайний случай — INSERT, пропущенный приложением и остановленный NOT NULL: запись не появилась, и это правильный исход, хотя сообщение клиенту грубее. Отсюда принцип: базе — то, что должно быть верно навсегда, приложению — то, что нужно объяснить человеку. Связь с днём 17: ограничения описываются в схеме рядом с типами колонок.",
+            "tg": "Барнома ва пойгоҳ чизҳои гуногунро месанҷанд ва ин тақсим қисми лоиҳа аст. Паём бо номи майдонро дар коркардкунанда сохтан қулай аст: корбар фавран мебинад, ки title холӣ аст. Маҳдудият дар схема аз ҳамаи роҳҳои дигари навишт ҳимоя мекунад: process-и дигар, забони дигар, санҷиши фаромӯшшуда — пойгоҳ ҳароин ҷойгиркуниро рад мекунад. Ҳолати ниҳоӣ — INSERT-е, ки барнома гузаронд ва NOT NULL истанод: сабт пайдо нашуд ва ин натиҷаи дуруст аст, ҳолан паёми клиент номуқоисатар. Аз ин асл: пойгоҳ — он чи бояд ҳамеша дуруст бошад, барнома — он чи ба одам фаҳмондан лозим. Пайванд бо рӯзи 17: маҳдудиятҳо дар схема канори навъҳои сутунҳо тавсиф мешаванд.",
+            "en": "The application and the database check different things, and this division is part of the project. A message with the field name is conveniently built in the handler: the user immediately sees that the title is empty. A constraint in the schema protects against every other write path: another process, another language, a forgotten check, and the database still rejects the insertion. The edge case is an INSERT passed by the application and stopped by NOT NULL: no record appeared, and this is the correct outcome even though the client message is cruder. Hence the principle: to the database belongs what must be true forever, to the application what needs to be explained to a person. The link to day 17: constraints are described in the schema next to the column types."
           }
         }
       ],
@@ -9506,6 +9734,18 @@
             "tg": "Вазифаи 7 ба корбари 1 тааллуқ дорад. Корбари 2 ҳамон id-ро мефиристад. Шарти id ва owner_id сабтро намеёбад: changes = 0 ва title пештара мемонад. Баъди UPDATE бо SELECT санҷед, чун статус худ аз худ нигоҳ доштани сабтро исбот намекунад.",
             "en": "Task 7 belongs to user 1. User 2 requests the same id. The id and owner_id predicate matches no row, so changes is 0 and the title stays the same. Confirm it with a separate SELECT after UPDATE. The response status alone does not prove the record survived."
           }
+        },
+        {
+          "title": {
+            "ru": "UPDATE без WHERE",
+            "tg": "UPDATE бе WHERE",
+            "en": "UPDATE without WHERE"
+          },
+          "body": {
+            "ru": "Крайний случай UPDATE и DELETE — отсутствие ограничения: один запрос без условия по владельцу меняет или удаляет каждую строку таблицы, и тест «на одной записи» этого не заметит. Отсюда привычка проекта: любой UPDATE и DELETE пишется с двумя условиями сразу — идентификатор записи и владелец, а количество изменённых строк проверяется после выполнения. Связь с днём 7 прямая: фильтрация владельца при чтении продолжается фильтрацией при записи, иначе чтение было бы честным, а запись — нет. Связь с днём 20 тоже прямая: условие по владельцу в каждом запросе — это барьер, который нельзя забыть в одном месте.",
+            "tg": "Ҳолати ниҳоии UPDATE ва DELETE — набудани маҳдудият: як дархост бе шарт дар бораи соҳиб ҳар сатри ҷадвалро тағйир ё нест мекунад ва санҷиши «дар як сабт» инро намебинад. Аз ин одати лоиҳа: ҳар UPDATE ва DELETE бо ду шарт якбоя навишта мешавад — идентификатори сабт ва соҳиб — ва шумораи сатрҳои тағйирёфта баъди иҷро санҷида мешавад. Пайванд бо рӯзи 7 мустақим: филтри соҳиб ҳангоми хондан ба филти ҳангоми навиштан идома меёбад, вагарна хондан садоқатманд мебуд, вале навиштан — не. Пайванд бо рӯзи 20 ҳам мустақим: шарт дар бораи соҳиб дар ҳар дархост бари аст, ки дар як ҷо фаромӯш шудан намешавад.",
+            "en": "The UPDATE and DELETE edge case is a missing restriction: one query without an owner condition changes or deletes every row of the table, and a single-record test will not notice. Hence the project habit: any UPDATE and DELETE is written with two conditions at once, the record identifier and the owner, and the number of changed rows is verified afterwards. The link to day 7 is direct: owner filtering on reads continues as filtering on writes, otherwise reading would be honest while writing is not. The link to day 20 is also direct: the owner condition in every query is a barrier that cannot be forgotten in one place."
+          }
         }
       ],
       "questions": [
@@ -9943,6 +10183,18 @@
             "ru": "Сначала таблица пуста. В транзакции первый title допустим, второй нарушает ограничение. До ROLLBACK первая вставка была частью незавершённой операции. После отката в таблице снова ноль строк. Сравните число записей до и после, а не только наличие ошибки.",
             "tg": "Ҷадвал аввал холӣ аст. Дар транзаксия title-и якум дуруст, дуюм хилофи қоидаи ҷадвал аст. То ROLLBACK иловаи якум қисми амали нотамом аст. Баъди откат боз 0 сабт мемонад. Шумораи сабтҳоро пеш ва баъд муқоиса кунед.",
             "en": "The table starts empty. Inside the transaction, the first title is valid and the second violates a constraint. The first insert belongs to unfinished work until commit. After rollback, there are zero rows again. Compare row counts before and after, as well as observing the error."
+          }
+        },
+        {
+          "title": {
+            "ru": "Перевод как один шаг",
+            "tg": "Гузарониш ҳамчун як қадам",
+            "en": "A transfer as one step"
+          },
+          "body": {
+            "ru": "Банковский пример документации переносится на проект напрямую: перевод средств — это уменьшение одной записи и увеличение другой, и между ними ничего не должно быть видно. Крайний случай — сбой между двумя UPDATE: без транзакции списание останется, а начисление пропадёт, и сумма всей системы изменится из ничего. Транзакция обещает всё или ничего: до COMMIT другие процессы не видят промежуточное состояние, а ROLLBACK возвращает базу к точке начала. Связь с днём 21 прямая: условия по владельцу стоят внутри каждой команды, а транзакция охватывает их группу. В проектных днях операция с двумя записями выполняется одной транзакцией.",
+            "tg": "Мисоли бонкии ҳуҷҷатҳо ба лоиҳа мустақиман мегузарад: гузарониши маблағ кам кардани як сабт ва зиёд кардани сабти дигар аст ва байни онҳо ҳеҷ чиз дида нашавад. Ҳолати ниҳоӣ — хатогӣ байни ду UPDATE: бе транзакссия тарҳ мемонад, вале илова нопадид мешавад ва ҷамъи тамоми система аз ҳеҷ ҷо тағйир меёбад. Транзакссия «ҳама ё ҳеҷ» ваъда мекунад: то COMMIT process-ҳои дигар ҳолати миёнаро намебинанд ва ROLLBACK пойгоҳро ба нуқтаи оғоз бармегардонад. Пайванд бо рӯзи 21 мустақим: шартҳои соҳиб дар ҳар фармон меистанд ва транзакссия гурӯҳи онҳоро пӯшида мегирад. Дар рӯзҳои лоиҳавӣ амал бо ду сабт бо як транзакссия иҷро мешавад.",
+            "en": "The documentation bank example transfers to the project directly: moving money is decreasing one record and increasing another, and nothing in between may be visible. The edge case is a failure between two UPDATE statements: without a transaction the deduction stays while the credit disappears, and the total of the system changes from nothing. A transaction promises all or nothing: until COMMIT other processes do not see the intermediate state, and ROLLBACK returns the database to the starting point. The link to day 21 is direct: owner conditions stand inside each command, while the transaction covers their group. In the project days an operation touching two records runs as one transaction."
           }
         }
       ],
@@ -10382,6 +10634,18 @@
             "tg": "Базаи холии омӯзишӣ аз user_version=0 сар мекунад. Мигратсия ҷадвал месозад ва версияро 1 мегузорад. Вазифа сабт кунеду мигратсияро боз иҷро кунед. Дар версияи 1 сабт бояд монад. Seed барои додаҳои омӯзишист ва аз тағйири сохтор ҷудо иҷро мешавад.",
             "en": "An empty learning database begins at user_version=0. The migration creates a table and records version 1. Save a task and run the migration again. At version 1 the task must remain. Seed data is for the exercise and runs separately from the schema change."
           }
+        },
+        {
+          "title": {
+            "ru": "Порядок миграций нельзя менять",
+            "tg": "Тартиби миграцияҳоро иваз кардан намешавад",
+            "en": "The migration order cannot be swapped"
+          },
+          "body": {
+            "ru": "Миграции в реальном проекте выстраиваются цепочкой: каждая ожидает схему, оставленную предыдущей, и перестановка двух шагов ломает обе. Крайний случай — новый разработчик запускает миграции на свежей базе: последовательность должна довести пустую базу до рабочей схемы без ручных шагов. Отсюда правило: миграция изменяет схему, а тестовые данные вставляются отдельно, чтобы очистка демо-записей не трогала структуру. Связь с днём 22 прямая: сложные миграции оборачиваются в транзакцию, и неудачный шаг откатывает весь переход. В проекте порядок шагов и источник тестовых данных описываются в README рядом с командами запуска.",
+            "tg": "Миграцияҳо дар лоиҳаи воқеӣ занҷир мешаванд: ҳар кадом схемаи гузаштаро интизор аст ва ҷой иваз кардани ду қадам ҳардуро мешиканад. Ҳолати ниҳоӣ — таҳиягари нав миграцияҳоро ба пойгоҳи холӣ мегузорад: пайиҳам бояд пойгоҳи холиро ба схеми корӣ расонад, бе қадамҳои дастӣ. Аз ин қоида: миграция схемаро тағйир медиҳад ва маълумоти тестӣ алоҳида гузошта мешавад, то тоза кардани сабтҳои намунӣ сохторро озор накунад. Пайванд бо рӯзи 22 мустақим: миграцияҳои мураккаб дар транзакссия мепечанд ва қадами ноком тамоми гузарро бармегардонад. Дар лоиҳа тартиби қадамҳо ва манбаи маълумоти тестӣ дар README канори фармонҳои оғоз навишта мешаванд.",
+            "en": "Migrations in a real project line up in a chain: each one expects the schema left by the previous, and swapping two steps breaks both. The edge case is a new developer running migrations on a fresh database: the sequence must bring an empty database to a working schema without manual steps. Hence the rule: a migration changes the schema, while test data is inserted separately so that cleaning demo records never touches the structure. The link to day 22 is direct: complex migrations are wrapped in a transaction, and a failing step rolls the whole transition back. In the project the step order and the source of test data are described in the README next to the run commands."
+          }
         }
       ],
       "questions": [
@@ -10819,6 +11083,18 @@
             "ru": "Представьте мастерскую: сотрудник прошёл вход по пропуску, но билет на ремонт всё равно относится к конкретному заказу. В API действующая сессия подтверждает личность. Проверка owner_id отдельно решает, можно ли открыть задачу. Проверьте три случая: гость, владелец, вошедший другой пользователь.",
             "tg": "Дар устохона корманд бо иҷозатнома дохил мешавад, вале квитансияи таъмир ба фармоиши мушаххас тааллуқ дорад. Дар API сессияи амалкунанда корбарро муайян мекунад. Санҷиши owner_id алоҳида мегӯяд, ки вазифа дастрас ҳаст ё не. Меҳмон, соҳиб ва корбари дигарро санҷед.",
             "en": "A workshop employee can enter with a badge, but a repair ticket still belongs to a specific order. In the API, a valid session identifies the caller. A separate owner_id check decides access to the task. Verify three cases: guest, owner and a different signed-in user."
+          }
+        },
+        {
+          "title": {
+            "ru": "Два вопроса в правильном порядке",
+            "tg": "Ду савол дар тартиби дуруст",
+            "en": "Two questions in the right order"
+          },
+          "body": {
+            "ru": "Аутентификация и авторизация отвечают на разные вопросы и проверяются в строгом порядке: сначала «кто ты» по сессии, затем «что тебе можно» по правам владельца. Крайний случай — авторизация без аутентификации: проверка ownerId при отсутствии личности всегда отвергает запрос, а нарушенный порядок «сначала права» пропускает запрос с чужим ownerId без проверки существования пользователя. Связь с днями 25 и 27 подготовительная: личность приходит из cookie сессии, а пароль подтверждается хешем. В проектных днях каждая операция CRUD сначала читает сессию, и только затем открывает запись по владельцу.",
+            "tg": "Аутентификатсия ва иҷозатдиҳӣ ба саволҳои гуногун ҷавоб медиҳанд ва бо тартиби қатъӣ санҷида мешаванд: аввал «ту кистӣ» бо сессия, баъд «барои ту чӣ иҷозат аст» бо ҳуқуқи соҳиб. Ҳолати ниҳоӣ — иҷозатдиҳӣ бе аутентификатсия: санҷиши ownerId бе шахсият ҳамеша дархостро рад мекунад ва тартиби вайроншудаи «аввал ҳуқуқ» дархост бо ownerId-и дигарро бе санҷиши мавҷудияти корбар мегузаронад. Пайванд бо рӯзҳои 25 ва 27 тайёркунанда аст: шахсият аз cookie-и сессия меояд ва гузарвожа бо хеш тасдиқ мешавад. Дар рӯзҳои лоиҳавӣ ҳар амали CRUD аввал сессияро мехонад ва танҳо баъд сабтро аз рӯзи соҳиб мекушояд.",
+            "en": "Authentication and authorization answer different questions and are checked in strict order: first \"who are you\" through the session, then \"what are you allowed\" through owner rights. The edge case is authorization without authentication: an ownerId check with no identity always rejects the request, while the inverted order \"rights first\" lets through a request with a foreign ownerId without ever verifying the user exists. The link to days 25 and 27 is preparatory: identity arrives from the session cookie, and the password is confirmed by its hash. In the project days every CRUD operation reads the session first and only then opens the record by owner."
           }
         }
       ],
@@ -11305,6 +11581,18 @@
             "ru": "В базе у тестового пользователя есть id, имя и хеш пароля. Странице профиля нужны только id и имя. Соберите новый объект из этих полей и проверьте сам JSON ответа. Если хеш присутствует в ответе, скрытие его на экране уже не защищает данные.",
             "tg": "Дар базаи корбари омӯзишӣ id, ном ва hash-и пароль ҳаст. Ба саҳифаи профил танҳо id ва ном лозиманд. Аз онҳо объекти нав созед ва JSON-и ҷавобро бинед. Агар hash дар ҷавоб бошад, пинҳон кардан дар экран додаҳоро муҳофизат намекунад.",
             "en": "A test user row has an id, a name and a password hash. The profile page needs only id and name. Build a new object with those fields and inspect the response JSON. If the hash is present there, hiding it on the screen cannot protect it."
+          }
+        },
+        {
+          "title": {
+            "ru": "Что видит чужой человек в утечке",
+            "tg": "Чиро инсонҳои дигар дар саршавӣ мебинанд",
+            "en": "What a stranger sees in a leak"
+          },
+          "body": {
+            "ru": "Хеш пароля в базе — то, что читает злоумышленник при утечке, и его свойства определяют ущерб: необратимость не даёт узнать пароль, но одинаковые пароли дают одинаковые хеши, по которым собирают таблицы готовых ответов. Крайний случай — два пользователя с паролем «123456»: одинаковые строки в базе выдают самый популярный пароль без взлома. Отсюда соль — случайная добавка к каждому паролю, делающая хеши непохожими. Связь с днём 26 прямая: библиотечный API добавляет соль сам, вручную её придумывать не нужно. Публичный профиль показывает имя и описание, но никогда — хеш или cookie.",
+            "tg": "Хеши гузарвожа дар пойгоҳ он аст, ки зиёнкор ҳангоми саршавӣ мехонад ва хосияташ зарарро муайян мекунад: баргаштанапазирӣ донистани гузарвожаро намедиҳад, вале гузарвожаҳои якхела хешҳои якхела медиҳанд, ки аз онҳо ҷадвалҳои ҷавобҳои тайёр ҷамъ мекунанд. Ҳолати ниҳоӣ — ду корбар бо гузарвожаи «123456»: сатрҳои якхела дар пойгоҳ маъмултарин гузарвожаро бе шикаст нишон медиҳанд. Аз ин намак — иловагии тасодуфӣ ба ҳар гузарвожа, ки хешҳро номонанд месозад. Пайванд бо рӯзи 26 мустақим: API-и китобхона намакро худаш илова мекунад ва офаридани дастии он лозим нест. Профили умумӣ ном ва тавсифро нишон медиҳад, вале ҳеҷ гоҳ хеш ё cookie-ро не.",
+            "en": "The password hash in the database is what an attacker reads in a leak, and its properties set the damage: irreversibility hides the password, but equal passwords produce equal hashes from which tables of ready answers are collected. The edge case is two users with the password \"123456\": identical rows in the database reveal the most popular password without any cracking. Hence salt, a random addition to every password that makes hashes unlike each other. The link to day 26 is direct: the library API adds salt itself, and inventing it manually is unnecessary. The public profile shows the name and description but never the hash or a cookie."
           }
         }
       ],
@@ -11797,6 +12085,18 @@
             "tg": "Барои сабти омӯзишӣ salt-и тасодуфӣ ва hash-и китобхонаро нигоҳ доред. Ҳангоми login китобхона ҳамон salt-ро бо пароли воридшуда истифода мебарад. Агар натиҷа мувофиқ бошад, пароль санҷида шуд. Пароли дуруст ва хатои омӯзиширо санҷед ва онҳоро дар журнал нанависед.",
             "en": "For the test account, store the random salt and the library's password hash. At login the library uses that salt with the entered password. Matching results verify the password. Check both a correct and an incorrect test password without writing either one to a log."
           }
+        },
+        {
+          "title": {
+            "ru": "Сравнение за постоянное время",
+            "tg": "Муқоиса бо вақти доимӣ",
+            "en": "Comparison in constant time"
+          },
+          "body": {
+            "ru": "Библиотечное хеширование даёт два инструмента сразу: медленную функцию хеша и сравнение за постоянное время. Крайний случай обычного сравнения строк — измеримое время: совпадение первых символов отвечает быстрее, чем несовпадение, и тысячи запросов превращают это в измеритель. timingSafeEqual проходит всю длину независимо от результата, поэтому время ответа не подсказывает содержимое. Второй крайний случай — случайная соль: одна и та же соль у всех пользователей возвращает к таблицам готовых хешей дня 25. Связь с днём 25 прямая: библиотека делает правильно по умолчанию, и задача проекта — не обходить её.",
+            "tg": "Хеши китобхонӣ ду абзорро якбора медиҳад: функсияи сустаки хеш ва муқоиса бо вақти доимӣ. Ҳолати ниҳоии муқоисаи оддии сатр — вақти ченшаванда: мувофиқати ҳарфҳои аввал зудтар ҷавоб медиҳад, номувофиқат сусттар ва ҳазорон дархост инро ченкунанда месозанд. timingSafeEqual тамоми дарозиро аз натиҷа беэтиёт мегузарад, бинобар ин вақти ҷавоб мундариҷаро пешниҳод намекунад. Ҳолати дуюми ниҳоӣ — намаки якхела: як намак барои ҳама корбарон ба ҷадвалҳои хешҳои тайёри рӯзи 25 бармегардонад. Пайванд бо рӯзи 25 мустақим: китобхона бо нобаҳо корро дуруст мекунад ва вазифаи лоиҳа — гузаштан аз он нест.",
+            "en": "Library hashing provides two tools at once: a slow hash function and comparison in constant time. The edge case of ordinary string comparison is measurable time: matching leading characters answer faster than a mismatch, and thousands of requests turn this into a meter. timingSafeEqual walks the full length regardless of the result, so response time does not hint at the content. The second edge case is a random salt: the same salt for every user returns to the day 25 tables of ready hashes. The link to day 25 is direct: the library does it right by default, and the project's job is not to work around it."
+          }
         }
       ],
       "questions": [
@@ -12235,6 +12535,18 @@
             "ru": "При входе сервер создаёт сессию и отправляет Set-Cookie. Браузер сохраняет cookie и подставляет её в подходящий следующий запрос. Сервер по значению находит действующую сессию и её владельца. Наличие cookie в браузере не доказывает, что сессия не истекла на сервере.",
             "tg": "Ҳангоми login сервер сессия месозад ва Set-Cookie мефиристад. Браузер cookie-ро нигоҳ дошта, дар дархости мувофиқ мефиристад. Сервер аз рӯйи қимат сессияи амалкунанда ва соҳиби онро меёбад. Дидани cookie дар браузер маънои зинда будани сессияро дар сервер надорад.",
             "en": "On sign-in the server creates a session and sends Set-Cookie. The browser stores the cookie and includes it in the next matching request. The server looks up the active session and its owner using the value. A stored cookie does not prove that the server-side session remains active."
+          }
+        },
+        {
+          "title": {
+            "ru": "Флаги cookie и кто их читает",
+            "tg": "Парчамҳои cookie ва хонандаашон",
+            "en": "Cookie flags and who reads them"
+          },
+          "body": {
+            "ru": "Cookie сессии в настоящем проекте отправляется с флагами, и каждый флаг закрывает свой путь утечки: HttpOnly запрещает JavaScript читать значение через Document.cookie, Secure разрешает передачу только по https, SameSite решает, уедет ли cookie с чужого сайта. Крайний случай — сессия без HttpOnly: любой вставленный скрипт забирает идентификатор и становится владельцем сессии без пароля. Связь с днём 26 прямая: хеш защищает секрет в базе, а флаги cookie защищают идентификатор в браузере. Отдельная деталь — cookie знает только браузер: сервер ставит его в ответе, а дальше браузер приносит его сам с каждым запросом.",
+            "tg": "Cookie-и сессия дар лоиҳаи ҳақиқӣ бо парчамҳо фиристода мешавад ва ҳар парчам як роҳи саршавиро мебандад: HttpOnly JavaScript-ро манъ мекунад, ки қиматро бо Document.cookie бихонад, Secure интиқолро танҳо бо https иҷозат медиҳад ва SameSite муайян мекунад, ки оё cookie аз сайти дигар меравад. Ҳолати ниҳоӣ — сессия бе HttpOnly: ҳар скрипти гузошташуда идентификаторро мегирад ва бе гузарвожа соҳиби сессия мешавад. Пайванд бо рӯзи 26 мустақим: хеш сирри дар пойгоҳро ҳимоя мекунад ва парчамҳои cookie идентификаторро дар браузер. Тафсили алоҳида — cookie-ро танҳо браузер медонад: сервер онро дар ҷавоб мегузорад ва баъд браузер бо ҳар дархост худаш меорад.",
+            "en": "The session cookie in a real project is sent with flags, and each flag closes one leak path: HttpOnly forbids JavaScript from reading the value through Document.cookie, Secure permits transfer only over https, and SameSite decides whether the cookie travels from a foreign site. The edge case is a session without HttpOnly: any injected script takes the identifier and becomes the session owner without a password. The link to day 26 is direct: the hash protects the secret in the database, while cookie flags protect the identifier in the browser. One more detail: only the browser knows the cookie; the server sets it in a response, and afterwards the browser brings it itself with every request."
           }
         }
       ],
@@ -12709,6 +13021,18 @@
             "tg": "Корбар баромад, вале як tab вазифаҳои пешинаро нишон медиҳад. Баромадро бо дархости нав санҷед: баъди бекор кардани сессия идентификатори пешина дигар иҷозат намедиҳад. Тоза кардани cookie қиматро аз браузер мебарад, беэътибор кардани сессия қарори серверро дигар мекунад.",
             "en": "A user signs out while one tab still shows the old tasks. Check logout with a new request after the server invalidates the session: the old identifier must no longer authorize it. Clearing the cookie removes the browser value. Invalidating the session changes the server's decision."
           }
+        },
+        {
+          "title": {
+            "ru": "Сессия живёт на сервере",
+            "tg": "Сессия дар сервер зиндагӣ мекунад",
+            "en": "The session lives on the server"
+          },
+          "body": {
+            "ru": "Logout в настоящем приложении — это прежде всего серверное действие: удаляется запись сессии, и прежний cookie больше ни на что не указывает. Крайний случай — logout, который только стирает cookie в браузере: украденная копия идентификатора остаётся действительной до истечения срока, и выход не отменяет её. Отсюда два срока: короткий срок жизни cookie у клиента и серверное истечение сессии, после которого любой её предъявитель получает отказ. Связь с днём 27 прямая: флаги защищают перенос идентификатора, а серверное удаление закрывает саму сессию. В проекте тест выхода проверяет и отказ, и то, что запись не вернулась.",
+            "tg": "Logout дар барномаи ҳақиқӣ пеш аз ҳама амали серверӣ аст: сабти сессия нест мешавад ва cookie-и пешин ба ҳеҷ чиз ишора намекунад. Ҳолати ниҳоӣ — logout-е, ки танҳо cookie-ро дар браузер тоза мекунад: нусхаи дуздидагии идентификатор то тамомшавии муҳлат амал мекунад ва баромадан онро бекор намекунад. Аз ин ду муҳлат: муҳлати кӯтоҳи cookie дар клиент ва тамомшавии серверии сессия, ки баъд он ҳар пешниҳодкунанда рад меёбад. Пайванд бо рӯзи 27 мустақим: парчамҳо интиқоли идентификаторро ҳимоя мекунанд ва несткунии серверӣ худи сессияро мебандад. Дар лоиҳа тести баромадан ҳам радро ва ҳам онро месанҷад, ки сабт барнагашт.",
+            "en": "Logout in a real application is a server action first of all: the session record is deleted and the old cookie no longer points anywhere. The edge case is a logout that only clears the cookie in the browser: a stolen copy of the identifier stays valid until its expiry, and signing out does not cancel it. Hence two terms: the short cookie lifetime on the client and server-side session expiry, after which any presenter of the session receives a rejection. The link to day 27 is direct: the flags protect the identifier's travel, while server-side deletion closes the session itself. In the project the logout test verifies both the rejection and that the record did not come back."
+          }
         }
       ],
       "questions": [
@@ -13146,6 +13470,18 @@
             "ru": "Отдельно проверьте чтение, переименование и удаление. Если GET проверяет владельца, а PATCH забыл этот шаг, пользователь может менять то, чего не видит. В тесте используйте две учебные сессии и после отклонённого изменения прочитайте запись от имени её владельца.",
             "tg": "Хондан, иваз кардани ном ва ҳазфро ҷудо санҷед. Агар GET соҳиби сабтро санҷад, вале PATCH ин қадамро гузаронад, корбар метавонад чизеро иваз кунад, ки намебинад. Ду сессияи омӯзишӣ истифода баред ва баъди тағйири радшуда сабтро бо сессияи соҳиб хонед.",
             "en": "Check reading, renaming and deletion separately. If GET checks ownership but PATCH forgets that step, a user can modify a record they cannot see. Use two learning sessions in the test and read the record as its owner after a rejected change."
+          }
+        },
+        {
+          "title": {
+            "ru": "Один маршрут без проверки",
+            "tg": "Як маршрут бе санҷиш",
+            "en": "One route without a check"
+          },
+          "body": {
+            "ru": "Права проверяются на каждом маршруте, и надёжность системы равна наименее проверенному маршруту: один обработчик, забывший вопрос «чей это», отменяет фильтрацию во всех остальных. Крайний случай — чтение: список и отдельная запись проходят проверку так же, как создание, потому что чужие данные не должны появляться даже в ответе на чтение. Практический инструмент — таблица маршрутов с колонками «чей ресурс» и «какая проверка», составленная до кода. Связь с днём 24 прямая: порядок «сначала сессия, затем владелец» повторяется в каждой строке этой таблицы. В проекте тест по каждой строке таблицы — минимальная норма.",
+            "tg": "Ҳуқуқҳо дар ҳар маршру месанҷанд ва эътимоди система ба камтарин санҷидашуда баробар аст: як коркардкунанда, ки саволи «ин чии кистӣ»-ро фаромӯш кард, филтро дар ҳамаи дигарон бекор мекунад. Ҳолати ниҳоӣ — хондан: рӯйхат ва сабти алоҳида ҳамон тавр ҳамчун офаридан санҷида мешаванд, чунки маълумоти дигарон набояд ҳатто дар ҷавоби хондан пайдо шавад. Абзори амалӣ — ҷадвали маршрутҳо бо сутунҳои «захираи кистӣ» ва «кадом санҷиш», ки пеш аз рамз сохта мешавад. Пайванд бо рӯзи 24 мустақим: тартиби «аввал сессия, баъд соҳиб» дар ҳар сатри ин ҷадвал такрор мешавад. Дар лоиҳа тест бо ҳар сатри ҷадвал меъёри камтарин аст.",
+            "en": "Rights are checked on every route, and the system's reliability equals its least checked route: one handler that forgot the question \"whose is this\" cancels the filtering everywhere else. The edge case is reading: the list and the single record pass the same checks as creation, because foreign data must not appear even in a read response. A practical tool is a route table with the columns \"whose resource\" and \"which check\", written before the code. The link to day 24 is direct: the order \"session first, owner then\" repeats in every row of that table. In the project a test per table row is the minimum standard."
           }
         }
       ],
@@ -13585,6 +13921,18 @@
             "ru": "Вспомните три отдельных места решения: формат SQL-параметров при обращении к базе, серверная проверка источника изменяющего запроса и лимит попыток входа. Успешное прохождение одной проверки не отменяет остальные. Тестируйте только свой локальный учебный API и проверяйте отсутствие изменений после отказа.",
             "tg": "Се ҷойи санҷиш ҷудоянд: параметрҳои SQL ҳангоми кор бо база, санҷиши манбаи дархости тағйирдиҳанда ва лимити кӯшишҳои login. Гузаштани як санҷиш дигаронро бекор намекунад. Дар API-и омӯзишии худатон санҷед ва бубинед, ки баъди рад сабте дигар нашуд.",
             "en": "Keep three decisions separate: parameterized database access, server checks on the source of a write request, and sign-in attempt limits. Passing one check does not skip the others. Use the local learning API and verify that rejected requests cause no writes."
+          }
+        },
+        {
+          "title": {
+            "ru": "Лимитер как рычаг отказа",
+            "tg": "Лимитер ҳамчун аслиҳати рад",
+            "en": "The limiter as a rejection lever"
+          },
+          "body": {
+            "ru": "Лимитер сам может стать оружием, если ключ выбран плохо. Один глобальный счётчик на весь вход превращает сотню попыток одного нападающего в блокировку всех пользователей сразу: защита от перебора становится рычагом отказа сервиса. Ключ строится из конкретики — адрес из socket и имя учётной записи, — и тогда блокируется источник атаки, а не весь вход. Крайний случай проверки: лимитер не должен отвечать на вопрос «существует ли такой пользователь», иначе подбор имён ускорится от самих отказов. Связь с днём 29 прямая: лимит — отдельная проверка маршрута со своей строкой в таблице. Связь с днём 16: отказ вписывается в один формат ошибок.",
+            "tg": "Лимитер худаш метавонад аслиҳат шавад, агар калид бад интихоб шуда бошад. Як ҳисобкунаки умумӣ барои тамоми вуруд сад кӯшиши як зиёнкорро ба блоккунии ҳамаи корбарон якбоя табдил медиҳад: ҳимоя аз пуртакш камзувӣ мешавад. Калид аз конкретсият сохта мешавад — суроға аз socket ва номи ҳисоб — ва он гоҳ манбаи ҳуҷум блок мешавад, на тамоми вуруд. Ҳолати ниҳоии санҷиш: лимитер набояд ба саволи «оё чунин корбар вуҷуд дорад» ҷавоб диҳад, вагарна ҷустуҷӯи номҳо аз худи раддиҳӣ суръат мегирад. Пайванд бо рӯзи 29 мустақим: лимит санҷиши алоҳидаи маршрут бо сатри худ дар ҷадвал аст. Пайванд бо рӯзи 16: рад дар як шакли хатоҳо навишта мешавад.",
+            "en": "A limiter itself can become a weapon when the key is chosen badly. One global counter for the whole login turns a hundred attempts by one attacker into locking every user at once: the protection against guessing becomes a denial-of-service lever. The key is built from specifics, the address from the socket and the account name, and then the source of the attack is blocked instead of the whole entrance. The edge case of the check: the limiter must not answer whether such a user exists, otherwise name guessing accelerates through the rejections themselves. The link to day 29 is direct: the limit is a separate route check with its own row in the table. The link to day 16: the rejection is written in the single error format."
           }
         }
       ],
@@ -14067,6 +14415,18 @@
         },
         {
           "title": {
+            "ru": "Тест, который не может упасть",
+            "tg": "Тесте, ки афтан наметавонад",
+            "en": "A test that cannot fail"
+          },
+          "body": {
+            "ru": "Настоящий тест отличается от проверки-имитации тем, что способен упасть: если убрать ошибку из реализации и тест всё равно зелёный, он ничего не проверяет. Крайний случай такой пустоты — тест, который сравнивает функцию с её же вызовом или ловит исключения всех типов сразу: ошибка TypeError и ошибка опечатки выглядят одинаково успешно. Связь с днём 8 прямая: тест расчёта и тест сети разделены, поэтому падение говорит точное имя виновного файла. Связь с днём 2 тоже прямая: assert.throws с конкретным типом ошибки продолжает договор валидации. В проектных днях каждая функция получает минимум три проверки: обычный вход, граница и отказ.",
+            "tg": "Тести воқеӣ аз санҷиши тақлидӣ бо он фарқ мекунад, ки метавонад афтад: агар хаторо аз иҷро бубаред ва тест ҳамон сабз бошад, ӯ ҳеҷ чизро намесанҷад. Ҳолати ниҳоии чунин холигарӣ — тесте, ки функсияро бо даъвати худаш муқоиса мекунад ё истиснои ҳама навъҳоро якбоя мегирад: хатои TypeError ва хатои хатти чопӣ якхела муваффақ менамоянд. Пайванд бо рӯзи 8 мустақим: санҷиши ҳисоб ва санҷиши шабака ҷудоанд, бинобар ин афтан номи дақиқи файли гунаҳкорро мегӯяд. Пайванд бо рӯзи 2 ҳам мустақим: assert.throws бо навъи дақиқи хато шартномаи валидацияро идома медиҳад. Дар рӯзҳои лоиҳавӣ ҳар функсия камтарин се санҷиш мегирад: вуруди оддӣ, марз ва рад.",
+            "en": "A real test differs from a pretend check by being able to fail: if removing the defect from an implementation still leaves the test green, it verifies nothing. The edge case of such emptiness is a test that compares a function with its own call or catches every exception type at once: a TypeError and a typo's error look equally successful. The link to day 8 is direct: the calculation test and the network test are separated, so a failure names the guilty file exactly. The link to day 2 is also direct: assert.throws with a specific error type continues the validation contract. In the project days every function receives at least three checks: an ordinary input, a boundary and a rejection."
+          }
+        },
+        {
+          "title": {
             "ru": "Ожидаемое значение и ошибка теста",
             "tg": "Натиҷаи интизорӣ ва хатои test",
             "en": "Expected value and test failure"
@@ -14514,6 +14874,18 @@
             "tg": "Даъвати функсия ҳисоб шудани рӯйхатро месанҷад. Test-и HTTP сервери шуморо дар порти холии локалӣ мекушояд ва мебинад, ки мизоҷ рӯйхатро ҳамчун JSON бо статус мегирад. Баъд сервер пӯшида мешавад. Хатои route ё табдили JSON бо ҳамин санҷиш намоён мешавад.",
             "en": "A function call can prove the list was calculated correctly. An HTTP test starts your server on a free local port and checks that the client receives the list as JSON with the expected status. Close the server afterward. This catches routing and serialization problems outside the function."
           }
+        },
+        {
+          "title": {
+            "ru": "Порт 0 и конец теста",
+            "tg": "Порт 0 ва анҷоми тест",
+            "en": "Port 0 and the end of a test"
+          },
+          "body": {
+            "ru": "Интеграционный тест в реальном проекте живёт коротко и предсказуемо: сервер поднимается на свободном порту, тест делает несколько запросов, сервер закрывается. Крайний случай — жёстко вписанный порт: два теста на одном порту падают по очереди, а занятый порт разработки превращает набор в лотерею. Порт 0 просит систему дать свободный адрес, и тест узнаёт его из объекта сервера. Второй крайний случай — незакрытый сервер: процесс теста не завершается сам, и набор висит до таймаута. Связь с днём 11 прямая: тест проверяет статусы и тела ответов как клиент, не заглядывая внутрь обработчиков.",
+            "tg": "Тести интегратсионӣ дар лоиҳаи воқеӣ кӯтоҳ ва пешгӯйшаванда мезияд: сервер дар порти озод баланд мешавад, тест чанд дархост мекунад ва сервер пӯшида мешавад. Ҳолати ниҳоӣ — порти қатъӣ: ду тест дар як порт пайиҳам меафтанд ва порти банди таҳия лотерея месозад. Порт 0 аз система порти озод мехоҳад ва тест онро аз объект сервер меёбад. Ҳолати дуюми ниҳоӣ — сервери нопӯшида: process тести худаш тамом намешавад ва маҷмӯъ то таймаут меовезад. Пайванд бо рӯзи 11 мустақим: тест ҳолатҳо ва баданҳои ҷавобро ҳамчун клиент месанҷад, ба дохили коркардкунанда наменгарад.",
+            "en": "An integration test in a real project lives briefly and predictably: the server rises on a free port, the test makes a few requests, the server closes. The edge case is a hard-coded port: two tests on one port fail in turn, and a busy development port turns the suite into a lottery. Port 0 asks the system for a free address, and the test learns it from the server object. The second edge case is a server left open: the test process does not finish by itself and the suite hangs until a timeout. The link to day 11 is direct: the test verifies statuses and bodies like a client, without looking inside handlers."
+          }
         }
       ],
       "questions": [
@@ -14952,6 +15324,18 @@
             "tg": "Агар дарозии ном аз 1 то 80 бошад, 0, 1, 80 ва 81-ро санҷед. 0 рад шудани ҳадди поёнро нишон медиҳад, 1 гузаштани қимати аввалро. 80 ва 81 ҳаминро дар боло месанҷанд. Сатри танҳо аз фосиларо илова кунед, то тартиби trim ва ҳисоб равшан шавад.",
             "en": "If a title may be between 1 and 80 characters, test 0, 1, 80 and 81. Zero exercises rejection below the lower bound and 1 checks inclusivity. Use 80 and 81 at the upper end. Add a whitespace-only value to check that trimming precedes length validation."
           }
+        },
+        {
+          "title": {
+            "ru": "Длина строки: символы и байты",
+            "tg": "Дарозии сатр: ҳарфҳо ва байтҳо",
+            "en": "String length: characters and bytes"
+          },
+          "body": {
+            "ru": "Матрица границ в реальном проекте не ограничивается пустой строкой и максимальной длиной: между ними живут строка из пробелов, нулевой символ и текст на разных алфавитах. Крайний случай измерения — символы и байты: название в сто кириллических букв занимает двести байтов в UTF-8, и лимит, выбранный «на глаз», отсекает половину корректных названий. Связь с днём 15 прямая: валидация выбирает единицу измерения до установки лимита, а не после первой жалобы. Связь с днём 31 тоже прямая: каждая строка матрицы становится отдельным утверждением теста, а не комментарием. В проекте лимиты записываются в договоре поля рядом с сообщением об ошибке.",
+            "tg": "Матритсаи ҳудудҳо дар лоиҳаи воқеӣ бо сатри холӣ ва дарозии максимум тамом намешавад: байни онҳо сатри аз фосилаҳо, аломати сифрӣ ва матн дар алифбоҳои гуногун зиндагӣ мекунанд. Ҳолати ниҳоии ченкунӣ — ҳарфҳо ва байтҳо: ном дар сад ҳарфи кириллӣ дар UTF-8 ду сад байт мегирад ва лимити «ба чашм» интихобшуда нисфи номҳои дурустро мебурад. Пайванд бо рӯзи 15 мустақим: валидация воҳиди ченкунӣ пеш аз гузоштани лимит интихоб мекунад, на баъди шикояти аввал. Пайванд бо рӯзи 31 ҳам мустақим: ҳар сатри матритса тасдиқи алоҳидаи тест мешавад, на шарҳ. Дар лоиҳа лимитҳо дар шартномаи майдон канори паёми хато навишта мешаванд.",
+            "en": "The edge case matrix in a real project does not stop at the empty string and the maximum length: between them live a string of spaces, a zero character and text in different alphabets. The measurement edge case is characters versus bytes: a title of one hundred Cyrillic letters takes two hundred bytes in UTF-8, and a limit chosen by eye cuts away half of the correct titles. The link to day 15 is direct: validation chooses the unit of measurement before setting the limit, not after the first complaint. The link to day 31 is also direct: every matrix row becomes a separate test assertion, not a comment. In the project the limits are written into the field contract next to the error message."
+          }
         }
       ],
       "questions": [
@@ -15377,6 +15761,18 @@
             "ru": "{\"status\":\"ok\",\"items\":[]}",
             "tg": "{\"status\":\"ok\",\"items\":[]}",
             "en": "{\"status\":\"ok\",\"items\":[]}"
+          }
+        },
+        {
+          "title": {
+            "ru": "Почему тест не ждёт сеть",
+            "tg": "Чаро тест шабакаро интизор намешавад",
+            "en": "Why the test does not wait for the network"
+          },
+          "body": {
+            "ru": "Управляемый отказ существует, чтобы тест не зависел от погоды сети: вместо настоящего адреса тест получает подмену, которая возвращает заранее известный ответ или ошибку. Крайний случай без подмены — тест, который сегодня проходит за 30 миллисекунд, а завтра падает по таймауту: внешний сервис живёт своей жизнью, и результат перестаёт быть фактом о вашем коде. Связь с днём 32 прямая: HTTP-тест остаётся на 127.0.0.1, где сеть настоящая, но предсказуемая. Связь с днём 8 тоже прямая: граница файла позволяет подменить зависимость в одном месте. В проекте каждый тест описывает, какие зависимости он подменяет и почему.",
+            "tg": "Радди идорашаванда барои он аст, ки тест аз обуҳавои шабака вобаста набошад: ба ҷои суроғаи воқеӣ тест ивазкунанда мегирад, ки ҷавоби пешмаълум ё хаторо бармегардонад. Ҳолати ниҳоӣ бе ивазкунанда — тесте, ки имрӯз дар 30 миллисекунд мегузарад ва фардо бо таймаут меафтад: хизматрасонии берунӣ зиндагии худро дорад ва натиҷа аз факт дар бораи рамзи шумо мебарояд. Пайванд бо рӯзи 32 мустақим: тести HTTP дар 127.0.0.1 мемонад, ки шабакааш воқеӣ, вале пешгӯйшаванда аст. Пайванд бо рӯзи 8 ҳам мустақим: марзи файл иваз кардани вобастагиро дар як ҷо мумкин мекунад. Дар лоиҳа ҳар тест менависад, ки кадом вобастагиҳоро иваз мекунад ва чаро.",
+            "en": "A controlled failure exists so that a test does not depend on network weather: instead of a real address the test receives a substitute that returns a known answer or error in advance. The edge case without a substitute is a test that passes in 30 milliseconds today and fails on a timeout tomorrow: the external service lives its own life, and the result stops being a fact about your code. The link to day 32 is direct: the HTTP test stays on 127.0.0.1, where the network is real but predictable. The link to day 8 is also direct: the file boundary makes it possible to replace a dependency in one place. In the project every test states which dependencies it substitutes and why."
           }
         },
         {
@@ -15827,6 +16223,18 @@
             "ru": "Клиент видит «Не удалось сохранить» и requestId rq-7. В журнале найдите ту же метку, метод, путь, время и итоговый статус 500. Так можно понять, какой запрос не прошёл, без публикации пароля или полного тела запроса. Тест проверьте и на наличие метки, и на отсутствие секрета.",
             "tg": "Мизоҷ «Сабт нашуд» ва requestId rq-7 мебинад. Дар журнал ҳамон нишона, метод, роҳ, вақт ва статуси 500-ро ёбед. Ҳамин тавр дархости нокомро бе нишон додани пароль ё body-и пурра меёбед. Дар test ҳам будани нишона ва ҳам набудани сирро бинед.",
             "en": "The client sees “Could not save” and requestId rq-7. Find that same label, the method, path, timing and status 500 in the log. You can identify the failed request without publishing a password or full body. Test for the label and check that no secret was included."
+          }
+        },
+        {
+          "title": {
+            "ru": "Что не попадает в журнал",
+            "tg": "Чӣ ба журнал намедарояд",
+            "en": "What does not reach the log"
+          },
+          "body": {
+            "ru": "Журнал в настоящем проекте отвечает на вопрос «что случилось», но не пересказывает тело запроса: пароли, cookie и токены остаются вне строк журнала, даже в режиме отладки. Крайний случай — журнал с полезной нагрузкой: одна строка отладки в репозитории превращает каждую утечку журналов в утечку паролей. Связь с днём 16 прямая: клиенту — минимум, журналу — подробности, но не секреты. Связь с днём 27: идентификатор сессии в журнале делает украденный лог входом в аккаунт. Практическое правило проекта: перед записью спросите, может ли этот кусок данных открыть чужой доступ; если да — пишите метку события вместо значения.",
+            "tg": "Журнал дар лоиҳаи ҳақиқӣ ба саволи «чӣ рӯй дод» ҷавоб медиҳад, вале бадани дархостро такрор намекунад: гузарвожаҳо, cookie ва токенҳо берун аз сатри журнал мемонанд, ҳатто дар режими ислоҳ. Ҳолати ниҳоӣ — журнал бо бори фоиданок: як сатри ислоҳ дар репозиторий ҳар саршавии журналро ба саршавии гузарвожаҳо табдил медиҳад. Пайванд бо рӯзи 16 мустақим: клиент — минимум, журнал — тафсилот, вале сиррҳо не. Пайванд бо рӯзи 27: идентификатори сессия дар журнал логи дуздидаро ба вуруди ҳисоб табдил медиҳад. Қоидаи амалии лоиҳа: пеш аз навиштан пурсед, ки оё ин қисми маълумот дастрасии ғайрихоҳиро мекушояд; агар ҳа — ба ҷои қимат нишонаи рӯйдод нависед.",
+            "en": "A log in a real project answers \"what happened\" but does not retell the request body: passwords, cookies and tokens stay out of log lines, even in debug mode. The edge case is a log with payloads: one debug line in the repository turns every log leak into a password leak. The link to day 16 is direct: the client gets the minimum, the log gets details, but not secrets. The link to day 27: a session identifier in a log makes a stolen log an account login. The practical project rule: before writing, ask whether this piece of data could open someone else's access; if yes, write an event label instead of the value."
           }
         }
       ],
@@ -16319,6 +16727,18 @@
             "ru": "Переменная PORT=3001 приходит строкой \"3001\". На старте проверьте её формат и диапазон, затем получите число 3001. При «abc» сервер должен сообщить об ошибке до запуска. Иначе оператор увидит падение позже и будет искать проблему в маршруте, хотя неверна конфигурация.",
             "tg": "PORT=3001 ҳамчун сатри \"3001\" меояд. Дар оғоз формат ва ҳудудашро санҷида, адади 3001 гиред. Бо «abc» сервер бояд пеш аз оғоз хаторо гӯяд. Вагарна оператор дертар мушкилро дар route меҷӯяд, ҳол он ки config нодуруст аст.",
             "en": "PORT=3001 arrives as the string \"3001\". At startup, check its format and range, then convert it to the number 3001. With “abc” the server should report a configuration error before starting. Otherwise the operator may look for a routing problem long after the bad setting was loaded."
+          }
+        },
+        {
+          "title": {
+            "ru": "Пути и рабочая папка в конфигурации",
+            "tg": "Роҳҳо ва папкаи корӣ дар конфигуратсия",
+            "en": "Paths and the working folder in configuration"
+          },
+          "body": {
+            "ru": "Конфигурация шире одного порта: пути к файлам и режимы тоже приходят извне, и все они подчиняются одному правилу — значению при запуске, а не месту в коде. Крайний случай — рабочая папка: сервер, запущенный из другого каталога, не находит файл базы, и проект падает, хотя код не менялся. Отсюда правило: пути собираются из конфигурации, а не из текущей папки процесса, и оператор может перечислить все настройки в одном месте. Связь с днём 8 прямая: границы файлов делают зависимость пути явной. Связь с днём 18: файл базы — самый чувствительный путь, и его место решает, переживут ли данные перезапуск дня 43.",
+            "tg": "Конфигуратсия аз як порт васеътар аст: роҳҳо ба файлҳо ва режими кор ҳам аз берун меоянд ва ҳама ба як қоида тобеъанд — қимате, ки ҳангоми оғоз дода шудааст, на ҷое, ки дар код аст. Ҳолати ниҳоӣ — папкаи корӣ: сервере, ки аз каталоги дигар оғоз шудааст, файли пойгоҳро намеёбад ва лоиҳа меафтад, ҳолан код тағйир наёфтааст. Аз ин қоида: роҳҳо аз конфигуратсия ҷамъ меоянд, на аз папкаи ҷории process ва оператор метавонад ҳама танзимотро дар як ҷо рӯйхат кунад. Пайванд бо рӯзи 8 мустақим: марзҳои файлҳо вобастагии роҳро ошкор мекунанд. Пайванд бо рӯзи 18: файли пойгоҳ ҳассостарин роҳ аст ва ҷои он муайян мекунад, ки оё маълумот рестарти рӯзи 43-ро таҳамул мекунанд.",
+            "en": "Configuration is wider than one port: file paths and modes also arrive from outside, and all of them obey one rule, the value given at startup, not the place in the code. The edge case is the working folder: a server started from another directory does not find the database file, and the project fails although the code never changed. Hence the rule: paths are assembled from configuration, not from the current folder of the process, and the operator can list all settings in one place. The link to day 8 is direct: file boundaries make the path dependency explicit. The link to day 18: the database file is the most sensitive path, and its location decides whether the data survives the day 43 restart."
           }
         }
       ],
@@ -16833,6 +17253,18 @@
             "tg": "Паёми «сервер оғоз шуд» кори процессро нишон медиҳад. Он ҳанӯз намегӯяд, ки база хонда мешавад. /health-и локалиро кушоеду статусро бинед, баъд дархости воқеии додаҳоро диҳед. Агар /health ҳам кор накунад, порт ва процессро бинед. Агар танҳо хондан ноком шавад, хранилищаро санҷед.",
             "en": "A “server started” line confirms that the process began running. It does not prove storage can be read. Check the local /health status, then request real lesson data separately. If /health fails too, start with the port and process. If only the data request fails, inspect storage first."
           }
+        },
+        {
+          "title": {
+            "ru": "Три состояния запуска: работает, завис, упал",
+            "tg": "Се ҳолати оғоз: кор мекунад, муатталиф, уфтод",
+            "en": "Three startup states: working, hung, fallen"
+          },
+          "body": {
+            "ru": "Запуск имеет три состояния, и различать их — часть готовности. Упал: процесс исчез, соединение отклоняется сразу, и причина ищется в выводе запуска. Завис: порт отвечает, но ответ не приходит — самый тихий случай, и его делает видимым таймаут проверки. Работает: запрос вернул ожидаемый статус и тело. Проверка готовности выполняет настоящий запрос к /health и никогда не считается успешной «по умолчанию». Связь с днём 1 прямая: первый /health уже был такой проверкой для человека. Связь с днём 36: адрес и порт берутся из той же конфигурации, что и запуск, иначе проверка стучится не в тот процесс.",
+            "tg": "Оғоз се ҳолат дорад ва фарқ кардани онҳо қисми тайёрист. Уфтид: process нопадид шуд, пайваст фавран рад мешавад ва сабаб дар хуруҷии оғоз ҷустуҷӯ мешавад. Муатталиф: порт ҷавоб медиҳад, вале ҷавоб намеояд — оромтарин ҳолат ва онро таймаути санҷиш намоён месозад. Кор мекунад: дархост ҳолат ва бадани интизорияшударо бармегардонад. Санҷиши тайёрӣ дархости воқеӣ ба /health мекунад ва ҳеҷ гоҳ «бо нобаҳо» муваффақ ҳисоб намешавад. Пайванд бо рӯзи 1 мустақим: ҳамон /health-и аввал чунин санҷиш барои одам буд. Пайванд бо рӯзи 36: суроға ва порт аз ҳамон конфигуратсияи оғоз гирифта мешаванд, вагарна санҷиш ба process-и нодуруст мезанад.",
+            "en": "A startup has three states, and telling them apart is part of readiness. Fallen: the process is gone, the connection is rejected instantly, and the cause is searched in the startup output. Hung: the port answers but no response arrives, the quietest case, and a check timeout makes it visible. Working: the request returned the expected status and body. A readiness check performs a real request to /health and is never counted successful by default. The link to day 1 is direct: that first /health was already such a check for a human. The link to day 36: the address and port come from the same configuration as the startup, otherwise the check knocks on the wrong process."
+          }
         }
       ],
       "questions": [
@@ -17324,6 +17756,18 @@
             "tg": "«Мехоҳам вазифа илова кунам» ҳадафи корбар аст. Аз он санҷиш созед: ба аккаунти омӯзишӣ ворид шавед, title-и «Пардохт» фиристед, 201 бо id гиред ва аз рӯйи он ҳамон title-ро бихонед. Аккаунти дуюм сабтро намебинад. Натиҷа бе дидани коди дохилӣ санҷида мешавад.",
             "en": "“I want to add a task” is a user goal. Turn it into an observable test: sign in to the learning app, send title “Pay”, receive 201 with an id and read the same title by that id. The second learning account cannot see it. This contract is testable without reading the implementation."
           }
+        },
+        {
+          "title": {
+            "ru": "Сценарии A и B как минимальный набор",
+            "tg": "Сенарияҳои A ва B ҳамчун маҷмӯи камтарин",
+            "en": "Scenarios A and B as the minimal set"
+          },
+          "body": {
+            "ru": "Минимальный набор истории в проекте — два сценария A и B, и один из них обязан быть чужим: пользователь B пытается изменить запись A и получает предусмотренный договором отказ. Крайний случай одного счастливого пути — проект, который работает для владельца и не проверен ни для кого другого. Каждый сценарий связывается с тестом по имени: README ссылается, тест закрывает, защита показывает оба. Крайний случай дрейфа договора: маршрут переименовали, сценарий остался со старым путём, и тест падает — договор и тесты обновляются одной правкой. Связь с днём 13 прямая: маршруты выросли в сценарии. Связь с днём 44: на защите показываются именно эти два доказательства.",
+            "tg": "Маҷмӯи камтарини таърих дар лоиҳа — ду сенарияи A ва B ва яке аз онҳо ҳатман «дигарон» аст: корбари B кӯшиши тағйири сабти A мекунад ва радди пешбинишудаи шартномаро мегирад. Ҳолати ниҳоии як роҳи хушбахт — лоиҳаест, ки барои соҳиб кор мекунад ва барои ҳеҷ кас дигар санҷида нашудааст. Ҳар сенария бо тест бо ном пайванд мешавад: README ишора мекунад, тест мепӯшонад ва ҳимоя ҳардуро нишон медиҳад. Ҳолати ниҳоии дрейфи шартнома: маршрутро аз нав номгузорӣ карданд, сенария бо роҳи кӯҳна монд ва тест меафтад — шартнома ва тестҳо бо як ислоҳ навсозӣ мешаванд. Пайванд бо рӯзи 13 мустақим: маршрутҳо ба сенариҳо сабзиданд. Пайванд бо рӯзи 44: дар ҳимоя айнан ин ду исбот нишон дода мешаванд.",
+            "en": "The minimal story set in the project is two scenarios A and B, and one of them must be foreign: user B tries to change A's record and receives the rejection provided by the contract. The edge case of a single happy path is a project that works for the owner and was never checked for anyone else. Every scenario is linked to a test by name: the README references it, the test closes it, and the defense shows both. The edge case of contract drift: a route was renamed, the scenario kept the old path, and the test fails; the contract and the tests are updated with one edit. The link to day 13 is direct: routes grew into scenarios. The link to day 44: exactly these two proofs are shown at the defense."
+          }
         }
       ],
       "questions": [
@@ -17805,6 +18249,18 @@
             "tg": "Корбари 7 ҳаст, 99 нест. Вазифаи owner_id=7 ба сабти корбари аввал пайваст мешавад. Бо foreign key-и фаъол owner_id=99 рад мешавад. Дар базаи омӯзишӣ ду иловаи сабтро муқоиса кунед. Ин пайванди додаҳоро месанҷад, ҳуқуқи корбар ҷудо санҷида мешавад.",
             "en": "User 7 exists and user 99 does not. A task with owner_id=7 links to the existing users row. With foreign-key enforcement on, owner_id=99 causes rejection. Compare the two inserts in a test database. This checks data consistency. Access by the caller is a separate decision."
           }
+        },
+        {
+          "title": {
+            "ru": "Мёртвые записи без внешнего ключа",
+            "tg": "Сабтҳои мурда бе калиди беруна",
+            "en": "Dead records without a foreign key"
+          },
+          "body": {
+            "ru": "Схема проекта связывает задачи с пользователями, и целостность проверяется базой, а не памятью обработчика: запись с чужим или отсутствующим userId не должна вставляться вовсе. Крайний случай без внешнего ключа — мёртвые записи: пользователь удалён, а его задачи остаются и появляются в списках других людей с пустым именем. Связь с днём 17 прямая: первичный ключ делает каждую строку адресуемой, внешний ключ делает связи честными. Связь с днём 20 тоже прямая: ограничение связи — второй барьер, который срабатывает при любой ошибке приложения. В проекте тест на запись-сироту входит в основной набор рядом с тестами владельца.",
+            "tg": "Схеми лоиҳа вазифаҳоро бо корбарон пайванд мекунад ва тамомиятро пойгоҳ месанҷад, на хотираи коркардкунанда: сабт бо userId-и дигар ё набуда ҳеҷ гоҳ гузошта намешавад. Ҳолати ниҳоӣ бе калиди беруна — сабтҳои мурда: корбар нест карда шуд, вале вазифаҳояш мемонанд ва дар рӯйхатҳои дигарон бо номи холӣ пайдо мешаванд. Пайванд бо рӯзи 17 мустақим: калиди аввал ҳар сатрро адреспазир мекунад ва калиди беруна пайвандҳоро садоқатманд мегардонад. Пайванд бо рӯзи 20 ҳам мустақим: маҳдудияти пайванд бари дуюм аст, ки дар ҳар хатои барнома кор мекунад. Дар лоиҳа тести сабти ятим ба маҷмӯи асосӣ канори тестҳои соҳиб дохил мешавад.",
+            "en": "The project schema ties tasks to users, and integrity is verified by the database, not by handler memory: a record with a foreign or missing userId must not be inserted at all. The edge case without a foreign key is dead records: the user is deleted while their tasks remain and appear in other people's lists with an empty name. The link to day 17 is direct: the primary key makes every row addressable, the foreign key makes the links honest. The link to day 20 is also direct: the relation constraint is the second barrier that fires on any application mistake. In the project an orphan-record test joins the main suite next to the owner tests."
+          }
         }
       ],
       "questions": [
@@ -18244,6 +18700,18 @@
             "ru": "Проследите title «Встреча» от POST до ответа. Маршрут выбирает обработчик, сессия подтверждает владельца, валидация принимает title, SQL возвращает id. Ответ 201 строится только после успешной записи. Для пустого title повторите POST и проверьте, что число строк осталось прежним.",
             "tg": "Title-и «Вохӯрӣ»-ро аз POST то ҷавоб бинед. Route ба handler мебарад, сессия соҳибро муайян мекунад, validation title-ро қабул мекунад ва SQL id медиҳад. 201 танҳо баъди сабти муваффақ меояд. Бо title-и холӣ POST-ро такрор кунед ва бубинед, ки шумораи сабтҳо тағйир накард.",
             "en": "Follow title “Meeting” from POST to response. Routing selects a handler, the session identifies the owner, validation accepts the title, and SQL returns an id. Build the 201 response after the write succeeds. Try an empty title and confirm that the row count is unchanged."
+          }
+        },
+        {
+          "title": {
+            "ru": "Вертикальный срез против горизонтальных слоёв",
+            "tg": "Бури вертикалӣ муқобили қабатҳои уфуқӣ",
+            "en": "The vertical slice against horizontal layers"
+          },
+          "body": {
+            "ru": "Вертикальный срез в проекте — это одна пользовательская история, проведённая через все слои: запрос из дня 10, валидация дня 15, запись дня 20 и ответ дня 11. Крайний случай горизонтальной разработки — пять слоёв, готовых наполовину: каждый демонстрируется отдельно, а ни одна история не проходит целиком. Отсюда порядок проекта: сначала один путь от запроса до записи, затем следующие истории повторяют его форму. Связь с днём 38 прямая: срез закрывает конкретную историю договора, а не абстрактную готовность. В README путь первого среза описывается по шагам, и на защите показывается именно он.",
+            "tg": "Бури вертикалӣ дар лоиҳа як таърихи корбар аст, ки аз ҳама қабатҳо мегузарад: дархости рӯзи 10, валидацияи рӯзи 15, сабти рӯзи 20 ва ҷавоби рӯзи 11. Ҳолати ниҳоии тарҳбандии уфуқӣ — панҷ қабати нисфи тайёр: ҳар кадом алоҳида нишон дода мешавад вале ҳеҷ таърих тамоман намегузарад. Аз ин тартиби лоиҳа: аввал як роҳ аз дархост то сабт, баъд таърихҳои оянда шакли онро такрор мекунанд. Пайванд бо рӯзи 38 мустақим: бури конкрет таърихи шартномаро мепӯшонад, на тайёрии абстракт. Дар README роҳи аввалин бури қадам ба қадам тавсиф мешавад ва дар ҳимоя айнан ҳамон нишон дода мешавад.",
+            "en": "A vertical slice in the project is one user story carried through every layer: the day 10 request, the day 15 validation, the day 20 write and the day 11 response. The edge case of horizontal development is five layers finished halfway: each is demonstrated separately while no story passes completely. Hence the project order: first one path from request to record, then the following stories repeat its shape. The link to day 38 is direct: the slice closes a concrete story of the contract, not an abstract readiness. In the README the first slice's path is described step by step, and at the defense exactly that path is shown."
           }
         }
       ],
@@ -18685,6 +19153,18 @@
             "tg": "Сохтан, хондан, тағйир ва ҳазфро бо як id санҷед. Аввал «Хома»-ро сабт кунед, баъд ба «Тайёр» иваз карда аз нав хонед. Пас аз ҳазф хондан бояд ҷавоби мувофиқи шартро диҳад. Агар PATCH бо сессияи каси дигар рад шавад, соҳиб title-и пешинаро мебинад.",
             "en": "Check creating, reading, updating and deleting using one id. Save “Draft”, change it to “Ready” and read it again. After deletion, reading returns the contract's defined refusal. When PATCH from another session is rejected, the owner must still see the previous title."
           }
+        },
+        {
+          "title": {
+            "ru": "Фильтр владельца до пагинации",
+            "tg": "Филтри соҳиб пеш аз пагинатсия",
+            "en": "The owner filter before pagination"
+          },
+          "body": {
+            "ru": "Список — отдельная поверхность проверки, и порядок шагов в нём важен. Фильтр владельца стоит первым: условие по owner_id отбирает строки до любого ограничения, иначе пагинация применится ко всем записям и чужие строки уедут клиенту. После фильтра идёт явный порядок, затем limit и offset. Крайний случай лимита: 0 можно понять и как «ничего», и как «без ограничения» — договор фиксирует одно значение и отвергает второе. Отрицательный offset отвергается проверкой до запроса. Связь с днём 7 прямая: фильтр владельца становится первым шагом каждого списка. Связь с днём 29: маршрут списка имеет свою строку в таблице проверок.",
+            "tg": "Рӯйхат сатҳи алоҳидаи санҷиш аст ва тартиби қадамҳо дар он муҳим аст. Филтри соҳиб аввал меистад: шарт аз рӯзи owner_id сатрҳоро то ҳар маҳдудият интихоб мекунад, вагарна пагинатсия ба ҳама сабтҳо татбиқ мешавад ва сатрҳои дигарон ба клиент мераванд. Баъди филт тартиби ошкор меояд, баъд limit ва offset. Ҳолати ниҳоии лимит: 0-ро метавон «ҳеҷ» ва «бе маҳдудият» фаҳмид — шартнома як маъниро муқаррар мекунад ва дуюмро рад мекунад. Offset-и манфӣ бо санҷиши пеш аз дархост рад мешавад. Пайванд бо рӯзи 7 мустақим: филтри соҳиб қадами аввали ҳар рӯйхат мешавад. Пайванд бо рӯзи 29: маршрути рӯйхат сатри худро дар ҷадвали санҷишҳо дорад.",
+            "en": "The list is a separate surface of checking, and the order of steps inside it matters. The owner filter stands first: the condition by owner_id selects rows before any restriction, otherwise pagination applies to every record and foreign rows reach the client. After the filter comes the explicit order, then limit and offset. The edge case of the limit: 0 can be understood both as \"nothing\" and as \"without restriction\"; the contract fixes one meaning and rejects the other. A negative offset is rejected by a check before the query. The link to day 7 is direct: the owner filter becomes the first step of every list. The link to day 29: the list route has its own row in the checks table."
+          }
         }
       ],
       "questions": [
@@ -19125,6 +19605,18 @@
             "tg": "Агар дархост рад шавад, ду чизро бинед: статуси интизорӣ ва набудани сабти нав ё тағйири сабти пешина. Формати нодуруст, JSON-и вайрон ва body-и калонро ҷудо санҷед. Хатои дохилӣ ҷавоби фаҳмо бо requestId медиҳад ва тафсилот ба журнал меравад.",
             "en": "For a rejected request, verify the expected status and confirm that no row was added or changed. Cover an unsupported format, malformed JSON and an oversized body separately. An internal failure returns a clear response with a requestId, while diagnostic details belong in the log."
           }
+        },
+        {
+          "title": {
+            "ru": "Частичная запись как следствие отмены",
+            "tg": "Сабти қисман ҳамчун оқибати бекорӣ",
+            "en": "A partial write as a consequence of cancellation"
+          },
+          "body": {
+            "ru": "Проверка отказа в проекте заканчивается не статусом, а состоянием данных: после отклонённого создания записи нет, после неудачного обновления — прежние значения, после неудачного удаления — запись на месте. Крайний случай — частичная запись: обработчик отменил запрос, но уже успел вставить строку, и система приобрела запись, о которой клиент никогда не узнает. Связь с днём 22 прямая: транзакция превращает «отмену в середине» в откат всей группы. Связь с днём 29 тоже прямая: отказ по правам случается до любых записей, потому что проверка владельца стоит раньше. В проекте каждый тест отказа делает второе чтение и сравнивает состояние до и после.",
+            "tg": "Санҷиши рад дар лоиҳа бо ҳолат тамом намешавад, балки бо ҳолати маълумот: баъди радди офаридан сабт нест, баъди нокомии навсозӣ — қиматҳои пешин, баъди нокомии несткунӣ — сабт дар ҷояш. Ҳолати ниҳоӣ — сабти қисман: коркардкунанда дархостро рад кард, вале сатрро аллакай гузошта буд ва система сабте пайдо кард, ки клиент ҳеҷ гоҳ надонад. Пайванд бо рӯзи 22 мустақим: транзакссия «бекорӣ дар миёна»-ро ба баргардони тамоми гурӯҳ табдил медиҳад. Пайванд бо рӯзи 29 ҳам мустақим: рад аз рӯзи ҳуқуқ то ҳамаи сабтҳо рӯй медиҳад, чунки санҷиши соҳиб пештар меистад. Дар лоиҳа ҳар тести рад хондани дуюм мекунад ва ҳолати пеш ва баъдро муқоиса мекунад.",
+            "en": "A rejection test in the project ends not with the status but with the state of the data: after a rejected creation there is no record, after a failed update the previous values remain, after a failed deletion the record stays in place. The edge case is a partial write: the handler declined the request but had already inserted the row, and the system acquired a record the client will never learn about. The link to day 22 is direct: a transaction turns \"cancel in the middle\" into a rollback of the whole group. The link to day 29 is also direct: a rights rejection happens before any writes, because the owner check stands earlier. In the project every rejection test performs a second read and compares the state before and after."
+          }
         }
       ],
       "questions": [
@@ -19562,6 +20054,18 @@
             "ru": "Создайте задачу и запомните id. Остановите учебный сервер, запустите новый процесс с тем же файлом базы, войдите снова и прочитайте задачу. Этот опыт отличает сохранённую строку от старого состояния в памяти. Если файлы разные, результат уже не проверяет сохранность.",
             "tg": "Вазифа созед ва id-ро нигоҳ доред. Сервери омӯзиширо қатъ кунед. Бо ҳамон файли база процесси навро сар кунед, дубора ворид шавед ва вазифаро хонед. Бо ин таҷриба сабти дискро аз ҳолати кӯҳнаи хотира ҷудо мекунед. Бо файли дигар санҷиш дуруст нест.",
             "en": "Create a task and keep its id. Stop the learning server, start a new process with the same database file, sign in again and read the task. This distinguishes a durable record from old in-memory state. A different file would not test the same stored data."
+          }
+        },
+        {
+          "title": {
+            "ru": "Что переживает перезапуск",
+            "tg": "Чӣ аз бозоғоз мегузарад",
+            "en": "What survives a restart"
+          },
+          "body": {
+            "ru": "Перезапуск процесса — проверка честности проекта: записи из файла базы возвращаются, схема остаётся, а сессии и cookie живут ровно столько, сколько им отвели. Крайний случай — состояние в памяти обработчика: счётчики, кэши и «временные» списки после рестарта пусты, и код, который на них опирается, ведёт себя по-другому. Связь с днём 18 прямая: файл базы — единственный источник правды, и два процесса на нём по-прежнему запрещены. Связь с днём 28 тоже прямая: истечение сессии не зависит от перезапуска сервера, срок истекает по времени, а не по процессу. В проекте тест рестарта записывает данные, перезапускает сервер и читает их снова.",
+            "tg": "Бозоғозии process — санҷиши садоқати лоиҳа аст: сабтҳо аз файли пойгоҳ бармегарданд, схема мемонад ва сессия ва cookie он қадар зинда мемонанд, ки чандон муҳлат дода шудааст. Ҳолати ниҳоӣ — ҳолат дар хотираи коркардкунанда: ҳисобкунакҳо, кэшҳо ва «муваққатӣ» рӯйхатҳо баъди рестарт холӣ мешаванд ва рамзе, ки ба онҳо такя мекунад, дигар рафтор мекунад. Пайванд бо рӯзи 18 мустақим: файли пойгоҳ ягона манбаи ҳақиқат аст ва ду process дар он ҳанӯз манъ аст. Пайванд бо рӯзи 28 ҳам мустақим: тамомшавии сессия аз рестарти сервер вобаста нест, муҳлат аз рӯзи вақт мегузарад, на аз process. Дар лоиҳа тести рестарт маълумот менависад, серверро бозоғоз мекунад ва онҳоро аз нав мехонад.",
+            "en": "Restarting the process is a test of the project's honesty: records from the database file come back, the schema remains, while sessions and cookies live exactly as long as they were given. The edge case is state in handler memory: counters, caches and \"temporary\" lists are empty after a restart, and code leaning on them behaves differently. The link to day 18 is direct: the database file is the single source of truth, and two processes on it are still forbidden. The link to day 28 is also direct: session expiry does not depend on the server restart, the term passes by time, not by process. In the project the restart test writes data, restarts the server and reads them again."
           }
         }
       ],
@@ -20002,6 +20506,18 @@
             "ru": "На защите выберите один успешный и один отказанный запрос. Для успешного покажите статус и повторное чтение данных. Для отказанного покажите статус и убедитесь, что запись осталась прежней. Объясните, где код выбрал ответ и какой тест это воспроизводит. Вывод запуска полезен вместе с этими связями.",
             "tg": "Дар ҳимоя як дархости муваффақ ва як дархости радшударо гиред. Дар якум статус ва хондани дубораро нишон диҳед. Дар дуюм статусро нишон дода, санҷед, ки сабт пештара аст. Гӯед, кадом қисми код ҷавобро интихоб кард ва кадом test онро такрор мекунад.",
             "en": "For the final review, pick one successful request and one refused request. For success, show the status and read the saved data again. For refusal, show the status and verify that the record stayed unchanged. Explain which code chose the response and which test reproduces it."
+          }
+        },
+        {
+          "title": {
+            "ru": "Следующие документы после курса",
+            "tg": "Ҳуҷҷатҳои оянда баъди курс",
+            "en": "The next documents after the course"
+          },
+          "body": {
+            "ru": "Каждый непроверенный сегодня предел превращается в маршрут дальнейшего чтения. Безопасность в production начинается с листов OWASP о сессиях и авторизации — они уже есть в источниках курса. Точности по HTTP ищутся в MDN, детали модулей — в документации Node, глубина SQL — в руководстве PostgreSQL. Крайний случай самообмана — остановиться на зелёном наборе: он подтверждает поведение лаборатории, а не сервер под нагрузкой и не хостинг. Связь с днём 35 прямая: журналы покажут, что происходило после защиты, и это первое место, где новая среда отличается от локальной. Лаборатория остаётся рабочим местом: новые проверки добавляются в неё, а не заменяют её.",
+            "tg": "Ҳар ҳадди имрӯз санҷида нашуда ба роҳи хондани оянда табдил мешавад. Бехатарии production аз варақаҳои OWASP дар бораи сессия ва иҷозатдиҳӣ оғоз мешавад — онҳо аллакай дар манобеи курс ҳастанд. Дақиқии HTTP-ро дар MDN, тафсилоти модулҳоро дар ҳуҷҷатҳои Node, умқи SQL-ро дар роҳнамои PostgreSQL меҷӯянд. Ҳолати ниҳоии худфиребӣ — таваққуф дар маҷмӯи сабз: ӯ рафтори лабораторияро тасдиқ мекунад, на сервери зери бор ва на хостингро. Пайванд бо рӯзи 35 мустақим: журналҳо нишон медиҳанд, ки баъди ҳимоя чӣ рӯй дод ва ин аввалин ҷост, ки муҳити нав аз муҳити маҳаллӣ фарқ мекунад. Лаборатория ҷои кор мемонад: санҷишҳои нав ба он илова мешаванд, на иваз мекунанд.",
+            "en": "Every limit unverified today turns into a route for further reading. Production security starts with the OWASP sheets on sessions and authorization; they are already among the course sources. Protocol details are found in MDN, module details in the Node documentation, and SQL depth in the PostgreSQL tutorial. The self-deception edge case is stopping at a green suite: it confirms the laboratory's behavior, not a server under load and not the hosting. The link to day 35 is direct: logs will show what happened after the defense, and this is the first place where a new environment differs from the local one. The laboratory remains the working place: new checks are added to it, not substituted for it."
           }
         }
       ],

@@ -1,6 +1,6 @@
 import {COURSE_CATALOG, LEARNING_TRACKS} from '@/content/courses/catalog';
 import {COURSE_IDS} from '@/lib/courses/ids';
-import {loadCourseContent} from '@/lib/courses/content';
+import {loadLocalCourseContent} from '@/lib/courses/content';
 import {courseAccessTier} from '@/lib/courses/access';
 import type {CourseContent, CourseLesson} from '@/lib/courses/schema';
 import {reactMonthDays} from '@/lib/react-plan';
@@ -116,7 +116,7 @@ export async function loadAuditData() {
   const catalogIds=COURSE_CATALOG.map(course=>course.id);
   if(catalogIds.length!==new Set(catalogIds).size||COURSE_IDS.some(id=>!catalogIds.includes(id))||catalogIds.length!==COURSE_IDS.length)throw new Error('Audit catalog must include every course exactly once.');
   const rows=await Promise.all(COURSE_CATALOG.map(async entry=>{
-    const content=entry.id==='react'?null:await loadCourseContent(entry.id);
+    const content=entry.id==='react'?null:await loadLocalCourseContent(entry.id);
     const lessons=content?importedAuditLessons(content):reactAuditLessons();
     const summary=summarizeCourse(entry.id,lessons,content?.sources.length??new Set(reactMonthDays(1).concat(reactMonthDays(2)).flatMap(day=>day.topics.map(topic=>topic.source))).size);
     if(summary.publishedDays!==entry.publishedDays)throw new Error(`${entry.id}: catalog declares ${entry.publishedDays} days, audited ${summary.publishedDays}.`);

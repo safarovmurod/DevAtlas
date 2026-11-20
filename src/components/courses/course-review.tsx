@@ -2,17 +2,18 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { REVIEW_COPY, ReviewSummary, reviewTotals } from '@/components/learning/review-board';
+import { REVIEW_COPY, ReviewSummary, reviewTotals } from '@/components/learning/review-summary';
 import type { CourseProgress } from '@/lib/account/progress';
 import type { ImportedCourseId } from '@/lib/courses/ids';
 import { courseSectionHref } from '@/lib/courses/links';
 import { courseMonthPlan } from '@/lib/courses/plan';
-import { courseText, type CourseContent } from '@/lib/courses/schema';
+import { courseText, type CourseDelivery } from '@/lib/courses/schema';
 import { dateKey } from '@/lib/learning';
 import { reviewPlan } from '@/lib/progress/review-plan';
 import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import { useLearningStore } from '@/stores/learning-store';
 import { CourseQuestion } from './course-question';
+import { courseDisplayName } from '@/lib/catalog-copy';
 
 /**
  * One review page: questions with a mistake and questions that are due again today.
@@ -25,7 +26,7 @@ export function CourseReview({
   currentDay,
 }: {
   courseId: ImportedCourseId;
-  content: CourseContent;
+  content: CourseDelivery;
   progress: CourseProgress;
   currentDay: number;
 }) {
@@ -37,7 +38,10 @@ export function CourseReview({
   const lessons = days.map(({ day, lesson }) => ({
     id: lesson.id,
     title: courseText(lesson.title, contentLanguage),
-    questionIds: lesson.questions.map((question) => question.id),
+    questionIds: [
+      ...lesson.questions.map((question) => question.id),
+      ...(lesson.interview ? [lesson.interview.id] : []),
+    ],
     lessonHref: courseSectionHref(courseId, 'home', day),
     quizHref: courseSectionHref(courseId, 'tests', day),
   }));
@@ -89,6 +93,26 @@ export function CourseReview({
                 {REVIEW_COPY.theory[language]}
               </Link>
             </header>
+            <p className="text-sm font-medium text-brand">
+              {courseDisplayName(courseId, language)}
+            </p>
+            {lesson.practice && day !== undefined && (
+              <Link
+                className="text-link w-fit text-sm"
+                href={courseSectionHref(courseId, 'practice', day)}
+              >
+                {LEARNING_UI_COPY[language].day} {day} ·{' '}
+                {{ ru: 'Практика', en: 'Practice', tg: 'Машқ', es: 'Práctica' }[language]}
+              </Link>
+            )}
+            {lesson.interview && queue.has(lesson.interview.id) && (
+              <CourseQuestion
+                courseId={courseId}
+                lesson={lesson}
+                question={lesson.interview}
+                mode="interview"
+              />
+            )}
             {questions.map((question) => (
               <CourseQuestion
                 key={question.id}

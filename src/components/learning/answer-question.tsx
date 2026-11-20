@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { CheckCircle2, Copy, NotebookPen } from 'lucide-react';
+import { CheckCircle2, Copy } from 'lucide-react';
 import type { AnswerQuestion, AnswerTopic, SourceAnswerQuestion } from '@/content/answers';
 import { COPY } from '@/lib/i18n';
 import { COPY_CODE_ERROR } from '@/lib/learning-ui-copy';
@@ -40,7 +40,6 @@ export function AnswerCodeBlock({ code, language }: { code: string; language: In
 export function ReadingQuestion({
   question,
   index,
-  topic,
 }: {
   question: AnswerQuestion;
   index: number;
@@ -51,50 +50,11 @@ export function ReadingQuestion({
   const learned = useLearningStore((state) =>
     question.aliases.some((id) => state.studied.includes(id)),
   );
-  const noteExists = useLearningStore((state) =>
-    state.notes.some((note) => question.aliases.some((id) => note.id === 'answer:' + id)),
-  );
   const markStudied = useLearningStore((state) => state.markStudied);
-  const saveNote = useLearningStore((state) => state.saveNote);
   const copy = COPY[language];
   const text = ANSWER_READER_COPY[language];
   const translate = (value: string) => tr(value, contentLanguage);
 
-  /** Saves the whole answer, its variants and sources as one note. */
-  function save() {
-    const content = [
-      question.answer,
-      ...question.deeper,
-      question.explanation,
-      ...question.code,
-      ...question.diagrams.map((diagram) => diagram.steps.join(' → ')),
-      ...topic.explanation.map((section) => section.title + '\n' + section.text),
-      topic.flow.join(' → '),
-      ...topic.code,
-      ...question.variants.flatMap((variant) => [
-        variant.topicTitle,
-        variant.context,
-        variant.answer,
-        ...variant.deeper,
-        variant.explanation,
-        ...variant.code,
-        ...variant.diagrams.map((diagram) => diagram.steps.join(' → ')),
-        ...variant.topicExplanation.map((section) => section.title + '\n' + section.text),
-        variant.flow.join(' → '),
-        ...variant.topicCode,
-        'Источник: ' +
-          variant.topicSources.join(' + ') +
-          ' / ' +
-          variant.topicSourceId +
-          ' / ' +
-          variant.sourceId,
-      ]),
-      'Источник: ' + topic.sources.join(' + ') + ' / ' + topic.sourceId + ' / ' + question.sourceId,
-    ]
-      .filter(Boolean)
-      .join('\n\n');
-    saveNote({ id: 'answer:' + question.id, title: question.question, content });
-  }
   return (
     <details className="answer-reading-question" id={question.id} open={index === 0}>
       <summary>
@@ -139,10 +99,6 @@ export function ReadingQuestion({
           >
             <CheckCircle2 size={16} />
             {learned ? copy.learned : copy.markLearned}
-          </button>
-          <button className="button subtle" disabled={noteExists} onClick={save}>
-            <NotebookPen size={16} />
-            {noteExists ? copy.saved : text.saveToNotes}
           </button>
         </div>
       </div>

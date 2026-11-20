@@ -5,11 +5,15 @@ import { NextRequest } from 'next/server';
 const fetchMock = vi.fn();
 const authMock=vi.hoisted(()=>vi.fn());
 const budgetMock=vi.hoisted(()=>vi.fn());
+const membershipMock=vi.hoisted(()=>vi.fn());
+const serverMock=vi.hoisted(()=>vi.fn());
 vi.mock('@/lib/tutor/quota',()=>({TUTOR_MAX_OUTPUT_TOKENS:256,reserveTutorBudget:budgetMock}));
 vi.mock('@/lib/account/require-user',()=>({authenticatedUser:authMock}));
+vi.mock('@/lib/supabase/server',()=>({getSupabaseServerClient:serverMock}));
+vi.mock('@/lib/billing/entitlements',()=>({serverMembership:membershipMock}));
 const input = { action: 'ask', userText: 'Svelte runes чияй?' };
 const request = (body: unknown) => new NextRequest('http://localhost/api/tutor', {
-  method: 'POST', body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' },
+  method: 'POST', body: JSON.stringify(body), headers: { 'Content-Type': 'application/json', Authorization: 'Bearer verified-test-session' },
 });
 
 beforeEach(() => {
@@ -23,6 +27,8 @@ beforeEach(() => {
   vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL','https://example.supabase.co');
   vi.stubEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY','public-example');
   authMock.mockReset();authMock.mockResolvedValue({id:'registered-user'});
+  membershipMock.mockReset();membershipMock.mockResolvedValue({tier:'pro',available:true});
+  serverMock.mockReset();serverMock.mockImplementation(()=>process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? {} : null);
 });
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 
@@ -31,7 +37,7 @@ describe('Tutor API', () => {
     authMock.mockResolvedValue(null);
     const {POST}=await import('@/app/api/tutor/route');
     expect((await POST(request(input))).status).toBe(401);expect(fetchMock).not.toHaveBeenCalled();
-    const known=await POST(request({...input,userText:'useState чиба даркорай?'}));expect(known.status).toBe(200);expect((await known.json()).mode).toBe('local');expect(fetchMock).not.toHaveBeenCalled();
+    const known=await POST(request({...input,userText:'useState чиба даркорай?'}));expect(known.status).toBe(401);expect(fetchMock).not.toHaveBeenCalled();
   },15000);
   it('never calls paid AI when registration is not connected, even if a provider key exists',async ()=>{
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL','');vi.stubEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY','');
@@ -47,15 +53,15 @@ describe('Tutor API', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('serves the reviewed channel message for free and leaves unreviewed course topics gated',async ()=>{
-    authMock.mockResolvedValue(null);
+  it('serves reviewed local material to Pro without provider tokens and still rejects an invalid session',async ()=>{
     const {POST}=await import('@/app/api/tutor/route');
     const known=await POST(request({...input,courseId:'css',userText:'Sass чист?',language:'tg',isDeep:true}));
     expect(known.status).toBe(200);
     const answer=await known.json();
     expect(answer).toMatchObject({mode:'local',usage:{totalTokens:0},source:{sourceId:'telegram-77'}});
     expect(answer.reply).toContain('$brand');expect(answer.reply).toContain('иловаи таҳрирӣ');
-    expect(fetchMock).not.toHaveBeenCalled();expect(authMock).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();expect(authMock).toHaveBeenCalled();
+    authMock.mockResolvedValue(null);
     const unknown=await POST(request({...input,courseId:'javascript-1',userText:'Scope Hoisting TDZ'}));
     expect(unknown.status).toBe(401);expect(fetchMock).not.toHaveBeenCalled();
   });
@@ -139,6 +145,43 @@ describe('Tutor API', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it('isolates in-flight lock and cooldown per user so user A does not 429-block user B', async () => {
+    let releaseUserA!: (response: Response) => void;
+    fetchMock
+      .mockImplementationOnce(() => new Promise<Response>((resolve) => { releaseUserA = resolve; }))
+      .mockResolvedValueOnce(Response.json({ choices: [{ message: { content: 'Answer B' } }] }))
+      .mockResolvedValueOnce(Response.json({ choices: [{ message: { content: 'Answer C' } }] }));
+    const { POST } = await import('@/app/api/tutor/route');
+
+    // User A starts a slow completion.
+    authMock.mockResolvedValue({ id: 'user-a' });
+    const pendingA = POST(request(input));
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+
+    // User A's own duplicate is still 429-throttled while in-flight.
+    expect((await POST(request(input))).status).toBe(429);
+
+    // User B is NOT blocked while User A is in-flight.
+    authMock.mockResolvedValue({ id: 'user-b' });
+    const responseB = await POST(request(input));
+    expect(responseB.status).toBe(200);
+    expect(await responseB.json()).toMatchObject({ mode: 'online', reply: 'Answer B' });
+
+    // Finish User A's request; User A is now in the 3s post-request cooldown.
+    releaseUserA(Response.json({ choices: [{ message: { content: 'Answer A' } }] }));
+    expect((await pendingA).status).toBe(200);
+
+    authMock.mockResolvedValue({ id: 'user-a' });
+    expect((await POST(request(input))).status).toBe(429);
+
+    // User C is NOT blocked by User A's cooldown.
+    authMock.mockResolvedValue({ id: 'user-c' });
+    const responseC = await POST(request(input));
+    expect(responseC.status).toBe(200);
+    expect(await responseC.json()).toMatchObject({ mode: 'online', reply: 'Answer C' });
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
   it('requires actual code for code explanation and known interview questions', async () => {
     const { POST } = await import('@/app/api/tutor/route');
     expect((await POST(request({ action: 'explain_code', userText: 'Explain' }))).status).toBe(400);
@@ -207,13 +250,13 @@ it('does not contact the provider when persistent budget enforcement fails close
  void POST;
 });
 
-it('localizes unmatched offline replies without requiring registration or spending tokens',async()=>{
- vi.stubEnv('AI_TUTOR_ENABLED','false');authMock.mockResolvedValue(null);
+it('localizes unmatched offline replies for an authorized Pro session without spending tokens',async()=>{
+ vi.stubEnv('AI_TUTOR_ENABLED','false');
  const {POST}=await import('@/app/api/tutor/route');
  for(const [language,pattern] of [['en',/No matching answer/],['ru',/В материалах курса/],['tg',/Ҷавоби мувофиқ/]] as const){
   const result=await POST(request({...input,language}));
   expect(result.status).toBe(200);const body=await result.json();
   expect(body.reply).toMatch(pattern);expect(body).toMatchObject({mode:'local',usage:{totalTokens:0}});
  }
- expect(fetchMock).not.toHaveBeenCalled();expect(authMock).not.toHaveBeenCalled();
+ expect(fetchMock).not.toHaveBeenCalled();expect(authMock).toHaveBeenCalled();
 });

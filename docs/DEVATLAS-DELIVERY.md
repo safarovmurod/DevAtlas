@@ -2,7 +2,7 @@
 
 Regenerate: `node scripts/delivery-report.mjs`. CI checks `--check`. Inventory comes from every real catalog/content loader, including React and Next.js. Checkpoint metadata comes from [delivery-state.json](delivery-state.json); it is a recorded checkpoint, not a live deployment assertion.
 
-Recorded main checkpoint: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29` (recorded 2026-10-31; historical audit baseline `d5ed179175d3f524ec1d14956ff44ff98164467e`). 43 course IDs, 38 tracks, 114 stage requirements and 1262 scheduled days (1262 free, 0 membership-restricted). Curriculum levels include 38 Starter, 4 Pro and 1 Expert course IDs.
+Recorded main checkpoint: `e87fac9d81b9c859ff1b385c9197f19cdf7a6a29` (recorded 2026-10-31; historical audit baseline `d5ed179175d3f524ec1d14956ff44ff98164467e`). 43 course IDs, 38 tracks, 114 stage requirements and 1262 scheduled days (1112 free, 150 membership-restricted). Curriculum levels include 38 Starter, 4 Pro and 1 Expert course IDs.
 
 42 stages have published curricula; 72 stages are missing (1 Beginner, 34 Pro, 37 Expert). 0 tracks have all three stages published. Source availability is not Verified educational completion; the generated matrix grants no Verified status. JavaScript 1 and 2 are two IDs in one Beginner stage.
 
@@ -50,11 +50,11 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 | digital-literacy | starter | free | 30 |
 | personal-productivity | starter | free | 22 |
 | management-foundations | starter | free | 30 |
-| javascript-pro | pro | free | 30 |
-| backend-pro | pro | free | 30 |
-| architecture-expert | expert | free | 30 |
-| ux-pro | pro | free | 30 |
-| business-pro | pro | free | 30 |
+| javascript-pro | pro | pro | 30 |
+| backend-pro | pro | pro | 30 |
+| architecture-expert | expert | expert | 30 |
+| ux-pro | pro | pro | 30 |
+| business-pro | pro | pro | 30 |
 
 ## Implemented and bounded
 
@@ -67,7 +67,7 @@ Current P0/P1/P2 tasks, acceptance criteria and blockers: [full audit register](
 - Backend currently has 44 authored days with RU/TG/EN explanations and five checks per day, including its 44-day capstone sequence. Supported function tasks reuse the isolated browser runner; code traces are explanatory and local Node.js project tests are separate. Daily CLI graders exercise learner files against actual Node/SQLite cases; capstone gates load the supplied project modules and reject broken ownership. Reference success does not establish learner authorship or server attestation.
 - React function labs retain their existing isolated browser runner. Other native languages are not advertised as browser-compiled merely because an editor exists. Provision and test isolated trusted runners before enabling them.
 - Existing TutorDrawer and Floating Site Agent remain the two assistants. Owner-scoped local Agent history, cancellation and mandatory persistent AI budget reservations are implemented; live budget migration/configuration and shared persistent multi-chat remain pending. Do not represent local chat history as complete server history.
-- Current course access comes from `courseAccessTier` in src/lib/courses/access.ts. 43 courses are free and 0 require membership. Starter, Pro and Expert in the inventory describe curriculum levels. The independent billing feature uses verified Dodo membership webhooks when configured.
+- Current course access comes from `courseAccessTier` in src/lib/courses/access.ts. 38 courses are free and 5 require membership. Starter, Pro and Expert in the inventory describe curriculum levels. The independent billing feature uses verified Dodo membership webhooks when configured.
 
 ## Required remaining work
 

@@ -1,7 +1,13 @@
 import { expect, test } from '@playwright/test';
+import { productionPracticeGate } from './starter-course-checks';
 
 test('isolated function checks accept equivalent code and terminate infinite loops', async ({ page }) => {
   await page.goto('/practice?course=react&month=1');
+  if (productionPracticeGate) {
+    await expect(page.locator('[data-practice-locked]')).toBeVisible();
+    await expect(page.locator('.monaco-editor')).toHaveCount(0);
+    return;
+  }
   await page.getByRole('tab', { name: 'Функции: тесты' }).click();
   await expect(page.locator('.monaco-editor')).toBeVisible({ timeout: 30000 });
   const setCode = (code: string) => page.evaluate(value => {

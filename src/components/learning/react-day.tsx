@@ -1,16 +1,19 @@
 'use client';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { ArrowRight, BookOpen, ListChecks, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowRight, BookOpen, ListChecks, LockKeyhole, Sparkles } from 'lucide-react';
 import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
 import { awardedXP } from '@/lib/learning';
 import { LEARNING_TOPICS, topicTitle } from '@/content/course';
 import { tr } from '@/lib/translate';
-import { reactDayProgress, reactDayReady } from '@/lib/react-plan';
+import { reactDayProgress, reactMonthDays } from '@/lib/react-plan';
 import { lessonTranslationNotice } from '@/lib/learning-ui-copy';
-import { PROGRESSION_COPY } from '@/lib/progression-copy';
-import { useDayCopy } from '@/components/courses/lesson-flow-copy';
+import { DAY_COPY } from '@/components/courses/course-day';
+import { PracticeLock, PRACTICE_LOCK_COPY } from '@/components/courses/practice-lock';
+import { usePracticeAccess } from '@/components/courses/use-practice-access';
+import { isInterviewDay } from '@/lib/courses/strict-attempt';
+import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import { useAccount } from '@/components/account/account-provider';
 const DAY_UI = {
   ru: {
@@ -96,10 +99,12 @@ export function ReactDay({
 }) {
   const state = useLearningStore(),
     copy = COPY[state.language],
-    labels = DAY_UI[state.language as keyof typeof DAY_UI] || DAY_UI.en,
-    progression = PROGRESSION_COPY[state.language] || PROGRESSION_COPY.en;
+    labels = DAY_UI[state.language as keyof typeof DAY_UI] || DAY_UI.en;
   const account = useAccount();
-  const dayText = useDayCopy();
+  const [tab, setTab] = useState<'learn' | 'practice'>('learn');
+  const practiceAccess = usePracticeAccess();
+  const flow = DAY_COPY[state.language];
+  const ui = LEARNING_UI_COPY[state.language];
   const month = requestedMonth || (state.activeMonth === 2 ? 2 : 1);
   // Never invent a selected day on first course entry; plan selection is authoritative.
   const stored = state.drafts['react-selected-day']?.split(':').map(Number);
@@ -112,6 +117,7 @@ export function ReactDay({
     state.completedTopics,
     state.completedPractice,
     state.confirmedDays,
+    state.daySubmissions,
   );
   const rememberedAvailable = days.find((item) => item.day === remembered);
   const day =
@@ -121,17 +127,22 @@ export function ReactDay({
     (days.every((item) => item.status === 'done') ? days.at(-1)?.day : 1) ??
     1;
   const entry = days.find((item) => item.day === day);
-  const canConfirm =
-    !!entry && reactDayReady(entry, state.completedTopics, state.completedPractice);
+  const monthOneBlocker =
+    month === 2
+      ? reactMonthDays(1).find((item) => !state.confirmedDays.includes(`1:${item.day}`))
+      : undefined;
+  const blocker =
+    monthOneBlocker ??
+    days.find((item) => item.day < day && !state.confirmedDays.includes(`${month}:${item.day}`));
   const reactTopics = LEARNING_TOPICS.filter((topic) => topic.month <= 2);
   const learned = reactTopics.filter((topic) => state.completedTopics.includes(topic.id)).length;
   const saveDraft = state.saveDraft,
     setPreferences = state.setPreferences;
   useEffect(() => {
-    if (day !== undefined && state.drafts['react-selected-day'] !== `${month}:${day}`)
+    if (!blocker && day !== undefined && state.drafts['react-selected-day'] !== `${month}:${day}`)
       saveDraft('react-selected-day', `${month}:${day}`);
     if (state.activeMonth !== month) setPreferences({ activeMonth: month });
-  }, [day, month, state.drafts, state.activeMonth, saveDraft, setPreferences]);
+  }, [blocker, day, month, state.drafts, state.activeMonth, saveDraft, setPreferences]);
   return (
     <div className="dashboard">
       <div className="dashboard-heading">
@@ -194,6 +205,16 @@ export function ReactDay({
               {copy.plan} <ArrowRight size={16} />
             </Link>
           </article>
+        ) : blocker ? (
+          <article className="panel course-lesson">
+            <p role="alert">{flow.blocked(blocker.day)}</p>
+            <Link
+              className="button primary"
+              href={`/home?month=${monthOneBlocker ? 1 : month}&day=${blocker.day}`}
+            >
+              {ui.day} {blocker.day}
+            </Link>
+          </article>
         ) : entry ? (
           <>
             <div className="section-heading">
@@ -202,77 +223,104 @@ export function ReactDay({
               </h2>
               <span className="badge">{entry.practiceOnly ? labels.apply : labels.study}</span>
             </div>
-            {entry.topics.map((topic) => (
-              <article className="panel course-lesson" key={topic.id}>
-                <h2>{topicTitle(topic, state.language)}</h2>
-                {topic.explanation.map((part, index) => (
-                  <section className="day-explanation" key={index}>
-                    <h3>{tr(part.title, state.contentLanguage)}</h3>
-                    <p className="preserve-lines">{tr(part.text, state.contentLanguage)}</p>
-                  </section>
-                ))}
-                {topic.code[0] && (
-                  <pre tabIndex={0}>
-                    <code>{topic.code[0]}</code>
-                  </pre>
-                )}
-                <aside className="lesson-connections">
-                  <h3>{labels.steps}</h3>
-                  <ol>
-                    {topic.flow.map((step, index) => (
-                      <li key={index}>{tr(step, state.contentLanguage)}</li>
-                    ))}
-                  </ol>
-                </aside>
-                <p className="source-line">
-                  <a href="https://react.dev/learn" target="_blank" rel="noreferrer">
-                    {labels.guide}
-                  </a>
-                </p>
-                <div className="button-row">
-                  <button
-                    className="button subtle"
-                    disabled={state.completedTopics.includes(topic.id)}
-                    onClick={() => state.completeTopic(topic.id)}
-                  >
-                    {state.completedTopics.includes(topic.id) ? copy.completed : copy.markLearned}
-                  </button>
-                  <Link
-                    className="button primary"
-                    href={`/practice?month=${month}&topic=${topic.id}&day=${day}`}
-                  >
-                    {labels.practice} <ArrowRight size={16} />
-                  </Link>
-                  <Link className="text-link" href={`/tests?topic=${topic.id}`}>
-                    {labels.tests}
-                  </Link>
-                </div>
-              </article>
-            ))}
-            <section className="panel" aria-label={progression.confirm}>
-              <p>
-                {entry.status === 'done'
-                  ? progression.confirmed
-                  : canConfirm
-                    ? dayText('ready')
-                    : progression.missing}
+            {isInterviewDay(day) && !state.confirmedDays.includes(`${month}:${day}`) && (
+              <p role="status" className="rounded-xl border border-border bg-primary-soft p-4">
+                {flow.notice}
               </p>
-              <div className="button-row">
-                <button
-                  className="button primary"
-                  disabled={entry.status === 'done' || !canConfirm}
-                  onClick={() => state.confirmReactDay(month, day)}
-                >
-                  {entry.status === 'done' ? progression.confirmed : progression.confirm}
-                </button>
-                {entry.status === 'done' && days.some((item) => item.day === day + 1) && (
-                  <Link className="button subtle" href={`/home?month=${month}&day=${day + 1}`}>
-                    {progression.next}
-                    <ArrowRight size={16} />
-                  </Link>
-                )}
-              </div>
-            </section>
+            )}
+            <div
+              role="group"
+              aria-label={copy.home}
+              className="grid grid-cols-2 gap-1.5 rounded-xl border border-border bg-muted p-1"
+            >
+              <button
+                type="button"
+                className={`button ${tab === 'learn' ? 'primary' : 'subtle'}`}
+                aria-pressed={tab === 'learn'}
+                onClick={() => setTab('learn')}
+              >
+                {copy.learn}
+              </button>
+              <button
+                type="button"
+                className={`button ${tab === 'practice' ? 'primary' : 'subtle'}`}
+                aria-pressed={tab === 'practice'}
+                title={
+                  practiceAccess === 'locked' ? PRACTICE_LOCK_COPY[state.language].title : undefined
+                }
+                onClick={() => setTab('practice')}
+              >
+                {practiceAccess === 'locked' && <LockKeyhole size={16} aria-hidden="true" />}
+                {copy.practice}
+              </button>
+            </div>
+            <p className="text-sm leading-6 text-muted-foreground">
+              {tab === 'learn' ? flow.learn : flow.practice}
+            </p>
+            {tab === 'practice' &&
+              (practiceAccess === 'open' ? (
+                <div className="grid gap-2">
+                  {entry.topics.map((topic) => (
+                    <Link
+                      className="button subtle w-fit"
+                      key={topic.id}
+                      href={`/practice?month=${month}&topic=${topic.id}&day=${day}`}
+                    >
+                      {topicTitle(topic, state.language)}
+                      <ArrowRight size={16} />
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <PracticeLock access={practiceAccess} />
+              ))}
+            {tab === 'learn' &&
+              entry.topics.map((topic) => (
+                <article className="panel course-lesson" key={topic.id}>
+                  <h2>{topicTitle(topic, state.language)}</h2>
+                  {topic.explanation.map((part, index) => (
+                    <section className="day-explanation" key={index}>
+                      <h3>{tr(part.title, state.contentLanguage)}</h3>
+                      <p className="preserve-lines">{tr(part.text, state.contentLanguage)}</p>
+                    </section>
+                  ))}
+                  {topic.code[0] && (
+                    <pre tabIndex={0}>
+                      <code>{topic.code[0]}</code>
+                    </pre>
+                  )}
+                  <aside className="lesson-connections">
+                    <h3>{labels.steps}</h3>
+                    <ol>
+                      {topic.flow.map((step, index) => (
+                        <li key={index}>{tr(step, state.contentLanguage)}</li>
+                      ))}
+                    </ol>
+                  </aside>
+                  <p className="source-line">
+                    <a href="https://react.dev/learn" target="_blank" rel="noreferrer">
+                      {labels.guide}
+                    </a>
+                  </p>
+                  <div className="button-row">
+                    <button
+                      className="button subtle"
+                      disabled={state.completedTopics.includes(topic.id)}
+                      onClick={() => state.completeTopic(topic.id)}
+                    >
+                      {state.completedTopics.includes(topic.id) ? copy.completed : copy.markLearned}
+                    </button>
+                  </div>
+                </article>
+              ))}
+            <Link
+              className="button subtle w-fit"
+              href={`/answers?month=${month}&day=${day}`}
+              transitionTypes={['nav-forward']}
+            >
+              {ui.answersInterview}
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
           </>
         ) : null}
       </div>

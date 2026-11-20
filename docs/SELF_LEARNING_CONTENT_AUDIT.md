@@ -1,6 +1,6 @@
 # Self-learning content audit (generated)
 
-Generated 2026-11-17 by `scripts/course-content-quality-report.mjs` from actual curriculum data. Numbers only: meaning, correctness and clarity need the separate editorial checklist — do not treat higher word counts as automatic quality.
+Generated 2026-11-18 by `scripts/course-content-quality-report.mjs` from actual curriculum data. Numbers only: meaning, correctness and clarity need the separate editorial checklist — do not treat higher word counts as automatic quality.
 
 Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js curricula. A missing loader, invalid course or catalog/day mismatch fails the report instead of silently omitting the course.
 
@@ -16,7 +16,7 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | typescript | starter | 14 | 453/366/502 | 3 | 14 | 1 | 1 | 0 | — |
 | algorithms | starter | 14 | 526/490/581 | 3 | 14 | 1 | 0 | 0 | — |
 | python | starter | 30 | 470/298/542 | 3 | 30 | 1 | 3 | 0 | — |
-| backend | starter | 44 | 192/142/408 | 5 | 44 | 0 | 7 | 0 | — |
+| backend | starter | 44 | 284/238/410 | 5 | 44 | 0 | 7 | 0 | — |
 | mobile | starter | 44 | 337/306/394 | 5 | 44 | 0 | 3 | 0 | — |
 | cpp | starter | 30 | 170/143/191 | 3 | 30 | 0 | 1 | 7 | — |
 | java | starter | 30 | 432/189/525 | 3 | 30 | 1 | 3 | 0 | — |
@@ -34,21 +34,21 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | ux-design | starter | 30 | 271/215/779 | 5.8 | 0 | 30 | 2 | 0 | — |
 | ai-fundamentals | starter | 14 | 224/161/449 | 3 | 10 | 8 | 1 | 0 | — |
 | context-engineering | starter | 14 | 377/244/640 | 3 | 14 | 6 | 2 | 0 | — |
-| agent-harness | starter | 14 | 383/365/410 | 2.8 | 11 | 7 | 1 | 0 | — |
-| digital-marketing | starter | 30 | 254/224/284 | 5 | 0 | 25 | 1 | 0 | — |
-| data-analytics | starter | 30 | 192/107/241 | 5 | 0 | 20 | 2 | 0 | — |
-| business-foundations | starter | 30 | 174/113/204 | 5 | 0 | 26 | 5 | 0 | — |
-| communication | starter | 30 | 153/112/186 | 5 | 0 | 30 | 5 | 0 | — |
+| agent-harness | starter | 14 | 506/460/542 | 3 | 11 | 7 | 1 | 0 | — |
+| digital-marketing | starter | 30 | 257/224/312 | 5 | 0 | 25 | 1 | 0 | — |
+| data-analytics | starter | 30 | 300/259/353 | 5 | 0 | 20 | 2 | 0 | — |
+| business-foundations | starter | 30 | 269/237/319 | 5 | 0 | 26 | 5 | 0 | — |
+| communication | starter | 30 | 246/211/279 | 5 | 0 | 30 | 5 | 0 | — |
 | content-creation | starter | 30 | 175/138/262 | 3.1 | 0 | 30 | 2 | 0 | — |
 | english-foundations | starter | 42 | 171/132/213 | 3 | 0 | 42 | 1 | 0 | — |
 | digital-literacy | starter | 30 | 171/127/238 | 3 | 0 | 30 | 0 | 0 | — |
 | personal-productivity | starter | 22 | 163/138/194 | 3 | 0 | 22 | 1 | 0 | — |
 | management-foundations | starter | 30 | 158/120/202 | 3 | 0 | 30 | 3 | 0 | — |
 | javascript-pro | pro | 30 | 411/221/576 | 3 | 30 | 4 | 2 | 0 | — |
-| backend-pro | pro | 30 | 282/192/374 | 3 | 30 | 0 | 1 | 0 | — |
-| architecture-expert | expert | 30 | 341/145/476 | 2 | 30 | 30 | 0 | 0 | — |
-| ux-pro | pro | 30 | 294/272/330 | 2 | 0 | 30 | 2 | 0 | — |
-| business-pro | pro | 30 | 289/258/335 | 2 | 0 | 30 | 1 | 0 | — |
+| backend-pro | pro | 30 | 295/211/381 | 3 | 30 | 0 | 1 | 0 | — |
+| architecture-expert | expert | 30 | 434/242/541 | 3 | 30 | 30 | 0 | 0 | — |
+| ux-pro | pro | 30 | 387/361/422 | 3 | 0 | 30 | 2 | 0 | — |
+| business-pro | pro | 30 | 352/247/408 | 3 | 0 | 30 | 1 | 0 | — |
 
 ## Stale scope copy (§3.7): 0 hits
 
@@ -61,4 +61,4 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 - `code days` have code examples; this metric alone does not establish that the examples were executed. `written days` are explicitly marked self-reviewed written assignments.
 - React uses the actual two-month plan, topic explanations, exercises and multiple-choice question IDs. Reused questions count as assignments on each scheduled day; the quiz total counts distinct question IDs per course.
 - Next.js uses its application loader, including the original month-three curriculum. React and Next.js are not treated as missing JSON files.
-- Totals: 1262 scheduled days including React, 1202 excluding React; 4419 distinct quiz questions across courses; 101 flagged project/case days.
+- Totals: 1262 scheduled days including React, 1202 excluding React; 4512 distinct quiz questions across courses; 101 flagged project/case days.

@@ -112,22 +112,21 @@ export const SHOWCASE_SLIDES = [
     ru: {
       title: 'Сохраняйте то, что стало понятно.',
       description:
-        'Собирайте заметки и возвращайтесь к важным идеям. Пусть ваши объяснения растут вместе с навыками.',
+        'Возвращайтесь к важным идеям в разделе «Повторение» и сравнивайте свои ответы с разбором.',
     },
     tg: {
       title: 'Чизи фаҳмидаатро нигоҳ дор.',
-      description:
-        'Қайд навис ва ба фикрҳои муҳим баргард. Бо зиёд шудани таҷриба шарҳҳои худат ҳам беҳтар мешаванд.',
+      description: 'Ба бахши «Такрор» баргард ва ҷавобҳоятро бо шарҳи дарс муқоиса кун.',
     },
     en: {
       title: 'Keep the ideas that click.',
       description:
-        'Collect notes and revisit what matters. Let your own explanations grow alongside your skills.',
+        'Revisit important ideas in Review and compare your answers with the explanations.',
     },
     es: {
       title: 'Guarda las ideas que te funcionan.',
       description:
-        'Reúne tus notas y vuelve a lo importante. Deja que tus propias explicaciones crezcan junto con tus habilidades.',
+        'Vuelve a las ideas importantes en Repaso y compara tus respuestas con las explicaciones.',
     },
   },
   {

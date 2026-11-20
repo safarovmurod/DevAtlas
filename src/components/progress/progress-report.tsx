@@ -16,25 +16,30 @@ import { durationParts, formatDay, progressCopy, type ProgressCopy } from './pro
 import { buildReportSources } from './report-sources';
 import { useCoursePlans } from './use-course-plans';
 import { WeekCard, type ReportLabels } from './week-card';
+import { WeeklyActivityChart } from './weekly-activity-chart';
 
 function StatTile({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5">
+    <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--depth-1)]">
       <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="mt-2 text-2xl font-semibold text-foreground">{value}</p>
+      <p className="mt-2 text-2xl font-semibold tracking-tight tabular-nums text-foreground">
+        {value}
+      </p>
     </div>
   );
 }
 
 function EmptyState({ copy }: { copy: ProgressCopy }) {
   return (
-    <section className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
-      <BarChart3 className="mx-auto text-muted-foreground" size={32} aria-hidden="true" />
+    <section className="rounded-2xl border border-dashed border-border bg-card p-8 text-center shadow-[var(--depth-1)]">
+      <span className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-primary-soft text-brand">
+        <BarChart3 size={24} aria-hidden="true" />
+      </span>
       <h2 className="mt-3 text-lg font-semibold text-foreground">{copy.emptyTitle}</h2>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">{copy.emptyText}</p>
       <Link
         href="/courses"
-        className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+        className="button primary mt-5 inline-flex min-h-11 items-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground no-underline"
       >
         {copy.emptyAction}
       </Link>
@@ -108,6 +113,8 @@ export function ProgressReport() {
         <StatTile label={copy.summaryStreak} value={copy.days(report.totals.streak)} />
       </div>
       <p className="mt-3 text-sm text-muted-foreground">{startLine}</p>
+
+      <WeeklyActivityChart weeks={report.weeks} today={today} locale={state.language} copy={copy} />
 
       <div className="mt-6 space-y-4">
         {report.weeks.map((week) => (

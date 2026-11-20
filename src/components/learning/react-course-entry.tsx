@@ -1,9 +1,14 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Code2, Layers } from 'lucide-react';
 import { useLearningStore } from '@/stores/learning-store';
 import { LEARNING_TOPICS } from '@/content/course';
+import { useAccount } from '@/components/account/account-provider';
+import { PracticeLock } from '@/components/courses/practice-lock';
+import { usePracticeAccess } from '@/components/courses/use-practice-access';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { getSessionWithTimeout } from '@/lib/supabase/session';
 
 const labels = {
   ru: {
@@ -23,6 +28,8 @@ const labels = {
     ownDetail:
       'Ваша исходная страница Practice-Local-Global: Redux, Zustand и Jotai. Для каждой библиотеки есть Local/Global, операции и код файлов.',
     all: 'Открыть практику целиком',
+    libraryError: 'Не удалось открыть практику.',
+    retry: 'Попробовать снова',
     learn: 'Практика уроков',
     note: 'Next.js — отдельный курс. Его темы больше не входят в план React.',
   },
@@ -43,6 +50,8 @@ const labels = {
     ownDetail:
       'Your original Practice-Local-Global page: Redux, Zustand, Jotai, Local/Global workflows and source code.',
     all: 'Open full practice',
+    libraryError: 'Could not open the practice library.',
+    retry: 'Try again',
     learn: 'Lesson exercises',
     note: 'Next.js has its own separate course, not React month 3.',
   },
@@ -63,6 +72,8 @@ const labels = {
     ownDetail:
       'Файли аслии Practice-Local-Global: Redux, Zustand, Jotai, Local/Global ва кодҳои худатон.',
     all: 'Кушодани тамоми амалия',
+    libraryError: 'Практикаро кушода натавонистем.',
+    retry: 'Аз нав санҷидан',
     learn: 'Машқҳои дарсҳо',
     note: 'Next.js курси алоҳида аст ва дар моҳи 3-и React нест.',
   },
@@ -83,6 +94,8 @@ const labels = {
     ownDetail:
       'Tu página original Practice-Local-Global: Redux, Zustand, Jotai, flujos locales y globales y código fuente.',
     all: 'Abrir toda la práctica',
+    libraryError: 'No se pudo abrir la biblioteca de práctica.',
+    retry: 'Volver a intentar',
     learn: 'Ejercicios de las lecciones',
     note: 'Next.js es un curso aparte, no el tercer mes de React.',
   },
@@ -100,15 +113,49 @@ function restorePracticeFrame(frame: HTMLIFrameElement | null) {
   frame?.contentWindow?.postMessage({ type: 'reactmentor-practice-restore', state: saved }, '*');
 }
 
-export function ReactPracticeLibrary({ preview = false }: { preview?: boolean }) {
+export function ReactPracticeLibrary({ full = false }: { full?: boolean }) {
+  const { user } = useAccount();
+  const access = usePracticeAccess();
+  if (access !== 'open') return <PracticeLock access={access} />;
+  return <ReactPracticeFrame key={user?.id ?? 'local'} owner={user?.id} full={full} />;
+}
+
+function ReactPracticeFrame({ owner, full }: { owner?: string; full: boolean }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const language = useLearningStore((state) => state.language);
   const month = useLearningStore((state) => state.activeMonth) === 2 ? 2 : 1;
   const course = useLearningStore((state) => state.selectedCourse);
   const chooseCourse = useLearningStore((state) => state.chooseCourse);
+  const [practiceHtml, setPracticeHtml] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     if (course !== 'react') chooseCourse('react');
   }, [course, chooseCourse]);
+  useEffect(() => {
+    const controller = new AbortController();
+    async function loadPractice() {
+      const client = getSupabaseBrowserClient();
+      const session = client ? (await getSessionWithTimeout(client)).data.session : null;
+      if (owner && session?.user.id !== owner) return 'denied';
+      const response = await fetch('/api/practice/react-library', {
+        headers: session ? { Authorization: `Bearer ${session.access_token}` } : undefined,
+        cache: 'no-store',
+        signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15_000)]),
+      });
+      if (response.status === 401 || response.status === 403) return 'denied';
+      if (!response.ok) return 'unavailable';
+      const { html } = await response.json();
+      return typeof html === 'string' && html.startsWith('<!doctype html>') ? html : 'unavailable';
+    }
+    loadPractice()
+      .then((html) => {
+        if (!controller.signal.aborted) setPracticeHtml(html);
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setPracticeHtml('unavailable');
+      });
+    return () => controller.abort();
+  }, [owner, attempt]);
   useEffect(() => {
     function onPracticeMessage(event: MessageEvent) {
       if (event.source !== frame.current?.contentWindow) return;
@@ -147,6 +194,24 @@ export function ReactPracticeLibrary({ preview = false }: { preview?: boolean })
     return () => window.removeEventListener('message', onPracticeMessage);
   }, []);
   const ui = labels[language];
+  if (!practiceHtml) return <PracticeLock access="loading" />;
+  if (practiceHtml === 'denied') return <PracticeLock access="locked" />;
+  if (practiceHtml === 'unavailable')
+    return (
+      <div className="panel">
+        <p role="alert">{ui.libraryError}</p>
+        <button
+          type="button"
+          className="button subtle"
+          onClick={() => {
+            setPracticeHtml(null);
+            setAttempt((value) => value + 1);
+          }}
+        >
+          {ui.retry}
+        </button>
+      </div>
+    );
   return (
     <section className="react-library">
       <div className="section-heading">
@@ -160,22 +225,25 @@ export function ReactPracticeLibrary({ preview = false }: { preview?: boolean })
           <Code2 size={17} />
           {ui.learn}
         </Link>
-        <a
-          className="button subtle"
-          href="/practice-local-global.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ArrowRight size={17} />
-          {ui.all}
-        </a>
+        {!full && (
+          <Link
+            className="button subtle"
+            href="/courses/react/practice-library?view=full"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ArrowRight size={17} />
+            {ui.all}
+          </Link>
+        )}
       </div>
       <iframe
-        className={preview ? 'state-practice-frame in-landing' : 'state-practice-frame'}
+        className="state-practice-frame"
+        style={full ? { minHeight: '100dvh' } : undefined}
         ref={frame}
         onLoad={() => restorePracticeFrame(frame.current)}
         title="Practice Local / Global · Redux, Zustand, Jotai"
-        src="/practice-local-global.html"
+        srcDoc={practiceHtml}
         loading="eager"
         sandbox="allow-scripts"
         allow="clipboard-write"

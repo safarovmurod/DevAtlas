@@ -32,12 +32,16 @@ export function CourseWorkspaceHeader({
       <Link
         href="/courses"
         transitionTypes={['nav-back']}
-        className="inline-flex min-h-11 w-fit items-center gap-2 text-sm text-muted-foreground no-underline transition-colors hover:text-foreground"
+        className="group inline-flex min-h-11 w-fit items-center gap-2 rounded-xl px-3 text-sm text-muted-foreground no-underline transition-colors hover:bg-muted hover:text-foreground"
       >
-        <ArrowLeft size={16} aria-hidden="true" />
+        <ArrowLeft
+          size={16}
+          aria-hidden="true"
+          className="transition-transform motion-safe:group-hover:-translate-x-0.5"
+        />
         {ui.allCourses}
       </Link>
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-3 rounded-2xl border border-border bg-card p-4">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-3 rounded-2xl border border-border bg-card p-4 shadow-[var(--depth-1)]">
         <CourseIcon courseId={courseId} size={48} shared />
         <div className="grid min-w-0 flex-1 gap-0.5">
           <span className="truncate font-mono text-xs font-medium tracking-wider text-brand uppercase">
@@ -47,7 +51,7 @@ export function CourseWorkspaceHeader({
         </div>
         {totalDays > 0 && (
           <div className="grid w-full gap-1.5 sm:w-44">
-            <div className="flex items-baseline justify-between text-sm">
+            <div className="flex items-baseline justify-between text-sm tabular-nums">
               <span className="text-muted-foreground">
                 {doneDays} / {totalDays}
               </span>

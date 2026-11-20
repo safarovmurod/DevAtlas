@@ -9,18 +9,32 @@ const A = '11111111-1111-4111-8111-111111111111';
 const B = '22222222-2222-4222-8222-222222222222';
 let db: PGlite;
 async function actor(id = A, allowed = true) {
+  await admin();
+  if (!allowed) {
+    await db.query(
+      `insert into auth.mfa_factors(user_id, status)
+       select $1, 'verified'
+       where not exists (select 1 from auth.mfa_factors where user_id = $1 and status = 'verified')`,
+      [id],
+    );
+  }
+  const aal = allowed ? 'aal2' : 'aal1';
   await db.exec(
-    `reset role; set request.jwt.claim.sub='${id}'; set request.jwt.claim.mfa='${allowed}'; set role authenticated;`,
+    `reset role; set request.jwt.claim.sub='${id}'; set request.jwt.claims='{"aal":"${aal}"}'; set role authenticated;`,
   );
 }
 async function admin() {
   await db.exec('reset role');
 }
-async function object(name: string, mime: string, size: number, owner = A) {
+async function object(name: string, mime: string, size: number | null, owner = A) {
   await admin();
+  const metadata =
+    size === null
+      ? JSON.stringify({ mimetype: mime })
+      : JSON.stringify({ mimetype: mime, size });
   await db.query(
-    `insert into storage.objects(bucket_id,name,owner_id,metadata) values('community-media',$1,$2,jsonb_build_object('mimetype',$3::text,'size',$4::bigint))`,
-    [name, owner, mime, size],
+    `insert into storage.objects(bucket_id,name,owner_id,metadata) values('community-media',$1,$2,$3::jsonb)`,
+    [name, owner, metadata],
   );
 }
 const file = (ext: string, owner = A) => `${owner}/${crypto.randomUUID()}.${ext}`;
@@ -30,9 +44,12 @@ const insertObject =
 beforeAll(async () => {
   db = new PGlite();
   await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
-  create schema auth; create table auth.users(id uuid primary key);
+  create schema auth;
+  create table auth.users(id uuid primary key, banned_until timestamptz);
+  create table auth.mfa_factors(user_id uuid, status text);
   create function auth.uid() returns uuid language sql as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
-  create function public.react_mentor_session_allowed() returns boolean language sql as $$ select coalesce(current_setting('request.jwt.claim.mfa',true),'false')='true' $$;
+  create function auth.jwt() returns jsonb language sql as $$ select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb $$;
+  create function public.react_mentor_session_allowed() returns boolean language sql as $$ select false $$;
   create table public.react_mentor_profiles(user_id uuid primary key references auth.users(id), display_name text);
   create schema storage;
   create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
@@ -45,9 +62,12 @@ beforeAll(async () => {
   for (const name of [
     '20261022010000_memberships_chat.sql',
     '20261115000000_chat_ultra_only.sql',
+    '20261116000000_admin_tools.sql',
+    '20261117000000_billing_dodo.sql',
     '20261118000000_community_all_members.sql',
+    '20261119000000_backend_hardening.sql',
     // Idempotent: running it again must succeed.
-    '20261118000000_community_all_members.sql',
+    '20261119000000_backend_hardening.sql',
   ])
     await db.exec(
       await readFile(new URL('../supabase/migrations/' + name, import.meta.url), 'utf8'),
@@ -55,7 +75,8 @@ beforeAll(async () => {
 }, 30000);
 beforeEach(async () => {
   await admin();
-  await db.exec(`truncate auth.users cascade; truncate storage.objects; insert into auth.users values('${A}'),('${B}');
+  await db.exec(`truncate auth.users cascade; truncate auth.mfa_factors; truncate storage.objects;
+  insert into auth.users(id) values('${A}'),('${B}');
   insert into public.react_mentor_profiles values('${A}','Learner A'),('${B}','Learner B');`);
 });
 afterAll(async () => {
@@ -166,5 +187,68 @@ describe('community chat for every signed-in member', () => {
     );
     await actor(A, false);
     await expect(db.query(insertObject, [file('png'), A])).rejects.toThrow(/row-level security/i);
+  });
+
+  it('rejects attachments with missing (NULL), zero, negative or non-numeric object_size', async () => {
+    const nullImage = file('png');
+    await object(nullImage, 'image/png', null);
+    const nullVideo = file('mp4');
+    await object(nullVideo, 'video/mp4', null);
+    const zeroImage = file('png');
+    await object(zeroImage, 'image/png', 0);
+    const negativeImage = file('png');
+    await object(negativeImage, 'image/png', -10);
+    const malformedSize = file('png');
+    await admin();
+    await db.query(
+      `insert into storage.objects(bucket_id,name,owner_id,metadata) values('community-media',$1,$2,$3::jsonb)`,
+      [malformedSize, A, JSON.stringify({ mimetype: 'image/png', size: 'not-a-number' })],
+    );
+
+    await actor(A);
+    for (const [kind, path] of [
+      ['image', nullImage],
+      ['video', nullVideo],
+      ['image', zeroImage],
+      ['image', negativeImage],
+      ['image', malformedSize],
+    ] as const) {
+      await expect(
+        db.query('select public.react_mentor_send_post($1,$2,null,$3)', [kind, '', path]),
+      ).rejects.toThrow(/invalid attachment/i);
+    }
+  });
+
+  it('blocks banned and aal1 users from deleting community-media objects while allowing verified owners', async () => {
+    const media = file('png');
+    await object(media, 'image/png', 512, A);
+
+    // Banned owner cannot delete own object even with aal2.
+    await admin();
+    await db.exec(`update auth.users set banned_until = now() + interval '1 day' where id = '${A}'`);
+    await actor(A, true);
+    expect(
+      (await db.query('delete from storage.objects where name = $1 returning name', [media])).rows,
+    ).toHaveLength(0);
+
+    // Unban A, require MFA and use aal1: still cannot delete own object.
+    await admin();
+    await db.exec(`update auth.users set banned_until = null where id = '${A}'`);
+    await actor(A, false);
+    expect(
+      (await db.query('delete from storage.objects where name = $1 returning name', [media])).rows,
+    ).toHaveLength(0);
+
+    // Another active member cannot delete A's object.
+    await actor(B, true);
+    expect(
+      (await db.query('delete from storage.objects where name = $1 returning name', [media])).rows,
+    ).toHaveLength(0);
+
+    // Unbanned owner with aal2 can delete own object.
+    await actor(A, true);
+    expect(
+      (await db.query('delete from storage.objects where name = $1 returning name', [media])).rows,
+    ).toEqual([{ name: media }]);
   });
 });

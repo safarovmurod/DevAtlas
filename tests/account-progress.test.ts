@@ -48,3 +48,63 @@ describe('Private account progress',()=>{
     const result=mergeProgress(remote,stale);expect(result.language).toBe('en');expect(result.drafts.p).toBe('new');expect(result.reviews.q.repetitions).toBe(0);
   });
 });
+
+describe('Original day submission merge', () => {
+  function attempt(date: string, correct: boolean, recordedDay: string) {
+    const quiz = { id: 'quiz', mode: 'test' as const, answer: correct ? '1' : '0', correct };
+    const written = { id: 'written', mode: 'interview' as const, answer: correct ? '' : 'Later response', correct: false };
+    return {
+      daySubmissions: { lesson: { day: 6, date, score: correct ? 50 : 0, answers: [quiz, written] } },
+      answers: Object.fromEntries([quiz, written].map(answer => [
+        `day:lesson:${answer.mode}:${answer.id}`,
+        { questionId: answer.id, topicId: 'original-topic', mode: answer.mode, answer: answer.answer, correct: answer.correct, date: recordedDay },
+      ])),
+      confirmedDays: ['6'],
+    };
+  }
+
+  it.each(['local', 'remote'] as const)('keeps the earliest %s submission and its corresponding exam records together', winner => {
+    // Stored answer dates are local calendar days, not necessarily the ISO timestamp's UTC day.
+    const original = attempt('2026-11-17T23:55:00.000Z', true, '2026-11-18');
+    const later = attempt('2026-11-18T04:00:00.000Z', false, '2026-11-19');
+    const reviewKey = '2026-11-20:revision:quiz';
+    const reviewAnswer = { questionId: 'quiz', topicId: 'original-topic', mode: 'revision', correct: true, answer: 'Recovered in review', date: '2026-11-20' };
+    const recentReview = { questionId: 'quiz', topicId: 'original-topic', due: '2026-11-23', repetitions: 2 };
+    const local = progressSnapshot({ courses: { html: {
+      ...(winner === 'local' ? original : later),
+      answers: { ...(winner === 'local' ? original.answers : later.answers), [reviewKey]: reviewAnswer },
+      reviews: { quiz: recentReview }, reviewClock: { quiz: 300 },
+    } } });
+    const remote = progressSnapshot({ courses: { html: winner === 'remote' ? original : later } });
+    const result = mergeProgress(remote, local);
+    expect(result.courses.html!.daySubmissions.lesson).toEqual(original.daySubmissions.lesson);
+    for (const [key, record] of Object.entries(original.answers)) {
+      expect(result.courses.html!.answers[key]).toEqual(record);
+    }
+    expect(result.courses.html!.answers[reviewKey]).toEqual(reviewAnswer);
+    expect(result.courses.html!.reviews.quiz).toEqual(recentReview);
+    expect(result.courses.html!.reviewClock.quiz).toBe(300);
+    expect(mergeProgress(result, result)).toEqual(result);
+    expect((winner === 'local' ? local : remote).courses.html!.daySubmissions.lesson).toEqual(original.daySubmissions.lesson);
+    expect((winner === 'local' ? remote : local).courses.html!.daySubmissions.lesson).toEqual(later.daySubmissions.lesson);
+  });
+
+  it('reconciles React root submissions without changing unrelated daily answers', () => {
+    const original = attempt('2026-11-17T10:00:00.000Z', true, '2026-11-17');
+    const later = attempt('2026-11-17T11:00:00.000Z', false, '2026-11-17');
+    const normalKey = '2026-11-18:test:quiz';
+    const normal = { questionId: 'quiz', topicId: 'original-topic', mode: 'test', answer: '0', correct: false, date: '2026-11-18' };
+    const result = mergeProgress(progressSnapshot(later), progressSnapshot({ ...original, answers: { ...original.answers, [normalKey]: normal } }));
+    expect(result.daySubmissions.lesson).toEqual(original.daySubmissions.lesson);
+    expect(result.answers['day:lesson:test:quiz']).toEqual(original.answers['day:lesson:test:quiz']);
+    expect(result.answers[normalKey]).toEqual(normal);
+  });
+
+  it('keeps the existing remote tie-break and all of that original result', () => {
+    const original = attempt('2026-11-17T10:00:00.000Z', false, '2026-11-17');
+    const competing = attempt('2026-11-17T10:00:00.000Z', true, '2026-11-18');
+    const result = mergeProgress(progressSnapshot(original), progressSnapshot(competing));
+    expect(result.daySubmissions.lesson).toEqual(original.daySubmissions.lesson);
+    expect(result.answers).toEqual(original.answers);
+  });
+});

@@ -44,7 +44,7 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     signupTitle: 'Начнём учиться вместе',
     resetTitle: 'Восстановить доступ',
     loginTitle: 'Продолжите своё обучение',
-    intro: 'Личный прогресс, заметки и практика — на компьютере и телефоне.',
+    intro: 'Ваш прогресс и практика — на компьютере и телефоне.',
     unavailable:
       'Вход и регистрация пока не подключены. Курс и ответы доступны без аккаунта; для AI нужен аккаунт.',
     guest: 'Продолжить как гость',
@@ -62,7 +62,7 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     panelBenefits: [
       'Понятные уроки по дням',
       'Практика и проверка результата',
-      'Прогресс и заметки в одном месте',
+      'Прогресс и результаты в одном месте',
     ],
     panelFlow: 'Урок → Код → Проверка',
     creating: 'Создаём…',
@@ -89,7 +89,7 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     signupTitle: "Let's learn together",
     resetTitle: 'Recover access',
     loginTitle: 'Continue your learning journey',
-    intro: 'Your progress, notes and practice — on desktop and mobile.',
+    intro: 'Your progress and practice — on desktop and mobile.',
     unavailable:
       'Login and registration are not configured yet. Lessons and answers are available without an account; AI requires an account.',
     guest: 'Continue as guest',
@@ -107,7 +107,7 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     panelBenefits: [
       'Clear lessons organized by day',
       'Practice and check your work',
-      'Progress and notes in one place',
+      'Progress and results in one place',
     ],
     panelFlow: 'Lesson → Code → Check',
     creating: 'Creating…',
@@ -134,7 +134,7 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     signupTitle: 'Биёед якҷоя омӯзем',
     resetTitle: 'Барқарор кардани дастрасӣ',
     loginTitle: 'Омӯзишро идома диҳед',
-    intro: 'Пешрафт, ёддошт ва машқҳои шахсӣ — дар компютер ва телефон.',
+    intro: 'Пешрафт ва машқҳои шумо — дар компютер ва телефон.',
     unavailable:
       'Воридшавӣ ва бақайдгирӣ ҳоло танзим нашудааст. Дарсҳо бе аккаунт дастрасанд; AI аккаунт мехоҳад.',
     guest: 'Идома ҳамчун меҳмон',
@@ -152,7 +152,7 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     panelBenefits: [
       'Дарсҳои фаҳмо аз рӯйи рӯзҳо',
       'Машқ ва санҷиши натиҷа',
-      'Пешрафт ва ёддоштҳо дар як ҷо',
+      'Пешрафт ва натиҷаҳо дар як ҷо',
     ],
     panelFlow: 'Дарс → Код → Санҷиш',
     creating: 'Сохта мешавад…',
@@ -179,7 +179,7 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     signupTitle: 'Empecemos a aprender juntos',
     resetTitle: 'Recuperar el acceso',
     loginTitle: 'Sigue con tu aprendizaje',
-    intro: 'Tu progreso, tus notas y tu práctica, en el ordenador y en el móvil.',
+    intro: 'Tu progreso y tu práctica, en el ordenador y en el móvil.',
     unavailable:
       'El inicio de sesión y el registro aún no están conectados. El curso y las respuestas están disponibles sin cuenta; la IA necesita una cuenta.',
     guest: 'Continuar como invitado',
@@ -197,7 +197,7 @@ export const AUTH_COPY: Record<InterfaceLocale, AuthCopy> = {
     panelBenefits: [
       'Lecciones claras organizadas por días',
       'Práctica y revisión de tu trabajo',
-      'Progreso y notas en un solo lugar',
+      'Progreso y resultados en un solo lugar',
     ],
     panelFlow: 'Lección → Código → Revisión',
     creating: 'Creando…',

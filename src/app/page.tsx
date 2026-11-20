@@ -17,11 +17,12 @@ const FAQ_LIMIT = 4;
 
 const sectionTitle =
   'text-[32px] leading-tight font-bold tracking-[-0.02em] text-white md:text-[44px]';
-const card = 'rounded-2xl border border-white/10 bg-white/[0.03] p-5';
+const card =
+  'rounded-2xl border border-slate-400/15 bg-[#0e1526]/90 p-5 shadow-[0_12px_36px_-24px_rgba(2,6,23,0.9)]';
 const primaryLink =
-  'inline-flex h-12 items-center gap-2 rounded-xl bg-[#c2410c] px-6 text-sm font-semibold text-white no-underline transition-colors hover:bg-[#ea580c]';
+  'inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f46e5] px-6 text-sm font-semibold text-white no-underline ring-1 ring-inset ring-white/15 shadow-[0_14px_34px_-12px_rgba(79,70,229,0.75)] transition-colors hover:bg-[#4338ca] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] motion-reduce:transition-none';
 const ghostLink =
-  'inline-flex h-12 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 text-sm font-semibold text-white no-underline transition-colors hover:bg-white/15';
+  'inline-flex h-12 items-center gap-2 rounded-xl border border-slate-400/20 bg-[#0e1526]/80 px-6 text-sm font-semibold text-white no-underline transition-colors hover:border-[#38bdf8]/40 hover:bg-[#131e36] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] motion-reduce:transition-none';
 
 export default async function Page() {
   const locale = await getRequestLocale();
@@ -29,12 +30,11 @@ export default async function Page() {
     landing = LANDING_COPY[locale];
   // Course counts come from the real catalog, with the plural form of the language.
   const directions = landingDirections(locale);
-  const firstStep = landing.steps[0];
   const screen: ComputerScreenData = {
     brand: BRAND_NAME,
     lessonNumber: '01',
     lessonLabel: landing.screen.lesson,
-    lessonTitle: firstStep.description.replace(/\.$/, ''),
+    lessonTitle: landing.screen.title,
     lessonText: landing.screen.text,
     progressLabel: landing.screen.progress,
     progress: 40,
@@ -56,7 +56,7 @@ export default async function Page() {
   };
   return (
     <PageTransition>
-      <main className="public-home overflow-x-clip !bg-[#07080d] !p-0 !text-white">
+      <main className="public-home overflow-x-clip !bg-[#060913] !p-0 !text-white">
         <Starfield />
         <PublicHeader copy={headerCopy} />
 
@@ -66,28 +66,35 @@ export default async function Page() {
         >
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-[url('/auth-showcase/workspace.webp')] bg-cover bg-center opacity-30"
+            className="absolute inset-0 -z-10 bg-[url('/auth-showcase/workspace.webp')] bg-cover bg-center opacity-20"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-gradient-to-b from-[#07080d]/40 via-[#07080d]/70 to-[#07080d]"
+            className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_70%_38%,rgba(79,70,229,0.28),rgba(56,189,248,0.1)_42%,transparent_72%)]"
           />
-          <div className="mx-auto grid w-full max-w-[1200px] items-center gap-6 px-5 pt-28 pb-12 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:pb-20">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-gradient-to-b from-[#060913]/45 via-[#060913]/75 to-[#060913]"
+          />
+          <div className="mx-auto grid w-full max-w-[1200px] items-center gap-6 px-5 pt-24 pb-10 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:pt-24 lg:pb-14">
             <div className="animate-rise">
-              <p className="mb-5 text-xs font-medium tracking-[0.2em] text-white/60 uppercase">
+              <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-[#38bdf8] uppercase">
                 {copy.eyebrow}
               </p>
               <h1
                 id="landing-hero-heading"
-                className="text-[40px] leading-[1.04] font-bold tracking-[-0.035em] text-white sm:text-[56px] lg:text-[68px]"
+                className="text-[38px] leading-[1.05] font-bold tracking-[-0.035em] text-white sm:text-[54px] lg:text-[64px]"
               >
-                {copy.heroLead} <span className="text-[#a99bff]">{copy.heroEmphasis}</span>{' '}
+                {copy.heroLead}{' '}
+                <span className="bg-gradient-to-r from-[#818cf8] via-[#a5b4fc] to-[#38bdf8] bg-clip-text text-transparent">
+                  {copy.heroEmphasis}
+                </span>{' '}
                 {copy.heroEnd}
               </h1>
-              <p className="mt-5 max-w-[520px] text-base leading-relaxed text-white/70 sm:text-lg">
+              <p className="mt-5 max-w-[520px] text-base leading-relaxed text-slate-300/85 sm:text-lg">
                 {copy.heroDescription}
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-7 flex flex-wrap gap-3">
                 <Link href="/onboarding" transitionTypes={['nav-forward']} className={primaryLink}>
                   {copy.start} <ArrowRight size={18} aria-hidden="true" />
                 </Link>
@@ -102,12 +109,7 @@ export default async function Page() {
           </div>
         </section>
 
-        <ComputerStory
-          title={landing.howTitle}
-          steps={landing.steps}
-          screen={screen}
-          screenLabel={landing.screen.label}
-        />
+        <ComputerStory title={landing.howTitle} brand={BRAND_NAME} story={landing.story} />
 
         <section
           id="directions"
@@ -124,19 +126,19 @@ export default async function Page() {
                 <Link
                   key={category.id}
                   href={`/courses/category/${category.id}`}
-                  className={`${card} group flex items-center gap-4 no-underline transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.06]`}
+                  className={`${card} group flex min-h-[82px] items-center gap-4 no-underline transition-all duration-300 hover:-translate-y-1 hover:border-[#38bdf8]/35 hover:bg-[#131d33] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] motion-reduce:transition-none motion-reduce:hover:translate-y-0`}
                 >
-                  <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#c9c2ff]">
+                  <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#4f46e5]/18 text-[#818cf8] ring-1 ring-inset ring-[#818cf8]/25 transition-colors group-hover:bg-[#4f46e5]/28 group-hover:text-[#38bdf8]">
                     <Icon size={22} aria-hidden="true" />
                   </span>
                   <span className="flex-1">
                     <strong className="block text-white">{category.label}</strong>
-                    <small className="text-white/50">{category.countLabel}</small>
+                    <small className="text-slate-400">{category.countLabel}</small>
                   </span>
                   <ArrowRight
                     size={16}
                     aria-hidden="true"
-                    className="text-white/40 transition-transform duration-300 group-hover:translate-x-1"
+                    className="text-slate-400 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[#38bdf8] motion-reduce:transition-none"
                   />
                 </Link>
               );
@@ -152,35 +154,44 @@ export default async function Page() {
           <h2 id="public-faq-heading" className={sectionTitle}>
             {landing.faqTitle}
           </h2>
-          <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
+          <div className="mt-8 divide-y divide-slate-400/15 border-y border-slate-400/15">
             {landing.faq.slice(0, FAQ_LIMIT).map((item) => (
-              <details key={item.question} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg text-white">
+              <details key={item.question} className="group py-4">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-1 text-lg text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8]">
                   {item.question}
                   <ChevronDown
                     size={18}
                     aria-hidden="true"
-                    className="shrink-0 text-white/50 transition-transform group-open:rotate-180"
+                    className="shrink-0 text-slate-400 transition-transform group-open:rotate-180 group-open:text-[#38bdf8] motion-reduce:transition-none"
                   />
                 </summary>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{item.answer}</p>
+                <p className="mt-2.5 text-sm leading-relaxed text-slate-300/75">{item.answer}</p>
               </details>
             ))}
           </div>
         </section>
 
-        <section className="relative isolate overflow-hidden">
+        <section className="relative isolate overflow-hidden border-t border-slate-400/15">
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-[url('/auth-showcase/code.webp')] bg-cover bg-center opacity-20"
+            className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_75%_50%,rgba(79,70,229,0.34),rgba(56,189,248,0.12)_45%,transparent_68%)]"
           />
-          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[#07080d]/75" />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-[url('/auth-showcase/workspace.webp')] bg-cover bg-[center_48%] opacity-20 [mask-image:linear-gradient(transparent,black_30%,black_66%,transparent)]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-gradient-to-r from-[#060913]/80 via-transparent to-[#060913]/40"
+          />
           <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-8 px-5 py-20 sm:px-6">
             <div className="max-w-2xl">
               <h2 className="text-[34px] leading-tight font-bold tracking-[-0.02em] text-white md:text-[48px]">
                 {copy.ctaTitle}
               </h2>
-              <p className="mt-4 text-lg text-white/70">{copy.ctaDescription}</p>
+              <p className="mt-4 text-lg leading-relaxed text-slate-200/80">
+                {copy.ctaDescription}
+              </p>
             </div>
             <Link href="/courses" transitionTypes={['nav-forward']} className={primaryLink}>
               {copy.ctaLink} <ArrowRight size={18} aria-hidden="true" />
@@ -188,18 +199,24 @@ export default async function Page() {
           </div>
         </section>
 
-        <footer className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-6 px-5 py-10 text-sm text-white/50 sm:px-6">
-          <div className="flex flex-wrap items-center gap-4 [&_.public-brand>span:last-child]:!text-white">
+        <footer className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-6 border-t border-slate-400/15 px-5 py-10 text-sm text-slate-400 sm:px-6">
+          <div className="flex flex-wrap items-center gap-4 [&_.public-brand]:inline-flex [&_.public-brand]:min-h-11 [&_.public-brand]:items-center [&_.public-brand>span:last-child]:!text-white">
             <Brand variant="public" />
             <small>
               © {new Date().getFullYear()} {BRAND_NAME}
             </small>
           </div>
           <nav className="flex gap-5" aria-label={landing.footerDocuments}>
-            <Link href="/privacy" className="inline-flex min-h-11 items-center hover:text-white">
+            <Link
+              href="/privacy"
+              className="inline-flex min-h-11 items-center transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8]"
+            >
               {copy.privacyLabel}
             </Link>
-            <Link href="/terms" className="inline-flex min-h-11 items-center hover:text-white">
+            <Link
+              href="/terms"
+              className="inline-flex min-h-11 items-center transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8]"
+            >
               {copy.termsLabel}
             </Link>
           </nav>

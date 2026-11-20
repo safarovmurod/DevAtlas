@@ -32,7 +32,7 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals());
 
 describe('general course catalog navigation', () => {
-  it('shows only direction cards, each linking to its own page', () => {
+  it('shows the full course list and keeps direct links to each direction', async () => {
     const { container } = render(<CourseCatalog />);
     const cards = container.querySelectorAll('.category-card');
     expect(cards).toHaveLength(COURSE_CATEGORIES.length);
@@ -40,9 +40,10 @@ describe('general course catalog navigation', () => {
       'href',
       '/courses/category/design',
     );
-    expect(container.querySelector('.course-card')).not.toBeInTheDocument();
+    expect(container.querySelectorAll('.course-card')).toHaveLength(COURSE_CATALOG.length - 1);
     expect(container.querySelector('.course-access-filters')).not.toBeInTheDocument();
     expect(container.querySelector('.subtrack-filters')).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText('Проверяем материалы…')).not.toBeInTheDocument());
   });
 
   it('searches across every direction and opens the found course directly', async () => {

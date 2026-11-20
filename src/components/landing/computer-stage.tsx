@@ -8,10 +8,10 @@ import {
   useRef,
   useState,
   type MutableRefObject,
+  type ReactNode,
 } from 'react';
 import { useVisible } from '@/lib/use-visible';
 import { canUse3D } from '@/lib/webgl-support';
-import { ComputerScreen, type ComputerScreenData } from './computer-screen';
 import type { ComputerVariant, ScenePointer } from './computer-scene';
 
 // three.js loads only when the stage comes near the screen, after the first paint.
@@ -23,10 +23,10 @@ const ComputerScene = dynamic(() => import('./computer-scene'), {
 type Mode = 'pending' | '3d' | 'flat';
 
 /**
- * The flat computer: the same app window in a CSS monitor. Used before the 3D scene is
- * ready, without WebGL, on weak devices and when WebGL is lost.
+ * The flat computer: the same app window in a brushed studio monitor. Used before the 3D scene
+ * is ready, without WebGL, on weak devices and when WebGL is lost.
  */
-function FlatComputer({ screen }: { screen: ComputerScreenData }) {
+function FlatComputer({ variant, screen }: { variant: ComputerVariant; screen: ReactNode }) {
   const frame = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
 
@@ -40,21 +40,36 @@ function FlatComputer({ screen }: { screen: ComputerScreenData }) {
     return () => observer.disconnect();
   }, []);
 
+  const laptop = variant === 'story';
   return (
     <div className="flex h-full w-full items-center justify-center px-2">
-      <div className="w-full max-w-[560px]">
-        <div className="rounded-[22px] border border-white/15 bg-gradient-to-b from-[#262b45] to-[#161a2c] p-[3%] shadow-[0_30px_80px_-30px_rgba(124,108,255,0.55)]">
+      <div className={laptop ? 'w-[84%] max-w-[600px]' : 'w-full max-w-[560px]'}>
+        <div
+          className={
+            laptop
+              ? 'rounded-t-[14px] border border-slate-300/35 bg-gradient-to-b from-[#1e293b] to-[#0b1120] p-[2%] shadow-[0_24px_80px_-24px_rgba(79,70,229,0.55),0_0_44px_-16px_rgba(56,189,248,0.28)]'
+              : 'rounded-[22px] border border-slate-300/20 bg-gradient-to-b from-[#1e293b] to-[#0b1120] p-[3%] shadow-[0_32px_90px_-30px_rgba(79,70,229,0.6),0_0_48px_-18px_rgba(56,189,248,0.28)]'
+          }
+        >
           <div ref={frame} className="relative aspect-[1000/625] overflow-hidden rounded-[10px]">
             <div
               className="absolute top-0 left-0 origin-top-left"
               style={{ transform: `scale(${scale})`, visibility: scale ? 'visible' : 'hidden' }}
             >
-              <ComputerScreen data={screen} />
+              {screen}
             </div>
           </div>
         </div>
-        <div className="mx-auto h-10 w-[16%] bg-gradient-to-b from-[#2a3047] to-[#1b2033]" />
-        <div className="mx-auto h-2 w-[42%] rounded-full bg-[#2a3047]" />
+        {laptop ? (
+          <div className="relative left-1/2 h-[clamp(10px,2vw,24px)] w-[114%] -translate-x-1/2 rounded-b-[40%] border-t border-slate-200/55 bg-gradient-to-b from-[#94a3b8] via-[#64748b] to-[#334155]">
+            <div className="mx-auto h-[28%] w-[15%] rounded-b-lg bg-[#0f172a]" />
+          </div>
+        ) : (
+          <>
+            <div className="mx-auto h-10 w-[16%] bg-gradient-to-b from-[#64748b] to-[#1e293b]" />
+            <div className="mx-auto h-2 w-[42%] rounded-full bg-gradient-to-r from-[#334155] via-[#64748b] to-[#334155]" />
+          </>
+        )}
       </div>
     </div>
   );
@@ -72,11 +87,13 @@ export function ComputerStage({
   className,
 }: {
   variant: ComputerVariant;
-  screen: ComputerScreenData;
+  screen: ReactNode;
   progress?: MutableRefObject<number>;
   className: string;
 }) {
-  const [stageRef, visible, ever] = useVisible<HTMLDivElement>('200px');
+  const [stageRef, visible, ever] = useVisible<HTMLDivElement>(
+    variant === 'story' ? '0px' : '200px',
+  );
   const [mode, setMode] = useState<Mode>('pending');
   const [ready, setReady] = useState(false);
   const [motion, setMotion] = useState(true);
@@ -142,7 +159,7 @@ export function ComputerStage({
     >
       {!ready && (
         <div className="absolute inset-0">
-          <FlatComputer screen={screen} />
+          <FlatComputer variant={variant} screen={screen} />
         </div>
       )}
       {show3d && (
@@ -169,7 +186,7 @@ export function ComputerStage({
             className="pointer-events-none absolute top-0 left-0 origin-top-left"
             style={{ transform: 'scale(0)', opacity: 0 }}
           >
-            <ComputerScreen data={screen} />
+            {screen}
           </div>
         </div>
       )}

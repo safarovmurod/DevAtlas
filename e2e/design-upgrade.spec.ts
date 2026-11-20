@@ -47,11 +47,12 @@ test('landing exposes the featured directions and usable navigation on desktop a
   await expect(menu).toHaveCount(0);await expect(trigger).toBeFocused();
 });
 
-test('lesson code can be scrolled by keyboard and every day is open and named',async({page})=>{
+test('lesson code can be scrolled by keyboard and sequential days stay named',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.setViewportSize({width:320,height:844});
   await page.goto('/courses/html/home');
-  const second=page.locator('.day-strip a').nth(1);
+  await expect(page.locator('.day-strip a').first()).toHaveAccessibleName(/День 1/);
+  const second=page.locator('.day-strip button').first();
   await expect(second).toBeEnabled();
   await expect(second).toHaveAccessibleName(/День 2/);
   await page.locator('#html-day-01-section-1 summary').click();
@@ -187,7 +188,7 @@ test('the stored dark theme is applied before application scripts hydrate',async
   await page.route(/\/_next\/static\/.*\.js(?:\?.*)?$/,route=>route.abort());
   await page.goto('/login',{waitUntil:'domcontentloaded'});
   await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
-  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(20, 19, 17)');
+  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor)).toBe('rgb(9, 13, 24)');
 });
 
 test('key screens fit the requested widths in both themes without infinite learning animations',async({page})=>{

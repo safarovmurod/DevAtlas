@@ -6,7 +6,7 @@ export function GET() {
       'Content-Type': 'text/html; charset=utf-8',
       'Content-Disposition': 'attachment; filename="react-answers.html"',
       'Content-Security-Policy':
-        "sandbox; default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'",
+        "sandbox; default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
       'X-Content-Type-Options': 'nosniff',
     },
   });

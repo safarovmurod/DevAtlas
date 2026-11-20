@@ -204,7 +204,24 @@ export const courseContentSchema = z
       }
   });
 export type CourseContent = z.infer<typeof courseContentSchema>;
-export type CourseLesson = CourseContent['lessons'][number];
+// Delivery may omit paid practice while retaining the free authored lesson.
+// The canonical authoring schema above remains strict and unchanged.
+const deliveredFlowSchema = z.object({
+  ...learningFlowSchema.shape,
+  guidedPractice: learningFlowSchema.shape.guidedPractice.optional(),
+  miniChallenge: learningFlowSchema.shape.miniChallenge.optional(),
+});
+export const courseDeliverySchema = z.object({
+  ...courseContentSchema.shape,
+  lessons: z.array(z.object({
+    ...courseContentSchema.shape.lessons.element.shape,
+    practiceAvailable: z.boolean().optional(),
+    learningFlow: deliveredFlowSchema.optional(),
+  })),
+});
+export type CourseDelivery = z.infer<typeof courseDeliverySchema>;
+export type CourseLesson = CourseDelivery['lessons'][number];
+export type DeliveredLearningFlow = NonNullable<CourseLesson['learningFlow']>;
 export type CourseText = CourseLesson['title'];
 export function courseText(value: CourseText, language: 'tg' | 'ru' | 'en') {
   return value[language] || value.ru;

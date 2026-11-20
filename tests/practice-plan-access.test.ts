@@ -7,12 +7,18 @@ const mocks = vi.hoisted(() => ({
   membership: vi.fn(),
   admin: vi.fn(),
   access: vi.fn(),
+  courseRelease: vi.fn(),
+  downloadObject: vi.fn(),
 }));
 vi.mock('@/lib/supabase/server', () => ({ getSupabaseServerClient: mocks.server }));
 vi.mock('@/lib/account/require-user', () => ({ authenticatedUser: mocks.user }));
 vi.mock('@/lib/billing/entitlements', () => ({ serverMembership: mocks.membership }));
 vi.mock('@/lib/supabase/admin', () => ({ getSupabaseAdminClient: mocks.admin }));
 vi.mock('@/lib/courses/access-server', () => ({ authorizeCourseContent: mocks.access }));
+vi.mock('@/lib/courses/course-storage', () => ({
+  getCourseRelease: mocks.courseRelease,
+  downloadCourseObject: mocks.downloadObject,
+}));
 
 import { practicePlanDenial } from '@/lib/practice/plan-access';
 
@@ -33,6 +39,7 @@ beforeEach(() => {
   mocks.user.mockResolvedValue({ id: 'learner' });
   mocks.membership.mockResolvedValue({ tier: 'starter', available: true });
   mocks.access.mockResolvedValue({ allowed: true });
+  mocks.courseRelease.mockResolvedValue(null);
 });
 
 describe('server practice plan check', () => {
@@ -92,5 +99,68 @@ describe('server practice plan check', () => {
     );
     expect(graded.status).toBe(403);
     expect(rpc).not.toHaveBeenCalled();
+
+    const confirm = await import('@/app/api/practice/confirm/route');
+    const deniedConfirm = await confirm.POST(
+      request('/api/practice/confirm', { courseId: 'html', day: 1 }),
+    );
+    expect(deniedConfirm.status).toBe(403);
+    expect(rpc).not.toHaveBeenCalled();
+
+    mocks.membership.mockResolvedValueOnce({ tier: 'pro', available: true });
+    mocks.admin.mockReturnValue({
+      rpc: rpc.mockResolvedValueOnce({ data: true, error: null }),
+      from: () => ({
+        select: () => ({
+          eq: vi.fn().mockResolvedValue({ data: [], error: null }),
+        }),
+      }),
+    });
+    const allowedConfirm = await confirm.POST(
+      request('/api/practice/confirm', { courseId: 'html', day: 1 }),
+    );
+    expect(allowedConfirm.status).toBe(200);
+    expect(rpc).toHaveBeenCalledWith('react_mentor_confirm_verified_html_day', {
+      learner_id: 'learner',
+    });
+  });
+
+  it('serves the private React practice library to Pro and Ultra accounts', async () => {
+    const { GET } = await import('@/app/api/practice/react-library/route');
+    const path = '/api/practice/react-library';
+    const guest = await GET(request(path, undefined, ''));
+    expect(guest.status).toBe(401);
+    expect(await guest.json()).not.toHaveProperty('html');
+    const starter = await GET(request(path));
+    expect(starter.status).toBe(403);
+    expect(await starter.json()).not.toHaveProperty('html');
+
+    for (const tier of ['pro', 'expert']) {
+      mocks.membership.mockResolvedValueOnce({ tier, available: true });
+      const response = await GET(request(path));
+      expect(response.status).toBe(200);
+      expect(response.headers.get('Cache-Control')).toBe('private, no-store');
+      const { html } = await response.json();
+      expect(html).toContain('<script id="DATA"');
+      expect(html).toContain("connect-src 'none'");
+    }
+  });
+
+  it('loads the stored React practice library only after checking the plan', async () => {
+    const { GET } = await import('@/app/api/practice/react-library/route');
+    const path = '/api/practice/react-library';
+    const reactPractice = { sha256: 'a'.repeat(64), bytes: 42 };
+    mocks.courseRelease.mockResolvedValue({ reactPractice });
+    mocks.downloadObject.mockResolvedValue(Buffer.from('<!doctype html><head></head>'));
+
+    expect((await GET(request(path))).status).toBe(403);
+    expect(mocks.courseRelease).not.toHaveBeenCalled();
+    expect(mocks.downloadObject).not.toHaveBeenCalled();
+
+    mocks.membership.mockResolvedValue({ tier: 'pro', available: true });
+    const response = await GET(request(path));
+    expect(response.status).toBe(200);
+    expect((await response.json()).html).toContain('Content-Security-Policy');
+    expect(mocks.downloadObject).toHaveBeenCalledWith(reactPractice);
   });
 });

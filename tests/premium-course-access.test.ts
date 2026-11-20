@@ -23,6 +23,7 @@ import { courseAccessTier, hasCourseAccess } from '@/lib/courses/access';
 import { GET } from '@/app/api/courses/[courseId]/route';
 
 const secretContent = { lessons: [{ title: 'PREMIUM_PRIVATE_LESSON', solution: 'PREMIUM_PRIVATE_SOLUTION' }] };
+const lessonDelivery = { lessons: [{ ...secretContent.lessons[0], practiceAvailable: false }] };
 function request(courseId: string, authorization?: string, extra: HeadersInit = {}) {
   return GET(new Request(`https://example.test/api/courses/${courseId}`, {
     headers: { ...(authorization ? { authorization } : {}), ...extra },
@@ -111,7 +112,7 @@ describe('premium course API authorization before content loading', () => {
     const allowed = await request('javascript-pro', 'Bearer verified-token');
     expect(allowed.status).toBe(200);
     expect(allowed.headers.get('cache-control')).toBe('private, no-store');
-    expect(await allowed.json()).toEqual(secretContent);
+    expect(await allowed.json()).toEqual(lessonDelivery);
     mocks.load.mockClear();
     await expectDenied(await request('architecture-expert', 'Bearer verified-token'), 403, { error: 'membership_required', requiredTier: 'expert' });
   });
@@ -121,7 +122,7 @@ describe('premium course API authorization before content loading', () => {
       const response = await request(course, 'Bearer verified-token');
       expect(response.status).toBe(200);
       expect(response.headers.get('cache-control')).toBe('private, no-store');
-      expect(await response.json()).toEqual(secretContent);
+      expect(await response.json()).toEqual(lessonDelivery);
     }
   });
   it('rejects unknown paths without loading any source', async () => {

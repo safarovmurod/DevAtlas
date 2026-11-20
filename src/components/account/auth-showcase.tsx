@@ -122,11 +122,9 @@ function DesktopShowcase() {
       void load();
     }
     void load();
-    desktop.addEventListener('change', refresh);
     motion.addEventListener('change', refresh);
     return () => {
       cancelled = true;
-      desktop.removeEventListener('change', refresh);
       motion.removeEventListener('change', refresh);
       scene.current?.dispose();
       scene.current = null;
@@ -135,7 +133,7 @@ function DesktopShowcase() {
 
   return (
     <section
-      className="auth-showcase"
+      className="auth-showcase !bg-[#060913]"
       aria-label={ui.label}
       aria-roledescription="carousel"
       lang={locale}
@@ -169,9 +167,15 @@ function DesktopShowcase() {
                   sizes="(min-width: 1024px) 550px, 1px"
                   loading="eager"
                 />
-                <div className="auth-showcase-shade" />
+                <div
+                  className="auth-showcase-shade"
+                  style={{
+                    background:
+                      'radial-gradient(ellipse at 50% 34%, rgba(79,70,229,0.28), rgba(56,189,248,0.1) 42%, transparent 64%), linear-gradient(180deg, rgba(6,9,19,0.72), rgba(14,21,38,0.28) 32%, rgba(6,9,19,0.88) 60%, #060913 88%)',
+                  }}
+                />
                 <div className="auth-showcase-editorial">
-                  <span className="auth-showcase-number">
+                  <span className="auth-showcase-number !text-[#38bdf8]">
                     {String(index + 1).padStart(2, '0')} <span>/ 08</span>
                   </span>
                   <h2>{text.title}</h2>
@@ -196,7 +200,7 @@ function DesktopShowcase() {
       {sceneReady && motionAllowed && (
         <button
           type="button"
-          className="auth-showcase-rotate"
+          className="auth-showcase-rotate !border-slate-400/25 !bg-[#0e1526]/80 !text-[#7dd3fc] hover:!border-[#38bdf8]/60 hover:!bg-[#162240]"
           aria-label={ui.rotate}
           title={ui.rotate}
           onClick={() => scene.current?.spin()}
@@ -206,7 +210,7 @@ function DesktopShowcase() {
       )}
       <div className="auth-showcase-topline">
         <span>{ui.detail}</span>
-        <span>DevAtlas</span>
+        <span className="!text-[#818cf8]">DevAtlas</span>
       </div>
       <div className="auth-showcase-navigation">
         <div className="auth-showcase-dots">
@@ -221,7 +225,7 @@ function DesktopShowcase() {
                 autoplay.reset();
               }}
             >
-              <span />
+              <span className={active === index ? '!bg-[#38bdf8]' : undefined} />
             </button>
           ))}
         </div>
@@ -229,6 +233,7 @@ function DesktopShowcase() {
           <button
             type="button"
             aria-label={ui.previous}
+            className="!border-slate-400/30 !bg-[#0e1526]/80 !text-white hover:!border-[#38bdf8]/50 hover:!bg-[#162240]"
             onClick={() => {
               carousel?.scrollPrev();
               autoplay.reset();
@@ -239,6 +244,7 @@ function DesktopShowcase() {
           <button
             type="button"
             aria-label={ui.next}
+            className="!border-[#6366f1] !bg-[#4f46e5] !text-white hover:!border-[#818cf8] hover:!bg-[#4338ca]"
             onClick={() => {
               carousel?.scrollNext();
               autoplay.reset();
@@ -248,8 +254,8 @@ function DesktopShowcase() {
           </button>
         </div>
       </div>
-      <div className="auth-showcase-bottom">
-        <span>
+      <div className="auth-showcase-bottom !border-slate-400/15">
+        <span className="!text-[#7dd3fc]">
           <Sparkles size={14} aria-hidden="true" />
           {ui.recommended}
         </span>

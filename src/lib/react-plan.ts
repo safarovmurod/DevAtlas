@@ -78,12 +78,14 @@ export function reactDayProgress(
   completedTopics: readonly string[],
   completedPractice: readonly string[],
   confirmedDays: readonly string[],
+  daySubmissions: Readonly<Record<string, unknown>> = {},
 ) {
   let currentFound = false;
   return reactMonthDays(month).map((day) => {
     const done =
       confirmedDays.includes(`${month}:${day.day}`) &&
-      reactDayReady(day, completedTopics, completedPractice);
+      (Object.hasOwn(daySubmissions, `react-month-${month}-day-${day.day}`) ||
+        reactDayReady(day, completedTopics, completedPractice));
     const status: 'done' | 'current' | 'open' = done ? 'done' : currentFound ? 'open' : 'current';
     if (!done) currentFound = true;
     return { ...day, status };

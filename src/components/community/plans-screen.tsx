@@ -7,7 +7,10 @@ import { useLearningStore } from '@/stores/learning-store';
 import { BillingRequestError, billingFetch } from '@/lib/billing/billing-client';
 import type { BillingStatus } from '@/lib/billing/billing-server';
 import { MEMBERSHIP_COPY, type MembershipCopy } from '@/lib/billing/copy';
+import { isDodoUrl } from '@/lib/billing/dodo-client';
 import { PLAN_PRICE_USD, planName, planOwnFeatures, type PlanId } from '@/lib/billing/plans';
+import { COURSE_CATALOG } from '@/content/courses/catalog';
+import { courseDisplayName } from '@/lib/catalog-copy';
 import type { InterfaceLocale } from '@/lib/locale';
 import styles from './membership.module.css';
 
@@ -24,6 +27,12 @@ const DATE_LOCALE: Record<InterfaceLocale, string> = {
 };
 const POLL_MS = 3000;
 const POLL_TRIES = 20;
+const INCLUDES_COURSES = {
+  ru: 'Курсы по этому тарифу',
+  en: 'Courses in this plan',
+  tg: 'Курсҳои дохили ин тариф',
+  es: 'Cursos incluidos en este plan',
+};
 
 type Membership = NonNullable<BillingStatus['membership']>;
 type Returned = { state: 'return' | 'cancelled' | 'failed'; plan: PaidPlan };
@@ -159,6 +168,7 @@ export function PlansScreen() {
         { method: 'POST', body: { tier: TIER[plan] } },
       );
       if (result.url) {
+        if (!isDodoUrl(result.url)) throw new BillingRequestError('provider_error', 502);
         window.location.assign(result.url);
         return;
       }
@@ -177,6 +187,7 @@ export function PlansScreen() {
     setBusy('portal');
     try {
       const result = await billingFetch<{ url: string }>('/api/billing/portal', { method: 'POST' });
+      if (!isDodoUrl(result.url)) throw new BillingRequestError('provider_error', 502);
       window.location.assign(result.url);
       return;
     } catch (cause) {
@@ -351,6 +362,22 @@ export function PlansScreen() {
                   </li>
                 ))}
               </ul>
+              {!free && (
+                <div className="mb-5 rounded-xl border border-border bg-muted/40 p-3">
+                  <p className="m-0 text-sm font-semibold text-foreground">
+                    {INCLUDES_COURSES[locale]}
+                  </p>
+                  <ul className="mt-2 space-y-1 pl-4 text-sm text-muted-foreground">
+                    {COURSE_CATALOG.filter(
+                      (course) =>
+                        course.accessTier === 'pro' ||
+                        (plan.id === 'ultra' && course.accessTier === 'expert'),
+                    ).map((course) => (
+                      <li key={course.id}>{courseDisplayName(course.id, locale)}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {free ? (
                 <Link href="/courses" className={`button primary mt-auto ${styles.button}`}>
                   {copy.start}

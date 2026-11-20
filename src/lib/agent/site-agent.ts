@@ -99,7 +99,6 @@ export function siteGuideAnswer(query: string, context: GuideContext): SiteGuide
   const links: SiteGuideLink[] = [{ href: '/courses', label: label.catalog }];
 
   if (matched === 'wherePractice') links.push({ href: '/practice', label: label.practice });
-  if (matched === 'whereNotes') links.push({ href: '/notes', label: label.notes });
   if (matched === 'wherePlans') links.push({ href: '/plans', label: label.plans });
   if (matched === 'whereCommunity') links.push({ href: '/community', label: label.community });
   if (matched === 'whereTests' && hasCoursePage)

@@ -1,11 +1,26 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { boundedSupabaseFetch } from './request';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+
+function isValidSupabaseUrl(value: string): boolean {
+  if (!/^https?:\/\//i.test(value)) {
+    return false;
+  }
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export const isSupabaseAdminConfigured = Boolean(
-  supabaseUrl && serviceRoleKey && supabaseUrl.startsWith('http') && serviceRoleKey.length > 10,
+  supabaseUrl &&
+    serviceRoleKey &&
+    isValidSupabaseUrl(supabaseUrl) &&
+    serviceRoleKey.length > 10,
 );
 
 let adminClient: SupabaseClient | null = null;
@@ -25,6 +40,7 @@ export function getSupabaseAdminClient(): SupabaseClient | null {
       auth: {
         autoRefreshToken: false,
         persistSession: false,
+        detectSessionInUrl: false,
       },
     });
   }

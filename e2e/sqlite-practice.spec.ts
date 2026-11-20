@@ -1,5 +1,6 @@
 import {test,expect,type Page} from '@playwright/test';
 import sql from '../src/content/courses/sql.json';
+import {expectGuestPracticeGate,productionPracticeGate} from './starter-course-checks';
 const solution=sql.lessons[0].practice!.solution;
 async function code(page:Page,value:string){
  await expect(page.locator('.monaco-editor')).toBeVisible({timeout:30000});
@@ -9,6 +10,12 @@ test('real SQLite grades changed fixtures and recovers after terminating an infi
  test.setTimeout(90000);
  await page.addInitScript(()=>{if(window.top===window.self)localStorage.setItem('react-mentor-learning-v2',JSON.stringify({version:2,state:{language:'ru',contentLanguage:'ru'}}));});
  await page.goto('/practice?course=sql&day=1');
+ if(productionPracticeGate){
+  await expectGuestPracticeGate(page,'sql');
+  await page.setViewportSize({width:320,height:740});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  return;
+ }
  const panel=page.locator('.sqlite-practice'),run=panel.getByRole('button',{name:'Запустить и проверить SQL'});
  await code(page,solution);await run.click();
  await expect(panel.getByRole('status')).toContainText('SQL пройден локально',{timeout:30000});

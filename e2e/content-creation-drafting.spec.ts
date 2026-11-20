@@ -1,5 +1,10 @@
 import { expect, test } from '@playwright/test';
 import course from '../src/content/courses/content-creation.json';
+import { courseContentSchema } from '../src/lib/courses/schema';
+import { dayExamQuiz } from '../src/lib/courses/strict-attempt';
+import { expectGuestPracticeGate, productionPracticeGate } from './starter-course-checks';
+
+const parsedCourse = courseContentSchema.parse(course);
 
 test('content author can study drafting, learn from a wrong choice and retain an edited paragraph', async ({ page }) => {
   const endDay = 13;
@@ -23,25 +28,35 @@ test('content author can study drafting, learn from a wrong choice and retain an
     await expect(page.locator(`#${lesson.id} > header > h2`)).toHaveText(lesson.title.tg);
     await expect(page.locator('[data-lesson-section]')).toHaveCount(4);
   }
-  const lesson = course.lessons.find(lesson => lesson.day === endDay)!;
-  await page.goto(`/courses/content-creation/tests?day=${endDay}`); await page.locator('[data-strict-start]').click();
-  const question = page.locator('.course-question').first();
-  await question.getByRole('radio', { name: lesson.questions[0].options[1].tg, exact: true }).check();
-  await question.getByRole('button', { name: 'Проверить', exact: true }).click();
-  await expect(question.locator('.question-feedback')).toContainText(lesson.questions[0].hint.tg);
-  await expect(question.locator('.question-feedback a')).toHaveAttribute('href', `/courses/content-creation/home?day=13#${lesson.id}-section-${lesson.questions[0].relatedSection}`);
-  const second = page.locator('.course-question').nth(1);
-  await second.getByRole('radio', { name: lesson.questions[1].options[lesson.questions[1].correctIndex].tg, exact: true }).check();
-  await second.getByRole('button', { name: 'Проверить', exact: true }).click();
-  await expect(second.getByRole('status')).toHaveText('Верно');
+  const lesson = parsedCourse.lessons.find(item => item.day === endDay)!;
 
   await page.goto(`/practice?course=content-creation&day=${endDay}`);
-  const answer = 'Талонро ба китобдор диҳед. Китобдор қайд мегузорад. Баъди қайд китобро гиред. Таърихи китобхона ба ин амал дахл надорад. Агар талон нест, қоидаро аз китобдор мепурсам ва бофтан намегирам.';
-  await page.locator('.written-practice textarea').fill(answer);
-  await page.reload();
-  await expect(page.locator('.written-practice textarea')).toHaveValue(answer);
+  if (productionPracticeGate) {
+    await expectGuestPracticeGate(page, 'content-creation');
+  } else {
+    const answer = 'Талонро ба китобдор диҳед. Китобдор қайд мегузорад. Баъди қайд китобро гиред. Таърихи китобхона ба ин амал дахл надорад. Агар талон нест, қоидаро аз китобдор мепурсам ва бофтан намегирам.';
+    await page.locator('.written-practice textarea').fill(answer);
+    await page.reload();
+    await expect(page.locator('.written-practice textarea')).toHaveValue(answer);
+  }
   const progress = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state.courses['content-creation']);
   expect(progress.confirmedDays).not.toContain(String(endDay));
   expect(progress.completedPractice).not.toContain(lesson.id);
+
+  await page.goto(`/courses/content-creation/home?day=${endDay}`);
+  const article = page.locator(`#${lesson.id}`);
+  await article.getByRole('button', { name: 'Прочитал и понял', exact: true }).click();
+  await article.getByRole('link', { name: 'Ответы и интервью', exact: true }).click();
+  const exam = page.getByRole('region', { name: 'Проверка дня', exact: true });
+  await exam.getByRole('button', { name: 'Начать', exact: true }).click();
+  const quiz = dayExamQuiz(lesson, endDay);
+  const [first, second] = quiz;
+  const wrong = (first.correctIndex + 1) % first.options.length;
+  await exam.locator('.course-question').first().getByRole('radio', { name: first.options[wrong].tg!, exact: true }).check();
+  await exam.locator('.course-question').nth(1).getByRole('radio', { name: second.options[second.correctIndex].tg!, exact: true }).check();
+  await exam.getByRole('button', { name: 'Отправить ответы', exact: true }).click();
+  const result = page.getByRole('region', { name: 'Разбор результата', exact: true });
+  await expect(result).toContainText(first.hint!.tg!);
+  await expect(result.locator(`a[href="/courses/content-creation/home?day=13#${lesson.id}-section-${first.relatedSection}"]`).first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

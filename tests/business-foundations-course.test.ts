@@ -71,7 +71,8 @@ it('the model keeps one canonical scenario and honest statuses through the cours
  const day18=course.lessons[17].sections[1].body.ru!;
  expect(day18).toContain('11');
  const day28=course.lessons[27].sections[1].body.ru!;
- expect(day28).toContain('13');
+ // The corrected equal-month plan divides the total target across months: [5, 5, 5] for the worked example.
+ expect(day28).toContain('5, 5, 5');
  // The offer's honesty clause is a checkable commitment; answers never promise guarantees.
  const offer=course.lessons[10].sections[2].body.ru!;
  expect(offer).toContain('второй месяц бесплатно');

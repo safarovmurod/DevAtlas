@@ -42,7 +42,7 @@ Dodo → Products → Add product. Барои **ҳар ду** (Pro ва Ultra):
 ### 2. Калид ва webhook дар Dodo
 
 - Developer → API Keys → калиди **test mode** (бо префикси `dodo_test_`).
-- Developer → Webhooks → Add endpoint: URL `https://react-mentor-opal.vercel.app/api/billing/webhook`. Events-и обуна: `subscription.active`, `subscription.updated`, `subscription.renewed`, `subscription.plan_changed`, `subscription.update_payment_method`, `subscription.past_due`, `subscription.on_hold`, `subscription.paused`, `subscription.unpaused`, `subscription.cancelled`, `subscription.failed`, `subscription.expired`. (Events-и дигарро server бо 200 мегирад ва нодида мегирад.)
+- Developer → Webhooks → Add endpoint. Ба домени тасдиқшудаи DevAtlas `/api/billing/webhook`-ро илова кунед. Events-и обуна: `subscription.active`, `subscription.updated`, `subscription.renewed`, `subscription.plan_changed`, `subscription.update_payment_method`, `subscription.past_due`, `subscription.on_hold`, `subscription.paused`, `subscription.unpaused`, `subscription.cancelled`, `subscription.failed`, `subscription.expired`. (Events-и дигарро server бо 200 мегирад ва нодида мегирад.)
 - Баъд аз сохтан дар Overview-и endpoint **signing secret** (`whsec_...`) пайдо мешавад.
 
 ### 3. Переменнаҳо
@@ -61,7 +61,7 @@ Dodo → Products → Add product. Барои **ҳар ду** (Pro ва Ultra):
 
 ### 4. Миграцияи база
 
-Supabase MCP ба ин лоиҳа ҳуқуқ надод, барои ҳамин миграция **татбиқ нашудааст**. Дар Supabase → SQL Editor мазмуни `supabase/migrations/20261117000000_billing_dodo.sql`-ро иҷро кунед (бехатар аст, бори дуюм ҳам мегузарад). Пеш аз он `20261116000000_admin_tools.sql` бояд татбиқ шуда бошад (сутунҳои `source`, `granted_by`, `granted_at`).
+Аввал ҳолати базаи DevAtlas-ро бо query-и фақат хондан санҷед. PostgreSQL бояд сутунҳои `source`, `granted_by`, `granted_at` аз `20261116000000_admin_tools.sql` дошта бошад. Агар тағйироти пардохт намерасанд, миграцияи `supabase/migrations/20261117000000_billing_dodo.sql`-ро баъди санҷиши пешакӣ татбиқ кунед.
 
 Санҷиши фақат-хондан:
 

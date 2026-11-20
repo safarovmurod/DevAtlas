@@ -53,8 +53,8 @@ export function toBillingStatus(
       expiresAt: row.expires_at,
       active: Number.isFinite(end) && end > nowMs,
       source: payment ? 'payment' : 'admin',
-      status: row.provider_status ?? null,
-      cancelAtPeriodEnd: row.cancel_at_period_end === true,
+      status: payment ? (row.provider_status ?? null) : null,
+      cancelAtPeriodEnd: payment && row.cancel_at_period_end === true,
       canManage: configured && payment && row.provider === 'dodo' && !!row.provider_customer_id,
     },
   };

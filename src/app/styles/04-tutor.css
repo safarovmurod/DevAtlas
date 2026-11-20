@@ -8,13 +8,38 @@
   justify-content: flex-end;
 }
 .tutor-panel {
+  position: relative;
   width: min(440px, 100vw);
+  max-width: 100vw;
   height: 100dvh;
   background: var(--card);
   color: var(--text);
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-3);
+}
+.tutor-resize {
+  position: absolute;
+  z-index: 1;
+  inset: 0 auto 0 0;
+  display: grid;
+  width: 16px;
+  place-items: center;
+  border-left: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: ew-resize;
+  touch-action: none;
+  user-select: none;
+}
+.tutor-resize:hover,
+.tutor-resize:focus-visible {
+  border-left-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+.tutor-resize:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
 }
 .tutor-heading {
   display: flex;
@@ -38,6 +63,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -95,6 +121,7 @@
 }
 .tutor-shortcuts {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 12px;
 }
@@ -105,12 +132,12 @@
 .tutor-composer form {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: 10px;
 }
 .tutor-composer textarea {
   width: 100%;
   resize: vertical;
+  min-height: 64px;
   max-height: 160px;
   background: var(--canvas);
   color: var(--text);
@@ -118,4 +145,31 @@
   border-radius: 8px;
   padding: 10px;
   font: inherit;
+}
+.tutor-composer textarea:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+.tutor-composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.tutor-composer-actions .button {
+  flex: none;
+}
+.tutor-key-hint {
+  margin: 0 auto 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+@media (max-width: 640px) {
+  .tutor-panel {
+    width: 100vw;
+  }
+  .tutor-key-hint {
+    display: none;
+  }
 }

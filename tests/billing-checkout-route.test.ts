@@ -408,5 +408,19 @@ describe('status for the plans page', () => {
     ).toBe(false);
     // Without Dodo settings the portal is never offered, even for a paid row.
     expect(toBillingStatus(paidRow() as never, false, true, now).membership?.canManage).toBe(false);
+    // Admin rows never leak stale provider status or cancelAtPeriodEnd flags.
+    expect(
+      toBillingStatus(
+        paidRow({ source: 'admin', provider_status: 'cancelled', cancel_at_period_end: true }) as never,
+        true,
+        true,
+        now,
+      ).membership,
+    ).toMatchObject({
+      source: 'admin',
+      status: null,
+      cancelAtPeriodEnd: false,
+      canManage: false,
+    });
   });
 });

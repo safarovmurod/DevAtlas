@@ -7,12 +7,6 @@ import type { MembershipTier } from './entitlements';
 export type PlanId = 'start' | 'pro' | 'ultra';
 export const PLAN_IDS: readonly PlanId[] = ['start', 'pro', 'ultra'];
 
-export const PLAN_TIER: Record<PlanId, MembershipTier> = {
-  start: 'starter',
-  pro: 'pro',
-  ultra: 'expert',
-};
-
 export function planForTier(tier: MembershipTier): PlanId {
   return tier === 'expert' ? 'ultra' : tier === 'pro' ? 'pro' : 'start';
 }

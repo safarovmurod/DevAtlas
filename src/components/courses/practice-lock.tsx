@@ -64,12 +64,16 @@ export function PracticeLock({ access }: { access: Exclude<PracticeAccess, 'open
   return (
     <section
       aria-labelledby="practice-lock-title"
-      className="grid gap-3 rounded-2xl border border-border bg-muted/40 p-5 sm:p-6"
+      className="grid gap-3 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary-soft via-card to-card p-5 sm:p-6"
       data-practice-locked
     >
       <div className="flex flex-wrap items-center gap-3">
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-background text-foreground">
-          <Lock size={18} aria-hidden="true" />
+        <span className="relative grid size-14 shrink-0 place-items-center rounded-2xl border border-primary/20 bg-card text-brand shadow-sm">
+          <span
+            className="absolute inset-1.5 rounded-xl bg-gradient-to-br from-primary/15 to-transparent"
+            aria-hidden="true"
+          />
+          <Lock size={25} strokeWidth={1.8} aria-hidden="true" className="relative" />
         </span>
         <h3 id="practice-lock-title" className="text-base font-semibold text-foreground">
           {copy.title}

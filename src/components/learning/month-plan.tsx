@@ -13,6 +13,7 @@ export function MonthPlan({ month }: { month: number }) {
       state.completedTopics,
       state.completedPractice,
       state.confirmedDays,
+      state.daySubmissions,
     );
   const copy = PROGRESSION_COPY[state.language] || PROGRESSION_COPY.en;
   const selected = state.drafts['react-selected-day'];

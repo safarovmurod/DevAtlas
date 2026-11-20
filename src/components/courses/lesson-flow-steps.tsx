@@ -151,13 +151,13 @@ export function PracticeStep({
   const flow = lesson.learningFlow;
   return (
     <StepCard step="practice" title={t('practice')} done={practiced}>
-      {flow && <FlowGuided flow={flow} />}
-      {flow && <FlowChallenge flow={flow} />}
-      {lesson.practice ? (
-        access === 'open' ? (
+      {flow && access === 'open' && <FlowGuided flow={flow} />}
+      {flow && access === 'open' && <FlowChallenge flow={flow} />}
+      {lesson.practice || lesson.practiceAvailable ? (
+        access === 'open' && lesson.practice ? (
           <CoursePractice courseId={courseId} lesson={lesson} />
         ) : (
-          <PracticeLock access={access} />
+          <PracticeLock access={access === 'open' ? 'loading' : access} />
         )
       ) : (
         <p className="text-sm text-muted-foreground">{t('noPractice')}</p>

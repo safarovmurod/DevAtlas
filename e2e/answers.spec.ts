@@ -18,7 +18,7 @@ import quiz from '../src/content/imported/quiz.json';
 // only the per-file wait grows.
 const slow = expect.configure({ timeout: 20000 });
 
-test('answers library filters, searches, exports and preserves reading progress and notes', async ({ page }, testInfo) => {
+test('answers library filters, searches, exports and preserves reading progress without a notes action', async ({ page }, testInfo) => {
   // The regression walks many dev-mode pages; CI runners exceed the 30s default.
   test.setTimeout(90000);
   const errors: string[] = [];
@@ -45,16 +45,17 @@ test('answers library filters, searches, exports and preserves reading progress 
   await page.goto('/answers/deep-1');
   await slow(page.locator('.answer-reading-body').first()).toContainText(quiz.groups[0].items[0].correctAnswer);
   await page.getByRole('button', { name: 'Прочитал и понял', exact: true }).first().click();
-  await page.getByRole('button', { name: 'В заметки', exact: true }).first().click();
+  await slow(page.getByRole('button', { name: 'В заметки', exact: true })).toHaveCount(0);
   await page.reload();
   await slow(page.getByRole('button', { name: 'Изучено', exact: true }).first()).toBeDisabled();
-  await slow(page.getByRole('button', { name: 'Сохранено', exact: true }).first()).toBeDisabled();
+  await slow(page.getByRole('button', { name: 'Сохранено', exact: true })).toHaveCount(0);
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);
   expect(stored.studied).toContain('quiz-q001');
   expect(stored.awards['learn:quiz-q001']).toBe(2);
-  expect(stored.notes.filter((note: {id:string}) => note.id === 'answer:quiz-q001')).toHaveLength(1);
+  expect(stored.notes.filter((note: {id:string}) => note.id === 'answer:quiz-q001')).toHaveLength(0);
   await page.goto('/notes');
-  await slow(page.locator('main')).toContainText(quiz.groups[0].items[0].question);
+  await slow(page).toHaveURL('/progress');
+  await slow(page.getByRole('heading', { name: 'Прогресс', exact: true })).toBeVisible();
   await page.goto('/answers?source=interview');
   await slow(page.locator('.answer-topic-card').first()).toContainText('Interview');
   await page.locator('.answer-topic-card').first().click();
@@ -76,7 +77,7 @@ test('answers library filters, searches, exports and preserves reading progress 
   expect(errors).toEqual([]);
 });
 
-test('merged answers preserve old reading marks and notes and open from their other topic', async ({ page }, testInfo) => {
+test('merged answers preserve old marks and legacy note data and open from their other topic', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/answers');
@@ -95,12 +96,13 @@ test('merged answers preserve old reading marks and notes and open from their ot
   await page.goto('/answers/deep-12');
   const batching = page.locator('#quiz-q060');
   await slow(batching.getByRole('button', { name: 'Изучено', exact: true })).toBeDisabled();
-  await slow(batching.getByRole('button', { name: 'Сохранено', exact: true })).toBeDisabled();
+  await slow(batching.getByRole('button', { name: 'Сохранено', exact: true })).toHaveCount(0);
   await slow(batching.locator('.answer-variant')).toContainText('Batching — React');
   await slow(batching.locator('.answer-variant pre')).toBeVisible();
   let stored = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);
   expect(stored.awards['learn:quiz-q060']).toBeUndefined();
-  expect(stored.notes[0].content).toBe('Моя сохранённая заметка');
+  const legacyNote = { id: 'answer:interview-q13', title: 'Batching чист?', content: 'Моя сохранённая заметка' };
+  expect(stored.notes).toEqual([legacyNote]);
   await page.goto('/answers');
   await slow(page.locator('.answers-intro')).toContainText('1 изучено');
   await page.goto('/answers/deep-40');
@@ -113,9 +115,9 @@ test('merged answers preserve old reading marks and notes and open from their ot
   const reduxAnswer = quiz.groups[39].items.find(question => question.id === 'q212')!.correctAnswer;
   await slow(selector.locator('.answer-variant')).toContainText(reduxAnswer);
   await selector.getByRole('button', { name: 'Прочитал и понял', exact: true }).click();
-  await selector.getByRole('button', { name: 'В заметки', exact: true }).click();
+  await slow(selector.getByRole('button', { name: 'В заметки', exact: true })).toHaveCount(0);
   stored = await page.evaluate(() => JSON.parse(localStorage.getItem('react-mentor-learning-v2')!).state);
-  expect(stored.notes.find((note: {id:string;content:string}) => note.id === 'answer:quiz-q196').content).toContain(reduxAnswer);
+  expect(stored.notes).toEqual([legacyNote]);
   expect(stored.awards['learn:quiz-q196']).toBe(2);
   await selector.locator('summary').scrollIntoViewIfNeeded();
   slow(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

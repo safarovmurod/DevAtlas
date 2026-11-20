@@ -497,6 +497,42 @@ describe('memberships', () => {
     });
   });
 
+  it('clears stale Dodo provider columns when granting an admin membership over a paid row', async () => {
+    signIn(helper);
+    const fake = backend(undefined, {
+      react_mentor_memberships: [
+        {
+          user_id: TARGET_ID,
+          tier: 'pro',
+          expires_at: new Date(Date.now() - DAY).toISOString(),
+          source: 'payment',
+          provider: 'dodo',
+          provider_customer_id: 'cus_old',
+          provider_subscription_id: 'sub_old',
+          provider_status: 'cancelled',
+          cancel_at_period_end: true,
+          provider_event_at: '2026-11-01T00:00:00.000Z',
+        },
+      ],
+    });
+    const response = await changeMembership(
+      request({ action: 'grant', userId: TARGET_ID, tier: 'pro', days: 30 }),
+    );
+    expect(response.status).toBe(200);
+    expect(fake.data.react_mentor_memberships[0]).toMatchObject({
+      user_id: TARGET_ID,
+      tier: 'pro',
+      source: 'admin',
+      granted_by: ADMIN_ID,
+      provider: null,
+      provider_customer_id: null,
+      provider_subscription_id: null,
+      provider_status: null,
+      cancel_at_period_end: false,
+      provider_event_at: null,
+    });
+  });
+
   it('extends from the current end date and keeps tier and granter', async () => {
     signIn(helper);
     const end = new Date(Date.now() + 20 * DAY).toISOString();

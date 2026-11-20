@@ -89,4 +89,18 @@ describe('source-backed answer library', () => {
     }
     expect(escapeHtml('<script>alert("x")</script>')).toBe('&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;');
   });
+
+  it('serves GET /answers/export with sandbox CSP, frame-ancestors none and nosniff headers', async () => {
+    const { GET } = await import('@/app/answers/export/route');
+    const response = GET();
+    expect(response.status).toBe(200);
+    expect(response.headers.get('content-type')).toBe('text/html; charset=utf-8');
+    expect(response.headers.get('content-disposition')).toBe(
+      'attachment; filename="react-answers.html"',
+    );
+    expect(response.headers.get('x-content-type-options')).toBe('nosniff');
+    expect(response.headers.get('content-security-policy')).toBe(
+      "sandbox; default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+    );
+  });
 });

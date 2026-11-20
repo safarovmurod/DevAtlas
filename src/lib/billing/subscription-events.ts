@@ -23,7 +23,6 @@ export const SUBSCRIPTION_EVENTS = [
   'subscription.expired',
 ] as const;
 const KNOWN = new Set<string>(SUBSCRIPTION_EVENTS);
-export const isSubscriptionEvent = (type: string) => KNOWN.has(type);
 
 const Envelope = z.object({
   type: z.string().max(100),

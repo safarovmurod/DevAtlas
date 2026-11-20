@@ -1,10 +1,12 @@
 import { expect, test } from '@playwright/test';
 import html from '../src/content/courses/html.json';
 import { buildPuzzle } from '../src/lib/games/code-order';
+import { expectGuestPracticeGate, productionPracticeGate } from './starter-course-checks';
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     if (window.self !== window.top) return;
+    sessionStorage.setItem('react-mentor-guest', 'true');
     if (!localStorage.getItem('react-mentor-learning-v2')) {
       localStorage.setItem('react-mentor-learning-v2', JSON.stringify({ version: 2, state: { language: 'tg', contentLanguage: 'tg' } }));
     }
@@ -15,9 +17,12 @@ test('15-question onboarding builds a beginner plan and a daily schedule', async
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
-  await page.locator('section[aria-labelledby="landing-hero-heading"] a[href="/onboarding"]').first().click();
+  await Promise.all([
+    page.waitForURL(/\/onboarding$/, { timeout: 20000 }),
+    page.locator('section[aria-labelledby="landing-hero-heading"] a[href="/onboarding"]').first().click(),
+  ]);
   await expect(page).toHaveURL('/onboarding');
-  await expect(page.getByText('Савол 1 аз 15')).toBeVisible();
+  await expect(page.getByText('Савол 1 аз 15')).toBeVisible({ timeout: 20000 });
   await page.screenshot({ path: testInfo.outputPath('onboarding-question.png') });
   // Always choose the first option, except: direction = frontend (1st), coded = never (1st), language = tg (1st).
   for (let index = 0; index < 15; index++) await page.locator('.answer-option').first().click();
@@ -75,7 +80,7 @@ test('Day 0 explains VS Code and the console and checks understanding', async ({
   await page.screenshot({ path: testInfo.outputPath('start-here.png'), fullPage: true });
 });
 
-test('lessons have an ordering game and practice blocks large pastes', async ({ page, context, browserName }, testInfo) => {
+test(`lessons have an ordering game; ${productionPracticeGate ? 'guest practice stays gated' : 'offline practice blocks large pastes'}`, async ({ page, context, browserName }, testInfo) => {
   await page.goto('/courses/html/home?day=1');
   // The game sits in a closed block of the lesson step.
   await page.locator('details:has(.code-game) > summary').click();
@@ -97,9 +102,13 @@ test('lessons have an ordering game and practice blocks large pastes', async ({ 
   await expect(game.locator('.success-text')).toBeVisible();
   await game.screenshot({ path: testInfo.outputPath('code-game.png') });
 
+  await page.goto('/courses/html/practice?day=1');
+  if (productionPracticeGate) {
+    await expectGuestPracticeGate(page, 'html');
+    return;
+  }
   if (browserName !== 'chromium') return;
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  await page.goto('/courses/html/practice?day=1');
   const editor = page.locator('.monaco-editor').first();
   await expect(editor).toBeVisible({ timeout: 30000 });
   await expect(page.getByText('Emmet баъд аз дарсҳои аввал кушода мешавад', { exact: false })).toBeVisible();
@@ -124,8 +133,12 @@ test('a direction page lists its courses without filters and a card opens the pl
   await expect(page).toHaveURL('/courses/html/plan');
 });
 
-test('JavaScript-1 practice runs real function tests in the browser', async ({ page }) => {
+test(`JavaScript-1 ${productionPracticeGate ? 'practice is gated for guests' : 'offline practice runs real function tests in the browser'}`, async ({ page }) => {
   await page.goto('/courses/javascript-1/practice?day=1');
+  if (productionPracticeGate) {
+    await expectGuestPracticeGate(page, 'javascript-1');
+    return;
+  }
   await expect(page.locator('.monaco-editor').first()).toBeVisible({ timeout: 30000 });
   const setCode = (code: string) => page.evaluate(value => {
     const models = (window as unknown as { monaco: { editor: { getModels: () => { setValue: (v: string) => void }[] } } }).monaco.editor.getModels();

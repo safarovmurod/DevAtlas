@@ -84,12 +84,12 @@
       "ru": "Дедлайн, повтор и идемпотентность",
       "tg": "Deadline, retry ва идемпотентӣ",
       "en": "Deadlines, retries, and idempotency"
-    },
+     },
      "body": {
       "ru": "Дедлайн ограничивает суммарное время операции. Повтор уместен при временном сбое и в пределах оставшегося времени. Идемпотентность защищает от второго списания при повторе той же операции.\n\nПовтор может исправить временный отказ или усилить перегрузку. Перед повтором нужны классификация ошибки, общий deadline и гарантия отсутствия двойного эффекта. HTTP POST сам по себе не идемпотентен; idempotency key полезен только вместе с серверным хранением и дедупликацией. Не интерпретируйте тайм-аут как доказательство, что запись не произошла. Исполняемый пример — детерминированная политика количества попыток, а не полный сетевой клиент.",
       "tg": "Deadline вақти умумии амалро маҳдуд мекунад. Retry барои хатои муваққатӣ дар вақти боқимонда фоида дорад. Идемпотентӣ такрори ҳамон амалро аз натиҷаи дуюм нигоҳ медорад.\n\nТакрор метавонад нокомии муваққатиро ислоҳ кунад ё изофабориро зиёд созад. Пеш аз такрор навъи хато, deadline-и умумӣ ва кафолати набудани таъсири дубора лозиманд. HTTP POST худ аз худ идемпотент нест; idempotency key танҳо бо нигоҳдорӣ ва пешгирии дубораи серверӣ фоида дорад. Тайм-аутро далели иҷро нашудани навишт ҳисоб накунед. Мисоли иҷрошаванда сиёсати муайяни кӯшишҳо аст, на муштарии пурраи шабака.",
       "en": "A deadline caps the operation's total time. Retry transient failures only within the remaining time. Idempotency prevents a retry of the same operation from creating a second charge.\n\nRetries can recover transient failures or amplify overload. Before retrying, classify the failure, impose an overall deadline and ensure no duplicate side effect. HTTP POST is not inherently idempotent; an idempotency key requires server-side storage and deduplication. A timeout does not prove a write never happened. The runnable example is a deterministic attempt policy, not a complete network client."
-    }
+     }
     },
     {
      "title": {
@@ -121,24 +121,36 @@
       "tg": "Барои сохтани обунаи пулакӣ ҳангоми сустии провайдер ADR нависед. deadline, ҳадди кӯшиш, далели идемпотентӣ, натиҷаи номаълум, ҳудуди навбат ва метрикаҳоро нишон диҳед. Тестҳои retryPlan: attempt=0/1/2/3, хатои доимӣ ва амали ғайриидемпотентро илова кунед. Алоҳида нависед, ки рамзи омӯзишӣ чиро иҷро намекунад.",
       "en": "Write an ADR for subscription creation when the payment provider is slow. Specify deadlines, attempt limits, evidence of idempotency, unknown-result reconciliation, queue limits and metrics. Include retryPlan tests for attempt=0/1/2/3, permanent failure and non-idempotent operations. List what the teaching code does not implement."
      }
+    },
+    {
+     "title": {
+      "ru": "Тайм-аут после списания: неизвестный исход",
+      "tg": "Тайм-аут баъди пардохт: натиҷаи номаълум",
+      "en": "Timeout after the charge: unknown outcome"
+     },
+     "body": {
+      "ru": "Коварный случай для политики из исполняемого примера — тайм-аут после того, как списание прошло: клиент видит ошибку, деньги уже ушли. Повтор без проверки создаёт второе списание, отказ от повтора оставляет оплату без результата. Безопасный путь один — согласование по idempotency key: до ответа провайдера операция остаётся «неизвестной», и это состояние видно и пользователю, и сверке. Связь с рамкой дня прямая: общий deadline определяет, сколько времени вы готовы согласовывать, а у классификации ошибок нет категории «повторить» для неизвестного исхода — тема продолжится в согласованности дня 13. В реальном проекте добавляются сверка по ключам и журнал решений по каждому зависшему платежу.",
+      "tg": "Ҳолати аз ҳама хавфнок барои сиёсати мисоли иҷрошаванда — тайм-аут баъди он ки пардохт гузашта буд: муштарӣ хато мебинад, маблағ рафтааст. Такрор бе санҷиш пардохти дуюмро месозад, тарк кардани такрор пардохтро бе натиҷа мегузорад. Роҳи бехатар ягон аст — мувофиқсозӣ аз рӯйи idempotency key: то провайдер ҷавоб диҳад, амал «номаълум» мемонад ва ин ҳолат барои корбар ва мувофиқсозӣ равшан аст. Пайванд бо чаҳорчӯбаи рӯз мустақим аст: deadline-и умумӣ муайян мекунад, чи қадар омодаи мувофиқсозӣ ҳастед, ва дар таснифи хатоҳо гурӯҳи «такрор кун» барои натиҷаи номаълум нест — ин мавзӯъ дар мувофиқии рӯзи 13 идома меёбад. Дар лоиҳаи воқеӣ мувофиқсозӣ аз рӯйи калидҳо ва сиёҳнависи қарорҳо барои ҳар пардохти дарозкашидашуда илова мешавад.",
+      "en": "The trickiest case for the policy in the runnable example is a timeout after the charge has actually gone through: the client sees an error while the money has already left. Retrying without a check creates a second charge; skipping the retry leaves the payment without an outcome. There is one safe path — reconciliation by idempotency key: until the provider answers, the operation stays in an \"unknown\" state visible to both the user and the reconciliation job. The connection to the day's frame is direct: the overall deadline decides how long you are willing to reconcile, and the error classification has no \"retry\" category for unknown outcomes — that thread continues in day 13's consistency work. A real project adds key-based reconciliation and a decision log for every hanging payment."
+     }
     }
    ],
    "interview": {
-     "id": "architecture-expert-day-01-written",
-     "question": {
-       "ru": "Как называется свойство операции, когда её повтор не создаёт второй итоговый эффект?",
-       "tg": "Хосияте, ки такрори ҳамон амал таъсири дуюм намедиҳад, чӣ ном дорад?",
-       "en": "What property means repeating an operation does not produce another final effect?"
-     },
-     "answer": {
-       "ru": "Идемпотентность",
-       "tg": "Идемпотентӣ",
-       "en": "Idempotency"
-     },
-     "acceptedAnswers": [
-       "idempotence",
-       "идемпотентност"
-     ]
+    "id": "architecture-expert-day-01-written",
+    "question": {
+     "ru": "Как называется свойство операции, когда её повтор не создаёт второй итоговый эффект?",
+     "tg": "Хосияте, ки такрори ҳамон амал таъсири дуюм намедиҳад, чӣ ном дорад?",
+     "en": "What property means repeating an operation does not produce another final effect?"
+    },
+    "answer": {
+     "ru": "Идемпотентность",
+     "tg": "Идемпотентӣ",
+     "en": "Idempotency"
+    },
+    "acceptedAnswers": [
+     "idempotence",
+     "идемпотентност"
+    ]
    },
    "questions": [
     {
@@ -170,7 +182,13 @@
        "en": "Yes: the network confirmed the connection was closed"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Тайм-аут — это отсутствие ответа, а не ответ об успехе или неудаче.",
+      "tg": "Тайм-аут набудани ҷавоб аст, на ҷавоби муваффақият ё нокомӣ.",
+      "en": "A timeout is no answer, not an answer about success or failure."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-01-q2",
@@ -201,7 +219,50 @@
        "en": "Only if attempt equals 1"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Посмотрите на все три проверки функции перед выбором ответа.",
+      "tg": "Пеш аз интихоби ҷавоб ба ҳар се санҷиши функсия нигоҳ кунед.",
+      "en": "Look at all three checks of the function before choosing."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-01-q3",
+     "question": {
+      "ru": "Платёжный вызов завершился тайм-аутом, хотя списание фактически прошло. Какое действие безопасно?",
+      "tg": "Даъвати пардохт ба тайм-аут расид, вале гирифтани маблағ дар ҳақиқат гузар буд. Кадом амал бехатар аст?",
+      "en": "A payment call ended in a timeout although the charge actually went through. Which action is safe?"
+     },
+     "answer": {
+      "ru": "Согласовать результат по idempotency key, не создавая новое списание",
+      "tg": "Натиҷаро аз рӯйи idempotency key мувофиқ кардан, бе эҷоди пардохти нав",
+      "en": "Reconcile the outcome by idempotency key without creating a new charge"
+     },
+     "hint": {
+      "ru": "Тайм-аут не доказывает ни успех, ни неудачу: безопасное действие ничего не списывает заново.",
+      "tg": "Тайм-аут на муваффақият, на нокомиро собит мекунад: амали бехатар маблағро дубора намегирад.",
+      "en": "A timeout proves neither success nor failure: the safe action does not charge again."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Согласовать результат по idempotency key, не создавая новое списание",
+       "tg": "Натиҷаро аз рӯйи idempotency key мувофиқ кардан, бе эҷоди пардохти нав",
+       "en": "Reconcile the outcome by idempotency key without creating a new charge"
+      },
+      {
+       "ru": "Немедленно повторить вызов с новым ключом, чтобы клиент получил ответ",
+       "tg": "Фавран даъватро бо калиди нав такрор кардан, то муштарӣ ҷавоб гирад",
+       "en": "Immediately retry the call with a new key so the client gets an answer"
+      },
+      {
+       "ru": "Считать операцию неуспешной и превентивно вернуть деньги клиенту",
+       "tg": "Амалро номуваффақ ҳисоб кардан ва пешакӣ маблағро ба муштарӣ баргасондан",
+       "en": "Treat the operation as failed and preemptively refund the client"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -268,12 +329,12 @@
       "ru": "Где проходит граница доверия",
       "tg": "Сарҳади боварӣ аз куҷо мегузарад?",
       "en": "The trust boundary"
-    },
+     },
      "body": {
       "ru": "Клиент сообщает, что пользователь хочет сделать. Сервер проверяет личность и права и только потом отдаёт закрытые данные. Заявленный браузером тариф не подтверждает оплату.\n\nНаличие красивой кнопки Pro не является авторизацией. Отделите доказательство личности, подтверждённую серверную подписку и политику курса. Исполняемый пример получает уже доверенные principal/entitlement; если принять эти объекты из JSON клиента, защита исчезнет. Проверяйте совпадение владельца, срок по серверным часам и допустимые уровни. Для файлов и API защита нужна отдельно от интерфейса.",
       "tg": "Клиент хоҳиши корбарро мегӯяд. Сервер шахсият ва ҳуқуқро месанҷад, баъд додаи маҳдудро медиҳад. Тарифе, ки браузер фиристод, пардохтро исбот намекунад.\n\nТугмаи зебои Pro иҷозати дастрасӣ нест. Далели шахсият, обунаи тасдиқшудаи сервер ва сиёсати курсро ҷудо кунед. Мисоли иҷрошаванда principal/entitlement-и аллакай боэътимод мегирад; агар онҳоро аз JSON-и муштарӣ қабул кунед, ҳифз нест мешавад. Мутобиқати соҳиб, муҳлат аз соати сервер ва сатҳҳои иҷозатдодаро санҷед. Барои файлу API ҳифз аз интерфейс ҷудо лозим аст.",
       "en": "The client asks for an action. The server verifies identity and permissions before returning restricted data. A plan name supplied by the browser does not prove payment.\n\nA polished Pro button is not authorization. Separate identity evidence, server-verified subscriptions and course policy. The runnable example receives already trusted principal/entitlement objects; accepting these from client JSON would remove the protection. Check ownership, expiry against server time and recognized tiers. Files and APIs need protection independently of the UI."
-    }
+     }
     },
     {
      "title": {
@@ -305,26 +366,38 @@
       "tg": "Нақшаи эътимоди браузер → API → auth → entitlement → дарсро созед. ADR бо рафтор ҳангоми нокомии провайдер ва анҷоми обуна нависед. Ҷадвали меҳмон, Beginner, Pro, Expert ва корбари бегонаро илова кунед. Тестҳои манфӣ барои plan-и ивазшуда, userId-и бегона, сабти гузашта ва URL-и мустақими файлро замима кунед.",
       "en": "Draw the trust flow browser → API → auth → entitlement → lesson. Write an ADR for provider failure and subscription expiry. Add a guest/Beginner/Pro/Expert/foreign-user matrix. Include negative tests for client plan tampering, foreign userId, expiry and direct file URLs."
      }
+    },
+    {
+     "title": {
+      "ru": "Просроченный entitlement и подменённый JSON",
+      "tg": "Entitlement-и гузашта ва JSON-и ивазшуда",
+      "en": "Expired entitlement and a tampered JSON"
+     },
+     "body": {
+      "ru": "Крайний случай границы доверия — entitlement, верный при выдаче и просроченный при использовании: подписка истекла между двумя запросами, а копия решения осталась в кэше браузера или прокси. Решение по чужой копии означает: граница не там, где вы думали. Вторая ловушка — JSON правильной структуры с подменённым userId: разбор проходит, проверка владельца нет. Отсюда правило: срок и владелец проверяются на серверных часах при каждом запросе, кэш решения живёт не дольше минимального окна, запись из вебхука дедуплицируется по event_id — приём из дня об идемпотентности. Матрицу ролей дополняет строка «действующий пользователь с просроченной подпиской»: каталог он видит, уроки Pro — нет.",
+      "tg": "Ҳолати канорӣ ҳудуди боварӣ — entitlement-е, ки ҳангоми додан дуруст буд ва ҳангоми истифода гузаштааст: обуна байни ду дархост тамом шуд, вале нусхаи қарор дар кэши браузер ё прокси монд. Қарор аз рӯйи нусхаи ғайрӣ маънои он дорад, ки ҳудуд дар он ҷо мегузарад, ки шумо фикр мекардед, не. Хавфи дуюм — JSON-и сохти дуруст бо userId-и ивазшуда: таҳлил мегузарад, санҷиши соҳиб нест. Аз ин қоида: муҳлат ва соҳиб дар ҳар дархост аз рӯйи соати серверӣ санҷида мешаванд, кэши қарор аз ҳадди ақалии фосилаи вақт дарозтар намемонад, сабт аз вебҳук аз рӯйи event_id дубораш пешгирӣ мешавад — ҳамон усули рӯзи идемпотентӣ. Матрисаи нақшҳо бо сатри «корбари фаъол бо обунаи гузашта» пур мешавад: каталогро мебинад, дарсҳои Pro — не.",
+      "en": "The edge case of the trust boundary is an entitlement that was valid at issue and expired in use: the subscription lapsed between two requests, while a cached decision lives on in the browser or a proxy. Deciding from a foreign copy means the boundary sits where you did not think it did. The second trap is a well-formed JSON with a swapped userId: parsing passes, ownership check does not. Hence the rule: expiry and owner are checked against server time on every request, a cached decision lives no longer than the minimum window, and a webhook record is deduplicated by event_id — the same trick as the idempotency-key day. The role matrix from the task gains a row \"active user with an expired subscription\": they see the catalog, not the Pro lessons."
+     }
     }
    ],
    "interview": {
-     "id": "architecture-expert-day-02-written",
-     "question": {
-       "ru": "Где принимается решение о доступе к платному материалу: в браузере или на сервере?",
-       "tg": "Иҷозаи дидани маводи пулакиро браузер ҳал мекунад ё сервер?",
-       "en": "Where is access to paid material decided, in the browser or on the server?"
-     },
-     "answer": {
-       "ru": "На сервере",
-       "tg": "Дар сервер",
-       "en": "On the server"
-     },
-     "acceptedAnswers": [
-       "сервер",
-       "серверная часть",
-       "server",
-       "backend"
-     ]
+    "id": "architecture-expert-day-02-written",
+    "question": {
+     "ru": "Где принимается решение о доступе к платному материалу: в браузере или на сервере?",
+     "tg": "Иҷозаи дидани маводи пулакиро браузер ҳал мекунад ё сервер?",
+     "en": "Where is access to paid material decided, in the browser or on the server?"
+    },
+    "answer": {
+     "ru": "На сервере",
+     "tg": "Дар сервер",
+     "en": "On the server"
+    },
+    "acceptedAnswers": [
+     "сервер",
+     "серверная часть",
+     "server",
+     "backend"
+    ]
    },
    "questions": [
     {
@@ -356,7 +429,13 @@
        "en": "Yes, if the user saw the Pro button"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Спросите, кто владеет данными о подписке: клиент или сервер.",
+      "tg": "Пурсед, кӣ соҳиби додаҳои обуна аст: муштарӣ ё сервер.",
+      "en": "Ask who owns the subscription data: the client or the server."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-02-q2",
@@ -387,7 +466,50 @@
        "en": "200: the subscription counts as active until end of day"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Просрочка — не отсутствие личности и не активная подписка; ищите отдельный код ответа.",
+      "tg": "Гузаштаи муҳлат набудани шахсият ва обунаи фаъол нест; рамзи ҷавоби алоҳидаро ҷӯяед.",
+      "en": "Expiry is neither a missing identity nor an active subscription; look for a separate status code."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-02-q3",
+     "question": {
+      "ru": "Подписка истекла между двумя запросами, а на клиенте осталась копия решения «Expert». Что должно решать?",
+      "tg": "Обуна байни ду дархост тамом шуд, вале дар муштарӣ нусхаи қарори «Expert» монд. Чӣ бояд қарор гирад?",
+      "en": "The subscription expired between two requests, and the client still holds a cached \"Expert\" decision. What must decide?"
+     },
+     "answer": {
+      "ru": "Серверная проверка срока и владельца при каждом запросе",
+      "tg": "Санҷиши серверии муҳлат ва соҳиб дар ҳар дархост",
+      "en": "A server-side check of expiry and owner on every request"
+     },
+     "hint": {
+      "ru": "Решение о доступе принимается там, где живут серверные часы и запись о подписке.",
+      "tg": "Қарори дастрасӣ он ҷо қабул мешавад, ки соати серверӣ ва сабти обуна зиндагӣ мекунанд.",
+      "en": "The access decision is made where the server clock and the subscription record live."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Копия на клиенте, пока пользователь не закрыл браузер",
+       "tg": "Нусха дар муштарӣ, то корбар браузерро пӯшида накунад",
+       "en": "The client copy, until the user closes the browser"
+      },
+      {
+       "ru": "Дата из заголовка ответа API, если ответ был получен сегодня",
+       "tg": "Сана аз сарлаҳзаи ҷавоби API, агар ҷавоб имрӯз гирифта шуда бошад",
+       "en": "The date from the API response header, if it was received today"
+      },
+      {
+       "ru": "Серверная проверка срока и владельца при каждом запросе",
+       "tg": "Санҷиши серверии муҳлат ва соҳиб дар ҳар дархост",
+       "en": "A server-side check of expiry and owner on every request"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -454,12 +576,12 @@
       "ru": "Как подтвердить готовность системы",
       "tg": "Омодагии системаро чӣ хел исбот мекунем?",
       "en": "Evidence of operational readiness"
-    },
+     },
      "body": {
       "ru": "Метрики показывают наблюдаемое состояние. Restore проверяет, что данные реально восстанавливаются из копии. Rollback возвращает прежнюю версию развёртывания. Одну проверку нельзя считать доказательством всех трёх.\n\nЗелёный unit-тест доказывает только проверенный контракт, а не доступность production. Разделяйте фактические измерения, учебные фикстуры и непроверенные предположения. Порог p95 без объёма выборки и окна может вводить в заблуждение. Существование backup-файла не доказывает восстановимость. Маленькая функция ниже — проверяемая политика hold/release, но достоверность evidence требует отдельного процесса.",
       "tg": "Метрика ҳолати дидашударо нишон медиҳад. Restore месанҷад, ки дода аз backup ҳақиқатан бармегардад. Rollback версияи пешини барномаро бармегардонад. Ҳар санҷиш мақсади худашро дорад.\n\nUnit-тести сабз танҳо шарти санҷидашударо исбот мекунад, на дастрасии production. Ченаки воқеӣ, фикстураи омӯзишӣ ва тахмини санҷиданашударо ҷудо кунед. Ҳудуди p95 бе ҳаҷми намуна ва фосилаи вақт метавонад гумроҳ кунад. Мавҷудияти backup-файл барқароршавиро исбот намекунад. Функсияи поён сиёсати санҷишшавандаи hold/release аст, вале эътимоди evidence раванди алоҳида мехоҳад.",
       "en": "Metrics report observed behavior. A restore verifies that data can be recovered from a backup. A rollback returns the deployment to a previous version. Each check answers a different question.\n\nA green unit test proves only its checked contract, not production availability. Distinguish real measurements, teaching fixtures and unverified assumptions. A p95 threshold without sample size and a time window can mislead. A backup file does not prove restorability. The function below is a testable hold/release policy; evidence authenticity requires a separate process."
-    }
+     }
     },
     {
      "title": {
@@ -491,25 +613,37 @@
       "tg": "Барои платформаи омӯзишӣ release memo созед: метрика бо фосила ва шумораи дархост, далели restore, нақшаи мигратсияи мувофиқ, canary ва бозгашт. RPO 15 дақиқа/RTO 30 дақиқаро тахмин карда, тарзи чен кардан дар нусхаи додаҳоро нависед. Санҷишҳои воқеан иҷрошуда ва нақшавиро ҷудо кунед. Тестҳои манфии NaN, sampleSize=99, rollbackTested=false-ро илова намоед.",
       "en": "Prepare a release memo for a learning platform: metrics with window/sample size, restore evidence, compatible migration plan, canary and rollback. Assume RPO 15 minutes/RTO 30 minutes and explain how to measure them on copied data. Separate completed checks from planned ones. Include negative tests for NaN, sampleSize=99 and rollbackTested=false."
      }
+    },
+    {
+     "title": {
+      "ru": "p95 без выборки и restore не на тех данных",
+      "tg": "p95 бе намуна ва restore барои додаҳои нодуруст",
+      "en": "p95 without a sample and a restore on the wrong data"
+     },
+     "body": {
+      "ru": "Даже правильные метрики лгут в крайних случаях. p95 в 120 миллисекунд на выборке из двадцати запросов ничего не доказывает: окно и объём выборки — часть доказательства, как sampleSize в releaseDecision. Второй случай — restore не на тех данных: прошлогодняя копия восстанавливается, сегодняшняя не проверена, и RPO остаётся обещанием. Третий — rollback на прошлой форме схемы: откат проходит, данные — нет. Свяжите это с границей доверия предыдущего дня: источник метрики тоже актор, и число с чужого стенда не попадает в release memo. Правило практичное: каждое число в memo сопровождается окном, выборкой и датой последней проверки restore и rollback.",
+      "tg": "Ҳатто метрикаҳои дуруст дар ҳолатҳои канорӣ дурӯғ мегӯянд. p95 бо арзиши 120 миллисония дар намунаи бист дархост ҳеч чизро собит намекунад: фосилаи вақт ва ҳаҷми намуна қисми далеланд, мисли sampleSize дар releaseDecision. Ҳолати дуюм — restore барои додаҳои нодуруст: нусхаи соли гузашта барқарор мешавад, нусхаи имрӯза санҷида нашудааст ва RPO аз супориш қавл мемонад. Сеюм — rollback дар шакли қаблии схема, вақте ки муҳоҷирати мутобиқ ҷадвалҳоро тағйир додааст: баргарданӣ мегузарад, додаҳо — не. Инро бо ҳудуди боварии рӯзи гузашта пайванд кунед: манбаи метрика ҳам актор аст, рақами стендҳои ғайрӣ ба release memo на меояд. Қоидаи амалӣ: ҳар рақами memo бо фосилаи вақт, намуна ва санаи охирин санҷиши воқеии restore ва rollback меояд.",
+      "en": "Even correct metrics lie in edge cases. A p95 of 120 milliseconds on a sample of twenty requests proves nothing: the window and the sample size are part of the evidence, like sampleSize in releaseDecision. The second case is a restore on the wrong data: last year's copy recovers, today's was never tested, and the RPO from the task remains a promise. The third is a rollback rehearsed on the old schema shape after a compatible migration has already changed the tables: the rollback passes, the data does not. Tie this to the previous day's trust boundary: a metric source is an actor too, and a number from a foreign bench does not enter the release memo. The practical rule: every number in the memo carries a window, a sample and the date of the last real restore and rollback check."
+     }
     }
    ],
    "interview": {
-     "id": "architecture-expert-day-03-written",
-     "question": {
-       "ru": "Как по-английски называется проверяемое восстановление данных из резервной копии: restore или rollback?",
-       "tg": "Баргардондани дода аз backup restore ном дорад ё rollback?",
-       "en": "Which term means recovering data from a backup, restore or rollback?"
-     },
-     "answer": {
-       "ru": "restore",
-       "tg": "restore",
-       "en": "restore"
-     },
-     "acceptedAnswers": [
-       "Restore",
-       "восстановление",
-       "барқароркунӣ"
-     ]
+    "id": "architecture-expert-day-03-written",
+    "question": {
+     "ru": "Как по-английски называется проверяемое восстановление данных из резервной копии: restore или rollback?",
+     "tg": "Баргардондани дода аз backup restore ном дорад ё rollback?",
+     "en": "Which term means recovering data from a backup, restore or rollback?"
+    },
+    "answer": {
+     "ru": "restore",
+     "tg": "restore",
+     "en": "restore"
+    },
+    "acceptedAnswers": [
+     "Restore",
+     "восстановление",
+     "барқароркунӣ"
+    ]
    },
    "questions": [
     {
@@ -541,7 +675,13 @@
        "en": "Yes: it is enough that the backup was created today"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Существование файла и целостность восстановленных данных — разные доказательства.",
+      "tg": "Мавҷудияти файл ва тамомияти додаҳои барқароршуда — далелҳои гуногунанд.",
+      "en": "A file existing and the integrity of restored data are different pieces of evidence."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-03-q2",
@@ -572,7 +712,50 @@
        "en": "restoreTested and rollbackTested, plus metrics with a sufficient sample"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Перечислите все поля evidence, которые функция считает обязательными.",
+      "tg": "Ҳамаи майдонҳои evidence-еро номбар кунед, ки функсия онҳоро ҳатмӣ мешуморад.",
+      "en": "List every evidence field the function treats as mandatory."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-03-q3",
+     "question": {
+      "ru": "Какое доказательство даёт право заявить RPO 15 минут?",
+      "tg": "Кадом далел ҳаққ медиҳад, ки RPO 15 дақиқа эълон карда шавад?",
+      "en": "Which evidence gives the right to claim a 15-minute RPO?"
+     },
+     "answer": {
+      "ru": "Restore сегодняшней копии на изолированной базе с измеренным фактическим временем",
+      "tg": "Restore-и нусхаи имрӯза дар базаи алоҳида бо вақти воқеии ченшуда",
+      "en": "A restore of today's copy onto an isolated database with measured actual time"
+     },
+     "hint": {
+      "ru": "Заявленное время восстановления подтверждается измерением на реальной свежей копии.",
+      "tg": "Вақти эълоншудаи барқароркунӣ бо ченкунӣ дар нусхаи воқеии тару тоза тасдиқ мешавад.",
+      "en": "The claimed recovery time is confirmed by measurement on a real fresh copy."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Restore сегодняшней копии на изолированной базе с измеренным фактическим временем",
+       "tg": "Restore-и нусхаи имрӯза дар базаи алоҳида бо вақти воқеии ченшуда",
+       "en": "A restore of today's copy onto an isolated database with measured actual time"
+      },
+      {
+       "ru": "Скриншот панели backup с датой последнего задания",
+       "tg": "Скриншоти панели backup бо санаи охирин вазифаи backupи backup",
+       "en": "A screenshot of the backup panel with the last job's date"
+      },
+      {
+       "ru": "Пороговое значение RPO в конфигурации backup-сервиса",
+       "tg": "Арзиши ҳаддии RPO дар конфигуратсияи backup-хизмат",
+       "en": "The RPO threshold value in the backup service configuration"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -662,6 +845,18 @@
     },
     {
      "title": {
+      "ru": "Обратимое на вид, необратимое по данным",
+      "tg": "Аз рӯйи намуд баргарданданӣ, аз рӯйи додаҳо не",
+      "en": "Looks reversible, irreversible in the data"
+     },
+     "body": {
+      "ru": "Квадрантная рамка ломается на решениях-масках: правка выглядит локальной, но коснулась сохранённых данных — и откат стал миграцией. Переименование поля в публичном ответе обратимо за час, пока никто не сохранил его в свою таблицу; после — каждая копия хранит старое имя. Обратная маска тоже бывает: страшное на вид разделение сервиса на пустых данных откатывается за день. Второй крайний случай — радиус больше видимого: формат события одного модуля читают подписчики, которых находят поиском по имени контракта, а не опросом команды. Дополнение к рамке: перед оценкой обратимости спросите, записаны ли данные в новом виде; перед оценкой радиуса сделайте поиск по имени контракта.",
+      "tg": "Чаҳорчӯбаи чорбахшӣ дар қарорҳои ниқобдор вайрон мешавад: тағйир маҳаллӣ менамояд, вале ба додаҳои сабтшуда даст зад — ва баргарданӣ муҳоҷират шуд. Тағйири номи майдон дар ҷавоби умумӣ дар як соат баргарданданӣ аст, то ҳеч кас онро ба ҷадвали худ сабт накарда бошад; баъд ҳар нусха номи кӯҳнаро нигоҳ медорад. Ниқоби баръакс ҳам мешавад: тақсими хавфнок-намои хизмат дар додаҳои холӣ дар як рӯз баргарданданӣ аст. Ҳолати канории дуюм — радиуси аз намуд калон: формати ҳодисаи як модулро зеркашон мекунанд, ки онҳоро бо ҷустуҷӯи номи контракт ёфтан мумкин аст, на бо пурсиши даста. Илова ба чаҳорчӯба: пеш аз баҳогиҳои баргарданданӣ пурсед, оё додаҳо дар шакли нав сабт шудаанд; пеш аз баҳо радиус — ҷустуҷӯи номи контрак.",
+      "en": "The quadrant frame breaks on disguised decisions: the change looks local but touched stored data, and the rollback became a migration. Renaming a field in a public response is reversible within an hour — until somebody stored it in their own table; afterwards every copy keeps the old name. The inverse disguise also happens: a scary-looking service split on empty data rolls back in a day. The second edge case is a blast radius larger than it looks: a module's event format is read by subscribers you find by searching the contract name, not by polling the team. An addition to the frame: before judging reversibility, ask whether data is already written in the new shape; before judging radius, search for the contract name."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -710,7 +905,13 @@
        "en": "Wording of an error message"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Со схемой данных связаны миграции, права и чужие процессы.",
+      "tg": "Бо схемаи додаҳо муҳоҷират, ҳуқуқҳо ва равандҳои ғайрӣ пайванданд.",
+      "en": "Migrations, permissions and foreign processes hang off the data schema."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-04-q2",
@@ -741,7 +942,50 @@
        "en": "A decision on the spot, referenced in the change description"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Вспомните квадрант «лёгкий и узкий» из рамки.",
+      "tg": "Квадранти «сабук ва маҳдуд»-ро аз чаҳорчӯба дар ёд оред.",
+      "en": "Recall the \"light and narrow\" quadrant of the frame."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-04-q3",
+     "question": {
+      "ru": "Решение выглядит обратимым, но данные уже записаны в новом формате. Что изменилось?",
+      "tg": "Қарор баргарданданӣ менамояд, вале додаҳо аллакай дар формати нав сабт шудаанд. Чӣ тағйир ёфт?",
+      "en": "The decision looks reversible, but data has already been written in the new format. What changed?"
+     },
+     "answer": {
+      "ru": "Откат теперь требует миграции данных и стоит значительно дороже",
+      "tg": "Баргарданӣ акнун муҳоҷирати додаҳоро талаб мекунад ва хеле гаронтар аст",
+      "en": "Rollback now requires a data migration and is far more expensive"
+     },
+     "hint": {
+      "ru": "Посмотрите, что уже записано на диске, а не только на структуру кода.",
+      "tg": "Ба он, ки аллакай дар диск сабт шудааст, нигоҳ кунед, на танҳо ба сохти рамз.",
+      "en": "Look at what is already written on disk, not only at the code structure."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Ничего: обратимость зависит только от кода",
+       "tg": "Ҳеҷ чиз: баргарданданӣ танҳо ба рамз вобаста аст",
+       "en": "Nothing: reversibility depends only on the code"
+      },
+      {
+       "ru": "Откат теперь требует миграции данных и стоит значительно дороже",
+       "tg": "Баргарданӣ акнун муҳоҷирати додаҳоро талаб мекунад ва хеле гаронтар аст",
+       "en": "Rollback now requires a data migration and is far more expensive"
+      },
+      {
+       "ru": "Радиус влияния уменьшился, потому что формат один",
+       "tg": "Радиуси таъсир кам шуд, зеро формат ягон аст",
+       "en": "The blast radius shrank because there is a single format"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -831,6 +1075,18 @@
     },
     {
      "title": {
+      "ru": "ADR, который противоречит коду",
+      "tg": "ADR-е, ки бо рамз мухолифат дорад",
+      "en": "An ADR that contradicts the code"
+     },
+     "body": {
+      "ru": "Журнал этого дня умирает тихо: в записи статус «принято», а код ведёт себя иначе. Крайний случай — расхождение после спешного хотфикса: под дедлайном правили код, журнал не трогали, и новый инженер верит документу, а не поведению системы. Второй случай — цепочка замен без статуса: ADR-7 заменён ADR-11, но старая запись не помечена, и обе выглядят действующими. Свяжите с рамкой предыдущего дня: решение с дорогим откатом без записи — не «пока без документов», а случайный долг без владельца. Правило ревизии: при каждом структурном изменении проверяйте, не делает ли оно чужую запись ложной, и помечайте «заменено» тем же изменением кода.",
+      "tg": "Маҷаллаи ин рӯз бе садо мемурад: дар сабт ҳолат «қабулшуда», вале рамз дигар рафтар дорад. Ҳолати канорӣ — мухолифат баъди хотфикси шитобӣ: зери мӯҳлат рамзро тағйир доданд, маҷалларо нахӯрда монданд, ва муҳандиси нав ба ҳуҷҷат бовар мекунад, на ба рафтори система. Ҳолати дуюм — занҷири ивазҳо бе ҳолат: ADR-7-ро ADR-11 иваз кард, вале сабти кӯҳна ишора нашуд ва ҳар ду сабт амалкунанда менамоянд. Пайванд кунед бо чаҳорчӯбаи рӯзи гузашта: қарори баргарданиашон гарон бе сабт — на «ҳанӯз бе ҳуҷҷат», балки қарзи тасодуфии бе соҳиб. Қоидаи баррасӣ: дар ҳар тағйири сохторӣ санҷед, оё сабти ғайриро дурӯғ месозад, ва «ивазшуда»-ро бо ҳамон тағйири рамз ишора кунед.",
+      "en": "The journal of this day dies quietly: the record says \"accepted\" while the code behaves differently. The edge case is a divergence after a rushed hotfix: under deadline pressure the code changed, the journal did not, and a new engineer trusts the document, not the system's behavior. The second case is a chain of replacements without status: ADR-7 was superseded by ADR-11, but the old record was never marked, and both look active. Tie this to the previous day's frame: an expensive-to-revert decision without a record is not \"no documents yet\" — it is an ownerless accidental liability. The review rule: at every structural change, check whether it makes someone else's record false, and mark \"superseded\" in the same code change."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -872,7 +1128,13 @@
        "en": "A diagram of the whole system and a release plan"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Три части честного решения: что вынудило, что решили, что стало сложнее.",
+      "tg": "Се қисми қарори рӯстан: чӣ маҷбур кард, чӣ қарор гирифтанд, чӣ мураккаб шуд.",
+      "en": "Three parts of an honest decision: what forced it, what was decided, what became harder."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-05-q2",
@@ -903,7 +1165,50 @@
        "en": "Delete the old ADR so the log does not confuse"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Решения не редактируются; журнал — история, а не черновик.",
+      "tg": "Қарорҳо таҳрир намешаванд; маҷалла — таърих аст, на лоиҳа.",
+      "en": "Decisions are not edited; the journal is history, not a draft."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-05-q3",
+     "question": {
+      "ru": "Спешный хотфикс изменил поведение, но ADR остался прежним. Что сделать прежде всего?",
+      "tg": "Хотфикси шитобӣ рафторро тағйир дод, вале ADR қаблан монд. Аввал чӣ кунад?",
+      "en": "A rushed hotfix changed the behavior, but the ADR stayed the same. What to do first?"
+     },
+     "answer": {
+      "ru": "Записать новый ADR, который ссылается на старый и объясняет расхождение",
+      "tg": "ADR-и нав сабт кардан, ки ба кӯҳна ишора мекунад ва ихтилофро шарҳ медиҳад",
+      "en": "Write a new ADR referencing the old one and explaining the divergence"
+     },
+     "hint": {
+      "ru": "Журнал не редактируется задним числом; расхождение описывает новая запись.",
+      "tg": "Маҷалла баъдан таҳрир намешавад; ихтилофро сабти нав баён мекунад.",
+      "en": "The journal is not edited retroactively; a new record describes the divergence."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Откатить хотфикс, чтобы код снова совпал с записью",
+       "tg": "Хотфиксро баргасондан, то рамз бо сабт мувофиқ шавад",
+       "en": "Roll back the hotfix so the code matches the record again"
+      },
+      {
+       "ru": "Тихо отредактировать ADR под новое поведение",
+       "tg": "ADR-ро бе садо мутобиқи рафтори нав таҳрир кардан",
+       "en": "Quietly edit the ADR to match the new behavior"
+      },
+      {
+       "ru": "Записать новый ADR, который ссылается на старый и объясняет расхождение",
+       "tg": "ADR-и нав сабт кардан, ки ба кӯҳна ишора мекунад ва ихтилофро шарҳ медиҳад",
+       "en": "Write a new ADR referencing the old one and explaining the divergence"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -992,6 +1297,18 @@
     },
     {
      "title": {
+      "ru": "Скрытые требования и качества без владельцев",
+      "tg": "Талаботи пинҳонӣ ва сифатҳои бе соҳиб",
+      "en": "Hidden requirements and qualities without owners"
+     },
+     "body": {
+      "ru": "Крайний случай сценария качества — требование, которое всплывает на приёмке: удаление данных клиента по запросу, лимит хранения, регион размещения. Оно не звучит ни функциональным, ни нефункциональным, поэтому не попало ни в один сценарий, а стоит недели и меняет архитектуру хранения. Вторая ловушка — качество без имени: строка «консистентность платежей — строгая» осталась без ответственного, и в инциденте никто не знал, чей это порог. Свяжите с ценой решений предыдущего дня: невысказанное требование — решение, принятое по умолчанию, и чаще всего самое труднообратимое. Правило приёма: каждое пожелание становится сценарием с числом и владельцем или записанным «вне рамок с причиной».",
+      "tg": "Ҳолати канории сенарияи сифат — талаботе, ки ҳангоми қабул пайдо мешавад: нест кардани маълумоти муштарӣ бо дархост, маҳдудияти нигоҳдорӣ, минтақаи ҷойгиршавӣ. Он на функсионалӣ менояд, на ғайрифунксионалӣ, бинобар ин ба ягон сенария наомад, вале якчанд ҳафта арзиш дорад ва сохтори нигоҳдориро тағйир медиҳад. Хавфи дуюм — сифати бесифт: сатри «мутобиқии пардохтҳо — сахт» бе ҷавобгар монд ва дар ҳодиса ҳеч кас надонист, ки ин ҳадди кӣ аст. Пайванд кунед бо баҳои қарорҳои рӯзи гузашта: талаботи нагуфта — қарори аз рӯйи пешфарз қабулшуда ва аксаран аз ҳама душмантар баргарданданӣ. Қоидаи қабул: ҳар хоҳиш сенарияи бо рақам ва соҳиб ё «берун аз чаҳорчӯба бо сабаб»-и сабтшуда мешавад.",
+      "en": "The edge case of a quality scenario is a requirement that surfaces at acceptance: deleting a client's data on request, a storage limit, a hosting region. It sounds like neither functional nor non-functional work, so it never entered a scenario — yet it costs weeks and reshapes the storage architecture. The second trap is a quality without a name: the row \"payment consistency — strict\" had no owner, and during the incident nobody knew whose threshold it was. Tie this to the previous day's decision cost: an unspoken requirement is a decision made by default, and usually the hardest one to reverse. The intake rule: every wish becomes a scenario with a number and an owner, or a recorded \"out of scope, with a reason\"."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -1033,7 +1350,13 @@
        "en": "Any behavior can be built with any structure; qualities and failure cost are what differ"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Одно поведение — много структур; спросите, что различает структуры между собой.",
+      "tg": "Як рафтор — сохторҳои бисёр; пурсед, чӣ сохторҳоро аз ҳам ҷудо мекунад.",
+      "en": "One behavior, many structures; ask what distinguishes the structures."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-06-q2",
@@ -1064,7 +1387,50 @@
        "en": "A reference to the most successful product in the industry"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Слово «должно» не измеряется; найдите число, окно и того, кто отвечает.",
+      "tg": "Калимаи «бояд» чен намешавад; рақам, фосилаи вақт ва ҷавобгӯро ёбед.",
+      "en": "\"Should\" is not measurable; find the number, the window and the owner."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-06-q3",
+     "question": {
+      "ru": "Клиент требует удалять все свои данные по запросу за 24 часа. Куда это требование попадает?",
+      "tg": "Муштарӣ талаб мекунад, ки ҳамаи додаҳояш дар 24 соат бо дархост нест карда шавад. Ин талаб дар куҷо меравад?",
+      "en": "A client demands deletion of all their data within 24 hours on request. Where does this requirement go?"
+     },
+     "answer": {
+      "ru": "В сценарий качества хранения с числом, окном и владельцем",
+      "tg": "Ба сенарияи сифати нигоҳдорӣ бо рақам, фосилаи вақт ва соҳиб",
+      "en": "Into a storage quality scenario with a number, a window and an owner"
+     },
+     "hint": {
+      "ru": "Требование с окном и последствиями — измеримое качество, а не заметка.",
+      "tg": "Талабот бо фосилаи вақт ва оқибатҳо — сифати ченшаванда аст, на ёддошт.",
+      "en": "A requirement with a window and consequences is measurable quality, not a note."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "В сценарий качества хранения с числом, окном и владельцем",
+       "tg": "Ба сенарияи сифати нигоҳдорӣ бо рақам, фосилаи вақт ва соҳиб",
+       "en": "Into a storage quality scenario with a number, a window and an owner"
+      },
+      {
+       "ru": "В список пожеланий без измерения, потому что это очевидно",
+       "tg": "Ба рӯйхати хоҳишҳо бе ченкунӣ, зеро ин равшан аст",
+       "en": "Into a wishlist without measurement, because it is obvious"
+      },
+      {
+       "ru": "Никуда: удаление данных — дело базы, а не требований",
+       "tg": "Ҳеҷ куҷо: несткунии додаҳо кори база аст, на талабот",
+       "en": "Nowhere: data deletion is a database matter, not a requirement"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1154,6 +1520,18 @@
     },
     {
      "title": {
+      "ru": "Исходящий вебхук и актор без интерфейса",
+      "tg": "Вебҳуки баромадан ва актори бе интерфейс",
+      "en": "An outgoing webhook and an actor without a UI"
+     },
+     "body": {
+      "ru": "Диаграмма контекста промахивается не в деталях, а в направлениях стрелок. Крайний случай — исходящий вебхук: вы не только получаете события провайдера, но и обязаны доставлять свои уведомления партнёру, и его окно приёма — часть вашего контракта. Второй — актор, который читает, но не рисуется: ночная выгрузка и робот создают нагрузку и требования приватности. Третий — система, в которую вы пишете и от которой ничего не ждёте: её недоступность не ломает путь, и это осознанное решение. Свяжите с качествами предыдущего дня: у каждой стрелки — свой сценарий отказа; нет сценария — граница проведена не до конца. Проверка на ревью: каждую стрелку проговаривают фразой «при отказе X мы делаем Y».",
+      "tg": "Диаграммаи контекст на дар тафсилот, балки дар самти тирҳо хато мекунад. Ҳолати канорӣ — вебҳуки баромадан: шумо на танҳо ҳодисаҳои провайдерро мегиред, балки бояд огоҳиҳои худро ба ҳамкор расонед, ва панели қабули ӯ қисми контракти шумост. Ҳолати дуюм — актор, ки мехонад вале кашида намешавад: барорании шабона ва роботи ҷустуҷӯ бор ва талаботи маҳрамият месозанд. Сеюм — системае, ки дар он менависед ва аз он ҳеч чиз намешуморед: номаҳдуди он роҳро вайрон намекунад ва ин қарори огоҳона аст. Пайванд кунед бо сифатҳои рӯзи гузашта: ҳар тир сенарияи нокомии худро дорад; сенария нест — ҳудуд то охир кашида нашудааст. Санҷиш дар баррасӣ: ҳар тирро бо ибора «ҳангоми нокомии X мо Y мекунем» мегӯянд.",
+      "en": "The context diagram misses not in details but in the direction of arrows. The edge case is the outgoing webhook: you not only receive provider events but must deliver your own notifications to a partner, and their intake window is part of your contract. The second case is an actor that reads but never gets drawn: a nightly export and a search crawler create load and privacy requirements. The third is a system you write to and expect nothing from: its unavailability does not break the path, and that is a conscious decision. Tie this to the previous day's qualities: every arrow has its own failure scenario; no scenario means the boundary was drawn halfway. The review check: say every arrow aloud as \"when X fails, we do Y\"."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -1195,7 +1573,13 @@
        "en": "Only the external API and the database"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Уровень контекста не показывает внутренних деталей системы.",
+      "tg": "Сатҳи контекст тафсилоти дарунӣ системаро нишон намедиҳад.",
+      "en": "The context level does not show the system's internal details."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-07-q2",
@@ -1226,7 +1610,50 @@
        "en": "Administrators, support and background jobs"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "У кого нет интерфейса, но есть требования?",
+      "tg": "Кӣ интерфейс надорад, вале талаб дошта бошад?",
+      "en": "Who has no interface but does have requirements?"
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-07-q3",
+     "question": {
+      "ru": "Ваша система отправляет партнёру вебхуки о статусе оплаты. Что это меняет на контекстной диаграмме?",
+      "tg": "Системаи шумо ба ҳамкор вебҳукҳои ҳолати пардохт мефиристад. Ин дар диаграммаи контекст чиро тағйир медиҳад?",
+      "en": "Your system sends the partner webhooks about payment status. What does that change on the context diagram?"
+     },
+     "answer": {
+      "ru": "Партнёр появляется как актор со своей доступностью приёма и окном повтора",
+      "tg": "Ҳамкор ҳамчун актор бо дастрасии қабули худ ва панели такрор пайдо мешавад",
+      "en": "The partner appears as an actor with its own intake availability and retry window"
+     },
+     "hint": {
+      "ru": "Каждая стрелка имеет владельца доступности и сценарий отказа — и в исходящую сторону тоже.",
+      "tg": "Ҳар тир соҳиби дастрасӣ ва сенарияи нокомӣ дорад — дар самти баромадан ҳам.",
+      "en": "Every arrow has an availability owner and a failure scenario — outgoing too."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Партнёр появляется как актор со своей доступностью приёма и окном повтора",
+       "tg": "Ҳамкор ҳамчун актор бо дастрасии қабули худ ва панели такрор пайдо мешавад",
+       "en": "The partner appears as an actor with its own intake availability and retry window"
+      },
+      {
+       "ru": "Ничего: исходящие вызовы рисуются только на диаграмме контейнеров",
+       "tg": "Ҳеҷ чиз: даъватҳои баромадан танҳо дар диаграммаи контейнерҳо кашида мешаванд",
+       "en": "Nothing: outgoing calls are drawn only on the container diagram"
+      },
+      {
+       "ru": "Партнёр становится частью вашей системы, потому что вы ему пишете",
+       "tg": "Ҳамкор қисми системаи шумо мешавад, зеро шумо ба ӯ менависед",
+       "en": "The partner becomes part of your system because you write to them"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1315,6 +1742,18 @@
     },
     {
      "title": {
+      "ru": "Разрез по слоям вместо домена",
+      "tg": "Буриш бо қабатҳо ба ҷои домен",
+      "en": "Splitting by layers instead of domain"
+     },
+     "body": {
+      "ru": "Обе ошибки рамки объединяет разрез по слоям вместо областей домена. Получаются «сервис данных», «сервис API» и «сервис писем», меняющиеся вместе, но ходящие через сеть: релиз корзины требует согласованного выпуска трёх развёртываний. Аргумент monolith-first прямо об этом: начните с монолита, держите его модульным и выделяйте сервисы при второй команде или отдельном профиле нагрузки. Крайний случай пользы разделения — отдельный профиль: массовая генерация сертификатов грузит процессор и не мешает записи; это осмысленный первый кандидат, а не «сервис на будущее». Свяжите с ценой отката дня 4: разрез по слоям — решение широкого радиуса, и его цена не окупается скоростью одного релиза.",
+      "tg": "Ҳар ду хатои чаҳорчӯба бо як сабаб муттаҳиданд: буриш бо қабатҳои техникӣ ба ҷои соҳаҳои домен. «Хизмати додаҳо», «хизмати API» ва «хизмати нома» ҳосил мешаванд, ки якҷо тағйир меёбанд, вале аз шабака мегузаранд: релизи сабад талаб мекунад нашри мувофиқи се deployment-ро. Аргументи monolith-first мустақиман дар бораи ин аст: аз монолит оғоз кунед, онро модулӣ нигоҳ доред ва хизматҳоро вақте ҷудо кунед, ки дастаи дуюм ё профили мустақили бор пайдо шавад. Ҳолати канории манфиати тақсим — профили алоҳида: тавлиди умумии сертификатҳо процессорро бор мекунад ва ба сабти машғулот халал намерасонад; ин номзади аввали маънонок аст, на «хизмат барои оянда». Пайванд кунед бо баҳои баргарданиши рӯзи 4: буриш бо қабатҳо қарори радиуси васеъ аст ва баҳояш бо суръати як релиз баробар намешавад.",
+      "en": "Both frame errors share one cause: splitting by technical layers instead of domain areas. You get a \"data service\", an \"API service\" and an \"email service\" that change together but talk over the network: one cart release needs three coordinated deployments. The monolith-first argument is exactly about this: start with a monolith, keep it modular, and extract services when a second team or an independent load profile appears. The edge case where splitting pays off is a separate profile: bulk certificate generation hammers the CPU and never touches lesson booking — a meaningful first candidate, not a \"service for the future\". Tie this to day 4's rollback cost: a layer-based cut is a wide-radius decision whose price one release speed-up does not repay."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -1356,7 +1795,13 @@
        "en": "simpler transactions between system parts"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Главный выигрыш микросервисов — организационный, а не технический.",
+      "tg": "Бурди асосии микросервисҳо ташкилӣ аст, на техникӣ.",
+      "en": "The main gain of microservices is organizational, not technical."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-08-q2",
@@ -1387,7 +1832,50 @@
        "en": "transactions become simpler because data is split"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Посчитайте, на что уйдёт время после разделения.",
+      "tg": "Ҳисоб кунед, ки баъди тақсим вақт ба куҷо меравад.",
+      "en": "Count where the time goes after the split."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-08-q3",
+     "question": {
+      "ru": "Команда выделила «сервис базы данных» и «сервис API», оба меняются вместе. Что это значит?",
+      "tg": "Даста «хизмати базаи додаҳо» ва «хизмати API»-ро ҷудо кард, ҳар ду якҷо тағйир меёбанд. Ин чӣ маъно дорад?",
+      "en": "A team extracted a \"database service\" and an \"API service\", both changing together. What does that mean?"
+     },
+     "answer": {
+      "ru": "Разрез по техническим слоям: сеть добавлена, границы домена не появились",
+      "tg": "Буриш бо қабатҳои техникӣ: шабака илова шуд, ҳудудҳои домен пайдо нашуданд",
+      "en": "A split by technical layers: the network was added, no domain boundary appeared"
+     },
+     "hint": {
+      "ru": "Смотрите, меняются ли части в разных ритмах, а не на какие папки они похожи.",
+      "tg": "Бинед, оё қисмҳо дар ритмҳои гуногун тағйир меёбанд, на ба кадом папка монанданд.",
+      "en": "Check whether the parts change at different rhythms, not what folders they resemble."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Правильное разделение по нагрузке: запись и чтение независимы",
+       "tg": "Тақсими дурусти аз рӯйи бор: сабт ва хониш мустақиланд",
+       "en": "A correct load-based split: writes and reads are independent"
+      },
+      {
+       "ru": "Признак зрелой архитектуры: данные изолированы от кода",
+       "tg": "Аломати меъмории пухта: додаҳо аз рамз изолят шудаанд",
+       "en": "A sign of mature architecture: data is isolated from code"
+      },
+      {
+       "ru": "Разрез по техническим слоям: сеть добавлена, границы домена не появились",
+       "tg": "Буриш бо қабатҳои техникӣ: шабака илова шуд, ҳудудҳои домен пайдо нашуданд",
+       "en": "A split by technical layers: the network was added, no domain boundary appeared"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1477,6 +1965,18 @@
     },
     {
      "title": {
+      "ru": "Цена цикла и обходной SELECT",
+      "tg": "Баҳои давр ва SELECT-и гузаргоҳӣ",
+      "en": "The cost of a cycle and a bypassing SELECT"
+     },
+     "body": {
+      "ru": "Кейс дня показывает один прямой запрос к чужой таблице под дедлайном; крайний случай делает его системным: как только обходной SELECT принят, следующий автор копирует приём, и через год у модуля десяток неучтённых зависимостей от чужих схем. Второй крайний случай — цикл: каталог подписан на события платежей, платежи хотят справочник курсов, и запрет цикла кажется бюрократией, пока оба модуля нельзя выпускать по отдельности. Выход — общий справочный модуль или данные в самом событии. Свяжите с предыдущим днём: граница модульного монолита — репетиция границы сервиса; цикл, не разрезанный внутри одного процесса, не разрежется и между сервисами, только дороже.",
+      "tg": "Кейси рӯз як дархости мустақим ба ҷадвали ғайрро зери мӯҳлат нишон медиҳад; ҳолати канорӣ онро системӣ месозад: чун SELECT-и гузаргоҳ қабул шуд, муаллифи навбатӣ усулро нусха мекунад, ва баъди як сол модул даҳ вобастагии ҳисобнашуда аз схемаҳои ғайрӣ дорад. Ҳолати канории дуюм — давр: каталог ба ҳодисаҳои пардохтҳо обуна аст, пардохтҳо луғати курсҳоро мехоҳанд, ва манъи давр тарҳрезӣ менамояд, то он замин ки ҳар ду модулро алоҳида нашр кардан мумкин набошад. Роҳи баромад — модули умумии маълумотӣ ё додаҳо дар худи ҳодиса. Пайванд кунед бо рӯзи гузашта: ҳудуди монолити модулӣ — тамрини ҳудуди хизмат; давре, ки дар як процесс бурида нашуд, байни хизматҳо ҳам бурида намешавад, танҳо гаронтар.",
+      "en": "The day's case shows one direct query to a foreign table under deadline; the edge case makes it systemic: once a bypassing SELECT is accepted, the next author copies the trick, and a year later the module carries a dozen unaccounted dependencies on foreign schemas. The second edge case is the cycle: the catalog subscribes to payment events, payments want the course reference, and the no-cycle rule looks like bureaucracy until neither module can ship independently. The way out is a shared reference module or data inside the event itself. Tie this to the previous day: the modular monolith boundary is a rehearsal of the service boundary; a cycle left uncut inside one process will not get cut between services either, only more expensively."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -1518,7 +2018,13 @@
        "en": "Copy the payments table into the catalog schema nightly"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Прямой доступ к чужой таблице — кабель, который придётся резать.",
+      "tg": "Дастрасии мустақим ба ҷадвали ғайрӣ — кабеле, ки бояд бурида шавад.",
+      "en": "Direct access to a foreign table is a cable you will have to cut."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-09-q2",
@@ -1549,7 +2055,50 @@
        "en": "An oral team agreement at retro"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Спросите, что сломает сборку при нарушении правила.",
+      "tg": "Пурсед, ки ҳангоми вайрони қоида чӣ сборкаро месиканад.",
+      "en": "Ask what breaks the build when the rule is violated."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-09-q3",
+     "question": {
+      "ru": "Каталог подписан на события платежей, а платежи хотят справочник курсов из каталога. Что это?",
+      "tg": "Каталог ба ҳодисаҳои пардохтҳо обуна аст, вале пардохтҳо луғати курсҳоро аз каталог мехоҳанд. Ин чист?",
+      "en": "The catalog subscribes to payment events, and payments want the course reference from the catalog. What is this?"
+     },
+     "answer": {
+      "ru": "Циклическая зависимость: вынести справочник или передавать данные в событии",
+      "tg": "Вобастагии даврӣ: луғатро баровардан ё додаҳоро дар ҳодиса гузарондан",
+      "en": "A cyclic dependency: extract the reference or carry the data in the event"
+     },
+     "hint": {
+      "ru": "Зависимости между модулями идут в одну сторону; цикл — сигнал неверной границы.",
+      "tg": "Вобастагиҳои байни модулҳо ба як самт мераванд; давр — сигнали ҳудуди нодуруст.",
+      "en": "Module dependencies point one way; a cycle signals a wrong boundary."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Нормальная взаимность двух модулей, ничего делать не нужно",
+       "tg": "Мубодилаи муқаррарии ду модул, ҳеҷ кор лозим нест",
+       "en": "Normal reciprocity of two modules, nothing needs doing"
+      },
+      {
+       "ru": "Повод объединить всё в один модуль с общими таблицами",
+       "tg": "Сабаби муттаҳид кардани ҳама дар як модул бо ҷадвалҳои умумӣ",
+       "en": "A reason to merge everything into one module with shared tables"
+      },
+      {
+       "ru": "Циклическая зависимость: вынести справочник или передавать данные в событии",
+       "tg": "Вобастагии даврӣ: луғатро баровардан ё додаҳоро дар ҳодиса гузарондан",
+       "en": "A cyclic dependency: extract the reference or carry the data in the event"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1638,6 +2187,18 @@
     },
     {
      "title": {
+      "ru": "Единицы и термины через границу",
+      "tg": "Воҳидҳо ва истилоҳот аз рӯйи ҳудуд",
+      "en": "Units and terms crossing the boundary"
+     },
+     "body": {
+      "ru": "Крайний случай ограниченных контекстов начинается раньше разделения сервисов: общая таблица, в которой одно поле служит двум языкам. Поле «ставка» хранит процент для биллинга и комиссию для партнёрского кабинета, валидация одного контекста ломает данные другого, а отчёты требуют условий «если это не тот случай». Вторая ловушка — антикоррупционный слой пропускает не поля, а единицы: чужая система присылает суммы в копейках, модель считает в рублях, и конверсия расползается по коду. Свяжите с модульными границами предыдущего дня: контекст — область языка, а не папка; таблица может быть общей, пока значения не спорят. Проверка: у каждого поля глоссария одно определение с пометкой контекста.",
+      "tg": "Ҳолати канории контекстҳои маҳдуд пеш аз тақсими хизматҳо оғоз мешавад: ҷадвали умумие, ки як майдон ба ду забон хизмат мекунад. Майдони «ставка» фоизро барои биллинг ва комиссияро барои кабинети ҳамкор нигоҳ медорад, санҷиши як контекст додаҳои дигарро месиканад ва ҳисоботҳо шартҳои «агар ин он ҳолат набошад»-ро талаб мекунанд. Хавфи дуюм — қабати зиддифсод на майдонҳоро, балки воҳидҳоро мегузаронад: системаи ғайрӣ суммаро дар тиин мефиристад, модел бо рубл ҳисоб мекунад, ва табдил дар тамоми рамз паҳн мешавад. Пайванд кунед бо ҳудудҳои модулии рӯзи гузашта: контекст — соҳаи забон аст, на папка; ҷадвал метавонад умумӣ бошад, то ки маъноҳо баҳс накунанд. Санҷиш: ҳар майдони глоссария як таъриф бо ишораи контекст дорад.",
+      "en": "The edge case of bounded contexts starts before any service split: one shared table where a single field serves two languages. The \"rate\" field holds a percentage for billing and a commission for the partner dashboard, one context's validation corrupts the other's data, and reports need \"unless it is that case\" clauses. The second trap is an anti-corruption layer letting through not fields but units: the foreign system sends amounts in kopecks, the model counts in rubles, and conversion spreads across the codebase. Tie this to the previous day's module boundaries: a context is an area of language, not a folder; a table may stay shared as long as the meanings do not argue. The check: every glossary field has one definition tagged with its context."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -1679,7 +2240,13 @@
        "en": "The code has more than three nesting levels"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Где спорят о значении слова, там и граница.",
+      "tg": "Ҷое, ки дар бораи маънои калима баҳс мешавад, он ҷо ҳудуд аст.",
+      "en": "Where people argue over a word's meaning, there is the boundary."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-10-q2",
@@ -1710,7 +2277,50 @@
        "en": "To replace the foreign system entirely at once"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Смотрите, что протекает: термины, поля, единицы.",
+      "tg": "Бинед, чӣ гузар мекунад: истилоҳот, майдонҳо, воҳидҳо.",
+      "en": "Watch what leaks: terms, fields, units."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-10-q3",
+     "question": {
+      "ru": "Чужая система присылает суммы в копейках, ваша модель считает в рублях. Где место конверсии?",
+      "tg": "Системаи ғайрӣ суммаро дар тиин мефиристад, модели шумо бо рубл ҳисоб мекунад. Ҷойи табдил куҷост?",
+      "en": "A foreign system sends amounts in kopecks, your model counts in rubles. Where does conversion belong?"
+     },
+     "answer": {
+      "ru": "В антикоррупционном слое на границе, один переводчик",
+      "tg": "Дар қабати зиддифсод дар ҳудуд, як тарҷумон",
+      "en": "In the anti-corruption layer at the boundary, one translator"
+     },
+     "hint": {
+      "ru": "Чужие единицы и термины не должны проходить дальше границы.",
+      "tg": "Воҳидҳо ва истилоҳотҳои ғайрӣ набояд дуре аз ҳудуд гузаранд.",
+      "en": "Foreign units and terms must not travel past the boundary."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "В каждой точке использования суммы, для гибкости",
+       "tg": "Дар ҳар нуқтаи истифодаи сумма, барои мутобиқпазирӣ",
+       "en": "At every point the amount is used, for flexibility"
+      },
+      {
+       "ru": "В чужой системе: пусть присылают как удобно им",
+       "tg": "Дар системаи ғайрӣ: бигзор чуноне фиристанд, ки ба онҳо роҳат",
+       "en": "In the foreign system: let them send whatever is convenient"
+      },
+      {
+       "ru": "В антикоррупционном слое на границе, один переводчик",
+       "tg": "Дар қабати зиддифсод дар ҳудуд, як тарҷумон",
+       "en": "In the anti-corruption layer at the boundary, one translator"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -1799,6 +2409,18 @@
     },
     {
      "title": {
+      "ru": "Порт, повторяющий SDK",
+      "tg": "Порте, ки SDK-ро такрор мекунад",
+      "en": "A port that mirrors the SDK"
+     },
+     "body": {
+      "ru": "Порты ломаются тонко: интерфейс есть, а границы нет. Порт NotificationClient с методом sendEmail, повторяющим сигнатуру провайдера, при смене провайдера меняется вместе с адаптерами и ядром: сменяемости нет, есть слой переименований. Крайний случай теста — заглушка, проверяющая реализацию адаптера, а не контракт ядра: тест зелёный, но политика ядра не проверена без сети. Третий случай — ядро, читающее переменные окружения «для удобства»: зависимость от инфраструктуры возвращается через боковую дверь. Свяжите с проверкой сборки предыдущего дня: правило «ядро не импортирует ничего, кроме своей папки» держит границы после смены состава команды.",
+      "tg": "Портҳо ба таври номаълум вайрон мешаванд: интерфейс ҳаст, вале ҳудуд нест. Порти NotificationClient бо усули sendEmail, ки имзои провайдерро такрор мекунад, ҳангоми ивази провайдер бо ҳамаи адаптерҳо ва ядро тағйир меёбад: ивазпазирӣ нест, қабати номивазкунӣ ҳаст. Ҳолати канории санҷиш — стуб, ки татбиқи адаптерро месанҷад, на контракт-и ядро: санҷиш сабз аст, вале ҳеч сиёсати ядро бе шабака санҷида нашудааст. Ҳолати сеюм — ядрое, ки тағйирёбандаҳои муҳитро «барои роҳатӣ» мехонад: вобастагӣ аз инфрасохт аз дарвозаи паҳлӯ бар мегардад. Пайванд кунед бо санҷиши сборкаи рӯзи гузашта: қоида «ядро ҳеҷ чиз ҷуз папкаи худ импорт намекунад» ҳудудҳоро баъди тағйири таркиб нигоҳ медорад. Аломати порти дуруст: забонаш мақсади ядроро баён мекунад, на имкониятҳои SDK.",
+      "en": "Ports fail subtly: the interface exists while the boundary does not. A NotificationClient port whose sendEmail mirrors the provider's signature changes together with every adapter and the core when the provider changes: no swappability, just a renaming layer. The test edge case is a stub that checks the adapter's implementation rather than the core contract: the test is green, yet no core policy was verified offline. The third case is a core reading environment variables \"for convenience\": the infrastructure dependency returns through the side door. Tie this to the previous day's build check: the rule \"the core imports nothing beyond its own folder\" holds the boundary across team turnover. A healthy port's language describes the core's intent, not the SDK's capabilities."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -1840,7 +2462,13 @@
        "en": "The language standard library and the core's own packages"
       }
      ],
-     "correctIndex": 2
+     "correctIndex": 2,
+     "hint": {
+      "ru": "Что останется у ядра, если убрать фреймворк и драйвер?",
+      "tg": "Агар framework ва драйверро Бардоранд, дар ядро чӣ мемонад?",
+      "en": "What remains in the core if the framework and the driver are removed?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "architecture-expert-day-11-q2",
@@ -1871,7 +2499,50 @@
        "en": "Only when a framework forces interfaces"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Порт — это выбор технологии или тест без сети.",
+      "tg": "Порт — интихоби технология ё санҷиши бе шабака аст.",
+      "en": "A port is a technology choice or a network-free test."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-11-q3",
+     "question": {
+      "ru": "Порт Notifier имеет метод sendEmail с параметрами SMTP-провайдера. Что это признак?",
+      "tg": "Порти Notifier усули sendEmail бо параметрҳои провайдери SMTP дорад. Ин аломати чист?",
+      "en": "The Notifier port has a sendEmail method taking the SMTP provider's parameters. What is that a sign of?"
+     },
+     "answer": {
+      "ru": "Порт повторяет SDK: смена провайдера перепишет порт и ядро",
+      "tg": "Порт SDK-ро такрор мекунад: ивази провайдер порт ва ядроро аз нав менависад",
+      "en": "The port mirrors the SDK: a provider change will rewrite the port and the core"
+     },
+     "hint": {
+      "ru": "Спросите, меняется ли интерфейс порта, когда меняется технология под ним.",
+      "tg": "Пурсед, оё интерфейси порт ҳангоми ивази технологияи зери он тағйир меёбад.",
+      "en": "Ask whether the port's interface changes when the technology beneath it changes."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Порт повторяет SDK: смена провайдера перепишет порт и ядро",
+       "tg": "Порт SDK-ро такрор мекунад: ивази провайдер порт ва ядроро аз нав менависад",
+       "en": "The port mirrors the SDK: a provider change will rewrite the port and the core"
+      },
+      {
+       "ru": "Хорошая инкапсуляция: детали скрыты внутри метода",
+       "tg": "Инкапсулятсияи хуб: тафсилот дар дохили усул пӯшидаанд",
+       "en": "Good encapsulation: details are hidden inside the method"
+      },
+      {
+       "ru": "Оптимизация: меньше адаптеров — меньше кода",
+       "tg": "Оптимизатсия: адаптерҳои камтар — рамзи камтар",
+       "en": "An optimization: fewer adapters, less code"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -1960,6 +2631,18 @@
     },
     {
      "title": {
+      "ru": "Копия без правила свежести",
+      "tg": "Нусха бе қоидаи тару тозагӣ",
+      "en": "A copy without a freshness rule"
+     },
+     "body": {
+      "ru": "Крайний случай владения — легальная копия без правила обновления: адрес пользователя сохранён в таблице доставки, чтобы «не ходить по сети», и оба модуля правят его по своим поводам; формально владельца два, и расхождение обнаружит клиент письма с прошлым адресом. Второй случай — копия без срока жизни: аналитическая выгрузка платёжных данных хранится вечно, юридический срок — два года, и удаление по требованию не доходит до копий. Третий — набор данных без владельца после ухода человека: схема остаётся, контракты никто не выдаёт и не отзывает. Свяжите с рамкой дня: SLA данных — не только свежесть, но и границы жизни копии; шаг «судьба при выходе» перечисляет все копии, включая кэш.",
+      "tg": "Ҳолати канории ихтиёрӣ — нусхаи қонунӣ бе қоидаи навсозӣ: суроғаи корбар дар ҷадвали расонӣ нигоҳ дошта шуд, то «аз шабака нагузарем», ва ҳар ду модул онро бо муқаррарии худ тағйир медиҳанд; расман ду соҳиб ҳаст, ва ихтилофро муштарии мактуб бо суроғаи кӯҳна мебинад. Ҳолати дуюм — нусха бе муҳлати зиндагӣ: барориши таҳлилии додаҳои пардохт абадӣ нигоҳ дошта мешавад, муҳлати ҳуқуқӣ — ду сол, ва нест кардани бо дархост ба нусҳаҳо намерасад. Сеюм — маҷмӯи додаҳо бе соҳиб баъди рафтани шахс: схема мемонад, контракт-ро ҳеч кас намедиҳад ва намекашад. Пайванд кунед бо чаҳорчӯбаи рӯз: SLA-и додаҳо на танҳо тару тозагӣ, балки ҳудуди зиндагии нусха аст; қадами «сарнавишт ҳангоми баромадан» ҳамаи нусҳаҳоро, аз ҷумла кэш ва бароришҳоро менависад.",
+      "en": "The ownership edge case is a legal copy without an update rule: the user's address is stored in the delivery table \"to avoid network hops\", and both modules edit it for their own reasons; formally there are two owners, and the divergence surfaces when a letter arrives at the old address. The second case is a copy without a lifetime: an analytics dump of payment data is kept forever, the legal term is two years, and delete-on-request never reaches the copies. The third is a dataset without an owner after a person leaves: the schema remains, and nobody issues or revokes contracts. Tie this to the day's frame: a data SLA is not only freshness but the bounds of a copy's life; the \"fate on exit\" step lists every copy, including caches and exports."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -2001,7 +2684,13 @@
        "en": "Because database licenses are counted per module"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что связывает модули: код или схема таблиц?",
+      "tg": "Чӣ модулҳоро мепайвандад: рамз ё схемаи ҷадвалҳо?",
+      "en": "What couples the modules: the code or the table schema?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-12-q2",
@@ -2032,7 +2721,50 @@
        "en": "Yes, if the query runs at night"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "У источника правды есть обязанности; у копии — свои.",
+      "tg": "Манбаи ҳақиқат вазифа дорад; нусха вазифаҳои худро дорад.",
+      "en": "The source of truth has duties; a copy has its own."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-12-q3",
+     "question": {
+      "ru": "Адрес пользователя скопирован в таблицу доставки, чтобы «не ходить по сети». Что обязательное условие?",
+      "tg": "Суроғаи корбар ба ҷадвали расонӣ нусха шуд, то «аз шабака нагузарем». Шарти ҳатмӣ чист?",
+      "en": "The user's address was copied into the delivery table \"to avoid network hops\". What is the mandatory condition?"
+     },
+     "answer": {
+      "ru": "Правило синхронизации и срок жизни копии, записанные у владельца источника",
+      "tg": "Қоидаи ҳамгамсозӣ ва муҳлати зиндагии нусха, ки назди соҳиби манбаъ сабт шудаанд",
+      "en": "A sync rule and a copy lifetime recorded with the source owner"
+     },
+     "hint": {
+      "ru": "Две копии без правила расходятся; вопрос не «можно ли», а «кто обновляет».",
+      "tg": "Ду нусха бе қоида ҷудо мешаванд; савол «оё мумкин» не, балки «кӣ навсозӣ мекунад».",
+      "en": "Two copies without a rule drift apart; the question is not \"may we\" but \"who updates\"."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Ничего: копия данных всегда допустима для скорости",
+       "tg": "Ҳеҷ чиз: нусхаи додаҳо барои суръат ҳамеша ҷоиз аст",
+       "en": "Nothing: a data copy is always acceptable for speed"
+      },
+      {
+       "ru": "Скопировать также идентификатор владельца",
+       "tg": "Идентификатори соҳибро ҳам нусха кардан",
+       "en": "Also copy the owner identifier"
+      },
+      {
+       "ru": "Правило синхронизации и срок жизни копии, записанные у владельца источника",
+       "tg": "Қоидаи ҳамгамсозӣ ва муҳлати зиндагии нусха, ки назди соҳиби манбаъ сабт шудаанд",
+       "en": "A sync rule and a copy lifetime recorded with the source owner"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2121,6 +2853,18 @@
     },
     {
      "title": {
+      "ru": "Компенсация, которая возвращает дважды",
+      "tg": "Компенсатсияе, ки дубора баргардонӣ мекунад",
+      "en": "A compensation that refunds twice"
+     },
+     "body": {
+      "ru": "Крайний случай компенсации — компенсация, которая сама не идемпотентна: сбой связи после успешного возврата выглядит как «возврат не выполнен», повтор создаёт второй возврат, и система теряет деньги честным на вид механизмом. Лечение то же, что у потребителя событий: ключ операции и уникальный индекс. Второй крайний случай — расхождение смысла при техническом согласии: запись подтверждена, платёж оплачен, но на другой тариф; сверка по ключам этого не видит, потому что сравнивает идентификаторы. Свяжите с первым днём: «неизвестный исход» применим и к компенсации, а общий deadline ограничивает время согласования. Правило: сверка сравнивает и поля, а отчёт о расхождениях имеет владельца.",
+      "tg": "Ҳолати канории компенсатсия — компенсатсияе, ки худ идемпотент нест: қатъи пайваст баъди баргардонии муваффақ мисли «баргардонӣ иҷро нашуд» менамояд, такрор баргардонии дуюмро месозад ва система маблағро бо механизме, ки одилнамо менамояд, гум мекунад. Даво ҳамон аст, ки аз зеркаши ҳодисаҳо: калиди амал ва индекси ягона; такрори компенсатсия на таъсир, балки ҳолатро бармегардонад. Ҳолати канории дуюм — ихтилофи маъно дар мувофиқаи техникӣ: сабт тасдиқ шуд, пардохт гузашта буд, вале бо тарифи дигар; мувофиқсозии аз рӯйи калидҳо инро намебинад, зеро идентификаторҳоро муқоиса мекунад, на майдонҳои муҳим. Пайванд кунед бо рӯзи аввал: «натиҷаи номаълум» барои компенсатсия ҳам мутобиқ аст ва deadline-и умумӣ вақти мувофиқсозиро маҳдуд мекунад. Қоида: мувофиқсозӣ майдонҳоро ҳам муқоиса мекунад ва ҳисоботи ихтилоф соҳиб дорад.",
+      "en": "The compensation edge case is a compensation that is itself non-idempotent: a connection failure after a successful refund looks like \"refund not done\", the retry creates a second refund, and the system loses money through an honest-looking mechanism. The cure is the same as for event consumers: an operation key and a unique index; a repeated compensation returns status, not effect. The second edge case is semantic divergence under technical agreement: the booking is confirmed and the payment settled, but on a different tariff; key-based reconciliation misses this because it compares identifiers, not meaningful fields. Tie this to day one: the \"unknown outcome\" class applies to compensations too, and the overall deadline bounds how long you will reconcile. The rule: reconciliation compares fields as well, and the divergence report has an owner."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -2162,7 +2906,13 @@
        "en": "When requests come more than once per second"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Атомарность имеет границу: что за ней?",
+      "tg": "Атомарӣ ҳудуд дорад: он тарафи он чӣ ҳаст?",
+      "en": "Atomicity has a boundary: what lies beyond it?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-13-q2",
@@ -2193,7 +2943,50 @@
        "en": "Manual invocation by an administrator"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Повтор компенсации — не исключение, а норма.",
+      "tg": "Такрори компенсатсия истисно не, балки қоида аст.",
+      "en": "Retrying a compensation is not an exception but the norm."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-13-q3",
+     "question": {
+      "ru": "Сбой связи после успешного возврата выглядит как «возврат не выполнен». Повтор компенсации сделает…",
+      "tg": "Қатъи пайваст баъди баргардонии муваффақ мисли «баргардонӣ иҷро нашуд» менамояд. Такрори компенсатсия чӣ мекунад…",
+      "en": "A connection failure after a successful refund looks like \"refund not done\". Retrying the compensation will…"
+     },
+     "answer": {
+      "ru": "Ничего опасного, если компенсация идемпотентна по ключу операции",
+      "tg": "Ҳеҷ чизи хавфнок, агар компенсатсия аз рӯйи калиди амал идемпотент бошад",
+      "en": "Nothing dangerous, if the compensation is idempotent by operation key"
+     },
+     "hint": {
+      "ru": "Повтор компенсации — норма; вопрос в том, удваивает ли он эффект.",
+      "tg": "Такрори компенсатсия қоида аст; савол дар он аст, ки оё таъсирро дукарат мекунад.",
+      "en": "Retrying a compensation is normal; the question is whether it doubles the effect."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Ничего опасного, если компенсация идемпотентна по ключу операции",
+       "tg": "Ҳеҷ чизи хавфнок, агар компенсатсия аз рӯйи калиди амал идемпотент бошад",
+       "en": "Nothing dangerous, if the compensation is idempotent by operation key"
+      },
+      {
+       "ru": "Второй возврат: операцию нужно выполнить заново честно",
+       "tg": "Баргардонии дуюм: амал бояд дубора ҳаққона иҷро шавад",
+       "en": "A second refund: the operation must be honestly redone"
+      },
+      {
+       "ru": "Автоматическое создание новой брони вместо возврата",
+       "tg": "Эҷоди худкори бронҳои нав ба ҷои баргардонӣ",
+       "en": "Automatic creation of a new booking instead of a refund"
+      }
+     ],
+     "correctIndex": 0
     }
    ],
    "practice": {
@@ -2373,7 +3166,50 @@
        "en": "Higher numeric precision in a response"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Опасно то, что ломает код, который был написан и забыт.",
+      "tg": "Он хавфнок аст, ки рамзи навишташуда ва фаромӯшшударо месиканад.",
+      "en": "Dangerous is what breaks code that was written and forgotten."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-14-q3",
+     "question": {
+      "ru": "Пять вызовов независимы по 99,9%, но все они держат открытое соединение к одному брокеру. Что с расчётом 99,5%?",
+      "tg": "Панҷ даъват бо 99,9% мустақиланд, вале ҳамаи онҳо пайвасти кушода ба як брокерро нигоҳ медоранд. Бо ҳисоби 99,5% чӣ?",
+      "en": "Five calls are 99.9% independent, but all of them hold an open connection to one broker. What about the 99.5% estimate?"
+     },
+     "answer": {
+      "ru": "Допущение независимости сломано: отказ брокера валит все вызовы вместе",
+      "tg": "Тахмини мустақилият вайрон аст: нокомии брокер ҳамаи даъватҳоро якҷо мебарорад",
+      "en": "The independence assumption is broken: a broker outage takes all calls down together"
+     },
+     "hint": {
+      "ru": "Проверьте, через что проходят пять вызовов, прежде чем перемножать проценты.",
+      "tg": "Пеш аз зарб кардани фоизҳо санҷед, ки панҷ даъват аз куҷо мегузаранд.",
+      "en": "Check what the five calls pass through before multiplying percentages."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Расчёт верен: независимость определяется кодом вызова",
+       "tg": "Ҳисоб дуруст аст: мустақилиятро рамзи даъват муайян мекунад",
+       "en": "The estimate holds: independence is determined by the call's code"
+      },
+      {
+       "ru": "Расчёт занижен: общий брокер объединяет отказы в один",
+       "tg": "Ҳисоб паст аст: брокери умумӣ нокомиҳоро ба як меомезад",
+       "en": "The estimate is too low: the shared broker merges failures into one"
+      },
+      {
+       "ru": "Допущение независимости сломано: отказ брокера валит все вызовы вместе",
+       "tg": "Тахмини мустақилият вайрон аст: нокомии брокер ҳамаи даъватҳоро якҷо мебарорад",
+       "en": "The independence assumption is broken: a broker outage takes all calls down together"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2462,6 +3298,18 @@
     },
     {
      "title": {
+      "ru": "Дубликат, который приходит раньше оригинала",
+      "tg": "Дубликате, ки пеш аз асл мерасад",
+      "en": "The duplicate that arrives before the original"
+     },
+     "body": {
+      "ru": "Доставка at-least-once порождает крайний случай: два события с одним ключом приходят в обратном порядке. course.completed обрабатывается после course.refunded, и слушатель выписывает сертификат по отменённому прохождению, если видит только ключ, а не факт. Правило: решение принимает последняя версия состояния, а не первое сообщение — потребитель хранит версию факта и игнорирует устаревшие повторы. Второй крайний случай — порядок: для одного enrollmentId порядок важен, для двух разных учеников нет; строгий порядок по ключу стоит пропускной способности. Свяжите с компенсациями предыдущего дня: повторная доставка — нормальный путь, и компенсация переживает её, как сбой сети.",
+      "tg": "Расонидани at-least-once ҳолати канорӣ месозад: ду ҳодиса бо як калид баръакс тартиб меоянд. course.completed баъди course.refunded коркард мешавад ва шунаванда барои гузариши бекоршуда сертификат медиҳад, агар танҳо калидро бинад, на фактро. Қоида: қарорро версияи охирини ҳолат мегирад, на пайёми аввал — зеркашӣ версия ё вақти фактро нигоҳ медорад ва такрорҳои куҳнаро нодида мегириад. Ҳолати канории дуюм — тартиб ва параллелизм: барои як enrollmentId тартиб муҳим аст, барои ду донишҷӯи гуногун не; калиди тартиб ва дараҷаи параллелизм якҷо интихоб мешаванд ва тартиби сахт аз рӯйи калид суръати гузарро арзиш мекунад. Пайванд кунед бо компенсатсияҳои рӯзи гузашта: расонидани такрорӣ роҳи муқаррарӣ аст ва компенсатсия онро мисли қатъи шабака таҳамул мекунад.",
+      "en": "At-least-once delivery breeds an edge case: two events with one key arrive in reverse order. course.completed is processed after course.refunded, and the listener issues a certificate for a refunded enrollment if it sees only the key, not the fact. The rule: the decision is made by the latest state version, not the first message — the consumer keeps a version or timestamp of the fact and ignores stale repeats. The second edge case is ordering versus parallelism: order matters within one enrollmentId and not across two different learners; the ordering key and the degree of parallelism are chosen together, and strict per-key order costs throughput. Tie this to the previous day's compensations: repeated delivery is the normal path, and a compensation must survive it like a network outage."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -2503,7 +3351,13 @@
        "en": "An event guarantees exactly-once delivery"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Спросите: факт уже случился или это приказ на будущее?",
+      "tg": "Пурсед: факт аллакай рӯй додааст ё ин фармони оянда аст?",
+      "en": "Ask: did the fact already happen, or is it an order for the future?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-15-q2",
@@ -2534,7 +3388,50 @@
        "en": "It makes events more precise"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Буфер не решает проблему, он переносит её во времени.",
+      "tg": "Буфер масъаларо ҳал намекунад, онро дар вақт ҷойгузин мекунад.",
+      "en": "A buffer does not solve the problem; it postpones it in time."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "architecture-expert-day-15-q3",
+     "question": {
+      "ru": "Слушатель получает course.refunded, затем повторную доставку course.completed с тем же enrollmentId. Что правильно?",
+      "tg": "Шунаванда course.refunded мегирад, баъд расонидани такрории course.completed бо ҳамон enrollmentId. Чӣ дуруст аст?",
+      "en": "The listener receives course.refunded, then a redelivered course.completed with the same enrollmentId. What is correct?"
+     },
+     "answer": {
+      "ru": "Сравнить версии фактов и игнорировать устаревший повтор",
+      "tg": "Версияҳои фактҳоро муқоиса кардан ва такрори кӯҳнаро нодида гирифтан",
+      "en": "Compare fact versions and ignore the stale repeat"
+     },
+     "hint": {
+      "ru": "Решение принимает последняя версия состояния, а не последнее по времени сообщение.",
+      "tg": "Қарорро версияи охирини ҳолат мегирад, на пайёми охирин аз рӯйи вақт.",
+      "en": "The latest state version decides, not the most recent message."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Выписать сертификат: событие completed пришло",
+       "tg": "Сертификат додан: ҳодисаи completed омад",
+       "en": "Issue the certificate: the completed event arrived"
+      },
+      {
+       "ru": "Сравнить версии фактов и игнорировать устаревший повтор",
+       "tg": "Версияҳои фактҳоро муқоиса кардан ва такрори кӯҳнаро нодида гирифтан",
+       "en": "Compare fact versions and ignore the stale repeat"
+      },
+      {
+       "ru": "Отбросить оба события и запросить состояние по HTTP",
+       "tg": "Ҳар ду ҳодисаро тарк кардан ва ҳолатро аз рӯйи HTTP пурсидан",
+       "en": "Discard both events and fetch the state over HTTP"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -2624,6 +3521,18 @@
     },
     {
      "title": {
+      "ru": "Общий ключ кэша для персональных данных",
+      "tg": "Калиди умумии кэш барои маълумоти шахсӣ",
+      "en": "A shared cache key for personal data"
+     },
+     "body": {
+      "ru": "Крайний случай кэша — утечка через общий ключ: персональная рекомендация попадает в агрегат «главная страница», и один ученик видит расписание другого. Правило: ключ кэша включает область видимости — арендатора, пользователя или публичность — и персональные данные кэшируются только персональным ключом. Второй случай — инвалидация после записи: TTL 60 секунд спасает каталог, но «списанные деньги видны через минуту» — инцидент доверия; такие пути читаются из источника, как и read-your-writes из рамки. Третий — кэш негативных ответов: ошибка авторизации переживает восстановление прав. Свяжите со свежестью копий предыдущего дня: у кэша, как у реплики, есть владелец, окно устаревания и источник.",
+      "tg": "Ҳолати канории кэш — ризиш тавассути калиди умумӣ: тавсияи шахсӣ ба агрегати «саҳифаи асосӣ» мепарад ва як донишҷӯ расписании дигарро мебинад. Қоида: калиди кэш соҳаи диданро — иҷоракунанда, корбар ё умумиро — дар бар мегирад ва маълумоти шахсӣ танҳо бо калиди шахсӣ бо TTL-и кӯтоҳ кэш мешавад. Ҳолати дуюм — беэътиодӣ баъди сабт: TTL-и 60 сония каталогро наҷот медиҳад, вале «маблағи кашидашуда баъди як дақиқа дар ҳисоб намоён» — ҳодисаи боварӣ аст; чунин роҳҳо аз манбаъ хонда мешаванд, мисли read-your-writes аз чаҳорчӯба. Сеюм — кэши ҷавобҳои манфӣ: хатои муаллифият нигоҳ дошта мешавад ва аз барқароркунии ҳуқуқҳо дарозтар мемонад. Пайванд кунед бо тару тозагии нусхаҳои рӯзи гузашта: кэш, мисли реплика, соҳиб, фосилаи куҳншавӣ ва манбаи пуркунӣ дорад.",
+      "en": "The cache edge case is a leak through a shared key: a personal recommendation lands in the \"home page\" aggregate, and one learner sees another's schedule. The rule: a cache key includes its visibility scope — tenant, user, or public — and personal data is cached only under a personal key with a short TTL. The second case is invalidation after writes: a 60-second TTL saves the catalog, but \"charged money shows on the balance a minute later\" is a trust incident; such paths read from the source, like the frame's read-your-writes. The third is caching negative answers: an authorization failure is cached and outlives the rights being restored. Tie this to the previous day's copy freshness: a cache, like a replica, has an owner, a staleness window and a filling source."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -2665,7 +3574,13 @@
        "en": "To a day-long TTL cache: profiles rarely change"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Реплика может отставать; спросите, кто уже видел запись.",
+      "tg": "Реплика метавонад ақиб монад; пурсед, кӣ аллакай сабтро додааст.",
+      "en": "A replica may lag; ask who has already seen the write."
+     },
+     "relatedSection": 1
     },
     {
      "id": "architecture-expert-day-16-q2",
@@ -2696,7 +3611,50 @@
        "en": "View counters without accuracy requirements"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Посчитайте цену минутной ошибки для каждого варианта.",
+      "tg": "Баҳои хатои як дақиқаро барои ҳар вариант ҳисоб кунед.",
+      "en": "Price a one-minute error for every option."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-16-q3",
+     "question": {
+      "ru": "Расписание ученика попало в общий ключ «страница дня». Какой риск главный?",
+      "tg": "Расписании донишҷӯ ба калиди умумии «саҳифаи рӯз» мепарад. Хатари асосӣ кадом аст?",
+      "en": "A learner's schedule landed in the shared \"day page\" key. What is the main risk?"
+     },
+     "answer": {
+      "ru": "Один ученик увидит данные другого из чужого кэша",
+      "tg": "Як донишҷӯ маълумоти дигарро аз кэши ғайрӣ мебинад",
+      "en": "One learner sees another's data from a foreign cache entry"
+     },
+     "hint": {
+      "ru": "Ключ кэша определяет, кто может прочитать его содержимое.",
+      "tg": "Калиди кэш муайян мекунад, кӣ метавонад мӯҳтавои онро бхонад.",
+      "en": "The cache key defines who may read its contents."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Кэш станет больше и дороже по памяти",
+       "tg": "Кэш калонтар ва аз рӯйи ҳофиза гаронтар мешавад",
+       "en": "The cache grows and costs more memory"
+      },
+      {
+       "ru": "Инвалидация станет быстрее необходимого",
+       "tg": "Беэътиодӣ аз зарурӣ тезтар мешавад",
+       "en": "Invalidation becomes faster than necessary"
+      },
+      {
+       "ru": "Один ученик увидит данные другого из чужого кэша",
+       "tg": "Як донишҷӯ маълумоти дигарро аз кэши ғайрӣ мебинад",
+       "en": "One learner sees another's data from a foreign cache entry"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2785,6 +3743,18 @@
     },
     {
      "title": {
+      "ru": "Кросс-шардные операции, которые никто не считал",
+      "tg": "Амалиётҳои байнишардӣ, ки ҳеч кас ҳисоб накардааст",
+      "en": "Cross-shard operations nobody counted"
+     },
+     "body": {
+      "ru": "Шардинг дешевле проектировать от дорогих операций: составьте их список до выбора ключа. Уникальность email, админ-отчёт за месяц, поиск по имени — каждая либо живёт в отдельном реестре, либо платит веером; на пике веер дороже самой записи. Крайний случай — операция после шардинга: через год продукт просит «всех учеников школы за месяц», и запрос ходит по всем шардам, потому что ключ выбран по user_id. Это не ошибка ключа, а цена, которую не записали в ADR. Второй случай — рост: план ресардинга, написанный в день выбора ключа, превращает первый перенос в плановую операцию. Свяжите с чтениями предыдущего дня: агрегированная копия для отчётов дешевле веера, но у неё есть окно свежести.",
+      "tg": "Шардингро аз амалиётҳои гарон тарҳрезӣ кунед арзонтар мешавад: рӯйхати онҳоро пеш аз интихоби калид тартиб диҳед. Ягонагии email, ҳисоботи администраторӣ барои як моҳ, ҷустуҷӯ бо ном — ҳар кадом ё дар реестри алоҳида мезист ё бо вонаи ҳамаи шардҳо мепардозад; дар пик вона аз худи сабт гаронтар аст. Ҳолати канорӣ — амалиёте, ки баъди шардинг пайдо шуд: баъди як сол маҳсулот «ҳамаи донишҷӯёни мактаб дар як моҳ»-ро талаб мекунад, дархост аз ҳамаи шардҳо мегузарад, зеро калид аз рӯйи user_id интихоб шуд. Ин хатои калид нест, балки баҳое аст, ки дар ADR сабт нашуд. Ҳолати дуюм — афзоиш: нақшаи ресардинг, ки дар рӯзи интихоби калид навишта шуд, аввалин интиқолро аз шаби фавқулодда ба амалиёти муқаррарии навишти дукарата аз рӯзи 24 табдил медиҳад. Пайванд кунед бо хонишҳои рӯзи гузашта: нусхаи агрегатии ҳисобот арзонтар аз вона аст, вале фосилаи тару тозагӣ дорад.",
+      "en": "Sharding is cheaper to design from the expensive operations: list them before choosing a key. Email uniqueness, a monthly admin report, search by name — each either lives in a separate registry or pays a fan-out across all shards; at peak, the fan-out costs more than the write itself. The edge case is an operation born after sharding: a year later the product asks for \"every student of a school in a month\", and the query walks all shards because the key is user_id. That is not a key mistake — it is a price nobody wrote into the ADR. The second case is growth: a resharding plan written on the day the key is chosen turns the first move into a scheduled operation with day-24 dual writes. Tie this to the previous day's reads: an aggregated copy for reports is cheaper than fan-out, but it has a freshness window."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -2826,7 +3796,13 @@
        "en": "Dates cannot be indexed"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Сегодняшняя запись — это завтрашняя одна точка приёма.",
+      "tg": "Сабти имрӯза фардо як нуқтаи қабул мешавад.",
+      "en": "Today's writes are tomorrow's single intake point."
+     },
+     "relatedSection": 1
     },
     {
      "id": "architecture-expert-day-17-q2",
@@ -2857,7 +3833,50 @@
        "en": "Nowhere: email uniqueness is unnecessary"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Веер по всем шардам на каждой регистрации — посчитайте цену.",
+      "tg": "Вона ба ҳамаи шардҳо дар ҳар байн хотима — баҳоро ҳисоб кунед.",
+      "en": "A fan-out across all shards on every registration — price it."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-17-q3",
+     "question": {
+      "ru": "После шардинга по user_id продукт просит «отчёт по всем ученикам школы за месяц». Какова цена?",
+      "tg": "Баъди шардинг аз рӯйи user_id маҳсулот «ҳисобот аз рӯйи ҳамаи донишҷӯёни мактаб дар як моҳ» талаб мекунад. Баҳояш чанд?",
+      "en": "After sharding by user_id, the product asks for \"a report on every student of a school for a month\". What is the price?"
+     },
+     "answer": {
+      "ru": "Веер по всем шардам, и на пике он дороже самой записи",
+      "tg": "Вона ба ҳамаи шардҳо ва дар пик аз худи сабт гаронтар",
+      "en": "A fan-out across all shards, costlier than the write itself at peak"
+     },
+     "hint": {
+      "ru": "Посчитайте, к скольким шардам идёт запрос, который трогает не один ключ.",
+      "tg": "Ҳисоб кунед, ба чанд шард меравад дархосте, ки на як калидро ламс мекунад.",
+      "en": "Count how many shards a query touches when it spans more than one key."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Нулевая: данные лежат в одной таблице",
+       "tg": "Сифр: додаҳо дар як ҷадвал нигоҳ дошта мешаванд",
+       "en": "Zero: the data sits in one table"
+      },
+      {
+       "ru": "Один запрос к одному шарду по индексу школы",
+       "tg": "Як дархост ба як шард аз рӯйи индекси мактаб",
+       "en": "One query to one shard via a school index"
+      },
+      {
+       "ru": "Веер по всем шардам, и на пике он дороже самой записи",
+       "tg": "Вона ба ҳамаи шардҳо ва дар пик аз худи сабт гаронтар",
+       "en": "A fan-out across all shards, costlier than the write itself at peak"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -2946,6 +3965,18 @@
     },
     {
      "title": {
+      "ru": "Узлы зелёные, путь сломан",
+      "tg": "Гиреҳҳо сабз, роҳ вайрон",
+      "en": "Nodes green, the path broken"
+     },
+     "body": {
+      "ru": "Крайний случай SLI — расхождение между узлами и путём: каждый сервис отвечает за 99,9%, а путь лежит, потому что отказ происходит на границе — в очереди, в кэше, в цепочке. SLI считается по результату пути, а не по здоровью компонентов; пропущенный узел — обычная причина «зелёного мониторинга при жёлтом продукте». Второй случай — исчерпание бюджета: SLO 99,5 даёт 216 минут в месяц, и без договорённости, что происходит после, каждая ошибка объявляется нарушением, выпуски встают. Правило: исчерпание — сигнал снизить риск; замораживают только изменения, которые не лечат источник расхода. Свяжите с доказательствами дня 3: SLO без метода расчёта и окна — то же мнение, что p95 без выборки.",
+      "tg": "Ҳолати канории SLI — ихтилофи гиреҳҳо ва роҳ: ҳар хизмат барои 99,9% ҷавобгузор аст, вале роҳи донишҷӯ хобидааст, зеро нокомӣ дар ҳудуд рух медиҳад — дар навбат, дар кэш, дар занҷири даъватҳо. SLI аз рӯйи натиҷаи роҳ ҳисоб мешавад, на аз рӯйи саломатии қитъаҳо; гиреҳи гумшуда дар схема сабаби муқаррарии «мониторинги сабз бо маҳсулоти зард» аст. Ҳолати дуюм — тамомшавии буҷет: SLO 99,5 дар як моҳ 216 дақиқа медиҳад ва бе мувофиқа, ки баъд аз он чӣ мешавад, ҳар хато вайронкунии қавл эълон мешавад ва нашрҳо меистанд. Қоида: тамомшавӣ сигнали паст кардани хатар аст, на ях кардани ҳама; танҳо тағйире ях мекунанд, ки манбаи сарфи лотаро табобат намекунад. Пайванд кунед бо далелҳои рӯзи 3: SLO бе усули ҳисоб ва фосилаи вақт — ҳамон ақидае, ки p95 бе намуна.",
+      "en": "The SLI edge case is divergence between nodes and the path: every service answers for 99.9%, yet the learner's path is down because the failure happens at a boundary — in a queue, in a cache, in a call chain. The SLI is computed from the path's outcome, not component health; a missing node on the diagram is the usual cause of \"green monitoring, yellow product\". The second case is budget exhaustion: SLO 99.5 grants 216 minutes a month, and without an agreement on what happens afterwards every error is declared a violation and releases freeze. The rule: exhaustion is a signal to reduce risk, not to freeze everything; only changes that do not treat the spending source are frozen. Tie this to day 3's evidence: an SLO without a computation method and window is the same opinion as a p95 without a sample."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -2987,7 +4018,13 @@
        "en": "They are synonyms in different documents"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Один — цель для себя, другой — обещание с последствиями.",
+      "tg": "Яке мақсад барои худ, дигаре қавл бо оқибатҳост.",
+      "en": "One is a target for yourself, the other is a promise with consequences."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-18-q2",
@@ -3018,7 +4055,50 @@
        "en": "432 minutes over 30 days"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "0,5% от 30 дней: посчитайте в минутах.",
+      "tg": "0,5% аз 30 рӯз: бо дақиқа ҳисоб кунед.",
+      "en": "0.5% of 30 days: compute it in minutes."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "architecture-expert-day-18-q3",
+     "question": {
+      "ru": "Каждый из пяти сервисов пути показывает 99,9% доступности, а ученик видит сбои. Что не учтено?",
+      "tg": "Ҳар яке аз панҷ хизматҳои роҳ 99,9% дастрасӣ нишон медиҳад, вале донишҷӯ нокомиҳоро мебинад. Чӣ ҳисоб нашудааст?",
+      "en": "Each of the five path services shows 99.9% availability, yet learners see failures. What is missing?"
+     },
+     "answer": {
+      "ru": "Границы пути: очередь, кэш и цепочка вызовов между сервисами",
+      "tg": "Ҳудудҳои роҳ: навбат, кэш ва занҷири даъватҳои байни хизматҳо",
+      "en": "The path's boundaries: queue, cache and the call chain between services"
+     },
+     "hint": {
+      "ru": "SLI считается по результату пути пользователя, а не по здоровью узлов.",
+      "tg": "SLI аз рӯйи натиҷаи роҳи корбар ҳисоб мешавад, на аз рӯйи саломатии гиреҳҳо.",
+      "en": "The SLI is computed from the user path's outcome, not node health."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Пользовательское оборудование: оно не входит в SLO",
+       "tg": "Таҷҳизоти корбар: он ба SLO дохил намешавад",
+       "en": "The user's equipment: it is not part of the SLO"
+      },
+      {
+       "ru": "Границы пути: очередь, кэш и цепочка вызовов между сервисами",
+       "tg": "Ҳудудҳои роҳ: навбат, кэш ва занҷири даъватҳои байни хизматҳо",
+       "en": "The path's boundaries: queue, cache and the call chain between services"
+      },
+      {
+       "ru": "Часовой пояс: пики приходятся на ночь дежурных",
+       "tg": "Минтақаи вақт: пикҳо ба шаби навбатчӣён меафтанд",
+       "en": "Time zone: peaks fall on the on-call's night"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -3108,6 +4188,18 @@
     },
     {
      "title": {
+      "ru": "Предохранитель, который открылся молча",
+      "tg": "Кафарее, ки бе садо кушода шуд",
+      "en": "A breaker that opened silently"
+     },
+     "body": {
+      "ru": "Предохранитель вредит, когда он невидим: открылся в ночь, метрики нет, дежурный утром узнаёт от пользователей. Три состояния — закрыт, открыт, полузакрыт — обязаны иметь метрику и алерт на переход, иначе механизм сам становится инцидентом. Крайний случай порога: пять отказов открывают предохранитель, а зависимость шумит короткими самовосстанавливающимися сбоями — быстрый отказ дольше простоя; порог считается по доле отказов в окне. Второй случай — тайм-аут больше бюджета запроса: каждый вызов укладывается в свой, а пользователь ждёт шесть секунд, потому что сумма тайм-аутов цепочки не ограничена. Свяжите с бюджетом ошибок предыдущего дня: быстрые отказы предохранителя видны в SLO пути.",
+      "tg": "Кафарее зарар мерасонад, ки номоён бошад: шабона кушода шуд, метрика нест, навбатчӣ саҳар аз корбарон дар бораи тавсияҳои холӣ мефаҳмад. Се ҳолат — пӯшида, кушода, нимкушода — бояд метрика ва огоҳӣ барои гузариш дошта бошанд, вагарна механизми муҳофизат худ ҳодиса мешавад. Ҳолати канории ҳадд: панҷ нокомӣ кафареро мекушояд, вале вобастагӣ бо нокомиҳои кӯтоҳе, ки худро барқарор мекунанд; радкунии зуд аз истеҳсоли воқеӣ дарозтар кор мекунад; ҳадд аз рӯйи ҳиссаи нокомиҳо дар фосилаи вақт ҳисоб мешавад, на бо рақами мутлақ. Ҳолати дуюм — тайм-аути аз буҷети дархост калон: ҳар даъват ба тайм-аути худ мутобиқ мешавад, вале корбар шаш сония мунтазир мешавад, зеро ҷамъи тайм-аутҳои занҷир маҳдуд нест. Пайванд кунед бо буҷети хатоҳои рӯзи гузашта: радкуниҳои зуди кафар қисми буҷетанд ва дар SLO-и роҳ намоёнанд.",
+      "en": "A breaker hurts when it is invisible: it opened overnight, there is no metric, and the on-call learns from users in the morning that recommendations are empty. The three states — closed, open, half-open — must have a metric and an alert on transition, otherwise the protective mechanism becomes the incident. The threshold edge case: five failures open the breaker while the dependency is noisy with brief self-recovering faults — fast failure outlasts the real outage; the threshold counts failure share in a window, not an absolute count. The second case is a timeout larger than the request budget: each call fits its own timeout while the user waits six seconds, because the sum of chain timeouts is unbounded. Tie this to the previous day's error budget: fast fails are part of the budget and visible in the path SLO."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -3149,7 +4241,13 @@
        "en": "A bulkhead replaces the breaker for slow calls"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Тайм-аут ограничивает время; спросите, что ограничивает количество.",
+      "tg": "Тайм-аут вақтро маҳдуд мекунад; пурсед, чӣ шумораро маҳдуд мекунад.",
+      "en": "A timeout bounds time; ask what bounds the count."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-19-q2",
@@ -3180,7 +4278,50 @@
        "en": "Remotely restarts the dependency"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Открытый предохранитель не обращается к зависимости вовсе.",
+      "tg": "Кафари кушода ба вобастагӣ умуман муроҷиат намекунад.",
+      "en": "An open breaker does not touch the dependency at all."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "architecture-expert-day-19-q3",
+     "question": {
+      "ru": "Предохранитель открылся ночью и закрылся сам. Почему это всё равно инцидент?",
+      "tg": "Кафар шабона кушода шуд ва худ баъд пӯшид. Барои ин ҳам ҳодиса аст?",
+      "en": "The breaker opened overnight and closed by itself. Why is that still an incident?"
+     },
+     "answer": {
+      "ru": "Переходы не имели метрики и алерта, и деградация не была видна дежурному",
+      "tg": "Гузаришҳо метрика ва огоҳӣ надоштанд ва деградатсия барои навбатчӣ номоён буд",
+      "en": "Transitions had no metric or alert, and the degradation was invisible to on-call"
+     },
+     "hint": {
+      "ru": "Защитный механизм без наблюдаемости сам становится скрытой деградацией.",
+      "tg": "Механизми муҳофизат бе мушоҳида худ деградатсияи пинҳонӣ мешавад.",
+      "en": "A protective mechanism without observability becomes a hidden degradation."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Он не был нужен: зависимость и так восстановилась",
+       "tg": "Лозим набуд: вобастагӣ худ барқарор шуд",
+       "en": "It was unnecessary: the dependency recovered anyway"
+      },
+      {
+       "ru": "Открытие предохранителя всегда означает потерю данных",
+       "tg": "Кушодани кафар ҳамеша гумшуви додаҳоро маъно дорад",
+       "en": "An open breaker always means data loss"
+      },
+      {
+       "ru": "Переходы не имели метрики и алерта, и деградация не была видна дежурному",
+       "tg": "Гузаришҳо метрика ва огоҳӣ надоштанд ва деградатсия барои навбатчӣ номоён буд",
+       "en": "Transitions had no metric or alert, and the degradation was invisible to on-call"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3269,6 +4410,18 @@
     },
     {
      "title": {
+      "ru": "Кардинальность и алерты, которым не верят",
+      "tg": "Кардиналӣ ва огоҳиҳое, ки ба онҳо бовар намекунанд",
+      "en": "Cardinality and alerts nobody trusts"
+     },
+     "body": {
+      "ru": "Наблюдаемость ломается в двух крайностях. Первая — кардинальность: метка userId создаёт временной ряд на каждого пользователя, хранилище задыхается за дни, графики исчезают в инцидент; персональный разбор — работа трейсов и логов. Вторая — алертная усталость: порог на каждое колебание приучает дежурных игнорировать канал, и настоящий сигнал тонет в шуме. Правило: алерт требует действия; доля ложных срабатываний — метрика самого алерта, и по ней пороги пересматриваются. Крайний случай логов — персональные данные: лог платежа с картой опасен годами; маскирование делается на границе. Свяжите с SLO предыдущего дня: алерт на расход бюджета срабатывает, когда цель под угрозой.",
+      "tg": "Мушоҳида дар ду ҳадди симметрик вайрон мешавад. Якум — кардиналӣ: лейбли userId дар метрикаи давомнокӣ барои ҳар корбар як қатори вақтӣ месозад, анбор дар чанд рӯз газбар мешавад, графикҳо дар ҳодиса ғайб мекунанд; таҳлили шахсӣ кори трейсҳо ва логҳост, ба метрикаҳо лейблҳои маҳдуд гузошта мешаванд. Дуюм — хастагии огоҳиҳо: ҳадд барои ҳар лапиш навбатчиёро меомӯзад, ки каналро нодида мегирад, ва сигнали воқеӣ дар садо ғарқ мешавад. Қоида: огоҳӣ амал талаб мекунад — навбатчие, ки онро гирифтааст, донист, ки чӣ кунад; ҳиссаи огоҳиҳои дурӯғ метрикаи худи огоҳӣ аст ва аз рӯйи он ҳаддҳо аз нав баррасӣ мешаванд. Ҳолати канории логҳо — маълумоти шахсӣ: логи пардохт бо корт як бор муфид аст ва солҳо хавфнок; пӯшидан дар ҳудуд карда мешавад. Пайванд кунед бо SLO-и рӯзи гузашта: огоҳии сарфи буҷет ҳангоми таҳдиди мақсад кор мекунад.",
+      "en": "Observability breaks in two symmetric extremes. The first is cardinality: a userId label on a latency metric creates a time series per user, the storage chokes within days, and the graphs vanish during the incident; personal analysis is the job of traces and logs, metrics take bounded labels. The second is alert fatigue: a threshold on every fluctuation trains on-call to ignore the channel, and the real signal drowns in noise. The rule: an alert demands an action — the on-call receiving it knows what to do; the share of false firings is a metric of the alert itself, and thresholds are reviewed against it. The log edge case is personal data: a payment log with a card number is useful once and dangerous for years; masking happens at the boundary. Tie this to the previous day's SLO: a budget-burn alert fires when the target is at risk."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -3310,7 +4463,13 @@
        "en": "The list of all system users"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Метрики — агрегаты; что нужно для разбора одного запроса?",
+      "tg": "Метрикаҳо агрегатҳоянд; барои таҳлили як дархост чӣ лозим аст?",
+      "en": "Metrics are aggregates; what does analyzing one request need?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-20-q2",
@@ -3341,7 +4500,50 @@
        "en": "Because the storage license forbids it"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Посчитайте временные ряды при миллионе пользователей.",
+      "tg": "Қаторҳои вақтиро бо миллион корбар ҳисоб кунед.",
+      "en": "Count the time series with a million users."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-20-q3",
+     "question": {
+      "ru": "За неделю 70% алертов оказались ложными. Какой риск ближайший?",
+      "tg": "Дар як ҳафта 70% огоҳиҳо дурӯғ баромаданд. Хатари наздик кадом аст?",
+      "en": "Within a week 70% of alerts turned out false. What is the nearest risk?"
+     },
+     "answer": {
+      "ru": "Дежурные перестанут реагировать на канал, и настоящий сигнал потеряется",
+      "tg": "Навбатчӣён ба канал ҷавоб доданро қатъ мекунанд ва сигнали воқеӣ гум мешавад",
+      "en": "On-call stops reacting to the channel, and a real signal is lost"
+     },
+     "hint": {
+      "ru": "Считайте долю ложных срабатываний метрикой самого алерта.",
+      "tg": "Ҳиссаи огоҳиҳои дурӯғро метрикаи худи огоҳӣ ҳисоб кунед.",
+      "en": "Treat the share of false firings as a metric of the alert itself."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Хранилище метрик переполнится от алертов",
+       "tg": "Анбори метрикаҳо аз огоҳиҳо пур мешавад",
+       "en": "The metrics storage overflows with alerts"
+      },
+      {
+       "ru": "Ложные алерты увеличат p95 пути",
+       "tg": "Огоҳиҳои дурӯғ p95-и роҳро афзоиш медиҳанд",
+       "en": "False alerts will increase the path's p95"
+      },
+      {
+       "ru": "Дежурные перестанут реагировать на канал, и настоящий сигнал потеряется",
+       "tg": "Навбатчӣён ба канал ҷавоб доданро қатъ мекунанд ва сигнали воқеӣ гум мешавад",
+       "en": "On-call stops reacting to the channel, and a real signal is lost"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3431,6 +4633,18 @@
     },
     {
      "title": {
+      "ru": "Тест на тёплом кэше и диск без множителей",
+      "tg": "Санҷиш бо кэши гарм ва диск бе зарбкунандаҳо",
+      "en": "A test on a warm cache and a disk without multipliers"
+     },
+     "body": {
+      "ru": "Арифметика проверяется тестом, и крайний случай — прогон на тёплом кэше: ответы короткие, база не тронута, запас трёхкратным. Реальный вечер приносит холодный кэш после деплоя, промахи и канал, забитый телами ответов; сценарий нагрузки обязан включать холодный старт и пиковый коэффициент из листа. Второй случай — хранилище без множителей: таблица растёт с индексами, репликой и сроком хранения втрое, и диск кончается в ночь теста, а не в пик. Третий — запуск: вечер, на который исторически приходится большая часть регистраций, не виден в среднем за месяц. Свяжите с чтениями предыдущего дня: доля промахов кэша — отдельная строка листа, потому что она определяет нагрузку на источник правды.",
+      "tg": "Арифметика бо санҷиш тасдиқ мешавад ва ҳолати канории санҷиш — гарониш бо кэши гарм: ҷавобҳо кӯтоҳ, база ноламс, захира сеҳиссазор менамояд. Шаҳги воқеӣ кэши хунукро баъди deployment меорад, нақсхӯрдани саҳифаҳо ва нақлиёти пуршуда бо баданҳои ҷавоб; сенарияи бор бояд оғози хунук ва коэффиентови пикро аз варақ дар бар гирад. Ҳолати дуюм — анбор бе зарбкунандаҳо: ҷадвали панҷ гигабайт бо индексҳо, реплика ва муҳлати нигоҳдорӣ сеҳиссазор афзоиш меёбад ва диск дар шаби санҷиш тамом мешавад, на дар пик. Сеюм — оғоз: шабоне, ки таърихан қисми қатораи байн хотима мешавад, дар миёнаи як моҳ дода намешавад. Пайванд кунед бо хонишҳои рӯзи гузашта: ҳиссаи нақсхӯрдани кэш сатри алоҳидаи варақ аст, зеро борро ба манбаи ҳақиқат муайян мекунад.",
+      "en": "Arithmetic is checked by a test, and the test's edge case is a run on a warm cache: short responses, untouched database, a threefold-looking margin. The real evening brings a cold cache after deploy, page misses, and a channel packed with response bodies; the load scenario must include a cold start and the peak coefficient from the worksheet. The second case is storage without multipliers: a five-gigabyte table grows threefold with indexes, a replica and retention, and the disk runs out during the test night, not at peak. The third is launch: the evening that historically carries most registrations is invisible in the monthly average. Tie this to the previous day's reads: the cache miss share is a separate worksheet line, because it sets the load on the source of truth."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -3472,7 +4686,13 @@
        "en": "Load redistributes to the night automatically"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Умножьте среднее на коэффициент и сравните с расчётом.",
+      "tg": "Миёнаро ба коэффиентов зарб кунед ва бо ҳисоб муқоиса намоед.",
+      "en": "Multiply the average by the coefficient and compare with the estimate."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-21-q2",
@@ -3503,7 +4723,50 @@
        "en": "The maximum size of one field"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Текущий размер не отвечает на вопрос о следующем году.",
+      "tg": "Ҳаҷми имрӯза ба саволи соли оянда ҷавоб намедиҳад.",
+      "en": "The current size does not answer next year's question."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-21-q3",
+     "question": {
+      "ru": "Нагрузочный тест показал запас втрое сразу после деплоя. Что проверить прежде всего?",
+      "tg": "Санҷиши бор фавран баъди deployment захираи сеҳиссазор нишон дод. Аввал чиро санҷед?",
+      "en": "The load test showed a threefold margin right after a deploy. What to check first?"
+     },
+     "answer": {
+      "ru": "Прогон с холодным кэшем: промахи определяют нагрузку на базу и канал",
+      "tg": "Гарониш бо кэши хунук: нақсхӯрданиҳо борро ба база ва нақлиёт муайян мекунанд",
+      "en": "A run with a cold cache: misses set the load on the database and the channel"
+     },
+     "hint": {
+      "ru": "Тест на тёплом кэше меряет кэш, а не систему.",
+      "tg": "Санҷиш бо кэши гарм кэшро чен мекунад, на системаро.",
+      "en": "A test on a warm cache measures the cache, not the system."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Увеличить нагрузку ещё втрое и повторить",
+       "tg": "Борро боз сеҳиссазор афзудан ва такрор кардан",
+       "en": "Raise the load threefold more and repeat"
+      },
+      {
+       "ru": "Прогон с холодным кэшем: промахи определяют нагрузку на базу и канал",
+       "tg": "Гарониш бо кэши хунук: нақсхӯрданиҳо борро ба база ва нақлиёт муайян мекунанд",
+       "en": "A run with a cold cache: misses set the load on the database and the channel"
+      },
+      {
+       "ru": "Уменьшить кэш до нуля на production для честности",
+       "tg": "Кэшро то сифр дар production кам кардан барои оддӣ",
+       "en": "Shrink the cache to zero in production for honesty"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -3593,6 +4856,18 @@
     },
     {
      "title": {
+      "ru": "Радиус бедствия одного гранта",
+      "tg": "Радиуси офати як грант",
+      "en": "The blast radius of one grant"
+     },
+     "body": {
+      "ru": "Уязвимость в сторонней библиотеке уведомлений показала главное: радиус бедствия определяется грантом, а не замыслом атаки. Права «на все таблицы, пригодятся» превращают любой инцидент в полный доступ; минимальный грант делает тот же инцидент локальным. Второй крайний случай — вебхук без дедупликации: подпись верна, сообщение повторено провайдером или злоумышленником, и каждая копия выполняет эффект; event_id и лимиты — часть доверия. Третий — секрет в истории переменных окружения: ротация не помогает, если старые значения в коммитах. Свяжите с границей доверия из дня 2: проверка прав при каждом действии, а не при входе, — тот же принцип на уровне ролей базы.",
+      "tg": "Хатарнокӣ дар китобхонаи ғайрии огоҳиҳо аслиро нишон дод: радиуси офатро грант муайян мекунад, на нақшаи ҳамла. Ҳуқуқҳои «ба ҳамаи ҷадвалҳо, фоида меоранд» ҳар ҳодисаро ба дастрасии пурра табдил медиҳанд; гранти ҳадди ақалӣ ҳамон ҳодисаро маҳаллӣ месозад. Ҳолати канории дуюм — вебҳук бе пешгирии такрор: имзо дуруст, пайём аз тарафи провайдер ё мухолиф такрор шуд ва ҳар нусха таъсири паҳлӯро иҷро мекунад; event_id ва маҳдудиятҳо қисми боварӣ аст. Сеюм — сирр дар таърихи тағйирёбандаҳои муҳит: гардонӣ кумак намекунад, агар арзишҳои кӯҳна дар commit-ҳо монда бошанд. Пайванд кунед бо ҳудуди боварии рӯзи 2: санҷиши ҳуқуқ ҳангоми ҳар амал, на ҳангоми воридшавӣ, обунаи гузаштаро аз идентификатори ивазшуда ҷудо мекунад — дар ин ҷо ҳамон усул дар сатҳи нақшҳои база.",
+      "en": "The vulnerability in a third-party notifications library demonstrated the core point: the blast radius is set by the grant, not by the attacker's plan. Rights \"to all tables, they may come in handy\" turn any incident into full access; a minimal grant keeps the same incident local. The second edge case is a webhook without deduplication: the signature is valid, the message was replayed by provider or attacker, and every copy performs the side effect; event_id and limits are part of trust. The third is a secret in environment-variable history: rotation does not help if old values remain in commits. Tie this to day 2's trust boundary: checking rights on every action, not at login, is what separates an expired subscription from a swapped identity — the same principle at the level of database roles."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -3634,7 +4909,13 @@
        "en": "Database administrator rights for incident cases"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Радиус бедствия определяется грантом, а не планом на будущее.",
+      "tg": "Радиуси офатро грант муайян мекунад, на нақшаи оянда.",
+      "en": "The blast radius is set by the grant, not by future plans."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-22-q2",
@@ -3665,7 +4946,50 @@
        "en": "Trusting the provider without checks"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Скрытый URL угадывается; спросите, что доказывает источник и уникальность.",
+      "tg": "URL-и пинҳонӣ таҳмин мешавад; пурсед, чӣ манбаъ ва ягонагиро собит мекунад.",
+      "en": "A hidden URL is guessable; ask what proves the source and uniqueness."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-22-q3",
+     "question": {
+      "ru": "Подпись вебхука верна, но сообщение пришло трижды за минуту. Что предотвращает тройной эффект?",
+      "tg": "Имзои вебҳук дуруст аст, вале паём дар як дақиқа се бор омад. Чӣ таъсири сесячиро пешгирӣ мекунад?",
+      "en": "The webhook signature is valid, but the message arrived three times in a minute. What prevents a triple effect?"
+     },
+     "answer": {
+      "ru": "Дедупликация по event_id с уникальным индексом",
+      "tg": "Пешгирии такрор аз рӯйи event_id бо индекси ягона",
+      "en": "Deduplication by event_id with a unique index"
+     },
+     "hint": {
+      "ru": "Подпись подтверждает источник, но не уникальность сообщения.",
+      "tg": "Имзо манбаъро тасдиқ мекунад, вале ягонагии паёмро не.",
+      "en": "A signature confirms the source, not the message's uniqueness."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Увеличение тайм-аута обработки вебхука",
+       "tg": "Афзудани тайм-аути коркарди вебҳук",
+       "en": "Increasing the webhook processing timeout"
+      },
+      {
+       "ru": "Проверка подписи ещё раз на каждом повторе",
+       "tg": "Санҷиши имзо боз як бор дар ҳар такрор",
+       "en": "Checking the signature again on every repeat"
+      },
+      {
+       "ru": "Дедупликация по event_id с уникальным индексом",
+       "tg": "Пешгирии такрор аз рӯйи event_id бо индекси ягона",
+       "en": "Deduplication by event_id with a unique index"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -3754,6 +5078,18 @@
     },
     {
      "title": {
+      "ru": "Кэш без арендатора и индекс мимо фильтра",
+      "tg": "Кэш бе иҷоракунанда ва индекси аз филтр гузашта",
+      "en": "A cache without a tenant and an index missing the filter"
+     },
+     "body": {
+      "ru": "Общая база с tenant_id защищена дисциплиной, и крайние случаи показывают, где она кончается. Первый — индекс без tenant_id в первой позиции: фильтр по арендатору не использует индекс, и «быстрый запрос» в тесте становится сканом. Второй — кэш без ключа арендатора: расписание школы A попадает в общий ключ, и школа B видит чужие часы; та же утечка, что и забытый WHERE, только через кэш. Третий — выгрузка без квоты: тяжёлый экспорт одной школы занимает очередь и замедляет записи. Свяжите с кэшем предыдущего дня: ключ кэша включает область видимости, и в мультиарендной системе это арендатор. Проверка: тест с двумя арендаторами ломает сборку при запросе, способном вернуть чужие строки.",
+      "tg": "Базаи умумӣ бо tenant_id бо тарзи корҳо ҳифз мешавад ва ҳолатҳои канорӣ нишон медиҳанд, ки он аз куҷо тамом мешавад. Якум — индекс бе tenant_id дар позицияи аввал: филтри аз рӯйи иҷоракунанда индексро истифода намебарад ва «дархости тез» дар санҷиш скан дар ҳаҷми мактаби дуюм мешавад. Дуюм — кэш бе калиди иҷоракунанда: расписании мактаби A ба калиди умумӣ мепарад ва мактаби B соатҳои ғайриро мебинад; ин ҳамон ризиш аст, мисли WHERE-и фаромӯшшуда, танҳо тавассути кэш. Сеюм — барориш бе квота: экспорти вазнини як мактаб навбатро ишғол мекунад ва сабтҳои дигаронро суст мекунад. Пайванд кунед бо кэши рӯзи гузашта: калиди кэш соҳаи диданро дар бар мегирад ва дар системаи бисёр-иҷорагӣ соҳа — иҷоракунанда аст. Санҷиш: маҷмӯи санҷишҳо ду иҷоракунандаро дар бар мегирад ва дархосте, ки сатрҳои ғайриро баргасонад, сборкаро месиканад.",
+      "en": "A shared database with tenant_id is protected by discipline, and edge cases show where the discipline ends. First, an index without tenant_id in the leading position: the tenant filter cannot use the index, and a \"fast query\" in testing becomes a scan at the second school's volume. Second, a cache without a tenant key: school A's schedule lands under a shared key, and school B sees foreign hours — the same leak as the forgotten WHERE, just through the cache. Third, an export without a quota: one school's heavy export occupies the queue and slows everyone else's writes. Tie this to the previous day's cache: a cache key includes its visibility scope, and in a multi-tenant system the scope is the tenant. The check: the test suite contains two tenants, and any query able to return foreign rows breaks the build."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -3795,7 +5131,13 @@
        "en": "Because the database cannot work without tenant_id"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Один путь всегда забудут; спросите, где защита не зависит от памяти.",
+      "tg": "Як роҳ ҳамеша фаромӯш мешавад; пурсед, ки ҳифз аз куҷо ба ҳофиза вобаста нест.",
+      "en": "One path will always be forgotten; ask where protection does not depend on memory."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-23-q2",
@@ -3826,7 +5168,50 @@
        "en": "A server in a noisy datacenter"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Это про нагрузку в общем ресурсе, а не про звук.",
+      "tg": "Ин дар бораи бор дар захираи умумӣ аст, на дар бораи садо.",
+      "en": "This is about load on a shared resource, not about sound."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "architecture-expert-day-23-q3",
+     "question": {
+      "ru": "Расписание школы A кэшируется под ключом day:16:00 без арендатора. Что произойдёт?",
+      "tg": "Расписании мактаби A зери калиди day:16:00 бе иҷоракунанда кэш мешавад. Чӣ мешавад?",
+      "en": "School A's schedule is cached under the key day:16:00 without a tenant. What happens?"
+     },
+     "answer": {
+      "ru": "Школа B получит кэш школы A — утечка данных между арендаторами",
+      "tg": "Мактаби B кэши мактаби A-ро мегирад — ризиши додаҳо байни иҷоракунандаҳо",
+      "en": "School B receives school A's cache — a leak between tenants"
+     },
+     "hint": {
+      "ru": "Область видимости ключа должна совпадать с областью данных в нём.",
+      "tg": "Соҳаи дидани калид бояд бо соҳаи додаҳои он мутобиқ бошад.",
+      "en": "The key's visibility scope must match the scope of the data inside it."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Ничего: расписание одинаково для всех школ",
+       "tg": "Ҳеҷ чиз: расписание барои ҳамаи мактабҳо якхела аст",
+       "en": "Nothing: the schedule is the same for all schools"
+      },
+      {
+       "ru": "Школа B получит кэш школы A — утечка данных между арендаторами",
+       "tg": "Мактаби B кэши мактаби A-ро мегирад — ризиши додаҳо байни иҷоракунандаҳо",
+       "en": "School B receives school A's cache — a leak between tenants"
+      },
+      {
+       "ru": "Кэш быстрее устареет и обновится из правильной базы",
+       "tg": "Кэш зудтар кӯҳна мешавад ва аз базаи дуруст навсозӣ мешавад",
+       "en": "The cache expires sooner and refreshes from the right database"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -3916,6 +5301,18 @@
     },
     {
      "title": {
+      "ru": "Бэкфилл одним запросом и живой старый скрипт",
+      "tg": "Бэкфилл бо як дархост ва скрипти кӯҳнаи зинда",
+      "en": "One-query backfill and a living old script"
+     },
+     "body": {
+      "ru": "Четыре шага ломаются на объёме и забытых потребителях. Бэкфилл одним запросом держит блокировку дольше окна обслуживания и превращает миграцию в простой записи; порции с паузами и метрика отставания — условие. Второй крайний случай — удаление старой колонки при живом потребителе: забытый ночной скрипт продолжает читать старое имя и падает через неделю после «успешного» сжатия; список потребителей собирается поиском по имени колонки до сжатия. Третий — откат при двойной записи: флаг выключен, новые поля заполнены на половине строк, и обратный путь обязан уметь читать такую смесь. Свяжите с доказательствами дня 3: миграция готова, когда откат отрепетирован на данных формы «половина заполнено».",
+      "tg": "Чор қадам дар ҳаҷм ва истеъмолкунандаҳои фаромӯшшуда вайрон мешаванд. Бэкфилл бо як дархост блокировкаро дарозтар аз фосилаи хидмат нигоҳ медорад ва муҳоҷирати муқаррариро ба вайрони сабт табдил медиҳад; қисмҳо бо танаффус ва метрикаи ақибмонӣ — шарт аст, на услуб. Ҳолати канории дуюм — нест кардани сутуни кӯҳна ҳангоми истеъмолкунандаи зинда: скрипти шабонаи таҳлил, ки фаромӯш шуда буд, номи кӯҳнаро хонда меистад ва як ҳафта баъди «муваффақ»-танг кардан меафтад; рӯйхати истеъмолкунандагон бо ҷустуҷӯи номи сутун то қадами танг кардан ҷамъ меояд. Сеюм — баргардонӣ ҳангоми навишти дукарата: байрон хомӯш аст, майдонҳои нав дар нимаи сатрҳо пур шудаанд ва роҳи баръакс бояд чунин омехтаро хонда тавонад. Пайванд кунед бо далелҳои рӯзи 3: муҳоҷират омода аст, ки баргардонӣ дар додаҳои шакли «нимапур» тамрин шуда бошад.",
+      "en": "The four steps break on volume and forgotten consumers. A one-query backfill holds a lock longer than the maintenance window and turns a scheduled migration into a write outage; batches with pauses and a lag metric are a condition, not a style. The second edge case is dropping an old column while a consumer lives: a nightly analytics script nobody remembered keeps reading the old name and falls a week after the \"successful\" contraction; the consumer list is assembled by searching the column name before the contraction step. The third is rollback under dual writes: the flag is off, the new columns are filled on half the rows, and the reverse path must know how to read that mixture. Tie this to day 3's evidence: the migration is ready when the rollback has been rehearsed on data shaped like \"half filled\"."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -3957,7 +5354,13 @@
        "en": "Because it is cheaper in engineering hours"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Во время миграции живёт и старый код — он тоже пишет.",
+      "tg": "Дар вақти муҳоҷират рамзи кӯҳна ҳам зинд аст — он ҳам менависад.",
+      "en": "During the migration the old code is alive too — it also writes."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-24-q2",
@@ -3988,7 +5391,50 @@
        "en": "Never: old columns are kept forever"
       }
      ],
-     "correctIndex": 1
+     "correctIndex": 1,
+     "hint": {
+      "ru": "Необратимый шаг назначается после доказательств, а не после релиза.",
+      "tg": "Қадами баргарданданӣ баъди далелҳо таъин мешавад, на баъди релиз.",
+      "en": "The irreversible step is scheduled after evidence, not after the release."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-24-q3",
+     "question": {
+      "ru": "Старая колонка удалена, новый код работает неделю. Что падает дальше всех от релиза?",
+      "tg": "Сотуни кӯҳна нест карда шуд, рамзи нав як ҳафта кор мекунад. Чӣ аз ҳама дуртар аз релиз меафтад?",
+      "en": "The old column is dropped and the new code has run for a week. What falls furthest from the release?"
+     },
+     "answer": {
+      "ru": "Забытый ночной скрипт, читавший старое имя колонки",
+      "tg": "Скрипти шабонаи фаромӯшшуда, ки номи кӯҳнаи сутунро мехонд",
+      "en": "A forgotten nightly script that read the old column name"
+     },
+     "hint": {
+      "ru": "Список потребителей собирают поиском по имени колонки до шага сжатия.",
+      "tg": "Рӯйхати истеъмолкунандагон бо ҷустуҷӯи номи сутун пеш аз қадами танг кардан ҷамъ мешавад.",
+      "en": "The consumer list is gathered by searching the column name before the contraction step."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Новый код: он пишет в новые поля",
+       "tg": "Рамзи нав: он ба майдонҳои нав менависад",
+       "en": "The new code: it writes the new fields"
+      },
+      {
+       "ru": "Ничего: все потребители проверены при переключении",
+       "tg": "Ҳеҷ чиз: ҳамаи истеъмолкунандагон ҳангоми табдил санҷида шудаанд",
+       "en": "Nothing: every consumer was verified at the switch"
+      },
+      {
+       "ru": "Забытый ночной скрипт, читавший старое имя колонки",
+       "tg": "Скрипти шабонаи фаромӯшшуда, ки номи кӯҳнаи сутунро мехонд",
+       "en": "A forgotten nightly script that read the old column name"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4077,6 +5523,18 @@
     },
     {
      "title": {
+      "ru": "Тень на записи и выравнивание сравнения",
+      "tg": "Соя дар сабт ва мувофиқсозии муқоиса",
+      "en": "Shadow on writes and aligned comparison"
+     },
+     "body": {
+      "ru": "Теневой режим безопасен для чтений и опасен для записей: копия запроса, выполненная обоими путями, создаёт два эффекта — платёж списан и в старой системе, и в новой. Поэтому перехват записи начинается с плана данных: двойная запись из дня 24, синхронизация событиями или явный запрет тени для эффекта. Второй крайний случай — сравнение без выравнивания: старый путь отдаёт из кэша, новый из базы, и половина «расхождений» — артефакты момента; выравнивание по ключу и окну делает сравнение читаемым. Третий — вывод из эксплуатации, отложенный навсегда: старые таблицы копят данные. Свяжите с совместимостью схемы предыдущего дня: дата вывода назначается после дней наблюдения, а не после релиза.",
+      "tg": "Режими соя барои хонишҳо бехатар ва барои сабтҳо хавфнок аст: нусхаи дархост, ки ҳар ду роҳ иҷро мекунад, ду таъсир месозад — пардохт ва дар системаи кӯҳна, ва дар нав кашида шуд. Бинобар ин перехвати сабт аз нақшаи додаҳо оғоз мешавад: навишти дукарата аз рӯзи 24, ҳамгамсозӣ бо ҳодисаҳо ё манъи ошкори соя барои таъсир. Ҳолати канории дуюм — муқоиса бе мувофиқсозӣ: ҷавобҳо ҷуфт-ҷуфт муқоиса мешаванд, вале роҳи кӯҳна аз кэш медиҳад ва навӣ аз база, ва нисфи «ихтилофҳо» артефакти лаҳзаанд; мувофиқсозӣ аз рӯйи калид ва фосилаи муқоисаро хонанда месозад. Сеюм — бароран аз истифода, ки абад тамдид шуд: ҷадвалҳои кӯҳна додаҳо мекубанд ва ҳуқуқи дастрасӣ ба онҳо хатари пассив аст. Пайванд кунед бо мутобиқияти схемаи рӯзи гузашта: ҳар ду усул ду намудро якҷо нигоҳ медоранд ва санаи барориш баъди рӯзҳои мушоҳида таъин мешавад.",
+      "en": "Shadow mode is safe for reads and dangerous for writes: a copied request executed by both paths creates two effects — the charge settled in the old system and in the new one. That is why intercepting writes starts with a data plan: dual writes from day 24, event-based synchronization, or an explicit ban on shadowing effects. The second edge case is comparison without alignment: responses are compared pairwise while the old path answers from cache and the new one from the database, and half the \"divergences\" are moment artifacts; aligning by key and window makes the comparison readable. The third is decommission postponed forever: old tables keep accumulating data, and access rights to them are passive risk. Tie this to the previous day's schema compatibility: both approaches keep two representations together, and the exit date is set after days of observation."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -4118,7 +5576,13 @@
        "en": "With all routes at once, to avoid dragging"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Что дешевле откатить: чтение или запись?",
+      "tg": "Чиро баргардонӣ арзонтар аст: хониш ё сабт?",
+      "en": "What is cheaper to roll back: a read or a write?"
+     },
+     "relatedSection": 1
     },
     {
      "id": "architecture-expert-day-25-q2",
@@ -4149,7 +5613,50 @@
        "en": "The old path runs without logs"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Тень — это копии запросов и сравнение ответов.",
+      "tg": "Соя — нусхаҳои дархостҳо ва муқоисаи ҷавобҳост.",
+      "en": "The shadow is copied requests and compared responses."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-25-q3",
+     "question": {
+      "ru": "Почему теневой режим для платёжных операций запрещён?",
+      "tg": "Чаро режими соя барои амалиётҳои пардохт манъ аст?",
+      "en": "Why is shadow mode forbidden for payment operations?"
+     },
+     "answer": {
+      "ru": "Копия запроса выполняется в обоих путях и создаёт два эффекта",
+      "tg": "Нусхаи дархост дар ҳар ду роҳ иҷро мешавад ва ду таъсир месозад",
+      "en": "The copied request runs in both paths and creates two effects"
+     },
+     "hint": {
+      "ru": "Сравнение без побочного эффекта возможно для чтений, не для эффекта.",
+      "tg": "Муқоиса бе таъсири паҳлӯ танҳо барои хонишҳо мумкин аст, на барои таъсир.",
+      "en": "Side-effect-free comparison works for reads, not for effects."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Тень слишком медленная для платёжного пути",
+       "tg": "Соя барои роҳи пардохт хеле суст аст",
+       "en": "The shadow is too slow for the payment path"
+      },
+      {
+       "ru": "Старая система не умеет логировать платежи",
+       "tg": "Системаи кӯҳна пардохтҳоро лог намекунад",
+       "en": "The old system cannot log payments"
+      },
+      {
+       "ru": "Копия запроса выполняется в обоих путях и создаёт два эффекта",
+       "tg": "Нусхаи дархост дар ҳар ду роҳ иҷро мешавад ва ду таъсир месозад",
+       "en": "The copied request runs in both paths and creates two effects"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4239,6 +5746,18 @@
     },
     {
      "title": {
+      "ru": "Счёт, который никто не читал",
+      "tg": "Ҳисобе, ки ҳеч кас нахондааст",
+      "en": "The bill nobody read"
+     },
+     "body": {
+      "ru": "Счёт растёт нелинейно, и крайний случай — строки, которые никто не читал: NAT между зонами, дублированные копии, кластер очередей ради двух сообщений в час. Ревизия начинается с чтения счёта построчно и вопроса «какая пользовательская ценность стоит за строкой»; строки без ответа — кандидаты на упрощение. Вторая крайность — стоимость в людях: экономия 200 евро на управляемом сервисе приносит ночные дежурства и час разбора на инцидент; строка «время людей» делает обмен видимым. Третий — онбординг: если типовое изменение требует разговора с тремя командами, сложность платит зарплату. Свяжите с рамкой решений дня 4: слияние двух сервисов — тоже решение, оно получает ADR и дату пересмотра.",
+      "tg": "Ҳисоб ба таври ғайрихаттӣ афзоиш меёбад ва ҳолати канорӣ — сатрҳое, ки ҳеч кас нахондааст: NAT байни минтақаҳо, нусхаҳои дукарата, кластери навбат барои ду паём дар як соат. Баррасӣ аз хондани ҳисоб сатр ба сатр ва саволи «қадри корбарии чӣ пушти сатр истодааст» оғоз мешавад; сатрҳои бе ҷавоб — номзадони муттаҳидсозӣ ё соддасозӣ. Ҳадди дуюм — арзиши ба одамон интиқолёфта: сарфаи 200 евро дар хизматҳои идорашаванда навбатчиёҳои шабона ва як соат таҳлил барои ҳар ҳодиса меорад; сатри «вақти одамон» мубодиларо намоён месозад. Сеюм — онбординг: агар тағйири типӣ гуфтугӯ бо се дастаро талаб кунад ва баромадани навком ба насли аввал дароз мешавад, мураккабӣ маош мепардозад. Пайванд кунед бо чаҳорчӯбаи қарорҳои рӯзи 4: муттаҳид кардани ду хизмат ҳам қарор аст, он ADR ва санаи баррасӣ мегирад.",
+      "en": "The bill grows non-linearly, and the edge case is the lines nobody read: NAT between zones, duplicated backups, a queue cluster for two messages an hour. The review starts with reading the bill line by line and asking what user value stands behind the line; unanswered lines are candidates for merging or simplification. The second extreme is cost moved into people: saving 200 euros on a managed service brings night shifts and an hour of analysis per incident; the \"people time\" line makes the trade visible. The third is onboarding: when a typical change needs a conversation with three teams and a newcomer's first release keeps sliding, complexity pays salaries. Tie this to day 4's decision frame: merging two services is also a decision — it gets an ADR and a review date."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -4280,7 +5799,13 @@
        "en": "Because cloud licenses are counted per service"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Посчитайте связи: каждая становится трафиком и копией.",
+      "tg": "Пайвандҳоро ҳисоб кунед: ҳар кадом ба нақлиёт ва нусха табдил меёбад.",
+      "en": "Count the couplings: each becomes traffic and a copy."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-26-q2",
@@ -4311,7 +5836,50 @@
        "en": "As a security requirement"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Платят за сегодняшний объём; рост — это план, не счёт.",
+      "tg": "Барои ҳаҷми имрӯза мепардозанд; афзоиш — нақша аст, на ҳисоб.",
+      "en": "You pay for today's volume; growth is a plan, not a bill."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-26-q3",
+     "question": {
+      "ru": "Замена управляемого сервиса на самописный экономит 200 евро в месяц. Какая строка рамки это проверяет?",
+      "tg": "Ивази хизмати идорашаванда ба худнависшуда дар як моҳ 200 евро сарфа мекунад. Кадом сатри чаҳорчӯба онро месанҷад?",
+      "en": "Replacing a managed service with a hand-written one saves 200 euros a month. Which frame line checks this?"
+     },
+     "answer": {
+      "ru": "Время людей: часы дежурств и разбора инцидентов за то же решение",
+      "tg": "Вақти одамон: соатҳои навбатӣ ва таҳлили ҳодисаҳо барои ҳамон қарор",
+      "en": "People time: on-call hours and incident analysis for the same decision"
+     },
+     "hint": {
+      "ru": "Сравнивайте все три строки, включая зарплату за сложность.",
+      "tg": "Ҳар се сатрро муқоиса кунед, аз ҷумла маош барои мураккабӣ.",
+      "en": "Compare all three lines, including the salary paid for complexity."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Прямая инфраструктура: она единственная считается в год",
+       "tg": "Инфрасохти мустақим: он танҳо дар як сол ҳисоб мешавад",
+       "en": "Direct infrastructure: it is the only line counted per year"
+      },
+      {
+       "ru": "Время людей: часы дежурств и разбора инцидентов за то же решение",
+       "tg": "Вақти одамон: соатҳои навбатӣ ва таҳлили ҳодисаҳо барои ҳамон қарор",
+       "en": "People time: on-call hours and incident analysis for the same decision"
+      },
+      {
+       "ru": "Скорость сети между зонами",
+       "tg": "Суръати шабака байни минтақаҳо",
+       "en": "Network speed between zones"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -4400,6 +5968,18 @@
     },
     {
      "title": {
+      "ru": "Диаграмма, отставшая на одно решение",
+      "tg": "Диаграммае, ки аз як қарор ақиб мондааст",
+      "en": "A diagram one decision behind"
+     },
+     "body": {
+      "ru": "Диаграмма из презентации врёт тише кода и вреднее: новичок доверяет картинке и строит неверные предположения. Крайний случай — отставание ровно на одно структурное решение: очередь уже в коде, на рисунке её нет, и обсуждение новой интеграции начинается с вопроса «а есть ли у нас очередь». Диаграммы как код закрывают это правилом слияния: структурный PR без правки диаграммы не проходит ревью, а пайплайн проверяет, что файл изменился. Второй крайний случай — рендер без синтаксической проверки: картинка собирается из устаревшего текста. Свяжите с журналом ADR из дня 5: диаграмма отвечает «как устроено», ADR — «почему»; оба лежат рядом с кодом по одной причине — иначе их никто не обновит.",
+      "tg": "Диаграммаи презентатсия бе садо аз рамз дурӯғ мегӯяд ва зарартар аст: навком ба тасвир бовар мекунад ва тахминҳои нодурусти ҳудудҳо месозад. Ҳолати канорӣ — айнан ба як қарори сохторӣ ақиб мондан: навбат аллакай дар рамз аст, дар тасвир нест ва гуфтугӯ дар бораи интегратсияи нав бо саволи «оё навбат дорем» оғоз мешавад. Диаграммаҳо ҳамчун рамз инро бо қоидаи merge мепӯшанд: PR-и сохторӣ бе тағйири матни диаграмма аз баррасӣ намегузарад ва pipeline месанҷад, ки файл тағйир ёфтааст. Ҳолати канории дуюм — render бе санҷиши синтаксӣ: тасвир аз матни кӯҳна ҷамъ меояд ва баррасӣ натиҷаи зебои олами кӯҳнаро мебинад. Пайванд кунед бо маҷаллаи ADR-и рӯзи 5: диаграмма «чӣ тавр сохта шудааст»-ро ҷавоб медиҳад, ADR — «чаро»; ҳар ду дар канори рамз менишинанд — вагарна ҳеч кас онҳоро навсозӣ намекунад.",
+      "en": "A slide deck diagram lies quieter than code and does more harm: a newcomer trusts the picture and builds wrong assumptions about boundaries. The edge case is being exactly one structural decision behind: the queue already exists in code, is absent from the picture, and a new integration discussion opens with \"do we even have a queue?\". Diagrams as code close this with the merge rule: a structural PR without a diagram-text change fails review, and the pipeline checks that the file changed at all. The second edge case is rendering without a syntax check: the picture is built from stale text, and the reviewer admires a beautiful artifact of the old world. Tie this to day 5's ADR journal: the diagram answers \"how it is built\", the ADR — \"why\"; both sit next to the code for one reason — otherwise nobody updates them."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -4441,7 +6021,13 @@
        "en": "Because they cannot be deleted"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Механика: что связывает изменение кода и изменение документа?",
+      "tg": "Механика: чӣ тағйири рамз ва тағйири ҳуҷҷатро мепайвандад?",
+      "en": "The mechanics: what ties a code change to a document change?"
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-27-q2",
@@ -4472,7 +6058,50 @@
        "en": "An investor presentation and a link list"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Четыре документа: контекст, контейнеры, решения, действия дежурного.",
+      "tg": "Чор ҳуҷҷат: контекст, контейнерҳо, қарорҳо, амалҳои навбатчӣ.",
+      "en": "Four documents: context, containers, decisions, on-call actions."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-27-q3",
+     "question": {
+      "ru": "Диаграмма как код рендерится, но пайплайн не проверяет синтаксис. Какой риск?",
+      "tg": "Диаграмма ҳамчун рамз render мешавад, вале pipeline синтаксисро намесанҷад. Хатар кадом аст?",
+      "en": "The diagram as code renders, but the pipeline does not check syntax. What is the risk?"
+     },
+     "answer": {
+      "ru": "Устаревший текст продолжит собираться в красивую картинку старого мира",
+      "tg": "Матни кӯҳна идома медиҳад ба тасвири зебои олами кӯҳна ҷамъ шудан",
+      "en": "Stale text keeps compiling into a beautiful picture of the old world"
+     },
+     "hint": {
+      "ru": "Рендер без проверки превращает текст в картинку без ревью.",
+      "tg": "Render бе санҷиш матнро ба тасвири бе баррасӣ табдил медиҳад.",
+      "en": "Rendering without a check turns text into an unreviewed picture."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Картинка будет слишком большой для вики",
+       "tg": "Тасвир барои вики хеле калон мешавад",
+       "en": "The picture will be too large for the wiki"
+      },
+      {
+       "ru": "Диаграмму нельзя будет удалить навсегда",
+       "tg": "Диаграммаро ҳамеша нест кардан мумкин намешавад",
+       "en": "The diagram can never be deleted"
+      },
+      {
+       "ru": "Устаревший текст продолжит собираться в красивую картинку старого мира",
+       "tg": "Матни кӯҳна идома медиҳад ба тасвири зебои олами кӯҳна ҷамъ шудан",
+       "en": "Stale text keeps compiling into a beautiful picture of the old world"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4561,6 +6190,18 @@
     },
     {
      "title": {
+      "ru": "Молчание и прыжок в схему",
+      "tg": "Хомӯшӣ ва париш ба схема",
+      "en": "Silence and a jump into the schema"
+     },
+     "body": {
+      "ru": "Крайний случай провала — не сложная задача, а молчание: кандидат двадцать минут рисует схему без единого вслух допущения, и интервьюер не может оценить ход мысли, даже если схема верна. Второй — прыжок в детали без оценок: выбор между двумя базами начинается раньше вопроса «сколько пользователей»; без чисел выбор — вкусовой. Третий — защита вместо пересчёта: интервьюер вводит сценарий, при котором выбор кэша выглядит плохо, а кандидат защищает решение; правильное движение — пересчитать компромиссы вслух и признать смену выбора. Свяжите с арифметикой дня 21: вслух оценки отличают рассуждение от рисунка. Проверка самоподготовки: репетиция с таймером и сводкой компромиссов в конце.",
+      "tg": "Ҳолати канории нокомӣ — вазифаи мураккаб не, хомӯши аст: номзад бист дақиқа схемаро кашида, бе як тахмини ошкоро мегӯяд ва суҳбатчӣ гузариши фикрро баҳо дода наметавонад, ҳатто агар схема дуруст бошад. Дуюм — париш ба тафсилот бе баҳоҳо: интихоби байни ду база пеш аз саволи «чанд корбар» оғоз мешавад; бе рақамҳо интихобро асоснок кардан мумкин нест ва баҳс ба дастаҳрозиҳо табдил меёбад. Сеюм — ҳимоя ба ҷои аз нав ҳисоб: суҳбатчӣ сенарияеро меорад, ки интихоби кэши шумо бад менамояд, вале номзад қарорро ҳимоя мекунад; ҳаракати дуруст — аз нав ҳисоб кардани мубодилагон ошкоро ва эътирофи тағйири интихоб бо додаҳои нав. Пайванд кунед бо арифметикаи рӯзи 21: баҳоҳои ошкоро тафаккурро аз тасвир ҷудо мекунанд. Санҷиши худтайёрӣ: тамрин бо таймер ва ҷамъбасти мубодилагон дар охир.",
+      "en": "The failure edge case is not a hard task but silence: a candidate spends twenty minutes drawing a schema without a single spoken assumption, and the interviewer cannot grade the reasoning even if the schema is right. The second is jumping into details without estimates: choosing between two databases starts before the question \"how many users\"; without numbers the choice cannot be justified, and the debate turns into taste. The third is defending instead of recomputing: the interviewer introduces a scenario where your cache choice looks bad, and the candidate defends the decision; the right move is to recompute the trade-offs aloud and acknowledge the changed choice under new data. Tie this to day 21's arithmetic: spoken estimates are what separate reasoning from drawing. Self-preparation check: a timed rehearsal ending with a summary of trade-offs."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -4602,7 +6243,13 @@
        "en": "The speed of drawing diagrams"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Оценивается рассуждение при неполных данных, а не рисунок.",
+      "tg": "Тафаккур дар додаҳои нопурра баҳо меёбад, на тасвир.",
+      "en": "What is graded is reasoning under incomplete data, not a drawing."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-28-q2",
@@ -4633,7 +6280,50 @@
        "en": "Pick a programming language and framework"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Без пользователей и чисел любой выбор схемы — вкусовой.",
+      "tg": "Бе корбарон ва рақамҳо ҳар интихоби схема дастаҳроз аст.",
+      "en": "Without users and numbers, any schema choice is taste."
+     },
+     "relatedSection": 1
+    },
+    {
+     "id": "architecture-expert-day-28-q3",
+     "question": {
+      "ru": "Интервьюер вводит сценарий, при котором ваш выбор кэша выглядит плохо. Правильное движение?",
+      "tg": "Суҳбатчӣ сенарияеро меорад, ки интихоби кэши шумо бад менамояд. Ҳаракати дуруст кадом аст?",
+      "en": "The interviewer introduces a scenario where your cache choice looks bad. What is the right move?"
+     },
+     "answer": {
+      "ru": "Пересчитать компромиссы вслух и признать смену выбора при новых данных",
+      "tg": "Мубодилагонро ошкоро аз нав ҳисоб кардан ва эътирофи тағйири интихоб бо додаҳои нав",
+      "en": "Recompute the trade-offs aloud and acknowledge the changed choice under new data"
+     },
+     "hint": {
+      "ru": "Проверяется пересчёт при новых данных, а не стойкость первого ответа.",
+      "tg": "Аз нав ҳисоб кардан бо додаҳои нав месанҷанд, на устувории ҷавоби аввал.",
+      "en": "What is graded is the recompute under new data, not the first answer's stubbornness."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Защищать первоначальный выбор до конца",
+       "tg": "Интихоби ибтиқоиро то охир ҳимоя кардан",
+       "en": "Defend the original choice to the end"
+      },
+      {
+       "ru": "Пересчитать компромиссы вслух и признать смену выбора при новых данных",
+       "tg": "Мубодилагонро ошкоро аз нав ҳисоб кардан ва эътирофи тағйири интихоб бо додаҳои нав",
+       "en": "Recompute the trade-offs aloud and acknowledge the changed choice under new data"
+      },
+      {
+       "ru": "Молча нарисовать вторую схему рядом",
+       "tg": "Бе садо схемаи дуюмро дар канор кашидан",
+       "en": "Silently draw a second schema next to the first"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {
@@ -4723,6 +6413,18 @@
     },
     {
      "title": {
+      "ru": "Триггер, который сработал молча",
+      "tg": "Триггере, ки бе садо кор кард",
+      "en": "A trigger that fired silently"
+     },
+     "body": {
+      "ru": "Ревизия начинается с карты ADR, и крайний случай — триггер, сработавший раньше ревизии: запись «пока одна база, пересмотрим при второй команде» просрочена на полгода, команда вторая, а решение всё ещё считается принятым. Молчаливый триггер превращает намеренный долг в случайный. Второй крайний случай — долг без процентов: строка «переделать уведомления» не отвечает, насколько дороже из-за неё типовое изменение; без процента не выбрать, какой из двадцати долгов трогать. Третий — план без сигнала: ревизия приняла десять пунктов, измерить собирается ноль. Свяжите со счётом предыдущего дня: ревизия стоимости и ревизия архитектуры — один цикл в разные стороны, обе проверяются сигналами.",
+      "tg": "Баррасӣ аз картаи ADR оғоз мешавад ва ҳолати канорӣ — триггере, ки пеш аз баррасӣ кор кард: сабти «то як база, ҳангоми дастаи дуюм баррасӣ мекунем» нимсол гузаштааст, даста дуюм аст, вале қарор ҳанӯз қабулшуда ҳисоб мешавад. Триггери бе садо қарзи қасдиро ба тасодуфӣ табдил медиҳад: дигар соҳиб ва нақша надорад. Ҳолати канории дуюм — қарз бе фоиз: сатри «дубора кардани огоҳиҳо» ҷавоб намедиҳад, ки ҳар тағйири типӣ аз рӯйи он чандон гаронтар аст; бе фоиз интихоб намешавад, ки аз бист қарз дар як чоряк кадомро тағйир додан. Сеюм — нақша бе сигнал: баррасӣ даҳ пунктро қабул кард, чизе чен кардан дар нақша нест ва баъди чоряк муқоиса чизе намемонад. Пайванд кунед бо ҳисоби рӯзи гузашта: баррасии арзиш ва баррасии меъморӣ як давр дар ду самт аст ва ҳар ду бо сигналҳо санҷида мешаванд.",
+      "en": "The review starts from the ADR map, and the edge case is a trigger that fired before the review: the record \"one database for now, revisit when there is a second team\" is six months overdue, the second team exists, and the decision still counts as accepted. A silent trigger turns deliberate debt into accidental debt: it no longer has an owner or a plan. The second edge case is debt without interest: the row \"redo notifications\" does not answer how much more expensive every typical change is because of it; without an interest figure you cannot pick which of twenty debts to touch this quarter. The third is a plan without a signal: the review accepted ten items and plans to measure none of them, so in a quarter there is nothing to compare. Tie this to the previous day's bill: a cost review and an architecture review are one cycle run in both directions, both checked by signals."
+     }
+    },
+    {
+     "title": {
       "ru": "Кейс и частые ошибки",
       "tg": "Мисоли омӯзишӣ ва хатоҳои маъмул",
       "en": "Learning case and common mistakes"
@@ -4764,7 +6466,13 @@
        "en": "No difference: debt is debt"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Разница — в записи, владельце и триггере пересмотра.",
+      "tg": "Фарқ дар сабт, соҳиб ва триггери баррасӣ аст.",
+      "en": "The difference is the record, the owner and the review trigger."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-29-q2",
@@ -4795,7 +6503,50 @@
        "en": "The bank's penalty for the team's loan"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Проценты платятся постоянно, а не один раз.",
+      "tg": "Фоизҳо доимо мепардозанд, на як бор.",
+      "en": "Interest is paid continuously, not once."
+     },
+     "relatedSection": 0
+    },
+    {
+     "id": "architecture-expert-day-29-q3",
+     "question": {
+      "ru": "Ревизия приняла план из десяти пунктов. Что делает его проверяемым через квартал?",
+      "tg": "Баррасӣ нақшаи даҳ пунктро қабул кард. Чӣ онро баъди чоряк санҷишӣ месозад?",
+      "en": "The review accepted a ten-item plan. What makes it checkable in a quarter?"
+     },
+     "answer": {
+      "ru": "Процессный сигнал на каждый пункт: время выпуска, повторные правки, онбординг",
+      "tg": "Сигнали равандӣ барои ҳар пункт: вақти нашр, тағйирҳои такрорӣ, онбординг",
+      "en": "A process signal per item: release time, rework, onboarding"
+     },
+     "hint": {
+      "ru": "Сигнал должен быть измеримым до ревизии и после неё.",
+      "tg": "Сигнал бояд то баррасӣ ва баъди он ченшаванда бошад.",
+      "en": "The signal must be measurable before and after the review."
+     },
+     "relatedSection": 2,
+     "options": [
+      {
+       "ru": "Подписи всех участников ревизии",
+       "tg": "Имзои ҳамаи иштирокчиёни баррасӣ",
+       "en": "Signatures of all review participants"
+      },
+      {
+       "ru": "Ссылка на исходный ADR в каждом пункте",
+       "tg": "Ишора ба ADR-и ибтиқоӣ дар ҳар пункт",
+       "en": "A reference to the original ADR in every item"
+      },
+      {
+       "ru": "Процессный сигнал на каждый пункт: время выпуска, повторные правки, онбординг",
+       "tg": "Сигнали равандӣ барои ҳар пункт: вақти нашр, тағйирҳои такрорӣ, онбординг",
+       "en": "A process signal per item: release time, rework, onboarding"
+      }
+     ],
+     "correctIndex": 2
     }
    ],
    "practice": {
@@ -4938,7 +6689,13 @@
        "en": "The most detailed database table schema"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Считается обоснование, а не количество технологий.",
+      "tg": "Асоснокӣ ҳисоб мешавад, на шумораи технологияҳо.",
+      "en": "Justification is graded, not the count of technologies."
+     },
+     "relatedSection": 0
     },
     {
      "id": "architecture-expert-day-30-q2",
@@ -4969,7 +6726,50 @@
        "en": "ADRs are unnecessary if the solution is short"
       }
      ],
-     "correctIndex": 0
+     "correctIndex": 0,
+     "hint": {
+      "ru": "Минимум три: структура, данные, внешний провайдер.",
+      "tg": "Ҳадди ақал се: сохтор, додаҳо, провайдери берунӣ.",
+      "en": "At least three: structure, data, external provider."
+     },
+     "relatedSection": 2
+    },
+    {
+     "id": "architecture-expert-day-30-q3",
+     "question": {
+      "ru": "Ученик занял слот, платёж ещё проверяется. Что видно ему и системе?",
+      "tg": "Донишҷӯ слотро гирифт, пардохт ҳанӯз санҷида мешавад. Ба ӯ ва система чӣ намоён аст?",
+      "en": "A learner holds a slot while the payment is still being verified. What do they and the system see?"
+     },
+     "answer": {
+      "ru": "Промежуточное состояние: слот занят одной активной бронью, статус «проверяем платёж»",
+      "tg": "Ҳолати миёна: слот бо як брон фаъол ишғол шудааст, ҳолат «пардохт санҷида мешавад»",
+      "en": "An intermediate state: the slot is held by one active booking, status \"verifying payment\""
+     },
+     "hint": {
+      "ru": "Смотрите, как выглядит ожидание платежа для пользователя и для базы.",
+      "tg": "Бинед, ки интизори пардохт барои корбар ва барои база чӣ гуна менамояд.",
+      "en": "Look at how waiting for payment appears to the user and to the database."
+     },
+     "relatedSection": 3,
+     "options": [
+      {
+       "ru": "Ничего: операция скрыта до подтверждения платежа",
+       "tg": "Ҳеҷ чиз: амал то тасдиқи пардохт пинҳон аст",
+       "en": "Nothing: the operation is hidden until the payment confirms"
+      },
+      {
+       "ru": "Промежуточное состояние: слот занят одной активной бронью, статус «проверяем платёж»",
+       "tg": "Ҳолати миёна: слот бо як брон фаъол ишғол шудааст, ҳолат «пардохт санҷида мешавад»",
+       "en": "An intermediate state: the slot is held by one active booking, status \"verifying payment\""
+      },
+      {
+       "ru": "Слот считается свободным до успешного списания",
+       "tg": "Слот то гирифтани муваффақи маблағ озод ҳисоб мешавад",
+       "en": "The slot counts as free until the charge succeeds"
+      }
+     ],
+     "correctIndex": 1
     }
    ],
    "practice": {

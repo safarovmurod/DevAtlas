@@ -1,5 +1,9 @@
 import {test,expect,type Page} from '@playwright/test';
 import course from '../src/content/courses/backend.json';
+import {courseContentSchema} from '../src/lib/courses/schema';
+import {dayExamQuiz} from '../src/lib/courses/strict-attempt';
+import {expectGuestPracticeGate,productionPracticeGate} from './starter-course-checks';
+const parsedCourse=courseContentSchema.parse(course);
 async function code(page:Page,value:string){
  await expect(page.locator('.monaco-editor')).toBeVisible({timeout:30000});
  await expect.poll(()=>page.evaluate(()=>(window as unknown as {monaco?:{editor:{getModels:()=>unknown[]}}}).monaco?.editor.getModels().length??0),{timeout:30000}).toBeGreaterThan(0);
@@ -16,6 +20,11 @@ test.beforeEach(async({page})=>{
 });
 test('Backend executes actual function tests, catches wrong results and timeout, recovers and preserves drafts without granting mastery',async({page})=>{
  test.setTimeout(90000);await page.goto('/practice?course=backend&day=3');
+ if(productionPracticeGate){
+  await expectGuestPracticeGate(page,'backend');
+  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  return;
+ }
  const panel=page.locator('.function-practice'),run=panel.getByRole('button',{name:'Проверить решение'});
  await run.click();await expect(panel.getByRole('status')).toContainText('Неверно',{timeout:30000});
  const solution=course.lessons[2].practice!.solution;
@@ -32,10 +41,9 @@ test('Backend executes actual function tests, catches wrong results and timeout,
  await expect.poll(()=>page.evaluate(()=>(window as unknown as {monaco?:{editor:{getModels:()=>{getValue:()=>string}[]}}}).monaco?.editor.getModels()[0]?.getValue()??null),{timeout:30000}).toBe(solution);
  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
-test('Backend flow has keyboard-controlled code traces, local-only assessment copy and the actual ZIP download',async({page,request})=>{
+test('Backend flow has keyboard-controlled code traces, daily exam feedback and the actual ZIP download',async({page,request})=>{
  await page.goto('/courses/backend/home?day=4');
- // The day has three steps now: learn, practice, check.
- await expect(page.getByRole('navigation',{name:'Шаги дня'}).getByRole('link')).toHaveCount(3);
+ await expect(page.getByRole('group',{name:'Мой день',exact:true}).getByRole('button')).toHaveCount(2);
  // The example sits in a closed block of the lesson step.
  await page.locator('details:has(.code-trace) > summary').first().click();
  const trace=page.locator('.code-trace');await expect(trace).toContainText('не выполнение вашего кода');
@@ -44,18 +52,20 @@ test('Backend flow has keyboard-controlled code traces, local-only assessment co
  await expect(trace.locator('[aria-current=step]')).toContainText('const subtotalCents');await expect(trace).toContainText('subtotalCents=750');
  await trace.getByRole('button',{name:'Следующий шаг'}).click();await expect(trace).toContainText('totalCents=850');
  await expect(trace.getByRole('button',{name:'Следующий шаг'})).toBeDisabled();
- await expect(page.locator('#backend-day-04-flow-master')).toContainText('Серверной аттестации Backend пока нет');
  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.locator('#backend-day-04').getByRole('button',{name:'Прочитал и понял',exact:true}).click();
  await page.goto('/courses/backend/tests?day=4'); await page.locator('[data-strict-start]').click();
  await expect(page).toHaveURL('/courses/backend/tests?day=4');
- await expect(page.locator('.course-question')).toHaveCount(10);
- const question=page.locator('.course-question').first(),first=course.lessons[3].questions[0];
- await question.getByRole('radio').nth(1-first.correctIndex).check();await question.getByRole('button',{name:'Проверить',exact:true}).click();
- await expect(question.locator('.question-feedback')).toContainText(first.hint.ru);
- await expect(question.locator('.question-feedback a')).toHaveAttribute('href',/backend-day-04-section-/);
- await question.getByRole('radio').nth(first.correctIndex).check();await question.getByRole('button',{name:'Проверить',exact:true}).click();
- await expect(question.getByRole('status')).not.toContainText('Неверно');
- await expect(question).toContainText(first.answer.ru);
+ const quiz=dayExamQuiz(parsedCourse.lessons[3],4);
+ await expect(page.locator('.course-question')).toHaveCount(quiz.length);
+ const question=page.locator('.course-question').first(),first=quiz[0];
+ await question.getByRole('radio').nth((first.correctIndex+1)%first.options.length).check();
+ await page.locator('.course-question').nth(1).getByRole('radio').nth(quiz[1].correctIndex).check();
+ await page.getByRole('button',{name:'Отправить ответы',exact:true}).click();
+ const result=page.getByRole('region',{name:'Разбор результата',exact:true});
+ await expect(result).toContainText(first.hint!.ru);
+ await expect(result.locator('a[href*="#backend-day-04-section-"]').first()).toBeVisible();
+ await expect(result).toContainText(first.answer.ru);
  await page.goto('/courses/backend/plan');
  // The files are one closed line ("Материалы курса · 1") until the learner opens it.
  await page.locator('.course-materials > summary').click();
@@ -68,14 +78,19 @@ test('Backend day 14 grades UTF-8 boundaries in the browser and final day expose
  test.setTimeout(90000);
  const api=await request.get('/api/courses/backend');expect(api.status()).toBe(200);const published=await api.json();
  expect(published.lessons).toHaveLength(44);expect(published.lessons.reduce((n:number,l:{questions:unknown[]})=>n+l.questions.length,0)).toBe(220);
- await page.goto('/practice?course=backend&day=14');const panel=page.locator('.function-practice'),run=panel.getByRole('button',{name:'Проверить решение'});
+ await page.goto('/practice?course=backend&day=14');
+ if(productionPracticeGate){
+  await expectGuestPracticeGate(page,'backend');
+ }else{
+  const panel=page.locator('.function-practice'),run=panel.getByRole('button',{name:'Проверить решение'});
   // Hints unlock three minutes after the task opens.
- await expect(page.getByRole('timer')).toContainText('Подсказка через');await expect(page.locator('.practice-hint')).toHaveCount(0);
- await code(page,course.lessons[13].practice!.solution);await run.click();await expect(panel.getByRole('status')).toContainText('✓ Верно',{timeout:30000});
- await code(page,'export function solve(input){return {status:200,value:{}}}');await run.click();await expect(panel.getByRole('status')).toContainText('Неверно');
+  await expect(page.getByRole('timer')).toContainText('Подсказка через');await expect(page.locator('.practice-hint')).toHaveCount(0);
+  await code(page,course.lessons[13].practice!.solution);await run.click();await expect(panel.getByRole('status')).toContainText('✓ Верно',{timeout:30000});
+  await code(page,'export function solve(input){return {status:200,value:{}}}');await run.click();await expect(panel.getByRole('status')).toContainText('Неверно');
+ }
  // Synthetic preceding-day study fixture opens the final lesson; it grants no mastery.
  await page.addInitScript(()=>{if(window.top!==window.self||new URL(location.href).searchParams.get('day')!=='44')return;const key='react-mentor-learning-v2',data=JSON.parse(localStorage.getItem(key)!);const ids=Array.from({length:43},(_,i)=>'backend-day-'+String(i+1).padStart(2,'0'));Object.assign(data.state.courses.backend,{completedTopics:ids,completedPractice:ids,confirmedDays:Array.from({length:43},(_,i)=>String(i+1))});localStorage.setItem(key,JSON.stringify(data));});
- await page.goto('/courses/backend/home?day=44');await expect(page.locator('#backend-day-44-flow-master')).toContainText('Серверной аттестации Backend пока нет');
+ await page.goto('/courses/backend/home?day=44');
  await expect(page.locator('main')).toContainText('node check-project.mjs project --phase 44');
  await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.reload();await expect(page.locator('main')).toContainText('node check-project.mjs project --phase 44');

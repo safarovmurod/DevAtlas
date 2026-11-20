@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppStore } from '@/stores/app-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { getSessionWithTimeout } from '@/lib/supabase/session';
-import { X, Send, Sparkles, Layers } from 'lucide-react';
+import { GripVertical, X, Send, Sparkles, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { useLearningStore } from '@/stores/learning-store';
 import { isDeepFollowUp, type TutorSource } from '@/lib/tutor/shared';
 import { useAccount } from '@/components/account/account-provider';
+import { usePlanAccess } from '@/components/courses/use-practice-access';
+import { MEMBERSHIP_COPY } from '@/lib/billing/copy';
 import { LEARNING_UI_COPY, tutorErrorKey, type TutorErrorKey } from '@/lib/learning-ui-copy';
 import { TUTOR_COPY } from '@/lib/tutor/copy';
 
@@ -29,15 +31,43 @@ class TutorRequestError extends Error {
   }
 }
 
+const DEFAULT_WIDTH = 440;
+const MIN_WIDTH = 360;
+const MAX_WIDTH = 920;
+const MOBILE_WIDTH = 640;
+const WIDTH_KEY = 'devatlas:tutor-panel-width';
+
+function storedWidth() {
+  if (typeof window === 'undefined') return DEFAULT_WIDTH;
+  try {
+    const width = Number(window.localStorage.getItem(WIDTH_KEY));
+    if (Number.isFinite(width) && width >= MIN_WIDTH && width <= MAX_WIDTH) return width;
+  } catch {
+    return DEFAULT_WIDTH;
+  }
+  return DEFAULT_WIDTH;
+}
+
+function rememberWidth(width: number) {
+  try {
+    window.localStorage.setItem(WIDTH_KEY, String(width));
+  } catch {
+    return;
+  }
+}
+
 export function TutorDrawer() {
   const account = useAccount();
   const open = useAppStore((state) => state.tutorDrawerOpen);
+  const tutorAccess = usePlanAccess('aiTutor', open);
+  const locked = tutorAccess !== 'open';
   const setOpen = useAppStore((state) => state.setTutorDrawerOpen);
   const selectedQuestion = useAppStore((state) => state.tutorQuestion);
   const setSelectedQuestion = useAppStore((state) => state.setTutorQuestion);
   const language = useLearningStore((state) => state.contentLanguage);
   const uiLanguage = useLearningStore((state) => state.language);
   const ui = LEARNING_UI_COPY[uiLanguage];
+  const chatCopy = TUTOR_COPY[uiLanguage];
   const prompts = LEARNING_UI_COPY[language];
   const courseId = useLearningStore((state) => state.selectedCourse);
   const [messages, setMessages] = useState<ChatMsg[]>([
@@ -49,10 +79,43 @@ export function TutorDrawer() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [preferredWidth, setPreferredWidth] = useState(storedWidth);
+  const [viewportWidth, setViewportWidth] = useState(() =>
+    typeof window === 'undefined' ? 0 : window.innerWidth,
+  );
+  const drag = useRef<{
+    pointer: number;
+    startX: number;
+    startWidth: number;
+    width: number;
+  } | null>(null);
   const sending = useRef(false);
   const dialog = useRef<HTMLElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messageList = useRef<HTMLDivElement>(null);
+  const canResize = viewportWidth > MOBILE_WIDTH;
+  const maxWidth = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, viewportWidth - 48));
+  const panelWidth = Math.min(preferredWidth, maxWidth);
+
+  useEffect(() => {
+    const update = () => {
+      if (window.innerWidth <= MOBILE_WIDTH) drag.current = null;
+      setViewportWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  function clampWidth(width: number) {
+    return Math.min(maxWidth, Math.max(MIN_WIDTH, Math.round(width)));
+  }
+
+  function finishDrag(pointer: number) {
+    const current = drag.current;
+    if (!current || current.pointer !== pointer) return;
+    drag.current = null;
+    if (current.width !== current.startWidth) rememberWidth(current.width);
+  }
 
   useEffect(() => {
     if (open && selectedQuestion) setInput(selectedQuestion.text);
@@ -68,7 +131,7 @@ export function TutorDrawer() {
       if (event.key === 'Escape') setOpen(false);
       if (event.key !== 'Tab') return;
       const controls = dialog.current?.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), textarea:not([disabled]), a[href]',
+        'button:not([disabled]), textarea:not([disabled]), a[href], [role="separator"][tabindex="0"]',
       );
       if (!controls?.length) return;
       const first = controls[0],
@@ -83,6 +146,7 @@ export function TutorDrawer() {
     }
     document.addEventListener('keydown', onKey);
     return () => {
+      drag.current = null;
       document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', onKey);
       previousFocus?.focus();
@@ -94,6 +158,7 @@ export function TutorDrawer() {
   }, [messages, loading, open]);
 
   async function send(deep = false) {
+    if (locked) return;
     if (sending.current || (!deep && !input.trim())) return;
     const followUp = deep || isDeepFollowUp(input);
     const lastQuestion = [...messages]
@@ -193,13 +258,66 @@ export function TutorDrawer() {
   return (
     <div className="tutor-backdrop" onClick={() => setOpen(false)}>
       <aside
+        id="tutor-panel"
         className="tutor-panel"
         role="dialog"
         aria-modal="true"
         aria-labelledby="tutor-title"
         ref={dialog}
+        style={canResize ? { width: panelWidth } : undefined}
         onClick={(event) => event.stopPropagation()}
       >
+        {canResize && (
+          <div
+            className="tutor-resize"
+            role="separator"
+            tabIndex={0}
+            aria-label={chatCopy.resize}
+            aria-controls="tutor-panel"
+            aria-orientation="vertical"
+            aria-valuemin={MIN_WIDTH}
+            aria-valuemax={maxWidth}
+            aria-valuenow={panelWidth}
+            onPointerDown={(event) => {
+              if (event.button !== 0 || drag.current) return;
+              event.preventDefault();
+              const handle = event.currentTarget;
+              handle.focus({ preventScroll: true });
+              handle.setPointerCapture(event.pointerId);
+              drag.current = {
+                pointer: event.pointerId,
+                startX: event.clientX,
+                startWidth: panelWidth,
+                width: panelWidth,
+              };
+            }}
+            onPointerMove={(event) => {
+              const current = drag.current;
+              if (!current || event.pointerId !== current.pointer) return;
+              const width = clampWidth(current.startWidth + current.startX - event.clientX);
+              current.width = width;
+              setPreferredWidth(width);
+            }}
+            onPointerUp={(event) => finishDrag(event.pointerId)}
+            onPointerCancel={(event) => finishDrag(event.pointerId)}
+            onLostPointerCapture={(event) => finishDrag(event.pointerId)}
+            onKeyDown={(event) => {
+              const step = event.shiftKey ? 64 : 24;
+              let width: number;
+              if (event.key === 'ArrowLeft') width = panelWidth + step;
+              else if (event.key === 'ArrowRight') width = panelWidth - step;
+              else if (event.key === 'Home') width = MIN_WIDTH;
+              else if (event.key === 'End') width = maxWidth;
+              else return;
+              event.preventDefault();
+              const next = clampWidth(width);
+              setPreferredWidth(next);
+              rememberWidth(next);
+            }}
+          >
+            <GripVertical size={16} aria-hidden="true" />
+          </div>
+        )}
         <div className="tutor-heading">
           <div>
             <h2 id="tutor-title">
@@ -223,7 +341,7 @@ export function TutorDrawer() {
             >
               <p>
                 {message.id === 'welcome'
-                  ? TUTOR_COPY[uiLanguage].welcome
+                  ? chatCopy.welcome
                   : message.errorKey
                     ? ui[message.errorKey]
                     : message.text}
@@ -248,18 +366,27 @@ export function TutorDrawer() {
           )}
         </div>
         <div className="tutor-composer">
-          {!account.user && (
+          {locked ? (
             <div className="tutor-signin">
-              <p>{ui.tutorSignIn}</p>
-              <Link className="button subtle" href="/login" onClick={() => setOpen(false)}>
-                {ui.tutorLogin}
+              <p role="status">{MEMBERSHIP_COPY[uiLanguage].features.aiTutor} · Pro</p>
+              <Link className="button subtle" href="/plans" onClick={() => setOpen(false)}>
+                Pro
               </Link>
             </div>
+          ) : (
+            !account.user && (
+              <div className="tutor-signin">
+                <p>{ui.tutorSignIn}</p>
+                <Link className="button subtle" href="/login" onClick={() => setOpen(false)}>
+                  {ui.tutorLogin}
+                </Link>
+              </div>
+            )
           )}
           <div className="tutor-shortcuts">
             <button
               className="button subtle"
-              disabled={loading}
+              disabled={loading || locked}
               onClick={() =>
                 setInput(courseId === 'react' ? prompts.promptReact : prompts.promptTopic)
               }
@@ -270,6 +397,7 @@ export function TutorDrawer() {
               className="button subtle"
               disabled={
                 loading ||
+                locked ||
                 (!selectedQuestion &&
                   !messages.some((message) => message.sender === 'user' && !message.followUp))
               }
@@ -294,19 +422,40 @@ export function TutorDrawer() {
               value={input}
               maxLength={1500}
               rows={3}
-              disabled={loading}
+              disabled={loading || locked}
+              aria-describedby={canResize ? 'tutor-key-hint' : undefined}
               onChange={(event) => setInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (
+                  event.key !== 'Enter' ||
+                  event.shiftKey ||
+                  event.ctrlKey ||
+                  event.altKey ||
+                  event.metaKey ||
+                  event.nativeEvent.isComposing ||
+                  event.nativeEvent.keyCode === 229
+                ) {
+                  return;
+                }
+                event.preventDefault();
+                if (input.trim()) event.currentTarget.form?.requestSubmit();
+              }}
               placeholder={ui.tutorPlaceholder}
             />
-            <button
-              className="button primary"
-              type="submit"
-              disabled={loading || !input.trim()}
-              aria-label={ui.tutorSend}
-            >
-              <Send size={17} />
-              {ui.tutorSend}
-            </button>
+            <div className="tutor-composer-actions">
+              <p id="tutor-key-hint" className="tutor-key-hint">
+                {chatCopy.sendHint}
+              </p>
+              <button
+                className="button primary"
+                type="submit"
+                disabled={loading || locked || !input.trim()}
+                aria-label={ui.tutorSend}
+              >
+                <Send size={17} />
+                {ui.tutorSend}
+              </button>
+            </div>
           </form>
         </div>
       </aside>

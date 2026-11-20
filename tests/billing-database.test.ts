@@ -201,6 +201,73 @@ describe('payment event function', () => {
     });
   });
 
+  it('allows a new paid upgrade over an admin grant after an earlier Dodo subscription without conflict', async () => {
+    await applyEvent(db, { id: 'wh_orig', sub: 'sub_1', tier: 'pro', expires: iso(10 * DAY), at: iso(-5000) });
+    // Even if an admin grant left stale provider columns behind (historical row),
+    // source = 'admin' must not conflict with a new paid Ultra subscription.
+    await db.exec(`update public.react_mentor_memberships
+      set source = 'admin', tier = 'pro', expires_at = now() + interval '30 days'
+      where user_id = '${USER_A}'`);
+    expect(
+      await applyEvent(db, {
+        id: 'wh_upgrade',
+        sub: 'sub_2',
+        customer: 'cus_2',
+        tier: 'expert',
+        expires: iso(30 * DAY),
+        at: iso(-1000),
+      }),
+    ).toBe('applied');
+    expect(await row()).toMatchObject({
+      tier: 'expert',
+      source: 'payment',
+      provider: 'dodo',
+      provider_customer_id: 'cus_2',
+      provider_subscription_id: 'sub_2',
+    });
+  });
+
+  it('prevents an old Dodo expiration or downgrade webhook from revoking an active admin grant', async () => {
+    await applyEvent(db, { id: 'wh_orig', sub: 'sub_1', tier: 'pro', expires: iso(10 * DAY), at: iso(-5000) });
+    const adminExpires = iso(60 * DAY);
+    // Simulate an admin Ultra grant even if stale Dodo provider columns remained on the row.
+    await db.exec(`update public.react_mentor_memberships
+      set source = 'admin', tier = 'expert', expires_at = '${adminExpires}'
+      where user_id = '${USER_A}'`);
+
+    expect(
+      await applyEvent(db, {
+        id: 'wh_old_expired',
+        type: 'subscription.expired',
+        sub: 'sub_1',
+        grant: false,
+        tier: 'pro',
+        expires: iso(0),
+        status: 'expired',
+        at: iso(-1000),
+      }),
+    ).toBe('ignored');
+    const afterExpired = await row();
+    expect(afterExpired.source).toBe('admin');
+    expect(afterExpired.tier).toBe('expert');
+    expect(time(afterExpired.expires_at)).toBe(new Date(adminExpires).getTime());
+
+    // A stale sub_1 Pro renewal cannot downgrade an active admin Ultra grant either.
+    expect(
+      await applyEvent(db, {
+        id: 'wh_old_renew',
+        type: 'subscription.renewed',
+        sub: 'sub_1',
+        grant: true,
+        tier: 'pro',
+        expires: iso(30 * DAY),
+        at: iso(-500),
+      }),
+    ).toBe('conflict');
+    expect((await row()).tier).toBe('expert');
+    expect((await row()).source).toBe('admin');
+  });
+
   it('records the webhook id only when the write succeeds (a failed write is retried)', async () => {
     await applyEvent(db, { user: USER_B, sub: 'sub_1', id: 'wh_b' });
     // User A tries to claim the same subscription id: the unique index rejects it.

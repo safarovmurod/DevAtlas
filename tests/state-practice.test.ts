@@ -4,7 +4,7 @@ import path from 'node:path';
 import { expect, it } from 'vitest';
 
 it('preserves every original Redux/Zustand/Jotai Local and Global example from the uploaded HTML', () => {
-  const html=readFileSync(path.join(process.cwd(),'public/practice-local-global.html'),'utf8');
+  const html=readFileSync(path.join(process.cwd(),'content/practice-local-global.html'),'utf8');
   const dataTag='<script id="DATA" type="application/json">';
   const dataStart=html.indexOf(dataTag);
   expect(dataStart).toBeGreaterThanOrEqual(0);

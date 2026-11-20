@@ -5,12 +5,24 @@ import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import { tr } from '@/lib/translate';
 import { useLearningStore } from '@/stores/learning-store';
 import { useAppStore } from '@/stores/app-store';
+
+function safeHttpsUrl(value: string): URL | null {
+  if (!value.startsWith('https://')) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && Boolean(url.hostname) ? url : null;
+  } catch {
+    return null;
+  }
+}
+
 export function QuestionAnswer({ question }: { question: LearningQuestion }) {
   const language = useLearningStore((state) => state.language);
   const contentLanguage = useLearningStore((state) => state.contentLanguage);
   const copy = COPY[language];
   const setTutorQuestion = useAppStore((state) => state.setTutorQuestion);
   const setTutorDrawerOpen = useAppStore((state) => state.setTutorDrawerOpen);
+  const sourceUrl = safeHttpsUrl(question.source);
   return (
     <div className="answer-content" lang={contentLanguage}>
       <p>{tr(question.answer, contentLanguage)}</p>
@@ -27,9 +39,9 @@ export function QuestionAnswer({ question }: { question: LearningQuestion }) {
       ))}
       <span className="source-label" lang={language}>
         {copy.source}:{' '}
-        {question.source.startsWith('https:') ? (
-          <a href={question.source} target="_blank" rel="noreferrer">
-            {new URL(question.source).hostname}
+        {sourceUrl ? (
+          <a href={sourceUrl.href} target="_blank" rel="noopener noreferrer">
+            {sourceUrl.hostname}
           </a>
         ) : (
           question.source

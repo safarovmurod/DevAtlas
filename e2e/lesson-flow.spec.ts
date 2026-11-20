@@ -1,12 +1,18 @@
 import {test,expect} from '@playwright/test';
+import html from '../src/content/courses/html.json';
 test('lesson flow teaches prediction and independently editable HTML structure',async({page})=>{
+ test.setTimeout(90000);
  await page.addInitScript(()=>{
   if(window.top!==window.self)return;
-  localStorage.setItem('react-mentor-learning-v2',JSON.stringify({version:2,state:{language:'ru',contentLanguage:'ru'}}));
+  const key='react-mentor-learning-v2';
+  if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({version:2,state:{language:'ru',contentLanguage:'ru'}}));
  });
+ await page.goto('/courses/html/home?day=2');
+ await expect(page.getByRole('alert').filter({hasText:'Сначала изучите урок и отправьте тест за день 1.'})).toBeVisible();
  await page.goto('/courses/html/home?day=1');
- const nav=page.getByRole('navigation',{name:'Шаги дня'});
- await expect(nav.getByRole('link')).toHaveCount(3);
+ const tabs=page.getByRole('group',{name:'Мой день',exact:true});
+ await expect(tabs.getByRole('button',{name:'Изучить',exact:true})).toHaveAttribute('aria-pressed','true');
+ await expect(tabs.getByRole('button',{name:'Практика',exact:true})).toBeVisible();
  const prediction=page.locator('#html-day-01-flow-understand');
  await prediction.locator('summary').click();
  await prediction.getByRole('radio').nth(1).check();
@@ -33,7 +39,22 @@ test('lesson flow teaches prediction and independently editable HTML structure',
  for(const width of [320,390,1280]){
   await page.setViewportSize({width,height:800});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
- await page.locator('#day-check').getByRole('link',{name:'Проверьте себя',exact:true}).click();
- await expect(page).toHaveURL(/\/courses\/html\/home\?day=1#html-day-01-assessment/);
- await expect(page.locator('.lesson-assessment fieldset')).toHaveCount(8);
+ const lesson=html.lessons.find(item=>item.day===1)!;
+ const examLink=page.locator('#html-day-01').getByRole('link',{name:'Ответы и интервью',exact:true});
+ await examLink.click();
+ await expect(page).toHaveURL('/courses/html/answers?day=1');
+ const exam=page.getByRole('region',{name:'Проверка дня',exact:true});
+ await expect(exam.getByRole('button',{name:'Начать',exact:true})).toBeDisabled();
+ await page.goBack();
+ await page.getByRole('button',{name:'Прочитал и понял',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Изучено',exact:true})).toBeDisabled();
+ await examLink.click();
+ await exam.getByRole('button',{name:'Начать',exact:true}).click();
+ const questions=exam.locator('.course-question');
+ await expect(questions).toHaveCount(lesson.questions.length);
+ await questions.first().getByRole('radio').nth(lesson.questions[0].correctIndex).check();
+ await exam.getByRole('button',{name:'Отправить ответы',exact:true}).click();
+ await expect(page.getByRole('region',{name:'Разбор результата',exact:true})).toContainText(`${Math.round(100/lesson.questions.length)}%`);
+ await page.goto('/courses/html/home?day=2');
+ await expect(page.locator('#html-day-02 > header > h2')).toBeVisible();
 });

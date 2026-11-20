@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { readBoundedJson, RequestBodyError } from '@/lib/security/request';
+import { practicePlanDenial } from '@/lib/practice/plan-access';
 import {
   authorizePractice,
   practiceFailure,
@@ -12,6 +13,9 @@ const inputSchema = z.object({ courseId: z.literal('html'), day: z.literal(1) })
 export async function POST(request: Request) {
   const access = await authorizePractice(request);
   if ('failure' in access) return access.failure;
+  // Practice is a Pro feature: a Start account cannot confirm server-verified practice days.
+  const planDenied = await practicePlanDenial(request);
+  if (planDenied) return planDenied;
   let input: unknown;
   try {
     input = await readBoundedJson(request, 1024);

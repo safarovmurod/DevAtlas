@@ -1,5 +1,4 @@
 export const VERIFIED_HTML_LESSON = 'html-day-01';
-export const VERIFIED_HTML_XP = 50;
 export interface PracticeCheck {
   id: string;
   passed: boolean;

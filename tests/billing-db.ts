@@ -19,22 +19,30 @@ export async function createBillingDb() {
   create function auth.jwt() returns jsonb language sql as $$ select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb $$;
   create function public.react_mentor_session_allowed() returns boolean language sql as $$ select true $$;
   create table public.react_mentor_profiles(user_id uuid primary key references auth.users(id), display_name text);
-  grant usage on schema auth, public to anon, authenticated, service_role;
-  grant execute on all functions in schema auth to anon, authenticated, service_role;`);
+  create schema storage;
+  create table storage.buckets(id text primary key, name text, public boolean, file_size_limit bigint, allowed_mime_types text[]);
+  create table storage.objects(id uuid primary key default gen_random_uuid(), bucket_id text, name text, owner_id text, metadata jsonb, created_at timestamptz default now());
+  alter table storage.objects enable row level security;
+  create function storage.foldername(name text) returns text[] language sql as $$ select (string_to_array(name,'/'))[1:array_length(string_to_array(name,'/'),1)-1] $$;
+  grant usage on schema auth, public, storage to anon, authenticated, service_role;
+  grant select, insert, delete on storage.objects to authenticated;
+  grant execute on all functions in schema auth, storage to anon, authenticated, service_role;`);
   for (const file of [
     '20261022010000_memberships_chat.sql',
     '20261115000000_chat_ultra_only.sql',
     '20261116000000_admin_tools.sql',
     '20261117000000_billing_dodo.sql',
+    '20261118000000_community_all_members.sql',
+    '20261119000000_backend_hardening.sql',
     // Applying twice must succeed: the migration is idempotent.
-    '20261117000000_billing_dodo.sql',
+    '20261119000000_backend_hardening.sql',
   ])
     await db.exec(await migration(file));
   return db;
 }
 
 export async function resetBillingDb(db: PGlite) {
-  await db.exec(`reset role; truncate auth.users cascade;
+  await db.exec(`reset role; truncate auth.users cascade; truncate storage.objects;
   truncate public.react_mentor_webhook_events;
   insert into auth.users(id) values('${USER_A}'),('${USER_B}');`);
 }

@@ -50,7 +50,11 @@ test('the voice assistant has no text chat, removes the guest text chat only and
  const panel=page.getByRole('dialog',{name:'DevAtlas assistant',exact:true});await expect(panel).toBeVisible();
  // Voice only: no message box, no Send button, no chat history.
  await expect(panel.getByRole('textbox')).toHaveCount(0);await expect(panel.getByRole('button',{name:'Send',exact:true})).toHaveCount(0);
- await expect(panel.getByRole('button',{name:'Speak',exact:true}).or(panel.getByRole('button',{name:'Open AI Tutor',exact:true}))).toBeVisible();
+ if(process.env.PLAYWRIGHT_PROD_SERVER==='true'){
+  await expect(panel.getByRole('link',{name:'Ultra',exact:true})).toBeVisible();
+ }else{
+  await expect(panel.getByRole('button',{name:'Speak',exact:true}).or(panel.getByRole('button',{name:'Open AI Tutor',exact:true}))).toBeVisible();
+ }
  await expect(page.getByText('Old guest chat')).toHaveCount(0);await expect(page.getByText('Unowned legacy conversation')).toHaveCount(0);
  // Only the guest's own old text chat is removed. Other accounts and the unowned v1 chat stay untouched.
  await expect.poll(()=>page.evaluate(()=>localStorage.getItem('devatlas-agent-chat-v2:guest'))).toBeNull();

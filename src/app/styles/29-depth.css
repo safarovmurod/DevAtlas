@@ -1,9 +1,13 @@
-/* Depth layer for the whole app: soft 3D surfaces, lifting hovers, glass bars.
+/* Atlas Precision Studio depth layer: crisp architectural surfaces, subtle elevation and frosted chrome.
    Only transforms, shadows and blur, so it stays light. Loaded last on purpose. */
 
 :root {
-  --depth-1: inset 0 1px 0 rgb(255 255 255 / 0.75), 0 12px 24px -18px rgb(40 25 10 / 0.35);
-  --depth-2: inset 0 1px 0 rgb(255 255 255 / 0.75), 0 24px 38px -22px rgb(40 25 10 / 0.5);
+  --depth-1: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 10px 24px -18px rgb(15 23 42 / 0.22);
+  --depth-2: inset 0 1px 0 rgb(255 255 255 / 0.85), 0 20px 36px -20px rgb(15 23 42 / 0.3);
+}
+:root[data-theme='dark'] {
+  --depth-1: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 12px 26px -16px rgb(2 6 18 / 0.72);
+  --depth-2: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 24px 40px -18px rgb(2 6 18 / 0.86);
 }
 
 /* Surfaces */
@@ -19,8 +23,13 @@
 .group-category-icon {
   border-radius: 14px;
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.7),
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
     0 8px 14px -10px currentColor;
+}
+[data-theme='dark'] :is(.category-icon, .route-icon, .group-category-icon) {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 8px 16px -10px rgb(2 6 18 / 0.7);
 }
 
 /* Controls */
@@ -29,12 +38,13 @@
   transition:
     transform 0.2s var(--ease-out),
     box-shadow 0.2s var(--ease-out),
-    background-color 0.2s var(--ease-out);
+    background-color 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out);
 }
 .button.primary {
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.22),
-    0 10px 18px -12px var(--accent-solid);
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    0 10px 20px -12px color-mix(in srgb, var(--accent-solid) 80%, transparent);
 }
 .button:hover:not(:disabled) {
   transform: translateY(-1px);
@@ -45,8 +55,8 @@
 
 /* Header and sidebar */
 .app-header {
-  background: color-mix(in srgb, var(--card) 82%, transparent);
-  backdrop-filter: blur(14px) saturate(1.4);
+  background: color-mix(in srgb, var(--card) 86%, transparent);
+  backdrop-filter: blur(14px) saturate(1.35);
 }
 .nav-item {
   border-radius: 14px;
@@ -132,30 +142,35 @@ input:not([type='checkbox'], [type='radio'], [type='range']) {
   letter-spacing: -0.03em;
 }
 
-/* One banner style for every page heading */
+/* Unified Atlas Precision Studio page banner: architectural top sheen + hairline border */
 .page-heading {
   position: relative;
   overflow: hidden;
   padding: 22px 24px;
   border: 1px solid var(--border);
-  border-radius: 22px;
-  background: linear-gradient(135deg, var(--primary-soft) 0%, var(--card) 62%);
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary-soft) 68%, var(--card)) 0%,
+    var(--card) 58%
+  );
   box-shadow: var(--depth-1);
 }
 .page-heading::after {
   content: '';
   position: absolute;
-  top: -48px;
-  right: -48px;
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    color-mix(in srgb, var(--primary) 24%, transparent),
-    transparent 70%
-  );
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-solid) 0%, #38bdf8 52%, transparent 92%);
+  opacity: 0.8;
   pointer-events: none;
+}
+[data-theme='dark'] .page-heading {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--indigo-well) 82%, var(--card)) 0%,
+    var(--card) 62%
+  );
 }
 .page-heading > * {
   position: relative;

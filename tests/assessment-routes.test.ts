@@ -15,6 +15,14 @@ beforeEach(()=>{vi.resetAllMocks();mocks.access.mockResolvedValue({allowed:true}
 it('serves a different retry variant without canonical keys',async()=>{
  const response=await GET(new Request('https://example.test/api/assessments?courseId=html&lessonId=html-day-01&excludeVariant=first-page-a'));
  expect(response.status).toBe(200);const data=await response.json();expect(data.variantId).toBe('first-page-b');expect(data.questions).toHaveLength(8);expect(JSON.stringify(data)).not.toContain('correctOption');
+ const originalVariants=bank.variants;
+ try{
+  bank.variants=[originalVariants[0]];
+  const single=await GET(new Request('https://example.test/api/assessments?courseId=html&lessonId=html-day-01&excludeVariant=first-page-a'));
+  expect(single.status).toBe(200);expect((await single.json()).variantId).toBe('first-page-a');
+ }finally{
+  bank.variants=originalVariants;
+ }
 });
 it('denies paid banks before loading or disclosing them',async()=>{
  mocks.access.mockResolvedValue({allowed:false,response:Response.json({error:'authentication_required'},{status:401})});

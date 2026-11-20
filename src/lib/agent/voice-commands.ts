@@ -78,7 +78,6 @@ const DESTINATIONS: [NavTarget, RegExp][] = [
     /(^|\s)тест|интервью|собеседован|санҷиш|мусоҳиба|(^|\s)tests?($|\s)|quiz|interview|(^|\s)pruebas?($|\s)|entrevista|examen/,
   ],
   ['practice', /практик|упражнен|задани|машқ|practice|exercises?|pr[aá]ctica|ejercicios?|tareas?/],
-  ['notes', /заметк|конспект|ёддошт|қайд|(^|\s)notes?($|\s)|(^|\s)notas?($|\s)|apuntes/],
   [
     'plans',
     /тариф|подписк|цены|обуна|нарх|pricing|(^|\s)plans($|\s)|subscription|(^|\s)planes($|\s)|suscripci[oó]n|precios?|tarifas?/,
@@ -129,10 +128,10 @@ export function voiceHref(target: NavTarget, selectedCourse: string): string {
       return '/community';
     case 'settings':
       return '/settings';
-    case 'notes':
-      return '/notes';
     case 'practice':
       return '/practice';
+    case 'notes':
+      return '/progress';
     case 'progress':
       return '/progress';
     case 'myDay':

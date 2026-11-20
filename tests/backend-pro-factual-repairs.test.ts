@@ -109,14 +109,51 @@ assert.equal(calls, 1);
 `;
 
 describe('Backend Pro scoped factual repairs', () => {
-  it.each([8, 15, 20, 21, 23])('day %i examples and solutions retain their recorded output', day => {
+  it.each([8, 15, 20, 21, 23])('day %i guided example retains its recorded output', day => {
     const lesson = course.lessons[day - 1];
     const example = lesson.sections[1];
-    expect(lesson.practice!.solution).toBe(example.code);
     const result = run(example.code!);
     expect(result.error).toBeUndefined();
     expect(result.status, result.stderr).toBe(0);
     for (const locale of ['ru', 'tg', 'en'] as const) expect(result.stdout.trim()).toBe(example.output![locale]);
+  });
+
+  const executionDays = [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 27, 28, 29, 30];
+  it.each(executionDays)('day %i independent function meets its contract without mutating input', day => {
+    const lesson = course.lessons[day - 1];
+    const practice = lesson.practice!;
+    const execution = practice.execution!;
+    expect(execution).toBeDefined();
+    expect(lesson.sections.every(section => section.code !== practice.solution)).toBe(true);
+    const checks = `
+const cases = ${JSON.stringify(execution.tests)};
+for (const {args, expected} of cases) {
+  const before = structuredClone(args);
+  assert.deepEqual(${execution.functionName}(...args), expected);
+  assert.deepEqual(args, before);
+}
+`;
+    const result = run('import assert from "node:assert/strict";\n' + practice.solution + checks);
+    expect(result.error).toBeUndefined();
+    expect(result.status, result.stderr).toBe(0);
+    const starter = run('import assert from "node:assert/strict";\n' + execution.starter + checks);
+    expect(starter.error).toBeUndefined();
+    expect(starter.status).not.toBe(0);
+    expect(starter.stderr).toContain('AssertionError');
+  });
+
+  it.each([
+    [3, 'inventory HTTP contract: all checks passed'],
+    [13, 'SQLite literal label lookup: all checks passed'],
+    [21, 'offline deadline: success, failure and body timeout passed'],
+    [26, 'loopback book directory: integration checks passed'],
+  ] as const)('day %i independently exercises its Node fixture', (day, expected) => {
+    const lesson = course.lessons[day - 1];
+    expect(lesson.sections.every(section => section.code !== lesson.practice!.solution)).toBe(true);
+    const result = run(lesson.practice!.solution);
+    expect(result.error).toBeUndefined();
+    expect(result.status, result.stderr).toBe(0);
+    expect(result.stdout.trim()).toBe(expected);
   });
 
   it('issues independent opaque tokens for repeated sessions with the same stored password', () => {

@@ -112,14 +112,26 @@ test('signup explains a temporary email quota and allows retry (mock backend)',a
 test('first name, private notes and profile survive login, account switching and reload (mock backend)',async ({page})=>{
   // Long multi-page regression; CI runners exceed the 30s default test cap.
   test.setTimeout(90000);
-  const backend=await mockBackend(page);await page.goto('/home');await login(page);await firstName(page,'Мансур');
+  const backend=await mockBackend(page);
+  const legacyNote={id:'note-a',title:'Личная заметка A',content:'Только аккаунт A'};
+  await page.goto('/home');await login(page);await firstName(page,'Мансур');
   await page.goto('/home');await expect(page.locator('.dashboard-heading p')).toContainText('Мансур');
-  await page.goto('/notes');await page.getByRole('button',{name:'Новая заметка',exact:true}).click();await page.getByLabel('Название',{exact:true}).fill('Личная заметка A');await page.getByLabel('Текст',{exact:true}).fill('Только аккаунт A');await page.getByRole('button',{name:'Сохранить',exact:true}).click();
-  await page.goto('/settings');await page.getByRole('button',{name:'Синхронизировать',exact:true}).click();await expect.poll(()=>backend.progress.get(ids.a)?.data.notes).toEqual([expect.objectContaining({title:'Личная заметка A'})]);
-  await signOut(page);await expect(page.getByRole('heading',{name:'Продолжите своё обучение'})).toBeVisible();await login(page,'b@example.com');
+  await page.goto('/answers/deep-1');await page.getByRole('button',{name:'Прочитал и понял',exact:true}).first().click();
+  await page.goto('/notes');await expect(page).toHaveURL('/progress');
+  await page.goto('/settings');await page.getByRole('button',{name:'Синхронизировать',exact:true}).click();
+  await expect.poll(()=>backend.progress.get(ids.a)?.data.studied).toEqual(['quiz-q001']);
+  await signOut(page);await expect(page.getByRole('heading',{name:'Продолжите своё обучение'})).toBeVisible();
+  const savedA=backend.progress.get(ids.a)!;
+  backend.progress.set(ids.a,{data:{...savedA.data,notes:[legacyNote],noteClock:{'note-a':1}},revision:savedA.revision+1});
+  await login(page,'b@example.com');
   // First profile is mandatory and must not reuse account A's name.
-  await firstName(page,'Одина');await page.goto('/home');await expect(page.locator('.dashboard-heading p')).toContainText('Одина');await expect(page.locator('.dashboard-heading p')).not.toContainText('Мансур');await page.goto('/notes');await expect(page.getByText('Личная заметка A',{exact:true})).toHaveCount(0);await page.goto('/settings');
-  await signOut(page);await login(page);await page.goto('/notes');await expect(page.getByText('Личная заметка A',{exact:true})).toBeVisible();await page.reload();await expect(page.getByText('Личная заметка A',{exact:true})).toBeVisible();
+  await firstName(page,'Одина');await page.goto('/home');await expect(page.locator('.dashboard-heading p')).toContainText('Одина');await expect(page.locator('.dashboard-heading p')).not.toContainText('Мансур');
+  await page.goto('/answers/deep-1');await expect(page.getByRole('button',{name:'Прочитал и понял',exact:true}).first()).toBeEnabled();
+  expect(await page.evaluate(id=>JSON.parse(localStorage.getItem('react-mentor-account-v1:'+id)!).state.notes,ids.b)).toEqual([]);
+  await page.goto('/settings');await signOut(page);await login(page);
+  await page.goto('/answers/deep-1');await expect(page.getByRole('button',{name:'Изучено',exact:true}).first()).toBeDisabled();
+  await page.reload();await expect(page.getByRole('button',{name:'Изучено',exact:true}).first()).toBeDisabled();
+  await expect.poll(()=>page.evaluate(id=>JSON.parse(localStorage.getItem('react-mentor-account-v1:'+id)!).state.notes,ids.a)).toEqual([legacyNote]);
   const keys=await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('react-mentor-account-v1:')));expect(keys).toContain('react-mentor-account-v1:'+ids.a);expect(keys).toContain('react-mentor-account-v1:'+ids.b);
 });
 
@@ -162,6 +174,7 @@ test('remembered login survives closing the browser, refreshes expired access an
 });
 
 test('photo upload, phone QR and authenticator enrollment/challenge work (mock backend)',async ({page},info)=>{
+  test.setTimeout(90000);
   const backend=await mockBackend(page);await page.goto('/home');await login(page);await firstName(page,'Мансур');await page.goto('/settings');
   const image=await page.evaluate(()=>{const c=document.createElement('canvas');c.width=20;c.height=20;c.getContext('2d')!.fillRect(0,0,20,20);return c.toDataURL('image/png').split(',')[1];});
   await page.getByLabel('Добавить фото',{exact:true}).setInputFiles({name:'profile.png',mimeType:'image/png',buffer:Buffer.from(image,'base64')});await expect.poll(()=>backend.uploads.length).toBe(1);await expect.poll(()=>backend.profiles.get(ids.a)?.avatar_path).toContain(ids.a+'/');

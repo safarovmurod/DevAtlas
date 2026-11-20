@@ -1,7 +1,14 @@
 import {test,expect} from '@playwright/test';
+import {expectGuestPracticeGate,productionPracticeGate} from './starter-course-checks';
 test('written rubric persists honest self review and invalidates it after answer edits',async({page})=>{
  await page.addInitScript(()=>{if(window.top===window.self&&!localStorage.getItem('react-mentor-learning-v2'))localStorage.setItem('react-mentor-learning-v2',JSON.stringify({version:2,state:{language:'ru',contentLanguage:'ru'}}));});
  await page.goto('/practice?course=communication&day=1');
+ if(productionPracticeGate){
+  await expectGuestPracticeGate(page,'communication');
+  await page.setViewportSize({width:320,height:740});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  return;
+ }
  const answer='Для учебного расписания нужна таблица с днями и временем. Пришлите её, пожалуйста, до пятницы 15:00 по вашему местному времени. Если срок неудобен, предложите другой. Что стоит уточнить?';
  await page.locator('.written-practice textarea').fill(answer);
  const panel=page.locator('.written-rubric-review');

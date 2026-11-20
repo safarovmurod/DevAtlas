@@ -203,13 +203,13 @@ export const GUIDE_TEXT: Record<IntentKey, Record<GuideLanguage, Answer>> = {
   },
   whereNotes: {
     ru: () =>
-      'Заметки — отдельный раздел «Заметки» в боковом меню. У каждого курса свои заметки: переключите курс, и вы увидите его конспекты.',
+      'В учебном меню больше нет заметок. Результаты и ошибки по курсу есть в «Прогрессе» и «Повторении».',
     tg: () =>
-      'Ёддоштҳо — бахши алоҳидаи «Ёддоштҳо» дар менюи паҳлӯ. Ҳар курс ёддоштҳои худро дорад: курсро иваз кунед, ёддоштҳояшро мебинед.',
+      'Дар меню дигар бахши ёддоштҳо нест. Натиҷа ва хатоҳоро аз «Пешрафт» ё «Такрор» бинед.',
     en: () =>
-      'Notes have their own sidebar section. Notes are per course: switch the course to see its notes.',
+      'Notes are no longer in the sidebar. See course results and mistakes in Progress and Review.',
     es: () =>
-      'Las notas tienen su propia sección en el menú lateral. Cada curso tiene sus notas: cambia de curso y verás sus apuntes.',
+      'Las notas ya no están en el menú. Consulta tus resultados y errores en Progreso y Repaso.',
   },
   wherePlans: {
     ru: () =>

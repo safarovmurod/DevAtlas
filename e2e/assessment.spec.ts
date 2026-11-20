@@ -2,6 +2,7 @@ import {test,expect} from '@playwright/test';
 import bank from '../src/content/assessments/html-first-page';
 import html from '../src/content/courses/html.json';
 import {ASSESSMENT_COPY as copy} from '../src/lib/practice/assessment-copy';
+import {expectGuestPracticeGate,productionPracticeGate} from './starter-course-checks';
 
 test('assessment restores drafts, grades actual code and rotates retry forms',async({page})=>{
  test.setTimeout(90000);
@@ -11,6 +12,15 @@ test('assessment restores drafts, grades actual code and rotates retry forms',as
   const key='react-mentor-learning-v2';
   if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({version:2,state:{language:'ru',contentLanguage:'ru'}}));
  });
+ if(productionPracticeGate){
+  await page.goto('/practice?course=html&day=1');
+  await expectGuestPracticeGate(page,'html');
+  const blocked=await page.request.get('/api/assessments?courseId=html&lessonId=html-day-01');
+  expect([401,503]).toContain(blocked.status());
+  expect(JSON.stringify(await blocked.json())).not.toMatch(/questions|correctOptionId|acceptedAnswers|correctPairs/);
+  expect(errors).toEqual([]);
+  return;
+ }
  const initial=page.waitForResponse(response=>response.url().includes('/api/assessments?')&&response.status()===200);
  await page.goto('/practice?course=html&day=1');
  const view=await (await initial).json();

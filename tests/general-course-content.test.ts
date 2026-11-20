@@ -149,6 +149,23 @@ describe('original general-education modules', () => {
     }
   });
 
+  it('keeps every Business Pro day complete and the capstone self-review usable', async () => {
+    const course = await content('business-pro');
+    for (const lesson of course.lessons) {
+      expect(lesson.sections.length, lesson.id).toBeGreaterThanOrEqual(4);
+      expect(lesson.questions.length, lesson.id).toBeGreaterThanOrEqual(3);
+      for (const question of lesson.questions) {
+        expect(question.relatedSection, question.id).toBeDefined();
+        for (const locale of ['ru', 'tg', 'en'] as const) {
+          expect(question.hint?.[locale]?.trim(), question.id).toBeTruthy();
+        }
+      }
+    }
+    const capstone = course.lessons.find(lesson => lesson.day === 30)!.practice!;
+    expect(capstone.rubric?.criteria.length).toBe(capstone.criteria.length);
+    expect(capstone.rubric?.reviewQuestions.length).toBeGreaterThanOrEqual(2);
+  });
+
   it('the analytics worked example has correct mean and median and an honest sample limitation', async () => {
     const course = await content('data-analytics');
     const answer = course.lessons[1].practice!.referenceAnswer!.en!;

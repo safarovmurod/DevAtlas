@@ -5,7 +5,7 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const {build}=await import(pathToFileURL(path.join(root,'node_modules/esbuild/lib/main.js')));
 const entry=`
 import {COURSE_CATALOG,LEARNING_TRACKS} from './src/content/courses/catalog';
-import {loadCourseContent} from './src/lib/courses/content';
+import {loadLocalCourseContent as loadCourseContent} from './src/lib/courses/content';
 import {courseMonthPlan} from './src/lib/courses/plan';
 import {reactMonthDays} from './src/lib/react-plan';
 import {questionsForTopic} from './src/content/course';

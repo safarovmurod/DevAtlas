@@ -13,16 +13,19 @@ import { tutorScope } from '@/lib/tutor/scope';
 
 const fetchMock = vi.fn();
 const authMock = vi.hoisted(() => vi.fn());
+const membershipMock = vi.hoisted(() => vi.fn());
 vi.mock('@/lib/tutor/quota', () => ({
   TUTOR_MAX_OUTPUT_TOKENS: 256,
   reserveTutorBudget: vi.fn().mockResolvedValue({ allowed: true }),
 }));
 vi.mock('@/lib/account/require-user', () => ({ authenticatedUser: authMock }));
+vi.mock('@/lib/supabase/server', () => ({ getSupabaseServerClient: () => ({}) }));
+vi.mock('@/lib/billing/entitlements', () => ({ serverMembership: membershipMock }));
 const request = (body: unknown) =>
   new NextRequest('http://localhost/api/tutor', {
     method: 'POST',
     body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer verified-test-session' },
   });
 const ask = { action: 'ask', courseId: 'react', language: 'ru' };
 
@@ -164,14 +167,16 @@ describe('Tutor API conversation', () => {
     vi.stubGlobal('fetch', fetchMock);
     vi.stubEnv('AI_TUTOR_ENABLED', 'false');
     authMock.mockReset();
-    authMock.mockResolvedValue(null);
+    authMock.mockResolvedValue({ id: 'verified-pro-user' });
+    membershipMock.mockReset();
+    membershipMock.mockResolvedValue({ tier: 'pro', available: true });
   });
   afterEach(() => {
     vi.unstubAllEnvs();
     vi.unstubAllGlobals();
   });
 
-  it('answers "салом" and thanks naturally without an account, a course lookup or tokens', async () => {
+  it('answers "салом" and thanks naturally for Pro without a course lookup or provider tokens', async () => {
     const { POST } = await import('@/app/api/tutor/route');
     for (const [text, language, pattern] of [
       ['салом', 'tg', /Салом/],
@@ -190,7 +195,7 @@ describe('Tutor API conversation', () => {
       expect(body.reply).not.toContain('не найден');
     }
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(authMock).not.toHaveBeenCalled();
+    expect(authMock).toHaveBeenCalled();
   });
 
   it('answers "хтмл что такое" with the HTML definition while another course is selected', async () => {
@@ -229,6 +234,7 @@ describe('Tutor API conversation', () => {
   });
 
   it('keeps the sign-in gate for online AI on a new subject', async () => {
+    authMock.mockResolvedValue(null);
     vi.stubEnv('AI_TUTOR_ENABLED', 'true');
     vi.stubEnv('AI_PROVIDER_KEY', 'test-only-placeholder-not-a-real-key');
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', 'https://example.supabase.co');

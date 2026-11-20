@@ -1,6 +1,6 @@
 import type { CourseCatalogEntry } from './catalog';
 
-/** Pro and Expert level courses. They are free: access is decided in lib/courses/access.ts. */
+/** Pro and Expert courses, protected by the existing membership guard. */
 export const PAID_COURSES: CourseCatalogEntry[] = [
   {
     id: 'javascript-pro',

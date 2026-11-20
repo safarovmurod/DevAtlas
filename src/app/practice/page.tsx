@@ -30,8 +30,16 @@ export default async function PracticePage({
       `/courses/${params.course}/home${day !== undefined ? `?day=${day}` : ''}#day-practice`,
     );
   }
-  if (month === 3 || getTopic(params.topic || '')?.month === 3)
-    redirect(`/courses/nextjs/home${params.day ? `?day=${params.day}` : ''}#day-practice`);
+  if (month === 3 || getTopic(params.topic || '')?.month === 3) {
+    const day =
+      params.day !== undefined && params.day !== '' ? Number(params.day) : undefined;
+    if (
+      day !== undefined &&
+      (!Number.isInteger(day) || day < 1 || day > coursePublishedDays('nextjs'))
+    )
+      notFound();
+    redirect(`/courses/nextjs/home${day !== undefined ? `?day=${day}` : ''}#day-practice`);
+  }
   if (!params.course && !params.month && !params.topic && !params.day)
     return (
       <PageTransition>

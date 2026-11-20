@@ -2,7 +2,8 @@
 import { useState, type ReactNode } from 'react';
 import { CheckCircle2, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { LEARNING_FLOW_STAGES, LearningFlow } from '@/lib/courses/learning-flow';
+import type { LEARNING_FLOW_STAGES } from '@/lib/courses/learning-flow';
+import type { DeliveredLearningFlow } from '@/lib/courses/schema';
 import { localAssessment, localReview, useDayCopy, useFlowText } from './lesson-flow-copy';
 import { CodeTrace, HtmlDocumentExplorer } from './lesson-flow-demos';
 
@@ -151,7 +152,7 @@ export function Extra({
 const list = 'grid list-disc gap-1.5 pl-5 marker:text-brand';
 
 /** Goals of the day and a real-world use. */
-export function FlowGoals({ flow }: { flow: LearningFlow }) {
+export function FlowGoals({ flow }: { flow: DeliveredLearningFlow }) {
   const { text, label } = useFlowText();
   const t = useDayCopy();
   return (
@@ -168,7 +169,7 @@ export function FlowGoals({ flow }: { flow: LearningFlow }) {
 }
 
 /** "What will change?" question with a hint and an explanation. */
-export function FlowPrediction({ flow, lessonId }: { flow: LearningFlow; lessonId: string }) {
+export function FlowPrediction({ flow, lessonId }: { flow: DeliveredLearningFlow; lessonId: string }) {
   const { text, label } = useFlowText();
   const t = useDayCopy();
   const [answer, setAnswer] = useState<number | null>(null);
@@ -207,7 +208,7 @@ export function FlowPrediction({ flow, lessonId }: { flow: LearningFlow; lessonI
 }
 
 /** The worked example: a clickable HTML document or a line-by-line code walk. */
-export function FlowDemo({ flow }: { flow: LearningFlow }) {
+export function FlowDemo({ flow }: { flow: DeliveredLearningFlow }) {
   const { language } = useFlowText();
   const t = useDayCopy();
   return (
@@ -222,9 +223,10 @@ export function FlowDemo({ flow }: { flow: LearningFlow }) {
 }
 
 /** Small guided steps to try before the independent task. */
-export function FlowGuided({ flow }: { flow: LearningFlow }) {
+export function FlowGuided({ flow }: { flow: DeliveredLearningFlow }) {
   const { text, label } = useFlowText();
   const t = useDayCopy();
+  if (!flow.guidedPractice) return null;
   return (
     <Extra summary={t('warmup')}>
       <ol className="grid list-decimal gap-1.5 pl-5 marker:text-brand">
@@ -242,8 +244,9 @@ export function FlowGuided({ flow }: { flow: LearningFlow }) {
 }
 
 /** The mini challenge of the day with its self-check criteria. */
-export function FlowChallenge({ flow }: { flow: LearningFlow }) {
+export function FlowChallenge({ flow }: { flow: DeliveredLearningFlow }) {
   const { text, label } = useFlowText();
+  if (!flow.miniChallenge) return null;
   return (
     <Extra summary={label('challenge')}>
       <p>{text(flow.miniChallenge.task)}</p>
@@ -261,7 +264,7 @@ export function FlowChallenge({ flow }: { flow: LearningFlow }) {
 }
 
 /** What to remember and what to ask yourself tomorrow. */
-export function FlowRecap({ flow }: { flow: LearningFlow }) {
+export function FlowRecap({ flow }: { flow: DeliveredLearningFlow }) {
   const { text, label } = useFlowText();
   return (
     <Extra summary={label('summary')}>
@@ -281,7 +284,7 @@ export function FlowRecap({ flow }: { flow: LearningFlow }) {
  * Honest note about what this day's checks prove, and the end-of-block notice.
  * Quizzes and self-reviewed practice never claim verified mastery.
  */
-export function FlowNotes({ flow, lessonId }: { flow: LearningFlow; lessonId: string }) {
+export function FlowNotes({ flow, lessonId }: { flow: DeliveredLearningFlow; lessonId: string }) {
   const { ui, text, label } = useFlowText();
   return (
     <div

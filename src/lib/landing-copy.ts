@@ -1,5 +1,20 @@
 import type { InterfaceLocale } from '@/lib/locale';
 
+export type LaptopStoryStep = {
+  title: string;
+  description: string;
+  screenTitle: string;
+  screenText: string;
+};
+
+export type LaptopStoryCopy = {
+  intro: string;
+  demo: string;
+  controls: string;
+  tasks: [string, string, string];
+  steps: [LaptopStoryStep, LaptopStoryStep, LaptopStoryStep, LaptopStoryStep];
+};
+
 type LandingCopy = {
   directions: string;
   how: string;
@@ -12,7 +27,7 @@ type LandingCopy = {
   directionTitle: string;
   directionIntro: string;
   howTitle: string;
-  steps: { title: string; description: string }[];
+  story: LaptopStoryCopy;
   insideTitle: string;
   inside: string[];
   faqTitle: string;
@@ -22,7 +37,7 @@ type LandingCopy = {
   guest: string;
   courses: (count: number) => string;
   /** Text of the lesson card on the 3D computer screen. */
-  screen: { lesson: string; text: string; progress: string; action: string; label: string };
+  screen: { lesson: string; title: string; text: string; progress: string; action: string };
   categories: (count: number) => string;
   languages: (count: number) => string;
 };
@@ -45,19 +60,46 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     directionTitle: 'Выберите своё направление',
     directionIntro: 'От первых шагов до углублённых тем — выбирайте то, что важно вам.',
     howTitle: 'Учёба шаг за шагом',
-    steps: [
-      { title: 'Урок', description: 'Разберитесь с новой темой.' },
-      { title: 'Код', description: 'Примените знания в практике.' },
-      { title: 'Проверка', description: 'Проверьте результат и исправьте ошибки.' },
-      { title: 'Новый день', description: 'Продолжайте после завершения предыдущего дня.' },
-    ],
+    story: {
+      intro: 'Одна задача от объяснения до результата. Листайте страницу или выберите шаг.',
+      demo: 'Пример урока',
+      controls: 'Шаги примера',
+      tasks: ['Читать', 'Практика', 'Повторить'],
+      steps: [
+        {
+          title: 'Урок',
+          description: 'На примере списка задач разберитесь, как работает фильтр.',
+          screenTitle: 'Какие задачи ещё не готовы?',
+          screenText: 'Оставьте в списке только незавершённые задачи.',
+        },
+        {
+          title: 'Код',
+          description: 'Напишите фильтр и запустите его на примере.',
+          screenTitle: 'Оставьте незавершённые',
+          screenText: 'filter() оставит задачу, если done равно false.',
+        },
+        {
+          title: 'Проверка',
+          description: 'Сравните результат с исходным списком: должны остаться две задачи.',
+          screenTitle: 'Осталось две задачи',
+          screenText: 'Выполненная задача больше не попадает в результат.',
+        },
+        {
+          title: 'Новый день',
+          description:
+            'Возьмите тот же список и добавьте кнопку, которая отмечает задачу выполненной.',
+          screenTitle: 'Добавьте кнопку «Готово»',
+          screenText: 'Обновите статус задачи и проверьте, что она исчезла из списка.',
+        },
+      ],
+    },
     insideTitle: 'Всё для самостоятельной работы',
     inside: [
       'Редактор кода и проверки',
       'Учебный план по дням',
       'Тесты и интервью',
       'Повторение и сложные темы',
-      'Заметки и прогресс',
+      'Результаты и прогресс',
       'AI Tutor по желанию',
       'Языки интерфейса и тёмная тема',
     ],
@@ -65,7 +107,7 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     faq: [
       {
         question: 'Можно ли начать как гость?',
-        answer: 'Да. Гостевой прогресс и заметки хранятся в этом браузере.',
+        answer: 'Да. Гостевой прогресс хранится в этом браузере.',
       },
       {
         question: 'Нужен ли аккаунт?',
@@ -88,10 +130,10 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     courses: (n) => slavicCount(n, 'ru', 'курс', 'курса', 'курсов'),
     screen: {
       lesson: 'Урок',
+      title: 'Разберитесь с новой темой',
       text: 'Короткое объяснение, пример и мини-задача на один день.',
       progress: 'Прогресс дня',
       action: 'Продолжить',
-      label: 'На экране: карточка урока и выбор направления',
     },
     categories: (n) => slavicCount(n, 'ru', 'направление', 'направления', 'направлений'),
     languages: (n) => slavicCount(n, 'ru', 'язык', 'языка', 'языков'),
@@ -108,19 +150,45 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     directionTitle: 'Choose your learning path',
     directionIntro: 'From first steps to advanced topics, choose what matters to you.',
     howTitle: 'Learning, step by step',
-    steps: [
-      { title: 'Lesson', description: 'Explore a new topic.' },
-      { title: 'Code', description: 'Put your knowledge into practice.' },
-      { title: 'Check', description: 'Check the result and correct mistakes.' },
-      { title: 'Next day', description: 'Continue after completing the previous day.' },
-    ],
+    story: {
+      intro: 'Follow one task from explanation to result. Scroll or choose a step.',
+      demo: 'Sample lesson',
+      controls: 'Demo steps',
+      tasks: ['Read', 'Practice', 'Review'],
+      steps: [
+        {
+          title: 'Lesson',
+          description: 'Use a to-do list to see how filtering works.',
+          screenTitle: 'Which tasks are still open?',
+          screenText: 'Keep only the unfinished tasks in the list.',
+        },
+        {
+          title: 'Code',
+          description: 'Write the filter and run it on the sample list.',
+          screenTitle: 'Keep the unfinished tasks',
+          screenText: 'filter() keeps a task when done is false.',
+        },
+        {
+          title: 'Check',
+          description: 'Compare the result with the original list: two tasks should remain.',
+          screenTitle: 'Two tasks remain',
+          screenText: 'The completed task is no longer in the result.',
+        },
+        {
+          title: 'Next day',
+          description: 'Use the same list and add a button to mark a task complete.',
+          screenTitle: 'Add a “Done” button',
+          screenText: 'Update a task and check that it disappears from the list.',
+        },
+      ],
+    },
     insideTitle: 'Everything for independent learning',
     inside: [
       'Code editor and checks',
       'A day-by-day study plan',
       'Tests and interviews',
       'Review and difficult topics',
-      'Notes and progress',
+      'Results and progress',
       'Optional AI Tutor',
       'Interface languages and a dark theme',
     ],
@@ -128,7 +196,7 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     faq: [
       {
         question: 'Can I start as a guest?',
-        answer: 'Yes. Guest progress and notes are stored in this browser.',
+        answer: 'Yes. Guest progress is stored in this browser.',
       },
       {
         question: 'Do I need an account?',
@@ -151,10 +219,10 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     courses: (n) => `${n} ${n === 1 ? 'course' : 'courses'}`,
     screen: {
       lesson: 'Lesson',
+      title: 'Explore a new topic',
       text: 'A short explanation, an example and a small task for one day.',
       progress: 'Day progress',
       action: 'Continue',
-      label: 'On screen: a lesson card and the choice of a learning path',
     },
     categories: (n) => `${n} ${n === 1 ? 'path' : 'paths'}`,
     languages: (n) => `${n} ${n === 1 ? 'language' : 'languages'}`,
@@ -171,19 +239,45 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     directionTitle: 'Самти худро интихоб кунед',
     directionIntro: 'Аз қадамҳои аввал то мавзӯъҳои амиқ — чизи бароятон муҳимро интихоб кунед.',
     howTitle: 'Омӯзиш қадам ба қадам',
-    steps: [
-      { title: 'Дарс', description: 'Мавзӯи навро омӯзед.' },
-      { title: 'Код', description: 'Донишро дар амал истифода баред.' },
-      { title: 'Санҷиш', description: 'Натиҷаро санҷед ва хатоҳоро ислоҳ кунед.' },
-      { title: 'Рӯзи нав', description: 'Баъд аз анҷоми рӯзи пешина идома диҳед.' },
-    ],
+    story: {
+      intro: 'Як машқро аз шарҳ то натиҷа бинед. Ба поён равед ё қадамро интихоб кунед.',
+      demo: 'Намунаи дарс',
+      controls: 'Қадамҳои намуна',
+      tasks: ['Хондан', 'Машқ', 'Такрор'],
+      steps: [
+        {
+          title: 'Дарс',
+          description: 'Бо рӯйхати вазифаҳо бинед, ки филтр чӣ хел кор мекунад.',
+          screenTitle: 'Кадом вазифаҳо ҳоло тамом нашудаанд?',
+          screenText: 'Дар рӯйхат фақат вазифаҳои нотамомро монед.',
+        },
+        {
+          title: 'Код',
+          description: 'Филтрро нависед ва дар рӯйхати намуна иҷро кунед.',
+          screenTitle: 'Вазифаҳои нотамомро ҷудо кунед',
+          screenText: 'filter() вазифаро нигоҳ медорад, агар done баробари false бошад.',
+        },
+        {
+          title: 'Санҷиш',
+          description: 'Натиҷаро бо рӯйхати аввал муқоиса кунед: бояд ду вазифа монад.',
+          screenTitle: 'Ду вазифа монд',
+          screenText: 'Вазифаи тамомшуда дигар дар натиҷа нест.',
+        },
+        {
+          title: 'Рӯзи нав',
+          description: 'Бо ҳамон рӯйхат идома диҳед: тугмаи «Тайёр»-ро илова кунед.',
+          screenTitle: 'Тугмаи «Тайёр»-ро илова кунед',
+          screenText: 'Вазифаро тамомшуда қайд кунед ва бинед, ки аз рӯйхат мебарояд.',
+        },
+      ],
+    },
     insideTitle: 'Ҳама чиз барои омӯзиши мустақил',
     inside: [
       'Муҳаррири код ва санҷишҳо',
       'Нақшаи омӯзиш аз рӯйи рӯзҳо',
       'Тестҳо ва мусоҳиба',
       'Такрор ва мавзӯъҳои душвор',
-      'Ёддоштҳо ва пешрафт',
+      'Натиҷаҳо ва пешрафт',
       'AI Tutor бо хоҳиш',
       'Забонҳои интерфейс ва мавзӯи торик',
     ],
@@ -191,7 +285,7 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     faq: [
       {
         question: 'Метавонам ҳамчун меҳмон оғоз кунам?',
-        answer: 'Бале. Пешрафт ва ёддоштҳои меҳмон дар ҳамин браузер нигоҳ дошта мешаванд.',
+        answer: 'Бале. Пешрафти меҳмон дар ҳамин браузер нигоҳ дошта мешавад.',
       },
       {
         question: 'Аккаунт лозим аст?',
@@ -214,10 +308,10 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     courses: (n) => `${n} курс`,
     screen: {
       lesson: 'Дарс',
+      title: 'Мавзӯи навро омӯзед',
       text: 'Шарҳи кӯтоҳ, мисол ва масъалаи хурд барои як рӯз.',
       progress: 'Пешрафти рӯз',
       action: 'Идома додан',
-      label: 'Дар экран: корти дарс ва интихоби самт',
     },
     categories: (n) => `${n} самт`,
     languages: (n) => `${n} забон`,
@@ -234,19 +328,45 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     directionTitle: 'Elige tu ruta de aprendizaje',
     directionIntro: 'De los primeros pasos a los temas avanzados: elige lo que te importa.',
     howTitle: 'Aprender paso a paso',
-    steps: [
-      { title: 'Lección', description: 'Entiende un tema nuevo.' },
-      { title: 'Código', description: 'Pon en práctica lo aprendido.' },
-      { title: 'Revisión', description: 'Comprueba el resultado y corrige los errores.' },
-      { title: 'Día nuevo', description: 'Sigue cuando termines el día anterior.' },
-    ],
+    story: {
+      intro: 'Sigue una tarea desde la explicación hasta el resultado. Desplázate o elige un paso.',
+      demo: 'Lección de ejemplo',
+      controls: 'Pasos del ejemplo',
+      tasks: ['Leer', 'Practicar', 'Repasar'],
+      steps: [
+        {
+          title: 'Lección',
+          description: 'Usa una lista de tareas para ver cómo funciona un filtro.',
+          screenTitle: '¿Qué tareas quedan pendientes?',
+          screenText: 'Conserva en la lista solo las tareas pendientes.',
+        },
+        {
+          title: 'Código',
+          description: 'Escribe el filtro y ejecútalo con la lista de ejemplo.',
+          screenTitle: 'Filtra las tareas pendientes',
+          screenText: 'filter() conserva una tarea si done es false.',
+        },
+        {
+          title: 'Revisión',
+          description: 'Compara el resultado con la lista original: deben quedar dos tareas.',
+          screenTitle: 'Quedan dos tareas',
+          screenText: 'La tarea terminada ya no aparece en el resultado.',
+        },
+        {
+          title: 'Día nuevo',
+          description: 'Usa la misma lista y añade un botón para marcar una tarea como terminada.',
+          screenTitle: 'Añade un botón «Listo»',
+          screenText: 'Actualiza la tarea y comprueba que desaparece de la lista.',
+        },
+      ],
+    },
     insideTitle: 'Todo para estudiar por tu cuenta',
     inside: [
       'Editor de código y comprobaciones',
       'Plan de estudio día a día',
       'Pruebas y entrevistas',
       'Repaso y temas difíciles',
-      'Notas y progreso',
+      'Resultados y progreso',
       'AI Tutor opcional',
       'Idiomas de la interfaz y tema oscuro',
     ],
@@ -254,7 +374,7 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     faq: [
       {
         question: '¿Puedo empezar como invitado?',
-        answer: 'Sí. El progreso y las notas de invitado se guardan en este navegador.',
+        answer: 'Sí. El progreso de invitado se guarda en este navegador.',
       },
       {
         question: '¿Necesito una cuenta?',
@@ -277,10 +397,10 @@ export const LANDING_COPY: Record<InterfaceLocale, LandingCopy> = {
     courses: (n) => `${n} ${n === 1 ? 'curso' : 'cursos'}`,
     screen: {
       lesson: 'Lección',
+      title: 'Entiende un tema nuevo',
       text: 'Una explicación breve, un ejemplo y una tarea pequeña para un día.',
       progress: 'Progreso del día',
       action: 'Continuar',
-      label: 'En pantalla: una tarjeta de lección y la elección de ruta',
     },
     categories: (n) => `${n} ${n === 1 ? 'ruta' : 'rutas'}`,
     languages: (n) => `${n} ${n === 1 ? 'idioma' : 'idiomas'}`,

@@ -7,6 +7,7 @@ import { QuestionAnswer } from '@/components/learning/question-answer';
 import { ALL_QUESTIONS } from '@/content/course';
 import { emptyProgress } from '@/lib/account/progress';
 import type { CourseContent } from '@/lib/courses/schema';
+import { publicCourseContent } from '@/lib/courses/delivery';
 import { useLearningStore } from '@/stores/learning-store';
 import { useAppStore } from '@/stores/app-store';
 
@@ -65,9 +66,11 @@ describe.each(locales)('$locale learning interface', labels => {
     expect(screen.getAllByTestId('study-session')).toHaveLength(2);
   });
 
-  it('localizes practice controls while preserving authored material and saved code', () => {
-    render(<CourseWorkspace courseId="html" section="practice" initialContent={content} day={1} />);
+  it('localizes practice controls while preserving authored material and saved code', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => content }));
+    render(<CourseWorkspace courseId="html" section="practice" initialContent={publicCourseContent(content)} day={1} />);
     expect(screen.getByRole('heading', { name: 'Русский урок' })).toBeVisible();
+    await screen.findByLabelText(labels.code);
     expect(screen.getByText('Русское задание')).toBeVisible();
     fireEvent.change(screen.getByLabelText(labels.code), { target: { value: '<h1>Saved work</h1>' } });
     fireEvent.click(screen.getByRole('button', { name: labels.preview }));
@@ -122,8 +125,10 @@ describe.each(locales)('$locale learning interface', labels => {
   });
 });
 
-it('reacts to interface locale changes without discarding the practice draft or changing content', () => {
-  render(<CourseWorkspace courseId="html" section="practice" initialContent={content} day={1} />);
+it('reacts to interface locale changes without discarding the practice draft or changing content', async () => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => content }));
+  render(<CourseWorkspace courseId="html" section="practice" initialContent={publicCourseContent(content)} day={1} />);
+  await screen.findByLabelText('Ваш код');
   fireEvent.change(screen.getByLabelText('Ваш код'), { target: { value: '<h1>Keep me</h1>' } });
   act(() => useLearningStore.getState().setPreferences({ language: 'es' }));
   expect(screen.getByRole('button', { name: 'Ver HTML + CSS' })).toBeVisible();
@@ -176,4 +181,26 @@ it('updates Tutor chrome and prior errors when locale changes, preserving succes
   expect(screen.queryByText(/d+ tokens|Local|AI can make mistakes|AI может ошибаться|AI · AnyModel/)).not.toBeInTheDocument();
   expect(screen.queryByText(/Project materials first|Сначала материалы проекта/)).not.toBeInTheDocument();
   await waitFor(() => expect(screen.getByLabelText('Question for Tutor')).toBeEnabled());
+});
+
+it('renders QuestionAnswer external sources only for valid https:// URLs with rel="noopener noreferrer"', () => {
+  const base = ALL_QUESTIONS[0];
+  const { rerender } = render(
+    <QuestionAnswer question={{ ...base, source: 'https://react.dev/learn' }} />,
+  );
+  const link = screen.getByRole('link', { name: 'react.dev' });
+  expect(link).toHaveAttribute('href', 'https://react.dev/learn');
+  expect(link).toHaveAttribute('target', '_blank');
+  expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+
+  for (const unsafe of [
+    'javascript:alert(1)',
+    'data:text/html,<script>alert(1)</script>',
+    'http://react.dev/learn',
+    'https:not-a-valid-host',
+    'https://[invalid',
+  ]) {
+    rerender(<QuestionAnswer question={{ ...base, source: unsafe }} />);
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  }
 });

@@ -51,6 +51,7 @@ export async function askTutor({
     },
     body: JSON.stringify({
       action: 'ask',
+      channel: 'voice',
       courseId,
       userText: text,
       isDeep: false,
