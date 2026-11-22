@@ -1,8 +1,9 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { Code2, Copy, Paperclip, SendHorizontal, Trash2, X } from 'lucide-react';
+import { AlertTriangle, Code2, Copy, Paperclip, SendHorizontal, Trash2, X } from 'lucide-react';
 import { useAccount } from '@/components/account/account-provider';
+import { BlockCountdown } from '@/components/ui/block-countdown';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { getSessionWithTimeout } from '@/lib/supabase/session';
 import { useLearningStore } from '@/stores/learning-store';
@@ -13,6 +14,7 @@ import {
   COMMUNITY_TEXT_MAX,
   communityMediaProblem,
 } from '@/lib/community/limits';
+import type { TutorStrikeNotice } from '@/lib/tutor/shared';
 import { cn } from '@/lib/utils';
 import { COMMUNITY_COPY } from './community-copy';
 
@@ -50,7 +52,11 @@ export function errorKey(status: number, code?: string): ErrorKey {
 }
 
 class CommunityError extends Error {
-  constructor(readonly key: ErrorKey) {
+  constructor(
+    readonly key: ErrorKey,
+    readonly moderationMessage?: string,
+    readonly warning?: TutorStrikeNotice,
+  ) {
     super(key);
   }
 }
@@ -76,7 +82,15 @@ async function request<T = { ok: true }>(userId: string, body?: Record<string, u
     signal: AbortSignal.timeout(15_000),
   });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new CommunityError(errorKey(response.status, data?.error));
+  if (!response.ok) {
+    throw new CommunityError(
+      errorKey(response.status, data?.error),
+      typeof data?.message === 'string' ? data.message : undefined,
+      data?.warning && typeof data.warning === 'object'
+        ? (data.warning as TutorStrikeNotice)
+        : undefined,
+    );
+  }
   return data as T;
 }
 
@@ -104,15 +118,24 @@ function CommunitySession() {
   const [file, setFile] = useState<File | null>(null);
   const [sending, setSending] = useState(false);
   const [notice, setNotice] = useState<ErrorKey | 'failed' | ''>('');
+  const [moderationWarning, setModerationWarning] = useState<TutorStrikeNotice | null>(null);
+  const [moderationText, setModerationText] = useState('');
   const list = useRef<HTMLOListElement>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const uid = user?.id;
 
+  const muted = Boolean(moderationWarning?.blocked);
+
   async function reload() {
     if (!uid) return;
-    const result = await request<{ messages: CommunityMessage[]; online: number }>(uid);
+    const result = await request<{
+      messages: CommunityMessage[];
+      online: number;
+      moderation?: TutorStrikeNotice | null;
+    }>(uid);
     setMessages(result.messages);
     setOnline(result.online);
+    if (result.moderation?.blocked) setModerationWarning(result.moderation);
     setState('ready');
   }
 
@@ -133,10 +156,16 @@ function CommunitySession() {
           await request(uid, { kind: 'heartbeat' });
           lastHeartbeat = Date.now();
         }
-        const result = await request<{ messages: CommunityMessage[]; online: number }>(uid);
+        const result = await request<{
+          messages: CommunityMessage[];
+          online: number;
+          moderation?: TutorStrikeNotice | null;
+        }>(uid);
         if (!active) return;
         setMessages(result.messages);
         setOnline(result.online);
+        if (result.moderation?.blocked) setModerationWarning(result.moderation);
+        else if (result.moderation && !result.moderation.blocked) setModerationWarning(null);
         setState('ready');
         connected = true;
       } catch (cause) {
@@ -182,12 +211,13 @@ function CommunitySession() {
 
   async function send(event: React.FormEvent) {
     event.preventDefault();
-    if (!uid || sending) return;
+    if (!uid || sending || muted) return;
     const value = text.trim();
     const max = codeMode ? COMMUNITY_CODE_MAX : COMMUNITY_TEXT_MAX;
     if ((!file && !value) || value.length > max) return setNotice('invalid');
     setSending(true);
     setNotice('');
+    setModerationText('');
     try {
       if (file) {
         const ticket = await request<{ path: string; token: string }>(uid, {
@@ -204,15 +234,20 @@ function CommunitySession() {
       } else if (codeMode) {
         await request(uid, { kind: 'code', text: value, language: codeLanguage });
       } else {
-        await request(uid, { kind: 'message', text: value });
+        await request(uid, { kind: 'message', text: value, language: locale });
       }
       setText('');
       setFile(null);
       if (fileInput.current) fileInput.current.value = '';
       await reload();
     } catch (cause) {
-      const key = failure(cause);
-      setNotice(key === 'service' ? 'failed' : key);
+      if (cause instanceof CommunityError && (cause.warning || cause.moderationMessage)) {
+        if (cause.warning) setModerationWarning(cause.warning);
+        if (cause.moderationMessage) setModerationText(cause.moderationMessage);
+      } else {
+        const key = failure(cause);
+        setNotice(key === 'service' ? 'failed' : key);
+      }
     } finally {
       setSending(false);
     }
@@ -280,6 +315,25 @@ function CommunitySession() {
               ))}
             </ol>
 
+            {muted && (
+              <div className="border-t border-destructive/30 bg-destructive/5 p-3 grid gap-2">
+                {moderationText && (
+                  <p role="alert" className="m-0 flex items-start gap-2 text-sm text-destructive">
+                    <AlertTriangle size={16} aria-hidden="true" className="mt-0.5 shrink-0" />
+                    <span>{moderationText}</span>
+                  </p>
+                )}
+                <BlockCountdown
+                  blockedUntil={moderationWarning?.blockedUntil}
+                  language={locale}
+                  onExpire={() => {
+                    setModerationWarning(null);
+                    setModerationText('');
+                  }}
+                />
+              </div>
+            )}
+
             <form onSubmit={send} className="grid gap-2 border-t border-border p-3">
               {file && (
                 <div className="flex items-center justify-between gap-2 rounded-lg bg-muted px-3 py-2 text-sm">
@@ -319,6 +373,7 @@ function CommunitySession() {
                   ref={fileInput}
                   type="file"
                   hidden
+                  disabled={muted}
                   accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"
                   aria-label={copy.attach}
                   onChange={(event) => pickFile(event.target.files?.[0] ?? null)}
@@ -327,6 +382,7 @@ function CommunitySession() {
                   type="button"
                   className="icon-button shrink-0"
                   style={TOUCH}
+                  disabled={muted}
                   aria-label={copy.attach}
                   title={copy.attach}
                   onClick={() => fileInput.current?.click()}
@@ -340,7 +396,7 @@ function CommunitySession() {
                   aria-label={copy.codeOn}
                   aria-pressed={codeMode}
                   title={copy.code}
-                  disabled={!!file}
+                  disabled={!!file || muted}
                   onClick={() => setCodeMode((value) => !value)}
                 >
                   <Code2 size={19} />
@@ -349,6 +405,7 @@ function CommunitySession() {
                   aria-label={file ? copy.caption : copy.message}
                   placeholder={file ? copy.caption : copy.message}
                   rows={codeMode ? 6 : 1}
+                  disabled={muted}
                   maxLength={codeMode ? COMMUNITY_CODE_MAX : COMMUNITY_TEXT_MAX}
                   value={text}
                   onChange={(event) => setText(event.target.value)}
@@ -366,7 +423,7 @@ function CommunitySession() {
                 <button
                   className="button primary shrink-0"
                   aria-label={copy.send}
-                  disabled={sending || (!text.trim() && !file)}
+                  disabled={sending || muted || (!text.trim() && !file)}
                 >
                   <SendHorizontal size={18} />
                   <span className="max-sm:sr-only">{sending ? copy.sending : copy.send}</span>
@@ -376,6 +433,15 @@ function CommunitySession() {
           </>
         )}
       </div>
+      {!muted && moderationText && (
+        <p
+          className="m-0 flex items-start gap-2 rounded-xl border border-warning/40 bg-warning/10 px-3.5 py-2.5 text-sm text-warning"
+          role="alert"
+        >
+          <AlertTriangle size={16} aria-hidden="true" className="mt-0.5 shrink-0" />
+          <span>{moderationText}</span>
+        </p>
+      )}
       <p className="m-0 min-h-5 text-sm text-warning" role="status">
         {notice ? copy[notice] : ''}
       </p>

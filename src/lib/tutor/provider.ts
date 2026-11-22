@@ -15,15 +15,18 @@ export class TutorProviderError extends Error {
   }
 }
 
-export const DEFAULT_GEMINI_MODEL = 'gemini-3.5-flash';
-export const FALLBACK_GEMINI_MODEL = 'gemini-3.5-flash-lite';
+// Flash Lite responds in ~1.2-2.5s (vs ~14s for non-lite) while keeping high quality across TG/RU/EN/ES.
+export const DEFAULT_GEMINI_MODEL = 'gemini-3.5-flash-lite';
+export const FALLBACK_GEMINI_MODEL = 'gemini-3.5-flash';
 
 export function selectTutorProvider(
   env: Record<string, string | undefined> = process.env,
+  channel: 'chat' | 'voice' = 'chat',
 ): TutorProvider | null {
   const configuredKind = env.AI_TUTOR_PROVIDER?.trim();
   if (configuredKind && configuredKind !== 'gemini') return null;
-  const geminiKey = env.GEMINI_API_KEY?.trim();
+  const voiceKey = channel === 'voice' ? env.GEMINI_VOICE_API_KEY?.trim() : undefined;
+  const geminiKey = voiceKey || env.GEMINI_API_KEY?.trim();
   if (!geminiKey) return null;
   const configured = env.GEMINI_MODEL?.trim() || DEFAULT_GEMINI_MODEL;
   return {
@@ -47,8 +50,9 @@ function failure(status: number): never {
   );
 }
 
+/** Lite models reject thinkingConfig with 400 INVALID_ARGUMENT; only non-lite 2.5/3.x support it. */
 function supportsThinkingConfig(model: string): boolean {
-  return /^gemini-(?:2\.5|3\.)/.test(model);
+  return /^gemini-(?:2\.5|3\.)/.test(model) && !/lite/i.test(model);
 }
 
 function extractSafeWebSources(groundingMetadata: unknown): TutorWebSource[] {
@@ -122,7 +126,7 @@ async function callGemini(
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(45000),
+      signal: AbortSignal.timeout(35000),
       cache: 'no-store',
     },
   );
@@ -146,7 +150,7 @@ export async function requestTutorCompletion(
   if (!response.ok && wantSearch && (response.status === 429 || response.status === 400)) {
     response = await callGemini(provider.key, provider.model, messages, maxOutputTokens, false);
   }
-  // Temporary high demand (503) or retired model (404): fall back once to Gemini Flash Lite.
+  // Temporary high demand (503) or retired model (404): fall back once to secondary Gemini model.
   if (
     !response.ok &&
     (response.status === 503 || response.status === 404) &&

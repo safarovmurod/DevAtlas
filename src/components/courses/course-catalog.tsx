@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BookOpen, Compass, Search } from 'lucide-react';
-import { OnboardingBanner } from '@/components/onboarding/onboarding-banner';
 import {
   COURSE_CATEGORIES,
   PROGRAMMING_SUBTRACKS,
@@ -200,8 +199,8 @@ export function CourseCatalog() {
     : CATALOG_COURSES;
 
   return (
-    <section className="course-catalog">
-      <div className="course-intro">
+    <section className="course-catalog flex flex-col gap-7 sm:gap-9">
+      <div className="course-intro !mb-0">
         <span className="eyebrow">
           <Compass size={16} />
           {labels.eyebrow}
@@ -211,9 +210,8 @@ export function CourseCatalog() {
       </div>
       <CatalogOverview />
       <MyCourses />
-      <OnboardingBanner />
 
-      <div className="catalog-toolbar">
+      <div className="catalog-toolbar !mb-0 pt-2">
         <div>
           <h2>
             <BookOpen size={19} />

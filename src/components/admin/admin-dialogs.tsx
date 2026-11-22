@@ -1,10 +1,12 @@
 'use client';
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import {
+  banLabel,
   day,
   PAYMENT_EXTEND_NOTE,
   PAYMENT_WARNING,
   TIER_NAME,
+  type AdminUser,
   type Membership,
   type PlanMode,
   type Tier,
@@ -65,12 +67,10 @@ export function PlanDialog({
           <strong>{email}</strong>
           <br />
           {current
-            ? `Ҳозир: ${TIER_NAME[current.tier]}, ${
-                current.active
-                  ? `${current.daysLeft} рӯз монд, то ${day(current.expiresAt)}`
-                  : 'мӯҳлат гузашт'
-              }`
-            : 'Ҳозир подписка надорад.'}
+            ? current.active
+              ? `Ҳозир: ${TIER_NAME[current.tier]}, ${current.daysLeft} рӯз монд, то ${day(current.expiresAt)}`
+              : `Ҳозир: Start (бе подписка) · қаблан ${TIER_NAME[current.tier]} тамом шуд ${day(current.expiresAt)}`
+            : 'Ҳозир: Start (бе подписка).'}
         </p>
         {current?.source === 'payment' && mode !== 'grant' && (
           <p className={styles.dialogText} role="note">
@@ -418,6 +418,180 @@ export function NotifyDialog({
           </button>
         </div>
       </form>
+    </Dialog>
+  );
+}
+
+export function BroadcastDialog({
+  busy,
+  onConfirm,
+  onClose,
+}: {
+  busy: boolean;
+  onConfirm: (audience: 'all' | 'paid' | 'free', message: string) => void;
+  onClose: () => void;
+}) {
+  const [audience, setAudience] = useState<'all' | 'paid' | 'free'>('all');
+  const [message, setMessage] = useState('');
+  const audId = useId();
+  const textId = useId();
+  const length = message.trim().length;
+  return (
+    <Dialog title="Паёми умумӣ (Broadcast)" busy={busy} onClose={onClose}>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (length > 0 && !busy) onConfirm(audience, message.trim());
+        }}
+      >
+        <div className={styles.field}>
+          <label htmlFor={audId} className={styles.fieldLabel}>
+            Қабулкунандагон
+          </label>
+          <select
+            id={audId}
+            className={styles.dialogInput}
+            value={audience}
+            disabled={busy}
+            onChange={(event) =>
+              setAudience(
+                event.target.value === 'paid' || event.target.value === 'free'
+                  ? event.target.value
+                  : 'all',
+              )
+            }
+          >
+            <option value="all">Ҳамаи корбарони фаъол</option>
+            <option value="paid">Танҳо бо подписка (Pro / Ultra)</option>
+            <option value="free">Танҳо бе подписка (Start)</option>
+          </select>
+        </div>
+        <label className={styles.dialogText} htmlFor={textId}>
+          Матни паём (то {MESSAGE_MAX} аломат):
+        </label>
+        <textarea
+          id={textId}
+          className={`${styles.dialogInput} ${styles.textarea}`}
+          maxLength={MESSAGE_MAX}
+          rows={4}
+          value={message}
+          disabled={busy}
+          onChange={(event) => setMessage(event.target.value)}
+        />
+        <div className={styles.counter}>
+          {message.length} / {MESSAGE_MAX}
+        </div>
+        <div className={styles.dialogActions}>
+          <button type="button" className="button subtle" disabled={busy} onClick={onClose}>
+            Бекор
+          </button>
+          <button type="submit" className="button primary" disabled={length === 0 || busy}>
+            {busy ? 'Фиристода мешавад…' : 'Ба ҳама фиристодан'}
+          </button>
+        </div>
+      </form>
+    </Dialog>
+  );
+}
+
+export function UserDetailDialog({
+  user,
+  busy,
+  onQuickGrant,
+  onRevoke,
+  onResetModeration,
+  onClose,
+}: {
+  user: AdminUser;
+  busy: boolean;
+  onQuickGrant: (tier: Tier, days: number) => void;
+  onRevoke: () => void;
+  onResetModeration: () => void;
+  onClose: () => void;
+}) {
+  const m = user.membership;
+  const mod = user.moderation;
+  const hasMod = Boolean(
+    mod &&
+    (mod.offTopicStrikes > 0 ||
+      mod.offTopicBlocked ||
+      mod.profanityStrikes > 0 ||
+      mod.profanityBlocked),
+  );
+  return (
+    <Dialog title="Тафсилоти корбар" busy={busy} onClose={onClose}>
+      <div className="grid gap-3 text-sm">
+        <div>
+          <strong>{user.email ?? 'Бе email'}</strong>
+          <div className={styles.subtle}>
+            ID: {user.id.slice(0, 8)}… · {user.providers.join(', ') || '—'} · сабт{' '}
+            {day(user.createdAt)}
+          </div>
+        </div>
+        <div className="rounded-xl border border-border bg-muted/40 p-3 grid gap-1.5 text-xs">
+          <div>
+            Тарифи фаъол:{' '}
+            <strong>
+              {m?.active
+                ? `${TIER_NAME[m.tier]} (${m.daysLeft} рӯз, то ${day(m.expiresAt)})`
+                : user.isOwner
+                  ? 'Ultra (Соҳиб)'
+                  : 'Start (бе подписка)'}
+            </strong>
+          </div>
+          {m && !m.active && (
+            <div className={styles.warn}>
+              Қаблан: {TIER_NAME[m.tier]} · тамом шуд {day(m.expiresAt)}
+            </div>
+          )}
+          <div>Охирин вуруд: {day(user.lastSignInAt)}</div>
+          {user.bannedUntil && <div className={styles.warn}>{banLabel(user.bannedUntil)}</div>}
+          {mod && (
+            <div>
+              Модератсия: AI {mod.offTopicStrikes}/3{mod.offTopicBlocked ? ' (блок)' : ''} · Ҳақорат{' '}
+              {mod.profanityStrikes}/5{mod.profanityBlocked ? ' (блок)' : ''}
+            </div>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            className="button primary"
+            disabled={busy}
+            onClick={() => onQuickGrant('pro', 30)}
+          >
+            Pro · 30 рӯз
+          </button>
+          <button
+            type="button"
+            className="button primary"
+            disabled={busy}
+            onClick={() => onQuickGrant('expert', 30)}
+          >
+            Ultra · 30 рӯз
+          </button>
+          {m?.active && !user.isOwner && (
+            <button type="button" className="button subtle" disabled={busy} onClick={onRevoke}>
+              Бекор ба Start
+            </button>
+          )}
+          {hasMod && (
+            <button
+              type="button"
+              className="button subtle"
+              disabled={busy}
+              onClick={onResetModeration}
+            >
+              Тоза кардани огоҳӣ / блок
+            </button>
+          )}
+        </div>
+      </div>
+      <div className={styles.dialogActions}>
+        <button type="button" className="button subtle" disabled={busy} onClick={onClose}>
+          Пӯшидан
+        </button>
+      </div>
     </Dialog>
   );
 }

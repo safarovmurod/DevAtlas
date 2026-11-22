@@ -20,6 +20,13 @@ function menuItems(user: AdminUser, viewerId: string, viewerIsOwner: boolean): M
   const canTakePlan = !user.isOwner;
   const canChangeRole = viewerIsOwner && !user.isOwner && !self;
   const canBanOrDelete = !user.isOwner && !user.isAdmin && !self;
+  const hasModeration = Boolean(
+    user.moderation &&
+    (user.moderation.offTopicStrikes > 0 ||
+      user.moderation.offTopicBlocked ||
+      user.moderation.profanityStrikes > 0 ||
+      user.moderation.profanityBlocked),
+  );
   const items: MenuItem[] = [];
 
   if (membership?.active) {
@@ -34,6 +41,14 @@ function menuItems(user: AdminUser, viewerId: string, viewerIsOwner: boolean): M
   }
   if (membership && canTakePlan)
     items.push({ label: 'Бекор кардани подписка', intent: { kind: 'revoke', user } });
+
+  if (hasModeration) {
+    items.push({
+      label: 'Тоза кардани огоҳӣ / блоки AI-чат',
+      intent: { kind: 'reset_moderation', user },
+      separated: true,
+    });
+  }
 
   items.push({
     label: 'Паём фиристодан…',
@@ -72,7 +87,6 @@ function ActionsMenu({
   busy: boolean;
   onPick: (intent: Intent) => void;
 }) {
-  // The menu is positioned against the viewport, so the table's scroll area never clips it.
   const [place, setPlace] = useState<{ top: number; right: number } | null>(null);
   const open = place !== null;
   const box = useRef<HTMLDivElement>(null);
@@ -82,7 +96,6 @@ function ActionsMenu({
   function toggle() {
     if (open || !trigger.current) return setPlace(null);
     const rect = trigger.current.getBoundingClientRect();
-    // About 40px per item plus padding; open upwards when there is no room below.
     const height = items.length * 40 + 24;
     const below = rect.bottom + 6;
     setPlace({
@@ -160,6 +173,7 @@ function ActionsMenu({
 /**
  * One table row. Memoized: after an action only the changed user object is replaced,
  * so the other rows keep their props and do not re-render.
+ * Expired plans display honestly as "Start (бе подписка)" instead of active Pro/Ultra.
  */
 export const UserRow = memo(function UserRow({
   user,
@@ -170,6 +184,7 @@ export const UserRow = memo(function UserRow({
 }: Props) {
   const self = user.id === viewerId;
   const membership = user.membership;
+  const mod = user.moderation;
   const grantedBy = membership
     ? `Манбаъ: ${membership.source === 'payment' ? 'пардохт' : 'админ'}. Дод: ${
         membership.grantedByEmail ?? (membership.grantedById ? 'админи нестшуда' : 'номаълум')
@@ -180,7 +195,13 @@ export const UserRow = memo(function UserRow({
     <tr className={busy ? styles.rowBusy : undefined} aria-busy={busy}>
       <td>
         <div className={styles.email}>
-          {user.email ?? 'Бе email'}
+          <button
+            type="button"
+            onClick={() => onIntent({ kind: 'details', user })}
+            className="cursor-pointer border-0 bg-transparent p-0 text-left font-inherit text-inherit hover:underline"
+          >
+            {user.email ?? 'Бе email'}
+          </button>
           {self && <span className={styles.you}> (шумо)</span>}
         </div>
         <div className={styles.badges}>
@@ -193,6 +214,20 @@ export const UserRow = memo(function UserRow({
               {banLabel(user.bannedUntil)}
             </span>
           )}
+          {mod && (mod.offTopicStrikes > 0 || mod.offTopicBlocked) && (
+            <span
+              className={`${styles.badge} ${mod.offTopicBlocked ? styles.badgeDanger : styles.badgeWarn}`}
+            >
+              AI {mod.offTopicStrikes}/3{mod.offTopicBlocked ? ' · блок' : ''}
+            </span>
+          )}
+          {mod && (mod.profanityStrikes > 0 || mod.profanityBlocked) && (
+            <span
+              className={`${styles.badge} ${mod.profanityBlocked ? styles.badgeDanger : styles.badgeWarn}`}
+            >
+              Ҳақорат {mod.profanityStrikes}/5{mod.profanityBlocked ? ' · блок' : ''}
+            </span>
+          )}
           {!user.emailConfirmed && (
             <span className={`${styles.badge} ${styles.badgeWarn}`}>Email тасдиқ нашуд</span>
           )}
@@ -202,34 +237,36 @@ export const UserRow = memo(function UserRow({
         </div>
       </td>
       <td>
-        {membership ? (
+        {membership && membership.active ? (
           <div className={styles.badges}>
-            <span
-              className={`${styles.badge} ${membership.active ? styles.badgePaid : styles.badgeWarn}`}
-            >
+            <span className={`${styles.badge} ${styles.badgePaid}`}>
               {TIER_NAME[membership.tier]}
             </span>
             {membership.source === 'payment' && (
               <span className={`${styles.badge} ${styles.badgeAdmin}`}>Пардохт</span>
             )}
           </div>
+        ) : user.isOwner ? (
+          <span className={`${styles.badge} ${styles.badgePaid}`}>Ultra</span>
         ) : (
-          <span className={styles.subtle}>—</span>
+          <span className={styles.badge}>Start</span>
         )}
       </td>
       <td title={grantedBy}>
-        {membership ? (
-          membership.active ? (
-            <>
-              <div className={styles.ok}>{membership.daysLeft} рӯз монд</div>
-              <div className={styles.subtle}>то {day(membership.expiresAt)}</div>
-            </>
-          ) : (
-            <>
-              <div className={styles.warn}>Тамом шуд</div>
-              <div className={styles.subtle}>{day(membership.expiresAt)}</div>
-            </>
-          )
+        {membership && membership.active ? (
+          <>
+            <div className={styles.ok}>{membership.daysLeft} рӯз монд</div>
+            <div className={styles.subtle}>то {day(membership.expiresAt)}</div>
+          </>
+        ) : membership && !membership.active ? (
+          <>
+            <div className={styles.subtle}>Бе подписка</div>
+            <div className={styles.warn}>
+              қаблан {TIER_NAME[membership.tier]} · тамом шуд {day(membership.expiresAt)}
+            </div>
+          </>
+        ) : user.isOwner ? (
+          <span className={styles.ok}>Дастрасии пурра (Соҳиб)</span>
         ) : (
           <span className={styles.subtle}>Бе подписка</span>
         )}

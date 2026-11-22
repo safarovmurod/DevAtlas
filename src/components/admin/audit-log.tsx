@@ -13,6 +13,8 @@ const ACTION_NAME: Record<string, string> = {
   unban: 'аз блок баровард',
   notify: 'паём фиристод',
   delete_user: 'аккаунтро нест кард',
+  moderation_reset: 'огоҳӣ/блоки AI-чатро тоза кард',
+  broadcast_notify: 'паёми умумӣ фиристод',
 };
 
 function describe(entry: AuditEntry) {

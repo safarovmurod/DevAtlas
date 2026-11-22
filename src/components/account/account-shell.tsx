@@ -59,11 +59,8 @@ export function AccountShell({
     return <>{children}</>;
   if (account.loading)
     return (
-      <div className="account-screen">
-        <section className="auth-card">
-          <Brand variant="auth" />
-          <LoadingState label={copy.opening} />
-        </section>
+      <div className="account-screen flex min-h-[100dvh] items-center justify-center">
+        <LoadingState label={copy.opening} size="lg" />
       </div>
     );
   if (account.restoreFailed)

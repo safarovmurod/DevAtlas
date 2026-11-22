@@ -200,7 +200,7 @@ export function LaptopHardware({
 }) {
   return (
     <>
-      <group ref={hingeRef} position={[0, -1.265, -0.015]} rotation={[-0.17, 0, 0]}>
+      <group ref={hingeRef} position={[0, -1.265, -0.015]} rotation={[1.5, 0, 0]}>
         <group ref={screenRef} position={[0, 1.29, 0]}>
           {/* Brushed anodized space-silver aluminum lid */}
           <RoundedBox

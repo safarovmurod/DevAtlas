@@ -1,6 +1,7 @@
 import { agentMaterialLink, type AgentLink, type AgentReply } from '@/lib/agent/agent-reply';
 import { LEARNING_UI_COPY, tutorErrorKey } from '@/lib/learning-ui-copy';
 import type { InterfaceLocale } from '@/lib/locale';
+import type { TutorStrikeNotice } from '@/lib/tutor/shared';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { getSessionWithTimeout } from '@/lib/supabase/session';
 
@@ -13,15 +14,19 @@ export interface SpokenTurn {
   content: string;
 }
 
+export type VoiceTutorReply = AgentReply & {
+  warning?: TutorStrikeNotice;
+  primaryHref?: string | null;
+};
+
 /** The tutor answers in the interface language: Russian, Tajik, English or Spanish. */
 export function tutorLanguage(language: InterfaceLocale): InterfaceLocale {
   return language;
 }
 
 /**
- * Sends a spoken question to /api/tutor and returns the reply to speak.
- * Throws when the network fails, the request is cancelled or the signed-in
- * account changed while waiting (the answer must not reach another account).
+ * Sends a spoken question to /api/tutor and returns the reply to speak, full text with code
+ * examples, links, and any strike/block warning metadata.
  */
 export async function askTutor({
   text,
@@ -37,7 +42,7 @@ export async function askTutor({
   history: SpokenTurn[];
   language: InterfaceLocale;
   signal: AbortSignal;
-}): Promise<AgentReply> {
+}): Promise<VoiceTutorReply> {
   const client = getSupabaseBrowserClient();
   const session = client ? (await getSessionWithTimeout(client)).data.session : null;
   if (signal.aborted) throw new Error('Cancelled');
@@ -65,10 +70,18 @@ export async function askTutor({
   });
   const data = await response.json();
   const copy = LEARNING_UI_COPY[language];
+  const warning =
+    data?.warning && typeof data.warning === 'object'
+      ? (data.warning as TutorStrikeNotice)
+      : undefined;
 
   if (!response.ok) {
-    if (data?.error === 'tutor_blocked' && typeof data.reply === 'string' && data.reply.trim()) {
-      return { kind: 'error', text: data.reply, links: [] };
+    if (
+      (data?.error === 'tutor_blocked' || data?.error === 'profanity_blocked') &&
+      typeof data.reply === 'string' &&
+      data.reply.trim()
+    ) {
+      return { kind: 'error', text: data.reply, links: [], warning };
     }
     return { kind: 'error', text: copy[tutorErrorKey(response.status, data.error)], links: [] };
   }
@@ -85,7 +98,7 @@ export async function askTutor({
   if (sourceLink && !links.some((item) => item.href === sourceLink.href)) links.push(sourceLink);
 
   return {
-    kind: data.warning
+    kind: warning
       ? 'notice'
       : data.mode === 'online'
         ? 'online'
@@ -94,5 +107,7 @@ export async function askTutor({
           : 'notice',
     text: data.reply,
     links,
+    warning,
+    primaryHref: links[0]?.href ?? null,
   };
 }

@@ -1,17 +1,16 @@
 import { AtlasLoader3D, type AtlasLoaderSize } from './atlas-loader-3d';
 
-export function LoadingState({ label, size = 'sm' }: { label: string; size?: AtlasLoaderSize }) {
+/** Clean 3D loading indicator with accessible screen-reader label and no boilerplate text noise. */
+export function LoadingState({ label, size = 'md' }: { label: string; size?: AtlasLoaderSize }) {
   return (
-    <div className="loading-state" role="status" aria-live="polite">
-      <div className="flex items-center gap-3">
-        <AtlasLoader3D size={size} />
-        <span className="text-sm font-medium">{label}</span>
-      </div>
-      <div className="loading-placeholder" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </div>
+    <div
+      className="loading-state flex min-h-[160px] items-center justify-center py-8"
+      role="status"
+      aria-live="polite"
+      aria-label={label}
+    >
+      <AtlasLoader3D size={size} />
+      <span className="sr-only">{label}</span>
     </div>
   );
 }

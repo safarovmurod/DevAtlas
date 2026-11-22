@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { AppRouterContext } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useAppStore } from '@/stores/app-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { getSessionWithTimeout } from '@/lib/supabase/session';
@@ -13,17 +14,23 @@ import {
   ArrowUpRight,
   AlertTriangle,
   BookOpen,
+  Compass,
+  HelpCircle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useLearningStore } from '@/stores/learning-store';
 import {
   isDeepFollowUp,
+  type TutorExplainStyle,
   type TutorSource,
   type TutorStrikeNotice,
   type TutorWebSource,
 } from '@/lib/tutor/shared';
 import { useAccount } from '@/components/account/account-provider';
 import { usePlanAccess } from '@/components/courses/use-practice-access';
+import { AtlasLoader3D } from '@/components/learning/atlas-loader-3d';
+import { BlockCountdown } from '@/components/ui/block-countdown';
+import { RulesModal, RULES_COPY } from '@/components/layout/rules-modal';
 import { MEMBERSHIP_COPY } from '@/lib/billing/copy';
 import { LEARNING_UI_COPY, tutorErrorKey, type TutorErrorKey } from '@/lib/learning-ui-copy';
 import { TUTOR_COPY } from '@/lib/tutor/copy';
@@ -39,6 +46,7 @@ interface ChatMsg {
   warning?: TutorStrikeNotice;
   followUp?: boolean;
   subject?: string;
+  autoNavigated?: boolean;
 }
 
 class TutorRequestError extends Error {
@@ -78,7 +86,60 @@ function rememberWidth(width: number) {
   }
 }
 
+/** Splits assistant replies into plain paragraphs and formatted fenced code blocks safely. */
+function MessageBody({ text }: { text: string }) {
+  if (!text.includes('```')) {
+    return <p className="whitespace-pre-wrap">{text}</p>;
+  }
+  const parts = text.split(/(```[a-z0-9+#-]*\n[\s\S]*?```)/gi);
+  return (
+    <div className="grid gap-2">
+      {parts.map((part, index) => {
+        const match = part.match(/^```([a-z0-9+#-]*)\n([\s\S]*?)```$/i);
+        if (match) {
+          const lang = match[1] || 'code';
+          const code = match[2].trimEnd();
+          return (
+            <div
+              key={index}
+              className="overflow-hidden rounded-xl border border-slate-700/60 bg-[#0b1120] text-[#e2e8f0]"
+            >
+              <div className="border-b border-slate-700/60 px-3 py-1 font-mono text-[11px] text-sky-300">
+                {lang}
+              </div>
+              <pre className="m-0 max-h-64 overflow-auto p-3 font-mono text-xs leading-5">
+                <code>{code}</code>
+              </pre>
+            </div>
+          );
+        }
+        const trimmed = part.trim();
+        return trimmed ? (
+          <p key={index} className="m-0 whitespace-pre-wrap">
+            {trimmed}
+          </p>
+        ) : null;
+      })}
+    </div>
+  );
+}
+
+const AUTO_NAV_LABEL = {
+  tg: 'Дарси мувофиқ дар пасманзар кушода шуд ✓',
+  ru: 'Нужный урок открыт на странице ✓',
+  en: 'Opened matching lesson ✓',
+  es: 'Lección abierta automáticamente ✓',
+} as const;
+
+const STYLE_BUTTONS = {
+  tg: { simpler: 'Сода кн', another_example: 'Дигар мисол', from_zero: 'Аз нол' },
+  ru: { simpler: 'Проще', another_example: 'Другой пример', from_zero: 'С нуля' },
+  en: { simpler: 'Simpler', another_example: 'Another example', from_zero: 'From zero' },
+  es: { simpler: 'Más simple', another_example: 'Otro ejemplo', from_zero: 'Desde cero' },
+} as const;
+
 export function TutorDrawer() {
+  const router = useContext(AppRouterContext);
   const account = useAccount();
   const open = useAppStore((state) => state.tutorDrawerOpen);
   const tutorAccess = usePlanAccess('aiTutor', open);
@@ -90,6 +151,7 @@ export function TutorDrawer() {
   const uiLanguage = useLearningStore((state) => state.language);
   const ui = LEARNING_UI_COPY[uiLanguage];
   const chatCopy = TUTOR_COPY[uiLanguage];
+  const rulesCopy = RULES_COPY[uiLanguage];
   const prompts = LEARNING_UI_COPY[language];
   const courseId = useLearningStore((state) => state.selectedCourse);
   const [messages, setMessages] = useState<ChatMsg[]>([
@@ -100,6 +162,7 @@ export function TutorDrawer() {
     },
   ]);
   const [blockedNotice, setBlockedNotice] = useState<TutorStrikeNotice | null>(null);
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [preferredWidth, setPreferredWidth] = useState(storedWidth);
@@ -119,10 +182,7 @@ export function TutorDrawer() {
   const canResize = viewportWidth > MOBILE_WIDTH;
   const maxWidth = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, viewportWidth - 48));
   const panelWidth = Math.min(preferredWidth, maxWidth);
-  const blocked = Boolean(
-    blockedNotice?.blocked &&
-    (!blockedNotice.blockedUntil || new Date(blockedNotice.blockedUntil).getTime() > Date.now()),
-  );
+  const blocked = Boolean(blockedNotice?.blocked);
   const composerDisabled = loading || locked || blocked;
 
   useEffect(() => {
@@ -133,6 +193,48 @@ export function TutorDrawer() {
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
   }, []);
+
+  // Load current moderation/block status when drawer opens so countdown appears immediately.
+  useEffect(() => {
+    if (!open || !account.user) return;
+    let alive = true;
+    void (async () => {
+      try {
+        const client = getSupabaseBrowserClient();
+        const session = client ? (await getSessionWithTimeout(client)).data.session : null;
+        if (!session?.access_token || !alive) return;
+        const res = await fetch('/api/tutor', {
+          method: 'GET',
+          headers: { Authorization: 'Bearer ' + session.access_token },
+          cache: 'no-store',
+          signal: AbortSignal.timeout(8_000),
+        });
+        if (!res.ok || !alive) return;
+        const data = (await res.json()) as {
+          moderation?: {
+            blocked?: boolean;
+            blockReason?: 'profanity' | 'off_topic' | null;
+            offTopic?: TutorStrikeNotice;
+            profanity?: TutorStrikeNotice;
+          };
+        };
+        if (data.moderation?.blocked) {
+          const active =
+            data.moderation.blockReason === 'profanity'
+              ? data.moderation.profanity
+              : data.moderation.offTopic;
+          setBlockedNotice(active ?? null);
+        } else {
+          setBlockedNotice(null);
+        }
+      } catch {
+        // Non-blocking status check.
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [open, account.user]);
 
   function clampWidth(width: number) {
     return Math.min(maxWidth, Math.max(MIN_WIDTH, Math.round(width)));
@@ -156,7 +258,7 @@ export function TutorDrawer() {
     document.body.style.overflow = 'hidden';
     inputRef.current?.focus();
     function onKey(event: KeyboardEvent) {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape' && !rulesOpen) setOpen(false);
       if (event.key !== 'Tab') return;
       const controls = dialog.current?.querySelectorAll<HTMLElement>(
         'button:not([disabled]), textarea:not([disabled]), a[href], [role="separator"][tabindex="0"]',
@@ -179,16 +281,17 @@ export function TutorDrawer() {
       document.removeEventListener('keydown', onKey);
       previousFocus?.focus();
     };
-  }, [open, setOpen]);
+  }, [open, setOpen, rulesOpen]);
 
   useEffect(() => {
     if (messageList.current) messageList.current.scrollTop = messageList.current.scrollHeight;
   }, [messages, loading, open]);
 
-  async function send(deep = false) {
+  async function send(deep = false, style: TutorExplainStyle = 'default') {
     if (locked || blocked) return;
-    if (sending.current || (!deep && !input.trim())) return;
-    const followUp = deep || isDeepFollowUp(input);
+    const isPreset = style !== 'default';
+    if (sending.current || (!deep && !isPreset && !input.trim())) return;
+    const followUp = deep || isPreset || isDeepFollowUp(input);
     const lastQuestion = [...messages]
       .reverse()
       .find((message) => message.sender === 'user' && !message.followUp);
@@ -201,10 +304,11 @@ export function TutorDrawer() {
           !message.error &&
           !message.warning,
       );
-    if (deep && !lastQuestion && !selectedQuestion) return;
+    if ((deep || isPreset) && !lastQuestion && !selectedQuestion) return;
     sending.current = true;
     setLoading(true);
-    const text = deep ? prompts.promptDeep : input.trim();
+    const presetLabel = isPreset ? STYLE_BUTTONS[uiLanguage][style] : '';
+    const text = deep ? prompts.promptDeep : isPreset ? presetLabel : input.trim();
     const query = followUp ? selectedQuestion?.text || lastQuestion?.text || text : text;
     const questionId = followUp
       ? selectedQuestion?.id || lastReply?.source?.questionId
@@ -228,7 +332,7 @@ export function TutorDrawer() {
       },
     ]);
     setSelectedQuestion(null);
-    if (!deep) setInput('');
+    if (!deep && !isPreset) setInput('');
     try {
       const topicId = window.location.pathname.match(/^\/lesson\/([^/]+)$/)?.[1];
       const client = getSupabaseBrowserClient();
@@ -244,13 +348,14 @@ export function TutorDrawer() {
           action: 'ask',
           courseId,
           userText: query,
-          isDeep: followUp,
+          isDeep: deep,
+          ...(isPreset ? { style } : {}),
           history,
           topicId,
           questionId,
           language,
         }),
-        signal: AbortSignal.timeout(50000),
+        signal: AbortSignal.timeout(40000),
       });
       const data = await response.json();
       if (data?.warning?.blocked) {
@@ -258,7 +363,7 @@ export function TutorDrawer() {
       }
       if (!response.ok) {
         if (
-          data?.error === 'tutor_blocked' &&
+          (data?.error === 'tutor_blocked' || data?.error === 'profanity_blocked') &&
           typeof data.reply === 'string' &&
           data.reply.trim()
         ) {
@@ -278,6 +383,24 @@ export function TutorDrawer() {
       }
       if (typeof data.reply !== 'string' || !data.reply.trim())
         throw new TutorRequestError('tutorEmpty');
+
+      // Direct auto-navigation to the exact matching lesson page while keeping chat examples open.
+      const matchedHref = safeInternalPath(
+        data.source?.lessonHref ||
+          data.source?.href ||
+          (data.source?.topicId ? '/lesson/' + encodeURIComponent(data.source.topicId) : undefined),
+      );
+      let autoNavigated = false;
+      if (
+        router &&
+        matchedHref &&
+        !data.warning &&
+        window.location.pathname + window.location.search !== matchedHref
+      ) {
+        router.push(matchedHref);
+        autoNavigated = true;
+      }
+
       setMessages((previous) => [
         ...previous,
         {
@@ -288,6 +411,7 @@ export function TutorDrawer() {
           webSources: Array.isArray(data.webSources) ? data.webSources : undefined,
           warning: data.warning,
           subject: query,
+          autoNavigated,
         },
       ]);
     } catch (caught) {
@@ -377,9 +501,24 @@ export function TutorDrawer() {
               <Sparkles size={19} /> AI Tutor
             </h2>
           </div>
-          <button className="icon-button" onClick={() => setOpen(false)} aria-label={ui.tutorClose}>
-            <X size={20} />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              className="icon-button"
+              onClick={() => setRulesOpen(true)}
+              aria-label={rulesCopy.buttonLabel}
+              title={rulesCopy.buttonLabel}
+            >
+              <HelpCircle size={18} />
+            </button>
+            <button
+              className="icon-button"
+              onClick={() => setOpen(false)}
+              aria-label={ui.tutorClose}
+            >
+              <X size={20} />
+            </button>
+          </div>
         </div>
         <div
           className="tutor-messages"
@@ -415,13 +554,21 @@ export function TutorDrawer() {
                     </span>
                   </div>
                 )}
-                <p>
-                  {message.id === 'welcome'
-                    ? chatCopy.welcome
-                    : message.errorKey
-                      ? ui[message.errorKey]
-                      : message.text}
-                </p>
+                {message.autoNavigated && (
+                  <div className="mb-1.5 inline-flex items-center gap-1.5 rounded-lg bg-success-soft px-2.5 py-1 text-xs font-medium text-success">
+                    <Compass size={13} aria-hidden="true" />
+                    <span>{AUTO_NAV_LABEL[uiLanguage]}</span>
+                  </div>
+                )}
+                <MessageBody
+                  text={
+                    message.id === 'welcome'
+                      ? chatCopy.welcome
+                      : message.errorKey
+                        ? ui[message.errorKey]
+                        : message.text
+                  }
+                />
                 {message.source && primaryHref && (
                   <div className="tutor-source tutor-source-card">
                     <div className="tutor-source-meta">
@@ -475,16 +622,25 @@ export function TutorDrawer() {
             );
           })}
           {loading && (
-            <p role="status" className="tutor-loading">
-              {ui.tutorLoading}
-            </p>
+            <div role="status" className="tutor-loading flex items-center justify-center py-3">
+              <AtlasLoader3D size="sm" />
+              <span className="sr-only">{ui.tutorLoading}</span>
+            </div>
           )}
         </div>
         <div className="tutor-composer">
           {blocked && (
-            <div className="tutor-blocked-banner" role="alert">
-              <AlertTriangle size={16} aria-hidden="true" />
-              <p>{chatCopy.blockedBanner}</p>
+            <div className="mb-2 grid gap-2">
+              <div className="tutor-blocked-banner" role="alert">
+                <AlertTriangle size={16} aria-hidden="true" />
+                <p>{chatCopy.blockedBanner}</p>
+              </div>
+              <BlockCountdown
+                blockedUntil={blockedNotice?.blockedUntil}
+                language={uiLanguage}
+                compact
+                onExpire={() => setBlockedNotice(null)}
+              />
             </div>
           )}
           {locked ? (
@@ -521,11 +677,39 @@ export function TutorDrawer() {
                 (!selectedQuestion &&
                   !messages.some((message) => message.sender === 'user' && !message.followUp))
               }
-              onClick={() => send(true)}
+              onClick={() => void send(true)}
             >
               <Layers size={15} />
               {ui.tutorDeep}
             </button>
+            {messages.some((message) => message.sender === 'user' && !message.followUp) && (
+              <>
+                <button
+                  type="button"
+                  className="button subtle"
+                  disabled={composerDisabled}
+                  onClick={() => void send(false, 'simpler')}
+                >
+                  {STYLE_BUTTONS[uiLanguage].simpler}
+                </button>
+                <button
+                  type="button"
+                  className="button subtle"
+                  disabled={composerDisabled}
+                  onClick={() => void send(false, 'another_example')}
+                >
+                  {STYLE_BUTTONS[uiLanguage].another_example}
+                </button>
+                <button
+                  type="button"
+                  className="button subtle"
+                  disabled={composerDisabled}
+                  onClick={() => void send(false, 'from_zero')}
+                >
+                  {STYLE_BUTTONS[uiLanguage].from_zero}
+                </button>
+              </>
+            )}
           </div>
           <form
             onSubmit={(event) => {
@@ -579,6 +763,7 @@ export function TutorDrawer() {
           </form>
         </div>
       </aside>
+      <RulesModal open={rulesOpen} language={uiLanguage} onClose={() => setRulesOpen(false)} />
     </div>
   );
 }

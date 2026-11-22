@@ -312,44 +312,49 @@ function Laptop({ placeScreen, progress, pointer, motion, compact }: SceneProps)
   const halo = useRef<Group>(null);
   const crystalRefs = useRef<(Group | null)[]>([]);
   const corner = useMemo(() => new Vector3(), []);
-  const intro = useRef(0);
-  const smoothProgress = useRef(0);
+  const smoothProgress = useRef(motion ? 0 : 0.25);
   const smoothPointer = useRef({ x: 0, y: 0 });
   const visibleCrystals = compact ? STORY_CRYSTALS.slice(0, 2) : STORY_CRYSTALS;
 
   useFrame(({ camera, size, clock }, delta) => {
     if (!rig.current || !lid.current) return;
-    const clampedDelta = Math.min(delta, 0.065);
-    if (motion) intro.current = Math.min(0.65, intro.current + clampedDelta);
-    const arrival = motion ? smoothstep(0, 0.65, intro.current) : 1;
-    const ease = motion ? Math.min(1, clampedDelta * 7.5) : 1;
+    const clampedDelta = Math.min(delta, 0.05);
+    // Framerate-independent exponential damping: balanced on both fast and slow scroll.
+    const damp = motion ? 1 - Math.exp(-clampedDelta * 8.5) : 1;
 
-    const targetProgress = motion ? progress.current : 0;
-    smoothProgress.current += (targetProgress - smoothProgress.current) * ease;
+    const targetProgress = motion ? progress.current : 0.25;
+    smoothProgress.current += (targetProgress - smoothProgress.current) * damp;
     const travel = smoothProgress.current;
 
-    smoothPointer.current.x += ((motion ? pointer.current.x : 0) - smoothPointer.current.x) * ease;
-    smoothPointer.current.y += ((motion ? pointer.current.y : 0) - smoothPointer.current.y) * ease;
+    smoothPointer.current.x += ((motion ? pointer.current.x : 0) - smoothPointer.current.x) * damp;
+    smoothPointer.current.y += ((motion ? pointer.current.y : 0) - smoothPointer.current.y) * damp;
 
-    // Smoothly orbit the laptop across steps 1→4 with subtle pointer response
-    const targetYaw = -0.26 - (1 - arrival) * 0.2 + travel * 0.52 + smoothPointer.current.x * 0.065;
-    const targetPitch = -0.02 + travel * 0.045 - smoothPointer.current.y * 0.035;
-    rig.current.rotation.y += (targetYaw - rig.current.rotation.y) * ease;
-    rig.current.rotation.x += (targetPitch - rig.current.rotation.x) * ease;
+    // Phase 1 (0 -> 0.16): lid smoothly opens from closed (+1.50 rad) to viewing angle (-0.15 rad).
+    // Phase 2 (0.16 -> 1.00): laptop stays centered with gentle orbit across all 10 story steps.
+    const openFactor = motion ? smoothstep(0.01, 0.16, travel) : 1;
+    const contentTravel = motion ? smoothstep(0.16, 1, travel) : 0;
+
+    const targetYaw = (-0.14 + contentTravel * 0.28) * openFactor + smoothPointer.current.x * 0.055;
+    const targetPitch =
+      0.06 * (1 - openFactor) +
+      (0.01 + contentTravel * 0.025) * openFactor -
+      smoothPointer.current.y * 0.028;
+    rig.current.rotation.y += (targetYaw - rig.current.rotation.y) * damp;
+    rig.current.rotation.x += (targetPitch - rig.current.rotation.x) * damp;
     rig.current.position.y =
-      -0.14 * (1 - arrival) + Math.sin(clock.elapsedTime * 0.7) * 0.025 * (motion ? 1 : 0);
+      0.16 * (1 - openFactor) + Math.sin(clock.elapsedTime * 0.7) * 0.02 * (motion ? 1 : 0);
 
-    // Smooth scroll-driven lid articulation around the real hinge pivot
+    // Realistic hinge articulation: starts closed flat onto keyboard deck, then opens cleanly.
     if (hinge.current) {
-      const targetLid = -0.25 + arrival * 0.07 + travel * 0.07;
-      hinge.current.rotation.x += (targetLid - hinge.current.rotation.x) * ease;
+      const targetLid = 1.5 * (1 - openFactor) + -0.15 * openFactor;
+      hinge.current.rotation.x += (targetLid - hinge.current.rotation.x) * damp;
     }
 
     // Parallax studio arc & faceted nodes behind the laptop
     if (halo.current) {
-      halo.current.rotation.z = -0.18 + travel * 0.42;
-      halo.current.position.y = -0.25 + travel * 0.24;
-      halo.current.scale.setScalar(1 + travel * 0.06);
+      halo.current.rotation.z = -0.18 + travel * 0.55;
+      halo.current.position.y = -0.18 + openFactor * 0.14;
+      halo.current.scale.setScalar(0.92 + openFactor * 0.1 + contentTravel * 0.05);
     }
     visibleCrystals.forEach((crystal, index) => {
       const node = crystalRefs.current[index];
@@ -359,23 +364,27 @@ function Laptop({ placeScreen, progress, pointer, motion, compact }: SceneProps)
         crystal.position[1] + crystal.parallax[1] * travel,
         crystal.position[2] + crystal.parallax[2] * travel,
       );
-      node.rotation.y = travel * (index % 2 === 0 ? 1.15 : -1.05);
-      node.rotation.x = travel * 0.5;
+      node.rotation.y = travel * (index % 2 === 0 ? 1.25 : -1.15);
+      node.rotation.x = travel * 0.55;
     });
 
+    // Centered studio framing with generous headroom so top screen text never clips.
     const ratio = size.width / Math.max(1, size.height);
-    const distance = Math.max(7.05, 1.72 + 4.55 / (0.63 * ratio)) + 0.34 * (1 - arrival);
-    const camX = (travel - 0.5) * 0.48 * (motion ? 1 : 0);
-    const camY = 2.02 - travel * 0.14;
-    const camZ = distance - travel * 0.26;
+    const distance = Math.max(8.05, 1.95 + 5.2 / (0.63 * ratio));
+    const camX = (contentTravel - 0.5) * 0.28 * openFactor * (motion ? 1 : 0);
+    const camY = 1.85 - openFactor * 0.32;
+    const camZ = distance - openFactor * 0.28;
     camera.position.set(camX, camY, camZ);
-    camera.lookAt(0, -0.46, 0.52);
-    placeScreen(projectGlass(lid.current, camera, size, corner), 1);
+    camera.lookAt(0, -0.14 - (1 - openFactor) * 0.35, 0.45);
+
+    // Power on screen content ONLY once the lid has realistically opened past 70%.
+    const screenOpacity = motion ? smoothstep(0.11, 0.18, travel) : 1;
+    placeScreen(projectGlass(lid.current, camera, size, corner), screenOpacity);
   });
 
   return (
     <>
-      <group ref={rig} rotation={[0, -0.44, 0]}>
+      <group ref={rig} rotation={[0.06, 0, 0]}>
         <LaptopHardware screenRef={lid} hingeRef={hinge} />
       </group>
       {/* Subtle Cobalt/Cyan architectural halo behind the laptop */}

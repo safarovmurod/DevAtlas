@@ -1,6 +1,7 @@
 import type { SupabaseClient, User } from '@supabase/supabase-js';
 import type { MembershipTier } from './entitlements';
 import { authenticatedUser } from '@/lib/account/require-user';
+import { isPrivilegedUser } from '@/lib/account/admin-users';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { serverMembership } from './entitlements';
 import { planForTier, planIncludes } from './plans';
@@ -10,16 +11,23 @@ export function communityResponse(data: unknown, status = 200) {
 }
 export async function requireMembership(
   request: Request,
-): Promise<{ failure: Response } | { client: SupabaseClient; user: User; tier: MembershipTier }> {
+): Promise<
+  | { failure: Response }
+  | { client: SupabaseClient; user: User; tier: MembershipTier; isPrivileged: boolean }
+> {
   const user = await authenticatedUser(request);
   if (!user) return { failure: communityResponse({ error: 'authentication_required' }, 401) };
   const client = getSupabaseServerClient(request.headers.get('authorization') || undefined);
   if (!client) return { failure: communityResponse({ error: 'service_unavailable' }, 503) };
+  const privileged = isPrivilegedUser(user);
+  if (privileged) {
+    return { client, user, tier: 'expert', isPrivileged: true };
+  }
   const membership = await serverMembership(client, user.id);
   if (!membership.available)
     return { failure: communityResponse({ error: 'service_unavailable' }, 503) };
   // Who may use the chat is FEATURE_PLAN.privateCommunity (now: every signed-in member).
   if (!planIncludes(planForTier(membership.tier), 'privateCommunity'))
     return { failure: communityResponse({ error: 'membership_required' }, 403) };
-  return { client, user, tier: membership.tier };
+  return { client, user, tier: membership.tier, isPrivileged: false };
 }

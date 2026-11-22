@@ -35,6 +35,15 @@ export type AdminMembership = {
   grantedAt: string | null;
 };
 
+export type AdminModeration = {
+  offTopicStrikes: number;
+  offTopicBlocked: boolean;
+  offTopicBlockedUntil: string | null;
+  profanityStrikes: number;
+  profanityBlocked: boolean;
+  profanityBlockedUntil: string | null;
+};
+
 export type AdminUserView = {
   id: string;
   email: string | null;
@@ -46,6 +55,7 @@ export type AdminUserView = {
   isOwner: boolean;
   bannedUntil: string | null;
   membership: AdminMembership | null;
+  moderation?: AdminModeration | null;
 };
 
 export type AdminAction =
@@ -57,13 +67,18 @@ export type AdminAction =
   | 'ban'
   | 'unban'
   | 'notify'
-  | 'delete_user';
+  | 'delete_user'
+  | 'moderation_reset'
+  | 'broadcast_notify';
 
 export const isAdminUser = (user: Pick<User, 'app_metadata'>) =>
   user.app_metadata?.app_role === 'admin';
 /** The owner flag is set only with SQL in the Supabase dashboard, never by the panel. */
 export const isOwnerUser = (user: Pick<User, 'app_metadata'>) =>
   user.app_metadata?.app_owner === true;
+/** True for server-verified owner or admin accounts (metadata cannot be forged by clients). */
+export const isPrivilegedUser = (user: Pick<User, 'app_metadata'> | null | undefined) =>
+  Boolean(user && (isOwnerUser(user) || isAdminUser(user)));
 
 export function activeBan(user: Pick<User, 'banned_until'>, now = Date.now()) {
   const until = user.banned_until ? new Date(user.banned_until).getTime() : NaN;

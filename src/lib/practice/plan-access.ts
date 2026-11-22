@@ -1,4 +1,5 @@
 import { authenticatedUser } from '@/lib/account/require-user';
+import { isPrivilegedUser } from '@/lib/account/admin-users';
 import { serverMembership } from '@/lib/billing/entitlements';
 import { FEATURE_PLAN, planForTier, planIncludes, type PlanFeature } from '@/lib/billing/plans';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
@@ -21,7 +22,8 @@ export async function practicePlanDenial(request: Request): Promise<Response | n
 }
 
 export type FeaturePlanAccessResult =
-  { denial: Response; userId?: never } | { denial: null; userId: string | null };
+  | { denial: Response; userId?: never; isPrivileged?: never }
+  | { denial: null; userId: string | null; isPrivileged: boolean };
 
 export async function featurePlanAccess(
   request: Request,
@@ -33,17 +35,21 @@ export async function featurePlanAccess(
   if (!client)
     return process.env.NODE_ENV === 'production'
       ? { denial: deny('service_unavailable', 503, feature) }
-      : { denial: null, userId: null };
+      : { denial: null, userId: null, isPrivileged: false };
   if (!authorization.startsWith('Bearer ') || !authorization.slice(7).trim())
     return { denial: deny('authentication_required', 401, feature) };
   try {
     const user = await authenticatedUser(request);
     if (!user) return { denial: deny('authentication_required', 401, feature) };
+    // Server-verified owner and admin accounts always have unrestricted platform access.
+    if (isPrivilegedUser(user)) {
+      return { denial: null, userId: user.id, isPrivileged: true };
+    }
     const membership = await serverMembership(client, user.id);
     if (!membership.available) return { denial: deny('service_unavailable', 503, feature) };
     if (!planIncludes(planForTier(membership.tier), feature))
       return { denial: deny('membership_required', 403, feature) };
-    return { denial: null, userId: user.id };
+    return { denial: null, userId: user.id, isPrivileged: false };
   } catch {
     return { denial: deny('service_unavailable', 503, feature) };
   }

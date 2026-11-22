@@ -1,10 +1,11 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Camera, Cloud, RefreshCw, Smartphone } from 'lucide-react';
+import { Camera, Cloud, Crown, RefreshCw, Smartphone } from 'lucide-react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { prepareAvatar } from '@/lib/account/avatar';
 import { accountStorageKey, mergeProgress, progressSnapshot } from '@/lib/account/progress';
+import { useMembershipStatus } from '@/components/courses/use-membership-status';
 import { useLearningStore } from '@/stores/learning-store';
 import { useAccount } from './account-provider';
 import { AccountAvatar } from './account-avatar';
@@ -17,7 +18,9 @@ const AVATAR_BUCKET = 'react-mentor-avatars';
 /** Settings → account: profile, photo, devices, two-factor security and sign-out. */
 export function AccountSettings() {
   const account = useAccount();
-  const copy = ACCOUNT_COPY[useLearningStore((state) => state.language)];
+  const membership = useMembershipStatus();
+  const language = useLearningStore((state) => state.language);
+  const copy = ACCOUNT_COPY[language];
 
   const [name, setName] = useState(account.profile?.displayName || '');
   const [busy, setBusy] = useState(false);
@@ -131,6 +134,43 @@ export function AccountSettings() {
             <strong>{account.profile?.displayName}</strong>
             <p>{account.user.email}</p>
           </div>
+        </div>
+        <div className="my-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-muted/45 px-4 py-3">
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-primary-soft text-brand">
+              <Crown size={18} aria-hidden="true" />
+            </span>
+            <div className="grid">
+              <strong className="text-sm">
+                {membership.plan === 'ultra'
+                  ? 'Ultra'
+                  : membership.plan === 'pro'
+                    ? 'Pro'
+                    : {
+                        tg: 'Start (бе подписка)',
+                        ru: 'Start (без подписки)',
+                        en: 'Start (Free)',
+                        es: 'Start (Gratis)',
+                      }[language]}
+                {membership.isPrivileged
+                  ? ` · ${{ tg: 'Соҳиб / Админ', ru: 'Владелец / Админ', en: 'Owner / Admin', es: 'Propietario / Admin' }[language]}`
+                  : ''}
+              </strong>
+              <span className="text-xs text-muted-foreground">
+                {membership.active && membership.expiresAt
+                  ? `${{ tg: 'Фаъол то', ru: 'Активна до', en: 'Active until', es: 'Activa hasta' }[language]} ${new Date(membership.expiresAt).toLocaleDateString(language === 'en' ? 'en-US' : language === 'es' ? 'es-ES' : 'ru-RU')}`
+                  : {
+                      tg: 'Тарифи асосии ройгон',
+                      ru: 'Базовый бесплатный тариф',
+                      en: 'Free starter plan',
+                      es: 'Plan gratuito básico',
+                    }[language]}
+              </span>
+            </div>
+          </div>
+          <Link href="/plans" className="button subtle">
+            {{ tg: 'Тарифҳо', ru: 'Тарифы', en: 'Plans', es: 'Planes' }[language]}
+          </Link>
         </div>
         <form className="account-form profile-form" onSubmit={save}>
           <label>

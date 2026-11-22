@@ -5,7 +5,6 @@ import { getRequestLocale } from '@/lib/request-locale';
 import { LANDING_COPY, PUBLIC_COPY } from '@/lib/public-copy';
 import { BRAND_NAME } from '@/lib/brand';
 import { landingDirections } from '@/lib/landing-directions';
-import { CATEGORY_ICONS } from '@/components/courses/category-icons';
 import { PublicHeader } from '@/components/layout/public-header';
 import { Brand } from '@/components/layout/brand';
 import { LazyHeroScene } from '@/components/landing/hero-scene-lazy';
@@ -17,8 +16,6 @@ const FAQ_LIMIT = 4;
 
 const sectionTitle =
   'text-[32px] leading-tight font-bold tracking-[-0.02em] text-white md:text-[44px]';
-const card =
-  'rounded-2xl border border-slate-400/15 bg-[#0e1526]/90 p-5 shadow-[0_12px_36px_-24px_rgba(2,6,23,0.9)]';
 const primaryLink =
   'inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f46e5] px-6 text-sm font-semibold text-white no-underline ring-1 ring-inset ring-white/15 shadow-[0_14px_34px_-12px_rgba(79,70,229,0.75)] transition-colors hover:bg-[#4338ca] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] motion-reduce:transition-none';
 const ghostLink =
@@ -109,42 +106,14 @@ export default async function Page() {
           </div>
         </section>
 
-        <ComputerStory title={landing.howTitle} brand={BRAND_NAME} story={landing.story} />
-
-        <section
-          id="directions"
-          aria-labelledby="public-directions-heading"
-          className="mx-auto max-w-[1200px] px-5 py-20 sm:px-6"
-        >
-          <h2 id="public-directions-heading" className={sectionTitle}>
-            {landing.directionTitle}
-          </h2>
-          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {directions.map((category) => {
-              const Icon = CATEGORY_ICONS[category.id];
-              return (
-                <Link
-                  key={category.id}
-                  href={`/courses/category/${category.id}`}
-                  className={`${card} group flex min-h-[82px] items-center gap-4 no-underline transition-all duration-300 hover:-translate-y-1 hover:border-[#38bdf8]/35 hover:bg-[#131d33] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38bdf8] motion-reduce:transition-none motion-reduce:hover:translate-y-0`}
-                >
-                  <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#4f46e5]/18 text-[#818cf8] ring-1 ring-inset ring-[#818cf8]/25 transition-colors group-hover:bg-[#4f46e5]/28 group-hover:text-[#38bdf8]">
-                    <Icon size={22} aria-hidden="true" />
-                  </span>
-                  <span className="flex-1">
-                    <strong className="block text-white">{category.label}</strong>
-                    <small className="text-slate-400">{category.countLabel}</small>
-                  </span>
-                  <ArrowRight
-                    size={16}
-                    aria-hidden="true"
-                    className="text-slate-400 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[#38bdf8] motion-reduce:transition-none"
-                  />
-                </Link>
-              );
-            })}
-          </div>
-        </section>
+        <ComputerStory
+          title={landing.howTitle}
+          directionTitle={landing.directionTitle}
+          brand={BRAND_NAME}
+          story={landing.story}
+          directions={directions}
+          locale={locale}
+        />
 
         <section
           id="faq"

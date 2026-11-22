@@ -22,6 +22,7 @@ import { useAccount } from '@/components/account/account-provider';
 import { AccountAvatar } from '@/components/account/account-avatar';
 import { courseDisplayName } from '@/lib/catalog-copy';
 import { CourseIcon } from '@/components/courses/course-icon';
+import { useMembershipStatus } from '@/components/courses/use-membership-status';
 import { useCourseProgress } from '@/lib/use-course-progress';
 // "Мой день" holds the lesson and its practice, "Повторение" holds revision and weak topics.
 // Tests and interviews are not a separate section: each day opens its own strict attempt.
@@ -111,6 +112,7 @@ const EXTRA_NAV = {
 const ADMIN_LABEL = { ru: 'Админ', en: 'Admin', tg: 'Админ', es: 'Admin' };
 export function Sidebar() {
   const account = useAccount();
+  const membership = useMembershipStatus();
   const pathname = usePathname();
   const open = useAppStore((state) => state.sidebarOpen);
   const collapsed = useAppStore((state) => state.desktopSidebarCollapsed);
@@ -339,7 +341,11 @@ export function Sidebar() {
             <AccountAvatar />
             <div>
               <strong>{account.profile?.displayName || labels.guest}</strong>
-              <span>{account.user ? labels.personal : labels.local}</span>
+              <span>
+                {account.user
+                  ? `${labels.personal} · ${membership.plan === 'ultra' ? 'Ultra' : membership.plan === 'pro' ? 'Pro' : 'Start'}`
+                  : labels.local}
+              </span>
             </div>
           </Link>
         </div>

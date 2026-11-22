@@ -54,7 +54,7 @@ function FlatComputer({ variant, screen }: { variant: ComputerVariant; screen: R
           <div ref={frame} className="relative aspect-[1000/625] overflow-hidden rounded-[10px]">
             <div
               className="absolute top-0 left-0 origin-top-left"
-              style={{ transform: `scale(${scale})`, visibility: scale ? 'visible' : 'hidden' }}
+              style={{ transform: `scale(${scale || 0.56})` }}
             >
               {screen}
             </div>

@@ -7,6 +7,7 @@ import { useLearningStore } from '@/stores/learning-store';
 import { COPY } from '@/lib/i18n';
 import { PageHeading } from '@/components/learning/page-heading';
 import { AccountSettings } from '@/components/account/account-settings';
+import { OnboardingBanner } from '@/components/onboarding/onboarding-banner';
 import { useAccount } from '@/components/account/account-provider';
 import { progressSnapshot } from '@/lib/account/progress';
 import { INTERFACE_LANGUAGE_NAMES, INTERFACE_LOCALES, type InterfaceLocale } from '@/lib/locale';
@@ -61,6 +62,7 @@ export default function SettingsPage() {
       <>
         <PageHeading title={copy.settings} subtitle={copy.settingsSubtitle} />
         <AccountSettings />
+        <OnboardingBanner />
         <section className="panel settings-panel">
           <div className="setting-row">
             <div className="setting-label">

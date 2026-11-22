@@ -15,6 +15,7 @@ import { CourseProgressCard } from './course-progress-card';
 import { durationParts, formatDay, progressCopy, type ProgressCopy } from './progress-copy';
 import { buildReportSources } from './report-sources';
 import { useCoursePlans } from './use-course-plans';
+import { StudyCalendar } from './study-calendar';
 import { WeekCard, type ReportLabels } from './week-card';
 import { WeeklyActivityChart } from './weekly-activity-chart';
 
@@ -55,9 +56,10 @@ export function ProgressReport() {
   const createdAt = account.user?.created_at;
   const registeredOn = createdAt ? dateKey(new Date(createdAt)) : null;
 
+  const sources = useMemo(() => buildReportSources(state), [state]);
   const report = useMemo(
-    () => buildProgressReport({ sources: buildReportSources(state), registeredOn, today }),
-    [state, registeredOn, today],
+    () => buildProgressReport({ sources, registeredOn, today }),
+    [sources, registeredOn, today],
   );
 
   const courseIds = report.courses
@@ -115,6 +117,16 @@ export function ProgressReport() {
       <p className="mt-3 text-sm text-muted-foreground">{startLine}</p>
 
       <WeeklyActivityChart weeks={report.weeks} today={today} locale={state.language} copy={copy} />
+
+      <StudyCalendar
+        sources={sources}
+        startDate={report.startDate}
+        today={today}
+        totalSeconds={report.totals.seconds}
+        primaryCourseTotal={report.courses[0]?.total ?? 30}
+        primaryCourseDone={report.courses[0]?.daysDone ?? 0}
+        locale={state.language}
+      />
 
       <div className="mt-6 space-y-4">
         {report.weeks.map((week) => (

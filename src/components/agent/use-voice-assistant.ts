@@ -8,6 +8,7 @@ import { guideLanguage } from '@/lib/agent/guide-text';
 import { matchVoiceCommand } from '@/lib/agent/voice-commands';
 import { spokenText } from '@/lib/agent/voice-answer';
 import type { InterfaceLocale } from '@/lib/locale';
+import type { TutorStrikeNotice } from '@/lib/tutor/shared';
 import { smalltalkKind, smalltalkLanguage, smalltalkReply } from '@/lib/tutor/smalltalk';
 import { useAppStore } from '@/stores/app-store';
 import { askTutor, tutorLanguage, type SpokenTurn } from './ask-tutor';
@@ -40,10 +41,27 @@ interface Progress {
   drafts?: Record<string, string>;
 }
 
+/** Extracts formatted code example blocks (fenced ``` or `Code:` sections) from a tutor reply. */
+export function extractCodeExamples(raw: string): string[] {
+  const examples: string[] = [];
+  const fenced = raw.matchAll(/```[a-z0-9+#-]*\n([\s\S]*?)```/gi);
+  for (const match of fenced) {
+    const code = match[1]?.trim();
+    if (code) examples.push(code);
+  }
+  if (examples.length === 0) {
+    const labeled = raw.match(/(?:^|\n)(?:Code|Код|Мисоли код):\s*\n([\s\S]+?)(?:\n\n|$)/i);
+    const code = labeled?.[1]?.trim();
+    if (code) examples.push(code);
+  }
+  return examples.slice(0, 2);
+}
+
 /**
  * The voice assistant's brain: listens once per tap, decides what was asked
  * (a command, a question about the site, a greeting or a course question),
- * speaks the answer and keeps a one-line caption of it.
+ * auto-navigates directly to matched course lessons, speaks with human studio voice
+ * while streaming live audio level for the 3D avatar, and displays typed explanations + code.
  */
 export function useVoiceAssistant({
   language,
@@ -66,8 +84,12 @@ export function useVoiceAssistant({
   const [phase, setPhase] = useState<VoicePhase>('idle');
   const [heard, setHeard] = useState('');
   const [caption, setCaption] = useState('');
+  const [codeExamples, setCodeExamples] = useState<string[]>([]);
   const [links, setLinks] = useState<AgentLink[]>([]);
   const [notice, setNotice] = useState<VoiceNotice>('');
+  const [warning, setWarning] = useState<TutorStrikeNotice | null>(null);
+  const [audioLevel, setAudioLevel] = useState(0);
+  const [navigatedHref, setNavigatedHref] = useState<string | null>(null);
 
   const recognition = useRef<Recognition | null>(null);
   const transcript = useRef('');
@@ -79,15 +101,34 @@ export function useVoiceAssistant({
   const latest = useRef<(text: string) => Promise<void>>(async () => undefined);
 
   const say = useCallback(
-    (text: string, nextLinks: AgentLink[] = [], textLanguage: InterfaceLocale = language) => {
+    (
+      text: string,
+      nextLinks: AgentLink[] = [],
+      textLanguage: InterfaceLocale = language,
+      options: { rawText?: string; preferServer?: boolean } = {},
+    ) => {
       const spoken = spokenText(text);
       const id = ++speechId.current;
       setCaption(spoken);
+      setCodeExamples(options.rawText ? extractCodeExamples(options.rawText) : []);
       setLinks(nextLinks.slice(0, 2));
       setPhase('speaking');
-      const started = speak(spoken, textLanguage, () => {
-        if (speechId.current === id) setPhase('idle');
-      });
+      const started = speak(
+        spoken,
+        textLanguage,
+        () => {
+          if (speechId.current === id) {
+            setAudioLevel(0);
+            setPhase('idle');
+          }
+        },
+        {
+          preferServer: options.preferServer,
+          onLevel: (lvl) => {
+            if (speechId.current === id) setAudioLevel(lvl);
+          },
+        },
+      );
       if (!started) {
         setNotice('noVoiceOutput');
         setPhase('idle');
@@ -111,32 +152,35 @@ export function useVoiceAssistant({
       else active.stop();
     }
     stopSpeaking();
+    setAudioLevel(0);
     setPhase('idle');
   }, []);
 
   const handle = async (text: string) => {
+    setNavigatedHref(null);
     const command = matchVoiceCommand(text, courseId);
     if (command?.type === 'stop') {
       cancelAll();
       return;
     }
-    if (command?.type === 'help') return say(copy.help);
+    if (command?.type === 'help') return say(copy.help, [], language, { preferServer: false });
     if (command?.type === 'tutor') {
-      say(copy.tutorOpened);
+      say(copy.tutorOpened, [], language, { preferServer: false });
       useAppStore.getState().setTutorDrawerOpen(true);
       return;
     }
     if (command?.type === 'navigate') {
-      say(copy.nav[command.target]);
+      say(copy.nav[command.target], [], language, { preferServer: false });
+      setNavigatedHref(command.href);
       router.push(command.href);
       return;
     }
     const talk = smalltalkKind(text);
-    if (talk === 'greeting') return say(copy.greeting);
-    if (talk === 'capabilities') return say(copy.help);
+    if (talk === 'greeting') return say(copy.greeting, [], language, { preferServer: false });
+    if (talk === 'capabilities') return say(copy.help, [], language, { preferServer: false });
     if (talk) {
       const spokenIn = smalltalkLanguage(text, tutorLanguage(language));
-      return say(smalltalkReply(talk, spokenIn, text), [], spokenIn);
+      return say(smalltalkReply(talk, spokenIn, text), [], spokenIn, { preferServer: false });
     }
 
     // Questions about the platform are answered by the guide, without a network request.
@@ -144,9 +188,10 @@ export function useVoiceAssistant({
       text,
       guideContext({ language, selectedCourse: courseId, progress: progress ?? NO_PROGRESS }),
     );
-    if (guide) return say(guide.reply, guide.links, guideLanguage(language));
+    if (guide)
+      return say(guide.reply, guide.links, guideLanguage(language), { preferServer: false });
 
-    // Questions about a topic go to the tutor, which keeps its own sign-in and budget gates.
+    // Questions about a topic go to the tutor, which keeps its own sign-in, moderation & budget gates.
     setPhase('thinking');
     const request = new AbortController();
     pending.current = request;
@@ -160,15 +205,25 @@ export function useVoiceAssistant({
         signal: request.signal,
       });
       if (request.signal.aborted) return;
-      if (reply.kind !== 'error')
+      if (reply.warning) setWarning(reply.warning);
+      if (reply.kind !== 'error' && !reply.warning) {
         turns.current = [
           ...turns.current,
           { role: 'user' as const, content: text },
           { role: 'assistant' as const, content: reply.text },
         ].slice(-4);
-      say(reply.text, reply.links, reply.kind === 'error' ? language : tutorLanguage(language));
+      }
+      // Auto-navigate directly to the matched lesson page when a DevAtlas course topic is found.
+      if (reply.primaryHref && !reply.warning) {
+        setNavigatedHref(reply.primaryHref);
+        router.push(reply.primaryHref);
+      }
+      say(reply.text, reply.links, reply.kind === 'error' ? language : tutorLanguage(language), {
+        rawText: reply.text,
+        preferServer: true,
+      });
     } catch {
-      if (!request.signal.aborted) say(copy.unavailable);
+      if (!request.signal.aborted) say(copy.unavailable, [], language, { preferServer: false });
     } finally {
       if (pending.current === request) pending.current = null;
     }
@@ -243,13 +298,29 @@ export function useVoiceAssistant({
     failed.current = false;
     setHeard('');
     setCaption('');
+    setCodeExamples([]);
     setLinks([]);
     setNotice('');
+    setNavigatedHref(null);
     listen(SPEECH_LOCALE[language], language === 'tg');
   }, [cancelAll, language, listen]);
 
   // Leaving the page stops listening, speaking and any pending answer.
   useEffect(() => cancelAll, [cancelAll]);
 
-  return { supported, phase, heard, caption, links, notice, start, stop: cancelAll };
+  return {
+    supported,
+    phase,
+    heard,
+    caption,
+    codeExamples,
+    links,
+    notice,
+    warning,
+    setWarning,
+    audioLevel,
+    navigatedHref,
+    start,
+    stop: cancelAll,
+  };
 }

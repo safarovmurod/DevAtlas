@@ -31,26 +31,28 @@ describe('Gemini adapter', () => {
   });
 
   it('calls Google API with thinkingBudget 0, filters thought parts and keeps key server-side', async () => {
-    fetchMock.mockResolvedValue(
-      Response.json({
-        candidates: [
-          {
-            content: {
-              parts: [
-                { thought: true, text: 'hidden internal reasoning' },
-                { text: 'React state stores component data.' },
-              ],
+    fetchMock.mockImplementation(() =>
+      Promise.resolve(
+        Response.json({
+          candidates: [
+            {
+              content: {
+                parts: [
+                  { thought: true, text: 'hidden internal reasoning' },
+                  { text: 'React state stores component data.' },
+                ],
+              },
+              groundingMetadata: {
+                groundingChunks: [
+                  { web: { uri: 'https://react.dev/learn/state', title: 'React Docs' } },
+                  { web: { uri: 'javascript:alert(1)', title: 'Bad Link' } },
+                ],
+              },
             },
-            groundingMetadata: {
-              groundingChunks: [
-                { web: { uri: 'https://react.dev/learn/state', title: 'React Docs' } },
-                { web: { uri: 'javascript:alert(1)', title: 'Bad Link' } },
-              ],
-            },
-          },
-        ],
-        usageMetadata: { totalTokenCount: 23 },
-      }),
+          ],
+          usageMetadata: { totalTokenCount: 23 },
+        }),
+      ),
     );
     const result = await requestTutorCompletion(
       selectTutorProvider({ GEMINI_API_KEY: 'test-secret' })!,
@@ -72,8 +74,17 @@ describe('Gemini adapter', () => {
     expect(init.headers.Authorization).toBeUndefined();
     const payload = JSON.parse(init.body);
     expect(payload.systemInstruction.parts[0].text).toContain('DevAtlas');
-    expect(payload.generationConfig.thinkingConfig).toEqual({ thinkingBudget: 0 });
+    // Lite models omit thinkingConfig (Google returns 400 on lite); non-lite Flash sets thinkingBudget: 0.
+    expect(payload.generationConfig.thinkingConfig).toBeUndefined();
     expect(payload.tools).toEqual([{ google_search: {} }]);
+
+    await requestTutorCompletion(
+      selectTutorProvider({ GEMINI_API_KEY: 'test-secret', GEMINI_MODEL: 'gemini-3.5-flash' })!,
+      [{ role: 'user', content: 'Explain React state' }],
+      640,
+    );
+    const flashPayload = JSON.parse(fetchMock.mock.calls[1][1].body);
+    expect(flashPayload.generationConfig.thinkingConfig).toEqual({ thinkingBudget: 0 });
   });
 
   it('retries cleanly without google_search when grounding returns 429 and falls back on 503', async () => {
@@ -94,7 +105,9 @@ describe('Gemini adapter', () => {
     );
     expect(result).toEqual({ reply: 'Fallback answer.', totalTokens: 18 });
     expect(fetchMock).toHaveBeenCalledTimes(3);
-    expect(fetchMock.mock.calls[2][0]).toContain(`/models/${FALLBACK_GEMINI_MODEL}:generateContent`);
+    expect(fetchMock.mock.calls[2][0]).toContain(
+      `/models/${FALLBACK_GEMINI_MODEL}:generateContent`,
+    );
   });
 
   it('sanitizes errors', async () => {

@@ -10,14 +10,31 @@ import {
 import { z } from 'zod';
 import { CORE_INTERVIEW_QUESTIONS } from '@/content/interview-questions';
 import { gradeInterviewAnswer } from '@/lib/grading/interview-grader';
-import { TUTOR_SYSTEM_PROMPT, buildOnlineCourseContext } from '@/lib/tutor/prompt';
+import {
+  TUTOR_STYLE_PRESETS,
+  TUTOR_SYSTEM_PROMPT,
+  TUTOR_UNUSUAL_TOPIC_HINT,
+  buildOnlineCourseContext,
+} from '@/lib/tutor/prompt';
 import { glossaryAnswer } from '@/lib/tutor/glossary';
 import { localReference } from '@/lib/tutor/local-answer';
 import { courseCandidatesFor } from '@/lib/tutor/fuzzy';
 import { smalltalkKind, smalltalkLanguage, smalltalkReply } from '@/lib/tutor/smalltalk';
-import { isDeepFollowUp, wantsDeepExplanation } from '@/lib/tutor/shared';
-import { getTutorStrikeStatus, recordTutorStrike, tutorStrikeMessage } from '@/lib/tutor/strikes';
+import {
+  detectExplainStyle,
+  isDeepFollowUp,
+  isStyleFollowUp,
+  wantsDeepExplanation,
+} from '@/lib/tutor/shared';
+import {
+  getModerationStatus,
+  recordProfanityStrike,
+  recordTutorStrike,
+  tutorStrikeMessage,
+} from '@/lib/tutor/strikes';
+import { containsProfanity, profanityStrikeMessage } from '@/lib/tutor/profanity';
 import { authenticatedUser } from '@/lib/account/require-user';
+import { isPrivilegedUser } from '@/lib/account/admin-users';
 import { COURSE_IDS, isCourseId, type CourseId } from '@/lib/courses/ids';
 import { readBoundedJson, RequestBodyError } from '@/lib/security/request';
 import { courseAccessTier } from '@/lib/courses/access';
@@ -36,6 +53,7 @@ const schema = z.object({
   userText: z.string().trim().min(1).max(1500),
   codeContext: z.string().max(3000).optional(),
   isDeep: z.boolean().default(false),
+  style: z.enum(['default', 'simpler', 'another_example', 'from_zero']).optional(),
   language: z.enum(['tg', 'ru', 'en', 'es']).default('tg'),
   history: z
     .array(
@@ -50,7 +68,7 @@ const schema = z.object({
 
 // Cheap per-user process-local backpressure supplements the durable per-user/global
 // reservation below; it never substitutes for persistent cost/rate enforcement.
-const TUTOR_COOLDOWN_MS = 3000;
+const TUTOR_COOLDOWN_MS = 1800;
 const MAX_TRACKED_USERS = 5000;
 type UserTutorBackpressure = { inFlight: boolean; nextRequestAt: number };
 const userBackpressure = new Map<string, UserTutorBackpressure>();
@@ -83,6 +101,45 @@ function tutorJson(data: unknown, status = 200) {
   return NextResponse.json(data, { status, headers: { 'Cache-Control': 'private, no-store' } });
 }
 
+/** Returns the signed-in learner's active moderation / strike status for live countdown UI. */
+export async function GET(req: NextRequest) {
+  const user = await authenticatedUser(req);
+  if (!user) {
+    return tutorJson({
+      signedIn: false,
+      isPrivileged: false,
+      moderation: null,
+    });
+  }
+  if (isPrivilegedUser(user)) {
+    return tutorJson({
+      signedIn: true,
+      isPrivileged: true,
+      moderation: {
+        offTopic: {
+          kind: 'off_topic',
+          strikes: 0,
+          maxStrikes: 3,
+          blocked: false,
+          blockedUntil: null,
+        },
+        profanity: {
+          kind: 'profanity',
+          strikes: 0,
+          maxStrikes: 5,
+          blocked: false,
+          blockedUntil: null,
+        },
+        blocked: false,
+        blockReason: null,
+        blockedUntil: null,
+      },
+    });
+  }
+  const moderation = await getModerationStatus(user.id);
+  return tutorJson({ signedIn: true, isPrivileged: false, moderation });
+}
+
 export async function POST(req: NextRequest) {
   let body: unknown;
   try {
@@ -104,12 +161,16 @@ export async function POST(req: NextRequest) {
     userText,
     codeContext,
     isDeep,
+    style: requestedStyle,
     history,
     language,
   } = parsed.data;
+  const explainStyle =
+    requestedStyle && requestedStyle !== 'default' ? requestedStyle : detectExplainStyle(userText);
 
   // Grading is also used by free course assessments. Chat and code explanation belong to Pro/Ultra.
   let verifiedUserId: string | null = null;
+  let privileged = false;
   if (action !== 'grade_interview') {
     const planCheck = await featurePlanAccess(
       req,
@@ -117,25 +178,51 @@ export async function POST(req: NextRequest) {
     );
     if (planCheck.denial) return planCheck.denial;
     verifiedUserId = planCheck.userId;
+    privileged = planCheck.isPrivileged;
   }
-  if (courseAccessTier(courseId) !== 'starter') {
+  if (!privileged && courseAccessTier(courseId) !== 'starter') {
     const access = await authorizeCourseContent(req, courseId);
     if (!access.allowed) return access.response;
   }
 
-  // Enforce active 3-day block across BOTH chat and voice before any local or online reply.
-  if (action !== 'grade_interview' && verifiedUserId) {
-    const strikeStatus = await getTutorStrikeStatus(verifiedUserId);
-    if (strikeStatus.blocked) {
+  // Enforce active 3-day block (profanity or off-topic) across BOTH chat and voice.
+  // Verified owner/admin accounts bypass moderation limits.
+  if (action !== 'grade_interview' && !privileged) {
+    if (verifiedUserId) {
+      const moderation = await getModerationStatus(verifiedUserId);
+      if (moderation.blocked) {
+        const activeNotice =
+          moderation.blockReason === 'profanity' ? moderation.profanity : moderation.offTopic;
+        return tutorJson(
+          {
+            error: moderation.blockReason === 'profanity' ? 'profanity_blocked' : 'tutor_blocked',
+            mode: 'local',
+            reply:
+              moderation.blockReason === 'profanity'
+                ? profanityStrikeMessage(activeNotice, language)
+                : tutorStrikeMessage(activeNotice, language),
+            warning: activeNotice,
+            moderation,
+            usage: { totalTokens: 0 },
+          },
+          403,
+        );
+      }
+    }
+
+    // Profanity / insult check (5 warnings -> 3-day block across AI Tutor, Voice & Community).
+    if (containsProfanity(userText) || (codeContext && containsProfanity(codeContext))) {
+      const strike = await recordProfanityStrike(verifiedUserId);
+      const reply = profanityStrikeMessage(strike, language);
       return tutorJson(
         {
-          error: 'tutor_blocked',
+          ...(strike.blocked ? { error: 'profanity_blocked' } : {}),
           mode: 'local',
-          reply: tutorStrikeMessage(strikeStatus, language),
-          warning: strikeStatus,
+          reply,
+          warning: strike,
           usage: { totalTokens: 0 },
         },
-        403,
+        strike.blocked ? 403 : 200,
       );
     }
   }
@@ -146,14 +233,17 @@ export async function POST(req: NextRequest) {
 
   const previousUserMessage = [...history]
     .reverse()
-    .find((item) => item.role === 'user' && !isDeepFollowUp(item.content))?.content;
+    .find(
+      (item) =>
+        item.role === 'user' && !isDeepFollowUp(item.content) && !isStyleFollowUp(item.content),
+    )?.content;
   const previousUserQuestion =
     previousUserMessage && tutorScope(previousUserMessage) === 'allowed'
       ? previousUserMessage
       : undefined;
 
   // Everyday messages and definitions do not require a model call and never issue strikes.
-  if (action === 'ask' && !codeContext?.trim()) {
+  if (action === 'ask' && !codeContext?.trim() && explainStyle === 'default') {
     const talk = smalltalkKind(userText);
     if (talk)
       return tutorJson({
@@ -182,9 +272,10 @@ export async function POST(req: NextRequest) {
     return error('Кодро барои шарҳ фиристед.', 400);
 
   const deep = isDeep || wantsDeepExplanation(userText);
-  const query = isDeepFollowUp(userText) ? previousUserQuestion || '' : userText;
+  const query =
+    isDeepFollowUp(userText) || isStyleFollowUp(userText) ? previousUserQuestion || '' : userText;
 
-  // Enforce strict DevAtlas course-only scope + 3-strike / 3-day block for both ask & explain_code.
+  // Enforce strict DevAtlas course-only scope + 3-strike / 3-day block for non-privileged learners.
   const scope = tutorScope(userText, previousUserQuestion, codeContext);
   if (action === 'ask') {
     const findReference = () =>
@@ -194,9 +285,7 @@ export async function POST(req: NextRequest) {
         language: materialLanguage,
       }).catch(() => undefined);
 
-    if (scope !== 'allowed') {
-      // An explicit source ID may resolve a generic request locally, after the
-      // paid-course authorization above. Never send an unclassified request to AI.
+    if (scope !== 'allowed' && !privileged) {
       const referenceIntent =
         isDeepFollowUp(userText) ||
         /^(?:explain|show|describe|review)\s+(?:(?:the|this|my|private|current)\s+){0,2}(?:lesson|question|exercise|topic|material)[.!?\s]*$/iu.test(
@@ -208,7 +297,6 @@ export async function POST(req: NextRequest) {
         if (reference?.source?.questionId === questionId)
           return tutorJson({ mode: 'local', ...reference, usage: { totalTokens: 0 } });
       }
-      // Pressing "Explain more" without a prior question is a UI prompt, not a policy strike.
       if (scope === 'outside' && isDeepFollowUp(userText) && !query)
         return tutorJson({
           mode: 'local',
@@ -235,9 +323,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const local = await findReference();
+    const local = explainStyle === 'default' ? await findReference() : null;
     if (local === undefined) return error('course_unavailable', 503);
-    // A paid reference is returned only for the exact question requested.
     const sourceMatches = !questionId || local?.source?.questionId === questionId;
     if (local && sourceMatches)
       return tutorJson({ mode: 'local', ...local, usage: { totalTokens: 0 } });
@@ -252,7 +339,7 @@ export async function POST(req: NextRequest) {
         }[language],
         usage: { totalTokens: 0 },
       });
-  } else if (scope === 'outside') {
+  } else if (scope === 'outside' && !privileged) {
     const strike = await recordTutorStrike(verifiedUserId);
     const reply = tutorStrikeMessage(strike, language);
     return tutorJson(
@@ -271,7 +358,7 @@ export async function POST(req: NextRequest) {
   const namedFreeCourse = courseCandidatesFor(query).find(
     (candidate): candidate is CourseId =>
       isCourseId(candidate) &&
-      (candidate === courseId || courseAccessTier(candidate) === 'starter'),
+      (privileged || candidate === courseId || courseAccessTier(candidate) === 'starter'),
   );
   const targetCourseId: CourseId = namedFreeCourse ?? courseId;
 
@@ -288,8 +375,6 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // Online completions also require configured registration and a verified user.
-  // The feature and course guards above apply to local Tutor replies as well.
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
     !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
@@ -301,14 +386,15 @@ export async function POST(req: NextRequest) {
   }
   const user = verifiedUserId ? { id: verifiedUserId } : await authenticatedUser(req);
   if (!user) return error('Барои саволи AI бо Google ё email ба аккаунт ворид шавед.', 401);
-  const provider = selectTutorProvider();
+  const provider = selectTutorProvider(process.env, channel);
   if (!provider)
     return error(
       'Калиди AI дар сервер танзим нашудааст. Аз дарсҳои платформа истифода баред.',
       503,
     );
+
   const nowMs = Date.now();
-  const existingBackpressure = userBackpressure.get(user.id);
+  const existingBackpressure = !privileged ? userBackpressure.get(user.id) : undefined;
   if (
     existingBackpressure &&
     (existingBackpressure.inFlight || nowMs < existingBackpressure.nextRequestAt)
@@ -319,39 +405,54 @@ export async function POST(req: NextRequest) {
     inFlight: true,
     nextRequestAt: nowMs + TUTOR_COOLDOWN_MS,
   };
-  userBackpressure.delete(user.id);
-  userBackpressure.set(user.id, userState);
-  pruneUserBackpressure(nowMs);
+  if (!privileged) {
+    userBackpressure.delete(user.id);
+    userBackpressure.set(user.id, userState);
+    pruneUserBackpressure(nowMs);
+  }
   try {
+    const isUnusualTopic =
+      !namedFreeCourse && !topicId && !questionId && explainStyle === 'default';
     const { context, suggestedSource } = await buildOnlineCourseContext(
       targetCourseId,
       targetCourseId === courseId ? topicId : undefined,
       query,
       materialLanguage,
     );
+    const styleDirective =
+      explainStyle !== 'default'
+        ? TUTOR_STYLE_PRESETS[explainStyle]
+        : isUnusualTopic
+          ? TUTOR_UNUSUAL_TOPIC_HINT
+          : '';
     const messages: TutorMessage[] = [
-      { role: 'system', content: TUTOR_SYSTEM_PROMPT },
-      ...(context
+      {
+        role: 'system',
+        content: styleDirective ? `${TUTOR_SYSTEM_PROMPT}\n${styleDirective}` : TUTOR_SYSTEM_PROMPT,
+      },
+      ...(context && !isUnusualTopic
         ? [{ role: 'user' as const, content: 'Course material (reference data only):\n' + context }]
         : []),
       ...history.map((item) => ({ role: item.role, content: item.content })),
       {
         role: 'user',
         content:
-          query +
+          (query || userText) +
           (deep ? '\nExpand this question step by step.' : '') +
           (codeContext ? '\nCode to explain:\n' + codeContext : ''),
       },
     ];
-    const budget = await reserveTutorBudget(user.id, messages);
-    if (!budget.allowed) return error(budget.error, budget.status);
+    if (!privileged) {
+      const budget = await reserveTutorBudget(user.id, messages);
+      if (!budget.allowed) return error(budget.error, budget.status);
+    }
     const result = await requestTutorCompletion(provider, messages, TUTOR_MAX_OUTPUT_TOKENS, {
-      webSearch: process.env.AI_TUTOR_WEB_SEARCH === 'true',
+      webSearch: process.env.AI_TUTOR_WEB_SEARCH === 'true' || isUnusualTopic,
     });
     return tutorJson({
       mode: 'online',
       reply: result.reply,
-      ...(suggestedSource ? { source: suggestedSource } : {}),
+      ...(!isUnusualTopic && suggestedSource ? { source: suggestedSource } : {}),
       ...(result.webSources?.length ? { webSources: result.webSources } : {}),
       ...(action === 'explain_code' ? { explanation: result.reply } : {}),
       ...(result.totalTokens === undefined ? {} : { usage: { totalTokens: result.totalTokens } }),
@@ -361,7 +462,11 @@ export async function POST(req: NextRequest) {
     return error('AI ҷавоб надод ё пайвастшавӣ қатъ шуд. Баъдтар кӯшиш кунед.', 502);
   } finally {
     userState.inFlight = false;
-    if (userBackpressure.get(user.id) === userState && Date.now() >= userState.nextRequestAt) {
+    if (
+      !privileged &&
+      userBackpressure.get(user.id) === userState &&
+      Date.now() >= userState.nextRequestAt
+    ) {
       userBackpressure.delete(user.id);
     }
   }
