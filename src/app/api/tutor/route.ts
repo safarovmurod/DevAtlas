@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { reserveTutorBudget, TUTOR_MAX_OUTPUT_TOKENS } from '@/lib/tutor/quota';
-import { tutorScope, tutorScopeReply } from '@/lib/tutor/scope';
+import { tutorScope } from '@/lib/tutor/scope';
 import {
   selectTutorProvider,
   requestTutorCompletion,
@@ -10,18 +10,19 @@ import {
 import { z } from 'zod';
 import { CORE_INTERVIEW_QUESTIONS } from '@/content/interview-questions';
 import { gradeInterviewAnswer } from '@/lib/grading/interview-grader';
-import { TUTOR_SYSTEM_PROMPT, tutorContext } from '@/lib/tutor/prompt';
+import { TUTOR_SYSTEM_PROMPT, buildOnlineCourseContext } from '@/lib/tutor/prompt';
 import { glossaryAnswer } from '@/lib/tutor/glossary';
 import { localReference } from '@/lib/tutor/local-answer';
+import { courseCandidatesFor } from '@/lib/tutor/fuzzy';
 import { smalltalkKind, smalltalkLanguage, smalltalkReply } from '@/lib/tutor/smalltalk';
 import { isDeepFollowUp, wantsDeepExplanation } from '@/lib/tutor/shared';
+import { getTutorStrikeStatus, recordTutorStrike, tutorStrikeMessage } from '@/lib/tutor/strikes';
 import { authenticatedUser } from '@/lib/account/require-user';
-import { COURSE_IDS } from '@/lib/courses/ids';
-import { courseName } from '@/content/courses/catalog';
+import { COURSE_IDS, isCourseId, type CourseId } from '@/lib/courses/ids';
 import { readBoundedJson, RequestBodyError } from '@/lib/security/request';
 import { courseAccessTier } from '@/lib/courses/access';
 import { authorizeCourseContent } from '@/lib/courses/access-server';
-import { featurePlanDenial } from '@/lib/practice/plan-access';
+import { featurePlanAccess } from '@/lib/practice/plan-access';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -78,8 +79,8 @@ function error(message: string, status: number) {
   );
 }
 
-function tutorJson(data: unknown) {
-  return NextResponse.json(data, { headers: { 'Cache-Control': 'private, no-store' } });
+function tutorJson(data: unknown, status = 200) {
+  return NextResponse.json(data, { status, headers: { 'Cache-Control': 'private, no-store' } });
 }
 
 export async function POST(req: NextRequest) {
@@ -106,15 +107,39 @@ export async function POST(req: NextRequest) {
     history,
     language,
   } = parsed.data;
-  // Grading is also used by free course assessments. Chat and code explanation belong to Pro.
+
+  // Grading is also used by free course assessments. Chat and code explanation belong to Pro/Ultra.
+  let verifiedUserId: string | null = null;
   if (action !== 'grade_interview') {
-    const denied = await featurePlanDenial(req, channel === 'voice' ? 'voiceAssistant' : 'aiTutor');
-    if (denied) return denied;
+    const planCheck = await featurePlanAccess(
+      req,
+      channel === 'voice' ? 'voiceAssistant' : 'aiTutor',
+    );
+    if (planCheck.denial) return planCheck.denial;
+    verifiedUserId = planCheck.userId;
   }
   if (courseAccessTier(courseId) !== 'starter') {
     const access = await authorizeCourseContent(req, courseId);
     if (!access.allowed) return access.response;
   }
+
+  // Enforce active 3-day block across BOTH chat and voice before any local or online reply.
+  if (action !== 'grade_interview' && verifiedUserId) {
+    const strikeStatus = await getTutorStrikeStatus(verifiedUserId);
+    if (strikeStatus.blocked) {
+      return tutorJson(
+        {
+          error: 'tutor_blocked',
+          mode: 'local',
+          reply: tutorStrikeMessage(strikeStatus, language),
+          warning: strikeStatus,
+          usage: { totalTokens: 0 },
+        },
+        403,
+      );
+    }
+  }
+
   // Lessons exist in Tajik, Russian and English. A Spanish interface reads them in
   // English; greetings, definitions and system replies are written in Spanish.
   const materialLanguage = language === 'es' ? 'en' : language;
@@ -127,7 +152,7 @@ export async function POST(req: NextRequest) {
       ? previousUserMessage
       : undefined;
 
-  // Everyday messages and definitions do not require a model call.
+  // Everyday messages and definitions do not require a model call and never issue strikes.
   if (action === 'ask' && !codeContext?.trim()) {
     const talk = smalltalkKind(userText);
     if (talk)
@@ -158,13 +183,17 @@ export async function POST(req: NextRequest) {
 
   const deep = isDeep || wantsDeepExplanation(userText);
   const query = isDeepFollowUp(userText) ? previousUserQuestion || '' : userText;
+
+  // Enforce strict DevAtlas course-only scope + 3-strike / 3-day block for both ask & explain_code.
+  const scope = tutorScope(userText, previousUserQuestion, codeContext);
   if (action === 'ask') {
-    const findReference = () => localReference(courseId, query, {
-      questionId,
-      deep,
-      language: materialLanguage,
-    }).catch(() => undefined);
-    const scope = tutorScope(userText, previousUserQuestion, codeContext);
+    const findReference = () =>
+      localReference(courseId, query, {
+        questionId,
+        deep,
+        language: materialLanguage,
+      }).catch(() => undefined);
+
     if (scope !== 'allowed') {
       // An explicit source ID may resolve a generic request locally, after the
       // paid-course authorization above. Never send an unclassified request to AI.
@@ -179,6 +208,7 @@ export async function POST(req: NextRequest) {
         if (reference?.source?.questionId === questionId)
           return tutorJson({ mode: 'local', ...reference, usage: { totalTokens: 0 } });
       }
+      // Pressing "Explain more" without a prior question is a UI prompt, not a policy strike.
       if (scope === 'outside' && isDeepFollowUp(userText) && !query)
         return tutorJson({
           mode: 'local',
@@ -190,12 +220,21 @@ export async function POST(req: NextRequest) {
           }[language],
           usage: { totalTokens: 0 },
         });
-      return tutorJson({
-        mode: 'local',
-        reply: tutorScopeReply[language][scope],
-        usage: { totalTokens: 0 },
-      });
+
+      const strike = await recordTutorStrike(verifiedUserId);
+      const reply = tutorStrikeMessage(strike, language);
+      return tutorJson(
+        {
+          ...(strike.blocked ? { error: 'tutor_blocked' } : {}),
+          mode: 'local',
+          reply,
+          warning: strike,
+          usage: { totalTokens: 0 },
+        },
+        strike.blocked ? 403 : 200,
+      );
     }
+
     const local = await findReference();
     if (local === undefined) return error('course_unavailable', 503);
     // A paid reference is returned only for the exact question requested.
@@ -213,13 +252,29 @@ export async function POST(req: NextRequest) {
         }[language],
         usage: { totalTokens: 0 },
       });
+  } else if (scope === 'outside') {
+    const strike = await recordTutorStrike(verifiedUserId);
+    const reply = tutorStrikeMessage(strike, language);
+    return tutorJson(
+      {
+        ...(strike.blocked ? { error: 'tutor_blocked' } : {}),
+        mode: 'local',
+        reply,
+        warning: strike,
+        usage: { totalTokens: 0 },
+      },
+      strike.blocked ? 403 : 200,
+    );
   }
-  const context =
-    courseId === 'react'
-      ? tutorContext(topicId, query)
-      : 'Selected course: ' +
-        courseName(courseId) +
-        '. Answer for this course. No matching published course reference was found; do not claim to have read Telegram files.';
+
+  // Pick the best target course for focused online context (never loading all 43 courses).
+  const namedFreeCourse = courseCandidatesFor(query).find(
+    (candidate): candidate is CourseId =>
+      isCourseId(candidate) &&
+      (candidate === courseId || courseAccessTier(candidate) === 'starter'),
+  );
+  const targetCourseId: CourseId = namedFreeCourse ?? courseId;
+
   if (process.env.AI_TUTOR_ENABLED !== 'true') {
     return tutorJson({
       mode: 'local',
@@ -232,15 +287,19 @@ export async function POST(req: NextRequest) {
       usage: { totalTokens: 0 },
     });
   }
+
   // Online completions also require configured registration and a verified user.
   // The feature and course guards above apply to local Tutor replies as well.
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()) {
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
+  ) {
     return error(
       'Воридшавӣ ба аккаунт ҳоло пайваст нашудааст. AI баъди пайваст шудани воридшавӣ дастрас мешавад.',
       503,
     );
   }
-  const user = await authenticatedUser(req);
+  const user = verifiedUserId ? { id: verifiedUserId } : await authenticatedUser(req);
   if (!user) return error('Барои саволи AI бо Google ё email ба аккаунт ворид шавед.', 401);
   const provider = selectTutorProvider();
   if (!provider)
@@ -264,6 +323,12 @@ export async function POST(req: NextRequest) {
   userBackpressure.set(user.id, userState);
   pruneUserBackpressure(nowMs);
   try {
+    const { context, suggestedSource } = await buildOnlineCourseContext(
+      targetCourseId,
+      targetCourseId === courseId ? topicId : undefined,
+      query,
+      materialLanguage,
+    );
     const messages: TutorMessage[] = [
       { role: 'system', content: TUTOR_SYSTEM_PROMPT },
       ...(context
@@ -280,10 +345,14 @@ export async function POST(req: NextRequest) {
     ];
     const budget = await reserveTutorBudget(user.id, messages);
     if (!budget.allowed) return error(budget.error, budget.status);
-    const result = await requestTutorCompletion(provider, messages, TUTOR_MAX_OUTPUT_TOKENS);
+    const result = await requestTutorCompletion(provider, messages, TUTOR_MAX_OUTPUT_TOKENS, {
+      webSearch: process.env.AI_TUTOR_WEB_SEARCH === 'true',
+    });
     return tutorJson({
       mode: 'online',
       reply: result.reply,
+      ...(suggestedSource ? { source: suggestedSource } : {}),
+      ...(result.webSources?.length ? { webSources: result.webSources } : {}),
       ...(action === 'explain_code' ? { explanation: result.reply } : {}),
       ...(result.totalTokens === undefined ? {} : { usage: { totalTokens: result.totalTokens } }),
     });

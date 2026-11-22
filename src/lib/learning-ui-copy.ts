@@ -89,7 +89,9 @@ const ru = {
     'Не удалось проверить лимит AI. Попробуйте позже; материалы курса доступны.',
   tutorBudgetLimit:
     'Достигнут лимит AI или частоты запросов. Повторите позже; материалы курса доступны.',
-  tutorQuota: 'Лимит или токены AnyModel закончились. Проверьте аккаунт провайдера.',
+  tutorQuota: 'Лимит или токены AI-провайдера закончились. Проверьте аккаунт провайдера.',
+  tutorBlocked:
+    'Доступ к AI Tutor временно заблокирован на 3 дня из-за 3 предупреждений вне тем курсов. Уроки и тесты остаются открыты.',
   tutorUnreadable: 'AI не прислал читаемый ответ. Попробуйте позже.',
   promptReact: 'Для чего нужен useState?',
   promptTopic: 'Подробно объясни первую тему курса.',
@@ -132,6 +134,7 @@ export type TutorErrorKey =
   | 'tutorBusy'
   | 'tutorRejected'
   | 'tutorQuota'
+  | 'tutorBlocked'
   | 'tutorUnreadable'
   | 'tutorBudgetConfig'
   | 'tutorBudgetUnavailable'
@@ -147,6 +150,7 @@ export function lessonTranslationNotice(locale: InterfaceLocale): string | null 
 // The current API supplies messages rather than stable codes. Recognize known
 // application failures; never show untrusted provider or browser errors as UI.
 export function tutorErrorKey(status: number, message: unknown): TutorErrorKey {
+  if (message === 'tutor_blocked') return 'tutorBlocked';
   if (message === 'ai_budget_not_configured') return 'tutorBudgetConfig';
   if (message === 'ai_budget_unavailable') return 'tutorBudgetUnavailable';
   if (message === 'ai_budget_exhausted') return 'tutorBudgetLimit';

@@ -2,7 +2,7 @@
 import {beforeEach,afterEach,it,expect,vi} from 'vitest';
 const mock=vi.hoisted(()=>({rpc:vi.fn(),available:true}));
 vi.mock('@/lib/supabase/admin',()=>({getSupabaseAdminClient:()=>mock.available?{rpc:mock.rpc}:null}));
-import {reserveTutorBudget,tutorBudgetConfig} from '@/lib/tutor/quota';
+import {reserveTutorBudget,TUTOR_MAX_OUTPUT_TOKENS,tutorBudgetConfig} from '@/lib/tutor/quota';
 import {LEARNING_UI_COPY,tutorErrorKey} from '@/lib/learning-ui-copy';
 beforeEach(()=>{
  mock.available=true;mock.rpc.mockReset();mock.rpc.mockResolvedValue({error:null});
@@ -26,7 +26,7 @@ it('defaults to zero and rejects unsafe, fractional or incomplete configuration'
 it('counts UTF-8 bytes plus framing and bounded output in a conservative cost reservation',async()=>{
  const messages=[{role:'user',content:'ӣӯҳқҷғ'}];
  expect(await reserveTutorBudget('owner',messages)).toEqual({allowed:true});
- expect(mock.rpc).toHaveBeenCalledWith('react_mentor_reserve_ai_budget',expect.objectContaining({learner_id:'owner',reservation_microusd:(Buffer.byteLength(JSON.stringify(messages),'utf8')+64+256)*2,user_request_limit:10}));
+ expect(mock.rpc).toHaveBeenCalledWith('react_mentor_reserve_ai_budget',expect.objectContaining({learner_id:'owner',reservation_microusd:(Buffer.byteLength(JSON.stringify(messages),'utf8')+64+TUTOR_MAX_OUTPUT_TOKENS)*2,user_request_limit:10}));
 });
 it('fails closed for missing database, denied reservations and transport failures',async()=>{
  mock.available=false;expect(await reserveTutorBudget('owner',[])).toMatchObject({allowed:false,status:503});

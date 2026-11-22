@@ -1,4 +1,4 @@
-import { agentMaterialLink, type AgentReply } from '@/lib/agent/agent-reply';
+import { agentMaterialLink, type AgentLink, type AgentReply } from '@/lib/agent/agent-reply';
 import { LEARNING_UI_COPY, tutorErrorKey } from '@/lib/learning-ui-copy';
 import type { InterfaceLocale } from '@/lib/locale';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
@@ -66,15 +66,33 @@ export async function askTutor({
   const data = await response.json();
   const copy = LEARNING_UI_COPY[language];
 
-  if (!response.ok)
+  if (!response.ok) {
+    if (data?.error === 'tutor_blocked' && typeof data.reply === 'string' && data.reply.trim()) {
+      return { kind: 'error', text: data.reply, links: [] };
+    }
     return { kind: 'error', text: copy[tutorErrorKey(response.status, data.error)], links: [] };
+  }
   if (typeof data.reply !== 'string' || !data.reply.trim())
     return { kind: 'error', text: copy.tutorEmpty, links: [] };
 
-  const source = agentMaterialLink(data.source);
+  const links: AgentLink[] = [];
+  const lessonLink =
+    data.source && typeof data.source === 'object' && 'lessonHref' in data.source
+      ? agentMaterialLink({ href: data.source.lessonHref, title: data.source.title })
+      : null;
+  const sourceLink = agentMaterialLink(data.source);
+  if (lessonLink) links.push(lessonLink);
+  if (sourceLink && !links.some((item) => item.href === sourceLink.href)) links.push(sourceLink);
+
   return {
-    kind: data.mode === 'online' ? 'online' : source ? 'materials' : 'notice',
+    kind: data.warning
+      ? 'notice'
+      : data.mode === 'online'
+        ? 'online'
+        : links.length
+          ? 'materials'
+          : 'notice',
     text: data.reply,
-    links: source ? [source] : [],
+    links,
   };
 }

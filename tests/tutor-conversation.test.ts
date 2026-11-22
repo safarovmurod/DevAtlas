@@ -1,7 +1,15 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { NextRequest } from 'next/server';
-import { canonicalWord, courseFor, editDistance, nearest, topicsIn } from '@/lib/tutor/fuzzy';
+import {
+  canonicalWord,
+  courseCandidatesFor,
+  courseFor,
+  editDistance,
+  nearest,
+  topicsIn,
+} from '@/lib/tutor/fuzzy';
+import { resetLocalTutorStrikes } from '@/lib/tutor/strikes';
 import {
   smalltalkKind,
   smalltalkLanguage,
@@ -54,6 +62,9 @@ describe('typo-tolerant technology names', () => {
     expect(courseFor('html и css')).toBeNull();
     expect(courseFor('что такое переменная')).toBeNull();
     expect(topicsIn('Node.js и Git')).toEqual(['nodejs', 'git']);
+    expect(courseCandidatesFor('Дизайн UX чист?')).toContain('ux-design');
+    expect(courseCandidatesFor('Голанг горутина чист?')).toContain('go');
+    expect(courseCandidatesFor('Маркетинг воронка чист?')).toContain('digital-marketing');
   });
 });
 
@@ -67,6 +78,10 @@ describe('everyday messages', () => {
     ['Hello there', 'greeting'],
     ['привет, как дела?', 'howAreYou'],
     ['чи хел?', 'howAreYou'],
+    ['чокади', 'howAreYou'],
+    ['чи кор кади', 'howAreYou'],
+    ['савол дорам', 'questionOpener'],
+    ['есть вопрос', 'questionOpener'],
     ['спасибо', 'thanks'],
     ['раҳмат калон', 'thanks'],
     ['thank you', 'thanks'],
@@ -163,6 +178,7 @@ describe('what-is questions', () => {
 describe('Tutor API conversation', () => {
   beforeEach(() => {
     vi.resetModules();
+    resetLocalTutorStrikes();
     fetchMock.mockReset();
     vi.stubGlobal('fetch', fetchMock);
     vi.stubEnv('AI_TUTOR_ENABLED', 'false');
@@ -224,23 +240,55 @@ describe('Tutor API conversation', () => {
     expect((await typo.json()).source.href).toMatch(/#html-day-1[56]$/);
   });
 
-  it('still reports honestly when nothing matches and online AI is off', async () => {
+  it('still reports honestly when an on-topic question does not match locally and online AI is off', async () => {
     const { POST } = await import('@/app/api/tutor/route');
     const response = await POST(
-      request({ ...ask, courseId: 'html', userText: 'zxquantumwidget plasma' }),
+      request({ ...ask, courseId: 'css', userText: 'Как работает CSS subgrid и @scope?' }),
     );
     expect((await response.json()).reply).toMatch(/не найден/);
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('keeps the sign-in gate for online AI on a new subject', async () => {
+  it('enforces 3 off-topic warnings and then blocks chat and voice for 3 days', async () => {
+    const { POST } = await import('@/app/api/tutor/route');
+    const first = await POST(request({ ...ask, userText: 'мада як файл соз', language: 'tg' }));
+    expect(first.status).toBe(200);
+    expect(await first.json()).toMatchObject({
+      mode: 'local',
+      warning: { strikes: 1, maxStrikes: 3, blocked: false },
+    });
+
+    const second = await POST(request({ ...ask, userText: 'Рецепт плова на ужин', language: 'ru' }));
+    expect(second.status).toBe(200);
+    expect(await second.json()).toMatchObject({
+      mode: 'local',
+      warning: { strikes: 2, maxStrikes: 3, blocked: false },
+    });
+
+    const third = await POST(request({ ...ask, userText: 'Какой счёт футбольного матча?', language: 'ru' }));
+    expect(third.status).toBe(403);
+    expect(await third.json()).toMatchObject({
+      error: 'tutor_blocked',
+      warning: { strikes: 3, maxStrikes: 3, blocked: true },
+    });
+
+    // Even a valid question is now blocked until the 3-day window expires.
+    const blockedFollowUp = await POST(request({ ...ask, userText: 'HTML чист?', language: 'tg' }));
+    expect(blockedFollowUp.status).toBe(403);
+    expect(await blockedFollowUp.json()).toMatchObject({ error: 'tutor_blocked' });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('keeps the sign-in gate for online AI on a new course subject', async () => {
     authMock.mockResolvedValue(null);
     vi.stubEnv('AI_TUTOR_ENABLED', 'true');
     vi.stubEnv('AI_PROVIDER_KEY', 'test-only-placeholder-not-a-real-key');
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', 'https://example.supabase.co');
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY', 'public-example');
     const { POST } = await import('@/app/api/tutor/route');
-    const response = await POST(request({ ...ask, userText: 'zxquantumwidget plasma' }));
+    const response = await POST(
+      request({ ...ask, courseId: 'css', userText: 'Как работает CSS subgrid и @scope?' }),
+    );
     expect(response.status).toBe(401);
     expect(fetchMock).not.toHaveBeenCalled();
   });

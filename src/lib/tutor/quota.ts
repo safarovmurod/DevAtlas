@@ -1,5 +1,5 @@
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
-export const TUTOR_MAX_OUTPUT_TOKENS = 256;
+export const TUTOR_MAX_OUTPUT_TOKENS = 640;
 const integer = (value: string | undefined, max: number) => {
   if (!value || !/^\d+$/.test(value)) return 0;
   const parsed = Number(value);

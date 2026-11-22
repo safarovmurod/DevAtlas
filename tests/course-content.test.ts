@@ -34,7 +34,7 @@ it('a reviewed question and deep explanation keep their course-specific source (
   try {
     const {courseAnswer}=await import('@/lib/courses/tutor');
     const local=await courseAnswer('html','h1 heading',{deep:false,language:'ru'});
-    expect(local?.reply).toBe('The main page heading.');expect(local?.source.href).toBe('/courses/html/answers#heading');
+    expect(local?.reply).toContain('What is the h1 heading?');expect(local?.reply).toContain('The main page heading.');expect(local?.source.href).toBe('/courses/html/answers#heading');expect(local?.source.matchedQuestion).toBe('What is the h1 heading?');
     const deep=await courseAnswer('html','h1 heading',{questionId:'q',deep:true,language:'tg'});
     expect(deep?.reply).toContain('<h1>Hello</h1>');expect(deep?.source.file).toBe('Test source');
     expect(await courseAnswer('html','background image css',{deep:false,language:'ru'})).toBeNull();

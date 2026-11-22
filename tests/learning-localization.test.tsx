@@ -160,20 +160,20 @@ it('updates Tutor chrome and prior errors when locale changes, preserving succes
   useAppStore.setState({ tutorDrawerOpen: true });
   const fetcher = vi.fn()
     .mockResolvedValueOnce({ ok: true, json: async () => ({ mode: 'local', reply: 'Ҷавоби аслии тоҷикӣ', usage: { totalTokens: 0 } }) })
-    .mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: 'Лимит ё токенҳои AnyModel тамом шуданд. Ҳисоби провайдерро санҷед.' }) });
+    .mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: 'Лимит ё токенҳои провайдери AI тамом шуданд. Ҳисоби провайдерро санҷед.' }) });
   vi.stubGlobal('fetch', fetcher);
   render(<TutorDrawer />);
   fireEvent.change(screen.getByLabelText('Вопрос к Tutor'), { target: { value: 'useState?' } });
   fireEvent.click(screen.getByRole('button', { name: 'Отправить' }));
   await screen.findByText('Ҷавоби аслии тоҷикӣ');
   fireEvent.click(screen.getByRole('button', { name: 'Объясни подробнее' }));
-  await screen.findByText('Лимит или токены AnyModel закончились. Проверьте аккаунт провайдера.');
+  await screen.findByText('Лимит или токены AI-провайдера закончились. Проверьте аккаунт провайдера.');
   expect(screen.queryByText(/Локально|токенов|AI может ошибаться/)).not.toBeInTheDocument();
   expect(JSON.parse(fetcher.mock.calls[1][1].body)).toMatchObject({ language: 'tg', isDeep: true, userText: 'useState?', history: [
     { role: 'user', content: 'useState?' }, { role: 'assistant', content: 'Ҷавоби аслии тоҷикӣ' },
   ] });
   act(() => useLearningStore.getState().setPreferences({ language: 'en' }));
-  expect(screen.getByText('The AnyModel limit or tokens have run out. Check the provider account.')).toBeVisible();
+  expect(screen.getByText('The AI provider limit or tokens have run out. Check the provider account.')).toBeVisible();
   expect(screen.getByText('Ҷавоби аслии тоҷикӣ')).toBeVisible();
   expect(screen.getByRole('button', { name: 'Send' })).toBeVisible();
   expect(screen.getByText(/Hello! I am AI Tutor/)).toBeVisible();

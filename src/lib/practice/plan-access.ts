@@ -20,26 +20,39 @@ export async function practicePlanDenial(request: Request): Promise<Response | n
   return featurePlanDenial(request, 'practiceTasks');
 }
 
-export async function featurePlanDenial(
+export type FeaturePlanAccessResult =
+  { denial: Response; userId?: never } | { denial: null; userId: string | null };
+
+export async function featurePlanAccess(
   request: Request,
   feature: PlanFeature,
-): Promise<Response | null> {
+): Promise<FeaturePlanAccessResult> {
   if (typeof window !== 'undefined') throw new Error('Practice plan check is server-only');
   const authorization = request.headers.get('authorization') ?? '';
   const client = getSupabaseServerClient(authorization || undefined);
   if (!client)
-    return process.env.NODE_ENV === 'production' ? deny('service_unavailable', 503, feature) : null;
+    return process.env.NODE_ENV === 'production'
+      ? { denial: deny('service_unavailable', 503, feature) }
+      : { denial: null, userId: null };
   if (!authorization.startsWith('Bearer ') || !authorization.slice(7).trim())
-    return deny('authentication_required', 401, feature);
+    return { denial: deny('authentication_required', 401, feature) };
   try {
     const user = await authenticatedUser(request);
-    if (!user) return deny('authentication_required', 401, feature);
+    if (!user) return { denial: deny('authentication_required', 401, feature) };
     const membership = await serverMembership(client, user.id);
-    if (!membership.available) return deny('service_unavailable', 503, feature);
+    if (!membership.available) return { denial: deny('service_unavailable', 503, feature) };
     if (!planIncludes(planForTier(membership.tier), feature))
-      return deny('membership_required', 403, feature);
-    return null;
+      return { denial: deny('membership_required', 403, feature) };
+    return { denial: null, userId: user.id };
   } catch {
-    return deny('service_unavailable', 503, feature);
+    return { denial: deny('service_unavailable', 503, feature) };
   }
+}
+
+export async function featurePlanDenial(
+  request: Request,
+  feature: PlanFeature,
+): Promise<Response | null> {
+  const result = await featurePlanAccess(request, feature);
+  return result.denial;
 }

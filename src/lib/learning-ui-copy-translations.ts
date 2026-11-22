@@ -77,7 +77,9 @@ export const LEARNING_UI_COPY_EN: LearningUiCopy = {
     'The AI limit could not be checked. Try later; course materials remain available.',
   tutorBudgetLimit:
     'The AI budget or request rate limit was reached. Try later; course materials remain available.',
-  tutorQuota: 'The AnyModel limit or tokens have run out. Check the provider account.',
+  tutorQuota: 'The AI provider limit or tokens have run out. Check the provider account.',
+  tutorBlocked:
+    'AI Tutor access is blocked for 3 days after 3 off-topic warnings. Lessons and quizzes remain open.',
   tutorUnreadable: 'AI did not return a readable answer. Try again later.',
   promptReact: 'What is useState for?',
   promptTopic: 'Explain the first course topic in depth.',
@@ -157,7 +159,9 @@ export const LEARNING_UI_COPY_TG: LearningUiCopy = {
   tutorBudgetUnavailable: 'Лимити AI санҷида нашуд. Баъдтар кӯшиш кунед; маводи курс дастрас аст.',
   tutorBudgetLimit:
     'Лимити буҷет ё басомади дархости AI расид. Баъдтар кӯшиш кунед; маводи курс дастрас аст.',
-  tutorQuota: 'Лимит ё токенҳои AnyModel тамом шуданд. Ҳисоби провайдерро санҷед.',
+  tutorQuota: 'Лимит ё токенҳои провайдери AI тамом шуданд. Ҳисоби провайдерро санҷед.',
+  tutorBlocked:
+    'Дастрасӣ ба AI Tutor барои 3 рӯз баста шуд (3 огоҳӣ берун аз мавзӯи курс). Дарсҳо ва тестҳо кушода мемонанд.',
   tutorUnreadable: 'AI ҷавоби хондашаванда нафиристод. Баъдтар кӯшиш кунед.',
   promptReact: 'useState чиба даркорай?',
   promptTopic: 'Мавзӯи аввалро чуқур фаҳмон.',
@@ -244,7 +248,10 @@ export const LEARNING_UI_COPY_ES: LearningUiCopy = {
     'No se pudo comprobar el límite de la IA. Inténtalo más tarde; los materiales del curso siguen disponibles.',
   tutorBudgetLimit:
     'Se alcanzó el límite de la IA o de solicitudes. Inténtalo más tarde; los materiales del curso siguen disponibles.',
-  tutorQuota: 'Se agotó el límite o los tokens de AnyModel. Revisa la cuenta del proveedor.',
+  tutorQuota:
+    'Se agotó el límite o los tokens del proveedor de IA. Revisa la cuenta del proveedor.',
+  tutorBlocked:
+    'El acceso a AI Tutor está bloqueado durante 3 días por 3 avisos fuera de los cursos. Las lecciones siguen abiertas.',
   tutorUnreadable: 'La IA no envió una respuesta legible. Inténtalo más tarde.',
   promptReact: '¿Para qué sirve useState?',
   promptTopic: 'Explica a fondo el primer tema del curso.',

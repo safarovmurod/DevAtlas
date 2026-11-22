@@ -2,7 +2,7 @@ import { courseAccessTier } from '@/lib/courses/access';
 import { loadCourseContent } from '@/lib/courses/content';
 import { isCourseId, type CourseId, type ImportedCourseId } from '@/lib/courses/ids';
 import { courseAnswer } from '@/lib/courses/tutor';
-import { canonicalWord, courseFor, nearest, wordsOf } from './fuzzy';
+import { canonicalWord, courseCandidatesFor, nearest, wordsOf } from './fuzzy';
 import { QUESTION_FILLER } from './glossary';
 import { projectAnswer } from './project-answers';
 import type { TutorSource } from './shared';
@@ -13,7 +13,7 @@ export interface LocalReference {
 }
 type Options = { questionId?: string; deep: boolean; language: 'tg' | 'ru' | 'en' };
 
-/** Words used in a course's lesson titles and questions, so a typo can be matched to a real word. */
+/** Words used in a course's lesson titles, section titles and questions, so a typo can be matched to a real word. */
 const vocabularies = new Map<ImportedCourseId, Promise<Set<string>>>();
 function vocabulary(courseId: ImportedCourseId): Promise<Set<string>> {
   let words = vocabularies.get(courseId);
@@ -22,7 +22,11 @@ function vocabulary(courseId: ImportedCourseId): Promise<Set<string>> {
       .then((content) => {
         const known = new Set<string>();
         for (const lesson of content.lessons)
-          for (const text of [lesson.title, ...lesson.questions.map((question) => question.question)])
+          for (const text of [
+            lesson.title,
+            ...lesson.sections.map((section) => section.title),
+            ...lesson.questions.map((question) => question.question),
+          ])
             for (const value of Object.values(text))
               for (const word of value?.toLocaleLowerCase().match(/[\p{L}\p{N}_+]+/gu) ?? [])
                 known.add(word);
@@ -66,21 +70,33 @@ async function lookup(
 }
 
 /**
- * An answer from the course materials. The selected course is searched first.
- * When it has nothing and the question names a technology ("хтмл что такое"),
- * that technology's course is searched as well, so the course picker does not
- * have to match the question. A lesson question bound by `questionId` stays in its course.
+ * Searches DevAtlas course materials smartly without scanning all 43 courses:
+ * 1. A lesson question bound by `questionId` stays strictly in `courseId`.
+ * 2. When the question explicitly names one or two courses (e.g. "Python", "UX дизайн", "SQL"),
+ *    search those named free courses first so learners sitting on another course get the right lesson.
+ * 3. Always search the currently selected `courseId` as well (when not already checked).
  */
 export async function localReference(
   courseId: CourseId,
   query: string,
   options: Options,
 ): Promise<LocalReference | null> {
-  const found = await lookup(courseId, query, options);
-  if (found || options.questionId) return found;
-  const named = courseFor(query);
-  if (!named || named === courseId || !isCourseId(named)) return null;
-  // Only free courses are searched on the side; a protected one needs its own request.
-  if (courseAccessTier(named) !== 'starter') return null;
-  return lookup(named, query, options);
+  if (options.questionId) return lookup(courseId, query, options);
+
+  const candidates = courseCandidatesFor(query)
+    .filter((candidate): candidate is CourseId => isCourseId(candidate))
+    .filter((candidate) => candidate === courseId || courseAccessTier(candidate) === 'starter')
+    .slice(0, 2);
+
+  const order: CourseId[] = [];
+  for (const candidate of candidates) {
+    if (!order.includes(candidate)) order.push(candidate);
+  }
+  if (!order.includes(courseId)) order.push(courseId);
+
+  for (const target of order) {
+    const found = await lookup(target, query, options);
+    if (found) return found;
+  }
+  return null;
 }

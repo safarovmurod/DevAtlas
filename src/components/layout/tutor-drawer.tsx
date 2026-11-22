@@ -4,10 +4,24 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppStore } from '@/stores/app-store';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { getSessionWithTimeout } from '@/lib/supabase/session';
-import { GripVertical, X, Send, Sparkles, Layers } from 'lucide-react';
+import {
+  GripVertical,
+  X,
+  Send,
+  Sparkles,
+  Layers,
+  ArrowUpRight,
+  AlertTriangle,
+  BookOpen,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useLearningStore } from '@/stores/learning-store';
-import { isDeepFollowUp, type TutorSource } from '@/lib/tutor/shared';
+import {
+  isDeepFollowUp,
+  type TutorSource,
+  type TutorStrikeNotice,
+  type TutorWebSource,
+} from '@/lib/tutor/shared';
 import { useAccount } from '@/components/account/account-provider';
 import { usePlanAccess } from '@/components/courses/use-practice-access';
 import { MEMBERSHIP_COPY } from '@/lib/billing/copy';
@@ -21,6 +35,8 @@ interface ChatMsg {
   error?: boolean;
   errorKey?: TutorErrorKey;
   source?: TutorSource;
+  webSources?: TutorWebSource[];
+  warning?: TutorStrikeNotice;
   followUp?: boolean;
   subject?: string;
 }
@@ -36,6 +52,12 @@ const MIN_WIDTH = 360;
 const MAX_WIDTH = 920;
 const MOBILE_WIDTH = 640;
 const WIDTH_KEY = 'devatlas:tutor-panel-width';
+
+function safeInternalPath(href: string | undefined): string | null {
+  if (!href || !href.startsWith('/') || href.startsWith('//') || /[\\\u0000-\u001f]/.test(href))
+    return null;
+  return href;
+}
 
 function storedWidth() {
   if (typeof window === 'undefined') return DEFAULT_WIDTH;
@@ -77,6 +99,7 @@ export function TutorDrawer() {
       text: '',
     },
   ]);
+  const [blockedNotice, setBlockedNotice] = useState<TutorStrikeNotice | null>(null);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [preferredWidth, setPreferredWidth] = useState(storedWidth);
@@ -96,6 +119,11 @@ export function TutorDrawer() {
   const canResize = viewportWidth > MOBILE_WIDTH;
   const maxWidth = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, viewportWidth - 48));
   const panelWidth = Math.min(preferredWidth, maxWidth);
+  const blocked = Boolean(
+    blockedNotice?.blocked &&
+    (!blockedNotice.blockedUntil || new Date(blockedNotice.blockedUntil).getTime() > Date.now()),
+  );
+  const composerDisabled = loading || locked || blocked;
 
   useEffect(() => {
     const update = () => {
@@ -158,7 +186,7 @@ export function TutorDrawer() {
   }, [messages, loading, open]);
 
   async function send(deep = false) {
-    if (locked) return;
+    if (locked || blocked) return;
     if (sending.current || (!deep && !input.trim())) return;
     const followUp = deep || isDeepFollowUp(input);
     const lastQuestion = [...messages]
@@ -170,7 +198,8 @@ export function TutorDrawer() {
         (message) =>
           message.sender === 'assistant' &&
           message.subject === lastQuestion?.text &&
-          !message.error,
+          !message.error &&
+          !message.warning,
       );
     if (deep && !lastQuestion && !selectedQuestion) return;
     sending.current = true;
@@ -183,7 +212,7 @@ export function TutorDrawer() {
         ? selectedQuestion.id
         : undefined;
     const history = messages
-      .filter((message) => message.id !== 'welcome' && !message.error)
+      .filter((message) => message.id !== 'welcome' && !message.error && !message.warning)
       .slice(-4)
       .map((message) => ({
         role: message.sender,
@@ -224,7 +253,29 @@ export function TutorDrawer() {
         signal: AbortSignal.timeout(50000),
       });
       const data = await response.json();
-      if (!response.ok) throw new TutorRequestError(tutorErrorKey(response.status, data.error));
+      if (data?.warning?.blocked) {
+        setBlockedNotice(data.warning as TutorStrikeNotice);
+      }
+      if (!response.ok) {
+        if (
+          data?.error === 'tutor_blocked' &&
+          typeof data.reply === 'string' &&
+          data.reply.trim()
+        ) {
+          setMessages((previous) => [
+            ...previous,
+            {
+              id: crypto.randomUUID(),
+              sender: 'assistant',
+              text: data.reply,
+              warning: data.warning,
+              error: true,
+            },
+          ]);
+          return;
+        }
+        throw new TutorRequestError(tutorErrorKey(response.status, data.error));
+      }
       if (typeof data.reply !== 'string' || !data.reply.trim())
         throw new TutorRequestError('tutorEmpty');
       setMessages((previous) => [
@@ -234,6 +285,8 @@ export function TutorDrawer() {
           sender: 'assistant',
           text: data.reply,
           source: data.source,
+          webSources: Array.isArray(data.webSources) ? data.webSources : undefined,
+          warning: data.warning,
           subject: query,
         },
       ]);
@@ -334,31 +387,94 @@ export function TutorDrawer() {
           aria-relevant="additions"
           ref={messageList}
         >
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={'tutor-message ' + message.sender + (message.error ? ' tutor-error' : '')}
-            >
-              <p>
-                {message.id === 'welcome'
-                  ? chatCopy.welcome
-                  : message.errorKey
-                    ? ui[message.errorKey]
-                    : message.text}
-              </p>
-              {message.source && (
-                <Link
-                  className="tutor-source"
-                  href={
-                    message.source.href || '/lesson/' + encodeURIComponent(message.source.topicId)
-                  }
-                  onClick={() => setOpen(false)}
-                >
-                  {ui.source} {message.source.title}
-                </Link>
-              )}
-            </div>
-          ))}
+          {messages.map((message) => {
+            const primaryHref = safeInternalPath(
+              message.source?.lessonHref ||
+                message.source?.href ||
+                (message.source
+                  ? '/lesson/' + encodeURIComponent(message.source.topicId)
+                  : undefined),
+            );
+            const answersHref = safeInternalPath(message.source?.href);
+            const showAnswersLink = Boolean(answersHref && answersHref !== primaryHref);
+            return (
+              <div
+                key={message.id}
+                className={
+                  'tutor-message ' +
+                  message.sender +
+                  (message.warning ? ' tutor-warning' : '') +
+                  (message.error ? ' tutor-error' : '')
+                }
+              >
+                {message.warning && (
+                  <div className="tutor-warning-badge" role="status">
+                    <AlertTriangle size={14} aria-hidden="true" />
+                    <span>
+                      {chatCopy.warningBadge} {message.warning.strikes}/{message.warning.maxStrikes}
+                    </span>
+                  </div>
+                )}
+                <p>
+                  {message.id === 'welcome'
+                    ? chatCopy.welcome
+                    : message.errorKey
+                      ? ui[message.errorKey]
+                      : message.text}
+                </p>
+                {message.source && primaryHref && (
+                  <div className="tutor-source-card">
+                    <div className="tutor-source-meta">
+                      <BookOpen size={14} aria-hidden="true" />
+                      <span>
+                        {message.source.courseTitle
+                          ? `${message.source.courseTitle} · `
+                          : ui.source + ' '}
+                        {message.source.title}
+                      </span>
+                    </div>
+                    <div className="tutor-source-links">
+                      <Link
+                        className="tutor-source-link"
+                        href={primaryHref}
+                        onClick={() => setOpen(false)}
+                      >
+                        <span>{chatCopy.openLesson}</span>
+                        <ArrowUpRight size={14} aria-hidden="true" />
+                      </Link>
+                      {showAnswersLink && answersHref && (
+                        <Link
+                          className="tutor-source-link subtle"
+                          href={answersHref}
+                          onClick={() => setOpen(false)}
+                        >
+                          <span>{chatCopy.openAnswers}</span>
+                          <ArrowUpRight size={14} aria-hidden="true" />
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {message.webSources && message.webSources.length > 0 && (
+                  <div className="tutor-web-sources">
+                    <span>{chatCopy.webSources}</span>
+                    {message.webSources.map((src) => (
+                      <a
+                        key={src.url}
+                        href={src.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="tutor-web-link"
+                      >
+                        {src.title}
+                        <ArrowUpRight size={12} aria-hidden="true" />
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
           {loading && (
             <p role="status" className="tutor-loading">
               {ui.tutorLoading}
@@ -366,6 +482,12 @@ export function TutorDrawer() {
           )}
         </div>
         <div className="tutor-composer">
+          {blocked && (
+            <div className="tutor-blocked-banner" role="alert">
+              <AlertTriangle size={16} aria-hidden="true" />
+              <p>{chatCopy.blockedBanner}</p>
+            </div>
+          )}
           {locked ? (
             <div className="tutor-signin">
               <p role="status">{MEMBERSHIP_COPY[uiLanguage].features.aiTutor} · Pro</p>
@@ -386,7 +508,7 @@ export function TutorDrawer() {
           <div className="tutor-shortcuts">
             <button
               className="button subtle"
-              disabled={loading || locked}
+              disabled={composerDisabled}
               onClick={() =>
                 setInput(courseId === 'react' ? prompts.promptReact : prompts.promptTopic)
               }
@@ -396,8 +518,7 @@ export function TutorDrawer() {
             <button
               className="button subtle"
               disabled={
-                loading ||
-                locked ||
+                composerDisabled ||
                 (!selectedQuestion &&
                   !messages.some((message) => message.sender === 'user' && !message.followUp))
               }
@@ -422,7 +543,7 @@ export function TutorDrawer() {
               value={input}
               maxLength={1500}
               rows={3}
-              disabled={loading || locked}
+              disabled={composerDisabled}
               aria-describedby={canResize ? 'tutor-key-hint' : undefined}
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={(event) => {
@@ -449,7 +570,7 @@ export function TutorDrawer() {
               <button
                 className="button primary"
                 type="submit"
-                disabled={loading || locked || !input.trim()}
+                disabled={composerDisabled || !input.trim()}
                 aria-label={ui.tutorSend}
               >
                 <Send size={17} />

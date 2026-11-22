@@ -257,6 +257,11 @@ export function projectAnswer(
       title: topic ? (language === 'ru' ? topic.titleRu : topic.title) : question.question,
       file: question.source,
       sourceId: question.sourceId,
+      courseId: 'react',
+      courseTitle: 'React',
+      matchedQuestion: translate(question.question),
+      href: '/lesson/' + encodeURIComponent(question.topicId),
+      lessonHref: '/lesson/' + encodeURIComponent(question.topicId),
     },
   };
 }

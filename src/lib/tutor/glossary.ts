@@ -1,6 +1,6 @@
-// Short "what is it?" answers for the main technologies of the courses.
-// A beginner who types "хтмл что такое" gets a clear definition at once, with a
-// link to the course that teaches it. Written for DevAtlas; no model call.
+// Short "what is it?" answers for the main technologies and disciplines of DevAtlas courses.
+// A beginner who types "хтмл что такое" or "ux чист" gets a clear definition at once,
+// with a direct 1-click link to the course that teaches it. Written for DevAtlas; no model call.
 import { courseName } from '@/content/courses/catalog';
 import type { CourseId } from '@/lib/courses/ids';
 import { canonicalWord, isTopicWord, wordsOf } from './fuzzy';
@@ -122,6 +122,132 @@ const GLOSSARY: Record<string, Entry> = {
       es: 'C++ es un lenguaje de programación rápido que trabaja cerca del hardware. Se usa en videojuegos, navegadores, sistemas operativos y programas donde la velocidad importa.',
     },
   },
+  csharp: {
+    course: 'csharp',
+    text: {
+      ru: 'C# — современный строго типизированный язык программирования на платформе .NET. На нём пишут веб-сервисы, бизнес-системы, настольные приложения и игры на Unity.',
+      tg: 'C# — забони муосири барномасозӣ бо навъҳои қатъӣ дар платформаи .NET аст. Бо он веб-сервисҳо, барномаҳои тиҷоратӣ ва бозиҳои Unity менависанд.',
+      en: 'C# is a modern strongly typed language on .NET. It is used to build web APIs, business software, desktop apps and Unity games.',
+      es: 'C# es un lenguaje moderno de tipado estricto en .NET. Se usa para crear APIs web, software empresarial, aplicaciones de escritorio y juegos en Unity.',
+    },
+  },
+  go: {
+    course: 'go',
+    text: {
+      ru: 'Go (Golang) — быстрый и простой компилируемый язык от Google для серверов, CLI-утилит и облачных сервисов. Он славится лаконичным синтаксисом и встроенной конкурентностью (горутины).',
+      tg: 'Go (Golang) — забони тез ва содаи компилятсияшаванда барои серверҳо, CLI ва сервисҳои абрӣ аст. Бо синтаксиси тоза ва горутинаҳо машҳур аст.',
+      en: 'Go (Golang) is a fast, simple compiled language created at Google for servers, CLI tools and cloud services, known for clean syntax and built-in concurrency (goroutines).',
+      es: 'Go (Golang) es un lenguaje compilado rápido y sencillo de Google para servidores, herramientas CLI y servicios en la nube, famoso por su sintaxis limpia y goroutines.',
+    },
+  },
+  rust: {
+    course: 'rust',
+    text: {
+      ru: 'Rust — системный язык программирования со скоростью C++ и защитой памяти на этапе компиляции. Система владения (ownership) ловит утечки и гонки данных ещё до запуска программы.',
+      tg: 'Rust — забони барномасозии системавӣ бо суръати C++ ва бехатарии хотира дар вақти компилятсия аст. Қоидаи ownership хатогиҳои хотираро пеш аз иҷро мегирад.',
+      en: 'Rust is a systems language with C++ speed and compile-time memory safety. Its ownership model prevents memory bugs and data races before the code even runs.',
+      es: 'Rust es un lenguaje de sistemas con la velocidad de C++ y seguridad de memoria en tiempo de compilación gracias a su modelo de ownership.',
+    },
+  },
+  php: {
+    course: 'php',
+    text: {
+      ru: 'PHP — популярный серверный язык для веба. Он обрабатывает запросы, формы и базы данных на стороне сервера и используется на миллионах сайтов и API.',
+      tg: 'PHP — забони маъруфи серверӣ барои веб аст. Он дархостҳо, формаҳо ва базаи маълумотро дар тарафи сервер коркард мекунад.',
+      en: 'PHP is a widely used server-side web language. It handles requests, forms and databases on the server and powers millions of websites and APIs.',
+      es: 'PHP es un lenguaje web de servidor muy extendido. Procesa solicitudes, formularios y bases de datos en el servidor.',
+    },
+  },
+  ruby: {
+    course: 'ruby',
+    text: {
+      ru: 'Ruby — выразительный объектно-ориентированный язык, созданный для удобства программиста. На нём пишут веб-приложения, скрипты автоматизации и API.',
+      tg: 'Ruby — забони барномасозии фаҳмо ва объектно-ориентирӣ аст, ки барои роҳатии барномасоз сохта шудааст. Бо он веб-барномаҳо ва скриптҳо менависанд.',
+      en: 'Ruby is an expressive object-oriented language designed for developer readability, used for web apps, automation scripts and APIs.',
+      es: 'Ruby es un lenguaje orientado a objetos muy legible, creado para la productividad en aplicaciones web, scripts y APIs.',
+    },
+  },
+  kotlin: {
+    course: 'kotlin',
+    text: {
+      ru: 'Kotlin — современный язык для JVM и Android. Он лаконичнее Java и встроенно защищает от ошибок с null (null safety).',
+      tg: 'Kotlin — забони муосир барои JVM ва Android аст. Аз Java кӯтоҳтар буда, барномаро аз хатои null (null safety) муҳофизат мекунад.',
+      en: 'Kotlin is a modern language for the JVM and Android. It is more concise than Java and protects against null errors with built-in null safety.',
+      es: 'Kotlin es un lenguaje moderno para JVM y Android, más conciso que Java y con protección integrada contra errores de null.',
+    },
+  },
+  swift: {
+    course: 'swift',
+    text: {
+      ru: 'Swift — быстрый и безопасный язык от Apple для создания приложений под iOS, macOS и другие устройства Apple. Его опционалы (Optionals) защищают от пустых значений.',
+      tg: 'Swift — забони тез ва бехатари Apple барои сохтани барномаҳои iOS ва macOS аст. Optionals барномаро аз қиматҳои холӣ муҳофизат мекунанд.',
+      en: 'Swift is Apple’s fast, safe programming language for building iOS and macOS apps, using optionals to handle missing values safely.',
+      es: 'Swift es el lenguaje rápido y seguro de Apple para crear aplicaciones de iOS y macOS, con opcionales para manejar valores ausentes.',
+    },
+  },
+  bash: {
+    course: 'bash',
+    text: {
+      ru: 'Bash — командная оболочка Linux и macOS (и Git Bash на Windows). Она позволяет управлять файлами, запускать программы и автоматизировать рутину скриптами и конвейерами.',
+      tg: 'Bash — муҳити фармонии терминал (дар Linux, macOS ва Git Bash) аст. Бо он файлҳоро идора, барномаҳоро иҷро ва корҳои такрориро бо скрипт автоматӣ мекунанд.',
+      en: 'Bash is a command shell for Linux, macOS and Git Bash. It lets you manage files, run tools and automate workflows using scripts and pipelines.',
+      es: 'Bash es un intérprete de comandos para Linux, macOS y Git Bash que permite gestionar archivos y automatizar tareas con scripts y tuberías.',
+    },
+  },
+  mongodb: {
+    course: 'mongodb',
+    text: {
+      ru: 'MongoDB — документоориентированная NoSQL база данных. Вместо строгих таблиц она хранит данные в гибких JSON-подобных документах внутри коллекций.',
+      tg: 'MongoDB — базаи маълумоти NoSQL аст. Ба ҷои ҷадвалҳои қатъӣ маълумотро дар шакли ҳуҷҷатҳои монанд ба JSON дар дохили коллексияҳо нигоҳ медорад.',
+      en: 'MongoDB is a document-oriented NoSQL database. Instead of rigid tables, it stores data as flexible JSON-like documents inside collections.',
+      es: 'MongoDB es una base de datos NoSQL orientada a documentos que guarda los datos en documentos flexibles similares a JSON dentro de colecciones.',
+    },
+  },
+  ux: {
+    course: 'ux-design',
+    text: {
+      ru: 'UX/UI-дизайн — проектирование удобных и понятных интерфейсов. UX отвечает за логику, путь пользователя и решение его задачи, а UI — за визуальную форму: сетку, цвета, типографику и кнопки.',
+      tg: 'UX/UI-дизайн — тарроҳии интерфейси роҳат ва фаҳмо аст. UX ба мантиқ, роҳи корбар ва осонии истифода ҷавоб медиҳад, UI бошад — ба намуди зоҳирӣ: ранг, ҳарф, тугма ва сохтор.',
+      en: 'UX/UI design is crafting useful, clear interfaces. UX focuses on user research, flows and usability, while UI shapes the visual layout, colors, typography and controls.',
+      es: 'El diseño UX/UI crea interfaces útiles y claras: UX se centra en el recorrido y la usabilidad, y UI en el aspecto visual, colores y tipografía.',
+    },
+  },
+  marketing: {
+    course: 'digital-marketing',
+    text: {
+      ru: 'Цифровой маркетинг — привлечение и удержание клиентов через онлайн-каналы: поиск, контент, рекламу и аналитику воронки. Главная цель — давать измеримую ценность нужной аудитории.',
+      tg: 'Маркетинги рақамӣ (Digital Marketing) — ҷалб ва нигоҳдории мизоҷон тавассути интернет: контент, реклама, SEO ва таҳлили воронка бо рақамҳои воқеӣ.',
+      en: 'Digital marketing attracts and retains customers through online channels—search, content, paid campaigns and funnel analytics—focused on measurable value.',
+      es: 'El marketing digital atrae y fideliza clientes por canales en línea mediante contenido, anuncios, SEO y análisis de embudos medibles.',
+    },
+  },
+  analytics: {
+    course: 'data-analytics',
+    text: {
+      ru: 'Аналитика данных — сбор, очистка и анализ данных для принятия обоснованных решений. Аналитик ищет закономерности с помощью метрик, SQL, графиков и дашбордов.',
+      tg: 'Аналитикаи маълумот (Data Analytics) — ҷамъоварӣ, тозакунӣ ва таҳлили рақамҳо барои қабули қарорҳои дуруст бо ёрии KPI, SQL, график ва дашборд.',
+      en: 'Data analytics is collecting, cleaning and analyzing data to make informed decisions using metrics, SQL, charts and dashboards.',
+      es: 'La analítica de datos consiste en recopilar, limpiar y analizar datos para tomar mejores decisiones usando métricas, SQL y paneles.',
+    },
+  },
+  business: {
+    course: 'business-foundations',
+    text: {
+      ru: 'Основы бизнеса — понимание того, какую реальную проблему вы решаете, для кого, как формируете ценность и цену, и как считаете выручку, маржу и точку безубыточности.',
+      tg: 'Асосҳои бизнес — фаҳмидани он ки кадом мушкилии воқеиро барои кӣ ҳал мекунед, чӣ арзишу нарх мегузоред ва маржаву даромадро чӣ хел ҳисоб мекунед.',
+      en: 'Business foundations cover understanding a real customer problem, crafting a clear value offer, pricing, and tracking margin and break-even.',
+      es: 'Los fundamentos de negocio abarcan identificar un problema real, crear una propuesta de valor, fijar precios y calcular márgenes y punto de equilibrio.',
+    },
+  },
+  management: {
+    course: 'management-foundations',
+    text: {
+      ru: 'Менеджмент — организация работы команды для достижения общих целей: постановка задач, планирование, делегирование, обратная связь и управление рисками.',
+      tg: 'Менеджмент — ташкили кори даста барои расидан ба ҳадафҳои муштарак: гузоштани мақсад, нақшакашӣ, тақсими вазифа (делегирование) ва фидбек.',
+      en: 'Management is organizing a team toward shared goals through clear planning, delegation, feedback and risk management.',
+      es: 'La gestión consiste en coordinar a un equipo hacia metas claras mediante planificación, delegación, retroalimentación y control de riesgos.',
+    },
+  },
   api: {
     course: 'backend',
     text: {
@@ -137,7 +263,7 @@ const GLOSSARY: Record<string, Entry> = {
 export const QUESTION_FILLER = new Set(
   `что такое такой такая это значит означает за кто вообще объясни объясните расскажи расскажите
 про о об простыми словами просто скажи пожалуйста мне зачем нужен нужна для чего
-чист чи чӣ аст ай мебошад маъно маънои шарҳ деҳ бигӯ фаҳмон фахмон оддӣ сода ба ман лутфан дар бораи
+чист чи чӣ аст ай мебошад маъно маънои шарҳ шарх деҳ бигӯ фаҳмон фахмон оддӣ сода ба ман лутфан дар бораи
 чиба даркорай барои
 what is are a an the does mean define explain tell me about please simply simple in plain words
 why do i need
@@ -163,7 +289,7 @@ const NEXT_STEP: Record<GlossaryLanguage, (course: string) => string> = {
   es: (course) => `Más detalles en el curso «${course}», en la sección «Respuestas».`,
 };
 
-/** A short definition with a link to the course, or null when the question is not "what is X". */
+/** A short definition with a direct link to the course, or null when the question is not "what is X". */
 export function glossaryAnswer(
   query: string,
   language: GlossaryLanguage,
@@ -181,7 +307,10 @@ export function glossaryAnswer(
       title,
       file: 'devatlas-glossary',
       sourceId: 'glossary-' + topic,
+      courseId: course,
+      courseTitle: title,
       href: course === 'react' ? '/answers' : `/courses/${course}/answers`,
+      lessonHref: course === 'react' ? '/courses/react' : `/courses/${course}/home?day=1`,
     },
   };
 }

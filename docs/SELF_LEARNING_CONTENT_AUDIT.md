@@ -1,6 +1,6 @@
 # Self-learning content audit (generated)
 
-Generated 2026-11-18 by `scripts/course-content-quality-report.mjs` from actual curriculum data. Numbers only: meaning, correctness and clarity need the separate editorial checklist — do not treat higher word counts as automatic quality.
+Generated 2026-11-22 by `scripts/course-content-quality-report.mjs` from actual curriculum data. Numbers only: meaning, correctness and clarity need the separate editorial checklist — do not treat higher word counts as automatic quality.
 
 Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js curricula. A missing loader, invalid course or catalog/day mismatch fails the report instead of silently omitting the course.
 
@@ -34,7 +34,7 @@ Coverage: 43 catalog courses, including the TypeScript-backed React and Next.js 
 | ux-design | starter | 30 | 271/215/779 | 5.8 | 0 | 30 | 2 | 0 | — |
 | ai-fundamentals | starter | 14 | 224/161/449 | 3 | 10 | 8 | 1 | 0 | — |
 | context-engineering | starter | 14 | 377/244/640 | 3 | 14 | 6 | 2 | 0 | — |
-| agent-harness | starter | 14 | 506/460/542 | 3 | 11 | 7 | 1 | 0 | — |
+| agent-harness | starter | 14 | 507/460/542 | 3 | 11 | 7 | 1 | 0 | — |
 | digital-marketing | starter | 30 | 257/224/312 | 5 | 0 | 25 | 1 | 0 | — |
 | data-analytics | starter | 30 | 300/259/353 | 5 | 0 | 20 | 2 | 0 | — |
 | business-foundations | starter | 30 | 269/237/319 | 5 | 0 | 26 | 5 | 0 | — |

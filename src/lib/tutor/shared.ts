@@ -5,6 +5,23 @@ export interface TutorSource {
   file: string;
   sourceId: string;
   href?: string;
+  lessonHref?: string;
+  courseId?: string;
+  courseTitle?: string;
+  day?: number;
+  matchedQuestion?: string;
+}
+
+export interface TutorStrikeNotice {
+  strikes: number;
+  maxStrikes: 3;
+  blocked: boolean;
+  blockedUntil: string | null;
+}
+
+export interface TutorWebSource {
+  title: string;
+  url: string;
 }
 
 export function isDeepFollowUp(text: string): boolean {
