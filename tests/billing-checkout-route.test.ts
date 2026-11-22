@@ -219,6 +219,37 @@ describe('checkout', () => {
     });
   });
 
+  it('redirects to Dodo payment_link when change-plan requires hosted payment confirmation', async () => {
+    mocks.row = paidRow();
+    reply = () => ({
+      status: 200,
+      json: { payment_link: 'https://test.checkout.dodopayments.com/session/upgrade_1' },
+    });
+    const response = await buy('expert');
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({
+      url: 'https://test.checkout.dodopayments.com/session/upgrade_1',
+    });
+
+    reply = () => ({ status: 200, json: { payment_link: 'https://evil.example/steal' } });
+    expect((await buy('expert')).status).toBe(502);
+  });
+
+  it('uses validated HTTPS REACT_MENTOR_SITE_URL when request origin is local behind a proxy', async () => {
+    vi.stubEnv('REACT_MENTOR_SITE_URL', 'https://devatlas.app');
+    const localReq = new Request('http://127.0.0.1:3000/api/billing/checkout', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: 'Bearer token' },
+      body: JSON.stringify({ tier: 'pro' }),
+    });
+    const response = await checkout(localReq);
+    expect(response.status).toBe(200);
+    expect(calls[0].body).toMatchObject({
+      return_url: 'https://devatlas.app/plans?checkout=return&plan=pro',
+      cancel_url: 'https://devatlas.app/plans?checkout=cancelled',
+    });
+  });
+
   it('sends a subscription that needs attention to the customer portal, never to a second checkout', async () => {
     for (const row of [
       paidRow({ provider_status: 'on_hold' }),

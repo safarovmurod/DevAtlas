@@ -78,7 +78,8 @@ export async function POST(request: Request) {
       if (row.provider_status !== 'active' || row.cancel_at_period_end)
         return communityResponse({ error: 'manage_in_portal' }, 409);
       try {
-        await changeSubscriptionPlan(config, row.provider_subscription_id!, tier);
+        const changed = await changeSubscriptionPlan(config, row.provider_subscription_id!, tier);
+        if (changed.url) return communityResponse({ url: changed.url });
         return communityResponse({ upgraded: true });
       } catch (error) {
         logProviderFailure('change-plan', error);

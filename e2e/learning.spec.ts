@@ -124,7 +124,7 @@ test('Tutor handles online chat history and API errors without token counters (m
     requests.push(route.request().postDataJSON());
     await route.fulfill(requests.length < 3 ? {
       json: { mode: 'online', reply: requests.length === 1 ? 'useState хотираи компонент аст.' : 'setState → render → UI.', usage: { totalTokens: 321 } },
-    } : { status: 429, json: { error: 'Лимит ё токенҳои AnyModel тамом шуданд.' } });
+    } : { status: 429, json: { error: 'Лимит ё токенҳои провайдери AI тамом шуданд.' } });
   });
   await page.goto('/home');
   await page.getByRole('button', { name: 'AI Tutor', exact: true }).click();
@@ -150,7 +150,7 @@ test('Tutor handles online chat history and API errors without token counters (m
   await page.screenshot({ path: testInfo.outputPath('tutor.png') });
   await dialog.getByLabel('Вопрос к Tutor').fill('useEffect?');
   await dialog.getByRole('button', { name: 'Отправить', exact: true }).click();
-  await expect(dialog.locator('.tutor-error')).toContainText('Лимит или токены AnyModel закончились');
+  await expect(dialog.locator('.tutor-error')).toContainText('Лимит или токены AI-провайдера закончились');
   await expect(dialog.getByLabel('Вопрос к Tutor')).toBeEnabled();
 });
 
@@ -178,7 +178,7 @@ test('deep tutor uses the displayed quiz answer and keeps its source through rep
     await expect(dialog.getByLabel('Вопрос к Tutor')).toBeEnabled();
   }
   await page.screenshot({ path: testInfo.outputPath('local-deep.png') });
-  await dialog.getByLabel('Вопрос к Tutor').fill('Svelte runes чияй?');
+  await dialog.getByLabel('Вопрос к Tutor').fill('React useOptimistic чияй?');
   await dialog.getByRole('button', { name: 'Отправить', exact: true }).click();
   await expect(dialog.locator('.tutor-message.assistant').last()).toContainText('ёфт нашуд');
   await expect(dialog.locator('.tutor-message.assistant').last().getByRole('link')).toHaveCount(0);

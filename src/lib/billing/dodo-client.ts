@@ -96,15 +96,24 @@ export async function changeSubscriptionPlan(
   config: DodoConfig,
   subscriptionId: string,
   tier: PaidTier,
-) {
-  await dodoRequest(config, `/subscriptions/${encodeURIComponent(subscriptionId)}/change-plan`, {
-    product_id: config.products[tier],
-    quantity: 1,
-    // Charge the rest of the current period difference now. If the card is declined the
-    // subscription stays on its current plan, so the higher plan is never given for free.
-    proration_billing_mode: 'prorated_immediately',
-    on_payment_failure: 'prevent_change',
-  });
+): Promise<{ url?: string }> {
+  const data = await dodoRequest(
+    config,
+    `/subscriptions/${encodeURIComponent(subscriptionId)}/change-plan`,
+    {
+      product_id: config.products[tier],
+      quantity: 1,
+      // Charge the rest of the current period difference now. If the card is declined the
+      // subscription stays on its current plan, so the higher plan is never given for free.
+      proration_billing_mode: 'prorated_immediately',
+      on_payment_failure: 'prevent_change',
+    },
+  );
+  if (data && typeof data === 'object' && 'payment_link' in data && data.payment_link != null) {
+    if (!isDodoUrl(data.payment_link)) throw new DodoApiError(502, 'bad_payment_link');
+    return { url: data.payment_link };
+  }
+  return {};
 }
 
 /** A signed link (valid 24 hours) to Dodo's customer portal: cancel, card, invoices. */

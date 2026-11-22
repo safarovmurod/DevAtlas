@@ -1,11 +1,11 @@
 import type { TutorWebSource } from './shared';
 
-// Server-only API adapter. Never send the API key to the browser.
+// Server-only Gemini API adapter. Never send the API key to the browser.
 export interface TutorMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
 }
-export type TutorProvider = { kind: 'gemini' | 'anymodel'; key: string; model: string };
+export type TutorProvider = { kind: 'gemini'; key: string; model: string };
 export class TutorProviderError extends Error {
   constructor(
     readonly status: 429 | 502,
@@ -21,25 +21,16 @@ export const FALLBACK_GEMINI_MODEL = 'gemini-3.5-flash-lite';
 export function selectTutorProvider(
   env: Record<string, string | undefined> = process.env,
 ): TutorProvider | null {
-  const geminiKey = env.GEMINI_API_KEY?.trim();
-  const anymodelKey = env.AI_PROVIDER_KEY?.trim();
   const configuredKind = env.AI_TUTOR_PROVIDER?.trim();
-  const kind = configuredKind || (geminiKey ? 'gemini' : 'anymodel');
-  if (kind === 'gemini' && geminiKey) {
-    const configured = env.GEMINI_MODEL?.trim() || DEFAULT_GEMINI_MODEL;
-    return {
-      kind: 'gemini',
-      key: geminiKey,
-      model: /^gemini-[a-z0-9.-]+$/.test(configured) ? configured : DEFAULT_GEMINI_MODEL,
-    };
-  }
-  if (kind === 'anymodel' && anymodelKey)
-    return {
-      kind: 'anymodel',
-      key: anymodelKey,
-      model: env.AI_MODEL?.trim() || 'cx/gpt-6.1-sol',
-    };
-  return null;
+  if (configuredKind && configuredKind !== 'gemini') return null;
+  const geminiKey = env.GEMINI_API_KEY?.trim();
+  if (!geminiKey) return null;
+  const configured = env.GEMINI_MODEL?.trim() || DEFAULT_GEMINI_MODEL;
+  return {
+    kind: 'gemini',
+    key: geminiKey,
+    model: /^gemini-[a-z0-9.-]+$/.test(configured) ? configured : DEFAULT_GEMINI_MODEL,
+  };
 }
 
 const safeUsage = (n: unknown) =>
@@ -143,72 +134,49 @@ export async function requestTutorCompletion(
   maxOutputTokens: number,
   options: { webSearch?: boolean } = {},
 ) {
-  const gemini = provider.kind === 'gemini';
-  let response: Response;
-  if (gemini) {
-    const wantSearch = Boolean(options.webSearch);
+  const wantSearch = Boolean(options.webSearch);
+  let response = await callGemini(
+    provider.key,
+    provider.model,
+    messages,
+    maxOutputTokens,
+    wantSearch,
+  );
+  // Free-tier keys may return 429/400 for google_search grounding while normal generation works.
+  if (!response.ok && wantSearch && (response.status === 429 || response.status === 400)) {
+    response = await callGemini(provider.key, provider.model, messages, maxOutputTokens, false);
+  }
+  // Temporary high demand (503) or retired model (404): fall back once to Gemini Flash Lite.
+  if (
+    !response.ok &&
+    (response.status === 503 || response.status === 404) &&
+    provider.model !== FALLBACK_GEMINI_MODEL
+  ) {
     response = await callGemini(
       provider.key,
-      provider.model,
+      FALLBACK_GEMINI_MODEL,
       messages,
       maxOutputTokens,
-      wantSearch,
+      false,
     );
-    // Free-tier keys may return 429/400 for google_search grounding while normal generation works.
-    if (!response.ok && wantSearch && (response.status === 429 || response.status === 400)) {
-      response = await callGemini(provider.key, provider.model, messages, maxOutputTokens, false);
-    }
-    // Temporary high demand (503) or retired model (404): fall back once to Gemini Flash Lite.
-    if (
-      !response.ok &&
-      (response.status === 503 || response.status === 404) &&
-      provider.model !== FALLBACK_GEMINI_MODEL
-    ) {
-      response = await callGemini(
-        provider.key,
-        FALLBACK_GEMINI_MODEL,
-        messages,
-        maxOutputTokens,
-        false,
-      );
-    }
-  } else {
-    response = await fetch('https://anymodel.org/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + provider.key },
-      body: JSON.stringify({ model: provider.model, messages, max_tokens: maxOutputTokens }),
-      signal: AbortSignal.timeout(45000),
-      cache: 'no-store',
-    });
   }
   if (!response.ok) failure(response.status);
   const data: unknown = await response.json();
   if (!data || typeof data !== 'object') failure(502);
-  let reply: unknown, usage: unknown;
-  let webSources: TutorWebSource[] = [];
-  if (gemini) {
-    const d = data as {
-      candidates?: {
-        content?: { parts?: { text?: unknown; thought?: unknown }[] };
-        groundingMetadata?: unknown;
-      }[];
-      usageMetadata?: { totalTokenCount?: unknown };
-    };
-    const candidate = d.candidates?.[0];
-    reply = candidate?.content?.parts
-      ?.filter((p) => p.thought !== true)
-      .map((p) => (typeof p.text === 'string' ? p.text : ''))
-      .join('');
-    usage = d.usageMetadata?.totalTokenCount;
-    webSources = extractSafeWebSources(candidate?.groundingMetadata);
-  } else {
-    const d = data as {
-      choices?: { message?: { content?: unknown } }[];
-      usage?: { total_tokens?: unknown };
-    };
-    reply = d.choices?.[0]?.message?.content;
-    usage = d.usage?.total_tokens;
-  }
+  const d = data as {
+    candidates?: {
+      content?: { parts?: { text?: unknown; thought?: unknown }[] };
+      groundingMetadata?: unknown;
+    }[];
+    usageMetadata?: { totalTokenCount?: unknown };
+  };
+  const candidate = d.candidates?.[0];
+  const reply = candidate?.content?.parts
+    ?.filter((p) => p.thought !== true)
+    .map((p) => (typeof p.text === 'string' ? p.text : ''))
+    .join('');
+  const usage = d.usageMetadata?.totalTokenCount;
+  const webSources = extractSafeWebSources(candidate?.groundingMetadata);
   if (typeof reply !== 'string' || !reply.trim() || reply.length > 20000) failure(502);
   const totalTokens = safeUsage(usage);
   return {

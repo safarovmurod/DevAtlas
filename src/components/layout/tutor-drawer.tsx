@@ -423,13 +423,12 @@ export function TutorDrawer() {
                       : message.text}
                 </p>
                 {message.source && primaryHref && (
-                  <div className="tutor-source-card">
+                  <div className="tutor-source tutor-source-card">
                     <div className="tutor-source-meta">
                       <BookOpen size={14} aria-hidden="true" />
                       <span>
-                        {message.source.courseTitle
-                          ? `${message.source.courseTitle} · `
-                          : ui.source + ' '}
+                        {ui.source}{' '}
+                        {message.source.courseTitle ? `${message.source.courseTitle} · ` : ''}
                         {message.source.title}
                       </span>
                     </div>

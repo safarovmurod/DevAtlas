@@ -282,7 +282,7 @@ describe('Tutor API conversation', () => {
   it('keeps the sign-in gate for online AI on a new course subject', async () => {
     authMock.mockResolvedValue(null);
     vi.stubEnv('AI_TUTOR_ENABLED', 'true');
-    vi.stubEnv('AI_PROVIDER_KEY', 'test-only-placeholder-not-a-real-key');
+    vi.stubEnv('GEMINI_API_KEY', 'test-only-placeholder-not-a-real-key');
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', 'https://example.supabase.co');
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY', 'public-example');
     const { POST } = await import('@/app/api/tutor/route');

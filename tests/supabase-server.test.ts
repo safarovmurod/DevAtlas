@@ -89,22 +89,20 @@ describe('getSupabaseAdminClient', () => {
 });
 
 describe('selectTutorProvider env trimming', () => {
-  it('trims provider keys, models and ignores whitespace-only GEMINI_API_KEY', () => {
+  it('trims Gemini keys/models and ignores whitespace-only GEMINI_API_KEY or legacy providers', () => {
     expect(
       selectTutorProvider({
-        AI_TUTOR_PROVIDER: ' gemini ',
         GEMINI_API_KEY: '  gemini-secret-key \n',
-        GEMINI_MODEL: ' gemini-2.5-pro ',
+        GEMINI_MODEL: ' gemini-3.5-flash ',
       }),
-    ).toEqual({ kind: 'gemini', key: 'gemini-secret-key', model: 'gemini-2.5-pro' });
+    ).toEqual({ kind: 'gemini', key: 'gemini-secret-key', model: 'gemini-3.5-flash' });
 
     expect(
       selectTutorProvider({
         GEMINI_API_KEY: '   \t ',
-        AI_PROVIDER_KEY: '  anymodel-secret  ',
-        AI_MODEL: '  cx/gpt-6.1-sol  ',
+        AI_PROVIDER_KEY: '  legacy-secret  ',
       }),
-    ).toEqual({ kind: 'anymodel', key: 'anymodel-secret', model: 'cx/gpt-6.1-sol' });
+    ).toBeNull();
   });
 });
 

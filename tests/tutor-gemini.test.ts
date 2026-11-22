@@ -16,16 +16,18 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals());
 
 describe('Gemini adapter', () => {
-  it('selects Gemini with a secret server key and modern default model', () => {
-    expect(
-      selectTutorProvider({ GEMINI_API_KEY: 'test-secret', AI_PROVIDER_KEY: 'legacy' }),
-    ).toMatchObject({ kind: 'gemini', model: DEFAULT_GEMINI_MODEL });
+  it('selects Gemini with a secret server key and rejects legacy AnyModel env vars', () => {
+    expect(selectTutorProvider({ GEMINI_API_KEY: 'test-secret' })).toMatchObject({
+      kind: 'gemini',
+      model: DEFAULT_GEMINI_MODEL,
+    });
     expect(
       selectTutorProvider({ AI_TUTOR_PROVIDER: 'gemini', AI_PROVIDER_KEY: 'legacy' }),
     ).toBeNull();
     expect(
-      selectTutorProvider({ AI_TUTOR_PROVIDER: 'anymodel', AI_PROVIDER_KEY: 'legacy' })?.kind,
-    ).toBe('anymodel');
+      selectTutorProvider({ AI_TUTOR_PROVIDER: 'anymodel', AI_PROVIDER_KEY: 'legacy' }),
+    ).toBeNull();
+    expect(selectTutorProvider({ AI_PROVIDER_KEY: 'legacy' })).toBeNull();
   });
 
   it('calls Google API with thinkingBudget 0, filters thought parts and keeps key server-side', async () => {

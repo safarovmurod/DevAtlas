@@ -61,8 +61,31 @@ export function toBillingStatus(
 }
 
 /** Where Dodo sends the customer back to. Always this site, never a value from the request body. */
-export function siteOrigin(request: Request): string {
-  return new URL(request.url).origin;
+export function siteOrigin(
+  request: Request,
+  env: Record<string, string | undefined> = process.env,
+): string {
+  const requestOrigin = new URL(request.url).origin;
+  const configured = env.REACT_MENTOR_SITE_URL?.trim();
+  if (configured) {
+    try {
+      const parsed = new URL(configured);
+      if (parsed.protocol === 'https:') {
+        const reqUrl = new URL(request.url);
+        if (
+          reqUrl.protocol !== 'https:' ||
+          reqUrl.hostname === 'localhost' ||
+          reqUrl.hostname === '127.0.0.1' ||
+          reqUrl.hostname === '0.0.0.0'
+        ) {
+          return parsed.origin;
+        }
+      }
+    } catch {
+      // Ignore malformed env value and fall back to request origin.
+    }
+  }
+  return requestOrigin;
 }
 
 const attempts = new Map<string, number[]>();
