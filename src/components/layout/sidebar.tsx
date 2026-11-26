@@ -15,6 +15,14 @@ import {
   MessagesSquare,
   ChevronsUpDown,
   ShieldCheck,
+  Award,
+  Briefcase,
+  Sparkles,
+  Compass,
+  Terminal,
+  Swords,
+  Flame,
+  GraduationCap,
 } from 'lucide-react';
 import { useAppStore } from '@/stores/app-store';
 import { useLearningStore } from '@/stores/learning-store';
@@ -107,10 +115,54 @@ const NAV_LABELS = {
   },
 };
 const EXTRA_NAV = {
-  ru: { plans: 'Тарифы', community: 'Сообщество' },
-  en: { plans: 'Plans', community: 'Community' },
-  tg: { plans: 'Тарифҳо', community: 'Ҷомеа' },
-  es: { plans: 'Planes', community: 'Comunidad' },
+  ru: {
+    plans: 'Тарифы',
+    community: 'Сообщество',
+    workshops: 'Воркшопы (6 новых)',
+    sandbox: 'Code Sandbox',
+    arena: 'Арена 1v1',
+    programs: 'Буткемпы и B2B',
+    certificates: 'Сертификаты (Pro)',
+    portfolio: 'Портфолио / CV',
+    ultraStudio: 'Ultra Студия',
+    careerTest: 'Тест профессии',
+  },
+  en: {
+    plans: 'Plans',
+    community: 'Community',
+    workshops: 'Workshops (6 New)',
+    sandbox: 'Code Sandbox',
+    arena: 'Arena 1v1',
+    programs: 'Bootcamps & B2B',
+    certificates: 'Certificates (Pro)',
+    portfolio: 'Portfolio / CV',
+    ultraStudio: 'Ultra Studio',
+    careerTest: 'Career Finder',
+  },
+  tg: {
+    plans: 'Тарифҳо',
+    community: 'Ҷомеа',
+    workshops: 'Воркшопҳо (6 нав)',
+    sandbox: 'Code Sandbox',
+    arena: 'Арена 1v1',
+    programs: 'Марафонҳо & B2B',
+    certificates: 'Сертификатҳо (Pro)',
+    portfolio: 'Портфолио / CV',
+    ultraStudio: 'Студияи Ultra',
+    careerTest: 'Тести касб',
+  },
+  es: {
+    plans: 'Planes',
+    community: 'Comunidad',
+    workshops: 'Talleres (6 nuevos)',
+    sandbox: 'Code Sandbox',
+    arena: 'Arena 1v1',
+    programs: 'Bootcamps y B2B',
+    certificates: 'Certificados (Pro)',
+    portfolio: 'Portafolio / CV',
+    ultraStudio: 'Estudio Ultra',
+    careerTest: 'Test de carrera',
+  },
 };
 const ADMIN_LABEL = { ru: 'Админ', en: 'Admin', tg: 'Админ', es: 'Admin' };
 export function Sidebar() {
@@ -294,6 +346,84 @@ export function Sidebar() {
         </nav>
         <nav className="sidebar-extra" aria-label={EXTRA_NAV[language].community}>
           <span className="eyebrow">{EXTRA_NAV[language].community}</span>
+          <Link
+            transitionTypes={['nav-fade']}
+            href="/workshops"
+            className={
+              'nav-item group/nav gap-3 ' +
+              (pathname === '/workshops' || pathname.startsWith('/workshops/') ? 'active' : '')
+            }
+            onClick={() => setOpen(false)}
+          >
+            <NavIcon
+              icon={Flame}
+              active={pathname === '/workshops' || pathname.startsWith('/workshops/')}
+            />
+            <span>{EXTRA_NAV[language].workshops}</span>
+          </Link>
+          <Link
+            transitionTypes={['nav-fade']}
+            href="/sandbox"
+            className={'nav-item group/nav gap-3 ' + (pathname === '/sandbox' ? 'active' : '')}
+            onClick={() => setOpen(false)}
+          >
+            <NavIcon icon={Terminal} active={pathname === '/sandbox'} />
+            <span>{EXTRA_NAV[language].sandbox}</span>
+          </Link>
+          <Link
+            transitionTypes={['nav-fade']}
+            href="/arena"
+            className={'nav-item group/nav gap-3 ' + (pathname === '/arena' ? 'active' : '')}
+            onClick={() => setOpen(false)}
+          >
+            <NavIcon icon={Swords} active={pathname === '/arena'} />
+            <span>{EXTRA_NAV[language].arena}</span>
+          </Link>
+          <Link
+            transitionTypes={['nav-fade']}
+            href="/programs"
+            className={'nav-item group/nav gap-3 ' + (pathname === '/programs' ? 'active' : '')}
+            onClick={() => setOpen(false)}
+          >
+            <NavIcon icon={GraduationCap} active={pathname === '/programs'} />
+            <span>{EXTRA_NAV[language].programs}</span>
+          </Link>
+          <Link
+            transitionTypes={['nav-fade']}
+            href="/certificates"
+            className={'nav-item group/nav gap-3 ' + (pathname === '/certificates' ? 'active' : '')}
+            onClick={() => setOpen(false)}
+          >
+            <NavIcon icon={Award} active={pathname === '/certificates'} />
+            <span>{EXTRA_NAV[language].certificates}</span>
+          </Link>
+          <Link
+            transitionTypes={['nav-fade']}
+            href="/portfolio"
+            className={'nav-item group/nav gap-3 ' + (pathname === '/portfolio' ? 'active' : '')}
+            onClick={() => setOpen(false)}
+          >
+            <NavIcon icon={Briefcase} active={pathname === '/portfolio'} />
+            <span>{EXTRA_NAV[language].portfolio}</span>
+          </Link>
+          <Link
+            transitionTypes={['nav-fade']}
+            href="/ultra-studio"
+            className={'nav-item group/nav gap-3 ' + (pathname === '/ultra-studio' ? 'active' : '')}
+            onClick={() => setOpen(false)}
+          >
+            <NavIcon icon={Sparkles} active={pathname === '/ultra-studio'} />
+            <span>{EXTRA_NAV[language].ultraStudio}</span>
+          </Link>
+          <Link
+            transitionTypes={['nav-fade']}
+            href="/career-test"
+            className={'nav-item group/nav gap-3 ' + (pathname === '/career-test' ? 'active' : '')}
+            onClick={() => setOpen(false)}
+          >
+            <NavIcon icon={Compass} active={pathname === '/career-test'} />
+            <span>{EXTRA_NAV[language].careerTest}</span>
+          </Link>
           <Link
             transitionTypes={['nav-fade']}
             href="/community"

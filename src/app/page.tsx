@@ -95,6 +95,15 @@ export default async function Page() {
                 <Link href="/onboarding" transitionTypes={['nav-forward']} className={primaryLink}>
                   {copy.start} <ArrowRight size={18} aria-hidden="true" />
                 </Link>
+                <Link href="/career-test" className={ghostLink}>
+                  {locale === 'tg'
+                    ? 'Тести интихоби касб'
+                    : locale === 'ru'
+                      ? 'Тест выбора профессии'
+                      : locale === 'es'
+                        ? 'Test de carrera'
+                        : 'Career Finder Quiz'}
+                </Link>
                 <Link href="#directions" className={ghostLink}>
                   {copy.seePlatform}
                 </Link>

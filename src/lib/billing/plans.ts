@@ -31,11 +31,13 @@ export type PlanFeature =
   | 'allCourses'
   | 'practiceTasks'
   | 'certificate'
+  | 'portfolioCv'
   | 'aiTutor'
   | 'mentor'
   | 'projectReview'
   | 'privateCommunity'
   | 'jobPrep'
+  | 'careerStudio'
   | 'voiceAssistant';
 
 /**
@@ -54,11 +56,13 @@ export const FEATURE_PLAN: Record<PlanFeature, PlanId> = {
   allCourses: 'pro',
   practiceTasks: 'pro',
   certificate: 'pro',
+  portfolioCv: 'pro',
   aiTutor: 'pro',
   mentor: 'ultra',
   projectReview: 'ultra',
   privateCommunity: 'start',
   jobPrep: 'ultra',
+  careerStudio: 'ultra',
   voiceAssistant: 'ultra',
 };
 

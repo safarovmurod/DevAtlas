@@ -46,6 +46,12 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: SITE_NAME,
     title: { default: copy.title, template: `%s · ${SITE_NAME}` },
     description: copy.description,
+    manifest: '/manifest.webmanifest',
+    appleWebApp: {
+      capable: true,
+      title: SITE_NAME,
+      statusBarStyle: 'black-translucent',
+    },
     ...socialMetadata(locale, copy.title, copy.description),
   };
 }

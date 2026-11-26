@@ -13,5 +13,11 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: '#f5f7fb',
     theme_color: '#4f46e5',
     icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' }],
+    shortcuts: [
+      { name: 'Courses', url: '/courses' },
+      { name: 'Workshops', url: '/workshops' },
+      { name: 'Career Finder', url: '/career-test' },
+      { name: 'Arena 1v1', url: '/arena' },
+    ],
   };
 }

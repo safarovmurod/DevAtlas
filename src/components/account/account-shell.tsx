@@ -29,6 +29,7 @@ import { SiteAgent } from '@/components/agent/site-agent';
 import { Brand } from '@/components/layout/brand';
 import { PageTransition } from '@/components/layout/page-transition';
 import { LoadingState } from '@/components/learning/loading-state';
+import { GrowthBootstrap } from '@/components/providers/growth-bootstrap';
 
 export function AccountShell({
   children,
@@ -54,9 +55,17 @@ export function AccountShell({
     pathname === '/' ||
     pathname === '/privacy' ||
     pathname === '/terms' ||
-    pathname === '/onboarding'
+    pathname === '/onboarding' ||
+    pathname === '/career-test' ||
+    pathname.startsWith('/verify/') ||
+    pathname.startsWith('/u/')
   )
-    return <>{children}</>;
+    return (
+      <>
+        <GrowthBootstrap />
+        {children}
+      </>
+    );
   if (account.loading)
     return (
       <div className="account-screen flex min-h-[100dvh] items-center justify-center">
@@ -99,14 +108,32 @@ export function AccountShell({
       </div>
     );
   if (account.user && !account.profile) return <FirstProfileScreen />;
+  if (
+    !account.user &&
+    !account.guest &&
+    (pathname === '/arena' ||
+      pathname === '/workshops' ||
+      pathname.startsWith('/workshops/') ||
+      pathname === '/programs' ||
+      pathname === '/sandbox')
+  ) {
+    return (
+      <div className="min-h-[100dvh] bg-background px-4 py-8 text-foreground sm:px-8">
+        <GrowthBootstrap />
+        <div className="mx-auto max-w-6xl">{children}</div>
+      </div>
+    );
+  }
   if (!account.user && (!account.guest || pathname === '/login' || pathname === '/auth/callback'))
     return (
       <PageTransition>
+        <GrowthBootstrap />
         <AuthScreen />
       </PageTransition>
     );
   return (
     <>
+      <GrowthBootstrap />
       <ActivityTracker key={'activity:' + (account.user?.id || 'guest') + course} />
       <Header />
       <Sidebar />

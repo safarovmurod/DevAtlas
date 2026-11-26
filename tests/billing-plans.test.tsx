@@ -23,21 +23,23 @@ describe('plan feature split', () => {
     ]);
   });
 
-  it('puts deep study, all courses, practice, the certificate and the AI Tutor chat in Pro', () => {
+  it('puts deep study, all courses, practice, certificate, portfolio CV and AI Tutor chat in Pro', () => {
     expect(planOwnFeatures('pro')).toEqual([
       'deepStudy',
       'allCourses',
       'practiceTasks',
       'certificate',
+      'portfolioCv',
       'aiTutor',
     ]);
   });
 
-  it('puts the mentor, project review, job preparation and voice assistant in Ultra', () => {
+  it('puts the mentor, project review, job preparation, Ultra career studio and voice assistant in Ultra', () => {
     expect(planOwnFeatures('ultra')).toEqual([
       'mentor',
       'projectReview',
       'jobPrep',
+      'careerStudio',
       'voiceAssistant',
     ]);
   });
