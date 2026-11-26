@@ -20,14 +20,21 @@ import { WORKSHOPS, findWorkshop } from '@/content/workshops/workshops-data';
 import { INTERFACE_LOCALES } from '@/lib/locale';
 
 describe('Telegram Bot & Mini App integration', () => {
-  it('builds Mini App WebApp keyboard replies for every command including referral deep-links', () => {
-    for (const cmd of ['/start', '/start ref_friend77', '/courses', '/career', '/workshops', '/arena', '/plans', '/remind', '/help']) {
-      const reply = buildTelegramReply(cmd, 'https://devatlas.app', 'Аҳмад');
-      expect(reply.text.length).toBeGreaterThan(20);
-      expect(reply.buttons.length).toBeGreaterThan(0);
+  it('shows 3-language picker on /start and builds RU/TG/EN replies for every command', () => {
+    const startPicker = buildTelegramReply('/start ref_friend77', 'https://devatlas.app', 'Ахмад');
+    expect(startPicker.withBanner).toBe(true);
+    const buttonsJson = JSON.stringify(startPicker.buttons);
+    expect(buttonsJson).toContain('lang:ru:friend77');
+    expect(buttonsJson).toContain('lang:tg:friend77');
+    expect(buttonsJson).toContain('lang:en:friend77');
+
+    for (const lang of ['ru', 'tg', 'en'] as const) {
+      for (const cmd of ['/courses', '/career', '/workshops', '/arena', '/plans', '/remind', '/help']) {
+        const reply = buildTelegramReply(cmd, 'https://devatlas.app', 'Ahmad', true, lang);
+        expect(reply.text.length).toBeGreaterThan(20);
+        expect(reply.buttons.length).toBeGreaterThan(0);
+      }
     }
-    const refReply = buildTelegramReply('/start ref_friend77', 'https://devatlas.app', 'Аҳмад');
-    expect(JSON.stringify(refReply.buttons)).toContain('ref=friend77');
   });
 
   it('handles webhook payload cleanly and ignores empty updates', async () => {
