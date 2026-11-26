@@ -70,6 +70,26 @@ export const studyProgressSchema = z.object({
 export type CourseProgress = z.infer<typeof studyProgressSchema>;
 export type DaySubmission = CourseProgress['daySubmissions'][string];
 export const emptyCourseProgress = (): CourseProgress => studyProgressSchema.parse({});
+const bookmarkSchema = z.object({
+  courseId: z.enum(COURSE_IDS),
+  day: z.number().int().min(1).max(1000),
+  // React days are numbered within a month.
+  month: z.number().int().min(1).max(2).optional(),
+  title: z.string().max(300).default(''),
+  at: z.number().nonnegative(),
+});
+// A malformed saved bookmark is dropped on its own instead of making the whole profile unreadable.
+const bookmarks = z.preprocess(
+  (value) =>
+    value && typeof value === 'object'
+      ? Object.fromEntries(
+          Object.entries(value).filter(
+            ([key, entry]) => key.length <= 80 && bookmarkSchema.safeParse(entry).success,
+          ),
+        )
+      : {},
+  z.record(z.string(), bookmarkSchema),
+);
 export const progressSchema = studyProgressSchema.extend({
   language: interfaceLanguage.default('ru'),
   contentLanguage: z.enum(['tg', 'ru', 'en']).default('tg'),
@@ -87,6 +107,9 @@ export const progressSchema = studyProgressSchema.extend({
     )
     .default({}),
   preferenceClock: clock,
+  // Lesson days saved to come back to, keyed by bookmarkKey(). The newer change wins on sync.
+  bookmarks,
+  deletedBookmarks: clock,
 });
 export type Progress = z.infer<typeof progressSchema>;
 export const emptyProgress = (): Progress => progressSchema.parse({});
@@ -124,6 +147,15 @@ export function mergeProgress(remote: Progress, local: Progress): Progress {
     const key = courseId as keyof typeof local.courses;
     merged.courses[key] = mergeStudyProgress(remote.courses[key] || emptyCourseProgress(), value!);
   }
+  merged.deletedBookmarks = maxClocks(remote.deletedBookmarks, local.deletedBookmarks);
+  const bookmarks = { ...remote.bookmarks };
+  for (const [key, value] of Object.entries(local.bookmarks))
+    if (!bookmarks[key] || value.at > bookmarks[key].at) bookmarks[key] = value;
+  merged.bookmarks = Object.fromEntries(
+    Object.entries(bookmarks).filter(
+      ([key, value]) => value.at > (merged.deletedBookmarks[key] ?? -1),
+    ),
+  );
   return merged;
 }
 export function mergeStudyProgress(remote: CourseProgress, local: CourseProgress): CourseProgress {

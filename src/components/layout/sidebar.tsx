@@ -8,6 +8,7 @@ import {
   RotateCcw,
   BookOpenCheck,
   BarChart3,
+  Bookmark,
   Settings2,
   X,
   Crown,
@@ -24,6 +25,7 @@ import { courseDisplayName } from '@/lib/catalog-copy';
 import { CourseIcon } from '@/components/courses/course-icon';
 import { useMembershipStatus } from '@/components/courses/use-membership-status';
 import { useCourseProgress } from '@/lib/use-course-progress';
+import { BOOKMARKS_COPY } from '@/lib/bookmarks';
 // "Мой день" holds the lesson and its practice, "Повторение" holds revision and weak topics.
 // Tests and interviews are not a separate section: each day opens its own strict attempt.
 const items = [
@@ -32,6 +34,7 @@ const items = [
   { key: 'revision', href: '/revision', icon: RotateCcw },
   { key: 'answers', href: '/answers', icon: BookOpenCheck },
   { key: 'progress', href: '/progress', icon: BarChart3 },
+  { key: 'bookmarks', href: '/bookmarks', icon: Bookmark },
 ] as const;
 
 function NavIcon({ icon: Icon, active }: { icon: typeof CalendarCheck; active?: boolean }) {
@@ -254,7 +257,7 @@ export function Sidebar() {
                 ? `/plan/${reactMonth}`
                 : course === 'react' && item.key === 'answers'
                   ? answersHref
-                  : course === 'react' || item.key === 'progress'
+                  : course === 'react' || item.key === 'progress' || item.key === 'bookmarks'
                     ? item.href
                     : `/courses/${course}${item.href}`;
             const active =
@@ -280,7 +283,9 @@ export function Sidebar() {
                     ? labels.answers
                     : item.key === 'progress'
                       ? labels.progress
-                      : copy[item.key]}
+                      : item.key === 'bookmarks'
+                        ? BOOKMARKS_COPY[language].title
+                        : copy[item.key]}
                 </span>
                 {active && <span className="nav-dot" />}
               </Link>

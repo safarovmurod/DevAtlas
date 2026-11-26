@@ -15,6 +15,7 @@ import {
   type Progress,
 } from '@/lib/account/progress';
 import type { CourseId, ImportedCourseId } from '@/lib/courses/ids';
+import { bookmarkKey, type BookmarkTarget } from '@/lib/bookmarks';
 import { courseDayReady, type CoursePlanDay } from '@/lib/courses/plan';
 import { blockingCourseDay, gradeCourseDay } from '@/lib/courses/strict-attempt';
 import { contentLocaleFor, persistManualLocale, type InterfaceLocale } from '@/lib/locale';
@@ -88,6 +89,9 @@ interface LearningState extends Progress {
     verified?: boolean,
   ) => void;
   saveCourseDraft: (courseId: ImportedCourseId, id: string, code: string) => void;
+  /** Saves a lesson day to come back to, or removes it when it is already saved. */
+  toggleBookmark: (target: BookmarkTarget & { title: string }) => void;
+  removeBookmark: (key: string) => void;
 }
 
 export const useLearningStore = create<LearningState>()(
@@ -459,6 +463,33 @@ export const useLearningStore = create<LearningState>()(
               ...progress.awards,
               [awardKey]: Math.max(points, progress.awards[awardKey] || 0),
             },
+          });
+        },
+        toggleBookmark(target) {
+          const key = bookmarkKey(target);
+          const { bookmarks, deletedBookmarks } = get();
+          if (bookmarks[key]) return get().removeBookmark(key);
+          set({
+            bookmarks: {
+              ...bookmarks,
+              [key]: {
+                courseId: target.courseId,
+                day: target.day,
+                ...(target.courseId === 'react' ? { month: target.month ?? 1 } : {}),
+                title: target.title.slice(0, 300),
+                // Later than this key's last removal, so saving it again survives sync.
+                at: Math.max(Date.now(), (deletedBookmarks[key] ?? 0) + 1),
+              },
+            },
+          });
+        },
+        removeBookmark(key) {
+          const { bookmarks, deletedBookmarks } = get();
+          const saved = bookmarks[key];
+          if (!saved) return;
+          set({
+            bookmarks: Object.fromEntries(Object.entries(bookmarks).filter(([id]) => id !== key)),
+            deletedBookmarks: { ...deletedBookmarks, [key]: Math.max(Date.now(), saved.at + 1) },
           });
         },
       };

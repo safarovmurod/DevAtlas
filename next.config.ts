@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { COURSE_IDS } from './src/lib/courses/ids';
 const storedCourseRelease = Boolean(process.env.DEVATLAS_COURSE_RELEASE?.trim());
 const localCourses = './src/content/courses/*.json';
 const localDownloads = './content/course-files/**/*';
@@ -19,7 +20,13 @@ const nextConfig: NextConfig = {
         },
       }),
   async redirects() {
-    return [{ source: '/practice-local-global.html', destination: '/courses/react/practice-library?view=full', permanent: false }];
+    // /courses/<id> has no screen of its own: open the course plan (React has its own page).
+    // Matching only real IDs keeps an HTTP 404 for every other /courses/<name>.
+    const courseIds = COURSE_IDS.filter((id) => id !== 'react').join('|');
+    return [
+      { source: '/practice-local-global.html', destination: '/courses/react/practice-library?view=full', permanent: false },
+      { source: `/courses/:courseId(${courseIds})`, destination: '/courses/:courseId/plan', permanent: false },
+    ];
   },
   async headers() {
     return [{

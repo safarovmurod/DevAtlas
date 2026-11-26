@@ -1,4 +1,5 @@
 import { PageTransition } from '@/components/layout/page-transition';
+import { titleMetadata } from '@/lib/page-titles';
 import { AssessmentHub } from '@/components/learning/assessment-hub';
 import { CourseWorkspace } from '@/components/courses/course-workspace';
 import { isCourseId } from '@/lib/courses/ids';
@@ -7,6 +8,10 @@ import { courseAccessTier } from '@/lib/courses/access';
 import { loadCourseContent } from '@/lib/courses/content';
 import { publicCourseContent } from '@/lib/courses/delivery';
 import { notFound } from 'next/navigation';
+export function generateMetadata() {
+  return titleMetadata('tests');
+}
+
 export default async function Page({
   searchParams,
 }: {

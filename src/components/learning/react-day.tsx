@@ -15,6 +15,7 @@ import { usePracticeAccess } from '@/components/courses/use-practice-access';
 import { isInterviewDay } from '@/lib/courses/strict-attempt';
 import { LEARNING_UI_COPY } from '@/lib/learning-ui-copy';
 import { useAccount } from '@/components/account/account-provider';
+import { BookmarkButton } from './bookmark-button';
 const DAY_UI = {
   ru: {
     title: 'Время разобраться в React.',
@@ -217,11 +218,14 @@ export function ReactDay({
           </article>
         ) : entry ? (
           <>
-            <div className="section-heading">
+            <div className="section-heading flex-wrap">
               <h2>
                 {labels.day} {day} · {entry.title}
               </h2>
-              <span className="badge">{entry.practiceOnly ? labels.apply : labels.study}</span>
+              <div className="flex items-center gap-2">
+                <span className="badge">{entry.practiceOnly ? labels.apply : labels.study}</span>
+                <BookmarkButton target={{ courseId: 'react', month, day }} title={entry.title} />
+              </div>
             </div>
             {isInterviewDay(day) && !state.confirmedDays.includes(`${month}:${day}`) && (
               <p role="status" className="rounded-xl border border-border bg-primary-soft p-4">

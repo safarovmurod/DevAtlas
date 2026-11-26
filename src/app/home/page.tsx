@@ -1,6 +1,11 @@
 import { PageTransition } from '@/components/layout/page-transition';
+import { titleMetadata } from '@/lib/page-titles';
 import { notFound, redirect } from 'next/navigation';
 import { ReactDay } from '@/components/learning/react-day';
+export function generateMetadata() {
+  return titleMetadata('home');
+}
+
 export default async function HomePage({
   searchParams,
 }: {

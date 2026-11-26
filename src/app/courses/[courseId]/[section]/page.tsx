@@ -7,6 +7,37 @@ import { loadCourseContent } from '@/lib/courses/content';
 import { publicCourseContent } from '@/lib/courses/delivery';
 import { coursePublishedDays } from '@/content/courses/catalog';
 import { redirect } from 'next/navigation';
+import { courseDescription, courseDisplayName } from '@/lib/catalog-copy';
+import { pageTitle, type PageTitleKey } from '@/lib/page-titles';
+import { getRequestLocale } from '@/lib/request-locale';
+import { publicPageMetadata } from '@/lib/seo';
+
+/** Sections that render a page; the others redirect to one of these. */
+const SECTION_TITLES: Record<string, PageTitleKey> = {
+  home: 'home',
+  plan: 'plan',
+  answers: 'answers',
+  tests: 'tests',
+  revision: 'revision',
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ courseId: string; section: string }>;
+}) {
+  const { courseId, section } = await params;
+  if (!isCourseId(courseId) || courseId === 'react' || !Object.hasOwn(SECTION_TITLES, section))
+    return {};
+  const locale = await getRequestLocale();
+  return publicPageMetadata(
+    locale,
+    `${courseDisplayName(courseId, locale)} · ${pageTitle(SECTION_TITLES[section], locale)}`,
+    courseDescription(courseId, locale),
+    // Day pages differ by ?day=, so only the plan has one canonical address.
+    section === 'plan' ? `/courses/${courseId}/plan` : undefined,
+  );
+}
 
 export default async function CoursePage({
   params,

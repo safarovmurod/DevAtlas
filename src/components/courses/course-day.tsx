@@ -15,6 +15,7 @@ import { useLearningStore } from '@/stores/learning-store';
 import { LearnStep, PracticeStep } from './lesson-flow-steps';
 import { PRACTICE_LOCK_COPY } from './practice-lock';
 import { DayExam } from './day-exam';
+import { BookmarkButton } from '@/components/learning/bookmark-button';
 import { usePracticeAccess } from './use-practice-access';
 import type { PracticeAccess } from '@/lib/billing/practice-access';
 export const DAY_COPY = {
@@ -219,10 +220,16 @@ export function CourseDay({
           id={lesson.id}
           key={lesson.id}
         >
-          <header className="grid gap-2">
+          <header
+            className={cn(
+              'grid gap-2',
+              !testsPage && 'sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-x-3',
+            )}
+          >
             <h2 className="text-2xl leading-8 font-semibold tracking-tight">
               {text(lesson.title)}
             </h2>
+            {!testsPage && <BookmarkButton target={{ courseId, day }} title={text(lesson.title)} />}
             {testsPage && (
               <p className="max-w-[80ch] text-[15px] leading-6 text-muted-foreground">
                 {text(lesson.summary)}

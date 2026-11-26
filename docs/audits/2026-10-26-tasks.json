@@ -273,12 +273,30 @@
       "id": "bookmarks",
       "priority": "P1",
       "title": "Learning bookmarks",
-      "status": "TODO",
+      "status": "DONE",
       "evidence": [
-        "Notes/drafts exist; bookmarks not found"
+        "Notes/drafts exist; bookmarks not found",
+        "2026-11-26: lesson-day bookmarks added for imported courses and React; /bookmarks list; account-scoped progress with timestamped merge"
       ],
       "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
-      "validation": []
+      "validation": [
+        "Vitest full suite: 133 files, 1154 passed, 8 skipped; tests/bookmarks.test.tsx covers keys/links, malformed-entry isolation, cross-device merge with removals, store toggle, account isolation and list/button UI",
+        "Playwright production server: 217 passed, 1 skipped of 218 desktop+mobile tests; e2e/bookmarks.spec.ts desktop+mobile save, list, reload persistence, reopen, remove, and React bookmark after another course was selected (fails without the React selection fix)",
+        "Live Supabase cloud sync of bookmarks not executed: the existing progress RPC stores the whole snapshot, which now includes bookmarks"
+      ],
+      "changedFiles": [
+        "src/lib/bookmarks.ts",
+        "src/lib/account/progress.ts",
+        "src/stores/learning-store.ts",
+        "src/components/learning/bookmark-button.tsx",
+        "src/components/learning/bookmarks-list.tsx",
+        "src/app/bookmarks/page.tsx",
+        "src/components/courses/course-day.tsx",
+        "src/components/learning/react-day.tsx",
+        "src/components/layout/sidebar.tsx",
+        "tests/bookmarks.test.tsx",
+        "e2e/bookmarks.spec.ts"
+      ]
     },
     {
       "id": "guided-debugging",
@@ -323,6 +341,37 @@
       ],
       "acceptance": "Implement working behavior and record source paths plus executed local/integration/browser checks; configuration-dependent live checks stay separate",
       "validation": []
+    },
+    {
+      "id": "search-indexing",
+      "priority": "P2",
+      "title": "Search indexing, page titles and error fallbacks",
+      "status": "DONE",
+      "evidence": [
+        "2026-11-26 production build: /robots.txt and /sitemap.xml returned 404 although a Google site-verification file is published",
+        "Every page shared one document title; no metadataBase, Open Graph, canonical or web manifest; no global-error.tsx; /courses/<id> returned 404"
+      ],
+      "acceptance": "Public pages are listed for crawlers, private screens are excluded, each page has a localized title, the root layout has its own error screen and /courses/<id> opens the course",
+      "changedFiles": [
+        "src/lib/site-url.ts",
+        "src/lib/seo.ts",
+        "src/lib/page-titles.ts",
+        "src/lib/error-copy.ts",
+        "src/app/robots.ts",
+        "src/app/sitemap.ts",
+        "src/app/manifest.ts",
+        "src/app/global-error.tsx",
+        "next.config.ts",
+        "src/app/layout.tsx",
+        ".env.example",
+        "tests/seo-metadata.test.ts",
+        "tests/route-fallbacks.test.tsx"
+      ],
+      "validation": [
+        "Vitest full suite: 133 files, 1154 passed, 8 skipped; tests/seo-metadata.test.ts and tests/route-fallbacks.test.tsx",
+        "Production server HTTP: robots.txt, sitemap.xml (60 public URLs) and manifest.webmanifest served; browser check of titles, canonical and og:locale in EN/RU/TG/ES; /courses/html answers 307 to /courses/html/plan while /courses/materials and unknown names stay 404",
+        "Not covered: invalid dynamic URLs still answer 200 (streamed not-found with client-side noindex) because pages render behind the root loading boundary; production domain not checked live"
+      ]
     },
     {
       "id": "ui-all-screens",

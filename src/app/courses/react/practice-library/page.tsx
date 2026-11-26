@@ -3,6 +3,14 @@ import { PageTransition } from '@/components/layout/page-transition';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { ReactPracticeLibrary } from '@/components/learning/react-course-entry';
+import { courseDisplayName } from '@/lib/catalog-copy';
+import { COPY } from '@/lib/i18n';
+import { getRequestLocale } from '@/lib/request-locale';
+
+export async function generateMetadata() {
+  const locale = await getRequestLocale();
+  return { title: `${courseDisplayName('react', locale)} · ${COPY[locale].practice}` };
+}
 export default async function ReactPracticeLibraryPage({
   searchParams,
 }: {

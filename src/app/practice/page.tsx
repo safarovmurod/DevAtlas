@@ -1,4 +1,5 @@
 import { PageTransition } from '@/components/layout/page-transition';
+import { titleMetadata } from '@/lib/page-titles';
 import { coursePublishedDays } from '@/content/courses/catalog';
 import { PracticeHub } from '@/components/learning/practice-hub';
 import { PracticeEntry } from '@/components/learning/practice-entry';
@@ -11,6 +12,10 @@ import { notFound } from 'next/navigation';
  * Practice is part of the day page of each course ("My day": lesson + practice together).
  * Old links to /practice?course=...&day=... open that page. React keeps its practice lab.
  */
+export function generateMetadata() {
+  return titleMetadata('practice');
+}
+
 export default async function PracticePage({
   searchParams,
 }: {

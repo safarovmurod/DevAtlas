@@ -1,7 +1,12 @@
 import { PageTransition } from '@/components/layout/page-transition';
+import { titleMetadata } from '@/lib/page-titles';
 import { ReactRevision } from '@/components/learning/review-board';
 import { StudySession } from '@/components/learning/study-session';
 import { sessionConfig } from '@/lib/session-config';
+export function generateMetadata() {
+  return titleMetadata('revision');
+}
+
 export default async function Page({
   searchParams,
 }: {

@@ -2,6 +2,13 @@ import { PageTransition } from '@/components/layout/page-transition';
 import Link from 'next/link';
 import { getRequestLocale } from '@/lib/request-locale';
 import { PUBLIC_COPY } from '@/lib/public-copy';
+import { publicPageMetadata } from '@/lib/seo';
+
+export async function generateMetadata() {
+  const locale = await getRequestLocale();
+  const copy = PUBLIC_COPY[locale].terms;
+  return publicPageMetadata(locale, copy.title, copy.introduction, '/terms');
+}
 
 export default async function TermsPage() {
   const copy = PUBLIC_COPY[await getRequestLocale()].terms;

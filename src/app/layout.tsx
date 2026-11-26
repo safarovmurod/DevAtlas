@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { getRequestLocale } from '@/lib/request-locale';
 import { PUBLIC_COPY } from '@/lib/public-copy';
+import { SITE_NAME, socialMetadata } from '@/lib/seo';
+import { publicSiteUrl } from '@/lib/site-url';
 import localFont from 'next/font/local';
 import './globals.css';
 import { LearningProvider } from '@/components/providers/learning-provider';
@@ -37,8 +39,15 @@ const jetbrains = localFont({
 const themeBootstrap = `(function(){try{var theme=localStorage.getItem('devatlas-theme');if(!theme){var saved=localStorage.getItem('react-mentor-learning-v2');theme=saved?JSON.parse(saved).state?.theme:null}if(theme==='dark'||theme==='light')document.documentElement.dataset.theme=theme}catch(_){}})();`;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const copy = PUBLIC_COPY[await getRequestLocale()];
-  return { title: copy.title, description: copy.description };
+  const locale = await getRequestLocale();
+  const copy = PUBLIC_COPY[locale];
+  return {
+    metadataBase: publicSiteUrl(),
+    applicationName: SITE_NAME,
+    title: { default: copy.title, template: `%s · ${SITE_NAME}` },
+    description: copy.description,
+    ...socialMetadata(locale, copy.title, copy.description),
+  };
 }
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getRequestLocale();

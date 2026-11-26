@@ -1,7 +1,12 @@
 import { PageTransition } from '@/components/layout/page-transition';
+import { titleMetadata } from '@/lib/page-titles';
 import { StudySession } from '@/components/learning/study-session';
 import { SessionHub } from '@/components/learning/session-hub';
 import { sessionConfig } from '@/lib/session-config';
+export function generateMetadata() {
+  return titleMetadata('study');
+}
+
 export default async function Page({
   searchParams,
 }: {

@@ -1,5 +1,6 @@
 import { PageTransition } from '@/components/layout/page-transition';
 import { AnswersLibrary } from '@/components/learning/answers-library';
+import { titleMetadata } from '@/lib/page-titles';
 import { ReactDayAssessment } from '@/components/learning/react-day-assessment';
 import {
   ANSWER_COUNT,
@@ -9,7 +10,9 @@ import {
   type AnswerSource,
 } from '@/content/answers';
 
-export const metadata = { title: 'Ответы — DevAtlas' };
+export function generateMetadata() {
+  return titleMetadata('answers');
+}
 export default async function AnswersPage({
   searchParams,
 }: {
